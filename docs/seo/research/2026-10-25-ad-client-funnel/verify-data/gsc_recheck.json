@@ -1,0 +1,39 @@
+{
+  "source": "OpenSEO get_search_console_performance, sc-domain:gptbot.uz, 2026-07-22..2026-10-22 (last_3_months), dimensions query+page; free",
+  "pulled": "2026-10-25",
+  "pulls": {
+    "page contains instagram-target-yoqish": [
+      {"query": "instagramda target yoqish", "clicks": 0, "impressions": 8, "position": 6.1},
+      {"query": "target yoqish instagramda", "clicks": 0, "impressions": 5, "position": 7.2},
+      {"query": "instagram target yoqish", "clicks": 0, "impressions": 4, "position": 4.8},
+      {"query": "target yoqish", "clicks": 0, "impressions": 1, "position": 8.0},
+      {"query": "narxi", "clicks": 0, "impressions": 1, "position": 4.0}
+    ],
+    "query contains telegram ads": [
+      {"query": "telegram ads стоимость", "page": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/", "clicks": 1, "impressions": 34, "position": 2.4},
+      {"query": "telegram ads минимальный бюджет", "page": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/", "clicks": 0, "impressions": 6, "position": 3.3},
+      {"query": "telegram ads минимальный бюджет 2026", "page": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/", "clicks": 0, "impressions": 1, "position": 5.0},
+      {"query": "telegram ads цена", "page": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/", "clicks": 0, "impressions": 1, "position": 2.0},
+      {"query": "telegram ads узбекистан", "page": "/ru/telegram-ads-uzbekistan/", "clicks": 0, "impressions": 7, "position": 46.3},
+      {"query": "telegram ads узбекистан", "page": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/", "clicks": 0, "impressions": 1, "position": 12.0},
+      {"query": "купить рекламу telegram ads", "page": "/ru/telegram-ads-uzbekistan/", "clicks": 0, "impressions": 1, "position": 5.0}
+    ],
+    "page contains telegram-ads-stoimost (extra rows)": [
+      {"query": "телеграм адс цена", "clicks": 1, "impressions": 5, "position": 2.2}
+    ],
+    "page contains kontekst": [
+      {"query": "контекстная реклама ташкент", "page": "/ru/kontekstnaya-reklama-tashkent/", "clicks": 0, "impressions": 59, "position": 38.3},
+      {"query": "контекстная реклама в ташкенте", "page": "/ru/kontekstnaya-reklama-tashkent/", "clicks": 0, "impressions": 43, "position": 35.4},
+      {"query": "контекстная реклама в ташкенте", "page": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/", "clicks": 0, "impressions": 11, "position": 22.5},
+      {"query": "контекстная реклама цена", "page": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/", "clicks": 0, "impressions": 6, "position": 4.0},
+      {"query": "контекстная реклама ташкент", "page": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/", "clicks": 0, "impressions": 5, "position": 32.6},
+      {"query": "контекстная реклама стоимость в месяц", "page": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/", "clicks": 0, "impressions": 2, "position": 7.0},
+      {"query": "контекстная реклама стоимость", "page": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/", "clicks": 0, "impressions": 2, "position": 11.5}
+    ]
+  },
+  "readings": [
+    "The bare head «telegram ads» (6 600/mo) produced 0 impressions for any gptbot.uz URL in 3 months.",
+    "The target hub shows 19 visible-query impressions in 3 months; the live SERP of 2026-10-25 already has it at #6 for «target yoqish».",
+    "The price article and the money page both collect «контекстная реклама в ташкенте / ташкент» (existing overlap)."
+  ]
+}

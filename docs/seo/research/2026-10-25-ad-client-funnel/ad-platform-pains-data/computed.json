@@ -1,0 +1,1665 @@
+{
+ "telegram-ads-diy": {
+  "name": "Telegram Ads: что это и как запустить из Узбекистана (TON, Fragment, модерация, минимальный CPM)",
+  "demand_raw": 8750,
+  "demand_effective": 2682,
+  "cpc_weighted": 3.2,
+  "cpc_range": [
+   1.15,
+   6.03
+  ],
+  "visits_day_pos6": [
+   0.43,
+   0.97
+  ],
+  "visits_day_pos3": [
+   2.55,
+   3.15
+  ],
+  "rows": [
+   {
+    "keyword": "telegram ads",
+    "volume": 6600,
+    "cpc": 2.7,
+    "source": "r",
+    "info_share": 0.3,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "ads telegram",
+    "volume": 1000,
+    "cpc": 5.19,
+    "source": "r",
+    "info_share": 0.3,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "ads telegram org",
+    "volume": 880,
+    "cpc": 4.79,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "телеграм адс",
+    "volume": 110,
+    "cpc": 6.03,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads узбекистан",
+    "volume": 40,
+    "cpc": 2.6,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads platform",
+    "volume": 20,
+    "cpc": 3.14,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": [
+     "telegram ad platform"
+    ]
+   },
+   {
+    "keyword": "telegram ads цена",
+    "volume": 10,
+    "cpc": 2.23,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads стоимость",
+    "volume": 10,
+    "cpc": 1.15,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads минимальный бюджет",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads как запустить",
+    "volume": 10,
+    "cpc": 1.63,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads uzbekistan",
+    "volume": 10,
+    "cpc": 2.38,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads ton",
+    "volume": 10,
+    "cpc": 1.71,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads на русском",
+    "volume": 10,
+    "cpc": 2.05,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads что это",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegram ads это",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "телеграм ads",
+    "volume": 10,
+    "cpc": 2.14,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "fragment telegram",
+    "volume": 1600,
+    "cpc": 2.18,
+    "why": "mostly usernames/Stars/numbers, not ads"
+   },
+   {
+    "keyword": "toncoin",
+    "volume": 480,
+    "cpc": 4.67,
+    "why": "crypto price intent"
+   },
+   {
+    "keyword": "ton coin",
+    "volume": 260,
+    "cpc": null,
+    "why": "crypto"
+   },
+   {
+    "keyword": "ton narxi",
+    "volume": 210,
+    "cpc": 0.65,
+    "why": "crypto price"
+   },
+   {
+    "keyword": "ton sotib olish",
+    "volume": 50,
+    "cpc": 0.69,
+    "why": "crypto purchase"
+   }
+  ]
+ },
+ "meta-ads-manager-guide": {
+  "name": "Meta Ads Manager / Business Suite / рекламный кабинет: инструкция на узбекском (и RU)",
+  "demand_raw": 19950,
+  "demand_effective": 3428,
+  "cpc_weighted": 0.46,
+  "cpc_range": [
+   0.08,
+   10.89
+  ],
+  "visits_day_pos6": [
+   0.55,
+   1.23
+  ],
+  "visits_day_pos3": [
+   3.26,
+   4.03
+  ],
+  "rows": [
+   {
+    "keyword": "ads manager",
+    "volume": 9900,
+    "cpc": 0.24,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": [
+     "adsmanager"
+    ]
+   },
+   {
+    "keyword": "meta business suite",
+    "volume": 3600,
+    "cpc": 0.09,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "facebook ads manager",
+    "volume": 1300,
+    "cpc": 0.51,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": [
+     "ads manager facebook",
+     "ads manager fb (r)"
+    ]
+   },
+   {
+    "keyword": "facebook ads",
+    "volume": 1000,
+    "cpc": 0.41,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": [
+     "ads fb",
+     "fac ads"
+    ]
+   },
+   {
+    "keyword": "business suite",
+    "volume": 880,
+    "cpc": 0.11,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "meta ads manager",
+    "volume": 880,
+    "cpc": 0.24,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "meta ads",
+    "volume": 720,
+    "cpc": 2.19,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "meta business",
+    "volume": 390,
+    "cpc": 0.58,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "business manager",
+    "volume": 320,
+    "cpc": 0.24,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "business facebook com",
+    "volume": 320,
+    "cpc": 1.44,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "адс менеджер",
+    "volume": 210,
+    "cpc": 0.08,
+    "source": "r",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "instagram ads",
+    "volume": 90,
+    "cpc": 1.77,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "business manager facebook",
+    "volume": 50,
+    "cpc": 0.21,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": [
+     "facebook business manager"
+    ]
+   },
+   {
+    "keyword": "бизнес менеджер",
+    "volume": 40,
+    "cpc": 0.18,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "instagram ads manager",
+    "volume": 40,
+    "cpc": 1.63,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "meta business suite вход",
+    "volume": 40,
+    "cpc": null,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "адс менеджер фейсбук",
+    "volume": 30,
+    "cpc": 0.67,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "мета адс",
+    "volume": 30,
+    "cpc": 1.35,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "ads manager где находится",
+    "volume": 20,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "бизнес аккаунт инстаграм",
+    "volume": 20,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "рекламный кабинет фейсбук",
+    "volume": 10,
+    "cpc": 1.4,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "рекламный кабинет инстаграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "создание рекламного кабинета фейсбук",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "настройка ads manager",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "фейсбук адс менеджер",
+    "volume": 10,
+    "cpc": 10.89,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "instagram professional account",
+    "volume": 10,
+    "cpc": 1.93,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "профессиональный аккаунт инстаграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "UZ: reklama kabinet / biznes menejer / facebook biznes menejer / reklama kabinet ochish",
+    "volume": 0,
+    "cpc": null,
+    "why": "0 in Google Ads"
+   }
+  ]
+ },
+ "target-yoqish-diy-uz": {
+  "name": "Instagramda target yoqish o‘zingiz: qadam-baqadam (UZ, расширение хаба)",
+  "demand_raw": 580,
+  "demand_effective": 580,
+  "cpc_weighted": 2.38,
+  "cpc_range": [
+   1.09,
+   6.8
+  ],
+  "visits_day_pos6": [
+   0.09,
+   0.21
+  ],
+  "visits_day_pos3": [
+   0.55,
+   0.68
+  ],
+  "rows": [
+   {
+    "keyword": "target yoqish",
+    "volume": 260,
+    "cpc": 1.55,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "instagramda target yoqish",
+    "volume": 140,
+    "cpc": 3.26,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "instagram target",
+    "volume": 50,
+    "cpc": 4.2,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "reklama qilish",
+    "volume": 20,
+    "cpc": 1.42,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "target ads",
+    "volume": 20,
+    "cpc": 2.83,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "target qilish",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "instagramda target qilish",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "target reklama",
+    "volume": 10,
+    "cpc": 1.56,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "instagramda reklama berish",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "instagramda reklama qilish",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": [
+     "instagram reklama qilish"
+    ]
+   },
+   {
+    "keyword": "reklama berish",
+    "volume": 10,
+    "cpc": 1.09,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "instagram reklama",
+    "volume": 10,
+    "cpc": 1.16,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "reklama instagram",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "facebook reklama",
+    "volume": 10,
+    "cpc": 6.8,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": [
+     "facebook ads reklama (r)"
+    ]
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "target sozlash / target qanday yoqiladi / instagram reklama berish / reklama kabinet ochish",
+    "volume": 0,
+    "cpc": null,
+    "why": "0 in Google Ads"
+   },
+   {
+    "keyword": "targetolog 170, таргетолог 140, таргетолог ташкент 40",
+    "volume": 350,
+    "cpc": 2.47,
+    "why": "hire intent - owned by the hub/RU service page, other lens"
+   }
+  ]
+ },
+ "target-nima-ctr-uz": {
+  "name": "«Target nima» / «Таргет нима»: объяснение уже ранжируется на 7-8 месте без кликов (UZ, CTR)",
+  "demand_raw": 420,
+  "demand_effective": 420,
+  "cpc_weighted": 2.57,
+  "cpc_range": [
+   1.12,
+   2.8
+  ],
+  "visits_day_pos6": [
+   0.07,
+   0.15
+  ],
+  "visits_day_pos3": [
+   0.4,
+   0.49
+  ],
+  "rows": [
+   {
+    "keyword": "target nima",
+    "volume": 320,
+    "cpc": 2.8,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "таргет нима",
+    "volume": 50,
+    "cpc": 1.12,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "targeting nima",
+    "volume": 50,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": []
+ },
+ "ru-instagram-ads-howto": {
+  "name": "Как запустить рекламу (таргет) в Instagram из Узбекистана: пошагово (RU)",
+  "demand_raw": 938,
+  "demand_effective": 624,
+  "cpc_weighted": 2.89,
+  "cpc_range": [
+   0.41,
+   12.17
+  ],
+  "visits_day_pos6": [
+   0.1,
+   0.22
+  ],
+  "visits_day_pos3": [
+   0.59,
+   0.73
+  ],
+  "rows": [
+   {
+    "keyword": "таргетинг в инстаграм",
+    "volume": 628,
+    "cpc": null,
+    "source": "m",
+    "info_share": 0.5,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "таргет в инстаграм",
+    "volume": 40,
+    "cpc": 2.06,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "таргетированная реклама",
+    "volume": 40,
+    "cpc": 2.43,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "таргетированной рекламой",
+    "volume": 40,
+    "cpc": 2.43,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в инстаграм",
+    "volume": 30,
+    "cpc": 2.41,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "таргет инстаграм",
+    "volume": 20,
+    "cpc": 4.72,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": [
+     "таргет инста"
+    ]
+   },
+   {
+    "keyword": "как сделать рекламу в инстаграм",
+    "volume": 10,
+    "cpc": 1.19,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "как настроить рекламу в инстаграм",
+    "volume": 10,
+    "cpc": 1.44,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "как дать рекламу в инстаграм",
+    "volume": 10,
+    "cpc": 0.41,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "как запустить рекламу в инстаграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "как запустить таргет в инстаграм",
+    "volume": 10,
+    "cpc": 2.81,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "как настроить таргет в инстаграм",
+    "volume": 10,
+    "cpc": 1.54,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "настройка таргета в инстаграм",
+    "volume": 10,
+    "cpc": 7.79,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "настроить таргет",
+    "volume": 10,
+    "cpc": 1.72,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "запустить таргет в инстаграме",
+    "volume": 10,
+    "cpc": 2.03,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "настройка рекламы инстаграм",
+    "volume": 10,
+    "cpc": 2.6,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "таргет инстаграм как запустить",
+    "volume": 10,
+    "cpc": 1.79,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "запуск таргета через фейсбук",
+    "volume": 10,
+    "cpc": 12.17,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "продвижение публикации в инстаграм",
+    "volume": 10,
+    "cpc": 3.9,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в инстаграм через фейсбук",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "таргет",
+    "volume": 390,
+    "cpc": 0.66,
+    "why": "ambiguous head (US retailer, generic word)"
+   },
+   {
+    "keyword": "реклама в инстаграм цена / стоимость ... (many x10)",
+    "volume": 0,
+    "cpc": null,
+    "why": "price intent - price lens"
+   }
+  ]
+ },
+ "yandex-direct-uz": {
+  "name": "Яндекс Директ в Узбекистане: как запустить, оплатить, настроить гео (RU)",
+  "demand_raw": 1140,
+  "demand_effective": 454,
+  "cpc_weighted": 3.62,
+  "cpc_range": [
+   1.0,
+   6.65
+  ],
+  "visits_day_pos6": [
+   0.07,
+   0.16
+  ],
+  "visits_day_pos3": [
+   0.43,
+   0.53
+  ],
+  "rows": [
+   {
+    "keyword": "яндекс директ",
+    "volume": 590,
+    "cpc": 3.59,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "yandex direct",
+    "volume": 390,
+    "cpc": 5.26,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "yandex reklama",
+    "volume": 70,
+    "cpc": 1.0,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "яндекс директ узбекистан",
+    "volume": 40,
+    "cpc": 2.58,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в яндексе",
+    "volume": 10,
+    "cpc": 4.3,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в яндекс директ",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "яндекс директ цена",
+    "volume": 10,
+    "cpc": 6.65,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "direct яндекс",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в яндексе цена",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "yandex direct uzbekistan / яндекс директ ташкент",
+    "volume": 0,
+    "cpc": null,
+    "why": "0"
+   }
+  ]
+ },
+ "google-ads-from-uz": {
+  "name": "Google Ads (и YouTube) из Узбекистана: открыть аккаунт, оплатить, запустить (UZ + RU)",
+  "demand_raw": 4840,
+  "demand_effective": 1015,
+  "cpc_weighted": 2.34,
+  "cpc_range": [
+   0.4,
+   4.83
+  ],
+  "visits_day_pos6": [
+   0.16,
+   0.37
+  ],
+  "visits_day_pos3": [
+   0.97,
+   1.19
+  ],
+  "rows": [
+   {
+    "keyword": "google ads",
+    "volume": 4400,
+    "cpc": 2.08,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "гугл реклама",
+    "volume": 110,
+    "cpc": 2.82,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "google реклама",
+    "volume": 70,
+    "cpc": 4.13,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "google ads вход",
+    "volume": 50,
+    "cpc": 0.49,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "youtube ads",
+    "volume": 40,
+    "cpc": 1.86,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "google reklama",
+    "volume": 30,
+    "cpc": 3.55,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "google ads account",
+    "volume": 30,
+    "cpc": 1.03,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "google ads login",
+    "volume": 20,
+    "cpc": 1.18,
+    "source": "m",
+    "info_share": 0.15,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в гугл",
+    "volume": 10,
+    "cpc": 4.83,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": [
+     "реклама в гугле"
+    ]
+   },
+   {
+    "keyword": "реклама в гугл цена",
+    "volume": 10,
+    "cpc": 3.15,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "google reklama berish",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "youtube reklama",
+    "volume": 10,
+    "cpc": 0.4,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "youtube реклама",
+    "volume": 10,
+    "cpc": 0.64,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама на ютубе",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в поисковике гугл",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама от google",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "товарная реклама гугл",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "google ads uzbekistan / google ads o‘zbekistonda / оплата google ads / как оплатить google ads",
+    "volume": 0,
+    "cpc": null,
+    "why": "0 - payment pain has no Google demand"
+   }
+  ]
+ },
+ "ad-payment-uz": {
+  "name": "Чем оплатить рекламу Meta / Google / Telegram из Узбекистана (Visa/Mastercard, виртуальные карты, TON)",
+  "demand_raw": 2770,
+  "demand_effective": 167,
+  "cpc_weighted": 0.63,
+  "cpc_range": [
+   0.33,
+   2.32
+  ],
+  "visits_day_pos6": [
+   0.03,
+   0.06
+  ],
+  "visits_day_pos3": [
+   0.16,
+   0.2
+  ],
+  "rows": [
+   {
+    "keyword": "как оплатить рекламу в инстаграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "оплата рекламы в инстаграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "оплата рекламы фейсбук",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "visa karta",
+    "volume": 1000,
+    "cpc": 0.49,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "visa karta ochish",
+    "volume": 880,
+    "cpc": 0.54,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "virtual karta ochish",
+    "volume": 390,
+    "cpc": 0.83,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "uzum visa",
+    "volume": 110,
+    "cpc": 0.58,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "humo visa",
+    "volume": 90,
+    "cpc": 2.32,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "virtual karta",
+    "volume": 70,
+    "cpc": 0.58,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "uzcard visa",
+    "volume": 50,
+    "cpc": 0.58,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "виртуальная карта visa",
+    "volume": 40,
+    "cpc": 0.75,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "virtual visa karta",
+    "volume": 20,
+    "cpc": 0.53,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "visa virtual karta",
+    "volume": 20,
+    "cpc": 0.66,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "humo visa karta",
+    "volume": 20,
+    "cpc": null,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "visa карта узбекистан",
+    "volume": 20,
+    "cpc": 0.65,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "виртуальная карта visa узбекистан",
+    "volume": 10,
+    "cpc": 0.33,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "visa karta qanday ochiladi",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "как открыть visa карту в узбекистане",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 0.05,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "reklama to‘lovi / reklama uchun karta / оплата рекламы uzcard|humo / карта для оплаты рекламы / как оплатить рекламу в фейсбук из узбекистана",
+    "volume": 0,
+    "cpc": null,
+    "why": "0 in Google Ads"
+   }
+  ]
+ },
+ "meta-troubleshooting": {
+  "name": "Блокировки, отклонённая реклама, модерация, пиксель и лид-формы Meta: официальные пути (RU + UZ)",
+  "demand_raw": 160,
+  "demand_effective": 160,
+  "cpc_weighted": 0.99,
+  "cpc_range": [
+   0.99,
+   0.99
+  ],
+  "visits_day_pos6": [
+   0.03,
+   0.06
+  ],
+  "visits_day_pos3": [
+   0.15,
+   0.19
+  ],
+  "rows": [
+   {
+    "keyword": "заблокировали рекламу в инстаграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "инстаграм заблокировал рекламу",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "инстаграм отклоняет рекламу",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама на рассмотрении инстаграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама отключена инстаграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "через сколько запускается реклама в инстаграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": [
+     "через сколько начинает работать реклама в инстаграм"
+    ]
+   },
+   {
+    "keyword": "реклама в инстаграм запрещена",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "рекламный аккаунт отключен",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "инстаграм заблокировал аккаунт",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": [
+     "заблокировали инстаграм",
+     "instagram bloklandi"
+    ]
+   },
+   {
+    "keyword": "meta pixel",
+    "volume": 20,
+    "cpc": 0.99,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "facebook pixel",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": [
+     "facebook piksel"
+    ]
+   },
+   {
+    "keyword": "лид форма",
+    "volume": 20,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "лид форма фейсбук",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": [
+     "lead ads facebook (r)"
+    ]
+   },
+   {
+    "keyword": "instagram lead form",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "UZ: reklama kabinet bloklandi / akkaunt bloklandi / reklama rad etildi / piksel o‘rnatish",
+    "volume": 0,
+    "cpc": null,
+    "why": "0"
+   },
+   {
+    "keyword": "RU: заблокировали рекламный кабинет|аккаунт / реклама отклонена / установка пикселя / ограничение рекламы фейсбук",
+    "volume": 0,
+    "cpc": null,
+    "why": "0 or trend 0"
+   }
+  ]
+ },
+ "telegram-channel-ads-diy": {
+  "name": "Реклама в чужих Telegram-каналах своими силами: как выбрать канал и не потерять деньги (UZ + RU, расширение)",
+  "demand_raw": 220,
+  "demand_effective": 220,
+  "cpc_weighted": 3.62,
+  "cpc_range": [
+   2.18,
+   6.26
+  ],
+  "visits_day_pos6": [
+   0.04,
+   0.08
+  ],
+  "visits_day_pos3": [
+   0.21,
+   0.26
+  ],
+  "rows": [
+   {
+    "keyword": "telegram reklama",
+    "volume": 70,
+    "cpc": 2.38,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в телеграм",
+    "volume": 70,
+    "cpc": 4.65,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "телеграм реклама",
+    "volume": 10,
+    "cpc": 2.5,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "telegramda reklama berish",
+    "volume": 10,
+    "cpc": 2.18,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в телеграм каналах",
+    "volume": 10,
+    "cpc": 4.19,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в телеграм цена",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама на телеграм канале",
+    "volume": 10,
+    "cpc": 4.45,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама телеграм",
+    "volume": 10,
+    "cpc": 6.26,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "реклама в ботах телеграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "r",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "как запустить рекламу в телеграм",
+    "volume": 10,
+    "cpc": null,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "telegram kanalda reklama / telegram kanalga reklama berish / telegram reklama narxi / как дать рекламу в телеграм канале",
+    "volume": 0,
+    "cpc": null,
+    "why": "0"
+   }
+  ]
+ },
+ "advertising-law-uz": {
+  "name": "Закон «О рекламе» для онлайн-рекламы бизнеса: нейтральный разбор с lex.uz (UZ + RU)",
+  "demand_raw": 580,
+  "demand_effective": 174,
+  "cpc_weighted": null,
+  "cpc_range": null,
+  "visits_day_pos6": [
+   0.03,
+   0.06
+  ],
+  "visits_day_pos3": [
+   0.17,
+   0.2
+  ],
+  "rows": [
+   {
+    "keyword": "reklama to'g'risidagi qonun",
+    "volume": 530,
+    "cpc": null,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "закон о рекламе узбекистан",
+    "volume": 50,
+    "cpc": null,
+    "source": "m",
+    "info_share": 0.3,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "reklama qonuni",
+    "volume": 0,
+    "cpc": null,
+    "why": "0"
+   }
+  ]
+ },
+ "diy-learn-smm-target": {
+  "name": "Хочу научиться сам: SMM и таргет для владельца бизнеса (UZ), без «курса»",
+  "demand_raw": 260,
+  "demand_effective": 260,
+  "cpc_weighted": 3.44,
+  "cpc_range": [
+   0.42,
+   12.03
+  ],
+  "visits_day_pos6": [
+   0.04,
+   0.09
+  ],
+  "visits_day_pos3": [
+   0.25,
+   0.31
+  ],
+  "rows": [
+   {
+    "keyword": "smm kurslari",
+    "volume": 140,
+    "cpc": 1.09,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": [
+     "smm kurs"
+    ]
+   },
+   {
+    "keyword": "smm o'rganish",
+    "volume": 50,
+    "cpc": 12.03,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "target kursi",
+    "volume": 20,
+    "cpc": 1.91,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "target kurs",
+    "volume": 10,
+    "cpc": 4.06,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "таргетолог курсы",
+    "volume": 10,
+    "cpc": 1.41,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "курсы таргетолога",
+    "volume": 10,
+    "cpc": 0.42,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "обучение таргету",
+    "volume": 10,
+    "cpc": 2.29,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   },
+   {
+    "keyword": "курсы smm ташкент",
+    "volume": 10,
+    "cpc": 2.07,
+    "source": "m",
+    "info_share": 1,
+    "shared_bucket": []
+   }
+  ],
+  "excluded": [
+   {
+    "keyword": "target o‘rganish / targetolog kursi / курсы таргета ташкент",
+    "volume": 0,
+    "cpc": null,
+    "why": "0"
+   }
+  ]
+ }
+}

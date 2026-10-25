@@ -1,0 +1,15 @@
+vatan haqida sher = vatan haqida sherlar
+word counter = word count = count words
+til haqida maqollar = til haqida maqol
+янги йил табриклари = янги йил табриги
+tugilgan kun sher = tugilgan kunga sher = tugilgan kun sherlari
+character counter = character count
+dostlik haqida sher = dostlik haqida sherlar
+bahor haqida sher = bahor haqida sherlar
+ota haqida sher = ota haqida sherlar
+qish haqida sher = qish haqida sherlar
+kuz haqida sher = kuz haqida sherlar
+maktab haqida sher = maktab haqida sherlar
+ozbekcha sherlar = uzbekcha sherlar
+ilm haqida sher = ilm haqida sherlar
+ozbekiston haqida sher = ozbekiston haqida sherlar

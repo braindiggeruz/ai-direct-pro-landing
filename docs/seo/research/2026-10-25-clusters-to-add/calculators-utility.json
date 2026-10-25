@@ -1,0 +1,4168 @@
+{
+ "lens": "calculators-utility",
+ "date": "2026-10-25",
+ "market": "Google Uzbekistan (location 2860), Google Ads volumes (12-month mean Oct 2025 – Sep 2026)",
+ "model": {
+  "visits_formula": "demand × CTR × discount / 30 × 1.5",
+  "ctr_pos6": [
+   0.00613,
+   0.01105
+  ],
+  "ctr_pos3": 0.03593,
+  "discount": {
+   "aio_r1_or_answer_box": 0.533,
+   "aio_lower_or_serp_not_taken": 0.655,
+   "pos6_answer_box": "currency box / timer / unit widget answer the query in the SERP, so ×0.533 is also applied at pos 6 for those clusters"
+  },
+  "dedup": "same volume + same 12-month series (vol ≥ 100) = one Ads bucket, also across clusters; weights 0.5 for ambiguous heads/misspellings, 0.3 for news-driven «dam olish kunlari»; jump-shaped keys (Jul–Sep 2026 ≥ 5× Oct–Nov 2025, vol ≥ 500; year-labelled phrases exempt) taken at the Oct–Nov 2025 floor",
+  "demand_month": "conservative (weights + floors); demand_month_high = all distinct phrases incl. heads and excluded-from-low intents (pdf to word etc.)",
+  "ramp": "share of pos-6 forecast in month n = min(1, K1·n^1.6); K1 0.04 strong SERP, 0.06 tools/static on weak or mixed SERP (same as education-practice / text-tools lenses); assumes pos ~6 is reached at all",
+  "year_phrases": "«2026» phrases are the demand forecast for «2027» pages; «2026» and «2027» are never summed"
+ },
+ "credits": {
+  "cap": 600,
+  "own_estimate": 228,
+  "calls": "get_keyword_metrics ×2 (667 + 330 keywords, ~104 each), get_serp_results 1 call × 4 queries (~20); research_keywords not used (useless for 2860 per prior notes)",
+  "whoami": [
+   18834,
+   18502,
+   18398
+  ],
+  "note": "the first window (−332) includes parallel lenses; the second (−104) was this lens only"
+ },
+ "reused_not_rebought": [
+  "kalkulyator 40 500 (ad-client-funnel/prices-tools kw1)",
+  "сумма прописью 12 100, калькулятор процентов 1 300, процент от числа 720, foiz hisoblash 720, foiz kalkulyator 260, olchov birliklari 590 (education-practice ep_kw1)",
+  "oylik hisoblash, стаж/зарплата/налог калькуляторы (docs-career dc_kw1)"
+ ],
+ "totals_top12": {
+  "demand_month_low": 4167445,
+  "demand_month_high": 5159730,
+  "visits_day_pos6": [
+   755,
+   1366
+  ],
+  "visits_day_pos3": 4095,
+  "visits_day_pos3_high_demand": 5112,
+  "visits_day_pos3_no_aio": 7487
+ },
+ "totals_top12_without_currency": {
+  "demand_month_low": 569795,
+  "visits_day_pos6": [
+   168,
+   306
+  ],
+  "visits_day_pos3": 650
+ },
+ "currency_realistic_note": "pos 10–20 within 3–6 months: cluster 1 ≈ 115–235, both currency clusters ≈ 145–290 visits/day (generic CTR 0.15–0.30 % × currency-box 0.533, not the site curve); pos 3 on heads is not realistic (banks + currency box)",
+ "clusters": [
+  {
+   "rank": 1,
+   "id": "valyuta_kursi_kun",
+   "name": "Valyuta kursi bugun (MB rasmiy kursi): dollar, rubl, yevro, tenge, yuan — kunlik sahifa",
+   "keywords": "dollar kursi 823 000; курс доллара 550 000; kurs dollar 301 000; доллар курс 301 000; курс доллара к суму 165 000; dollar kurs 135 000 (= dollar kurslari); dollar kursi bugun 74 000; курс рубля к суму 74 000; курс доллара в узбекистане 60 500; valyuta kursi 60 500; rubl kurs 40 500; курс рубля 33 100; доллар курси бугун 27 100; курс доллара ташкент 27 100",
+   "keywords_full": [
+    {
+     "keyword": "dollar kursi",
+     "volume": 823000,
+     "weight": 1.0,
+     "low_value": 823000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс доллара",
+     "volume": 550000,
+     "weight": 1.0,
+     "low_value": 550000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kurs dollar",
+     "volume": 301000,
+     "weight": 1.0,
+     "low_value": 301000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "доллар курс",
+     "volume": 301000,
+     "weight": 1.0,
+     "low_value": 301000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс доллара к суму",
+     "volume": 165000,
+     "weight": 1.0,
+     "low_value": 165000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "dollar kurs",
+     "volume": 135000,
+     "weight": 1.0,
+     "low_value": 135000,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "dollar kurslari"
+     ],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "dollar kursi bugun",
+     "volume": 74000,
+     "weight": 1.0,
+     "low_value": 74000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс рубля к суму",
+     "volume": 74000,
+     "weight": 1.0,
+     "low_value": 74000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс доллара в узбекистане",
+     "volume": 60500,
+     "weight": 1.0,
+     "low_value": 60500,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "valyuta kursi",
+     "volume": 60500,
+     "weight": 1.0,
+     "low_value": 60500,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "rubl kurs",
+     "volume": 40500,
+     "weight": 1.0,
+     "low_value": 40500,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс рубля",
+     "volume": 33100,
+     "weight": 1.0,
+     "low_value": 33100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "доллар курси бугун",
+     "volume": 27100,
+     "weight": 1.0,
+     "low_value": 27100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс доллара ташкент",
+     "volume": 27100,
+     "weight": 1.0,
+     "low_value": 27100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс валют",
+     "volume": 22200,
+     "weight": 1.0,
+     "low_value": 22200,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "kurs valyut"
+     ],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "rubl kursi",
+     "volume": 22200,
+     "weight": 1.0,
+     "low_value": 22200,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс доллара узбекистан",
+     "volume": 18100,
+     "weight": 1.0,
+     "low_value": 18100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс доллара на сегодня",
+     "volume": 18100,
+     "weight": 1.0,
+     "low_value": 18100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "доллар курси",
+     "volume": 14800,
+     "weight": 1.0,
+     "low_value": 14800,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "долар курси"
+     ],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс тенге к суму",
+     "volume": 14800,
+     "weight": 1.0,
+     "low_value": 14800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kurs rubl",
+     "volume": 12100,
+     "weight": 1.0,
+     "low_value": 12100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс евро",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "valyuta kursi bugun",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс рубля в узбекистане",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "bugungi dollar kursi",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "yevro kursi",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс доллара сегодня",
+     "volume": 6600,
+     "weight": 1.0,
+     "low_value": 6600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс тенге",
+     "volume": 6600,
+     "weight": 1.0,
+     "low_value": 6600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "evro kursi",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс евро к суму",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс юаня к суму",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "rubl kursi bugun",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "валюта курси",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "долар курс",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс валют ташкент",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "tenge kursi",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "markaziy bank dollar kursi",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "dollar kursi markaziy bank"
+     ],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "dollar narxi",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "бугунги доллар курси",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс цб руз",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "valyuta kurslari",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "markaziy bank kursi",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс валют на сегодня",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс доллара цб",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс юаня",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс валют узбекистан",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "yuan kursi",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс цб узбекистан",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс доллара цб узбекистан",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "dollar kursi qancha",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "валюта курси бугун",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс доллара сегодня узбекистан",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "cbu kurs",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "valyuta kursi markaziy bank",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс рубля в ташкенте",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "markaziy bank valyuta kursi",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "lira kursi",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс рубля к суму сегодня",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "dollar qancha",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "evro kurs",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "курс сума",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "dollar kursi 2026",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс валют в узбекистане на сегодня",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "dollar kursi toshkent",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "bugungi valyuta kursi",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс воны к суму",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "dollar",
+     "volume": 368000
+    },
+    {
+     "keyword": "valyuta",
+     "volume": 74000
+    },
+    {
+     "keyword": "валюта",
+     "volume": 74000
+    },
+    {
+     "keyword": "доллар",
+     "volume": 60500
+    },
+    {
+     "keyword": "kurs",
+     "volume": 49500
+    },
+    {
+     "keyword": "курс",
+     "volume": 22200
+    },
+    {
+     "keyword": "rubl",
+     "volume": 8100
+    }
+   ],
+   "excluded": [
+    "курс доллара на черном рынке (не измерялся, не строим)",
+    "прогноз курса (финансовый совет)",
+    "valyuta ayirboshlash (где обменять — банки)"
+   ],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 2915960,
+   "demand_month_high": 3572260,
+   "seasonality": "пики: 2025-10 ×1.47, 2026-08 ×1.14, 2026-01 ×1.1; провалы: 2026-07 ×0.68, 2026-06 ×0.75",
+   "seasonality_index": {
+    "2025-10": 1.47,
+    "2025-11": 1.09,
+    "2025-12": 0.99,
+    "2026-01": 1.1,
+    "2026-02": 0.96,
+    "2026-03": 1.02,
+    "2026-04": 0.84,
+    "2026-05": 0.91,
+    "2026-06": 0.75,
+    "2026-07": 0.68,
+    "2026-08": 1.14,
+    "2026-09": 1.05
+   },
+   "serp": "снято 25.10 «dollar kursi»: currency_box r1; o1 ipotekabank, o2 kapitalbank, o3 depozit.uz, o4 investing USD/TRY (не та пара), o5 xb.uz, o6 anhor.uz (новость), o7 Play-приложение, o8 sravni.ru (курс ЦБ РФ), o9 YouTube, o10 bankxizmatlari.uz; o11 wise USD/TRY, o12 Instagram reel, o15 dollarkurs.uz (ровно наш тип: «CBU rasmiy»)",
+   "serp_weakness": "mixed",
+   "realistic_position_note": "Топ-3 занят банками (ipotekabank, kapitalbank, xb.uz) под currency box — поз. 3 нереальна. Реалистично поз. 10–20 по головам за 3–6 мес. ≈ 115–235 визитов/день (CTR 0,15–0,30 % — общее допущение, не кривая сайта). Ровно такой же продукт dollarkurs.uz стоит на o15.",
+   "aio_or_answer_box_discount_pos3": 0.533,
+   "answer_box_discount_pos6": 0.533,
+   "fit": "(a) детерминированная страница на официальном JSON ЦБ (cbu.uz/uz/arkhiv-kursov-valyut/json/ — проверено 25.10, отдаёт Rate/Diff/Date). Модель не нужна. Честно закрывает «курс ЦБ на сегодня»; НЕ закрывает «где купить/продать дешевле» (курсов банков в открытом официальном источнике нет). Бренду не родственно: конверсия в чат ≈ 0.",
+   "build": "/uz/valyuta-kursi/ (все валюты на сегодня) + /uz/valyuta-kursi/dollar|rubl|yevro|tenge|yuan/ + RU /ru/kurs-valyut/, /ru/kurs-dollara/ …; Worker cron раз в день тянет JSON ЦБ → KV → пререндер HTML с датой, изменением и графиком 30 дней (архив ЦБ по дате); schema ExchangeRateSpecification. ~12 страниц UZ/RU.",
+   "effort": "M",
+   "honesty_risk": "medium",
+   "honesty_note": "Финансовые данные (YMYL-смежно): дата/время и ссылка на cbu.uz на каждой странице, плашка «bankda ayirboshlash kursi farq qiladi», без прогнозов и советов «покупать/ждать». Условия повторного использования данных cbu.uz не проверены — проверить до запуска.",
+   "visits_day_pos6": [
+    476,
+    859
+   ],
+   "visits_day_pos6_high_demand": [
+    584,
+    1052
+   ],
+   "visits_day_pos3": 2792,
+   "visits_day_pos3_high_demand": 3421,
+   "visits_day_pos3_no_discount": 5239,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 26.7,
+    "weeks_to_5": 2,
+    "weeks_to_10": 3,
+    "weeks_to_50": 7
+   },
+   "ramp_weeks": "Модель (если поз. ~6 достигнута, K1 0,04): 10/день на 3-й нед., 50/день на 7-й. Реально: первые 10/день за 4–8 нед. на хвостах (курс тенге/юаня/воны/лиры, «курс доллара цб»); головы — 6–12 мес. и без гарантии.",
+   "note": ""
+  },
+  {
+   "rank": 2,
+   "id": "valyuta_konvertor",
+   "name": "Valyuta konvertori: juftliklar USD/RUB/EUR/KZT/CNY ↔ UZS («100 usd to uzs», «тенге сум»)",
+   "keywords": "usd uzs 201 000 (= usd to uzs); доллар сум 90 500; 100 долларов в сумах 74 000; dollar to sum 74 000; рубль сум 49 500; тенге сум 27 100; 100 usd to uzs 22 200; rub to uzs 18 100; uzs to usd 14 800; dollar sum 12 100; rub uzs 12 100; юань сум 12 100; uzs usd 8 100; конвертер валют 8 100",
+   "keywords_full": [
+    {
+     "keyword": "usd uzs",
+     "volume": 201000,
+     "weight": 1.0,
+     "low_value": 201000,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "usd to uzs"
+     ],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "доллар сум",
+     "volume": 90500,
+     "weight": 1.0,
+     "low_value": 90500,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "100 долларов в сумах",
+     "volume": 74000,
+     "weight": 1.0,
+     "low_value": 74000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "dollar to sum",
+     "volume": 74000,
+     "weight": 1.0,
+     "low_value": 74000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "рубль сум",
+     "volume": 49500,
+     "weight": 1.0,
+     "low_value": 49500,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "тенге сум",
+     "volume": 27100,
+     "weight": 1.0,
+     "low_value": 27100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "100 usd to uzs",
+     "volume": 22200,
+     "weight": 1.0,
+     "low_value": 22200,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "rub to uzs",
+     "volume": 18100,
+     "weight": 1.0,
+     "low_value": 18100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "uzs to usd",
+     "volume": 14800,
+     "weight": 1.0,
+     "low_value": 14800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "dollar sum",
+     "volume": 12100,
+     "weight": 1.0,
+     "low_value": 12100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "rub uzs",
+     "volume": 12100,
+     "weight": 1.0,
+     "low_value": 12100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "юань сум",
+     "volume": 12100,
+     "weight": 1.0,
+     "low_value": 12100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "uzs usd",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "конвертер валют",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "1 usd to uzs",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "доллар к суму",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "dollar som",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "евро сум",
+     "volume": 6600,
+     "weight": 1.0,
+     "low_value": 6600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сум доллар",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "сум к доллару",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "рубль к суму",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "kzt uzs",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сум рубль",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "eur uzs",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "valyuta kalkulyator",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "валютный калькулятор",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "1 рубль сколько сум",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "cny uzs",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "курс сум доллар",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "1 доллар сколько сум",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "конвертер валют онлайн",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "100 dollar necha som",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "1 dollar necha som",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "valyuta konvertor",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    }
+   ],
+   "high_only": [],
+   "excluded": [],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 681690,
+   "demand_month_high": 681690,
+   "seasonality": "пики: 2025-10 ×1.33, 2026-01 ×1.18, 2026-08 ×1.15; провалы: 2026-07 ×0.77, 2026-06 ×0.81",
+   "seasonality_index": {
+    "2025-10": 1.33,
+    "2025-11": 1.03,
+    "2025-12": 1.03,
+    "2026-01": 1.18,
+    "2026-02": 0.95,
+    "2026-03": 0.98,
+    "2026-04": 0.84,
+    "2026-05": 0.93,
+    "2026-06": 0.81,
+    "2026-07": 0.77,
+    "2026-08": 1.15,
+    "2026-09": 0.99
+   },
+   "serp": "не снято отдельно; та же выдача, что «dollar kursi» (currency_box r1) + конвертеры xe.com, wise.com, vbr.uz, sravni.ru на o8–o18",
+   "serp_weakness": "mixed",
+   "realistic_position_note": "Выдача: currency box + xe.com, wise.com, vbr.uz, sravni.ru (курс ЦБ РФ!) — у конкурентов нет узбекского интерфейса и курса ЦБ РУз в паре с тенге/юанем. Поз. 6 на парах достижимее, чем на головах кластера 1.",
+   "aio_or_answer_box_discount_pos3": 0.533,
+   "answer_box_discount_pos6": 0.533,
+   "fit": "(a) тот же движок ЦБ: конвертер пары ↔ UZS с таблицей типовых сумм (1/10/100/1000) и графиком. Честно закрывает «100 usd to uzs», «тенге сум», «юань сум».",
+   "build": "/uz/valyuta-konvertor/ + пары /uz/valyuta-konvertor/usd-uzs|rub-uzs|eur-uzs|kzt-uzs|cny-uzs|krw-uzs|try-uzs/ и RU-зеркала /ru/konverter-valyut/usd-uzs/ … (~16 страниц). Не плодить страницы «на каждую сумму» (doorway).",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Чистая арифметика по официальному курсу с датой; та же оговорка о курсах банков. Зависит от кластера 1 (движок, проверка условий cbu.uz).",
+   "visits_day_pos6": [
+    111,
+    201
+   ],
+   "visits_day_pos6_high_demand": [
+    111,
+    201
+   ],
+   "visits_day_pos3": 653,
+   "visits_day_pos3_high_demand": 653,
+   "visits_day_pos3_no_discount": 1225,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 6.2,
+    "weeks_to_5": 4,
+    "weeks_to_10": 6,
+    "weeks_to_50": 16
+   },
+   "ramp_weeks": "6 нед. до 10/день, 16 нед. до 50/день (K1 0,04, при поз. ~6); реалистично 6–10 нед. до первых 10/день.",
+   "note": ""
+  },
+  {
+   "rank": 3,
+   "id": "kalkulyator",
+   "name": "Onlayn kalkulyator (oddiy + ilmiy, tarix, klaviatura) — UZ/RU",
+   "keywords": "калькулятор 74 000; kalkulyator 40 500; calculator 40 500; kalkulator 40 500 ×0.5; kalkulyatr 40 500 ×0.5; калькулятор онлайн 3 600; online calculator 1 900; kalkulyator online 1 600; онлайн калькулятор 1 600; onlayn kalkulyator 390; scientific calculator 320; инженерный калькулятор 90; научный калькулятор 50; ilmiy kalkulyator 50",
+   "keywords_full": [
+    {
+     "keyword": "калькулятор",
+     "volume": 74000,
+     "weight": 1.0,
+     "low_value": 74000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kalkulyator",
+     "volume": 40500,
+     "weight": 1.0,
+     "low_value": 40500,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw1_metrics.json"
+    },
+    {
+     "keyword": "calculator",
+     "volume": 40500,
+     "weight": 1.0,
+     "low_value": 40500,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kalkulator",
+     "volume": 40500,
+     "weight": 0.5,
+     "low_value": 20250,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kalkulyatr",
+     "volume": 40500,
+     "weight": 0.5,
+     "low_value": 20250,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор онлайн",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "online calculator",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kalkulyator online",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "онлайн калькулятор",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "onlayn kalkulyator",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "scientific calculator",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "инженерный калькулятор",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "научный калькулятор",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "ilmiy kalkulyator",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор с дробями",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    }
+   ],
+   "high_only": [],
+   "excluded": [
+    "калькулятор скачать 1 300, kalkulyator yuklab olish — намерение «скачать приложение»",
+    "калькулятор дробей — уже в кластере education-practice"
+   ],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 205140,
+   "demand_month_high": 245640,
+   "seasonality": "пики: 2026-09 ×1.16, 2026-01 ×1.02, 2026-03 ×1.02; провалы: 2026-07 ×0.93, 2026-08 ×0.95",
+   "seasonality_index": {
+    "2025-10": 1.01,
+    "2025-11": 1.0,
+    "2025-12": 1.0,
+    "2026-01": 1.02,
+    "2026-02": 0.97,
+    "2026-03": 1.02,
+    "2026-04": 1.02,
+    "2026-05": 0.97,
+    "2026-06": 0.96,
+    "2026-07": 0.93,
+    "2026-08": 0.95,
+    "2026-09": 1.16
+   },
+   "serp": "снято 25.10 «калькулятор»: o1 x-calculator.ru, o2 Play (Google Calculator), o3 calculator888.ru, o4 ipipip.ru, o5 desmos, o6 Play, o7 calcus.ru, o8 calc.ru, o9 calculator.apps.chrome, o10 Play; o12 Яндекс.Диск-файл. AIO нет, виджета калькулятора в разборе нет. Ни одной узбекской страницы",
+   "serp_weakness": "mixed",
+   "realistic_position_note": "Выдача «калькулятор»: x-calculator.ru, calculator888, ipipip, desmos, calcus, calc.ru + три карточки Google Play; AIO и виджета нет; узбекских страниц нет. SERP по латинским написаниям не снят.",
+   "aio_or_answer_box_discount_pos3": 0.655,
+   "answer_box_discount_pos6": 1.0,
+   "fit": "(a) обычный + инженерный калькулятор со скобками, историей и клавиатурой; узбекский интерфейс. Латинские узбекские написания kalkulyator / kalkulator / kalkulyatr ≈ 121 000/мес по Ads — узбекскоязычный спрос без узбекских страниц.",
+   "build": "/uz/kalkulyator/ (oddiy + ilmiy, foiz rejimi) и /ru/kalkulyator/; PWA-офлайн; ссылки на кластеры 12 (foiz/QQS) и 8 (kredit) как режимы одного хаба.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Чистые вычисления. «калькулятор скачать» (намерение приложения) и «калькулятор дробей» (уже в education-practice) не учитывались.",
+   "visits_day_pos6": [
+    63,
+    113
+   ],
+   "visits_day_pos6_high_demand": [
+    75,
+    136
+   ],
+   "visits_day_pos3": 241,
+   "visits_day_pos3_high_demand": 289,
+   "visits_day_pos3_no_discount": 369,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 3.5,
+    "weeks_to_5": 6,
+    "weeks_to_10": 9,
+    "weeks_to_50": 23
+   },
+   "ramp_weeks": "9 нед. до 10/день, 23 нед. до 50/день (K1 0,04 — сильные русские инструменты).",
+   "note": ""
+  },
+  {
+   "rank": 4,
+   "id": "pdf_vositalar",
+   "name": "PDF va rasm vositalari brauzerda: JPG→PDF, PDF birlashtirish, siqish, PDF→JPG, 3×4 rasm",
+   "keywords": "jpg to pdf 49 500; pdf to jpg 22 200; объединить pdf 9 900; сжать pdf 9 900; pdf siqish 8 100; pdf birlashtirish 6 600; rasmni pdf qilish 5 400; png to pdf 4 400; pdf qilish 2 900; фото в пдф 2 900; pdf merge 2 400; pdf converter 1 000; сжать фото 590; 3x4 rasm 590",
+   "keywords_full": [
+    {
+     "keyword": "jpg to pdf",
+     "volume": 49500,
+     "weight": 1.0,
+     "low_value": 49500,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "pdf to jpg",
+     "volume": 22200,
+     "weight": 1.0,
+     "low_value": 22200,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "объединить pdf",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сжать pdf",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "pdf siqish",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "pdf birlashtirish",
+     "volume": 6600,
+     "weight": 1.0,
+     "low_value": 6600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "rasmni pdf qilish",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "png to pdf",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "pdf qilish",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "фото в пдф",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "pdf merge",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "pdf converter",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сжать фото",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "3x4 rasm",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "wordni pdf qilish",
+     "volume": 720,
+     "weight": 0.5,
+     "low_value": 360,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "фото 3 на 4",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сжать изображение",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "фото в pdf",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "jpg в pdf",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "конвертер jpg в pdf",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "3x4 фото",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "rasmni pdf ga aylantirish",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "rasm kesish",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "pdf to word",
+     "volume": 110000
+    },
+    {
+     "keyword": "word to pdf",
+     "volume": 49500
+    },
+    {
+     "keyword": "pdf",
+     "volume": 12100
+    },
+    {
+     "keyword": "пдф",
+     "volume": 2400
+    }
+   ],
+   "excluded": [
+    "pdf to word 110 000 и word to pdf 49 500 — только в верхней оценке: в браузере без сервера макет не сохраняется, честно можно обещать лишь извлечение текста"
+   ],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 127710,
+   "demand_month_high": 302070,
+   "seasonality": "пики: 2026-04 ×1.26, 2026-03 ×1.07, 2026-05 ×1.05; провалы: 2026-08 ×0.82, 2025-10 ×0.92",
+   "seasonality_index": {
+    "2025-10": 0.92,
+    "2025-11": 0.96,
+    "2025-12": 1.03,
+    "2026-01": 0.94,
+    "2026-02": 0.93,
+    "2026-03": 1.07,
+    "2026-04": 1.26,
+    "2026-05": 1.05,
+    "2026-06": 1.05,
+    "2026-07": 0.98,
+    "2026-08": 0.82,
+    "2026-09": 0.98
+   },
+   "serp": "не снято (лимит 4 SERP). Приор: глобальные бренды iLovePDF, Smallpdf, Adobe, PDF24, pdf2go держат топ по EN/RU; узбекские формулировки («rasmni pdf qilish», «pdf birlashtirish», «pdf siqish») не проверены",
+   "serp_weakness": "strong",
+   "realistic_position_note": "SERP не снят (лимит 4). Приор: глобальные бренды держат EN/RU-запросы; узбекские формулировки (rasmni pdf qilish 5 400, pdf siqish 8 100, pdf birlashtirish 6 600) — главный шанс.",
+   "aio_or_answer_box_discount_pos3": 0.655,
+   "answer_box_discount_pos6": 1.0,
+   "fit": "(a) инструменты в браузере (pdf-lib / pdf.js / canvas): JPG/PNG→PDF, объединение, PDF→JPG, сжатие (перекодирование картинок, с потерями), фото 3×4 на лист для печати. Файлы не покидают устройство — честное отличие от iLovePDF/Smallpdf. Аудитория (школьники, документы) совпадает с сайтом.",
+   "build": "/uz/pdf/rasmni-pdf-qilish/, /uz/pdf/birlashtirish/, /uz/pdf/siqish/, /uz/pdf/pdf-dan-jpg/, /uz/rasm/3x4/ + RU /ru/pdf/foto-v-pdf/, /ru/pdf/obedinit/, /ru/pdf/szhat/. Библиотеки грузить лениво.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Не обещать PDF→Word и Word→PDF (110 000 и 49 500 в месяц): без сервера макет не сохраняется. Эти запросы — только в верхней оценке; максимум честный режим «извлечь текст».",
+   "visits_day_pos6": [
+    39,
+    71
+   ],
+   "visits_day_pos6_high_demand": [
+    93,
+    167
+   ],
+   "visits_day_pos3": 150,
+   "visits_day_pos3_high_demand": 355,
+   "visits_day_pos3_no_discount": 229,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 2.2,
+    "weeks_to_5": 8,
+    "weeks_to_10": 12,
+    "weeks_to_50": 31
+   },
+   "ramp_weeks": "12 нед. до 10/день, 31 нед. до 50/день (K1 0,04); узбекские формулировки, вероятно, быстрее.",
+   "note": ""
+  },
+  {
+   "rank": 5,
+   "id": "kalendar_2027",
+   "name": "Kalendar 2027 (O‘zbekiston): bayram va dam olish kunlari, ishlab chiqarish kalendari, «Yangi yilgacha necha kun»",
+   "keywords": "kalendar 2026 14 800; календарь 2026 14 800; kalendar 18 100 ×0.5; календарь 12 100 ×0.5; dam olish kunlari 14 800 ×0.3; производственный календарь 2026 узбекистан 2 400; календарь 2026 узбекистан 2 400; производственный календарь 2026 1 900; выходные дни в узбекистане 2026 1 900; dam olish kunlari 2026 1 600; сколько дней до нового года 1 000; календарь 2026 год 880; праздничные дни в узбекистане 2026 880; сколько дней осталось до нового года 880",
+   "keywords_full": [
+    {
+     "keyword": "kalendar 2026",
+     "volume": 14800,
+     "weight": 1.0,
+     "low_value": 14800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "календарь 2026",
+     "volume": 14800,
+     "weight": 1.0,
+     "low_value": 14800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kalendar",
+     "volume": 18100,
+     "weight": 0.5,
+     "low_value": 9050,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "календарь",
+     "volume": 12100,
+     "weight": 0.5,
+     "low_value": 6050,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "dam olish kunlari",
+     "volume": 14800,
+     "weight": 0.3,
+     "low_value": 4440,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "производственный календарь 2026 узбекистан",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "календарь 2026 узбекистан",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "производственный календарь 2026",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "выходные дни в узбекистане 2026",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "dam olish kunlari 2026",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "сколько дней до нового года",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "календарь 2026 год",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "праздничные дни в узбекистане 2026",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сколько дней осталось до нового года",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kalendar 2026 yil",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "праздники в узбекистане 2026",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "bayram kunlari 2026",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "сколько осталось до нового года",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "2026 yil kalendari",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "bayram kunlari",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "2026 kalendari",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "2026 kalendar",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "календарь 2026 распечатать",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "производственный календарь",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "bayramlar",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "до нового года осталось",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "календарь на 2026 год",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "календарь 2026 скачать",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "milliy bayramlar",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "праздники узбекистана",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "ish kunlari 2026",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "qurbon hayiti dam olish kunlari",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "производственный календарь узбекистан",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "выходные в узбекистане",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "норма рабочего времени 2026 узбекистан",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "8 mart dam olish kunlari",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "выходные дни в узбекистане",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сколько до нового года",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "yangi yilga",
+     "volume": 18100
+    }
+   ],
+   "excluded": [
+    "taqvim 2026 (27 100) и 2026 yil taqvimi — пик в феврале-марте = Ramazon taqvimi (namoz/saharlik vaqtlari), религиозный график — не строим",
+    "hijriy taqvim (1 000) — религиозный календарь",
+    "фразы «2027» сейчас малы (календарь 2027 — 170) и не суммируются с «2026»: 2026-фразы — прогноз цикла 2027"
+   ],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 69780,
+   "demand_month_high": 113340,
+   "seasonality": "пики: 2025-12 ×1.49, 2026-03 ×1.44, 2026-01 ×1.23; провалы: 2025-10 ×0.38, 2025-11 ×0.43",
+   "seasonality_index": {
+    "2025-10": 0.38,
+    "2025-11": 0.43,
+    "2025-12": 1.49,
+    "2026-01": 1.23,
+    "2026-02": 1.12,
+    "2026-03": 1.44,
+    "2026-04": 1.14,
+    "2026-05": 1.15,
+    "2026-06": 0.85,
+    "2026-07": 0.81,
+    "2026-08": 1.0,
+    "2026-09": 0.96
+   },
+   "serp": "снято 25.10 «kalendar 2026»: images r1; o1 kalender-365.de (хорватская страница), AIO r3; o2,o3,o6,o8–o16 одно и то же Play-приложение на разных hl (9 мест!), o4 Pinterest, o5 timeanddate (Uzbekistan), o7 calendar-365.com; ни одной узбекской веб-страницы с праздниками",
+   "serp_weakness": "weak",
+   "realistic_position_note": "Слабейшая выдача линзы: o1 хорватская страница kalender-365.de, одно и то же Play-приложение на 9 местах (разные hl), Pinterest, timeanddate. Узбекских веб-страниц нет. Поз. 3 реалистична.",
+   "aio_or_answer_box_discount_pos3": 0.655,
+   "answer_box_discount_pos6": 1.0,
+   "fit": "(c)+(a) статичный календарь 2027 с праздниками и официальными выходными Узбекистана, номерами недель, печатью A4, производственным календарём (рабочие дни/часы по месяцам при 40/36/24-часовой неделе) и отсчётом «до Нового года».",
+   "build": "/uz/kalendar-2027/, /ru/kalendar-2027/, /ru/proizvodstvennyy-kalendar-2027-uzbekistan/, /uz/dam-olish-kunlari-2027/, /ru/skolko-dney-do-novogo-goda/. Запуск до 15.11 — к пику дек–янв.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Переносы выходных — только по опубликованному постановлению (lex.uz). До его выхода ставить фиксированные даты, а подвижные помечать «kutilmoqda». Ramazon/Qurbon hayit — только как официальные выходные. Namoz/saharlik taqvimi (taqvim 2026 = 27 100, пик в Рамадан) не строим.",
+   "visits_day_pos6": [
+    21,
+    39
+   ],
+   "visits_day_pos6_high_demand": [
+    35,
+    63
+   ],
+   "visits_day_pos3": 82,
+   "visits_day_pos3_high_demand": 133,
+   "visits_day_pos3_no_discount": 125,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 1.8,
+    "weeks_to_5": 9,
+    "weeks_to_10": 13,
+    "weeks_to_50": null
+   },
+   "ramp_weeks": "Модель: 13 нед. до 10/день (K1 0,06). Сезонность (дек ×1,49, мар ×1,44) и слабая выдача: при запуске до середины ноября первые 10/день вероятны в декабре (6–8 нед.).",
+   "note": "Спрос по фразам «2026» = прогноз для страниц «2027» в цикле дек-2026…дек-2027; «2026»+«2027» не складываются."
+  },
+  {
+   "rank": 6,
+   "id": "qr_kod",
+   "name": "QR-kod generator (havola, Wi-Fi, telefon, vizitka; PNG/SVG) + skaner",
+   "keywords": "qr code generator 14 800; qr код 6 600; qr code 6 600 ×0.5; qr kod yaratish 2 400; qr code scanner 3 600 ×0.5; qr kod 2 900 ×0.5; qr code generator free 1 300; создать qr код 880; генератор qr кода 720; qr код генератор 590; сгенерировать qr код 480; qr code create 390; qr code maker 320; создать qr код бесплатно 320",
+   "keywords_full": [
+    {
+     "keyword": "qr code generator",
+     "volume": 14800,
+     "weight": 1.0,
+     "low_value": 14800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr код",
+     "volume": 6600,
+     "weight": 1.0,
+     "low_value": 6600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr code",
+     "volume": 6600,
+     "weight": 0.5,
+     "low_value": 3300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr kod yaratish",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr code scanner",
+     "volume": 3600,
+     "weight": 0.5,
+     "low_value": 1800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr kod",
+     "volume": 2900,
+     "weight": 0.5,
+     "low_value": 1450,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr code generator free",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "создать qr код",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "генератор qr кода",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr код генератор",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "сгенерировать qr код",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr code create",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "qr code maker",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "создать qr код бесплатно",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "qr kod skaner",
+     "volume": 590,
+     "weight": 0.5,
+     "low_value": 295,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr код онлайн",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr kod yasash",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr kod yaratish online",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr code yaratish",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr kod olish",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr code generator online",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сделать qr код",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сканер qr кода",
+     "volume": 170,
+     "weight": 0.5,
+     "low_value": 85,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr kod wifi",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": true,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "qr kod qilish",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qr kod tayyorlash",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    }
+   ],
+   "high_only": [],
+   "excluded": [],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 37260,
+   "demand_month_high": 44710,
+   "seasonality": "пики: 2026-02 ×1.61, 2026-04 ×1.46, 2025-12 ×1.13; провалы: 2026-08 ×0.67, 2026-07 ×0.74",
+   "seasonality_index": {
+    "2025-10": 0.97,
+    "2025-11": 0.87,
+    "2025-12": 1.13,
+    "2026-01": 0.87,
+    "2026-02": 1.61,
+    "2026-03": 1.05,
+    "2026-04": 1.46,
+    "2026-05": 0.91,
+    "2026-06": 0.88,
+    "2026-07": 0.74,
+    "2026-08": 0.67,
+    "2026-09": 0.85
+   },
+   "serp": "снято 25.10 «qr kod generator»: o1 stqr.ru, AIO r2, o2 orcascan, o3 websiteplanet, o4 qrcode-tiger (RU), o5 jotform, o6 Play, o7 barcodesinc, o8 generator-qr.com, o9 calcus.ru; o11 webiston.uz (EN). Ни одной страницы на узбекском",
+   "serp_weakness": "mixed",
+   "realistic_position_note": "o1 stqr.ru, AIO r2, дальше EN/RU-генераторы и Google Play; единственный .uz — webiston.uz на o11 (EN). Узбекских страниц нет.",
+   "aio_or_answer_box_discount_pos3": 0.533,
+   "answer_box_discount_pos6": 1.0,
+   "fit": "(a) генератор QR в браузере: ссылка, текст, Wi-Fi, телефон, SMS, vCard, Telegram; PNG/SVG; опционально сканер камерой (jsQR).",
+   "build": "/uz/qr-kod-yaratish/, /ru/qr-kod-generator/, (опц.) /uz/qr-kod-skaner/.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Не обещать «динамические» QR и статистику сканирований (нужен сервер-редиректор).",
+   "visits_day_pos6": [
+    11,
+    21
+   ],
+   "visits_day_pos6_high_demand": [
+    14,
+    25
+   ],
+   "visits_day_pos3": 36,
+   "visits_day_pos3_high_demand": 43,
+   "visits_day_pos3_no_discount": 67,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 1.0,
+    "weeks_to_5": 13,
+    "weeks_to_10": 19,
+    "weeks_to_50": null
+   },
+   "ramp_weeks": "13 нед. до 5/день, 19 нед. до 10/день (K1 0,06).",
+   "note": ""
+  },
+  {
+   "rank": 7,
+   "id": "taymer",
+   "name": "Taymer, sekundomer va Pomodoro (o‘qish/imtihon taymeri)",
+   "keywords": "timer 18 100 ×0.5; sekundomer 5 400; таймер 5 400; секундомер 4 400; online timer 3 600; taymer 2 400; pomodoro timer 1 600; секундомер онлайн 880; sekundomer online 880; stopwatch 1 600 ×0.5; pomodoro 1 600 ×0.5; таймер онлайн 720; taymer online 480; таймер 1 минута 320",
+   "keywords_full": [
+    {
+     "keyword": "timer",
+     "volume": 18100,
+     "weight": 0.5,
+     "low_value": 9050,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "sekundomer",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "таймер",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "секундомер",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "online timer",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "taymer",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "pomodoro timer",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "секундомер онлайн",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "sekundomer online",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "stopwatch",
+     "volume": 1600,
+     "weight": 0.5,
+     "low_value": 800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "pomodoro",
+     "volume": 1600,
+     "weight": 0.5,
+     "low_value": 800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "таймер онлайн",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "taymer online",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "таймер 1 минута",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "будильник онлайн",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "онлайн таймер",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "таймер на 1 минуту",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "таймер 10 минут",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "таймер 5 минут",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "таймер на 5 минут",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "таймер 30 минут",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "помодоро таймер",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "таймер обратного отсчета",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "budilnik",
+     "volume": 6600
+    }
+   ],
+   "excluded": [],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 38120,
+   "demand_month_high": 55370,
+   "seasonality": "пики: 2026-04 ×1.14, 2026-01 ×1.1, 2026-02 ×1.07; провалы: 2025-10 ×0.81, 2025-11 ×0.87",
+   "seasonality_index": {
+    "2025-10": 0.81,
+    "2025-11": 0.87,
+    "2025-12": 0.97,
+    "2026-01": 1.1,
+    "2026-02": 1.07,
+    "2026-03": 1.06,
+    "2026-04": 1.14,
+    "2026-05": 1.07,
+    "2026-06": 1.04,
+    "2026-07": 1.0,
+    "2026-08": 0.92,
+    "2026-09": 0.96
+   },
+   "serp": "не снято. Приор: Google показывает собственный виджет таймера/секундомера по «timer», «таймер», «секундомер» (zero-click) — поэтому ×0,533 и на поз. 6",
+   "serp_weakness": "mixed",
+   "realistic_position_note": "SERP не снят. По «timer», «таймер», «секундомер» Google показывает свой виджет (zero-click), поэтому скидка ×0,533 и на поз. 6.",
+   "aio_or_answer_box_discount_pos3": 0.533,
+   "answer_box_discount_pos6": 0.533,
+   "fit": "(a) таймер, секундомер, Pomodoro 25/5 для учёбы; звук, полноэкранный режим.",
+   "build": "/uz/taymer/, /uz/sekundomer/, /uz/pomodoro/, /ru/taymer-onlayn/, /ru/sekundomer/.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Чистый инструмент.",
+   "visits_day_pos6": [
+    6,
+    11
+   ],
+   "visits_day_pos6_high_demand": [
+    9,
+    16
+   ],
+   "visits_day_pos3": 37,
+   "visits_day_pos3_high_demand": 53,
+   "visits_day_pos3_no_discount": 68,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.5,
+    "weeks_to_5": 19,
+    "weeks_to_10": null,
+    "weeks_to_50": null
+   },
+   "ramp_weeks": "19 нед. до 5/день; 10/день при поз. ~6 не достигается (потолок ~11).",
+   "note": ""
+  },
+  {
+   "rank": 8,
+   "id": "kredit",
+   "name": "Kredit, ipoteka, avtokredit va omonat kalkulyatori (annuitet / differensial jadval, neytral matematika)",
+   "keywords": "kredit kalkulyator 9 900; кредитный калькулятор 4 400; кредит калькулятор 2 400; omonat kalkulyator 1 900; калькулятор кредита 1 000; ипотечный калькулятор 1 000; кредитный калькулятор онлайн 1 000; avtokredit kalkulyator 720; калькулятор вкладов 720; ipoteka kalkulyatori 480; калькулятор ипотеки 480; avto kredit kalkulyator 390; kredit kalkulyatori 320; kredit hisoblash 260",
+   "keywords_full": [
+    {
+     "keyword": "kredit kalkulyator",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "кредитный калькулятор",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "кредит калькулятор",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "omonat kalkulyator",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор кредита",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "ипотечный калькулятор",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "кредитный калькулятор онлайн",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "avtokredit kalkulyator",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор вкладов",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "ipoteka kalkulyatori",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор ипотеки",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "avto kredit kalkulyator",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kredit kalkulyatori",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kredit hisoblash",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "автокредит калькулятор",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "депозитный калькулятор",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kredit hisoblash kalkulyatori",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "ипотечный калькулятор узбекистан",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "loan calculator",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "ipoteka kalkulyator",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "mikroqarz kalkulyator",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "кредитный калькулятор узбекистан",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kredit foizini hisoblash",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор депозита",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "mortgage calculator",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор кредита узбекистан",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "depozit kalkulyator",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "депозит калькулятор",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "avtokredit hisoblash",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "annuitet formulasi",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "kredit",
+     "volume": 9900
+    },
+    {
+     "keyword": "кредит",
+     "volume": 8100
+    },
+    {
+     "keyword": "ipoteka",
+     "volume": 3600
+    },
+    {
+     "keyword": "ипотека",
+     "volume": 2900
+    },
+    {
+     "keyword": "omonat foizlari",
+     "volume": 2400
+    },
+    {
+     "keyword": "kredit foizlari",
+     "volume": 320
+    }
+   ],
+   "excluded": [
+    "omonat foizlari / kredit foizlari — сравнение ставок банков (нужны данные банков), только верхняя оценка"
+   ],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 26570,
+   "demand_month_high": 53790,
+   "seasonality": "пики: 2026-03 ×1.32, 2026-01 ×1.14, 2025-10 ×1.08; провалы: 2026-06 ×0.84, 2026-09 ×0.84",
+   "seasonality_index": {
+    "2025-10": 1.08,
+    "2025-11": 1.06,
+    "2025-12": 0.94,
+    "2026-01": 1.14,
+    "2026-02": 1.04,
+    "2026-03": 1.32,
+    "2026-04": 1.0,
+    "2026-05": 0.89,
+    "2026-06": 0.84,
+    "2026-07": 0.94,
+    "2026-08": 0.93,
+    "2026-09": 0.84
+   },
+   "serp": "не снято. Приор: калькуляторы самих банков, bank.uz, depozit.uz, vbr.uz (по «dollar kursi» depozit.uz уже o3) — сильная выдача",
+   "serp_weakness": "strong",
+   "realistic_position_note": "SERP не снят. Приор: калькуляторы банков, bank.uz, depozit.uz (уже o3 по «dollar kursi»), vbr.uz — сильная выдача.",
+   "aio_or_answer_box_discount_pos3": 0.655,
+   "answer_box_discount_pos6": 1.0,
+   "fit": "(a) нейтральная математика: аннуитет и дифференцированный график, досрочное погашение, депозит со сложным процентом; суммы в UZS.",
+   "build": "/uz/kredit-kalkulyator/, /uz/ipoteka-kalkulyator/, /uz/omonat-kalkulyator/, /ru/kreditnyy-kalkulyator/, /ru/ipotechnyy-kalkulyator/ (режимы хаба /uz/kalkulyator/).",
+   "effort": "S",
+   "honesty_risk": "medium",
+   "honesty_note": "Финансовый YMYL: только формула и график платежей, без ставок и предложений банков, без советов. Плашка «bank shartlari farq qiladi».",
+   "visits_day_pos6": [
+    8,
+    15
+   ],
+   "visits_day_pos6_high_demand": [
+    16,
+    30
+   ],
+   "visits_day_pos3": 31,
+   "visits_day_pos3_high_demand": 63,
+   "visits_day_pos3_no_discount": 48,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 0.5,
+    "weeks_to_5": 20,
+    "weeks_to_10": 30,
+    "weeks_to_50": null
+   },
+   "ramp_weeks": "20 нед. до 5/день, 30 нед. до 10/день (K1 0,04).",
+   "note": ""
+  },
+  {
+   "rank": 9,
+   "id": "imt_bmi",
+   "name": "IMT / BMI kalkulyatori (faqat formula + JSST toifalari, tibbiy maslahatsiz)",
+   "keywords": "bmi calculator 9 900; имт калькулятор 3 600; индекс массы тела 2 900; bmi 1 300; tana vazni indeksi 880; imt 480; калькулятор имт 480; kaloriya hisoblash 390 ×0.5; калькулятор калорий 390 ×0.5; рассчитать индекс массы тела 90; индекс массы тела норма 90; норма веса 70; соотношение роста и веса 70; tana massasi indeksi 50",
+   "keywords_full": [
+    {
+     "keyword": "bmi calculator",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "имт калькулятор",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "индекс массы тела",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "bmi",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "tana vazni indeksi",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "imt",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор имт",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kaloriya hisoblash",
+     "volume": 390,
+     "weight": 0.5,
+     "low_value": 195,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор калорий",
+     "volume": 390,
+     "weight": 0.5,
+     "low_value": 195,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "рассчитать индекс массы тела",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "индекс массы тела норма",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "норма веса",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "соотношение роста и веса",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "tana massasi indeksi",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "рост и вес",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "kaloriya kalkulyator",
+     "volume": 90,
+     "weight": 0.5,
+     "low_value": 45,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "imt hisoblash",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    }
+   ],
+   "high_only": [],
+   "excluded": [
+    "homiladorlik kalkulyatori 3 600, калькулятор беременности 1 000, ovulyatsiya kalkulyator 720, пдр калькулятор — медицинский YMYL, не строим",
+    "vazn 170 — неоднозначно"
+   ],
+   "not_measured_or_shared_bucket": [
+    "bmi hisoblash"
+   ],
+   "demand_month": 20415,
+   "demand_month_high": 20850,
+   "seasonality": "пики: 2026-05 ×2.14, 2026-03 ×2.11, 2026-04 ×1.26; провалы: 2025-12 ×0.54, 2025-11 ×0.55",
+   "seasonality_index": {
+    "2025-10": 0.65,
+    "2025-11": 0.55,
+    "2025-12": 0.54,
+    "2026-01": 0.7,
+    "2026-02": 0.58,
+    "2026-03": 2.11,
+    "2026-04": 1.26,
+    "2026-05": 2.14,
+    "2026-06": 0.99,
+    "2026-07": 0.9,
+    "2026-08": 0.97,
+    "2026-09": 0.62
+   },
+   "serp": "не снято. Приор: медицинские и калькуляторные сайты (RU), AIO на health-запросах вероятен → ×0,533",
+   "serp_weakness": "mixed",
+   "realistic_position_note": "SERP не снят; на health-запросах AIO вероятен (×0,533). Всплески мар–май (×2,1) — причина не проверена.",
+   "aio_or_answer_box_discount_pos3": 0.533,
+   "answer_box_discount_pos6": 1.0,
+   "fit": "(a) BMI = кг/м² и категории ВОЗ для взрослых, без советов по похудению.",
+   "build": "/uz/imt-kalkulyator/ (tana massasi indeksi), /ru/kalkulyator-imt/.",
+   "effort": "S",
+   "honesty_risk": "medium",
+   "honesty_note": "Медицинский YMYL: только формула, категории ВОЗ со ссылкой, «18+», «shifokorga murojaat qiling». Калории — только с весом 0,5. Калькуляторы беременности и овуляции (3 600 + 1 000 + 720) исключены.",
+   "visits_day_pos6": [
+    6,
+    11
+   ],
+   "visits_day_pos6_high_demand": [
+    6,
+    12
+   ],
+   "visits_day_pos3": 20,
+   "visits_day_pos3_high_demand": 20,
+   "visits_day_pos3_no_discount": 37,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.5,
+    "weeks_to_5": 19,
+    "weeks_to_10": null,
+    "weeks_to_50": null
+   },
+   "ramp_weeks": "19 нед. до 5/день (K1 0,06).",
+   "note": ""
+  },
+  {
+   "rank": 10,
+   "id": "summa_propisyu",
+   "name": "Summa so‘z bilan / «Сумма прописью» в сумах (RU + o‘zbek lotin + kirill) для счетов, актов, заявлений",
+   "keywords": "сумма прописью 12 100; число прописью 1 300; сумма прописью онлайн 1 300; прописью 880; сумма прописью на узбекском 320; number to words 320; сумма прописью на узбекском языке 70; сумма прописью в сумах 20; сумма прописью узбекский 10",
+   "keywords_full": [
+    {
+     "keyword": "сумма прописью",
+     "volume": 12100,
+     "weight": 1.0,
+     "low_value": 12100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "ep_kw1_metrics.json"
+    },
+    {
+     "keyword": "число прописью",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "сумма прописью онлайн",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "прописью",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "сумма прописью на узбекском",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "number to words",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сумма прописью на узбекском языке",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "сумма прописью в сумах",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "сумма прописью узбекский",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    }
+   ],
+   "high_only": [],
+   "excluded": [],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 16320,
+   "demand_month_high": 16320,
+   "seasonality": "пики: 2025-10 ×1.13, 2026-04 ×1.13, 2025-12 ×1.11; провалы: 2025-11 ×0.94, 2026-02 ×0.94",
+   "seasonality_index": {
+    "2025-10": 1.13,
+    "2025-11": 0.94,
+    "2025-12": 1.11,
+    "2026-01": 0.96,
+    "2026-02": 0.94,
+    "2026-03": 0.95,
+    "2026-04": 1.13,
+    "2026-05": 0.94,
+    "2026-06": 0.97,
+    "2026-07": 0.99,
+    "2026-08": 0.96,
+    "2026-09": 0.99
+   },
+   "serp": "не снято. Приор (education-practice): сильные русские инструменты (summa-propisyu.ru, calc.ru), но без узбекского текста и без «so‘m/tiyin»",
+   "serp_weakness": "mixed",
+   "realistic_position_note": "SERP не снят. Приор: сильные русские инструменты, но ни один не пишет сумму по-узбекски и в сумах.",
+   "aio_or_answer_box_discount_pos3": 0.655,
+   "answer_box_discount_pos6": 1.0,
+   "fit": "(a) число прописью: RU (сум/тийин со склонениями), узбекская латиница и кириллица (so‘m/tiyin), EN. Нужно для счетов, актов и заявлений и связано с действующими гайдами (ariza, rasmiy xat, dalolatnoma).",
+   "build": "/ru/summa-propisyu/ (с узбекским режимом), /uz/summani-soz-bilan-yozish/.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Чистое преобразование.",
+   "visits_day_pos6": [
+    5,
+    9
+   ],
+   "visits_day_pos6_high_demand": [
+    5,
+    9
+   ],
+   "visits_day_pos3": 19,
+   "visits_day_pos3_high_demand": 19,
+   "visits_day_pos3_no_discount": 29,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.4,
+    "weeks_to_5": 21,
+    "weeks_to_10": null,
+    "weeks_to_50": null
+   },
+   "ramp_weeks": "21 нед. до 5/день (K1 0,06).",
+   "note": "education-practice оставил «сумма прописью» только в верхней оценке («вне школьной линзы») — здесь считается впервые."
+  },
+  {
+   "rank": 11,
+   "id": "tez_yozish",
+   "name": "Tez yozish trenajyori va tezlik testi (o‘zbek lotin matnlari, oʻ/gʻ) + o‘zbek klaviaturasi",
+   "keywords": "typing test 8 100; tez yozish 4 400; typing speed test 1 000; klaviaturada tez yozish 1 000; клавиатурный тренажер 390; typing speed 260; g' harfi 390 ×0.5; тест скорости печати 170; typing master 260 ×0.5; typing test online 110; узбекская клавиатура 1 600 [пол скачка]; печать вслепую 30; uzbek klaviatura 30; uzbek keyboard 30",
+   "keywords_full": [
+    {
+     "keyword": "typing test",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "tez yozish",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "typing speed test",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "klaviaturada tez yozish",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "клавиатурный тренажер",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "typing speed",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "g' harfi",
+     "volume": 390,
+     "weight": 0.5,
+     "low_value": 195,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "тест скорости печати",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "typing master",
+     "volume": 260,
+     "weight": 0.5,
+     "low_value": 130,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "typing test online",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "узбекская клавиатура",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": true,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "печать вслепую",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "uzbek klaviatura",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "uzbek keyboard",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "тренажер печати",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "скорость печати тест",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "typing",
+     "volume": 18100
+    },
+    {
+     "keyword": "tutuq belgisi",
+     "volume": 2400
+    }
+   ],
+   "excluded": [
+    "klaviatura 8 100 (HIGH competition — покупка клавиатуры)",
+    "tutuq belgisi 2 400 — грамматика, только верхняя оценка"
+   ],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 15975,
+   "demand_month_high": 38310,
+   "seasonality": "пики: 2025-10 ×1.5, 2026-09 ×1.23, 2025-11 ×1.22; провалы: 2026-08 ×0.56, 2026-06 ×0.67",
+   "seasonality_index": {
+    "2025-10": 1.5,
+    "2025-11": 1.22,
+    "2025-12": 1.06,
+    "2026-01": 1.09,
+    "2026-02": 1.12,
+    "2026-03": 0.94,
+    "2026-04": 1.14,
+    "2026-05": 0.76,
+    "2026-06": 0.67,
+    "2026-07": 0.71,
+    "2026-08": 0.56,
+    "2026-09": 1.23
+   },
+   "serp": "не снято. Приор: monkeytype, 10fastfingers, typing.com, ratatype (EN), klava.org/«Соло» (RU); узбекская «tez yozish» не проверена",
+   "serp_weakness": "mixed",
+   "realistic_position_note": "SERP не снят. Приор: monkeytype, 10fastfingers, typing.com (EN), klava.org (RU). Узбекский «tez yozish» не проверен. «узбекская клавиатура» растёт (90 → 2 400/мес), но взята по полу 90 (правило скачка) — реальный потенциал выше.",
+   "aio_or_answer_box_discount_pos3": 0.655,
+   "answer_box_discount_pos6": 1.0,
+   "fit": "(a)+(c) тренажёр слепой печати на оригинальных узбекских текстах с правильными oʻ/gʻ (U+02BB) и тест скорости (WPM). Отдельная страница «как набрать oʻ, gʻ, ʼ на Windows, Android, iOS». Самый «родной» бренду кластер линзы.",
+   "build": "/uz/tez-yozish/ (trenajyor), /uz/tez-yozish/test/, /uz/ozbek-klaviaturasi/, /ru/klaviaturnyy-trenazher/.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Тексты — свои или из общественного достояния.",
+   "visits_day_pos6": [
+    5,
+    9
+   ],
+   "visits_day_pos6_high_demand": [
+    12,
+    21
+   ],
+   "visits_day_pos3": 19,
+   "visits_day_pos3_high_demand": 45,
+   "visits_day_pos3_no_discount": 29,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.4,
+    "weeks_to_5": 21,
+    "weeks_to_10": null,
+    "weeks_to_50": null
+   },
+   "ramp_weeks": "21 нед. до 5/день (K1 0,06).",
+   "note": ""
+  },
+  {
+   "rank": 12,
+   "id": "foiz_qqs",
+   "name": "Foiz va QQS (12 %) kalkulyatori + «foiz chiqarish formulasi»",
+   "keywords": "ндс калькулятор 2 400; foiz chiqarish 1 600; калькулятор процентов 1 300; калькулятор ндс 1 000; foiz chiqarish formulasi 880; foiz hisoblash 720; процент от числа 720; foiz 880 ×0.5; percentage calculator 390; процент калькулятор 390; foiz kalkulyator 260; ндс в узбекистане 480 ×0.5; qqs 480 ×0.5; как посчитать процент 210",
+   "keywords_full": [
+    {
+     "keyword": "ндс калькулятор",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "foiz chiqarish",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор процентов",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "ep_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор ндс",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "foiz chiqarish formulasi",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "foiz hisoblash",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "ep_kw1_metrics.json"
+    },
+    {
+     "keyword": "процент от числа",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "ep_kw1_metrics.json"
+    },
+    {
+     "keyword": "foiz",
+     "volume": 880,
+     "weight": 0.5,
+     "low_value": 440,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "percentage calculator",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "процент калькулятор",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "foiz kalkulyator",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "ep_kw1_metrics.json"
+    },
+    {
+     "keyword": "ндс в узбекистане",
+     "volume": 480,
+     "weight": 0.5,
+     "low_value": 240,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "qqs",
+     "volume": 480,
+     "weight": 0.5,
+     "low_value": 240,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "как посчитать процент",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "процентный калькулятор",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "процент",
+     "volume": 390,
+     "weight": 0.5,
+     "low_value": 195,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "процент от суммы",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "как найти процент от числа",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qqs hisoblash",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "проценты",
+     "volume": 210,
+     "weight": 0.5,
+     "low_value": 105,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "foiz hisoblash formulasi",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "выделить ндс",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "ндс узбекистан",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "nds hisoblash",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "foizlar",
+     "volume": 110,
+     "weight": 0.5,
+     "low_value": 55,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "foizni hisoblash",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "ep_kw1_metrics.json"
+    },
+    {
+     "keyword": "foiz topish",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "foiz formulasi",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "вычислить процент",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qqs hisoblash formulasi",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw2_metrics.json"
+    },
+    {
+     "keyword": "калькулятор скидок",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "калькулятор процентов онлайн",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    },
+    {
+     "keyword": "qqs kalkulyator",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "cu_kw1_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "ндс",
+     "volume": 1600
+    }
+   ],
+   "excluded": [],
+   "not_measured_or_shared_bucket": [],
+   "demand_month": 12505,
+   "demand_month_high": 15380,
+   "seasonality": "пики: 2026-01 ×1.12, 2026-03 ×1.09, 2025-10 ×1.08; провалы: 2026-08 ×0.79, 2026-07 ×0.89",
+   "seasonality_index": {
+    "2025-10": 1.08,
+    "2025-11": 1.01,
+    "2025-12": 1.05,
+    "2026-01": 1.12,
+    "2026-02": 1.08,
+    "2026-03": 1.09,
+    "2026-04": 1.05,
+    "2026-05": 0.94,
+    "2026-06": 0.96,
+    "2026-07": 0.89,
+    "2026-08": 0.79,
+    "2026-09": 0.93
+   },
+   "serp": "не снято. Приор: RU-калькуляторы (calc.ru, calcus.ru) сильны по-русски; узбекские «foiz chiqarish», «qqs hisoblash» — вероятно YouTube/блоги",
+   "serp_weakness": "mixed",
+   "realistic_position_note": "SERP не снят. RU-калькуляторы сильны; узбекские «foiz chiqarish» (1 600) и «foiz chiqarish formulasi» (880, рост) — вероятно, YouTube и блоги.",
+   "aio_or_answer_box_discount_pos3": 0.655,
+   "answer_box_discount_pos6": 1.0,
+   "fit": "(a) режимы процентов (X % от Y; сколько % X от Y; изменение; скидка), НДС 12 % (начислить/выделить), пошаговое объяснение для школьников.",
+   "build": "/uz/foiz-hisoblash/, /uz/qqs-kalkulyator/, /ru/kalkulyator-procentov/, /ru/kalkulyator-nds/ — режимы хаба /uz/kalkulyator/.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Ставку QQS указать с датой и ссылкой на Налоговый кодекс; сверить актуальность на 2027 перед публикацией.",
+   "visits_day_pos6": [
+    4,
+    7
+   ],
+   "visits_day_pos6_high_demand": [
+    5,
+    8
+   ],
+   "visits_day_pos3": 15,
+   "visits_day_pos3_high_demand": 18,
+   "visits_day_pos3_no_discount": 22,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.3,
+    "weeks_to_5": 24,
+    "weeks_to_10": null,
+    "weeks_to_50": null
+   },
+   "ramp_weeks": "24 нед. до 5/день (K1 0,06).",
+   "note": "education-practice держал «калькулятор процентов» и «процент от числа» только в верхней оценке — здесь считаются в нижней."
+  }
+ ],
+ "below_cut": [
+  {
+   "id": "pochta_indeksi",
+   "name": "Pochta indekslari (Toshkent va viloyatlar) + «Tashkent zip code»",
+   "demand_month": 15700,
+   "demand_month_high": 15700,
+   "visits_day_pos6": [
+    5,
+    9
+   ],
+   "visits_day_pos3": 18,
+   "top_keywords": [
+    [
+     "pochta indeksi",
+     6600
+    ],
+    [
+     "tashkent zip code",
+     3600
+    ],
+    [
+     "почтовый индекс ташкент",
+     2900
+    ],
+    [
+     "индекс ташкент",
+     1300
+    ],
+    [
+     "toshkent pochta indeksi",
+     590
+    ],
+    [
+     "zip code uzbekistan",
+     260
+    ]
+   ]
+  },
+  {
+   "id": "muchal",
+   "name": "Muchal kalkulyatori (12 yillik hayvon sikli) — jadval, prognozsiz",
+   "demand_month": 16270,
+   "demand_month_high": 31070,
+   "visits_day_pos6": [
+    5,
+    9
+   ],
+   "visits_day_pos3": 19,
+   "top_keywords": [
+    [
+     "muchal yillari",
+     8100
+    ],
+    [
+     "muchallar",
+     4400
+    ],
+    [
+     "muchal",
+     2400
+    ],
+    [
+     "2027 год какого животного",
+     480
+    ],
+    [
+     "год лошади",
+     320
+    ],
+    [
+     "muchal yili",
+     260
+    ]
+   ]
+  },
+  {
+   "id": "vaqt",
+   "name": "Toshkent vaqti / vaqt farqi (Moskva, Seul)",
+   "demand_month": 22000,
+   "demand_month_high": 49300,
+   "visits_day_pos6": [
+    4,
+    6
+   ],
+   "visits_day_pos3": 21,
+   "top_keywords": [
+    [
+     "время в москве",
+     6600
+    ],
+    [
+     "время в ташкенте",
+     5400
+    ],
+    [
+     "точное время ташкент",
+     2900
+    ],
+    [
+     "toshkent vaqti",
+     1600
+    ],
+    [
+     "ташкент время",
+     1300
+    ],
+    [
+     "время в корее",
+     1300
+    ]
+   ]
+  },
+  {
+   "id": "bhm_mrot",
+   "name": "BHM va eng kam ish haqi 2027 + kalkulyator «N × BHM» (jarima, yig‘im, boj)",
+   "demand_month": 13050,
+   "demand_month_high": 13050,
+   "visits_day_pos6": [
+    4,
+    7
+   ],
+   "visits_day_pos3": 15,
+   "top_keywords": [
+    [
+     "eng kam ish haqi 2026",
+     2900
+    ],
+    [
+     "eng kam ish haqi",
+     2400
+    ],
+    [
+     "bazaviy hisoblash miqdori",
+     1900
+    ],
+    [
+     "минимальная зарплата в узбекистане",
+     1900
+    ],
+    [
+     "bazaviy hisoblash miqdori 2026",
+     1600
+    ],
+    [
+     "bhm 2026",
+     480
+    ]
+   ]
+  },
+  {
+   "id": "birliklar",
+   "name": "Birlik konvertori: sotix/gektar/ar, dyuym, funt, fut, Farengeyt",
+   "demand_month": 11410,
+   "demand_month_high": 11950,
+   "visits_day_pos6": [
+    2,
+    3
+   ],
+   "visits_day_pos3": 11,
+   "top_keywords": [
+    [
+     "1 gektar necha metr",
+     1000
+    ],
+    [
+     "metr",
+     1000
+    ],
+    [
+     "дюймы в сантиметры",
+     720
+    ],
+    [
+     "фут",
+     720
+    ],
+    [
+     "фунты в кг",
+     590
+    ],
+    [
+     "1 gektar necha sotix",
+     480
+    ]
+   ]
+  },
+  {
+   "id": "sana_yosh",
+   "name": "Sana va yosh kalkulyatori (kunlar orasida, yosh, hafta raqami, kabisa yili)",
+   "demand_month": 5080,
+   "demand_month_high": 5080,
+   "visits_day_pos6": [
+    2,
+    3
+   ],
+   "visits_day_pos3": 6,
+   "top_keywords": [
+    [
+     "калькулятор дней",
+     880
+    ],
+    [
+     "age calculator",
+     720
+    ],
+    [
+     "сколько дней в году",
+     720
+    ],
+    [
+     "days calculator",
+     390
+    ],
+    [
+     "date calculator",
+     320
+    ],
+    [
+     "kabisa yili",
+     320
+    ]
+   ]
+  },
+  {
+   "id": "parol",
+   "name": "Parol generatori",
+   "demand_month": 3060,
+   "demand_month_high": 7460,
+   "visits_day_pos6": [
+    1,
+    2
+   ],
+   "visits_day_pos3": 4,
+   "top_keywords": [
+    [
+     "password generator",
+     1600
+    ],
+    [
+     "генератор паролей",
+     1300
+    ],
+    [
+     "генератор пароля",
+     70
+    ],
+    [
+     "parol yaratish",
+     50
+    ],
+    [
+     "parol generator",
+     40
+    ]
+   ]
+  },
+  {
+   "id": "oylik_soliq",
+   "name": "Oylik / NDFL / pensiya kalkulyatori (формула, YMYL)",
+   "demand_month": 1240,
+   "demand_month_high": 1240,
+   "visits_day_pos6": [
+    0,
+    1
+   ],
+   "visits_day_pos3": 1,
+   "top_keywords": [
+    [
+     "pensiya hisoblash",
+     210
+    ],
+    [
+     "oylik hisoblash",
+     210
+    ],
+    [
+     "ish haqi hisoblash formulasi",
+     140
+    ],
+    [
+     "стаж калькулятор",
+     140
+    ],
+    [
+     "калькулятор стажа",
+     140
+    ],
+    [
+     "ндфл узбекистан",
+     70
+    ]
+   ]
+  }
+ ],
+ "not_built_by_rule": [
+  "homiladorlik / ovulyatsiya / ПДР калькуляторы (медицинский YMYL)",
+  "taqvim 2026 / hijriy taqvim / namoz vaqtlari (религиозный график)",
+  "прогноз курса, «где выгоднее купить доллар» (финсовет, нет официальных данных банков)",
+  "PDF→Word / Word→PDF как полноценная конверсия (нечестно без сервера)",
+  "burjlar 14 800 (гороскопы)",
+  "Unicode/apostrophe fixer как отдельная страница: apostrof 40, ozbek apostrof 0 — спроса нет, хватает действующего конвертера"
+ ]
+}

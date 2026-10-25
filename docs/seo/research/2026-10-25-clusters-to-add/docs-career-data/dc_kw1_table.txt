@@ -1,0 +1,467 @@
+﻿rows returned 620 of 620
+ 18100 | amaliyot kundaligi | amaliyot_hisobot | 260/720/4400/9900/22200/18100/33100/33100/14800/9900/8100/60500 |  | comp 0 cpc None
+  8100 | shartnoma | shartnoma | 9900/4400/4400/2900/2400/2900/18100/2900/2400/2900/33100/18100 |  | comp 0 cpc None
+  5400 | tilxat yozish | shartnoma | 260/320/1000/2900/4400/5400/8100/9900/9900/9900/9900/12100 |  | comp 0 cpc None
+  5400 | hisobot yozish | xizmat_hujjatlar | 210/480/1600/3600/5400/5400/8100/12100/12100/5400/5400/5400 |  | comp 0 cpc None
+  4400 | ariza | ariza_types | 5400/4400/3600/3600/3600/2900/3600/4400/6600/8100/5400/5400 |  | comp 0 cpc None
+  4400 | cv nima | rezyume_cv | 260/320/880/2900/4400/4400/6600/6600/5400/8100/3600/5400 |  | comp 0 cpc 0.36
+  4400 | bildirishnoma | xizmat_hujjatlar | 1000/1000/1900/2900/4400/5400/8100/12100/6600/2900/2400/5400 |  | comp 0 cpc None
+  3600 | biznes taklif | business_docs | 1900/1900/1900/2400/4400/2400/2400/4400/4400/9900/5400/3600 |  | comp 0 cpc 9.41
+  3600 | cv | rezyume_cv | 3600/3600/2900/2900/2900/2900/6600/4400/3600/3600/2900/3600 |  | comp 0.27 cpc 0.48
+  2900 | taklifnoma | letters_misc | 3600/2900/2900/1900/1600/2400/2900/2900/2400/2900/2900/3600 |  | comp 0 cpc 1.41
+  2900 | резюме | rezyume_cv | 2900/2900/1900/2900/3600/3600/3600/4400/4400/2900/2400/2400 |  | comp 0.35 cpc 0.19
+  2900 | резюме шаблон | rezyume_cv | 3600/2900/2400/3600/3600/3600/3600/2900/3600/2900/2900/2400 |  | comp 0.46 cpc 0.18
+  2900 | ижара шартномаси | shartnoma | 1000/880/1000/2400/3600/3600/4400/4400/3600/3600/2900/6600 |  | comp 0 cpc None
+  2900 | тушунтириш хати | tushuntirish | 720/590/880/1300/2400/2400/3600/4400/4400/3600/3600/5400 |  | comp 0 cpc None
+  2400 | ariza yozish namuna | ariza_types | 5400/4400/3600/2900/2900/2400/2400/1600/1000/880/1300/2400 |  | comp 0 cpc None
+  2400 | ma'lumotnoma yozish | obyektivka | 260/210/720/1600/2900/2400/3600/4400/4400/2400/1900/2900 |  | comp 0 cpc None
+  2400 | ijara shartnomasi | shartnoma | 4400/2900/2400/2400/2400/1900/1900/1600/1300/1300/1600/4400 |  | comp 0 cpc 1.05
+  2400 | характеристика | tavsifnoma | 2900/2900/2900/2900/2900/2900/2900/2400/1900/1900/1900/1900 |  | comp 0 cpc None
+  2400 | tushuntirish xati namuna | tushuntirish | 3600/3600/3600/2900/3600/2900/3600/2400/1300/720/720/2400 |  | comp 0 cpc None
+  2400 | hisobot namunasi | xizmat_hujjatlar | 390/590/1600/1900/1900/2900/4400/5400/8100/880/880/1900 |  | comp 0 cpc None
+  1900 | доверенность | ishonchnoma | 880/720/14800/1000/720/720/880/590/720/590/590/590 |  | comp 0.01 cpc None
+  1900 | ma'lumotnoma | obyektivka | 2900/1900/1600/1900/1900/1900/1900/1600/1300/1000/1000/2400 | B20 | comp 0 cpc None
+  1900 | malumotnoma | obyektivka | 2900/1900/1600/1900/1900/1900/1900/1600/1300/1000/1000/2400 | B20 | comp 0 cpc None
+  1900 | bildirishnoma yozish | xizmat_hujjatlar | 170/210/480/1300/1600/2900/3600/4400/3600/2900/1000/2400 |  | comp 0 cpc None
+  1900 | bayonnoma namunasi | xizmat_hujjatlar | 1300/1900/1900/2400/4400/1900/2400/1900/1900/320/390/1000 |  | comp 0 cpc None
+  1600 | tarjimai hol | avtobiografiya | 1900/880/1300/2400/2900/1900/2400/1600/1000/720/1000/2400 | B34 | comp 0 cpc None
+  1600 | tarjimayi hol | avtobiografiya | 1900/880/1300/2400/2900/1900/2400/1600/1000/720/1000/2400 | B34 | comp 0 cpc None
+  1600 | объективка | obyektivka | 1900/1600/1300/1600/1900/1300/1300/1300/1600/1300/1900/2900 | B24 | comp 0 cpc None
+  1600 | обьективка | obyektivka | 1900/1600/1300/1600/1900/1300/1300/1300/1600/1300/1900/2900 | B24 | comp 0 cpc None
+  1600 | malumotnoma namuna | obyektivka | 1900/1300/1300/1600/1600/1300/1900/1600/2400/880/880/1900 | B25 | comp 0 cpc None
+  1600 | ma lumotnoma namuna | obyektivka | 1900/1300/1300/1600/1600/1300/1900/1600/2400/880/880/1900 | B25 | comp 0 cpc None
+  1600 | ma'lumotnoma namunasi | obyektivka | 1900/1300/1300/1600/1600/1300/1900/1600/2400/880/880/1900 | B25 | comp 0 cpc None
+  1600 | rezyume namunasi | rezyume_cv | 2400/1600/880/1000/1300/1900/1600/1900/2400/1900/1600/1900 |  | comp 0.16 cpc 0.16
+  1600 | rezyume yozish namunasi | rezyume_cv | 20/30/590/1000/1900/1900/3600/2900/1900/720/720/2400 |  | comp 0 cpc None
+  1600 | resume | rezyume_cv | 1600/1600/1600/1600/1600/1600/1600/1600/1600/1600/1300/1600 |  | comp 0.35 cpc 0.38
+  1600 | cv maker | rezyume_cv | 1900/1600/1600/1900/1600/1600/1600/1300/1300/1300/1000/1000 |  | comp 0.71 cpc 0.81
+  1600 | mehnat shartnomasi | shartnoma | 880/880/2400/880/1000/880/1000/720/480/1300/480/6600 |  | comp 0 cpc None
+  1600 | билдиришнома намуна | xizmat_hujjatlar | 10/30/480/880/1600/1900/2400/5400/2400/1000/720/1900 |  | comp 0 cpc None
+  1600 | hisobot | xizmat_hujjatlar | 1300/1600/1900/1900/1300/1600/1900/1600/1600/1000/880/1000 |  | comp 0 cpc None
+  1600 | faxriy yorliq | xizmat_hujjatlar | 1600/1600/2900/1600/1300/1600/1300/5400/720/480/480/720 |  | comp 0 cpc None
+  1300 | ariza namuna | ariza_types | 1300/1300/1600/1600/1600/1300/1600/1300/880/590/720/1000 |  | comp 0 cpc None
+  1300 | автобиография | avtobiografiya | 1600/1300/1600/1600/1900/1300/1300/1000/720/720/720/1000 |  | comp 0 cpc None
+  1300 | kasblar | career_tools | 1600/1900/1900/1300/1600/1300/2900/1600/590/480/590/1300 |  | comp 0 cpc None
+  1300 | obyektivka tayyorlash | obyektivka | 1900/1900/1000/1000/1300/590/880/720/720/720/1000/3600 |  | comp 0.01 cpc 0.15
+  1300 | rezyume shablon | rezyume_cv | 590/720/1000/1600/1600/1900/1900/1900/1600/1300/1000/1300 | B36 | comp 0.15 cpc 0.19
+  1300 | rezyume shabloni | rezyume_cv | 590/720/1000/1600/1600/1900/1900/1900/1600/1300/1000/1300 | B36 | comp 0.15 cpc 0.19
+  1300 | договор | shartnoma | 1000/1000/720/720/720/720/880/1900/720/880/880/5400 |  | comp 0 cpc None
+  1300 | dalolatnoma namunasi | xizmat_hujjatlar | 1000/1900/2400/1300/1300/1600/1900/1600/1000/720/720/1000 |  | comp 0 cpc None
+  1300 | tashakkurnoma | xizmat_hujjatlar | 1000/1300/2900/1300/1000/1900/1300/3600/720/480/590/720 |  | comp 0 cpc None
+  1000 | mehnat daftarchasi | buyruq_hr | 1000/880/880/1000/1000/1000/1300/1300/1000/880/1000/1300 |  | comp 0 cpc None
+  1000 | tilxat | shartnoma | 480/720/880/880/1000/1000/1600/2400/1900/1000/880/1300 |  | comp 0 cpc None
+  1000 | tilxat namuna | shartnoma | 1600/1600/1900/1300/1000/1000/1600/1600/590/390/480/880 | B44 | comp 0 cpc None
+  1000 | tilxat namunasi | shartnoma | 1600/1600/1900/1300/1000/1000/1600/1600/590/390/480/880 | B44 | comp 0 cpc None
+  1000 | bildirishnoma namunasi | xizmat_hujjatlar | 1000/1300/1300/1000/1300/1000/1300/1300/880/480/390/1000 |  | comp 0 cpc None
+  1000 | kafolat xati | xizmat_hujjatlar | 480/390/1000/880/1000/1000/1600/2900/1300/1300/1000/1600 |  | comp 0 cpc None
+   880 | tarjimai hol yozish | avtobiografiya | 1900/1000/720/1600/1900/590/1000/590/480/320/390/880 |  | comp 0 cpc None
+   880 | intervyu | interview | 480/480/720/720/1300/1300/1000/480/1600/390/390/590 |  | comp 0 cpc None
+   880 | ishonchnoma | ishonchnoma | 880/880/1000/880/880/880/1300/880/720/720/720/590 |  | comp 0 cpc None
+   880 | obyektivka uz | obyektivka | 590/260/390/480/590/590/880/590/590/390/1900/3600 |  | comp 0 cpc None
+   880 | tavsiyanoma | recommendation | 1000/1000/880/720/720/720/1000/2900/880/480/390/480 |  | comp 0 cpc None
+   880 | rezume | rezyume_cv | 720/720/720/1000/720/720/880/880/880/880/590/590 |  | comp 0.25 cpc 0.25
+   880 | резюме образец | rezyume_cv | 1000/720/720/1000/880/880/880/880/880/880/720/720 |  | comp 0.24 cpc 0.12
+   880 | pudrat shartnomasi | shartnoma | 140/170/390/480/1000/1300/1600/1000/880/720/480/1000 |  | comp 0 cpc None
+   880 | объяснительная | tushuntirish | 1300/1000/880/880/1000/880/1300/720/480/390/390/880 |  | comp 0 cpc None
+   880 | dalolatnoma | xizmat_hujjatlar | 880/1000/1000/880/880/880/1000/1000/880/720/590/880 |  | comp 0 cpc None
+   880 | faxriy yorliq namuna | xizmat_hujjatlar | 720/480/1300/480/590/1000/720/3600/260/140/170/170 |  | comp 0 cpc None
+   880 | bayonnoma | xizmat_hujjatlar | 880/1000/1000/880/2900/880/1000/1000/720/260/260/480 |  | comp 0 cpc None
+   720 | заявление | ariza_types | 880/880/720/720/880/720/880/720/590/480/590/590 |  | comp 0 cpc None
+   720 | коммерческое предложение | business_docs | 880/720/720/720/720/720/720/590/720/720/590/480 |  | comp 0 cpc None
+   720 | buyruq | buyruq_hr | 880/590/590/720/720/590/880/720/720/590/590/720 |  | comp 0 cpc None
+   720 | obektivka | obyektivka | 480/390/390/720/880/590/880/590/590/590/1000/1900 |  | comp 0 cpc None
+   720 | ish joyidan ma'lumotnoma | obyektivka | 1000/880/720/880/880/720/590/590/720/480/480/720 |  | comp 0 cpc None
+   720 | тавсиянома намуна | recommendation | 1000/720/590/880/880/720/880/720/480/480/480/390 | B62 | comp 0 cpc None
+   720 | тавсифнома намуна | tavsifnoma | 1000/720/590/880/880/720/880/720/480/480/480/390 | B62 | comp 0 cpc None
+   720 | kafolat xati namuna | xizmat_hujjatlar | 720/880/1600/480/480/590/720/1600/390/170/170/480 |  | comp 0 cpc None
+   590 | ishonchnoma namunasi | ishonchnoma | 590/1000/1000/880/480/590/720/480/260/260/170/170 |  | comp 0 cpc None
+   590 | obektivka namuna | obyektivka | 1000/880/480/480/590/480/590/480/480/480/480/880 |  | comp 0 cpc None
+   590 | rezume namuna | rezyume_cv | 110/260/320/480/590/720/720/720/880/590/720/880 |  | comp 0.2 cpc 0.2
+   590 | cv example | rezyume_cv | 880/720/590/590/590/480/590/480/480/480/390/590 |  | comp 0.37 cpc 0.43
+   590 | resume maker | rezyume_cv | 720/590/590/720/590/590/590/590/590/390/320/390 |  | comp 0.73 cpc 0.71
+   590 | o'quvchiga tavsifnoma | tavsifnoma | 50/50/210/480/720/880/1000/1000/880/590/480/720 |  | comp 0 cpc None
+   480 | amaliyot hisoboti | amaliyot_hisobot | 210/210/320/320/390/390/880/1300/880/210/50/90 |  | comp 0 cpc None
+   480 | amaliyot kundaligi namuna | amaliyot_hisobot | 320/480/590/720/390/390/880/880/480/70/20/40 |  | comp 0 cpc None
+   480 | ариза | ariza_types | 480/480/480/480/480/480/590/480/480/480/480/480 |  | comp 0 cpc None
+   480 | kasblar ro'yxati | career_tools | 1300/880/720/590/390/320/480/210/110/110/110/170 |  | comp 0 cpc None
+   480 | kelajak kasblari | career_tools | 590/720/480/480/1000/1000/720/480/140/90/110/260 |  | comp 0 cpc None
+   480 | motivation letter | motivation_cover | 390/590/480/590/720/480/590/390/260/210/210/260 |  | comp 0.1 cpc 0.42
+   480 | recommendation letter | recommendation | 720/720/720/720/720/480/590/390/320/210/210/320 | B75 | comp 0.03 cpc 0.11
+   480 | letter of recommendation | recommendation | 720/720/720/720/720/480/590/390/320/210/210/320 | B75 | comp 0.03 cpc 0.11
+   480 | резюме онлайн | rezyume_cv | 590/480/390/590/480/390/480/390/480/390/390/320 |  | comp 0.67 cpc 0.27
+   480 | далолатнома намуна | xizmat_hujjatlar | 590/590/480/590/590/480/480/480/480/480/390/320 |  | comp 0 cpc None
+   390 | ариза намуна | ariza_types | 590/480/480/480/480/260/590/480/320/210/210/260 | B86 | comp 0 cpc None
+   390 | ариза намунаси | ariza_types | 590/480/480/480/480/260/590/480/320/210/210/260 | B86 | comp 0 cpc None
+   390 | formal letter example | letters_misc | 880/720/480/590/590/390/480/390/140/140/140/170 |  | comp 0 cpc None
+   390 | e'lon yozish | letters_misc | 140/2400/260/1300/210/170/390/140/40/20/20/40 |  | comp 0 cpc None
+   390 | tavsiyanoma namuna | recommendation | 210/260/260/320/320/390/590/1300/480/210/210/210 | B84 | comp 0 cpc None
+   390 | tavsiyanoma namunasi | recommendation | 210/260/260/320/320/390/590/1300/480/210/210/210 | B84 | comp 0 cpc None
+   390 | resume tayyorlash | rezyume_cv | 480/390/260/590/480/480/320/260/390/480/480/590 |  | comp 0.56 cpc 0.21
+   390 | cv template | rezyume_cv | 480/480/390/390/320/390/480/480/390/320/320/480 |  | comp 0.51 cpc 0.62
+   390 | shartnoma namunasi | shartnoma | 480/720/720/480/390/480/480/390/260/110/210/210 |  | comp 0 cpc None
+   390 | объяснительная в школу | tushuntirish | 720/590/480/480/590/390/720/260/20/10/10/260 |  | comp 0 cpc None
+   390 | тушунтириш хати намуна | tushuntirish | 590/590/480/390/480/320/480/320/260/260/260/320 |  | comp 0 cpc None
+   320 | ariza blanka | ariza_types | 30/20/40/140/170/210/260/590/1900/170/140/210 |  | comp 0 cpc None
+   320 | заявление на увольнение | ariza_types | 320/320/260/260/320/320/320/210/260/260/260/320 |  | comp 0 cpc None
+   320 | motivation letter example | motivation_cover | 320/390/320/480/480/260/390/260/170/170/140/170 | B97 | comp 0.13 cpc 0.31
+   320 | motivation letter sample | motivation_cover | 320/390/320/480/480/260/390/260/170/170/140/170 | B97 | comp 0.13 cpc 0.31
+   320 | cover letter | motivation_cover | 480/390/320/590/320/260/320/210/170/140/170/260 |  | comp 0.16 cpc 0.14
+   320 | объективка намуна | obyektivka | 480/480/320/320/210/210/210/260/260/320/320/390 | B91 | comp 0 cpc None
+   320 | объективка намунаси | obyektivka | 480/480/320/320/210/210/210/260/260/320/320/390 | B91 | comp 0 cpc None
+   320 | справка объективка | obyektivka | 50/30/140/110/320/590/720/720/260/140/110/260 |  | comp 0 cpc None
+   320 | recommendation letter sample | recommendation | 390/320/480/480/390/260/260/260/170/90/90/170 |  | comp 0.05 cpc 0.51
+   320 | tavsiyanoma yozish | recommendation | 320/320/260/140/140/90/140/1900/110/70/50/70 |  | comp 0 cpc None
+   320 | rezyume nima | rezyume_cv | 320/480/390/320/260/320/480/390/170/210/170/320 |  | comp 0.02 cpc 0.09
+   320 | resume namuna | rezyume_cv | 390/390/320/390/320/320/320/260/210/260/260/210 |  | comp 0.26 cpc 0.18
+   320 | шаблон резюме | rezyume_cv | 320/260/210/390/320/390/390/390/320/320/260/260 |  | comp 0.44 cpc 0.25
+   320 | создать резюме | rezyume_cv | 390/390/320/480/390/320/320/320/390/320/260/320 |  | comp 0.71 cpc 0.36
+   320 | oldi sotdi shartnomasi | shartnoma | 390/390/320/390/390/390/320/210/170/170/140/260 |  | comp 0 cpc None
+   320 | tavsifnoma namunasi word | tavsifnoma | 260/260/320/390/390/390/480/480/110/140/140/210 |  | comp 0 cpc None
+   320 | объяснительная образец | tushuntirish | 590/480/390/390/480/390/480/260/110/90/90/320 |  | comp 0 cpc None
+   260 | заявление на отпуск | ariza_types | 260/260/260/210/260/260/260/320/390/390/320/260 |  | comp 0 cpc None
+   260 | avtobiografiya | avtobiografiya | 480/320/260/320/320/320/320/260/170/140/110/320 |  | comp 0 cpc None
+   260 | собеседование | interview | 320/210/170/260/210/260/260/260/260/260/320/210 |  | comp 0 cpc None
+   260 | маълумотнома | obyektivka | 390/260/260/260/260/210/260/210/210/210/210/320 |  | comp 0 cpc None
+   260 | resume template | rezyume_cv | 320/320/170/320/260/320/320/170/210/170/170/210 |  | comp 0.51 cpc 0.68
+   260 | резюме бланк | rezyume_cv | 70/70/70/170/390/260/590/320/210/140/110/480 |  | comp 0.01 cpc 0.26
+   260 | шартнома | shartnoma | 320/210/210/210/210/170/260/170/210/210/260/390 |  | comp 0 cpc None
+   260 | tavsifnoma yozish namuna | tavsifnoma | 170/110/170/210/210/320/590/590/210/140/90/90 |  | comp 0 cpc None
+   260 | dalolatnoma yozish | xizmat_hujjatlar | 1000/590/210/170/210/170/210/170/110/40/50/70 |  | comp 0 cpc None
+   260 | далолатнома | xizmat_hujjatlar | 260/260/320/260/260/260/260/170/210/210/210/260 |  | comp 0 cpc None
+   260 | tashakkurnoma namunasi | xizmat_hujjatlar | 390/210/480/260/260/390/170/880/170/40/40/110 |  | comp 0 cpc None
+   210 | ariza qanday yoziladi | ariza_types | 320/210/210/210/170/170/210/140/110/90/140/320 |  | comp 0 cpc None
+   210 | application letter | ariza_types | 590/480/390/320/210/210/170/90/70/30/40/70 |  | comp 0.01 cpc None
+   210 | avtobiografiya namuna | avtobiografiya | 260/210/170/210/320/170/260/170/70/90/90/210 |  | comp 0 cpc None
+   210 | tarjimai hol namunasi | avtobiografiya | 140/70/90/210/260/210/590/260/210/90/140/170 | B128 | comp 0 cpc None
+   210 | tarjimai hol namuna | avtobiografiya | 140/70/90/210/260/210/590/260/210/90/140/170 | B128 | comp 0 cpc None
+   210 | tijorat taklifi | business_docs | 30/50/90/140/170/260/260/320/320/260/260/390 |  | comp 0 cpc None
+   210 | приказ | buyruq_hr | 210/210/260/260/260/210/210/210/210/170/170/170 |  | comp 0 cpc None
+   210 | oylik hisoblash | career_tools | 320/210/260/260/170/140/140/110/110/70/170/390 |  | comp 0 cpc None
+   210 | kasb tanlash | career_tools | 210/170/210/210/210/260/480/260/90/50/70/110 |  | comp 0 cpc None
+   210 | e'lon namunasi | letters_misc | 90/720/260/390/110/90/320/170/50/110/90/50 |  | comp 0 cpc None
+   210 | cover letter example | motivation_cover | 210/110/1000/260/390/110/140/110/90/70/50/90 |  | comp 0.19 cpc 0.52
+   210 | cv tayyorlash | rezyume_cv | 260/260/210/260/210/210/260/170/210/210/170/260 |  | comp 0.6 cpc 0.33
+   210 | образец резюме | rezyume_cv | 260/210/170/260/210/210/210/140/170/140/170/170 |  | comp 0.35 cpc 0.17
+   210 | резюме на работу | rezyume_cv | 210/140/140/210/210/210/210/260/260/210/260/140 |  | comp 0.31 cpc 0.14
+   210 | трудовой договор | shartnoma | 320/260/210/320/210/210/210/210/210/140/140/210 |  | comp 0.01 cpc None
+   210 | договор купли продажи | shartnoma | 110/140/110/70/1300/90/110/70/70/90/50/70 |  | comp 0 cpc None
+   210 | majlis bayonnomasi | xizmat_hujjatlar | 40/170/110/140/260/260/390/480/320/210/170/210 |  | comp 0 cpc None
+   170 | тест на профориентацию | career_tools | 170/210/140/260/210/140/170/170/140/140/170/140 |  | comp 0.43 cpc 0.35
+   170 | ишончнома | ishonchnoma | 170/170/210/260/210/170/210/170/170/170/170/140 |  | comp 0 cpc None
+   170 | so'rov xati namunasi | letters_misc | 70/90/140/140/170/210/320/320/210/110/110/260 |  | comp 0 cpc None
+   170 | personal statement example | motivation_cover | 260/170/260/170/140/110/110/70/110/140/140/210 |  | comp 0.1 cpc 0.72
+   170 | маълумотнома намуна | obyektivka | 210/140/170/140/140/110/140/110/140/140/170/210 |  | comp 0 cpc None
+   170 | рекомендательное письмо | recommendation | 210/170/170/210/210/210/210/170/170/140/110/110 |  | comp 0 cpc None
+   170 | cv namuna | rezyume_cv | 140/210/210/140/140/170/210/110/90/110/140/210 | B134 | comp 0.24 cpc 0.18
+   170 | cv namunasi | rezyume_cv | 140/210/210/140/140/170/210/110/90/110/140/210 | B134 | comp 0.24 cpc 0.18
+   170 | mehnat shartnomasi namunasi | shartnoma | 320/140/90/140/170/170/210/110/110/70/110/210 | B137 | comp 0 cpc None
+   170 | mehnat shartnomasi namuna | shartnoma | 320/140/90/140/170/170/210/110/110/70/110/210 | B137 | comp 0 cpc None
+   140 | malakaviy amaliyot hisoboti | amaliyot_hisobot | 40/70/110/90/70/140/320/480/260/50/10/10 |  | comp 0 cpc None
+   140 | ishdan bo'shash ariza | ariza_types | 0/30/10/70/140/210/210/170/210/110/260/210 |  | comp 0 cpc None
+   140 | должностная инструкция | buyruq_hr | 210/140/140/140/140/140/170/110/140/110/90/110 |  | comp 0 cpc None
+   140 | стаж калькулятор | career_tools | 110/110/140/210/140/140/140/110/210/140/140/110 |  | comp 0 cpc None
+   140 | калькулятор стажа | career_tools | 140/170/140/210/210/140/170/140/140/140/110/170 |  | comp 0 cpc None
+   140 | personal statement | motivation_cover | 210/110/210/170/140/140/110/110/90/140/140/210 |  | comp 0.11 cpc 2.4
+   140 | cv sample | rezyume_cv | 210/140/140/170/140/110/170/140/90/90/110/170 |  | comp 0.4 cpc 0.45
+   140 | resume builder | rezyume_cv | 140/170/110/170/170/170/210/140/90/110/90/90 |  | comp 0.65 cpc 0.94
+   140 | резюме образец узбекистан | rezyume_cv | 50/30/50/140/170/140/260/260/140/70/70/170 |  | comp 0.02 cpc 0.18
+   140 | rezyume to'ldirish | rezyume_cv | 320/320/170/210/170/110/90/70/50/70/50/30 |  | comp 0.37 cpc 0.15
+   140 | hadya shartnomasi | shartnoma | 210/170/170/170/210/210/210/110/110/90/70/70 |  | comp 0 cpc None
+   140 | договор аренды | shartnoma | 210/140/170/170/170/140/90/90/90/110/50/70 |  | comp 0 cpc None
+   140 | расписка | shartnoma | 170/170/140/140/210/210/170/110/70/50/90/140 |  | comp 0 cpc None
+   140 | тавсифнома | tavsifnoma | 210/140/110/140/140/170/170/170/140/90/90/110 |  | comp 0 cpc None
+   140 | рапорт | xizmat_hujjatlar | 210/170/140/140/170/140/170/110/90/70/90/110 |  | comp 0 cpc None
+   140 | рапорт образец | xizmat_hujjatlar | 260/170/140/110/140/140/170/110/90/70/50/110 |  | comp 0 cpc None
+   110 | ариза ёзиш | ariza_types | 210/210/170/170/140/140/110/50/40/30/70/70 |  | comp 0 cpc None
+   110 | tijorat taklifi namuna | business_docs | 90/30/70/110/140/90/210/170/110/90/110/140 |  | comp 0 cpc None
+   110 | hisob faktura | business_docs | 90/70/110/110/90/110/110/90/140/110/90/110 |  | comp 0 cpc None
+   110 | farmoyish namunasi | buyruq_hr | 320/320/320/90/70/140/140/90/10/20/10/10 |  | comp 0 cpc None
+   110 | eng yaxshi kasblar | career_tools | 260/210/170/140/110/110/170/50/40/40/20/40 |  | comp 0 cpc None
+   110 | interview questions and answers | interview | 10/10/880/10/260/30/20/10/10/10/10/10 |  | comp 0 cpc None
+   110 | tell me about yourself | interview | 140/170/140/140/170/140/140/90/90/70/70/110 |  | comp 0.01 cpc None
+   110 | taklifnoma matni | letters_misc | 260/140/70/50/70/50/90/110/70/70/110/110 |  | comp 0 cpc None
+   110 | how to write a cover letter | motivation_cover | 20/10/880/10/260/20/10/10/20/10/20/10 |  | comp 0 cpc None
+   110 | obyektivka namuna pdf | obyektivka | 70/90/50/70/70/90/140/70/70/110/260/260 |  | comp 0 cpc None
+   110 | тавсиянома | recommendation | 110/90/110/110/110/110/170/170/140/90/90/70 |  | comp 0 cpc None
+   110 | cv format | rezyume_cv | 110/70/90/110/110/110/170/170/140/50/90/110 |  | comp 0.25 cpc 0.33
+   110 | resume example | rezyume_cv | 170/110/140/110/90/110/140/90/110/70/90/90 |  | comp 0.33 cpc 0.46
+   110 | как составить резюме | rezyume_cv | 110/110/90/170/70/140/110/110/140/140/110/70 |  | comp 0.5 cpc 0.16
+   110 | бланк резюме | rezyume_cv | 90/90/90/140/110/140/90/110/90/90/70/90 |  | comp 0.22 cpc 0.15
+   110 | qarz shartnomasi | shartnoma | 110/170/140/90/140/140/170/90/110/70/50/40 |  | comp 0 cpc None
+   110 | характеристика образец | tavsifnoma | 140/110/110/140/110/110/110/90/90/70/70/70 |  | comp 0 cpc None
+    90 | заявление образец | ariza_types | 170/90/110/90/110/70/90/70/30/30/40/50 |  | comp 0 cpc None
+    90 | заявление на работу | ariza_types | 140/140/90/70/140/110/110/90/50/40/70/90 |  | comp 0 cpc None
+    90 | заявление в школу | ariza_types | 140/140/90/110/170/90/140/70/30/10/40/90 |  | comp 0 cpc None
+    90 | yuk xati namuna | business_docs | 90/50/90/90/90/70/90/50/90/70/110/110 |  | comp 0 cpc None
+    90 | тест на профессию | career_tools | 70/90/50/140/110/90/110/110/90/90/110/90 |  | comp 0.27 cpc 0.37
+    90 | ишончнома намуна | ishonchnoma | 110/110/20/90/90/140/140/140/110/40/20/10 |  | comp 0 cpc None
+    90 | shikoyat xati | letters_misc | 50/50/70/70/50/70/90/390/70/70/50/90 |  | comp 0 cpc None
+    90 | мотивационное письмо | motivation_cover | 90/110/90/90/110/70/90/70/70/70/70/70 |  | comp 0.01 cpc None
+    90 | obyektivka namuna word | obyektivka | 50/70/70/50/90/110/140/50/50/90/90/260 |  | comp 0 cpc None
+    90 | rezyume yaratish | rezyume_cv | 140/140/70/90/70/110/110/90/90/90/70/90 |  | comp 0.35 cpc 0.24
+    90 | rezyume namuna word | rezyume_cv | 110/110/90/90/110/140/90/70/90/90/90/90 | B176 | comp 0.13 cpc 0.17
+    90 | rezyume namunasi word | rezyume_cv | 110/110/90/90/110/140/90/70/90/90/90/90 | B176 | comp 0.13 cpc 0.17
+    90 | резюме пример | rezyume_cv | 140/90/50/90/70/110/90/70/110/70/50/50 |  | comp 0.21 cpc 0.21
+    90 | пример резюме | rezyume_cv | 90/90/70/90/90/110/70/70/110/70/70/70 |  | comp 0.28 cpc 0.11
+    90 | shartnoma namunalari | shartnoma | 30/40/70/50/90/140/140/170/90/70/40/90 |  | comp 0 cpc None
+    90 | yillik hisobot namunasi | xizmat_hujjatlar | 30/50/20/90/50/40/30/320/320/70/50/30 |  | comp 0 cpc None
+    90 | minnatdorchilik xati | xizmat_hujjatlar | 390/50/110/50/40/70/40/90/30/50/30/50 |  | comp 0 cpc None
+    90 | благодарственное письмо | xizmat_hujjatlar | 70/70/170/70/90/50/110/210/70/40/70/70 |  | comp 0 cpc None
+    70 | образец заявления | ariza_types | 140/90/90/70/90/70/70/70/50/30/20/50 |  | comp 0 cpc None
+    70 | ariza namunalari | ariza_types | 90/110/70/90/70/70/110/50/50/30/90/70 |  | comp 0 cpc None
+    70 | avtobiografiya yozish | avtobiografiya | 70/170/70/110/170/110/50/40/30/30/20/70 |  | comp 0 cpc None
+    70 | tarjimai xol | avtobiografiya | 40/40/30/40/40/50/70/210/70/30/30/90 |  | comp 0 cpc None
+    70 | счет фактура образец | business_docs | 50/70/70/50/70/90/70/50/70/70/40/70 |  | comp 0.06 cpc 0.41
+    70 | lavozim yo'riqnomasi namunasi | buyruq_hr | 170/140/110/70/70/70/70/40/30/30/30/50 |  | comp 0 cpc None
+    70 | staj kalkulyator | career_tools | 40/50/50/90/50/50/70/40/90/50/70/90 |  | comp 0 cpc None
+    70 | доверенность образец | ishonchnoma | 110/90/110/90/70/90/90/50/50/40/50/40 |  | comp 0 cpc None
+    70 | elektron xat yozish | letters_misc | 10/10/20/10/0/0/720/90/10/0/10/10 |  | comp 0 cpc None
+    70 | taklifnoma namuna | letters_misc | 40/50/70/30/20/30/50/90/70/110/140/110 |  | comp 0 cpc None
+    70 | iltimos xati | letters_misc | 30/70/110/50/50/70/140/140/40/10/10/10 |  | comp 0 cpc None
+    70 | so'rov xati | letters_misc | 50/50/90/70/70/50/90/140/90/70/50/90 |  | comp 0 cpc None
+    70 | rasmiy xat namunasi | letters_misc | 20/50/110/50/140/110/110/70/30/30/10/30 |  | comp 0 cpc None
+    70 | motivation letter for university | motivation_cover | 50/70/70/110/90/70/90/70/50/40/40/40 |  | comp 0.08 cpc 0.62
+    70 | obyektivka shablon | obyektivka | 70/70/40/40/70/50/50/70/50/40/50/110 |  | comp 0 cpc None
+    70 | obyektivka nima | obyektivka | 90/50/50/70/70/70/70/50/50/50/50/210 |  | comp 0 cpc None
+    70 | reference letter | recommendation | 260/50/110/110/110/40/70/40/30/20/40/70 |  | comp 0.01 cpc None
+    70 | taqdimnoma | recommendation | 70/90/70/50/90/90/90/70/70/50/40/70 |  | comp 0 cpc None
+    70 | resume format | rezyume_cv | 90/70/70/90/90/90/70/70/70/70/50/50 |  | comp 0.41 cpc 0.3
+    70 | как написать резюме | rezyume_cv | 110/70/70/70/90/70/50/70/70/90/70/70 |  | comp 0.23 cpc 0.09
+    70 | составить резюме | rezyume_cv | 90/70/50/70/70/70/90/90/70/70/50/70 |  | comp 0.6 cpc 0.3
+    70 | резюме ташкент | rezyume_cv | 50/20/20/50/70/70/110/110/90/90/70/110 |  | comp 0.03 cpc 0.23
+    70 | резюме на английском | rezyume_cv | 90/90/70/70/70/70/70/50/70/70/40/50 |  | comp 0.47 cpc 0.93
+    70 | договор аренды квартиры | shartnoma | 90/70/70/90/70/90/90/90/70/50/70/90 |  | comp 0 cpc None
+    70 | характеристика на ученика | tavsifnoma | 110/90/140/70/70/70/110/90/30/20/10/20 |  | comp 0 cpc None
+    50 | amaliyot daftari | amaliyot_hisobot | 20/40/50/70/70/50/90/140/90/20/10/20 |  | comp 0 cpc None
+    50 | moddiy yordam ariza | ariza_types | 110/110/90/70/40/40/30/20/10/10/10/10 |  | comp 0 cpc None
+    50 | заявление о приеме на работу | ariza_types | 70/50/50/70/70/50/40/90/50/30/40/30 |  | comp 0 cpc None
+    50 | как написать заявление | ariza_types | 90/50/50/50/70/70/70/40/20/30/30/40 |  | comp 0 cpc None
+    50 | счет на оплату образец | business_docs | 40/70/50/40/50/50/50/40/40/40/40/50 |  | comp 0.04 cpc 0.35
+    50 | buyruq namunasi | buyruq_hr | 90/90/90/50/40/50/70/50/70/10/10/50 | B228 | comp 0 cpc None
+    50 | buyruq namuna | buyruq_hr | 90/90/90/50/40/50/70/50/70/10/10/50 | B228 | comp 0 cpc None
+    50 | буйруқ | buyruq_hr | 70/70/70/70/50/50/50/40/40/40/50/50 |  | comp 0 cpc None
+    50 | shtat jadvali | buyruq_hr | 50/70/40/50/50/70/50/50/30/40/40/40 |  | comp 0 cpc None
+    50 | intervyu savollari | interview | 40/50/140/40/260/10/30/10/10/10/10/10 |  | comp 0 cpc None
+    50 | interview questions | interview | 70/40/40/70/50/70/50/40/70/20/40/30 |  | comp 0.01 cpc None
+    50 | собеседование на английском | interview | 40/40/40/40/50/40/50/50/50/50/70/50 |  | comp 0 cpc None
+    50 | motivatsion xat | motivation_cover | 40/70/40/50/110/50/90/70/70/40/40/20 |  | comp 0 cpc None
+    50 | cover letter sample | motivation_cover | 40/40/90/90/50/40/40/50/30/40/30/40 |  | comp 0.14 cpc 0.05
+    50 | сопроводительное письмо к резюме | motivation_cover | 40/50/70/70/50/70/50/50/50/40/50/70 |  | comp 0.05 cpc 0.06
+    50 | cv online | rezyume_cv | 70/40/70/70/70/40/40/40/30/30/50/20 |  | comp 0.66 cpc 0.47
+    50 | резюме намуна | rezyume_cv | 50/30/30/30/40/30/40/70/50/50/90/50 | B217 | comp 0.09 cpc 0.07
+    50 | резюме намунаси | rezyume_cv | 50/30/30/30/40/30/40/70/50/50/90/50 | B217 | comp 0.09 cpc 0.07
+    50 | shartnoma tuzish | shartnoma | 70/90/50/50/70/90/70/90/40/20/20/30 |  | comp 0 cpc None
+    50 | ijara shartnomasi namunasi | shartnoma | 70/70/70/70/50/50/70/50/40/40/50/30 | B225 | comp 0 cpc None
+    50 | ijara shartnomasi namuna | shartnoma | 70/70/70/70/50/50/70/50/40/40/50/30 | B225 | comp 0 cpc None
+    50 | трудовой договор узбекистан | shartnoma | 70/50/50/50/70/50/70/70/50/50/50/50 |  | comp 0.02 cpc None
+    50 | расписка образец | shartnoma | 70/70/40/70/90/50/70/40/30/30/30/70 |  | comp 0 cpc None
+    50 | xarakteristika | tavsifnoma | 50/50/50/40/50/50/90/70/50/40/30/40 |  | comp 0 cpc None
+    50 | объяснительная записка | tushuntirish | 90/70/30/40/70/70/70/40/40/10/10/70 |  | comp 0 cpc None
+    50 | объяснительная записка образец | tushuntirish | 110/70/50/70/90/70/70/40/30/30/20/50 |  | comp 0 cpc None
+    50 | билдиришнома | xizmat_hujjatlar | 70/50/70/50/50/90/70/40/40/30/30/50 |  | comp 0 cpc None
+    50 | raport | xizmat_hujjatlar | 40/30/30/40/140/50/170/30/20/40/40/70 |  | comp 0 cpc None
+    50 | служебная записка | xizmat_hujjatlar | 30/70/50/50/50/50/30/40/50/50/40/50 |  | comp 0 cpc None
+    50 | yig'ilish bayonnomasi | xizmat_hujjatlar | 50/50/40/70/90/50/40/50/20/30/30/30 |  | comp 0 cpc None
+    50 | протокол собрания образец | xizmat_hujjatlar | 90/70/50/70/50/50/70/30/40/30/30/40 |  | comp 0 cpc None
+    40 | amaliyot hisobot namunasi | amaliyot_hisobot | 20/30/30/40/40/40/90/70/50/20/10/10 |  | comp 0 cpc None
+    40 | отчет по практике | amaliyot_hisobot | 20/20/40/30/30/50/50/70/70/30/10/10 |  | comp 0 cpc None
+    40 | ariza shakli | ariza_types | 50/40/40/40/40/30/50/30/20/20/10/50 |  | comp 0 cpc None
+    40 | заявление на увольнение по собственному желанию | ariza_types | 30/40/30/40/40/30/40/40/50/50/30/40 |  | comp 0 cpc None
+    40 | ishdan bo'shatish buyrug'i | buyruq_hr | 50/70/40/50/50/40/30/40/30/40/30/20 |  | comp 0 cpc None
+    40 | приказ о приеме на работу | buyruq_hr | 50/50/50/40/50/40/50/30/40/20/20/20 |  | comp 0 cpc None
+    40 | ish haqi hisoblash | career_tools | 70/50/40/50/50/40/30/40/20/40/30/30 |  | comp 0 cpc None
+    40 | калькулятор зарплаты | career_tools | 40/20/40/50/40/30/50/30/20/20/30/40 |  | comp 0.02 cpc None
+    40 | suhbat savollari | interview | 30/20/20/30/30/20/30/30/30/70/50/70 |  | comp 0 cpc None
+    40 | job interview questions | interview | 70/70/40/40/50/50/30/30/20/20/10/30 |  | comp 0.05 cpc None
+    40 | ishonchnoma yozish | ishonchnoma | 70/90/70/90/10/30/30/30/20/10/10/20 |  | comp 0 cpc None
+    40 | email yozish | letters_misc | 50/50/50/40/20/20/30/40/20/20/10/50 |  | comp 0 cpc None
+    40 | how to write an email | letters_misc | 50/50/70/70/30/40/30/50/20/20/10/50 |  | comp 0 cpc None
+    40 | motivation letter for scholarship | motivation_cover | 40/70/50/110/90/30/40/20/20/10/20/10 |  | comp 0.05 cpc None
+    40 | how to write motivation letter | motivation_cover | 40/50/40/50/50/40/50/20/30/20/20/20 |  | comp 0.21 cpc 0.27
+    40 | obyektivka word | obyektivka | 30/20/20/20/70/40/20/20/10/30/50/70 |  | comp 0 cpc None
+    40 | obyektivka yuklab olish | obyektivka | 70/20/30/50/40/110/20/10/10/10/20/70 |  | comp 0 cpc None
+    40 | объективка образец | obyektivka | 90/50/50/50/40/30/40/20/50/40/30/30 |  | comp 0 cpc None
+    40 | recommendation letter for student | recommendation | 70/70/70/70/40/30/30/20/20/10/20/30 |  | comp 0.05 cpc 0.81
+    40 | rezyume yozish | rezyume_cv | 50/30/30/30/50/40/70/50/30/30/10/20 |  | comp 0.14 cpc 0.44
+    40 | cv yaratish | rezyume_cv | 30/40/30/50/50/50/30/50/30/40/40/50 |  | comp 0.68 cpc 0.29
+    40 | cv for students | rezyume_cv | 50/50/50/50/70/50/50/20/10/20/10/30 |  | comp 0.37 cpc 0.61
+    40 | резюме образец скачать | rezyume_cv | 70/50/50/50/40/40/40/40/40/30/30/30 |  | comp 0.22 cpc 0.12
+    40 | резюме образец word | rezyume_cv | 10/10/20/20/50/90/70/50/30/30/20/70 |  | comp 0.02 cpc 0.14
+    40 | qarz shartnomasi namunasi | shartnoma | 20/40/30/50/70/70/70/30/40/30/40/40 |  | comp 0 cpc None
+    40 | договор займа | shartnoma | 50/50/50/40/40/50/50/20/30/30/30/20 |  | comp 0 cpc None
+    40 | ish joyidan tavsifnoma | tavsifnoma | 110/50/20/40/50/20/20/30/30/30/30/20 |  | comp 0 cpc None
+    40 | как написать объяснительную | tushuntirish | 50/40/50/40/70/50/70/40/10/10/10/70 |  | comp 0 cpc None
+    40 | xizmat xati namunasi | xizmat_hujjatlar | 20/50/70/70/20/30/70/40/20/20/10/20 |  | comp 0 cpc None
+    40 | dalolatnoma shakli | xizmat_hujjatlar | 70/50/40/30/30/40/70/50/70/30/30/20 |  | comp 0 cpc None
+    40 | dalolatnoma tuzish | xizmat_hujjatlar | 70/70/40/20/40/50/50/30/20/10/20/30 |  | comp 0 cpc None
+    30 | pedagogik amaliyot hisoboti | amaliyot_hisobot | 20/20/50/40/20/50/50/70/10/10/0/0 |  | comp None cpc None
+    30 | ishdan bo'shash arizasi | ariza_types | 10/10/20/20/20/30/30/50/70/40/40/40 |  | comp 0 cpc None
+    30 | ishga ariza | ariza_types | 10/10/10/20/10/10/10/10/10/260/20/10 |  | comp 0.02 cpc None
+    30 | maktabga ariza | ariza_types | 30/20/10/20/30/10/20/10/70/40/50/30 |  | comp 0 cpc None
+    30 | sudga ariza | ariza_types | 30/20/10/30/20/40/40/30/10/30/40/40 |  | comp 0 cpc None
+    30 | ariza namunasi word | ariza_types | 40/50/40/40/40/20/40/30/20/20/20/30 |  | comp 0 cpc None
+    30 | javob xati | ariza_types | 30/50/40/20/40/30/50/30/30/20/30/20 |  | comp 0 cpc None
+    30 | ishdan boshash ariza | ariza_types | 0/0/0/0/0/0/0/90/50/70/90/110 |  | comp 0 cpc None
+    30 | автобиография пример | avtobiografiya | 40/20/20/30/50/40/30/20/10/20/10/30 |  | comp 0 cpc None
+    30 | автобиография намуна | avtobiografiya | 30/20/20/30/40/30/50/40/20/30/30/30 |  | comp 0 cpc None
+    30 | hisob faktura namuna | business_docs | 10/20/20/20/40/30/70/20/30/40/30/20 |  | comp 0.01 cpc None
+    30 | приказ об увольнении | buyruq_hr | 40/30/30/30/40/30/50/20/40/30/20/30 |  | comp 0 cpc None
+    30 | буйруқ намуна | buyruq_hr | 50/40/30/30/30/50/30/20/50/20/10/10 |  | comp 0 cpc None
+    30 | buyruq namunalari | buyruq_hr | 50/30/40/30/20/30/30/30/20/10/20/30 |  | comp 0 cpc None
+    30 | career test | career_tools | 10/20/10/20/10/10/10/10/10/10/140/40 |  | comp 0.45 cpc 0.22
+    30 | eng ko'p maosh oladigan kasblar | career_tools | 30/40/50/70/10/20/20/10/10/10/20/20 |  | comp 0 cpc None
+    30 | ish staji | career_tools | 20/20/30/30/30/30/40/50/40/30/30/30 |  | comp 0 cpc None
+    30 | daromad solig'i hisoblash | career_tools | 50/40/50/50/30/40/40/20/10/20/20/10 |  | comp 0 cpc None
+    30 | вопросы работодателю на собеседовании | interview | 10/10/10/0/10/50/50/50/30/10/10/70 |  | comp 0 cpc None
+    30 | motivatsion xat namunasi | motivation_cover | 10/30/50/50/90/10/40/30/20/10/40/20 | B283 | comp 0 cpc None
+    30 | motivatsion xat namuna | motivation_cover | 10/30/50/50/90/10/40/30/20/10/40/20 | B283 | comp 0 cpc None
+    30 | мотивационное письмо пример | motivation_cover | 40/40/20/50/50/30/30/20/10/30/20/10 |  | comp 0 cpc None
+    30 | cover letter template | motivation_cover | 40/30/40/50/40/30/20/30/10/20/20/40 |  | comp 0.29 cpc 0.28
+    30 | statement of purpose | motivation_cover | 50/30/20/50/30/40/70/20/20/10/10/30 |  | comp 0.01 cpc None
+    30 | объективка узбекистан | obyektivka | 40/20/30/20/20/30/30/20/20/20/30/40 |  | comp 0 cpc None
+    30 | rezyume qanday yoziladi | rezyume_cv | 20/20/20/30/20/40/40/40/30/30/40/30 |  | comp 0.07 cpc 0.13
+    30 | rezyume yuklab olish | rezyume_cv | 90/30/30/40/30/20/10/20/20/20/10/10 |  | comp 0.1 cpc 0.33
+    30 | резюме на работу образец | rezyume_cv | 40/40/30/30/30/30/40/20/70/20/40/20 |  | comp 0.22 cpc 0.17
+    30 | резюме скачать | rezyume_cv | 30/30/30/50/30/20/50/20/20/40/20/10 |  | comp 0.54 cpc 0.21
+    30 | резюме на узбекском | rezyume_cv | 30/40/30/30/30/20/40/30/40/30/40/30 |  | comp 0.13 cpc None
+    30 | резюме тайёрлаш | rezyume_cv | 30/40/40/50/40/40/40/20/40/30/10/20 |  | comp 0.49 cpc 0.15
+    30 | o'zim haqimda | rezyume_cv | 40/90/20/30/30/10/20/20/20/20/10/30 |  | comp 0 cpc None
+    30 | uy ijara shartnomasi | shartnoma | 30/20/40/30/20/20/50/20/20/30/20/50 |  | comp 0 cpc None
+    30 | характеристика на сотрудника | tavsifnoma | 40/40/30/30/40/30/30/20/20/10/20/10 |  | comp 0 cpc None
+    30 | объяснительная за опоздание | tushuntirish | 50/50/30/30/30/30/40/10/20/10/20/50 |  | comp 0 cpc None
+    30 | xizmat xati | xizmat_hujjatlar | 30/40/30/50/20/20/50/40/20/10/20/20 |  | comp 0 cpc None
+    30 | докладная записка | xizmat_hujjatlar | 40/40/40/30/30/40/40/30/30/30/20/20 |  | comp 0 cpc None
+    30 | kafolat xati namunasi | xizmat_hujjatlar | 40/50/70/20/30/20/30/40/10/20/10/10 |  | comp 0 cpc None
+    30 | гарантийное письмо образец | xizmat_hujjatlar | 30/20/70/30/20/30/40/50/20/30/10/30 |  | comp 0 cpc None
+    30 | справка с места работы образец | xizmat_hujjatlar | 30/20/20/40/40/30/30/20/30/20/20/30 |  | comp 0 cpc None
+    30 | dalolatnoma namunalari | xizmat_hujjatlar | 20/30/30/30/30/20/40/30/30/20/10/30 |  | comp 0 cpc None
+    20 | ishdan bo'shash ariza namunasi | ariza_types | 30/10/20/20/10/20/20/20/10/10/20/20 |  | comp 0 cpc None
+    20 | o'qishni ko'chirish ariza | ariza_types | 10/10/10/10/10/0/10/10/10/20/140/10 |  | comp 0 cpc None
+    20 | как написать автобиографию | avtobiografiya | 90/20/10/10/40/30/20/20/10/10/10/30 |  | comp 0 cpc None
+    20 | таржимаи ҳол | avtobiografiya | 20/10/10/10/20/10/20/10/20/10/20/20 |  | comp 0 cpc None
+    20 | таржимаи ҳол намуна | avtobiografiya | 40/20/10/20/20/10/20/10/20/10/20/10 |  | comp 0 cpc None
+    20 | hamkorlik shartnomasi | business_docs | 40/20/20/10/20/10/20/20/10/10/10/20 |  | comp 0 cpc None
+    20 | kasb tanlash test | career_tools | 20/20/30/10/10/20/40/30/10/10/10/10 |  | comp 0 cpc None
+    20 | какая профессия мне подходит | career_tools | 20/30/30/30/20/20/10/10/10/10/10/10 |  | comp 0.12 cpc 0.14
+    20 | soliq hisoblash | career_tools | 10/20/20/20/20/30/30/20/10/10/10/10 |  | comp 0 cpc None
+    20 | bank suhbat savollari | interview | 20/10/10/10/20/10/20/20/40/10/20/20 |  | comp 0.04 cpc None
+    20 | доверенность на автомобиль | ishonchnoma | 20/40/40/20/10/20/10/10/10/10/10/30 |  | comp 0 cpc None
+    20 | kechirim xati | letters_misc | 30/30/20/30/30/20/20/10/20/20/20/10 |  | comp 0 cpc None
+    20 | obyektivka yaratish | obyektivka | 20/10/10/10/40/10/10/10/10/10/10/50 |  | comp 0 cpc None
+    20 | рекомендательное письмо студенту | recommendation | 40/30/30/40/30/30/40/10/20/10/10/10 |  | comp 0 cpc None
+    20 | rekomendatsiya | recommendation | 20/20/10/10/10/10/90/50/10/10/10/50 |  | comp 0 cpc None
+    20 | rezyume uzbek tilida | rezyume_cv | 30/20/10/20/10/10/30/10/10/20/20/10 |  | comp 0.38 cpc 0.18
+    20 | cv yozish | rezyume_cv | 20/20/20/10/10/20/30/30/10/20/10/30 |  | comp 0.32 cpc 0.33
+    20 | how to write a cv | rezyume_cv | 20/20/30/30/10/30/20/10/10/10/10/10 | B318 | comp 0.33 cpc 0.25
+    20 | how to write cv | rezyume_cv | 20/20/30/30/10/30/20/10/10/10/10/10 | B318 | comp 0.33 cpc 0.25
+    20 | cv yozish namunasi | rezyume_cv | 20/40/30/10/20/30/30/20/10/10/10/10 |  | comp 0.29 cpc 0.08
+    20 | меҳнат шартномаси | shartnoma | 30/20/30/20/30/30/40/10/20/20/20/20 |  | comp 0 cpc None
+    20 | характеристика с места работы | tavsifnoma | 30/20/20/20/40/30/20/10/10/20/20/10 |  | comp 0 cpc None
+    20 | o'quvchiga tavsifnoma namuna | tavsifnoma | 30/10/20/10/40/40/30/20/10/10/10/10 |  | comp 0 cpc None
+    20 | talabaga tavsifnoma | tavsifnoma | 30/20/30/30/10/20/50/90/10/10/10/10 |  | comp 0 cpc None
+    20 | bajarilgan ishlar dalolatnomasi | xizmat_hujjatlar | 20/10/20/20/10/20/20/20/20/20/10/20 |  | comp 0 cpc None
+    20 | raport yozish | xizmat_hujjatlar | 50/40/30/20/40/20/40/10/10/10/10/10 |  | comp 0 cpc None
+    20 | служебная записка образец | xizmat_hujjatlar | 10/10/10/20/30/20/20/10/20/20/20/20 |  | comp 0 cpc None
+    20 | rahmatnoma | xizmat_hujjatlar | 40/30/50/10/20/20/20/40/10/10/10/10 |  | comp 0 cpc None
+    10 | amaliyot hisoboti namuna | amaliyot_hisobot | 10/10/10/10/10/10/20/30/20/10/10/10 | B399 | comp 0 cpc None
+    10 | o'quv amaliyoti hisoboti | amaliyot_hisobot | 10/10/10/20/10/10/10/20/30/10/10/0 |  | comp None cpc None
+    10 | отчет по практике образец | amaliyot_hisobot | 10/10/10/10/10/10/10/10/10/0/10/0 |  | comp None cpc None
+    10 | дневник практики | amaliyot_hisobot | 10/10/10/20/20/10/20/30/20/10/10/10 |  | comp 0 cpc None
+    10 | дневник практики образец | amaliyot_hisobot | 0/0/0/10/0/0/0/10/0/0/10/0 |  | comp None cpc None
+    10 | amaliyot hisoboti namunasi | amaliyot_hisobot | 10/10/10/10/10/10/20/30/20/10/10/10 | B399 | comp 0 cpc None
+    10 | amaliyot hisoboti yozish | amaliyot_hisobot | 0/0/0/0/0/0/0/0/30/10/10/10 |  | comp 0 cpc None
+    10 | bog'chaga ariza | ariza_types | 10/10/10/10/10/10/10/10/10/10/10/20 |  | comp 0 cpc None
+    10 | заявление на материальную помощь | ariza_types | 10/10/20/20/30/20/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | заявление на отгул | ariza_types | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | заявление на имя директора | ariza_types | 10/20/10/20/10/10/10/20/10/10/10/10 |  | comp 0 cpc None
+    10 | коммерческое предложение пример | business_docs | 10/10/20/10/10/10/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | buyruq yozish | buyruq_hr | 20/20/10/10/10/10/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | приказ образец | buyruq_hr | 10/10/20/20/30/10/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | приказ об отпуске | buyruq_hr | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | приказ о назначении | buyruq_hr | 10/10/0/10/10/0/10/10/10/0/10/0 |  | comp None cpc None
+    10 | должностная инструкция образец | buyruq_hr | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | staj hisoblash | career_tools | 10/10/10/10/10/10/20/10/20/20/10/10 |  | comp 0 cpc None
+    10 | oylik maosh hisoblash | career_tools | 30/10/10/10/10/10/10/10/10/10/20/40 |  | comp 0 cpc None
+    10 | калькулятор зарплаты узбекистан | career_tools | 10/20/10/10/10/20/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | отпускные калькулятор | career_tools | 10/10/10/10/10/10/10/20/20/10/10/10 |  | comp 0 cpc None
+    10 | профориентационный тест | career_tools | 10/10/10/20/10/10/10/10/10/10/10/10 |  | comp 0.39 cpc None
+    10 | вопросы на собеседовании | interview | 20/10/20/10/10/20/10/10/10/20/10/10 |  | comp 0 cpc None
+    10 | вопросы на собеседовании и ответы | interview | 10/10/0/0/10/0/10/10/0/0/0/0 |  | comp None cpc None
+    10 | как пройти собеседование | interview | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | расскажите о себе собеседование | interview | 0/0/0/0/0/0/10/0/10/0/0/0 |  | comp None cpc None
+    10 | почему вы хотите работать у нас | interview | 10/10/0/0/10/10/0/10/10/10/0/0 |  | comp None cpc None
+    10 | собеседование вопросы и ответы | interview | 10/0/0/0/0/10/0/10/10/10/10/0 |  | comp None cpc None
+    10 | частые вопросы на собеседовании | interview | 0/0/10/0/0/10/10/10/0/0/10/10 |  | comp 0 cpc None
+    10 | tell me about yourself answer | interview | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | common interview questions | interview | 10/10/10/10/10/10/10/10/10/0/0/0 |  | comp None cpc None
+    10 | interview in english | interview | 20/10/10/20/10/10/20/10/20/10/10/20 |  | comp 0.03 cpc None
+    10 | avtomobil ishonchnoma | ishonchnoma | 10/10/10/10/10/10/20/20/10/10/10/10 |  | comp 0 cpc None
+    10 | доверенность от физического лица | ishonchnoma | 0/0/0/10/0/0/10/0/0/0/0/10 |  | comp 0 cpc None
+    10 | доверенность на получение | ishonchnoma | 0/10/20/10/10/10/10/0/0/10/10/10 |  | comp 0 cpc None
+    10 | доверенность узбекистан | ishonchnoma | 20/10/10/30/10/10/20/10/20/10/20/10 |  | comp 0 cpc None
+    10 | ishonch xati | ishonchnoma | 10/10/10/20/10/0/10/10/10/10/0/0 |  | comp None cpc None
+    10 | to'y taklifnoma matni | letters_misc | 40/30/20/10/10/10/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | объявление о вакансии пример | letters_misc | 10/0/10/0/0/10/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | shikoyat xati namunasi | letters_misc | 0/0/0/0/0/0/0/70/10/10/10/10 |  | comp 0 cpc None
+    10 | резюме сопроводительное письмо | letters_misc | 0/0/0/0/10/0/0/0/0/0/0/0 |  | comp None cpc None
+    10 | motivatsiya xati | motivation_cover | 10/10/10/10/10/10/10/10/10/10/10/0 |  | comp None cpc None
+    10 | motivation letter for master | motivation_cover | 10/10/10/10/20/10/10/10/10/10/10/10 | B347 | comp 0 cpc None
+    10 | motivation letter for job | motivation_cover | 10/10/10/10/10/10/10/10/10/0/10/10 | B352 | comp 0 cpc None
+    10 | мотивационное письмо на английском | motivation_cover | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | как написать мотивационное письмо | motivation_cover | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0.04 cpc None
+    10 | cover letter for job | motivation_cover | 20/10/10/20/20/20/10/10/10/10/10/10 |  | comp 0.24 cpc 0.13
+    10 | как написать сопроводительное письмо | motivation_cover | 10/10/10/10/10/10/20/10/10/10/10/20 |  | comp 0 cpc None
+    10 | essay for scholarship | motivation_cover | 10/0/10/10/0/10/10/10/10/0/10/0 | B362 | comp None cpc None
+    10 | scholarship essay | motivation_cover | 10/0/10/10/0/10/10/10/10/0/10/0 | B362 | comp None cpc None
+    10 | obyektivka to'ldirish | obyektivka | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | objektivka | obyektivka | 0/10/0/0/0/0/0/10/0/0/10/10 |  | comp 0 cpc None
+    10 | личный листок по учету кадров | obyektivka | 20/10/10/10/10/10/10/10/10/10/10/10 | B344 | comp 0 cpc None
+    10 | личный листок по учету кадров образец | obyektivka | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | obyektivka qanday yoziladi | obyektivka | 10/10/10/10/10/10/10/10/0/10/10/10 | B345 | comp 0 cpc None
+    10 | рекомендательное письмо пример | recommendation | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | рекомендательное письмо от работодателя | recommendation | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | tavsiya xati | recommendation | 20/20/20/20/10/20/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | tavsiya xati namuna | recommendation | 10/10/20/30/10/20/20/10/10/10/10/10 |  | comp 0 cpc None
+    10 | taqdimnoma namuna | recommendation | 20/10/10/10/10/10/10/10/10/10/0/10 | B365 | comp 0 cpc None
+    10 | taqdimnoma namunasi | recommendation | 20/10/10/10/10/10/10/10/10/10/0/10 | B365 | comp 0 cpc None
+    10 | rezyume online | rezyume_cv | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0.71 cpc 0.14
+    10 | rezyume word | rezyume_cv | 0/0/0/0/0/20/30/10/10/20/10/10 |  | comp 0 cpc None
+    10 | cv in english | rezyume_cv | 10/10/10/10/20/10/10/10/10/10/10/10 | B347 | comp 0.23 cpc None
+    10 | cv for job | rezyume_cv | 40/20/10/10/20/10/20/10/10/10/10/10 |  | comp 0.46 cpc 0.32
+    10 | конструктор резюме | rezyume_cv | 30/10/10/20/10/20/20/10/10/20/10/10 |  | comp 0.55 cpc 0.84
+    10 | резюме word | rezyume_cv | 10/0/10/10/10/10/10/0/10/10/0/10 |  | comp 0 cpc None
+    10 | резюме для студента | rezyume_cv | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | резюме без опыта работы | rezyume_cv | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | о себе в резюме | rezyume_cv | 10/20/10/20/10/10/10/10/10/10/10/20 |  | comp 0.01 cpc None
+    10 | навыки в резюме | rezyume_cv | 10/10/10/10/10/10/10/10/10/0/10/10 | B352 | comp 0.14 cpc None
+    10 | личные качества в резюме | rezyume_cv | 20/10/10/10/10/10/10/10/10/10/10/10 | B344 | comp 0 cpc None
+    10 | нейросеть резюме | rezyume_cv | 0/0/0/0/0/0/0/10/0/0/0/0 |  | comp None cpc None
+    10 | cv ai | rezyume_cv | 10/10/20/10/20/20/10/10/30/10/10/10 |  | comp 0.8 cpc 0.71
+    10 | ai resume | rezyume_cv | 10/10/10/0/10/10/10/10/10/10/10/10 | B355 | comp 0.43 cpc 8.52
+    10 | резюме менеджера | rezyume_cv | 10/10/10/10/10/10/10/0/10/10/0/10 |  | comp 0 cpc None
+    10 | резюме бухгалтера | rezyume_cv | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0.27 cpc 0.91
+    10 | резюме продавца | rezyume_cv | 10/10/0/0/0/10/10/0/10/0/0/0 |  | comp None cpc None
+    10 | резюме учителя | rezyume_cv | 10/10/10/10/10/10/0/10/0/10/10/10 |  | comp 0.18 cpc None
+    10 | резюме водителя | rezyume_cv | 10/10/10/0/10/10/10/10/10/10/10/10 | B355 | comp 0 cpc None
+    10 | резюме программиста | rezyume_cv | 10/10/10/10/10/10/10/10/10/0/10/10 | B352 | comp 0 cpc None
+    10 | shartnoma yozish | shartnoma | 10/20/20/10/10/10/10/10/10/10/0/10 |  | comp 0 cpc None
+    10 | oldi-sotdi shartnomasi namunasi | shartnoma | 0/0/0/0/0/20/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | шартнома намуна | shartnoma | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | договор займа образец | shartnoma | 20/10/10/10/10/10/10/10/20/10/10/10 |  | comp 0 cpc None
+    10 | расписка в получении денег | shartnoma | 0/10/0/10/10/10/10/10/0/10/10/0 |  | comp None cpc None
+    10 | характеристика на ученика образец | tavsifnoma | 10/10/10/10/10/10/10/10/10/10/0/10 |  | comp 0 cpc None
+    10 | характеристика с места работы образец | tavsifnoma | 10/10/10/0/10/10/10/10/10/10/10/10 | B355 | comp 0 cpc None
+    10 | характеристика на студента | tavsifnoma | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | характеристика учителя | tavsifnoma | 0/10/10/10/10/0/0/10/10/10/0/0 |  | comp None cpc None
+    10 | характеристика на работника | tavsifnoma | 10/10/10/10/10/10/10/10/0/10/10/10 | B345 | comp 0 cpc None
+    10 | производственная характеристика | tavsifnoma | 0/10/10/0/10/0/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | характеристика для военкомата | tavsifnoma | 20/20/10/10/0/10/10/10/10/0/10/10 |  | comp 0 cpc None
+    10 | характеристика намуна | tavsifnoma | 10/10/10/10/10/10/10/10/10/10/10/10 | B342 | comp 0 cpc None
+    10 | o'qituvchiga tavsifnoma | tavsifnoma | 30/10/10/10/10/10/20/10/10/10/10/10 |  | comp 0 cpc None
+    10 | tavsifnoma namunalari | tavsifnoma | 30/10/10/10/10/10/10/10/10/10/0/10 |  | comp 0 cpc None
+    10 | объяснительная на работу | tushuntirish | 0/10/10/0/0/0/0/0/0/0/0/0 |  | comp None cpc None
+    10 | tushuntirish xati maktab | tushuntirish | 40/30/10/20/20/10/20/10/10/10/10/10 |  | comp 0 cpc None
+    10 | справка образец | xizmat_hujjatlar | 30/10/10/10/10/10/10/10/10/10/10/10 |  | comp 0 cpc None
+    10 | hisobot namunalari | xizmat_hujjatlar | 40/30/30/10/10/10/10/10/10/10/0/0 |  | comp None cpc None
+
+ZERO/NULL volume (156): ishlab chiqarish amaliyoti hisoboti; malaka amaliyoti hisoboti; ishdan bo'shash uchun ariza; o'z xohishiga ko'ra ishdan bo'shash ariza; ta'til uchun ariza; ta'til arizasi namunasi; mehnat ta'tili ariza; ishga kirish uchun ariza; ishga qabul qilish ariza namunasi; o'qishga ariza; maktabga ariza namunasi; moddiy yordam so'rab ariza namunasi; hokimga ariza; hokimiyatga ariza; akademik ta'til ariza; ariza yozish ishdan bo'shash; ariza yozish ta'til; avtobiografiya namunasi; o'z tarjimai holi; tarjimai hol yozish namunasi; tijorat taklifi namunasi; invoys namuna; invoice namuna; hisob-faktura namunasi; prays list namuna; tijorat taklifi yozish; hamkorlik taklifi xati; buyruq shakli; ishga qabul qilish buyrug'i; ishga qabul qilish buyrugi namunasi; ishdan bo'shatish buyrugi namuna; ta'til buyrug'i; mehnat ta'tili buyrug'i; buyruq loyihasi; kadrlar bo'limi hujjatlari; lavozim yo'riqnomasi; lavozim yoriqnomasi; ichki mehnat tartib qoidalari; shtat jadvali namunasi; kadrlar ishi; ish staji hisoblash; mehnat staji hisoblash; zarplata kalkulyator; ta'til puli hisoblash; ta'til kunlari hisoblash; kasbga yo'naltirish test; qaysi kasb menga mos; kasb tanlash testi online; kasbiy test; psixologik test ishga kirish; ishga kirish suhbati; ishga kirish suhbati savollari; ish suhbati; ish suhbati savollari; ishga kirish savollari; ishga kirish uchun savollar; ish suhbatidan qanday o'tish; сильные и слабые стороны собеседование; ingliz tilida intervyu; собеседование в банк вопросы; davlat xizmati test; davlat xizmatiga kirish test; davlat xizmatchilari test; davlat xizmatiga test savollari; davlat xizmati test savollari; суҳбат саволлари; ish suhbati savol javob; ishonchnoma shakli; mashina ishonchnoma; ishonchnoma notariussiz; oddiy yozma ishonchnoma; ishonchnoma blanka; ishonchnoma namunalari; biznes xat; ish xati; rasmiy email; vakansiya e'loni; xat namunalari; ishga taklif xati; uzr xati; motivatsion xat yozish; motivatsion xat ingliz tilida; magistratura motivatsion xat; magistraturaga motivatsion xat; el yurt umidi motivatsion xat; el yurt umidi esse; grant uchun esse; motivation letter namuna; мотивацион хат; obyektivka shakli; obyektivka blanka; obyektivka blanki; obyektivka word formatda; obyektivka toldirish; obyektivka namunasi word; obyektivka namunasi yuklab olish; obyektivka 2026; obyektivka 2025; obyektivka online; obyektivka qilish; obyektivka namunasi 2026; obyektiv namuna; ob'ektivka; ob'ektivka namuna; obyektivka namunalari; обьективка намуна; объективка шакли; ma'lumotnoma shakli; ish joyidan malumotnoma namuna; kadrlar hisobi varaqasi; obyektivka rasm bilan; obyektivka to'ldirish namunasi; tavsiyanoma ingliz tilida; rekomendatsiya xati; recommendation letter namuna; ishga rezyume; ishga kirish uchun rezyume; rezyume namunasi ishga kirish uchun; rezyume o'zbek tilida; rezyume ozbek tilida; rezyume bepul; cv yasash; cv ingliz tilida; ingliz tilida rezyume; inglizcha rezyume; cv namuna ingliz tilida; rezyume ai; o'qituvchi rezyume namunasi; резюме ёзиш; o'zim haqimda yozish; rezyume tuzish; xizmat ko'rsatish shartnomasi; xizmat ko'rsatish shartnomasi namunasi; avtomobil oldi sotdi shartnomasi; shartnoma bekor qilish; qarz tilxat; qarz tilxati namunasi; mehnat shartnomasi namunasi word; ijara shartnomasi word; характеристика на студента с практики; xodimga tavsifnoma; amaliyotdan tavsifnoma; tushuntirish xati ishga kechikkanlik; tushuntirish xati yozish namunasi; tushuntirish xati namunalari; tushuntirish xati maktabga; bildirishnoma xati; qabul qilish topshirish dalolatnomasi; raport namunasi; oylik hisobot namunasi; ish hisoboti namunasi; minnatdorchilik xati namunasi; rahmatnoma namuna; spravka namuna; bildirishnoma namunalari; xizmat xati yozish

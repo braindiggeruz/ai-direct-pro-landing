@@ -1,0 +1,145 @@
+{
+ "practice_tests": {
+  "k1": 0.08,
+  "months_to_full_pos6": 4.8,
+  "m1_visits_ads_mid": 7.0,
+  "m1_visits_floor_mid": 1.0,
+  "weeks_to_5_ads": 4,
+  "weeks_to_5_floor": 12,
+  "weeks_to_10_ads": 6,
+  "weeks_to_10_floor": 19,
+  "pos3_no_aio_ads": 368
+ },
+ "exam_prep": {
+  "k1": 0.04,
+  "months_to_full_pos6": 7.5,
+  "m1_visits_ads_mid": 0.9,
+  "m1_visits_floor_mid": 0.4,
+  "weeks_to_5_ads": 13,
+  "weeks_to_5_floor": 22,
+  "weeks_to_10_ads": 20,
+  "weeks_to_10_floor": null,
+  "pos3_no_aio_ads": 94
+ },
+ "math_formulas_calculators": {
+  "k1": 0.08,
+  "months_to_full_pos6": 4.8,
+  "m1_visits_ads_mid": 1.7,
+  "m1_visits_floor_mid": 1.1,
+  "weeks_to_5_ads": 9,
+  "weeks_to_5_floor": 12,
+  "weeks_to_10_ads": 14,
+  "weeks_to_10_floor": 18,
+  "pos3_no_aio_ads": 88
+ },
+ "logic_quiz": {
+  "k1": 0.06,
+  "months_to_full_pos6": 5.8,
+  "m1_visits_ads_mid": 1.2,
+  "m1_visits_floor_mid": 1.2,
+  "weeks_to_5_ads": 11,
+  "weeks_to_5_floor": 11,
+  "weeks_to_10_ads": 17,
+  "weeks_to_10_floor": 17,
+  "pos3_no_aio_ads": 83
+ },
+ "iq_test": {
+  "k1": 0.06,
+  "months_to_full_pos6": 5.8,
+  "m1_visits_ads_mid": 0.4,
+  "m1_visits_floor_mid": 0.4,
+  "weeks_to_5_ads": 21,
+  "weeks_to_5_floor": 21,
+  "weeks_to_10_ads": null,
+  "weeks_to_10_floor": null,
+  "pos3_no_aio_ads": 28
+ },
+ "periodic_table_chem": {
+  "k1": 0.08,
+  "months_to_full_pos6": 4.8,
+  "m1_visits_ads_mid": 1.0,
+  "m1_visits_floor_mid": 1.0,
+  "weeks_to_5_ads": 12,
+  "weeks_to_5_floor": 12,
+  "weeks_to_10_ads": 19,
+  "weeks_to_10_floor": 19,
+  "pos3_no_aio_ads": 53
+ },
+ "ona_tili_grammar": {
+  "k1": 0.04,
+  "months_to_full_pos6": 7.5,
+  "m1_visits_ads_mid": 0.4,
+  "m1_visits_floor_mid": 0.4,
+  "weeks_to_5_ads": 20,
+  "weeks_to_5_floor": 22,
+  "weeks_to_10_ads": 31,
+  "weeks_to_10_floor": null,
+  "pos3_no_aio_ads": 45
+ },
+ "english_grammar": {
+  "k1": 0.04,
+  "months_to_full_pos6": 7.5,
+  "m1_visits_ads_mid": 0.7,
+  "m1_visits_floor_mid": 0.7,
+  "weeks_to_5_ads": 15,
+  "weeks_to_5_floor": 15,
+  "weeks_to_10_ads": 23,
+  "weeks_to_10_floor": 23,
+  "pos3_no_aio_ads": 73
+ },
+ "ielts_cefr_writing": {
+  "k1": 0.04,
+  "months_to_full_pos6": 7.5,
+  "m1_visits_ads_mid": 0.1,
+  "m1_visits_floor_mid": 0.1,
+  "weeks_to_5_ads": null,
+  "weeks_to_5_floor": null,
+  "weeks_to_10_ads": null,
+  "weeks_to_10_floor": null,
+  "pos3_no_aio_ads": 12
+ },
+ "number_converters": {
+  "k1": 0.08,
+  "months_to_full_pos6": 4.8,
+  "m1_visits_ads_mid": 0.4,
+  "m1_visits_floor_mid": 0.4,
+  "weeks_to_5_ads": 20,
+  "weeks_to_5_floor": 20,
+  "weeks_to_10_ads": null,
+  "weeks_to_10_floor": null,
+  "pos3_no_aio_ads": 24
+ },
+ "primary_math_grades": {
+  "k1": 0.06,
+  "months_to_full_pos6": 5.8,
+  "m1_visits_ads_mid": 1.1,
+  "m1_visits_floor_mid": 0.8,
+  "weeks_to_5_ads": 12,
+  "weeks_to_5_floor": 14,
+  "weeks_to_10_ads": 18,
+  "weeks_to_10_floor": 22,
+  "pos3_no_aio_ads": 77
+ },
+ "olympiad": {
+  "k1": 0.04,
+  "months_to_full_pos6": 7.5,
+  "m1_visits_ads_mid": 0.1,
+  "m1_visits_floor_mid": 0.1,
+  "weeks_to_5_ads": null,
+  "weeks_to_5_floor": null,
+  "weeks_to_10_ads": null,
+  "weeks_to_10_floor": null,
+  "pos3_no_aio_ads": 11
+ },
+ "driving_theory": {
+  "k1": 0.04,
+  "months_to_full_pos6": 7.5,
+  "m1_visits_ads_mid": 0.4,
+  "m1_visits_floor_mid": 0.4,
+  "weeks_to_5_ads": 22,
+  "weeks_to_5_floor": 22,
+  "weeks_to_10_ads": 33,
+  "weeks_to_10_floor": 33,
+  "pos3_no_aio_ads": 44
+ }
+}

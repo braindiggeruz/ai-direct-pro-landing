@@ -1,0 +1,4231 @@
+{
+ "lens": "docs-career",
+ "date": "2026-10-25",
+ "location": 2860,
+ "method": {
+  "model": "visits/day = demand x CTR x AIO / 30 x 1.5; pos6 CTR 0.613-1.105%; pos3 3.593% x 0.533 (AIO r1) / 0.655",
+  "floor": "mean(Jul-Sep 2026)/mean(Oct-Nov 2025) >= 5 and vol >= 500 -> floor = mean(Oct-Nov 2025)",
+  "dedupe": "identical volume + 12-month series (vol >= 100) = one bucket, counted once per lens",
+  "ramp": "share of pos-6 forecast in month n = min(1, K1*n^1.6); K1 0.04 article/unsnapped, 0.06 templates on weak snapped SERP, 0.08 tool on weak snapped SERP",
+  "credits": "cap 600; own estimate ~430-460 (research 2 seeds ~192, metrics 2x104, SERP 12 queries depth 10 ~30-60); account 20 700 -> 18 846 incl. parallel lenses"
+ },
+ "summary": {
+  "demand_ads": 134850,
+  "demand_floor": 87395,
+  "demand_head_upper": 28560,
+  "demand_susp_upper": 110000,
+  "visits_pos6_ads": [
+   41,
+   75
+  ],
+  "visits_pos6_floor": [
+   27,
+   48
+  ],
+  "visits_pos3_ads": 157,
+  "visits_pos3_floor": 101,
+  "visits_pos3_no_aio": 242,
+  "excl_contracts": {
+   "demand_ads": 124750,
+   "demand_floor": 77295,
+   "pos6_ads": [
+    38,
+    69
+   ],
+   "pos6_floor": [
+    24,
+    43
+   ],
+   "pos3_ads": 145,
+   "pos3_floor": 89
+  },
+  "hub_six_clusters": {
+   "ids": [
+    "office_docs",
+    "internship_reports",
+    "obyektivka",
+    "tilxat_ishonchnoma",
+    "tarjimai_hol",
+    "certificates"
+   ],
+   "demand_ads": 92680,
+   "demand_floor": 51580,
+   "pos6_ads": [
+    28.5,
+    51.2
+   ],
+   "pos6_floor": [
+    15.8,
+    28.6
+   ],
+   "pos3_ads": 108.0,
+   "pos3_floor": 59.5
+  },
+  "anomaly": {
+   "keyword": "amaliyot kundaligi to'ldirish",
+   "ads": 110000,
+   "pos6": [
+    34,
+    61
+   ],
+   "pos3": 129
+  },
+  "existing_page_keys": {
+   "note": "keys owned by or natural variants of live guides (rezyume-tayyorlash, tushuntirish-xati-va-ariza-yozish, tavsifnoma-namuna, rasmiy-xat-yozish); not counted as new demand. Not declared in intent-manifest owns: ariza, tushuntirish xati namuna, rezyume namunasi, rezyume yozish namunasi, o'quvchiga tavsifnoma, ariza blanka, tavsifnoma namunasi word, rezume/rezume namuna",
+   "keys": [
+    [
+     "ariza",
+     4400
+    ],
+    [
+     "ariza yozish",
+     2900
+    ],
+    [
+     "tushuntirish xati namuna",
+     2400
+    ],
+    [
+     "ariza yozish namunasi",
+     2400
+    ],
+    [
+     "ariza yozish namuna",
+     2400
+    ],
+    [
+     "rezyume tayyorlash",
+     1900
+    ],
+    [
+     "rezyume namuna",
+     1600
+    ],
+    [
+     "rezyume",
+     1600
+    ],
+    [
+     "rezyume namunasi",
+     1600
+    ],
+    [
+     "rezyume yozish namunasi",
+     1600
+    ],
+    [
+     "tushuntirish xati",
+     1600
+    ],
+    [
+     "tavsifnoma namuna",
+     1600
+    ],
+    [
+     "rezyume shablon",
+     1300
+    ],
+    [
+     "rezyume shabloni",
+     1300
+    ],
+    [
+     "ariza namuna",
+     1300
+    ],
+    [
+     "rezume",
+     880
+    ],
+    [
+     "tavsifnoma",
+     720
+    ],
+    [
+     "rezume namuna",
+     590
+    ],
+    [
+     "ariza namunasi",
+     590
+    ],
+    [
+     "o'quvchiga tavsifnoma",
+     590
+    ],
+    [
+     "resume tayyorlash",
+     390
+    ],
+    [
+     "rezyume nima",
+     320
+    ],
+    [
+     "ariza blanka",
+     320
+    ],
+    [
+     "tavsifnoma namunasi word",
+     320
+    ],
+    [
+     "tavsifnoma yozish namuna",
+     260
+    ],
+    [
+     "cv tayyorlash",
+     210
+    ],
+    [
+     "ariza qanday yoziladi",
+     210
+    ],
+    [
+     "cv namuna",
+     170
+    ],
+    [
+     "cv namunasi",
+     170
+    ],
+    [
+     "tushuntirish xati yozish",
+     170
+    ],
+    [
+     "rezyume to'ldirish",
+     140
+    ],
+    [
+     "tushuntirish xati namunasi",
+     140
+    ],
+    [
+     "ariza nima",
+     90
+    ],
+    [
+     "tushuntirish xati nima",
+     70
+    ],
+    [
+     "xizmat xati namunasi",
+     40
+    ],
+    [
+     "rezyume yozish",
+     40
+    ],
+    [
+     "xizmat xati",
+     30
+    ],
+    [
+     "rezyume qanday yoziladi",
+     30
+    ],
+    [
+     "xizmat xati namuna",
+     10
+    ]
+   ]
+  }
+ },
+ "clusters": [
+  {
+   "rank": 1,
+   "id": "office_docs",
+   "name": "Ish qog‘ozlari: bildirishnoma, dalolatnoma, bayonnoma, kafolat xati, raport, e’lon",
+   "keywords_top": "bildirishnoma 4 400; bildirishnoma yozish 1 900 (пол 190); bayonnoma namunasi 1 900; билдиришнома намуна 1 600 (пол 20); dalolatnoma namuna 1 300; bildirishnoma namunasi 1 000; kafolat xati 1 000; dalolatnoma 880; bayonnoma 880; kafolat xati namuna 720",
+   "keywords": [
+    {
+     "kw": "bildirishnoma",
+     "vol": 4400,
+     "counted": true,
+     "floor": 4400,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "bildirishnoma yozish",
+     "vol": 1900,
+     "counted": true,
+     "floor": 190,
+     "jump": true,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "bayonnoma namunasi",
+     "vol": 1900,
+     "counted": true,
+     "floor": 1900,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "билдиришнома намуна",
+     "vol": 1600,
+     "counted": true,
+     "floor": 20,
+     "jump": true,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "dalolatnoma namuna",
+     "vol": 1300,
+     "counted": true,
+     "floor": 1300,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "dalolatnoma namunasi",
+     "vol": 1300,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "dalolatnoma namuna",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "bildirishnoma namunasi",
+     "vol": 1000,
+     "counted": true,
+     "floor": 1000,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "bildirishnoma namuna",
+     "vol": 1000,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "bildirishnoma namunasi",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "kafolat xati",
+     "vol": 1000,
+     "counted": true,
+     "floor": 1000,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "dalolatnoma",
+     "vol": 880,
+     "counted": true,
+     "floor": 880,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "bayonnoma",
+     "vol": 880,
+     "counted": true,
+     "floor": 880,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "kafolat xati namuna",
+     "vol": 720,
+     "counted": true,
+     "floor": 720,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "farmoyish hujjatlari",
+     "vol": 720,
+     "counted": true,
+     "floor": 720,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "далолатнома намуна",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "tashkiliy hujjatlar",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "rasmiy uslub",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "e'lon yozish",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "e'lon yozish namunasi",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "далолатнома",
+     "vol": 260,
+     "counted": true,
+     "floor": 260,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "dalolatnoma yozish",
+     "vol": 260,
+     "counted": true,
+     "floor": 260,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "bayonnoma yozish",
+     "vol": 260,
+     "counted": true,
+     "floor": 260,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "majlis bayonnomasi",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "e'lon namunasi",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "dalolatnoma nima",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "рапорт",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "рапорт образец",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "rasmiy hujjatlar",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "bayonnoma nima",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "bildirishnoma yozish namunasi",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "кафолат хати",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "гарантийное письмо",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "ish qog'ozlari",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ish yuritish hujjatlari",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "баённома",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "bildirishnoma nima",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ish yuritish",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "kafolat xati yozish",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "билдиришнома",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "yig'ilish bayonnomasi",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "протокол собрания образец",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "raport",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "служебная записка",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "e'lon namuna",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "делопроизводство",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "dalolatnoma shakli",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "dalolatnoma tuzish",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "акт приема передачи образец",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "dalolatnoma namunalari",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "kafolat xati namunasi",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "гарантийное письмо образец",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "докладная записка",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "акт выполненных работ образец",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "hujjat namunalari",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "bajarilgan ishlar dalolatnomasi",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "raport yozish",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "служебная записка образец",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "докладная записка образец",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    }
+   ],
+   "head": [],
+   "susp": [],
+   "existing_page_keys": [
+    [
+     "xizmat xati namuna",
+     10
+    ],
+    [
+     "xizmat xati namunasi",
+     40
+    ],
+    [
+     "xizmat xati",
+     30
+    ]
+   ],
+   "demand_month_ads": 21920,
+   "demand_month_floor": 18630,
+   "demand_upper": 21920,
+   "seasonality_index": {
+    "2025-10": 0.65,
+    "2025-11": 0.93,
+    "2025-12": 0.92,
+    "2026-01": 0.94,
+    "2026-02": 1.21,
+    "2026-03": 1.07,
+    "2026-04": 1.5,
+    "2026-05": 1.78,
+    "2026-06": 1.06,
+    "2026-07": 0.6,
+    "2026-08": 0.46,
+    "2026-09": 0.9
+   },
+   "seasonality": "пики: май 26 ×1,78, апр 26 ×1,5, фев 26 ×1,21; минимум: июл 26 ×0,6, авг 26 ×0,46",
+   "serp": "Снято 2026-10-25. «bildirishnoma»: AIO r3; Scribd PDF, toolbase.uz и fmc.uz (словари), платные файлы kursishlari.uz/soff.uz, qnb.uz, урок YouTube «Ma’lumot-axborot hujjatlari». «dalolatnoma namuna» (L3, 24.10): soff, YouTube, Scribd ×5, arxiv.uz, lex.uz (акты ЗАГС) ×2, bss.uz. Своей страницы-шаблона с объяснением ни у кого нет. Слабая.",
+   "serp_weakness": "weak",
+   "fit": "c + a (+ b)",
+   "build": "Хаб `/uz/hujjatlar/` («Ish qog‘ozlari namunalari»: виды документов — tashkiliy, farmoyish, ma’lumot-axborot; rasmiy uslub; ссылки на все документные страницы сайта, включая действующие гайды) и 6 страниц-шаблонов `/uz/hujjatlar/{bildirishnoma,dalolatnoma,bayonnoma,kafolat-xati,raport,elon}-namuna/`. Тип страницы: статичный шаблон (c) — определение, реквизиты, 2–3 условных образца только с плейсхолдерами, тот же образец кириллицей прямо в HTML, FAQ — плюс общий браузерный генератор (a): поля → готовый текст латиницей и кириллицей (через уже существующий конвертер), копировать / печать / .docx на клиенте, ничего не уходит на сервер. Кнопка «AI bilan yozish» открывает пресет чата (b). Для kafolat xati: страница отдельная, а `/uz/blog/rasmiy-xat-yozish/` ссылается на неё (новая пара в intent-manifest).",
+   "existing_url": "/uz/blog/rasmiy-xat-yozish/ (kafolat xati там только раздел; ключ не объявлен)",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Только плейсхолдеры, без печатей и подписей; «не юридическая консультация»; первой идёт форма организации.",
+   "visits_day_pos6": "6,7–12,1 (пол 5,7–10,3)",
+   "visits_day_pos3": "25,8 (пол 21,9)",
+   "visits_pos6_ads": [
+    6.7,
+    12.1
+   ],
+   "visits_pos6_floor": [
+    5.7,
+    10.3
+   ],
+   "visits_pos3_ads": 25.8,
+   "visits_pos3_floor": 21.9,
+   "pos3_no_aio_ads": 39.4,
+   "aio_factor": 0.655,
+   "k1": 0.06,
+   "ramp": "K1=0.06; ≥2 виз/день: 10 нед (пол 11); ≥5: 17 нед (пол 19); Запустить до февраля 2027, чтобы страницы разогнались к пику апр–май",
+   "weeks_to_2": [
+    10,
+    11
+   ],
+   "weeks_to_5": [
+    17,
+    19
+   ]
+  },
+  {
+   "rank": 2,
+   "id": "internship_reports",
+   "name": "Amaliyot kundaligi va hisoboti (talaba amaliyoti) + hisobot namunasi",
+   "keywords_top": "amaliyot kundaligi 18 100 (пол 490); hisobot yozish 5 400 (пол 345); hisobot namunasi 2 400; amaliyot kundaligi namuna 480; amaliyot hisoboti 480; amaliyot kundaligi yozish 390; amaliyot kundaligi pdf 210; malakaviy amaliyot hisoboti 140; yillik hisobot namunasi 90; amaliyot daftari 50",
+   "keywords": [
+    {
+     "kw": "amaliyot kundaligi",
+     "vol": 18100,
+     "counted": true,
+     "floor": 490,
+     "jump": true,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "hisobot yozish",
+     "vol": 5400,
+     "counted": true,
+     "floor": 345,
+     "jump": true,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "hisobot namunasi",
+     "vol": 2400,
+     "counted": true,
+     "floor": 2400,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "hisobot namuna",
+     "vol": 2400,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "hisobot namunasi",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "amaliyot kundaligi namuna",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "amaliyot hisoboti",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "amaliyot kundaligi yozish",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "amaliyot kundaligi pdf",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "malakaviy amaliyot hisoboti",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "yillik hisobot namunasi",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "amaliyot daftari",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "amaliyot hisobot namunasi",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "отчет по практике",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "pedagogik amaliyot hisoboti",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "амалиёт кундалиги",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "amaliyot hisoboti namuna",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "amaliyot hisoboti namunasi",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "o'quv amaliyoti hisoboti",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "дневник практики",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "o'qituvchi hisoboti",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "sinf rahbar hisoboti",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "oylik hisobot",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    }
+   ],
+   "head": [
+    [
+     "hisobot",
+     1600
+    ]
+   ],
+   "susp": [
+    [
+     "amaliyot kundaligi to'ldirish",
+     110000
+    ]
+   ],
+   "existing_page_keys": [],
+   "demand_month_ads": 27950,
+   "demand_month_floor": 5285,
+   "demand_upper": 139550,
+   "seasonality_index": {
+    "2025-10": 0.07,
+    "2025-11": 0.11,
+    "2025-12": 0.33,
+    "2026-01": 0.63,
+    "2026-02": 1.12,
+    "2026-03": 1.02,
+    "2026-04": 1.78,
+    "2026-05": 1.99,
+    "2026-06": 1.37,
+    "2026-07": 0.61,
+    "2026-08": 0.53,
+    "2026-09": 2.44
+   },
+   "seasonality": "пики: сен 26 ×2,44, май 26 ×1,99, апр 26 ×1,78; минимум: ноя 25 ×0,11, окт 25 ×0,07",
+   "serp": "Снято 2026-10-25. «amaliyot kundaligi»: Scribd PDF ×3, платные doclab.uz, soff.uz (1 100 сум), diplomishi.uz (15 000 сум), arxiv.uz 2023, researchgate; AIO r2. «amaliyot kundaligi to‘ldirish»: то же самое (Scribd, soff, PDF методичек jdpu/buxdu, studocu), AIO r5 — намерение настоящее (шаблон и правила заполнения), не навигация в HEMIS или kundalik.com. «hisobot yozish»: soff «Hisobot, e’lonning yozilish tartibi», затем финансовая отчётность (sindex, unilibrary, t4data) — смешанная. Слабая.",
+   "serp_weakness": "weak",
+   "fit": "c + a (+ b)",
+   "build": "`/uz/hujjatlar/amaliyot-kundaligi/` — пустой шаблон дневника практики (таблица: sana / bajarilgan ish mazmuni / rahbar imzosi), правила заполнения по разделам, образец 3 строк только с плейсхолдерами; генератор (a): диапазон дат → пустая таблица на печать/.docx. `/uz/hujjatlar/amaliyot-hisoboti/` — структура отчёта о практике. «hisobot namunasi/yozish» — раздел про служебный отчёт на этой же странице или на хабе `/uz/hujjatlar/`.",
+   "existing_url": "",
+   "effort": "S",
+   "honesty_risk": "medium",
+   "honesty_note": "Без «готовых заполненных дневников для сдачи». AI-пресет помогает сформулировать то, что студент реально делал, и прямо говорит не выдумывать дни практики.",
+   "visits_day_pos6": "8,6–15,4 (пол 1,6–2,9)",
+   "visits_day_pos3": "32,9 (пол 6,2)",
+   "visits_pos6_ads": [
+    8.6,
+    15.4
+   ],
+   "visits_pos6_floor": [
+    1.6,
+    2.9
+   ],
+   "visits_pos3_ads": 32.9,
+   "visits_pos3_floor": 6.2,
+   "pos3_no_aio_ads": 50.2,
+   "aio_factor": 0.655,
+   "k1": 0.06,
+   "ramp": "K1=0.06; ≥2 виз/день: 9 нед (пол 24); ≥5: 15 нед (пол: не достигает); Сначала пилот: страница дневника и через 4–6 недель сравнить показы GSC с Ads. Ряды выглядят странно: «amaliyot kundaligi» 260 (окт 25) → 60 500 (сен 26), а «…namuna» летом падает почти до нуля",
+   "weeks_to_2": [
+    9,
+    24
+   ],
+   "weeks_to_5": [
+    15,
+    null
+   ]
+  },
+  {
+   "rank": 3,
+   "id": "obyektivka",
+   "name": "Obyektivka (ma’lumotnoma) — генератор и образец",
+   "keywords_top": "obyektivka namuna 2 400; ma'lumotnoma yozish 2 400 (пол 235); ma'lumotnoma namuna 1 600; объективка 1 600; obyektivka tayyorlash 1 300; obyektivka 1 000; obektivka 720; obektivka namuna 590; объективка намуна 320; справка объективка 320",
+   "keywords": [
+    {
+     "kw": "obyektivka namuna",
+     "vol": 2400,
+     "counted": true,
+     "floor": 2400,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka namunasi",
+     "vol": 2400,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "obyektivka namuna",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ma'lumotnoma yozish",
+     "vol": 2400,
+     "counted": true,
+     "floor": 235,
+     "jump": true,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ma'lumotnoma namuna",
+     "vol": 1600,
+     "counted": true,
+     "floor": 1600,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ma'lumotnoma namunasi",
+     "vol": 1600,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "ma'lumotnoma namuna",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "malumotnoma namuna",
+     "vol": 1600,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "ma'lumotnoma namuna",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ma lumotnoma namuna",
+     "vol": 1600,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "ma'lumotnoma namuna",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "объективка",
+     "vol": 1600,
+     "counted": true,
+     "floor": 1600,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "обьективка",
+     "vol": 1600,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "объективка",
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "obyektivka tayyorlash",
+     "vol": 1300,
+     "counted": true,
+     "floor": 1300,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka",
+     "vol": 1000,
+     "counted": true,
+     "floor": 1000,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obektivka",
+     "vol": 720,
+     "counted": true,
+     "floor": 720,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obektivka namuna",
+     "vol": 590,
+     "counted": true,
+     "floor": 590,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "объективка намуна",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "объективка намунаси",
+     "vol": 320,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "объективка намуна",
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "справка объективка",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "маълумотнома намуна",
+     "vol": 170,
+     "counted": true,
+     "floor": 170,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "obyektivka namuna pdf",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka namuna word",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka shablon",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka nima",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka word",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka yuklab olish",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "объективка образец",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "объективка узбекистан",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "obyektivka yaratish",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka yozish",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka namunasi pdf",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "obyektivka to'ldirish",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "личный листок по учету кадров",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    }
+   ],
+   "head": [
+    [
+     "ma'lumotnoma",
+     1900
+    ],
+    [
+     "malumotnoma",
+     1900
+    ],
+    [
+     "маълумотнома",
+     260
+    ],
+    [
+     "ish joyidan ma'lumotnoma",
+     720
+    ]
+   ],
+   "susp": [],
+   "existing_page_keys": [],
+   "demand_month_ads": 12980,
+   "demand_month_floor": 10815,
+   "demand_upper": 15860,
+   "seasonality_index": {
+    "2025-10": 0.97,
+    "2025-11": 0.75,
+    "2025-12": 0.64,
+    "2026-01": 0.83,
+    "2026-02": 1.07,
+    "2026-03": 0.88,
+    "2026-04": 1.13,
+    "2026-05": 1.02,
+    "2026-06": 1.08,
+    "2026-07": 0.81,
+    "2026-08": 1.03,
+    "2026-09": 1.8
+   },
+   "seasonality": "пики: сен 26 ×1,8, апр 26 ×1,13, июн 26 ×1,08; минимум: ноя 25 ×0,75, дек 25 ×0,64",
+   "serp": "L3 (24.10), «obyektivka namuna»: r1 tez-hujjat.uz (генератор), r2 resum.uz (генератор, RU/UZ), r3 v1.obyektivka.uz (генератор), дальше slideshare .docx, tsuos.uz, urdu.uz, soff, obyektivkalar.uz, Scribd, Pinterest; AIO r6. Тип страницы задан: генератор. Топ-3 занят специализированными сервисами, реалистичная цель — поз. 4–8.",
+   "serp_weakness": "mixed",
+   "fit": "a + c",
+   "build": "`/uz/hujjatlar/obyektivka-namuna/` — браузерный генератор (a): поля общепринятой формы (F.I.Sh., tug‘ilgan yili va joyi, ma’lumoti, mutaxassisligi, chet tillari, mehnat faoliyati, yaqin qarindoshlari jadvali), место под фото только локально, предпросмотр A4, печать/PDF/.docx, латиница и кириллица (запрос «объективка» — 1 600). Под формой — образец с плейсхолдерами и правила заполнения (c). Всё на клиенте, данные никуда не уходят.",
+   "existing_url": "/uz/blog/rezyume-tayyorlash/ (только раздел; «obyektivka namuna» уже в mustNotTarget у rezyume, C32)",
+   "effort": "M",
+   "honesty_risk": "medium",
+   "honesty_note": "Решение владельца O-05 (BACKLOG) ещё не принято. Честно только при совпадении с ходовой формой и с пометкой «сверьте с формой вашей организации». Персональные данные — только в браузере.",
+   "visits_day_pos6": "4,0–7,2 (пол 3,3–6,0)",
+   "visits_day_pos3": "15,3 (пол 12,7)",
+   "visits_pos6_ads": [
+    4.0,
+    7.2
+   ],
+   "visits_pos6_floor": [
+    3.3,
+    6.0
+   ],
+   "visits_pos3_ads": 15.3,
+   "visits_pos3_floor": 12.7,
+   "pos3_no_aio_ads": 23.3,
+   "aio_factor": 0.655,
+   "k1": 0.06,
+   "ramp": "K1=0.06; ≥2 виз/день: 14 нед (пол 15); ≥5: 24 нед (пол: не достигает)",
+   "weeks_to_2": [
+    14,
+    15
+   ],
+   "weeks_to_5": [
+    24,
+    null
+   ]
+  },
+  {
+   "rank": 4,
+   "id": "cv_builder",
+   "name": "Конструктор CV/rezyume (UZ/RU/EN) + RU-страница «образец резюме» + «CV nima»",
+   "keywords_top": "cv nima 4 400 (пол 290); резюме шаблон 2 900; cv maker 1 600; резюме образец 880; resume maker 590; cv example 590; резюме онлайн 480; cv template 390; rezyume namunasi pdf 390; шаблон резюме 320",
+   "keywords": [
+    {
+     "kw": "cv nima",
+     "vol": 4400,
+     "counted": true,
+     "floor": 290,
+     "jump": true,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "резюме шаблон",
+     "vol": 2900,
+     "counted": true,
+     "floor": 2900,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "cv maker",
+     "vol": 1600,
+     "counted": true,
+     "floor": 1600,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "резюме образец",
+     "vol": 880,
+     "counted": true,
+     "floor": 880,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "resume maker",
+     "vol": 590,
+     "counted": true,
+     "floor": 590,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "cv example",
+     "vol": 590,
+     "counted": true,
+     "floor": 590,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "резюме онлайн",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "cv template",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "rezyume namunasi pdf",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "шаблон резюме",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "создать резюме",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "resume namuna",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "резюме бланк",
+     "vol": 260,
+     "counted": true,
+     "floor": 260,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "resume template",
+     "vol": 260,
+     "counted": true,
+     "floor": 260,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "образец резюме",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "резюме на работу",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "cv sample",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "resume builder",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "резюме образец узбекистан",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "бланк резюме",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "resume example",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "cv format",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "как составить резюме",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "резюме пример",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "пример резюме",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "rezyume yaratish",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "rezyume namuna word",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "resume format",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "как написать резюме",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "составить резюме",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "резюме ташкент",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "резюме на английском",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "cv online",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "резюме намуна",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "резюме образец скачать",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "резюме образец word",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "cv yaratish",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "cv for students",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "резюме скачать",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "резюме на работу образец",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "резюме на узбекском",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "резюме тайёрлаш",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "rezyume yuklab olish",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "cv yozish",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "how to write a cv",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "cv yozish namunasi",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "написать резюме",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "cv generator",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "cv for job",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "конструктор резюме",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "rezyume online",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "cv in english",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "нейросеть для резюме",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "cv ai",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "ai resume",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "резюме генератор",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    }
+   ],
+   "head": [
+    [
+     "cv",
+     3600
+    ],
+    [
+     "resume",
+     1600
+    ],
+    [
+     "резюме",
+     2900
+    ]
+   ],
+   "susp": [],
+   "existing_page_keys": [
+    [
+     "rezyume tayyorlash",
+     1900
+    ],
+    [
+     "rezyume namuna",
+     1600
+    ],
+    [
+     "rezyume",
+     1600
+    ],
+    [
+     "rezyume shablon",
+     1300
+    ],
+    [
+     "rezyume shabloni",
+     1300
+    ],
+    [
+     "resume tayyorlash",
+     390
+    ],
+    [
+     "rezyume nima",
+     320
+    ],
+    [
+     "cv tayyorlash",
+     210
+    ],
+    [
+     "rezyume to'ldirish",
+     140
+    ],
+    [
+     "cv namuna",
+     170
+    ],
+    [
+     "cv namunasi",
+     170
+    ],
+    [
+     "rezyume namunasi",
+     1600
+    ],
+    [
+     "rezyume yozish namunasi",
+     1600
+    ],
+    [
+     "rezume",
+     880
+    ],
+    [
+     "rezume namuna",
+     590
+    ],
+    [
+     "rezyume yozish",
+     40
+    ],
+    [
+     "rezyume qanday yoziladi",
+     30
+    ]
+   ],
+   "demand_month_ads": 16280,
+   "demand_month_floor": 12170,
+   "demand_upper": 24380,
+   "seasonality_index": {
+    "2025-10": 0.89,
+    "2025-11": 0.74,
+    "2025-12": 0.7,
+    "2026-01": 1.04,
+    "2026-02": 1.08,
+    "2026-03": 1.08,
+    "2026-04": 1.27,
+    "2026-05": 1.14,
+    "2026-06": 1.1,
+    "2026-07": 1.16,
+    "2026-08": 0.83,
+    "2026-09": 0.96
+   },
+   "seasonality": "пики: апр 26 ×1,27, июл 26 ×1,16, май 26 ×1,14; минимум: ноя 25 ×0,74, дек 25 ×0,7",
+   "serp": "Снято 2026-10-25. «резюме шаблон»: Canva r1, myresume.ru, obrazecv.ru, superjob.uz, resum.uz (местный конструктор, обновлён 08.2026), pgu.ru, Pinterest; AIO r4 — смешанная/сильная. «cv nima»: AIO r1, дальше Cambridge Dictionary (TR), азербайджанские YouTube, Instagram и техноблог, сербский сайт — ни одной узбекской страницы в топ-10, очень слабая.",
+   "serp_weakness": "mixed",
+   "fit": "a + c (+ b)",
+   "build": "1) `/uz/rezyume-yaratish/` — конструктор (a): форма → 2–3 строгих шаблона, подписи на UZ/RU/EN, печать в PDF, без регистрации, всё на клиенте; цели: cv maker, resume maker, rezyume yaratish, cv template/example, rezyume namunasi pdf. 2) `/ru/obrazets-rezyume/` — образец и шаблон резюме для Узбекистана, ссылка на конструктор (на RU-стороне такой страницы нет). 3) `/uz/blog/cv-nima/` — CV, rezyume и obyektivka: в чём разница. Новая пара в intent-manifest, чтобы конструктор не забирал ключи гайда.",
+   "existing_url": "/uz/blog/rezyume-tayyorlash/ (владеет rezyume tayyorlash/namuna, cv tayyorlash, cv namuna — не трогать)",
+   "effort": "L",
+   "honesty_risk": "low",
+   "honesty_note": "Не выдумывать опыт и навыки; AI-пресет только шлифует текст пользователя.",
+   "visits_day_pos6": "5,0–9,0 (пол 3,7–6,7)",
+   "visits_day_pos3": "18,2 (пол 13,6)",
+   "visits_pos6_ads": [
+    5.0,
+    9.0
+   ],
+   "visits_pos6_floor": [
+    3.7,
+    6.7
+   ],
+   "visits_pos3_ads": 18.2,
+   "visits_pos3_floor": 13.6,
+   "pos3_no_aio_ads": 29.2,
+   "aio_factor": 0.655,
+   "k1": 0.04,
+   "ramp": "K1=0.04; ≥2 виз/день: 15 нед (пол 18); ≥5: 27 нед (пол 32); «cv nima» на очень слабой выдаче разгонится быстрее, чем K1 для всего кластера",
+   "weeks_to_2": [
+    15,
+    18
+   ],
+   "weeks_to_5": [
+    27,
+    32
+   ]
+  },
+  {
+   "rank": 5,
+   "id": "tilxat_ishonchnoma",
+   "name": "Tilxat (расписка) и oddiy yozma ishonchnoma — образец + форма",
+   "keywords_top": "тилхат 8 100 (пол 230); tilxat yozish 5 400 (пол 290); tilxat 1 000; tilxat namuna 1 000; ishonchnoma 880; ishonchnoma namunasi 590; тилхат намуна 210; ишончнома 170; расписка 140; ишончнома намуна 90",
+   "keywords": [
+    {
+     "kw": "тилхат",
+     "vol": 8100,
+     "counted": true,
+     "floor": 230,
+     "jump": true,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "tilxat yozish",
+     "vol": 5400,
+     "counted": true,
+     "floor": 290,
+     "jump": true,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tilxat",
+     "vol": 1000,
+     "counted": true,
+     "floor": 1000,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tilxat namuna",
+     "vol": 1000,
+     "counted": true,
+     "floor": 1000,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tilxat namunasi",
+     "vol": 1000,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "tilxat namuna",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ishonchnoma",
+     "vol": 880,
+     "counted": true,
+     "floor": 880,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ishonchnoma namunasi",
+     "vol": 590,
+     "counted": true,
+     "floor": 590,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ishonchnoma namuna",
+     "vol": 590,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "ishonchnoma namunasi",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "тилхат намуна",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "ишончнома",
+     "vol": 170,
+     "counted": true,
+     "floor": 170,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "расписка",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "ишончнома намуна",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "tilxat nima",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ishonchnoma nima",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "доверенность образец",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "расписка образец",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "tilxat qanday yoziladi",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ishonchnoma yozish",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "avtomobil ishonchnoma",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    }
+   ],
+   "head": [
+    [
+     "доверенность",
+     1900
+    ]
+   ],
+   "susp": [],
+   "existing_page_keys": [],
+   "demand_month_ads": 17980,
+   "demand_month_floor": 5000,
+   "demand_upper": 19880,
+   "seasonality_index": {
+    "2025-10": 0.26,
+    "2025-11": 0.31,
+    "2025-12": 0.47,
+    "2026-01": 0.73,
+    "2026-02": 0.93,
+    "2026-03": 0.99,
+    "2026-04": 1.46,
+    "2026-05": 1.71,
+    "2026-06": 1.3,
+    "2026-07": 1.13,
+    "2026-08": 1.03,
+    "2026-09": 1.68
+   },
+   "seasonality": "пики: май 26 ×1,71, сен 26 ×1,68, апр 26 ×1,46; минимум: ноя 25 ×0,31, окт 25 ×0,26",
+   "serp": "Снято 2026-10-25. «tilxat yozish»: soff.uz (платно), kalki.uz (онлайн-генератор tilxat в Word/PDF — прямой конкурент), YouTube «Tilxat qonuniy kuchga egami?», arxiv.uz 2019, yurxizmat.uz, znanija (школьный вопрос про стиль ish qog‘ozlari); AIO r3 — слабая. «тилхат»: digital.gov.uz, uzbekistan.uz/advice, gov.uz (страницы без описания), глоссарий, словарь uzdic — смешанная.",
+   "serp_weakness": "mixed",
+   "fit": "c + a",
+   "build": "`/uz/hujjatlar/tilxat-namuna/` — виды расписок (qarz, hujjat yoki pul qabul qilish, mehnat daftarchasini olish), обязательные реквизиты, образцы латиницей и кириллицей (кириллица — 8 100 по Ads), генератор. `/uz/hujjatlar/ishonchnoma-namuna/` — только простая письменная доверенность (получить зарплату или документы); для авто и недвижимости — прямой текст «нужен нотариус» и ссылка на gov.uz.",
+   "existing_url": "",
+   "effort": "S",
+   "honesty_risk": "medium",
+   "honesty_note": "YMYL рядом: нейтральный шаблон, без обещаний «юридической силы», без советов по долговым спорам; не делать шаблоны доверенностей на авто и недвижимость.",
+   "visits_day_pos6": "5,5–9,9 (пол 1,5–2,8)",
+   "visits_day_pos3": "21,2 (пол 5,9)",
+   "visits_pos6_ads": [
+    5.5,
+    9.9
+   ],
+   "visits_pos6_floor": [
+    1.5,
+    2.8
+   ],
+   "visits_pos3_ads": 21.2,
+   "visits_pos3_floor": 5.9,
+   "pos3_no_aio_ads": 32.3,
+   "aio_factor": 0.655,
+   "k1": 0.06,
+   "ramp": "K1=0.06; ≥2 виз/день: 11 нед (пол 25); ≥5: 20 нед (пол: не достигает); «tilxat yozish» и «тилхат» — со скачком; по полу кластер даёт ≈1,5–2,8 виз/день на поз. 6",
+   "weeks_to_2": [
+    11,
+    25
+   ],
+   "weeks_to_5": [
+    20,
+    null
+   ]
+  },
+  {
+   "rank": 6,
+   "id": "tarjimai_hol",
+   "name": "Tarjimai hol (avtobiografiya) — образец и бланк",
+   "keywords_top": "tarjimai hol 1 600; автобиография 1 300; tarjimai hol yozish 880; автобиография образец 390; avtobiografiya 260; avtobiografiya namuna 210; tarjimai hol namunasi 210; tarjimai hol blanka 170; tarjimai xol 70; avtobiografiya yozish 70",
+   "keywords": [
+    {
+     "kw": "tarjimai hol",
+     "vol": 1600,
+     "counted": true,
+     "floor": 1600,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tarjimayi hol",
+     "vol": 1600,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "tarjimai hol",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "автобиография",
+     "vol": 1300,
+     "counted": true,
+     "floor": 1300,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "tarjimai hol yozish",
+     "vol": 880,
+     "counted": true,
+     "floor": 880,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "автобиография образец",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "avtobiografiya",
+     "vol": 260,
+     "counted": true,
+     "floor": 260,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "avtobiografiya namuna",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tarjimai hol namunasi",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tarjimai hol namuna",
+     "vol": 210,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "tarjimai hol namunasi",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tarjimai hol blanka",
+     "vol": 170,
+     "counted": true,
+     "floor": 170,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tarjimai xol",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "avtobiografiya yozish",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tarjimai hol nima",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "автобиография пример",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "автобиография намуна",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "автобиография бланк",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "автобиография образец на работу",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "как написать автобиографию",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "таржимаи ҳол",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "таржимаи ҳол намуна",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    }
+   ],
+   "head": [],
+   "susp": [],
+   "existing_page_keys": [],
+   "demand_month_ads": 5390,
+   "demand_month_floor": 5390,
+   "demand_upper": 5390,
+   "seasonality_index": {
+    "2025-10": 1.42,
+    "2025-11": 0.86,
+    "2025-12": 0.9,
+    "2026-01": 1.36,
+    "2026-02": 1.64,
+    "2026-03": 0.99,
+    "2026-04": 1.27,
+    "2026-05": 0.87,
+    "2026-06": 0.58,
+    "2026-07": 0.46,
+    "2026-08": 0.54,
+    "2026-09": 1.1
+   },
+   "seasonality": "пики: фев 26 ×1,64, окт 25 ×1,42, янв 26 ×1,36; минимум: авг 26 ×0,54, июл 26 ×0,46",
+   "serp": "Снято 2026-10-25. «tarjimai hol»: AIO r2; oriftolib.uz (стихотворение «Tarjimayi hol» — литература), урок YouTube «Davlat tilida ish yuritish», Scribd ×4 (бланки), askinfo.uz 2018. Почти всё — документное намерение. Слабая.",
+   "serp_weakness": "weak",
+   "fit": "c + a",
+   "build": "`/uz/hujjatlar/tarjimai-hol-namuna/`: что пишется и в каком порядке (поля «tarjimai hol blankasi»), два условных образца (talaba, xodim) с плейсхолдерами, кириллическая версия, тот же генератор, что у хаба; RU-блок «автобиография образец» (автобиография 1 300 и образец 390).",
+   "existing_url": "",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Плейсхолдеры, без чужих биографий.",
+   "visits_day_pos6": "1,7–3,0",
+   "visits_day_pos3": "5,2",
+   "visits_pos6_ads": [
+    1.7,
+    3.0
+   ],
+   "visits_pos6_floor": [
+    1.7,
+    3.0
+   ],
+   "visits_pos3_ads": 5.2,
+   "visits_pos3_floor": 5.2,
+   "pos3_no_aio_ads": 9.7,
+   "aio_factor": 0.533,
+   "k1": 0.06,
+   "ramp": "K1=0.06; ≥2 виз/день: 23 нед; ≥5: не достигает",
+   "weeks_to_2": [
+    23,
+    23
+   ],
+   "weeks_to_5": [
+    null,
+    null
+   ]
+  },
+  {
+   "rank": 7,
+   "id": "certificates",
+   "name": "Faxriy yorliq, maqtov yorlig‘i, tashakkurnoma, sertifikat — генератор бланков для печати",
+   "keywords_top": "faxriy yorliq 1 600; tashakkurnoma 1 300; faxriy yorliq namuna 880; faxriy yorliq shablon 720; tashakkurnoma shablon 720; maqtov yorlig'i 480; tashakkurnoma namunasi 260; sertifikat namuna 210; minnatdorchilik xati 90; благодарственное письмо 90",
+   "keywords": [
+    {
+     "kw": "faxriy yorliq",
+     "vol": 1600,
+     "counted": true,
+     "floor": 1600,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tashakkurnoma",
+     "vol": 1300,
+     "counted": true,
+     "floor": 1300,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "faxriy yorliq namuna",
+     "vol": 880,
+     "counted": true,
+     "floor": 880,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "faxriy yorliq shablon",
+     "vol": 720,
+     "counted": true,
+     "floor": 720,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tashakkurnoma shablon",
+     "vol": 720,
+     "counted": true,
+     "floor": 720,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "maqtov yorlig'i",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tashakkurnoma namunasi",
+     "vol": 260,
+     "counted": true,
+     "floor": 260,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "sertifikat namuna",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "minnatdorchilik xati",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "благодарственное письмо",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "фахрий ёрлиқ",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "rahmatnoma",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "благодарственное письмо образец",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "sertifikat yaratish",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    }
+   ],
+   "head": [],
+   "susp": [],
+   "existing_page_keys": [],
+   "demand_month_ads": 6460,
+   "demand_month_floor": 6460,
+   "demand_upper": 6460,
+   "seasonality_index": {
+    "2025-10": 0.89,
+    "2025-11": 0.86,
+    "2025-12": 1.8,
+    "2026-01": 0.89,
+    "2026-02": 0.85,
+    "2026-03": 1.11,
+    "2026-04": 0.87,
+    "2026-05": 3.08,
+    "2026-06": 0.52,
+    "2026-07": 0.31,
+    "2026-08": 0.35,
+    "2026-09": 0.48
+   },
+   "seasonality": "пики: май 26 ×3,08, дек 25 ×1,8, мар 26 ×1,11; минимум: авг 26 ×0,35, июл 26 ×0,31",
+   "serp": "Снято 2026-10-25. «faxriy yorliq»: idum.uz (2024), YouTube «5 minutda… faxriy yorliq», Scribd, docx.uz, soff.uz, portfolio.uz, Pinterest, diplomishi.uz (платно); AIO r7. Только файлы и картинки, инструмента нет. Слабая.",
+   "serp_weakness": "weak",
+   "fit": "a + c",
+   "build": "`/uz/faxriy-yorliq-yaratish/` — инструмент (a): 4–6 наших CSS/SVG-рамок A4, пресеты текста (faxriy yorliq, maqtov yorlig‘i, tashakkurnoma, sertifikat, minnatdorchilik xati), поля «kimga / nima uchun / tashkilot / sana», печать и PDF; UZ-латиница, кириллица, RU («благодарственное письмо»). Генерации изображений нет — только вёрстка.",
+   "existing_url": "",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Без госсимволики, гербов, печатей и «официальных» бланков ведомств.",
+   "visits_day_pos6": "2,0–3,6",
+   "visits_day_pos3": "7,6",
+   "visits_pos6_ads": [
+    2.0,
+    3.6
+   ],
+   "visits_pos6_floor": [
+    2.0,
+    3.6
+   ],
+   "visits_pos3_ads": 7.6,
+   "visits_pos3_floor": 7.6,
+   "pos3_no_aio_ads": 11.6,
+   "aio_factor": 0.655,
+   "k1": 0.08,
+   "ramp": "K1=0.08; ≥2 виз/день: 18 нед; ≥5: не достигает; Сезон: май ×3,1 и дек ×1,8 — в мае поз. 6 даёт ≈6–11 виз/день; запуск не позже марта",
+   "weeks_to_2": [
+    18,
+    18
+   ],
+   "weeks_to_5": [
+    null,
+    null
+   ]
+  },
+  {
+   "rank": 8,
+   "id": "cyr_ru_mirrors",
+   "name": "Кириллица и RU для действующих гайдов: тушунтириш хати, ариза, тавсифнома + RU объяснительная, заявление, характеристика",
+   "keywords_top": "тушунтириш хати 2 900 (пол 655); объяснительная 880; тавсифнома намуна 720; ариза 480; тушунтириш хати намуна 390; ариза намуна 390; объяснительная в школу 390; объяснительная образец 320; заявление на увольнение 320; заявление на отпуск 260",
+   "keywords": [
+    {
+     "kw": "тушунтириш хати",
+     "vol": 2900,
+     "counted": true,
+     "floor": 655,
+     "jump": true,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "объяснительная",
+     "vol": 880,
+     "counted": true,
+     "floor": 880,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "тавсифнома намуна",
+     "vol": 720,
+     "counted": true,
+     "floor": 720,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "тавсиянома намуна",
+     "vol": 720,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "тавсифнома намуна",
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "ариза",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "тушунтириш хати намуна",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "ариза намуна",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "ариза намунаси",
+     "vol": 390,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "ариза намуна",
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "объяснительная в школу",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "объяснительная образец",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "заявление на увольнение",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "заявление на отпуск",
+     "vol": 260,
+     "counted": true,
+     "floor": 260,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "тавсифнома",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "ариза ёзиш",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "характеристика образец",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "заявление образец",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "заявление на работу",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "заявление в школу",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "образец заявления",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "характеристика на ученика",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "объяснительная записка",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "объяснительная записка образец",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "заявление о приеме на работу",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "как написать заявление",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "xarakteristika",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "xarakteristika namuna",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "как написать объяснительную",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "заявление на увольнение по собственному желанию",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "объяснительная за опоздание",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "характеристика на сотрудника",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "характеристика с места работы",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "характеристика намуна",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    }
+   ],
+   "head": [
+    [
+     "характеристика",
+     2400
+    ],
+    [
+     "заявление",
+     720
+    ]
+   ],
+   "susp": [],
+   "existing_page_keys": [
+    [
+     "tushuntirish xati",
+     1600
+    ],
+    [
+     "tushuntirish xati namunasi",
+     140
+    ],
+    [
+     "tushuntirish xati namuna",
+     2400
+    ],
+    [
+     "tushuntirish xati yozish",
+     170
+    ],
+    [
+     "ariza yozish",
+     2900
+    ],
+    [
+     "ariza namunasi",
+     590
+    ],
+    [
+     "ariza yozish namunasi",
+     2400
+    ],
+    [
+     "ariza yozish namuna",
+     2400
+    ],
+    [
+     "ariza namuna",
+     1300
+    ],
+    [
+     "ariza",
+     4400
+    ],
+    [
+     "ariza blanka",
+     320
+    ],
+    [
+     "ariza qanday yoziladi",
+     210
+    ],
+    [
+     "tavsifnoma namuna",
+     1600
+    ],
+    [
+     "tavsifnoma",
+     720
+    ],
+    [
+     "o'quvchiga tavsifnoma",
+     590
+    ],
+    [
+     "tavsifnoma namunasi word",
+     320
+    ],
+    [
+     "tavsifnoma yozish namuna",
+     260
+    ],
+    [
+     "ariza nima",
+     90
+    ],
+    [
+     "tushuntirish xati nima",
+     70
+    ]
+   ],
+   "demand_month_ads": 8290,
+   "demand_month_floor": 6045,
+   "demand_upper": 11410,
+   "seasonality_index": {
+    "2025-10": 1.04,
+    "2025-11": 0.87,
+    "2025-12": 0.81,
+    "2026-01": 0.88,
+    "2026-02": 1.11,
+    "2026-03": 0.96,
+    "2026-04": 1.32,
+    "2026-05": 1.15,
+    "2026-06": 0.99,
+    "2026-07": 0.83,
+    "2026-08": 0.83,
+    "2026-09": 1.21
+   },
+   "seasonality": "пики: апр 26 ×1,32, сен 26 ×1,21, май 26 ×1,15; минимум: авг 26 ×0,83, дек 25 ×0,81",
+   "serp": "Не снят (лимит). Прокси: латинские версии этих же документов (tavsifnoma, dalolatnoma) — Scribd, Facebook, мелкие блоги.",
+   "serp_weakness": "mixed",
+   "fit": "c (+ b)",
+   "build": "(а) Полные кириллические блоки образцов прямо в HTML трёх действующих гайдов — S, сразу; «тушунтириш хати» по Ads 2 900 (скачок, пол 655), «тавсифнома намуна» 720. (б) RU-страницы `/ru/obrazets-obyasnitelnoy/`, `/ru/obrazets-zayavleniya/` (увольнение, отпуск, приём), `/ru/obrazets-harakteristiki/` — с пометкой, где в Узбекистане нужен документ на госязыке. Голые «характеристика» 2 400 и «заявление» 720 неоднозначны — в расчёт не входят.",
+   "existing_url": "/uz/blog/tushuntirish-xati-va-ariza-yozish/, /uz/blog/tavsifnoma-namuna/",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Как у действующих гайдов: плейсхолдеры, «не юридическая консультация».",
+   "visits_day_pos6": "2,5–4,6 (пол 1,9–3,3)",
+   "visits_day_pos3": "9,8 (пол 7,1)",
+   "visits_pos6_ads": [
+    2.5,
+    4.6
+   ],
+   "visits_pos6_floor": [
+    1.9,
+    3.3
+   ],
+   "visits_pos3_ads": 9.8,
+   "visits_pos3_floor": 7.1,
+   "pos3_no_aio_ads": 14.9,
+   "aio_factor": 0.655,
+   "k1": 0.04,
+   "ramp": "K1=0.04; ≥2 виз/день: 23 нед (пол 28); ≥5: не достигает",
+   "weeks_to_2": [
+    23,
+    28
+   ],
+   "weeks_to_5": [
+    null,
+    null
+   ]
+  },
+  {
+   "rank": 9,
+   "id": "recommendation",
+   "name": "Tavsiyanoma / recommendation letter (UZ/RU/EN)",
+   "keywords_top": "tavsiyanoma 880; recommendation letter 480; tavsiyanoma namuna 390; tavsiyanoma yozish 320; recommendation letter sample 320; рекомендательное письмо 170; тавсиянома 110; reference letter 70; taqdimnoma 70; recommendation letter for student 40",
+   "keywords": [
+    {
+     "kw": "tavsiyanoma",
+     "vol": 880,
+     "counted": true,
+     "floor": 880,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "recommendation letter",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "letter of recommendation",
+     "vol": 480,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "recommendation letter",
+     "script": "EN"
+    },
+    {
+     "kw": "tavsiyanoma namuna",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tavsiyanoma namunasi",
+     "vol": 390,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "tavsiyanoma namuna",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tavsiyanoma yozish",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "recommendation letter sample",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "рекомендательное письмо",
+     "vol": 170,
+     "counted": true,
+     "floor": 170,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "тавсиянома",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "reference letter",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "taqdimnoma",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "recommendation letter for student",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "рекомендательное письмо образец",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "рекомендательное письмо студенту",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "rekomendatsiya",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tavsiya xati",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "tavsiya xati namuna",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "taqdimnoma namuna",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    }
+   ],
+   "head": [],
+   "susp": [],
+   "existing_page_keys": [],
+   "demand_month_ads": 2960,
+   "demand_month_floor": 2960,
+   "demand_upper": 2960,
+   "seasonality_index": {
+    "2025-10": 1.16,
+    "2025-11": 1.07,
+    "2025-12": 1.08,
+    "2026-01": 1.02,
+    "2026-02": 0.98,
+    "2026-03": 0.84,
+    "2026-04": 1.11,
+    "2026-05": 2.45,
+    "2026-06": 0.82,
+    "2026-07": 0.48,
+    "2026-08": 0.43,
+    "2026-09": 0.57
+   },
+   "seasonality": "пики: май 26 ×2,45, окт 25 ×1,16, апр 26 ×1,11; минимум: июл 26 ×0,48, авг 26 ×0,43",
+   "serp": "Не снят. Прокси «tavsifnoma namuna» (L3): oriftolib, Facebook, Scribd ×5, kursishlari, uzoffice — слабая; англ. запросы — вероятно глобальные сайты.",
+   "serp_weakness": "mixed",
+   "fit": "c + b",
+   "build": "`/uz/hujjatlar/tavsiyanoma-namuna/`: для учёбы за рубежом и работы, структура, образец UZ и EN (recommendation letter sample), RU-блок, пресет чата «tavsiyanoma loyihasi» по фактам рекомендателя.",
+   "existing_url": "/uz/blog/tavsifnoma-namuna/ (объясняет отличие от tavsiyanoma; ключи tavsiyanoma не объявлены)",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Подписывает и отвечает рекомендатель; черновик только из его фактов.",
+   "visits_day_pos6": "0,9–1,6",
+   "visits_day_pos3": "3,5",
+   "visits_pos6_ads": [
+    0.9,
+    1.6
+   ],
+   "visits_pos6_floor": [
+    0.9,
+    1.6
+   ],
+   "visits_pos3_ads": 3.5,
+   "visits_pos3_floor": 3.5,
+   "pos3_no_aio_ads": 5.3,
+   "aio_factor": 0.655,
+   "k1": 0.04,
+   "ramp": "K1=0.04; ≥2 виз/день: не достигает; ≥5: не достигает; Пик май ×2,45",
+   "weeks_to_2": [
+    null,
+    null
+   ],
+   "weeks_to_5": [
+    null,
+    null
+   ]
+  },
+  {
+   "rank": 10,
+   "id": "motivation_cover",
+   "name": "Motivatsion xat, cover letter, personal statement",
+   "keywords_top": "motivation letter 480; motivation letter example 320; cover letter 320; сопроводительное письмо 260; cover letter example 210; personal statement example 170; personal statement 140; how to write a cover letter 110; мотивационное письмо 90; motivation letter for university 70",
+   "keywords": [
+    {
+     "kw": "motivation letter",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "motivation letter example",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "motivation letter sample",
+     "vol": 320,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "motivation letter example",
+     "script": "EN"
+    },
+    {
+     "kw": "cover letter",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "сопроводительное письмо",
+     "vol": 260,
+     "counted": true,
+     "floor": 260,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "cover letter example",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "personal statement example",
+     "vol": 170,
+     "counted": true,
+     "floor": 170,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "personal statement",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "how to write a cover letter",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "мотивационное письмо",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "motivation letter for university",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "motivatsion xat",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "cover letter sample",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "сопроводительное письмо к резюме",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "сопроводительное письмо пример",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "motivation letter for scholarship",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "how to write motivation letter",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "motivatsion xat namunasi",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "motivatsion xat namuna",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "мотивационное письмо пример",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "cover letter template",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "statement of purpose",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "cover letter for job",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "мотивационное письмо образец",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "мотивационное письмо в университет образец",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    }
+   ],
+   "head": [],
+   "susp": [],
+   "existing_page_keys": [],
+   "demand_month_ads": 2630,
+   "demand_month_floor": 2630,
+   "demand_upper": 2630,
+   "seasonality_index": {
+    "2025-10": 1.09,
+    "2025-11": 1.07,
+    "2025-12": 1.76,
+    "2026-01": 1.36,
+    "2026-02": 1.44,
+    "2026-03": 0.86,
+    "2026-04": 1.04,
+    "2026-05": 0.75,
+    "2026-06": 0.66,
+    "2026-07": 0.6,
+    "2026-08": 0.62,
+    "2026-09": 0.75
+   },
+   "seasonality": "пики: дек 25 ×1,76, фев 26 ×1,44, янв 26 ×1,36; минимум: авг 26 ×0,62, июл 26 ×0,6",
+   "serp": "Не снят. Англоязычные ключи в UZ обычно занимают глобальные сайты (Indeed, Zety, Novoresume) — предположение, не проверено.",
+   "serp_weakness": "mixed",
+   "fit": "b + c",
+   "build": "`/uz/blog/motivatsion-xat-namuna/` — структура мотивационного письма для вуза, гранта и работы, 2 образца с плейсхолдерами (UZ + EN), чек-лист; пресет чата «motivation letter from my facts».",
+   "existing_url": "",
+   "effort": "S",
+   "honesty_risk": "medium",
+   "honesty_note": "Эссе на грант должно быть своим: AI — редактор, а не автор; прямо сказать на странице.",
+   "visits_day_pos6": "0,8–1,5",
+   "visits_day_pos3": "3,1",
+   "visits_pos6_ads": [
+    0.8,
+    1.5
+   ],
+   "visits_pos6_floor": [
+    0.8,
+    1.5
+   ],
+   "visits_pos3_ads": 3.1,
+   "visits_pos3_floor": 3.1,
+   "pos3_no_aio_ads": 4.7,
+   "aio_factor": 0.655,
+   "k1": 0.04,
+   "ramp": "K1=0.04; ≥2 виз/день: не достигает; ≥5: не достигает; Сезон подачи: дек–фев (×1,4–1,8)",
+   "weeks_to_2": [
+    null,
+    null
+   ],
+   "weeks_to_5": [
+    null,
+    null
+   ]
+  },
+  {
+   "rank": 11,
+   "id": "career_test",
+   "name": "Kasb tanlash testi + kasblar ro‘yxati",
+   "keywords_top": "kasblar ro'yxati 480; kelajak kasblari 480; kasb tanlash 210; kasb tanlash testi 170; тест на профориентацию 170; eng yaxshi kasblar 110; профориентация тест 90; тест на профессию 90; career test 30; eng ko'p maosh oladigan kasblar 30",
+   "keywords": [
+    {
+     "kw": "kasblar ro'yxati",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "kelajak kasblari",
+     "vol": 480,
+     "counted": true,
+     "floor": 480,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "kasb tanlash",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "kasb tanlash testi",
+     "vol": 170,
+     "counted": true,
+     "floor": 170,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "тест на профориентацию",
+     "vol": 170,
+     "counted": true,
+     "floor": 170,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "eng yaxshi kasblar",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "профориентация тест",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "тест на профессию",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "career test",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "EN"
+    },
+    {
+     "kw": "eng ko'p maosh oladigan kasblar",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "kasb tanlash test",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "какая профессия мне подходит",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "профориентационный тест",
+     "vol": 10,
+     "counted": true,
+     "floor": 10,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    }
+   ],
+   "head": [
+    [
+     "kasblar",
+     1300
+    ]
+   ],
+   "susp": [],
+   "existing_page_keys": [],
+   "demand_month_ads": 1910,
+   "demand_month_floor": 1910,
+   "demand_upper": 3210,
+   "seasonality_index": {
+    "2025-10": 1.51,
+    "2025-11": 1.36,
+    "2025-12": 1.09,
+    "2026-01": 1.28,
+    "2026-02": 1.19,
+    "2026-03": 1.22,
+    "2026-04": 1.52,
+    "2026-05": 0.86,
+    "2026-06": 0.44,
+    "2026-07": 0.39,
+    "2026-08": 0.51,
+    "2026-09": 0.62
+   },
+   "seasonality": "пики: апр 26 ×1,52, окт 25 ×1,51, ноя 25 ×1,36; минимум: июн 26 ×0,44, июл 26 ×0,39",
+   "serp": "Не снят. «kasblar» (1 300) неоднозначен — английская лексика для детей тоже (линза language-learning), в расчёт не входит.",
+   "serp_weakness": "mixed",
+   "fit": "a + c",
+   "build": "`/uz/kasb-tanlash-testi/` — свой опросник интересов на 36–48 вопросов (модель типов интересов общедоступна, формулировки свои), результат → список профессий со ссылками; RU-зеркало `/ru/test-na-proforientatsiyu/`.",
+   "existing_url": "",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Не психологическая диагностика — дисклеймер.",
+   "visits_day_pos6": "0,6–1,1",
+   "visits_day_pos3": "2,2",
+   "visits_pos6_ads": [
+    0.6,
+    1.1
+   ],
+   "visits_pos6_floor": [
+    0.6,
+    1.1
+   ],
+   "visits_pos3_ads": 2.2,
+   "visits_pos3_floor": 2.2,
+   "pos3_no_aio_ads": 3.4,
+   "aio_factor": 0.655,
+   "k1": 0.06,
+   "ramp": "K1=0.06; ≥2 виз/день: не достигает; ≥5: не достигает; Сезон окт–апр, летом ×0,4",
+   "weeks_to_2": [
+    null,
+    null
+   ],
+   "weeks_to_5": [
+    null,
+    null
+   ]
+  },
+  {
+   "rank": 12,
+   "id": "contracts_hold",
+   "name": "Shartnoma namunalari (mehnat, pudrat, oldi-sotdi, ijara) — HOLD",
+   "keywords_top": "ижара шартномаси 2 900; ijara shartnomasi 2 400; mehnat shartnomasi 1 600; pudrat shartnomasi 880; shartnoma namunasi 390; oldi sotdi shartnomasi 320; трудовой договор 210; договор купли продажи 210; mehnat shartnomasi namunasi 170; hadya shartnomasi 140",
+   "keywords": [
+    {
+     "kw": "ижара шартномаси",
+     "vol": 2900,
+     "counted": true,
+     "floor": 2900,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    },
+    {
+     "kw": "ijara shartnomasi",
+     "vol": 2400,
+     "counted": true,
+     "floor": 2400,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "mehnat shartnomasi",
+     "vol": 1600,
+     "counted": true,
+     "floor": 1600,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "pudrat shartnomasi",
+     "vol": 880,
+     "counted": true,
+     "floor": 880,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "shartnoma namunasi",
+     "vol": 390,
+     "counted": true,
+     "floor": 390,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "oldi sotdi shartnomasi",
+     "vol": 320,
+     "counted": true,
+     "floor": 320,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "трудовой договор",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "договор купли продажи",
+     "vol": 210,
+     "counted": true,
+     "floor": 210,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "mehnat shartnomasi namunasi",
+     "vol": 170,
+     "counted": true,
+     "floor": 170,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "mehnat shartnomasi namuna",
+     "vol": 170,
+     "counted": false,
+     "floor": null,
+     "jump": null,
+     "same_bucket_as": "mehnat shartnomasi namunasi",
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "hadya shartnomasi",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "договор аренды",
+     "vol": 140,
+     "counted": true,
+     "floor": 140,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "qarz shartnomasi",
+     "vol": 110,
+     "counted": true,
+     "floor": 110,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "shartnoma namunalari",
+     "vol": 90,
+     "counted": true,
+     "floor": 90,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "договор аренды квартиры",
+     "vol": 70,
+     "counted": true,
+     "floor": 70,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "ijara shartnomasi namunasi",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "ijara shartnomasi namuna",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "трудовой договор узбекистан",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "shartnoma tuzish",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "договор на оказание услуг",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "shartnoma namuna",
+     "vol": 50,
+     "counted": true,
+     "floor": 50,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "qarz shartnomasi namunasi",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "договор займа",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "трудовой договор образец",
+     "vol": 40,
+     "counted": true,
+     "floor": 40,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "RU"
+    },
+    {
+     "kw": "uy ijara shartnomasi",
+     "vol": 30,
+     "counted": true,
+     "floor": 30,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ латиница"
+    },
+    {
+     "kw": "меҳнат шартномаси",
+     "vol": 20,
+     "counted": true,
+     "floor": 20,
+     "jump": false,
+     "same_bucket_as": null,
+     "script": "UZ кириллица"
+    }
+   ],
+   "head": [
+    [
+     "shartnoma",
+     8100
+    ],
+    [
+     "договор",
+     1300
+    ],
+    [
+     "шартнома",
+     260
+    ]
+   ],
+   "susp": [],
+   "existing_page_keys": [],
+   "demand_month_ads": 10100,
+   "demand_month_floor": 10100,
+   "demand_upper": 19760,
+   "seasonality_index": {
+    "2025-10": 0.92,
+    "2025-11": 0.75,
+    "2025-12": 0.87,
+    "2026-01": 0.86,
+    "2026-02": 1.16,
+    "2026-03": 1.02,
+    "2026-04": 1.15,
+    "2026-05": 0.97,
+    "2026-06": 0.79,
+    "2026-07": 0.82,
+    "2026-08": 0.67,
+    "2026-09": 2.03
+   },
+   "seasonality": "пики: сен 26 ×2,03, фев 26 ×1,16, апр 26 ×1,15; минимум: ноя 25 ×0,75, авг 26 ×0,67",
+   "serp": "Снято 2026-10-25. «ijara shartnomasi»: ijara.soliq.uz (договоры аренды регистрируются на портале налоговой), gov.uz/advice, e-ijara.uz, yurxizmat.uz (шаблоны юристов), lex.uz, Википедия, jet.bank.uz; AIO r5. Госнавигация и юристы. Сильная. «shartnoma» 8 100 — всплески в авг–сен (до 33 100). Похоже на контракты на обучение в вузах; выдача не снята, это вывод по сезонности.",
+   "serp_weakness": "strong",
+   "fit": "c (только нейтральное объяснение)",
+   "build": "Не строить шаблоны договоров. Максимум — одна нейтральная статья «mehnat shartnomasi nima va unda nima bo‘ladi» со ссылками на официальные источники (lex.uz, gov.uz), без скачиваемого договора.",
+   "existing_url": "",
+   "effort": "M",
+   "honesty_risk": "high",
+   "honesty_note": "Юридический YMYL: готовый договор без юриста может навредить.",
+   "visits_day_pos6": "3,1–5,6",
+   "visits_day_pos3": "11,9",
+   "visits_pos6_ads": [
+    3.1,
+    5.6
+   ],
+   "visits_pos6_floor": [
+    3.1,
+    5.6
+   ],
+   "visits_pos3_ads": 11.9,
+   "visits_pos3_floor": 11.9,
+   "pos3_no_aio_ads": 18.1,
+   "aio_factor": 0.655,
+   "k1": 0.04,
+   "ramp": "K1=0.04; ≥2 виз/день: 20 нед; ≥5: не достигает; HOLD",
+   "weeks_to_2": [
+    20,
+    20
+   ],
+   "weeks_to_5": [
+    null,
+    null
+   ]
+  }
+ ],
+ "below_threshold": [
+  {
+   "id": "business_proposal",
+   "name": "Tijorat taklifi / коммерческое предложение",
+   "demand_ads": 1360,
+   "demand_upper": 5350,
+   "visits_pos3_ads": 1.6,
+   "why": "«biznes taklif» 3 600 — смысл не проверен (возможно, бизнес-идеи; CPC 9,41); счета-фактуры в Узбекистане выписываются в электронной системе, шаблон не нужен"
+  },
+  {
+   "id": "interview",
+   "name": "Ish suhbati / собеседование",
+   "demand_ads": 780,
+   "demand_upper": 1660,
+   "visits_pos3_ads": 0.9,
+   "why": "узбекские «ish suhbati savollari», «ishga kirish suhbati» — 0; «intervyu» 880 неоднозначен (вероятно, интервью в СМИ; не проверено)"
+  },
+  {
+   "id": "invitation_text",
+   "name": "Taklifnoma matni (rasmiy taklifnoma)",
+   "demand_ads": 190,
+   "demand_upper": 3090,
+   "visits_pos3_ads": 0.2,
+   "why": "«taklifnoma» 2 900 — конструкторы свадебных приглашений (mytaklif, taklifiy, e-taklif) и Pinterest; текстовая часть мала"
+  },
+  {
+   "id": "hr_calcs",
+   "name": "Staj / oylik kalkulyatori",
+   "demand_ads": 760,
+   "demand_upper": 760,
+   "visits_pos3_ads": 0.9,
+   "why": "стаж и зарплата — 760 в сумме; налоговые расчёты близки к YMYL"
+  },
+  {
+   "id": "hr_orders",
+   "name": "Buyruq / приказ / lavozim yo‘riqnomasi",
+   "demand_ads": 1690,
+   "demand_upper": 2690,
+   "visits_pos3_ads": 2.0,
+   "why": "buyruq 720, приказ 210; кадровые приказы — для кадровиков, мелко"
+  }
+ ],
+ "serp_file": "docs-career-data/dc_serp_top.json"
+}

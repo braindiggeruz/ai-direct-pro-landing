@@ -1,0 +1,189 @@
+{
+ "tool": "get_search_console_performance",
+ "property": "sc-domain:gptbot.uz",
+ "window": "2026-07-22..2026-10-22 (last_3_months)",
+ "cost": "free",
+ "query_filters": {
+  "contains 'реклам' (query,page)": "106 rows, 0 clicks; no niche query. Biggest: процент рекламы телеграм ... узбекистан 54 imp pos 8.9; контекстная реклама ташкент 59 imp pos 38",
+  "contains 'reklam'": "7 rows, 0 clicks; internet reklama / target reklama / zayavka reklama",
+  "contains 'маркетинг'": "60 rows, 0 clicks; лид / маркетинг кит / словарь; аудит digital маркетинга 79 imp pos 10.1",
+  "contains 'marketing'": "10 rows, 0 clicks; marketing nima 6 imp pos 18",
+  "contains 'клиент'": "2 rows: автоматизация заявок клиентов 9 imp, робот для записи клиентов 3 imp",
+  "contains 'продаж'": "36 rows, 0 clicks; автоматизация продаж 17 imp pos 15.6; лиды в продажах",
+  "contains 'biznes'": "27 rows, all «o'zbekistonda biznes uchun ai bot»",
+  "contains 'для' and not 'бот'": "36 rows; niche-marketing traces only: сколько стоит лиды для салона красоты 7 imp pos 26.4; ии для салона красоты 20 imp; лиды для фотографа 1 imp",
+  "contains 'markaz' / 'стомат' / 'клиник'": "0 rows each",
+  "contains 'salon'": "1 row: salon bot 1 imp"
+ },
+ "page_filters": {
+  "ru ai-bot-dlya-* (3 months)": [
+   [
+    "/ru/ai-bot-dlya-salona-krasoty/",
+    4,
+    155,
+    15.3
+   ],
+   [
+    "/ru/ai-bot-dlya-yurista/",
+    0,
+    93,
+    4.5
+   ],
+   [
+    "/ru/ai-bot-dlya-kliniki/",
+    2,
+    73,
+    17.1
+   ],
+   [
+    "/ru/ai-bot-dlya-horeca/",
+    1,
+    60,
+    7.1
+   ],
+   [
+    "/ru/ai-bot-dlya-magazina/",
+    0,
+    50,
+    24.3
+   ],
+   [
+    "/ru/ai-bot-dlya-dostavki-edy/",
+    1,
+    44,
+    6.2
+   ],
+   [
+    "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+    1,
+    42,
+    9.6
+   ],
+   [
+    "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+    1,
+    40,
+    8.8
+   ],
+   [
+    "/ru/ai-bot-dlya-fitnes-kluba/",
+    0,
+    24,
+    7.5
+   ],
+   [
+    "/ru/ai-bot-dlya-avtosalona/",
+    0,
+    8,
+    27.1
+   ]
+  ],
+  "uz *-uchun-ai-bot (3 months)": [
+   [
+    "/uz/oquv-markazi-uchun-ai-bot/",
+    2,
+    15,
+    8.5
+   ],
+   [
+    "/uz/dokon-uchun-ai-bot/",
+    0,
+    22,
+    7.7
+   ],
+   [
+    "/uz/salon-uchun-ai-bot/",
+    0,
+    10,
+    2.1
+   ],
+   [
+    "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+    0,
+    10,
+    17.8
+   ],
+   [
+    "/uz/klinika-uchun-ai-bot/",
+    0,
+    7,
+    7.0
+   ],
+   [
+    "/uz/horeca-uchun-ai-bot/",
+    0,
+    7,
+    9.7
+   ],
+   [
+    "/uz/fitnes-klub-uchun-ai-bot/",
+    0,
+    7,
+    16.9
+   ],
+   [
+    "/uz/yurist-uchun-ai-bot/",
+    0,
+    5,
+    5.4
+   ],
+   [
+    "/uz/avtosalon-uchun-ai-bot/",
+    0,
+    3,
+    5.3
+   ]
+  ],
+  "pages containing 'marketing' (3 months)": [
+   [
+    "/ru/blog/chto-takoe-lid-v-marketinge/",
+    1,
+    1602,
+    25.1
+   ],
+   [
+    "/ru/blog/kak-provesti-audit-digital-marketinga/",
+    0,
+    110,
+    12.4
+   ],
+   [
+    "/ru/blog/marketingovye-terminy-slovar/",
+    0,
+    80,
+    21.8
+   ],
+   [
+    "/ru/blog/chto-takoe-marketing-kit/",
+    0,
+    73,
+    28.9
+   ],
+   [
+    "/ru/blog/plan-digital-marketinga-na-90-dney/",
+    1,
+    43,
+    8.0
+   ],
+   [
+    "/ru/digital-marketing-tashkent/",
+    0,
+    42,
+    44.4
+   ],
+   [
+    "/ru/gpt-v-marketinge-smm/",
+    0,
+    30,
+    7.6
+   ],
+   [
+    "/uz/blog/marketing-nima/",
+    0,
+    28,
+    19.9
+   ]
+  ]
+ },
+ "row_format": "[url, clicks, impressions, avg position]"
+}

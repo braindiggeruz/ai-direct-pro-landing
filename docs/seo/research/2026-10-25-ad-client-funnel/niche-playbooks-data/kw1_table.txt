@@ -1,0 +1,699 @@
+880	None	0.02	brending
+720	0.08	0.06	logo yaratish
+390	0.8	0.39	бизнес идеи
+260	1.22	0.2	рекламное агентство
+260	0.51	0.07	маркетолог
+260	0.78	0.14	reklama agentligi
+210	0.51	0.04	воронка продаж
+210	None	0.05	marketolog
+210	0.77	0.02	reklama matni yozish
+210	0.54	0.01	kichik biznes
+170	None	0	лиды
+170	None	0	o'quv markazi reklama
+170	0.86	0.05	biznes g'oyalar
+170	0.02	0.03	sotuv menejeri
+140	None	0	уникальное торговое предложение
+140	None	0	утп
+140	1.49	0.11	бизнес режа
+110	None	0	оффер
+110	None	0.03	marketing strategiyasi
+90	0.55	0.29	бизнес идеи в узбекистане
+90	3.38	0.95	рекламное агентство ташкент
+90	3.11	0.62	маркетинговое агентство
+90	None	0	сарафанное радио
+90	0.86	0.14	брендинг ташкент
+90	0.15	0.02	kichik biznes g'oyalar
+70	3.14	0.69	маркетинговое агентство ташкент
+70	None	0.01	отдел продаж
+70	None	0.09	брендинг
+70	None	0	go'zallik saloni reklama
+70	1.01	0.21	biznesni rivojlantirish
+70	None	0	reklama matni
+50	None	0	salon reklama
+50	1.25	0.14	biznes boshlash
+40	None	0	реклама кафе в инстаграм
+40	1.87	0.61	реклама ташкент
+40	None	0	целевая аудитория
+40	None	0	позиционирование
+40	None	0.01	sotuv bo'limi
+40	None	0	sotuv texnikasi
+40	None	0	стоматология реклама
+30	None	0.35	маркетинговая стратегия
+30	1.1	0.58	реклама в ташкенте
+30	0.86	0.4	маркетолог ташкент
+30	None	0.1	лидогенерация
+30	None	0	fast food reklama
+30	1.32	0.16	yangi biznes g'oyalar
+30	0.88	0.68	marketing agentligi
+30	None	0	maqsadli auditoriya
+30	1.23	0.01	бизнесни ривожлантириш
+20	0.59	0.6	бизнес в узбекистане
+20	0.2	0.47	бизнес в ташкенте
+20	None	0.08	маркетинговый план
+20	0.66	0.58	маркетинговые услуги
+20	1.45	0.12	интернет маркетинг
+20	None	0.01	фирменный стиль
+20	None	0.03	barbershop reklama
+20	None	0.01	turizm marketing
+20	1.42	0.19	reklama qilish
+20	1.25	0.18	onlayn biznes
+20	None	0.09	biznes ochish
+20	None	0	sotuv voronkasi
+20	1.41	0.73	reklama agentligi toshkent
+20	None	0.01	ресторан реклама
+10	6.68	0.03	реклама стоматологии
+10	None	0	реклама для стоматологии
+10	None	None	продвижение стоматологии
+10	None	None	маркетинг стоматологии
+10	None	0	реклама стоматологической клиники
+10	None	None	таргет для стоматологии
+10	None	0	реклама стоматологии в инстаграм
+10	None	None	продвижение стоматологии в инстаграм
+10	None	0.29	контекстная реклама для стоматологии
+10	None	None	сайт для стоматологии
+10	None	0	реклама клиники
+10	None	None	реклама для клиники
+10	None	None	продвижение клиники
+10	None	None	маркетинг клиники
+10	3.56	0.57	маркетинг для клиники
+10	None	None	реклама медицинского центра
+10	None	None	продвижение медицинского центра
+10	None	0	реклама медицинских услуг
+10	None	None	сайт для клиники
+10	None	None	раскрутка клиники
+10	None	0	реклама учебного центра
+10	None	0.04	реклама для учебного центра
+10	None	None	продвижение учебного центра
+10	None	None	реклама образовательного центра
+10	None	0	реклама курсов
+10	None	None	реклама образовательных услуг
+10	2.9	0.07	реклама ресторана
+10	None	0	реклама для ресторана
+10	None	0	продвижение ресторана
+10	None	None	маркетинг ресторана
+10	None	None	маркетинг для ресторана
+10	None	0.29	реклама кафе
+10	None	None	продвижение кафе
+10	None	0.57	сайт для ресторана
+10	None	None	раскрутка ресторана
+10	None	0	реклама салона красоты
+10	None	0	реклама для салона красоты
+10	None	None	продвижение салона красоты
+10	None	None	маркетинг для салона красоты
+10	None	0	таргет для салона красоты
+10	None	0	реклама салона красоты в инстаграм
+10	None	0	сайт для салона красоты
+10	None	0	реклама недвижимости
+10	None	None	продвижение недвижимости
+10	None	0.05	маркетинг недвижимости
+10	None	None	маркетинг для недвижимости
+10	None	None	реклама застройщика
+10	None	0	реклама жк
+10	None	0	реклама новостроек
+10	None	None	реклама агентства недвижимости
+10	None	0	реклама недвижимости в инстаграм
+10	None	None	сайт для недвижимости
+10	None	0	реклама автосалона
+10	None	None	реклама для автосалона
+10	None	None	маркетинг автосалона
+10	None	0.12	реклама автосервиса
+10	None	0	реклама магазина одежды
+10	None	None	реклама для магазина одежды
+10	None	None	маркетинг для магазина одежды
+10	None	0.04	реклама одежды
+10	None	None	таргет для магазина одежды
+10	None	0	реклама магазина одежды в инстаграм
+10	None	None	сайт для магазина одежды
+10	None	None	раскрутка магазина одежды
+10	None	0	реклама мебели
+10	None	None	реклама для мебели
+10	None	None	продвижение мебели
+10	None	None	реклама мебельного магазина
+10	None	0	реклама мебели в инстаграм
+10	None	None	сайт для мебели
+10	None	0	реклама турагентства
+10	None	None	реклама для турагентства
+10	None	None	продвижение турагентства
+10	None	0	реклама туров
+10	None	0.07	реклама туристической компании
+10	None	None	продвижение туристической компании
+10	None	None	сайт для турагентства
+10	None	0	реклама фитнес клуба
+10	None	None	реклама для фитнес клуба
+10	None	None	продвижение фитнес клуба
+10	None	None	маркетинг фитнес клуба
+10	None	None	реклама спортзала
+10	None	0	реклама фитнес центра
+10	None	None	сайт для фитнес клуба
+10	None	None	раскрутка фитнес клуба
+10	None	0	реклама юридических услуг
+10	None	None	реклама юриста
+10	None	None	реклама адвоката
+10	None	None	реклама юридической компании
+10	None	None	сайт для юридических услуг
+10	None	None	как привлечь клиентов в стоматологию
+10	None	None	как привлечь пациентов в клинику
+10	None	None	как привлечь пациентов
+10	None	0.29	медицинский маркетинг
+10	None	0	маркетинг в медицине
+10	None	0.14	маркетинг в стоматологии
+10	None	None	как привлечь учеников в учебный центр
+10	None	None	маркетинг в образовании
+10	None	None	как привлечь клиентов в ресторан
+10	None	0	как привлечь клиентов в кафе
+10	None	None	ресторанный маркетинг
+10	None	0	как привлечь клиентов в салон красоты
+10	0.4	0.43	как продать квартиру быстро
+10	None	None	маркетинг в недвижимости
+10	None	None	реклама риэлтора
+10	None	0	как привлечь клиентов в автосервис
+10	None	None	как продвигать магазин одежды
+10	None	None	как раскрутить магазин одежды
+10	None	None	как продвигать бренд одежды
+10	0.41	0.48	как продавать мебель
+10	None	None	маркетинг мебельного магазина
+10	None	None	как привлечь клиентов в турагентство
+10	None	0.03	маркетинг в туризме
+10	None	None	реклама в туризме
+10	None	None	как привлечь клиентов в фитнес клуб
+10	None	None	маркетинг для юристов
+10	None	0	открыть кафе
+10	None	0	как открыть кафе
+10	None	None	как открыть ресторан
+10	None	None	как открыть учебный центр
+10	None	None	открыть учебный центр
+10	0.46	0.29	открыть учебный центр в ташкенте
+10	None	None	как открыть стоматологию
+10	None	None	открыть стоматологию
+10	None	0	как открыть салон красоты
+10	None	0.05	открыть салон красоты
+10	None	0.43	как открыть магазин одежды
+10	None	None	открыть магазин одежды
+10	None	0	как открыть автосервис
+10	None	None	открыть автосервис
+10	16.12	0.11	как открыть турагентство
+10	None	0	открыть турагентство
+10	None	None	как открыть фитнес клуб
+10	None	0.57	открыть бизнес в узбекистане
+10	0.37	0.52	какой бизнес открыть в ташкенте
+10	None	None	бизнес план кафе
+10	None	0	бизнес план учебного центра
+10	None	None	бизнес план салона красоты
+10	None	None	бизнес план стоматологии
+10	0.59	0.29	как привлечь клиентов
+10	None	0	привлечение клиентов
+10	None	0.57	как найти клиентов
+10	None	0.71	как увеличить продажи
+10	None	None	увеличение продаж
+10	None	0.43	как поднять продажи
+10	None	0.18	развитие бизнеса
+10	None	0.43	как развить бизнес
+10	None	0.43	как развивать бизнес
+10	None	None	маркетинг для малого бизнеса
+10	None	0	план маркетинга
+10	None	None	как продвигать бизнес
+10	None	None	продвижение бизнеса в интернете
+10	0.58	0.71	продвижение бизнеса
+10	None	None	где дать рекламу
+10	1.41	0.69	услуги маркетолога
+10	None	None	нанять маркетолога
+10	None	None	маркетолог на аутсорсе
+10	0.03	0.11	маркетолог вакансии ташкент
+10	0.63	0.31	маркетинг ташкент
+10	None	0	скрипт продаж
+10	None	0.01	холодные звонки
+10	1.74	0.38	база клиентов
+10	None	0	как удержать клиентов
+10	None	0	партизанский маркетинг
+10	1.41	0.86	бесплатная реклама
+10	1.28	0.27	как сделать рекламу
+10	None	None	как рекламировать бизнес
+10	1.15	0.76	digital маркетинг
+10	None	None	стоимость лида
+10	None	None	как определить целевую аудиторию
+10	None	0.05	анализ конкурентов
+10	None	0.17	нейминг
+10	None	0	логотип ташкент
+10	None	None	упаковка бизнеса
+10	None	0	упаковка инстаграм
+10	None	None	аудит инстаграм
+10	None	0	продающий текст
+10	None	0	продающий пост
+10	None	None	klinika reklama
+10	None	0.14	klinika marketing
+10	None	None	kurs reklama
+10	None	0	o'quv markaz ochish
+10	None	None	restoran marketing
+10	None	0	kafe reklama
+10	None	0	restoran instagram
+10	None	0	go'zallik saloni ochish
+10	None	0	kiyim do'koni ochish
+10	None	0.12	mebel instagram
+10	None	None	fitnes reklama
+10	None	0.29	fitnes marketing
+10	None	0	fitnes instagram
+10	None	0	avtoservis ochish
+10	None	0	sotuvni oshirish
+10	None	0	savdoni oshirish
+10	None	None	marketing rejasi
+10	None	None	marketing reja
+10	None	0	biznes reklama
+10	1.09	0.57	reklama berish
+10	None	None	instagramda reklama berish
+10	2.18	0.36	telegramda reklama berish
+10	None	0	internet do'kon ochish
+10	None	0	sotuv skripti
+10	None	None	marketolog xizmati
+10	None	0	raqobatchilar tahlili
+10	None	0.06	instagram biznes
+10	None	0	telegram biznes
+10	1.1	0.43	маркетинг стратегия
+10	0.77	0.18	бизнес ғоялар
+10	None	0.02	кафе реклама
+0	None	None	маркетинг для стоматологии
+0	None	None	продвижение стоматологической клиники
+0	None	None	smm для стоматологии
+0	None	None	таргетированная реклама для стоматологии
+0	None	None	реклама стоматологии ташкент
+0	None	None	продвижение стоматологии ташкент
+0	None	None	реклама стоматологии в телеграм
+0	None	None	seo для стоматологии
+0	None	None	раскрутка стоматологии
+0	None	None	продвижение медицинских услуг
+0	None	None	smm для клиники
+0	None	None	таргет для клиники
+0	None	None	таргетированная реклама для клиники
+0	None	None	реклама клиники в инстаграм
+0	None	None	реклама клиники ташкент
+0	None	None	продвижение клиники ташкент
+0	None	None	продвижение клиники в инстаграм
+0	None	None	контекстная реклама для клиники
+0	None	None	реклама клиники в телеграм
+0	None	None	seo для клиники
+0	None	None	маркетинг учебного центра
+0	None	None	маркетинг для учебного центра
+0	None	None	продвижение образовательного центра
+0	None	None	продвижение курсов
+0	None	None	продвижение образовательных услуг
+0	None	None	smm для учебного центра
+0	None	None	таргет для учебного центра
+0	None	None	таргетированная реклама для учебного центра
+0	None	None	реклама учебного центра в инстаграм
+0	None	None	реклама учебного центра ташкент
+0	None	None	продвижение учебного центра ташкент
+0	None	None	продвижение учебного центра в инстаграм
+0	None	None	контекстная реклама для учебного центра
+0	None	None	реклама учебного центра в телеграм
+0	None	None	seo для учебного центра
+0	None	None	сайт для учебного центра
+0	None	None	раскрутка учебного центра
+0	None	None	smm для ресторана
+0	None	None	таргет для ресторана
+0	None	None	таргетированная реклама для ресторана
+0	None	None	реклама ресторана в инстаграм
+0	None	None	реклама ресторана ташкент
+0	None	None	продвижение ресторана ташкент
+0	None	None	продвижение ресторана в инстаграм
+0	None	None	контекстная реклама для ресторана
+0	None	None	реклама ресторана в телеграм
+0	None	None	seo для ресторана
+0	None	None	маркетинг салона красоты
+0	None	None	реклама бьюти мастера
+0	None	None	продвижение бьюти мастера
+0	None	None	smm для салона красоты
+0	None	None	таргетированная реклама для салона красоты
+0	None	None	реклама салона красоты ташкент
+0	None	None	продвижение салона красоты ташкент
+0	None	None	продвижение салона красоты в инстаграм
+0	None	None	контекстная реклама для салона красоты
+0	None	None	реклама салона красоты в телеграм
+0	None	None	seo для салона красоты
+0	None	None	раскрутка салона красоты
+0	None	None	реклама для недвижимости
+0	None	None	продвижение застройщика
+0	None	None	продвижение жк
+0	None	None	продвижение новостроек
+0	None	None	продвижение агентства недвижимости
+0	None	None	smm для недвижимости
+0	None	None	таргет для недвижимости
+0	None	None	таргетированная реклама для недвижимости
+0	None	None	реклама недвижимости ташкент
+0	None	None	продвижение недвижимости ташкент
+0	None	None	продвижение недвижимости в инстаграм
+0	None	None	контекстная реклама для недвижимости
+0	None	None	реклама недвижимости в телеграм
+0	None	None	seo для недвижимости
+0	None	None	раскрутка недвижимости
+0	None	None	продвижение автосалона
+0	None	None	маркетинг для автосалона
+0	None	None	продвижение автосервиса
+0	None	None	smm для автосалона
+0	None	None	таргет для автосалона
+0	None	None	таргетированная реклама для автосалона
+0	None	None	реклама автосалона в инстаграм
+0	None	None	реклама автосалона ташкент
+0	None	None	продвижение автосалона ташкент
+0	None	None	продвижение автосалона в инстаграм
+0	None	None	контекстная реклама для автосалона
+0	None	None	реклама автосалона в телеграм
+0	None	None	seo для автосалона
+0	None	None	сайт для автосалона
+0	None	None	раскрутка автосалона
+0	None	None	продвижение магазина одежды
+0	None	None	маркетинг магазина одежды
+0	None	None	продвижение одежды
+0	None	None	smm для магазина одежды
+0	None	None	таргетированная реклама для магазина одежды
+0	None	None	реклама магазина одежды ташкент
+0	None	None	продвижение магазина одежды ташкент
+0	None	None	продвижение магазина одежды в инстаграм
+0	None	None	контекстная реклама для магазина одежды
+0	None	None	реклама магазина одежды в телеграм
+0	None	None	seo для магазина одежды
+0	None	None	маркетинг мебели
+0	None	None	маркетинг для мебели
+0	None	None	продвижение мебельного магазина
+0	None	None	smm для мебели
+0	None	None	таргет для мебели
+0	None	None	таргетированная реклама для мебели
+0	None	None	реклама мебели ташкент
+0	None	None	продвижение мебели ташкент
+0	None	None	продвижение мебели в инстаграм
+0	None	None	контекстная реклама для мебели
+0	None	None	реклама мебели в телеграм
+0	None	None	seo для мебели
+0	None	None	раскрутка мебели
+0	None	None	маркетинг турагентства
+0	None	None	маркетинг для турагентства
+0	None	None	продвижение туров
+0	None	None	smm для турагентства
+0	None	None	таргет для турагентства
+0	None	None	таргетированная реклама для турагентства
+0	None	None	реклама турагентства в инстаграм
+0	None	None	реклама турагентства ташкент
+0	None	None	продвижение турагентства ташкент
+0	None	None	продвижение турагентства в инстаграм
+0	None	None	контекстная реклама для турагентства
+0	None	None	реклама турагентства в телеграм
+0	None	None	seo для турагентства
+0	None	None	раскрутка турагентства
+0	None	None	маркетинг для фитнес клуба
+0	None	None	продвижение спортзала
+0	None	None	продвижение фитнес центра
+0	None	None	smm для фитнес клуба
+0	None	None	таргет для фитнес клуба
+0	None	None	таргетированная реклама для фитнес клуба
+0	None	None	реклама фитнес клуба в инстаграм
+0	None	None	реклама фитнес клуба ташкент
+0	None	None	продвижение фитнес клуба ташкент
+0	None	None	продвижение фитнес клуба в инстаграм
+0	None	None	контекстная реклама для фитнес клуба
+0	None	None	реклама фитнес клуба в телеграм
+0	None	None	seo для фитнес клуба
+0	None	None	реклама для юридических услуг
+0	None	None	продвижение юридических услуг
+0	None	None	маркетинг юридических услуг
+0	None	None	маркетинг для юридических услуг
+0	None	None	продвижение юриста
+0	None	None	продвижение адвоката
+0	None	None	продвижение юридической компании
+0	None	None	smm для юридических услуг
+0	None	None	таргет для юридических услуг
+0	None	None	таргетированная реклама для юридических услуг
+0	None	None	реклама юридических услуг в инстаграм
+0	None	None	реклама юридических услуг ташкент
+0	None	None	продвижение юридических услуг ташкент
+0	None	None	продвижение юридических услуг в инстаграм
+0	None	None	контекстная реклама для юридических услуг
+0	None	None	реклама юридических услуг в телеграм
+0	None	None	seo для юридических услуг
+0	None	None	раскрутка юридических услуг
+0	None	None	реклама медицинских услуг закон
+0	None	None	как набрать учеников
+0	None	None	как набрать учеников в учебный центр
+0	None	None	как найти клиентов в салон красоты
+0	None	None	лиды на недвижимость
+0	None	None	маркетинг автосервиса
+0	None	None	как привлечь клиентов юристу
+0	None	None	реклама юридических услуг в интернете
+0	None	None	открыть кафе в ташкенте
+0	None	None	открыть ресторан в ташкенте
+0	None	None	реклама для малого бизнеса
+0	None	None	продвижение малого бизнеса
+0	None	None	где дать рекламу в ташкенте
+0	None	None	сколько стоит маркетолог
+0	None	None	маркетинговые услуги ташкент
+0	None	None	как прорекламировать бизнес
+0	None	None	реклама бизнеса в интернете
+0	None	None	лидогенерация ташкент
+0	None	None	stomatologiya reklama
+0	None	None	stomatologiya uchun reklama
+0	None	None	stomatologiya reklamasi
+0	None	None	stomatologiya marketing
+0	None	None	stomatologiya klinikasi reklama
+0	None	None	stomatologiya klinikasi uchun reklama
+0	None	None	tish klinikasi reklama
+0	None	None	tish klinikasi uchun reklama
+0	None	None	stomatologiya uchun marketing
+0	None	None	stomatologiya uchun smm
+0	None	None	stomatologiya uchun target
+0	None	None	stomatologiya mijoz topish
+0	None	None	stomatologiya reklama matni
+0	None	None	stomatologiya ochish
+0	None	None	stomatologiya biznes reja
+0	None	None	stomatologiya instagram
+0	None	None	stomatologiya uchun sayt
+0	None	None	klinika uchun reklama
+0	None	None	klinika reklamasi
+0	None	None	tibbiyot markazi reklama
+0	None	None	tibbiyot markazi uchun reklama
+0	None	None	shifoxona reklama
+0	None	None	shifoxona uchun reklama
+0	None	None	klinika uchun marketing
+0	None	None	klinika uchun smm
+0	None	None	klinika uchun target
+0	None	None	klinika mijoz topish
+0	None	None	klinika reklama matni
+0	None	None	klinika ochish
+0	None	None	klinika biznes reja
+0	None	None	klinika instagram
+0	None	None	klinika uchun sayt
+0	None	None	o'quv markaz reklama
+0	None	None	o'quv markaz uchun reklama
+0	None	None	o'quv markaz reklamasi
+0	None	None	o'quv markaz marketing
+0	None	None	o'quv markazi uchun reklama
+0	None	None	kurs uchun reklama
+0	None	None	kurslar reklama
+0	None	None	kurslar uchun reklama
+0	None	None	ta'lim markazi reklama
+0	None	None	ta'lim markazi uchun reklama
+0	None	None	o'quv markaz uchun marketing
+0	None	None	o'quv markaz uchun smm
+0	None	None	o'quv markaz uchun target
+0	None	None	o'quv markaz mijoz topish
+0	None	None	o'quv markaz reklama matni
+0	None	None	o'quv markaz biznes reja
+0	None	None	o'quv markaz instagram
+0	None	None	o'quv markaz uchun sayt
+0	None	None	restoran reklama
+0	None	None	restoran uchun reklama
+0	None	None	restoran reklamasi
+0	None	None	kafe uchun reklama
+0	None	None	fast food uchun reklama
+0	None	None	choyxona reklama
+0	None	None	choyxona uchun reklama
+0	None	None	oshxona reklama
+0	None	None	oshxona uchun reklama
+0	None	None	restoran uchun marketing
+0	None	None	restoran uchun smm
+0	None	None	restoran uchun target
+0	None	None	restoran mijoz topish
+0	None	None	restoran reklama matni
+0	None	None	restoran ochish
+0	None	None	restoran biznes reja
+0	None	None	restoran uchun sayt
+0	None	None	go'zallik saloni uchun reklama
+0	None	None	go'zallik saloni reklamasi
+0	None	None	go'zallik saloni marketing
+0	None	None	salon uchun reklama
+0	None	None	sartaroshxona reklama
+0	None	None	sartaroshxona uchun reklama
+0	None	None	barbershop uchun reklama
+0	None	None	go'zallik saloni uchun marketing
+0	None	None	go'zallik saloni uchun smm
+0	None	None	go'zallik saloni uchun target
+0	None	None	go'zallik saloni mijoz topish
+0	None	None	go'zallik saloni reklama matni
+0	None	None	go'zallik saloni biznes reja
+0	None	None	go'zallik saloni instagram
+0	None	None	go'zallik saloni uchun sayt
+0	None	None	ko'chmas mulk reklama
+0	None	None	ko'chmas mulk uchun reklama
+0	None	None	ko'chmas mulk reklamasi
+0	None	None	ko'chmas mulk marketing
+0	None	None	uy sotish reklama
+0	None	None	uy sotish uchun reklama
+0	None	None	kvartira reklama
+0	None	None	kvartira uchun reklama
+0	None	None	quruvchi reklama
+0	None	None	quruvchi uchun reklama
+0	None	None	qurilish kompaniyasi reklama
+0	None	None	qurilish kompaniyasi uchun reklama
+0	None	None	yangi uylar reklama
+0	None	None	yangi uylar uchun reklama
+0	None	None	ko'chmas mulk uchun marketing
+0	None	None	ko'chmas mulk uchun smm
+0	None	None	ko'chmas mulk uchun target
+0	None	None	ko'chmas mulk mijoz topish
+0	None	None	ko'chmas mulk reklama matni
+0	None	None	ko'chmas mulk ochish
+0	None	None	ko'chmas mulk biznes reja
+0	None	None	ko'chmas mulk instagram
+0	None	None	ko'chmas mulk uchun sayt
+0	None	None	avtosalon reklama
+0	None	None	avtosalon uchun reklama
+0	None	None	avtosalon reklamasi
+0	None	None	avtosalon marketing
+0	None	None	avtoservis reklama
+0	None	None	avtoservis uchun reklama
+0	None	None	avtomobil reklama
+0	None	None	avtomobil uchun reklama
+0	None	None	avtosalon uchun marketing
+0	None	None	avtosalon uchun smm
+0	None	None	avtosalon uchun target
+0	None	None	avtosalon mijoz topish
+0	None	None	avtosalon reklama matni
+0	None	None	avtosalon ochish
+0	None	None	avtosalon biznes reja
+0	None	None	avtosalon instagram
+0	None	None	avtosalon uchun sayt
+0	None	None	kiyim do'koni reklama
+0	None	None	kiyim do'koni uchun reklama
+0	None	None	kiyim do'koni reklamasi
+0	None	None	kiyim do'koni marketing
+0	None	None	kiyim reklama
+0	None	None	kiyim uchun reklama
+0	None	None	kiyimlar reklama
+0	None	None	kiyimlar uchun reklama
+0	None	None	kiyim do'koni uchun marketing
+0	None	None	kiyim do'koni uchun smm
+0	None	None	kiyim do'koni uchun target
+0	None	None	kiyim do'koni mijoz topish
+0	None	None	kiyim do'koni reklama matni
+0	None	None	kiyim do'koni biznes reja
+0	None	None	kiyim do'koni instagram
+0	None	None	kiyim do'koni uchun sayt
+0	None	None	mebel reklama
+0	None	None	mebel uchun reklama
+0	None	None	mebel reklamasi
+0	None	None	mebel marketing
+0	None	None	mebel do'koni reklama
+0	None	None	mebel do'koni uchun reklama
+0	None	None	mebel uchun marketing
+0	None	None	mebel uchun smm
+0	None	None	mebel uchun target
+0	None	None	mebel mijoz topish
+0	None	None	mebel reklama matni
+0	None	None	mebel ochish
+0	None	None	mebel biznes reja
+0	None	None	mebel uchun sayt
+0	None	None	turizm reklama
+0	None	None	turizm uchun reklama
+0	None	None	turizm reklamasi
+0	None	None	turagentlik reklama
+0	None	None	turagentlik uchun reklama
+0	None	None	turfirma reklama
+0	None	None	turfirma uchun reklama
+0	None	None	sayohat reklama
+0	None	None	sayohat uchun reklama
+0	None	None	turizm uchun marketing
+0	None	None	turizm uchun smm
+0	None	None	turizm uchun target
+0	None	None	turizm mijoz topish
+0	None	None	turizm reklama matni
+0	None	None	turizm ochish
+0	None	None	turizm biznes reja
+0	None	None	turizm instagram
+0	None	None	turizm uchun sayt
+0	None	None	fitnes uchun reklama
+0	None	None	fitnes reklamasi
+0	None	None	sport zal reklama
+0	None	None	sport zal uchun reklama
+0	None	None	fitnes klub reklama
+0	None	None	fitnes klub uchun reklama
+0	None	None	fitnes uchun marketing
+0	None	None	fitnes uchun smm
+0	None	None	fitnes uchun target
+0	None	None	fitnes mijoz topish
+0	None	None	fitnes reklama matni
+0	None	None	fitnes ochish
+0	None	None	fitnes biznes reja
+0	None	None	fitnes uchun sayt
+0	None	None	yurist reklama
+0	None	None	yurist uchun reklama
+0	None	None	yurist reklamasi
+0	None	None	yurist marketing
+0	None	None	yuridik xizmatlar reklama
+0	None	None	yuridik xizmatlar uchun reklama
+0	None	None	advokat reklama
+0	None	None	advokat uchun reklama
+0	None	None	yurist uchun marketing
+0	None	None	yurist uchun smm
+0	None	None	yurist uchun target
+0	None	None	yurist mijoz topish
+0	None	None	yurist reklama matni
+0	None	None	yurist ochish
+0	None	None	yurist biznes reja
+0	None	None	yurist instagram
+0	None	None	yurist uchun sayt
+0	None	None	o'quv markazga o'quvchi jalb qilish
+0	None	None	o'quvchi jalb qilish
+0	None	None	o'quv markaz ochish uchun nima kerak
+0	None	None	kafe ochish uchun nima kerak
+0	None	None	kafe ochish
+0	None	None	salon ochish
+0	None	None	mebel sexi ochish
+0	None	None	turagentlik ochish
+0	None	None	fitnes zal ochish
+0	None	None	uy sotish elon
+0	None	None	uyni tez sotish
+0	None	None	kvartira sotish
+0	None	None	uyni qanday sotish
+0	None	None	mijoz topish
+0	None	None	mijozlarni jalb qilish
+0	None	None	mijoz jalb qilish
+0	None	None	mijozlar bazasi
+0	None	None	mijoz topish usullari
+0	None	None	mijozlarni qanday topish
+0	None	None	sotuvni ko'paytirish
+0	None	None	savdoni ko'paytirish
+0	None	None	sotuvni oshirish usullari
+0	None	None	biznesni rivojlantirish yo'llari
+0	None	None	marketing strategiya
+0	None	None	biznesni reklama qilish
+0	None	None	kichik biznes reklama
+0	None	None	reklama qanday qilinadi
+0	None	None	reklama joylashtirish
+0	None	None	internetda reklama
+0	None	None	o'zbekistonda biznes
+0	None	None	toshkentda biznes
+0	None	None	sotuv skriptlari
+0	None	None	marketolog kerak
+0	None	None	sotuvchi matn
+0	None	None	biznes uchun instagram
+0	None	None	biznesni o'stirish
+0	None	None	daromadni oshirish
+0	None	None	mijozlarni ushlab qolish
+0	None	None	o'rta biznes
+0	None	None	мижоз топиш
+0	None	None	мижозларни жалб қилиш
+0	None	None	сотувни ошириш
+0	None	None	савдони ошириш
+0	None	None	реклама қилиш
+0	None	None	реклама бериш
+0	None	None	бизнес очиш
+0	None	None	ўқув маркази реклама
+0	None	None	мебел реклама
+0	None	None	кийим реклама
+0	None	None	реклама матни

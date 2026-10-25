@@ -1,0 +1,156 @@
+{"keyword": "gemini", "search_volume": 1500000, "keyword_difficulty": null, "main_intent": null, "cpc": 0.4, "competition": 0, "competition_level": "LOW", "monthly_searches": [{"year": 2026, "month": 9, "search_volume": 2740000}, {"year": 2026, "month": 8, "search_volume": 1830000}, {"year": 2026, "month": 7, "search_volume": 1830000}, {"year": 2026, "month": 6, "search_volume": 2240000}, {"year": 2026, "month": 5, "search_volume": 2740000}, {"year": 2026, "month": 4, "search_volume": 2240000}, {"year": 2026, "month": 3, "search_volume": 1500000}, {"year": 2026, "month": 2, "search_volume": 1220000}, {"year": 2026, "month": 1, "search_volume": 1500000}, {"year": 2025, "month": 12, "search_volume": 823000}, {"year": 2025, "month": 11, "search_volume": 550000}, {"year": 2025, "month": 10, "search_volume": 450000}]}
+{'projectId': '7534113b-f748-4f98-ac39-9e3782d3d9e7', 'url': 'https://app.openseo.so/p/7534113b-f748-4f98-ac39-9e3782d3d9e7/keywords'}
+18100 | imlo lug'ati | kw2_metrics.json
+18100 | поздравление с днем рождения | kw2_metrics.json
+9900 | she'rlar | kw1_metrics.json
+9900 | topishmoqlar | kw1_metrics.json
+8100 | maqollar | kw1_metrics.json
+6600 | sher | kw1_metrics.json
+6600 | matn yaratish | kw2_metrics.json
+6600 | hikoya | kw2_metrics.json
+5400 | imlo | kw1_metrics.json
+5400 | imlo qoidalari | ep_kw1_metrics.json
+4400 | esse | kw1_metrics.json
+4400 | matn | kw2_metrics.json
+3600 | esse yozish tartibi | kw3_metrics.json
+3600 | русско узбекский словарь | ll_kw_metrics.json
+2900 | maqola | kw1_metrics.json
+2900 | esse yozish | kw1_metrics.json
+2400 | ingliz tili grammatika | kw2_metrics.json
+2400 | ingliz tili grammatikasi | ll_kw_metrics.json
+2400 | inglizcha statuslar | ll_kw_metrics2.json
+1900 | англо русский словарь | ll_kw_metrics.json
+1600 | esse namunalari | kw2_metrics.json
+1600 | перевод слов | ll_kw_metrics.json
+1600 | перевод слова | ll_kw_metrics.json
+1300 | insho | kw1_metrics.json
+1300 | tugilgan kun tabriklari | kw1_metrics.json
+1300 | sevgi she'rlari | kw1_metrics.json
+1000 | tabriklar | kw1_metrics.json
+1000 | esse mavzulari | ep_kw1_metrics.json
+1000 | узбекско русский словарь | ll_kw_metrics.json
+880 | insho yozish | kw1_metrics.json
+880 | imlo tekshirish | kw1_metrics.json
+880 | yangi yil tabriklari | kw2_metrics.json
+880 | tinish belgilari | ep_kw1_metrics.json
+720 | сочинение | kw1_metrics.json
+720 | esse namunasi | kw4_metrics.json
+590 | табриклар | kw1_metrics.json
+590 | перефразировать текст | kw1_metrics.json
+590 | английские слова | ll_kw_metrics.json
+590 | слова на английском | ll_kw_metrics.json
+480 | maqola yozish | kw1_metrics.json
+480 | matn yozish | kw1_metrics.json
+480 | табрик | kw1_metrics.json
+480 | проверка орфографии | kw1_metrics.json
+390 | arab tili grammatikasi | ll_kw_metrics2.json
+320 | matnni ovozga aylantirish | kw1_metrics.json
+320 | ism ma'nosi | kw1_metrics.json
+320 | ismlar ma'nosi | kw1_metrics.json
+320 | insho namuna | kw4_metrics.json
+260 | ovozni matnga aylantirish | kw1_metrics.json
+260 | hikoya yozish | kw1_metrics.json
+260 | insho namunalari | kw2_metrics.json
+260 | rus tili grammatika | ll_kw_metrics.json
+210 | maqola namunasi | kw2_metrics.json
+210 | esse namuna | kw2_metrics.json
+210 | узбекский алфавит кириллица | ll_kw_metrics2.json
+170 | транскрипция английских слов | ll_kw_metrics.json
+140 | перевод слов с английского на русский | ll_kw_metrics.json
+140 | корейские слова | ll_kw_metrics.json
+110 | matn tarjima | kw1_metrics.json
+110 | проверка текста на ошибки | kw1_metrics.json
+110 | onaga tabrik | kw2_metrics.json
+110 | английские слова с переводом | ll_kw_metrics.json
+110 | узбекские слова | ll_kw_metrics.json
+110 | узбекский алфавит латиница | ll_kw_metrics2.json
+90 | matnni tekshirish | kw1_metrics.json
+90 | исправить ошибки в тексте | kw2_metrics.json
+90 | темы для эссе | ep_kw1_metrics.json
+90 | inglizcha maqollar | ll_kw_metrics.json
+70 | sher yozish | kw1_metrics.json
+70 | иншо | kw1_metrics.json
+70 | insho mavzulari | kw2_metrics.json
+70 | написать сочинение | kw2_metrics.json
+70 | проверка орфографии онлайн | kw2_metrics.json
+70 | слова на узбекском | ll_kw_metrics2.json
+50 | пересказ текста | kw1_metrics.json
+50 | генератор текста | kw1_metrics.json
+50 | перефразировать текст онлайн | kw2_metrics.json
+50 | произношение английских слов | ll_kw_metrics.json
+50 | турецкие слова | ll_kw_metrics.json
+40 | эссе на английском | ll_kw_metrics.json
+40 | немецкие слова | ll_kw_metrics.json
+40 | англо русский словарь с транскрипцией | ll_kw_metrics.json
+30 | нейросеть для написания текста | kw1_metrics.json
+30 | рерайт текста | kw1_metrics.json
+30 | написать эссе | kw2_metrics.json
+30 | английские слова для начинающих | ll_kw_metrics.json
+30 | словарь узбекского языка | ll_kw_metrics.json
+20 | tabrik yozish | kw1_metrics.json
+20 | иншо ёзиш | kw1_metrics.json
+20 | сократить текст | kw1_metrics.json
+20 | генератор стихов | kw1_metrics.json
+20 | imlo xatolar | kw2_metrics.json
+20 | diktant matnlari | kw2_metrics.json
+20 | diktant matni | kw2_metrics.json
+20 | tabrik matni | kw2_metrics.json
+20 | уникальность текста | kw2_metrics.json
+20 | поздравление на узбекском | ll_kw_metrics2.json
+10 | she'r yozish | kw1_metrics.json
+10 | нейросеть для текста | kw1_metrics.json
+10 | нейросеть для эссе | kw1_metrics.json
+10 | нейросеть для сочинения | kw1_metrics.json
+10 | нейросеть стихи | kw1_metrics.json
+10 | генератор поздравлений | kw1_metrics.json
+10 | sms tabrik | kw1_metrics.json
+10 | suniy intellekt haqida esse | kw2_metrics.json
+10 | tabrik so'zlari | kw2_metrics.json
+10 | ustozlar kuni tabrik | kw2_metrics.json
+10 | сочинение онлайн | kw2_metrics.json
+10 | sher tahlili | ep_kw1_metrics.json
+10 | проверка грамматики английского | ll_kw_metrics.json
+10 | 1000 английских слов | ll_kw_metrics.json
+10 | учить английские слова | ll_kw_metrics.json
+10 | карточки для изучения английских слов | ll_kw_metrics.json
+10 | английские пословицы | ll_kw_metrics.json
+10 | рассказ о себе на английском | ll_kw_metrics.json
+10 | ingliz tilida tabrik | ll_kw_metrics.json
+10 | ingliz tilida insho | ll_kw_metrics.json
+10 | узбекские слова с переводом | ll_kw_metrics.json
+10 | inglizcha tabrik | ll_kw_metrics2.json
+10 | узбекская латиница | ll_kw_metrics2.json
+10 | перевод на узбекский слова | ll_kw_metrics2.json
+None | ilmiy maqola yozish | kw1_metrics.json
+None | maqola yozish namuna | kw1_metrics.json
+None | matn yozish ai | kw1_metrics.json
+None | tug'ilgan kun tabrik | kw1_metrics.json
+None | o'zbek tili imlo | kw1_metrics.json
+None | imlo xatolarini tekshirish | kw1_metrics.json
+None | мақола ёзиш | kw1_metrics.json
+None | шеър ёзиш | kw1_metrics.json
+0 | нейросеть поздравление | kw1_metrics.json
+None | эссе | kw1_metrics.json
+None | maqola yozish tartibi | kw2_metrics.json
+None | maqola yozish qoidalari | kw2_metrics.json
+None | ilmiy maqola | kw2_metrics.json
+None | ilmiy maqola namuna | kw2_metrics.json
+None | imlo tekshiruvchi | kw2_metrics.json
+None | imlo tekshirish online | kw2_metrics.json
+None | o'zbek tili imlo lug'ati | kw2_metrics.json
+None | bayon matnlari | kw2_metrics.json
+None | she'r yozib berish | kw2_metrics.json
+None | she'r yaratish | kw2_metrics.json
+None | tug'ilgan kun tabriklari | kw2_metrics.json
+None | tug'ilgan kunga tabrik | kw2_metrics.json
+None | esse yozib berish | kw3_metrics.json
+None | insho yozib berish | kw3_metrics.json
+None | insho yozish ai | kw3_metrics.json
+None | ingliz tili grammatika test | ep_kw1_metrics.json
+None | ozbek tili grammatikasi | ep_kw1_metrics.json
+None | alisher navoiy asarlari | ep_kw1_metrics.json
+None | alisher navoiy haqida | ep_kw1_metrics.json
+None | ilmiy maqola mavzulari | ep_kw1_metrics.json
+None | ingliz tili grammatika mashqlar | ll_kw_metrics.json
+None | turk tili grammatika | ll_kw_metrics.json
+None | nemis tili grammatika | ll_kw_metrics.json

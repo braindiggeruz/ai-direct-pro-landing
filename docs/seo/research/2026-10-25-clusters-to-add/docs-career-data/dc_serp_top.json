@@ -1,0 +1,16 @@
+{
+ "source": "OpenSEO get_serp_results, location 2860, language ru (project default), desktop, depth 10, 2026-10-25, resultId 60d21a41-40ba-4eec-8cef-04948ea7540f, one call, 10 queries",
+ "reused": "obyektivka namuna, tavsifnoma namuna (2026-10-24-growth-audit/l3-data/serp1.json), dalolatnoma namuna (serp2.json) - not paid again",
+ "queries": {
+  "amaliyot kundaligi": {"aio_rank": 2, "organic": ["scribd.com PDF 'Amaliyot Kundaligi'", "doclab.uz paid 'Pedagogik amaliyot kundaligi'", "soff.uz paid 1 100 so'm", "scribd.com PDF '3-Bosqich'", "arxiv.uz 2023 shablon", "researchgate.net PDF metodik qo'llanma", "scribd.com PDF '22 kunlik'", "diplomishi.uz paid 15 000 so'm"], "verdict": "weak; intent = student internship diary (not kundalik.com navigation)"},
+  "bildirishnoma": {"aio_rank": 3, "organic": ["scribd.com PDF", "toolbase.uz dictionary (spelling)", "kursishlari.uz paid", "soff.uz paid", "fmc.uz dictionary", "qnb.uz legal blog", "youtube.com lesson 'Ma'lumot-axborot hujjatlari'", "kursishlari.uz paid"], "verdict": "weak; document intent, 'Davlat tilida ish yuritish' course material"},
+  "hisobot yozish": {"aio_rank": 3, "organic": ["soff.uz 'Hisobot, e'lonning yozilish tartibi'", "soff.uz search page", "t4data.uz BI", "sindex.uz financial statements", "soff.uz", "scribd.com PDF", "unilibrary.uz textbook", "scribd.com PDF"], "verdict": "weak but mixed (document type vs financial reporting)"},
+  "ijara shartnomasi": {"aio_rank": 5, "organic": ["ijara.soliq.uz (state registration login)", "gov.uz advice", "e-ijara.uz (state land lease)", "yurxizmat.uz template", "lex.uz law", "yurxizmat.uz category", "uz.wikipedia.org", "jet.bank.uz article"], "verdict": "strong / state-navigational, YMYL"},
+  "резюме шаблон": {"aio_rank": 4, "organic": ["canva.com", "myresume.ru", "obrazecv.ru", "superjob.uz", "resum.uz (local builder, updated 2026-08)", "pgu.ru", "pinterest"], "verdict": "mixed-strong (Canva #1, RU builders, local resum.uz)"},
+  "faxriy yorliq": {"aio_rank": 7, "organic": ["idum.uz 2024", "youtube.com", "scribd.com PDF", "docx.uz file", "soff.uz paid", "portfolio.uz", "pinterest", "diplomishi.uz paid"], "verdict": "weak (files, PDFs, Pinterest)"},
+  "tarjimai hol": {"aio_rank": 2, "organic": ["oriftolib.uz poem 'Tarjimayi hol' (literature)", "youtube.com lesson (Davlat tilida ish yuritish)", "scribd.com PDF", "scribd.com blank", "askinfo.uz 2018 Q&A", "ru.scribd.com PDF", "scribd.com blank"], "verdict": "weak; mostly document intent, one literature result"},
+  "tilxat yozish": {"aio_rank": 3, "organic": ["soff.uz paid", "kalki.uz online tilxat generator (Word/PDF)", "youtube.com", "soff.uz", "arxiv.uz 2019", "yurxizmat.uz", "znanija.com school question"], "verdict": "weak-mixed; one generator competitor (kalki.uz)"},
+  "cv nima": {"aio_rank": 1, "organic": ["dictionary.cambridge.org (TR)", "youtube.com (AZ)", "instagram.com (AZ)", "khazar.org (AZ)", "soz6.com (AZ)", "technote.az", "internet-academy.com (RS)"], "verdict": "very weak: no Uzbek page in top-10"},
+  "taklifnoma": {"aio_rank": 5, "organic": ["mytaklif.uz (wedding e-invite builder)", "play.google.com app", "pinterest", "taklifiy.uz builder", "instagram.com shop", "e-taklif.uz", "salom-ai.uz blog 'Rasmiy taklifnoma namuna'", "uz.wiktionary.org"], "verdict": "commercial design builders; text-only fit is the 'rasmiy taklifnoma' tail"}
+ }
+}

@@ -1,0 +1,386 @@
+1600	1.15	0	yatt ochish
+390	None	0	brend nomlari
+390	None	0	yakka tartibdagi tadbirkor
+390	1.71	0.07	smm marketing
+260	0.73	0.2	reklama banner
+210	None	0	ingliz tili reklama
+210	1.36	0.26	как открыть ип в узбекистане
+170	None	0	o'quv markazlari reklama
+170	None	0	reklama turlari
+170	None	0	reklama nima
+170	0.29	0.09	самозанятый узбекистан
+170	None	0.02	маркетинг нима
+140	1.71	0.43	открыть ип в узбекистане
+140	0.5	0.17	ип в узбекистане
+140	None	0.03	marketing turlari
+110	None	0	fast food nomlari
+110	None	0.07	raqamli marketing
+90	None	0	firma nomlari
+90	1.09	0.09	marketing 4p
+70	None	0	dorixona reklama
+70	None	0	reklama matnlari
+70	None	0	kafe nomlari
+70	None	0	kompaniya nomlari
+50	0.7	0.3	бизнес идеи 2026
+50	1.12	0.35	бизнес с нуля
+50	0.93	0.27	идеи для бизнеса
+50	None	0.02	marketing asoslari
+40	None	0.05	название компании
+40	1.73	0.14	бизнес идеи 2025
+40	2.79	0.54	marketing kurs
+40	1.24	0.16	кичик бизнес
+30	None	0	telefon reklama
+30	None	0	salon nomlari
+30	0.17	0.32	biznes qilish
+30	None	0	biznes sirlari
+30	None	0.04	marketing kitob
+20	None	0	burger reklama
+20	1.47	0.26	reklama video
+20	None	0	reklama haqida
+20	None	0	o'quv markazi nomlari
+20	None	0	go'zallik saloni nomlari
+20	None	0	magazin nomlari
+20	None	0	brend nomi
+20	None	0.05	biznes g'oyalar 2025
+20	0.94	0.07	бизнес идеи для женщин
+20	0.67	0.19	малый бизнес идеи
+20	None	0.03	digital marketing nima
+20	0.78	0.13	biznes rivojlantirish
+10	None	0	pizza reklama
+10	None	0	kosmetika reklama
+10	None	0	optika reklama
+10	None	0	reklama shiorlari
+10	None	None	реклама кафе примеры
+10	None	0	реклама кафе текст
+10	None	None	рекламный текст для ресторана
+10	None	None	акции для ресторана
+10	None	0	реклама ресторана примеры
+10	None	0	реклама ресторана текст
+10	None	None	акции для салона красоты
+10	None	None	реклама салона красоты текст
+10	None	None	реклама стоматологии примеры
+10	None	0	реклама стоматологии текст
+10	None	0	реклама учебного центра текст
+10	None	None	рекламный текст для магазина одежды
+10	None	None	акции для магазина одежды
+10	None	None	реклама магазина одежды текст
+10	None	0	реклама мебели текст
+10	None	0	реклама фитнес клуба текст
+10	None	None	реклама турагентства примеры
+10	None	0	реклама турагентства текст
+10	None	None	реклама недвижимости примеры
+10	None	None	реклама недвижимости текст
+10	None	None	акции для автосервиса
+10	None	0	реклама автосервиса текст
+10	None	0	акции для привлечения клиентов
+10	None	0	идеи для рекламы
+10	None	0	идеи рекламы
+10	None	0	креативная реклама
+10	None	0	рекламный текст
+10	None	0	рекламный текст примеры
+10	None	0.01	рекламный слоган
+10	None	0	слоган для кафе
+10	None	0	слоган для салона красоты
+10	None	0.05	restoran nomlari
+10	None	0	название для кафе
+10	None	0	название для салона красоты
+10	None	0	название для учебного центра
+10	None	0	название для магазина одежды
+10	None	0	название для барбершопа
+10	None	0	название для стоматологии
+10	None	0.14	название для ресторана
+10	None	0	название для бренда одежды
+10	None	0	названия для магазина
+10	None	0	nom tanlash
+10	None	0.04	biznes goyalar
+10	0.21	0.06	biznes g'oyalar 2026
+10	2.62	0.21	бизнес идеи с минимальными вложениями
+10	0.48	0.57	бизнес идеи ташкент
+10	None	0.29	какой бизнес открыть
+10	None	None	бизнес идеи узбекистан
+10	None	0	yatt ro'yxatdan o'tish
+10	None	0.07	marketing strategiyasi nima
+10	None	0.03	internet marketing nima
+10	None	0	маркетинг стратегияси
+10	None	0	маркетинг турлари
+10	None	None	savdo sirlari
+10	None	None	способы привлечения клиентов
+10	None	None	методы привлечения клиентов
+10	None	None	как увеличить продажи в магазине
+10	None	None	как увеличить продажи в инстаграм
+10	None	0	как увеличить продажи в ресторане
+10	None	None	стратегия развития бизнеса
+10	None	0	маркетинг план пример
+10	None	0	маркетинговый план пример
+10	None	0	маркетинговая стратегия пример
+10	None	0.33	smm стратегия
+10	None	None	стратегия продвижения
+10	None	None	стратегия продвижения в инстаграм
+None	None	None	oquv markazi reklama
+None	None	None	oquv markaz reklama
+None	None	None	uquv markazi reklama
+None	None	None	o'quv markazlari reklamasi
+None	None	None	gozallik saloni reklama
+None	None	None	gozallik salon reklama
+None	None	None	go'zallik salon reklama
+None	None	None	salon krasoti reklama
+None	None	None	kochmas mulk reklama
+None	None	None	kiyim dokoni reklama
+None	None	None	mebel dokoni reklama
+None	None	None	stomatologiya reklamalari
+None	None	None	stamatologiya reklama
+None	None	None	klinika reklamalari
+None	None	None	restoran reklamalari
+None	None	None	kafe reklamasi
+None	None	None	fastfood reklama
+None	None	None	fast food reklamasi
+None	None	None	lavash reklama
+None	None	None	shashlik reklama
+None	None	None	barbershop reklamasi
+None	None	None	sartarosh reklama
+None	None	None	manikyur reklama
+None	None	None	kosmetologiya reklama
+None	None	None	avtomaktab reklama
+None	None	None	bog'cha reklama
+None	None	None	xususiy maktab reklama
+None	None	None	repetitor reklama
+None	None	None	ingliz tili kursi reklama
+None	None	None	it kurslar reklama
+None	None	None	dasturlash kursi reklama
+None	None	None	sayohat reklamasi
+None	None	None	umra reklama
+None	None	None	oshxona mebel reklama
+None	None	None	kiyim reklamasi
+None	None	None	ayollar kiyimi reklama
+None	None	None	bolalar kiyimi reklama
+None	None	None	atir reklama
+None	None	None	qurilish materiallari reklama
+None	None	None	uy reklama
+None	None	None	kvartira sotish reklama
+None	None	None	gul reklama
+None	None	None	tort reklama
+None	None	None	konditer reklama
+None	None	None	to'yxona reklama
+None	None	None	restoran to'yxona reklama
+None	None	None	o'quv markazi reklama matni
+None	None	None	o'quv markazi reklama video
+None	None	None	o'quv markazi reklama banner
+None	None	None	o'quv markazi uchun reklama matni
+None	None	None	o'quv markazi reklama namunasi
+None	None	None	o'quv markazi reklama g'oyalari
+None	None	None	o'quv markazi instagram reklama
+None	None	None	o'quv markaz reklama video
+None	None	None	o'quv markaz reklama banner
+None	None	None	o'quv markaz uchun reklama matni
+None	None	None	o'quv markaz reklama namunasi
+None	None	None	o'quv markaz reklama g'oyalari
+None	None	None	o'quv markaz instagram reklama
+None	None	None	go'zallik saloni reklama video
+None	None	None	go'zallik saloni reklama banner
+None	None	None	go'zallik saloni uchun reklama matni
+None	None	None	go'zallik saloni reklama namunasi
+None	None	None	go'zallik saloni reklama g'oyalari
+None	None	None	go'zallik saloni instagram reklama
+None	None	None	salon reklama matni
+None	None	None	salon reklama video
+None	None	None	salon reklama banner
+None	None	None	salon uchun reklama matni
+None	None	None	salon reklama namunasi
+None	None	None	salon reklama g'oyalari
+None	None	None	salon instagram reklama
+None	None	None	stomatologiya reklama video
+None	None	None	stomatologiya reklama banner
+None	None	None	stomatologiya uchun reklama matni
+None	None	None	stomatologiya reklama namunasi
+None	None	None	stomatologiya reklama g'oyalari
+None	None	None	stomatologiya instagram reklama
+None	None	None	restoran reklama video
+None	None	None	restoran reklama banner
+None	None	None	restoran uchun reklama matni
+None	None	None	restoran reklama namunasi
+None	None	None	restoran reklama g'oyalari
+None	None	None	restoran instagram reklama
+None	None	None	kafe reklama matni
+None	None	None	kafe reklama video
+None	None	None	kafe reklama banner
+None	None	None	kafe uchun reklama matni
+None	None	None	kafe reklama namunasi
+None	None	None	kafe reklama g'oyalari
+None	None	None	kafe instagram reklama
+None	None	None	fast food reklama matni
+None	None	None	fast food reklama video
+None	None	None	fast food reklama banner
+None	None	None	fast food uchun reklama matni
+None	None	None	fast food reklama namunasi
+None	None	None	fast food reklama g'oyalari
+None	None	None	fast food instagram reklama
+None	None	None	mebel reklama video
+None	None	None	mebel reklama banner
+None	None	None	mebel uchun reklama matni
+None	None	None	mebel reklama namunasi
+None	None	None	mebel reklama g'oyalari
+None	None	None	mebel instagram reklama
+None	None	None	kiyim reklama matni
+None	None	None	kiyim reklama video
+None	None	None	kiyim reklama banner
+None	None	None	kiyim uchun reklama matni
+None	None	None	kiyim reklama namunasi
+None	None	None	kiyim reklama g'oyalari
+None	None	None	kiyim instagram reklama
+None	None	None	fitnes reklama video
+None	None	None	fitnes reklama banner
+None	None	None	fitnes uchun reklama matni
+None	None	None	fitnes reklama namunasi
+None	None	None	fitnes reklama g'oyalari
+None	None	None	fitnes instagram reklama
+None	None	None	turizm reklama video
+None	None	None	turizm reklama banner
+None	None	None	turizm uchun reklama matni
+None	None	None	turizm reklama namunasi
+None	None	None	turizm reklama g'oyalari
+None	None	None	turizm instagram reklama
+None	None	None	avtosalon reklama video
+None	None	None	avtosalon reklama banner
+None	None	None	avtosalon uchun reklama matni
+None	None	None	avtosalon reklama namunasi
+None	None	None	avtosalon reklama g'oyalari
+None	None	None	avtosalon instagram reklama
+None	None	None	ko'chmas mulk reklama video
+None	None	None	ko'chmas mulk reklama banner
+None	None	None	ko'chmas mulk uchun reklama matni
+None	None	None	ko'chmas mulk reklama namunasi
+None	None	None	ko'chmas mulk reklama g'oyalari
+None	None	None	ko'chmas mulk instagram reklama
+None	None	None	barbershop reklama matni
+None	None	None	barbershop reklama video
+None	None	None	barbershop reklama banner
+None	None	None	barbershop uchun reklama matni
+None	None	None	barbershop reklama namunasi
+None	None	None	barbershop reklama g'oyalari
+None	None	None	barbershop instagram reklama
+None	None	None	reklama matni namunalari
+None	None	None	reklama matni namuna
+None	None	None	reklama g'oyalari
+None	None	None	reklama namunalari
+None	None	None	reklama shiori
+0	None	None	рекламный текст для кафе
+None	None	None	идеи рекламы кафе
+0	None	None	акции для кафе
+None	None	None	идеи рекламы ресторана
+0	None	None	рекламный текст для салона красоты
+None	None	None	идеи рекламы салона красоты
+None	None	None	реклама салона красоты примеры
+None	None	None	рекламный текст для стоматологии
+None	None	None	идеи рекламы стоматологии
+0	None	None	акции для стоматологии
+0	None	None	рекламный текст для учебного центра
+None	None	None	идеи рекламы учебного центра
+None	None	None	акции для учебного центра
+None	None	None	реклама учебного центра примеры
+None	None	None	идеи рекламы магазина одежды
+None	None	None	реклама магазина одежды примеры
+None	None	None	рекламный текст для мебели
+None	None	None	идеи рекламы мебели
+None	None	None	акции для мебели
+None	None	None	реклама мебели примеры
+None	None	None	рекламный текст для фитнес клуба
+None	None	None	идеи рекламы фитнес клуба
+0	None	None	акции для фитнес клуба
+None	None	None	реклама фитнес клуба примеры
+0	None	None	рекламный текст для турагентства
+None	None	None	идеи рекламы турагентства
+None	None	None	акции для турагентства
+None	None	None	рекламный текст для недвижимости
+None	None	None	идеи рекламы недвижимости
+None	None	None	акции для недвижимости
+0	None	None	рекламный текст для автосервиса
+None	None	None	идеи рекламы автосервиса
+None	None	None	реклама автосервиса примеры
+None	None	None	рекламный текст для клиники
+None	None	None	идеи рекламы клиники
+None	None	None	акции для клиники
+None	None	None	реклама клиники примеры
+None	None	None	реклама клиники текст
+None	None	None	стоматология реклама текст
+None	None	None	стоматология реклама в инстаграм
+0	None	None	стоматология instagram
+None	None	None	стоматология smm
+0	None	None	идеи акций для привлечения клиентов
+0	None	None	акция для клиентов
+None	None	None	aksiya g'oyalari
+None	None	None	chegirma aksiya
+None	None	None	aksiya reklama
+None	None	None	o'quv markaz nomlari
+None	None	None	o'quv markaz uchun nom
+None	None	None	o'quv markazi uchun nom
+None	None	None	kafe uchun nom
+None	None	None	restoran uchun nom
+None	None	None	salon uchun nom
+None	None	None	go'zallik saloni uchun nom
+None	None	None	fast food uchun nom
+None	None	None	barbershop nomlari
+None	None	None	barbershop uchun nom
+None	None	None	stomatologiya nomlari
+None	None	None	stomatologiya uchun nom
+None	None	None	kiyim do'koni nomlari
+None	None	None	kiyim do'koni uchun nom
+None	None	None	mebel do'koni nomlari
+None	None	None	mebel do'koni uchun nom
+None	None	None	magazin uchun nom
+None	None	None	do'kon nomlari
+None	None	None	do'kon uchun nom
+None	None	None	firma uchun nom
+None	None	None	kompaniya uchun nom
+None	None	None	brend uchun nom
+None	None	None	oquv markaz nomlari
+None	None	None	kafe nomi
+None	None	None	salon nomi
+None	None	None	biznes uchun nom
+None	None	None	biznes g'oyalari
+None	None	None	o'zbekistonda biznes g'oyalar
+None	None	None	kam pulga biznes g'oyalar
+None	None	None	uyda biznes g'oyalar
+None	None	None	ayollar uchun biznes g'oyalar
+None	None	None	qishloqda biznes g'oyalar
+None	None	None	kichik biznes goyalar
+None	None	None	kichik biznes g'oyalari
+None	None	None	foydali biznes
+None	None	None	eng foydali biznes
+None	None	None	qanday biznes qilish mumkin
+None	None	None	qanday biznes ochish kerak
+None	None	None	o'z biznesini ochish
+None	None	None	biznes boshlash uchun
+None	None	None	yatt bo'lish
+None	None	None	o'zini o'zi band qilish
+None	None	None	marketing strategiya namuna
+None	None	None	marketing rejasi namunasi
+None	None	None	marketing reja namuna
+None	None	None	biznes uchun marketing
+None	None	None	marketing bo'yicha kitob
+None	None	None	marketing tahlil
+None	None	None	маркетинг режаси
+None	None	None	biznesni rivojlantirish uchun
+None	None	None	biznesni qanday rivojlantirish
+None	None	None	biznesni kengaytirish
+None	None	None	biznesni o'stirish yo'llari
+None	None	None	бизнесни ривожлантириш йўллари
+None	None	None	кичик бизнес ғоялари
+None	None	None	savdoni oshirish yo'llari
+None	None	None	sotuvni qanday oshirish
+None	None	None	sotishni oshirish
+None	None	None	sotuv sirlari
+None	None	None	qanday sotish kerak
+None	None	None	mahsulotni qanday sotish
+None	None	None	tovarni qanday sotish
+None	None	None	instagramda qanday sotish
+None	None	None	telegramda sotish
+None	None	None	sotuvchi bo'lish
+None	None	None	mijozlar bilan ishlash
+None	None	None	mijozlar bilan muloqot
+None	None	None	mijozni qanday topish
+None	None	None	mijoz topish yollari
+None	None	None	mijozlarni jalb qilish usullari
+0	None	None	как привлечь клиентов в бизнес
+0	None	None	как увеличить продажи в кафе
+None	None	None	как увеличить продажи салона красоты
+0	None	None	как развить малый бизнес

@@ -1,0 +1,42 @@
+valyuta_kursi_kun  low  2915960 high  3572260 pos6 [476, 859] pos3 2792 (hi 3421) r5 2w r10 3w r50 7w
+     пики: 2025-10 ×1.47, 2026-08 ×1.14, 2026-01 ×1.1; провалы: 2026-07 ×0.68, 2026-06 ×0.75 | missing/shared: []
+valyuta_konvertor  low   681690 high   681690 pos6 [111, 201] pos3 653 (hi 653) r5 4w r10 6w r50 16w
+     пики: 2025-10 ×1.33, 2026-01 ×1.18, 2026-08 ×1.15; провалы: 2026-07 ×0.77, 2026-06 ×0.81 | missing/shared: []
+pdf_vositalar      low   127710 high   302070 pos6 [39, 71] pos3 150 (hi 355) r5 8w r10 12w r50 31w
+     пики: 2026-04 ×1.26, 2026-03 ×1.07, 2026-05 ×1.05; провалы: 2026-08 ×0.82, 2025-10 ×0.92 | missing/shared: []
+kalendar_2027      low    69780 high   113340 pos6 [21, 39] pos3 82 (hi 133) r5 9w r10 13w r50 Nonew
+     пики: 2025-12 ×1.49, 2026-03 ×1.44, 2026-01 ×1.23; провалы: 2025-10 ×0.38, 2025-11 ×0.43 | missing/shared: []
+kalkulyator        low   205140 high   245640 pos6 [63, 113] pos3 241 (hi 289) r5 6w r10 9w r50 23w
+     пики: 2026-09 ×1.16, 2026-01 ×1.02, 2026-03 ×1.02; провалы: 2026-07 ×0.93, 2026-08 ×0.95 | missing/shared: []
+qr_kod             low    37260 high    44710 pos6 [11, 21] pos3 36 (hi 43) r5 13w r10 19w r50 Nonew
+     пики: 2026-02 ×1.61, 2026-04 ×1.46, 2025-12 ×1.13; провалы: 2026-08 ×0.67, 2026-07 ×0.74 | missing/shared: []
+taymer             low    38120 high    55370 pos6 [6, 11] pos3 37 (hi 53) r5 19w r10 Nonew r50 Nonew
+     пики: 2026-04 ×1.14, 2026-01 ×1.1, 2026-02 ×1.07; провалы: 2025-10 ×0.81, 2025-11 ×0.87 | missing/shared: []
+tez_yozish         low    15975 high    38310 pos6 [5, 9] pos3 19 (hi 45) r5 21w r10 Nonew r50 Nonew
+     пики: 2025-10 ×1.5, 2026-09 ×1.23, 2025-11 ×1.22; провалы: 2026-08 ×0.56, 2026-06 ×0.67 | missing/shared: []
+summa_propisyu     low    16320 high    16320 pos6 [5, 9] pos3 19 (hi 19) r5 21w r10 Nonew r50 Nonew
+     пики: 2025-10 ×1.13, 2026-04 ×1.13, 2025-12 ×1.11; провалы: 2025-11 ×0.94, 2026-02 ×0.94 | missing/shared: []
+bhm_mrot           low    13050 high    13050 pos6 [4, 7] pos3 15 (hi 15) r5 24w r10 Nonew r50 Nonew
+     пики: 2026-09 ×1.7, 2026-08 ×1.2, 2026-03 ×1.19; провалы: 2025-12 ×0.57, 2025-11 ×0.68 | missing/shared: []
+imt_bmi            low    20415 high    20850 pos6 [6, 11] pos3 20 (hi 20) r5 19w r10 Nonew r50 Nonew
+     пики: 2026-05 ×2.14, 2026-03 ×2.11, 2026-04 ×1.26; провалы: 2025-12 ×0.54, 2025-11 ×0.55 | missing/shared: ['bmi hisoblash']
+kredit             low    26570 high    53790 pos6 [8, 15] pos3 31 (hi 63) r5 20w r10 30w r50 Nonew
+     пики: 2026-03 ×1.32, 2026-01 ×1.14, 2025-10 ×1.08; провалы: 2026-06 ×0.84, 2026-09 ×0.84 | missing/shared: []
+foiz_qqs           low    12505 high    15380 pos6 [4, 7] pos3 15 (hi 18) r5 24w r10 Nonew r50 Nonew
+     пики: 2026-01 ×1.12, 2026-03 ×1.09, 2025-10 ×1.08; провалы: 2026-08 ×0.79, 2026-07 ×0.89 | missing/shared: []
+pochta_indeksi     low    15700 high    15700 pos6 [5, 9] pos3 18 (hi 18) r5 21w r10 Nonew r50 Nonew
+     пики: 2026-01 ×1.26, 2025-12 ×1.18, 2025-10 ×1.07; провалы: 2026-07 ×0.8, 2026-06 ×0.84 | missing/shared: []
+muchal             low    16270 high    31070 pos6 [5, 9] pos3 19 (hi 37) r5 21w r10 Nonew r50 Nonew
+     пики: 2025-12 ×2.13, 2026-01 ×1.7, 2025-11 ×1.07; провалы: 2026-09 ×0.67, 2026-07 ×0.72 | missing/shared: []
+sana_yosh          low     5080 high     5080 pos6 [2, 3] pos3 6 (hi 6) r5 Nonew r10 Nonew r50 Nonew
+     пики: 2025-12 ×1.27, 2026-01 ×1.2, 2025-11 ×1.15; провалы: 2026-08 ×0.82, 2026-09 ×0.82 | missing/shared: []
+birliklar          low    11410 high    11950 pos6 [2, 3] pos3 11 (hi 11) r5 Nonew r10 Nonew r50 Nonew
+     пики: 2026-01 ×1.37, 2026-04 ×1.27, 2026-03 ×1.06; провалы: 2026-08 ×0.79, 2026-09 ×0.87 | missing/shared: []
+parol              low     3060 high     7460 pos6 [1, 2] pos3 4 (hi 9) r5 Nonew r10 Nonew r50 Nonew
+     пики: 2026-09 ×1.3, 2026-06 ×1.04, 2026-02 ×1.03; провалы: 2025-10 ×0.82, 2025-11 ×0.91 | missing/shared: []
+vaqt               low    22000 high    49300 pos6 [4, 6] pos3 21 (hi 47) r5 26w r10 Nonew r50 Nonew
+     пики: 2026-03 ×1.26, 2025-12 ×1.19, 2026-02 ×1.13; провалы: 2026-07 ×0.83, 2026-08 ×0.86 | missing/shared: []
+oylik_soliq        low     1240 high     1240 pos6 [0, 1] pos3 1 (hi 1) r5 Nonew r10 Nonew r50 Nonew
+     пики: 2026-01 ×1.39, 2025-12 ×1.09, 2026-04 ×1.05; провалы: 2026-07 ×0.78, 2026-08 ×0.81 | missing/shared: []
+TOP {'demand_month_low': 4167445, 'demand_month_high': 5159730, 'visits_day_pos6': [755, 1366], 'visits_day_pos3': 4095, 'visits_day_pos3_high_demand': 5112, 'visits_day_pos3_no_aio': 7487}
+TOP without currency {'demand_month_low': 569795, 'visits_day_pos6': [168, 306], 'visits_day_pos3': 650}

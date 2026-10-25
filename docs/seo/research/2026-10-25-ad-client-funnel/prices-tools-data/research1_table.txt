@@ -1,0 +1,1163 @@
+   6600 | реклама | cpc=1.24 comp=0.07 | seed=reklama
+   2900 | reklama | cpc=0.86 comp=0.05 | seed=reklama
+   1600 | smm | cpc=2 comp=0.37 | seed=smm
+   1300 | top smm | cpc=0.71 comp=0.02 | seed=smm
+    480 | наружная реклама | cpc=0.96 comp=0.23 | seed=reklama
+    480 | реклама баннер | cpc=0.7 comp=0.39 | seed=reklama
+    390 | баннер реклама | cpc=0.78 comp=0.39 | seed=reklama
+    320 | banner reklama | cpc=0.66 comp=0.37 | seed=reklama
+    260 | reklama banner | cpc=0.73 comp=0.2 | seed=reklama
+    260 | смм | cpc=1.75 comp=0.31 | seed=smm
+    260 | global smm | cpc=1.91 comp=0.06 | seed=smm
+    110 | гугл реклама | cpc=2.82 comp=0.37 | seed=reklama
+    110 | контекстная реклама | cpc=3.41 comp=0.55 | seed=reklama
+    110 | 3д реклама | cpc=None comp=0 | seed=reklama
+    110 | реклама мерседес лев | cpc=None comp=0 | seed=reklama
+     90 | паук реклама | cpc=0.34 comp=0.13 | seed=reklama
+     70 | google реклама | cpc=4.13 comp=0.34 | seed=reklama
+     70 | яндекс реклама | cpc=2.36 comp=0.26 | seed=reklama
+     70 | реклама в телеграм | cpc=4.65 comp=0.51 | seed=reklama
+     70 | yandex reklama | cpc=1 comp=0.36 | seed=reklama
+     70 | telegram reklama | cpc=2.38 comp=0.11 | seed=reklama
+     70 | яндекс навигатор реклама | cpc=None comp=0 | seed=reklama
+     70 | контент план | cpc=None comp=0.01 | seed=контент план
+     50 | баннер реклама цена | cpc=0.56 comp=0.59 | seed=reklama
+     50 | баннер реклама для магазина | cpc=0.33 comp=0.2 | seed=reklama
+     50 | coca cola реклама | cpc=None comp=0 | seed=reklama
+     50 | шиномонтаж реклама | cpc=None comp=0.01 | seed=reklama
+     40 | реклама гугл | cpc=2.54 comp=0.43 | seed=reklama
+     40 | таргетированная реклама | cpc=2.43 comp=0.38 | seed=reklama
+     40 | digital реклама | cpc=None comp=0.02 | seed=reklama
+     40 | японская реклама | cpc=None comp=0 | seed=reklama
+     40 | смм агентство | cpc=2.05 comp=0.54 | seed=smm
+     40 | smmplus | cpc=None comp=0 | seed=smm
+     30 | google reklama | cpc=3.55 comp=0.66 | seed=reklama
+     30 | реклама в инстаграм | cpc=2.41 comp=0.59 | seed=reklama
+     30 | наружный реклама | cpc=0.77 comp=0.5 | seed=reklama
+     30 | реклама магазина | cpc=None comp=0 | seed=reklama
+     30 | internet reklama | cpc=None comp=0 | seed=reklama
+     30 | полиграфическая реклама | cpc=None comp=0 | seed=reklama
+     30 | реклама йота | cpc=None comp=0 | seed=reklama
+     30 | реклама карусель | cpc=None comp=0 | seed=reklama
+     30 | реклама кока кола | cpc=None comp=0 | seed=reklama
+     30 | реклама кока колы | cpc=None comp=0 | seed=reklama
+     30 | реклама спрайта | cpc=None comp=0 | seed=reklama
+     30 | smmменеджер | cpc=1.29 comp=0.25 | seed=smm
+     20 | реклама в инстаграм цена | cpc=1.32 comp=0.07 | seed=reklama
+     20 | баннерная реклама | cpc=0.94 comp=0.45 | seed=reklama
+     20 | video reklama | cpc=1.47 comp=0.26 | seed=reklama
+     20 | led reklama | cpc=1.17 comp=0.49 | seed=reklama
+     20 | reklama metro | cpc=2.3 comp=0.24 | seed=reklama
+     20 | билборд реклама | cpc=0.75 comp=0.26 | seed=reklama
+     20 | реклама компании | cpc=0.96 comp=0.6 | seed=reklama
+     20 | реклама в яндекс навигаторе | cpc=None comp=0 | seed=reklama
+     20 | кинопоиск реклама | cpc=None comp=0 | seed=reklama
+     20 | китайская реклама | cpc=None comp=0 | seed=reklama
+     20 | кока кола реклама | cpc=None comp=0 | seed=reklama
+     20 | корейская реклама | cpc=None comp=0 | seed=reklama
+     20 | наружная реклама баннер | cpc=0.42 comp=0.2 | seed=reklama
+     20 | реклама тайд | cpc=None comp=0 | seed=reklama
+     20 | smm агентство | cpc=2.1 comp=0.63 | seed=smm
+     20 | контент план шаблон | cpc=None comp=0.08 | seed=контент план
+     20 | kontent plan | cpc=1.46 comp=0.16 | seed=контент план
+     10 | реклама в гугл | cpc=4.83 comp=0.71 | seed=reklama
+     10 | реклама в гугл цена | cpc=3.15 comp=0.64 | seed=reklama
+     10 | facebook reklama | cpc=6.8 comp=0.54 | seed=reklama
+     10 | контекстная реклама гугл | cpc=2.78 comp=0.69 | seed=reklama
+     10 | реклама в google | cpc=None comp=None | seed=reklama
+     10 | реклама google | cpc=None comp=0.33 | seed=reklama
+     10 | бесплатная реклама в гугл | cpc=1.32 comp=0.86 | seed=reklama
+     10 | реклама в интернете | cpc=0.91 comp=0.37 | seed=reklama
+     10 | реклама сайта в гугл | cpc=None comp=0.71 | seed=reklama
+     10 | реклама гугл цена | cpc=None comp=None | seed=reklama
+     10 | реклама в фейсбуке | cpc=31.45 comp=0.71 | seed=reklama
+     10 | реклама на ютубе | cpc=None comp=0 | seed=reklama
+     10 | реклама сайта | cpc=None comp=0.35 | seed=reklama
+     10 | реклама на гугл | cpc=2.15 comp=0.64 | seed=reklama
+     10 | реклама фейсбук | cpc=2.32 comp=0.49 | seed=reklama
+     10 | реклама ютуб | cpc=None comp=0.14 | seed=reklama
+     10 | yandex реклама | cpc=None comp=0.36 | seed=reklama
+     10 | google реклама цена | cpc=None comp=None | seed=reklama
+     10 | реклама в ютубе | cpc=None comp=None | seed=reklama
+     10 | онлайн реклама | cpc=None comp=0 | seed=reklama
+     10 | контекстная реклама заказать | cpc=0.76 comp=0.76 | seed=reklama
+     10 | реклама гугл адс | cpc=None comp=0.86 | seed=reklama
+     10 | instagram reklama | cpc=1.16 comp=0.57 | seed=reklama
+     10 | реклама инстаграм | cpc=1.17 comp=0.35 | seed=reklama
+     10 | реклама яндекс | cpc=0.85 comp=0.1 | seed=reklama
+     10 | фейсбук реклама | cpc=None comp=None | seed=reklama
+     10 | контекстная реклама яндекс | cpc=0.74 comp=0.86 | seed=reklama
+     10 | реклама в яндекс | cpc=4.3 comp=0.57 | seed=reklama
+     10 | таргетована реклама | cpc=None comp=0 | seed=reklama
+     10 | интернет реклама | cpc=2.9 comp=0.34 | seed=reklama
+     10 | яндекс реклама для бизнеса | cpc=2.16 comp=0.43 | seed=reklama
+     10 | контекстная реклама google | cpc=1.71 comp=0.86 | seed=reklama
+     10 | ads reklama | cpc=None comp=None | seed=reklama
+     10 | реклама на сайт | cpc=0.64 comp=0.57 | seed=reklama
+     10 | ютуб реклама | cpc=None comp=0 | seed=reklama
+     10 | контекстная реклама в гугл | cpc=None comp=None | seed=reklama
+     10 | таргетинговая реклама | cpc=None comp=0.4 | seed=reklama
+     10 | ads реклама | cpc=None comp=None | seed=reklama
+     10 | гугл адс реклама | cpc=None comp=0.86 | seed=reklama
+     10 | реклама телеграм | cpc=6.26 comp=0.57 | seed=reklama
+     10 | google ads реклама | cpc=0.64 comp=0.07 | seed=reklama
+     10 | таргетированная реклама инстаграм | cpc=None comp=0.14 | seed=reklama
+     10 | реклама на фейсбук | cpc=None comp=None | seed=reklama
+     10 | google контекстная реклама | cpc=None comp=0.29 | seed=reklama
+     10 | баннерная реклама в интернете | cpc=None comp=None | seed=reklama
+     10 | таргетированная реклама в инстаграм | cpc=None comp=None | seed=reklama
+     10 | google adwords reklama | cpc=None comp=0 | seed=reklama
+     10 | facebook реклама | cpc=None comp=None | seed=reklama
+     10 | реклама через гугл | cpc=None comp=None | seed=reklama
+     10 | бесплатная реклама | cpc=1.41 comp=0.86 | seed=reklama
+     10 | реклама на сайте | cpc=0.64 comp=0.57 | seed=reklama
+     10 | реклама на яндекс | cpc=None comp=None | seed=reklama
+     10 | реклама в метро | cpc=1.83 comp=0.19 | seed=reklama
+     10 | пуш реклама | cpc=None comp=None | seed=reklama
+     10 | 3d reklama | cpc=0.61 comp=0.43 | seed=reklama
+     10 | seo реклама | cpc=None comp=0 | seed=reklama
+     10 | реклама для сайта | cpc=None comp=None | seed=reklama
+     10 | реклама на google | cpc=None comp=None | seed=reklama
+     10 | ppc реклама | cpc=None comp=None | seed=reklama
+     10 | гугл реклама цена | cpc=None comp=None | seed=reklama
+     10 | гугл контекстная реклама | cpc=5.34 comp=0.57 | seed=reklama
+     10 | реклама в гугл адс | cpc=None comp=0.86 | seed=reklama
+     10 | яндекс директ реклама | cpc=None comp=0.5 | seed=reklama
+     10 | реклама инстаграм цена | cpc=None comp=0 | seed=reklama
+     10 | сайт реклама | cpc=None comp=None | seed=reklama
+     10 | реклама в фейсбуке цена | cpc=None comp=None | seed=reklama
+     10 | reklama online | cpc=1.32 comp=0.57 | seed=reklama
+     10 | reklama v google | cpc=None comp=None | seed=reklama
+     10 | контекстная реклама цена | cpc=None comp=0.79 | seed=reklama
+     10 | адс реклама | cpc=None comp=0.24 | seed=reklama
+     10 | бесплатная реклама в интернете | cpc=1.5 comp=0.43 | seed=reklama
+     10 | реклама яндекс директ | cpc=None comp=None | seed=reklama
+     10 | push реклама | cpc=None comp=0 | seed=reklama
+     10 | реклама от гугл | cpc=2.26 comp=0.43 | seed=reklama
+     10 | реклама в социальных сетях | cpc=1.06 comp=0.29 | seed=reklama
+     10 | инстаграм реклама | cpc=1.62 comp=0.4 | seed=reklama
+     10 | реклама в google ads | cpc=None comp=None | seed=reklama
+     10 | facebook ads reklama | cpc=6.8 comp=0.54 | seed=reklama
+     10 | реклама google ads | cpc=None comp=0.14 | seed=reklama
+     10 | яндекс реклама цена | cpc=None comp=0.29 | seed=reklama
+     10 | реклама в яндекс директ | cpc=None comp=0.36 | seed=reklama
+     10 | реклама в яндексе цена | cpc=None comp=None | seed=reklama
+     10 | реклама интернет магазина | cpc=None comp=None | seed=reklama
+     10 | рся реклама | cpc=None comp=0 | seed=reklama
+     10 | реклама на билбордах | cpc=1.89 comp=0.36 | seed=reklama
+     10 | реклама в тик ток цена | cpc=None comp=None | seed=reklama
+     10 | яндекс реклама на сайт | cpc=None comp=None | seed=reklama
+     10 | реклама сайта в яндекс | cpc=None comp=None | seed=reklama
+     10 | реклама наружная | cpc=None comp=0.33 | seed=reklama
+     10 | реклама онлайн | cpc=None comp=None | seed=reklama
+     10 | реклама google adwords | cpc=None comp=None | seed=reklama
+     10 | таргетированная реклама заказать | cpc=None comp=None | seed=reklama
+     10 | таргетированная реклама цена | cpc=None comp=0 | seed=reklama
+     10 | яндекс контекстная реклама | cpc=None comp=0 | seed=reklama
+     10 | реклама в гугл картах | cpc=None comp=0.5 | seed=reklama
+     10 | телеграм реклама | cpc=2.5 comp=0.57 | seed=reklama
+     10 | реклама адс | cpc=None comp=None | seed=reklama
+     10 | smm реклама | cpc=None comp=None | seed=reklama
+     10 | реклама контекстная | cpc=None comp=None | seed=reklama
+     10 | сео реклама | cpc=None comp=None | seed=reklama
+     10 | реклама в линкедин | cpc=None comp=None | seed=reklama
+     10 | реклама facebook | cpc=None comp=None | seed=reklama
+     10 | reklama na instagram | cpc=None comp=0 | seed=reklama
+     10 | бесплатная реклама в инстаграм | cpc=None comp=None | seed=reklama
+     10 | реклама от google | cpc=None comp=None | seed=reklama
+     10 | реклама сайта в интернете | cpc=None comp=None | seed=reklama
+     10 | маркетинг реклама | cpc=None comp=0.43 | seed=reklama
+     10 | реклама на магазин | cpc=None comp=None | seed=reklama
+     10 | реклама на гугл картах | cpc=1.87 comp=0.86 | seed=reklama
+     10 | контекст реклама | cpc=None comp=0.71 | seed=reklama
+     10 | реклама в instagram | cpc=None comp=None | seed=reklama
+     10 | реклама на яндекс картах | cpc=None comp=0.71 | seed=reklama
+     10 | реклама в интернете цены | cpc=0.09 comp=0.5 | seed=reklama
+     10 | реклама в соцсетях | cpc=None comp=None | seed=reklama
+     10 | реклама в яндекс картах | cpc=3.84 comp=0.29 | seed=reklama
+     10 | реклама через фейсбук | cpc=None comp=None | seed=reklama
+     10 | реклама в лифтах | cpc=3.81 comp=0.25 | seed=reklama
+     10 | тизерна реклама | cpc=None comp=None | seed=reklama
+     10 | instagram реклама | cpc=None comp=0 | seed=reklama
+     10 | реклама фейсбук цена | cpc=None comp=None | seed=reklama
+     10 | baner reklama | cpc=1.25 comp=0.24 | seed=reklama
+     10 | банерна реклама | cpc=None comp=0.71 | seed=reklama
+     10 | реклама на билбордах цена | cpc=None comp=0 | seed=reklama
+     10 | контекстная реклама в яндексе | cpc=None comp=None | seed=reklama
+     10 | световая реклама | cpc=None comp=0.21 | seed=reklama
+     10 | реклама в facebook | cpc=None comp=None | seed=reklama
+     10 | реклама баннер цена | cpc=0.61 comp=0.69 | seed=reklama
+     10 | яндекс бизнес реклама | cpc=None comp=None | seed=reklama
+     10 | реклама заказать | cpc=None comp=0.64 | seed=reklama
+     10 | реклама на сайте цена | cpc=None comp=0 | seed=reklama
+     10 | реклама в инсте | cpc=None comp=None | seed=reklama
+     10 | реклама сто | cpc=None comp=0 | seed=reklama
+     10 | реклама на окнах | cpc=0.05 comp=0.43 | seed=reklama
+     10 | реклама для магазина | cpc=0.64 comp=0.29 | seed=reklama
+     10 | реклама в интернете виды | cpc=None comp=None | seed=reklama
+     10 | реклама на баннере цена | cpc=None comp=0.86 | seed=reklama
+     10 | реклама сайта цена | cpc=None comp=None | seed=reklama
+     10 | реклама на амазон | cpc=None comp=None | seed=reklama
+     10 | баннерная реклама гугл | cpc=None comp=None | seed=reklama
+     10 | реклама инстаграм магазина | cpc=None comp=None | seed=reklama
+     10 | реклама на сайтах цена | cpc=None comp=0 | seed=reklama
+     10 | таргетированная реклама в социальных сетях | cpc=None comp=None | seed=reklama
+     10 | реклама на машину | cpc=None comp=0.14 | seed=reklama
+     10 | реклама на facebook | cpc=None comp=0.29 | seed=reklama
+     10 | поисковая реклама гугл | cpc=None comp=0 | seed=reklama
+     10 | контекстная реклама сайта | cpc=None comp=None | seed=reklama
+     10 | bolt reklam | cpc=None comp=None | seed=reklama
+     10 | reklama marketing | cpc=None comp=0.52 | seed=reklama
+     10 | платная реклама в инстаграм | cpc=None comp=None | seed=reklama
+     10 | таргетированная реклама гугл | cpc=None comp=None | seed=reklama
+     10 | реклама бизнеса | cpc=None comp=0 | seed=reklama
+     10 | реклама для бизнеса | cpc=0.7 comp=0.71 | seed=reklama
+     10 | арбитраж реклама | cpc=None comp=None | seed=reklama
+     10 | реклама на инстаграм | cpc=None comp=0.71 | seed=reklama
+     10 | реклама на окна магазина | cpc=0.52 comp=0.43 | seed=reklama
+     10 | реклама в телеграмі | cpc=None comp=None | seed=reklama
+     10 | олх реклама | cpc=None comp=0 | seed=reklama
+     10 | таргетинговая реклама инстаграм | cpc=None comp=None | seed=reklama
+     10 | реклама на стекло магазина | cpc=None comp=None | seed=reklama
+     10 | неоновая реклама | cpc=0.53 comp=0.53 | seed=reklama
+     10 | реклама в маршрутках | cpc=None comp=0 | seed=reklama
+     10 | контекстная реклама в интернете | cpc=None comp=0 | seed=reklama
+     10 | реклама в телеграмме | cpc=1.07 comp=0.36 | seed=reklama
+     10 | реклама уз | cpc=1.1 comp=0.43 | seed=reklama
+     10 | реклама в телеграм цена | cpc=None comp=0.29 | seed=reklama
+     10 | реклама в инстаграм через фейсбук | cpc=None comp=None | seed=reklama
+     10 | наружная реклама цена | cpc=None comp=0.43 | seed=reklama
+     10 | реклама олх | cpc=None comp=0 | seed=reklama
+     10 | реклама рся | cpc=None comp=None | seed=reklama
+     10 | таргетингова реклама | cpc=None comp=None | seed=reklama
+     10 | наружная реклама виды | cpc=None comp=None | seed=reklama
+     10 | уличная реклама | cpc=5.9 comp=0.47 | seed=reklama
+     10 | реклама instagram | cpc=None comp=None | seed=reklama
+     10 | реклама на баннерах | cpc=None comp=0 | seed=reklama
+     10 | реклама на улице | cpc=None comp=0 | seed=reklama
+     10 | поисковая реклама | cpc=None comp=0.1 | seed=reklama
+     10 | реклама через инстаграм | cpc=None comp=None | seed=reklama
+     10 | target реклама | cpc=None comp=0.4 | seed=reklama
+     10 | 1 1 реклама | cpc=None comp=None | seed=reklama
+     10 | 18 реклама | cpc=None comp=0 | seed=reklama
+     10 | 1xbet реклама | cpc=None comp=0 | seed=reklama
+     10 | 1хбет реклама | cpc=None comp=0 | seed=reklama
+     10 | 3d реклама | cpc=None comp=0.14 | seed=reklama
+     10 | a reklama | cpc=None comp=0 | seed=reklama
+     10 | ambient реклама | cpc=None comp=None | seed=reklama
+     10 | ariel reklama | cpc=None comp=None | seed=reklama
+     10 | axe реклама | cpc=None comp=None | seed=reklama
+     10 | b2b реклама | cpc=None comp=None | seed=reklama
+     10 | balenciaga reklama | cpc=None comp=None | seed=reklama
+     10 | biznes reklama | cpc=None comp=0 | seed=reklama
+     10 | bmw реклама | cpc=None comp=0 | seed=reklama
+     10 | bolt reklama | cpc=None comp=None | seed=reklama
+     10 | bosch reklama | cpc=None comp=0 | seed=reklama
+     10 | calvin klein реклама | cpc=None comp=0 | seed=reklama
+     10 | calvin klein реклама трансгендеров | cpc=None comp=None | seed=reklama
+     10 | cgpods реклама | cpc=None comp=None | seed=reklama
+     10 | delivery club реклама | cpc=None comp=0 | seed=reklama
+     10 | dns реклама | cpc=None comp=None | seed=reklama
+     10 | dove реклама | cpc=None comp=0 | seed=reklama
+     10 | durex реклама | cpc=None comp=0 | seed=reklama
+     10 | facebook ads реклама | cpc=None comp=0 | seed=reklama
+     10 | hoff реклама | cpc=None comp=None | seed=reklama
+     10 | ikea реклама | cpc=None comp=None | seed=reklama
+     10 | lacoste реклама | cpc=None comp=None | seed=reklama
+     10 | lays реклама | cpc=None comp=0 | seed=reklama
+     10 | lidl реклама | cpc=None comp=0 | seed=reklama
+     10 | mcdonalds reklama | cpc=None comp=None | seed=reklama
+     10 | media reklama | cpc=None comp=None | seed=reklama
+     10 | mercedes reklama | cpc=None comp=None | seed=reklama
+     10 | meta реклама | cpc=None comp=0.71 | seed=reklama
+     10 | nike reklama | cpc=None comp=None | seed=reklama
+     10 | nike реклама | cpc=None comp=0 | seed=reklama
+     10 | old spice реклама | cpc=None comp=0 | seed=reklama
+     10 | ozon реклама | cpc=None comp=0 | seed=reklama
+     10 | reklama bu | cpc=None comp=0 | seed=reklama
+     10 | reklama internetu | cpc=None comp=0 | seed=reklama
+     10 | reklama media | cpc=None comp=0 | seed=reklama
+     10 | reklama radio | cpc=None comp=None | seed=reklama
+     10 | reklama ru | cpc=None comp=None | seed=reklama
+     10 | reklame tv | cpc=None comp=None | seed=reklama
+     10 | skillbox реклама | cpc=None comp=0 | seed=reklama
+     10 | sm reklama | cpc=None comp=None | seed=reklama
+     10 | spotify реклама | cpc=None comp=0 | seed=reklama
+     10 | target reklama | cpc=1.56 comp=0.29 | seed=reklama
+     10 | tele2 реклама | cpc=None comp=0 | seed=reklama
+     10 | telegram реклама | cpc=3.35 comp=0.48 | seed=reklama
+     10 | tide реклама | cpc=None comp=0 | seed=reklama
+     10 | tom ford for men реклама | cpc=None comp=None | seed=reklama
+     10 | uber reklam | cpc=None comp=None | seed=reklama
+     10 | vichy реклама | cpc=None comp=0 | seed=reklama
+     10 | whiskas реклама | cpc=None comp=0 | seed=reklama
+     10 | yota реклама | cpc=None comp=0 | seed=reklama
+     10 | zara реклама | cpc=None comp=0 | seed=reklama
+     10 | авито реклама | cpc=None comp=0 | seed=reklama
+     10 | агуша реклама | cpc=None comp=0 | seed=reklama
+     10 | активиа реклама | cpc=None comp=None | seed=reklama
+     10 | альфа банк реклама | cpc=None comp=0 | seed=reklama
+     10 | арбитражная реклама | cpc=None comp=None | seed=reklama
+     10 | банк открытие реклама | cpc=None comp=0 | seed=reklama
+     10 | баннер наружная реклама | cpc=None comp=0 | seed=reklama
+     10 | баннерная реклама яндекс | cpc=None comp=0 | seed=reklama
+     10 | белорусская реклама | cpc=None comp=None | seed=reklama
+     10 | бесплатная реклама телеграм | cpc=None comp=None | seed=reklama
+     10 | бизнес реклама | cpc=None comp=None | seed=reklama
+     10 | билайн реклама | cpc=None comp=0 | seed=reklama
+     10 | бмв реклама | cpc=None comp=None | seed=reklama
+     10 | бургер реклама | cpc=None comp=0 | seed=reklama
+     10 | вискас реклама | cpc=None comp=0 | seed=reklama
+     10 | внешняя реклама | cpc=None comp=0 | seed=reklama
+     10 | водафон реклама | cpc=None comp=0 | seed=reklama
+     10 | воздушная реклама | cpc=None comp=None | seed=reklama
+     10 | выносная реклама | cpc=None comp=None | seed=reklama
+     10 | газпром реклама | cpc=None comp=0 | seed=reklama
+     10 | гевискон реклама | cpc=None comp=0 | seed=reklama
+     10 | голографическая реклама | cpc=None comp=0.04 | seed=reklama
+     10 | гугл реклама поддержка | cpc=None comp=None | seed=reklama
+     10 | гугл реклама справка | cpc=None comp=None | seed=reklama
+     10 | гудков реклама | cpc=None comp=None | seed=reklama
+     10 | данон реклама | cpc=None comp=0 | seed=reklama
+     10 | директ контекстная реклама | cpc=None comp=None | seed=reklama
+     10 | директ реклама | cpc=None comp=0 | seed=reklama
+     10 | доместос реклама | cpc=None comp=None | seed=reklama
+     10 | дюрекс реклама | cpc=None comp=0 | seed=reklama
+     10 | живая реклама | cpc=None comp=None | seed=reklama
+     10 | золотое яблоко реклама | cpc=None comp=0 | seed=reklama
+     10 | икеа реклама | cpc=None comp=None | seed=reklama
+     10 | интернет реклама виды | cpc=None comp=0.29 | seed=reklama
+     10 | йота реклама | cpc=None comp=0 | seed=reklama
+     10 | к1 реклама | cpc=None comp=0 | seed=reklama
+     10 | каспи реклама | cpc=None comp=None | seed=reklama
+     10 | кельвин кляйн реклама | cpc=None comp=0 | seed=reklama
+     10 | контекстная реклама google adwords | cpc=None comp=None | seed=reklama
+     10 | контекстная реклама виды | cpc=None comp=None | seed=reklama
+     10 | контекстная реклама гугл заказать | cpc=None comp=None | seed=reklama
+     10 | контекстная реклама под ключ | cpc=None comp=None | seed=reklama
+     10 | контекстная реклама яндекс директ | cpc=2.11 comp=0.71 | seed=reklama
+     10 | контентная реклама | cpc=None comp=None | seed=reklama
+     10 | красивая реклама | cpc=None comp=0 | seed=reklama
+     10 | креативная реклама | cpc=None comp=0 | seed=reklama
+     10 | креативная реклама продуктового магазина | cpc=None comp=0 | seed=reklama
+     10 | лазерная реклама | cpc=None comp=0 | seed=reklama
+     10 | литрес реклама | cpc=None comp=None | seed=reklama
+     10 | магнит реклама | cpc=None comp=0 | seed=reklama
+     10 | макдональдс реклама | cpc=None comp=None | seed=reklama
+     10 | маяковский реклама | cpc=None comp=None | seed=reklama
+     10 | мегафон реклама | cpc=None comp=0 | seed=reklama
+     10 | ментос реклама | cpc=None comp=0 | seed=reklama
+     10 | мерседес реклама | cpc=None comp=0 | seed=reklama
+     10 | мираторг реклама | cpc=None comp=0 | seed=reklama
+     10 | ммм реклама | cpc=None comp=0 | seed=reklama
+     10 | монобанк реклама | cpc=None comp=0 | seed=reklama
+     10 | найк реклама | cpc=None comp=0 | seed=reklama
+     10 | напольная реклама | cpc=None comp=0 | seed=reklama
+     10 | наружная реклама заказать | cpc=None comp=0 | seed=reklama
+     10 | наружная реклама изготовление | cpc=None comp=None | seed=reklama
+     10 | наружная реклама магазина | cpc=None comp=1 | seed=reklama
+     10 | неон реклама | cpc=0.86 comp=0.75 | seed=reklama
+     10 | нескафе реклама | cpc=None comp=0 | seed=reklama
+     10 | озон реклама | cpc=None comp=0 | seed=reklama
+     10 | окко реклама | cpc=None comp=None | seed=reklama
+     10 | оон реклама | cpc=None comp=None | seed=reklama
+     10 | орбит реклама | cpc=None comp=0 | seed=reklama
+     10 | орео реклама | cpc=None comp=0 | seed=reklama
+     10 | орифлейм реклама | cpc=None comp=None | seed=reklama
+     10 | открытие магазина реклама | cpc=None comp=0 | seed=reklama
+     10 | печатная реклама виды | cpc=None comp=None | seed=reklama
+     10 | пик реклама | cpc=None comp=None | seed=reklama
+     10 | платная реклама | cpc=0.27 comp=0.43 | seed=reklama
+     10 | поисковая реклама яндекс | cpc=None comp=None | seed=reklama
+     10 | почта россии реклама | cpc=None comp=None | seed=reklama
+     10 | проекционная реклама | cpc=None comp=0 | seed=reklama
+     10 | психолог реклама | cpc=None comp=0 | seed=reklama
+     10 | пятерочка реклама | cpc=None comp=None | seed=reklama
+     10 | райффайзен банк реклама | cpc=None comp=None | seed=reklama
+     10 | рассылка whatsapp реклама | cpc=None comp=None | seed=reklama
+     10 | реклама 1 | cpc=None comp=None | seed=reklama
+     10 | реклама 1 1 | cpc=None comp=None | seed=reklama
+     10 | реклама 18 | cpc=None comp=0 | seed=reklama
+     10 | реклама 1xbet | cpc=None comp=0 | seed=reklama
+     10 | реклама 1хбет | cpc=None comp=None | seed=reklama
+     10 | реклама 2000 | cpc=None comp=0 | seed=reklama
+     10 | реклама 90 | cpc=None comp=0 | seed=reklama
+     10 | реклама 90х | cpc=None comp=None | seed=reklama
+     10 | реклама axe | cpc=None comp=None | seed=reklama
+     10 | реклама calvin klein | cpc=None comp=0 | seed=reklama
+     10 | реклама coca cola | cpc=None comp=0 | seed=reklama
+     10 | реклама dove | cpc=None comp=None | seed=reklama
+     10 | реклама durex | cpc=None comp=0 | seed=reklama
+     10 | реклама head and shoulders | cpc=None comp=None | seed=reklama
+     10 | реклама heineken | cpc=None comp=0 | seed=reklama
+     10 | реклама hh ru | cpc=None comp=0 | seed=reklama
+     10 | реклама hoff | cpc=None comp=None | seed=reklama
+     10 | реклама ikea | cpc=None comp=0 | seed=reklama
+     10 | реклама lacoste | cpc=None comp=None | seed=reklama
+     10 | реклама levis | cpc=None comp=0 | seed=reklama
+     10 | реклама mail ru | cpc=None comp=None | seed=reklama
+     10 | реклама mcdonald's | cpc=None comp=None | seed=reklama
+     10 | реклама mercedes | cpc=None comp=None | seed=reklama
+     10 | реклама nike | cpc=None comp=0 | seed=reklama
+     10 | реклама old spice | cpc=None comp=0 | seed=reklama
+     10 | реклама ozon | cpc=None comp=0 | seed=reklama
+     10 | реклама pepsi | cpc=None comp=0 | seed=reklama
+     10 | реклама renault | cpc=None comp=0 | seed=reklama
+     10 | реклама s7 | cpc=None comp=0 | seed=reklama
+     10 | реклама tele2 | cpc=None comp=None | seed=reklama
+     10 | реклама telegram | cpc=None comp=None | seed=reklama
+     10 | реклама tide | cpc=None comp=0 | seed=reklama
+     10 | реклама whatsapp | cpc=None comp=0 | seed=reklama
+     10 | реклама yota | cpc=None comp=0 | seed=reklama
+     10 | реклама авито | cpc=None comp=0 | seed=reklama
+     10 | реклама агуша | cpc=None comp=0 | seed=reklama
+     10 | реклама адреналин раш | cpc=None comp=0 | seed=reklama
+     10 | реклама акс | cpc=None comp=0 | seed=reklama
+     10 | реклама активиа | cpc=None comp=0 | seed=reklama
+     10 | реклама актимель | cpc=None comp=None | seed=reklama
+     10 | реклама алиэкспресс | cpc=None comp=None | seed=reklama
+     10 | реклама альфа банк | cpc=None comp=0 | seed=reklama
+     10 | реклама амазон | cpc=None comp=0 | seed=reklama
+     10 | реклама ассоциации | cpc=None comp=0 | seed=reklama
+     10 | реклама ауди | cpc=None comp=0 | seed=reklama
+     10 | реклама банка открытие | cpc=None comp=0 | seed=reklama
+     10 | реклама бенеттон | cpc=None comp=None | seed=reklama
+     10 | реклама бентли | cpc=None comp=0 | seed=reklama
+     10 | реклама билайн | cpc=None comp=0 | seed=reklama
+     10 | реклама босс | cpc=None comp=None | seed=reklama
+     10 | реклама в | cpc=None comp=None | seed=reklama
+     10 | реклама в telegram | cpc=2.64 comp=0.71 | seed=reklama
+     10 | реклама в telegram ads | cpc=1.47 comp=0.86 | seed=reklama
+     10 | реклама в whatsapp | cpc=None comp=0 | seed=reklama
+     10 | реклама в авито | cpc=None comp=None | seed=reklama
+     10 | реклама в ватсап | cpc=None comp=None | seed=reklama
+     10 | реклама в директе | cpc=None comp=None | seed=reklama
+     10 | реклама в метро цена | cpc=None comp=None | seed=reklama
+     10 | реклама в озон | cpc=None comp=0 | seed=reklama
+     10 | реклама в олх | cpc=None comp=None | seed=reklama
+     10 | реклама в поисковых системах | cpc=None comp=None | seed=reklama
+     10 | реклама в почтовые ящики | cpc=None comp=0 | seed=reklama
+     10 | реклама в рся | cpc=None comp=0 | seed=reklama
+     10 | реклама в ссср | cpc=None comp=None | seed=reklama
+     10 | реклама в телеграм ads | cpc=None comp=None | seed=reklama
+     10 | реклама в телеграм агентство | cpc=None comp=None | seed=reklama
+     10 | реклама в туризме | cpc=None comp=None | seed=reklama
+     10 | реклама в яндекс бизнес | cpc=None comp=None | seed=reklama
+     10 | реклама в яндекс директ цена | cpc=None comp=None | seed=reklama
+     10 | реклама валберис | cpc=None comp=None | seed=reklama
+     10 | реклама ватсап | cpc=None comp=None | seed=reklama
+     10 | реклама вб | cpc=None comp=None | seed=reklama
+     10 | реклама виды | cpc=None comp=0.11 | seed=reklama
+     10 | реклама вискас | cpc=None comp=0 | seed=reklama
+     10 | реклама водафон | cpc=None comp=0 | seed=reklama
+     10 | реклама водки смирнофф | cpc=None comp=None | seed=reklama
+     10 | реклама газпром | cpc=None comp=0 | seed=reklama
+     10 | реклама гарньер | cpc=None comp=None | seed=reklama
+     10 | реклама глория джинс | cpc=None comp=None | seed=reklama
+     10 | реклама дав | cpc=None comp=0 | seed=reklama
+     10 | реклама даниссимо | cpc=None comp=None | seed=reklama
+     10 | реклама данон | cpc=None comp=None | seed=reklama
+     10 | реклама джилет | cpc=None comp=None | seed=reklama
+     10 | реклама директ | cpc=None comp=None | seed=reklama
+     10 | реклама дирол | cpc=None comp=0 | seed=reklama
+     10 | реклама доритос | cpc=None comp=0 | seed=reklama
+     10 | реклама дюрекс | cpc=None comp=0 | seed=reklama
+     10 | реклама зара | cpc=None comp=None | seed=reklama
+     10 | реклама золотого яблока | cpc=None comp=None | seed=reklama
+     10 | реклама золотое яблоко | cpc=None comp=0 | seed=reklama
+     10 | реклама икеа | cpc=None comp=None | seed=reklama
+     10 | реклама икеи | cpc=None comp=None | seed=reklama
+     10 | реклама калгон | cpc=None comp=0 | seed=reklama
+     10 | реклама карлсберг | cpc=None comp=0 | seed=reklama
+     10 | реклама кельвин кляйн | cpc=None comp=0 | seed=reklama
+     10 | реклама кока коли | cpc=None comp=None | seed=reklama
+     10 | реклама лакост | cpc=None comp=0 | seed=reklama
+     10 | реклама лейс | cpc=None comp=0 | seed=reklama
+     10 | реклама ленор | cpc=None comp=0 | seed=reklama
+     10 | реклама липтон | cpc=None comp=0 | seed=reklama
+     10 | реклама магнит | cpc=None comp=None | seed=reklama
+     10 | реклама магнита | cpc=None comp=None | seed=reklama
+     10 | реклама макдоналдс | cpc=None comp=0 | seed=reklama
+     10 | реклама мама | cpc=None comp=None | seed=reklama
+     10 | реклама маркетинг | cpc=None comp=0.51 | seed=reklama
+     10 | реклама марс | cpc=None comp=0 | seed=reklama
+     10 | реклама мастеркард | cpc=None comp=None | seed=reklama
+     10 | реклама маяковский | cpc=None comp=None | seed=reklama
+     10 | реклама мегафон | cpc=None comp=0 | seed=reklama
+     10 | реклама мегафон 2020 | cpc=None comp=0 | seed=reklama
+     10 | реклама мегафон с брюсом уиллисом | cpc=None comp=None | seed=reklama
+     10 | реклама ментос | cpc=None comp=0 | seed=reklama
+     10 | реклама мерседес | cpc=None comp=0 | seed=reklama
+     10 | реклама мир | cpc=None comp=None | seed=reklama
+     10 | реклама ммм | cpc=None comp=0 | seed=reklama
+     10 | реклама монобанк | cpc=None comp=0 | seed=reklama
+     10 | реклама монополии | cpc=None comp=None | seed=reklama
+     10 | реклама мясного магазина | cpc=None comp=None | seed=reklama
+     10 | реклама на | cpc=None comp=0.09 | seed=reklama
+     10 | реклама на 1 1 | cpc=None comp=0 | seed=reklama
+     10 | реклама на led экранах | cpc=None comp=0 | seed=reklama
+     10 | реклама на авито | cpc=None comp=0 | seed=reklama
+     10 | реклама на авито цена | cpc=None comp=None | seed=reklama
+     10 | реклама на азс | cpc=None comp=None | seed=reklama
+     10 | реклама на асфальте | cpc=None comp=None | seed=reklama
+     10 | реклама на баннере | cpc=None comp=0 | seed=reklama
+     10 | реклама на билборде | cpc=None comp=None | seed=reklama
+     10 | реклама на билборде цена | cpc=2.16 comp=0.86 | seed=reklama
+     10 | реклама на вб | cpc=None comp=None | seed=reklama
+     10 | реклама на видеоэкранах | cpc=None comp=None | seed=reklama
+     10 | реклама на домашнем | cpc=None comp=None | seed=reklama
+     10 | реклама на ножках | cpc=None comp=0.07 | seed=reklama
+     10 | реклама на озон | cpc=None comp=None | seed=reklama
+     10 | реклама на окнах сетка | cpc=None comp=None | seed=reklama
+     10 | fastsmm | cpc=None comp=None | seed=smm
+     10 | smm продвижение | cpc=2.43 comp=0.43 | seed=smm
+     10 | смм продвижение | cpc=None comp=0.38 | seed=smm
+     10 | продвижение тик ток | cpc=None comp=0 | seed=smm
+     10 | услуги смм | cpc=None comp=0.86 | seed=smm
+     10 | смм услуги | cpc=9.16 comp=0.57 | seed=smm
+     10 | smm услуги | cpc=None comp=0.86 | seed=smm
+     10 | smm yt | cpc=None comp=0.04 | seed=smm
+     10 | продвижение в тик ток | cpc=None comp=0 | seed=smm
+     10 | смм маркетинг | cpc=None comp=0.71 | seed=smm
+     10 | маркетинг в социальных сетях | cpc=None comp=0.71 | seed=smm
+     10 | продвижение в социальных сетях | cpc=None comp=0 | seed=smm
+     10 | продвижение бизнеса | cpc=0.58 comp=0.71 | seed=smm
+     10 | smm маркетинг | cpc=None comp=None | seed=smm
+     10 | смм реклама | cpc=None comp=0 | seed=smm
+     10 | смм с нуля | cpc=0.71 comp=0.43 | seed=smm
+     10 | смм послуги | cpc=None comp=None | seed=smm
+     10 | smm с нуля | cpc=None comp=None | seed=smm
+     10 | lowcost smm | cpc=None comp=0 | seed=smm
+     10 | продвижение соц сетей | cpc=None comp=None | seed=smm
+     10 | продвижение в соц сетях | cpc=None comp=None | seed=smm
+     10 | продвижение в телеграм | cpc=None comp=0.43 | seed=smm
+     10 | смм компания | cpc=5.71 comp=0.43 | seed=smm
+     10 | услуги smm | cpc=None comp=None | seed=smm
+     10 | услуги смм цена | cpc=None comp=None | seed=smm
+     10 | тик ток продвижение | cpc=None comp=None | seed=smm
+     10 | продвижение инстаграма | cpc=4.04 comp=0.43 | seed=smm
+     10 | продвижение smm в сети интернет | cpc=None comp=0 | seed=smm
+     10 | продвижение бренда | cpc=None comp=None | seed=smm
+     10 | smm tik tok | cpc=None comp=0 | seed=smm
+     10 | smm реклама в инстаграме | cpc=None comp=None | seed=smm
+     10 | смм для начинающих | cpc=None comp=None | seed=smm
+     10 | продвижение в фейсбуке | cpc=None comp=None | seed=smm
+     10 | смм услуги цена | cpc=None comp=None | seed=smm
+     10 | реклама в соц сетях цены | cpc=None comp=None | seed=smm
+     10 | продвижение рекламы в соцсетях | cpc=None comp=None | seed=smm
+     10 | продвижение бизнеса в соцсетях | cpc=6.41 comp=0.86 | seed=smm
+     10 | продвижение в соцсетях | cpc=None comp=0.86 | seed=smm
+     10 | продвижение телеграм | cpc=None comp=None | seed=smm
+     10 | smm компании | cpc=None comp=1 | seed=smm
+     10 | smm цена | cpc=None comp=None | seed=smm
+     10 | smm для начинающих | cpc=None comp=None | seed=smm
+     10 | скилбокс смм | cpc=None comp=None | seed=smm
+     10 | smm услуги цены | cpc=None comp=0 | seed=smm
+     10 | smm kursları online | cpc=0.48 comp=0.59 | seed=smm
+     10 | doktor smm | cpc=None comp=0 | seed=smm
+     10 | facebook продвижение | cpc=None comp=None | seed=smm
+     10 | fox smm | cpc=2.75 comp=0.05 | seed=smm
+     10 | global smm uz | cpc=None comp=0 | seed=smm
+     10 | hh smm | cpc=None comp=None | seed=smm
+     10 | lava smm | cpc=None comp=None | seed=smm
+     10 | linkedin продвижение | cpc=None comp=None | seed=smm
+     10 | mir smm | cpc=None comp=0 | seed=smm
+     10 | mix smm | cpc=None comp=None | seed=smm
+     10 | roi smm | cpc=None comp=None | seed=smm
+     10 | seo и smm | cpc=None comp=None | seed=smm
+     10 | smm ijtimoiy media marketing | cpc=None comp=0 | seed=smm
+     10 | smm lava | cpc=None comp=None | seed=smm
+     10 | smm ninja | cpc=None comp=None | seed=smm
+     10 | smm olx | cpc=1.34 comp=0.14 | seed=smm
+     10 | smm pl | cpc=None comp=None | seed=smm
+     10 | smm rabota | cpc=None comp=None | seed=smm
+     10 | smm smo | cpc=None comp=None | seed=smm
+     10 | smm академия | cpc=None comp=None | seed=smm
+     10 | smm в соц сетях | cpc=None comp=None | seed=smm
+     10 | smm в социальных сетях | cpc=None comp=None | seed=smm
+     10 | smm в телеграм | cpc=None comp=None | seed=smm
+     10 | smm в телеграме | cpc=None comp=None | seed=smm
+     10 | smm для личного блога | cpc=0.03 comp=0.43 | seed=smm
+     10 | smm для медицины | cpc=None comp=None | seed=smm
+     10 | smm для новичков | cpc=None comp=None | seed=smm
+     10 | smm для строительной компании | cpc=None comp=None | seed=smm
+     10 | smm маркетинг в социальных сетях | cpc=None comp=None | seed=smm
+     10 | smm продвижение агентство | cpc=None comp=None | seed=smm
+     10 | smm продвижение в социальных сетях | cpc=None comp=None | seed=smm
+     10 | smm продвижение в соцсетях | cpc=None comp=None | seed=smm
+     10 | smm продвижение телеграм | cpc=None comp=None | seed=smm
+     10 | smm продвижение услуги | cpc=None comp=None | seed=smm
+     10 | smm продвижение цена | cpc=None comp=None | seed=smm
+     10 | smm сайт | cpc=None comp=None | seed=smm
+     10 | smm телеграм | cpc=None comp=0.29 | seed=smm
+     10 | smmashing | cpc=None comp=None | seed=smm
+     10 | smmashing media | cpc=None comp=None | seed=smm
+     10 | smmlikes | cpc=None comp=None | seed=smm
+     10 | smmprogress | cpc=None comp=None | seed=smm
+     10 | telegram продвижение | cpc=None comp=None | seed=smm
+     10 | tik tok smm | cpc=None comp=0.71 | seed=smm
+     10 | tik tok продвижение | cpc=None comp=None | seed=smm
+     10 | zzys smm | cpc=None comp=None | seed=smm
+     10 | авиасейлс смм | cpc=None comp=None | seed=smm
+     10 | агентство smm | cpc=None comp=None | seed=smm
+     10 | агентство смм | cpc=None comp=None | seed=smm
+     10 | в соцсетях | cpc=None comp=0 | seed=smm
+     10 | все о смм | cpc=None comp=None | seed=smm
+     10 | дмитрий кудряшов смм | cpc=None comp=None | seed=smm
+     10 | доктор smm | cpc=None comp=None | seed=smm
+     10 | доктор смм | cpc=None comp=0 | seed=smm
+     10 | интернет маркетинг smm | cpc=None comp=None | seed=smm
+     10 | коммерческое предложение smm | cpc=None comp=None | seed=smm
+     10 | коммерческое предложение по смм | cpc=None comp=None | seed=smm
+     10 | коммерческое предложение смм | cpc=None comp=0.18 | seed=smm
+     10 | лучшие соц сети | cpc=None comp=None | seed=smm
+     10 | маркетинг smm | cpc=None comp=None | seed=smm
+     10 | маркетинг в соц сетях | cpc=None comp=0 | seed=smm
+     10 | маркетинг и smm | cpc=None comp=None | seed=smm
+     10 | маркетинг и смм | cpc=None comp=None | seed=smm
+     10 | маркетинг смм | cpc=1.39 comp=0.71 | seed=smm
+     10 | маркетинг соц сетей | cpc=None comp=None | seed=smm
+     10 | медиаплан смм | cpc=None comp=None | seed=smm
+     10 | пакеты smm услуг | cpc=None comp=None | seed=smm
+     10 | перечень социальных сетей | cpc=None comp=None | seed=smm
+     10 | платное продвижение в тик ток | cpc=None comp=None | seed=smm
+     10 | портфоліо смм | cpc=None comp=0 | seed=smm
+     10 | прайс на смм услуги | cpc=None comp=None | seed=smm
+     10 | прайс смм | cpc=None comp=None | seed=smm
+     10 | продвижение smm | cpc=None comp=None | seed=smm
+     10 | продвижение бизнеса в социальных сетях | cpc=6.41 comp=0.86 | seed=smm
+     10 | продвижение бизнеса в тик ток | cpc=None comp=0 | seed=smm
+     10 | продвижение бренда в социальных сетях | cpc=None comp=None | seed=smm
+     10 | продвижение в | cpc=None comp=None | seed=smm
+     10 | продвижение в b2b | cpc=None comp=None | seed=smm
+     10 | продвижение в инстаграме | cpc=None comp=None | seed=smm
+     10 | продвижение в мессенджерах | cpc=None comp=None | seed=smm
+     10 | продвижение в сети интернет | cpc=None comp=None | seed=smm
+     10 | продвижение в соц сетях smm | cpc=None comp=0 | seed=smm
+     10 | продвижение в тик ток агентство | cpc=None comp=None | seed=smm
+     10 | продвижение в тиктоке | cpc=None comp=0 | seed=smm
+     10 | продвижение группы | cpc=None comp=None | seed=smm
+     10 | продвижение группы в телеграмме | cpc=None comp=None | seed=smm
+     10 | продвижение инстаграма с нуля | cpc=None comp=None | seed=smm
+     10 | продвижение контента в социальных сетях | cpc=None comp=None | seed=smm
+     10 | продвижение личного бренда в социальных сетях | cpc=None comp=None | seed=smm
+     10 | продвижение рекламы в социальных сетях | cpc=None comp=None | seed=smm
+     10 | продвижение смм | cpc=None comp=0 | seed=smm
+     10 | продвижение товара в социальных сетях | cpc=None comp=None | seed=smm
+     10 | реклама smm | cpc=None comp=None | seed=smm
+     10 | реклама в социальных сетях цена | cpc=None comp=None | seed=smm
+     10 | реклама смм | cpc=None comp=None | seed=smm
+     10 | реклама смм услуг | cpc=None comp=0 | seed=smm
+     10 | рекламное агентство smm | cpc=None comp=None | seed=smm
+     10 | рекламное агентство смм | cpc=None comp=0.57 | seed=smm
+     10 | рубрикатор в смм | cpc=None comp=None | seed=smm
+     10 | рубрикатор смм | cpc=None comp=0 | seed=smm
+     10 | сайт смм | cpc=None comp=None | seed=smm
+     10 | скиллбокс смм | cpc=None comp=None | seed=smm
+     10 | смм авиасейлс | cpc=None comp=0 | seed=smm
+     10 | смм академия | cpc=None comp=None | seed=smm
+     10 | смм в инстаграме | cpc=None comp=None | seed=smm
+     10 | смм в телеграм | cpc=None comp=None | seed=smm
+     10 | смм для бизнеса | cpc=None comp=0.86 | seed=smm
+     10 | смм для новичков | cpc=None comp=None | seed=smm
+     10 | смм доктор | cpc=None comp=0 | seed=smm
+     10 | смм и маркетинг | cpc=None comp=None | seed=smm
+     10 | смм олх | cpc=None comp=0.05 | seed=smm
+     10 | смм пакеты | cpc=None comp=None | seed=smm
+     10 | смм прайс | cpc=None comp=None | seed=smm
+     10 | смм предложение | cpc=None comp=None | seed=smm
+     10 | смм продвижение агентство | cpc=None comp=None | seed=smm
+     10 | смм продвижение в социальных сетях | cpc=None comp=None | seed=smm
+     10 | смм продвижение сайта | cpc=None comp=None | seed=smm
+     10 | смм продвижение цена | cpc=None comp=None | seed=smm
+     10 | смм сайт | cpc=None comp=0.71 | seed=smm
+     10 | смм скиллбокс | cpc=None comp=None | seed=smm
+     10 | смм сколько стоит | cpc=None comp=None | seed=smm
+     10 | смм студия | cpc=None comp=None | seed=smm
+     10 | смм телеграм | cpc=None comp=None | seed=smm
+     10 | смм тик ток | cpc=None comp=None | seed=smm
+     10 | смм цена | cpc=None comp=None | seed=smm
+     10 | соц сети для бизнеса | cpc=None comp=None | seed=smm
+     10 | социальный медиа маркетинг | cpc=None comp=None | seed=smm
+     10 | социальных сетей | cpc=None comp=0 | seed=smm
+     10 | суровый питерский smm | cpc=None comp=None | seed=smm
+     10 | суровый питерский смм | cpc=None comp=0 | seed=smm
+     10 | таргетированное продвижение | cpc=None comp=None | seed=smm
+     10 | телеграм продвижение | cpc=None comp=None | seed=smm
+     10 | украинские соц сети | cpc=None comp=None | seed=smm
+     10 | услуги по ведению социальных сетей | cpc=None comp=None | seed=smm
+     10 | услуги смм продвижение | cpc=None comp=0.71 | seed=smm
+     10 | ыьь | cpc=None comp=0.02 | seed=smm
+     10 | яндекс поиск людей в соцсетях | cpc=None comp=None | seed=smm
+     10 | контент план для инстаграм | cpc=None comp=None | seed=контент план
+     10 | контент план пример | cpc=None comp=0.14 | seed=контент план
+     10 | контент план инстаграм | cpc=0.64 comp=0.43 | seed=контент план
+     10 | instagram контент план | cpc=None comp=0 | seed=контент план
+     10 | smm контент план | cpc=None comp=0 | seed=контент план
+     10 | smm план на месяц | cpc=None comp=None | seed=контент план
+     10 | виды контент плана | cpc=None comp=None | seed=контент план
+     10 | готовые контент планы | cpc=None comp=None | seed=контент план
+     10 | готовый контент для инстаграм | cpc=None comp=None | seed=контент план
+     10 | готовый контент план для инстаграм | cpc=None comp=0 | seed=контент план
+     10 | готовый контент план для салона красоты | cpc=None comp=None | seed=контент план
+     10 | готовый контент план на месяц | cpc=None comp=0 | seed=контент план
+     10 | инстаграм контент план | cpc=None comp=None | seed=контент план
+     10 | календарь для контент плана | cpc=None comp=None | seed=контент план
+     10 | календарь контент плана | cpc=None comp=0 | seed=контент план
+     10 | контент план smm | cpc=None comp=None | seed=контент план
+     10 | контент план smm пример | cpc=None comp=None | seed=контент план
+     10 | контент план smm шаблон | cpc=None comp=None | seed=контент план
+     10 | контент план бровиста | cpc=None comp=None | seed=контент план
+     10 | контент план в notion | cpc=None comp=0 | seed=контент план
+     10 | контент план в гугл таблице | cpc=None comp=None | seed=контент план
+     10 | контент план в инстаграм | cpc=None comp=None | seed=контент план
+     10 | контент план в трелло | cpc=None comp=0 | seed=контент план
+     10 | контент план в эксель | cpc=None comp=None | seed=контент план
+     10 | контент план для it компании | cpc=None comp=None | seed=контент план
+     10 | контент план для астролога | cpc=None comp=0 | seed=контент план
+     10 | контент план для бровиста | cpc=None comp=None | seed=контент план
+     10 | контент план для бьюти мастера | cpc=None comp=0 | seed=контент план
+     10 | контент план для врача | cpc=None comp=None | seed=контент план
+     10 | контент план для детского магазина | cpc=None comp=None | seed=контент план
+     10 | контент план для детского центра | cpc=None comp=None | seed=контент план
+     10 | контент план для дизайнера | cpc=None comp=0 | seed=контент план
+     10 | контент план для инстаграм косметолога | cpc=None comp=None | seed=контент план
+     10 | контент план для инстаграм личный блог | cpc=None comp=0 | seed=контент план
+     10 | контент план для инстаграм пример | cpc=None comp=None | seed=контент план
+     10 | контент план для инстаграм салона красоты | cpc=None comp=0 | seed=контент план
+     10 | контент план для инстаграм шаблон | cpc=None comp=None | seed=контент план
+     10 | контент план для клининговой компании | cpc=None comp=0 | seed=контент план
+     10 | контент план для копирайтера | cpc=None comp=None | seed=контент план
+     10 | контент план для коуча | cpc=None comp=None | seed=контент план
+     10 | контент план для кофейни | cpc=None comp=None | seed=контент план
+     10 | контент план для кофейни пример | cpc=None comp=None | seed=контент план
+     10 | контент план для лайфстайл блога | cpc=None comp=None | seed=контент план
+     10 | контент план для личного блога инстаграм | cpc=None comp=None | seed=контент план
+     10 | контент план для лэшмейкера | cpc=None comp=0 | seed=контент план
+     10 | контент план для магазина | cpc=None comp=None | seed=контент план
+     10 | контент план для магазина детской одежды | cpc=None comp=None | seed=контент план
+     10 | контент план для магазина мебели | cpc=None comp=0 | seed=контент план
+     10 | контент план для магазина одежды | cpc=None comp=None | seed=контент план
+     10 | контент план для магазина посуды | cpc=None comp=None | seed=контент план
+     10 | контент план для мамы блогера | cpc=None comp=0 | seed=контент план
+     10 | контент план для маникюрного салона | cpc=None comp=None | seed=контент план
+     10 | контент план для маркетингового агентства | cpc=None comp=None | seed=контент план
+     10 | контент план для маркетолога | cpc=None comp=None | seed=контент план
+     10 | контент план для мебельного магазина | cpc=None comp=None | seed=контент план
+     10 | контент план для нумеролога | cpc=None comp=0 | seed=контент план
+     10 | контент план для образовательного центра | cpc=None comp=0 | seed=контент план
+     10 | контент план для онлайн школы | cpc=None comp=None | seed=контент план
+     10 | контент план для постов | cpc=None comp=0 | seed=контент план
+     10 | контент план для психолога | cpc=None comp=None | seed=контент план
+     10 | контент план для рекламного агентства | cpc=None comp=None | seed=контент план
+     10 | контент план для ресторана | cpc=None comp=None | seed=контент план
+     10 | контент план для салона красоты | cpc=None comp=None | seed=контент план
+     10 | контент план для смм | cpc=None comp=0 | seed=контент план
+     10 | контент план для смм специалиста | cpc=None comp=None | seed=контент план
+     10 | контент план для сммщика | cpc=None comp=0 | seed=контент план
+     10 | контент план для соц сетей | cpc=None comp=None | seed=контент план
+     10 | контент план для соцсетей | cpc=None comp=None | seed=контент план
+     10 | контент план для сторис | cpc=None comp=None | seed=контент план
+     10 | контент план для строительной компании | cpc=None comp=0 | seed=контент план
+     10 | контент план для телеграм | cpc=None comp=None | seed=контент план
+     10 | контент план для телеграм канала | cpc=None comp=0 | seed=контент план
+     10 | контент план для телеграм канала шаблон | cpc=None comp=None | seed=контент план
+     10 | контент план для украшений ручной работы | cpc=None comp=None | seed=контент план
+     10 | контент план для учебного центра | cpc=None comp=0 | seed=контент план
+     10 | контент план для художника | cpc=None comp=None | seed=контент план
+     10 | контент план для цветочного магазина | cpc=None comp=None | seed=контент план
+     10 | контент план для школы | cpc=None comp=0 | seed=контент план
+     10 | контент план для яндекс дзен | cpc=None comp=None | seed=контент план
+     10 | контент план инстаграм шаблон | cpc=None comp=None | seed=контент план
+     10 | контент план как выглядит | cpc=None comp=None | seed=контент план
+     10 | контент план как составить | cpc=None comp=0.14 | seed=контент план
+     10 | контент план магазина одежды | cpc=None comp=None | seed=контент план
+     10 | контент план мастера маникюра | cpc=None comp=None | seed=контент план
+     10 | контент план на месяц | cpc=None comp=0 | seed=контент план
+     10 | контент план на месяц пример | cpc=None comp=None | seed=контент план
+     10 | контент план на месяц шаблон | cpc=None comp=None | seed=контент план
+     10 | контент план на неделю | cpc=None comp=None | seed=контент план
+     10 | контент план на неделю пример | cpc=None comp=None | seed=контент план
+     10 | контент план на неделю шаблон | cpc=None comp=None | seed=контент план
+     10 | контент план онлайн | cpc=None comp=None | seed=контент план
+     10 | контент план постов | cpc=None comp=None | seed=контент план
+     10 | контент план пример инстаграм | cpc=None comp=None | seed=контент план
+     10 | контент план психолога | cpc=None comp=None | seed=контент план
+     10 | контент план ресторана | cpc=None comp=0 | seed=контент план
+     10 | контент план смм | cpc=None comp=None | seed=контент план
+     10 | контент план смм пример | cpc=None comp=None | seed=контент план
+     10 | контент план смм специалиста | cpc=None comp=None | seed=контент план
+     10 | контент план сторис | cpc=None comp=None | seed=контент план
+     10 | контент план строительной компании | cpc=None comp=None | seed=контент план
+     10 | контент план телеграм | cpc=None comp=0 | seed=контент план
+     10 | контент план фитнес тренера | cpc=None comp=None | seed=контент план
+     10 | контент план что это | cpc=None comp=None | seed=контент план
+     10 | контент план шаблон гугл таблице | cpc=None comp=0 | seed=контент план
+     10 | контент план шаблон для инстаграм | cpc=None comp=None | seed=контент план
+     10 | контент план это | cpc=None comp=None | seed=контент план
+     10 | контент план это пример | cpc=None comp=None | seed=контент план
+     10 | контент стратегия и контент план | cpc=None comp=None | seed=контент план
+     10 | написание контент плана | cpc=None comp=None | seed=контент план
+     10 | оформление контент плана | cpc=None comp=0 | seed=контент план
+     10 | план для инстаграм | cpc=None comp=None | seed=контент план
+     10 | план для сторис | cpc=None comp=None | seed=контент план
+     10 | план контент | cpc=None comp=None | seed=контент план
+     10 | план контент для инстаграма | cpc=None comp=None | seed=контент план
+     10 | план контент на месяц | cpc=None comp=None | seed=контент план
+     10 | план контента инстаграм | cpc=None comp=0 | seed=контент план
+     10 | план по продвижению инстаграм | cpc=None comp=None | seed=контент план
+     10 | план постов | cpc=None comp=None | seed=контент план
+     10 | план сторис | cpc=None comp=None | seed=контент план
+     10 | пример контент плана | cpc=None comp=0 | seed=контент план
+     10 | пример контент плана для инстаграм | cpc=None comp=None | seed=контент план
+     10 | разработка контент плана | cpc=None comp=None | seed=контент план
+     10 | сайт для контент плана | cpc=None comp=None | seed=контент план
+     10 | смм контент план | cpc=1.01 comp=0.43 | seed=контент план
+     10 | смм план пример | cpc=None comp=None | seed=контент план
+     10 | создание контент плана | cpc=None comp=None | seed=контент план
+     10 | создать контент план | cpc=None comp=None | seed=контент план
+     10 | создать контент план для инстаграм | cpc=None comp=None | seed=контент план
+     10 | создать контент план онлайн | cpc=None comp=None | seed=контент план
+     10 | составить контент план | cpc=None comp=None | seed=контент план
+     10 | составление контент плана | cpc=None comp=0 | seed=контент план
+     10 | сторис готовый контент план для инстаграм | cpc=None comp=0 | seed=контент план
+     10 | сторис план | cpc=None comp=None | seed=контент план
+     10 | структура контент плана | cpc=None comp=None | seed=контент план
+     10 | шаблон для контент плана | cpc=None comp=0.14 | seed=контент план
+     10 | шаблон контент план | cpc=None comp=None | seed=контент план
+     10 | шаблон контент плана гугл таблицы | cpc=None comp=None | seed=контент план
+     10 | шаблон контент плана на месяц | cpc=None comp=None | seed=контент план
+      0 | послуги смм | cpc=None comp=None | seed=smm
+      0 | edusmm | cpc=None comp=None | seed=smm
+      0 | facebook продвижение бизнеса | cpc=None comp=None | seed=smm
+      0 | genesis smm | cpc=None comp=None | seed=smm
+      0 | horizont smm | cpc=None comp=None | seed=smm
+      0 | intelsmm | cpc=None comp=None | seed=smm
+      0 | nord smm | cpc=None comp=None | seed=smm
+      0 | onlyfans продвижение | cpc=None comp=None | seed=smm
+      0 | plannersmm | cpc=None comp=None | seed=smm
+      0 | seo smm продвижение | cpc=None comp=None | seed=smm
+      0 | smm 100ru | cpc=None comp=None | seed=smm
+      0 | smm 2023 | cpc=None comp=None | seed=smm
+      0 | smm b2b | cpc=None comp=None | seed=smm
+      0 | smm агентство лайка | cpc=None comp=None | seed=smm
+      0 | smm агентство нижний новгород | cpc=None comp=None | seed=smm
+      0 | smm агентство услуги | cpc=None comp=None | seed=smm
+      0 | smm агентство цены | cpc=None comp=None | seed=smm
+      0 | smm в 2022 | cpc=None comp=None | seed=smm
+      0 | smm в b2b | cpc=None comp=None | seed=smm
+      0 | smm в it | cpc=None comp=None | seed=smm
+      0 | smm в бьюти сфере | cpc=None comp=None | seed=smm
+      0 | smm в медицине | cpc=None comp=None | seed=smm
+      0 | smm в ресторанном бизнесе | cpc=None comp=None | seed=smm
+      0 | smm для b2b | cpc=None comp=None | seed=smm
+      0 | smm для it компании | cpc=None comp=None | seed=smm
+      0 | smm для барбершопа | cpc=None comp=None | seed=smm
+      0 | smm для бизнеса | cpc=None comp=None | seed=smm
+      0 | smm для инстаграма | cpc=None comp=None | seed=smm
+      0 | smm для кофейни | cpc=None comp=None | seed=smm
+      0 | smm для музыкантов | cpc=None comp=None | seed=smm
+      0 | smm для психолога | cpc=None comp=None | seed=smm
+      0 | smm для ресторанов | cpc=None comp=None | seed=smm
+      0 | smm для салона красоты | cpc=None comp=None | seed=smm
+      0 | smm для стоматологии | cpc=None comp=None | seed=smm
+      0 | smm для фитнес тренера | cpc=None comp=None | seed=smm
+      0 | smm для художников | cpc=None comp=None | seed=smm
+      0 | smm для юристов | cpc=None comp=None | seed=smm
+      0 | smm доктор | cpc=None comp=None | seed=smm
+      0 | smm и digital реклама | cpc=None comp=None | seed=smm
+      0 | smm и seo | cpc=None comp=None | seed=smm
+      0 | smm и цифровой маркетинг | cpc=None comp=None | seed=smm
+      0 | smm интернет маркетинг | cpc=None comp=None | seed=smm
+      0 | smm масаж | cpc=None comp=None | seed=smm
+      0 | smm на фрилансе | cpc=None comp=None | seed=smm
+      0 | smm нижний новгород | cpc=None comp=None | seed=smm
+      0 | smm пакеты | cpc=None comp=None | seed=smm
+      0 | smm прайс | cpc=None comp=None | seed=smm
+      0 | smm продвижение facebook | cpc=None comp=None | seed=smm
+      0 | smm продвижение бизнеса | cpc=None comp=None | seed=smm
+      0 | smm продвижение бренда | cpc=None comp=None | seed=smm
+      0 | smm продвижение в соц сетях | cpc=None comp=None | seed=smm
+      0 | smm продвижение в социальных | cpc=None comp=None | seed=smm
+      0 | smm продвижение компании | cpc=None comp=None | seed=smm
+      0 | smm продвижение сайта | cpc=None comp=None | seed=smm
+      0 | smm строительной компании | cpc=None comp=None | seed=smm
+      0 | smm студия | cpc=None comp=None | seed=smm
+      0 | smm тик ток | cpc=None comp=None | seed=smm
+      0 | smm як почати | cpc=None comp=None | seed=smm
+      0 | smmboom тик ток | cpc=None comp=None | seed=smm
+      0 | smmpro agency | cpc=None comp=None | seed=smm
+      0 | soundcloud продвижение | cpc=None comp=None | seed=smm
+      0 | twitter продвижение | cpc=None comp=None | seed=smm
+      0 | woldemar smm | cpc=None comp=None | seed=smm
+      0 | азы смм | cpc=None comp=None | seed=smm
+      0 | база клиентов для смм | cpc=None comp=None | seed=smm
+      0 | базовые знания smm | cpc=None comp=None | seed=smm
+      0 | воронка продаж smm | cpc=None comp=None | seed=smm
+      0 | воронка продаж в смм | cpc=None comp=None | seed=smm
+      0 | все о smm | cpc=None comp=None | seed=smm
+      0 | все об смм | cpc=None comp=None | seed=smm
+      0 | группы в социальных сетях | cpc=None comp=None | seed=smm
+      0 | изучение smm | cpc=None comp=None | seed=smm
+      0 | интернет маркетинг в социальных сетях | cpc=None comp=None | seed=smm
+      0 | интернет маркетинг смм | cpc=None comp=None | seed=smm
+      0 | испанские соц сети | cpc=None comp=None | seed=smm
+      0 | компания smm | cpc=None comp=None | seed=smm
+      0 | комплексное smm продвижение | cpc=None comp=None | seed=smm
+      0 | комплексное продвижение бизнеса в интернете | cpc=None comp=None | seed=smm
+      0 | комплексное продвижение в социальных сетях | cpc=None comp=None | seed=smm
+      0 | креативное продвижение бренда | cpc=None comp=None | seed=smm
+      0 | лайка смм | cpc=None comp=None | seed=smm
+      0 | лид магнит для смм | cpc=None comp=None | seed=smm
+      0 | маркетинг в социальных медиа | cpc=None comp=None | seed=smm
+      0 | маркетинг продвижение бренда | cpc=None comp=None | seed=smm
+      0 | маркетинг продвижение в социальных сетях | cpc=None comp=None | seed=smm
+      0 | маркетинг продвижение товара | cpc=None comp=None | seed=smm
+      0 | ментальный smm | cpc=None comp=None | seed=smm
+      0 | ментальный смм | cpc=None comp=None | seed=smm
+      0 | монобанк смм | cpc=None comp=None | seed=smm
+      0 | нью лук смм | cpc=None comp=None | seed=smm
+      0 | пакет услуг smm | cpc=None comp=None | seed=smm
+      0 | питерский смм | cpc=None comp=None | seed=smm
+      0 | поли гаан смм | cpc=None comp=None | seed=smm
+      0 | прайс smm услуг | cpc=None comp=None | seed=smm
+      0 | продвижение b2b в соцсетях | cpc=None comp=None | seed=smm
+      0 | продвижение facebook | cpc=None comp=None | seed=smm
+      0 | продвижение hr бренда в социальных сетях | cpc=None comp=None | seed=smm
+      0 | продвижение linkedin | cpc=None comp=None | seed=smm
+      0 | продвижение telegram | cpc=None comp=None | seed=smm
+      0 | продвижение tiktok | cpc=None comp=None | seed=smm
+      0 | продвижение twitter | cpc=None comp=None | seed=smm
+      0 | продвижение бизнеса в телеграм | cpc=None comp=None | seed=smm
+      0 | продвижение бизнеса реклама и маркетинг | cpc=None comp=None | seed=smm
+      0 | продвижение бренда в сети | cpc=None comp=None | seed=smm
+      0 | продвижение бренда маркетинг | cpc=None comp=None | seed=smm
+      0 | продвижение бренда с нуля | cpc=None comp=None | seed=smm
+      0 | продвижение бьюти услуг | cpc=None comp=None | seed=smm
+      0 | продвижение в facebook | cpc=None comp=None | seed=smm
+      0 | продвижение в facebook цены | cpc=None comp=None | seed=smm
+      0 | продвижение в linkedin | cpc=None comp=None | seed=smm
+      0 | продвижение в telegram | cpc=None comp=None | seed=smm
+      0 | продвижение в tiktok | cpc=None comp=None | seed=smm
+      0 | продвижение в twitter | cpc=None comp=None | seed=smm
+      0 | продвижение в лайке | cpc=None comp=None | seed=smm
+      0 | продвижение в сетях smm | cpc=None comp=None | seed=smm
+      0 | продвижение в соц сетях цена | cpc=None comp=None | seed=smm
+      0 | продвижение в социальных сетях 2022 | cpc=None comp=None | seed=smm
+      0 | продвижение в социальных сетях smm | cpc=None comp=None | seed=smm
+      0 | продвижение в социальных сетях цена | cpc=None comp=None | seed=smm
+      0 | продвижение в соцсетях 2022 | cpc=None comp=None | seed=smm
+      0 | продвижение в соцсетях услуги | cpc=None comp=None | seed=smm
+      0 | продвижение в соцсетях цена | cpc=None comp=None | seed=smm
+      0 | продвижение в твиттере | cpc=None comp=None | seed=smm
+      0 | продвижение в телеграм 2022 | cpc=None comp=None | seed=smm
+      0 | продвижение в телеграмм | cpc=None comp=None | seed=smm
+      0 | продвижение в тик ток 2022 | cpc=None comp=None | seed=smm
+      0 | продвижение в фейсбуке 2021 | cpc=None comp=None | seed=smm
+      0 | продвижение в фейсбуке 2022 | cpc=None comp=None | seed=smm
+      0 | продвижение группы в facebook | cpc=None comp=None | seed=smm
+      0 | продвижение группы в фейсбуке | cpc=None comp=None | seed=smm
+      0 | продвижение и реклама бренда | cpc=None comp=None | seed=smm
+      0 | продвижение интернет магазина в социальных сетях | cpc=None comp=None | seed=smm
+      0 | продвижение компании в социальных сетях | cpc=None comp=None | seed=smm
+      0 | продвижение компании в соцсетях | cpc=None comp=None | seed=smm
+      0 | продвижение магазина в сети интернет | cpc=None comp=None | seed=smm
+      0 | продвижение медицинских услуг в социальных сетях | cpc=None comp=None | seed=smm
+      0 | продвижение на бехансе | cpc=None comp=None | seed=smm
+      0 | продвижение нового бренда | cpc=None comp=None | seed=smm
+      0 | продвижение рекламы в фейсбуке | cpc=None comp=None | seed=smm
+      0 | продвижение сайта в соц сетях | cpc=None comp=None | seed=smm
+      0 | продвижение сайта в социальных сетях | cpc=None comp=None | seed=smm
+      0 | продвижение сайта в социальных сетях цена | cpc=None comp=None | seed=smm
+      0 | продвижение своего бренда | cpc=None comp=None | seed=smm
+      0 | продвижение соц сетей цена | cpc=None comp=None | seed=smm
+      0 | продвижение твиттера | cpc=None comp=None | seed=smm
+      0 | продвижение телеграм группы | cpc=None comp=None | seed=smm
+      0 | продвижение тик ток 2022 | cpc=None comp=None | seed=smm
+      0 | продвижение товара маркетинг | cpc=None comp=None | seed=smm
+      0 | продвижение услуг в социальных сетях | cpc=None comp=None | seed=smm
+      0 | продвижение через телеграм | cpc=None comp=None | seed=smm
+      0 | продвижение через тик ток | cpc=None comp=None | seed=smm
+      0 | реклама в социальных медиа | cpc=None comp=None | seed=smm
+      0 | реклама в социальных сетях smm | cpc=None comp=None | seed=smm
+      0 | реклама в твиттере цена | cpc=None comp=None | seed=smm
+      0 | реклама для соц сетей | cpc=None comp=None | seed=smm
+      0 | реклама и продвижение бренда | cpc=None comp=None | seed=smm
+      0 | реклама и продвижение в социальных сетях | cpc=None comp=None | seed=smm
+      0 | реклама сайта в социальных сетях | cpc=None comp=None | seed=smm
+      0 | рекламное продвижение в социальных сетях | cpc=None comp=None | seed=smm
+      0 | рубрикатор smm | cpc=None comp=None | seed=smm
+      0 | сайты для смм | cpc=None comp=None | seed=smm
+      0 | сергей кузьменко smm | cpc=None comp=None | seed=smm
+      0 | сергей щербаков смм | cpc=None comp=None | seed=smm
+      0 | скиллбокс smm | cpc=None comp=None | seed=smm
+      0 | смм 100 | cpc=None comp=None | seed=smm
+      0 | смм 2022 | cpc=None comp=None | seed=smm
+      0 | смм 2023 | cpc=None comp=None | seed=smm
+      0 | смм в 2022 | cpc=None comp=None | seed=smm
+      0 | смм в медицине | cpc=None comp=None | seed=smm
+      0 | смм для салона красоты | cpc=None comp=None | seed=smm
+      0 | смм продвижение в соц сетях | cpc=None comp=None | seed=smm
+      0 | смм салона красоты | cpc=None comp=None | seed=smm
+      0 | сферы смм | cpc=None comp=None | seed=smm
+      0 | таргетированная реклама юридических услуг | cpc=None comp=None | seed=smm
+      0 | функция продвижение в тик ток | cpc=None comp=None | seed=smm
+      0 | цена рекламы в социальных сетях | cpc=None comp=None | seed=smm
+      0 | цены на смм услуги | cpc=None comp=None | seed=smm
+      0 | щербаков смм | cpc=None comp=None | seed=smm
+      0 | контент план для інстаграму | cpc=None comp=None | seed=контент план
+      0 | генератор контент плана | cpc=None comp=None | seed=контент план
+      0 | готовый контент план для астролога | cpc=None comp=None | seed=контент план
+      0 | готовый контент план для кондитера | cpc=None comp=None | seed=контент план
+      0 | готовый контент план для косметолога | cpc=None comp=None | seed=контент план
+      0 | готовый контент план для магазина одежды | cpc=None comp=None | seed=контент план
+      0 | готовый контент план для смм специалиста | cpc=None comp=None | seed=контент план
+      0 | готовый контент план для сторис | cpc=None comp=None | seed=контент план
+      0 | готовый контент план для фитнес клуба | cpc=None comp=None | seed=контент план
+      0 | готовый контент план для фитнес тренера | cpc=None comp=None | seed=контент план
+      0 | контент план 2022 | cpc=None comp=None | seed=контент план
+      0 | контент план блогера | cpc=None comp=None | seed=контент план
+      0 | контент план для | cpc=None comp=None | seed=контент план
+      0 | контент план для b2b | cpc=None comp=None | seed=контент план
+      0 | контент план для smm специалиста | cpc=None comp=None | seed=контент план
+      0 | контент план для автосервиса | cpc=None comp=None | seed=контент план
+      0 | контент план для бизнес аккаунта | cpc=None comp=None | seed=контент план
+      0 | контент план для бизнеса | cpc=None comp=None | seed=контент план
+      0 | контент план для благотворительного фонда | cpc=None comp=None | seed=контент план
+      0 | контент план для блога | cpc=None comp=None | seed=контент план
+      0 | контент план для блогера | cpc=None comp=None | seed=контент план
+      0 | контент план для бренда одежды | cpc=None comp=None | seed=контент план
+      0 | контент план для бьюти блога | cpc=None comp=None | seed=контент план
+      0 | контент план для воздушных шаров | cpc=None comp=None | seed=контент план
+      0 | контент план для вязальщицы | cpc=None comp=None | seed=контент план
+      0 | контент план для детского развивающего центра | cpc=None comp=None | seed=контент план
+      0 | контент план для инстаграм 2022 | cpc=None comp=None | seed=контент план
+      0 | контент план для инстаграм коуча | cpc=None comp=None | seed=контент план
+      0 | контент план для инстаграм магазина | cpc=None comp=None | seed=контент план
+      0 | контент план для инстаграм психолога | cpc=None comp=None | seed=контент план
+      0 | контент план для интернет магазина | cpc=None comp=None | seed=контент план
+      0 | контент план для интернет магазина инстаграм | cpc=None comp=None | seed=контент план
+      0 | контент план для интернет магазина одежды | cpc=None comp=None | seed=контент план
+      0 | контент план для кафе | cpc=None comp=None | seed=контент план
+      0 | контент план для клиники | cpc=None comp=None | seed=контент план
+      0 | контент план для коммерческого аккаунта | cpc=None comp=None | seed=контент план
+      0 | контент план для косметолога | cpc=None comp=None | seed=контент план
+      0 | контент план для кулинарного блога | cpc=None comp=None | seed=контент план
+      0 | контент план для ламинирования ресниц | cpc=None comp=None | seed=контент план
+      0 | контент план для лашмейкера | cpc=None comp=None | seed=контент план
+      0 | контент план для личного блога | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина автозапчастей | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина бижутерии | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина женской одежды | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина косметики | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина мобильных аксессуаров | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина обуви | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина одежды инстаграм | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина одежды пример | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина подарков | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина свечей | cpc=None comp=None | seed=контент план
+      0 | контент план для магазина украшений | cpc=None comp=None | seed=контент план
+      0 | контент план для массажного салона | cpc=None comp=None | seed=контент план
+      0 | контент план для мастера депиляции | cpc=None comp=None | seed=контент план
+      0 | контент план для мастера маникюра | cpc=None comp=None | seed=контент план
+      0 | контент план для мастера по наращиванию ресниц | cpc=None comp=None | seed=контент план
+      0 | контент план для пекарни | cpc=None comp=None | seed=контент план
+      0 | контент план для пиццерии | cpc=None comp=None | seed=контент план
+      0 | контент план для психолога в инстаграм | cpc=None comp=None | seed=контент план
+      0 | контент план для психолога инстаграм | cpc=None comp=None | seed=контент план
+      0 | контент план для ресторана инстаграм | cpc=None comp=None | seed=контент план
+      0 | контент план для ресторана пример | cpc=None comp=None | seed=контент план
+      0 | контент план для рилс | cpc=None comp=None | seed=контент план
+      0 | контент план для рукодельницы | cpc=None comp=None | seed=контент план
+      0 | контент план для сайта | cpc=None comp=None | seed=контент план
+      0 | контент план для сайта пример | cpc=None comp=None | seed=контент план
+      0 | контент план для салона красоты пример | cpc=None comp=None | seed=контент план
+      0 | контент план для салона штор | cpc=None comp=None | seed=контент план
+      0 | контент план для смм агентства | cpc=None comp=None | seed=контент план
+      0 | контент план для смм менеджера | cpc=None comp=None | seed=контент план
+      0 | контент план для сммщика темы | cpc=None comp=None | seed=контент план
+      0 | контент план для соц сетей шаблон | cpc=None comp=None | seed=контент план
+      0 | контент план для спа салона | cpc=None comp=None | seed=контент план
+      0 | контент план для спортивного клуба | cpc=None comp=None | seed=контент план
+      0 | контент план для сторис бровиста | cpc=None comp=None | seed=контент план
+      0 | контент план для сторис личного блога | cpc=None comp=None | seed=контент план
+      0 | контент план для сторис магазина | cpc=None comp=None | seed=контент план
+      0 | контент план для сторис мастера маникюра | cpc=None comp=None | seed=контент план
+      0 | контент план для сторис пример | cpc=None comp=None | seed=контент план
+      0 | контент план для сторис психолога | cpc=None comp=None | seed=контент план
+      0 | контент план для сторис смм специалиста | cpc=None comp=None | seed=контент план
+      0 | контент план для сторис цена | cpc=None comp=None | seed=контент план
+      0 | контент план для студии красоты | cpc=None comp=None | seed=контент план
+      0 | контент план для телеграм канала пример | cpc=None comp=None | seed=контент план
+      0 | контент план для тик ток | cpc=None comp=None | seed=контент план
+      0 | контент план для тревел блога | cpc=None comp=None | seed=контент план
+      0 | контент план для тренера | cpc=None comp=None | seed=контент план
+      0 | контент план для учителя | cpc=None comp=None | seed=контент план
+      0 | контент план для фейсбука | cpc=None comp=None | seed=контент план
+      0 | контент план для фейсбука пример | cpc=None comp=None | seed=контент план
+      0 | контент план для фитнес клуба | cpc=None comp=None | seed=контент план
+      0 | контент план для фитнес тренера | cpc=None comp=None | seed=контент план
+      0 | контент план для фотостудии | cpc=None comp=None | seed=контент план
+      0 | контент план для фрилансера | cpc=None comp=None | seed=контент план
+      0 | контент план для хенд мейд | cpc=None comp=None | seed=контент план
+      0 | контент план для эзотерика | cpc=None comp=None | seed=контент план
+      0 | контент план для экспертного блога | cpc=None comp=None | seed=контент план
+      0 | контент план для ювелирного магазина | cpc=None comp=None | seed=контент план
+      0 | контент план для юриста | cpc=None comp=None | seed=контент план
+      0 | контент план для ютуба | cpc=None comp=None | seed=контент план
+      0 | контент план для ютуба шаблон | cpc=None comp=None | seed=контент план
+      0 | контент план инстаграм 2021 | cpc=None comp=None | seed=контент план
+      0 | контент план инстаграм 2022 | cpc=None comp=None | seed=контент план
+      0 | контент план инстаграм магазин одежды | cpc=None comp=None | seed=контент план
+      0 | контент план инстаграм на месяц | cpc=None comp=None | seed=контент план
+      0 | контент план инстаграм пример | cpc=None comp=None | seed=контент план
+      0 | контент план инстаграм это | cpc=None comp=None | seed=контент план
+      0 | контент план как писать | cpc=None comp=None | seed=контент план
+      0 | контент план косметолога | cpc=None comp=None | seed=контент план
+      0 | контент план кофейни | cpc=None comp=None | seed=контент план
+      0 | контент план личного блога | cpc=None comp=None | seed=контент план
+      0 | контент план на месяц инстаграм | cpc=None comp=None | seed=контент план
+      0 | контент план на месяц цена | cpc=None comp=None | seed=контент план
+      0 | контент план на неделю инстаграм | cpc=None comp=None | seed=контент план
+      0 | контент план на февраль | cpc=None comp=None | seed=контент план
+      0 | контент план на февраль 2022 | cpc=None comp=None | seed=контент план
+      0 | контент план по воронке продаж | cpc=None comp=None | seed=контент план
+      0 | контент план по сторис | cpc=None comp=None | seed=контент план
+      0 | контент план по сторис шаблон | cpc=None comp=None | seed=контент план
+      0 | контент план потрібен для | cpc=None comp=None | seed=контент план
+      0 | контент план психолога инстаграм | cpc=None comp=None | seed=контент план
+      0 | контент план салона красоты | cpc=None comp=None | seed=контент план
+      0 | контент план сторис для магазина одежды | cpc=None comp=None | seed=контент план
+      0 | контент план сторис для салона красоты | cpc=None comp=None | seed=контент план
+      0 | контент план сторис на неделю | cpc=None comp=None | seed=контент план
+      0 | контент план сторис пример | cpc=None comp=None | seed=контент план
+      0 | контент план тик ток | cpc=None comp=None | seed=контент план
+      0 | контент план фитнес клуба | cpc=None comp=None | seed=контент план
+      0 | контент план цена | cpc=None comp=None | seed=контент план
+      0 | контент план что это такое | cpc=None comp=None | seed=контент план
+      0 | личный готовый контент план для инстаграм | cpc=None comp=None | seed=контент план
+      0 | план контента в соцсетях | cpc=None comp=None | seed=контент план
+      0 | план постов в инстаграм | cpc=None comp=None | seed=контент план
+      0 | план постов для инстаграм | cpc=None comp=None | seed=контент план
+      0 | план постов на месяц | cpc=None comp=None | seed=контент план
+      0 | план сторис на день | cpc=None comp=None | seed=контент план
+      0 | план сторис на неделю | cpc=None comp=None | seed=контент план
+      0 | пример контент плана для соцсетей | cpc=None comp=None | seed=контент план
+      0 | пример контент плана для сторис | cpc=None comp=None | seed=контент план
+      0 | пример контент плана на месяц | cpc=None comp=None | seed=контент план
+      0 | пример контент плана на неделю | cpc=None comp=None | seed=контент план
+      0 | продающий контент план | cpc=None comp=None | seed=контент план
+      0 | развлекательный контент для магазина одежды | cpc=None comp=None | seed=контент план
+      0 | создание контент плана для инстаграм | cpc=None comp=None | seed=контент план
+      0 | составить контент план для инстаграм | cpc=None comp=None | seed=контент план
+      0 | составить контент план онлайн | cpc=None comp=None | seed=контент план
+      0 | составление контент плана для инстаграм | cpc=None comp=None | seed=контент план
+      0 | составление контент плана цена | cpc=None comp=None | seed=контент план
+      0 | сторис контент план | cpc=None comp=None | seed=контент план
+      0 | стратегия контент плана | cpc=None comp=None | seed=контент план
+      0 | схема контент плана | cpc=None comp=None | seed=контент план
+      0 | темы для контент плана | cpc=None comp=None | seed=контент план
+      0 | форма контент плана | cpc=None comp=None | seed=контент план
+      0 | шаблон для контент плана инстаграм | cpc=None comp=None | seed=контент план
+      0 | шаблон контент плана для инстаграм | cpc=None comp=None | seed=контент план
+      0 | шаблон контент плана инстаграм | cpc=None comp=None | seed=контент план

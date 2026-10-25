@@ -1,0 +1,2106 @@
+{
+ "totals": {
+  "demand_eff": 11071,
+  "visits_day_pos6": [
+   1.79,
+   3.99
+  ],
+  "visits_day_pos3": [
+   10.54,
+   13.03
+  ]
+ },
+ "clusters": [
+  {
+   "id": "uzum-sotuvchi-start",
+   "demand_raw": 104440,
+   "demand_eff": 5900,
+   "cpc_weighted": 2.42,
+   "cpc_range": [
+    0.38,
+    9.31
+   ],
+   "visits_day_pos6": [
+    0.95,
+    2.13
+   ],
+   "visits_day_pos3": [
+    5.61,
+    6.94
+   ],
+   "rows": [
+    {
+     "keyword": "uzumda savdo qilish",
+     "volume": 260,
+     "cpc": 1.22,
+     "competition": 0.09,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 260.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum sotuvchi",
+     "volume": 70,
+     "cpc": 1.01,
+     "competition": 0.03,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 70.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market sotuvchi bo'lish",
+     "volume": 50,
+     "cpc": 1.72,
+     "competition": 0.1,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 50.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market sotuvchi",
+     "volume": 40,
+     "cpc": 1.32,
+     "competition": 0.11,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 40.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market продавец",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 40.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzumda sotuvchi bo'lish",
+     "volume": 30,
+     "cpc": 0.38,
+     "competition": 0.1,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 30.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market biznes",
+     "volume": 30,
+     "cpc": 2.84,
+     "competition": 0.18,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 15.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum seller регистрация",
+     "volume": 30,
+     "cpc": 1.28,
+     "competition": 0.08,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 30.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "стать продавцом на узум",
+     "volume": 20,
+     "cpc": 3.64,
+     "competition": 0.11,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market ro'yxatdan o'tish",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.11,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum hamkor",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.06,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzumda sotish",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.07,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum marketda sotish",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.05,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market partner",
+     "volume": 10,
+     "cpc": 2.62,
+     "competition": 0.11,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzumda do'kon ochish",
+     "volume": 10,
+     "cpc": 0.53,
+     "competition": 0.07,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum продавец",
+     "volume": 10,
+     "cpc": 1.28,
+     "competition": 0.09,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "узум продавец",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как стать продавцом на узум",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.43,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "продавать на узум",
+     "volume": 10,
+     "cpc": 1.35,
+     "competition": 0.11,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как продавать на uzum market",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "узум маркет для продавцов",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.21,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market для продавцов",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.26,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum kurs",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market kurslari",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.14,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum seller",
+     "volume": 74000,
+     "cpc": 1.09,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 3700.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "seller uzum uz",
+     "volume": 12100,
+     "cpc": 9.31,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 605.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "seller uzum",
+     "volume": 8100,
+     "cpc": 5.81,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 405.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "узум селлер",
+     "volume": 5400,
+     "cpc": 3.23,
+     "competition": 0.04,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 270.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum seller login",
+     "volume": 2900,
+     "cpc": 1.15,
+     "competition": 0,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 145.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market seller",
+     "volume": 880,
+     "cpc": 1.69,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 44.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum seller kabinet",
+     "volume": 320,
+     "cpc": 1.84,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 16.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "uzum business",
+     "why": "Uzum Business — банк для бизнеса, не маркетплейс"
+    },
+    {
+     "keyword": "uzum academy",
+     "why": "собственный курс Uzum, навигация"
+    },
+    {
+     "keyword": "uzum menejer",
+     "why": "вакансия/найм менеджера, услуги такой нет на сайте"
+    }
+   ]
+  },
+  {
+   "id": "marketplace-tashqi-reklama",
+   "demand_raw": 100,
+   "demand_eff": 100,
+   "cpc_weighted": null,
+   "cpc_range": null,
+   "visits_day_pos6": [
+    0.02,
+    0.04
+   ],
+   "visits_day_pos3": [
+    0.1,
+    0.12
+   ],
+   "rows": [
+    {
+     "keyword": "uzum market reklama",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 40.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum reklama",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.04,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "реклама на маркетплейсах",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "внешняя реклама для маркетплейсов",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "продвижение товаров на маркетплейсах",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "реклама на wildberries",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": [
+      "wildberries реклама"
+     ]
+    }
+   ],
+   "excluded": []
+  },
+  {
+   "id": "mahsulot-reklama-dokon",
+   "demand_raw": 270,
+   "demand_eff": 170,
+   "cpc_weighted": 0.64,
+   "cpc_range": [
+    0.64,
+    0.64
+   ],
+   "visits_day_pos6": [
+    0.03,
+    0.06
+   ],
+   "visits_day_pos3": [
+    0.16,
+    0.2
+   ],
+   "rows": [
+    {
+     "keyword": "mahsulotni reklama qilish",
+     "volume": 170,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 85.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "mahsulot reklama",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "mahsulot reklamasi",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "реклама товаров в инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "реклама магазина в инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": [
+      "реклама инстаграм магазина (pt)"
+     ]
+    },
+    {
+     "keyword": "реклама интернет магазина",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "продвижение интернет магазина",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": [
+      "продвижение интернет магазинов"
+     ]
+    },
+    {
+     "keyword": "реклама магазина",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0,
+     "source": "pt",
+     "info_share": 0.5,
+     "eff": 15.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "реклама для магазина",
+     "volume": 10,
+     "cpc": 0.64,
+     "competition": 0.29,
+     "source": "pt",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "реклама магазина одежды / реклама одежды в инстаграм / магазин одежды реклама / kiyim do'koni reklama",
+     "why": "ниша «магазин одежды» — линза niche-playbooks"
+    }
+   ]
+  },
+  {
+   "id": "marketpleyslar-taqqoslash",
+   "demand_raw": 2020,
+   "demand_eff": 884,
+   "cpc_weighted": 1.12,
+   "cpc_range": [
+    0.71,
+    1.84
+   ],
+   "visits_day_pos6": [
+    0.14,
+    0.32
+   ],
+   "visits_day_pos3": [
+    0.84,
+    1.04
+   ],
+   "rows": [
+    {
+     "keyword": "marketplace uzbekistan",
+     "volume": 210,
+     "cpc": 1.01,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 210.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "маркетплейсы узбекистана",
+     "volume": 140,
+     "cpc": 1.23,
+     "competition": 0.52,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 140.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "маркетплейсы в узбекистане",
+     "volume": 70,
+     "cpc": 1.6,
+     "competition": 0.49,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 70.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "маркетплейс узбекистан",
+     "volume": 50,
+     "cpc": 1.46,
+     "competition": 0.47,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 50.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "маркетплейс",
+     "volume": 720,
+     "cpc": 0.71,
+     "competition": 0.25,
+     "source": "m",
+     "info_share": 0.3,
+     "eff": 216.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "marketplace",
+     "volume": 720,
+     "cpc": 1.41,
+     "competition": 0.13,
+     "source": "m",
+     "info_share": 0.15,
+     "eff": 108.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "marketpleys",
+     "volume": 40,
+     "cpc": 1.84,
+     "competition": 0.18,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "маркетплейс что это",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как продавать на маркетплейсах",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.57,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как начать продавать на маркетплейсах",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "торговля на маркетплейсах",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "бизнес на маркетплейсах",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "продажи на маркетплейсах",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "что продавать на маркетплейсе",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "wildberries uzbekistan 1300, wildberries узбекистан 880, ozon узбекистан 880, yandex market uzbekistan 880, яндекс маркет узбекистан 1600, ozon uzbekistan 480, вайлдберриз узбекистан 480, wildberries ташкент 480",
+     "why": "покупатели (где купить), не продавцы"
+    },
+    {
+     "keyword": "менеджер маркетплейсов 40 (= менеджер маркетплейса), курсы менеджера маркетплейсов 10, обучение маркетплейсам 10",
+     "why": "вакансия/курсы; услуги ведения магазина на сайте нет"
+    }
+   ]
+  },
+  {
+   "id": "wb-ozon-ym-sotuvchi",
+   "demand_raw": 4240,
+   "demand_eff": 659,
+   "cpc_weighted": 1.56,
+   "cpc_range": [
+    0.04,
+    3.5
+   ],
+   "visits_day_pos6": [
+    0.11,
+    0.24
+   ],
+   "visits_day_pos3": [
+    0.63,
+    0.77
+   ],
+   "rows": [
+    {
+     "keyword": "yandex market seller",
+     "volume": 1000,
+     "cpc": 1.82,
+     "competition": 0.05,
+     "source": "m",
+     "info_share": 0.15,
+     "eff": 150.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "wildberries seller",
+     "volume": 880,
+     "cpc": 1.35,
+     "competition": 0.04,
+     "source": "m",
+     "info_share": 0.15,
+     "eff": 132.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "seller wildberries",
+     "volume": 390,
+     "cpc": 1.98,
+     "competition": 0.04,
+     "source": "m",
+     "info_share": 0.15,
+     "eff": 58.5,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "ozon seller",
+     "volume": 590,
+     "cpc": 1.07,
+     "competition": 0.17,
+     "source": "m",
+     "info_share": 0.15,
+     "eff": 88.5,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "yandex market partner",
+     "volume": 90,
+     "cpc": null,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 0.15,
+     "eff": 13.5,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "wb partners",
+     "volume": 880,
+     "cpc": 1.61,
+     "competition": 0.03,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 44.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "wildberries partners",
+     "volume": 140,
+     "cpc": 3.5,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 7.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "seller wildberries ru",
+     "volume": 110,
+     "cpc": 3.05,
+     "competition": 0.03,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 5.5,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "яндекс маркет продавец",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0.07,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 30.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "yandex market sotuvchi",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "wildberries продавец",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": [
+      "продавец wildberries"
+     ]
+    },
+    {
+     "keyword": "вайлдберриз продавец",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "стать продавцом wildberries",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как стать продавцом на wildberries",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.07,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как стать продавцом на вайлдберриз",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "продавать на wildberries",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как продавать на wildberries",
+     "volume": 10,
+     "cpc": 1.64,
+     "competition": 0.07,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "поставщик wildberries",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "wildberries для продавцов",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "вб продавец",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "ozon продавец",
+     "volume": 10,
+     "cpc": 0.04,
+     "competition": 0.14,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "yandex market 40500, яндекс маркет 12100, wildberries uz 12100, yandex market uz 4400",
+     "why": "покупательская навигация"
+    }
+   ]
+  },
+  {
+   "id": "kartochka-ai",
+   "demand_raw": 1550,
+   "demand_eff": 260,
+   "cpc_weighted": 0.69,
+   "cpc_range": [
+    0.69,
+    0.69
+   ],
+   "visits_day_pos6": [
+    0.04,
+    0.09
+   ],
+   "visits_day_pos3": [
+    0.25,
+    0.31
+   ],
+   "rows": [
+    {
+     "keyword": "инфографика для маркетплейсов",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0.14,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 70.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "карточка товара",
+     "volume": 90,
+     "cpc": null,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 45.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "дизайн карточек для маркетплейсов",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.09,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "дизайн карточек товаров",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "описание товара",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "seo карточки товара",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "фото для маркетплейсов",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "фото товаров для маркетплейсов",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.14,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "предметная съемка",
+     "volume": 20,
+     "cpc": 0.69,
+     "competition": 0.08,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "infografika",
+     "volume": 1300,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 65.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "описание товара для маркетплейса 10, генератор описания товара 10",
+     "why": "уже посчитаны линзой prices-tools (ai-reklama-matni)"
+    },
+    {
+     "keyword": "mahsulot tavsifi, mahsulot rasmi, kartochka dizayn, infografika uzum, карточка товара узум",
+     "why": "0 в Google Ads"
+    }
+   ]
+  },
+  {
+   "id": "telegram-kanal-biznes",
+   "demand_raw": 670,
+   "demand_eff": 670,
+   "cpc_weighted": 1.59,
+   "cpc_range": [
+    0.35,
+    1.65
+   ],
+   "visits_day_pos6": [
+    0.11,
+    0.24
+   ],
+   "visits_day_pos3": [
+    0.64,
+    0.79
+   ],
+   "rows": [
+    {
+     "keyword": "как создать канал в телеграм",
+     "volume": 480,
+     "cpc": 1.65,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 480.0,
+     "shared_bucket": [
+      "как создать канал в телеграме"
+     ]
+    },
+    {
+     "keyword": "как создать телеграм канал",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0.03,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 30.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "создать телеграм канал",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "telegramda kanal yaratish",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "telegram kanal nomlari",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 30.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "telegram kanalga odam qo'shish",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 30.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как раскрутить телеграм канал",
+     "volume": 10,
+     "cpc": 1.15,
+     "competition": 0.26,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "раскрутка телеграм канала",
+     "volume": 10,
+     "cpc": 0.7,
+     "competition": 0.48,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "продвижение телеграм канала",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.52,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "раскрутка телеграм канала ташкент",
+     "volume": 10,
+     "cpc": 1.06,
+     "competition": 0.86,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как набрать подписчиков в телеграм канал",
+     "volume": 10,
+     "cpc": 0.35,
+     "competition": 0.1,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "подписчики телеграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.04,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "телеграм канал для бизнеса",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.29,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "телеграм канал очиш",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.05,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "telegramda kanal ochish 74000",
+     "why": "аномалия Google Ads: в 1000 раз больше «telegram kanal ochish» (70); вероятно склеено с брендовым «telegram»"
+    },
+    {
+     "keyword": "telegram kanal ochish 70, telegram kanalni rivojlantirish 10, telegram obunachi ko'paytirish 40",
+     "why": "уже посчитаны линзой prices-tools (obunachi-halol)"
+    },
+    {
+     "keyword": "telegram kanal 5400, telegram kanallar 5400, телеграм канал 1900",
+     "why": "поиск каналов для чтения, не создателей"
+    }
+   ]
+  },
+  {
+   "id": "tg-kanal-statistika",
+   "demand_raw": 4290,
+   "demand_eff": 248,
+   "cpc_weighted": 2.4,
+   "cpc_range": [
+    0.5,
+    9.43
+   ],
+   "visits_day_pos6": [
+    0.04,
+    0.09
+   ],
+   "visits_day_pos3": [
+    0.24,
+    0.29
+   ],
+   "rows": [
+    {
+     "keyword": "tgstat",
+     "volume": 2900,
+     "cpc": 1.23,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 145.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "tgstat uz",
+     "volume": 720,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 36.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "telemetr",
+     "volume": 590,
+     "cpc": 9.43,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 29.5,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "статистика телеграм канала",
+     "volume": 20,
+     "cpc": 0.5,
+     "competition": 0.11,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "телеграм каналы узбекистана",
+     "volume": 50,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 0.3,
+     "eff": 15.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "телеграм каналы ташкент",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 0.3,
+     "eff": 3.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": []
+  },
+  {
+   "id": "nakrutka-xavfi",
+   "demand_raw": 18310,
+   "demand_eff": 916,
+   "cpc_weighted": 0.52,
+   "cpc_range": [
+    0.48,
+    0.85
+   ],
+   "visits_day_pos6": [
+    0.15,
+    0.33
+   ],
+   "visits_day_pos3": [
+    0.87,
+    1.08
+   ],
+   "rows": [
+    {
+     "keyword": "instagram nakrutka",
+     "volume": 8100,
+     "cpc": 0.48,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 405.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "nakrutka",
+     "volume": 8100,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 405.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "telegram nakrutka",
+     "volume": 880,
+     "cpc": 0.63,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 44.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "накрутка подписчиков инстаграм",
+     "volume": 720,
+     "cpc": 0.85,
+     "competition": 0.13,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 36.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "накрутка инстаграм",
+     "volume": 260,
+     "cpc": 0.51,
+     "competition": 0.06,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 13.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "накрутка телеграм",
+     "volume": 140,
+     "cpc": 0.73,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 7.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "накрутка подписчиков телеграм",
+     "volume": 110,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 5.5,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "instagram obunachi ko'paytirish, obunachi ko'paytirish, instagram obunachi …",
+     "why": "честный рост — уже кластер obunachi-halol линзы prices-tools"
+    }
+   ]
+  },
+  {
+   "id": "onlayn-dokon-ochish",
+   "demand_raw": 3010,
+   "demand_eff": 814,
+   "cpc_weighted": 1.07,
+   "cpc_range": [
+    0.39,
+    3.24
+   ],
+   "visits_day_pos6": [
+    0.13,
+    0.29
+   ],
+   "visits_day_pos3": [
+    0.77,
+    0.96
+   ],
+   "rows": [
+    {
+     "keyword": "internet magazin",
+     "volume": 390,
+     "cpc": 0.73,
+     "competition": 0.26,
+     "source": "m",
+     "info_share": 0.3,
+     "eff": 117.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "onlayn savdo",
+     "volume": 110,
+     "cpc": 0.67,
+     "competition": 0.09,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 55.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "internet do'kon",
+     "volume": 30,
+     "cpc": 0.39,
+     "competition": 0.24,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 15.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "onlayn do'kon",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0.22,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 15.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "internet do'kon ochish",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "internet magazin ochish",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "onlayn biznes",
+     "volume": 20,
+     "cpc": 1.25,
+     "competition": 0.18,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "onlayn biznes boshlash",
+     "volume": 10,
+     "cpc": 1.99,
+     "competition": 0.22,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "онлайн бизнес в узбекистане",
+     "volume": 10,
+     "cpc": 3.24,
+     "competition": 0.57,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "открыть интернет магазин",
+     "volume": 10,
+     "cpc": 1.5,
+     "competition": 0.86,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как открыть интернет магазин",
+     "volume": 10,
+     "cpc": 0.92,
+     "competition": 0.86,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как открыть интернет магазин в узбекистане",
+     "volume": 10,
+     "cpc": 1.15,
+     "competition": 0.5,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "создать интернет магазин",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.57,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "бизнес в интернете",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "e-commerce uzbekistan",
+     "volume": 10,
+     "cpc": 0.75,
+     "competition": 0.18,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "shopify uzbekistan",
+     "volume": 20,
+     "cpc": 1.63,
+     "competition": 0.5,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "конструктор интернет магазина",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "платформа для интернет магазина",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "instagram magazin",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "интернет магазин в инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как открыть магазин в инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "магазин в инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": [
+      "инстаграм магазин"
+     ]
+    },
+    {
+     "keyword": "как продавать в инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "продажи в инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "продажи через инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "бизнес в инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "instagram магазин",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "телеграм магазин",
+     "volume": 10,
+     "cpc": 0.55,
+     "competition": 0.08,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "магазин в телеграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "как создать магазин в телеграм",
+     "volume": 10,
+     "cpc": 0.56,
+     "competition": 0.71,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "интернет магазин в телеграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "telegram shop",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 20.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "dropshipping",
+     "volume": 720,
+     "cpc": 1.65,
+     "competition": 0.53,
+     "source": "m",
+     "info_share": 0.15,
+     "eff": 108.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "дропшиппинг",
+     "volume": 90,
+     "cpc": 0.68,
+     "competition": 0.19,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 45.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "товарка",
+     "volume": 260,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 0.3,
+     "eff": 78.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "какой бизнес открыть в узбекистане",
+     "volume": 70,
+     "cpc": 0.54,
+     "competition": 0.34,
+     "source": "m",
+     "info_share": 0.3,
+     "eff": 21.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "электронная коммерция",
+     "volume": 1000,
+     "cpc": null,
+     "competition": 0.03,
+     "source": "m",
+     "info_share": 0.05,
+     "eff": 50.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "создание интернет магазина, разработка интернет магазина (ташкент), интернет магазин под ключ — по 10",
+     "why": "коммерческий интент сайта: владельцы /ru/razrabotka-saytov-tashkent/ и прайс-спица"
+    },
+    {
+     "keyword": "интернет магазин 590, онлайн магазин 320",
+     "why": "покупательский интент (research seed)"
+    }
+   ]
+  },
+  {
+   "id": "olx-biznes",
+   "demand_raw": 450,
+   "demand_eff": 270,
+   "cpc_weighted": 0.51,
+   "cpc_range": [
+    0.12,
+    0.78
+   ],
+   "visits_day_pos6": [
+    0.04,
+    0.1
+   ],
+   "visits_day_pos3": [
+    0.26,
+    0.32
+   ],
+   "rows": [
+    {
+     "keyword": "olx e'lon berish",
+     "volume": 170,
+     "cpc": 0.53,
+     "competition": 0.1,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 85.0,
+     "shared_bucket": [
+      "olx elon berish"
+     ]
+    },
+    {
+     "keyword": "как подать объявление на olx",
+     "volume": 140,
+     "cpc": null,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 70.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olxga e'lon berish",
+     "volume": 10,
+     "cpc": 0.78,
+     "competition": 0.19,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 5.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "разместить объявление на olx",
+     "volume": 10,
+     "cpc": 0.65,
+     "competition": 0.43,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 5.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "подать объявление olx",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 5.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olx объявление",
+     "volume": 20,
+     "cpc": 0.12,
+     "competition": 0.19,
+     "source": "m",
+     "info_share": 0.5,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olx biznes",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.08,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olx business",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olx бизнес",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olx для бизнеса",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olx reklama",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.03,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "реклама на olx",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.14,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olx top",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olx vip",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "olx магазин",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "olx 246000 (= olx uz)",
+     "why": "навигация покупателей"
+    }
+   ]
+  },
+  {
+   "id": "uzum-kalkulyator",
+   "demand_raw": 180,
+   "demand_eff": 180,
+   "cpc_weighted": 2.02,
+   "cpc_range": [
+    2.02,
+    2.02
+   ],
+   "visits_day_pos6": [
+    0.03,
+    0.06
+   ],
+   "visits_day_pos3": [
+    0.17,
+    0.21
+   ],
+   "rows": [
+    {
+     "keyword": "комиссия узум маркет",
+     "volume": 70,
+     "cpc": 2.02,
+     "competition": 0.04,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 70.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum komissiya",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 30.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market комиссия",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.02,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 10.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum market fbs",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0.01,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 40.0,
+     "shared_bucket": []
+    },
+    {
+     "keyword": "uzum fbs",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0.03,
+     "source": "m",
+     "info_share": 1.0,
+     "eff": 30.0,
+     "shared_bucket": []
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "uzum market komissiya, комиссия uzum market, uzum market fbo, uzum market ombor",
+     "why": "0 в Google Ads"
+    }
+   ]
+  }
+ ]
+}

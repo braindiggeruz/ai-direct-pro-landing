@@ -1,0 +1,5792 @@
+{
+ "date": "2026-10-25",
+ "question": "Какие темы и кластеры добавить, чтобы как можно скорее получить 1 000–2 000 визитов в день",
+ "model": {
+  "ctr6": [
+   0.00613,
+   0.01105
+  ],
+  "ctr3": 0.03593,
+  "visits_per_click": 1.5,
+  "p_reach": {
+   "weak": 0.8,
+   "mixed": 0.6,
+   "strong": 0.3
+  },
+  "f_effort": {
+   "S": 1.0,
+   "M": 0.85,
+   "L": 0.7
+  },
+  "f_brand": {
+   "0": 0.75,
+   "1": 0.9,
+   "2": 1.0,
+   "3": 1.15
+  },
+  "f_honesty": {
+   "low": 1.0,
+   "medium": 0.85
+  },
+  "k_curve": "min(1, K1*n^1.6)",
+  "conservative_curve": [
+   [
+    0,
+    0.0
+   ],
+   [
+    1,
+    0.02
+   ],
+   [
+    3,
+    0.04
+   ],
+   [
+    6,
+    0.1
+   ],
+   [
+    12,
+    0.25
+   ]
+  ],
+  "plan_demand": "floor if floor >= 0.75*Ads else sqrt(floor*Ads)",
+  "score": "V6mid(plan) x P_reach x speed x season x F_effort x F_brand x F_honesty; speed = mean(share m3, share m6)"
+ },
+ "base_existing_ai_clusters": {
+  "today": 92,
+  "pos6": [
+   251,
+   386
+  ],
+  "pos3": 656,
+  "clicks_day": {
+   "today": 57,
+   "top10_low": 163,
+   "top10_high": 253,
+   "top3": 433
+  }
+ },
+ "top20": [
+  {
+   "rank": 1,
+   "id": "valyuta",
+   "name": "Курс валют ЦБ + конвертер пар (dollar kursi, курс доллара, usd uzs)",
+   "lenses": "calculators-utility №1+№2",
+   "src": [
+    "cu:valyuta_kursi_kun",
+    "cu:valyuta_konvertor"
+   ],
+   "demand_plan": 3597650,
+   "demand_floor": 3597650,
+   "demand_ads": 3597650,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "dollar kursi",
+     823000,
+     823000
+    ],
+    [
+     "курс доллара",
+     550000,
+     550000
+    ],
+    [
+     "kurs dollar",
+     301000,
+     301000
+    ],
+    [
+     "доллар курс",
+     301000,
+     301000
+    ],
+    [
+     "usd uzs",
+     201000,
+     201000
+    ],
+    [
+     "курс доллара к суму",
+     165000,
+     165000
+    ],
+    [
+     "dollar kurs",
+     135000,
+     135000
+    ],
+    [
+     "доллар сум",
+     90500,
+     90500
+    ],
+    [
+     "dollar kursi bugun",
+     74000,
+     74000
+    ]
+   ],
+   "serp": "strong",
+   "serp_txt": "currency box на r1; топ-3 — банки (ipotekabank, kapitalbank, xb.uz); o15 dollarkurs.uz — ровно такой же продукт",
+   "p_reach": 0.3,
+   "aio": 0.533,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 0,
+   "honesty": "medium",
+   "note": "Поз. 3 нереальна (банки + currency box). Реалистично поз. 10–20 за 3–6 мес. → 145–290 визитов/день (оценка линзы). Финансовые данные: дата и ссылка на cbu.uz, без прогнозов; условия повторного использования данных cbu.uz проверить до запуска. В чат не ведёт.",
+   "url": "/uz/valyuta-kursi/ (+ /dollar|rubl|yevro|tenge|yuan/), /uz/valyuta-konvertor/usd-uzs/…, /ru/kurs-valyut/, /ru/kurs-dollara/",
+   "ptype": "инструмент на официальном JSON ЦБ (cron → KV → пререндер)",
+   "v6_plan": [
+    587.7,
+    1059.4
+   ],
+   "v3_plan": 3444.9,
+   "v3_realistic": 1059.4,
+   "v3_no_aio": 6463.2,
+   "v6_floor": [
+    587.7,
+    1059.4
+   ],
+   "v3_floor": 3444.9,
+   "v6_ads": [
+    587.7,
+    1059.4
+   ],
+   "v3_ads": 3444.9,
+   "expected_full": [
+    176.3,
+    317.8
+   ],
+   "weeks_to_5": 3,
+   "wave": 0,
+   "season_factor": 0.99,
+   "dec_index": 0.99,
+   "score": 61.98,
+   "owner_flag": true,
+   "seasonality": "пики: окт 25 ×1,47, авг 26 ×1,14, янв 26 ×1,1; провалы: июл 26 ×0,68, июн 26 ×0,75",
+   "brand_meaning": "нет",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 2,
+   "id": "sherlar",
+   "name": "She’rlar по темам + пресет «She’r yozib ber»",
+   "lenses": "text-tools №1",
+   "src": [
+    "tt:sherlar_mavzu"
+   ],
+   "demand_plan": 116085,
+   "demand_floor": 116085,
+   "demand_ads": 130540,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "vatan haqida sher",
+     18100,
+     18100
+    ],
+    [
+     "kitob haqida she'r",
+     14800,
+     345
+    ],
+    [
+     "ustoz haqida sher",
+     9900,
+     9900
+    ],
+    [
+     "ustoz haqida sherlar",
+     9900,
+     9900
+    ],
+    [
+     "sherlar",
+     9900,
+     9900
+    ],
+    [
+     "til haqida sher",
+     8100,
+     8100
+    ],
+    [
+     "ona haqida sherlar",
+     5400,
+     5400
+    ],
+    [
+     "bahor haqida sher",
+     5400,
+     5400
+    ],
+    [
+     "sevgi haqida sherlar",
+     5400,
+     5400
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "sherlari.uz, ilmlar.uz (подборки), YouTube Shorts, kh-davron.uz; AIO r3; сильных литературных ресурсов нет",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "L",
+   "brand": 3,
+   "honesty": "medium",
+   "note": "Только общественное достояние и стихи, написанные для сайта; ≈25 тыс./мес по авторам под охраной исключены.",
+   "url": "/uz/sherlar/ + /uz/sherlar/{qish-haqida,yangi-yil,ona-haqida,vatan-haqida,ustoz-haqida,til-haqida,…}/",
+   "ptype": "коллекция (общественное достояние + свои стихи) + генератор в чате",
+   "v6_plan": [
+    35.6,
+    64.1
+   ],
+   "v3_plan": 136.6,
+   "v3_realistic": 136.6,
+   "v3_no_aio": 208.5,
+   "v6_floor": [
+    35.6,
+    64.1
+   ],
+   "v3_floor": 136.6,
+   "v6_ads": [
+    40.0,
+    72.1
+   ],
+   "v3_ads": 153.6,
+   "expected_full": [
+    28.5,
+    51.3
+   ],
+   "weeks_to_5": 7,
+   "wave": 0.5,
+   "season_factor": 1.25,
+   "dec_index": 1.42,
+   "score": 22.99,
+   "seasonality": "пики: сен 26 ×2,32, окт 25 ×1,97, дек 25 ×1,42; провалы: июл 26 ×0,24, июн 26 ×0,28",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "c + b"
+  },
+  {
+   "rank": 3,
+   "id": "kalkulyator",
+   "name": "Онлайн-калькулятор UZ/RU (oddiy + ilmiy)",
+   "lenses": "calculators-utility №3",
+   "src": [
+    "cu:kalkulyator"
+   ],
+   "demand_plan": 205140,
+   "demand_floor": 205140,
+   "demand_ads": 205140,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "калькулятор",
+     74000,
+     74000
+    ],
+    [
+     "kalkulyator",
+     40500,
+     40500
+    ],
+    [
+     "calculator",
+     40500,
+     40500
+    ],
+    [
+     "kalkulator",
+     40500,
+     20250
+    ],
+    [
+     "kalkulyatr",
+     40500,
+     20250
+    ],
+    [
+     "калькулятор онлайн",
+     3600,
+     3600
+    ],
+    [
+     "online calculator",
+     1900,
+     1900
+    ],
+    [
+     "kalkulyator online",
+     1600,
+     1600
+    ],
+    [
+     "онлайн калькулятор",
+     1600,
+     1600
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "x-calculator.ru, calculator888, desmos, calc.ru + 3 карточки Play; AIO нет; ни одной узбекской страницы (латиница ≈121 тыс./мес)",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "S",
+   "brand": 0,
+   "honesty": "low",
+   "note": "Самый большой брендонезависимый объём после валют. В чат не ведёт.",
+   "url": "/uz/kalkulyator/, /ru/kalkulyator/",
+   "ptype": "инструмент (PWA, история, скобки)",
+   "v6_plan": [
+    62.9,
+    113.3
+   ],
+   "v3_plan": 241.4,
+   "v3_realistic": 241.4,
+   "v3_no_aio": 368.5,
+   "v6_floor": [
+    62.9,
+    113.3
+   ],
+   "v3_floor": 241.4,
+   "v6_ads": [
+    62.9,
+    113.3
+   ],
+   "v3_ads": 241.4,
+   "expected_full": [
+    37.7,
+    68.0
+   ],
+   "weeks_to_5": 8,
+   "wave": 0,
+   "season_factor": 1.0,
+   "dec_index": 1.0,
+   "score": 18.54,
+   "seasonality": "пики: сен 26 ×1,16, янв 26 ×1,02, мар 26 ×1,02; провалы: июл 26 ×0,93, авг 26 ×0,95",
+   "brand_meaning": "нет",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 4,
+   "id": "english_tenses",
+   "name": "Ingliz tili zamonlari (времена английского) + генератор упражнений",
+   "lenses": "language-learning №1 (= часть education-practice №6, ru-audience english_for_ru)",
+   "src": [
+    "ll:english_tenses"
+   ],
+   "demand_plan": 59600,
+   "demand_floor": 59600,
+   "demand_ads": 59600,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "present simple",
+     12100,
+     12100
+    ],
+    [
+     "past simple",
+     8100,
+     8100
+    ],
+    [
+     "present continuous",
+     6600,
+     6600
+    ],
+    [
+     "present perfect",
+     5400,
+     5400
+    ],
+    [
+     "past continuous",
+     2900,
+     2900
+    ],
+    [
+     "present perfect continuous",
+     2400,
+     2400
+    ],
+    [
+     "past perfect",
+     2400,
+     2400
+    ],
+    [
+     "present simple exercises",
+     2400,
+     2400
+    ],
+    [
+     "future simple",
+     1900,
+     1900
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "«present simple»: AIO r1; YouTube ×3, slideshare, pinterest, блог казахстанской школы — текстовой узбекской страницы нет",
+   "p_reach": 0.8,
+   "aio": 0.533,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 3,
+   "honesty": "low",
+   "url": "/uz/ingliz-tili-zamonlari/ + /present-simple/ … (12), /ru/vremena-angliyskogo-yazyka/<время>/",
+   "ptype": "объяснение + генератор заданий + «Chatda tushuntirish»",
+   "v6_plan": [
+    18.3,
+    32.9
+   ],
+   "v3_plan": 57.1,
+   "v3_realistic": 57.1,
+   "v3_no_aio": 107.1,
+   "v6_floor": [
+    18.3,
+    32.9
+   ],
+   "v3_floor": 57.1,
+   "v6_ads": [
+    18.3,
+    32.9
+   ],
+   "v3_ads": 57.1,
+   "expected_full": [
+    14.6,
+    26.3
+   ],
+   "weeks_to_5": 11,
+   "wave": 0.5,
+   "season_factor": 1.23,
+   "dec_index": 1.23,
+   "score": 16.63,
+   "seasonality": "пик окт 25 ×1,46, минимум авг 26 ×0,56",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "c + a + b"
+  },
+  {
+   "rank": 5,
+   "id": "translator_en_ru",
+   "name": "Переводчик EN↔RU (и TR/ZH↔RU) на существующем движке",
+   "lenses": "ru-audience-ai №1",
+   "src": [
+    "ru:translator_en_ru"
+   ],
+   "demand_plan": 264160,
+   "demand_floor": 264160,
+   "demand_ads": 264160,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "перевод с английского на русский",
+     165000,
+     165000
+    ],
+    [
+     "англо русский переводчик",
+     74000,
+     74000
+    ],
+    [
+     "переводчик с русского на английский",
+     49500,
+     49500
+    ],
+    [
+     "русско английский переводчик",
+     22200,
+     22200
+    ],
+    [
+     "переводчик с китайского на русский",
+     3600,
+     3600
+    ],
+    [
+     "переводчик с русского на турецкий",
+     3600,
+     3600
+    ],
+    [
+     "английский переводчик",
+     2900,
+     2900
+    ],
+    [
+     "переводчик с турецкого на русский",
+     2400,
+     2400
+    ],
+    [
+     "переводчик английский",
+     1900,
+     1900
+    ]
+   ],
+   "serp": "strong",
+   "serp_txt": "AIO r1; translate.google ×2, translate.yandex, deepl ×2, reverso ×2; слабый сигнал один — webtran.ru",
+   "p_reach": 0.3,
+   "aio": 0.533,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 3,
+   "honesty": "low",
+   "note": "Сильная выдача: в первые месяцы реалистично топ-20, не топ-10. Зависит от решения по бесплатной квоте (Этап 1 роадмапа): сейчас 3 ответа на всю жизнь, общие с чатом.",
+   "url": "/ru/perevodchik-s-angliyskogo-na-russkiy/, /ru/perevodchik-s-russkogo-na-angliyskiy/",
+   "ptype": "инструмент-страница переводчика",
+   "v6_plan": [
+    81.0,
+    145.9
+   ],
+   "v3_plan": 252.9,
+   "v3_realistic": 145.9,
+   "v3_no_aio": 474.6,
+   "v6_floor": [
+    81.0,
+    145.9
+   ],
+   "v3_floor": 252.9,
+   "v6_ads": [
+    81.0,
+    145.9
+   ],
+   "v3_ads": 252.9,
+   "expected_full": [
+    24.3,
+    43.8
+   ],
+   "weeks_to_5": 10,
+   "wave": 1,
+   "season_factor": 1.0,
+   "dec_index": 1.24,
+   "score": 15.56,
+   "owner_flag": true,
+   "seasonality": "окт–дек ×1,24 к среднему",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "b"
+  },
+  {
+   "rank": 6,
+   "id": "kalendar",
+   "name": "Kalendar 2027: праздники, выходные, производственный календарь",
+   "lenses": "calculators-utility №5",
+   "src": [
+    "cu:kalendar_2027"
+   ],
+   "demand_plan": 69780,
+   "demand_floor": 69780,
+   "demand_ads": 69780,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "kalendar",
+     18100,
+     9050
+    ],
+    [
+     "kalendar 2026",
+     14800,
+     14800
+    ],
+    [
+     "календарь 2026",
+     14800,
+     14800
+    ],
+    [
+     "dam olish kunlari",
+     14800,
+     4440
+    ],
+    [
+     "календарь",
+     12100,
+     6050
+    ],
+    [
+     "производственный календарь 2026 узбекистан",
+     2400,
+     2400
+    ],
+    [
+     "календарь 2026 узбекистан",
+     2400,
+     2400
+    ],
+    [
+     "производственный календарь 2026",
+     1900,
+     1900
+    ],
+    [
+     "выходные дни в узбекистане 2026",
+     1900,
+     1900
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "хорватский kalender-365.de на o1, одно Play-приложение на 9 местах, Pinterest, timeanddate; узбекских страниц нет",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 0,
+   "honesty": "low",
+   "note": "Пик дек ×1,49, янв ×1,23 → выпустить до 15.11. Переносы выходных — только по постановлению (lex.uz). Namoz taqvimi не делаем.",
+   "url": "/uz/kalendar-2027/, /ru/kalendar-2027/, /ru/proizvodstvennyy-kalendar-2027-uzbekistan/, /uz/dam-olish-kunlari-2027/",
+   "ptype": "статичный календарь + печать A4 + отсчёт до Нового года",
+   "v6_plan": [
+    21.4,
+    38.6
+   ],
+   "v3_plan": 82.1,
+   "v3_realistic": 82.1,
+   "v3_no_aio": 125.4,
+   "v6_floor": [
+    21.4,
+    38.6
+   ],
+   "v3_floor": 82.1,
+   "v6_ads": [
+    21.4,
+    38.6
+   ],
+   "v3_ads": 82.1,
+   "expected_full": [
+    17.1,
+    30.8
+   ],
+   "weeks_to_5": 10,
+   "wave": 0,
+   "season_factor": 1.25,
+   "dec_index": 1.49,
+   "score": 15.15,
+   "seasonality": "пики: дек 25 ×1,49, мар 26 ×1,44, янв 26 ×1,23; провалы: окт 25 ×0,38, ноя 25 ×0,43",
+   "brand_meaning": "нет",
+   "fit_abc": "c + a"
+  },
+  {
+   "rank": 7,
+   "id": "practice_tests",
+   "name": "Тренировочные тесты по предметам (свои вопросы с разбором)",
+   "lenses": "education-practice №1 (без «ingliz tili test» → к тесту уровня)",
+   "src": [
+    "ep:practice_tests"
+   ],
+   "demand_plan": 70989,
+   "demand_floor": 26575,
+   "demand_ads": 189630,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "informatika test",
+     49500,
+     1750
+    ],
+    [
+     "fizika test",
+     40500,
+     520
+    ],
+    [
+     "matematika test",
+     27100,
+     2900
+    ],
+    [
+     "biologiya test",
+     18100,
+     2150
+    ],
+    [
+     "test savollari",
+     12100,
+     310
+    ],
+    [
+     "биология тест",
+     8100,
+     205
+    ],
+    [
+     "matematika test javoblari bilan",
+     5400,
+     290
+    ],
+    [
+     "tarix test",
+     2900,
+     2900
+    ],
+    [
+     "geografiya test",
+     2900,
+     600
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "«informatika test»: Scribd PDF o1, AIO r2, пустая infotest.uz, wordwall/educaplay/wayground, файлообменник docx.uz, сербский weebly",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.08,
+   "effort": "L",
+   "brand": 2,
+   "honesty": "medium",
+   "note": "Скачок ×10–100 с дек 2025 у 16 ключей: план-спрос — среднее геометрическое пола и Ads. Сначала пилот informatika/fizika/matematika и сверка показов GSC с Ads через 4–6 нед. Никаких «test javoblari» и ключей DTM.",
+   "url": "/uz/testlar/ + /uz/testlar/{informatika,fizika,matematika,biologiya,ona-tili,tarix,geografiya,kimyo,huquq}/, /ru/testy/biologiya/",
+   "ptype": "движок квиза + свой банк 40–60 вопросов с разбором + пресет study-test",
+   "v6_plan": [
+    21.8,
+    39.2
+   ],
+   "v3_plan": 83.5,
+   "v3_realistic": 83.5,
+   "v3_no_aio": 127.5,
+   "v6_floor": [
+    8.1,
+    14.7
+   ],
+   "v3_floor": 31.3,
+   "v6_ads": [
+    58.1,
+    104.8
+   ],
+   "v3_ads": 223.1,
+   "expected_full": [
+    17.4,
+    31.4
+   ],
+   "weeks_to_5": 8,
+   "wave": 1.5,
+   "season_factor": 1.0,
+   "dec_index": 0.3,
+   "score": 10.62,
+   "seasonality": "пики: июн 26 ×1,81, май 26 ×1,72, апр 26 ×1,5; провалы: окт 25 ×0,14, ноя 25 ×0,12",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "a + c (+ b)"
+  },
+  {
+   "rank": 8,
+   "id": "tabrik_uz",
+   "name": "Tabriklar UZ: tug‘ilgan kun, по адресату, праздники + генератор",
+   "lenses": "text-tools №3",
+   "src": [
+    "tt:tabrik_uz"
+   ],
+   "demand_plan": 37030,
+   "demand_floor": 37030,
+   "demand_ads": 37030,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "туғилган кун табриги",
+     9900,
+     9900
+    ],
+    [
+     "tugilgan kun tabrigi",
+     6600,
+     6600
+    ],
+    [
+     "tugilgan kunga tabrik",
+     4400,
+     4400
+    ],
+    [
+     "8 март табриклари",
+     1900,
+     1900
+    ],
+    [
+     "yangi yil tabrigi",
+     1600,
+     1600
+    ],
+    [
+     "янги йил табриклари",
+     1300,
+     1300
+    ],
+    [
+     "туғилган кун табриклари",
+     1000,
+     1000
+    ],
+    [
+     "туғилган кунингиз билан",
+     1000,
+     1000
+    ],
+    [
+     "yangi yilingiz bilan",
+     880,
+     880
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "askinfo.uz, bilimmarkazi.uz, Telegram, YouTube, Play, qogozcha.uz, Instagram, ok.ru; AIO r4",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 3,
+   "honesty": "low",
+   "note": "Пик дек ×1,96 и мар ×2,06 → новогодние страницы до 25.11.",
+   "existing": "/uz/blog/tabrik-yozish/ (его 11 ключей не считаются)",
+   "url": "/uz/tabriklar/ + /tugilgan-kun/ (+ кириллица), /yangi-yil/, /8-mart/, /onaga/, /dugonaga/ …",
+   "ptype": "свои тексты + генератор (кому, тон, длина; латиница/кириллица)",
+   "v6_plan": [
+    11.3,
+    20.5
+   ],
+   "v3_plan": 43.6,
+   "v3_realistic": 43.6,
+   "v3_no_aio": 66.5,
+   "v6_floor": [
+    11.3,
+    20.5
+   ],
+   "v3_floor": 43.6,
+   "v6_ads": [
+    11.3,
+    20.5
+   ],
+   "v3_ads": 43.6,
+   "expected_full": [
+    9.1,
+    16.4
+   ],
+   "weeks_to_5": 15,
+   "wave": 0,
+   "season_factor": 1.25,
+   "dec_index": 1.96,
+   "score": 10.48,
+   "seasonality": "пики: мар 26 ×2,06, дек 25 ×1,96, янв 26 ×1,23; провалы: июл 26 ×0,61, авг 26 ×0,61",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "c + b"
+  },
+  {
+   "rank": 9,
+   "id": "formulas",
+   "name": "Формулы и пошаговые калькуляторы (математика, физика)",
+   "lenses": "education-practice №2",
+   "src": [
+    "ep:math_formulas_calculators"
+   ],
+   "demand_plan": 40241,
+   "demand_floor": 33095,
+   "demand_ads": 48930,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "qisqa kopaytirish formulalari",
+     9900,
+     9900
+    ],
+    [
+     "tenglamalar sistemasi",
+     8100,
+     795
+    ],
+    [
+     "uchburchak yuzi",
+     5400,
+     1010
+    ],
+    [
+     "ekub va ekuk",
+     4400,
+     800
+    ],
+    [
+     "tub sonlar",
+     2400,
+     2400
+    ],
+    [
+     "kvadrat tenglama",
+     1600,
+     1600
+    ],
+    [
+     "калькулятор дробей",
+     1600,
+     1600
+    ],
+    [
+     "дискриминант",
+     1300,
+     1300
+    ],
+    [
+     "kasrlar",
+     1300,
+     1300
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "AIO r1, Scribd PDF, Instagram reel, oefen.uz, soff.uz (платно), uz.khanacademy, YouTube; ни одного интерактивного калькулятора",
+   "p_reach": 0.8,
+   "aio": 0.533,
+   "k1": 0.08,
+   "effort": "M",
+   "brand": 2,
+   "honesty": "low",
+   "url": "/uz/matematika/formulalar/, /uz/matematika/qisqa-kopaytirish-formulalari/, /uz/kalkulyator/{tenglamalar-sistemasi,kvadrat-tenglama,ekub-ekuk,kasr,uchburchak-yuzi}/",
+   "ptype": "детерминированные калькуляторы с шагами + шпаргалки",
+   "v6_plan": [
+    12.3,
+    22.2
+   ],
+   "v3_plan": 38.5,
+   "v3_realistic": 38.5,
+   "v3_no_aio": 72.3,
+   "v6_floor": [
+    10.1,
+    18.3
+   ],
+   "v3_floor": 31.7,
+   "v6_ads": [
+    15.0,
+    27.0
+   ],
+   "v3_ads": 46.9,
+   "expected_full": [
+    9.9,
+    17.8
+   ],
+   "weeks_to_5": 12,
+   "wave": 1,
+   "season_factor": 1.0,
+   "dec_index": 0.82,
+   "score": 8.6,
+   "seasonality": "пики: сен 26 ×1,55, май 26 ×1,42, апр 26 ×1,23; провалы: авг 26 ×0,64, ноя 25 ×0,59",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "a + c"
+  },
+  {
+   "rank": 10,
+   "id": "pozdravleniya",
+   "name": "Поздравления RU: день рождения, адресаты, праздники + генератор (+ «на узбекском»)",
+   "lenses": "text-tools №4 ∪ ru-audience greetings_ru",
+   "src": [
+    "tt:pozdravleniya_ru",
+    "ru:greetings_ru"
+   ],
+   "demand_plan": 56150,
+   "demand_floor": 56150,
+   "demand_ads": 56150,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "поздравления с днем рождения",
+     18100,
+     18100
+    ],
+    [
+     "поздравление с днем рождения мужчине",
+     4400,
+     4400
+    ],
+    [
+     "с днем рождения подруге",
+     4400,
+     4400
+    ],
+    [
+     "поздравление с днем рождения своими словами",
+     3600,
+     3600
+    ],
+    [
+     "поздравление с 8 марта",
+     3600,
+     3600
+    ],
+    [
+     "поздравление с днем рождения подруге",
+     2400,
+     2400
+    ],
+    [
+     "поздравление с днем рождения женщине",
+     1900,
+     1900
+    ],
+    [
+     "поздравление с новым годом",
+     1900,
+     1900
+    ],
+    [
+     "с днем рождения маме",
+     1900,
+     1900
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "AIO r1–r2; pozdravok.com (5 мест из 14), techinsider, Pinterest ×2, Instagram, vc.ru; узбекского ресурса нет",
+   "p_reach": 0.6,
+   "aio": 0.533,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 3,
+   "honesty": "low",
+   "note": "Новогодняя страница до 15.11 (пик дек ×1,43), 8 марта — до 01.02.",
+   "url": "/ru/pozdravleniya-s-dnem-rozhdeniya/ (+ /muzhchine/, /podruge/, /mame/ …), /ru/pozdravleniya-s-novym-godom/, /ru/pozdravlenie-na-uzbekskom/",
+   "ptype": "генератор + свои тексты",
+   "v6_plan": [
+    17.2,
+    31.0
+   ],
+   "v3_plan": 53.8,
+   "v3_realistic": 53.8,
+   "v3_no_aio": 100.9,
+   "v6_floor": [
+    17.2,
+    31.0
+   ],
+   "v3_floor": 53.8,
+   "v6_ads": [
+    17.2,
+    31.0
+   ],
+   "v3_ads": 53.8,
+   "expected_full": [
+    10.3,
+    18.6
+   ],
+   "weeks_to_5": 17,
+   "wave": 0,
+   "season_factor": 1.25,
+   "dec_index": 1.43,
+   "score": 8.27,
+   "seasonality": "пики: мар 26 ×1,84, дек 25 ×1,43, окт 25 ×1,07; провалы: сен 26 ×0,74, авг 26 ×0,77",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "b + c"
+  },
+  {
+   "rank": 11,
+   "id": "logic",
+   "name": "Mantiqiy savollar, topishmoqlar, zakovat, загадки (квиз)",
+   "lenses": "education-practice №3 + text-tools (добавка 13 115) + загадки из ru-audience",
+   "src": [
+    "ep:logic_quiz"
+   ],
+   "demand_plan": 35685,
+   "demand_floor": 35685,
+   "demand_ads": 36090,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "mantiqiy savollar",
+     18100,
+     18100
+    ],
+    [
+     "zakovat savollari",
+     12100,
+     12100
+    ],
+    [
+     "topishmoqlar",
+     9900,
+     9900
+    ],
+    [
+     "topishmoqlar javobi bilan / загадки (+13 115, text-tools)",
+     5400,
+     13115
+    ],
+    [
+     "boshqotirma",
+     2400,
+     2400
+    ],
+    [
+     "qiziqarli savollar",
+     2400,
+     2400
+    ],
+    [
+     "boshqotirmalar",
+     720,
+     720
+    ],
+    [
+     "mantiqiy masalalar",
+     390,
+     390
+    ],
+    [
+     "viktorina",
+     260,
+     260
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "uzinterbiz (блог), Play ×2, makepedia 2018, Scribd, audiobook.uz 2020, soff.uz, Facebook, Telegram; AIO только r8",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 1,
+   "honesty": "low",
+   "note": "Тренд вниз (mantiqiy savollar: 22–27 тыс. осенью 2025 → 9 900 в сен 2026).",
+   "url": "/uz/mantiqiy-savollar/, /uz/topishmoqlar/, /uz/zakovat-savollari/, /uz/boshqotirmalar/, /ru/zagadki-dlya-detey/",
+   "ptype": "своя коллекция с ответом под спойлером + режим квиза",
+   "v6_plan": [
+    10.9,
+    19.7
+   ],
+   "v3_plan": 42.0,
+   "v3_realistic": 42.0,
+   "v3_no_aio": 64.1,
+   "v6_floor": [
+    10.9,
+    19.7
+   ],
+   "v3_floor": 42.0,
+   "v6_ads": [
+    11.1,
+    19.9
+   ],
+   "v3_ads": 42.5,
+   "expected_full": [
+    8.7,
+    15.8
+   ],
+   "weeks_to_5": 15,
+   "wave": 0,
+   "season_factor": 1.25,
+   "dec_index": 1.46,
+   "score": 7.9,
+   "seasonality": "пики: апр 26 ×1,55, дек 25 ×1,46, ноя 25 ×1,43; провалы: июл 26 ×0,34, авг 26 ×0,29",
+   "brand_meaning": "слабо",
+   "fit_abc": "c + a"
+  },
+  {
+   "rank": 12,
+   "id": "irregular_verbs",
+   "name": "Noto‘g‘ri fe’llar / irregular verbs / неправильные глаголы — таблица-тренажёр",
+   "lenses": "language-learning №2 (= часть education-practice №6)",
+   "src": [
+    "ll:irregular_verbs"
+   ],
+   "demand_plan": 24260,
+   "demand_floor": 24260,
+   "demand_ads": 24260,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "irregular verbs",
+     12100,
+     12100
+    ],
+    [
+     "irregular verbs list",
+     2900,
+     2900
+    ],
+    [
+     "noto'g'ri fe'llar jadvali",
+     2400,
+     2400
+    ],
+    [
+     "неправильные глаголы",
+     1900,
+     1900
+    ],
+    [
+     "noto'g'ri fe'llar",
+     1000,
+     1000
+    ],
+    [
+     "notogri fellar",
+     720,
+     720
+    ],
+    [
+     "past participle",
+     720,
+     720
+    ],
+    [
+     "regular verbs",
+     590,
+     590
+    ],
+    [
+     "regular and irregular verbs",
+     590,
+     590
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "«noto'g'ri fe'llar jadvali»: AIO r1; Scribd ×4, insho.uz, Play, studocu, ok.ru, soff.uz; интерактивного тренажёра нет",
+   "p_reach": 0.8,
+   "aio": 0.533,
+   "k1": 0.08,
+   "effort": "S",
+   "brand": 2,
+   "honesty": "low",
+   "url": "/uz/notogri-fellar/, /ru/nepravilnye-glagoly/",
+   "ptype": "инструмент: таблица V1–V3 + тест + печать",
+   "v6_plan": [
+    7.4,
+    13.4
+   ],
+   "v3_plan": 23.2,
+   "v3_realistic": 23.2,
+   "v3_no_aio": 43.6,
+   "v6_floor": [
+    7.4,
+    13.4
+   ],
+   "v3_floor": 23.2,
+   "v6_ads": [
+    7.4,
+    13.4
+   ],
+   "v3_ads": 23.2,
+   "expected_full": [
+    5.9,
+    10.7
+   ],
+   "weeks_to_5": 16,
+   "wave": 0,
+   "season_factor": 1.16,
+   "dec_index": 1.16,
+   "score": 7.09,
+   "seasonality": "пик окт 25 ×1,4, минимум авг 26 ×0,53",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "a + c"
+  },
+  {
+   "rank": 13,
+   "id": "alphabets",
+   "name": "Alifbolar: английский, русский, арабский, корейский, японский",
+   "lenses": "language-learning №3",
+   "src": [
+    "ll:alphabets"
+   ],
+   "demand_plan": 47360,
+   "demand_floor": 47360,
+   "demand_ads": 47360,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "arab alifbosi",
+     8100,
+     8100
+    ],
+    [
+     "русский алфавит",
+     6600,
+     6600
+    ],
+    [
+     "english alphabet",
+     5400,
+     5400
+    ],
+    [
+     "английский алфавит",
+     3600,
+     3600
+    ],
+    [
+     "арабский алфавит",
+     2900,
+     2900
+    ],
+    [
+     "алфавит английский",
+     2400,
+     2400
+    ],
+    [
+     "rus alifbosi",
+     2400,
+     2400
+    ],
+    [
+     "ingliz alifbosi",
+     1600,
+     1600
+    ],
+    [
+     "корейский алфавит",
+     1600,
+     1600
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "«английский алфавит»: AIO r1, ru.wikipedia, lingust, skillbox; «arab alifbosi»: Scribd ×2, YouTube ×4 — узбекских справочников нет",
+   "p_reach": 0.6,
+   "aio": 0.533,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 1,
+   "honesty": "low",
+   "url": "/uz/alifbo/{ingliz,rus,arab,koreys,yapon}/, /ru/angliyskiy-alfavit/, /ru/arabskiy-alfavit/",
+   "ptype": "таблицы букв + транскрипция + карточки (без аудио)",
+   "v6_plan": [
+    14.5,
+    26.2
+   ],
+   "v3_plan": 45.3,
+   "v3_realistic": 45.3,
+   "v3_no_aio": 85.1,
+   "v6_floor": [
+    14.5,
+    26.2
+   ],
+   "v3_floor": 45.3,
+   "v6_ads": [
+    14.5,
+    26.2
+   ],
+   "v3_ads": 45.3,
+   "expected_full": [
+    8.7,
+    15.7
+   ],
+   "weeks_to_5": 15,
+   "wave": 1,
+   "season_factor": 1.07,
+   "dec_index": 1.07,
+   "score": 6.72,
+   "seasonality": "пик окт 25 ×1,26, минимум авг 26 ×0,67",
+   "brand_meaning": "слабо",
+   "fit_abc": "c + a"
+  },
+  {
+   "rank": 14,
+   "id": "pdf",
+   "name": "PDF и фото в браузере: JPG→PDF, объединить, сжать, PDF→JPG, 3×4",
+   "lenses": "calculators-utility №4",
+   "src": [
+    "cu:pdf_vositalar"
+   ],
+   "demand_plan": 127710,
+   "demand_floor": 127710,
+   "demand_ads": 127710,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "jpg to pdf",
+     49500,
+     49500
+    ],
+    [
+     "pdf to jpg",
+     22200,
+     22200
+    ],
+    [
+     "объединить pdf",
+     9900,
+     9900
+    ],
+    [
+     "сжать pdf",
+     9900,
+     9900
+    ],
+    [
+     "pdf siqish",
+     8100,
+     8100
+    ],
+    [
+     "pdf birlashtirish",
+     6600,
+     6600
+    ],
+    [
+     "rasmni pdf qilish",
+     5400,
+     5400
+    ],
+    [
+     "png to pdf",
+     4400,
+     4400
+    ],
+    [
+     "pdf qilish",
+     2900,
+     2900
+    ]
+   ],
+   "serp": "strong",
+   "serp_txt": "не снят; приор: iLovePDF, Smallpdf, Adobe, PDF24 по EN/RU; шанс — узбекские формулировки (pdf siqish 8 100, pdf birlashtirish 6 600)",
+   "p_reach": 0.3,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 1,
+   "honesty": "low",
+   "note": "PDF→Word и Word→PDF не обещать (без сервера макет не сохраняется).",
+   "url": "/uz/pdf/rasmni-pdf-qilish/, /uz/pdf/birlashtirish/, /uz/pdf/siqish/, /uz/rasm/3x4/, /ru/pdf/foto-v-pdf/",
+   "ptype": "инструменты на клиенте (файлы не уходят с устройства)",
+   "v6_plan": [
+    39.1,
+    70.6
+   ],
+   "v3_plan": 150.3,
+   "v3_realistic": 70.6,
+   "v3_no_aio": 229.4,
+   "v6_floor": [
+    39.1,
+    70.6
+   ],
+   "v3_floor": 150.3,
+   "v6_ads": [
+    39.1,
+    70.6
+   ],
+   "v3_ads": 150.3,
+   "expected_full": [
+    11.7,
+    21.2
+   ],
+   "weeks_to_5": 16,
+   "wave": 2.5,
+   "season_factor": 1.03,
+   "dec_index": 1.03,
+   "score": 6.06,
+   "seasonality": "пики: апр 26 ×1,26, мар 26 ×1,07, май 26 ×1,05; провалы: авг 26 ×0,82, окт 25 ×0,92",
+   "brand_meaning": "слабо",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 15,
+   "id": "maqollar",
+   "name": "Maqollar по темам + объяснение, tez aytishlar, iboralar (+ RU-перевод)",
+   "lenses": "text-tools №2",
+   "src": [
+    "tt:maqollar"
+   ],
+   "demand_plan": 55550,
+   "demand_floor": 55550,
+   "demand_ads": 55550,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "maqollar",
+     8100,
+     8100
+    ],
+    [
+     "vatan haqida maqol",
+     5400,
+     5400
+    ],
+    [
+     "ona haqida maqol",
+     4400,
+     4400
+    ],
+    [
+     "maqol",
+     3600,
+     3600
+    ],
+    [
+     "kitob haqida maqol",
+     3600,
+     3600
+    ],
+    [
+     "odob haqida maqol",
+     3600,
+     3600
+    ],
+    [
+     "til haqida maqollar",
+     3600,
+     3600
+    ],
+    [
+     "tez aytishlar",
+     3600,
+     3600
+    ],
+    [
+     "mehnat haqida maqol",
+     2900,
+     2900
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; ожидаемо n.ziyouz.com, блоги-подборки, Scribd/PDF",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 1,
+   "honesty": "low",
+   "note": "Школьные пики: окт ×2,77, сен ×1,53; авг ×0,27.",
+   "url": "/uz/maqollar/ + /uz/maqollar/{vatan,ona,kitob,odob,til,mehnat}-haqida/, /uz/tez-aytishlar/, /ru/uzbekskie-poslovicy/",
+   "ptype": "коллекция + поиск",
+   "v6_plan": [
+    17.0,
+    30.7
+   ],
+   "v3_plan": 65.4,
+   "v3_realistic": 65.4,
+   "v3_no_aio": 99.8,
+   "v6_floor": [
+    17.0,
+    30.7
+   ],
+   "v3_floor": 65.4,
+   "v6_ads": [
+    17.0,
+    30.7
+   ],
+   "v3_ads": 65.4,
+   "expected_full": [
+    10.2,
+    18.4
+   ],
+   "weeks_to_5": 14,
+   "wave": 1,
+   "season_factor": 0.8,
+   "dec_index": 0.77,
+   "score": 5.9,
+   "seasonality": "пики: окт 25 ×2,77, сен 26 ×1,53, апр 26 ×1,22; провалы: авг 26 ×0,27, июл 26 ×0,29",
+   "brand_meaning": "слабо",
+   "fit_abc": "c + a"
+  },
+  {
+   "rank": 16,
+   "id": "english_grammar",
+   "name": "Грамматика английского: passive, conditionals, reported speech, modal verbs…",
+   "lenses": "language-learning №9 (= часть education-practice №6)",
+   "src": [
+    "ll:english_grammar_topics"
+   ],
+   "demand_plan": 51510,
+   "demand_floor": 51510,
+   "demand_ads": 51510,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "pronouns",
+     14800,
+     7400
+    ],
+    [
+     "passive voice",
+     3600,
+     3600
+    ],
+    [
+     "conditionals",
+     2400,
+     2400
+    ],
+    [
+     "reported speech",
+     2400,
+     2400
+    ],
+    [
+     "ingliz tili grammatikasi",
+     2400,
+     2400
+    ],
+    [
+     "prepositions",
+     2400,
+     1200
+    ],
+    [
+     "adjectives",
+     2400,
+     1200
+    ],
+    [
+     "modal verbs",
+     1900,
+     1900
+    ],
+    [
+     "there is there are",
+     1900,
+     1900
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "«pronouns»: merriam-webster, wordvice, wikipedia, British Council, BBC — сильно; остальные темы не сняты",
+   "p_reach": 0.6,
+   "aio": 0.533,
+   "k1": 0.04,
+   "effort": "L",
+   "brand": 3,
+   "honesty": "low",
+   "url": "/uz/ingliz-tili-grammatikasi/ + ~25 тем",
+   "ptype": "объяснение + упражнения + AI-разбор ошибок",
+   "v6_plan": [
+    15.8,
+    28.5
+   ],
+   "v3_plan": 49.3,
+   "v3_realistic": 49.3,
+   "v3_no_aio": 92.5,
+   "v6_floor": [
+    15.8,
+    28.5
+   ],
+   "v3_floor": 49.3,
+   "v6_ads": [
+    15.8,
+    28.5
+   ],
+   "v3_ads": 49.3,
+   "expected_full": [
+    9.5,
+    17.1
+   ],
+   "weeks_to_5": 18,
+   "wave": 2.5,
+   "season_factor": 1.12,
+   "dec_index": 1.12,
+   "score": 5.58,
+   "seasonality": "пик окт 25 ×1,35, минимум авг 26 ×0,6",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "c + a + b"
+  },
+  {
+   "rank": 17,
+   "id": "qr",
+   "name": "QR-kod generator (+ сканер)",
+   "lenses": "calculators-utility №6",
+   "src": [
+    "cu:qr_kod"
+   ],
+   "demand_plan": 37260,
+   "demand_floor": 37260,
+   "demand_ads": 37780,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "qr code generator",
+     14800,
+     14800
+    ],
+    [
+     "qr код",
+     6600,
+     6600
+    ],
+    [
+     "qr code",
+     6600,
+     3300
+    ],
+    [
+     "qr code scanner",
+     3600,
+     1800
+    ],
+    [
+     "qr kod",
+     2900,
+     1450
+    ],
+    [
+     "qr kod yaratish",
+     2400,
+     2400
+    ],
+    [
+     "qr code generator free",
+     1300,
+     1300
+    ],
+    [
+     "создать qr код",
+     880,
+     880
+    ],
+    [
+     "генератор qr кода",
+     720,
+     720
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "stqr.ru o1, AIO r2, orcascan, qrcode-tiger, jotform, Play; страниц на узбекском нет",
+   "p_reach": 0.6,
+   "aio": 0.533,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 0,
+   "honesty": "low",
+   "url": "/uz/qr-kod-yaratish/, /ru/qr-kod-generator/",
+   "ptype": "инструмент на клиенте",
+   "v6_plan": [
+    11.4,
+    20.6
+   ],
+   "v3_plan": 35.7,
+   "v3_realistic": 35.7,
+   "v3_no_aio": 66.9,
+   "v6_floor": [
+    11.4,
+    20.6
+   ],
+   "v3_floor": 35.7,
+   "v6_ads": [
+    11.6,
+    20.9
+   ],
+   "v3_ads": 36.2,
+   "expected_full": [
+    6.9,
+    12.4
+   ],
+   "weeks_to_5": 17,
+   "wave": 1,
+   "season_factor": 1.13,
+   "dec_index": 1.13,
+   "score": 5.48,
+   "seasonality": "пики: фев 26 ×1,61, апр 26 ×1,46, дек 25 ×1,13; провалы: авг 26 ×0,67, июл 26 ×0,74",
+   "brand_meaning": "нет",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 18,
+   "id": "mendeleev",
+   "name": "Интерактивная таблица Менделеева + 118 страниц элементов",
+   "lenses": "education-practice №4",
+   "src": [
+    "ep:periodic_table_chem"
+   ],
+   "demand_plan": 29310,
+   "demand_floor": 29310,
+   "demand_ads": 29310,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "mendeleyev jadvali",
+     12100,
+     12100
+    ],
+    [
+     "таблица менделеева",
+     12100,
+     12100
+    ],
+    [
+     "kimyoviy reaksiyalar",
+     1300,
+     1300
+    ],
+    [
+     "oksidlanish darajasi",
+     1000,
+     1000
+    ],
+    [
+     "mendeleev jadvali",
+     720,
+     720
+    ],
+    [
+     "kimyoviy elementlar jadvali",
+     590,
+     590
+    ],
+    [
+     "менделеев жадвали",
+     590,
+     590
+    ],
+    [
+     "молярная масса",
+     390,
+     390
+    ],
+    [
+     "valentlik",
+     320,
+     320
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "erus.uz PDF, AIO r2, магазин плакатов hilolnashr ×2, Scribd ×2, mylab.uz; интерактив только у личного himmatov.uz",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.08,
+   "effort": "M",
+   "brand": 1,
+   "honesty": "low",
+   "url": "/uz/kimyo/mendeleyev-jadvali/, /ru/tablitsa-mendeleeva/, /uz/kimyo/element/{belgi}/, /uz/kimyo/molyar-massa/",
+   "ptype": "интерактивная таблица + программные страницы (данные IUPAC)",
+   "v6_plan": [
+    9.0,
+    16.2
+   ],
+   "v3_plan": 34.5,
+   "v3_realistic": 34.5,
+   "v3_no_aio": 52.7,
+   "v6_floor": [
+    9.0,
+    16.2
+   ],
+   "v3_floor": 34.5,
+   "v6_ads": [
+    9.0,
+    16.2
+   ],
+   "v3_ads": 34.5,
+   "expected_full": [
+    7.2,
+    13.0
+   ],
+   "weeks_to_5": 14,
+   "wave": 1,
+   "season_factor": 0.93,
+   "dec_index": 0.93,
+   "score": 5.24,
+   "seasonality": "пики: сен 26 ×1,97, окт 25 ×1,61, янв 26 ×1,11; провалы: июл 26 ×0,57, авг 26 ×0,55",
+   "brand_meaning": "слабо",
+   "fit_abc": "a + c"
+  },
+  {
+   "rank": 19,
+   "id": "ertaklar",
+   "name": "Ertaklar и сказки на ночь (свои пересказы) + генератор сказки",
+   "lenses": "text-tools №5 ∪ ru-audience kids_tales_riddles (сказки)",
+   "src": [
+    "tt:ertaklar"
+   ],
+   "demand_plan": 39335,
+   "demand_floor": 39335,
+   "demand_ads": 39335,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "ertaklar",
+     12100,
+     12100
+    ],
+    [
+     "hikoyalar",
+     6600,
+     3300
+    ],
+    [
+     "сказки",
+     4400,
+     4400
+    ],
+    [
+     "ertak",
+     2900,
+     2900
+    ],
+    [
+     "сказки на ночь",
+     2900,
+     2900
+    ],
+    [
+     "эртаклар",
+     1900,
+     1900
+    ],
+    [
+     "сказки для детей",
+     1600,
+     1600
+    ],
+    [
+     "ibratli hikoyalar",
+     1300,
+     1300
+    ],
+    [
+     "alpomish dostoni",
+     880,
+     880
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "PDF zakm.uz, видео r2, AIO r3, YouTube-аудиосказка, ertak.uz, ziyouz, Play; сильный аудио-интент",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 3,
+   "honesty": "low",
+   "url": "/uz/ertaklar/, /uz/ertak-toqib-ber/, /uz/masallar/, /ru/skazki-na-noch/",
+   "ptype": "коллекция + генератор",
+   "v6_plan": [
+    12.1,
+    21.7
+   ],
+   "v3_plan": 46.3,
+   "v3_realistic": 46.3,
+   "v3_no_aio": 70.7,
+   "v6_floor": [
+    12.1,
+    21.7
+   ],
+   "v3_floor": 46.3,
+   "v6_ads": [
+    12.1,
+    21.7
+   ],
+   "v3_ads": 46.3,
+   "expected_full": [
+    7.2,
+    13.0
+   ],
+   "weeks_to_5": 21,
+   "wave": 2.5,
+   "season_factor": 1.11,
+   "dec_index": 1.11,
+   "score": 5.14,
+   "seasonality": "пики: окт 25 ×1,31, фев 26 ×1,25, янв 26 ×1,24; провалы: июл 26 ×0,63, авг 26 ×0,64",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "c + b"
+  },
+  {
+   "rank": 20,
+   "id": "converter",
+   "name": "Кириллица↔латиница отдельной страницей + таблица алфавита",
+   "lenses": "text-tools №6 ∪ ru-audience converter_translit_ru (сверх 12 490 из roadmap)",
+   "src": [
+    "tt:konvertor_alifbo",
+    "ru:converter_translit_ru"
+   ],
+   "demand_plan": 22485,
+   "demand_floor": 22485,
+   "demand_ads": 23430,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "lotin krill",
+     4400,
+     4400
+    ],
+    [
+     "lotin alifbosi",
+     3600,
+     3600
+    ],
+    [
+     "lotin kirill",
+     1900,
+     1900
+    ],
+    [
+     "o'zbek alifbosi",
+     1600,
+     1600
+    ],
+    [
+     "кириллица в латиницу",
+     1300,
+     1300
+    ],
+    [
+     "лотин алифбоси",
+     1300,
+     1300
+    ],
+    [
+     "krill lotin",
+     1000,
+     1000
+    ],
+    [
+     "yangi alifbo",
+     1000,
+     55
+    ],
+    [
+     "lotin",
+     720,
+     720
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; по L3 lotin.uz на o10 даже по «imlo tekshirish», приложения Play; выдача инструментов",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.08,
+   "effort": "S",
+   "brand": 2,
+   "honesty": "low",
+   "existing": "конвертер сейчас вкладкой на /uz/rus-ozbek-tarjimon/ и /ru/russko-uzbekskiy-perevodchik/ (12 490 уже в базе)",
+   "url": "/uz/kirill-lotin/, /ru/kirillica-v-latinicu/, /uz/ozbek-lotin-alifbosi/",
+   "ptype": "инструмент (модуль src/uz-translit уже есть)",
+   "v6_plan": [
+    6.9,
+    12.4
+   ],
+   "v3_plan": 26.5,
+   "v3_realistic": 26.5,
+   "v3_no_aio": 40.4,
+   "v6_floor": [
+    6.9,
+    12.4
+   ],
+   "v3_floor": 26.5,
+   "v6_ads": [
+    7.2,
+    12.9
+   ],
+   "v3_ads": 27.6,
+   "expected_full": [
+    4.1,
+    7.5
+   ],
+   "weeks_to_5": 20,
+   "wave": 0,
+   "season_factor": 1.14,
+   "dec_index": 1.14,
+   "score": 4.84,
+   "seasonality": "пики: окт 25 ×1,26, янв 26 ×1,19, ноя 25 ×1,14; провалы: авг 26 ×0,72, июн 26 ×0,79",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "a"
+  }
+ ],
+ "rest": [
+  {
+   "rank": 21,
+   "id": "primary_math",
+   "name": "Начальная математика по классам + тренажёр таблицы умножения",
+   "lenses": "education-practice №5 (строится вместе с W3-09)",
+   "src": [
+    "ep:primary_math_grades"
+   ],
+   "demand_plan": 36034,
+   "demand_floor": 30260,
+   "demand_ads": 42910,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "matematika 3 sinf",
+     14800,
+     2150
+    ],
+    [
+     "таблица умножения",
+     12100,
+     12100
+    ],
+    [
+     "matematika 2 sinf",
+     3600,
+     3600
+    ],
+    [
+     "matematika 4 sinf",
+     2900,
+     2900
+    ],
+    [
+     "matematika 6 sinf",
+     2900,
+     2900
+    ],
+    [
+     "matematika 5 sinf",
+     2400,
+     2400
+    ],
+    [
+     "примеры для 1 класса",
+     1000,
+     1000
+    ],
+    [
+     "matematika 1 sinf",
+     720,
+     720
+    ],
+    [
+     "математика 1 класс",
+     720,
+     720
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; прокси «matematika misollar»: Scribd, PDF вузов, ustoz.ai, YouTube; часть «matematika N sinf» ищет учебник PDF",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 1,
+   "honesty": "medium",
+   "url": "/uz/matematika/{1..6}-sinf/, /uz/karra-jadvali/trenajyor/, /ru/tablitsa-umnozheniya/, /ru/primery-dlya-1-klassa/",
+   "ptype": "генератор печатных листов + тренажёр",
+   "v6_plan": [
+    11.0,
+    19.9
+   ],
+   "v3_plan": 42.4,
+   "v3_realistic": 42.4,
+   "v3_no_aio": 64.7,
+   "v6_floor": [
+    9.3,
+    16.7
+   ],
+   "v3_floor": 35.6,
+   "v6_ads": [
+    13.2,
+    23.7
+   ],
+   "v3_ads": 50.5,
+   "expected_full": [
+    6.6,
+    11.9
+   ],
+   "weeks_to_5": 18,
+   "wave": 2.5,
+   "season_factor": 1.0,
+   "dec_index": 0.79,
+   "score": 4.79,
+   "seasonality": "пики: сен 26 ×1,97, апр 26 ×1,67, фев 26 ×1,34; провалы: июн 26 ×0,53, июл 26 ×0,49",
+   "brand_meaning": "слабо",
+   "fit_abc": "a + c"
+  },
+  {
+   "rank": 22,
+   "id": "topic_vocab",
+   "name": "Тематическая лексика «X ingliz tilida / на английском» + карточки",
+   "lenses": "language-learning №7",
+   "src": [
+    "ll:topic_vocabulary"
+   ],
+   "demand_plan": 22985,
+   "demand_floor": 22985,
+   "demand_ads": 22985,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "vocabulary",
+     3600,
+     1800
+    ],
+    [
+     "дни недели на английском",
+     1900,
+     1900
+    ],
+    [
+     "hafta kunlari",
+     1300,
+     650
+    ],
+    [
+     "synonyms",
+     1300,
+     650
+    ],
+    [
+     "mevalar ingliz tilida",
+     1000,
+     1000
+    ],
+    [
+     "inglizcha so'zlar",
+     1000,
+     1000
+    ],
+    [
+     "collocations",
+     1000,
+     1000
+    ],
+    [
+     "about myself",
+     1000,
+     500
+    ],
+    [
+     "my family",
+     1000,
+     500
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "«дни недели на английском»: AIO r1; блоги, YouTube Shorts, rutube — AIO отвечает на простые запросы сам",
+   "p_reach": 0.8,
+   "aio": 0.533,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 2,
+   "honesty": "low",
+   "url": "/uz/inglizcha-sozlar/ + 30–40 тем, /ru/angliyskie-slova/<тема>/",
+   "ptype": "списки EN–UZ–RU + карточки",
+   "v6_plan": [
+    7.0,
+    12.7
+   ],
+   "v3_plan": 22.0,
+   "v3_realistic": 22.0,
+   "v3_no_aio": 41.3,
+   "v6_floor": [
+    7.0,
+    12.7
+   ],
+   "v3_floor": 22.0,
+   "v6_ads": [
+    7.0,
+    12.7
+   ],
+   "v3_ads": 22.0,
+   "expected_full": [
+    5.6,
+    10.2
+   ],
+   "weeks_to_5": 19,
+   "wave": 1,
+   "season_factor": 1.04,
+   "dec_index": 1.04,
+   "score": 4.73,
+   "seasonality": "пик окт 25 ×1,22, минимум авг 26 ×0,64",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "c + a"
+  },
+  {
+   "rank": 23,
+   "id": "multilevel",
+   "name": "Multilevel / CEFR mock: Speaking, Writing, Reading + AI-экзаменатор",
+   "lenses": "language-learning №5",
+   "src": [
+    "ll:multilevel_cefr_practice"
+   ],
+   "demand_plan": 22170,
+   "demand_floor": 22170,
+   "demand_ads": 22170,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "cefr",
+     6600,
+     3300
+    ],
+    [
+     "multilevel",
+     5400,
+     2700
+    ],
+    [
+     "multilevel mock test",
+     2400,
+     2400
+    ],
+    [
+     "multilevel speaking",
+     1600,
+     1600
+    ],
+    [
+     "multilevel reading",
+     1600,
+     1600
+    ],
+    [
+     "multilevel listening",
+     1600,
+     0
+    ],
+    [
+     "cefr mock test",
+     1300,
+     1300
+    ],
+    [
+     "cefr sertifikat",
+     1300,
+     1300
+    ],
+    [
+     "cefr test",
+     880,
+     880
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "«multilevel mock test»: AIO r2; studocu #1, YouTube #2, Scribd #3–#8 — самая слабая выдача линзы",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 3,
+   "honesty": "medium",
+   "url": "/uz/multilevel-mock-test/ (+ /speaking/, /writing/, /reading/), /uz/cefr-multilevel-nima/",
+   "ptype": "свои задания + таймер + AI-разбор «taxminiy»",
+   "v6_plan": [
+    6.8,
+    12.2
+   ],
+   "v3_plan": 26.1,
+   "v3_realistic": 26.1,
+   "v3_no_aio": 39.8,
+   "v6_floor": [
+    6.8,
+    12.2
+   ],
+   "v3_floor": 26.1,
+   "v6_ads": [
+    6.8,
+    12.2
+   ],
+   "v3_ads": 26.1,
+   "expected_full": [
+    5.4,
+    9.8
+   ],
+   "weeks_to_5": 20,
+   "wave": 2.5,
+   "season_factor": 1.04,
+   "dec_index": 1.04,
+   "score": 4.42,
+   "seasonality": "пик апр 26 ×1,38, минимум окт 25 ×0,73",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "c + a + b"
+  },
+  {
+   "rank": 24,
+   "id": "docs_hub",
+   "name": "Ish qog‘ozlari: хаб + bildirishnoma, dalolatnoma, bayonnoma, kafolat xati, tarjimai hol",
+   "lenses": "docs-career №1 + №6",
+   "src": [
+    "dc:office_docs",
+    "dc:tarjimai_hol"
+   ],
+   "demand_plan": 24020,
+   "demand_floor": 24020,
+   "demand_ads": 27310,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "bildirishnoma",
+     4400,
+     4400
+    ],
+    [
+     "bildirishnoma yozish",
+     1900,
+     190
+    ],
+    [
+     "bayonnoma namunasi",
+     1900,
+     1900
+    ],
+    [
+     "билдиришнома намуна",
+     1600,
+     20
+    ],
+    [
+     "tarjimai hol",
+     1600,
+     1600
+    ],
+    [
+     "dalolatnoma namuna",
+     1300,
+     1300
+    ],
+    [
+     "автобиография",
+     1300,
+     1300
+    ],
+    [
+     "bildirishnoma namunasi",
+     1000,
+     1000
+    ],
+    [
+     "kafolat xati",
+     1000,
+     1000
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "«bildirishnoma»: AIO r3, Scribd, словари, платные kursishlari/soff, урок YouTube; объясняющих страниц-шаблонов нет",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 2,
+   "honesty": "low",
+   "url": "/uz/hujjatlar/ + /uz/hujjatlar/{bildirishnoma,dalolatnoma,bayonnoma,kafolat-xati,raport,elon,tarjimai-hol}-namuna/",
+   "ptype": "шаблоны с плейсхолдерами + общий генератор (латиница/кириллица, печать/.docx)",
+   "v6_plan": [
+    7.4,
+    13.3
+   ],
+   "v3_plan": 28.3,
+   "v3_realistic": 28.3,
+   "v3_no_aio": 43.2,
+   "v6_floor": [
+    7.4,
+    13.3
+   ],
+   "v3_floor": 28.3,
+   "v6_ads": [
+    8.4,
+    15.1
+   ],
+   "v3_ads": 32.1,
+   "expected_full": [
+    5.9,
+    10.6
+   ],
+   "weeks_to_5": 19,
+   "wave": 2.5,
+   "season_factor": 0.92,
+   "dec_index": 0.92,
+   "score": 4.35,
+   "seasonality": "пики: май 26 ×1,78, апр 26 ×1,5, фев 26 ×1,21; минимум: июл 26 ×0,6, авг 26 ×0,46",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "c + a (+ b)"
+  },
+  {
+   "rank": 25,
+   "id": "second_langs",
+   "name": "Турецкий, японский, китайский, арабский, немецкий: стартовая лексика + AI-учитель",
+   "lenses": "language-learning №8",
+   "src": [
+    "ll:second_languages_starter"
+   ],
+   "demand_plan": 26027,
+   "demand_floor": 14465,
+   "demand_ads": 46830,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "turkcha so'zlar",
+     12100,
+     120
+    ],
+    [
+     "yapon tilini o'rganish",
+     12100,
+     150
+    ],
+    [
+     "xitoy tili",
+     6600,
+     455
+    ],
+    [
+     "arabcha so'zlar",
+     1900,
+     160
+    ],
+    [
+     "turk tili",
+     1300,
+     1300
+    ],
+    [
+     "arab tili",
+     1300,
+     1300
+    ],
+    [
+     "nemis tili",
+     1300,
+     1300
+    ],
+    [
+     "hsk",
+     1000,
+     1000
+    ],
+    [
+     "turk tilini o'rganish",
+     880,
+     880
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "«turkcha so'zlar»: видео r1, lingvanex, YouTube ×3, Scribd ×2; «yapon tilini o'rganish»: блог 2020, YouTube ×3, wiki",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "L",
+   "brand": 3,
+   "honesty": "medium",
+   "note": "Ряд вырос ×6–100 за год — возможный артефакт Ads; план-спрос по полу и Ads.",
+   "url": "/uz/turk-tili/, /uz/yapon-tili/, /uz/xitoy-tili/, /uz/arab-tili/, /uz/nemis-tili/",
+   "ptype": "стартовые страницы + пресет «til o‘qituvchisi»",
+   "v6_plan": [
+    8.0,
+    14.4
+   ],
+   "v3_plan": 30.6,
+   "v3_realistic": 30.6,
+   "v3_no_aio": 46.8,
+   "v6_floor": [
+    4.4,
+    8.0
+   ],
+   "v3_floor": 17.0,
+   "v6_ads": [
+    14.4,
+    25.9
+   ],
+   "v3_ads": 55.1,
+   "expected_full": [
+    6.4,
+    11.5
+   ],
+   "weeks_to_5": 18,
+   "wave": 2.5,
+   "season_factor": 1.0,
+   "dec_index": 0.41,
+   "score": 4.12,
+   "seasonality": "пик сен 26 ×1,71, минимум окт 25 ×0,28",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "c + b"
+  },
+  {
+   "rank": 26,
+   "id": "ielts_calc",
+   "name": "Калькулятор баллов IELTS / CEFR (Multilevel)",
+   "lenses": "language-learning №4",
+   "src": [
+    "ll:ielts_cefr_calculator"
+   ],
+   "demand_plan": 19640,
+   "demand_floor": 19640,
+   "demand_ads": 19640,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "ielts calculator",
+     8100,
+     8100
+    ],
+    [
+     "ielts score",
+     6600,
+     3300
+    ],
+    [
+     "ielts score calculator",
+     2400,
+     2400
+    ],
+    [
+     "cefr ballari",
+     1900,
+     1900
+    ],
+    [
+     "ielts band score",
+     1600,
+     1600
+    ],
+    [
+     "ielts listening band score",
+     880,
+     880
+    ],
+    [
+     "ielts reading band score",
+     480,
+     480
+    ],
+    [
+     "ielts band score calculator",
+     390,
+     390
+    ],
+    [
+     "cefr calculator",
+     110,
+     110
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "«ielts calculator»: leapscholar, ielts.idp, aehelp; «cefr ballari»: PDF uzbmb, блоги — калькулятора для Multilevel нет",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.08,
+   "effort": "S",
+   "brand": 2,
+   "honesty": "low",
+   "url": "/uz/ielts-ball-kalkulyator/, /uz/cefr-multilevel-ball-hisoblash/, /ru/kalkulyator-ballov-ielts/",
+   "ptype": "детерминированный калькулятор по опубликованным шкалам",
+   "v6_plan": [
+    6.0,
+    10.9
+   ],
+   "v3_plan": 23.1,
+   "v3_realistic": 23.1,
+   "v3_no_aio": 35.3,
+   "v6_floor": [
+    6.0,
+    10.9
+   ],
+   "v3_floor": 23.1,
+   "v6_ads": [
+    6.0,
+    10.9
+   ],
+   "v3_ads": 23.1,
+   "expected_full": [
+    3.6,
+    6.5
+   ],
+   "weeks_to_5": 21,
+   "wave": 1,
+   "season_factor": 1.07,
+   "dec_index": 1.07,
+   "score": 3.97,
+   "seasonality": "пик июн 26 ×1,21, минимум сен 26 ×0,69",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 27,
+   "id": "randomizer",
+   "name": "Рандомайзер: число, колесо имён, жеребьёвка, монетка",
+   "lenses": "text-tools №7",
+   "src": [
+    "tt:randomayzer"
+   ],
+   "demand_plan": 23180,
+   "demand_floor": 23180,
+   "demand_ads": 23180,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "random number generator",
+     18100,
+     9050
+    ],
+    [
+     "рандомайзер",
+     5400,
+     5400
+    ],
+    [
+     "spin the wheel",
+     2400,
+     2400
+    ],
+    [
+     "рандомайзер чисел",
+     1900,
+     950
+    ],
+    [
+     "random number",
+     1600,
+     800
+    ],
+    [
+     "жеребьевка",
+     1300,
+     1300
+    ],
+    [
+     "генератор случайных чисел",
+     880,
+     440
+    ],
+    [
+     "рандом",
+     590,
+     590
+    ],
+    [
+     "g'ildirak",
+     480,
+     480
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; по «random number generator» — виджет Google (zero-click)",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 0,
+   "honesty": "low",
+   "url": "/ru/randomajzer/, /uz/tasodifiy-son/, /uz/ism-gildiragi/",
+   "ptype": "инструмент",
+   "v6_plan": [
+    7.1,
+    12.8
+   ],
+   "v3_plan": 27.3,
+   "v3_realistic": 27.3,
+   "v3_no_aio": 41.6,
+   "v6_floor": [
+    7.1,
+    12.8
+   ],
+   "v3_floor": 27.3,
+   "v6_ads": [
+    7.1,
+    12.8
+   ],
+   "v3_ads": 27.3,
+   "expected_full": [
+    4.3,
+    7.7
+   ],
+   "weeks_to_5": 23,
+   "wave": 2.5,
+   "season_factor": 1.08,
+   "dec_index": 1.08,
+   "score": 3.26,
+   "seasonality": "пики: фев 26 ×1,26, янв 26 ×1,18, мар 26 ×1,09; провалы: сен 26 ×0,77, окт 25 ×0,8",
+   "brand_meaning": "нет",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 28,
+   "id": "ismlar",
+   "name": "Ismlar ma’nosi: база имён (qiz / o‘g‘il) + «узбекские имена»",
+   "lenses": "text-tools №9",
+   "src": [
+    "tt:ismlar"
+   ],
+   "demand_plan": 21990,
+   "demand_floor": 21990,
+   "demand_ads": 21990,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "ismlar manosi",
+     6600,
+     6600
+    ],
+    [
+     "ismlar",
+     2400,
+     2400
+    ],
+    [
+     "qiz bola ismlari",
+     2400,
+     2400
+    ],
+    [
+     "исмлар маъноси",
+     1300,
+     1300
+    ],
+    [
+     "имена для девочек",
+     880,
+     880
+    ],
+    [
+     "имена для мальчиков",
+     720,
+     720
+    ],
+    [
+     "qizlar ismlari",
+     590,
+     590
+    ],
+    [
+     "islomiy ismlar",
+     590,
+     590
+    ],
+    [
+     "мусульманские имена для девочек",
+     590,
+     590
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "AIO r1; YouTube, oyina.uz 2023, PDF словаря, uz.wikipedia, Play ×2; веб-базы только на o7 и o12",
+   "p_reach": 0.8,
+   "aio": 0.533,
+   "k1": 0.08,
+   "effort": "L",
+   "brand": 0,
+   "honesty": "medium",
+   "note": "Значения только с источником; этимологию моделью не выдумывать; без религиозных предписаний.",
+   "url": "/uz/ismlar/, /uz/ismlar/qiz-bolalar/, /uz/ismlar/ogil-bolalar/, /ru/uzbekskie-imena/",
+   "ptype": "база + программные страницы",
+   "v6_plan": [
+    6.7,
+    12.1
+   ],
+   "v3_plan": 21.1,
+   "v3_realistic": 21.1,
+   "v3_no_aio": 39.5,
+   "v6_floor": [
+    6.7,
+    12.1
+   ],
+   "v3_floor": 21.1,
+   "v6_ads": [
+    6.7,
+    12.1
+   ],
+   "v3_ads": 21.1,
+   "expected_full": [
+    5.4,
+    9.7
+   ],
+   "weeks_to_5": 17,
+   "wave": 2.5,
+   "season_factor": 1.25,
+   "dec_index": 1.69,
+   "score": 3.09,
+   "seasonality": "пики: дек 25 ×1,69, янв 26 ×1,17, окт 25 ×1,07; провалы: сен 26 ×0,76, авг 26 ×0,78",
+   "brand_meaning": "нет",
+   "fit_abc": "a + c"
+  },
+  {
+   "rank": 29,
+   "id": "uzbek_for_ru",
+   "name": "Узбекский для русскоязычных: алфавит (реформа), разговорник",
+   "lenses": "language-learning №10 ∪ ru-audience learn_uzbek_ru",
+   "src": [
+    "ll:uzbek_for_russian_speakers",
+    "ru:learn_uzbek_ru"
+   ],
+   "demand_plan": 10685,
+   "demand_floor": 10685,
+   "demand_ads": 10685,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "узбекский алфавит",
+     2900,
+     2900
+    ],
+    [
+     "узбекский язык",
+     1300,
+     1300
+    ],
+    [
+     "как будет на узбекском",
+     1300,
+     1300
+    ],
+    [
+     "дни недели на узбекском",
+     1000,
+     1000
+    ],
+    [
+     "uzbek language",
+     720,
+     720
+    ],
+    [
+     "uzbek alphabet",
+     480,
+     480
+    ],
+    [
+     "по узбекски",
+     480,
+     240
+    ],
+    [
+     "как по узбекски",
+     390,
+     195
+    ],
+    [
+     "на узбекском языке",
+     390,
+     390
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "«узбекский алфавит»: AIO нет; новость zamin.uz, LiveJournal 2013, Pinterest, yep.uz 2018",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.08,
+   "effort": "S",
+   "brand": 3,
+   "honesty": "low",
+   "url": "/ru/uzbekskiy-alfavit/, /ru/uzbekskiy-razgovornik/, /ru/uzbekskiy-yazyk-dlya-nachinayushchih/",
+   "ptype": "справка + конвертер + переводчик",
+   "v6_plan": [
+    3.3,
+    5.9
+   ],
+   "v3_plan": 12.6,
+   "v3_realistic": 12.6,
+   "v3_no_aio": 19.2,
+   "v6_floor": [
+    3.3,
+    5.9
+   ],
+   "v3_floor": 12.6,
+   "v6_ads": [
+    3.3,
+    5.9
+   ],
+   "v3_ads": 12.6,
+   "expected_full": [
+    2.6,
+    4.7
+   ],
+   "weeks_to_5": null,
+   "wave": 1,
+   "season_factor": 0.93,
+   "dec_index": 0.93,
+   "score": 2.89,
+   "seasonality": "пик окт 25 ×1,38, минимум июн 26 ×0,69",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "c + b"
+  },
+  {
+   "rank": 30,
+   "id": "summa_propisyu",
+   "name": "Сумма прописью / summa so‘z bilan (RU + UZ лат/кир)",
+   "lenses": "calculators-utility №10",
+   "src": [
+    "cu:summa_propisyu"
+   ],
+   "demand_plan": 16320,
+   "demand_floor": 16320,
+   "demand_ads": 16320,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "сумма прописью",
+     12100,
+     12100
+    ],
+    [
+     "число прописью",
+     1300,
+     1300
+    ],
+    [
+     "сумма прописью онлайн",
+     1300,
+     1300
+    ],
+    [
+     "прописью",
+     880,
+     880
+    ],
+    [
+     "сумма прописью на узбекском",
+     320,
+     320
+    ],
+    [
+     "number to words",
+     320,
+     320
+    ],
+    [
+     "сумма прописью на узбекском языке",
+     70,
+     70
+    ],
+    [
+     "сумма прописью в сумах",
+     20,
+     20
+    ],
+    [
+     "сумма прописью узбекский",
+     10,
+     10
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; приор: сильные русские инструменты, но без узбекского текста и so‘m/tiyin",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 1,
+   "honesty": "low",
+   "url": "/ru/summa-propisyu/, /uz/summani-soz-bilan-yozish/",
+   "ptype": "инструмент",
+   "v6_plan": [
+    5.0,
+    9.0
+   ],
+   "v3_plan": 19.2,
+   "v3_realistic": 19.2,
+   "v3_no_aio": 29.3,
+   "v6_floor": [
+    5.0,
+    9.0
+   ],
+   "v3_floor": 19.2,
+   "v6_ads": [
+    5.0,
+    9.0
+   ],
+   "v3_ads": 19.2,
+   "expected_full": [
+    3.0,
+    5.4
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.11,
+   "dec_index": 1.11,
+   "score": 2.83,
+   "seasonality": "пики: окт 25 ×1,13, апр 26 ×1,13, дек 25 ×1,11; провалы: ноя 25 ×0,94, фев 26 ×0,94",
+   "brand_meaning": "слабо",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 31,
+   "id": "number_conv",
+   "name": "Rim raqamlari и системы счисления (конвертеры с шагами)",
+   "lenses": "education-practice №10",
+   "src": [
+    "ep:number_converters"
+   ],
+   "demand_plan": 13250,
+   "demand_floor": 13250,
+   "demand_ads": 13250,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "rim raqamlari",
+     8100,
+     8100
+    ],
+    [
+     "римские цифры",
+     3600,
+     3600
+    ],
+    [
+     "sanoq sistemasi",
+     1000,
+     1000
+    ],
+    [
+     "ikkilik sanoq sistemasi",
+     480,
+     480
+    ],
+    [
+     "двоичная система счисления",
+     70,
+     70
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.08,
+   "effort": "S",
+   "brand": 1,
+   "honesty": "low",
+   "url": "/uz/konvertor/rim-raqamlari/, /ru/rimskie-tsifry/, /uz/konvertor/sanoq-sistemalari/",
+   "ptype": "инструмент",
+   "v6_plan": [
+    4.1,
+    7.3
+   ],
+   "v3_plan": 15.6,
+   "v3_realistic": 15.6,
+   "v3_no_aio": 23.8,
+   "v6_floor": [
+    4.1,
+    7.3
+   ],
+   "v3_floor": 15.6,
+   "v6_ads": [
+    4.1,
+    7.3
+   ],
+   "v3_ads": 15.6,
+   "expected_full": [
+    2.4,
+    4.4
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.25,
+   "dec_index": 1.55,
+   "score": 2.81,
+   "seasonality": "пики: окт 25 ×1,63, дек 25 ×1,55, ноя 25 ×1,14; провалы: июл 26 ×0,45, авг 26 ×0,42",
+   "brand_meaning": "слабо",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 32,
+   "id": "english_level_test",
+   "name": "Тест уровня английского (A1–C1) + «уровни английского»",
+   "lenses": "language-learning №6 (+ «ingliz tili test» из education-practice №1)",
+   "src": [
+    "ll:english_level_test"
+   ],
+   "demand_plan": 17435,
+   "demand_floor": 12140,
+   "demand_ads": 25040,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "ingliz tili test",
+     14800,
+     1900
+    ],
+    [
+     "english test",
+     3600,
+     3600
+    ],
+    [
+     "english level test",
+     2400,
+     2400
+    ],
+    [
+     "уровни английского",
+     880,
+     880
+    ],
+    [
+     "english grammar test",
+     880,
+     880
+    ],
+    [
+     "уровни английского языка",
+     480,
+     480
+    ],
+    [
+     "тест на уровень английского",
+     480,
+     480
+    ],
+    [
+     "уровни англ",
+     390,
+     390
+    ],
+    [
+     "level test",
+     210,
+     210
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят (лимит кредитов)",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 2,
+   "honesty": "low",
+   "note": "«ingliz tili test» вырос 1 900 → 22 200: план-спрос по полу и Ads.",
+   "url": "/uz/ingliz-tili-darajasini-aniqlash-testi/, /ru/test-na-uroven-angliyskogo/, /ru/urovni-angliyskogo/",
+   "ptype": "детерминированный тест 40–50 своих заданий + разбор",
+   "v6_plan": [
+    5.3,
+    9.6
+   ],
+   "v3_plan": 20.5,
+   "v3_realistic": 20.5,
+   "v3_no_aio": 31.3,
+   "v6_floor": [
+    3.7,
+    6.7
+   ],
+   "v3_floor": 14.3,
+   "v6_ads": [
+    7.7,
+    13.8
+   ],
+   "v3_ads": 29.5,
+   "expected_full": [
+    3.2,
+    5.8
+   ],
+   "weeks_to_5": null,
+   "wave": 1,
+   "season_factor": 1.0,
+   "dec_index": 0.55,
+   "score": 2.57,
+   "seasonality": "пик май 26 ×1,5, минимум ноя 25 ×0,4",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "a + c"
+  },
+  {
+   "rank": 33,
+   "id": "taymer",
+   "name": "Taymer, sekundomer, Pomodoro",
+   "lenses": "calculators-utility №7",
+   "src": [
+    "cu:taymer"
+   ],
+   "demand_plan": 38120,
+   "demand_floor": 38120,
+   "demand_ads": 38120,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "timer",
+     18100,
+     9050
+    ],
+    [
+     "sekundomer",
+     5400,
+     5400
+    ],
+    [
+     "таймер",
+     5400,
+     5400
+    ],
+    [
+     "секундомер",
+     4400,
+     4400
+    ],
+    [
+     "online timer",
+     3600,
+     3600
+    ],
+    [
+     "taymer",
+     2400,
+     2400
+    ],
+    [
+     "pomodoro timer",
+     1600,
+     1600
+    ],
+    [
+     "stopwatch",
+     1600,
+     800
+    ],
+    [
+     "pomodoro",
+     1600,
+     800
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; виджет Google по «timer/таймер/секундомер»",
+   "p_reach": 0.6,
+   "aio": 0.533,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 0,
+   "honesty": "low",
+   "url": "/uz/taymer/, /uz/sekundomer/, /uz/pomodoro/, /ru/taymer-onlayn/",
+   "ptype": "инструмент",
+   "v6_plan": [
+    6.2,
+    11.2
+   ],
+   "v3_plan": 36.5,
+   "v3_realistic": 36.5,
+   "v3_no_aio": 68.5,
+   "v6_floor": [
+    6.2,
+    11.2
+   ],
+   "v3_floor": 36.5,
+   "v6_ads": [
+    6.2,
+    11.2
+   ],
+   "v3_ads": 36.5,
+   "expected_full": [
+    3.7,
+    6.7
+   ],
+   "weeks_to_5": 25,
+   "wave": 2.5,
+   "season_factor": 0.97,
+   "dec_index": 0.97,
+   "score": 2.57,
+   "seasonality": "пики: апр 26 ×1,14, янв 26 ×1,1, фев 26 ×1,07; провалы: окт 25 ×0,81, ноя 25 ×0,87",
+   "brand_meaning": "нет",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 34,
+   "id": "dtm",
+   "name": "DTM / Milliy sertifikat / attestatsiya: формат, мок-тест, калькулятор баллов (без ответов)",
+   "lenses": "education-practice №7",
+   "src": [
+    "ep:exam_prep"
+   ],
+   "demand_plan": 33451,
+   "demand_floor": 21420,
+   "demand_ads": 52240,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "dtm test",
+     18100,
+     3250
+    ],
+    [
+     "dtm online test",
+     4400,
+     105
+    ],
+    [
+     "matematika milliy sertifikat",
+     4400,
+     4400
+    ],
+    [
+     "dtm 2026",
+     3600,
+     15
+    ],
+    [
+     "tarix milliy sertifikat",
+     2900,
+     2900
+    ],
+    [
+     "дтм тест",
+     2400,
+     235
+    ],
+    [
+     "milliy sertifikat matematika",
+     2400,
+     2400
+    ],
+    [
+     "milliy sertifikat 2026",
+     2400,
+     300
+    ],
+    [
+     "abituriyentlar uchun test",
+     1900,
+     60
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; головы uzbmb/dtm/milliy sertifikat — навигация (исключены)",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "L",
+   "brand": 2,
+   "honesty": "medium",
+   "note": "Пик июн–июл: страницы должны работать к марту–апрелю 2027.",
+   "url": "/uz/milliy-sertifikat/ + /{matematika,tarix,…}/, /uz/dtm-test/, /uz/kalkulyator/dtm-ball/",
+   "ptype": "страницы формата + мок-тест на банке тестов + калькулятор",
+   "v6_plan": [
+    10.3,
+    18.5
+   ],
+   "v3_plan": 39.4,
+   "v3_realistic": 39.4,
+   "v3_no_aio": 60.1,
+   "v6_floor": [
+    6.6,
+    11.8
+   ],
+   "v3_floor": 25.2,
+   "v6_ads": [
+    16.0,
+    28.9
+   ],
+   "v3_ads": 61.5,
+   "expected_full": [
+    6.2,
+    11.1
+   ],
+   "weeks_to_5": 24,
+   "wave": 2.5,
+   "season_factor": 1.0,
+   "dec_index": 0.59,
+   "score": 2.4,
+   "seasonality": "пики: июл 26 ×1,96, июн 26 ×1,72, сен 26 ×1,51; провалы: ноя 25 ×0,37, окт 25 ×0,3",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "c + a"
+  },
+  {
+   "rank": 35,
+   "id": "amaliyot",
+   "name": "Amaliyot kundaligi va hisoboti (пустой шаблон + генератор таблицы)",
+   "lenses": "docs-career №2",
+   "src": [
+    "dc:internship_reports"
+   ],
+   "demand_plan": 12154,
+   "demand_floor": 5285,
+   "demand_ads": 27950,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "amaliyot kundaligi",
+     18100,
+     490
+    ],
+    [
+     "hisobot yozish",
+     5400,
+     345
+    ],
+    [
+     "hisobot namunasi",
+     2400,
+     2400
+    ],
+    [
+     "amaliyot kundaligi namuna",
+     480,
+     480
+    ],
+    [
+     "amaliyot hisoboti",
+     480,
+     480
+    ],
+    [
+     "amaliyot kundaligi yozish",
+     390,
+     390
+    ],
+    [
+     "amaliyot kundaligi pdf",
+     210,
+     210
+    ],
+    [
+     "malakaviy amaliyot hisoboti",
+     140,
+     140
+    ],
+    [
+     "yillik hisobot namunasi",
+     90,
+     90
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "Scribd ×3, платные doclab/soff/diplomishi, arxiv 2023, researchgate; AIO r2",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 2,
+   "honesty": "medium",
+   "note": "Аномалия «amaliyot kundaligi to‘ldirish» 110 000/мес в расчёт не входит; без «готовых заполненных дневников».",
+   "url": "/uz/hujjatlar/amaliyot-kundaligi/, /uz/hujjatlar/amaliyot-hisoboti/",
+   "ptype": "шаблон + генератор",
+   "v6_plan": [
+    3.7,
+    6.7
+   ],
+   "v3_plan": 14.3,
+   "v3_realistic": 14.3,
+   "v3_no_aio": 21.8,
+   "v6_floor": [
+    1.6,
+    2.9
+   ],
+   "v3_floor": 6.2,
+   "v6_ads": [
+    8.6,
+    15.4
+   ],
+   "v3_ads": 32.9,
+   "expected_full": [
+    3.0,
+    5.4
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.0,
+   "dec_index": 0.33,
+   "score": 2.39,
+   "seasonality": "пики: сен 26 ×2,44, май 26 ×1,99, апр 26 ×1,78; минимум: ноя 25 ×0,11, окт 25 ×0,07",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "c + a (+ b)"
+  },
+  {
+   "rank": 36,
+   "id": "ona_tili",
+   "name": "Ona tili: imlo qoidalari, gap bo‘laklari, kelishiklar, diktant matnlari",
+   "lenses": "education-practice №8",
+   "src": [
+    "ep:ona_tili_grammar"
+   ],
+   "demand_plan": 21790,
+   "demand_floor": 21790,
+   "demand_ads": 25240,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "imlo qoidalari",
+     5400,
+     5400
+    ],
+    [
+     "diktant",
+     4400,
+     4400
+    ],
+    [
+     "gap bolaklari",
+     3600,
+     150
+    ],
+    [
+     "kelishiklar",
+     1900,
+     1900
+    ],
+    [
+     "ravish",
+     1300,
+     1300
+    ],
+    [
+     "fonetika",
+     1300,
+     1300
+    ],
+    [
+     "tinish belgilari",
+     880,
+     880
+    ],
+    [
+     "olmosh",
+     880,
+     880
+    ],
+    [
+     "omonimlar",
+     880,
+     880
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; ожидаемо ziyouz/ziyonet PDF, arxiv.uz, Scribd, Википедия, YouTube",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 3,
+   "honesty": "low",
+   "url": "/uz/ona-tili/ + ≈20 правил, /uz/diktant-matnlari/",
+   "ptype": "правила + автопроверка + пресет проверки орфографии",
+   "v6_plan": [
+    6.7,
+    12.0
+   ],
+   "v3_plan": 25.6,
+   "v3_realistic": 25.6,
+   "v3_no_aio": 39.1,
+   "v6_floor": [
+    6.7,
+    12.0
+   ],
+   "v3_floor": 25.6,
+   "v6_ads": [
+    7.7,
+    13.9
+   ],
+   "v3_ads": 29.7,
+   "expected_full": [
+    4.0,
+    7.2
+   ],
+   "weeks_to_5": 31,
+   "wave": 2.5,
+   "season_factor": 0.92,
+   "dec_index": 0.92,
+   "score": 2.36,
+   "seasonality": "пики: апр 26 ×1,31, май 26 ×1,29, янв 26 ×1,23; провалы: июл 26 ×0,65, авг 26 ×0,51",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "c + b"
+  },
+  {
+   "rank": 37,
+   "id": "tez_yozish",
+   "name": "Tez yozish trenajyori + o‘zbek klaviaturasi",
+   "lenses": "calculators-utility №11",
+   "src": [
+    "cu:tez_yozish"
+   ],
+   "demand_plan": 15975,
+   "demand_floor": 15975,
+   "demand_ads": 17485,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "typing test",
+     8100,
+     8100
+    ],
+    [
+     "tez yozish",
+     4400,
+     4400
+    ],
+    [
+     "узбекская клавиатура",
+     1600,
+     90
+    ],
+    [
+     "typing speed test",
+     1000,
+     1000
+    ],
+    [
+     "klaviaturada tez yozish",
+     1000,
+     1000
+    ],
+    [
+     "клавиатурный тренажер",
+     390,
+     390
+    ],
+    [
+     "g' harfi",
+     390,
+     195
+    ],
+    [
+     "typing speed",
+     260,
+     260
+    ],
+    [
+     "typing master",
+     260,
+     130
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; monkeytype, 10fastfingers, klava.org",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 1,
+   "honesty": "low",
+   "url": "/uz/tez-yozish/, /uz/ozbek-klaviaturasi/",
+   "ptype": "тренажёр",
+   "v6_plan": [
+    4.9,
+    8.8
+   ],
+   "v3_plan": 18.8,
+   "v3_realistic": 18.8,
+   "v3_no_aio": 28.7,
+   "v6_floor": [
+    4.9,
+    8.8
+   ],
+   "v3_floor": 18.8,
+   "v6_ads": [
+    5.4,
+    9.7
+   ],
+   "v3_ads": 20.6,
+   "expected_full": [
+    2.9,
+    5.3
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.06,
+   "dec_index": 1.06,
+   "score": 2.25,
+   "seasonality": "пики: окт 25 ×1,5, сен 26 ×1,23, ноя 25 ×1,22; провалы: авг 26 ×0,56, июн 26 ×0,67",
+   "brand_meaning": "слабо",
+   "fit_abc": "a + c"
+  },
+  {
+   "rank": 38,
+   "id": "shriftlar",
+   "name": "Красивые шрифты и ники (Unicode-генератор)",
+   "lenses": "text-tools №10",
+   "src": [
+    "tt:shriftlar_niklar"
+   ],
+   "demand_plan": 16320,
+   "demand_floor": 16320,
+   "demand_ads": 16320,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "красивый шрифт",
+     9900,
+     4950
+    ],
+    [
+     "красивые шрифты",
+     4400,
+     2200
+    ],
+    [
+     "шрифты для ников",
+     1000,
+     1000
+    ],
+    [
+     "nik",
+     880,
+     440
+    ],
+    [
+     "ник",
+     880,
+     440
+    ],
+    [
+     "шрифт для инстаграма",
+     590,
+     590
+    ],
+    [
+     "niklar",
+     590,
+     590
+    ],
+    [
+     "ники",
+     590,
+     590
+    ],
+    [
+     "никнейм",
+     590,
+     590
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 0,
+   "honesty": "low",
+   "url": "/ru/krasivye-shrifty/, /ru/generator-nikov/, /uz/chiroyli-shriftlar/",
+   "ptype": "инструмент",
+   "v6_plan": [
+    5.0,
+    9.0
+   ],
+   "v3_plan": 19.2,
+   "v3_realistic": 19.2,
+   "v3_no_aio": 29.3,
+   "v6_floor": [
+    5.0,
+    9.0
+   ],
+   "v3_floor": 19.2,
+   "v6_ads": [
+    5.0,
+    9.0
+   ],
+   "v3_ads": 19.2,
+   "expected_full": [
+    3.0,
+    5.4
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.02,
+   "dec_index": 1.02,
+   "score": 2.17,
+   "seasonality": "пики: янв 26 ×1,17, мар 26 ×1,16, дек 25 ×1,02; провалы: сен 26 ×0,86, июн 26 ×0,92",
+   "brand_meaning": "нет",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 39,
+   "id": "foiz_qqs",
+   "name": "Foiz va QQS kalkulyatori",
+   "lenses": "calculators-utility №12",
+   "src": [
+    "cu:foiz_qqs"
+   ],
+   "demand_plan": 11475,
+   "demand_floor": 11475,
+   "demand_ads": 11475,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "ндс калькулятор",
+     2400,
+     2400
+    ],
+    [
+     "foiz chiqarish",
+     1600,
+     1600
+    ],
+    [
+     "калькулятор процентов",
+     1300,
+     1300
+    ],
+    [
+     "калькулятор ндс",
+     1000,
+     1000
+    ],
+    [
+     "foiz chiqarish formulasi",
+     880,
+     880
+    ],
+    [
+     "foiz",
+     880,
+     440
+    ],
+    [
+     "процент от числа",
+     720,
+     720
+    ],
+    [
+     "ндс в узбекистане",
+     480,
+     240
+    ],
+    [
+     "qqs",
+     480,
+     240
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 1,
+   "honesty": "low",
+   "url": "/uz/foiz-hisoblash/, /uz/qqs-kalkulyator/, /ru/kalkulyator-nds/",
+   "ptype": "режим хаба калькулятора",
+   "v6_plan": [
+    3.5,
+    6.3
+   ],
+   "v3_plan": 13.5,
+   "v3_realistic": 13.5,
+   "v3_no_aio": 20.6,
+   "v6_floor": [
+    3.5,
+    6.3
+   ],
+   "v3_floor": 13.5,
+   "v6_ads": [
+    3.5,
+    6.3
+   ],
+   "v3_ads": 13.5,
+   "expected_full": [
+    2.1,
+    3.8
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.05,
+   "dec_index": 1.05,
+   "score": 1.88,
+   "seasonality": "пики: янв 26 ×1,12, мар 26 ×1,09, окт 25 ×1,08; провалы: авг 26 ×0,79, июл 26 ×0,89",
+   "brand_meaning": "слабо",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 40,
+   "id": "mumtoz",
+   "name": "Классика: Навои, Бабур, Чолпон, ғазал, рубаи, аруз (тексты + свой разбор)",
+   "lenses": "text-tools №8",
+   "src": [
+    "tt:mumtoz_sheriyat"
+   ],
+   "demand_plan": 20660,
+   "demand_floor": 20660,
+   "demand_ads": 20660,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "alisher navoiy sherlari",
+     5400,
+     5400
+    ],
+    [
+     "bobur g'azallari",
+     4400,
+     4400
+    ],
+    [
+     "g'azal",
+     2900,
+     2900
+    ],
+    [
+     "navoiy g'azallari",
+     1900,
+     1900
+    ],
+    [
+     "ruboiylar",
+     880,
+     880
+    ],
+    [
+     "ruboiy",
+     720,
+     720
+    ],
+    [
+     "cholpon sherlari",
+     590,
+     590
+    ],
+    [
+     "cho'lpon she'rlari",
+     480,
+     480
+    ],
+    [
+     "aruz vazni",
+     480,
+     480
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят; ожидаемо ziyouz, kh-davron.uz, Scribd, Википедия",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 2,
+   "honesty": "low",
+   "note": "Фев ×5,8 (9.02 и 14.02) → опубликовать до 15.01.",
+   "url": "/uz/sherlar/{alisher-navoiy,bobur,cholpon}/, /uz/adabiyot/{gazal-nima,ruboiy,aruz-vazni}/",
+   "ptype": "тексты + статьи",
+   "v6_plan": [
+    6.3,
+    11.4
+   ],
+   "v3_plan": 24.3,
+   "v3_realistic": 24.3,
+   "v3_no_aio": 37.1,
+   "v6_floor": [
+    6.3,
+    11.4
+   ],
+   "v3_floor": 24.3,
+   "v6_ads": [
+    6.3,
+    11.4
+   ],
+   "v3_ads": 24.3,
+   "expected_full": [
+    3.8,
+    6.8
+   ],
+   "weeks_to_5": 32,
+   "wave": 2,
+   "season_factor": 0.8,
+   "dec_index": 0.69,
+   "score": 1.69,
+   "seasonality": "пики: фев 26 ×5,78, янв 26 ×1,63, ноя 25 ×0,76; провалы: авг 26 ×0,14, июл 26 ×0,16",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "c + b"
+  },
+  {
+   "rank": 41,
+   "id": "faxriy",
+   "name": "Faxriy yorliq / tashakkurnoma — генератор бланков",
+   "lenses": "docs-career №7",
+   "src": [
+    "dc:certificates"
+   ],
+   "demand_plan": 6460,
+   "demand_floor": 6460,
+   "demand_ads": 6460,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "faxriy yorliq",
+     1600,
+     1600
+    ],
+    [
+     "tashakkurnoma",
+     1300,
+     1300
+    ],
+    [
+     "faxriy yorliq namuna",
+     880,
+     880
+    ],
+    [
+     "faxriy yorliq shablon",
+     720,
+     720
+    ],
+    [
+     "tashakkurnoma shablon",
+     720,
+     720
+    ],
+    [
+     "maqtov yorlig'i",
+     480,
+     480
+    ],
+    [
+     "tashakkurnoma namunasi",
+     260,
+     260
+    ],
+    [
+     "sertifikat namuna",
+     210,
+     210
+    ],
+    [
+     "minnatdorchilik xati",
+     90,
+     90
+    ]
+   ],
+   "serp": "weak",
+   "serp_txt": "idum.uz, YouTube, Scribd, docx.uz, soff, Pinterest; инструмента нет",
+   "p_reach": 0.8,
+   "aio": 0.655,
+   "k1": 0.08,
+   "effort": "M",
+   "brand": 0,
+   "honesty": "low",
+   "note": "Пик май ×3,1 — запуск до марта.",
+   "url": "/uz/faxriy-yorliq-yaratish/",
+   "ptype": "вёрстка A4 + печать",
+   "v6_plan": [
+    2.0,
+    3.6
+   ],
+   "v3_plan": 7.6,
+   "v3_realistic": 7.6,
+   "v3_no_aio": 11.6,
+   "v6_floor": [
+    2.0,
+    3.6
+   ],
+   "v3_floor": 7.6,
+   "v6_ads": [
+    2.0,
+    3.6
+   ],
+   "v3_ads": 7.6,
+   "expected_full": [
+    1.6,
+    2.9
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.25,
+   "dec_index": 1.8,
+   "score": 1.29,
+   "seasonality": "пики: май 26 ×3,08, дек 25 ×1,8, мар 26 ×1,11; минимум: авг 26 ×0,35, июл 26 ×0,31",
+   "brand_meaning": "нет",
+   "fit_abc": "a + c"
+  },
+  {
+   "rank": 42,
+   "id": "tilxat",
+   "name": "Tilxat и простая ishonchnoma — нейтральный образец",
+   "lenses": "docs-career №5",
+   "src": [
+    "dc:tilxat_ishonchnoma"
+   ],
+   "demand_plan": 9482,
+   "demand_floor": 5000,
+   "demand_ads": 17980,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "тилхат",
+     8100,
+     230
+    ],
+    [
+     "tilxat yozish",
+     5400,
+     290
+    ],
+    [
+     "tilxat",
+     1000,
+     1000
+    ],
+    [
+     "tilxat namuna",
+     1000,
+     1000
+    ],
+    [
+     "ishonchnoma",
+     880,
+     880
+    ],
+    [
+     "ishonchnoma namunasi",
+     590,
+     590
+    ],
+    [
+     "тилхат намуна",
+     210,
+     210
+    ],
+    [
+     "ишончнома",
+     170,
+     170
+    ],
+    [
+     "расписка",
+     140,
+     140
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "soff, kalki.uz (генератор), YouTube, gov.uz без описания",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 1,
+   "honesty": "medium",
+   "note": "Только нейтральный шаблон; доверенности на авто и недвижимость — «нужен нотариус».",
+   "url": "/uz/hujjatlar/tilxat-namuna/, /uz/hujjatlar/ishonchnoma-namuna/",
+   "ptype": "шаблон + генератор",
+   "v6_plan": [
+    2.9,
+    5.2
+   ],
+   "v3_plan": 11.2,
+   "v3_realistic": 11.2,
+   "v3_no_aio": 17.0,
+   "v6_floor": [
+    1.5,
+    2.8
+   ],
+   "v3_floor": 5.9,
+   "v6_ads": [
+    5.5,
+    9.9
+   ],
+   "v3_ads": 21.2,
+   "expected_full": [
+    1.7,
+    3.1
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.0,
+   "dec_index": 0.47,
+   "score": 1.26,
+   "seasonality": "пики: май 26 ×1,71, сен 26 ×1,68, апр 26 ×1,46; минимум: ноя 25 ×0,31, окт 25 ×0,26",
+   "brand_meaning": "слабо",
+   "fit_abc": "c + a"
+  },
+  {
+   "rank": 43,
+   "id": "cv_builder",
+   "name": "Конструктор CV/rezyume (UZ/RU/EN) + «образец резюме»",
+   "lenses": "docs-career №4 ∪ ru-audience rezyume_ru",
+   "src": [
+    "dc:cv_builder",
+    "ru:rezyume_ru"
+   ],
+   "demand_plan": 14187,
+   "demand_floor": 12280,
+   "demand_ads": 16390,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "cv nima",
+     4400,
+     290
+    ],
+    [
+     "резюме шаблон",
+     2900,
+     2900
+    ],
+    [
+     "cv maker",
+     1600,
+     1600
+    ],
+    [
+     "резюме образец",
+     880,
+     880
+    ],
+    [
+     "resume maker",
+     590,
+     590
+    ],
+    [
+     "cv example",
+     590,
+     590
+    ],
+    [
+     "резюме онлайн",
+     480,
+     480
+    ],
+    [
+     "cv template",
+     390,
+     390
+    ],
+    [
+     "rezyume namunasi pdf",
+     390,
+     390
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "Canva r1, myresume.ru, superjob.uz, resum.uz; «cv nima» — ни одной узбекской страницы",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "L",
+   "brand": 2,
+   "honesty": "low",
+   "existing": "/uz/blog/rezyume-tayyorlash/ (его ключи не считаются)",
+   "url": "/uz/rezyume-yaratish/, /ru/obrazets-rezyume/, /uz/blog/cv-nima/",
+   "ptype": "конструктор на клиенте",
+   "v6_plan": [
+    4.3,
+    7.8
+   ],
+   "v3_plan": 16.7,
+   "v3_realistic": 16.7,
+   "v3_no_aio": 25.5,
+   "v6_floor": [
+    3.8,
+    6.8
+   ],
+   "v3_floor": 14.4,
+   "v6_ads": [
+    5.0,
+    9.1
+   ],
+   "v3_ads": 19.3,
+   "expected_full": [
+    2.6,
+    4.7
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.0,
+   "dec_index": 0.7,
+   "score": 1.2,
+   "seasonality": "пики: апр 26 ×1,27, июл 26 ×1,16, май 26 ×1,14; минимум: ноя 25 ×0,74, дек 25 ×0,7",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "a + c (+ b)"
+  },
+  {
+   "rank": 44,
+   "id": "iq",
+   "name": "Тест логического мышления (без норм IQ)",
+   "lenses": "education-practice №9",
+   "src": [
+    "ep:iq_test"
+   ],
+   "demand_plan": 15840,
+   "demand_floor": 15840,
+   "demand_ads": 15840,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "iq test",
+     12100,
+     12100
+    ],
+    [
+     "iq test uzbek tilida",
+     3600,
+     3600
+    ],
+    [
+     "тест iq",
+     140,
+     140
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 0,
+   "honesty": "medium",
+   "url": "/uz/iq-test/, /ru/test-iq/",
+   "ptype": "тест из своих задач",
+   "v6_plan": [
+    4.9,
+    8.8
+   ],
+   "v3_plan": 18.6,
+   "v3_realistic": 18.6,
+   "v3_no_aio": 28.5,
+   "v6_floor": [
+    4.9,
+    8.8
+   ],
+   "v3_floor": 18.6,
+   "v6_ads": [
+    4.9,
+    8.8
+   ],
+   "v3_ads": 18.6,
+   "expected_full": [
+    2.9,
+    5.3
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 0.8,
+   "dec_index": 0.67,
+   "score": 1.19,
+   "seasonality": "пики: май 26 ×1,51, сен 26 ×1,24, июл 26 ×1,24; провалы: окт 25 ×0,71, дек 25 ×0,67",
+   "brand_meaning": "нет",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 45,
+   "id": "topik",
+   "name": "TOPIK / EPS-TOPIK: свои задания чтения и лексики",
+   "lenses": "language-learning №11",
+   "src": [
+    "ll:topik_korean"
+   ],
+   "demand_plan": 16430,
+   "demand_floor": 16430,
+   "demand_ads": 17920,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "topik",
+     14800,
+     7400
+    ],
+    [
+     "eps topik",
+     4400,
+     2200
+    ],
+    [
+     "topik test",
+     3600,
+     3600
+    ],
+    [
+     "eps topik test",
+     1600,
+     110
+    ],
+    [
+     "koreys tili",
+     590,
+     590
+    ],
+    [
+     "koreys tilini o'rganish",
+     480,
+     480
+    ],
+    [
+     "topik test online",
+     390,
+     390
+    ],
+    [
+     "topik 1",
+     320,
+     320
+    ],
+    [
+     "корейский язык",
+     320,
+     320
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "topikguide ×2, thinkbigtopik, Play, onlinetestpad, topik.go.kr",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "L",
+   "brand": 2,
+   "honesty": "medium",
+   "url": "/uz/eps-topik-test/, /uz/topik-test/, /uz/koreys-tili/",
+   "ptype": "тест + основы языка",
+   "v6_plan": [
+    5.0,
+    9.1
+   ],
+   "v3_plan": 19.3,
+   "v3_realistic": 19.3,
+   "v3_no_aio": 29.5,
+   "v6_floor": [
+    5.0,
+    9.1
+   ],
+   "v3_floor": 19.3,
+   "v6_ads": [
+    5.5,
+    9.9
+   ],
+   "v3_ads": 21.1,
+   "expected_full": [
+    3.0,
+    5.4
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 0.95,
+   "dec_index": 0.95,
+   "score": 1.12,
+   "seasonality": "пик фев 26 ×1,43, минимум ноя 25 ×0,49",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "c + a"
+  },
+  {
+   "rank": 46,
+   "id": "ielts_writing",
+   "name": "IELTS Writing/Speaking: AI-проверка и банк тем",
+   "lenses": "language-learning №12 ∪ education-practice №11",
+   "src": [
+    "ll:ielts_writing_speaking",
+    "ep:ielts_cefr_writing"
+   ],
+   "demand_plan": 19760,
+   "demand_floor": 19760,
+   "demand_ads": 19760,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "ielts writing task 1",
+     2900,
+     2900
+    ],
+    [
+     "grammar checker",
+     1900,
+     950
+    ],
+    [
+     "ielts speaking questions",
+     1600,
+     1600
+    ],
+    [
+     "ielts test",
+     1600,
+     1600
+    ],
+    [
+     "ielts speaking",
+     1300,
+     1300
+    ],
+    [
+     "ielts writing task 2",
+     1300,
+     1300
+    ],
+    [
+     "ielts speaking topics",
+     720,
+     720
+    ],
+    [
+     "ielts writing",
+     720,
+     720
+    ],
+    [
+     "ielts writing checker",
+     720,
+     720
+    ]
+   ],
+   "serp": "strong",
+   "serp_txt": "ielts.idp, ielts.org, kanan, skillbox, ieltsbuddy — сильные бренды",
+   "p_reach": 0.3,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 3,
+   "honesty": "medium",
+   "url": "/uz/ielts-writing-checker/, /uz/ielts-speaking-savollari/",
+   "ptype": "пресет «экзаменатор» + темы",
+   "v6_plan": [
+    6.1,
+    10.9
+   ],
+   "v3_plan": 23.3,
+   "v3_realistic": 10.9,
+   "v3_no_aio": 35.5,
+   "v6_floor": [
+    6.1,
+    10.9
+   ],
+   "v3_floor": 23.3,
+   "v6_ads": [
+    6.1,
+    10.9
+   ],
+   "v3_ads": 23.3,
+   "expected_full": [
+    1.8,
+    3.3
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.04,
+   "dec_index": 1.04,
+   "score": 1.03,
+   "seasonality": "пик янв 26 ×1,15, минимум авг 26 ×0,79",
+   "brand_meaning": "да, основное действие страницы идёт через чат или переводчик",
+   "fit_abc": "b + c"
+  },
+  {
+   "rank": 47,
+   "id": "obyektivka",
+   "name": "Obyektivka (ma’lumotnoma) — генератор",
+   "lenses": "docs-career №3",
+   "src": [
+    "dc:obyektivka"
+   ],
+   "demand_plan": 6792,
+   "demand_floor": 5795,
+   "demand_ads": 7960,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "ma'lumotnoma yozish",
+     2400,
+     235
+    ],
+    [
+     "объективка",
+     1600,
+     1600
+    ],
+    [
+     "obyektivka tayyorlash",
+     1300,
+     1300
+    ],
+    [
+     "obektivka",
+     720,
+     720
+    ],
+    [
+     "obektivka namuna",
+     590,
+     590
+    ],
+    [
+     "объективка намуна",
+     320,
+     320
+    ],
+    [
+     "справка объективка",
+     320,
+     320
+    ],
+    [
+     "маълумотнома намуна",
+     170,
+     170
+    ],
+    [
+     "obyektivka namuna pdf",
+     110,
+     110
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "три генератора r1–r3 (tez-hujjat, resum.uz, obyektivka.uz)",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "M",
+   "brand": 1,
+   "honesty": "medium",
+   "note": "Нужно решение владельца O-05.",
+   "url": "/uz/hujjatlar/obyektivka-namuna/",
+   "ptype": "генератор формы (данные не покидают браузер)",
+   "v6_plan": [
+    2.1,
+    3.8
+   ],
+   "v3_plan": 8.0,
+   "v3_realistic": 8.0,
+   "v3_no_aio": 12.2,
+   "v6_floor": [
+    1.8,
+    3.2
+   ],
+   "v3_floor": 6.8,
+   "v6_ads": [
+    2.4,
+    4.4
+   ],
+   "v3_ads": 9.4,
+   "expected_full": [
+    1.2,
+    2.3
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.0,
+   "dec_index": 0.64,
+   "score": 0.77,
+   "seasonality": "пики: сен 26 ×1,8, апр 26 ×1,13, июн 26 ×1,08; минимум: ноя 25 ×0,75, дек 25 ×0,64",
+   "brand_meaning": "слабо",
+   "fit_abc": "a + c"
+  },
+  {
+   "rank": 48,
+   "id": "sanagich",
+   "name": "Счётчик слов и символов",
+   "lenses": "text-tools №12",
+   "src": [
+    "tt:sanagich"
+   ],
+   "demand_plan": 9070,
+   "demand_floor": 9070,
+   "demand_ads": 9070,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "word counter",
+     6600,
+     6600
+    ],
+    [
+     "счетчик слов",
+     880,
+     880
+    ],
+    [
+     "character counter",
+     320,
+     320
+    ],
+    [
+     "word counter online",
+     260,
+     260
+    ],
+    [
+     "подсчет символов",
+     210,
+     210
+    ],
+    [
+     "заглавные буквы",
+     170,
+     170
+    ],
+    [
+     "количество символов",
+     140,
+     140
+    ],
+    [
+     "количество слов",
+     90,
+     90
+    ],
+    [
+     "сколько слов в тексте",
+     90,
+     90
+    ]
+   ],
+   "serp": "strong",
+   "serp_txt": "не снят; глобальные wordcounter",
+   "p_reach": 0.3,
+   "aio": 0.655,
+   "k1": 0.06,
+   "effort": "S",
+   "brand": 0,
+   "honesty": "low",
+   "url": "/ru/schetchik-simvolov/, /uz/belgilar-soni/",
+   "ptype": "инструмент",
+   "v6_plan": [
+    2.8,
+    5.0
+   ],
+   "v3_plan": 10.7,
+   "v3_realistic": 5.0,
+   "v3_no_aio": 16.3,
+   "v6_floor": [
+    2.8,
+    5.0
+   ],
+   "v3_floor": 10.7,
+   "v6_ads": [
+    2.8,
+    5.0
+   ],
+   "v3_ads": 10.7,
+   "expected_full": [
+    0.8,
+    1.5
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 1.25,
+   "dec_index": 1.27,
+   "score": 0.74,
+   "seasonality": "пики: апр 26 ×1,29, дек 25 ×1,27, ноя 25 ×1,26; провалы: авг 26 ×0,62, сен 26 ×0,72",
+   "brand_meaning": "нет",
+   "fit_abc": "a"
+  },
+  {
+   "rank": 49,
+   "id": "cyr_ru_docs",
+   "name": "Кириллица и RU для действующих документных гайдов (тушунтириш хати, объяснительная…)",
+   "lenses": "docs-career №8 ∪ ru-audience docs_ru",
+   "src": [
+    "dc:cyr_ru_mirrors"
+   ],
+   "demand_plan": 7079,
+   "demand_floor": 6045,
+   "demand_ads": 8290,
+   "jump_shaped": true,
+   "top_keywords": [
+    [
+     "тушунтириш хати",
+     2900,
+     655
+    ],
+    [
+     "объяснительная",
+     880,
+     880
+    ],
+    [
+     "тавсифнома намуна",
+     720,
+     720
+    ],
+    [
+     "ариза",
+     480,
+     480
+    ],
+    [
+     "тушунтириш хати намуна",
+     390,
+     390
+    ],
+    [
+     "ариза намуна",
+     390,
+     390
+    ],
+    [
+     "объяснительная в школу",
+     390,
+     390
+    ],
+    [
+     "объяснительная образец",
+     320,
+     320
+    ],
+    [
+     "заявление на увольнение",
+     320,
+     320
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 2,
+   "honesty": "low",
+   "existing": "/uz/blog/tushuntirish-xati-va-ariza-yozish/, /uz/blog/tavsifnoma-namuna/",
+   "url": "кириллические блоки в 3 гайдах; /ru/obrazets-obyasnitelnoy/, /ru/obrazets-zayavleniya/",
+   "ptype": "правка действующих страниц + 3 RU-страницы",
+   "v6_plan": [
+    2.2,
+    3.9
+   ],
+   "v3_plan": 8.3,
+   "v3_realistic": 8.3,
+   "v3_no_aio": 12.7,
+   "v6_floor": [
+    1.9,
+    3.3
+   ],
+   "v3_floor": 7.1,
+   "v6_ads": [
+    2.5,
+    4.6
+   ],
+   "v3_ads": 9.8,
+   "expected_full": [
+    1.3,
+    2.3
+   ],
+   "weeks_to_5": null,
+   "wave": 1,
+   "season_factor": 1.0,
+   "dec_index": 0.81,
+   "score": 0.73,
+   "seasonality": "пики: апр 26 ×1,32, сен 26 ×1,21, май 26 ×1,15; минимум: авг 26 ×0,83, дек 25 ×0,81",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "c (+ b)"
+  },
+  {
+   "rank": 50,
+   "id": "olympiad",
+   "name": "Олимпиадные задачи с решениями",
+   "lenses": "education-practice №12",
+   "src": [
+    "ep:olympiad"
+   ],
+   "demand_plan": 6080,
+   "demand_floor": 6080,
+   "demand_ads": 6080,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "olimpiada",
+     3600,
+     3600
+    ],
+    [
+     "olimpiada savollari",
+     1600,
+     1600
+    ],
+    [
+     "fan olimpiadasi",
+     720,
+     720
+    ],
+    [
+     "matematika olimpiada",
+     70,
+     70
+    ],
+    [
+     "informatika olimpiada",
+     50,
+     50
+    ],
+    [
+     "олимпиада по математике",
+     40,
+     40
+    ]
+   ],
+   "serp": "mixed",
+   "serp_txt": "не снят",
+   "p_reach": 0.6,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "M",
+   "brand": 1,
+   "honesty": "low",
+   "url": "/uz/olimpiada/matematika/",
+   "ptype": "задачи + решения",
+   "v6_plan": [
+    1.9,
+    3.4
+   ],
+   "v3_plan": 7.2,
+   "v3_realistic": 7.2,
+   "v3_no_aio": 10.9,
+   "v6_floor": [
+    1.9,
+    3.4
+   ],
+   "v3_floor": 7.2,
+   "v6_ads": [
+    1.9,
+    3.4
+   ],
+   "v3_ads": 7.2,
+   "expected_full": [
+    1.1,
+    2.0
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 0.8,
+   "dec_index": 0.55,
+   "score": 0.45,
+   "seasonality": "пики: окт 25 ×4,11, сен 26 ×3,62, фев 26 ×1,12; провалы: июл 26 ×0,24, авг 26 ×0,19",
+   "brand_meaning": "слабо",
+   "fit_abc": "c"
+  },
+  {
+   "rank": 51,
+   "id": "sinonimlar",
+   "name": "Синонимы и антонимы UZ/RU + AI-перефразирование",
+   "lenses": "text-tools №11 ∪ ru-audience text_tools_ru",
+   "src": [
+    "tt:sinonimlar",
+    "ru:text_tools_ru"
+   ],
+   "demand_plan": 11700,
+   "demand_floor": 11700,
+   "demand_ads": 11700,
+   "jump_shaped": false,
+   "top_keywords": [
+    [
+     "sinonim so'zlar",
+     1900,
+     1900
+    ],
+    [
+     "sinonimlar lug'ati",
+     1900,
+     1900
+    ],
+    [
+     "синоним",
+     1900,
+     1900
+    ],
+    [
+     "антоним",
+     1300,
+     1300
+    ],
+    [
+     "что означает слово",
+     1300,
+     1300
+    ],
+    [
+     "sinonim",
+     720,
+     720
+    ],
+    [
+     "перефразирование текста",
+     590,
+     590
+    ],
+    [
+     "antonim",
+     480,
+     480
+    ],
+    [
+     "синоним к слову",
+     320,
+     320
+    ]
+   ],
+   "serp": "strong",
+   "serp_txt": "не снят; RU — сильные словари",
+   "p_reach": 0.3,
+   "aio": 0.655,
+   "k1": 0.04,
+   "effort": "L",
+   "brand": 2,
+   "honesty": "medium",
+   "url": "/uz/sinonimlar/, /ru/sinonimy/, /ru/perefrazirovat-tekst/",
+   "ptype": "словарь + пресеты",
+   "v6_plan": [
+    3.6,
+    6.5
+   ],
+   "v3_plan": 13.8,
+   "v3_realistic": 6.5,
+   "v3_no_aio": 21.0,
+   "v6_floor": [
+    3.6,
+    6.5
+   ],
+   "v3_floor": 13.8,
+   "v6_ads": [
+    3.6,
+    6.5
+   ],
+   "v3_ads": 13.8,
+   "expected_full": [
+    1.1,
+    1.9
+   ],
+   "weeks_to_5": null,
+   "wave": 2.5,
+   "season_factor": 0.87,
+   "dec_index": 0.87,
+   "score": 0.36,
+   "seasonality": "пики: апр 26 ×1,4, янв 26 ×1,3, окт 25 ×1,26; провалы: авг 26 ×0,51, ноя 25 ×0,74",
+   "brand_meaning": "да, кнопкой «объяснить / заполнить в чате»",
+   "fit_abc": "a + c (+ b)"
+  }
+ ],
+ "sums": {
+  "top20_without_valyuta": {
+   "n": 19,
+   "demand_plan": 1389640,
+   "v6_plan": [
+    425.9,
+    767.7
+   ],
+   "v3_plan": 1508.0,
+   "v3_no_aio": 2496.5,
+   "v3_realistic": 1321.3,
+   "v6_floor": [
+    410.0,
+    739.3
+   ],
+   "v3_floor": 1449.0,
+   "v6_ads": [
+    470.0,
+    847.1
+   ],
+   "v3_ads": 1675.1,
+   "expected_full": [
+    249.0,
+    449.2
+   ]
+  },
+  "valyuta": {
+   "demand_plan": 3597650,
+   "v6_plan": [
+    587.7,
+    1059.4
+   ],
+   "v3_plan": 3444.9,
+   "realistic_pos10_20": [
+    145,
+    290
+   ],
+   "expected_full": [
+    176.3,
+    317.8
+   ]
+  },
+  "rest": {
+   "n": 31,
+   "demand_plan": 546561,
+   "v6_plan": [
+    162.1,
+    292.0
+   ],
+   "v3_plan": 625.1,
+   "v3_realistic": 599.7,
+   "expected_full": [
+    102.2,
+    184.6
+   ]
+  }
+ },
+ "site_potential": {
+  "today": 92,
+  "base_pos6": [
+   251,
+   386
+  ],
+  "base_pos3": 656,
+  "pos6_with_top20": [
+   677,
+   1154
+  ],
+  "pos3_with_top20": 2164,
+  "pos6_with_all": [
+   839,
+   1446
+  ],
+  "pos3_with_all": 2789,
+  "pos3_realistic_with_top20": 1977,
+  "pos3_realistic_with_all": 2577
+ },
+ "timeline": {
+  "M1": {
+   "base": [
+    93,
+    93,
+    93
+   ],
+   "top20": [
+    3,
+    6,
+    10
+   ],
+   "valyuta": [
+    4,
+    7,
+    13
+   ],
+   "site_conservative": 96,
+   "site_working": [
+    99,
+    103
+   ],
+   "site_working_with_valyuta": [
+    106,
+    116
+   ]
+  },
+  "M3": {
+   "base": [
+    94,
+    96,
+    116
+   ],
+   "top20": [
+    10,
+    54,
+    97
+   ],
+   "valyuta": [
+    9,
+    41,
+    74
+   ],
+   "site_conservative": 104,
+   "site_working": [
+    150,
+    213
+   ],
+   "site_working_with_valyuta": [
+    191,
+    287
+   ]
+  },
+  "M6": {
+   "base": [
+    100,
+    161,
+    254
+   ],
+   "top20": [
+    25,
+    192,
+    347
+   ],
+   "valyuta": [
+    22,
+    124,
+    224
+   ],
+   "site_conservative": 125,
+   "site_working": [
+    353,
+    601
+   ],
+   "site_working_with_valyuta": [
+    477,
+    825
+   ]
+  },
+  "M12": {
+   "base": [
+    113,
+    265,
+    422
+   ],
+   "top20": [
+    69,
+    249,
+    449
+   ],
+   "valyuta": [
+    55,
+    176,
+    318
+   ],
+   "site_conservative": 182,
+   "site_working": [
+    514,
+    871
+   ],
+   "site_working_with_valyuta": [
+    690,
+    1189
+   ]
+  }
+ },
+ "timeline_months": {
+  "M1": "дек 2026",
+  "M3": "фев 2027",
+  "M6": "май 2027",
+  "M12": "ноя 2027"
+ },
+ "verdict": {
+  "1000_per_day": "не за 6 мес.; за 12 мес. только в верхней половине рабочего сценария с курсом валют (690–1 189), без него верх 871",
+  "2000_per_day": "только в топ-3 почти по всему списку: 1 977–2 577; 18–24 мес. и ссылки; в 2027 — нет"
+ },
+ "first10": [
+  {
+   "n": 1,
+   "cid": "kalendar",
+   "url": "/uz/kalendar-2027/, /ru/kalendar-2027/, /ru/proizvodstvennyy-kalendar-2027-uzbekistan/",
+   "ptype": "статичный инструмент",
+   "kws": "kalendar 2026 14 800; календарь 2026 14 800; производственный календарь 2026 узбекистан 2 400; выходные дни в узбекистане 2026 1 900; dam olish kunlari 2026 1 600 (спрос по «2026» = прогноз для страниц «2027»)",
+   "does": "Календарь 2027 с праздниками и официальными выходными, номера недель, печать A4, рабочие дни и часы по месяцам, отсчёт «до Нового года». Переносы — только по постановлению.",
+   "effort": "S",
+   "when": "до 10.11 (пик дек ×1,49)",
+   "rank": 6
+  },
+  {
+   "n": 2,
+   "cid": "kalkulyator",
+   "url": "/uz/kalkulyator/, /ru/kalkulyator/",
+   "ptype": "инструмент (PWA)",
+   "kws": "калькулятор 74 000; kalkulyator 40 500; calculator 40 500; kalkulator 40 500 ×0,5; kalkulyatr 40 500 ×0,5; калькулятор онлайн 3 600",
+   "does": "Обычный и инженерный калькулятор: скобки, история, клавиатура, офлайн; узбекский интерфейс. Позже — режимы процентов и QQS.",
+   "effort": "S",
+   "when": "до 10.11",
+   "rank": 3
+  },
+  {
+   "n": 3,
+   "cid": "converter",
+   "url": "/uz/kirill-lotin/, /ru/kirillica-v-latinicu/, /uz/ozbek-lotin-alifbosi/",
+   "ptype": "инструмент на готовом модуле",
+   "kws": "lotin krill 4 400; lotin alifbosi 3 600; lotin kirill 1 900; o‘zbek alifbosi 1 600; кириллица в латиницу 1 300; лотин алифбоси 1 300 (+ 12 490 ключей конвертера из roadmap)",
+   "does": "Конвертер в обе стороны с загрузкой .txt/.docx и копированием (модуль src/uz-translit уже есть) + таблица 29 букв, правила o‘/g‘ и тутуқ белгиси.",
+   "effort": "S",
+   "when": "до 10.11",
+   "rank": 20
+  },
+  {
+   "n": 4,
+   "cid": "irregular_verbs",
+   "url": "/uz/notogri-fellar/, /ru/nepravilnye-glagoly/",
+   "ptype": "инструмент-тренажёр",
+   "kws": "irregular verbs 12 100; irregular verbs list 2 900; noto‘g‘ri fe’llar jadvali 2 400; неправильные глаголы 1 900; noto‘g‘ri fe’llar 1 000",
+   "does": "Таблица V1–V2–V3 на 150–200 глаголов с переводом UZ/RU, поиск, режим «скрыть колонку», тест на 10 глаголов, печать вместо PDF.",
+   "effort": "S",
+   "when": "до 15.11",
+   "rank": 12
+  },
+  {
+   "n": 5,
+   "cid": "tabrik_uz",
+   "url": "/uz/tabriklar/, /uz/tabriklar/yangi-yil/, /uz/tabriklar/tugilgan-kun/ (+ кириллическая версия)",
+   "ptype": "коллекция + генератор в чате",
+   "kws": "туғилган кун табриги 9 900; tugilgan kun tabrigi 6 600; tugilgan kunga tabrik 4 400; yangi yil tabrigi 1 600; янги йил табриклари 1 300",
+   "does": "Свои поздравления по адресатам + генератор (кому, возраст, тон, длина; латиница или кириллица через конвертер). Гайд /uz/blog/tabrik-yozish/ остаётся владельцем своих 11 ключей.",
+   "effort": "M",
+   "when": "до 20.11 (пик дек ×1,96)",
+   "rank": 8
+  },
+  {
+   "n": 6,
+   "cid": "pozdravleniya",
+   "url": "/ru/pozdravleniya-s-novym-godom/, /ru/pozdravleniya-s-dnem-rozhdeniya/, /ru/pozdravlenie-na-uzbekskom/",
+   "ptype": "генератор + свои тексты (движок общий с №5)",
+   "kws": "поздравления с днем рождения 18 100; поздравление с днем рождения мужчине 4 400; с днем рождения подруге 4 400; …своими словами 3 600; поздравление с новым годом 1 900",
+   "does": "Генератор поздравления (имя, кому, повод, тон; вариант на узбекском с переводом) + 30 своих текстов. Открытки не обещать — картинок нет.",
+   "effort": "M",
+   "when": "до 20.11 (пик дек ×1,43)",
+   "rank": 10
+  },
+  {
+   "n": 7,
+   "cid": "sherlar",
+   "url": "/uz/sherlar/, /uz/sherlar/qish-haqida/, /uz/sherlar/yangi-yil/, /uz/sherlar/ona-haqida/, /uz/sherlar/bolalar-uchun/",
+   "ptype": "коллекция + пресет «She’r yozib ber»",
+   "kws": "ona haqida sherlar 5 400; yangi yil sherlari 3 600; bolalar uchun sherlar 3 600; qish haqida sher 2 900; yangi yilga sher 1 900 (хаб под «sherlar» 9 900 и «vatan haqida sher» 18 100 — во второй волне)",
+   "does": "10–20 стихов на страницу: общественное достояние и стихи, написанные для сайта (с подписью, проверка носителем); фильтр «4 qator», копирование, печать; генератор по теме и имени.",
+   "effort": "M",
+   "when": "до 25.11 (пик дек ×1,42)",
+   "rank": 2
+  },
+  {
+   "n": 8,
+   "cid": "logic",
+   "url": "/uz/mantiqiy-savollar/, /uz/topishmoqlar/, /uz/zakovat-savollari/",
+   "ptype": "коллекция + движок квиза",
+   "kws": "mantiqiy savollar 18 100; zakovat savollari 12 100; topishmoqlar 9 900; topishmoqlar javobi bilan 5 400; загадки 4 400",
+   "does": "300+ своих вопросов и загадок с ответом под спойлером и разбором, режим квиза со счётом. Вопросы Zakovat — свои, в формате передачи, не копии эфира. Движок квиза потом переиспользует №10.",
+   "effort": "M",
+   "when": "до 25.11 (ноя–дек ×1,4)",
+   "rank": 11
+  },
+  {
+   "n": 9,
+   "cid": "english_tenses",
+   "url": "/uz/ingliz-tili-zamonlari/, /present-simple/, /past-simple/, /present-continuous/ (+ /ru/vremena-angliyskogo-yazyka/…)",
+   "ptype": "объяснение + генератор упражнений",
+   "kws": "present simple 12 100; past simple 8 100; present continuous 6 600 (остальные 9 времён — во второй волне)",
+   "does": "Формула +/−/?, маркеры времени, 10 примеров EN–UZ–RU, генератор 10 заданий с проверкой, кнопка «Chatda tushuntirish» (объяснить мою ошибку).",
+   "effort": "M",
+   "when": "до 30.11",
+   "rank": 4
+  },
+  {
+   "n": 10,
+   "cid": "practice_tests",
+   "url": "/uz/testlar/, /uz/testlar/informatika/, /uz/testlar/fizika/, /uz/testlar/matematika/",
+   "ptype": "пилот: движок квиза + свой банк",
+   "kws": "informatika test 49 500 (пол 1 750); fizika test 40 500 (пол 520); matematika test 27 100 (пол 2 900)",
+   "does": "40–60 своих вопросов на предмет, мгновенная проверка, разбор каждого ответа, фильтр по классу, кнопка в пресет study-test. Цель пилота — через 4–6 недель сверить показы GSC с Ads: реален ли скачок ×10–100.",
+   "effort": "M (пилот из L)",
+   "when": "до 30.11; решение о полном банке — около 10.01",
+   "rank": 7
+  }
+ ],
+ "owner_option_valyuta": {
+  "cid": "valyuta",
+  "url": "/uz/valyuta-kursi/ (+ /dollar/, /rubl/, /yevro/, /tenge/, /yuan/), /uz/valyuta-konvertor/usd-uzs/ …, /ru/kurs-valyut/, /ru/kurs-dollara/",
+  "kws": "dollar kursi 823 000; курс доллара 550 000; kurs dollar 301 000; usd uzs 201 000; курс доллара к суму 165 000; доллар сум 90 500; 100 долларов в сумах 74 000",
+  "does": "Курс ЦБ РУз на сегодня по официальному JSON cbu.uz (cron раз в день → KV → пререндер), изменение за день, график 30 дней, конвертер пар; дата и ссылка на cbu.uz на каждой странице, без прогнозов и «где купить».",
+  "effort": "M"
+ },
+ "wave2": [
+  "translator_en_ru",
+  "formulas",
+  "alphabets",
+  "maqollar",
+  "qr",
+  "mendeleev",
+  "english_level_test",
+  "topic_vocab",
+  "ielts_calc",
+  "uzbek_for_ru"
+ ],
+ "wave3": [
+  "pdf",
+  "english_grammar",
+  "ertaklar",
+  "docs_hub",
+  "multilevel",
+  "primary_math",
+  "second_langs",
+  "mumtoz",
+  "dtm",
+  "faxriy"
+ ],
+ "dropped": [
+  {
+   "what": "Шаблоны договоров (mehnat, ijara, oldi-sotdi, pudrat)",
+   "demand": "10 100",
+   "lens": "docs-career №12",
+   "why": "Юридический YMYL: готовый договор без юриста может навредить; в выдаче lex.uz, gov.uz, soliq.uz. Максимум — нейтральная статья со ссылками на официальные источники."
+  },
+  {
+   "what": "Kredit / ipoteka / omonat kalkulyator",
+   "demand": "26 570",
+   "lens": "calculators-utility №8",
+   "why": "Финансовый YMYL рядом со ставками банков, сильная выдача (банки, bank.uz, depozit.uz), в чат не ведёт; 8–15 визитов/день на поз. 6. Отложено."
+  },
+  {
+   "what": "IMT / BMI kalkulyator",
+   "demand": "20 415",
+   "lens": "calculators-utility №9",
+   "why": "Медицинский YMYL, вне бренда, 6–11 визитов/день. Калькуляторы беременности и овуляции исключены линзой."
+  },
+  {
+   "what": "Русский язык: разбор слова, падежи, морфология",
+   "demand": "22 970",
+   "lens": "ru-audience-ai",
+   "why": "Модель ошибается в морфологическом и фонетическом разборе — школьник сдаст неверное; выдача сильная. Только с детерминированными правилами и проверкой человеком."
+  },
+  {
+   "what": "Avtotest / YHQ (ПДД)",
+   "demand": "24 280",
+   "lens": "education-practice (вне линзы)",
+   "why": "Нужен свой банк вопросов с картинками ситуаций (L); копия официального банка — запрещённый «copied archive». Отложено."
+  },
+  {
+   "what": "Ответы: dtm test javoblari 18 100, test javoblari 8 100, bsb 27 100 (ответы суммативных работ BSB/ChSB)",
+   "demand": "53 300",
+   "lens": "education-practice",
+   "why": "Утечки ключей и списывание. Свои тесты с разбором разрешены и стоят в ТОП-20 (№8)."
+  },
+  {
+   "what": "ГДЗ, Photomath, gdz uz",
+   "demand": "8 450",
+   "lens": "demand-sizing, education-practice",
+   "why": "Архивы готовых ответов и чужой бренд."
+  },
+  {
+   "what": "Навигация к сайтам и брендам: uzbmb 135 000; dtm, abituriyent, ielts — по 27 100; milliy sertifikat 18 100; imlo lug‘ati 18 100; quillbot и wheel of names — по 14 800; excel 12 100; imlo.uz 9 900; grammarly 5 400; prezident maktabi 4 400; lotin.uz 1 300",
+   "demand": "≈315 000",
+   "lens": "все линзы",
+   "why": "Человек ищет конкретный сайт или бренд, честно такой запрос не выиграть. Навигация к Google и Яндекс-переводчику (6,37 млн) исключена ещё в demand-sizing."
+  },
+  {
+   "what": "Стихи авторов под охраной (Zulfiya, Abdulla Oripov, Erkin Vohidov …)",
+   "demand": "≈25 000",
+   "lens": "text-tools",
+   "why": "Копировать нельзя, а без их текстов запрос не обслужить."
+  },
+  {
+   "what": "Открытки, «доброе утро», тексты песен, ребусы и кроссворды с картинками",
+   "demand": "≈18 000",
+   "lens": "text-tools, ru-audience",
+   "why": "Нужны изображения (генерации нет) или охраняемые тексты."
+  },
+  {
+   "what": "Антиплагиат, уникализатор текста",
+   "demand": "≈6 000",
+   "lens": "text-tools, ru-audience",
+   "why": "Без поискового индекса честно не проверить; «уникализатор» — обход проверки."
+  },
+  {
+   "what": "PDF→Word, Word→PDF как полноценная конверсия",
+   "demand": "110 000 + 49 500",
+   "lens": "calculators-utility",
+   "why": "Без сервера макет не сохраняется — обещание было бы ложным. Честные PDF-инструменты на клиенте остались (№14)."
+  },
+  {
+   "what": "Namoz vaqtlari, hijriy taqvim, taqvim 2026",
+   "demand": "27 100+",
+   "lens": "calculators-utility",
+   "why": "Религиозный график — вне правил. Календарь 2027 показывает Hayit только как официальный выходной."
+  },
+  {
+   "what": "Burjlar и гороскопы",
+   "demand": "14 800",
+   "lens": "calculators-utility",
+   "why": "Гадание и прогнозы. Muchal-таблица без прогнозов (16 270) честна, но ниже порога."
+  },
+  {
+   "what": "Прогноз курса, «где выгоднее купить доллар»",
+   "demand": "—",
+   "lens": "calculators-utility",
+   "why": "Финансовый совет; у банков нет открытого официального источника курсов."
+  },
+  {
+   "what": "IELTS/Multilevel Listening",
+   "demand": "≈1 600",
+   "lens": "language-learning",
+   "why": "Нужно аудио, которого у продукта нет."
+  },
+  {
+   "what": "Подозрительные корзины: ona tili testlar 110 000, kimyo masalalar 90 500, amaliyot kundaligi to‘ldirish 110 000",
+   "demand": "310 500",
+   "lens": "education-practice, docs-career",
+   "why": "Форма ряда неправдоподобна; в суммы не входят. Проверка — пилотом (№10 и amaliyot)."
+  },
+  {
+   "what": "Анекдоты, цитаты, статусы (RU)",
+   "demand": "≈17 000",
+   "lens": "text-tools",
+   "why": "Копипаст-жанр, сильные российские сайты, с продуктом не связано."
+  }
+ ],
+ "merged_duplicates": [
+  {
+   "lens_cluster": "education-practice №6 «Английская грамматика» (40 730)",
+   "merged_into": "разнесён по кластерам language-learning: времена (№4), неправильные глаголы (№12), грамматика (№16), тест уровня (№32)"
+  },
+  {
+   "lens_cluster": "education-practice №11 «IELTS/CEFR writing» (6 760)",
+   "merged_into": "слит с IELTS writing/speaking (№46) и Multilevel mock (№23)"
+  },
+  {
+   "lens_cluster": "ru-audience «Английский для русскоязычных» (22 860)",
+   "merged_into": "все ключи уже есть в кластерах language-learning (времена, алфавиты, глаголы, IELTS); RU-страницы — зеркала этих кластеров"
+  },
+  {
+   "lens_cluster": "ru-audience «Поздравления на русском» (55 250)",
+   "merged_into": "объединён с поздравлениями text-tools (№10): общий спрос 56 150 без голых «поздравление», «пожелания», «тосты»"
+  },
+  {
+   "lens_cluster": "ru-audience «Сказки и загадки» (15 890)",
+   "merged_into": "сказки → ertaklar (№19), загадки → mantiqiy savollar (№11, уже в добавке text-tools), скороговорки → maqollar (№15)"
+  },
+  {
+   "lens_cluster": "ru-audience «Документы на русском» (9 700) и «Резюме на русском» (9 360)",
+   "merged_into": "покрыты документными кластерами (№24, №49) и конструктором CV (№43); голые «характеристика», «заявление», «резюме» — неоднозначные головы, в расчёт не входят"
+  },
+  {
+   "lens_cluster": "ru-audience «Конвертер и транслит» (4 060), «Учим узбекский» (3 810), «Текстовые ИИ-инструменты» (9 130)",
+   "merged_into": "в конвертере (№20), узбекском для русскоязычных (№29) и синонимах (№51); «транслит» оставлен только в верхней оценке"
+  },
+  {
+   "lens_cluster": "«ingliz tili test» 14 800 (был и в тестах по предметам, и в тесте уровня)",
+   "merged_into": "оставлен только в тесте уровня английского (№32)"
+  },
+  {
+   "lens_cluster": "foiz hisoblash 720, foiz kalkulyator 260 (формулы и QQS)",
+   "merged_into": "оставлены только в формулах (№9)"
+  }
+ ],
+ "quick_wins_no_new_pages": [
+  "Объявить в intent-manifest ключи, которые живые гайды уже обслуживают, но не владеют ими: ariza 4 400, tushuntirish xati namuna 2 400, rezyume namunasi 1 600, rezyume yozish namunasi 1 600, o‘quvchiga tavsifnoma 590 (docs-career). В суммы не входят.",
+  "Кириллические блоки образцов прямо в HTML трёх гайдов: «тушунтириш хати» 2 900 (пол 655), «тавсифнома намуна» 720.",
+  "Блок «презентация на тему …» на /ru/prezentatsiya-ai/ (ru-audience: 2 460 в месяц)."
+ ],
+ "verification": {
+  "date": "2026-10-25",
+  "paid_calls": 0,
+  "source": "merge-data/verify.py (merge.py + corrections) -> merge-data/merged_verified.json; merged.json = before verification",
+  "checked_ok": [
+   "volumes of all buckets of the top-10 match the raw Google Ads rows (cu/tt/ep/ll/ru *_metrics*.json, growth-audit l3-data); only 'kalkulyator' 40 500 has no monthly series (from ad-client-funnel prices-tools kw1)",
+   "no two counted buckets anywhere in the 51 clusters share an identical volume + 12-month series (no shared Google Ads bucket counted twice); exact-keyword overlaps across clusters: 2 x 110",
+   "SERP claims of the top-10 match the snapshot files (serp_top.json, ep_serp_top.json, tt_serp_top.json, serp_4.json, growth-audit serp2_table.txt)",
+   "visits formula, AIO discounts, sums, site potential and timeline reproduce exactly from merge.py"
+  ],
+  "corrections": [
+   "translator_en_ru: demand 330 200 -> 264 160 (x0.8 run-rate; heads fall monotonically Oct-25 -> Sep-26, -45 % on 'перевод с английского на русский'); season factor 1.24 -> 1.0; rank 2 -> 5",
+   "logic: demand 59 475 -> 35 685 (x0.6; Sep-26 index 0.61 vs 1.1-2.3 in other school clusters); rank 7 -> 11, leaves the top-10",
+   "obyektivka #47: -5 020/month already counted in the base (docs_rezyume_obyektivka); cv_builder #43: -10",
+   "uzbek_for_ru #29: -220/month counted twice with pozdravleniya and converter",
+   "top-10 now: valyuta, sherlar, kalkulyator, english_tenses, translator_en_ru, kalendar, practice_tests, tabrik_uz, formulas, pozdravleniya"
+  ],
+  "totals_before": {
+   "sums": {
+    "top20_without_valyuta": {
+     "n": 19,
+     "demand_plan": 1479470,
+     "v6_plan": [
+      453.4,
+      817.4
+     ],
+     "v3_plan": 1599.3,
+     "v3_no_aio": 2657.8,
+     "v3_realistic": 1385.8,
+     "v6_floor": [
+      437.5,
+      789.0
+     ],
+     "v3_floor": 1540.3,
+     "v6_ads": [
+      497.5,
+      896.9
+     ],
+     "v3_ads": 1766.7,
+     "expected_full": [
+      261.0,
+      470.6
+     ]
+    },
+    "valyuta": {
+     "demand_plan": 3597650,
+     "v6_plan": [
+      587.7,
+      1059.4
+     ],
+     "v3_plan": 3444.9,
+     "realistic_pos10_20": [
+      145,
+      290
+     ],
+     "expected_full": [
+      176.3,
+      317.8
+     ]
+    },
+    "rest": {
+     "n": 31,
+     "demand_plan": 550814,
+     "v6_plan": [
+      163.4,
+      294.3
+     ],
+     "v3_plan": 630.0,
+     "v3_realistic": 604.6,
+     "expected_full": [
+      103.1,
+      186.0
+     ]
+    }
+   },
+   "site": {
+    "today": 92,
+    "base_pos6": [
+     251,
+     386
+    ],
+    "base_pos3": 656,
+    "pos6_with_top20": [
+     704,
+     1203
+    ],
+    "pos3_with_top20": 2255,
+    "pos6_with_all": [
+     868,
+     1498
+    ],
+    "pos3_with_all": 2885,
+    "pos3_realistic_with_top20": 2042,
+    "pos3_realistic_with_all": 2646
+   },
+   "timeline": {
+    "M1": {
+     "base": [
+      93,
+      93,
+      93
+     ],
+     "top20": [
+      3,
+      6,
+      11
+     ],
+     "valyuta": [
+      4,
+      7,
+      13
+     ],
+     "site_conservative": 96,
+     "site_working": [
+      99,
+      104
+     ],
+     "site_working_with_valyuta": [
+      106,
+      117
+     ]
+    },
+    "M3": {
+     "base": [
+      94,
+      96,
+      116
+     ],
+     "top20": [
+      10,
+      57,
+      102
+     ],
+     "valyuta": [
+      9,
+      41,
+      74
+     ],
+     "site_conservative": 104,
+     "site_working": [
+      153,
+      218
+     ],
+     "site_working_with_valyuta": [
+      194,
+      292
+     ]
+    },
+    "M6": {
+     "base": [
+      100,
+      161,
+      254
+     ],
+     "top20": [
+      27,
+      201,
+      363
+     ],
+     "valyuta": [
+      22,
+      124,
+      224
+     ],
+     "site_conservative": 127,
+     "site_working": [
+      362,
+      617
+     ],
+     "site_working_with_valyuta": [
+      486,
+      841
+     ]
+    },
+    "M12": {
+     "base": [
+      113,
+      265,
+      422
+     ],
+     "top20": [
+      72,
+      261,
+      471
+     ],
+     "valyuta": [
+      55,
+      176,
+      318
+     ],
+     "site_conservative": 185,
+     "site_working": [
+      526,
+      893
+     ],
+     "site_working_with_valyuta": [
+      702,
+      1211
+     ]
+    }
+   }
+  },
+  "risks_not_applied": [
+   "kalkulyator: Google calculator widget not seen in the DataForSEO snapshot of 'калькулятор'; if it shows in a live UZ browser apply x0.533 at pos 6 (63-113 -> 34-60). Latin SERP ('kalkulyator') never pulled, so 'no Uzbek page' is unverified for Latin. 'kalkulyatr' 40 500 is an implausible misspelling volume (kept at x0.5 by the lens)",
+   "translator_en_ru: if Google shows its translate box (as tested for RU-UZ in demand-sizing sensitivity) apply x0.533 at pos 6 (81-146 -> 43-78)",
+   "watch list for decline (not applied): english_tenses Sep/Oct 0.62, tabrik_uz birthday heads -28 %, pozdravleniya birthday heads -30 %",
+   "practice_tests: x10-100 jump since Dec-2025 of unknown origin; part of it may be pupils seeking answers during BSB/ChSB — a practice page gets impressions but low CTR; keep the GSC pilot gate",
+   "base top-3 (656) keeps translator RU-UZ at top-3 (5 760 clicks/month); capped like the new strong-SERP clusters the realistic site top-3 would be ~143 lower"
+  ]
+ }
+}

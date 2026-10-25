@@ -1,0 +1,402 @@
+40500 | kalkulyator | cpc=0.05 comp=0.1
+9900 | ads manager | cpc=0.24 comp=0.32
+8100 | nakrutka | cpc=None comp=0
+6600 | telegram ads | cpc=2.7 comp=0.18
+5400 | bloger | cpc=None comp=0
+4400 | google ads | cpc=2.08 comp=0.06
+4400 | logo yasash | cpc=0.07 comp=0.14
+3600 | meta business suite | cpc=0.09 comp=0.25
+1300 | top smm | cpc=0.71 comp=0.02
+1300 | facebook ads manager | cpc=0.51 comp=0.32
+1000 | visa karta | cpc=0.49 comp=0.06
+880 | мобилограф | cpc=0.26 comp=0.02
+880 | meta ads manager | cpc=0.24 comp=0.3
+720 | blogerlar | cpc=None comp=0
+720 | logo yaratish | cpc=0.08 comp=0.06
+720 | logotip yaratish | cpc=0.08 comp=0.06
+720 | rolik narxi | cpc=0.02 comp=0.69
+720 | shiorlar | cpc=None comp=0
+720 | meta ads | cpc=2.19 comp=0.28
+590 | mobilograf | cpc=0.32 comp=0.06
+590 | roi | cpc=None comp=0.01
+480 | hashtag | cpc=None comp=0
+390 | yandex direct | cpc=5.26 comp=0.05
+390 | таргет | cpc=0.66 comp=0.07
+390 | создать логотип | cpc=0.18 comp=0.25
+320 | logo generator | cpc=0.29 comp=0.49
+320 | instagram hashtag | cpc=2.16 comp=0.01
+320 | romi | cpc=None comp=0
+320 | логотип онлайн | cpc=0.16 comp=0.14
+320 | business manager | cpc=0.24 comp=0.24
+260 | блогеры узбекистана | cpc=None comp=0
+260 | instagram obunachi ko'paytirish | cpc=0.16 comp=0.03
+260 | smm panel | cpc=1.33 comp=0.3
+260 | global smm | cpc=1.91 comp=0.06
+260 | reklama agentligi | cpc=0.78 comp=0.14
+260 | target yoqish | cpc=1.55 comp=0.32
+210 | reklama matni yozish | cpc=0.77 comp=0.02
+210 | cpa | cpc=0.13 comp=0.06
+210 | ltv | cpc=None comp=0
+170 | targetolog | cpc=2.47 comp=0.12
+170 | kopirayting | cpc=None comp=0.03
+170 | slogan | cpc=None comp=0
+140 | таргетолог | cpc=0.24 comp=0.12
+140 | konversiya nima | cpc=None comp=0
+140 | instagram bio | cpc=None comp=0
+140 | xeshteg | cpc=None comp=0
+140 | instagram target yoqish | cpc=3.26 comp=0.37
+110 | heshteg | cpc=None comp=0
+110 | cpl | cpc=None comp=0
+90 | smm menejer | cpc=0.13 comp=0.05
+90 | firma nomlari | cpc=None comp=0
+90 | drr | cpc=None comp=0
+90 | obunachi ko'paytirish | cpc=None comp=0
+70 | telegram reklama | cpc=2.38 comp=0.11
+70 | yandex reklama | cpc=1 comp=0.36
+70 | блогеры ташкента | cpc=None comp=0
+70 | создание логотипа | cpc=0.32 comp=0.41
+70 | мобилограф ташкент | cpc=1.01 comp=0.25
+70 | reklama matni | cpc=None comp=0
+70 | reklama yozish | cpc=None comp=0.03
+70 | reklama matnlari | cpc=None comp=0
+70 | дрр | cpc=None comp=0
+70 | utm метки | cpc=None comp=0.01
+70 | utm метка | cpc=None comp=0.01
+70 | контент-план | cpc=None comp=0.01
+70 | хештеги для инстаграм | cpc=None comp=0.01
+70 | хэштеги для инстаграм | cpc=None comp=0.01
+70 | слоган | cpc=None comp=0
+70 | слоганы | cpc=None comp=0
+70 | virtual karta | cpc=0.58 comp=0.66
+50 | таргет нима | cpc=1.12 comp=0.01
+50 | kopirayter | cpc=None comp=0.05
+50 | heshteglar | cpc=None comp=0
+50 | био для инстаграм | cpc=None comp=0
+50 | business name generator | cpc=0.31 comp=0.52
+50 | instagram obunachi | cpc=None comp=0
+50 | instagram target | cpc=4.2 comp=0.33
+40 | targetolog kerak | cpc=0.06 comp=0.27
+40 | sayt yaratish narxi | cpc=1.03 comp=0.13
+40 | таргетолог ташкент | cpc=1.33 comp=0.65
+40 | roi nima | cpc=None comp=0
+40 | utm builder | cpc=None comp=0.07
+40 | название компании | cpc=None comp=0.05
+40 | генератор логотипов | cpc=0.17 comp=0.6
+40 | utm builder | cpc=None comp=0.07
+30 | google reklama | cpc=3.55 comp=0.66
+30 | utm generator | cpc=None comp=0.03
+30 | marketing agentligi | cpc=0.88 comp=0.68
+20 | target yoqish narxi | cpc=None comp=0.04
+20 | target kurslari | cpc=0.14 comp=0.04
+20 | video reklama | cpc=1.47 comp=0.26
+20 | reklama video | cpc=1.47 comp=0.26
+20 | смм нима | cpc=None comp=0.05
+20 | lid nima | cpc=None comp=0
+20 | utm metka | cpc=None comp=0
+20 | kontent plan | cpc=1.46 comp=0.16
+20 | hashtag generator | cpc=1.85 comp=0.03
+20 | brend nomi | cpc=None comp=0
+20 | do'kon uchun nomlar | cpc=None comp=0
+20 | magazin nomlari | cpc=None comp=0
+20 | медиаплан | cpc=None comp=0.02
+20 | контент план шаблон | cpc=None comp=0.08
+20 | hashtag generator | cpc=1.85 comp=0.03
+20 | caption generator | cpc=0.84 comp=0.28
+20 | content plan | cpc=5.01 comp=0.24
+20 | instagramda obunachi yig'ish | cpc=None comp=0.05
+20 | reklama qilish | cpc=1.42 comp=0.19
+20 | facebook target yoqish | cpc=1.2 comp=0.23
+10 | instagram reklama | cpc=1.16 comp=0.57
+10 | instagramda reklama berish | cpc=None comp=None
+10 | target reklama | cpc=1.56 comp=0.29
+10 | smm mutaxassis | cpc=None comp=0.14
+10 | telegramda reklama berish | cpc=2.18 comp=0.36
+10 | google reklama berish | cpc=None comp=0
+10 | reklama rolik | cpc=None comp=0
+10 | reklama berish | cpc=1.09 comp=0.57
+10 | стоимость таргета | cpc=None comp=None
+10 | таргет цена | cpc=None comp=0.26
+10 | таргетолог цена | cpc=None comp=None
+10 | сколько стоит таргет | cpc=None comp=0
+10 | стоимость таргетированной рекламы | cpc=None comp=None
+10 | таргетированная реклама цена | cpc=None comp=0
+10 | smm цена | cpc=None comp=None
+10 | смм цена | cpc=None comp=None
+10 | ведение инстаграм цена | cpc=None comp=None
+10 | ведение инстаграм | cpc=None comp=0.24
+10 | сколько стоит реклама в телеграм канале | cpc=None comp=None
+10 | реклама в телеграм канале | cpc=4.19 comp=0.55
+10 | реклама в телеграм каналах | cpc=4.19 comp=0.55
+10 | реклама у блогера цена | cpc=None comp=0
+10 | сколько стоит реклама у блогера | cpc=None comp=None
+10 | реклама у блогеров | cpc=None comp=0.14
+10 | реклама у блогера | cpc=None comp=0.14
+10 | стоимость рекламы у блогера | cpc=None comp=0
+10 | реклама в гугл цена | cpc=3.15 comp=0.64
+10 | google ads стоимость | cpc=None comp=None
+10 | стоимость контекстной рекламы | cpc=None comp=None
+10 | сколько стоит контекстная реклама | cpc=None comp=None
+10 | сколько стоит сайт | cpc=None comp=0.04
+10 | сайт цена | cpc=None comp=None
+10 | стоимость сайта | cpc=1.41 comp=0.36
+10 | стоимость логотипа | cpc=None comp=None
+10 | логотип цена | cpc=None comp=None
+10 | сколько стоит логотип | cpc=None comp=None
+10 | логотип ташкент | cpc=None comp=0
+10 | разработка логотипа | cpc=None comp=0.26
+10 | рекламный ролик | cpc=None comp=0.23
+10 | съемка рекламы | cpc=None comp=0.05
+10 | съемка рекламного ролика | cpc=None comp=None
+10 | мобилограф цена | cpc=0.02 comp=0.29
+10 | съемка reels | cpc=None comp=None
+10 | lead nima | cpc=None comp=0
+10 | post generator | cpc=None comp=None
+10 | kontent plan tuzish | cpc=None comp=0.04
+10 | bio uchun so'zlar | cpc=None comp=0
+10 | instagram bio generator | cpc=None comp=0
+10 | slogan generator | cpc=None comp=0
+10 | reklama shiorlari | cpc=None comp=0
+10 | nom generator | cpc=None comp=None
+10 | nom tanlash | cpc=None comp=0
+10 | калькулятор рекламы | cpc=None comp=0
+10 | калькулятор romi | cpc=None comp=None
+10 | калькулятор roi | cpc=None comp=0
+10 | расчет romi | cpc=None comp=None
+10 | как рассчитать romi | cpc=None comp=0
+10 | как посчитать cpl | cpc=None comp=None
+10 | юнит экономика калькулятор | cpc=None comp=0
+10 | калькулятор юнит экономики | cpc=None comp=0
+10 | калькулятор конверсии | cpc=None comp=0
+10 | utm генератор | cpc=None comp=0
+10 | генератор utm меток | cpc=None comp=0.01
+10 | генератор utm | cpc=None comp=0
+10 | рекламный текст | cpc=None comp=0
+10 | рекламный текст пример | cpc=None comp=0
+10 | как написать рекламный текст | cpc=None comp=0
+10 | генератор постов | cpc=None comp=None
+10 | нейросеть для постов | cpc=None comp=None
+10 | нейросеть для рекламы | cpc=None comp=None
+10 | нейросеть для текстов | cpc=None comp=None
+10 | генератор описаний | cpc=None comp=None
+10 | генератор описания товара | cpc=None comp=None
+10 | описание товара для маркетплейса | cpc=None comp=None
+10 | продающий текст | cpc=None comp=0
+10 | контент план на месяц | cpc=None comp=0
+10 | как составить контент план | cpc=None comp=0
+10 | контент план для телеграм канала | cpc=None comp=0
+10 | контент план для инстаграм | cpc=None comp=None
+10 | шапка профиля инстаграм | cpc=None comp=0
+10 | шапка инстаграм | cpc=None comp=None
+10 | описание профиля инстаграм | cpc=None comp=None
+10 | генератор хештегов | cpc=None comp=None
+10 | генератор хэштегов | cpc=None comp=None
+10 | генератор слоганов | cpc=None comp=0.06
+10 | слоган для компании | cpc=1.05 comp=0.14
+10 | придумать слоган | cpc=None comp=0
+10 | генератор названий | cpc=None comp=0.2
+10 | генератор названий для бизнеса | cpc=None comp=None
+10 | название для магазина | cpc=None comp=0
+10 | придумать название | cpc=None comp=0
+10 | название для бренда | cpc=None comp=0.11
+10 | нейросеть для логотипа | cpc=0.27 comp=0.86
+10 | bio generator | cpc=None comp=0
+10 | instagram bio generator | cpc=None comp=0
+10 | logo generator online | cpc=0.46 comp=0.71
+10 | slogan generator | cpc=None comp=0
+10 | roas calculator | cpc=None comp=0.25
+10 | roi calculator | cpc=1.85 comp=0.07
+10 | ad copy generator | cpc=None comp=None
+10 | telegram kanalni rivojlantirish | cpc=None comp=0
+10 | instagram rivojlantirish | cpc=None comp=0
+10 | smm agentligi | cpc=None comp=0.36
+10 | target qilish | cpc=None comp=0.5
+10 | marja hisoblash | cpc=None comp=0
+10 | наценка калькулятор | cpc=None comp=None
+10 | калькулятор наценки | cpc=None comp=None
+10 | маржа калькулятор | cpc=None comp=None
+10 | расчет маржи | cpc=None comp=0
+10 | себестоимость калькулятор | cpc=None comp=None
+None | target narxi | cpc=None comp=None
+None | target narxlari | cpc=None comp=None
+None | targetolog narxi | cpc=None comp=None
+None | target reklama narxi | cpc=None comp=None
+None | instagram target narxi | cpc=None comp=None
+None | instagram reklama narxi | cpc=None comp=None
+None | instagramda reklama narxi | cpc=None comp=None
+None | instagram reklama berish narxi | cpc=None comp=None
+None | facebook reklama narxi | cpc=None comp=None
+None | target xizmati | cpc=None comp=None
+None | smm narxi | cpc=None comp=None
+None | smm narxlari | cpc=None comp=None
+None | smm xizmati narxi | cpc=None comp=None
+None | smm xizmatlari narxi | cpc=None comp=None
+None | smm mutaxassis narxi | cpc=None comp=None
+None | smm menejer narxi | cpc=None comp=None
+None | instagram sahifa yuritish narxi | cpc=None comp=None
+None | instagram yuritish narxi | cpc=None comp=None
+None | sahifa yuritish narxi | cpc=None comp=None
+None | instagram sahifa yuritish | cpc=None comp=None
+None | reklama narxi | cpc=None comp=None
+None | reklama narxlari | cpc=None comp=None
+None | telegram reklama narxi | cpc=None comp=None
+None | telegram kanal reklama narxi | cpc=None comp=None
+None | telegram kanalda reklama narxi | cpc=None comp=None
+None | telegram kanalga reklama narxi | cpc=None comp=None
+None | telegramda reklama narxi | cpc=None comp=None
+None | telegram ads narxi | cpc=None comp=None
+None | telegram reklama berish narxi | cpc=None comp=None
+None | telegram kanalda reklama berish | cpc=None comp=None
+None | telegram kanalga reklama berish | cpc=None comp=None
+None | telegram kanal reklama | cpc=None comp=None
+None | bloger reklama narxi | cpc=None comp=None
+None | blogger reklama narxi | cpc=None comp=None
+None | blogerlar reklama narxi | cpc=None comp=None
+None | instagram bloger reklama narxi | cpc=None comp=None
+None | bloger reklama | cpc=None comp=None
+None | blogerda reklama | cpc=None comp=None
+None | blogerlar reklamasi | cpc=None comp=None
+None | google reklama narxi | cpc=None comp=None
+None | google ads narxi | cpc=None comp=None
+None | google ads uzbekistan | cpc=None comp=None
+None | googleda reklama berish | cpc=None comp=None
+None | kontekst reklama narxi | cpc=None comp=None
+None | kontekst reklama | cpc=None comp=None
+None | kontekstli reklama | cpc=None comp=None
+None | yandex reklama narxi | cpc=None comp=None
+None | yandex direct narxi | cpc=None comp=None
+None | sayt narxi | cpc=None comp=None
+None | sayt narxlari | cpc=None comp=None
+None | sayt qilish narxi | cpc=None comp=None
+None | sayt yasash narxi | cpc=None comp=None
+None | internet dokon narxi | cpc=None comp=None
+None | internet do'kon yaratish narxi | cpc=None comp=None
+None | landing narxi | cpc=None comp=None
+None | landing page narxi | cpc=None comp=None
+None | logo narxi | cpc=None comp=None
+None | logo yaratish narxi | cpc=None comp=None
+None | logotip narxi | cpc=None comp=None
+None | logo qilish | cpc=None comp=None
+None | logo yaratish online | cpc=None comp=None
+None | bepul logo yaratish | cpc=None comp=None
+None | video reklama narxi | cpc=None comp=None
+None | reklama rolik narxi | cpc=None comp=None
+None | video montaj narxi | cpc=None comp=None
+None | mobilograf narxi | cpc=None comp=None
+None | reels narxi | cpc=None comp=None
+None | reels montaj | cpc=None comp=None
+None | reklama berish narxi | cpc=None comp=None
+None | reklama joylash | cpc=None comp=None
+None | radio reklama narxi | cpc=None comp=None
+None | tv reklama narxi | cpc=None comp=None
+None | televizorda reklama narxi | cpc=None comp=None
+None | seo narxi | cpc=None comp=None
+None | seo xizmati narxi | cpc=None comp=None
+None | dizayn narxi | cpc=None comp=None
+None | post dizayn narxi | cpc=None comp=None
+None | таргет нархи | cpc=None comp=None
+None | смм нархи | cpc=None comp=None
+None | реклама нархи | cpc=None comp=None
+None | реклама нархлари | cpc=None comp=None
+None | телеграм реклама нархи | cpc=None comp=None
+None | телеграм каналда реклама нархи | cpc=None comp=None
+None | сайт нархи | cpc=None comp=None
+None | сайт яратиш нархи | cpc=None comp=None
+None | логотип нархи | cpc=None comp=None
+None | блогер реклама нархи | cpc=None comp=None
+0 | сколько стоит smm | cpc=None comp=None
+None | реклама в телеграм канале цена | cpc=None comp=None
+None | реклама у блогеров ташкент | cpc=None comp=None
+None | сайт цена ташкент | cpc=None comp=None
+0 | видеореклама цена | cpc=None comp=None
+0 | стоимость рекламного ролика | cpc=None comp=None
+0 | рекламный ролик цена | cpc=None comp=None
+None | reklama byudjeti | cpc=None comp=None
+None | reklama byudjeti kalkulyatori | cpc=None comp=None
+None | reklama kalkulyator | cpc=None comp=None
+None | byudjet kalkulyator | cpc=None comp=None
+None | cpl kalkulyator | cpc=None comp=None
+None | cpa kalkulyator | cpc=None comp=None
+None | romi kalkulyator | cpc=None comp=None
+None | roi kalkulyator | cpc=None comp=None
+None | roi hisoblash | cpc=None comp=None
+None | romi hisoblash | cpc=None comp=None
+None | cpl nima | cpc=None comp=None
+None | cpa nima | cpc=None comp=None
+None | cpc nima | cpc=None comp=None
+None | cpm nima | cpc=None comp=None
+None | ctr nima | cpc=None comp=None
+None | romi nima | cpc=None comp=None
+None | utm nima | cpc=None comp=None
+None | utm belgisi | cpc=None comp=None
+None | post yozish | cpc=None comp=None
+None | post matni | cpc=None comp=None
+None | reklama matni namuna | cpc=None comp=None
+None | reklama matni generator | cpc=None comp=None
+None | sotuv matni | cpc=None comp=None
+None | caption yozish | cpc=None comp=None
+None | instagram post matni | cpc=None comp=None
+None | instagram uchun matn | cpc=None comp=None
+None | instagram post g'oyalari | cpc=None comp=None
+None | post g'oyalari | cpc=None comp=None
+None | kontent reja | cpc=None comp=None
+None | kontent reja namuna | cpc=None comp=None
+None | kontent plan namuna | cpc=None comp=None
+None | kontent reja shabloni | cpc=None comp=None
+None | kontent plan shablon | cpc=None comp=None
+None | instagram kontent plan | cpc=None comp=None
+None | kontent reja tuzish | cpc=None comp=None
+None | instagram bio uchun | cpc=None comp=None
+None | bio yozish | cpc=None comp=None
+None | instagram profil uchun yozuv | cpc=None comp=None
+None | instagram uchun status | cpc=None comp=None
+None | slogan yaratish | cpc=None comp=None
+None | biznes uchun shior | cpc=None comp=None
+None | biznes nomi | cpc=None comp=None
+None | kompaniya nomi | cpc=None comp=None
+None | do'kon nomi | cpc=None comp=None
+None | biznes nomlari | cpc=None comp=None
+None | banner yaratish | cpc=None comp=None
+None | post dizayn | cpc=None comp=None
+None | калькулятор рекламного бюджета | cpc=None comp=None
+None | медиаплан калькулятор | cpc=None comp=None
+0 | калькулятор cpl | cpc=None comp=None
+0 | калькулятор cpa | cpc=None comp=None
+0 | калькулятор маркетолога | cpc=None comp=None
+0 | ltv калькулятор | cpc=None comp=None
+None | cac | cpc=None comp=None
+0 | компоновщик utm | cpc=None comp=None
+0 | генератор рекламных текстов | cpc=None comp=None
+None | генератор текстов для рекламы | cpc=None comp=None
+0 | генератор постов для инстаграм | cpc=None comp=None
+0 | нейросеть для smm | cpc=None comp=None
+None | ии для smm | cpc=None comp=None
+0 | генератор продающих текстов | cpc=None comp=None
+0 | контент план для бизнеса | cpc=None comp=None
+0 | генератор контент плана | cpc=None comp=None
+None | генератор био для инстаграм | cpc=None comp=None
+None | telegram kanal obunachi ko'paytirish | cpc=None comp=None
+None | telegram kanal reklama qilish | cpc=None comp=None
+None | telegram obunachi | cpc=None comp=None
+None | biznesni reklama qilish | cpc=None comp=None
+None | dokon reklama | cpc=None comp=None
+None | reklama qanday qilinadi | cpc=None comp=None
+None | instagramda reklama qanday beriladi | cpc=None comp=None
+None | telegramda reklama qanday beriladi | cpc=None comp=None
+None | target qanday yoqiladi | cpc=None comp=None
+None | reklama kabinet | cpc=None comp=None
+None | facebook reklama kabineti | cpc=None comp=None
+None | biznes menejer | cpc=None comp=None
+None | instagram reklama to'lov | cpc=None comp=None
+None | facebook reklama to'lov | cpc=None comp=None
+None | uzcard bilan reklama | cpc=None comp=None
+None | humo bilan reklama | cpc=None comp=None
+None | reklama uchun karta | cpc=None comp=None
+None | reklama hisobi bloklandi | cpc=None comp=None
+None | facebook reklama bloklandi | cpc=None comp=None
+None | instagram reklama bloklandi | cpc=None comp=None
+None | marketing kalkulyator | cpc=None comp=None
+None | foyda hisoblash | cpc=None comp=None
+None | marja kalkulyator | cpc=None comp=None
+None | narx hisoblash | cpc=None comp=None
+None | ustama hisoblash | cpc=None comp=None
+None | tannarx hisoblash | cpc=None comp=None

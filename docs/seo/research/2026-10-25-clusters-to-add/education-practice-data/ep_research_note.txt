@@ -1,0 +1,6 @@
+research_keywords 2026-10-25, location 2860 (source google_ads, flat ~96 credits per seed), resultLimit 500, seeds: test, sinf, savollar
+test: 23 rows, all speed-test / generic noise (spedtest 135000, test 33100, fasttest 14800, спидтест 4400, fastcom test 1900, speedtest uztelecom 1900, my test 1000 ...). Nothing education-related.
+sinf: 2 rows (sinf 1900; "1c dasturini o rganish" 10).
+savollar: 1 row (savollar 1900).
+Conclusion: same as the 2026-10-24 L3 note - for location 2860 the idea expansion returns only rows containing the seed and is useless for discovery. All discovery in this lens was done with a hand-built candidate list (candidates1.py, 459 new keywords) hydrated by one get_keyword_metrics call (ep_kw1_metrics.json).
+Credits (account-wide, other lenses spend in parallel): whoami 22672 at start -> 22256 after metrics -> 22152 (drift 104 with no call of mine) -> 21784 after research+SERP. Own estimate: metrics <=416, research ~288, SERP ~20, total <=724 of the 900 cap. No further paid calls.

@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "date": "2026-10-25",
+    "tool": "OpenSEO get_serp_results, location 2860, language ru (hl=ru, gl=UZ), desktop, depth 20",
+    "resultId": "ed98d988-1e18-4e2c-bb61-013dc4269948",
+    "reused_free": "L3 serp2 2026-10-24: «tugilgan kun tabriklari», «imlo tekshirish» (docs/seo/research/2026-10-24-growth-audit/l3-data/serp2_table.txt)"
+  },
+  "serps": [
+    {
+      "keyword": "vatan haqida sher",
+      "features": {"ai_overview_rank": 3, "images_rank": 18, "related_searches_rank": 11},
+      "organic": [
+        [1, "sherlari.uz", "/vatan-haqida-sherlar/", "блог-подборка «4 qator»"],
+        [2, "ilmlar.uz", "/vatan-haqida-chiroyli-sherlar-toplami/", "блог-подборка"],
+        [3, "youtube.com", "/shorts/QouGnTeIoMU", "YouTube Shorts (myfarzand.uz)"],
+        [4, "sherlari.uz", "/vatan-haqida-sher-ona-yurtga-bagishlangan-yangi-misralar/", "блог"],
+        [5, "kh-davron.uz", "/ijod/sherlar/...", "личный сайт поэта Х. Даврона"],
+        [6, "abituriyentlar.uz", "/sherlar-toplami/vatan-haqida-sher/", "блог"],
+        [7, "bilimmarkazi.uz", "/sherlar-toplami/vatan-haqida-sher/", "блог"],
+        [8, "youtube.com", "/watch?v=5aqxWocP084", "видео"],
+        [9, "myfarzand.uz", "/sherlar-vatan.html", "блог для детей"],
+        [10, "tavsiyalar.uz", "/vatan-haqida-sara-sherlar-.../", "блог; копирует Oripov/M.Yusuf/I.Mirzo"],
+        [11, "talimmarkazi.uz", "", "блог"], [12, "yoshlar.ru", "", "тонкий"], [13, "darsuchun.uz", "", "блог"],
+        [14, "bilimmarkazi.uz", "", "блог"], [15, "n.ziyouz.com", "vatan haqida maqollar", "библиотека (мақоллар)"],
+        [16, "idum.uz", "", "блог"], [17, "tarbiyachi.uz", "", "тег-страница"]
+      ],
+      "verdict": "weak: топ-10 = тонкие блоги-подборки и YouTube; ни одного авторитетного литературного ресурса в топ-10; подборки копируют стихи живых/недавних авторов без прав"
+    },
+    {
+      "keyword": "поздравления с днем рождения",
+      "features": {"ai_overview_rank": 2, "images_rank": 5, "people_also_ask_rank": 6, "video_rank": 7},
+      "organic": [
+        [1, "techinsider.ru", "100 идей поздравлений (2024)", "медиа-листикл"],
+        [2, "ru.pinterest.com", "доска", "UGC"],
+        [3, "pozdravok.com", "стихотворения на день рождения", "профильный гигант"],
+        [4, "instagram.com", "/popular/...", "UGC"],
+        [5, "pozdravok.com", "главная", "профильный гигант"],
+        [6, "vtop-shop.com.ua", "категория блога магазина", "тонкий"],
+        [7, "ru.pinterest.com", "доска", "UGC"],
+        [8, "nur.kz", "подборка 2024", "медиа КЗ"],
+        [9, "youtube.com", "видео", "видео"],
+        [10, "pozdravok.com", "проза", "профильный"],
+        [11, "vc.ru", "топ-200 коротких", "UGC-блог"], [12, "tbank.ru", "/cf/...", "мусор"],
+        [13, "pozdravok.com", "проза", ""], [14, "pozdravok.com", "", ""]
+      ],
+      "verdict": "mixed: pozdravok.com держит 5 мест из 14, но рядом Pinterest, Instagram, блог магазина, tbank — сигналы слабой выдачи; узбекского ресурса нет"
+    },
+    {
+      "keyword": "ertaklar",
+      "features": {"video_rank": 2, "ai_overview_rank": 3, "images_rank": 19},
+      "organic": [
+        [1, "zakm.uz", "Oqshom_ertaklari_5.pdf", "PDF"],
+        [2, "youtube.com", "audio ertak", "видео/аудио"],
+        [3, "ertak.uz", "/tale/taleuz", "профильная библиотека сказок (+аудио)"],
+        [4, "n.ziyouz.com", "kutubxona/ertaklar", "крупная библиотека"],
+        [5, "play.google.com", "Ertaklar (O'zbekcha)", "приложение"],
+        [6, "ziyouz.uz", "ўзбек халқ эртаклари", "библиотека (кириллица)"],
+        [7, "ertak.uz", "audiolibery", "аудио"],
+        [8, "youtube.com", "канал Аудио эртаклар", "видео"],
+        [9, "audiobook.uz", "коллекция mp3", "аудио"],
+        [10, "bilimlar.uz", "ertaklar-toplami", "блог"],
+        [11, "ilmlar.uz", "/ertak/", "блог"], [12, "youtube.com", "", ""], [13, "qr.natlib.uz", "PDF", "PDF"]
+      ],
+      "verdict": "mixed: PDF/YouTube/приложение в топ-5 = слабость, но ertak.uz и ziyouz — устоявшиеся библиотеки; сильный аудио-интент (продукт аудио не делает)"
+    },
+    {
+      "keyword": "ismlar manosi",
+      "features": {"ai_overview_rank": 1, "video_rank": 2, "images_rank": 3},
+      "organic": [
+        [1, "youtube.com", "«Qanday ism qo'yish mumkin emas»", "видео (религиозный контекст)"],
+        [2, "oyina.uz", "статья 2023", "статья"],
+        [3, "jdpu.uz", "Ozbek-ismlari-manosi.pdf (Бегматов, 14 600 имён)", "PDF книги"],
+        [4, "uz.wikipedia.org", "Ismlar imlosi (книга)", "энциклопедия"],
+        [5, "play.google.com", "Ismlar ma'nosi", "приложение"],
+        [6, "play.google.com", "Ismlar Ma'nosi (islomiy)", "приложение"],
+        [7, "uzsmart.ru", "/ismlar/", "тонкая база"],
+        [8, "youtube.com", "", "видео"],
+        [9, "play.google.com", "", "приложение"], [10, "play.google.com", "Исмлар маъноси", "приложение"],
+        [11, "instagram.com", "", "UGC"], [12, "ism-manosi.uz", "", "профильная база"],
+        [13, "softonic.com", "APK", "мусор"], [14, "uzsmart.ru", "", ""], [15, "muslimaat.uz", "статья", "религиозный сайт"]
+      ],
+      "verdict": "weak: в топ-5 видео, статья, PDF, Википедия, приложение; веб-базы имён (uzsmart.ru, ism-manosi.uz) только на o7/o12; AIO на r1"
+    }
+  ]
+}

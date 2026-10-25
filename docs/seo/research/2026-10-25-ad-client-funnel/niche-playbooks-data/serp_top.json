@@ -1,0 +1,77 @@
+{
+ "tool": "get_serp_results",
+ "date": "2026-10-25",
+ "location": 2860,
+ "device": "desktop",
+ "depth": 10,
+ "queries": {
+  "o'quv markazi reklama": {
+   "features": [
+    "video (rank 1)",
+    "ai_overview (rank 2)"
+   ],
+   "organic_top": [
+    "goldenpages.uz rubric of learning centres (directory)",
+    "youtube.com: how to open a learning centre",
+    "yandex.uz/maps: one learning centre",
+    "youtube.com: blogger on learning-centre teaching system",
+    "infoedu.uz: subsidy for opening a learning centre (08.02.2026)",
+    "schoolup.uz: CRM/LMS for learning centres",
+    "scribd.com: a learning-centre presentation",
+    "yandex.uz/maps: learning centres in Samarkand"
+   ],
+   "verdict": "weak: no page answers how a learning centre should advertise; owner intent visible (opening, subsidy, CRM)"
+  },
+  "go'zallik saloni reklama": {
+   "features": [
+    "ai_overview (rank 1)",
+    "video (rank 3)"
+   ],
+   "organic_top": [
+    "instagram.com: a salon profile",
+    "instagram.com reel: outdoor-sign printer",
+    "facebook.com: a salon page",
+    "instagram.com reel: salon interior design",
+    "instagram.com reel: a salon",
+    "es.pinterest.com: board «Реклама салон красоты»",
+    "instagram.com reel: a salon",
+    "instagram.com reel: salon / bridal dresses"
+   ],
+   "verdict": "weak and mixed: consumer salon profiles plus ad-idea boards; no article"
+  },
+  "yatt ochish": {
+   "features": [
+    "ai_overview (rank 1)",
+    "video (rank 3)"
+   ],
+   "organic_top": [
+    "facebook.com/Soliqpressa video",
+    "soliq.uz: taxation of individual entrepreneurs",
+    "buxgalter.uz: 10 steps (2022)",
+    "kadrovik.uz: YaTT Q&A",
+    "facebook.com/Soliqpressa video",
+    "info.dt.uz",
+    "facebook.com/Soliqpressa video",
+    "yaran.uz: YaTT hiring staff (2022)"
+   ],
+   "verdict": "mixed: official tax site and accounting portals; dated step lists; no page that goes on to the first customers"
+  },
+  "бизнес идеи": {
+   "features": [
+    "ai_overview (rank 2)",
+    "people_also_ask",
+    "images"
+   ],
+   "organic_top": [
+    "moedelo.org (2021)",
+    "ru.wikipedia.org",
+    "alterainvest.ru",
+    "skillzrun.com",
+    "youtube.com",
+    "hf.ru: business in Uzbekistan for Russians",
+    "businessmens.ru"
+   ],
+   "verdict": "mixed: Russian-market listicles and Wikipedia; one Uzbekistan page (hf.ru) aimed at relocating Russians"
+  }
+ }
+}

@@ -1,0 +1,307 @@
+  9900 | ads manager | cpc=0.24 comp=0.32 | trend=8100->12100
+  9900 | adsmanager | cpc=0.24 comp=0.32 | trend=8100->12100
+  4400 | google ads | cpc=2.08 comp=0.06 | trend=3600->3600
+  3600 | meta business suite | cpc=0.09 comp=0.25 | trend=2900->4400
+  1600 | fragment telegram | cpc=2.18 comp=0 | trend=1300->2900
+  1300 | facebook ads manager | cpc=0.51 comp=0.32 | trend=1300->1600
+  1300 | ads manager facebook | cpc=0.51 comp=0.32 | trend=1300->1600
+  1000 | visa karta | cpc=0.49 comp=0.06 | trend=590->1600
+  1000 | facebook ads | cpc=0.41 comp=0.27 | trend=880->880
+   880 | business suite | cpc=0.11 comp=0.25 | trend=720->880
+   880 | visa karta ochish | cpc=0.54 comp=0.24 | trend=1000->880
+   880 | ads telegram org | cpc=4.79 comp=0.2 | trend=590->1300
+   880 | meta ads manager | cpc=0.24 comp=0.3 | trend=590->1600
+   720 | meta ads | cpc=2.19 comp=0.28 | trend=480->1300
+   720 | таргетинг в инстаграм | cpc=None comp=0 | trend=10->1300
+   590 | яндекс директ | cpc=3.59 comp=0.09 | trend=480->590
+   590 | reklama to'g'risidagi qonun | cpc=None comp=0 | trend=390->320
+   480 | toncoin | cpc=4.67 comp=0.01 | trend=720->260
+   390 | meta business | cpc=0.58 comp=0.2 | trend=390->320
+   390 | yandex direct | cpc=5.26 comp=0.05 | trend=480->320
+   390 | таргет | cpc=0.66 comp=0.07 | trend=720->260
+   390 | virtual karta ochish | cpc=0.83 comp=0.66 | trend=390->320
+   320 | target nima | cpc=2.8 comp=0.02 | trend=320->260
+   320 | business manager | cpc=0.24 comp=0.24 | trend=320->260
+   320 | business facebook com | cpc=1.44 comp=0.03 | trend=210->390
+   260 | target yoqish | cpc=1.55 comp=0.32 | trend=260->170
+   260 | ton coin | cpc=None comp=0 | trend=390->110
+   210 | ton narxi | cpc=0.65 comp=0 | trend=260->110
+   170 | targetolog | cpc=2.47 comp=0.12 | trend=210->170
+   140 | instagramda target yoqish | cpc=3.26 comp=0.37 | trend=170->140
+   140 | таргетолог | cpc=0.24 comp=0.12 | trend=170->140
+   140 | smm kurslari | cpc=1.09 comp=0.18 | trend=110->90
+   140 | smm kurs | cpc=1.09 comp=0.18 | trend=110->90
+   110 | гугл реклама | cpc=2.82 comp=0.37 | trend=90->90
+   110 | uzum visa | cpc=0.58 comp=0.05 | trend=170->70
+   110 | телеграм адс | cpc=6.03 comp=0.44 | trend=110->140
+    90 | humo visa | cpc=2.32 comp=0.04 | trend=110->50
+    90 | instagram profil | cpc=None comp=0 | trend=140->70
+    90 | instagram ads | cpc=1.77 comp=0.28 | trend=110->90
+    70 | virtual karta | cpc=0.58 comp=0.66 | trend=110->50
+    70 | telegram reklama | cpc=2.38 comp=0.11 | trend=40->140
+    70 | yandex reklama | cpc=1 comp=0.36 | trend=90->50
+    70 | реклама в телеграм | cpc=4.65 comp=0.51 | trend=70->50
+    70 | google реклама | cpc=4.13 comp=0.34 | trend=50->70
+    70 | tiktok ads | cpc=1.44 comp=0.41 | trend=70->50
+    50 | instagram target | cpc=4.2 comp=0.33 | trend=30->70
+    50 | uzcard visa | cpc=0.58 comp=0.04 | trend=50->70
+    50 | ton sotib olish | cpc=0.69 comp=0.03 | trend=50->20
+    50 | таргет нима | cpc=1.12 comp=0.01 | trend=50->70
+    50 | business manager facebook | cpc=0.21 comp=0.27 | trend=30->50
+    50 | facebook business manager | cpc=0.21 comp=0.27 | trend=30->50
+    50 | google ads вход | cpc=0.49 comp=0.01 | trend=20->90
+    50 | smm o'rganish | cpc=12.03 comp=0.07 | trend=90->30
+    50 | закон о рекламе узбекистан | cpc=None comp=0 | trend=50->50
+    50 | targeting nima | cpc=None comp=0.03 | trend=50->30
+    40 | виртуальная карта visa | cpc=0.75 comp=0.41 | trend=90->30
+    40 | бизнес менеджер | cpc=0.18 comp=0.26 | trend=30->30
+    40 | meta business suite вход | cpc=None comp=0.01 | trend=40->50
+    40 | telegram ads узбекистан | cpc=2.6 comp=0.62 | trend=90->30
+    40 | яндекс директ узбекистан | cpc=2.58 comp=0.48 | trend=20->50
+    40 | реклама в тик ток | cpc=None comp=0 | trend=10->50
+    40 | tiktok ads manager | cpc=0.15 comp=0.37 | trend=20->20
+    40 | реклама в тикток | cpc=None comp=0 | trend=10->50
+    40 | таргет в инстаграм | cpc=2.06 comp=0.47 | trend=70->30
+    40 | таргетированная реклама | cpc=2.43 comp=0.38 | trend=50->20
+    40 | youtube ads | cpc=1.86 comp=0.36 | trend=70->40
+    40 | таргетолог ташкент | cpc=1.33 comp=0.65 | trend=50->30
+    40 | instagram ads manager | cpc=1.63 comp=0.36 | trend=50->30
+    30 | facebook ochish | cpc=None comp=0 | trend=40->30
+    30 | google reklama | cpc=3.55 comp=0.66 | trend=40->10
+    30 | google ads account | cpc=1.03 comp=0.15 | trend=10->30
+    30 | реклама в инстаграм | cpc=2.41 comp=0.59 | trend=40->20
+    20 | reklama qilish | cpc=1.42 comp=0.19 | trend=20->20
+    20 | target kursi | cpc=1.91 comp=0.18 | trend=30->10
+    20 | virtual visa karta | cpc=0.53 comp=0.43 | trend=20->10
+    20 | visa virtual karta | cpc=0.66 comp=0.72 | trend=10->30
+    20 | humo visa karta | cpc=None comp=0.1 | trend=20->30
+    20 | meta pixel | cpc=0.99 comp=0.34 | trend=20->30
+    20 | visa карта узбекистан | cpc=0.65 comp=0.51 | trend=20->10
+    20 | meta business suite скачать | cpc=0.23 comp=0.16 | trend=40->10
+    20 | telegram ads platform | cpc=3.14 comp=0.49 | trend=10->10
+    20 | google ads login | cpc=1.18 comp=0.11 | trend=20->30
+    20 | таргет инстаграм | cpc=4.72 comp=0.53 | trend=20->20
+    20 | реклама в инстаграм цена | cpc=1.32 comp=0.07 | trend=10->40
+    20 | лид форма | cpc=None comp=0 | trend=10->20
+    20 | бизнес аккаунт инстаграм | cpc=None comp=0.22 | trend=10->10
+    20 | smm ташкент | cpc=3.09 comp=0.72 | trend=30->30
+    20 | target ads | cpc=2.83 comp=0.09 | trend=20->10
+    10 | instagramda reklama berish | cpc=None comp=None | trend=10->0
+    10 | instagramda reklama qilish | cpc=None comp=0.26 | trend=10->10
+    10 | instagram reklama qilish | cpc=None comp=0.26 | trend=10->10
+    10 | reklama berish | cpc=1.09 comp=0.57 | trend=10->10
+    10 | target qilish | cpc=None comp=0.5 | trend=20->10
+    10 | instagramda target qilish | cpc=None comp=0.14 | trend=10->10
+    10 | target reklama | cpc=1.56 comp=0.29 | trend=10->10
+    10 | target kurs | cpc=4.06 comp=0.24 | trend=10->30
+    10 | facebook reklama | cpc=6.8 comp=0.54 | trend=10->10
+    10 | facebook akkaunt ochish | cpc=None comp=0 | trend=20->10
+    10 | facebook sahifa ochish | cpc=None comp=0.14 | trend=10->10
+    10 | visa karta qanday ochiladi | cpc=None comp=0.07 | trend=10->10
+    10 | instagram bloklandi | cpc=None comp=0 | trend=10->10
+    10 | facebook piksel | cpc=None comp=0 | trend=0->10
+    10 | facebook pixel | cpc=None comp=0 | trend=0->10
+    10 | telegramda reklama berish | cpc=2.18 comp=0.36 | trend=10->10
+    10 | google reklama berish | cpc=None comp=0 | trend=10->10
+    10 | youtube reklama | cpc=0.4 comp=0.21 | trend=10->10
+    10 | tiktok reklama | cpc=None comp=None | trend=10->0
+    10 | телеграм реклама | cpc=2.5 comp=0.57 | trend=10->10
+    10 | как запустить рекламу в инстаграм | cpc=None comp=0.23 | trend=10->10
+    10 | как настроить рекламу в инстаграм | cpc=1.44 comp=0.43 | trend=10->10
+    10 | как дать рекламу в инстаграм | cpc=0.41 comp=0.36 | trend=10->10
+    10 | как сделать рекламу в инстаграм | cpc=1.19 comp=0.3 | trend=20->20
+    10 | как запустить таргет в инстаграм | cpc=2.81 comp=0.31 | trend=10->10
+    10 | как настроить таргет в инстаграм | cpc=1.54 comp=0.48 | trend=10->10
+    10 | как запустить рекламу в инстаграм через фейсбук | cpc=None comp=None | trend=10->0
+    10 | как оплатить рекламу в инстаграм | cpc=None comp=0.14 | trend=10->10
+    10 | оплата рекламы в инстаграм | cpc=None comp=None | trend=0->0
+    10 | оплата рекламы фейсбук | cpc=None comp=None | trend=10->0
+    10 | виртуальная карта visa узбекистан | cpc=0.33 comp=0.29 | trend=30->10
+    10 | как открыть visa карту в узбекистане | cpc=None comp=0 | trend=10->10
+    10 | рекламный кабинет | cpc=0.02 comp=0.02 | trend=10->20
+    10 | рекламный кабинет фейсбук | cpc=1.4 comp=0.39 | trend=10->10
+    10 | рекламный кабинет инстаграм | cpc=None comp=0 | trend=10->10
+    10 | рекламный кабинет facebook | cpc=0.01 comp=0.57 | trend=0->10
+    10 | как создать рекламный кабинет в фейсбук | cpc=None comp=None | trend=0->0
+    10 | бизнес менеджер фейсбук | cpc=0.02 comp=0.22 | trend=10->10
+    10 | бизнес сьют | cpc=0.03 comp=0.16 | trend=20->10
+    10 | рекламный аккаунт отключен | cpc=None comp=None | trend=10->0
+    10 | заблокировали аккаунт фейсбук | cpc=None comp=None | trend=0->0
+    10 | заблокировали инстаграм | cpc=None comp=0 | trend=10->10
+    10 | инстаграм заблокировал аккаунт | cpc=None comp=0 | trend=10->20
+    10 | пиксель фейсбук | cpc=None comp=None | trend=0->0
+    10 | реклама в телеграм каналах | cpc=4.19 comp=0.55 | trend=10->10
+    10 | реклама в телеграм цена | cpc=None comp=0.29 | trend=10->10
+    10 | telegram ads стоимость | cpc=1.15 comp=0.46 | trend=20->10
+    10 | telegram ads минимальный бюджет | cpc=None comp=0.46 | trend=10->10
+    10 | telegram ads как запустить | cpc=1.63 comp=0.62 | trend=10->10
+    10 | telegram ads uzbekistan | cpc=2.38 comp=0.86 | trend=0->10
+    10 | купить ton | cpc=None comp=0.04 | trend=20->10
+    10 | как купить ton | cpc=None comp=0 | trend=10->10
+    10 | toncoin купить | cpc=None comp=0 | trend=10->10
+    10 | реклама в гугл | cpc=4.83 comp=0.71 | trend=10->10
+    10 | реклама в гугле | cpc=4.83 comp=0.71 | trend=10->10
+    10 | оплата google ads | cpc=None comp=None | trend=0->0
+    10 | реклама в яндексе | cpc=4.3 comp=0.57 | trend=10->10
+    10 | реклама в яндекс директ | cpc=None comp=0.36 | trend=10->10
+    10 | яндекс директ цена | cpc=6.65 comp=0.51 | trend=0->10
+    10 | реклама на youtube | cpc=None comp=None | trend=0->0
+    10 | реклама на ютубе | cpc=None comp=0 | trend=0->10
+    10 | youtube реклама | cpc=0.64 comp=0.38 | trend=10->10
+    10 | тик ток реклама | cpc=None comp=0 | trend=10->10
+    10 | meta реклама | cpc=None comp=0.71 | trend=0->10
+    10 | ads facebook com | cpc=1.51 comp=0.5 | trend=10->10
+    10 | настройка таргета | cpc=0.53 comp=0.71 | trend=10->10
+    10 | настройка таргетированной рекламы | cpc=None comp=0.86 | trend=10->10
+    10 | таргетолог цена | cpc=None comp=None | trend=10->0
+    10 | таргетолог курсы | cpc=1.41 comp=0.57 | trend=10->10
+    10 | курсы таргетолога | cpc=0.42 comp=0.41 | trend=10->10
+    10 | обучение таргету | cpc=2.29 comp=0.76 | trend=10->10
+    10 | курсы smm ташкент | cpc=2.07 comp=0.68 | trend=10->10
+    10 | таргетированная реклама в инстаграм | cpc=None comp=None | trend=10->0
+    10 | реклама в инстаграм ташкент | cpc=None comp=None | trend=10->0
+    10 | реклама в фейсбук | cpc=31.45 comp=0.71 | trend=10->10
+    10 | реклама в фейсбуке | cpc=31.45 comp=0.71 | trend=10->10
+    10 | реклама фейсбук | cpc=2.32 comp=0.49 | trend=10->10
+    10 | запуск рекламы в инстаграм | cpc=None comp=None | trend=10->0
+    10 | продвижение в инстаграм | cpc=None comp=0.71 | trend=10->10
+    10 | продвижение инстаграм | cpc=4.04 comp=0.43 | trend=10->10
+    10 | раскрутка инстаграм | cpc=2.08 comp=0.44 | trend=20->20
+    10 | instagram reklama | cpc=1.16 comp=0.57 | trend=10->10
+    10 | reklama instagram | cpc=None comp=0.11 | trend=10->10
+    10 | instagram promo | cpc=None comp=0 | trend=10->10
+    10 | продвижение публикации в инстаграм | cpc=3.9 comp=0.49 | trend=10->10
+    10 | продвигать публикацию инстаграм | cpc=None comp=0.24 | trend=0->10
+    10 | lead ads | cpc=None comp=0.36 | trend=0->10
+    10 | лид форма фейсбук | cpc=None comp=0 | trend=0->10
+    10 | instagram lead form | cpc=None comp=0.57 | trend=0->10
+    10 | instagram professional account | cpc=1.93 comp=0.26 | trend=10->10
+    10 | профессиональный аккаунт инстаграм | cpc=None comp=0.02 | trend=10->10
+    10 | реклама в инстаграм не показывается | cpc=None comp=None | trend=0->0
+    10 | как запустить рекламу в телеграм | cpc=None comp=0.52 | trend=10->10
+    10 | telegram ads ton | cpc=1.71 comp=0.43 | trend=10->10
+    10 | реклама в гугл цена | cpc=3.15 comp=0.64 | trend=10->10
+    10 | как запустить рекламу в ютубе | cpc=None comp=None | trend=0->0
+    10 | таргет ташкент | cpc=1.2 comp=0.26 | trend=10->10
+     0 | instagram reklama berish | cpc=None comp=None | trend=None->None
+     0 | instagramda reklama qanday beriladi | cpc=None comp=None | trend=None->None
+     0 | instagram reklama qanday beriladi | cpc=None comp=None | trend=None->None
+     0 | reklama qanday beriladi | cpc=None comp=None | trend=None->None
+     0 | reklama berish narxi | cpc=None comp=None | trend=None->None
+     0 | instagram reklama narxi | cpc=None comp=None | trend=None->None
+     0 | instagramda reklama narxi | cpc=None comp=None | trend=None->None
+     0 | reklama narxi | cpc=None comp=None | trend=None->None
+     0 | reklama narxlari | cpc=None comp=None | trend=None->None
+     0 | target narxi | cpc=None comp=None | trend=None->None
+     0 | target reklama narxi | cpc=None comp=None | trend=None->None
+     0 | target sozlash | cpc=None comp=None | trend=None->None
+     0 | target qanday yoqiladi | cpc=None comp=None | trend=None->None
+     0 | targetolog narxi | cpc=None comp=None | trend=None->None
+     0 | targetolog kursi | cpc=None comp=None | trend=None->None
+     0 | target organish | cpc=None comp=None | trend=None->None
+     0 | target o'rganish | cpc=None comp=None | trend=None->None
+     0 | targetologiya | cpc=None comp=None | trend=None->None
+     0 | reklama kabinet | cpc=None comp=None | trend=None->None
+     0 | reklama kabineti | cpc=None comp=None | trend=None->None
+     0 | reklama kabinet ochish | cpc=None comp=None | trend=None->None
+     0 | reklama kabineti ochish | cpc=None comp=None | trend=None->None
+     0 | facebook reklama kabinet | cpc=None comp=None | trend=None->None
+     0 | facebook orqali reklama | cpc=None comp=None | trend=None->None
+     0 | facebookda reklama berish | cpc=None comp=None | trend=None->None
+     0 | biznes menejer | cpc=None comp=None | trend=None->None
+     0 | facebook biznes menejer | cpc=None comp=None | trend=None->None
+     0 | reklama to'lovi | cpc=None comp=None | trend=None->None
+     0 | reklama tolovi | cpc=None comp=None | trend=None->None
+     0 | reklama uchun karta | cpc=None comp=None | trend=None->None
+     0 | reklama kabinet bloklandi | cpc=None comp=None | trend=None->None
+     0 | akkaunt bloklandi | cpc=None comp=None | trend=None->None
+     0 | facebook akkaunt bloklandi | cpc=None comp=None | trend=None->None
+     0 | facebook bloklandi | cpc=None comp=None | trend=None->None
+     0 | instagram akkaunt bloklandi | cpc=None comp=None | trend=None->None
+     0 | reklama rad etildi | cpc=None comp=None | trend=None->None
+     0 | piksel ornatish | cpc=None comp=None | trend=None->None
+     0 | instagram reklama qanday ishlaydi | cpc=None comp=None | trend=None->None
+     0 | telegram reklama narxi | cpc=None comp=None | trend=None->None
+     0 | telegram ads narxi | cpc=None comp=None | trend=None->None
+     0 | telegram kanalda reklama | cpc=None comp=None | trend=None->None
+     0 | telegram kanalga reklama berish | cpc=None comp=None | trend=None->None
+     0 | telegram kanal reklama narxi | cpc=None comp=None | trend=None->None
+     0 | google ads ozbekistonda | cpc=None comp=None | trend=None->None
+     0 | google ads uzbekistan | cpc=None comp=None | trend=None->None
+     0 | google reklama narxi | cpc=None comp=None | trend=None->None
+     0 | googleda reklama berish | cpc=None comp=None | trend=None->None
+     0 | yandex direct uzbekistan | cpc=None comp=None | trend=None->None
+     0 | youtube reklama berish | cpc=None comp=None | trend=None->None
+     0 | youtube reklama narxi | cpc=None comp=None | trend=None->None
+     0 | youtubeda reklama berish | cpc=None comp=None | trend=None->None
+     0 | tiktok reklama berish | cpc=None comp=None | trend=None->None
+     0 | tiktokda reklama berish | cpc=None comp=None | trend=None->None
+     0 | reklama sozlash | cpc=None comp=None | trend=None->None
+     0 | kontekst reklama | cpc=None comp=None | trend=None->None
+     0 | инстаграм реклама бериш | cpc=None comp=None | trend=None->None
+     0 | реклама бериш | cpc=None comp=None | trend=None->None
+     0 | таргет нархи | cpc=None comp=None | trend=None->None
+     0 | таргет созлаш | cpc=None comp=None | trend=None->None
+     0 | таргет ёқиш | cpc=None comp=None | trend=None->None
+     0 | реклама нархи | cpc=None comp=None | trend=None->None
+     0 | телеграм реклама нархи | cpc=None comp=None | trend=None->None
+     0 | оплата рекламы в фейсбук | cpc=None comp=None | trend=0->0
+     0 | оплата рекламы в инстаграм из узбекистана | cpc=None comp=None | trend=None->None
+     0 | оплата рекламы картой | cpc=None comp=None | trend=None->None
+     0 | виртуальная карта для оплаты рекламы | cpc=None comp=None | trend=None->None
+     0 | карта для оплаты рекламы | cpc=None comp=None | trend=None->None
+     0 | создать рекламный кабинет | cpc=None comp=None | trend=0->0
+     0 | заблокировали рекламный кабинет | cpc=None comp=None | trend=None->None
+     0 | заблокировали рекламный аккаунт | cpc=None comp=None | trend=0->0
+     0 | рекламный аккаунт заблокирован | cpc=None comp=None | trend=0->0
+     0 | ограничение рекламы фейсбук | cpc=None comp=None | trend=None->None
+     0 | реклама отклонена | cpc=None comp=None | trend=None->None
+     0 | реклама отклонена инстаграм | cpc=None comp=None | trend=None->None
+     0 | почему отклонили рекламу в инстаграм | cpc=None comp=None | trend=None->None
+     0 | пиксель meta | cpc=None comp=None | trend=None->None
+     0 | установка пикселя facebook | cpc=None comp=None | trend=0->0
+     0 | как установить пиксель фейсбук | cpc=None comp=None | trend=0->0
+     0 | конверсии api | cpc=None comp=None | trend=None->None
+     0 | ton для telegram ads | cpc=None comp=None | trend=None->None
+     0 | google ads узбекистан | cpc=None comp=None | trend=None->None
+     0 | google ads в узбекистане | cpc=None comp=None | trend=None->None
+     0 | как оплатить google ads | cpc=None comp=None | trend=None->None
+     0 | реклама на ютубе цена | cpc=None comp=None | trend=0->0
+     0 | как запустить рекламу на youtube | cpc=None comp=None | trend=0->0
+     0 | курсы таргета ташкент | cpc=None comp=None | trend=None->None
+     0 | instagramda reklama | cpc=None comp=None | trend=None->None
+     0 | кнопка продвигать инстаграм | cpc=None comp=None | trend=0->0
+     0 | instagram biznes akkaunt | cpc=None comp=None | trend=None->None
+     0 | biznes akkaunt | cpc=None comp=None | trend=None->None
+     0 | instagram biznes akkaunt ochish | cpc=None comp=None | trend=None->None
+     0 | instagramda biznes akkaunt | cpc=None comp=None | trend=None->None
+     0 | реклама на проверке инстаграм | cpc=None comp=None | trend=0->0
+     0 | налог на рекламу фейсбук | cpc=None comp=None | trend=0->0
+     0 | ндс на рекламу фейсбук | cpc=None comp=None | trend=0->0
+     0 | reklama qonuni | cpc=None comp=None | trend=None->None
+     0 | reklama joylashtirish | cpc=None comp=None | trend=None->None
+     0 | instagramda reklama joylashtirish | cpc=None comp=None | trend=None->None
+     0 | reklama kabinet yaratish | cpc=None comp=None | trend=None->None
+     0 | target ochish | cpc=None comp=None | trend=None->None
+     0 | instagram reklama sozlash | cpc=None comp=None | trend=None->None
+     0 | reklama qanday qilinadi | cpc=None comp=None | trend=None->None
+     0 | reklama bloklandi | cpc=None comp=None | trend=None->None
+     0 | instagram reklama ishlamayapti | cpc=None comp=None | trend=None->None
+     0 | telegram reklama qanday beriladi | cpc=None comp=None | trend=None->None
+     0 | telegram ads qanday ishlaydi | cpc=None comp=None | trend=None->None
+     0 | telegram ads o'zbekistonda | cpc=None comp=None | trend=None->None
+     0 | google ads kabinet | cpc=None comp=None | trend=None->None
+     0 | youtube reklama qanday beriladi | cpc=None comp=None | trend=None->None
+     0 | visa kartani qanday ochish | cpc=None comp=None | trend=None->None
+     0 | tbc visa karta | cpc=None comp=None | trend=None->None
+     0 | как оплатить рекламу в фейсбук из узбекистана | cpc=None comp=None | trend=None->None
+     0 | оплата рекламы uzcard | cpc=None comp=None | trend=None->None
+     0 | оплата рекламы humo | cpc=None comp=None | trend=None->None
+     0 | как дать рекламу в телеграм канале | cpc=None comp=None | trend=None->None
+     0 | оплата telegram ads | cpc=None comp=None | trend=None->None
+     0 | реклама в google узбекистан | cpc=None comp=None | trend=None->None
+     0 | контекстная реклама узбекистан | cpc=None comp=None | trend=None->None
+     0 | google ads цена за клик | cpc=None comp=None | trend=0->0
+     0 | яндекс директ ташкент | cpc=None comp=None | trend=None->None
+     0 | tiktok ads узбекистан | cpc=None comp=None | trend=None->None
+     0 | реклама в инстаграм узбекистан | cpc=None comp=None | trend=None->None

@@ -1,0 +1,13 @@
+Calculators-utility lens, 2026-10-25, location 2860.
+
+Paid calls (cap 600):
+- get_keyword_metrics #1: 667 keywords (call1_keywords.json -> cu_kw1_metrics.json), ~104 credits.
+- get_serp_results: 1 call x 4 queries, depth 20 (dollar kursi, калькулятор, qr kod generator, kalendar 2026), ~20 credits -> serp_top.json.
+- get_keyword_metrics #2: 330 keywords (call2_keywords.json -> cu_kw2_metrics.json), 104 credits (whoami 18502 -> 18398, no parallel drift).
+- research_keywords: not used (returns only seed-containing rows for 2860, see text-tools / education-practice notes).
+Own spend ~228. whoami: 18834 (start) -> 18502 (after metrics #1 + SERP; includes parallel lenses) -> 18398.
+
+Free check: WebFetch cbu.uz/uz/arkhiv-kursov-valyut/json/ -> JSON array (Code, Ccy, Nominal, Rate, Diff, Date=24.10.2026). Reuse terms NOT checked.
+Reused (not re-bought): known_all.json index of every *metrics*.json under docs/seo/research (5 933 keywords) + demand-policy.json.
+Apostrophe / Uzbek-only countdown forms ("yangi yilga necha kun qoldi", "navro'zga necha kun qoldi") returned null.
+Python 3.9 tokenizer bug on long UTF-8 lines -> scripts run with py -3.12.

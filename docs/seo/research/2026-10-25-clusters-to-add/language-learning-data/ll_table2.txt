@@ -1,0 +1,284 @@
+14800	pronouns	0.72	0	18100,14800,14800,14800,12100,14800,14800,14800,14800,14800,12100,12100
+6600	ielts score	0.53	0.01	6600,6600,6600,8100,6600,6600,6600,5400,8100,5400,4400,3600
+6600	русский алфавит	0.02	0.08	9900,9900,8100,8100,6600,5400,5400,4400,4400,4400,4400,8100
+5400	english alphabet	0.09	0.09	6600,5400,5400,5400,5400,4400,5400,4400,6600,4400,3600,8100
+3600	vocabulary	0.7	0.01	5400,4400,4400,4400,4400,3600,4400,2900,2900,2400,1900,2900
+3600	alphabet	0.04	0.1	3600,3600,2900,3600,2900,2900,3600,2900,3600,2900,2400,5400
+2900	list of irregular verbs	None	0	3600,2900,3600,4400,3600,2400,2900,1900,2400,1900,1600,2400
+2400	prepositions	None	0	3600,2900,2400,2900,2900,2400,2400,1900,1900,1900,1300,1900
+2400	adjectives	None	0	4400,3600,2900,2900,2400,1900,2400,1600,1600,1300,1000,2900
+2400	indirect speech	None	0	2400,2400,2400,2400,2400,3600,3600,2900,1900,1600,1600,1300
+2400	present simple exercises	0.73	0	3600,2900,2400,2400,2400,1900,2400,1600,1900,1900,1300,2900
+2400	inglizcha statuslar	None	0	110,170,480,1000,1600,1900,2900,4400,4400,4400,4400,4400
+1900	relative clauses	None	0	2400,1900,1900,1900,3600,2400,4400,1900,1600,1000,1000,1300
+1900	prepositions of place	None	0	2900,2900,1900,1900,1900,1600,1900,1300,1300,1600,1300,1000
+1900	to be	None	0	2900,2400,1900,2400,1900,1600,1900,1300,2400,1600,1300,2900
+1900	past simple exercises	None	0	2900,2400,2400,2400,2400,1600,2400,1300,1000,1000,880,1900
+1900	pronunciation	0.54	0	1900,1900,1900,1900,1900,1900,1900,1600,1900,1600,1600,1900
+1900	cefr ballari	None	0	1900,2400,2400,2900,2400,2400,2400,2400,2900,880,1000,880
+1600	second conditional	None	0	1600,1600,1600,1600,1600,1600,2900,1900,1300,1000,1000,1000
+1600	present continuous exercises	None	0	2400,1900,1600,1600,1600,1300,1600,1000,1300,1300,1000,1600
+1600	ielts band score	None	0	1600,1600,1600,1600,1600,1600,1600,1600,1900,1900,1600,1000
+1300	past perfect continuous	None	0	1600,1600,1600,1600,1300,1300,1300,1300,1000,1000,720,880
+1300	possessive pronouns	None	0	1900,1900,1300,1300,1300,1300,1900,1000,1300,1000,720,1300
+1300	adverbs	None	0	1900,1600,2400,1600,1000,1000,1300,880,720,590,480,880
+1300	countable and uncountable nouns	None	0	1600,1600,1300,1600,1600,1000,1300,880,880,720,590,1300
+1300	synonyms	0.38	0.01	1600,1600,1300,1600,1600,1600,1600,1300,1000,880,720,1000
+1300	hafta kunlari	None	0	1300,1300,1000,2400,1300,1600,1300,1000,1000,880,1000,1600
+1300	ruscha	None	0	1600,1600,1600,1600,1300,1000,1300,880,720,880,880,1600
+1000	present simple tense	None	0	1600,1600,1300,1300,1300,880,1000,880,720,590,390,1300
+1000	future perfect	None	0	1300,1300,1300,1300,1300,1000,1000,880,880,720,590,720
+1000	prepositions of time	None	0	1300,1600,1600,1300,1300,1000,1300,880,720,880,720,720
+1000	first conditional	None	0	1000,1000,1000,1000,1300,1300,2400,1300,1000,880,720,590
+1000	third conditional	None	0	1000,880,880,1000,1000,1000,1300,1300,880,880,880,1000
+1000	collocations	None	0	1300,1000,1000,1000,1000,1000,1300,880,720,720,590,880
+880	past simple tense	None	0	1600,1300,1300,1300,1300,880,1000,720,590,390,320,880
+880	present perfect tense	None	0	1000,1300,1300,1000,1300,880,880,720,590,480,390,480
+880	going to	2.93	0.01	880,880,1000,1000,1000,880,1300,720,720,590,720,590
+880	zero conditional	None	0	880,880,880,880,880,1600,1300,880,720,590,480,480
+880	present perfect exercises	0.11	0	1000,880,880,880,1000,880,880,720,720,720,390,720
+880	ielts listening band score	None	0	720,720,720,880,880,880,880,880,1300,1000,880,590
+880	korean alphabet	None	0.02	1000,1000,880,1000,880,880,880,590,720,720,590,880
+880	arab yozuvi	None	0	390,480,480,880,1000,1000,1000,1000,1300,1300,1000,1000
+720	gerund and infinitive	None	0	880,720,720,1600,880,720,720,590,480,390,390,480
+720	was were	None	0	1000,1300,880,720,720,590,880,590,590,480,480,1000
+720	past participle	None	0	880,880,720,880,1000,880,720,590,590,590,390,480
+720	ielts exam	0.56	0.29	880,590,720,880,720,880,720,1000,1000,720,590,590
+720	turkcha	None	0	480,480,590,720,720,880,880,880,1000,1000,720,880
+720	arabcha	None	0	720,720,1000,880,720,880,720,720,590,720,720,590
+720	rus tili lug'at	0.02	0	1300,1000,880,880,720,480,880,720,390,320,260,590
+720	uzbek language	1.78	0.01	1300,720,720,720,590,720,590,590,590,590,590,590
+590	future perfect continuous	None	0	880,880,880,720,720,590,720,590,480,480,390,390
+590	used to	None	0	880,590,590,720,720,590,590,480,480,390,320,390
+590	question tags	None	0	720,720,720,720,720,590,880,590,480,480,320,390
+590	tag questions	None	0	720,720,720,720,720,590,880,590,480,480,320,390
+590	plural nouns	None	0	1300,590,480,590,480,390,480,390,590,390,210,590
+590	mixed conditionals	None	0	720,590,590,720,590,720,880,590,480,390,480,480
+590	comparative adjectives	None	0	1000,720,880,880,480,480,480,390,320,260,260,1300
+590	regular and irregular verbs	None	0	880,720,720,720,590,480,590,390,390,320,210,590
+590	idioms	None	0	720,720,720,590,720,590,720,480,320,260,210,390
+590	ielts writing task 2 topics	0.08	0.03	720,720,590,720,590,590,590,480,720,590,480,480
+590	multilevel speaking questions	1.67	0.01	590,480,590,590,590,720,880,590,320,320,480,480
+590	multilevel mock	0.17	0.01	480,590,590,590,720,720,880,390,260,390,590,720
+590	katakana	None	0	880,880,720,720,720,590,590,480,390,390,320,480
+480	infinitive	None	0	720,590,590,720,590,480,480,390,320,320,210,320
+480	quantifiers	None	0	1000,590,480,480,480,480,720,390,320,320,260,320
+480	tenses	None	0	590,590,590,590,590,480,480,390,480,390,390,480
+480	english words	0.6	0.03	480,480,480,480,480,480,480,480,390,390,260,480
+480	transcription	0.16	0.23	720,590,590,590,720,480,390,390,320,260,170,390
+480	ielts writing task 1 samples	None	0.01	480,480,590,590,480,480,480,390,590,480,480,390
+480	ielts reading band score	None	0	480,480,480,480,590,480,480,480,590,590,480,390
+480	turk tili alifbosi	None	0	480,480,480,720,590,480,390,320,320,480,260,480
+480	по узбекски	None	0	590,590,590,590,480,390,390,390,320,260,260,390
+480	uzbek alphabet	1.78	0.01	480,480,590,480,390,390,480,320,320,720,480,590
+390	gerund	None	0	590,480,480,480,480,390,390,320,260,170,210,260
+390	ielts speaking practice	0.13	0.23	320,320,390,480,390,390,480,480,590,480,390,320
+390	ielts preparation	0.37	0.38	260,260,390,480,390,390,390,390,590,390,390,480
+390	multi level	0.7	0.02	590,480,390,590,480,480,480,320,260,210,320,320
+390	topik test online	0.09	0.01	480,390,260,320,390,480,390,260,320,390,320,390
+390	arab tili grammatikasi	None	0	320,390,480,590,480,390,390,260,320,320,260,320
+390	ingliz tilida ranglar	None	0	480,320,320,320,320,320,320,260,390,320,210,720
+390	как по узбекски	None	0	390,590,390,320,210,390,320,320,480,260,320,390
+390	на узбекском языке	None	0	480,480,480,390,390,390,390,320,260,260,210,390
+320	active and passive voice	None	0	320,390,390,390,390,390,390,320,260,170,170,170
+320	suffixes	None	0.01	480,390,320,390,390,390,480,390,320,260,260,320
+320	english vocabulary	0.49	0.02	480,480,390,390,320,320,320,260,320,260,260,390
+320	ielts writing task 2 samples	0.05	0.13	260,260,320,320,390,320,320,260,320,320,260,260
+320	multilevel speaking part 1	None	0	170,260,320,390,390,320,390,320,210,260,260,320
+320	cefr reading	0.57	0.02	210,210,260,390,390,480,480,320,260,210,320,480
+320	hangul	1.27	0.01	480,480,320,320,320,260,260,210,210,210,170,260
+320	ruscha sonlar	None	0	480,590,390,320,320,210,390,210,140,140,90,260
+260	causative	None	0	260,210,260,320,320,320,260,260,260,210,170,170
+260	direct and indirect speech	None	0	320,320,320,260,260,320,390,260,170,110,110,70
+260	parts of speech	None	0	390,390,320,320,320,320,320,210,210,170,140,260
+260	word formation	None	0	480,480,480,260,390,320,320,260,140,70,50,140
+260	have got	None	0	390,390,320,390,320,260,210,170,210,260,170,320
+260	multilevel writing task 1	None	0	260,260,260,260,260,320,320,260,110,140,210,210
+260	multilevel speaking part 2	None	0	170,210,210,320,260,260,390,320,170,170,170,210
+260	cefr mock	0.18	0.05	110,140,170,210,210,320,320,260,110,210,320,480
+260	arabcha harflar	0.02	0.02	260,320,390,390,320,390,260,210,210,210,140,140
+260	ingliz tilida sonlar	None	0	390,320,260,390,260,170,170,140,260,170,90,480
+260	inglizcha salomlashish	None	0	50,40,70,170,210,260,320,390,390,390,390,590
+260	как будет по узбекски	None	0	480,390,590,480,260,260,390,170,170,90,70,170
+210	english tenses	None	0	260,260,260,260,210,170,210,170,170,170,170,170
+210	present simple vs present continuous	None	0	260,170,210,210,170,210,210,140,170,140,140,320
+210	antonyms	None	0	260,320,210,170,260,260,260,210,110,70,90,110
+210	phonetics	None	0	480,390,320,210,210,210,260,170,70,50,40,210
+210	ielts speaking test	0.22	0.17	260,210,210,210,170,210,210,210,260,170,170,170
+210	ielts writing samples	0.06	0.16	210,170,210,210,210,170,260,210,260,210,170,210
+210	ielts speaking band descriptors	0.69	0.02	210,210,210,210,210,210,210,260,210,210,210,170
+210	multilevel writing task 2	None	0	170,260,260,210,260,320,390,320,70,90,170,140
+210	cefr listening	0.42	0.01	140,210,210,320,260,320,320,260,170,170,210,210
+210	multilevel speaking part 3	None	0	140,170,210,260,260,260,320,320,140,90,170,170
+210	hsk 2	0.12	0.05	110,170,210,260,260,320,320,260,170,210,170,260
+210	hsk 3	1.08	0.03	170,170,170,170,210,210,320,260,260,210,140,260
+210	kanji	None	0	260,320,210,260,210,260,210,210,170,210,170,170
+210	jlpt	None	0.02	140,170,210,390,170,210,210,140,170,170,390,260
+210	yaponcha	None	0	170,110,140,170,170,170,260,210,210,260,170,170
+210	inglizcha alifbo	None	0	260,210,170,210,210,170,170,110,260,210,110,390
+210	английские буквы	0.01	0.09	260,260,260,320,210,170,170,170,210,210,140,320
+210	ruscha harflar	None	0.02	390,320,260,260,320,170,210,110,110,90,90,320
+210	узбекский алфавит кириллица	None	0	260,210,210,260,170,210,170,140,140,210,140,210
+170	3 forms of verbs	None	0	170,170,140,170,210,140,170,140,170,110,110,110
+170	ielts speaking part 3	None	0	170,170,170,210,170,170,210,170,170,170,140,140
+170	cefr nima	None	0	70,70,90,170,210,170,210,260,260,210,210,260
+170	topik 2	None	0	170,110,170,210,170,170,260,210,140,170,170,210
+170	koreys tili kurslari	0.12	0.01	210,170,140,210,140,90,140,170,320,210,140,260
+170	inglizcha harflar	0.01	0	170,110,140,140,170,140,170,170,170,110,110,260
+170	oylar nomi	None	0	210,90,140,170,170,140,170,140,110,140,140,260
+170	ruscha raqamlar	None	0	210,320,210,210,210,140,210,140,110,140,90,210
+170	цифры на узбекском	None	0	260,210,140,210,140,170,170,170,140,170,140,140
+170	спасибо по узбекски	None	0	170,110,70,90,70,210,320,260,110,90,170,210
+140	a an the	None	0	210,170,140,210,140,170,170,90,140,110,90,170
+140	verb to be	None	0	170,210,110,140,140,90,140,50,140,110,70,260
+140	v1 v2 v3	None	0	170,170,140,170,140,170,170,70,110,110,70,90
+140	past simple vs present perfect	None	0	140,210,210,140,170,210,140,140,140,90,110,110
+140	ielts writing band descriptors	0.66	0.02	140,170,140,140,140,140,140,170,140,170,140,140
+140	koreyscha	None	0	110,90,140,170,140,140,260,170,140,170,140,110
+140	xitoycha	0.02	0.01	110,110,140,140,110,140,210,140,170,170,110,170
+140	ingliz tilida oylar	None	0	140,140,140,170,110,90,140,110,140,90,90,320
+110	i wish	None	0	90,90,140,140,140,140,110,110,90,110,110,110
+110	verb forms	None	0	170,170,170,140,140,90,110,70,90,90,70,90
+110	phrasal verbs list	None	0.01	170,140,110,140,140,140,110,70,90,90,50,30
+110	cefr calculator	None	0.01	70,110,110,140,110,140,140,90,70,50,70,90
+110	cefr b1	0.86	0.02	40,40,70,140,110,140,170,170,260,70,50,70
+110	multilevel ballari	None	0	110,110,110,170,110,110,140,110,110,40,70,50
+110	multilevel test online	0.32	0.07	110,140,140,110,170,170,140,90,90,70,90,70
+110	pinyin	None	0.02	110,110,140,170,90,90,140,90,110,110,90,140
+110	узбекский алфавит латиница	None	0	140,110,70,110,110,110,110,70,50,70,90,170
+110	с днем рождения на узбекском	None	0	90,110,70,90,70,110,140,110,90,110,110,90
+110	learn uzbek	0.98	0.3	210,140,140,110,90,90,110,90,70,110,70,140
+90	future in the past	None	0	140,140,110,110,110,90,110,70,90,70,30,70
+90	tenses exercises	None	0	110,90,110,90,110,70,110,90,70,40,70,50
+90	english idioms	0.2	0.04	140,170,140,110,110,140,110,90,30,40,30,70
+90	multilevel score calculator	None	0	50,90,90,70,90,110,110,90,50,40,70,90
+90	cefr narxi	None	0	70,90,70,140,110,90,110,40,50,50,110,90
+90	turkcha so'zlar tarjimasi	None	0	170,140,110,170,140,90,90,40,50,40,30,40
+70	ielts writing task 1 vocabulary	None	0.01	70,70,90,70,90,70,50,50,90,90,70,70
+70	eps topik 2026	None	0	10,10,10,20,30,260,170,70,50,40,90,40
+70	korean words	None	0	110,90,70,110,40,70,70,50,70,70,40,70
+70	hsk test	None	0.02	40,30,50,70,70,90,70,90,90,70,70,70
+70	ingliz tilida mevalar	None	0	110,70,110,140,70,70,70,70,90,50,40,70
+70	слова на узбекском	None	0	110,90,90,70,50,70,50,50,30,30,40,70
+50	simple past	None	0	40,70,70,90,70,40,50,30,30,20,10,40
+50	degrees of comparison	None	0	110,110,70,50,50,50,40,40,50,20,10,50
+50	ielts listening score calculator	None	0	50,50,50,90,70,50,50,50,70,50,30,20
+50	ielts reading score calculator	None	0	50,50,40,40,40,50,40,70,70,70,50,30
+50	ielts words	None	0.01	70,40,40,70,70,40,50,50,50,50,20,30
+50	cefr ball hisoblash	None	0	40,40,30,70,70,110,90,70,40,20,30,40
+50	nemischa	None	0	90,90,50,50,50,40,70,70,30,50,30,70
+50	rus tili sonlar	None	0	70,70,70,70,70,40,50,30,30,30,30,40
+50	мама на узбекском	None	0	70,50,70,90,50,70,50,50,40,30,50,40
+40	12 tenses	None	0	50,40,50,50,50,70,20,40,20,40,50,40
+40	ielts overall score calculator	None	0	40,30,50,40,30,30,40,40,40,30,40,20
+40	multilevel narxi	None	0	50,50,30,70,70,50,40,10,20,10,30,30
+40	arabcha so'zlar tarjimasi	None	0	50,50,90,90,40,40,40,30,40,20,10,10
+40	английский алфавит с транскрипцией	None	0.04	50,50,50,70,70,30,20,10,10,30,10,90
+40	ovqatlar ingliz tilida	None	0	50,50,110,20,40,20,30,30,20,10,10,40
+40	rus tilida salomlashish	None	0	50,70,30,40,40,30,20,20,30,20,20,50
+40	как дела на узбекском	None	0	40,40,20,20,20,30,40,50,30,30,40,50
+40	uzbek words	None	0	50,50,50,40,40,20,50,40,20,30,30,30
+40	приветствие на узбекском	None	0	70,30,40,20,30,40,70,70,40,30,40,50
+30	ielts vocabulary list	None	0.02	70,50,30,50,40,30,50,10,20,10,10,20
+30	multilevel speaking topics	None	0	50,50,40,30,50,40,40,30,10,10,20,20
+30	multilevel ball hisoblash	None	0	10,10,30,40,30,50,40,20,10,10,30,50
+30	multilevel calculator	None	0.03	30,40,40,50,50,40,40,30,20,10,20,20
+30	multilevel nima	None	0	40,40,40,40,40,40,40,20,10,10,20,30
+30	multilevel imtihon	None	0	30,40,30,20,30,40,50,10,10,10,30,30
+30	topik imtihon	None	0	40,30,70,90,30,20,20,20,20,20,30,10
+30	jlpt n5	0.01	0.07	30,30,50,20,30,40,20,20,20,30,20,20
+30	hayvonlar inglizcha	None	0	30,30,50,40,50,30,40,30,30,20,20,30
+30	mevalar inglizcha	None	0	40,40,30,30,30,20,40,10,30,30,10,30
+30	xona jihozlari ingliz tilida	None	0	70,30,50,30,30,20,10,20,20,40,10,50
+30	ingliz tilida salomlashish	None	0	40,40,40,30,10,30,30,20,30,20,20,50
+30	rus tili mashqlar	None	0	30,30,20,40,50,20,40,30,20,20,20,50
+20	ielts speaking cue cards	None	0	10,20,10,20,20,20,30,30,10,10,20,30
+20	ielts tips	None	0.18	10,30,20,30,30,20,20,20,20,20,20,20
+20	xitoycha so'zlar	None	0	30,30,20,20,20,20,20,20,10,20,10,20
+20	arab tilida so'zlar	None	0	20,10,30,20,20,30,20,10,20,10,10,20
+20	inglizcha gap	None	0	20,20,20,20,20,10,40,20,10,10,10,40
+20	ingliz harflari	None	0	30,30,40,40,20,10,30,10,10,20,10,30
+20	kasblar inglizcha	None	0	30,40,10,20,30,10,20,20,20,20,10,30
+20	raqamlar inglizcha	None	0	20,30,20,20,10,20,10,10,20,10,10,20
+20	sonlar inglizcha	None	0	20,20,10,20,20,10,10,10,10,20,10,20
+20	ingliz tilida tanishuv	None	0.03	20,10,10,20,20,20,10,10,10,10,20,40
+20	добрый день на узбекском	None	0	10,10,10,10,10,20,10,20,20,30,20,30
+20	поздравление на узбекском	None	0	10,10,20,10,30,10,20,20,10,20,20,20
+10	tenses table	None	0.01	20,10,20,30,20,10,10,10,10,10,10,20
+10	ielts listening band score calculator	None	0	10,20,10,10,20,10,20,10,20,10,10,10
+10	ielts reading band score calculator	None	0	10,10,10,10,10,20,10,20,20,20,20,10
+10	multilevel letter	None	0	10,10,10,10,10,10,20,10,10,0,10,10
+10	cefr essay	None	0	10,10,20,10,20,20,30,10,10,10,10,10
+10	koreys tili kitob	None	0	10,20,20,20,20,10,10,10,10,10,10,10
+10	koreys tili lug'at	None	0	10,10,20,40,10,20,20,20,10,10,10,10
+10	eps topik test online	None	None	10,10,10,10,10,30,20,10,10,10,10,0
+10	eps topik listening	None	None	0,10,10,0,0,10,10,0,0,0,0,0
+10	eps topik reading	None	None	20,10,20,20,30,20,0,0,0,0,0,0
+10	koreys tilida so'zlar	None	0	20,10,10,20,10,10,10,20,10,10,10,10
+10	eps topik mock test	None	0	10,10,0,0,10,10,10,10,0,0,0,10
+10	yaponcha so'zlar	None	0	20,10,10,10,10,10,10,10,10,10,10,10
+10	inglizcha chiroyli gaplar	None	0	20,20,20,10,20,10,10,10,10,10,10,10
+10	sabzavotlar inglizcha	None	0	10,20,10,10,10,10,10,10,10,10,10,10
+10	transport ingliz tilida	None	0	40,20,20,20,10,10,10,0,10,10,10,10
+10	inglizcha tabrik	None	0	10,10,40,10,10,20,10,10,10,10,10,10
+10	rus tili kelishiklari	None	0	10,0,10,10,10,10,10,0,0,0,10,10
+10	rus tili fe'llar	None	None	10,10,10,10,10,10,10,0,10,10,0,0
+10	узбекская латиница	None	0	10,20,10,20,20,10,10,10,10,10,10,10
+10	буквы узбекского алфавита	None	0	30,10,10,10,10,10,10,10,10,10,10,30
+10	фразы на узбекском с переводом	None	0	0,0,10,10,10,10,10,10,10,0,10,10
+10	узбекский язык самоучитель	None	0	10,10,10,10,10,10,10,0,10,20,10,40
+10	я тебя люблю по узбекски	None	0	10,10,10,10,10,10,10,10,0,10,10,10
+10	перевод на узбекский слова	None	0	20,10,10,20,10,10,10,10,10,10,10,10
+10	узбекские фразы	None	0.03	10,10,10,10,10,10,10,10,10,10,10,10
+10	узбекский язык с нуля	0.81	0.09	20,10,10,10,10,10,10,20,30,10,20,10
+10	узбекский язык для русских	None	0	0,0,10,20,20,20,10,10,30,20,10,10
+None	multilevel essay	None	None	
+None	multilevel writing namuna	None	None	
+None	topik savollar	None	None	
+None	eps topik so'zlar	None	None	
+None	eps topik lug'at	None	None	
+None	eps topik 200 savol	None	None	
+None	yapon tili o'rganish	None	None	
+None	yapon tili darslari	None	None	
+None	yapon tili so'zlar	None	None	
+None	xitoy tili o'rganish	None	None	
+None	xitoy tili darslari	None	None	
+None	xitoy tili so'zlar	None	None	
+None	xitoy tili 0 dan	None	None	
+None	yapon tili 0 dan	None	None	
+None	hiragana jadvali	None	None	
+None	yapon tili alifbosi	None	None	
+None	xitoy tili ierogliflar	None	None	
+None	turk tilida so'zlar	None	None	
+None	turkcha o'zbekcha so'zlar	None	None	
+None	turk tili so'zlari	None	None	
+None	turkcha gaplar tarjimasi	None	None	
+None	arab harflari o'qish	None	None	
+None	arabcha o'zbekcha so'zlar	None	None	
+None	nemischa so'zlar tarjimasi	None	None	
+None	nemis tili so'zlari	None	None	
+None	inglizcha so'zlar o'zbekcha tarjimasi	None	None	
+None	inglizcha so'z	None	None	
+None	ingliz tilidagi so'zlar	None	None	
+None	inglizcha gaplar tarjimasi	None	None	
+None	ingliz tilida gap tuzish	None	None	
+None	inglizcha o'zbekcha gaplar	None	None	
+None	inglizcha so'zlar ro'yxati	None	None	
+None	inglizcha so'zlar yodlash	None	None	
+None	inglizcha so'zlashuv gaplar	None	None	
+None	ingliz tilida eng kerakli so'zlar	None	None	
+None	inglizcha so'zlar va tarjimasi	None	None	
+None	ingliz tilida hafta kunlari	None	None	
+None	ingliz tilida hayvonlar	None	None	
+None	uy hayvonlari ingliz tilida	None	None	
+None	sport turlari ingliz tilida	None	None	
+None	maktab buyumlari ingliz tilida	None	None	
+None	oila ingliz tilida	None	None	
+None	tug'ilgan kun tabrigi inglizcha	None	None	
+None	ruscha so'zlashuv gaplar	None	None	
+None	rus tili so'zlashuv kitobi	None	None	
+None	ruscha o'zbekcha so'zlar	None	None	
+None	ruscha so'zlar o'zbekcha tarjimasi	None	None	
+None	rus tilida gaplar tarjimasi	None	None	
+None	rus tili kelishik qo'shimchalari	None	None	
+None	ruscha gaplar tarjimasi	None	None	

@@ -1,0 +1,5731 @@
+{
+ "meta": {
+  "date": "2026-10-25",
+  "location": 2860,
+  "ctr_pos6": [
+   0.00613,
+   0.01105
+  ],
+  "ctr_pos3": 0.03593,
+  "mult": 1.5,
+  "sources": [
+   "ep_kw1_metrics.json",
+   "kw1_metrics.json",
+   "kw2_metrics.json",
+   "kw3_metrics.json",
+   "kw4_metrics.json"
+  ]
+ },
+ "clusters": [
+  {
+   "id": "practice_tests",
+   "name": "Fanlar bo‘yicha amaliy testlar (o‘z savollari + izoh)",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 204640,
+   "demand_floor_core": 28685,
+   "demand_upper_incl_heads": 315640,
+   "jump_keywords": [
+    [
+     "informatika test",
+     49500,
+     1750
+    ],
+    [
+     "fizika test",
+     40500,
+     520
+    ],
+    [
+     "matematika test",
+     27100,
+     2900
+    ],
+    [
+     "biologiya test",
+     18100,
+     2150
+    ],
+    [
+     "ingliz tili test",
+     14800,
+     1900
+    ],
+    [
+     "tarix testlar",
+     720,
+     90
+    ],
+    [
+     "geografiya test",
+     2900,
+     600
+    ],
+    [
+     "geografiya testlar",
+     590,
+     60
+    ],
+    [
+     "informatika testlari",
+     590,
+     30
+    ],
+    [
+     "matematika test 5 sinf",
+     1600,
+     190
+    ],
+    [
+     "matematika test 9 sinf",
+     590,
+     20
+    ],
+    [
+     "биология тест",
+     8100,
+     205
+    ],
+    [
+     "тарих тест",
+     1600,
+     45
+    ],
+    [
+     "test savollari",
+     12100,
+     310
+    ],
+    [
+     "tarixiy sanalar",
+     2900,
+     75
+    ],
+    [
+     "matematika test javoblari bilan",
+     5400,
+     290
+    ]
+   ],
+   "visits_pos6_ads": [
+    63,
+    113
+   ],
+   "visits_pos6_floor": [
+    9,
+    16
+   ],
+   "visits_pos3_ads": 241,
+   "visits_pos3_floor": 34,
+   "clicks_month_pos6_ads": [
+    1254,
+    2261
+   ],
+   "season_index": {
+    "2026-09": 1.46,
+    "2026-08": 0.85,
+    "2026-07": 1.27,
+    "2026-06": 1.81,
+    "2026-05": 1.72,
+    "2026-04": 1.5,
+    "2026-03": 1.03,
+    "2026-02": 1.02,
+    "2026-01": 0.78,
+    "2025-12": 0.3,
+    "2025-11": 0.12,
+    "2025-10": 0.14
+   },
+   "buckets_core": [
+    {
+     "keyword": "informatika test",
+     "vol": 49500,
+     "merged": [
+      "informatika testlar"
+     ],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      49500,
+      27100,
+      49500,
+      90500,
+      90500,
+      74000,
+      49500,
+      40500,
+      49500,
+      12100,
+      1600,
+      1900
+     ]
+    },
+    {
+     "keyword": "fizika test",
+     "vol": 40500,
+     "merged": [],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      60500,
+      49500,
+      74000,
+      90500,
+      74000,
+      60500,
+      40500,
+      40500,
+      22200,
+      6600,
+      720,
+      320
+     ]
+    },
+    {
+     "keyword": "matematika test",
+     "vol": 27100,
+     "merged": [
+      "matematika testlar"
+     ],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      40500,
+      27100,
+      33100,
+      49500,
+      40500,
+      33100,
+      22200,
+      27100,
+      18100,
+      8100,
+      2900,
+      2900
+     ]
+    },
+    {
+     "keyword": "biologiya test",
+     "vol": 18100,
+     "merged": [
+      "biologiya testlar"
+     ],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      27100,
+      18100,
+      22200,
+      33100,
+      27100,
+      33100,
+      22200,
+      18100,
+      12100,
+      4400,
+      1900,
+      2400
+     ]
+    },
+    {
+     "keyword": "ingliz tili test",
+     "vol": 14800,
+     "merged": [
+      "ingliz tili testlar"
+     ],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      22200,
+      12100,
+      22200,
+      27100,
+      27100,
+      22200,
+      18100,
+      18100,
+      12100,
+      5400,
+      1900,
+      1900
+     ]
+    },
+    {
+     "keyword": "test savollari",
+     "vol": 12100,
+     "merged": [],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      33100,
+      8100,
+      9900,
+      18100,
+      18100,
+      18100,
+      12100,
+      14800,
+      8100,
+      2900,
+      480,
+      140
+     ]
+    },
+    {
+     "keyword": "биология тест",
+     "vol": 8100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      14800,
+      4400,
+      9900,
+      12100,
+      18100,
+      18100,
+      9900,
+      8100,
+      6600,
+      2400,
+      320,
+      90
+     ]
+    },
+    {
+     "keyword": "matematika test javoblari bilan",
+     "vol": 5400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      8100,
+      5400,
+      6600,
+      9900,
+      8100,
+      8100,
+      5400,
+      5400,
+      3600,
+      1300,
+      320,
+      260
+     ]
+    },
+    {
+     "keyword": "tarix test",
+     "vol": 2900,
+     "merged": [],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      5400,
+      2400,
+      4400,
+      5400,
+      6600,
+      3600,
+      1600,
+      1900,
+      1300,
+      880,
+      720,
+      1000
+     ]
+    },
+    {
+     "keyword": "geografiya test",
+     "vol": 2900,
+     "merged": [],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      5400,
+      2400,
+      2900,
+      4400,
+      5400,
+      4400,
+      2900,
+      2900,
+      1900,
+      1000,
+      320,
+      880
+     ]
+    },
+    {
+     "keyword": "tarixiy sanalar",
+     "vol": 2900,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      5400,
+      2400,
+      2900,
+      3600,
+      6600,
+      3600,
+      2900,
+      2400,
+      1300,
+      720,
+      110,
+      40
+     ]
+    },
+    {
+     "keyword": "online test yechish",
+     "vol": 1900,
+     "merged": [],
+     "src": "kw3_metrics.json",
+     "series_sep26_to_oct25": [
+      880,
+      590,
+      2400,
+      2400,
+      2900,
+      2400,
+      2400,
+      2400,
+      1900,
+      1600,
+      1900,
+      2400
+     ]
+    },
+    {
+     "keyword": "ona tili test",
+     "vol": 1600,
+     "merged": [],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      2900,
+      720,
+      1000,
+      1300,
+      1900,
+      2900,
+      1600,
+      1900,
+      1300,
+      880,
+      590,
+      1000
+     ]
+    },
+    {
+     "keyword": "matematika test 5 sinf",
+     "vol": 1600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      3600,
+      1600,
+      1900,
+      1900,
+      1600,
+      1000,
+      880,
+      4400,
+      1900,
+      880,
+      170,
+      210
+     ]
+    },
+    {
+     "keyword": "тарих тест",
+     "vol": 1600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1600,
+      880,
+      1300,
+      2400,
+      3600,
+      2400,
+      1600,
+      1600,
+      1900,
+      480,
+      50,
+      40
+     ]
+    },
+    {
+     "keyword": "testlar",
+     "vol": 1300,
+     "merged": [],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      880,
+      1300,
+      1300,
+      1600,
+      1300,
+      1300,
+      1300,
+      1600,
+      1300,
+      1300,
+      1300
+     ]
+    },
+    {
+     "keyword": "online test",
+     "vol": 1000,
+     "merged": [],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      880,
+      590,
+      1300,
+      1300,
+      1000,
+      1000,
+      1000,
+      1300,
+      1000,
+      1000,
+      880,
+      1300
+     ]
+    },
+    {
+     "keyword": "test ishlash",
+     "vol": 1000,
+     "merged": [],
+     "src": "kw3_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      390,
+      1000,
+      1300,
+      1300,
+      1000,
+      1000,
+      1300,
+      1000,
+      1000,
+      880,
+      1000
+     ]
+    },
+    {
+     "keyword": "matematika test savollari",
+     "vol": 880,
+     "merged": [],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      390,
+      880,
+      1300,
+      1600,
+      1300,
+      1000,
+      880,
+      720,
+      590,
+      480,
+      390
+     ]
+    },
+    {
+     "keyword": "tarix testlar",
+     "vol": 720,
+     "merged": [
+      "tarix testlari"
+     ],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      880,
+      590,
+      720,
+      1000,
+      1000,
+      1000,
+      880,
+      720,
+      480,
+      320,
+      90,
+      90
+     ]
+    },
+    {
+     "keyword": "matematika online test",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      320,
+      480,
+      720,
+      720,
+      590,
+      720,
+      880,
+      880,
+      880,
+      590,
+      720
+     ]
+    },
+    {
+     "keyword": "geografiya testlar",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      210,
+      210,
+      260,
+      720,
+      1000,
+      590,
+      1600,
+      480,
+      170,
+      30,
+      90
+     ]
+    },
+    {
+     "keyword": "kimyo test",
+     "vol": 590,
+     "merged": [
+      "kimyo testlar"
+     ],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      390,
+      590,
+      590,
+      590,
+      880,
+      480,
+      720,
+      720,
+      590,
+      390,
+      590
+     ]
+    },
+    {
+     "keyword": "informatika testlari",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      880,
+      480,
+      1000,
+      880,
+      720,
+      1300,
+      880,
+      720,
+      480,
+      90,
+      10,
+      50
+     ]
+    },
+    {
+     "keyword": "matematika test 9 sinf",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      590,
+      720,
+      1000,
+      1000,
+      880,
+      480,
+      720,
+      480,
+      170,
+      20,
+      20
+     ]
+    },
+    {
+     "keyword": "fizika testlar",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1300,
+      260,
+      320,
+      480,
+      720,
+      880,
+      390,
+      720,
+      390,
+      210,
+      50,
+      90
+     ]
+    },
+    {
+     "keyword": "тест по русскому языку",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1300,
+      1300,
+      390,
+      390,
+      260,
+      320,
+      320,
+      320,
+      320,
+      320,
+      260,
+      390
+     ]
+    },
+    {
+     "keyword": "huquq test",
+     "vol": 390,
+     "merged": [
+      "huquq testlar"
+     ],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      320,
+      590,
+      480,
+      480,
+      390,
+      260,
+      320,
+      320,
+      260,
+      390,
+      720
+     ]
+    },
+    {
+     "keyword": "тест по математике",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      260,
+      320,
+      480,
+      480,
+      390,
+      390,
+      320,
+      480,
+      390,
+      390,
+      390
+     ]
+    },
+    {
+     "keyword": "materiklar",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      140,
+      170,
+      210,
+      390,
+      480,
+      480,
+      720,
+      480,
+      390,
+      480,
+      390
+     ]
+    },
+    {
+     "keyword": "adabiyot test",
+     "vol": 320,
+     "merged": [
+      "adabiyot testlar"
+     ],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      210,
+      210,
+      390,
+      590,
+      720,
+      390,
+      390,
+      260,
+      170,
+      70,
+      90
+     ]
+    },
+    {
+     "keyword": "rus tili test",
+     "vol": 260,
+     "merged": [
+      "rus tili testlar"
+     ],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      170,
+      170,
+      260,
+      390,
+      480,
+      320,
+      320,
+      260,
+      140,
+      140,
+      260
+     ]
+    },
+    {
+     "keyword": "математика тест",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      260,
+      320,
+      390,
+      480,
+      390,
+      260,
+      320,
+      260,
+      170,
+      110,
+      140
+     ]
+    },
+    {
+     "keyword": "тест по биологии",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      170,
+      140,
+      260,
+      390,
+      320,
+      260,
+      320,
+      260,
+      260,
+      260,
+      320,
+      260
+     ]
+    },
+    {
+     "keyword": "онлайн тест",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      170,
+      110,
+      170,
+      260,
+      320,
+      320,
+      260,
+      260,
+      390,
+      320,
+      260,
+      390
+     ]
+    },
+    {
+     "keyword": "тест по английскому",
+     "vol": 210,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      170,
+      140,
+      170,
+      210,
+      210,
+      210,
+      140,
+      210,
+      320,
+      260,
+      210,
+      210
+     ]
+    },
+    {
+     "keyword": "poytaxtlar",
+     "vol": 210,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      90,
+      140,
+      140,
+      210,
+      210,
+      260,
+      210,
+      260,
+      320,
+      210,
+      210
+     ]
+    },
+    {
+     "keyword": "informatika test javoblari bilan",
+     "vol": 170,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      90,
+      40,
+      40,
+      40,
+      140,
+      140,
+      140,
+      110,
+      210,
+      260,
+      140,
+      480
+     ]
+    },
+    {
+     "keyword": "tarix test savollari",
+     "vol": 140,
+     "merged": [],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      90,
+      90,
+      170,
+      140,
+      90,
+      110,
+      140,
+      170,
+      170,
+      170,
+      140,
+      140
+     ]
+    },
+    {
+     "keyword": "informatika test savollari",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      30,
+      20,
+      30,
+      140,
+      140,
+      210,
+      170,
+      210,
+      170,
+      140,
+      260
+     ]
+    },
+    {
+     "keyword": "тест по химии",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      140,
+      90,
+      170,
+      260,
+      170,
+      170,
+      110,
+      140,
+      140,
+      110,
+      90,
+      140
+     ]
+    },
+    {
+     "keyword": "dunyo davlatlari",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      90,
+      70,
+      70,
+      140,
+      140,
+      170,
+      140,
+      170,
+      140,
+      210,
+      210,
+      210
+     ]
+    },
+    {
+     "keyword": "informatika online test",
+     "vol": 110,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      110,
+      20,
+      10,
+      20,
+      50,
+      70,
+      70,
+      110,
+      170,
+      110,
+      110,
+      480
+     ]
+    },
+    {
+     "keyword": "тест по истории",
+     "vol": 110,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      70,
+      110,
+      140,
+      90,
+      170,
+      170,
+      110,
+      90,
+      140,
+      110,
+      170
+     ]
+    },
+    {
+     "keyword": "тесты онлайн",
+     "vol": 110,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      110,
+      90,
+      170,
+      140,
+      140,
+      140,
+      140,
+      110,
+      140,
+      110,
+      110,
+      70
+     ]
+    },
+    {
+     "keyword": "ona tili fanidan test",
+     "vol": 90,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      90,
+      30,
+      30,
+      70,
+      90,
+      110,
+      70,
+      140,
+      110,
+      90,
+      90,
+      170
+     ]
+    },
+    {
+     "keyword": "fizika test javoblari bilan",
+     "vol": 90,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      10,
+      140,
+      90,
+      70,
+      90,
+      70,
+      110,
+      90,
+      110,
+      110,
+      210
+     ]
+    },
+    {
+     "keyword": "matematika test 6 sinf",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      40,
+      50,
+      30,
+      30,
+      90,
+      90,
+      70,
+      90,
+      70,
+      110,
+      110,
+      170
+     ]
+    },
+    {
+     "keyword": "informatika test 5 sinf",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      50,
+      10,
+      10,
+      20,
+      90,
+      140,
+      90,
+      90,
+      70,
+      90,
+      90,
+      140
+     ]
+    },
+    {
+     "keyword": "тест по географии",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      30,
+      50,
+      50,
+      90,
+      110,
+      90,
+      70,
+      70,
+      70,
+      50,
+      110
+     ]
+    },
+    {
+     "keyword": "matematika test 7 sinf",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      40,
+      20,
+      20,
+      50,
+      70,
+      40,
+      40,
+      30,
+      110,
+      70,
+      70,
+      90
+     ]
+    },
+    {
+     "keyword": "informatika test 6 sinf",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      20,
+      10,
+      10,
+      20,
+      70,
+      70,
+      90,
+      70,
+      70,
+      90,
+      50,
+      90
+     ]
+    },
+    {
+     "keyword": "fizika test savollari",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      20,
+      90,
+      50,
+      20,
+      30,
+      30,
+      50,
+      50,
+      50,
+      50,
+      90
+     ]
+    },
+    {
+     "keyword": "tarix online test",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      170,
+      50,
+      40,
+      50,
+      50,
+      50,
+      40,
+      30,
+      20,
+      20,
+      40,
+      70
+     ]
+    },
+    {
+     "keyword": "tarix fanidan test",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      50,
+      20,
+      40,
+      20,
+      70,
+      90,
+      50,
+      50,
+      40,
+      90,
+      40,
+      40
+     ]
+    },
+    {
+     "keyword": "algebra test",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      10,
+      20,
+      40,
+      30,
+      50,
+      70,
+      50,
+      70,
+      70,
+      30,
+      140
+     ]
+    }
+   ],
+   "buckets_head": [
+    {
+     "keyword": "test yechish",
+     "vol": 1000,
+     "merged": []
+    }
+   ],
+   "buckets_suspicious": [
+    {
+     "keyword": "ona tili testlar",
+     "vol": 110000,
+     "series_sep26_to_oct25": [
+      165000,
+      110000,
+      135000,
+      165000,
+      165000,
+      201000,
+      135000,
+      135000,
+      74000,
+      33100,
+      2900,
+      1300
+     ]
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "test javoblari",
+     "vol": 8100
+    },
+    {
+     "keyword": "dtm test javoblari",
+     "vol": 18100
+    },
+    {
+     "keyword": "test javoblarini topish",
+     "vol": 110
+    },
+    {
+     "keyword": "test javobi",
+     "vol": 50
+    },
+    {
+     "keyword": "testlar javoblari bilan",
+     "vol": 140
+    },
+    {
+     "keyword": "test savollari javoblari bilan",
+     "vol": 110
+    }
+   ]
+  },
+  {
+   "id": "exam_prep",
+   "name": "DTM / Milliy sertifikat / attestatsiya: format, mock-test, ball kalkulyatori",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 52240,
+   "demand_floor_core": 21420,
+   "demand_upper_incl_heads": 80240,
+   "jump_keywords": [
+    [
+     "dtm test",
+     18100,
+     3250
+    ],
+    [
+     "дтм тест",
+     2400,
+     235
+    ],
+    [
+     "dtm online test",
+     4400,
+     105
+    ],
+    [
+     "dtm 2026",
+     3600,
+     15
+    ],
+    [
+     "abituriyentlar uchun test",
+     1900,
+     60
+    ],
+    [
+     "dtm test ishlash",
+     880,
+     355
+    ],
+    [
+     "dtm test 2026",
+     880,
+     0
+    ],
+    [
+     "dtm savollari",
+     720,
+     140
+    ],
+    [
+     "milliy sertifikat 2026",
+     2400,
+     300
+    ]
+   ],
+   "visits_pos6_ads": [
+    16,
+    29
+   ],
+   "visits_pos6_floor": [
+    7,
+    12
+   ],
+   "visits_pos3_ads": 61,
+   "visits_pos3_floor": 25,
+   "clicks_month_pos6_ads": [
+    320,
+    577
+   ],
+   "season_index": {
+    "2026-09": 1.51,
+    "2026-08": 0.81,
+    "2026-07": 1.96,
+    "2026-06": 1.72,
+    "2026-05": 1.12,
+    "2026-04": 0.99,
+    "2026-03": 0.92,
+    "2026-02": 0.82,
+    "2026-01": 0.89,
+    "2025-12": 0.59,
+    "2025-11": 0.37,
+    "2025-10": 0.3
+   },
+   "buckets_core": [
+    {
+     "keyword": "dtm test",
+     "vol": 18100,
+     "merged": [],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      33100,
+      12100,
+      49500,
+      49500,
+      22200,
+      22200,
+      14800,
+      14800,
+      9900,
+      5400,
+      2900,
+      3600
+     ]
+    },
+    {
+     "keyword": "dtm online test",
+     "vol": 4400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      12100,
+      2900,
+      3600,
+      4400,
+      18100,
+      4400,
+      1300,
+      720,
+      210,
+      210,
+      70,
+      140
+     ]
+    },
+    {
+     "keyword": "matematika milliy sertifikat",
+     "vol": 4400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      6600,
+      4400,
+      2900,
+      2900,
+      2900,
+      4400,
+      6600,
+      5400,
+      9900,
+      6600,
+      3600,
+      2400
+     ]
+    },
+    {
+     "keyword": "dtm 2026",
+     "vol": 3600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      9900,
+      18100,
+      14800,
+      480,
+      260,
+      170,
+      110,
+      70,
+      20,
+      20,
+      10
+     ]
+    },
+    {
+     "keyword": "tarix milliy sertifikat",
+     "vol": 2900,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      2900,
+      1900,
+      1600,
+      1600,
+      1900,
+      2900,
+      5400,
+      5400,
+      4400,
+      4400,
+      2900,
+      1900
+     ]
+    },
+    {
+     "keyword": "дтм тест",
+     "vol": 2400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      6600,
+      1600,
+      4400,
+      3600,
+      3600,
+      2900,
+      1900,
+      1900,
+      1300,
+      590,
+      260,
+      210
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat matematika",
+     "vol": 2400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      2400,
+      1600,
+      1000,
+      880,
+      880,
+      1300,
+      2900,
+      3600,
+      6600,
+      3600,
+      2900,
+      1600
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat 2026",
+     "vol": 2400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1900,
+      2400,
+      880,
+      1300,
+      1000,
+      2400,
+      5400,
+      2900,
+      5400,
+      2900,
+      390,
+      210
+     ]
+    },
+    {
+     "keyword": "abituriyentlar uchun test",
+     "vol": 1900,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      6600,
+      590,
+      1000,
+      1300,
+      2400,
+      4400,
+      1600,
+      1900,
+      880,
+      260,
+      70,
+      50
+     ]
+    },
+    {
+     "keyword": "миллий сертификат",
+     "vol": 1600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1600,
+      1300,
+      720,
+      1300,
+      1000,
+      1600,
+      2400,
+      1600,
+      2400,
+      1600,
+      1000,
+      1000
+     ]
+    },
+    {
+     "keyword": "dtm test ishlash",
+     "vol": 880,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      260,
+      720,
+      4400,
+      1900,
+      390,
+      260,
+      210,
+      140,
+      170,
+      170,
+      320,
+      390
+     ]
+    },
+    {
+     "keyword": "dtm blok test",
+     "vol": 880,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      320,
+      2400,
+      1600,
+      590,
+      590,
+      720,
+      590,
+      880,
+      720,
+      720,
+      720
+     ]
+    },
+    {
+     "keyword": "dtm test 2026",
+     "vol": 880,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      140,
+      480,
+      8100,
+      1600,
+      110,
+      110,
+      50,
+      50,
+      30,
+      10,
+      0,
+      0
+     ]
+    },
+    {
+     "keyword": "dtm savollari",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      880,
+      320,
+      1600,
+      1300,
+      1300,
+      880,
+      590,
+      590,
+      480,
+      260,
+      170,
+      110
+     ]
+    },
+    {
+     "keyword": "biologiya milliy sertifikat",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      480,
+      320,
+      320,
+      480,
+      720,
+      1000,
+      880,
+      880,
+      880,
+      880,
+      590
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat tarix",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      210,
+      170,
+      170,
+      390,
+      480,
+      720,
+      720,
+      720,
+      720,
+      590,
+      480
+     ]
+    },
+    {
+     "keyword": "fizika milliy sertifikat",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      260,
+      170,
+      170,
+      320,
+      480,
+      720,
+      590,
+      480,
+      390,
+      480,
+      320
+     ]
+    },
+    {
+     "keyword": "attestatsiya test",
+     "vol": 390,
+     "merged": [
+      "attestatsiya testlari"
+     ],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      480,
+      170,
+      110,
+      140,
+      720,
+      480,
+      320,
+      260,
+      210,
+      390,
+      720
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat savollari",
+     "vol": 320,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      320,
+      170,
+      170,
+      140,
+      260,
+      320,
+      390,
+      590,
+      480,
+      320,
+      210
+     ]
+    },
+    {
+     "keyword": "ona tili dtm test",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      110,
+      140,
+      590,
+      480,
+      210,
+      260,
+      210,
+      90,
+      140,
+      170,
+      210,
+      260
+     ]
+    },
+    {
+     "keyword": "kimyo milliy sertifikat",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      260,
+      170,
+      170,
+      110,
+      110,
+      260,
+      320,
+      390,
+      390,
+      320,
+      170
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat biologiya",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      260,
+      210,
+      170,
+      110,
+      210,
+      170,
+      320,
+      260,
+      390,
+      390,
+      320,
+      320
+     ]
+    },
+    {
+     "keyword": "dtm testlari",
+     "vol": 170,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      110,
+      110,
+      590,
+      480,
+      210,
+      170,
+      110,
+      90,
+      140,
+      90,
+      90,
+      90
+     ]
+    },
+    {
+     "keyword": "ingliz tili dtm test",
+     "vol": 170,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      110,
+      170,
+      480,
+      480,
+      260,
+      170,
+      110,
+      140,
+      110,
+      50,
+      70,
+      70
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat testlari",
+     "vol": 170,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      170,
+      110,
+      140,
+      70,
+      140,
+      170,
+      170,
+      260,
+      170,
+      140,
+      140
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat kimyo",
+     "vol": 170,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      110,
+      90,
+      70,
+      50,
+      90,
+      140,
+      210,
+      320,
+      260,
+      210,
+      140
+     ]
+    },
+    {
+     "keyword": "matematika dtm test",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      30,
+      480,
+      390,
+      110,
+      110,
+      140,
+      70,
+      70,
+      70,
+      70,
+      70
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat test",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      110,
+      70,
+      50,
+      50,
+      140,
+      140,
+      170,
+      210,
+      140,
+      110,
+      110
+     ]
+    },
+    {
+     "keyword": "tarix dtm test",
+     "vol": 110,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      50,
+      90,
+      390,
+      480,
+      210,
+      90,
+      70,
+      30,
+      20,
+      20,
+      20,
+      10
+     ]
+    },
+    {
+     "keyword": "fizika dtm test",
+     "vol": 90,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      30,
+      390,
+      260,
+      110,
+      110,
+      50,
+      50,
+      20,
+      20,
+      30,
+      10
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat fizika",
+     "vol": 90,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      110,
+      70,
+      40,
+      20,
+      50,
+      90,
+      170,
+      110,
+      140,
+      140,
+      110,
+      110
+     ]
+    },
+    {
+     "keyword": "kimyo dtm test",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      40,
+      30,
+      210,
+      170,
+      90,
+      110,
+      70,
+      30,
+      50,
+      40,
+      20,
+      20
+     ]
+    },
+    {
+     "keyword": "biologiya dtm test",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      50,
+      260,
+      210,
+      50,
+      70,
+      30,
+      20,
+      30,
+      30,
+      20,
+      20
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat ball",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      20,
+      50,
+      70,
+      90,
+      70,
+      140,
+      40,
+      70,
+      90,
+      50,
+      40
+     ]
+    },
+    {
+     "keyword": "milliy sertifikat namuna",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      40,
+      40,
+      30,
+      30,
+      50,
+      70,
+      70,
+      50,
+      70,
+      70,
+      40,
+      50
+     ]
+    },
+    {
+     "keyword": "informatika milliy sertifikat",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      40,
+      20,
+      40,
+      50,
+      50,
+      50,
+      50,
+      30,
+      40,
+      30,
+      50
+     ]
+    },
+    {
+     "keyword": "dtm ball hisoblash",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      10,
+      30,
+      260,
+      90,
+      50,
+      30,
+      50,
+      30,
+      40,
+      40,
+      30,
+      10
+     ]
+    },
+    {
+     "keyword": "prezident maktabi test",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      20,
+      10,
+      70,
+      320,
+      90,
+      50,
+      20,
+      30,
+      50,
+      20,
+      10,
+      20
+     ]
+    },
+    {
+     "keyword": "abituriyent test",
+     "vol": 40,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      20,
+      40,
+      170,
+      90,
+      20,
+      30,
+      20,
+      10,
+      10,
+      20,
+      10,
+      10
+     ]
+    }
+   ],
+   "buckets_head": [
+    {
+     "keyword": "milliy sertifikat",
+     "vol": 18100,
+     "merged": []
+    },
+    {
+     "keyword": "attestatsiya",
+     "vol": 9900,
+     "merged": []
+    }
+   ],
+   "buckets_suspicious": [],
+   "excluded": [
+    {
+     "keyword": "dtm",
+     "vol": 27100
+    },
+    {
+     "keyword": "abituriyent",
+     "vol": 27100
+    },
+    {
+     "keyword": "uzbmb",
+     "vol": 135000
+    },
+    {
+     "keyword": "prezident maktabi",
+     "vol": 4400
+    },
+    {
+     "keyword": "bsb",
+     "vol": 27100
+    },
+    {
+     "keyword": "bsb test",
+     "vol": 40
+    },
+    {
+     "keyword": "otish ballari",
+     "vol": 320
+    },
+    {
+     "keyword": "dtm test javoblari",
+     "vol": 18100
+    }
+   ]
+  },
+  {
+   "id": "math_formulas_calculators",
+   "name": "Formulalar + qadamli kalkulyatorlar (matematika, fizika)",
+   "aio_discount_top3": 0.533,
+   "demand_ads_core": 48930,
+   "demand_floor_core": 33095,
+   "demand_upper_incl_heads": 50950,
+   "jump_keywords": [
+    [
+     "tenglamalar sistemasi",
+     8100,
+     795
+    ],
+    [
+     "uchburchak yuzi",
+     5400,
+     1010
+    ],
+    [
+     "ekub va ekuk",
+     4400,
+     800
+    ],
+    [
+     "olchov birliklari",
+     590,
+     50
+    ]
+   ],
+   "visits_pos6_ads": [
+    15,
+    27
+   ],
+   "visits_pos6_floor": [
+    10,
+    18
+   ],
+   "visits_pos3_ads": 47,
+   "visits_pos3_floor": 32,
+   "clicks_month_pos6_ads": [
+    300,
+    541
+   ],
+   "season_index": {
+    "2026-09": 1.55,
+    "2026-08": 0.64,
+    "2026-07": 0.91,
+    "2026-06": 1.17,
+    "2026-05": 1.42,
+    "2026-04": 1.23,
+    "2026-03": 0.83,
+    "2026-02": 1.23,
+    "2026-01": 0.95,
+    "2025-12": 0.82,
+    "2025-11": 0.59,
+    "2025-10": 0.66
+   },
+   "buckets_core": [
+    {
+     "keyword": "qisqa kopaytirish formulalari",
+     "vol": 9900,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      18100,
+      6600,
+      8100,
+      9900,
+      9900,
+      9900,
+      6600,
+      12100,
+      9900,
+      8100,
+      6600,
+      6600
+     ]
+    },
+    {
+     "keyword": "tenglamalar sistemasi",
+     "vol": 8100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      14800,
+      5400,
+      8100,
+      12100,
+      14800,
+      14800,
+      6600,
+      9900,
+      6600,
+      3600,
+      1000,
+      590
+     ]
+    },
+    {
+     "keyword": "uchburchak yuzi",
+     "vol": 5400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      12100,
+      4400,
+      6600,
+      8100,
+      9900,
+      6600,
+      3600,
+      6600,
+      4400,
+      2900,
+      1300,
+      720
+     ]
+    },
+    {
+     "keyword": "ekub va ekuk",
+     "vol": 4400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      6600,
+      2400,
+      4400,
+      5400,
+      9900,
+      5400,
+      3600,
+      4400,
+      2900,
+      1900,
+      720,
+      880
+     ]
+    },
+    {
+     "keyword": "tub sonlar",
+     "vol": 2400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      5400,
+      1900,
+      2900,
+      3600,
+      3600,
+      2900,
+      1600,
+      1900,
+      1900,
+      1600,
+      1300,
+      1600
+     ]
+    },
+    {
+     "keyword": "kvadrat tenglama",
+     "vol": 1600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      2400,
+      1000,
+      1600,
+      1900,
+      1900,
+      1900,
+      1600,
+      2400,
+      1600,
+      1300,
+      1000,
+      1600
+     ]
+    },
+    {
+     "keyword": "калькулятор дробей",
+     "vol": 1600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      390,
+      590,
+      590,
+      880,
+      1300,
+      1300,
+      1900,
+      1600,
+      1900,
+      2400,
+      5400
+     ]
+    },
+    {
+     "keyword": "дискриминант",
+     "vol": 1300,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1300,
+      720,
+      880,
+      1000,
+      1300,
+      1300,
+      1300,
+      1600,
+      1600,
+      1300,
+      1600,
+      1600
+     ]
+    },
+    {
+     "keyword": "kasrlar",
+     "vol": 1300,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      480,
+      590,
+      880,
+      2900,
+      1900,
+      1900,
+      1600,
+      880,
+      480,
+      480,
+      880
+     ]
+    },
+    {
+     "keyword": "pifagor teoremasi",
+     "vol": 1300,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1300,
+      590,
+      590,
+      720,
+      1000,
+      1000,
+      880,
+      1000,
+      1000,
+      4400,
+      2400,
+      1000
+     ]
+    },
+    {
+     "keyword": "gpa calculator",
+     "vol": 880,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      320,
+      880,
+      1900,
+      1600,
+      720,
+      590,
+      880,
+      1000,
+      1300,
+      590,
+      590
+     ]
+    },
+    {
+     "keyword": "hosila",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      260,
+      320,
+      390,
+      590,
+      720,
+      590,
+      880,
+      880,
+      1000,
+      880,
+      880
+     ]
+    },
+    {
+     "keyword": "integral",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      390,
+      480,
+      590,
+      880,
+      880,
+      880,
+      1000,
+      880,
+      1000,
+      880,
+      720
+     ]
+    },
+    {
+     "keyword": "kvadratlar jadvali",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      390,
+      480,
+      720,
+      590,
+      880,
+      880,
+      880,
+      880,
+      880,
+      880,
+      720
+     ]
+    },
+    {
+     "keyword": "aylana uzunligi",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      390,
+      590,
+      590,
+      590,
+      880,
+      590,
+      1900,
+      1000,
+      1300,
+      480,
+      480
+     ]
+    },
+    {
+     "keyword": "tengsizliklar",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      880,
+      480,
+      590,
+      880,
+      1300,
+      880,
+      590,
+      1000,
+      880,
+      720,
+      390,
+      170
+     ]
+    },
+    {
+     "keyword": "foiz hisoblash",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      590,
+      590,
+      720,
+      590,
+      590,
+      720,
+      720,
+      720,
+      590,
+      480,
+      720
+     ]
+    },
+    {
+     "keyword": "diskriminant",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      210,
+      390,
+      480,
+      480,
+      590,
+      590,
+      880,
+      880,
+      1000,
+      720,
+      880
+     ]
+    },
+    {
+     "keyword": "olchov birliklari",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      880,
+      390,
+      720,
+      880,
+      880,
+      720,
+      590,
+      720,
+      480,
+      170,
+      50,
+      50
+     ]
+    },
+    {
+     "keyword": "таблица квадратов",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      210,
+      260,
+      260,
+      320,
+      390,
+      480,
+      720,
+      480,
+      480,
+      880,
+      480
+     ]
+    },
+    {
+     "keyword": "doira yuzi",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      260,
+      210,
+      390,
+      390,
+      390,
+      590,
+      590,
+      880,
+      880,
+      390,
+      260,
+      390
+     ]
+    },
+    {
+     "keyword": "logarifm",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      480,
+      390,
+      480,
+      480,
+      590,
+      720,
+      1300,
+      720,
+      320,
+      260,
+      260
+     ]
+    },
+    {
+     "keyword": "квадратное уравнение",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      110,
+      140,
+      170,
+      260,
+      260,
+      320,
+      320,
+      260,
+      260,
+      320,
+      1600
+     ]
+    },
+    {
+     "keyword": "matematika formulalar",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      390,
+      390,
+      590,
+      480,
+      390,
+      320,
+      390,
+      320,
+      260,
+      260,
+      260
+     ]
+    },
+    {
+     "keyword": "trigonometriya formulalari",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      260,
+      260,
+      260,
+      260,
+      390,
+      320,
+      590,
+      590,
+      480,
+      320,
+      320
+     ]
+    },
+    {
+     "keyword": "gpa hisoblash",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      260,
+      260,
+      720,
+      1000,
+      590,
+      260,
+      210,
+      320,
+      390,
+      140,
+      140,
+      110
+     ]
+    },
+    {
+     "keyword": "formulalar",
+     "vol": 320,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      320,
+      260,
+      390,
+      390,
+      480,
+      320,
+      390,
+      320,
+      260,
+      320,
+      210
+     ]
+    },
+    {
+     "keyword": "fizika formulalari",
+     "vol": 320,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      320,
+      390,
+      390,
+      480,
+      480,
+      390,
+      480,
+      260,
+      140,
+      50,
+      50
+     ]
+    },
+    {
+     "keyword": "progressiya",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      260,
+      140,
+      260,
+      210,
+      390,
+      320,
+      320,
+      320,
+      320,
+      260,
+      210,
+      210
+     ]
+    },
+    {
+     "keyword": "foiz kalkulyator",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      140,
+      110,
+      140,
+      140,
+      110,
+      210,
+      210,
+      210,
+      480,
+      480,
+      480,
+      720
+     ]
+    },
+    {
+     "keyword": "fizika formulalar",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      90,
+      140,
+      170,
+      210,
+      260,
+      210,
+      260,
+      320,
+      260,
+      320,
+      480
+     ]
+    },
+    {
+     "keyword": "нод и нок",
+     "vol": 210,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      140,
+      260,
+      170,
+      170,
+      140,
+      110,
+      210,
+      260,
+      170,
+      210,
+      260
+     ]
+    },
+    {
+     "keyword": "matematika formulalari",
+     "vol": 170,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      110,
+      140,
+      210,
+      260,
+      260,
+      210,
+      210,
+      140,
+      90,
+      40,
+      30
+     ]
+    },
+    {
+     "keyword": "birliklar",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      170,
+      70,
+      90,
+      90,
+      210,
+      210,
+      170,
+      170,
+      140,
+      170,
+      170,
+      140
+     ]
+    },
+    {
+     "keyword": "geometriya formulalari",
+     "vol": 110,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      170,
+      140,
+      210,
+      260,
+      210,
+      140,
+      90,
+      90,
+      70,
+      30,
+      20,
+      10
+     ]
+    },
+    {
+     "keyword": "foizni hisoblash",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      50,
+      40,
+      50,
+      50,
+      30,
+      70,
+      70,
+      40,
+      50,
+      50,
+      40,
+      40
+     ]
+    },
+    {
+     "keyword": "формулы по физике",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      40,
+      30,
+      20,
+      20,
+      40,
+      30,
+      40,
+      50,
+      70,
+      90,
+      90,
+      70
+     ]
+    },
+    {
+     "keyword": "ekuk topish",
+     "vol": 40,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      90,
+      10,
+      20,
+      40,
+      40,
+      30,
+      30,
+      40,
+      30,
+      30,
+      40,
+      70
+     ]
+    },
+    {
+     "keyword": "ekuk ekub",
+     "vol": 30,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      20,
+      20,
+      40,
+      20,
+      40,
+      20,
+      30,
+      40,
+      40,
+      20,
+      50
+     ]
+    },
+    {
+     "keyword": "формулы по математике",
+     "vol": 30,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      40,
+      10,
+      20,
+      30,
+      40,
+      20,
+      30,
+      40,
+      40,
+      30,
+      50
+     ]
+    }
+   ],
+   "buckets_head": [
+    {
+     "keyword": "калькулятор процентов",
+     "vol": 1300,
+     "merged": []
+    },
+    {
+     "keyword": "процент от числа",
+     "vol": 720,
+     "merged": []
+    }
+   ],
+   "buckets_suspicious": [],
+   "excluded": [
+    {
+     "keyword": "limit",
+     "vol": 1000
+    },
+    {
+     "keyword": "tenglama yechish",
+     "vol": 1900
+    }
+   ]
+  },
+  {
+   "id": "logic_quiz",
+   "name": "Mantiqiy savollar, boshqotirmalar, topishmoqlar, viktorina",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 46360,
+   "demand_floor_core": 46360,
+   "demand_upper_incl_heads": 53160,
+   "jump_keywords": [],
+   "visits_pos6_ads": [
+    14,
+    26
+   ],
+   "visits_pos6_floor": [
+    14,
+    26
+   ],
+   "visits_pos3_ads": 55,
+   "visits_pos3_floor": 55,
+   "clicks_month_pos6_ads": [
+    284,
+    512
+   ],
+   "season_index": {
+    "2026-09": 0.61,
+    "2026-08": 0.29,
+    "2026-07": 0.34,
+    "2026-06": 0.45,
+    "2026-05": 1.02,
+    "2026-04": 1.55,
+    "2026-03": 1.2,
+    "2026-02": 1.23,
+    "2026-01": 1.16,
+    "2025-12": 1.46,
+    "2025-11": 1.43,
+    "2025-10": 1.26
+   },
+   "buckets_core": [
+    {
+     "keyword": "mantiqiy savollar",
+     "vol": 18100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      9900,
+      4400,
+      5400,
+      6600,
+      18100,
+      22200,
+      22200,
+      22200,
+      22200,
+      27100,
+      27100,
+      22200
+     ]
+    },
+    {
+     "keyword": "zakovat savollari",
+     "vol": 12100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      8100,
+      2400,
+      2900,
+      4400,
+      12100,
+      27100,
+      14800,
+      14800,
+      9900,
+      18100,
+      18100,
+      18100
+     ]
+    },
+    {
+     "keyword": "topishmoqlar",
+     "vol": 9900,
+     "merged": [],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      5400,
+      3600,
+      4400,
+      5400,
+      9900,
+      14800,
+      12100,
+      12100,
+      14800,
+      14800,
+      14800,
+      12100
+     ]
+    },
+    {
+     "keyword": "boshqotirma",
+     "vol": 2400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1900,
+      1900,
+      1600,
+      2400,
+      3600,
+      3600,
+      2400,
+      2900,
+      2900,
+      1900,
+      2400,
+      1900
+     ]
+    },
+    {
+     "keyword": "qiziqarli savollar",
+     "vol": 2400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1900,
+      720,
+      880,
+      1300,
+      2400,
+      2900,
+      2900,
+      3600,
+      2900,
+      4400,
+      2900,
+      2900
+     ]
+    },
+    {
+     "keyword": "boshqotirmalar",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      390,
+      390,
+      480,
+      720,
+      880,
+      720,
+      720,
+      720,
+      880,
+      720,
+      720
+     ]
+    },
+    {
+     "keyword": "mantiqiy masalalar",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      260,
+      90,
+      140,
+      210,
+      480,
+      720,
+      480,
+      480,
+      390,
+      480,
+      590,
+      720
+     ]
+    },
+    {
+     "keyword": "viktorina",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      260,
+      140,
+      170,
+      170,
+      210,
+      260,
+      260,
+      320,
+      320,
+      320,
+      260,
+      260
+     ]
+    },
+    {
+     "keyword": "viktorina savollari",
+     "vol": 90,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      50,
+      50,
+      70,
+      110,
+      110,
+      110,
+      140,
+      110,
+      170,
+      140,
+      70
+     ]
+    }
+   ],
+   "buckets_head": [
+    {
+     "keyword": "zakovat",
+     "vol": 4400,
+     "merged": []
+    },
+    {
+     "keyword": "savol javob",
+     "vol": 2400,
+     "merged": []
+    }
+   ],
+   "buckets_suspicious": [],
+   "excluded": []
+  },
+  {
+   "id": "iq_test",
+   "name": "IQ / mantiqiy fikrlash testi (normasiz, o‘yin formatida)",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 15840,
+   "demand_floor_core": 15840,
+   "demand_upper_incl_heads": 15840,
+   "jump_keywords": [],
+   "visits_pos6_ads": [
+    5,
+    9
+   ],
+   "visits_pos6_floor": [
+    5,
+    9
+   ],
+   "visits_pos3_ads": 19,
+   "visits_pos3_floor": 19,
+   "clicks_month_pos6_ads": [
+    97,
+    175
+   ],
+   "season_index": {
+    "2026-09": 1.24,
+    "2026-08": 0.83,
+    "2026-07": 1.24,
+    "2026-06": 1.24,
+    "2026-05": 1.51,
+    "2026-04": 1.18,
+    "2026-03": 0.92,
+    "2026-02": 0.92,
+    "2026-01": 0.73,
+    "2025-12": 0.67,
+    "2025-11": 0.81,
+    "2025-10": 0.71
+   },
+   "buckets_core": [
+    {
+     "keyword": "iq test",
+     "vol": 12100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      14800,
+      9900,
+      14800,
+      14800,
+      18100,
+      14800,
+      12100,
+      12100,
+      9900,
+      9900,
+      12100,
+      9900
+     ]
+    },
+    {
+     "keyword": "iq test uzbek tilida",
+     "vol": 3600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      5400,
+      3600,
+      5400,
+      5400,
+      6600,
+      4400,
+      2900,
+      2900,
+      1900,
+      880,
+      1000,
+      1600
+     ]
+    },
+    {
+     "keyword": "тест iq",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      90,
+      140,
+      110,
+      140,
+      170,
+      170,
+      170,
+      140,
+      170,
+      170,
+      210,
+      140
+     ]
+    }
+   ],
+   "buckets_head": [],
+   "buckets_suspicious": [],
+   "excluded": []
+  },
+  {
+   "id": "periodic_table_chem",
+   "name": "Mendeleyev jadvali (interaktiv) + kimyo ma’lumotnomasi",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 29310,
+   "demand_floor_core": 29310,
+   "demand_upper_incl_heads": 119810,
+   "jump_keywords": [],
+   "visits_pos6_ads": [
+    9,
+    16
+   ],
+   "visits_pos6_floor": [
+    9,
+    16
+   ],
+   "visits_pos3_ads": 34,
+   "visits_pos3_floor": 34,
+   "clicks_month_pos6_ads": [
+    180,
+    324
+   ],
+   "season_index": {
+    "2026-09": 1.97,
+    "2026-08": 0.55,
+    "2026-07": 0.57,
+    "2026-06": 0.78,
+    "2026-05": 0.67,
+    "2026-04": 0.8,
+    "2026-03": 0.9,
+    "2026-02": 1.02,
+    "2026-01": 1.11,
+    "2025-12": 0.93,
+    "2025-11": 1.1,
+    "2025-10": 1.61
+   },
+   "buckets_core": [
+    {
+     "keyword": "mendeleyev jadvali",
+     "vol": 12100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      27100,
+      6600,
+      6600,
+      9900,
+      8100,
+      9900,
+      9900,
+      12100,
+      14800,
+      12100,
+      14800,
+      22200
+     ]
+    },
+    {
+     "keyword": "таблица менделеева",
+     "vol": 12100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      27100,
+      8100,
+      8100,
+      9900,
+      8100,
+      9900,
+      8100,
+      12100,
+      12100,
+      12100,
+      14800,
+      22200
+     ]
+    },
+    {
+     "keyword": "kimyoviy reaksiyalar",
+     "vol": 1300,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      110,
+      140,
+      320,
+      590,
+      720,
+      6600,
+      2900,
+      2900,
+      390,
+      260,
+      260
+     ]
+    },
+    {
+     "keyword": "oksidlanish darajasi",
+     "vol": 1000,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      880,
+      1300,
+      1900,
+      1900,
+      1600,
+      880,
+      1300,
+      880,
+      480,
+      390,
+      210
+     ]
+    },
+    {
+     "keyword": "mendeleev jadvali",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1300,
+      260,
+      390,
+      590,
+      480,
+      720,
+      590,
+      880,
+      880,
+      720,
+      720,
+      1300
+     ]
+    },
+    {
+     "keyword": "kimyoviy elementlar jadvali",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1300,
+      210,
+      110,
+      210,
+      210,
+      210,
+      170,
+      590,
+      880,
+      880,
+      1000,
+      880
+     ]
+    },
+    {
+     "keyword": "менделеев жадвали",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      320,
+      260,
+      390,
+      320,
+      480,
+      480,
+      480,
+      720,
+      590,
+      590,
+      880
+     ]
+    },
+    {
+     "keyword": "молярная масса",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      170,
+      210,
+      320,
+      320,
+      320,
+      320,
+      390,
+      390,
+      480,
+      480,
+      590
+     ]
+    },
+    {
+     "keyword": "valentlik",
+     "vol": 320,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      110,
+      140,
+      170,
+      140,
+      210,
+      260,
+      260,
+      320,
+      390,
+      480,
+      480
+     ]
+    },
+    {
+     "keyword": "molyar massa",
+     "vol": 110,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      140,
+      50,
+      90,
+      140,
+      110,
+      140,
+      90,
+      110,
+      140,
+      90,
+      140,
+      170
+     ]
+    },
+    {
+     "keyword": "kimyo formulalar",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      20,
+      20,
+      30,
+      70,
+      70,
+      50,
+      70,
+      50,
+      90,
+      70,
+      110
+     ]
+    },
+    {
+     "keyword": "уравнять реакцию",
+     "vol": 40,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      110,
+      10,
+      40,
+      10,
+      70,
+      70,
+      10,
+      30,
+      20,
+      40,
+      10,
+      10
+     ]
+    }
+   ],
+   "buckets_head": [],
+   "buckets_suspicious": [
+    {
+     "keyword": "kimyo masalalar",
+     "vol": 90500,
+     "series_sep26_to_oct25": [
+      165000,
+      74000,
+      74000,
+      135000,
+      165000,
+      135000,
+      90500,
+      110000,
+      74000,
+      27100,
+      1900,
+      20
+     ]
+    }
+   ],
+   "excluded": []
+  },
+  {
+   "id": "ona_tili_grammar",
+   "name": "Ona tili: qoidalar, imlo, diktant matnlari + mashqlar",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 25240,
+   "demand_floor_core": 21790,
+   "demand_upper_incl_heads": 32240,
+   "jump_keywords": [
+    [
+     "gap bolaklari",
+     3600,
+     150
+    ]
+   ],
+   "visits_pos6_ads": [
+    8,
+    14
+   ],
+   "visits_pos6_floor": [
+    7,
+    12
+   ],
+   "visits_pos3_ads": 30,
+   "visits_pos3_floor": 26,
+   "clicks_month_pos6_ads": [
+    155,
+    279
+   ],
+   "season_index": {
+    "2026-09": 1.05,
+    "2026-08": 0.51,
+    "2026-07": 0.65,
+    "2026-06": 0.95,
+    "2026-05": 1.29,
+    "2026-04": 1.31,
+    "2026-03": 1.07,
+    "2026-02": 1.11,
+    "2026-01": 1.23,
+    "2025-12": 0.92,
+    "2025-11": 0.82,
+    "2025-10": 1.08
+   },
+   "buckets_core": [
+    {
+     "keyword": "imlo qoidalari",
+     "vol": 5400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      5400,
+      3600,
+      4400,
+      8100,
+      8100,
+      8100,
+      5400,
+      6600,
+      4400,
+      2400,
+      1900,
+      2400
+     ]
+    },
+    {
+     "keyword": "diktant",
+     "vol": 4400,
+     "merged": [],
+     "src": "kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      5400,
+      2900,
+      2400,
+      2900,
+      5400,
+      5400,
+      6600,
+      6600,
+      8100,
+      4400,
+      4400,
+      5400
+     ]
+    },
+    {
+     "keyword": "gap bolaklari",
+     "vol": 3600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      4400,
+      2400,
+      4400,
+      6600,
+      8100,
+      4400,
+      3600,
+      2400,
+      1900,
+      880,
+      210,
+      90
+     ]
+    },
+    {
+     "keyword": "kelishiklar",
+     "vol": 1900,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1600,
+      590,
+      1000,
+      880,
+      1300,
+      2900,
+      1900,
+      1900,
+      4400,
+      2900,
+      1900,
+      2400
+     ]
+    },
+    {
+     "keyword": "ravish",
+     "vol": 1300,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      320,
+      480,
+      390,
+      880,
+      1600,
+      1600,
+      1600,
+      1600,
+      1900,
+      1900,
+      2900
+     ]
+    },
+    {
+     "keyword": "fonetika",
+     "vol": 1300,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1600,
+      480,
+      480,
+      880,
+      1000,
+      1300,
+      1000,
+      1300,
+      1300,
+      1600,
+      1900,
+      2400
+     ]
+    },
+    {
+     "keyword": "tinish belgilari",
+     "vol": 880,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      320,
+      390,
+      390,
+      880,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      880,
+      1600
+     ]
+    },
+    {
+     "keyword": "olmosh",
+     "vol": 880,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      320,
+      320,
+      320,
+      880,
+      1300,
+      880,
+      880,
+      880,
+      1600,
+      1000,
+      1600
+     ]
+    },
+    {
+     "keyword": "omonimlar",
+     "vol": 880,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      880,
+      320,
+      720,
+      880,
+      1600,
+      880,
+      720,
+      720,
+      720,
+      720,
+      880,
+      590
+     ]
+    },
+    {
+     "keyword": "manodosh sozlar",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1300,
+      170,
+      320,
+      720,
+      880,
+      880,
+      590,
+      720,
+      1600,
+      590,
+      480,
+      1000
+     ]
+    },
+    {
+     "keyword": "morfologiya",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      320,
+      210,
+      390,
+      590,
+      880,
+      720,
+      880,
+      720,
+      1000,
+      880,
+      1000
+     ]
+    },
+    {
+     "keyword": "sintaksis",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      210,
+      170,
+      260,
+      480,
+      880,
+      590,
+      720,
+      880,
+      1000,
+      1000,
+      1300
+     ]
+    },
+    {
+     "keyword": "qoshma gap",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      70,
+      140,
+      170,
+      390,
+      880,
+      480,
+      720,
+      720,
+      1000,
+      880,
+      1300
+     ]
+    },
+    {
+     "keyword": "fel",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      210,
+      260,
+      260,
+      480,
+      880,
+      480,
+      480,
+      590,
+      590,
+      590,
+      590
+     ]
+    },
+    {
+     "keyword": "sinonimlar",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      140,
+      170,
+      210,
+      320,
+      480,
+      390,
+      480,
+      720,
+      590,
+      590,
+      1600
+     ]
+    },
+    {
+     "keyword": "antonimlar",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      50,
+      40,
+      70,
+      140,
+      260,
+      210,
+      320,
+      720,
+      320,
+      480,
+      320
+     ]
+    },
+    {
+     "keyword": "soz turkumlari",
+     "vol": 210,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      260,
+      110,
+      110,
+      140,
+      320,
+      320,
+      210,
+      210,
+      260,
+      210,
+      170,
+      320
+     ]
+    },
+    {
+     "keyword": "ot soz turkumi",
+     "vol": 170,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      110,
+      170,
+      140,
+      320,
+      260,
+      210,
+      170,
+      140,
+      140,
+      140,
+      110
+     ]
+    },
+    {
+     "keyword": "diktant 5 sinf",
+     "vol": 140,
+     "merged": [],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      140,
+      90,
+      70,
+      210,
+      170,
+      70,
+      70,
+      170,
+      170,
+      140,
+      140
+     ]
+    },
+    {
+     "keyword": "frazeologizmlar",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      20,
+      10,
+      40,
+      110,
+      140,
+      110,
+      70,
+      50,
+      110,
+      90,
+      70
+     ]
+    },
+    {
+     "keyword": "diktant 4 sinf",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      30,
+      30,
+      20,
+      90,
+      50,
+      90,
+      50,
+      110,
+      70,
+      110,
+      70
+     ]
+    },
+    {
+     "keyword": "diktant 6 sinf",
+     "vol": 40,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      40,
+      10,
+      10,
+      10,
+      70,
+      70,
+      40,
+      30,
+      50,
+      50,
+      50,
+      70
+     ]
+    },
+    {
+     "keyword": "kelishik qoshimchalari",
+     "vol": 30,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      10,
+      20,
+      30,
+      20,
+      70,
+      40,
+      30,
+      70,
+      40,
+      20,
+      30
+     ]
+    }
+   ],
+   "buckets_head": [
+    {
+     "keyword": "sifat",
+     "vol": 1600,
+     "merged": []
+    },
+    {
+     "keyword": "imlo",
+     "vol": 5400,
+     "merged": []
+    }
+   ],
+   "buckets_suspicious": [],
+   "excluded": [
+    {
+     "keyword": "imlo lug'ati",
+     "vol": 18100
+    }
+   ]
+  },
+  {
+   "id": "english_grammar",
+   "name": "Ingliz tili grammatikasi o‘zbekcha + daraja testi",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 40730,
+   "demand_floor_core": 40730,
+   "demand_upper_incl_heads": 40730,
+   "jump_keywords": [],
+   "visits_pos6_ads": [
+    12,
+    23
+   ],
+   "visits_pos6_floor": [
+    12,
+    23
+   ],
+   "visits_pos3_ads": 48,
+   "visits_pos3_floor": 48,
+   "clicks_month_pos6_ads": [
+    250,
+    450
+   ],
+   "season_index": {
+    "2026-09": 0.86,
+    "2026-08": 0.55,
+    "2026-07": 0.72,
+    "2026-06": 0.84,
+    "2026-05": 0.8,
+    "2026-04": 1.0,
+    "2026-03": 0.96,
+    "2026-02": 1.26,
+    "2026-01": 1.19,
+    "2025-12": 1.17,
+    "2025-11": 1.2,
+    "2025-10": 1.45
+   },
+   "buckets_core": [
+    {
+     "keyword": "irregular verbs",
+     "vol": 12100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      9900,
+      6600,
+      9900,
+      9900,
+      9900,
+      12100,
+      12100,
+      18100,
+      14800,
+      14800,
+      14800,
+      18100
+     ]
+    },
+    {
+     "keyword": "present simple",
+     "vol": 12100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      12100,
+      6600,
+      8100,
+      9900,
+      8100,
+      9900,
+      9900,
+      12100,
+      12100,
+      12100,
+      14800,
+      18100
+     ]
+    },
+    {
+     "keyword": "present perfect",
+     "vol": 5400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      4400,
+      2900,
+      3600,
+      4400,
+      5400,
+      6600,
+      6600,
+      8100,
+      6600,
+      8100,
+      6600,
+      6600
+     ]
+    },
+    {
+     "keyword": "english test",
+     "vol": 3600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      2900,
+      2400,
+      2900,
+      3600,
+      3600,
+      3600,
+      3600,
+      3600,
+      4400,
+      2900,
+      2900,
+      3600
+     ]
+    },
+    {
+     "keyword": "ingliz tili grammatika",
+     "vol": 2400,
+     "merged": [],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      1300,
+      880,
+      1300,
+      1900,
+      1600,
+      2900,
+      1900,
+      2900,
+      3600,
+      3600,
+      3600,
+      5400
+     ]
+    },
+    {
+     "keyword": "неправильные глаголы",
+     "vol": 1900,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1900,
+      1300,
+      1300,
+      1600,
+      1300,
+      2400,
+      1900,
+      2900,
+      2900,
+      2400,
+      2900,
+      2900
+     ]
+    },
+    {
+     "keyword": "noto'g'ri fe'llar",
+     "vol": 1000,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      390,
+      590,
+      590,
+      590,
+      880,
+      880,
+      1300,
+      1300,
+      1600,
+      1000,
+      1900
+     ]
+    },
+    {
+     "keyword": "english grammar test",
+     "vol": 880,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      590,
+      720,
+      880,
+      880,
+      1000,
+      880,
+      880,
+      1300,
+      880,
+      1000,
+      1300
+     ]
+    },
+    {
+     "keyword": "tenses",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      390,
+      390,
+      480,
+      390,
+      480,
+      480,
+      590,
+      590,
+      590,
+      590,
+      590
+     ]
+    },
+    {
+     "keyword": "тест на уровень английского",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      390,
+      390,
+      590,
+      390,
+      480,
+      390,
+      480,
+      590,
+      390,
+      480,
+      390
+     ]
+    },
+    {
+     "keyword": "ingliz tili darslari",
+     "vol": 320,
+     "merged": [],
+     "src": "kw2_metrics.json",
+     "series_sep26_to_oct25": [
+      320,
+      170,
+      210,
+      320,
+      320,
+      390,
+      320,
+      390,
+      480,
+      390,
+      320,
+      320
+     ]
+    },
+    {
+     "keyword": "неправильные глаголы английского языка",
+     "vol": 40,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      50,
+      20,
+      20,
+      30,
+      30,
+      30,
+      40,
+      30,
+      70,
+      40,
+      50,
+      70
+     ]
+    },
+    {
+     "keyword": "определить уровень английского",
+     "vol": 30,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      30,
+      40,
+      40,
+      20,
+      30,
+      30,
+      40,
+      40,
+      40,
+      40,
+      30
+     ]
+    }
+   ],
+   "buckets_head": [],
+   "buckets_suspicious": [],
+   "excluded": [
+    {
+     "keyword": "ingliz tili",
+     "vol": 8100
+    }
+   ]
+  },
+  {
+   "id": "ielts_cefr_writing",
+   "name": "IELTS / CEFR / Multilevel writing tekshiruvi (AI) + mock",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 6760,
+   "demand_floor_core": 6760,
+   "demand_upper_incl_heads": 18760,
+   "jump_keywords": [],
+   "visits_pos6_ads": [
+    2,
+    4
+   ],
+   "visits_pos6_floor": [
+    2,
+    4
+   ],
+   "visits_pos3_ads": 8,
+   "visits_pos3_floor": 8,
+   "clicks_month_pos6_ads": [
+    41,
+    75
+   ],
+   "season_index": {
+    "2026-09": 0.84,
+    "2026-08": 0.82,
+    "2026-07": 0.86,
+    "2026-06": 0.97,
+    "2026-05": 1.09,
+    "2026-04": 1.27,
+    "2026-03": 1.1,
+    "2026-02": 1.12,
+    "2026-01": 1.08,
+    "2025-12": 1.0,
+    "2025-11": 0.99,
+    "2025-10": 0.87
+   },
+   "buckets_core": [
+    {
+     "keyword": "ielts test",
+     "vol": 1600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      1000,
+      1300,
+      1600,
+      1600,
+      1300,
+      1600,
+      1600,
+      1600,
+      1900,
+      1900,
+      1300
+     ]
+    },
+    {
+     "keyword": "ielts writing task 2",
+     "vol": 1300,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      1000,
+      1300,
+      1300,
+      1300,
+      1600,
+      1300,
+      1600,
+      1600,
+      1300,
+      1300,
+      1300
+     ]
+    },
+    {
+     "keyword": "cefr test",
+     "vol": 880,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      880,
+      720,
+      880,
+      880,
+      1300,
+      1000,
+      880,
+      1000,
+      880,
+      880,
+      880
+     ]
+    },
+    {
+     "keyword": "ielts writing",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      590,
+      720,
+      720,
+      720,
+      880,
+      720,
+      720,
+      720,
+      720,
+      590,
+      590
+     ]
+    },
+    {
+     "keyword": "ielts writing checker",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      720,
+      590,
+      720,
+      590,
+      720,
+      590,
+      590,
+      720,
+      720,
+      720,
+      590
+     ]
+    },
+    {
+     "keyword": "multilevel writing",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      590,
+      480,
+      390,
+      720,
+      1000,
+      880,
+      880,
+      720,
+      480,
+      480,
+      480
+     ]
+    },
+    {
+     "keyword": "cefr writing",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      390,
+      390,
+      210,
+      210,
+      720,
+      880,
+      590,
+      480,
+      390,
+      320,
+      320,
+      320
+     ]
+    },
+    {
+     "keyword": "multilevel test",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      260,
+      260,
+      390,
+      590,
+      720,
+      720,
+      590,
+      590,
+      390,
+      210,
+      320,
+      260
+     ]
+    },
+    {
+     "keyword": "multi level test",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      40,
+      10,
+      20,
+      30,
+      40,
+      50,
+      70,
+      70,
+      90,
+      70,
+      70
+     ]
+    },
+    {
+     "keyword": "writing tekshirish",
+     "vol": 30,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      10,
+      20,
+      20,
+      30,
+      30,
+      50,
+      30,
+      40,
+      20,
+      30,
+      20,
+      20
+     ]
+    }
+   ],
+   "buckets_head": [
+    {
+     "keyword": "cefr",
+     "vol": 6600,
+     "merged": []
+    },
+    {
+     "keyword": "multilevel",
+     "vol": 5400,
+     "merged": []
+    }
+   ],
+   "buckets_suspicious": [],
+   "excluded": [
+    {
+     "keyword": "ielts",
+     "vol": 27100
+    }
+   ]
+  },
+  {
+   "id": "number_converters",
+   "name": "Rim raqamlari, sanoq sistemalari (+ son so‘z bilan)",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 13250,
+   "demand_floor_core": 13250,
+   "demand_upper_incl_heads": 25350,
+   "jump_keywords": [],
+   "visits_pos6_ads": [
+    4,
+    7
+   ],
+   "visits_pos6_floor": [
+    4,
+    7
+   ],
+   "visits_pos3_ads": 16,
+   "visits_pos3_floor": 16,
+   "clicks_month_pos6_ads": [
+    81,
+    146
+   ],
+   "season_index": {
+    "2026-09": 1.02,
+    "2026-08": 0.42,
+    "2026-07": 0.45,
+    "2026-06": 0.74,
+    "2026-05": 0.99,
+    "2026-04": 0.91,
+    "2026-03": 1.0,
+    "2026-02": 1.06,
+    "2026-01": 1.1,
+    "2025-12": 1.55,
+    "2025-11": 1.14,
+    "2025-10": 1.63
+   },
+   "buckets_core": [
+    {
+     "keyword": "rim raqamlari",
+     "vol": 8100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      6600,
+      2400,
+      2900,
+      5400,
+      6600,
+      6600,
+      8100,
+      8100,
+      8100,
+      12100,
+      8100,
+      12100
+     ]
+    },
+    {
+     "keyword": "римские цифры",
+     "vol": 3600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      4400,
+      2400,
+      1900,
+      2900,
+      3600,
+      3600,
+      3600,
+      3600,
+      4400,
+      6600,
+      5400,
+      6600
+     ]
+    },
+    {
+     "keyword": "sanoq sistemasi",
+     "vol": 1000,
+     "merged": [
+      "sanoq sistemalari"
+     ],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1600,
+      320,
+      590,
+      590,
+      1300,
+      880,
+      720,
+      1300,
+      1300,
+      880,
+      880,
+      1900
+     ]
+    },
+    {
+     "keyword": "ikkilik sanoq sistemasi",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      260,
+      390,
+      720,
+      1300,
+      590,
+      480,
+      590,
+      390,
+      320,
+      260,
+      260
+     ]
+    },
+    {
+     "keyword": "двоичная система счисления",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      20,
+      20,
+      20,
+      40,
+      50,
+      50,
+      70,
+      50,
+      90,
+      90,
+      170
+     ]
+    }
+   ],
+   "buckets_head": [
+    {
+     "keyword": "сумма прописью",
+     "vol": 12100,
+     "merged": []
+    }
+   ],
+   "buckets_suspicious": [],
+   "excluded": []
+  },
+  {
+   "id": "primary_math_grades",
+   "name": "Boshlang‘ich matematika: sinf bo‘yicha misollar + karra jadvali trenajyori",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 42910,
+   "demand_floor_core": 30260,
+   "demand_upper_incl_heads": 42910,
+   "jump_keywords": [
+    [
+     "matematika 3 sinf",
+     14800,
+     2150
+    ]
+   ],
+   "visits_pos6_ads": [
+    13,
+    24
+   ],
+   "visits_pos6_floor": [
+    9,
+    17
+   ],
+   "visits_pos3_ads": 50,
+   "visits_pos3_floor": 36,
+   "clicks_month_pos6_ads": [
+    263,
+    474
+   ],
+   "season_index": {
+    "2026-09": 1.97,
+    "2026-08": 0.59,
+    "2026-07": 0.49,
+    "2026-06": 0.53,
+    "2026-05": 1.02,
+    "2026-04": 1.67,
+    "2026-03": 0.95,
+    "2026-02": 1.34,
+    "2026-01": 1.14,
+    "2025-12": 0.79,
+    "2025-11": 0.76,
+    "2025-10": 0.76
+   },
+   "buckets_core": [
+    {
+     "keyword": "matematika 3 sinf",
+     "vol": 14800,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      49500,
+      1900,
+      2900,
+      3600,
+      18100,
+      40500,
+      14800,
+      22200,
+      14800,
+      6600,
+      2400,
+      1900
+     ]
+    },
+    {
+     "keyword": "таблица умножения",
+     "vol": 12100,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      12100,
+      18100,
+      12100,
+      12100,
+      8100,
+      9900,
+      9900,
+      12100,
+      12100,
+      8100,
+      12100,
+      12100
+     ]
+    },
+    {
+     "keyword": "matematika 2 sinf",
+     "vol": 3600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      9900,
+      480,
+      590,
+      590,
+      6600,
+      6600,
+      4400,
+      5400,
+      4400,
+      2400,
+      1300,
+      1000
+     ]
+    },
+    {
+     "keyword": "matematika 4 sinf",
+     "vol": 2900,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      3600,
+      390,
+      590,
+      720,
+      2900,
+      4400,
+      2400,
+      4400,
+      4400,
+      4400,
+      4400,
+      4400
+     ]
+    },
+    {
+     "keyword": "matematika 6 sinf",
+     "vol": 2900,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      2400,
+      480,
+      590,
+      880,
+      2400,
+      2900,
+      2900,
+      4400,
+      5400,
+      5400,
+      4400,
+      5400
+     ]
+    },
+    {
+     "keyword": "matematika 5 sinf",
+     "vol": 2400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      2900,
+      590,
+      720,
+      1000,
+      1900,
+      2900,
+      2400,
+      3600,
+      2900,
+      2900,
+      2900,
+      2900
+     ]
+    },
+    {
+     "keyword": "примеры для 1 класса",
+     "vol": 1000,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      880,
+      880,
+      880,
+      880,
+      1000,
+      1000,
+      1300,
+      1000,
+      1000,
+      1300,
+      1300
+     ]
+    },
+    {
+     "keyword": "matematika 1 sinf",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1000,
+      320,
+      390,
+      480,
+      590,
+      880,
+      590,
+      1300,
+      720,
+      590,
+      480,
+      390
+     ]
+    },
+    {
+     "keyword": "математика 1 класс",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      480,
+      480,
+      590,
+      590,
+      880,
+      720,
+      880,
+      880,
+      720,
+      880,
+      880
+     ]
+    },
+    {
+     "keyword": "примеры для 2 класса",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      480,
+      720,
+      720,
+      880,
+      720,
+      590,
+      590,
+      590,
+      720,
+      720,
+      880,
+      880
+     ]
+    },
+    {
+     "keyword": "математика 2 класс",
+     "vol": 590,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      590,
+      320,
+      480,
+      480,
+      390,
+      480,
+      390,
+      480,
+      720,
+      720,
+      880,
+      880
+     ]
+    },
+    {
+     "keyword": "misollar 1 sinf",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      110,
+      90,
+      110,
+      110,
+      110,
+      140,
+      170,
+      140,
+      170,
+      110,
+      170,
+      210
+     ]
+    },
+    {
+     "keyword": "misollar 2 sinf",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      90,
+      140,
+      110,
+      140,
+      140,
+      90,
+      110,
+      70,
+      140,
+      110,
+      170,
+      170
+     ]
+    },
+    {
+     "keyword": "примеры по математике",
+     "vol": 140,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      70,
+      110,
+      110,
+      110,
+      170,
+      140,
+      110,
+      140,
+      140,
+      110,
+      140,
+      140
+     ]
+    },
+    {
+     "keyword": "тренажер таблица умножения",
+     "vol": 40,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      50,
+      70,
+      50,
+      40,
+      20,
+      20,
+      40,
+      30,
+      30,
+      10,
+      40,
+      30
+     ]
+    }
+   ],
+   "buckets_head": [],
+   "buckets_suspicious": [],
+   "excluded": [
+    {
+     "keyword": "matematika misollar",
+     "vol": 18100
+    },
+    {
+     "keyword": "karra jadvali",
+     "vol": 2900
+    },
+    {
+     "keyword": "ko'paytirish jadvali",
+     "vol": 720
+    },
+    {
+     "keyword": "misollar",
+     "vol": 1600
+    }
+   ]
+  },
+  {
+   "id": "olympiad",
+   "name": "Olimpiada masalalari (o‘z masalalar + yechim)",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 6080,
+   "demand_floor_core": 6080,
+   "demand_upper_incl_heads": 6080,
+   "jump_keywords": [],
+   "visits_pos6_ads": [
+    2,
+    3
+   ],
+   "visits_pos6_floor": [
+    2,
+    3
+   ],
+   "visits_pos3_ads": 7,
+   "visits_pos3_floor": 7,
+   "clicks_month_pos6_ads": [
+    37,
+    67
+   ],
+   "season_index": {
+    "2026-09": 3.62,
+    "2026-08": 0.19,
+    "2026-07": 0.24,
+    "2026-06": 0.32,
+    "2026-05": 0.33,
+    "2026-04": 0.3,
+    "2026-03": 0.33,
+    "2026-02": 1.12,
+    "2026-01": 0.56,
+    "2025-12": 0.55,
+    "2025-11": 0.34,
+    "2025-10": 4.11
+   },
+   "buckets_core": [
+    {
+     "keyword": "olimpiada",
+     "vol": 3600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      18100,
+      480,
+      390,
+      590,
+      880,
+      1000,
+      1000,
+      2400,
+      1900,
+      2400,
+      1300,
+      18100
+     ]
+    },
+    {
+     "keyword": "olimpiada savollari",
+     "vol": 1600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      2400,
+      590,
+      1000,
+      1000,
+      720,
+      720,
+      880,
+      2900,
+      1300,
+      720,
+      480,
+      4400
+     ]
+    },
+    {
+     "keyword": "fan olimpiadasi",
+     "vol": 720,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      1900,
+      50,
+      70,
+      390,
+      390,
+      90,
+      140,
+      1600,
+      170,
+      210,
+      260,
+      2900
+     ]
+    },
+    {
+     "keyword": "matematika olimpiada",
+     "vol": 70,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      170,
+      30,
+      30,
+      20,
+      50,
+      50,
+      30,
+      70,
+      50,
+      40,
+      40,
+      210
+     ]
+    },
+    {
+     "keyword": "informatika olimpiada",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      10,
+      10,
+      10,
+      10,
+      20,
+      20,
+      30,
+      70,
+      20,
+      30,
+      210
+     ]
+    },
+    {
+     "keyword": "олимпиада по математике",
+     "vol": 40,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      50,
+      10,
+      10,
+      20,
+      20,
+      40,
+      30,
+      40,
+      50,
+      50,
+      30,
+      90
+     ]
+    }
+   ],
+   "buckets_head": [],
+   "buckets_suspicious": [],
+   "excluded": []
+  }
+ ],
+ "adjacent": [
+  {
+   "id": "driving_theory",
+   "name": "Avtotest / YHQ (вне школьной линзы)",
+   "aio_discount_top3": 0.655,
+   "demand_ads_core": 24280,
+   "demand_floor_core": 24280,
+   "demand_upper_incl_heads": 24280,
+   "jump_keywords": [],
+   "visits_pos6_ads": [
+    7,
+    13
+   ],
+   "visits_pos6_floor": [
+    7,
+    13
+   ],
+   "visits_pos3_ads": 29,
+   "visits_pos3_floor": 29,
+   "clicks_month_pos6_ads": [
+    149,
+    268
+   ],
+   "season_index": {
+    "2026-09": 1.01,
+    "2026-08": 1.19,
+    "2026-07": 1.1,
+    "2026-06": 0.98,
+    "2026-05": 0.94,
+    "2026-04": 1.17,
+    "2026-03": 1.08,
+    "2026-02": 1.21,
+    "2026-01": 1.14,
+    "2025-12": 0.86,
+    "2025-11": 0.68,
+    "2025-10": 0.65
+   },
+   "buckets_core": [
+    {
+     "keyword": "avtotest",
+     "vol": 12100,
+     "merged": [
+      "avto test"
+     ],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      9900,
+      12100,
+      12100,
+      12100,
+      12100,
+      14800,
+      14800,
+      14800,
+      14800,
+      12100,
+      9900,
+      9900
+     ]
+    },
+    {
+     "keyword": "prava test",
+     "vol": 6600,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      8100,
+      9900,
+      8100,
+      6600,
+      5400,
+      6600,
+      5400,
+      8100,
+      6600,
+      4400,
+      2900,
+      2400
+     ]
+    },
+    {
+     "keyword": "автотест",
+     "vol": 4400,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      4400,
+      4400,
+      4400,
+      3600,
+      3600,
+      4400,
+      4400,
+      5400,
+      5400,
+      3600,
+      2900,
+      2900
+     ]
+    },
+    {
+     "keyword": "yol harakati qoidalari test",
+     "vol": 480,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      590,
+      320,
+      390,
+      720,
+      1600,
+      720,
+      210,
+      70,
+      40,
+      30,
+      20
+     ]
+    },
+    {
+     "keyword": "yhq test",
+     "vol": 390,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      720,
+      880,
+      1000,
+      480,
+      320,
+      320,
+      140,
+      170,
+      170,
+      90,
+      110,
+      90
+     ]
+    },
+    {
+     "keyword": "пдд тест",
+     "vol": 260,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      210,
+      480,
+      260,
+      260,
+      170,
+      210,
+      260,
+      320,
+      260,
+      210,
+      320,
+      210
+     ]
+    },
+    {
+     "keyword": "pdd test",
+     "vol": 50,
+     "merged": [],
+     "src": "ep_kw1_metrics.json",
+     "series_sep26_to_oct25": [
+      30,
+      50,
+      30,
+      50,
+      50,
+      20,
+      70,
+      50,
+      70,
+      50,
+      50,
+      30
+     ]
+    }
+   ],
+   "buckets_head": [],
+   "buckets_suspicious": [],
+   "excluded": []
+  }
+ ],
+ "summary": {
+  "total_demand_ads_core": 532290,
+  "total_demand_floor_core": 293580,
+  "total_visits_pos6_ads": [
+   163,
+   295
+  ],
+  "total_visits_pos6_floor": [
+   90,
+   163
+  ],
+  "total_visits_pos3_ads": 616,
+  "total_visits_pos3_floor": 340
+ }
+}

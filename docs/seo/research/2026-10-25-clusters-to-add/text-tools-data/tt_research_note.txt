@@ -1,0 +1,15 @@
+text-tools lens, 2026-10-25, location 2860.
+
+Paid calls (own estimate; account balance is shared with parallel lenses):
+- get_keyword_metrics #1: 691 keywords (call1_keywords.json -> tt_kw1_metrics.json), ~104 credits.
+- research_keywords: seeds "sher", "tabrik", resultLimit 500, source google_ads, ~96 credits per seed (~192).
+  Result: "sher" -> 2 rows (sher 6600; "barbara sehr" null); "tabrik" -> 1 row (tabrik 590). Useless for discovery, same as
+  ep_research_note.txt and the 2026-10-24 L3 note. All discovery was done with hand-built lists (candidates.py, candidates2.py).
+- get_keyword_metrics #2: 426 keywords (call2_keywords.json -> tt_kw2_metrics.json), ~104 credits.
+- get_serp_results: 4 queries, depth 20 (vatan haqida sher, поздравления с днем рождения, ertaklar, ismlar manosi), ~20 credits.
+  Reused free: L3 serp2 2026-10-24 «tugilgan kun tabriklari», «imlo tekshirish».
+Total own spend ~420 of the 600 cap.
+whoami: 20700 (start) -> 19972 (after metrics #1) -> 18950 (end); the extra drop is other lenses running in parallel.
+
+Apostrophe forms (she'r, ma'nosi, tug'ilgan, o'g'il) mostly return null in Google Ads; the no-apostrophe spellings carry the volume.
+Reused (not re-bought) rows: kw1/kw2 (L3), kw3/kw4 (roadmap), ep_kw1 (education lens), ll_kw_metrics*.json (language lens).

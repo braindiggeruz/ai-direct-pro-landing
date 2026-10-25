@@ -1,0 +1,33 @@
+{
+  "source": "OpenSEO get_search_console_performance (free), sc-domain:gptbot.uz, web, 2026-07-22..2026-10-22 (last_3_months), dimensions query+page unless noted",
+  "pulledAt": "2026-10-25",
+  "filters": {
+    "query contains 'reklam'": {"rows": 7, "clicks": 0, "top": [["zayavka reklama", "/ru/internet-reklama-tashkent/", 6, 3.5], ["internet reklama uz", "/ru/internet-reklama-tashkent/", 3, 9]]},
+    "query contains 'реклам'": {"rows": 106, "clicks": 0, "notable": [
+      ["процент рекламы телеграм от общего рынка рекламы узбекистан", "/ru/telegram-ads-uzbekistan/", 54, 8.9],
+      ["лид это в рекламе", "/ru/blog/chto-takoe-lid-v-marketinge/", 48, 25.5],
+      ["контекстная реклама ташкент", "/ru/kontekstnaya-reklama-tashkent/", 59, 38.3],
+      ["контекстная реклама в ташкенте", "/ru/kontekstnaya-reklama-tashkent/", 43, 35.4],
+      ["средний доход от рекламы за просмотр 2026 cpa cpm", "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/", 41, 7.4],
+      ["контекстная реклама цена", "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/", 6, 4.0],
+      ["таргетинговая реклама цена", "/ru/targetirovannaya-reklama-tashkent/", 3, 7.3],
+      ["реклама в инстаграм цена ташкент", "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/", 1, 1.0],
+      ["~40 Ukrainian 'біржа реклами телеграм' variants", "/ru/blog/telegram-ads-ili-posevy-v-kanalah/", "1-11 each", "22-90"]
+    ]},
+    "query contains 'target'": {"rows": 10, "clicks": 0, "notable": [["target nima", "/uz/blog/target-reklama-nima/", 69, 8.4], ["instagramda target yoqish", "/uz/instagram-target-yoqish/", 8, 6.1], ["target yoqish instagramda", "/uz/instagram-target-yoqish/", 5, 7.2]], "targetolog": "0 rows"},
+    "query contains 'таргет'": {"rows": 24, "clicks": 0, "notable": [["таргет нима", "/uz/blog/target-reklama-nima/", 74, 7.3], ["таргетолог цена", "/ru/targetirovannaya-reklama-tashkent/", 1, 18], ["услуги таргетолога", "/ru/targetirovannaya-reklama-tashkent/", 2, 24]]},
+    "query contains 'smm'": {"rows": 60, "clicks": 0, "notable": [["smm продвижение", "/ru/blog/chto-takoe-smm-prodvizhenie/", 55, 18], ["smm xizmati", "/uz/smm-xizmatlari/", 31, 71.2], ["smm услуги", "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/", 24, 28.3], ["smm ташкент", "/ru/smm-prodvizhenie-tashkent/", 19, 74.6]]},
+    "query contains 'narx'": {"rows": 9, "clicks": 0, "notable": [["sayt yaratish narxi", "/uz/blog/internet-dokon-yaratish-narxi-toshkent/", 18, 61.1], ["sayt yaratish narxi", "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/", 12, 53.4], ["narxi telegram kanalda", "/uz/telegram-reklama/", 1, 9]]},
+    "query contains 'калькул'": {"rows": 0},
+    "query contains 'контент'": {"rows": 1},
+    "query contains 'matn'": {"rows": 1, "note": "only a prompt-definition query on /uz/blog/chatgpt-uzbek-tilida-promptlar/"},
+    "query contains 'cp'": {"rows": 21, "clicks": 0, "note": "all on /ru/blog/cpa-cpm-cpc-cpl-v-reklame/, positions 27-85 except one long query at 7.4"},
+    "query contains 'ads'": {"rows": 8, "clicks": 1, "notable": [["telegram ads стоимость", "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/", 34, 2.4, "1 click"], ["telegram ads минимальный бюджет", "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/", 6, 3.3]]},
+    "query contains 'бюджет'": {"rows": 2},
+    "page contains 'gpt-v-marketinge-smm'": {"rows": 0, "note": "page earns zero impressions in 3 months"},
+    "page contains 'gpt-telegram-instagram-ideya'": {"rows": 0, "note": "page earns zero impressions in 3 months"},
+    "page contains 'narx' (dimension page)": {"pages": 11, "clicks": 1, "impressions": 201, "best": ["/uz/blog/smm-xizmati-narxi-ozbekiston-2026/ 55 impr pos 5.5", "/uz/blog/internet-reklama-narxi-ozbekiston-2026/ 27 impr pos 6.1, 1 click"]},
+    "page contains 'stoi' (dimension page)": {"pages": 19, "clicks": 16, "impressions": 1091, "best": ["/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/ 4 clicks/106 impr pos 4.1", "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/ 3/53 pos 11.5", "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/ 2/195 pos 7.7"]}
+  },
+  "rowFormat": "[query, page, impressions, avg position]"
+}

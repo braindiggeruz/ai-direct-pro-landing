@@ -1,0 +1,5748 @@
+{
+ "lens": "text-tools",
+ "date": "2026-10-25",
+ "market": "Google Uzbekistan (location 2860), Google Ads volumes (12-month mean Oct 2025 – Sep 2026)",
+ "model": {
+  "visits_formula": "demand × CTR × AIO-discount / 30 × 1.5",
+  "ctr_pos6": [
+   0.00613,
+   0.01105
+  ],
+  "ctr_pos3": 0.03593,
+  "aio_discount": {
+   "aio_r1": 0.533,
+   "aio_lower_or_unknown": 0.655
+  },
+  "dedup": "same volume + same 12-month series (vol ≥ 100) = one Ads bucket; weights 0.5 for ambiguous heads; jump-shaped keys (Jul–Sep 2026 ≥ 5× Oct–Nov 2025, vol ≥ 500) taken at the Oct–Nov 2025 floor in demand_month",
+  "demand_month": "conservative (weights + floors); demand_month_high = all distinct phrases incl. ambiguous heads",
+  "ramp": "share of pos-6 forecast in month n = min(1, K1·n^1.6); K1 0.04 articles/strong SERP, 0.06 static collections on weak SERP, 0.08 tools on weak SERP (same assumption as education-practice lens); assumes pos ~6 is reached at all"
+ },
+ "credits": {
+  "own_estimate": 420,
+  "cap": 600,
+  "calls": "get_keyword_metrics ×2 (691 + 426 keywords), research_keywords 2 seeds (useless for 2860), get_serp_results 4 queries",
+  "whoami": [
+   20700,
+   19972,
+   18950
+  ],
+  "note": "balance is shared with parallel lenses"
+ },
+ "totals_top12": {
+  "demand_month_low": 415645,
+  "demand_month_high": 594170,
+  "visits_day_pos6": [
+   128,
+   229
+  ],
+  "visits_day_pos3": 484,
+  "visits_day_pos3_high_demand": 694,
+  "visits_day_pos3_no_aio": 749
+ },
+ "clusters": [
+  {
+   "rank": 1,
+   "below_cut": false,
+   "id": "sherlar_mavzu",
+   "name": "She’rlar mavzular bo‘yicha (vatan, ustoz, ona, til, fasllar, bolalar) + «She’r yozib ber»",
+   "keywords": "vatan haqida sher 18 100 (= vatan haqida sherlar); ustoz haqida sher 9 900; ustoz haqida sherlar 9 900; sherlar 9 900 (= she'rlar); til haqida sher 8 100; ona haqida sherlar 5 400; bahor haqida sher 5 400 (= bahor haqida sherlar); sevgi haqida sherlar 5 400; sherlar toplami 4 400; she'rlar to'plami 4 400; bolalar uchun sherlar 3 600; yangi yil sherlari 3 600; ota haqida sher 2 900 (= ota haqida sherlar); qish haqida sher 2 900 (= qish haqida sherlar)",
+   "keywords_full": [
+    {
+     "keyword": "vatan haqida sher",
+     "volume": 18100,
+     "weight": 1.0,
+     "low_value": 18100,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "vatan haqida sherlar"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ustoz haqida sher",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ustoz haqida sherlar",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "sherlar",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "she'rlar"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "til haqida sher",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ona haqida sherlar",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "bahor haqida sher",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "bahor haqida sherlar"
+     ],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "sevgi haqida sherlar",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "sherlar toplami",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "she'rlar to'plami",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "bolalar uchun sherlar",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "yangi yil sherlari",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ota haqida sher",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "ota haqida sherlar"
+     ],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "qish haqida sher",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "qish haqida sherlar"
+     ],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "kitob haqida sherlar",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "kuz haqida sher",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "kuz haqida sherlar"
+     ],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "yangi yilga sher",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "qisqa sherlar",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tabiat haqida sher",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "sevgi sherlari",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "sevgi she'rlari"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "she'r",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "dost haqida sher",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "navruz haqida sherlar",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "tugilgan kun sher",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "tugilgan kunga sher",
+      "tugilgan kun sherlari"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "стихи про узбекистан",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ona haqida she'r",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "vatan haqida she'r",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "vatan haqida she'rlar"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ustoz haqida she'r",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "hayot haqida sherlar",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "maktab haqida sher",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "maktab haqida sherlar"
+     ],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "стихи про родину",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "kitob haqida she'r",
+     "volume": 14800,
+     "weight": 1.0,
+     "low_value": 345,
+     "jump_floor": true,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ustozlarga sher",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ozbekcha sherlar",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "uzbekcha sherlar"
+     ],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "bolalar sherlari",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "do'stlik haqida she'r",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ilm haqida sher",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "ilm haqida sherlar"
+     ],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ota haqida she'r",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "navro'z haqida she'r",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "gul haqida sher",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "стихи о родине",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ustozga sher",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "dostlik haqida sher",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "dostlik haqida sherlar"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ozbekiston haqida sher",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "ozbekiston haqida sherlar"
+     ],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "шеърлар",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ma'noli she'rlar",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "manoli sherlar"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "bahor haqida she'r",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "sevgi haqida she'r",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "sherlar sevgi",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "yangi sherlar",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ustozlar kuniga sher",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "sherlar 4 qator",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "шеър",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "sher yozish",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw1_metrics.json"
+    },
+    {
+     "keyword": "qish haqida she'r",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "maktab haqida she'r",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ustozga sherlar",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "она ҳақида шеърлар",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "uzbek sherlari",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "onaga sher",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "kuz haqida she'r",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "sher yozish qoidalari",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "sher",
+     "volume": 6600
+    },
+    {
+     "keyword": "стихи",
+     "volume": 2400
+    },
+    {
+     "keyword": "стихотворение",
+     "volume": 2400
+    },
+    {
+     "keyword": "стихи на новый год",
+     "volume": 1600
+    },
+    {
+     "keyword": "стихи про осень",
+     "volume": 1300
+    },
+    {
+     "keyword": "стихи для детей",
+     "volume": 1000
+    },
+    {
+     "keyword": "стихи про маму",
+     "volume": 880
+    },
+    {
+     "keyword": "стихи про зиму",
+     "volume": 880
+    },
+    {
+     "keyword": "стихи про учителя",
+     "volume": 480
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 116085,
+   "demand_month_high": 148080,
+   "seasonality": "пики: 2026-09 ×2.32, 2025-10 ×1.97, 2025-12 ×1.42; провалы: 2026-07 ×0.24, 2026-06 ×0.28",
+   "seasonality_index": {
+    "2025-10": 1.97,
+    "2025-11": 0.91,
+    "2025-12": 1.42,
+    "2026-01": 0.75,
+    "2026-02": 0.84,
+    "2026-03": 1.2,
+    "2026-04": 0.82,
+    "2026-05": 0.8,
+    "2026-06": 0.28,
+    "2026-07": 0.24,
+    "2026-08": 0.45,
+    "2026-09": 2.32
+   },
+   "serp": "«vatan haqida sher» (25.10): o1 sherlari.uz, o2 ilmlar.uz (блоги-подборки), AIO r3, o3 YouTube Shorts, o4 sherlari.uz, o5 kh-davron.uz (личный сайт поэта); дальше abituriyentlar.uz, bilimmarkazi.uz, myfarzand.uz, tavsiyalar.uz, darsuchun.uz, yoshlar.ru, tarbiyachi.uz. Ни одного сильного литературного ресурса в топ-10; подборки копируют стихи живых и недавних авторов без прав.",
+   "serp_weakness": "weak",
+   "serp_source": "снято 25.10 «vatan haqida sher»",
+   "aio_discount_top3": 0.655,
+   "fit": "c + b: свои и общественное достояние стихи по темам; пресет чата «She’r yozib ber» (тема, имя, 4/8 строк)",
+   "build": "Хаб /uz/sherlar/ и 17 тематических страниц /uz/sherlar/{vatan-haqida, ustoz-haqida, ona-haqida, til-haqida, bahor-haqida, qish-haqida, kuz-haqida, yangi-yil, kitob-haqida, ota-haqida, sevgi-haqida, tabiat-haqida, dostlik-haqida, navroz-haqida, tugilgan-kun, maktab-haqida, bolalar-uchun}/. На каждой 10–20 стихов: классики в общественном достоянии (Cho‘lpon, Hamid Olimjon, G‘afur G‘ulom, Oybek, Usmon Nosir — статус проверить) + стихи, написанные для сайта (с подписью; AI-черновик только после правки носителем), фильтр «4 qator», кнопки «nusxalash/chop etish», блок генератора. Тип: статическая коллекция + генератор. Первая волна до декабря: qish, yangi-yil, ona, bahor, navroz, bolalar-uchun.",
+   "effort": "L",
+   "honesty_risk": "medium",
+   "honesty_note": "Не публиковать стихи живых и недавно умерших авторов (Oripov, Vohidov, Zulfiya, Muhammad Yusuf, Iqbol Mirzo): запросы по ним (~25 тыс./мес) исключены. AI-стихи — только с пометкой и правкой носителя. Срок охраны в РУз (по памяти: жизнь + 50 лет) проверить до публикации.",
+   "caveat": "«til haqida sher» 8 100 почти целиком приходится на октябрь (90 500 в окт. 2025, День языка 21.10) — страница должна жить к началу октября. «ustoz haqida sher» и «…sherlar» — разные корзины Ads (9 900 + 9 900), пик 60–74 тыс. в сентябре (День учителя 1.10). «kitob haqida she’r» со скачком 210 → 27 100 взят по полу 345. Летом спрос ×0,24.",
+   "visits_day_pos6": [
+    36,
+    64
+   ],
+   "visits_day_pos3": 137,
+   "visits_day_pos6_high_demand": [
+    45,
+    82
+   ],
+   "visits_day_pos3_high_demand": 174,
+   "visits_day_pos3_no_aio": 209,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 3.0,
+    "weeks_to_5": 6,
+    "weeks_to_10": 10
+   },
+   "ramp_weeks": "≥5 визитов/день через ~6 нед., ≥10 — через ~10 нед. (K1=0.06, полный прогноз поз. 6 за 5.8 мес.)"
+  },
+  {
+   "rank": 2,
+   "below_cut": false,
+   "id": "maqollar",
+   "name": "Xalq og‘zaki ijodi: maqollar mavzular bo‘yicha + ma’nosi, iboralar, hikmatli so‘zlar, tez aytishlar (+ RU tarjima)",
+   "keywords": "maqollar 8 100; vatan haqida maqol 5 400; ona haqida maqol 4 400; maqol 3 600; kitob haqida maqol 3 600; odob haqida maqol 3 600; til haqida maqollar 3 600 (= til haqida maqol); tez aytishlar 3 600; mehnat haqida maqol 2 900; iboralar 2 400; скороговорки 2 400; ozbek xalq maqollari 1 600; bilim haqida maqol 1 300; tez aytish 1 300",
+   "keywords_full": [
+    {
+     "keyword": "maqollar",
+     "volume": 8100,
+     "weight": 1.0,
+     "low_value": 8100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw1_metrics.json"
+    },
+    {
+     "keyword": "vatan haqida maqol",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ona haqida maqol",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "maqol",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "kitob haqida maqol",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "odob haqida maqol",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "til haqida maqollar",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "til haqida maqol"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tez aytishlar",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "mehnat haqida maqol",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "iboralar",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "скороговорки",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ozbek xalq maqollari",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "bilim haqida maqol",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "tez aytish",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "hikmatli so'zlar",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "hikmatli sozlar"
+     ],
+     "src": "kw1_metrics.json"
+    },
+    {
+     "keyword": "tabiat haqida maqol",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "hunar haqida maqol",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "xalq maqollari",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "aforizmlar",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ilm haqida maqol",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "oila haqida maqol",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ozbek maqollari",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "hikmatlar",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ibratli so'zlar",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "тез айтишлар",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "dostlik haqida maqollar",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "мақоллар",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "matallar",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "frazeologik birliklar",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "узбекские пословицы",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "мақоллар тўплами",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "иборалар",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "qisqa maqollar",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "frazeologik iboralar",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ҳикматли сўзлар",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "пословицы на узбекском",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "мақол",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "iboralar manosi",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "maqollar toplami",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "узбекские пословицы с переводом",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "узбекские поговорки",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "dostlik haqida maqol",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "maqollar manosi",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "пословицы",
+     "volume": 2400
+    },
+    {
+     "keyword": "пословицы о родине",
+     "volume": 590
+    },
+    {
+     "keyword": "пословицы о труде",
+     "volume": 390
+    },
+    {
+     "keyword": "поговорки",
+     "volume": 390
+    },
+    {
+     "keyword": "пословицы о дружбе",
+     "volume": 320
+    },
+    {
+     "keyword": "пословицы и поговорки",
+     "volume": 170
+    },
+    {
+     "keyword": "пословицы о книге",
+     "volume": 170
+    },
+    {
+     "keyword": "пословицы о знаниях",
+     "volume": 110
+    },
+    {
+     "keyword": "афоризмы",
+     "volume": 880
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 55550,
+   "demand_month_high": 60970,
+   "seasonality": "пики: 2025-10 ×2.77, 2026-09 ×1.53, 2026-04 ×1.22; провалы: 2026-08 ×0.27, 2026-07 ×0.29",
+   "seasonality_index": {
+    "2025-10": 2.77,
+    "2025-11": 0.97,
+    "2025-12": 0.77,
+    "2026-01": 1.08,
+    "2026-02": 0.96,
+    "2026-03": 1.04,
+    "2026-04": 1.22,
+    "2026-05": 0.76,
+    "2026-06": 0.34,
+    "2026-07": 0.29,
+    "2026-08": 0.27,
+    "2026-09": 1.53
+   },
+   "serp": "Не снято. Ожидаемо: n.ziyouz.com (тематические списки мақолов — в выдаче «vatan haqida sher» на o15), блоги-подборки, Scribd/PDF. Тип выдачи как у стихов — слабая/смешанная.",
+   "serp_weakness": "mixed",
+   "serp_source": "не снято (ожидаемо n.ziyouz.com тематические списки, блоги, Scribd)",
+   "aio_discount_top3": 0.655,
+   "fit": "c + a: народные пословицы (общественное достояние) + своё объяснение смысла; поиск по слову и теме; колонка с переводом на русский",
+   "build": "Хаб /uz/maqollar/ (поиск) + /uz/maqollar/{vatan, ona, kitob, odob, til, mehnat, bilim-ilm, tabiat, hunar, oila, dostlik}-haqida/; /uz/iboralar/ (iboralar va ma’nosi), /uz/hikmatli-sozlar/, /uz/tez-aytishlar/, /ru/uzbekskie-poslovicy/ (с переводом — уникальный актив). Тип: статическая коллекция + поисковый инструмент.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Пословицы — фольклор, но подборки ziyouz не копировать дословно (свой отбор, свои объяснения). Писать с U+2018 в o‘/g‘ (конвенция сайта).",
+   "caveat": "Пики школьных заданий: октябрь (til/odob haqida maqol до 27 100 в окт. 2025), сентябрь (vatan 27 100), март (mehnat 18 100); летом ×0,27. Русские общие «пословицы» 2 400 и др. — только в верхней оценке.",
+   "visits_day_pos6": [
+    17,
+    31
+   ],
+   "visits_day_pos3": 65,
+   "visits_day_pos6_high_demand": [
+    19,
+    34
+   ],
+   "visits_day_pos3_high_demand": 72,
+   "visits_day_pos3_no_aio": 100,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 1.4,
+    "weeks_to_5": 10,
+    "weeks_to_10": 15
+   },
+   "ramp_weeks": "≥5 визитов/день через ~10 нед., ≥10 — через ~15 нед. (K1=0.06, полный прогноз поз. 6 за 5.8 мес.)"
+  },
+  {
+   "rank": 3,
+   "below_cut": false,
+   "id": "tabrik_uz",
+   "name": "Tug‘ilgan kun va bayram tabriklari (UZ lotin + kirill) + generator",
+   "keywords": "туғилган кун табриги 9 900; tugilgan kun tabrigi 6 600; tugilgan kunga tabrik 4 400 (= tugilgan kun tabrik); 8 март табриклари 1 900; yangi yil tabrigi 1 600; янги йил табриклари 1 300 (= янги йил табриги); туғилган кун табриклари 1 000; туғилган кунингиз билан 1 000; yangi yilingiz bilan 880; 8 mart tabriklari 720; 14 yanvar tabrik 720; tugilgan kuning bilan 590; tabrik 590; 8 mart tabrik 590 (= 8 martga tabrik)",
+   "keywords_full": [
+    {
+     "keyword": "туғилган кун табриги",
+     "volume": 9900,
+     "weight": 1.0,
+     "low_value": 9900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tugilgan kun tabrigi",
+     "volume": 6600,
+     "weight": 1.0,
+     "low_value": 6600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tugilgan kunga tabrik",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "tugilgan kun tabrik"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "8 март табриклари",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "yangi yil tabrigi",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "янги йил табриклари",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "янги йил табриги"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "туғилган кун табриклари",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "туғилган кунингиз билан",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "yangi yilingiz bilan",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "8 mart tabriklari",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "14 yanvar tabrik",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tugilgan kuning bilan",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tabrik",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "8 mart tabrik",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "8 martga tabrik"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "akamga tabrik",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "singlimga tabrik",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "tabrik she'rlar",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "dugonamga tabrik",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ustozga tabrik",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tugilgan kun uchun tabrik",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "8 mart tabrigi",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "onamga tabrik",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "opamga tabrik",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qizimga tabrik",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tugilgan kuningiz bilan",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "туғилган кунинг билан",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "to'y tabriklari",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "навруз табриклари",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ukamga tabrik",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ustozlar kuniga tabrik",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "hayit tabriklari",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qurbon hayit tabriklari",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "yangi yilga tabrik",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "dadamga tabrik",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tugilgan kun tabriklari sherlar",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "yangi yil tabriklari sherlar",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "sevgilimga tabrik",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "toy tabriklari",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "toy tabrigi",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "navro'z bayrami tabrik",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "erimga tabrik",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ayolimga tabrik",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "opaga tabrik",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "chiroyli tabriklar",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "онамга табрик",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "дугонамга табрик",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "tugilgan kun bilan tabriklash",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "navruz tabriklari",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "otaga tabrik",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "akaga tabrik",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "онага табрик",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "tugilgan kun tilaklari",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "navro'z tabriklari",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "navruz tabrigi",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "to'yga tabrik",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "dugonaga tabrik",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "kelinga tabrik",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "rahbarga tabrik",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ramazon hayit tabriklari",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ustozlar kuniga tabriklar",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ustoz tabrik",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "qisqa tabriklar",
+     "volume": 0,
+     "weight": 1.0,
+     "low_value": 0,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    }
+   ],
+   "high_only": [],
+   "prior_counted_excluded": [
+    "tugilgan kun tabriklari",
+    "tabriklar",
+    "yangi yil tabriklari",
+    "табриклар",
+    "табрик",
+    "onaga tabrik",
+    "tabrik yozish",
+    "tabrik matni",
+    "tabrik so'zlari",
+    "ustozlar kuni tabrik",
+    "sms tabrik"
+   ],
+   "demand_month": 37030,
+   "demand_month_high": 37030,
+   "seasonality": "пики: 2026-03 ×2.06, 2025-12 ×1.96, 2026-01 ×1.23; провалы: 2026-07 ×0.61, 2026-08 ×0.61",
+   "seasonality_index": {
+    "2025-10": 0.89,
+    "2025-11": 0.8,
+    "2025-12": 1.96,
+    "2026-01": 1.23,
+    "2026-02": 0.83,
+    "2026-03": 2.06,
+    "2026-04": 0.79,
+    "2026-05": 0.87,
+    "2026-06": 0.68,
+    "2026-07": 0.61,
+    "2026-08": 0.61,
+    "2026-09": 0.67
+   },
+   "serp": "«tugilgan kun tabriklari» (24.10, L3): o1 askinfo.uz, o2 bilimmarkazi.uz, картинки, AIO r4, o3 Telegram-канал, o4 YouTube-плейлист, o5 приложение Play, o6 qogozcha.uz, o7 Instagram, o8 insho.uz, o9 sherlari.ru, o10 ok.ru. Слабая.",
+   "serp_weakness": "weak",
+   "serp_source": "снято 24.10 (L3 serp2) «tugilgan kun tabriklari»",
+   "aio_discount_top3": 0.655,
+   "fit": "c + b: свои тексты поздравлений; генератор (кому, возраст, тон, длина; выдача латиницей или кириллицей через готовый конвертер)",
+   "build": "Превратить /uz/blog/tabrik-yozish/ в хаб /uz/tabriklar/ (гайд остаётся) + /uz/tabriklar/tugilgan-kun/ (главная под «tugilgan kun tabrigi» 6 600) с кириллической версией под «туғилган кун табриги» 9 900; по адресату /uz/tabriklar/{onaga, dadaga, akaga, opaga, singlimga, ukamga, dugonaga, ustozga, qizimga, erimga, ayolimga, sevgilimga}/; праздники /uz/tabriklar/{yangi-yil, 8-mart, navroz, 14-yanvar, ustozlar-kuni, hayit, toy}/. Тип: коллекция + генератор.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Тексты свои; хайит — нейтральные поздравления без религиозных предписаний.",
+   "caveat": "Кириллица сильнее латиницы: «туғилган кун табриги» 9 900 против 6 600. Пики: март (8 март табриклари 22 200 в мар. 2026) и декабрь (yangi yil tabrigi 18 100). Из спроса вычтены 11 ключей, которые уже закреплены за /uz/blog/tabrik-yozish/ (4 430/мес в прежней оценке).",
+   "visits_day_pos6": [
+    11,
+    20
+   ],
+   "visits_day_pos3": 44,
+   "visits_day_pos6_high_demand": [
+    11,
+    20
+   ],
+   "visits_day_pos3_high_demand": 44,
+   "visits_day_pos3_no_aio": 67,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.9,
+    "weeks_to_5": 13,
+    "weeks_to_10": 20
+   },
+   "ramp_weeks": "≥5 визитов/день через ~13 нед., ≥10 — через ~20 нед. (K1=0.06, полный прогноз поз. 6 за 5.8 мес.)"
+  },
+  {
+   "rank": 4,
+   "below_cut": false,
+   "id": "pozdravleniya_ru",
+   "name": "Поздравления с днём рождения и праздниками (RU) + «на узбекском» + генератор",
+   "keywords": "поздравления с днем рождения 18 100 (= поздравление с днём рождения, поздравление с днем рождения); поздравление с днем рождения мужчине 4 400; поздравление с днем рождения своими словами 3 600; поздравление с 8 марта 3 600 (= поздравления с 8 марта); поздравление с днем рождения подруге 2 400 (= поздравление с днем рождения другу); поздравление с днем рождения женщине 1 900; поздравление с новым годом 1 900 (= поздравления с новым годом); с днем рождения поздравления 880; пожелания на день рождения 880; поздравление с днем рождения сестре 720; поздравление с днем рождения маме 480; поздравление с днем рождения сыну 480; поздравление с днем рождения брату 390; поздравление с днем рождения девушке 390",
+   "keywords_full": [
+    {
+     "keyword": "поздравления с днем рождения",
+     "volume": 18100,
+     "weight": 1.0,
+     "low_value": 18100,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "поздравление с днём рождения",
+      "поздравление с днем рождения"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения мужчине",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения своими словами",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с 8 марта",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "поздравления с 8 марта"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения подруге",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "поздравление с днем рождения другу"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения женщине",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с новым годом",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "поздравления с новым годом"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "с днем рождения поздравления",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "пожелания на день рождения",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения сестре",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения маме",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения сыну",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения брату",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения девушке",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем учителя",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения коллеге",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "красивые поздравления с днем рождения",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения в прозе",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения племяннице",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление маме с днем рождения",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения дочери",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения тете",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление учителю",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "пожелания с днем рождения",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения на узбекском языке",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем свадьбы",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения папе",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения мужу",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения бабушке",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения внучке",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с навруз",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "с днем рождения на узбекском",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "ll_kw_metrics2.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения внуку",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление на свадьбу",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "с днем рождения на узбекском языке",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения учителю",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения жене",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с рождением ребенка",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения на узбекском",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "текст поздравления с днем рождения",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "короткие поздравления с днем рождения",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения парню",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с днем рождения ребенку",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с юбилеем",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление на узбекском языке",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "поздравление с юбилеем женщине",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравление с курбан хайит",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "что пожелать на день рождения",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "поздравления с днем рождения в стихах",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "с днем рождения",
+     "volume": 49500
+    },
+    {
+     "keyword": "поздравление",
+     "volume": 1000
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 45430,
+   "demand_month_high": 95930,
+   "seasonality": "пики: 2026-03 ×1.84, 2025-12 ×1.43, 2025-10 ×1.07; провалы: 2026-09 ×0.74, 2026-08 ×0.77",
+   "seasonality_index": {
+    "2025-10": 1.07,
+    "2025-11": 0.98,
+    "2025-12": 1.43,
+    "2026-01": 0.98,
+    "2026-02": 0.84,
+    "2026-03": 1.84,
+    "2026-04": 0.83,
+    "2026-05": 0.94,
+    "2026-06": 0.81,
+    "2026-07": 0.78,
+    "2026-08": 0.77,
+    "2026-09": 0.74
+   },
+   "serp": "«поздравления с днем рождения» (25.10): o1 techinsider.ru (листикл 2024), AIO r2, o2 Pinterest, o3 pozdravok.com, картинки, PAA, видео, o4 Instagram, o5 pozdravok.com, o6 vtop-shop.com.ua (блог магазина), o7 Pinterest, o8 nur.kz, o9 YouTube, o10 pozdravok.com; o11 vc.ru, o12 tbank.ru. Смешанная: pozdravok держит 5 мест из 14, но рядом UGC и мусор.",
+   "serp_weakness": "mixed",
+   "serp_source": "снято 25.10 «поздравления с днем рождения»",
+   "aio_discount_top3": 0.655,
+   "fit": "b + c: генератор «поздравление своими словами» (имя, кому, возраст, тон; вариант на узбекском с переводом) + свои примеры",
+   "build": "/ru/pozdravleniya-s-dnem-rozhdeniya/ (генератор + 30 своих текстов); по адресату /ru/pozdravleniya-s-dnem-rozhdeniya/{muzhchine, zhenshchine, podruge, drugu, mame, pape, sestre, bratu, synu, docheri, kollege, devushke, muzhu, zhene}/ (сначала 8 крупнейших); /ru/pozdravlenie-na-uzbekskom/ (двуязычные поздравления — уникально для сайта); сезонные /ru/pozdravleniya-s-8-marta/, /ru/pozdravleniya-s-novym-godom/, /ru/pozdravlenie-s-dnem-uchitelya/. Тип: генератор + коллекция.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Тексты свои, не копии pozdravok.",
+   "caveat": "Голова «с днем рождения» 49 500 — только в верхней оценке (там открытки, песни, картинки). «открытки с днем рождения» 8 100 исключены: продукт не делает изображений. Разгон медленнее: российские профильные сайты с большим ссылочным весом.",
+   "visits_day_pos6": [
+    14,
+    25
+   ],
+   "visits_day_pos3": 53,
+   "visits_day_pos6_high_demand": [
+    29,
+    53
+   ],
+   "visits_day_pos3_high_demand": 113,
+   "visits_day_pos3_no_aio": 82,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 0.8,
+    "weeks_to_5": 14,
+    "weeks_to_10": 22
+   },
+   "ramp_weeks": "≥5 визитов/день через ~14 нед., ≥10 — через ~22 нед. (K1=0.04, полный прогноз поз. 6 за 7.5 мес.)"
+  },
+  {
+   "rank": 5,
+   "below_cut": false,
+   "id": "ertaklar",
+   "name": "Ertaklar va ibratli hikoyalar (o‘z qayta hikoyalari) + «Ertak to‘qib ber» / «сказка на ночь» generatori",
+   "keywords": "ertaklar 12 100; сказки 4 400 (= сказка); hikoyalar 6 600 (вес 0.5); ertak 2 900; сказки на ночь 2 900 (= сказка на ночь); эртаклар 1 900; сказки для детей 1 600; ibratli hikoyalar 1 300; alpomish dostoni 880; qisqa ertaklar 720; ezop masallari 720; qisqa hikoyalar 590; ozbek xalq ertaklari 590; masal 590",
+   "keywords_full": [
+    {
+     "keyword": "ertaklar",
+     "volume": 12100,
+     "weight": 1.0,
+     "low_value": 12100,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw2_metrics.json"
+    },
+    {
+     "keyword": "сказки",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "сказка"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "hikoyalar",
+     "volume": 6600,
+     "weight": 0.5,
+     "low_value": 3300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ertak",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "сказки на ночь",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "сказка на ночь"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "эртаклар",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "сказки для детей",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ibratli hikoyalar",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "alpomish dostoni",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qisqa ertaklar",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ezop masallari",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "qisqa hikoyalar",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ozbek xalq ertaklari",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "masal",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "эртак",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "masallar",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qiziqarli hikoyalar",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "rivoyatlar",
+     "volume": 720,
+     "weight": 0.5,
+     "low_value": 360,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ertaklar matni",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "сказки на ночь для детей",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "sehrli ertaklar",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "hayotiy hikoyalar",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "rivoyat",
+     "volume": 480,
+     "weight": 0.5,
+     "low_value": 240,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "rus xalq ertaklari",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "dostonlar",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "krilov masallari",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "узбекские народные сказки",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "узбекские сказки",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "короткие сказки",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ibratli rivoyatlar",
+     "volume": 210,
+     "weight": 0.5,
+     "low_value": 105,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ertaklar toplami",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ўзбек халқ эртаклари",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "qisqa ertak",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "болалар учун эртаклар",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "короткие сказки на ночь",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "hayvonlar haqida ertak",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "qisqa hikoya",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "сказки на узбекском языке",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "сказка для детей на ночь",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ertak yozish",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw1_metrics.json"
+    },
+    {
+     "keyword": "ibratli ertaklar",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "узбекская народная сказка",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ertak to'qish",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ozbek xalq ertagi",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "придумать сказку",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "сказки на узбекском",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "рассказы",
+     "volume": 1300
+    },
+    {
+     "keyword": "рассказы для детей",
+     "volume": 170
+    },
+    {
+     "keyword": "короткие рассказы",
+     "volume": 90
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 39335,
+   "demand_month_high": 44900,
+   "seasonality": "пики: 2025-10 ×1.31, 2026-02 ×1.25, 2026-01 ×1.24; провалы: 2026-07 ×0.63, 2026-08 ×0.64",
+   "seasonality_index": {
+    "2025-10": 1.31,
+    "2025-11": 1.21,
+    "2025-12": 1.11,
+    "2026-01": 1.24,
+    "2026-02": 1.25,
+    "2026-03": 1.02,
+    "2026-04": 1.14,
+    "2026-05": 0.88,
+    "2026-06": 0.66,
+    "2026-07": 0.63,
+    "2026-08": 0.64,
+    "2026-09": 0.92
+   },
+   "serp": "«ertaklar» (25.10): o1 zakm.uz (PDF), видео r2, AIO r3, o2 YouTube (аудиосказка), o3 ertak.uz (библиотека сказок), o4 n.ziyouz.com, o5 приложение Play; дальше ziyouz.uz, ertak.uz/audio, YouTube, audiobook.uz, bilimlar.uz, ilmlar.uz, PDF natlib. Смешанная: PDF/YouTube/приложение слабые, но ertak.uz и ziyouz устоялись; сильный аудио-интент.",
+   "serp_weakness": "mixed",
+   "serp_source": "снято 25.10 «ertaklar»",
+   "aio_discount_top3": 0.655,
+   "fit": "c + b: свои пересказы народных сказок (сюжеты в общественном достоянии) + генератор «Ertak to‘qib ber» / «Сказка на ночь» с именем ребёнка и моралью",
+   "build": "/uz/ertaklar/ (30–50 своих пересказов o‘zbek xalq ertaklari), /uz/ertak-toqib-ber/ (генератор; ловит «ertak yozish», «ertak to‘qish»), /uz/ibratli-hikoyalar/, /uz/masallar/ (свои пересказы Эзопа), /ru/skazki-na-noch/ (генератор + 20 своих сказок), /ru/uzbekskie-narodnye-skazki/. Тип: коллекция + генератор.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Не копировать изданные переводы и аудио; AI-сказки помечать; «rivoyat» — только светские притчи.",
+   "caveat": "Аудио-интент (YouTube, audiobook.uz) продукт не закрывает. «hikoyalar» 6 600 и «rivoyat(lar)» взяты с весом 0,5: часть спроса — рассказы современных авторов и религиозные притчи.",
+   "visits_day_pos6": [
+    12,
+    22
+   ],
+   "visits_day_pos3": 46,
+   "visits_day_pos6_high_demand": [
+    14,
+    25
+   ],
+   "visits_day_pos3_high_demand": 53,
+   "visits_day_pos3_no_aio": 71,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 0.7,
+    "weeks_to_5": 16,
+    "weeks_to_10": 24
+   },
+   "ramp_weeks": "≥5 визитов/день через ~16 нед., ≥10 — через ~24 нед. (K1=0.04, полный прогноз поз. 6 за 7.5 мес.)"
+  },
+  {
+   "rank": 6,
+   "below_cut": false,
+   "id": "konvertor_alifbo",
+   "name": "Kirill↔lotin konvertori (alohida sahifa) + o‘zbek alifbosi jadvali + yangi alifbo",
+   "keywords": "lotin krill 4 400; lotin alifbosi 3 600; lotin kirill 1 900; o'zbek alifbosi 1 600; кириллица в латиницу 1 300; лотин алифбоси 1 300; krill lotin 1 000; lotin 720; лотин 590; kirill alifbosi 590; латиница в кириллицу 480; ўзбек алифбоси 480; kirilcha lotincha 390; перевод с кириллицы на латиницу 390",
+   "keywords_full": [
+    {
+     "keyword": "lotin krill",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "lotin alifbosi",
+     "volume": 3600,
+     "weight": 1.0,
+     "low_value": 3600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "lotin kirill",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "o'zbek alifbosi",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "кириллица в латиницу",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "лотин алифбоси",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "krill lotin",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "lotin",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "лотин",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "kirill alifbosi",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "латиница в кириллицу",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ўзбек алифбоси",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "kirilcha lotincha",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "перевод с кириллицы на латиницу",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "перевод с латиницы на кириллицу",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "кирилл",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ozbek alifbosi",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "lotindan kirilga",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "лотин кирилл таржима",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "lotin yozuvi",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "yangi alifbo 2026",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "транслитерация",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "lotincha",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "новый узбекский алфавит",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "lotin kirill online",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "kirill",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "lotin kirill tarjimon",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "кирилл лотин таржима",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "kirill lotin tarjima",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "узбекская кириллица",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "узбекский латинский алфавит",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "yangi alifbo",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 55,
+     "jump_floor": true,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "lotin krill tarjima",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "перевод на латиницу",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "kirildan lotinga o'girish",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "транслитерация онлайн",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "kirill lotin online",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "латиница кириллица",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "yangi ozbek alifbosi",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "krill lotin tarjima",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "yangi alifbo harflari",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "kirill yozuvi",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "транслит",
+     "volume": 1000
+    },
+    {
+     "keyword": "alifbo",
+     "volume": 6600
+    },
+    {
+     "keyword": "alifbo harflari",
+     "volume": 2400
+    },
+    {
+     "keyword": "кириллица",
+     "volume": 880
+    },
+    {
+     "keyword": "латиница",
+     "volume": 480
+    }
+   ],
+   "prior_counted_excluded": [
+    "лотин кирилл",
+    "кирилл лотин",
+    "kirill lotin",
+    "kirildan lotinga",
+    "kirill lotin tarjimon",
+    "кириллица латиница",
+    "lotin kirill tarjima"
+   ],
+   "demand_month": 21735,
+   "demand_month_high": 34040,
+   "seasonality": "пики: 2025-10 ×1.26, 2026-01 ×1.19, 2025-11 ×1.14; провалы: 2026-08 ×0.72, 2026-06 ×0.79",
+   "seasonality_index": {
+    "2025-10": 1.26,
+    "2025-11": 1.14,
+    "2025-12": 1.14,
+    "2026-01": 1.19,
+    "2026-02": 1.09,
+    "2026-03": 0.91,
+    "2026-04": 1.01,
+    "2026-05": 0.8,
+    "2026-06": 0.79,
+    "2026-07": 0.92,
+    "2026-08": 0.72,
+    "2026-09": 1.03
+   },
+   "serp": "Не снято. По L3 (24.10) lotin.uz — конвертер с режимом новой азбуки (ş, ç, ö, ğ) — стоит на o10 даже по «imlo tekshirish»; ожидаемо: lotin.uz, приложения Play (Muharrir), Google Translate. Смешанная, тип «инструмент».",
+   "serp_weakness": "mixed",
+   "serp_source": "не снято (L3 serp2: lotin.uz — конвертер с новой азбукой — на o10 по «imlo tekshirish»)",
+   "aio_discount_top3": 0.655,
+   "fit": "a: детерминированный конвертер — модуль src/uz-translit уже есть (сейчас это блок на страницах переводчика)",
+   "build": "Отдельная страница /uz/kirill-lotin/ (оба направления, загрузка .txt/.docx, копирование) + /ru/kirillica-v-latinicu/ (RU-интерфейс); /uz/ozbek-lotin-alifbosi/ (таблица 29 букв, пары с кириллицей, правила o‘/g‘ и тутуқ белгиси); /uz/kirill-alifbosi/. Режим «yangi alifbo» — только после проверки официально утверждённой таблицы букв.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Новую азбуку не придумывать: только по утверждённому документу.",
+   "caveat": "Прежняя дорожная карта уже посчитала 12 490/мес для того же инструмента (лотин кирилл 6 600, кирилл лотин 3 600, kirill lotin 1 900…). Эти 21 735 — новые ключи сверх них; отдельная страница соберёт оба набора (~34 тыс.). «yangi alifbo» (всплеск 9 900 в июле 2026) взят по полу 55.",
+   "visits_day_pos6": [
+    7,
+    12
+   ],
+   "visits_day_pos3": 26,
+   "visits_day_pos6_high_demand": [
+    10,
+    19
+   ],
+   "visits_day_pos3_high_demand": 40,
+   "visits_day_pos3_no_aio": 39,
+   "ramp": {
+    "k1": 0.08,
+    "months_to_full_pos6": 4.8,
+    "m1_visits_mid": 0.8,
+    "weeks_to_5": 15,
+    "weeks_to_10": null
+   },
+   "ramp_weeks": "≥5 визитов/день через ~15 нед., 10/день — только ближе к топ-3 (K1=0.08, полный прогноз поз. 6 за 4.8 мес.)"
+  },
+  {
+   "rank": 7,
+   "below_cut": false,
+   "id": "randomayzer",
+   "name": "Randomayzer: tasodifiy son, ism g‘ildiragi, qur’a, tanga (вне линзы: генератор)",
+   "keywords": "random number generator 18 100 (вес 0.5); рандомайзер 5 400; spin the wheel 2 400; жеребьевка 1 300; рандомайзер чисел 1 900 (вес 0.5); random number 1 600 (вес 0.5); рандом 590; g'ildirak 480; генератор случайных чисел 880 (вес 0.5); колесо фортуны онлайн 390; random name picker 320; монетка 260; жребий 210; рандомайзер имен 140",
+   "keywords_full": [
+    {
+     "keyword": "random number generator",
+     "volume": 18100,
+     "weight": 0.5,
+     "low_value": 9050,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "рандомайзер",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "spin the wheel",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "жеребьевка",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "рандомайзер чисел",
+     "volume": 1900,
+     "weight": 0.5,
+     "low_value": 950,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "random number",
+     "volume": 1600,
+     "weight": 0.5,
+     "low_value": 800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "рандом",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "g'ildirak",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "генератор случайных чисел",
+     "volume": 880,
+     "weight": 0.5,
+     "low_value": 440,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "колесо фортуны онлайн",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "random name picker",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "монетка",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "жребий",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "рандомайзер имен",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "случайное число",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "жеребьевка онлайн",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "подбросить монетку",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "колесо удачи",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "рандом число",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "колесо рандома",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "бросить кубик",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "крутить колесо",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "random son",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "wheel of names",
+     "volume": 14800
+    },
+    {
+     "keyword": "random",
+     "volume": 8100
+    },
+    {
+     "keyword": "колесо фортуны",
+     "volume": 8100
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 23180,
+   "demand_month_high": 65420,
+   "seasonality": "пики: 2026-02 ×1.26, 2026-01 ×1.18, 2026-03 ×1.09; провалы: 2026-09 ×0.77, 2025-10 ×0.8",
+   "seasonality_index": {
+    "2025-10": 0.8,
+    "2025-11": 0.96,
+    "2025-12": 1.08,
+    "2026-01": 1.18,
+    "2026-02": 1.26,
+    "2026-03": 1.09,
+    "2026-04": 1.04,
+    "2026-05": 0.93,
+    "2026-06": 1.0,
+    "2026-07": 0.99,
+    "2026-08": 0.92,
+    "2026-09": 0.77
+   },
+   "serp": "Не снято. По «random number generator» и «генератор случайных чисел» Google показывает свой виджет (zero-click); дальше — российские и глобальные генераторы (randomus, wheelofnames). Смешанная/сильная.",
+   "serp_weakness": "mixed",
+   "serp_source": "не снято (у «random number generator»/«генератор случайных чисел» Google показывает свой виджет)",
+   "aio_discount_top3": 0.655,
+   "fit": "a: детерминированные генераторы",
+   "build": "/ru/randomajzer/ (числа, список имён, колесо, жеребьёвка, монетка, кубик) + /uz/tasodifiy-son/ + /uz/ism-gildiragi/ (учителю — выбрать ученика; розыгрыши в Telegram/Instagram). Тип: инструмент.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Вне линзы «текст» (генератор), но честный инструмент.",
+   "caveat": "Ключи с виджетом Google взяты с весом 0,5; «wheel of names» 14 800 — навигация к бренду (исключён); «колесо фортуны» 8 100 и «random» 8 100 многозначны (только верхняя оценка).",
+   "visits_day_pos6": [
+    7,
+    13
+   ],
+   "visits_day_pos3": 27,
+   "visits_day_pos6_high_demand": [
+    20,
+    36
+   ],
+   "visits_day_pos3_high_demand": 77,
+   "visits_day_pos3_no_aio": 42,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.6,
+    "weeks_to_5": 17,
+    "weeks_to_10": 26
+   },
+   "ramp_weeks": "≥5 визитов/день через ~17 нед., ≥10 — через ~26 нед. (K1=0.06, полный прогноз поз. 6 за 5.8 мес.)"
+  },
+  {
+   "rank": 8,
+   "below_cut": false,
+   "id": "mumtoz_sheriyat",
+   "name": "Mumtoz she’riyat (jamoat mulki): Navoiy, Bobur, g‘azal, ruboiy, aruz — matn + sharh",
+   "keywords": "alisher navoiy sherlari 5 400; bobur g'azallari 4 400; g'azal 2 900 (= gazal, g'azallar); navoiy g'azallari 1 900; ruboiylar 880; ruboiy 720; cholpon sherlari 590; cho'lpon she'rlari 480; aruz vazni 480; gafur gulom sherlari 390; barmoq vazni 320; navoiy gazallari 320; ruboiy nima 320; nodira sherlari 260",
+   "keywords_full": [
+    {
+     "keyword": "alisher navoiy sherlari",
+     "volume": 5400,
+     "weight": 1.0,
+     "low_value": 5400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "bobur g'azallari",
+     "volume": 4400,
+     "weight": 1.0,
+     "low_value": 4400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "g'azal",
+     "volume": 2900,
+     "weight": 1.0,
+     "low_value": 2900,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "gazal",
+      "g'azallar"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "navoiy g'azallari",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ruboiylar",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ruboiy",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "cholpon sherlari",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "cho'lpon she'rlari",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "aruz vazni",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "gafur gulom sherlari",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "barmoq vazni",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "navoiy gazallari",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ruboiy nima",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "nodira sherlari",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "qofiya",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qofiya nima",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "bobur gazallari",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "navoiy hikmatlari",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "navoiy sherlari",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qofiyadosh so'zlar",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "hamid olimjon she'rlari",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "uvaysiy gazallari",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "навоий ғазаллари",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "mashrab gazallari",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ogahiy gazallari",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "gazal nima",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "bobur she'rlari",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    }
+   ],
+   "high_only": [],
+   "prior_counted_excluded": [],
+   "demand_month": 20660,
+   "demand_month_high": 20660,
+   "seasonality": "пики: 2026-02 ×5.78, 2026-01 ×1.63, 2025-11 ×0.76; провалы: 2026-08 ×0.14, 2026-07 ×0.16",
+   "seasonality_index": {
+    "2025-10": 0.7,
+    "2025-11": 0.76,
+    "2025-12": 0.69,
+    "2026-01": 1.63,
+    "2026-02": 5.78,
+    "2026-03": 0.53,
+    "2026-04": 0.64,
+    "2026-05": 0.42,
+    "2026-06": 0.22,
+    "2026-07": 0.16,
+    "2026-08": 0.14,
+    "2026-09": 0.35
+   },
+   "serp": "Не снято. Ожидаемо: ziyouz (сильная библиотека), kh-davron.uz, Scribd/PDF, Википедия. Смешанная.",
+   "serp_weakness": "mixed",
+   "serp_source": "не снято (ожидаемо ziyouz, kh-davron, Scribd/PDF, Wikipedia)",
+   "aio_discount_top3": 0.655,
+   "fit": "c + b: тексты в общественном достоянии + своё объяснение на современном узбекском (sharh/tabdil); пресет «G‘azalni tushuntir»",
+   "build": "/uz/sherlar/alisher-navoiy/, /uz/sherlar/bobur/, /uz/sherlar/cholpon/, /uz/sherlar/gafur-gulom/ (избранное + разбор), /uz/adabiyot/{gazal-nima, ruboiy, aruz-vazni, barmoq-vazni, qofiya}/. Тип: статьи + тексты.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Брать оригинальные тексты и делать свою транслитерацию; комментарии современных редакторов охраняются.",
+   "caveat": "Февраль ×5,8 (дни рождения Навои 9.02 и Бабура 14.02: по 40 500 в фев. 2026) — публиковать до середины января; летом ×0,14.",
+   "visits_day_pos6": [
+    6,
+    11
+   ],
+   "visits_day_pos3": 24,
+   "visits_day_pos6_high_demand": [
+    6,
+    11
+   ],
+   "visits_day_pos3_high_demand": 24,
+   "visits_day_pos3_no_aio": 37,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 0.3,
+    "weeks_to_5": 24,
+    "weeks_to_10": null
+   },
+   "ramp_weeks": "≥5 визитов/день через ~24 нед., 10/день — только ближе к топ-3 (K1=0.04, полный прогноз поз. 6 за 7.5 мес.)"
+  },
+  {
+   "rank": 9,
+   "below_cut": false,
+   "id": "ismlar",
+   "name": "Ismlar ma’nosi: qidiruv bazasi (qiz / o‘g‘il, kelib chiqishi) + RU «узбекские имена»",
+   "keywords": "ismlar manosi 6 600; ismlar 2 400; qiz bola ismlari 2 400; исмлар маъноси 1 300; имена для девочек 880; имена для мальчиков 720; qizlar ismlari 590; islomiy ismlar 590; мусульманские имена для девочек 590; arabcha ismlar 480; красивые имена для девочек 480; ism manosi 390; chiroyli ismlar 390; исмлар 390",
+   "keywords_full": [
+    {
+     "keyword": "ismlar manosi",
+     "volume": 6600,
+     "weight": 1.0,
+     "low_value": 6600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ismlar",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qiz bola ismlari",
+     "volume": 2400,
+     "weight": 1.0,
+     "low_value": 2400,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "исмлар маъноси",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "имена для девочек",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "имена для мальчиков",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qizlar ismlari",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "islomiy ismlar",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "мусульманские имена для девочек",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "arabcha ismlar",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "красивые имена для девочек",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ism manosi",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "chiroyli ismlar",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "исмлар",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "мусульманские имена для мальчиков",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ismlar ma'nosi",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "ism ma'nosi"
+     ],
+     "src": "kw1_metrics.json"
+    },
+    {
+     "keyword": "ism manolari",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "значение имени",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qiz bolalar ismlari",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "zamonaviy ismlar",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ismlar manosi qiz bolalar",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ismlar manosi qizlar",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "что означает имя",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ogil bolalar ismlari",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "o'zbek ismlari",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "ozbek ismlari"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "turkcha ismlar",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "узбекские имена",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "красивые имена",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "редкие имена для девочек",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "o'zbekcha ismlar",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ism tanlash",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "qiz ismlari",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "узбекские имена для девочек",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "узбекские женские имена",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "мусульманские имена",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ўғил бола исмлари",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "узбекские мужские имена",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "узбекские имена для мальчиков",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "islomiy ogil bola ismlari",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "чиройли исмлар",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "qiz bolalarga ismlar",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "yangi ismlar",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "имя",
+     "volume": 1900
+    },
+    {
+     "keyword": "имена",
+     "volume": 390
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 21990,
+   "demand_month_high": 24280,
+   "seasonality": "пики: 2025-12 ×1.69, 2026-01 ×1.17, 2025-10 ×1.07; провалы: 2026-09 ×0.76, 2026-08 ×0.78",
+   "seasonality_index": {
+    "2025-10": 1.07,
+    "2025-11": 0.97,
+    "2025-12": 1.69,
+    "2026-01": 1.17,
+    "2026-02": 0.93,
+    "2026-03": 0.95,
+    "2026-04": 0.97,
+    "2026-05": 0.98,
+    "2026-06": 0.87,
+    "2026-07": 0.88,
+    "2026-08": 0.78,
+    "2026-09": 0.76
+   },
+   "serp": "«ismlar manosi» (25.10): AIO r1, видео, картинки, o1 YouTube, o2 oyina.uz (статья 2023), o3 jdpu.uz (PDF словаря Бегматова, 14 600 имён), o4 uz.wikipedia, o5–o6 приложения Play; веб-базы uzsmart.ru на o7 и ism-manosi.uz на o12. Слабая.",
+   "serp_weakness": "weak",
+   "serp_source": "снято 25.10 «ismlar manosi»",
+   "aio_discount_top3": 0.533,
+   "fit": "a + c: поисковая база имён + проверенные значения",
+   "build": "/uz/ismlar/ (поиск, фильтры qiz / o‘g‘il, происхождение, A–Z), /uz/ismlar/qiz-bolalar/, /uz/ismlar/ogil-bolalar/, программные /uz/ismlar/{ism}/ — только для имён с источником значения; /ru/uzbekskie-imena/ (+ для девочек / мальчиков). Тип: база-инструмент + программные страницы.",
+   "effort": "L",
+   "honesty_risk": "medium",
+   "honesty_note": "Нельзя копировать словарь Бегматова; нельзя выдумывать этимологию моделью; без религиозных предписаний («qanday ism qo‘yish mumkin emas»).",
+   "caveat": "AIO на r1 (×0,533). Нужен датасет 2–5 тыс. имён с источниками — главный риск и главная стоимость.",
+   "visits_day_pos6": [
+    7,
+    12
+   ],
+   "visits_day_pos3": 21,
+   "visits_day_pos6_high_demand": [
+    7,
+    13
+   ],
+   "visits_day_pos3_high_demand": 23,
+   "visits_day_pos3_no_aio": 40,
+   "ramp": {
+    "k1": 0.08,
+    "months_to_full_pos6": 4.8,
+    "m1_visits_mid": 0.8,
+    "weeks_to_5": 15,
+    "weeks_to_10": null
+   },
+   "ramp_weeks": "≥5 визитов/день через ~15 нед., 10/день — только ближе к топ-3 (K1=0.08, полный прогноз поз. 6 за 4.8 мес.)"
+  },
+  {
+   "rank": 10,
+   "below_cut": false,
+   "id": "shriftlar_niklar",
+   "name": "Chiroyli shriftlar va niklar generatori (Unicode, Instagram/Telegram/PUBG)",
+   "keywords": "красивый шрифт 9 900 (вес 0.5); красивые шрифты 4 400 (вес 0.5); шрифты для ников 1 000; шрифт для инстаграма 590; niklar 590; ники 590; никнейм 590; shriftlar 480; chiroyli niklar 480; генератор ников 480; nik 880 (вес 0.5); ник 880 (вес 0.5); chiroyli yozuvlar 390; chiroyli shriftlar 320",
+   "keywords_full": [
+    {
+     "keyword": "красивый шрифт",
+     "volume": 9900,
+     "weight": 0.5,
+     "low_value": 4950,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "красивые шрифты",
+     "volume": 4400,
+     "weight": 0.5,
+     "low_value": 2200,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "шрифты для ников",
+     "volume": 1000,
+     "weight": 1.0,
+     "low_value": 1000,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "шрифт для инстаграма",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "niklar",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ники",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "никнейм",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "shriftlar",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "chiroyli niklar",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "генератор ников",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "nik",
+     "volume": 880,
+     "weight": 0.5,
+     "low_value": 440,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ник",
+     "volume": 880,
+     "weight": 0.5,
+     "low_value": 440,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "chiroyli yozuvlar",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "chiroyli shriftlar",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "красивый текст",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "ники для игр",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "красивые ники",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "красивые буквы",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "pubg nik",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "fancy text",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "шрифт для ника",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "красивые надписи",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "chiroyli harflar",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "генератор шрифтов",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "красивые шрифты для ника",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "шрифты для инстаграм",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "ники для фф",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "free fire nik",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "shrift yozish",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "chiroyli nik",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "nik yozish",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "шрифты",
+     "volume": 18100
+    },
+    {
+     "keyword": "chiroyli yozuv",
+     "volume": 1600
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 16320,
+   "demand_month_high": 44050,
+   "seasonality": "пики: 2026-01 ×1.17, 2026-03 ×1.16, 2025-12 ×1.02; провалы: 2026-09 ×0.86, 2026-06 ×0.92",
+   "seasonality_index": {
+    "2025-10": 0.93,
+    "2025-11": 0.97,
+    "2025-12": 1.02,
+    "2026-01": 1.17,
+    "2026-02": 1.01,
+    "2026-03": 1.16,
+    "2026-04": 0.98,
+    "2026-05": 0.98,
+    "2026-06": 0.92,
+    "2026-07": 0.98,
+    "2026-08": 1.01,
+    "2026-09": 0.86
+   },
+   "serp": "Не снято. Ожидаемо: российские генераторы красивого текста и сайты скачивания шрифтов вперемешку. Смешанная/сильная.",
+   "serp_weakness": "mixed",
+   "serp_source": "не снято",
+   "aio_discount_top3": 0.655,
+   "fit": "a: генератор стилизованного Unicode-текста",
+   "build": "/ru/krasivye-shrifty/ (красивый текст для Instagram/Telegram), /ru/generator-nikov/ (ники для PUBG, Free Fire, игр), /uz/chiroyli-shriftlar/ (+ nik yozish). Тип: инструмент.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Честно писать, что это Unicode-символы, а не устанавливаемые шрифты.",
+   "caveat": "«красивый шрифт / красивые шрифты» частично про скачивание шрифтов — вес 0,5; голова «шрифты» 18 100 только в верхней оценке; далеко от бренда.",
+   "visits_day_pos6": [
+    5,
+    9
+   ],
+   "visits_day_pos3": 19,
+   "visits_day_pos6_high_demand": [
+    14,
+    24
+   ],
+   "visits_day_pos3_high_demand": 52,
+   "visits_day_pos3_no_aio": 29,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.4,
+    "weeks_to_5": 21,
+    "weeks_to_10": null
+   },
+   "ramp_weeks": "≥5 визитов/день через ~21 нед., 10/день — только ближе к топ-3 (K1=0.06, полный прогноз поз. 6 за 5.8 мес.)"
+  },
+  {
+   "rank": 11,
+   "below_cut": false,
+   "id": "sinonimlar",
+   "name": "Sinonimlar / antonimlar lug‘ati (UZ + RU)",
+   "keywords": "sinonim so'zlar 1 900; sinonimlar lug'ati 1 900; синоним 1 900 (= синонимы); антоним 1 300 (= антонимы); sinonim 720; sinonimlar 480; antonim 480; синоним к слову 320 (= синонимы к слову); antonimlar 260",
+   "keywords_full": [
+    {
+     "keyword": "sinonim so'zlar",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "sinonimlar lug'ati",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "синоним",
+     "volume": 1900,
+     "weight": 1.0,
+     "low_value": 1900,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "синонимы"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "антоним",
+     "volume": 1300,
+     "weight": 1.0,
+     "low_value": 1300,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "антонимы"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "sinonim",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "sinonimlar",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "ep_kw1_metrics.json"
+    },
+    {
+     "keyword": "antonim",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "синоним к слову",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "синонимы к слову"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "antonimlar",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "ep_kw1_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "omonim",
+     "volume": 480
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 9260,
+   "demand_month_high": 9740,
+   "seasonality": "пики: 2026-04 ×1.4, 2026-01 ×1.3, 2025-10 ×1.26; провалы: 2026-08 ×0.51, 2025-11 ×0.74",
+   "seasonality_index": {
+    "2025-10": 1.26,
+    "2025-11": 0.74,
+    "2025-12": 0.87,
+    "2026-01": 1.3,
+    "2026-02": 1.1,
+    "2026-03": 0.99,
+    "2026-04": 1.4,
+    "2026-05": 1.06,
+    "2026-06": 0.84,
+    "2026-07": 0.8,
+    "2026-08": 0.51,
+    "2026-09": 1.15
+   },
+   "serp": "Не снято. RU-выдача ожидаемо сильная (sinonim.org и др.); UZ — PDF словарей и блоги.",
+   "serp_weakness": "mixed",
+   "serp_source": "не снято",
+   "aio_discount_top3": 0.655,
+   "fit": "a + c: словарь синонимов/антонимов с примерами",
+   "build": "/uz/sinonimlar/ (поиск: so‘z → sinonim / antonim + misol), /ru/sinonimy/ (открытые данные Wiktionary/YARN, CC BY-SA, с атрибуцией).",
+   "effort": "L",
+   "honesty_risk": "medium",
+   "honesty_note": "Узбекские данные собрать и проверить самим (не копировать словарь Хожиева); списки от модели — только после проверки.",
+   "caveat": "Растёт: «sinonimlar lug‘ati» ×4,4, «sinonim so‘zlar» ×2,2 к осени 2025. Пересекается с линзой образования («ma’nodosh so‘zlar» 720).",
+   "visits_day_pos6": [
+    3,
+    5
+   ],
+   "visits_day_pos3": 11,
+   "visits_day_pos6_high_demand": [
+    3,
+    5
+   ],
+   "visits_day_pos3_high_demand": 11,
+   "visits_day_pos3_no_aio": 17,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 0.2,
+    "weeks_to_5": null,
+    "weeks_to_10": null
+   },
+   "ramp_weeks": "на поз. ~6 до 5 визитов/день не доходит; только в топ-3 или в пиковый месяц (K1=0.04)"
+  },
+  {
+   "rank": 12,
+   "below_cut": false,
+   "id": "sanagich",
+   "name": "So‘z / belgi sanagich (word counter)",
+   "keywords": "word counter 6 600 (= word count, count words); счетчик слов 880 (= счетчик символов); character counter 320 (= character count); word counter online 260; подсчет символов 210 (= подсчет слов); заглавные буквы 170; количество символов 140; количество слов 90; сколько слов в тексте 90; сколько символов в тексте 70; посчитать количество символов 50; letter counter 50; посчитать символы 40; посчитать слова 40",
+   "keywords_full": [
+    {
+     "keyword": "word counter",
+     "volume": 6600,
+     "weight": 1.0,
+     "low_value": 6600,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "word count",
+      "count words"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "счетчик слов",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "счетчик символов"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "character counter",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "character count"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "word counter online",
+     "volume": 260,
+     "weight": 1.0,
+     "low_value": 260,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "подсчет символов",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "подсчет слов"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "заглавные буквы",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "количество символов",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "количество слов",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "сколько слов в тексте",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "сколько символов в тексте",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "посчитать количество символов",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "letter counter",
+     "volume": 50,
+     "weight": 1.0,
+     "low_value": 50,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "посчитать символы",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "посчитать слова",
+     "volume": 40,
+     "weight": 1.0,
+     "low_value": 40,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "количество слов в тексте",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "перевернуть текст",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    }
+   ],
+   "high_only": [],
+   "prior_counted_excluded": [],
+   "demand_month": 9070,
+   "demand_month_high": 9070,
+   "seasonality": "пики: 2026-04 ×1.29, 2025-12 ×1.27, 2025-11 ×1.26; провалы: 2026-08 ×0.62, 2026-09 ×0.72",
+   "seasonality_index": {
+    "2025-10": 1.1,
+    "2025-11": 1.26,
+    "2025-12": 1.27,
+    "2026-01": 1.09,
+    "2026-02": 1.09,
+    "2026-03": 1.06,
+    "2026-04": 1.29,
+    "2026-05": 0.91,
+    "2026-06": 0.81,
+    "2026-07": 0.77,
+    "2026-08": 0.62,
+    "2026-09": 0.72
+   },
+   "serp": "Не снято. Ожидаемо глобальные инструменты (wordcounter.net и др.) по английским ключам. Сильная.",
+   "serp_weakness": "strong",
+   "serp_source": "не снято",
+   "aio_discount_top3": 0.655,
+   "fit": "a: детерминированный счётчик",
+   "build": "/ru/schetchik-simvolov/ (слова, символы с пробелами и без, предложения, время чтения; интерфейс UZ/RU/EN) + /uz/belgilar-soni/.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "",
+   "caveat": "73% спроса — английский «word counter» с глобальной конкуренцией; все узбекские варианты (so‘z sanash, belgilar soni) вернули null.",
+   "visits_day_pos6": [
+    3,
+    5
+   ],
+   "visits_day_pos3": 11,
+   "visits_day_pos6_high_demand": [
+    3,
+    5
+   ],
+   "visits_day_pos3_high_demand": 11,
+   "visits_day_pos3_no_aio": 16,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.2,
+    "weeks_to_5": null,
+    "weeks_to_10": null
+   },
+   "ramp_weeks": "на поз. ~6 до 5 визитов/день не доходит; только в топ-3 или в пиковый месяц (K1=0.06)"
+  },
+  {
+   "rank": null,
+   "below_cut": true,
+   "id": "krossvord",
+   "name": "Krossvord va filvord tuzish (generator, chop etish)",
+   "keywords": "кроссворд 3 600 (вес 0.5); krossvord tuzish 1 600; создать кроссворд 880; krossvord 1 600 (вес 0.5); krossvord tuzish dasturi 390; филворд 720 (вес 0.5); кроссворд онлайн 320; krossvord yasash 140; krossvord yaratish 90; кроссворд для детей 170 (вес 0.5); krossvordlar 140 (вес 0.5); составить кроссворд 70; сделать кроссворд 70; составить кроссворд онлайн 30",
+   "keywords_full": [
+    {
+     "keyword": "кроссворд",
+     "volume": 3600,
+     "weight": 0.5,
+     "low_value": 1800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "krossvord tuzish",
+     "volume": 1600,
+     "weight": 1.0,
+     "low_value": 1600,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "создать кроссворд",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "krossvord",
+     "volume": 1600,
+     "weight": 0.5,
+     "low_value": 800,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "krossvord tuzish dasturi",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "филворд",
+     "volume": 720,
+     "weight": 0.5,
+     "low_value": 360,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "кроссворд онлайн",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "krossvord yasash",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "krossvord yaratish",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "кроссворд для детей",
+     "volume": 170,
+     "weight": 0.5,
+     "low_value": 85,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "krossvordlar",
+     "volume": 140,
+     "weight": 0.5,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "составить кроссворд",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "сделать кроссворд",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "составить кроссворд онлайн",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "кроссворд генератор",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "кроссворд по информатике",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "филворд онлайн",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "составить филворд",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "генератор филвордов",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "кроссворд по биологии",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "кроссворд по истории",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "ребусы",
+     "volume": 1000
+    },
+    {
+     "keyword": "rebus",
+     "volume": 880
+    },
+    {
+     "keyword": "rebuslar",
+     "volume": 720
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 6795,
+   "demand_month_high": 12510,
+   "seasonality": "пики: 2025-11 ×1.59, 2025-12 ×1.49, 2026-04 ×1.47; провалы: 2026-07 ×0.29, 2026-08 ×0.33",
+   "seasonality_index": {
+    "2025-10": 1.43,
+    "2025-11": 1.59,
+    "2025-12": 1.49,
+    "2026-01": 0.95,
+    "2026-02": 1.22,
+    "2026-03": 1.29,
+    "2026-04": 1.47,
+    "2026-05": 0.98,
+    "2026-06": 0.37,
+    "2026-07": 0.29,
+    "2026-08": 0.33,
+    "2026-09": 0.59
+   },
+   "serp": "Не снято.",
+   "serp_weakness": "mixed",
+   "serp_source": "не снято",
+   "aio_discount_top3": 0.655,
+   "fit": "a: генератор кроссвордов/филвордов из списка слов и вопросов, печать",
+   "build": "/uz/krossvord-tuzish/ + /ru/sostavit-krossvord/",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "",
+   "caveat": "Мал и сезонен (летом ×0,3); «кроссворд»/«krossvord» многозначны (вес 0,5); ребусы — картинки, не учтены.",
+   "visits_day_pos6": [
+    2,
+    4
+   ],
+   "visits_day_pos3": 8,
+   "visits_day_pos6_high_demand": [
+    4,
+    7
+   ],
+   "visits_day_pos3_high_demand": 15,
+   "visits_day_pos3_no_aio": 12,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.2,
+    "weeks_to_5": null,
+    "weeks_to_10": null
+   },
+   "ramp_weeks": "на поз. ~6 до 5 визитов/день не доходит; только в топ-3 или в пиковый месяц (K1=0.06)"
+  },
+  {
+   "rank": null,
+   "below_cut": true,
+   "id": "imlo_tekshirish",
+   "name": "Imlo / orfografiya tekshiruvi (AI-пресет)",
+   "keywords": "imlo tekshirish 880; орфография 1 300 (вес 0.5); проверка орфографии 480; matn tekshirish 390; imlo xatolarni tekshirish 210; проверить орфографию 170; imlo xatolar tekshirish 140; проверка пунктуации 140; xatolarni tekshirish 110; проверить текст на ошибки 110 (= проверка текста на ошибки); исправить ошибки в тексте 90; имло текшириш 70; проверка текста 70; проверка грамматики 70",
+   "keywords_full": [
+    {
+     "keyword": "imlo tekshirish",
+     "volume": 880,
+     "weight": 1.0,
+     "low_value": 880,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw1_metrics.json"
+    },
+    {
+     "keyword": "орфография",
+     "volume": 1300,
+     "weight": 0.5,
+     "low_value": 650,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "проверка орфографии",
+     "volume": 480,
+     "weight": 1.0,
+     "low_value": 480,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw1_metrics.json"
+    },
+    {
+     "keyword": "matn tekshirish",
+     "volume": 390,
+     "weight": 1.0,
+     "low_value": 390,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "imlo xatolarni tekshirish",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "проверить орфографию",
+     "volume": 170,
+     "weight": 1.0,
+     "low_value": 170,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "imlo xatolar tekshirish",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "проверка пунктуации",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw2_metrics.json"
+    },
+    {
+     "keyword": "xatolarni tekshirish",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "проверить текст на ошибки",
+     "volume": 110,
+     "weight": 1.0,
+     "low_value": 110,
+     "jump_floor": false,
+     "same_bucket_as": [
+      "проверка текста на ошибки"
+     ],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "исправить ошибки в тексте",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw2_metrics.json"
+    },
+    {
+     "keyword": "имло текшириш",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "проверка текста",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "проверка грамматики",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "проверка орфографии онлайн",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw2_metrics.json"
+    },
+    {
+     "keyword": "проверка пунктуации онлайн",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "проверка правописания",
+     "volume": 30,
+     "weight": 1.0,
+     "low_value": 30,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "matndagi xatolarni tekshirish",
+     "volume": 20,
+     "weight": 1.0,
+     "low_value": 20,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "imloni tekshirish",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "grammatika tekshirish",
+     "volume": 10,
+     "weight": 1.0,
+     "low_value": 10,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "imlo",
+     "volume": 5400
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 3750,
+   "demand_month_high": 9800,
+   "seasonality": "пики: 2025-10 ×1.26, 2026-04 ×1.2, 2026-02 ×1.14; провалы: 2026-08 ×0.74, 2026-07 ×0.75",
+   "seasonality_index": {
+    "2025-10": 1.26,
+    "2025-11": 1.11,
+    "2025-12": 1.04,
+    "2026-01": 1.12,
+    "2026-02": 1.14,
+    "2026-03": 1.08,
+    "2026-04": 1.2,
+    "2026-05": 0.88,
+    "2026-06": 0.76,
+    "2026-07": 0.75,
+    "2026-08": 0.74,
+    "2026-09": 0.94
+   },
+   "serp": "«imlo tekshirish» (24.10, L3): PDF словарей, imlo.uz, savodxon.uz, izoh.uz, приложение Muharrir, AIO r2. Смешанная.",
+   "serp_weakness": "mixed",
+   "serp_source": "снято 24.10 (L3 serp2) «imlo tekshirish»",
+   "aio_discount_top3": 0.655,
+   "fit": "b: пресет проверки орфографии в чате",
+   "build": "/uz/imlo-tekshirish/ (пресет + правила)",
+   "effort": "S",
+   "honesty_risk": "medium",
+   "honesty_note": "Модель может ошибаться в узбекской орфографии — нужна оговорка и тест на выборке.",
+   "caveat": "«imlo» 5 400 и «imlo uz» 9 900 — навигация к imlo.uz (исключены).",
+   "visits_day_pos6": [
+    1,
+    2
+   ],
+   "visits_day_pos3": 4,
+   "visits_day_pos6_high_demand": [
+    3,
+    5
+   ],
+   "visits_day_pos3_high_demand": 12,
+   "visits_day_pos3_no_aio": 7,
+   "ramp": {
+    "k1": 0.04,
+    "months_to_full_pos6": 7.5,
+    "m1_visits_mid": 0.1,
+    "weeks_to_5": null,
+    "weeks_to_10": null
+   },
+   "ramp_weeks": "на поз. ~6 до 5 визитов/день не доходит; только в топ-3 или в пиковый месяц (K1=0.04)"
+  },
+  {
+   "rank": null,
+   "below_cut": true,
+   "id": "latifalar",
+   "name": "Latifalar (Nasriddin Afandi, xalq ijodi)",
+   "keywords": "nasriddin afandi 720; latifalar 590; latifa 320; afandi latifalari 210; afandi 210; латифалар 140; nasriddin afandi latifalari 90; anekdotlar 90; kulgili latifalar 70",
+   "keywords_full": [
+    {
+     "keyword": "nasriddin afandi",
+     "volume": 720,
+     "weight": 1.0,
+     "low_value": 720,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "latifalar",
+     "volume": 590,
+     "weight": 1.0,
+     "low_value": 590,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "kw1_metrics.json"
+    },
+    {
+     "keyword": "latifa",
+     "volume": 320,
+     "weight": 1.0,
+     "low_value": 320,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "afandi latifalari",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "afandi",
+     "volume": 210,
+     "weight": 1.0,
+     "low_value": 210,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw2_metrics.json"
+    },
+    {
+     "keyword": "латифалар",
+     "volume": 140,
+     "weight": 1.0,
+     "low_value": 140,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "nasriddin afandi latifalari",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "anekdotlar",
+     "volume": 90,
+     "weight": 1.0,
+     "low_value": 90,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    },
+    {
+     "keyword": "kulgili latifalar",
+     "volume": 70,
+     "weight": 1.0,
+     "low_value": 70,
+     "jump_floor": false,
+     "same_bucket_as": [],
+     "src": "tt_kw1_metrics.json"
+    }
+   ],
+   "high_only": [
+    {
+     "keyword": "анекдоты",
+     "volume": 3600
+    },
+    {
+     "keyword": "шутки",
+     "volume": 880
+    }
+   ],
+   "prior_counted_excluded": [],
+   "demand_month": 2440,
+   "demand_month_high": 6920,
+   "seasonality": "пики: 2025-12 ×1.6, 2025-11 ×1.28, 2026-09 ×1.22; провалы: 2026-07 ×0.6, 2026-06 ×0.7",
+   "seasonality_index": {
+    "2025-10": 1.05,
+    "2025-11": 1.28,
+    "2025-12": 1.6,
+    "2026-01": 1.09,
+    "2026-02": 0.93,
+    "2026-03": 0.93,
+    "2026-04": 1.04,
+    "2026-05": 0.82,
+    "2026-06": 0.7,
+    "2026-07": 0.6,
+    "2026-08": 0.74,
+    "2026-09": 1.22
+   },
+   "serp": "Не снято.",
+   "serp_weakness": "mixed",
+   "serp_source": "не снято",
+   "aio_discount_top3": 0.655,
+   "fit": "c: фольклор (Насреддин Афанди)",
+   "build": "/uz/latifalar/",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "",
+   "caveat": "Мал; русские «анекдоты» 3 600 — сильная выдача, не наш профиль.",
+   "visits_day_pos6": [
+    1,
+    1
+   ],
+   "visits_day_pos3": 3,
+   "visits_day_pos6_high_demand": [
+    2,
+    4
+   ],
+   "visits_day_pos3_high_demand": 8,
+   "visits_day_pos3_no_aio": 4,
+   "ramp": {
+    "k1": 0.06,
+    "months_to_full_pos6": 5.8,
+    "m1_visits_mid": 0.1,
+    "weeks_to_5": null,
+    "weeks_to_10": null
+   },
+   "ramp_weeks": "на поз. ~6 до 5 визитов/день не доходит; только в топ-3 или в пиковый месяц (K1=0.06)"
+  }
+ ],
+ "excluded": [
+  {
+   "group": "Стихи авторов под охраной",
+   "demand": 25000,
+   "top": "zulfiya sherlari 9 900, zulfiya she’rlari 3 600, abdulla oripov sherlari 5 400, erkin vohidov sherlari 4 400, shukur xolmirzayev 1 000, mirtemir sherlari 590",
+   "why": "копировать нельзя; честно обслужить запрос по конкретному автору без его текстов невозможно"
+  },
+  {
+   "group": "Бренды-навигация",
+   "demand": 46200,
+   "top": "quillbot 14 800, wheel of names 14 800, imlo uz = imlo.uz 9 900, grammarly 5 400, lotin.uz 1 300",
+   "why": "навигация к чужим продуктам"
+  },
+  {
+   "group": "Изображения и песни",
+   "demand": 17800,
+   "top": "открытки с днем рождения 8 100, доброе утро 8 100, текст песни 1 600",
+   "why": "продукт не делает картинок; тексты песен охраняются"
+  },
+  {
+   "group": "Антиплагиат",
+   "demand": 6000,
+   "top": "antiplagiat 3 600, антиплагиат 1 600, plagiat tekshirish 320",
+   "why": "честно проверить заимствования без поискового индекса нельзя"
+  },
+  {
+   "group": "Цитаты, статусы, анекдоты (RU)",
+   "demand": 17000,
+   "top": "анекдоты 3 600, цитаты 2 900, цитаты про жизнь 2 400, приколы 2 400, цитаты про любовь 1 900, status 1 900, statuslar 1 000",
+   "why": "копипаст-жанр, сильные российские сайты, слабая связь с продуктом; узбекские «statuslar» ≈1,2 тыс."
+  },
+  {
+   "group": "Уже посчитано в прежних оценках",
+   "demand": null,
+   "top": "insho/esse 16 280 (roadmap), конвертер 12 490 (roadmap), tabrik 4 430 (roadmap), topishmoqlar 9 900 (education-practice)",
+   "why": "не считать дважды"
+  },
+  {
+   "group": "Скачок без объяснения / чужая линза",
+   "demand": null,
+   "top": "xulosa yozish 8 100 (480 → 18 100), matn yaratish 6 600 (170 → 18 100), xat yozish 3 600 (140 → 9 900)",
+   "why": "форма «скачка» как у школьных тестов; это школьные/документные задачи, не линза текстовых инструментов"
+  }
+ ],
+ "overlap_for_other_lenses": [
+  {
+   "lens": "education-practice (logic_quiz)",
+   "add": "topishmoqlar javobi bilan 5 400, загадки 4 400, загадки для детей 1 900, загадки с ответами 720, топишмоқлар 720 (скачок, пол 45), bolalar uchun topishmoqlar 390, сложные загадки 260",
+   "demand": 13115,
+   "note": "«topishmoq» = «topishmoqlar» (одна корзина 9 900, уже у education)"
+  }
+ ],
+ "summary": "12 кластеров линзы: 415 645 запросов/мес консервативно (594 170 вверху); поз. ~6 -> 128-229 визитов/день, топ-3 -> 484 (с AIO-дисконтом; 694 по верхнему спросу; 749 без дисконта). Главная находка: школьные «тексты к событию» (стихи по темам 116 тыс., мақолы 56 тыс., tabrik UZ 37 тыс., поздравления RU 45 тыс.) на слабых выдачах из тонких блогов, но с жёсткой сезонностью (сен/окт, дек, фев-мар; летом x0,14-0,3). Быстрее всего — отдельная страница конвертера (S, модуль есть). Стихи: только общественное достояние и свои тексты; ~25 тыс./мес запросов по авторам под охраной исключены."
+}

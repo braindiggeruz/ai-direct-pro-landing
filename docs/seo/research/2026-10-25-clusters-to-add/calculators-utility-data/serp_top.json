@@ -1,0 +1,18 @@
+{
+ "date": "2026-10-25", "location": 2860, "language": "ru (project default)", "depth": 20, "credits_est": 20,
+ "queries": {
+  "dollar kursi": {"features": ["currency_box r1", "related_searches"], "aio": false,
+    "organic_top10": ["ipotekabank.uz (bank)", "kapitalbank.uz (bank)", "depozit.uz (aggregator)", "ru.investing.com usd-try (WRONG pair)", "xb.uz (bank)", "anhor.uz (news)", "play.google.com (app)", "sravni.ru (RF converter, CB RF rate)", "youtube.com", "bankxizmatlari.uz (aggregator, CBU rate)"],
+    "organic_11_18": ["wise.com usd-try (WRONG pair)", "instagram reel", "investing usd-uzs chart", "wise.com usd", "dollarkurs.uz (CBU rasmiy - same product type, o15)", "vbr.uz converter", "xe.com", "bank.uz asaka-bank"]},
+  "калькулятор": {"features": ["images", "related_searches"], "aio": false,
+    "organic_top10": ["x-calculator.ru", "play.google.com (Google Calculator)", "calculator888.ru", "ipipip.ru", "desmos.com", "play.google.com", "calcus.ru", "calc.ru", "calculator.apps.chrome", "play.google.com"],
+    "organic_11_17": ["planetcalc.ru", "disk.360.yandex.ru (file)", "allcalc.ru", "kalkpro.ru", "ru.symbolab.com", "calculator.net", "youtube.com"]},
+  "qr kod generator": {"features": ["ai_overview r2", "related_searches"], "aio": true,
+    "organic_top10": ["stqr.ru", "orcascan.com", "websiteplanet.com", "qrcode-tiger.com/ru", "jotform.com", "play.google.com", "barcodesinc.com", "generator-qr.com", "calcus.ru", "viralqr.com"],
+    "organic_11_18": ["webiston.uz (EN page, only .uz)", "workspace.google.com", "get-qr.com", "myqrcode.com", "qrcode.tec-it.com", "codigos-qr.com", "unisender.com/ru blog", "fr.qr-code-generator.com"]},
+  "kalendar 2026": {"features": ["images r1", "ai_overview r3", "related_searches"], "aio": true,
+    "organic_top10": ["kalender-365.de (Croatian page)", "play.google.com Ozbekiston Kalendar (hl=kk)", "same app hl=id", "pinterest.com", "timeanddate.com (Uzbekistan Jan 2026)", "same app hl=sk", "calendar-365.com", "same app hl=pa", "same app hl=id", "same app hl=sk"],
+    "organic_11_17": ["cta-redirect.hubspot.com", "timeanddate.com custom", "same app hl=pa", "same app hl=vi", "same app hl=mr", "same app hl=th", "online.fliphtml5.com (Estonian)"]}
+ },
+ "also_checked": "cbu.uz/uz/arkhiv-kursov-valyut/json/ returns a JSON array (fields id, Code, Ccy, CcyNm_*, Nominal, Rate, Diff, Date; Date 24.10.2026). Reuse terms of cbu.uz not checked."
+}

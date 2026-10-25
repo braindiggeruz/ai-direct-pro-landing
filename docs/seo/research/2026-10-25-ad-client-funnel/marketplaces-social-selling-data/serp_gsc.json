@@ -1,0 +1,87 @@
+{
+ "serp": {
+  "pulled": "2026-10-25, get_serp_results x1 call, 6 queries, depth 20, loc 2860, desktop, hl=ru",
+  "uzum seller": {
+   "aio": true,
+   "organic": [
+    "1 academy.uzum.uz/page64854239.html (курс Uzum Sellers)",
+    "2 academy.uzum.uz",
+    "3 uzum.com press-center (новость про FBS-доставку)",
+    "4 mertech.uz/shopblog/marketplejsy/kak-prodavat-na-uzum-market-ru/ (пошаговая инструкция, вендор POS)",
+    "5 youtube.com (Как начать работу на Uzum Market)",
+    "6 merchant.uzumnasiya.uz (логин Uzum Nasiya)",
+    "7 uzum.com/ru/contacts",
+    "8 play.google.com (Uzum Sellers app)",
+    "9 youtube.com/@Uzum.Sellers",
+    "10 sellers.uzum.market (Seller's community)",
+    "11 olx.uz/oz/uslugi/q-uzum-seller/ (объявления: услуги менеджеров Uzum)",
+    "12 azma.uz (Как начать продавать на Uzum Market)",
+    "15 dora.uz/en/blog/... (7 окт. 2026)", "16 dora.uz/ru/blog/kak-stat-prodavcom-na-uzum-market... (7 окт. 2026)",
+    "17 mertech.uz EN"
+   ],
+   "read": "mixed: официальные академия/пресса + 1 текстовый гайд вендора на #4 + YouTube; агентских страниц нет; свежие гайды dora.uz (окт. 2026) — конкуренты заходят сейчас"
+  },
+  "uzumda savdo qilish": {
+   "aio": true,
+   "organic": [
+    "1 seller.uzum.uz/manual/uz/", "2 youtube.com (UZUM MARKETDA SAVDO 1-DARS)", "3 moysklad.uz/uz/poleznoe/marketplejsy/kak-prodavat-na-uzum/",
+    "4 seller.uzum.uz/?lang=uz", "5 youtube.com (Uzum Marketda 0 dan biznes)", "6 instagram.com/reel (uzumsellerchi)",
+    "7 azma.uz (UZ)", "8 youtube.com (Uzumda biznes boshlash; упоминает «SUPER KALKULYATOR»)", "9 olx.uz/oz/uslugi (вакансии/услуги)",
+    "10 youtube.com", "11 soff.uz (платное qo'llanma)", "13 seller.uzum.uz/manual/uz/4.start-working/", "16 mertech.uz UZ", "18 savollar.islom.uz"
+   ],
+   "read": "mixed/weak: официальный мануал + YouTube + Instagram reel в топ-6, один текстовый UZ-гайд (moysklad); агентств нет"
+  },
+  "yandex market seller": {
+   "aio": true,
+   "organic": [
+    "1 partner.market.yandex.uz (официально, UZ)", "2 partner.market.yandex.ru", "3 market.yandex.uz", "4 apps.apple.com", "5 play.google.com",
+    "6 youtube @partner_yandex_market", "7 instagram yandex.market.for.sellers", "8 yandex.uz/support/market-yandex-go/partner/...",
+    "9 mpstats.io", "10 tochka.com", "12 rb.ru", "13 market.yandex.uz/lp/market-pvz", "15 sellerlab.uz/en/yandexmarket-uzbekistan/ (агентство: запускает и ведёт магазины на YM в Ташкенте)", "17 vc.ru"
+   ],
+   "read": "strong: официальные страницы партнёра занимают топ-3, дальше приложения и RU-медиа; локальное агентство sellerlab.uz только на #15"
+  },
+  "как создать канал в телеграм": {
+   "aio": true,
+   "organic": [
+    "1 youtube.com", "PAA + видео-блок + короткие видео", "2 ppc.world", "3 youtube.com", "4 yandex.ru/q", "5 blog.selfpub.ru",
+    "6 youtube.com", "7 webolution.ru", "8 vc.ru", "9 vc.ru", "11 youtube.com", "12 cyber.sports.ru", "13 partnerkin.com", "14 blackriver.agency"
+   ],
+   "read": "strong для общего RU-запроса: российские медиа и YouTube, узбекских сайтов нет; угол «для бизнеса в Узбекистане» и UZ-язык свободны"
+  },
+  "mahsulotni reklama qilish": {
+   "aio": true,
+   "organic": [
+    "видео-блок", "1 advice.uz (требования к рекламе отдельных товаров)", "2 uz.wikipedia.org/wiki/Reklama", "3 law.2gis.uz/advert-rules",
+    "4 edubaza.uz/ru/mavzu/mahsulotni-reklama-qilish (урок информатики 8 класса)", "5 youtube.com (школьный урок «4 bob 5 mavzu»)",
+    "6 uznetix.com (блог агентства)", "7 playmobile.uz (SMS-реклама)", "8 scribd.com (школьное задание)", "9 soff.uz (презентация)",
+    "10 billz.io/uz/blog (8 советов)", "11 ilmiyhujjat.uz", "12 lex.uz (закон «О рекламе»)", "13 instagram reel", "15 kun.uz (2021)"
+   ],
+   "read": "weak для бизнес-интента, но спрос наполовину школьный (тема учебника 8 класса) — info_share 0,5"
+  },
+  "instagram nakrutka": {
+   "aio": true,
+   "organic": [
+    "1 webmart.by (ТОП-20 сервисов накрутки)", "2 dtf.ru (ТОП-15 сервисов)", "3 vc.ru (накрутка бесплатно)", "4 m.olx.uz (накрутка в Ташкенте)",
+    "5 likestorm.com.ua (продажа)", "6 vc.ru (как работают подписчики)", "7 cheatbot.ru", "8 vc.ru (ТОП-18)", "9 cheatbot.ru",
+    "10 dtf.ru (без розовых очков, риски)", "14 ru.mrpopular.net", "15 landpr.kz («чёрный метод»)"
+   ],
+   "read": "strong/враждебная: интент покупки, списки сервисов и панели; честная страница попадает только в хвост «риски накрутки»"
+  }
+ },
+ "gsc": {
+  "window": "2026-07-22..2026-10-22 (last_3_months), sc-domain:gptbot.uz, все страны, dimensions query+page",
+  "filters_and_result": {
+   "uzum": "0 строк",
+   "olx": "0 строк",
+   "маркетплейс": "0 строк",
+   "reels": "0 строк",
+   "kon (do'kon)": "1: «internet do'kon yaratish» -> /uz/blog/internet-dokon-yaratish-narxi-toshkent/ 1 показ, поз. 31",
+   "obunachi": "1: «instagramda eng ko'p obunachi kimda» -> /uz/smm-xizmatlari/ 2 показа, поз. 27 (мусор)",
+   "kanal": "1: «narxi telegram kanalda» -> /uz/telegram-reklama/ 1 показ, поз. 9",
+   "канал": "24 строки: ~60 показов украинских «біржа телеграм каналів …» -> /ru/blog/telegram-ads-ili-posevy-v-kanalah/ поз. 31–54; «раскрутка телеграм канала ташкент» -> /ru/telegram-ads-uzbekistan/ 2 показа, поз. 37,5",
+   "магазин": "17 строк: SEO/разработка/бот для интернет-магазина; «создание интернет-магазина в ташкенте» -> /ru/blog/skolko-stoit-internet-magazin-tashkent-2026/ 3 показа, поз. 19; «лендинг или интернет-магазин» -> /ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/ 4 показа, поз. 24,5",
+   "instagram / инстаграм": "52 строки, все про Direct-бота, SMM-цены и лиды; продавцовых запросов нет; «монетизация инстаграм в узбекистане» поз. 6,5 (6 показов)"
+  },
+  "read": "по продавцам маркетплейсов и соцсетевой торговле сайт почти не виден: 0 кликов, <10 релевантных показов за 3 месяца"
+ }
+}

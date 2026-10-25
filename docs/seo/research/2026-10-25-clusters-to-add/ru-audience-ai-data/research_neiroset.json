@@ -1,0 +1,26 @@
+{
+  "meta": {"call": "research_keywords", "seed": "нейросеть", "languageCode": "ru", "locationCode": 2860, "date": "2026-10-25", "source": "google_ads", "rowCount": 150, "credits": "whoami 18834 -> 18730 (104)", "note": "Transcribed from inline tool response; rows with volume >= 20 listed in full, the remaining ~115 rows are volume 10 (mostly image/video generation, brand names, theory) and are summarised."},
+  "rows_ge20": [
+    ["midgorni", 12100, "noise: unrelated (Google Ads idea, not RU AI)"],
+    ["нейросеть", 1300, "= неиросети 1300 (same bucket)"],
+    ["нейросеть для создания видео", 210, "video gen - product has none"],
+    ["нейросеть для создания картинок", 140, "image gen - product has none"],
+    ["рисунок нейросети", 140, "= рисунок нейросетью"],
+    ["нейросеть онлайн", 70, "= нейронная сеть онлайн"],
+    ["бесплатные нейросети", 70, ""],
+    ["нейросети для создания изображений", 40, "image"],
+    ["нейросети это", 40, ""],
+    ["бесплатные нейросети для генерации изображений", 30, "image"],
+    ["генерация видео нейросеть", 30, "video"],
+    ["кандинский нейросеть", 30, "brand"],
+    ["нейросети бесплатные", 30, ""],
+    ["нейросети для генерации изображений", 30, "image"],
+    ["нейросеть для написания текста", 30, "TEXT - fits"],
+    ["нейросеть для генерации картинок", 20, "image"],
+    ["лучшая нейросеть", 20, "= лучшие нейросети"],
+    ["нейросеть видео", 20, "video"],
+    ["нейросеть для раздевания", 20, "adult - excluded"]
+  ],
+  "rows_10_text_relevant": ["нейросеть чат", "чат с нейросетью", "нейросеть для генерации текста", "генерация текста нейросетью", "нейросеть анализ текста", "нейросеть без регистрации", "нейросеть для общения", "нейросеть для бизнеса", "нейросеть для детей", "генератор историй нейросеть", "нейросеть chatgpt", "нейросеть gpt"],
+  "conclusion": "RU 'нейросеть' universe in Uzbekistan = 1300 head + long tail of 10s; image/video intents dominate the tail; text tasks appear only at 10-30/mo."
+}

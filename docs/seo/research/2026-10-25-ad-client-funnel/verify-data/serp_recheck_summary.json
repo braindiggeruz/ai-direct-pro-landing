@@ -1,0 +1,17 @@
+{
+  "source": "OpenSEO get_serp_results, location 2860, desktop, depth 20; raw rows in serp_recheck_raw.json",
+  "pulled": "2026-10-25",
+  "credits": "45 (balance 18 207 -> 18 162, whoami before and after)",
+  "queries": {
+    "контекстная реклама": {"features": ["ai_overview#1", "paid", "people_also_ask"], "top5": ["adwservice.com.ua (что такое)", "kelyanmedia.uz (что такое)", "botfaqtor.ru (от А до Я)", "elit-web.ua (что такое)", "rtb.sape.ru (глоссарий)"], "reading": "definitional SERP, 15/15 organic are «что такое»; a price article will not rank"},
+    "гугл адс": {"features": ["ai_overview#1", "knowledge_graph", "video"], "top5": ["ads.google.com", "facebook.com/GoogleAds", "business.google.com", "business.google.com", "en.wikipedia.org"], "reading": "navigational; first third-party guide at #7, smm-target.uz at #11"},
+    "контекстная реклама цена": {"features": ["ai_overview#1", "people_also_ask"], "top5": ["b2b.yandex.ru", "workspace.ru (calculator Tashkent)", "ashmanov.com", "saytyaratish.uz", "bewave.ru"], "reading": "mixed; a Tashkent price calculator (workspace.ru) already ranks #2; gptbot.uz not in top 17 on this snapshot"},
+    "target yoqish": {"features": ["video", "ai_overview#2"], "top5": ["olx.uz (services)", "youtube playlist (course)", "ustoz.ai (course)", "rivojuz.uz (targetolog)", "instagram tag"], "gptbot": 6, "reading": "the hub already ranks #6; soff.uz, kyoday.uz, yuzinchi.uz service pages also in top 15"},
+    "реклама стоматологии": {"features": ["ai_overview#7", "people_also_ask", "images"], "top5": ["shmargun.ru", "med-agency.com", "dentist-plus.com", "ashmanov.com", "pinterest"], "reading": "Russian agency and blog content, no Uzbek page in top 16; «mixed» confirmed"},
+    "uzum market reklama": {"features": ["video", "ai_overview#3", "short_videos"], "top5": ["uz24.uz: from 2026-06-08 the Uzum Market seller cabinet has an ad-link tool with UTM tags (article 2026-05-22)", "youtube", "play.google.com", "daryo.uz (Uzum internal ads, 2024)", "facebook"], "reading": "no guide about external traffic -> weak holds; but the claim «UTM на Uzum не работает» is contradicted"},
+    "telegram ads": {"features": ["paid", "ai_overview#5", "video"], "top5": ["ads.telegram.org", "adsgram.ai", "umnico.com", "newage.agency", "carrotquest.io"], "reading": "same as the lens snapshot; global SaaS and agencies, no Uzbek page in top 16"},
+    "reklama matni yozish": {"features": ["ai_overview#1", "images"], "top5": ["promli.com (AI reklama matni generatori)", "kursishlari.uz", "ilmiyhujjat.uz", "ilmiyhujjat.uz", "adshare.uz (7 qoida)"], "reading": "an AI generator now holds #1 (lens: «инструмента в выдаче нет») -> weak/mixed"},
+    "реклама в телеграм каналах": {"features": ["ai_overview#1", "people_also_ask"], "top5": ["ppc.world", "richads.com", "richads.com", "sendpulse.com", "ppc.world"], "reading": "strong Russian content; levelm.uz (Telegram Ads или посевы) at #13"},
+    "targetolog": {"features": ["ai_overview#2", "video", "images"], "top5": ["rustudy.uz (Targetolog kasbi)", "m.olx.uz (services)", "ishkop.uz (40+ vacancies)", "facebook post (targetolog kim)", "hh.uz (vacancies)"], "reading": "profession and vacancies, confirms A7"}
+  }
+}

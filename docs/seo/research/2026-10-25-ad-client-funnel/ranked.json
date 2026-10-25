@@ -1,0 +1,2555 @@
+{
+  "date": "2026-10-25",
+  "location": 2860,
+  "inputs": [
+    "ad-platform-pains.json",
+    "prices-tools.json",
+    "marketplaces-social-selling.json",
+    "niche-playbooks.json"
+  ],
+  "method": {
+    "score": "visits/day at pos ~3 (midpoint, from lens; already demand × CTR / 30 × 1.5 × AIO) × effective CPC USD × lead directness (1.0 / 0.6 / 0.3 / 0.15) × SERP weakness (weak 1.5, weak/mixed 1.25, mixed 1.0, mixed/strong 0.8, strong 0.6) / effort (S 1, S+M 1.5, M 2, L 3); normalised to 100",
+    "cpc": "effective CPC = (lens demand-weighted CPC × n + 1.30 × 2) / (n + 2), n = number of Google Ads buckets in the cluster that carry a CPC; 1.30 = median of the lens clusters; no CPC at all = 1.30; stated proxies/floors are counted as the n given in the item",
+    "leads": "visits/day × 30 × conversion assumption; pos6 range = low visits × low conv … high visits × high conv; same for pos3",
+    "conversion_assumptions": {
+      "price": {
+        "low": 0.02,
+        "high": 0.05,
+        "label": "цены, найм, ниша: 2–5 %"
+      },
+      "problem": {
+        "low": 0.005,
+        "high": 0.02,
+        "label": "проблема/DIY/инструмент: 0,5–2 %"
+      },
+      "mixed": {
+        "low": 0.002,
+        "high": 0.005,
+        "label": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %"
+      }
+    },
+    "calibration": "site now: generate_lead 2 per 28 days (entries / and /uz/smm-xizmatlari), agency pages 29 clicks / 3 136 impressions per 28 days (baseline.md §2, §7.3); AI Assistant channel 32 sessions / 1 key event, Organic Search 1 863 sessions / 1 key event (§7.1)",
+    "caveats": [
+      "Most counted phrases sit in the 10/mo Google Ads bucket (real 0-19); sums are upper bounds of a long tail",
+      "AI Overview discount applied to every cluster by the lenses",
+      "SERP measured for 18 queries across the four lenses; the rest is prior",
+      "New pages typically need 6-12 weeks to reach a stable position (roadmap-1000: best page plateaued at week 6-7)",
+      "AI-assistant referrals (the channel of the first SMM lead) are not modelled in visits or leads"
+    ]
+  },
+  "totals": {
+    "build_first10": {
+      "n": 10,
+      "demand": 12200,
+      "visits_day_pos6": [
+        1.98,
+        4.55
+      ],
+      "visits_day_pos3": [
+        11.6,
+        14.8
+      ],
+      "leads_month_pos6": [
+        0.39,
+        2.75
+      ],
+      "leads_month_pos3": [
+        2.35,
+        8.93
+      ]
+    },
+    "active_build_next_later": {
+      "n": 35,
+      "demand": 33946,
+      "visits_day_pos6": [
+        5.48,
+        13.04
+      ],
+      "visits_day_pos3": [
+        32.2,
+        42.57
+      ],
+      "leads_month_pos6": [
+        0.86,
+        6.44
+      ],
+      "leads_month_pos3": [
+        5.25,
+        21.05
+      ]
+    },
+    "all_including_deferred": {
+      "n": 40,
+      "demand": 37980,
+      "visits_day_pos6": [
+        6.09,
+        14.92
+      ],
+      "visits_day_pos3": [
+        36.0,
+        48.68
+      ],
+      "leads_month_pos6": [
+        0.91,
+        6.8
+      ],
+      "leads_month_pos3": [
+        5.56,
+        22.23
+      ]
+    }
+  },
+  "funnels": {
+    "F1": "«Сам запущу рекламу» → «сделаем за вас»",
+    "F2": "Бесплатный AI-инструмент / калькулятор → результат → «запустим за вас»",
+    "F3": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+    "F4": "«Моя ниша»: нишевые плейбуки → подбор канала",
+    "F5": "GEO: ассистент рекомендует агентство (цены, справочник проблем)"
+  },
+  "build_order": [
+    {
+      "n": 1,
+      "id": "hub-target-uz",
+      "url": "/uz/instagram-target-yoqish/ (+ RU-раздел на /ru/targetirovannaya-reklama-tashkent/)",
+      "effort": "S"
+    },
+    {
+      "n": 2,
+      "id": "tg-ads-howto",
+      "url": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/ (+ /uz/blog/telegram-ads-qanday-ishga-tushiriladi/)",
+      "effort": "S+M"
+    },
+    {
+      "n": 3,
+      "id": "kontekst-budget-calc",
+      "url": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/ + /uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "effort": "S"
+    },
+    {
+      "n": 4,
+      "id": "tg-channel-checklist",
+      "url": "/uz/telegram-reklama/ + /ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+      "effort": "S"
+    },
+    {
+      "n": 5,
+      "id": "reklama-matni-ai",
+      "url": "/uz/gpt-telegram-instagram-ideya/ + блок на /ru/gpt-v-marketinge-smm/",
+      "effort": "S"
+    },
+    {
+      "n": 6,
+      "id": "agency-prices-table",
+      "url": "/uz/narxlar/ + /ru/ceny/",
+      "effort": "S"
+    },
+    {
+      "n": 7,
+      "id": "uzum-seller-guide",
+      "url": "/uz/blog/uzum-marketda-sotuvchi-bolish/ + /ru/blog/kak-stat-prodavcom-na-uzum-market/",
+      "effort": "M"
+    },
+    {
+      "n": 8,
+      "id": "uzum-external-ads",
+      "url": "/uz/blog/uzum-mahsulotiga-reklama/ + /ru/blog/reklama-tovara-na-uzum-market/",
+      "effort": "S"
+    },
+    {
+      "n": 9,
+      "id": "stomatologiya-klinika",
+      "url": "/ru/blog/reklama-stomatologii-i-kliniki-tashkent/ + /uz/blog/stomatologiya-va-klinika-reklamasi/",
+      "effort": "M"
+    },
+    {
+      "n": 10,
+      "id": "oquv-markazi",
+      "url": "/uz/blog/oquv-markazi-reklamasi/ + /ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+      "effort": "M"
+    }
+  ],
+  "clusters": [
+    {
+      "id": "tg-ads-howto",
+      "title": "Telegram Ads из Узбекистана: раздел «пошагово» в RU-статье (+ UZ-пара после пересмотра A2)",
+      "funnel": "F1",
+      "funnel_name": "«Сам запущу рекламу» → «сделаем за вас»",
+      "status": "build",
+      "build_order": 2,
+      "action": "расширение (RU) → новая (UZ, условно)",
+      "url": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/ (+ /uz/blog/telegram-ads-qanday-ishga-tushiriladi/)",
+      "page_type": "how-to раздел в статье, которой Google уже доверяет (поз. 2,4 по «telegram ads стоимость»)",
+      "sources": [
+        "ad-platform-pains:telegram-ads-diy"
+      ],
+      "keywords_primary": "telegram ads 6 600 (инфо-доля ×0,3), ads telegram 1 000 (5,19), телеграм адс 110 (6,03), telegram ads узбекистан 40, telegram ads стоимость / минимальный бюджет 10",
+      "keywords_full": {
+        "ad-platform-pains:telegram-ads-diy": "Лат./RU: telegram ads 6 600, ads telegram 1 000, ads telegram org 880 (навиг.), телеграм адс 110, telegram ads узбекистан 40, telegram ads platform 20 (= telegram ad platform); по 10 — telegram ads цена, стоимость, минимальный бюджет, как запустить, ton, uzbekistan, на русском, что это, это, телеграм ads. UZ: telegram ads narxi / qanday ishlaydi / o‘zbekistonda = 0 (узбекский спрос сидит в латинской голове). Исключены (не реклама): fragment telegram 1 600, toncoin 480, ton coin 260, ton narxi 210, ton sotib olish 50."
+      },
+      "demand_month": 2682,
+      "cpc_usd": 3.2,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 13,
+      "cpc_effective": 2.95,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "S+M",
+      "effort_divisor": 1.5,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.43,
+        0.97
+      ],
+      "visits_day_pos3": [
+        2.55,
+        3.15
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.06,
+        0.58
+      ],
+      "leads_month_pos3": [
+        0.38,
+        1.89
+      ],
+      "lead_path": "Telegram Ads и посевы → /ru/telegram-ads-uzbekistan/, /uz/telegram-reklama/ (смета после брифа; агентской цены на сайте нет)",
+      "conflicts": "A2 (seo-uz, 22.08): «telegram ads» отклонён как UZ-голова. UZ-статья — только хвосты «qanday ishga tushiriladi / o‘zbekistonda», после пересмотра решения владельцем (как A7 для таргета). Пополнение — только TON через Fragment.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 100.0,
+      "rank": 1
+    },
+    {
+      "id": "hub-target-uz",
+      "title": "Хаб target-uz: блок «O‘zingiz yoqmoqchimisiz? 7 qadam» + раздел «Targetolog xizmati narxi»",
+      "funnel": "F1",
+      "funnel_name": "«Сам запущу рекламу» → «сделаем за вас»",
+      "status": "build",
+      "build_order": 1,
+      "action": "расширение",
+      "url": "/uz/instagram-target-yoqish/ (+ RU-раздел на /ru/targetirovannaya-reklama-tashkent/)",
+      "page_type": "расширение money-хаба: пошаговый DIY-блок + честное сравнение «фрилансер / сотрудник / агентство»",
+      "sources": [
+        "ad-platform-pains:target-yoqish-diy-uz",
+        "prices-tools:targetolog-narxi"
+      ],
+      "keywords_primary": "target yoqish 260 (CPC 1,55), instagramda target yoqish 140 (3,26), instagram target 50, targetolog 170 (2,47), таргетолог 140, targetolog kerak 40, таргетолог ташкент 40 (1,33)",
+      "keywords_full": {
+        "ad-platform-pains:target-yoqish-diy-uz": "UZ лат.: target yoqish 260, instagramda target yoqish 140, instagram target 50, target ads 20, reklama qilish 20; по 10 — target qilish, instagramda target qilish, target reklama, instagramda reklama berish, instagramda reklama qilish (= instagram reklama qilish), reklama berish, instagram reklama, reklama instagram, facebook reklama (CPC 6,80). UZ кир.: таргет ёқиш, таргет созлаш = 0. Ноль: target sozlash, target qanday yoqiladi, instagram reklama berish, reklama kabinet ochish.",
+        "prices-tools:targetolog-narxi": "targetolog 170, таргетолог 140, targetolog kerak 40, таргетолог ташкент 40, target yoqish narxi 20, реклама в инстаграм цена 20; по 10 (нижняя корзина Google Ads): таргетолог цена, таргет цена, сколько стоит таргет, стоимость таргета, стоимость таргетированной рекламы, таргетированная реклама цена, реклама инстаграм цена"
+      },
+      "demand_month": 1080,
+      "cpc_usd": 1.88,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 14,
+      "cpc_effective": 1.81,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "weak/mixed",
+      "serp_factor": 1.25,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.17,
+        0.39
+      ],
+      "visits_day_pos3": [
+        1.03,
+        1.27
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.1,
+        0.59
+      ],
+      "leads_month_pos3": [
+        0.62,
+        1.91
+      ],
+      "lead_path": "Таргет: запуск от 1 990 000, ведение от 1 490 000 сум/мес (цены уже на хабе) → #lead-form хаба",
+      "conflicts": "A7: «targetolog» только раздел и secondary, не primary. Сравнение моделей — ссылка на /uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/, не дублировать.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 77.5,
+      "rank": 2
+    },
+    {
+      "id": "kontekst-budget-calc",
+      "title": "Калькулятор бюджета контекста «CPC × клики → заявки → CPL» в ценовых статьях",
+      "funnel": "F1",
+      "funnel_name": "«Сам запущу рекламу» → «сделаем за вас»",
+      "status": "build",
+      "build_order": 3,
+      "action": "расширение",
+      "url": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/ + /uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "page_type": "встроенный калькулятор (движок growthTool cpl-calculator)",
+      "sources": [
+        "prices-tools:kontekst-narxi-kalkulyator"
+      ],
+      "keywords_primary": "гугл адс 140 (6,87), контекстная реклама 110 (3,41), google adwords 70, яндекс реклама 70 (2,36), контекстная реклама цена 10 (сайт уже поз. 4)",
+      "keywords_full": {
+        "prices-tools:kontekst-narxi-kalkulyator": "гугл адс 140, контекстная реклама 110, google adwords 70, яндекс реклама 70, реклама гугл 40; по 10 (нижняя корзина Google Ads): google ads цена, настройка яндекс директ, директолог, контекстная реклама цена, стоимость контекстной рекламы, сколько стоит контекстная реклама, гугл реклама цена, google реклама цена, реклама гугл цена, яндекс реклама цена"
+      },
+      "demand_month": 530,
+      "cpc_usd": 4.35,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 5,
+      "cpc_effective": 3.48,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.09,
+        0.29
+      ],
+      "visits_day_pos3": [
+        0.5,
+        0.95
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.05,
+        0.43
+      ],
+      "leads_month_pos3": [
+        0.3,
+        1.43
+      ],
+      "lead_path": "Контекст: запуск от 1 990 000, ведение от 1 490 000 сум/мес → /ru/kontekstnaya-reklama-tashkent/",
+      "conflicts": "CPC вводит пользователь; «средних по рынку» от себя не давать.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 75.1,
+      "rank": 3
+    },
+    {
+      "id": "uzum-seller-guide",
+      "title": "Uzum Market’da sotuvchi bo‘lish: регистрация, FBO/FBS, первые покупатели (UZ + RU)",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "build",
+      "build_order": 7,
+      "action": "новая",
+      "url": "/uz/blog/uzum-marketda-sotuvchi-bolish/ + /ru/blog/kak-stat-prodavcom-na-uzum-market/",
+      "page_type": "пошаговый гайд со ссылками на официальный мануал seller.uzum.uz (текст и скриншоты не копировать)",
+      "sources": [
+        "marketplaces-social-selling:uzum-sotuvchi-start"
+      ],
+      "keywords_primary": "uzumda savdo qilish 260 (1,22), uzum sotuvchi 70, uzum market sotuvchi bo‘lish 50 (1,72), seller uzum uz 12 100 (9,31, ×0,05), uzum seller 74 000 (×0,05), стать продавцом на узум 20 (3,64)",
+      "keywords_full": {
+        "marketplaces-social-selling:uzum-sotuvchi-start": "лат.: uzumda savdo qilish 260 (CPC 1,22); uzum sotuvchi 70 (CPC 1,01); uzum market sotuvchi bo'lish 50 (CPC 1,72); uzum market sotuvchi 40 (CPC 1,32); uzumda sotuvchi bo'lish 30 (CPC 0,38); uzum market biznes 30 (CPC 2,84, ×0,5); uzum market ro'yxatdan o'tish 20; uzum hamkor 20 (×0,5); uzumda sotish 10; uzum marketda sotish 10; uzum market partner 10 (CPC 2,62); uzumda do'kon ochish 10 (CPC 0,53); uzum kurs 10; uzum market kurslari 10; uzum seller 74 000 (CPC 1,09, ×0,05); seller uzum uz 12 100 (CPC 9,31, ×0,05); seller uzum 8 100 (CPC 5,81, ×0,05); uzum seller login 2 900 (CPC 1,15, ×0,05); uzum market seller 880 (CPC 1,69, ×0,05); uzum seller kabinet 320 (CPC 1,84, ×0,05). RU: uzum market продавец 40; uzum seller регистрация 30 (CPC 1,28); стать продавцом на узум 20 (CPC 3,64); uzum продавец 10 (CPC 1,28); узум продавец 10; как стать продавцом на узум 10; продавать на узум 10 (CPC 1,35); как продавать на uzum market 10; узум маркет для продавцов 10; uzum market для продавцов 10; узум селлер 5 400 (CPC 3,23, ×0,05)."
+      },
+      "demand_month": 5900,
+      "cpc_usd": 2.42,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 19,
+      "cpc_effective": 2.31,
+      "directness": 0.3,
+      "directness_label": "косвенный",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.95,
+        2.13
+      ],
+      "visits_day_pos3": [
+        5.61,
+        6.94
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.06,
+        0.32
+      ],
+      "leads_month_pos3": [
+        0.34,
+        1.04
+      ],
+      "lead_path": "Косвенный: «карточка есть, продаж нет» → спица uzum-external-ads → таргет; дальше SMM Start и бот магазина",
+      "conflicts": "5 185 из 5 900 эффективного спроса — навигационные головы ×0,05; при доле 0,02 кластер ≈2 800. Услуги «ведение магазина на Uzum» на сайте нет.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 64.8,
+      "rank": 4
+    },
+    {
+      "id": "heshteg-bio-ai",
+      "title": "Хэштеги и bio для Instagram: AI-генератор",
+      "funnel": "F2",
+      "funnel_name": "Бесплатный AI-инструмент / калькулятор → результат → «запустим за вас»",
+      "status": "deferred",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/instagram-bio-va-heshteg/ + RU",
+      "page_type": "страница-инструмент (2 шаблона)",
+      "sources": [
+        "prices-tools:heshteg-bio"
+      ],
+      "keywords_primary": "hashtag 480, instagram hashtag 320 (2,16), xeshteg 140, instagram bio 140",
+      "keywords_full": {
+        "prices-tools:heshteg-bio": "hashtag 480, instagram hashtag 320, xeshteg 140, хештег = хэштеги 140, instagram bio 140, heshteg 110, instagram uchun heshteglar 110, instagram profil 90, hashtag nima 70, хештеги для инстаграм = хэштеги для инстаграм 70, heshteglar 50, био для инстаграм 50, био инстаграм 50, hashtaglar 40, heshteg nima 40, статус для инстаграм 40, описание для инстаграм 40, hashteg 20, хештеги 20, хештег нима 20, hashtag generator 20, instagram uchun bio 20; по 10 (нижняя корзина Google Ads): генератор хештегов = генератор хэштегов, bio uchun so'zlar, instagram bio generator, bio generator, шапка профиля инстаграм, шапка инстаграм, описание профиля инстаграм"
+      },
+      "demand_month": 2150,
+      "cpc_usd": 2.14,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 2,
+      "cpc_effective": 1.72,
+      "directness": 0.15,
+      "directness_label": "слабый",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.3,
+        1.2
+      ],
+      "visits_day_pos3": [
+        2.0,
+        3.9
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.02,
+        0.18
+      ],
+      "leads_month_pos3": [
+        0.12,
+        0.58
+      ],
+      "lead_path": "Слабый: личные профили и подростки; польза — регистрации в чате",
+      "conflicts": "Делать последним, если вообще.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 22.7,
+      "rank": 5
+    },
+    {
+      "id": "google-ads-uz-ru",
+      "title": "Google Ads и YouTube из Узбекистана: аккаунт, оплата, первая кампания (UZ + RU)",
+      "funnel": "F1",
+      "funnel_name": "«Сам запущу рекламу» → «сделаем за вас»",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/google-reklama-qanday-beriladi/ + /ru/blog/kak-zapustit-google-ads-iz-uzbekistana/",
+      "page_type": "how-to по справке Google «Payment options»",
+      "sources": [
+        "ad-platform-pains:google-ads-from-uz"
+      ],
+      "keywords_primary": "google ads 4 400 (×0,15–0,3), гугл реклама 110, google реклама 70 (4,13), google reklama 30 (3,55), youtube ads 40",
+      "keywords_full": {
+        "ad-platform-pains:google-ads-from-uz": "Навиг.: google ads 4 400, google ads вход 50, google ads account 30, google ads login 20. Инфо: гугл реклама 110, google реклама 70, youtube ads 40, google reklama 30; по 10 — реклама в гугл (= в гугле, CPC 4,83), реклама в гугл цена, google reklama berish, youtube reklama, youtube реклама, реклама на ютубе, реклама в поисковике гугл, реклама от google, товарная реклама гугл. Ноль: google ads o‘zbekistonda, google ads uzbekistan, оплата google ads, как оплатить google ads, googleda reklama berish."
+      },
+      "demand_month": 1015,
+      "cpc_usd": 2.34,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 12,
+      "cpc_effective": 2.19,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.16,
+        0.37
+      ],
+      "visits_day_pos3": [
+        0.97,
+        1.19
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.02,
+        0.22
+      ],
+      "leads_month_pos3": [
+        0.15,
+        0.71
+      ],
+      "lead_path": "Контекст → /ru/kontekstnaya-reklama-tashkent/",
+      "conflicts": "Сравнение Google vs Яндекс не дублировать (есть /ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/).",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 21.1,
+      "rank": 6
+    },
+    {
+      "id": "tg-channel-checklist",
+      "title": "Чек-лист «как выбрать Telegram-канал для посева»: метрики TGStat/Telemetr, признаки накрутки, UTM, договор",
+      "funnel": "F1",
+      "funnel_name": "«Сам запущу рекламу» → «сделаем за вас»",
+      "status": "build",
+      "build_order": 4,
+      "action": "раздел",
+      "url": "/uz/telegram-reklama/ + /ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+      "page_type": "раздел-чек-лист + шаблон для скачивания (без названий каналов)",
+      "sources": [
+        "ad-platform-pains:telegram-channel-ads-diy",
+        "marketplaces-social-selling:tg-kanal-statistika"
+      ],
+      "keywords_primary": "telegram reklama 70, реклама в телеграм 70 (4,65), реклама телеграм 10 (6,26), tgstat 2 900 (×0,05), telemetr 590 (9,43, ×0,05), статистика телеграм канала 20",
+      "keywords_full": {
+        "ad-platform-pains:telegram-channel-ads-diy": "UZ/RU: telegram reklama 70 (рост 40→140), реклама в телеграм 70 (CPC 4,65); по 10 — телеграм реклама, telegramda reklama berish, реклама в телеграм каналах, реклама в телеграм цена, реклама на телеграм канале, реклама телеграм (CPC 6,26), реклама в ботах телеграм, как запустить рекламу в телеграм. Ноль: telegram kanalda reklama, telegram kanalga reklama berish, telegram reklama narxi, как дать рекламу в телеграм канале.",
+        "marketplaces-social-selling:tg-kanal-statistika": "лат.: tgstat 2 900 (CPC 1,23, ×0,05); tgstat uz 720 (×0,05); telemetr 590 (CPC 9,43, ×0,05). RU: статистика телеграм канала 20 (CPC 0,50); телеграм каналы узбекистана 50 (×0,3); телеграм каналы ташкент 10 (×0,3)."
+      },
+      "demand_month": 468,
+      "cpc_usd": 2.97,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 10,
+      "cpc_effective": 2.69,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed/strong",
+      "serp_factor": 0.8,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.08,
+        0.17
+      ],
+      "visits_day_pos3": [
+        0.45,
+        0.55
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.1
+      ],
+      "leads_month_pos3": [
+        0.07,
+        0.33
+      ],
+      "lead_path": "Посевы под ключ и Telegram Ads → #lead-form на /uz/telegram-reklama/ и /ru/telegram-ads-uzbekistan/",
+      "conflicts": "Владельцы интента есть (telegram-uz, telegram-ru) — новый URL не нужен.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 19.3,
+      "rank": 7
+    },
+    {
+      "id": "marketplaces-compare",
+      "title": "Маркетплейсы Узбекистана для продавца: Uzum, Market Yandex Go, Wildberries, Ozon (+ якорные разделы)",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/blog/marketpleysy-uzbekistana-dlya-prodavca/ + /uz/blog/ozbekiston-marketpleyslari-sotuvchi-uchun/",
+      "page_type": "сравнительная таблица по официальным источникам с датой (тарифы — ссылками)",
+      "sources": [
+        "marketplaces-social-selling:marketpleyslar-taqqoslash",
+        "marketplaces-social-selling:wb-ozon-ym-sotuvchi"
+      ],
+      "keywords_primary": "marketplace uzbekistan 210 (1,01), маркетплейсы узбекистана 140 (1,23), маркетплейсы в узбекистане 70 (1,60), yandex market seller 1 000 (×0,15), wildberries seller 880 (×0,15)",
+      "keywords_full": {
+        "marketplaces-social-selling:marketpleyslar-taqqoslash": "лат.: marketplace uzbekistan 210 (CPC 1,01); marketplace 720 (CPC 1,41, ×0,15); marketpleys 40 (CPC 1,84, ×0,5). RU: маркетплейсы узбекистана 140 (CPC 1,23); маркетплейсы в узбекистане 70 (CPC 1,60); маркетплейс узбекистан 50 (CPC 1,46); маркетплейс 720 (CPC 0,71, ×0,3); маркетплейс что это 10; как продавать на маркетплейсах 10; как начать продавать на маркетплейсах 10; торговля на маркетплейсах 10; бизнес на маркетплейсах 10; продажи на маркетплейсах 10; что продавать на маркетплейсе 10.",
+        "marketplaces-social-selling:wb-ozon-ym-sotuvchi": "лат.: yandex market seller 1 000 (CPC 1,82, ×0,15); wildberries seller 880 (CPC 1,35, ×0,15); seller wildberries 390 (CPC 1,98, ×0,15); ozon seller 590 (CPC 1,07, ×0,15); yandex market partner 90 (×0,15); wb partners 880 (CPC 1,61, ×0,05); wildberries partners 140 (CPC 3,50, ×0,05); seller wildberries ru 110 (CPC 3,05, ×0,05); yandex market sotuvchi 20. RU: яндекс маркет продавец 30; wildberries продавец (= продавец wildberries) 10; вайлдберриз продавец 10; стать продавцом wildberries 10; как стать продавцом на wildberries 10; как стать продавцом на вайлдберриз 10; продавать на wildberries 10; как продавать на wildberries 10 (CPC 1,64); поставщик wildberries 10; wildberries для продавцов 10; вб продавец 10; ozon продавец 10 (CPC 0,04)."
+      },
+      "demand_month": 1543,
+      "cpc_usd": 1.31,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 16,
+      "cpc_effective": 1.31,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.25,
+        0.56
+      ],
+      "visits_day_pos3": [
+        1.47,
+        1.81
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.04,
+        0.34
+      ],
+      "leads_month_pos3": [
+        0.22,
+        1.09
+      ],
+      "lead_path": "Таргет на карточки; для уходящих на свой канал — сайт-магазин от 14 900 000 сум",
+      "conflicts": "Своих таблиц комиссий не делать.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 19.1,
+      "rank": 8
+    },
+    {
+      "id": "stomatologiya-klinika",
+      "title": "Реклама стоматологии и клиники в Ташкенте (RU + UZ)",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "build",
+      "build_order": 9,
+      "action": "новая",
+      "url": "/ru/blog/reklama-stomatologii-i-kliniki-tashkent/ + /uz/blog/stomatologiya-va-klinika-reklamasi/",
+      "page_type": "нишевой плейбук: поиск по услуге и району, карты, посадочная на услугу, запись, стоимость первичного пациента; нейтральный блок о законе (lex.uz)",
+      "sources": [
+        "niche-playbooks:stomatologiya-klinika-reklama"
+      ],
+      "keywords_primary": "стоматология реклама 40, реклама стоматологии 10 (6,68), маркетинг для клиники 10 (3,56), продвижение стоматологии 10 и ещё ~27 хвостов по 10",
+      "keywords_full": {
+        "niche-playbooks:stomatologiya-klinika-reklama": "UZ лат.: по 10 — 2 запр.: klinika reklama, klinika marketing | RU: стоматология реклама 40; по 10 — 30 запр.: реклама стоматологии ($6,68), реклама для стоматологии, продвижение стоматологии, маркетинг стоматологии, реклама стоматологической клиники, таргет для стоматологии, реклама стоматологии в инстаграм, продвижение стоматологии в инстаграм, контекстная реклама для стоматологии, сайт для стоматологии, как привлечь клиентов в стоматологию, маркетинг в стоматологии, реклама стоматологии примеры, реклама стоматологии текст, как открыть стоматологию (= открыть стоматологию), бизнес план стоматологии, реклама клиники, реклама для клиники, продвижение клиники, маркетинг клиники, маркетинг для клиники ($3,56), реклама медицинского центра, продвижение медицинского центра, реклама медицинских услуг, сайт для клиники, раскрутка клиники, как привлечь пациентов в клинику, как привлечь пациентов, медицинский маркетинг, маркетинг в медицине"
+      },
+      "demand_month": 360,
+      "cpc_usd": 5.12,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 2,
+      "cpc_effective": 3.21,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.06,
+        0.13
+      ],
+      "visits_day_pos3": [
+        0.34,
+        0.42
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.04,
+        0.2
+      ],
+      "leads_month_pos3": [
+        0.2,
+        0.63
+      ],
+      "lead_path": "Контекст (/ru/kontekstnaya-reklama-tashkent/), таргет, локальное SEO; входящие ссылки с /ru/ai-bot-dlya-kliniki/ (73 показа)",
+      "conflicts": "Медицинская реклама регулируется: без обещаний результата лечения и без юр. советов. Плейбук не класть в страницы AI-бота (кластер bot-services заморожен).",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 18.2,
+      "rank": 9
+    },
+    {
+      "id": "reklama-matni-ai",
+      "title": "Reklama matni yozish: AI-генератор + 7 правил (перенацелить пустые страницы)",
+      "funnel": "F2",
+      "funnel_name": "Бесплатный AI-инструмент / калькулятор → результат → «запустим за вас»",
+      "status": "build",
+      "build_order": 5,
+      "action": "перенацеливание",
+      "url": "/uz/gpt-telegram-instagram-ideya/ + блок на /ru/gpt-v-marketinge-smm/",
+      "page_type": "страница-инструмент: форма «товар, аудитория, выгода, длина» → шаблоны чата smm-telegram-ad / smm-instagram-post",
+      "sources": [
+        "prices-tools:ai-reklama-matni"
+      ],
+      "keywords_primary": "reklama matni yozish 210 (0,77), reklama matni 70, reklama yozish 70, reklama uchun so‘zlar 20, caption generator 20",
+      "keywords_full": {
+        "prices-tools:ai-reklama-matni": "reklama matni yozish 210, reklama matni = reklama matnlari 70, reklama yozish 70, reklama uchun so'zlar 20, caption generator 20; по 10 (нижняя корзина Google Ads): reklama tekst, рекламный текст, рекламный текст пример, как написать рекламный текст, генератор постов, нейросеть для рекламы, нейросеть для текстов, нейросеть для постов, продающий текст, реклама текст, примеры рекламных текстов, генератор описаний, генератор описания товара, описание товара для маркетплейса, post generator, ad copy generator"
+      },
+      "demand_month": 550,
+      "cpc_usd": 0.78,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 2,
+      "cpc_effective": 1.04,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "weak",
+      "serp_factor": 1.5,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.09,
+        0.2
+      ],
+      "visits_day_pos3": [
+        0.52,
+        0.65
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.12
+      ],
+      "leads_month_pos3": [
+        0.08,
+        0.39
+      ],
+      "lead_path": "Таргет (от 1 990 000) и SMM (от 2 490 000 сум/мес): CTA под результатом «Matn tayyor — reklamani biz yoqamiz» → форма",
+      "conflicts": "Смена H1 = ревизия защищённой главной (она перечисляет H1 всех страниц). Записать нового владельца в intent-manifest.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 16.3,
+      "rank": 10
+    },
+    {
+      "id": "ru-instagram-ads-howto",
+      "title": "Как запустить рекламу в Instagram из Узбекистана (RU)",
+      "funnel": "F1",
+      "funnel_name": "«Сам запущу рекламу» → «сделаем за вас»",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/blog/kak-zapustit-reklamu-v-instagram-iz-uzbekistana/",
+      "page_type": "пошаговая статья: «Продвигать» против Ads Manager, кабинет, оплата, модерация, первые 3 дня",
+      "sources": [
+        "ad-platform-pains:ru-instagram-ads-howto"
+      ],
+      "keywords_primary": "таргетинг в инстаграм 628 (×0,5, вероятно склеенный бакет), настройка таргета в инстаграм 10 (7,79), запуск таргета через фейсбук 10 (12,17)",
+      "keywords_full": {
+        "ad-platform-pains:ru-instagram-ads-howto": "RU: таргетинг в инстаграм 628 (среднее за 12 мес; ряд 10→1 300, вероятно склеенный бакет, учтено x0,5), таргет в инстаграм 40, таргетированная реклама 40, таргетированной рекламой 40, реклама в инстаграм 30, таргет инстаграм 20 (= таргет инста); по 10 — как сделать / настроить / дать / запустить рекламу в инстаграм, как запустить / настроить таргет в инстаграм, настройка таргета в инстаграм (CPC 7,79), настроить таргет, запустить таргет в инстаграме, настройка рекламы инстаграм, таргет инстаграм как запустить, запуск таргета через фейсбук (CPC 12,17), продвижение публикации в инстаграм, реклама в инстаграм через фейсбук. Исключены: «таргет» 390 (неоднозначно), ценовые запросы (ценовая линза)."
+      },
+      "demand_month": 624,
+      "cpc_usd": 2.89,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 17,
+      "cpc_effective": 2.72,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.1,
+        0.22
+      ],
+      "visits_day_pos3": [
+        0.59,
+        0.73
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.13
+      ],
+      "leads_month_pos3": [
+        0.09,
+        0.44
+      ],
+      "lead_path": "Таргет → /ru/targetirovannaya-reklama-tashkent/",
+      "conflicts": "Интент «запустить самому» свободен; услуга и диагностика остаются у своих владельцев.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 16.0,
+      "rank": 11
+    },
+    {
+      "id": "target-nima-link",
+      "title": "«Target nima»: одна ссылка на DIY-блок хаба после CTR-окна",
+      "funnel": "F1",
+      "funnel_name": "«Сам запущу рекламу» → «сделаем за вас»",
+      "status": "next",
+      "build_order": null,
+      "action": "расширение (1 ссылка)",
+      "url": "/uz/blog/target-reklama-nima/",
+      "page_type": "правка внутренней ссылки «что это → как включить → закажите»",
+      "sources": [
+        "ad-platform-pains:target-nima-ctr-uz"
+      ],
+      "keywords_primary": "target nima 320 (2,80), таргет нима 50, targeting nima 50 (сайт уже поз. 7–8, 0 кликов)",
+      "keywords_full": {
+        "ad-platform-pains:target-nima-ctr-uz": "UZ лат.: target nima 320 (CPC 2,80), targeting nima 50; UZ кир.: таргет нима 50."
+      },
+      "demand_month": 420,
+      "cpc_usd": 2.57,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 2,
+      "cpc_effective": 1.94,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.07,
+        0.15
+      ],
+      "visits_day_pos3": [
+        0.4,
+        0.49
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.09
+      ],
+      "leads_month_pos3": [
+        0.06,
+        0.29
+      ],
+      "lead_path": "Таргет → /uz/instagram-target-yoqish/",
+      "conflicts": "Не трогать до чтения окна R-S1 (~05–07.11).",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 15.4,
+      "rank": 12
+    },
+    {
+      "id": "marketing-calc",
+      "title": "Калькулятор маркетолога: ROMI, CPL, CPA, ДРР, бюджет под план заявок, CPM (UZ + RU)",
+      "funnel": "F2",
+      "funnel_name": "Бесплатный AI-инструмент / калькулятор → результат → «запустим за вас»",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/marketing-kalkulyator/ + /ru/kalkulyator-romi-cpl/",
+      "page_type": "страница-инструмент на движке cpl-calculator; тот же движок потом для калькулятора Uzum и CPM-модуля Telegram",
+      "sources": [
+        "prices-tools:marketing-kalkulyator"
+      ],
+      "keywords_primary": "romi 320, ltv 210, konversiya nima 140, cpl 110, drr 90, roi formula 90, roi calculator 10 (1,85)",
+      "keywords_full": {
+        "prices-tools:marketing-kalkulyator": "romi 320, ltv 210, konversiya nima 140, cpl 110, roi formula 90, drr 90, дрр 70, roi nima 40, roi формула 30, медиаплан 20, ltv nima 20, lid nima 20; по 10 (нижняя корзина Google Ads): калькулятор romi, калькулятор roi, расчет romi, как рассчитать romi, как посчитать cpl, юнит экономика калькулятор = калькулятор юнит экономики, калькулятор конверсии, калькулятор рекламы, roi calculator, roas calculator, romi formula, romi формула = формула romi, формула roi, дрр формула, lead nima, cpm калькулятор, калькулятор cpm, cpm calculator, сколько стоит реклама в телеграм канале, стоимость рекламы в телеграм канале, телеграм адс цена"
+      },
+      "demand_month": 1370,
+      "cpc_usd": 1.85,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 1,
+      "cpc_effective": 1.48,
+      "directness": 0.3,
+      "directness_label": "косвенный",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.22,
+        0.75
+      ],
+      "visits_day_pos3": [
+        1.3,
+        2.5
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.11
+      ],
+      "leads_month_pos3": [
+        0.08,
+        0.38
+      ],
+      "lead_path": "Экран результата → «media-reja tuzib beramiz» → аудит, контекст или таргет",
+      "conflicts": "Не претендовать на «reklama byudjeti hisoblash» (/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/) и «что такое roi/cpa/cpm» (/ru/blog/marketingovye-terminy-slovar/, /ru/blog/cpa-cpm-cpc-cpl-v-reklame/).",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 12.6,
+      "rank": 13
+    },
+    {
+      "id": "meta-ads-manager-uz",
+      "title": "Meta Ads Manager / Business Suite: qo‘llanma на узбекском",
+      "funnel": "F1",
+      "funnel_name": "«Сам запущу рекламу» → «сделаем за вас»",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/meta-ads-manager-qollanma/",
+      "page_type": "инструкция со скриншотами и датой сверки интерфейса",
+      "sources": [
+        "ad-platform-pains:meta-ads-manager-guide"
+      ],
+      "keywords_primary": "ads manager 9 900 (×0,15), meta business suite 3 600 (×0,15), facebook ads manager 1 300, meta ads 720, business manager 320",
+      "keywords_full": {
+        "ad-platform-pains:meta-ads-manager-guide": "Лат./RU (навигационные): ads manager 9 900 (= adsmanager), meta business suite 3 600, facebook ads manager 1 300 (= ads manager facebook), facebook ads 1 000 (= ads fb, fac ads), business suite 880, meta ads manager 880, meta ads 720 (рост 480→1 300), meta business 390, business manager 320, business facebook com 320, адс менеджер 210, instagram ads 90; хвост: бизнес менеджер 40, instagram ads manager 40, адс менеджер фейсбук 30, мета адс 30, ads manager где находится 20, бизнес аккаунт инстаграм 20, по 10 — рекламный кабинет фейсбук / инстаграм, создание рекламного кабинета фейсбук, настройка ads manager, профессиональный аккаунт инстаграм. UZ: reklama kabinet, reklama kabinet ochish, biznes menejer, facebook biznes menejer = 0."
+      },
+      "demand_month": 3428,
+      "cpc_usd": 0.46,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 20,
+      "cpc_effective": 0.54,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "L",
+      "effort_divisor": 3.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.55,
+        1.23
+      ],
+      "visits_day_pos3": [
+        3.26,
+        4.03
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.08,
+        0.74
+      ],
+      "leads_month_pos3": [
+        0.49,
+        2.42
+      ],
+      "lead_path": "Таргет → /uz/instagram-target-yoqish/ (вопрос «kabinet kimga tegishli» — мост к услуге)",
+      "conflicts": "Навигационный спрос: реальная доля кликов может быть ниже 0,15–0,3. Проверить по GSC через 6–8 недель.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 11.6,
+      "rank": 14
+    },
+    {
+      "id": "restoran-kafe",
+      "title": "Реклама кафе, ресторана и fast food (RU + UZ)",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/blog/reklama-kafe-i-restorana-tashkent/ + /uz/blog/restoran-va-kafe-reklamasi/",
+      "page_type": "нишевой плейбук: рилс с едой, таргет по радиусу и времени, посевы, агрегаторы против своего канала",
+      "sources": [
+        "niche-playbooks:restoran-kafe-reklama"
+      ],
+      "keywords_primary": "реклама кафе в инстаграм 40, fast food reklama 30, burger reklama 20, реклама ресторана 10 (2,90)",
+      "keywords_full": {
+        "niche-playbooks:restoran-kafe-reklama": "UZ лат.: fast food reklama 30; burger reklama 20; по 10 — 4 запр.: pizza reklama, kafe reklama, restoran marketing, restoran instagram | UZ кир.: ресторан реклама 20; по 10 — 1 запр.: кафе реклама | RU: реклама кафе в инстаграм 40; по 10 — 24 запр.: реклама ресторана ($2,90), реклама для ресторана, продвижение ресторана, маркетинг ресторана (= маркетинг для ресторана), реклама кафе, продвижение кафе, сайт для ресторана, раскрутка ресторана, как привлечь клиентов в ресторан, как привлечь клиентов в кафе, ресторанный маркетинг, реклама кафе примеры, реклама кафе текст, рекламный текст для ресторана, акции для ресторана, реклама ресторана примеры, реклама ресторана текст, как увеличить продажи в ресторане, открыть кафе (= как открыть кафе), как открыть ресторан, бизнес план кафе, продвижение кафе в инстаграм, продвижение ресторана в интернете, продвижение ресторанного бизнеса"
+      },
+      "demand_month": 400,
+      "cpc_usd": 2.9,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 1,
+      "cpc_effective": 1.83,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.06,
+        0.14
+      ],
+      "visits_day_pos3": [
+        0.38,
+        0.47
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.04,
+        0.21
+      ],
+      "leads_month_pos3": [
+        0.23,
+        0.71
+      ],
+      "lead_path": "Таргет и SMM, Telegram Ads, локальное SEO; входящие с /ru/ai-bot-dlya-horeca/ (60 показов)",
+      "conflicts": "",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 11.6,
+      "rank": 15
+    },
+    {
+      "id": "yatt-first-clients",
+      "title": "YaTT/ИП: открыть (только по soliq.uz, my.gov.uz, lex.uz) и найти первых клиентов",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/yatt-ochish-va-birinchi-mijozlar/ + /ru/blog/kak-otkryt-ip-v-uzbekistane-i-nayti-klientov/",
+      "page_type": "статья: регистрация коротко и по источникам + первые 30 дней маркетинга",
+      "sources": [
+        "niche-playbooks:yatt-ochish"
+      ],
+      "keywords_primary": "yatt ochish 1 600 (1,15), yakka tartibdagi tadbirkor 390, как открыть ип в узбекистане 210 (1,36), открыть ип в узбекистане 140 (1,71)",
+      "keywords_full": {
+        "niche-playbooks:yatt-ochish": "UZ лат.: yatt ochish 1600 ($1,15); yakka tartibdagi tadbirkor 390; по 10 — 1 запр.: yatt ro'yxatdan o'tish | RU: как открыть ип в узбекистане 210 ($1,36); самозанятый узбекистан 170 ($0,29); открыть ип в узбекистане 140 ($1,71); ип в узбекистане 140 ($0,50)"
+      },
+      "demand_month": 2660,
+      "cpc_usd": 1.1,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 5,
+      "cpc_effective": 1.16,
+      "directness": 0.3,
+      "directness_label": "косвенный",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "L",
+      "effort_divisor": 3.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.43,
+        0.96
+      ],
+      "visits_day_pos3": [
+        2.53,
+        3.13
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.03,
+        0.14
+      ],
+      "leads_month_pos3": [
+        0.15,
+        0.47
+      ],
+      "lead_path": "Стартовый пакет: сайт от 2 990 000, SMM Start, первый таргет",
+      "conflicts": "E-E-A-T: агентство пишет о регистрации; без налоговых советов.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 9.7,
+      "rank": 16
+    },
+    {
+      "id": "biznes-nomi-ai",
+      "title": "Название и слоган для бизнеса: AI-генератор + чек-лист «товарный знак и домен .uz»",
+      "funnel": "F2",
+      "funnel_name": "Бесплатный AI-инструмент / калькулятор → результат → «запустим за вас»",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/biznes-nomi-generator/ + RU-пара",
+      "page_type": "страница-инструмент: новый шаблон бизнес-инструмента чата (название + 5 слоганов)",
+      "sources": [
+        "prices-tools:biznes-nomi-shior"
+      ],
+      "keywords_primary": "firma nomlari 90, brend nomlari 390 (×0,5), fast food nomlari 110, kafe nomlari 70, kompaniya nomlari 70, business name generator 50",
+      "keywords_full": {
+        "prices-tools:biznes-nomi-shior": "firma nomlari 90, kompaniya nomlari 70, kafe nomlari 70, firma nomlari ro'yxati 70, business name generator 50, название компании 40, название фирмы 40, firma nomi 30, salon nomlari 30, фирма номлари 30, brend nomi 20, do'kon uchun nomlar 20, magazin nomlari 20, go'zallik saloni nomlari 20; по 10 (нижняя корзина Google Ads): restoran nomlari, nom generator, nom tanlash, reklama shiorlari, slogan generator, генератор названий, название для бренда, название для магазина, придумать название, слоган для компании, генератор слоганов, придумать слоган, названия для магазина одежды, название для кафе, генератор названий для бизнеса"
+      },
+      "demand_month": 1055,
+      "cpc_usd": 0.42,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 3,
+      "cpc_effective": 0.77,
+      "directness": 0.3,
+      "directness_label": "косвенный",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.17,
+        0.58
+      ],
+      "visits_day_pos3": [
+        0.98,
+        1.83
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.09
+      ],
+      "leads_month_pos3": [
+        0.06,
+        0.27
+      ],
+      "lead_path": "Старт бизнеса → лендинг от 2 990 000 сум и SMM Start",
+      "conflicts": "Не утверждать, что название свободно.",
+      "adjustments": "+ fast food nomlari 110 и brend nomlari 390 ×0,5 (передано линзой niche-playbooks; brend nomlari двусмысленный)",
+      "geo_role": false,
+      "score": 9.7,
+      "rank": 17
+    },
+    {
+      "id": "kontent-plan",
+      "title": "Контент-план: шаблон для скачивания + AI-генератор (RU; UZ — раздел на странице reklama matni)",
+      "funnel": "F2",
+      "funnel_name": "Бесплатный AI-инструмент / калькулятор → результат → «запустим за вас»",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/kontent-plan-instagram-shablon/",
+      "page_type": "шаблон (таблица) + запуск шаблона чата smm-plan",
+      "sources": [
+        "prices-tools:kontent-reja"
+      ],
+      "keywords_primary": "контент план 70, что выложить в инстаграм 40, content plan 20 (5,01), kontent plan 20 (1,46), контент план шаблон 20",
+      "keywords_full": {
+        "prices-tools:kontent-reja": "контент план = контент-план 70, что выложить в инстаграм 40, kontent plan 20, контент план шаблон 20, идеи для сторис 20, content plan 20; по 10 (нижняя корзина Google Ads): kontent plan tuzish, контент план на месяц, как составить контент план, контент план для телеграм канала, контент план для инстаграм, контент план пример, контент план инстаграм, идеи для постов, идеи для рилс, smm контент план, smm план на месяц, готовые контент планы, виды контент плана, instagram контент план, готовый контент для инстаграм, reels ideas"
+      },
+      "demand_month": 350,
+      "cpc_usd": 2.72,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 3,
+      "cpc_effective": 2.15,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.06,
+        0.19
+      ],
+      "visits_day_pos3": [
+        0.33,
+        0.63
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.11
+      ],
+      "leads_month_pos3": [
+        0.05,
+        0.38
+      ],
+      "lead_path": "SMM Start от 2 490 000 сум/мес: «План готов — ведение отдайте нам»",
+      "conflicts": "У /ru/gpt-v-marketinge-smm/ убрать «AI контент-план» из secondaryKeywords.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 9.2,
+      "rank": 18
+    },
+    {
+      "id": "agency-prices-table",
+      "title": "Одна таблица всех опубликованных цен агентства (источник для ChatGPT/Perplexity)",
+      "funnel": "F5",
+      "funnel_name": "GEO: ассистент рекомендует агентство (цены, справочник проблем)",
+      "status": "build",
+      "build_order": 6,
+      "action": "новая",
+      "url": "/uz/narxlar/ + /ru/ceny/",
+      "page_type": "справочная страница цен со ссылками на каждую услугу и форму; Organization/Offer-разметка только по видимым ценам",
+      "sources": [
+        "prices-tools:agency-narxlar"
+      ],
+      "keywords_primary": "smm цена / стоимость сайта (1,41) / реклама у блогера цена — по 10; influencer marketing 40; все UZ «… narxi» < 10",
+      "keywords_full": {
+        "prices-tools:agency-narxlar": "influencer marketing 40; по 10 (нижняя корзина Google Ads): smm цена, смм цена, ведение инстаграм цена, ведение инстаграм, стоимость сайта, сколько стоит сайт, сайт цена, реклама у блогера цена, сколько стоит реклама у блогера, стоимость рекламы у блогера, реклама у блогеров = реклама у блогера, реклама у блогеров инстаграм, инфлюенсер маркетинг, реклама в интернете цены, smm услуги цены, услуги смм цена, прайс смм, смм прайс"
+      },
+      "demand_month": 220,
+      "cpc_usd": 0.75,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 2,
+      "cpc_effective": 1.02,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.04,
+        0.12
+      ],
+      "visits_day_pos3": [
+        0.21,
+        0.39
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.02,
+        0.18
+      ],
+      "leads_month_pos3": [
+        0.13,
+        0.59
+      ],
+      "lead_path": "Все услуги; главный канал — переходы из ChatGPT (первый SMM-лид 07.10)",
+      "conflicts": "Гейт: на /uz/sayt-yaratish/ таблица «Landing 3 500 000 – 7 000 000 … Internet do‘kon 15 000 000 – 35 000 000» противоречит title «2 990 000 so‘mdan» — исправить до публикации; спор 290 000 / 490 000 за поддержку — решение владельца.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 9.2,
+      "rank": 19
+    },
+    {
+      "id": "salon",
+      "title": "Go‘zallik saloni va barbershop reklamasi (UZ + RU)",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/gozallik-saloni-reklamasi/ + /ru/blog/reklama-salona-krasoty-tashkent/",
+      "page_type": "нишевой плейбук: рилс «до/после», таргет 3–5 км, онлайн-запись, карточки на картах, акции без демпинга",
+      "sources": [
+        "niche-playbooks:salon-reklama"
+      ],
+      "keywords_primary": "go‘zallik saloni reklama 70, salon reklama 50, barbershop reklama 20, реклама салона красоты 10, таргет для салона красоты 10",
+      "keywords_full": {
+        "niche-playbooks:salon-reklama": "UZ лат.: go'zallik saloni reklama 70; salon reklama 50; barbershop reklama 20; по 10 — 1 запр.: go'zallik saloni ochish | RU: по 10 — 13 запр.: реклама салона красоты (= реклама для салона красоты), продвижение салона красоты, маркетинг для салона красоты, таргет для салона красоты, реклама салона красоты в инстаграм, сайт для салона красоты, как привлечь клиентов в салон красоты, акции для салона красоты, реклама салона красоты текст, как открыть салон красоты, открыть салон красоты, бизнес план салона красоты, как найти клиентов в бьюти сфере"
+      },
+      "demand_month": 280,
+      "cpc_usd": 1.3,
+      "cpc_source": "CPC нет — взята медиана 1,30",
+      "cpc_queries": 0,
+      "cpc_effective": 1.3,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "weak",
+      "serp_factor": 1.5,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.05,
+        0.1
+      ],
+      "visits_day_pos3": [
+        0.27,
+        0.33
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.03,
+        0.15
+      ],
+      "leads_month_pos3": [
+        0.16,
+        0.5
+      ],
+      "lead_path": "Таргет + SMM, локальное SEO; входящие с /ru/ai-bot-dlya-salona-krasoty/ (155 показов — самая видимая нишевая страница)",
+      "conflicts": "CPC нет ни у одного запроса — взята медиана 1,30.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 8.7,
+      "rank": 20
+    },
+    {
+      "id": "mobilograf",
+      "title": "Мобилограф и Reels для бизнеса: нанять, фрилансер или пакет агентства (UZ + RU)",
+      "funnel": "F2",
+      "funnel_name": "Бесплатный AI-инструмент / калькулятор → результат → «запустим за вас»",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/mobilograf-yollash-yoki-smm-agentlik/ + RU-пара",
+      "page_type": "статья-сравнение моделей найма",
+      "sources": [
+        "prices-tools:mobilograf-reels"
+      ],
+      "keywords_primary": "мобилограф 880, mobilograf 590, mobilograf kerak 70, мобилограф ташкент 70 (1,01), video reklama 20 (1,47)",
+      "keywords_full": {
+        "prices-tools:mobilograf-reels": "мобилограф = мобилография 880, mobilograf 590, мобилограф это 320, mobilografiya 260, mobilograf kerak 70, мобилограф ташкент 70, videograf 50, видеограф ташкент = видеосъемка ташкент 50, кто такой мобилограф 40, mobilograf nima 20, video reklama = reklama video 20; по 10 (нижняя корзина Google Ads): mobilograf xizmati, мобилограф цена, рилсмейкер, reelsmaker, съемка рилс, рекламный ролик, съемка рекламы"
+      },
+      "demand_month": 2440,
+      "cpc_usd": 0.35,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 11,
+      "cpc_effective": 0.5,
+      "directness": 0.3,
+      "directness_label": "косвенный",
+      "serp_weakness": "weak",
+      "serp_factor": 1.5,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.39,
+        0.88
+      ],
+      "visits_day_pos3": [
+        2.3,
+        2.9
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.02,
+        0.13
+      ],
+      "leads_month_pos3": [
+        0.14,
+        0.43
+      ],
+      "lead_path": "SMM «Бизнес» от 4 490 000 (8 Reels), «Про» от 7 900 000 сум/мес (съёмочный день, 12 Reels)",
+      "conflicts": "~87 % спроса — информационный или соискатели; заказной хвост ≈310/мес.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 8.6,
+      "rank": 21
+    },
+    {
+      "id": "onlayn-dokon-ochish",
+      "title": "Onlayn do‘kon ochish: Instagram, Telegram-бот, Uzum или сайт — с чего начать (UZ + RU)",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/onlayn-dokon-ochish/ + /ru/blog/kak-otkryt-internet-magazin-v-uzbekistane/",
+      "page_type": "гайд-развилка «4 пути»; цены — только ссылками на прайс-спицы",
+      "sources": [
+        "marketplaces-social-selling:onlayn-dokon-ochish"
+      ],
+      "keywords_primary": "internet magazin 390 (×0,3), onlayn savdo 110 (×0,5), dropshipping 720 (×0,15), онлайн бизнес в узбекистане 10 (3,24)",
+      "keywords_full": {
+        "marketplaces-social-selling:onlayn-dokon-ochish": "лат.: internet magazin 390 (CPC 0,73, ×0,3); onlayn savdo 110 (CPC 0,67, ×0,5); internet do'kon 30 (CPC 0,39, ×0,5); onlayn do'kon 30 (×0,5); internet do'kon ochish 10; internet magazin ochish 10; onlayn biznes 20 (CPC 1,25); onlayn biznes boshlash 10 (CPC 1,99); e-commerce uzbekistan 10 (CPC 0,75); shopify uzbekistan 20 (CPC 1,63); instagram magazin 10; telegram shop 20; dropshipping 720 (CPC 1,65, ×0,15). RU: онлайн бизнес в узбекистане 10 (CPC 3,24); открыть интернет магазин 10 (CPC 1,50); как открыть интернет магазин 10 (CPC 0,92); как открыть интернет магазин в узбекистане 10 (CPC 1,15); создать интернет магазин 10; бизнес в интернете 10; конструктор интернет магазина 10; платформа для интернет магазина 10; интернет магазин в инстаграм 10; как открыть магазин в инстаграм 10; магазин в инстаграм (= инстаграм магазин) 10; как продавать в инстаграм 10; продажи в инстаграм 10; продажи через инстаграм 10; бизнес в инстаграм 10; instagram магазин 10; телеграм магазин 10 (CPC 0,55); магазин в телеграм 10; как создать магазин в телеграм 10 (CPC 0,56); интернет магазин в телеграм 10; дропшиппинг 90 (CPC 0,68, ×0,5); товарка 260 (×0,3); какой бизнес открыть в узбекистане 70 (CPC 0,54, ×0,3); электронная коммерция 1 000 (×0,05)."
+      },
+      "demand_month": 814,
+      "cpc_usd": 1.07,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 16,
+      "cpc_effective": 1.1,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.13,
+        0.29
+      ],
+      "visits_day_pos3": [
+        0.77,
+        0.96
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.02,
+        0.17
+      ],
+      "leads_month_pos3": [
+        0.12,
+        0.58
+      ],
+      "lead_path": "Сайт: магазин от 14 900 000, лендинг от 2 990 000; AI-бот магазина Start 1 990 000 сум",
+      "conflicts": "Прайс-спицы /uz/blog/internet-dokon-yaratish-narxi-toshkent/ и RU-пара не каннибализировать.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 8.5,
+      "rank": 22
+    },
+    {
+      "id": "yandex-direct-uz",
+      "title": "Яндекс Директ в Узбекистане: можно ли, оплата, гео (RU)",
+      "funnel": "F1",
+      "funnel_name": "«Сам запущу рекламу» → «сделаем за вас»",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/blog/yandeks-direkt-v-uzbekistane/",
+      "page_type": "how-to на хвост «яндекс директ узбекистан», факты только из справки Яндекса",
+      "sources": [
+        "ad-platform-pains:yandex-direct-uz"
+      ],
+      "keywords_primary": "яндекс директ 590, yandex direct 390 (5,26), яндекс директ узбекистан 40, яндекс директ цена 10 (6,65)",
+      "keywords_full": {
+        "ad-platform-pains:yandex-direct-uz": "RU/лат.: яндекс директ 590, yandex direct 390 (CPC 5,26), yandex reklama 70, яндекс директ узбекистан 40; по 10 — реклама в яндексе, реклама в яндекс директ, яндекс директ цена (CPC 6,65), direct яндекс, реклама в яндексе цена. Ноль: yandex direct uzbekistan, яндекс директ ташкент."
+      },
+      "demand_month": 454,
+      "cpc_usd": 3.62,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 6,
+      "cpc_effective": 3.04,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "strong",
+      "serp_factor": 0.6,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.07,
+        0.16
+      ],
+      "visits_day_pos3": [
+        0.43,
+        0.53
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.1
+      ],
+      "leads_month_pos3": [
+        0.06,
+        0.32
+      ],
+      "lead_path": "Контекст → /ru/kontekstnaya-reklama-tashkent/",
+      "conflicts": "Голову держит Яндекс (4 из 5 мест + AIO); целиться только в хвост.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 7.8,
+      "rank": 23
+    },
+    {
+      "id": "nishalar-hub",
+      "title": "Хаб «Реклама по нишам»: таблица «ниша → канал → что считать» + фитнес, авто, юристы",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/reklama-dlya-biznesa-po-nisham/ + /uz/biznes-uchun-reklama-nishalar-boyicha/",
+      "page_type": "блог-хаб (не money) + форма «расскажите нишу — предложим канал»",
+      "sources": [
+        "niche-playbooks:nishalar-hub"
+      ],
+      "keywords_primary": "как сделать рекламу 10 (1,28), бесплатная реклама 10 (1,41), продвижение бизнеса 10 (0,58), реклама фитнес клуба 10, реклама автосервиса 10, реклама юридических услуг 10",
+      "keywords_full": {
+        "niche-playbooks:nishalar-hub": "UZ лат.: по 10 — 5 запр.: fitnes reklama, fitnes marketing, fitnes instagram, avtoservis ochish, biznes reklama | RU: по 10 — 35 запр.: реклама фитнес клуба, реклама для фитнес клуба, продвижение фитнес клуба, маркетинг фитнес клуба, реклама спортзала, реклама фитнес центра, сайт для фитнес клуба, раскрутка фитнес клуба, как привлечь клиентов в фитнес клуб, реклама фитнес клуба текст, как открыть фитнес клуб, реклама автосалона, реклама для автосалона, маркетинг автосалона, реклама автосервиса, как привлечь клиентов в автосервис, акции для автосервиса, реклама автосервиса текст, как открыть автосервис, открыть автосервис, реклама юридических услуг, реклама юриста, реклама адвоката, реклама юридической компании, сайт для юридических услуг, маркетинг для юристов, как найти клиентов адвокату, маркетинг для малого бизнеса, как рекламировать бизнес, как сделать рекламу ($1,28), бесплатная реклама ($1,41), продвижение бизнеса ($0,58), продвижение бизнеса в интернете, как продвигать бизнес, где дать рекламу"
+      },
+      "demand_month": 400,
+      "cpc_usd": 1.09,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 3,
+      "cpc_effective": 1.17,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.06,
+        0.14
+      ],
+      "visits_day_pos3": [
+        0.38,
+        0.47
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.04,
+        0.21
+      ],
+      "leads_month_pos3": [
+        0.23,
+        0.71
+      ],
+      "lead_path": "Все каналы через подбор канала под нишу",
+      "conflicts": "Юристы/адвокаты — нейтральная оговорка о проф. ограничениях со ссылкой.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 7.4,
+      "rank": 24
+    },
+    {
+      "id": "oquv-markazi",
+      "title": "O‘quv markazi reklamasi: как набрать учеников (UZ, RU-пара)",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "build",
+      "build_order": 10,
+      "action": "новая",
+      "url": "/uz/blog/oquv-markazi-reklamasi/ + /ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+      "page_type": "нишевой плейбук: сезонность набора, таргет на родителей, районные Telegram-каналы, пробный урок, что считать",
+      "sources": [
+        "niche-playbooks:oquv-markazi-reklama"
+      ],
+      "keywords_primary": "o‘quv markazi reklama 170 (= o‘quv markazlari reklama), реклама учебного центра 10, продвижение учебного центра 10, открыть учебный центр в ташкенте 10 (0,46)",
+      "keywords_full": {
+        "niche-playbooks:oquv-markazi-reklama": "UZ лат.: o'quv markazi reklama 170 (= o'quv markazlari reklama); по 10 — 2 запр.: o'quv markaz ochish, kurs reklama | RU: по 10 — 12 запр.: реклама учебного центра, реклама для учебного центра, продвижение учебного центра, реклама образовательного центра, реклама курсов, реклама образовательных услуг, как привлечь учеников в учебный центр, маркетинг в образовании, открыть учебный центр в ташкенте ($0,46), реклама учебного центра текст, как открыть учебный центр (= открыть учебный центр), бизнес план учебного центра"
+      },
+      "demand_month": 310,
+      "cpc_usd": 0.46,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 1,
+      "cpc_effective": 1.02,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "weak",
+      "serp_factor": 1.5,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.05,
+        0.11
+      ],
+      "visits_day_pos3": [
+        0.29,
+        0.36
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.03,
+        0.17
+      ],
+      "leads_month_pos3": [
+        0.17,
+        0.54
+      ],
+      "lead_path": "Таргет и Telegram-реклама, затем AI-бот для ответов родителям; входящие с /uz/oquv-markazi-uchun-ai-bot/ (2 клика)",
+      "conflicts": "CPC есть только у одного хвоста; голова 170 — реальный узбекский бакет со слабой выдачей.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 7.4,
+      "rank": 25
+    },
+    {
+      "id": "uzum-external-ads",
+      "title": "Реклама товара на Uzum: внутренняя реклама кабинета против внешнего трафика (Instagram, Telegram)",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "build",
+      "build_order": 8,
+      "action": "новая",
+      "url": "/uz/blog/uzum-mahsulotiga-reklama/ + /ru/blog/reklama-tovara-na-uzum-market/",
+      "page_type": "спица хаба target-uz: каналы, как мерить (промокод/SKU — атрибуция приблизительная), бюджет через ДРР",
+      "sources": [
+        "marketplaces-social-selling:marketplace-tashqi-reklama"
+      ],
+      "keywords_primary": "uzum market reklama 40, uzum reklama 20, реклама на маркетплейсах 10, внешняя реклама для маркетплейсов 10, реклама на wildberries 10",
+      "keywords_full": {
+        "marketplaces-social-selling:marketplace-tashqi-reklama": "лат.: uzum market reklama 40; uzum reklama 20. RU: реклама на маркетплейсах 10; внешняя реклама для маркетплейсов 10; продвижение товаров на маркетплейсах 10; реклама на wildberries (= wildberries реклама) 10."
+      },
+      "demand_month": 100,
+      "cpc_usd": 1.55,
+      "cpc_source": "CPC нет; взят нижний прокси «target yoqish» 1,55 (считается как 1 запрос)",
+      "cpc_queries": 1,
+      "cpc_effective": 1.38,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "weak",
+      "serp_factor": 1.5,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.02,
+        0.04
+      ],
+      "visits_day_pos3": [
+        0.1,
+        0.12
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.06
+      ],
+      "leads_month_pos3": [
+        0.06,
+        0.18
+      ],
+      "lead_path": "Прямой: таргет на карточку — запуск 1 990 000, ведение 1 490 000 сум/мес, бюджет отдельно → форма хаба",
+      "conflicts": "Внутреннюю рекламу Uzum агентство не ведёт — так и написать.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 6.8,
+      "rank": 26
+    },
+    {
+      "id": "telegram-kanal-biznes",
+      "title": "Telegram-канал для бизнеса: создать и настроить (UZ + RU)",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/telegram-kanal-ochish-biznes-uchun/ + /ru/blog/kak-sozdat-telegram-kanal-dlya-biznesa/",
+      "page_type": "пошаговая инструкция; рост — ссылкой на obunachi-halol",
+      "sources": [
+        "marketplaces-social-selling:telegram-kanal-biznes"
+      ],
+      "keywords_primary": "как создать канал в телеграм 480 (1,65), как создать телеграм канал 30, telegram kanal nomlari 30",
+      "keywords_full": {
+        "marketplaces-social-selling:telegram-kanal-biznes": "RU: как создать канал в телеграм (= как создать канал в телеграме) 480 (CPC 1,65); как создать телеграм канал 30; создать телеграм канал 10; как раскрутить телеграм канал 10 (CPC 1,15); раскрутка телеграм канала 10 (CPC 0,70); продвижение телеграм канала 10; раскрутка телеграм канала ташкент 10 (CPC 1,06); как набрать подписчиков в телеграм канал 10 (CPC 0,35); подписчики телеграм 10; телеграм канал для бизнеса 10. лат.: telegramda kanal yaratish 10; telegram kanal nomlari 30; telegram kanalga odam qo'shish 30. UZ кир.: телеграм канал очиш 10."
+      },
+      "demand_month": 670,
+      "cpc_usd": 1.59,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 5,
+      "cpc_effective": 1.51,
+      "directness": 0.3,
+      "directness_label": "косвенный",
+      "serp_weakness": "strong",
+      "serp_factor": 0.6,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.11,
+        0.24
+      ],
+      "visits_day_pos3": [
+        0.64,
+        0.79
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.04
+      ],
+      "leads_month_pos3": [
+        0.04,
+        0.12
+      ],
+      "lead_path": "Telegram Ads и посевы (смета), SMM-пакеты, бот для заявок",
+      "conflicts": "Голова — общероссийский контент; UZ-варианты не сняты.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 5.8,
+      "rank": 27
+    },
+    {
+      "id": "kartochka-ai",
+      "title": "Генератор карточки товара (Uzum/WB) + чек-лист инфографики и фото",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/mahsulot-kartochkasi-generatori/ + /ru/generator-kartochki-tovara/",
+      "page_type": "страница-инструмент поверх готового шаблона business-uzum",
+      "sources": [
+        "marketplaces-social-selling:kartochka-ai"
+      ],
+      "keywords_primary": "карточка товара 90 (×0,5), инфографика для маркетплейсов 70, дизайн карточек для маркетплейсов 20, предметная съемка 20 (0,69)",
+      "keywords_full": {
+        "marketplaces-social-selling:kartochka-ai": "RU: инфографика для маркетплейсов 70; карточка товара 90 (×0,5); дизайн карточек для маркетплейсов 20; дизайн карточек товаров 10; описание товара 10; seo карточки товара 10; фото для маркетплейсов 10; фото товаров для маркетплейсов 10; предметная съемка 20 (CPC 0,69, ×0,5). лат.: infografika 1 300 (×0,05)."
+      },
+      "demand_month": 260,
+      "cpc_usd": 0.69,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 1,
+      "cpc_effective": 1.1,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.04,
+        0.09
+      ],
+      "visits_day_pos3": [
+        0.25,
+        0.31
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.05
+      ],
+      "leads_month_pos3": [
+        0.04,
+        0.19
+      ],
+      "lead_path": "SMM-контент (Start 2 490 000), таргет на карточку (запуск 1 990 000)",
+      "conflicts": "Только введённые характеристики; без «№1/лучший».",
+      "adjustments": "M → S: шаблон чата business-uzum уже есть (src/gpt-chat/templates.ts)",
+      "geo_role": false,
+      "score": 5.5,
+      "rank": 28
+    },
+    {
+      "id": "mahsulot-reklama",
+      "title": "Mahsulotni qanday reklama qilish / Реклама интернет-магазина: каналы, бюджеты, как мерить",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/mahsulotni-reklama-qilish/ + /ru/blog/reklama-internet-magazina/",
+      "page_type": "практическая таблица «канал → когда работает → как мерить»",
+      "sources": [
+        "marketplaces-social-selling:mahsulot-reklama-dokon"
+      ],
+      "keywords_primary": "mahsulotni reklama qilish 170 (×0,5, школьная тема), реклама магазина 30, реклама для магазина 10 (0,64)",
+      "keywords_full": {
+        "marketplaces-social-selling:mahsulot-reklama-dokon": "лат.: mahsulotni reklama qilish 170 (×0,5); mahsulot reklama 10; mahsulot reklamasi 10. RU: реклама товаров в инстаграм 10; реклама магазина в инстаграм (= реклама инстаграм магазина (pt)) 10; реклама интернет магазина 10; продвижение интернет магазина (= продвижение интернет магазинов) 10; реклама магазина 30 (×0,5, данные prices-tools); реклама для магазина 10 (CPC 0,64, данные prices-tools)."
+      },
+      "demand_month": 170,
+      "cpc_usd": 0.64,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 1,
+      "cpc_effective": 1.08,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "weak",
+      "serp_factor": 1.5,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.03,
+        0.06
+      ],
+      "visits_day_pos3": [
+        0.16,
+        0.2
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.0,
+        0.04
+      ],
+      "leads_month_pos3": [
+        0.02,
+        0.12
+      ],
+      "lead_path": "Таргет, SMM Start, Telegram-реклама (смета)",
+      "conflicts": "Хаб digital-paid-media-ru владеет «интернет реклама Ташкент», не этим интентом.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 5.2,
+      "rank": 29
+    },
+    {
+      "id": "biznes-goyalar",
+      "title": "Biznes g‘oyalar / бизнес-идеи в Узбекистане с планом первых клиентов",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "deferred",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/biznes-goyalar-ozbekiston/ + /ru/blog/biznes-idei-v-uzbekistane/",
+      "page_type": "15–20 идей, у каждой — где первые клиенты; без цифр доходности",
+      "sources": [
+        "niche-playbooks:biznes-goyalar"
+      ],
+      "keywords_primary": "бизнес идеи 390 (0,80), biznes g‘oyalar 170 (0,86), kichik biznes g‘oyalar 90",
+      "keywords_full": {
+        "niche-playbooks:biznes-goyalar": "UZ лат.: biznes g'oyalar 170 ($0,86); kichik biznes g'oyalar 90 ($0,15); biznes boshlash 50 ($1,25); yangi biznes g'oyalar 30 ($1,32); biznes qilish 30 ($0,17); biznes sirlari 30; biznes g'oyalar 2025 20; biznes ochish 20; по 10 — 2 запр.: biznes g'oyalar 2026 ($0,21), biznes goyalar | UZ кир.: по 10 — 1 запр.: бизнес ғоялар ($0,77) | RU: бизнес идеи 390 ($0,80); бизнес идеи в узбекистане 90 ($0,55); бизнес идеи 2026 50 ($0,70); бизнес с нуля 50 ($1,12); идеи для бизнеса 50 ($0,93); бизнес идеи 2025 40 ($1,73); малый бизнес идеи 20 ($0,67); бизнес идеи для женщин 20 ($0,94); бизнес в узбекистане 20 ($0,59); бизнес в ташкенте 20 ($0,20); по 10 — 6 запр.: бизнес идеи с минимальными вложениями ($2,62), бизнес идеи ташкент ($0,48), какой бизнес открыть, бизнес идеи узбекистан, какой бизнес открыть в ташкенте ($0,37), открыть бизнес в узбекистане"
+      },
+      "demand_month": 1280,
+      "cpc_usd": 0.79,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 20,
+      "cpc_effective": 0.84,
+      "directness": 0.3,
+      "directness_label": "косвенный",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.21,
+        0.46
+      ],
+      "visits_day_pos3": [
+        1.22,
+        1.5
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.07
+      ],
+      "leads_month_pos3": [
+        0.07,
+        0.23
+      ],
+      "lead_path": "Через нишевые плейбуки → стартовый пакет",
+      "conflicts": "«biznes reja» не перетягивать (/uz/blog/biznes-reja-tuzish/).",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 5.1,
+      "rank": 30
+    },
+    {
+      "id": "marketing-plan-ru",
+      "title": "Пример маркетингового плана: расширение RU-статьи о digital-стратегии",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "later",
+      "build_order": null,
+      "action": "расширение",
+      "url": "/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/",
+      "page_type": "блок «пример маркетингового плана на 1 страницу» (вымышленный пример помечен как вымышленный)",
+      "sources": [
+        "niche-playbooks:marketing-strategiya"
+      ],
+      "keywords_primary": "маркетинговая стратегия 30, маркетинговый план 20, стратегии маркетинга 10 (1,58), маркетинговый план пример 10",
+      "keywords_full": {
+        "niche-playbooks:marketing-strategiya": "UZ лат.: marketing strategiyasi 110; raqamli marketing 110; по 10 — 3 запр.: marketing strategiyasi nima, marketing rejasi, marketing reja | UZ кир.: по 10 — 2 запр.: маркетинг стратегияси, маркетинг стратегия ($1,10) (= маркетинговые стратегии) | RU: маркетинговая стратегия 30; маркетинговый план 20; по 10 — 14 запр.: стратегии маркетинга ($1,58), план маркетинга, разработка маркетинговой стратегии, разработка маркетинговой стратегии цена, маркетинговая стратегия компании, маркетинговая стратегия на год, готовая маркетинговая стратегия, маркетинговая стратегия пример, маркетинговый план пример, маркетинг план пример, стратегия развития бизнеса, smm стратегия, стратегия продвижения, стратегия продвижения в инстаграм"
+      },
+      "demand_month": 200,
+      "cpc_usd": 1.34,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 2,
+      "cpc_effective": 1.32,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.03,
+        0.07
+      ],
+      "visits_day_pos3": [
+        0.19,
+        0.23
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.0,
+        0.04
+      ],
+      "leads_month_pos3": [
+        0.03,
+        0.14
+      ],
+      "lead_path": "Маркетинговый аудит → /ru/marketingovyi-audit-tashkent/",
+      "conflicts": "A2: ни одна страница не может претендовать на «marketing strategiyasi» — UZ-страница линзы niche-playbooks не делается.",
+      "adjustments": "UZ-часть (marketing strategiyasi 110, raqamli marketing 110, marketing strategiyasi nima/rejasi/reja 30, кир. маркетинг стратегияси 10) снята по A2 DO_NOT_BUILD; осталось RU 190 + «маркетинг стратегия» 10 = 200",
+      "geo_role": false,
+      "score": 5.0,
+      "rank": 31
+    },
+    {
+      "id": "kiyim-mebel",
+      "title": "Реклама магазина одежды и мебели (2 RU + 1 UZ)",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/blog/reklama-magazina-odezhdy-tashkent/, /ru/blog/reklama-mebeli-tashkent/, /uz/blog/kiyim-va-mebel-dokoni-reklamasi/",
+      "page_type": "нишевой плейбук (один шаблон)",
+      "sources": [
+        "niche-playbooks:kiyim-mebel-dokon-reklama"
+      ],
+      "keywords_primary": "реклама магазина одежды 10, как продвигать магазин одежды 10, реклама мебели 10, как продавать мебель 10 (0,41)",
+      "keywords_full": {
+        "niche-playbooks:kiyim-mebel-dokon-reklama": "UZ лат.: по 10 — 2 запр.: kiyim do'koni ochish, mebel instagram | RU: по 10 — 25 запр.: реклама магазина одежды, реклама для магазина одежды, маркетинг для магазина одежды, реклама одежды, таргет для магазина одежды, реклама магазина одежды в инстаграм, сайт для магазина одежды, раскрутка магазина одежды, как продвигать магазин одежды, как раскрутить магазин одежды, как продвигать бренд одежды, рекламный текст для магазина одежды, акции для магазина одежды, реклама магазина одежды текст, как открыть магазин одежды, открыть магазин одежды, реклама мебели, реклама для мебели, продвижение мебели, реклама мебельного магазина, реклама мебели в инстаграм, сайт для мебели, как продавать мебель ($0,41), маркетинг мебельного магазина, реклама мебели текст"
+      },
+      "demand_month": 270,
+      "cpc_usd": 0.41,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 1,
+      "cpc_effective": 1.0,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.04,
+        0.1
+      ],
+      "visits_day_pos3": [
+        0.26,
+        0.32
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.02,
+        0.15
+      ],
+      "leads_month_pos3": [
+        0.16,
+        0.48
+      ],
+      "lead_path": "Таргет по каталогу, SMM, сайт-каталог",
+      "conflicts": "",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 4.3,
+      "rank": 32
+    },
+    {
+      "id": "obunachi-halol",
+      "title": "Подписчики в Instagram и Telegram без накрутки + раздел «Nakrutka nega zarar»",
+      "funnel": "F2",
+      "funnel_name": "Бесплатный AI-инструмент / калькулятор → результат → «запустим за вас»",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/instagram-obunachi-kopaytirish/",
+      "page_type": "статья: органика, коллаборации, таргет и Telegram Ads как законный рост; накрутка — только как риск",
+      "sources": [
+        "prices-tools:obunachi-halol",
+        "marketplaces-social-selling:nakrutka-xavfi"
+      ],
+      "keywords_primary": "instagram obunachi ko‘paytirish 260, instagramda obunachi ko‘paytirish 170, obunachi ko‘paytirish 90, instagram nakrutka 8 100 (×0,05), накрутка подписчиков инстаграм 720 (×0,05)",
+      "keywords_full": {
+        "prices-tools:obunachi-halol": "instagram obunachi ko'paytirish 260, instagramda obunachi ko'paytirish 170, obunachi ko'paytirish 90, telegram kanal ochish 70, instagram obunachi 50, telegram obunachi ko'paytirish 40, instagramda obunachi yig'ish 20; по 10 (нижняя корзина Google Ads): telegram kanalni rivojlantirish, instagram rivojlantirish, продвижение инстаграма, продвижение инстаграма с нуля, продвижение группы в телеграмме, продвижение в телеграм, телеграм продвижение, telegram продвижение",
+        "marketplaces-social-selling:nakrutka-xavfi": "лат.: instagram nakrutka 8 100 (CPC 0,48, ×0,05); nakrutka 8 100 (×0,05); telegram nakrutka 880 (CPC 0,63, ×0,05). RU: накрутка подписчиков инстаграм 720 (CPC 0,85, ×0,05); накрутка инстаграм 260 (CPC 0,51, ×0,05); накрутка телеграм 140 (CPC 0,73, ×0,05); накрутка подписчиков телеграм 110 (×0,05)."
+      },
+      "demand_month": 1696,
+      "cpc_usd": 0.4,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 9,
+      "cpc_effective": 0.56,
+      "directness": 0.3,
+      "directness_label": "косвенный",
+      "serp_weakness": "mixed/strong",
+      "serp_factor": 0.8,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.28,
+        0.76
+      ],
+      "visits_day_pos3": [
+        1.57,
+        2.48
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.02,
+        0.11
+      ],
+      "leads_month_pos3": [
+        0.09,
+        0.37
+      ],
+      "lead_path": "Таргет, Telegram Ads, SMM",
+      "conflicts": "Никаких ссылок на панели и «безопасной накрутки».",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 4.1,
+      "rank": 33
+    },
+    {
+      "id": "uzum-calc",
+      "title": "Калькулятор продавца Uzum: комиссия (вводит пользователь), логистика, возвраты, ДРР → маржа",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/uzum-sotuvchi-kalkulyatori/ + /ru/kalkulyator-prodavca-uzum/",
+      "page_type": "страница-инструмент (общий движок с калькулятором маркетолога)",
+      "sources": [
+        "marketplaces-social-selling:uzum-kalkulyator"
+      ],
+      "keywords_primary": "комиссия узум маркет 70 (2,02), uzum market fbs 40, uzum komissiya 30, uzum fbs 30",
+      "keywords_full": {
+        "marketplaces-social-selling:uzum-kalkulyator": "RU: комиссия узум маркет 70 (CPC 2,02); uzum market комиссия 10. лат.: uzum komissiya 30; uzum market fbs 40; uzum fbs 30."
+      },
+      "demand_month": 180,
+      "cpc_usd": 2.02,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 1,
+      "cpc_effective": 1.54,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "weak",
+      "serp_factor": 1.5,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.03,
+        0.06
+      ],
+      "visits_day_pos3": [
+        0.17,
+        0.21
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.0,
+        0.04
+      ],
+      "leads_month_pos3": [
+        0.03,
+        0.13
+      ],
+      "lead_path": "Строка «реклама (ДРР)» → спица uzum-external-ads → таргет",
+      "conflicts": "Ставки не хардкодить: ссылка на официальный тариф с датой.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 3.9,
+      "rank": 34
+    },
+    {
+      "id": "sotuv-voronkasi",
+      "title": "Воронка продаж для малого бизнеса: от рекламы до оплаты (RU + UZ «sotuv voronkasi»)",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/blog/voronka-prodazh-dlya-malogo-biznesa/ + /uz/blog/sotuv-voronkasi/",
+      "page_type": "статья: этапы, где теряются заявки, скрипт первого ответа, что мерить",
+      "sources": [
+        "niche-playbooks:sotuv-voronkasi"
+      ],
+      "keywords_primary": "воронка продаж 210 (0,51), отдел продаж 70, sotuv bo‘limi 40, sotuv texnikasi 40, sotuv voronkasi 20, база клиентов 10 (1,74)",
+      "keywords_full": {
+        "niche-playbooks:sotuv-voronkasi": "UZ лат.: biznesni rivojlantirish 70 ($1,01); sotuv bo'limi 40; sotuv texnikasi 40; biznes rivojlantirish 20 ($0,78); sotuv voronkasi 20; по 10 — 3 запр.: sotuv skripti, sotuvni oshirish, savdoni oshirish | UZ кир.: бизнесни ривожлантириш 30 ($1,23) | RU: воронка продаж 210 ($0,51); отдел продаж 70; по 10 — 18 запр.: скрипт продаж, холодные звонки, база клиентов ($1,74), как удержать клиентов, как увеличить продажи, как поднять продажи, увеличение продаж, как привлечь клиентов ($0,59), привлечение клиентов, как найти клиентов, способы привлечения клиентов, методы привлечения клиентов, развитие бизнеса, как развить бизнес, как развивать бизнес, как найти новых клиентов, как найти первых клиентов, как найти клиентов в инстаграм"
+      },
+      "demand_month": 590,
+      "cpc_usd": 0.57,
+      "cpc_source": "пересчитан вручную",
+      "cpc_queries": 3,
+      "cpc_effective": 0.86,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "mixed/strong",
+      "serp_factor": 0.8,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.09,
+        0.22
+      ],
+      "visits_day_pos3": [
+        0.57,
+        0.69
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.13
+      ],
+      "leads_month_pos3": [
+        0.08,
+        0.41
+      ],
+      "lead_path": "Аудит, затем таргет/контекст; автоматизация заявок",
+      "conflicts": "A2: «biznesni rivojlantirish» не использовать. Приор выдачи «воронка продаж» — блоги CRM.",
+      "adjustments": "Сняты biznesni rivojlantirish 70, biznes rivojlantirish 20, бизнесни ривожлантириш 30 (A2: выдачу держит Biznesni Rivojlantirish Banki); CPC пересчитан по оставшимся 3 запросам",
+      "geo_role": false,
+      "score": 3.9,
+      "rank": 35
+    },
+    {
+      "id": "ads-problems-reference",
+      "title": "Справочник «Проблемы с рекламой»: оплата, блокировки, модерация, пиксель (RU + UZ, FAQPage)",
+      "funnel": "F5",
+      "funnel_name": "GEO: ассистент рекомендует агентство (цены, справочник проблем)",
+      "status": "next",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/blog/problemy-s-reklamoy-meta-oplata-blokirovka/ + /uz/blog/reklama-muammolari-tolov-bloklash/",
+      "page_type": "12–20 вопросов с короткими ответами и ссылками на официальные справки (Account Quality, повторная проверка, Payment options, Fragment)",
+      "sources": [
+        "ad-platform-pains:meta-troubleshooting",
+        "ad-platform-pains:ad-payment-uz"
+      ],
+      "keywords_primary": "инстаграм отклоняет рекламу 10, рекламный аккаунт отключен 10, реклама на рассмотрении инстаграм 10, meta pixel 20 (0,99), как оплатить рекламу в инстаграм 10, visa karta ochish 880 (×0,05)",
+      "keywords_full": {
+        "ad-platform-pains:meta-troubleshooting": "RU, по 10: заблокировали рекламу в инстаграм, инстаграм заблокировал рекламу, инстаграм отклоняет рекламу, реклама на рассмотрении инстаграм, реклама отключена инстаграм, через сколько запускается реклама в инстаграм, реклама в инстаграм запрещена, рекламный аккаунт отключен, инстаграм заблокировал аккаунт (= заблокировали инстаграм, instagram bloklandi). Пиксель и лиды: meta pixel 20, лид форма 20, facebook pixel 10 (= facebook piksel), лид форма фейсбук 10, instagram lead form 10. Ноль: reklama kabinet bloklandi, akkaunt bloklandi, reklama rad etildi, piksel o‘rnatish, заблокировали рекламный кабинет / аккаунт, реклама отклонена, установка пикселя facebook.",
+        "ad-platform-pains:ad-payment-uz": "Про рекламу (RU, по 10): как оплатить рекламу в инстаграм, оплата рекламы в инстаграм, оплата рекламы фейсбук. Смежные карточные (учтены x0,05, банковский интент): visa karta 1 000, visa karta ochish 880, virtual karta ochish 390, uzum visa 110, humo visa 90 (CPC 2,32), virtual karta 70, uzcard visa 50, виртуальная карта visa 40, по 20 — virtual visa karta, visa virtual karta, humo visa karta, visa карта узбекистан. Ноль: reklama to‘lovi, reklama uchun karta, оплата рекламы uzcard / humo, карта для оплаты рекламы, как оплатить рекламу в фейсбук из узбекистана."
+      },
+      "demand_month": 327,
+      "cpc_usd": 0.81,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 13,
+      "cpc_effective": 0.87,
+      "directness": 0.6,
+      "directness_label": "средний",
+      "serp_weakness": "weak/mixed",
+      "serp_factor": 1.25,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "high",
+      "visits_day_pos6": [
+        0.06,
+        0.12
+      ],
+      "visits_day_pos3": [
+        0.31,
+        0.39
+      ],
+      "conversion_assumption": "проблема/DIY/инструмент: 0,5–2 %",
+      "conversion_range": [
+        0.005,
+        0.02
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.07
+      ],
+      "leads_month_pos3": [
+        0.05,
+        0.23
+      ],
+      "lead_path": "Аудит кабинета → /ru/marketingovyi-audit-tashkent/; таргет, контекст, Telegram Ads «под ключ, бюджет отдельно»",
+      "conflicts": "Только официальные пути. Запрещено: «разблокировка за деньги», аренда кабинетов, чужие карты, обменники, обещание вернуть кабинет. «Медиабюджет через агентство» — только после подтверждения владельцем.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 3.4,
+      "rank": 36
+    },
+    {
+      "id": "turizm",
+      "title": "Реклама турагентства (RU + раздел в UZ-хабе)",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "deferred",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/blog/reklama-turagentstva-tashkent/",
+      "page_type": "нишевой плейбук",
+      "sources": [
+        "niche-playbooks:turizm-reklama"
+      ],
+      "keywords_primary": "turizm marketing 20, реклама турагентства 10, маркетинг в туризме 10",
+      "keywords_full": {
+        "niche-playbooks:turizm-reklama": "UZ лат.: turizm marketing 20 | RU: по 10 — 14 запр.: реклама турагентства, реклама для турагентства, продвижение турагентства, реклама туров, реклама туристической компании, продвижение туристической компании, сайт для турагентства, как привлечь клиентов в турагентство, маркетинг в туризме, реклама в туризме, реклама турагентства примеры, реклама турагентства текст, открыть турагентство, маркетинговые стратегии в туризме"
+      },
+      "demand_month": 160,
+      "cpc_usd": 1.3,
+      "cpc_source": "CPC нет — взята медиана 1,30",
+      "cpc_queries": 0,
+      "cpc_effective": 1.3,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.03,
+        0.06
+      ],
+      "visits_day_pos3": [
+        0.15,
+        0.19
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.02,
+        0.09
+      ],
+      "leads_month_pos3": [
+        0.09,
+        0.29
+      ],
+      "lead_path": "Таргет с лид-формами, Telegram, SMM",
+      "conflicts": "Нет нишевой страницы AI-бота для внутренних ссылок.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 3.3,
+      "rank": 37
+    },
+    {
+      "id": "kochmas-mulk",
+      "title": "Реклама недвижимости, ЖК и застройщика (RU)",
+      "funnel": "F4",
+      "funnel_name": "«Моя ниша»: нишевые плейбуки → подбор канала",
+      "status": "later",
+      "build_order": null,
+      "action": "новая",
+      "url": "/ru/blog/reklama-nedvizhimosti-i-zhk-tashkent/",
+      "page_type": "нишевой плейбук: лид-формы, квиз, квалификация лида",
+      "sources": [
+        "niche-playbooks:kochmas-mulk-reklama"
+      ],
+      "keywords_primary": "реклама недвижимости 10, реклама жк 10, реклама застройщика 10, маркетинг недвижимости 10",
+      "keywords_full": {
+        "niche-playbooks:kochmas-mulk-reklama": "RU: по 10 — 13 запр.: реклама недвижимости, продвижение недвижимости, маркетинг недвижимости, маркетинг для недвижимости (= маркетинг в недвижимости), реклама застройщика, реклама жк, реклама новостроек, реклама агентства недвижимости, реклама недвижимости в инстаграм, сайт для недвижимости, реклама риэлтора, реклама недвижимости примеры, реклама недвижимости текст"
+      },
+      "demand_month": 130,
+      "cpc_usd": 1.3,
+      "cpc_source": "CPC нет — взята медиана 1,30",
+      "cpc_queries": 0,
+      "cpc_effective": 1.3,
+      "directness": 1.0,
+      "directness_label": "прямой",
+      "serp_weakness": "mixed",
+      "serp_factor": 1.0,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.02,
+        0.05
+      ],
+      "visits_day_pos3": [
+        0.12,
+        0.15
+      ],
+      "conversion_assumption": "цены, найм, ниша: 2–5 %",
+      "conversion_range": [
+        0.02,
+        0.05
+      ],
+      "leads_month_pos6": [
+        0.01,
+        0.08
+      ],
+      "leads_month_pos3": [
+        0.07,
+        0.23
+      ],
+      "lead_path": "Таргет с лид-формами, лендинг ЖК; входящие с /ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+      "conflicts": "CPC нет — взята медиана 1,30.",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 2.6,
+      "rank": 38
+    },
+    {
+      "id": "olx-biznes",
+      "title": "OLX как бизнес-канал: объявления, TOP/VIP и когда нужен таргет",
+      "funnel": "F3",
+      "funnel_name": "Продавец: Uzum, онлайн-магазин, Telegram-канал, старт бизнеса",
+      "status": "deferred",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/olx-da-biznes-sifatida-sotish/",
+      "page_type": "короткая инструкция",
+      "sources": [
+        "marketplaces-social-selling:olx-biznes"
+      ],
+      "keywords_primary": "olx e’lon berish 170 (×0,5), как подать объявление на olx 140 (×0,5)",
+      "keywords_full": {
+        "marketplaces-social-selling:olx-biznes": "лат.: olx e'lon berish (= olx elon berish) 170 (CPC 0,53, ×0,5); olxga e'lon berish 10 (CPC 0,78, ×0,5); olx biznes 10; olx business 10; olx reklama 10; olx top 10; olx vip 10. RU: как подать объявление на olx 140 (×0,5); разместить объявление на olx 10 (CPC 0,65, ×0,5); подать объявление olx 10 (×0,5); olx объявление 20 (CPC 0,12, ×0,5); olx бизнес 10; olx для бизнеса 10; реклама на olx 10; olx магазин 10."
+      },
+      "demand_month": 270,
+      "cpc_usd": 0.51,
+      "cpc_source": "взвешенный по спросу (линзы)",
+      "cpc_queries": 4,
+      "cpc_effective": 0.77,
+      "directness": 0.15,
+      "directness_label": "слабый",
+      "serp_weakness": "strong",
+      "serp_factor": 0.6,
+      "effort": "S",
+      "effort_divisor": 1.0,
+      "honesty_risk": "low",
+      "visits_day_pos6": [
+        0.04,
+        0.1
+      ],
+      "visits_day_pos3": [
+        0.26,
+        0.32
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.0,
+        0.01
+      ],
+      "leads_month_pos3": [
+        0.02,
+        0.05
+      ],
+      "lead_path": "Слабый: таргет и сайт для переросших объявления",
+      "conflicts": "Большинство ищущих — частные лица.",
+      "adjustments": "",
+      "geo_role": false,
+      "score": 0.6,
+      "rank": 39
+    },
+    {
+      "id": "advertising-law",
+      "title": "Закон «О рекламе» для онлайн-рекламы бизнеса: нейтральный пересказ с lex.uz",
+      "funnel": "F5",
+      "funnel_name": "GEO: ассистент рекомендует агентство (цены, справочник проблем)",
+      "status": "deferred",
+      "build_order": null,
+      "action": "новая",
+      "url": "/uz/blog/reklama-togrisidagi-qonun-onlayn/ + RU",
+      "page_type": "нейтральный пересказ норм со ссылками на статьи и дату редакции",
+      "sources": [
+        "ad-platform-pains:advertising-law-uz"
+      ],
+      "keywords_primary": "reklama to‘g‘risidagi qonun 530 (×0,3), закон о рекламе узбекистан 50",
+      "keywords_full": {
+        "ad-platform-pains:advertising-law-uz": "UZ: reklama to‘g‘risidagi qonun 530 (среднее за 12 мес, весной до 1 000); RU: закон о рекламе узбекистан 50; reklama qonuni 0."
+      },
+      "demand_month": 174,
+      "cpc_usd": 0.3,
+      "cpc_source": "CPC нет; пол 0,3 (ищут текст закона), вес как у 2 запросов",
+      "cpc_queries": 2,
+      "cpc_effective": 0.8,
+      "directness": 0.15,
+      "directness_label": "слабый",
+      "serp_weakness": "strong",
+      "serp_factor": 0.6,
+      "effort": "M",
+      "effort_divisor": 2.0,
+      "honesty_risk": "medium",
+      "visits_day_pos6": [
+        0.03,
+        0.06
+      ],
+      "visits_day_pos3": [
+        0.17,
+        0.2
+      ],
+      "conversion_assumption": "смешанная аудитория (студенты, соискатели, частники): 0,2–0,5 %",
+      "conversion_range": [
+        0.002,
+        0.005
+      ],
+      "leads_month_pos6": [
+        0.0,
+        0.01
+      ],
+      "leads_month_pos3": [
+        0.01,
+        0.03
+      ],
+      "lead_path": "Слабый: доверие и AI-цитирование",
+      "conflicts": "Без правовых советов и «как обойти».",
+      "adjustments": "",
+      "geo_role": true,
+      "score": 0.2,
+      "rank": 40
+    }
+  ],
+  "dropped": [
+    {
+      "topic": "Накрутка и SMM-панели как цель",
+      "demand": "nakrutka 8 100, top smm 1 300, накрутка 880, накрутка подписчиков 720, smm panel 260",
+      "reason": "Нарушает правила площадок. Только как раздел-антитезис на странице obunachi-halol."
+    },
+    {
+      "topic": "«Разблокировка кабинета», аренда/фермы аккаунтов, чужие карты, обменники",
+      "demand": "спрос 0–10",
+      "reason": "Серые схемы. Только официальные пути: Account Quality, повторная проверка, справки платформ."
+    },
+    {
+      "topic": "Logo yasash / создать логотип",
+      "demand": "7 430 после дедупа, CPC $0,07–0,49",
+      "reason": "Логотипы агентство не продаёт; генерации изображений в чате нет (инструмент пишет только промпт) — страница обещала бы то, чего нет."
+    },
+    {
+      "topic": "Marketing strategiyasi / raqamli marketing (UZ-страница)",
+      "demand": "110 + 110",
+      "reason": "A2 DO_NOT_BUILD (22.08): академическая выдача; «ни одна страница не может претендовать на marketing strategiyasi». Остаётся только RU-расширение."
+    },
+    {
+      "topic": "Biznesni rivojlantirish",
+      "demand": "70 + 20 + 30",
+      "reason": "A2: выдачу держит Biznesni Rivojlantirish Banki."
+    },
+    {
+      "topic": "Reklama agentligi / рекламное и маркетинговое агентство (Ташкент)",
+      "demand": "260 / 260 / 90 ($3,38) / 90 ($3,11) / 70 ($3,14)",
+      "reason": "Локальный блок; без Google Business Profile недостижимо (A1). Это решение владельца про GBP, не про контент."
+    },
+    {
+      "topic": "Targetolog как primary-ключ отдельной страницы",
+      "demand": "170",
+      "reason": "A7: выдача — вакансии и курсы. Только раздел и secondary на хабе target-uz."
+    },
+    {
+      "topic": "Курсы и «научиться самому» (smm kurslari, smm o‘rganish, курсы таргетолога)",
+      "demand": "260 эфф., CPC до $12,03",
+      "reason": "Ученики, а не клиенты; дорогой CPC — это реклама курсов. Отложено без срока."
+    },
+    {
+      "topic": "Ведение магазина на маркетплейсе как услуга",
+      "demand": "спрос виден (olx, sellerlab.uz)",
+      "reason": "Услуги нет на сайте — не обещать и цену не придумывать. Решение владельца."
+    },
+    {
+      "topic": "TON, toncoin, fragment telegram, ton narxi",
+      "demand": "1 600 + 480 + 260 + 210",
+      "reason": "Крипто-интент, не реклама."
+    },
+    {
+      "topic": "TikTok Ads",
+      "demand": "~180",
+      "reason": "Агентство площадку не продаёт; доступ в Узбекистане неясен."
+    },
+    {
+      "topic": "Dorixona reklama",
+      "demand": "70",
+      "reason": "Реклама лекарств ограничена законом, интент неясен."
+    },
+    {
+      "topic": "Блогеры как люди (bloger, блогеры узбекистана)",
+      "demand": "5 400 + 2 400 + …",
+      "reason": "Фанатский интент; «bloger reklama narxi» < 10."
+    },
+    {
+      "topic": "Наружная реклама, баннеры",
+      "demand": "480 + 480 + 390",
+      "reason": "Агентство не продаёт."
+    },
+    {
+      "topic": "Покупательская навигация маркетплейсов (wildberries uz, yandex market uz, uzum business)",
+      "demand": "~7 000 + 18 100",
+      "reason": "Покупатели и банк, не продавцы."
+    },
+    {
+      "topic": "«telegramda kanal ochish» 74 000",
+      "demand": "74 000",
+      "reason": "Аномалия Google Ads (в 1 000 раз больше «telegram kanal ochish» 70) — исключена."
+    }
+  ],
+  "owner_decisions": [
+    "Исправить противоречие цен на /uz/sayt-yaratish/ (title «2 990 000 so‘mdan» против таблицы «3 500 000 – 35 000 000») и решить спор 290 000 / 490 000 за поддержку — до публикации таблицы цен: её будут цитировать ассистенты.",
+    "Назвать рабочий Telegram студии: studioTelegram в content/global/site.json пуст, поэтому Telegram-CTA сейчас нет нигде (только форма, телефон +998 50 587 07 20 и e-mail). Одна настройка включает его на всех поверхностях.",
+    "Пометить как key events в GA4: отправку #lead-form, клик по tel:, клик по строке студии в AI-чате (AiBusinessLine) и скачивание шаблонов. Сейчас key event только generate_lead (2 за 28 дней) — без этого воронку нельзя измерить.",
+    "Пересмотреть A2 для «telegram ads» (как A7 для таргета) — только тогда делать UZ-пару статьи про Telegram Ads.",
+    "Подтвердить или запретить формулировку «оплатим медиабюджет через агентство» — от неё зависит справочник оплаты.",
+    "Решить, появится ли услуга «ведение магазина на маркетплейсе» (тогда F3 получает прямую продажу; сейчас — только таргет на карточку).",
+    "Разрешить показ строки студии в чате после шаблонов smm-plan / smm-telegram-ad на страницах-инструментах: сейчас детектор намеренно считает «reklama matnini yoz» задачей, а не заказом (src/gpt-chat/business-intent.ts).",
+    "Платный замер AI-видимости (OpenSEO AI visibility) по 10–15 промптам вроде «SMM agentlik Toshkent», «Toshkentda target qilib beradigan agentlik», «как рекламировать стоматологию в Ташкенте» — до и через 6 недель после релиза."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source": "OpenSEO get_serp_results, location 2860, language ru (project default), desktop, depth 10, 2026-10-25, resultId ac8f4e93-ca83-46ca-9e50-9b7e31651654, ~12 credits",
+  "serps": {
+    "yandex direct": {"ai_overview": true, "top5_organic": [
+      "yandex.ru/support/direct (official help: launch a campaign)",
+      "yard.yandex.ru (official Yandex course: set up yourself)",
+      "b2b.yandex.ru (official: Yandex Business in Direct)",
+      "b2b.yandex.ru (official: Direct and Direct Pro interfaces)",
+      "promowebcom.by (RU-language glossary)"], "verdict": "strong: 4 of 5 are the platform's own help pages, plus AI Overview"},
+    "targetolog": {"ai_overview": true, "video_pack": true, "top5_organic": [
+      "skillbox.ru (profession article, RU)",
+      "instagram.com post (UZ, 'Targetolog aslida nima qiladi')",
+      "m.olx.uz (vacancies + service listings, prices 598 415 - 4 787 320 sum shown in snippet)",
+      "practicum.yandex.ru (profession article, RU)",
+      "instagram.com profile (UZ targetologist)"], "verdict": "mixed: two RU education blogs, but Instagram posts and OLX classifieds also rank; no agency service page in top 5; intent split profession/hire"},
+    "mobilograf": {"ai_overview": true, "top5_organic": [
+      "m.olx.uz (vacancies 'mobilograf kerak' 5-8M sum)",
+      "m.olx.uz (single service listing 'Mobilograf xizmati')",
+      "m.olx.uz (vacancies)",
+      "olx.uz (service listings)",
+      "m.olx.uz (vacancies)"], "verdict": "weak by page quality (classifieds only), but intent is mostly job search; ishkop.uz and cloz.uz (vacancies) and a Yandex Maps studio card follow"},
+    "reklama matni yozish": {"ai_overview": true, "top5_organic": [
+      "kursishlari.uz (paid student presentation)",
+      "ilmiyhujjat.uz (paid student presentation)",
+      "ilmiyhujjat.uz (paid student presentation)",
+      "adshare.uz/uz/blog (7 rules, published ~7 days ago - a UZ ad platform)",
+      "kursishlari.uz (paid student presentation)"], "verdict": "weak: presentation shops and one fresh blog post; YouTube at #6; no tool"}
+  }
+}

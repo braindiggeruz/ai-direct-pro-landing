@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "call": "get_serp_results",
+    "projectId": "7534113b-f748-4f98-ac39-9e3782d3d9e7",
+    "resultId": "5512b35e-6d24-49e8-81e3-7362236f8842",
+    "locationCode": 2860,
+    "languageCode": "ru",
+    "device": "desktop",
+    "depth": 10,
+    "date": "2026-10-25",
+    "credits": "whoami 18216 -> 18207 (9)",
+    "note": "Transcribed from the inline tool response. rank = all SERP elements, organicRank = organic only."
+  },
+  "serps": [
+    {
+      "keyword": "перевод с английского на русский",
+      "features": [{"type": "ai_overview", "rank": 1}],
+      "organic": [
+        [1, "translate.google.com", "https://translate.google.com/?hl=ru&tab=mT"],
+        [2, "translate.yandex.ru", "https://translate.yandex.ru/dictionary/Русский-Английский/онлайн"],
+        [3, "www.deepl.com", "https://www.deepl.com/ru/translator/l/ru/en-US"],
+        [4, "context.reverso.net", "https://context.reverso.net/перевод/"],
+        [5, "context.reverso.net", "https://context.reverso.net/перевод/русский-английский/переводчик"],
+        [6, "www.deepl.com", "https://www.deepl.com/ru"],
+        [7, "www.webtran.ru", "https://www.webtran.ru/translate/english/to-russian/"],
+        [8, "www.webtran.ru", "https://www.webtran.ru/"],
+        [9, "translate.google.com", "https://translate.google.com/?hl=ru&sl=hi&tl=ru&op=translate&q="]
+      ],
+      "verdict": "strong: 7 of 9 organic = Google Translate, Yandex, DeepL, Reverso; the only non-giant is webtran.ru (2 URLs, #7-8). AIO at r1."
+    },
+    {
+      "keyword": "поздравление с днем рождения",
+      "features": [{"type": "ai_overview", "rank": 1}, {"type": "images", "rank": 4}, {"type": "video", "rank": 5}, {"type": "people_also_ask", "rank": 8}],
+      "organic": [
+        [1, "www.pozdravok.com", "https://www.pozdravok.com/"],
+        [2, "www.techinsider.ru", "https://www.techinsider.ru/popmem/1647733-.../"],
+        [3, "ru.pinterest.com", "https://ru.pinterest.com/bam_piter54/..."],
+        [4, "www.pozdravok.com", "https://www.pozdravok.com/pozdravleniya/den-rozhdeniya/207.htm"],
+        [5, "ru.pinterest.com", "https://ru.pinterest.com/anastafiewa82/..."],
+        [6, "vc.ru", "https://vc.ru/flood/1920283-korotkie-pozhelaniya-s-dnem-rozhdeniya"]
+      ],
+      "verdict": "mixed: one specialist (pozdravok x2) + media article; 3 of 6 organic are weak signals (Pinterest x2, vc.ru user blog). AIO r1, images and video blocks push organic down."
+    },
+    {
+      "keyword": "present simple",
+      "features": [{"type": "ai_overview", "rank": 1}, {"type": "images", "rank": 2}, {"type": "people_also_ask", "rank": 3}, {"type": "video", "rank": 5}],
+      "organic": [
+        [1, "www.youtube.com", "https://www.youtube.com/watch?v=DQm-wHmh7B0"],
+        [2, "blog.bukischool-kz.com", "https://blog.bukischool-kz.com/present-simple"],
+        [3, "www.youtube.com", "https://www.youtube.com/watch?v=-NYrg1FTgDs"],
+        [4, "www.slideshare.net", "https://www.slideshare.net/slideshow/present-simple-29170958/29170958"],
+        [5, "www.pinterest.com", "https://www.pinterest.com/pin/12244230219139765/"],
+        [6, "www.youtube.com", "https://www.youtube.com/watch?v=5N6xvBhlid4"]
+      ],
+      "verdict": "weak: YouTube x3, SlideShare, Pinterest and one Kazakh school blog; no strong text page in the organic top-6. AIO r1 + images + PAA above."
+    },
+    {
+      "keyword": "сказка на ночь",
+      "features": [{"type": "video", "rank": 2}, {"type": "ai_overview", "rank": 5}],
+      "organic": [
+        [1, "deti-online.com", "https://deti-online.com/skazki/"],
+        [2, "mishka-knizhka.ru", "https://mishka-knizhka.ru/korotkie-skazki-na-noch/"],
+        [3, "domskazki.com", "https://domskazki.com/"],
+        [4, "nukadeti.ru", "https://nukadeti.ru/skazki/korotkie-skazki-na-noch"],
+        [5, "runruneando.com", "https://runruneando.com/ru-ru"],
+        [6, "skazkaplus.ru", "https://skazkaplus.ru/"],
+        [7, "detskiychas.ru", "https://detskiychas.ru/category/skazki_na_noch/"],
+        [8, "deti-online.com", "https://deti-online.com/skazki/dlya-detey-4-5-let/"]
+      ],
+      "verdict": "mixed: niche fairy-tale libraries only (no giants, no UGC); none offers a personalised generator. AIO lower (r5)."
+    }
+  ]
+}

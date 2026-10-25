@@ -1,0 +1,406 @@
+246000 | olx | cpc=0.89 comp=0.05
+246000 | olx uz | cpc=0.87 comp=0.02
+ 74000 | uzum seller | cpc=1.09 comp=0.01
+ 74000 | telegramda kanal ochish | cpc=None comp=0
+ 40500 | yandex market | cpc=0.95 comp=0.1
+ 18100 | uzum business | cpc=9.92 comp=0.02
+ 12100 | seller uzum uz | cpc=9.31 comp=0.02
+ 12100 | wildberries uz | cpc=0.13 comp=0.26
+ 12100 | яндекс маркет | cpc=0.4 comp=0.16
+  8100 | seller uzum | cpc=5.81 comp=0.02
+  8100 | instagram nakrutka | cpc=0.48 comp=0.01
+  8100 | nakrutka | cpc=None comp=0
+  5400 | узум селлер | cpc=3.23 comp=0.04
+  5400 | telegram kanal | cpc=None comp=0
+  5400 | telegram kanallar | cpc=None comp=0
+  4400 | yandex market uz | cpc=0.74 comp=0.13
+  2900 | uzum seller login | cpc=1.15 comp=0
+  2900 | tgstat | cpc=1.23 comp=0.01
+  1900 | телеграм канал | cpc=None comp=0
+  1600 | яндекс маркет узбекистан | cpc=0.46 comp=0.23
+  1300 | infografika | cpc=None comp=0
+  1300 | wildberries uzbekistan | cpc=0.15 comp=0.2
+  1000 | yandex market seller | cpc=1.82 comp=0.05
+  1000 | video montaj | cpc=0.14 comp=0.2
+  1000 | электронная коммерция | cpc=None comp=0.03
+   880 | uzum market seller | cpc=1.69 comp=0.02
+   880 | wildberries seller | cpc=1.35 comp=0.04
+   880 | wildberries узбекистан | cpc=0.15 comp=0.18
+   880 | wb partners | cpc=1.61 comp=0.03
+   880 | ozon узбекистан | cpc=0.6 comp=0.31
+   880 | yandex market uzbekistan | cpc=0.49 comp=0.25
+   880 | telegram nakrutka | cpc=0.63 comp=0.01
+   880 | мобилограф | cpc=0.26 comp=0.02
+   720 | marketplace | cpc=1.41 comp=0.13
+   720 | маркетплейс | cpc=0.71 comp=0.25
+   720 | накрутка подписчиков инстаграм | cpc=0.85 comp=0.13
+   720 | tgstat uz | cpc=None comp=0
+   720 | dropshipping | cpc=1.65 comp=0.53
+   590 | ozon seller | cpc=1.07 comp=0.17
+   590 | telemetr | cpc=9.43 comp=0.02
+   590 | mobilograf | cpc=0.32 comp=0.06
+   480 | uzum academy | cpc=None comp=0.01
+   480 | вайлдберриз узбекистан | cpc=0.06 comp=0.18
+   480 | wildberries ташкент | cpc=0.14 comp=0.23
+   480 | ozon uzbekistan | cpc=0.9 comp=0.35
+   480 | как создать канал в телеграм | cpc=1.65 comp=0.01
+   480 | как создать канал в телеграме | cpc=1.65 comp=0.01
+   390 | seller wildberries | cpc=1.98 comp=0.04
+   390 | internet magazin | cpc=0.73 comp=0.26
+   320 | uzum seller kabinet | cpc=1.84 comp=0.01
+   260 | uzumda savdo qilish | cpc=1.22 comp=0.09
+   260 | накрутка инстаграм | cpc=0.51 comp=0.06
+   260 | товарка | cpc=None comp=0
+   210 | marketplace uzbekistan | cpc=1.01 comp=0.02
+   170 | olx e'lon berish | cpc=0.53 comp=0.1
+   170 | olx elon berish | cpc=0.53 comp=0.1
+   170 | instagramda obunachi ko'paytirish | cpc=0.09 comp=0.07
+   170 | instagram obunachi ko'paytirish | cpc=0.09 comp=0.07
+   170 | mahsulotni reklama qilish | cpc=None comp=0
+   140 | маркетплейсы узбекистана | cpc=1.23 comp=0.52
+   140 | wildberries partners | cpc=3.5 comp=0.01
+   140 | как подать объявление на olx | cpc=None comp=0.01
+   140 | instagram bio | cpc=None comp=0
+   140 | bio instagram | cpc=None comp=0
+   140 | накрутка телеграм | cpc=0.73 comp=0.01
+   110 | seller wildberries ru | cpc=3.05 comp=0.03
+   110 | накрутка подписчиков телеграм | cpc=None comp=0
+   110 | onlayn savdo | cpc=0.67 comp=0.09
+    90 | карточка товара | cpc=None comp=0.01
+    90 | yandex market partner | cpc=None comp=0.02
+    90 | obunachi ko'paytirish | cpc=None comp=0
+    90 | дропшиппинг | cpc=0.68 comp=0.19
+    70 | uzum sotuvchi | cpc=1.01 comp=0.03
+    70 | комиссия узум маркет | cpc=2.02 comp=0.04
+    70 | инфографика для маркетплейсов | cpc=None comp=0.14
+    70 | маркетплейсы в узбекистане | cpc=1.6 comp=0.49
+    70 | telegram kanal ochish | cpc=None comp=0
+    70 | мобилограф ташкент | cpc=1.01 comp=0.25
+    70 | контент план | cpc=None comp=0.01
+    70 | какой бизнес открыть в узбекистане | cpc=0.54 comp=0.34
+    50 | uzum market sotuvchi bo'lish | cpc=1.72 comp=0.1
+    50 | маркетплейс узбекистан | cpc=1.46 comp=0.47
+    50 | instagram obunachi | cpc=None comp=0
+    50 | био для инстаграм | cpc=None comp=0
+    50 | телеграм каналы узбекистана | cpc=None comp=0
+    50 | видеограф ташкент | cpc=0.45 comp=0.14
+    50 | контент мейкер | cpc=None comp=0.05
+    40 | uzum market sotuvchi | cpc=1.32 comp=0.11
+    40 | uzum market reklama | cpc=None comp=0.01
+    40 | uzum market fbs | cpc=None comp=0.01
+    40 | uzum market продавец | cpc=None comp=0
+    40 | менеджер маркетплейсов | cpc=0.12 comp=0.08
+    40 | менеджер маркетплейса | cpc=0.12 comp=0.08
+    40 | marketpleys | cpc=1.84 comp=0.18
+    40 | telegram obunachi ko'paytirish | cpc=0.68 comp=0.07
+    30 | uzumda sotuvchi bo'lish | cpc=0.38 comp=0.1
+    30 | uzum komissiya | cpc=None comp=0.02
+    30 | uzum market biznes | cpc=2.84 comp=0.18
+    30 | uzum fbs | cpc=None comp=0.03
+    30 | uzum seller регистрация | cpc=1.28 comp=0.08
+    30 | яндекс маркет продавец | cpc=None comp=0.07
+    30 | подписчики инстаграм | cpc=0.34 comp=0.05
+    30 | telegram kanalga odam qo'shish | cpc=None comp=0
+    30 | telegram kanal nomlari | cpc=None comp=0
+    30 | как создать телеграм канал | cpc=None comp=0.03
+    30 | onlayn do'kon | cpc=None comp=0.22
+    30 | internet do'kon | cpc=0.39 comp=0.24
+    20 | uzum hamkor | cpc=None comp=0.06
+    20 | uzum reklama | cpc=None comp=0.04
+    20 | uzum market ro'yxatdan o'tish | cpc=None comp=0.11
+    20 | стать продавцом на узум | cpc=3.64 comp=0.11
+    20 | дизайн карточек для маркетплейсов | cpc=None comp=0.09
+    20 | предметная съемка | cpc=0.69 comp=0.08
+    20 | yandex market sotuvchi | cpc=None comp=0
+    20 | olx объявление | cpc=0.12 comp=0.19
+    20 | instagram uchun bio | cpc=None comp=0
+    20 | как набрать подписчиков в инстаграм | cpc=None comp=0.25
+    20 | telegram shop | cpc=None comp=0.01
+    20 | статистика телеграм канала | cpc=0.5 comp=0.11
+    20 | onlayn biznes | cpc=1.25 comp=0.18
+    20 | shopify uzbekistan | cpc=1.63 comp=0.5
+    10 | uzumda sotish | cpc=None comp=0.07
+    10 | uzum marketda sotish | cpc=None comp=0.05
+    10 | uzum market partner | cpc=2.62 comp=0.11
+    10 | uzum kurs | cpc=None comp=0.02
+    10 | uzum market kurslari | cpc=None comp=0.14
+    10 | uzum menejer | cpc=0.08 comp=0.02
+    10 | uzumda do'kon ochish | cpc=0.53 comp=0.07
+    10 | узум продавец | cpc=None comp=0.02
+    10 | uzum продавец | cpc=1.28 comp=0.09
+    10 | как стать продавцом на узум | cpc=None comp=0.43
+    10 | продавать на узум | cpc=1.35 comp=0.11
+    10 | как продавать на uzum market | cpc=None comp=0
+    10 | uzum market комиссия | cpc=None comp=0.02
+    10 | узум маркет для продавцов | cpc=None comp=0.21
+    10 | uzum market для продавцов | cpc=None comp=0.26
+    10 | курсы менеджера маркетплейсов | cpc=None comp=0.29
+    10 | обучение маркетплейсам | cpc=None comp=None
+    10 | дизайн карточек товаров | cpc=None comp=0
+    10 | описание товара | cpc=None comp=0.02
+    10 | описание товара для маркетплейса | cpc=None comp=None
+    10 | seo карточки товара | cpc=None comp=None
+    10 | фото для маркетплейсов | cpc=None comp=0
+    10 | фото товаров для маркетплейсов | cpc=None comp=0.14
+    10 | маркетплейс что это | cpc=None comp=0
+    10 | как продавать на маркетплейсах | cpc=None comp=0.57
+    10 | как начать продавать на маркетплейсах | cpc=None comp=None
+    10 | торговля на маркетплейсах | cpc=None comp=None
+    10 | бизнес на маркетплейсах | cpc=None comp=None
+    10 | продажи на маркетплейсах | cpc=None comp=None
+    10 | что продавать на маркетплейсе | cpc=None comp=None
+    10 | продвижение товаров на маркетплейсах | cpc=None comp=None
+    10 | реклама на маркетплейсах | cpc=None comp=None
+    10 | внешняя реклама для маркетплейсов | cpc=None comp=None
+    10 | wildberries продавец | cpc=None comp=0
+    10 | продавец wildberries | cpc=None comp=None
+    10 | вайлдберриз продавец | cpc=None comp=None
+    10 | стать продавцом wildberries | cpc=None comp=None
+    10 | как стать продавцом на wildberries | cpc=None comp=0.07
+    10 | как стать продавцом на вайлдберриз | cpc=None comp=None
+    10 | продавать на wildberries | cpc=None comp=None
+    10 | как продавать на wildberries | cpc=1.64 comp=0.07
+    10 | поставщик wildberries | cpc=None comp=None
+    10 | wildberries для продавцов | cpc=None comp=None
+    10 | реклама на wildberries | cpc=None comp=None
+    10 | wildberries реклама | cpc=None comp=0
+    10 | вб продавец | cpc=None comp=0
+    10 | ozon продавец | cpc=0.04 comp=0.14
+    10 | olx biznes | cpc=None comp=0.08
+    10 | olx business | cpc=None comp=0
+    10 | olx reklama | cpc=None comp=0.03
+    10 | olxga e'lon berish | cpc=0.78 comp=0.19
+    10 | подать объявление olx | cpc=None comp=None
+    10 | разместить объявление на olx | cpc=0.65 comp=0.43
+    10 | olx top | cpc=None comp=0
+    10 | olx vip | cpc=None comp=None
+    10 | olx бизнес | cpc=None comp=0
+    10 | olx для бизнеса | cpc=None comp=None
+    10 | реклама на olx | cpc=None comp=0.14
+    10 | olx магазин | cpc=None comp=0
+    10 | instagram rivojlantirish | cpc=None comp=0
+    10 | instagramni rivojlantirish | cpc=None comp=0
+    10 | instagram magazin | cpc=None comp=0
+    10 | obunachi yig'ish | cpc=None comp=0
+    10 | интернет магазин в инстаграм | cpc=None comp=None
+    10 | как открыть магазин в инстаграм | cpc=None comp=0
+    10 | магазин в инстаграм | cpc=None comp=0
+    10 | как продавать в инстаграм | cpc=None comp=0
+    10 | продажи в инстаграм | cpc=None comp=0
+    10 | продажи через инстаграм | cpc=None comp=0
+    10 | бизнес в инстаграм | cpc=None comp=0
+    10 | как раскрутить инстаграм | cpc=None comp=0.2
+    10 | раскрутка инстаграм | cpc=2.08 comp=0.44
+    10 | раскрутка инстаграм ташкент | cpc=4.63 comp=0.43
+    10 | продвижение инстаграм | cpc=4.04 comp=0.43
+    10 | продвижение в инстаграм | cpc=None comp=0.71
+    10 | продвижение инстаграм ташкент | cpc=None comp=None
+    10 | instagram продвижение | cpc=None comp=None
+    10 | instagram магазин | cpc=None comp=0
+    10 | инстаграм магазин | cpc=None comp=0
+    10 | оформление инстаграм | cpc=None comp=0
+    10 | оформление профиля инстаграм | cpc=None comp=None
+    10 | шапка профиля инстаграм | cpc=None comp=0
+    10 | описание профиля инстаграм | cpc=None comp=None
+    10 | telegramda kanal yaratish | cpc=None comp=0
+    10 | telegram kanalni rivojlantirish | cpc=None comp=0
+    10 | создать телеграм канал | cpc=None comp=0
+    10 | как раскрутить телеграм канал | cpc=1.15 comp=0.26
+    10 | раскрутка телеграм канала | cpc=0.7 comp=0.48
+    10 | продвижение телеграм канала | cpc=None comp=0.52
+    10 | раскрутка телеграм канала ташкент | cpc=1.06 comp=0.86
+    10 | подписчики телеграм | cpc=None comp=0.04
+    10 | как набрать подписчиков в телеграм канал | cpc=0.35 comp=0.1
+    10 | телеграм канал для бизнеса | cpc=None comp=0.29
+    10 | телеграм магазин | cpc=0.55 comp=0.08
+    10 | магазин в телеграм | cpc=None comp=0
+    10 | как создать магазин в телеграм | cpc=0.56 comp=0.71
+    10 | интернет магазин в телеграм | cpc=None comp=None
+    10 | телеграм каналы ташкент | cpc=None comp=0
+    10 | reels ideas | cpc=None comp=0.05
+    10 | идеи для рилс | cpc=None comp=0
+    10 | идеи для reels | cpc=None comp=None
+    10 | рилс для бизнеса | cpc=None comp=None
+    10 | reels для бизнеса | cpc=None comp=None
+    10 | монтаж рилс | cpc=None comp=0
+    10 | съемка рилс | cpc=None comp=None
+    10 | съемка reels | cpc=None comp=None
+    10 | reelsmaker | cpc=None comp=0.07
+    10 | рилсмейкер | cpc=0.08 comp=0.06
+    10 | сторис мейкер | cpc=None comp=0.14
+    10 | сторисмейкер | cpc=None comp=0.02
+    10 | открыть интернет магазин | cpc=1.5 comp=0.86
+    10 | как открыть интернет магазин | cpc=0.92 comp=0.86
+    10 | как открыть интернет магазин в узбекистане | cpc=1.15 comp=0.5
+    10 | создать интернет магазин | cpc=None comp=0.57
+    10 | создание интернет магазина | cpc=None comp=0
+    10 | интернет магазин под ключ | cpc=None comp=None
+    10 | разработка интернет магазина | cpc=None comp=0.36
+    10 | разработка интернет магазина ташкент | cpc=None comp=0.32
+    10 | internet do'kon ochish | cpc=None comp=0
+    10 | internet magazin ochish | cpc=None comp=0
+    10 | onlayn biznes boshlash | cpc=1.99 comp=0.22
+    10 | онлайн бизнес в узбекистане | cpc=3.24 comp=0.57
+    10 | бизнес в интернете | cpc=None comp=0
+    10 | продвижение интернет магазина | cpc=None comp=None
+    10 | реклама интернет магазина | cpc=None comp=None
+    10 | продвижение интернет магазинов | cpc=None comp=None
+    10 | конструктор интернет магазина | cpc=None comp=0
+    10 | платформа для интернет магазина | cpc=None comp=None
+    10 | e-commerce uzbekistan | cpc=0.75 comp=0.18
+    10 | дропшиппинг узбекистан | cpc=None comp=0
+    10 | товарный бизнес | cpc=None comp=0
+    10 | реклама товаров в инстаграм | cpc=None comp=None
+    10 | реклама магазина одежды | cpc=None comp=0
+    10 | реклама магазина в инстаграм | cpc=None comp=0
+    10 | реклама одежды в инстаграм | cpc=None comp=0
+    10 | mahsulot reklama | cpc=None comp=None
+    10 | mahsulot reklamasi | cpc=None comp=0
+    10 | магазин одежды реклама | cpc=None comp=None
+    10 | телеграм канал очиш | cpc=None comp=0.05
+  None | uzum sotuvchi bo'lish | cpc=None comp=None
+  None | uzum market orqali sotish | cpc=None comp=None
+  None | uzum marketda savdo | cpc=None comp=None
+  None | uzum market hamkor | cpc=None comp=None
+  None | uzum market komissiya | cpc=None comp=None
+  None | uzum market reklama narxi | cpc=None comp=None
+  None | uzum ads | cpc=None comp=None
+  None | uzum market ads | cpc=None comp=None
+  None | uzum seller ro'yxatdan o'tish | cpc=None comp=None
+  None | uzum market fbo | cpc=None comp=None
+  None | uzum market ombor | cpc=None comp=None
+  None | uzum market kurs | cpc=None comp=None
+  None | uzum kurslari | cpc=None comp=None
+  None | uzum market menejer | cpc=None comp=None
+  None | uzum seller academy | cpc=None comp=None
+  None | uzum market do'kon ochish | cpc=None comp=None
+  None | uzum market mahsulot joylash | cpc=None comp=None
+  None | uzum market kartochka | cpc=None comp=None
+  None | uzum market infografika | cpc=None comp=None
+  None | uzum market reklama qilish | cpc=None comp=None
+  None | uzum marketda reklama | cpc=None comp=None
+  None | как стать продавцом на uzum market | cpc=None comp=None
+  None | продажа на узум | cpc=None comp=None
+  None | комиссия uzum market | cpc=None comp=None
+  None | реклама на узум | cpc=None comp=None
+  None | реклама uzum market | cpc=None comp=None
+  None | реклама на uzum market | cpc=None comp=None
+  None | продвижение на uzum market | cpc=None comp=None
+  None | продвижение на узум | cpc=None comp=None
+  None | узум селлер кабинет | cpc=None comp=None
+  None | менеджер узум | cpc=None comp=None
+  None | менеджер uzum market | cpc=None comp=None
+  None | менеджер маркетплейсов ташкент | cpc=None comp=None
+  None | курсы маркетплейсов ташкент | cpc=None comp=None
+  None | обучение маркетплейсам ташкент | cpc=None comp=None
+  None | курсы uzum market | cpc=None comp=None
+  None | курсы узум | cpc=None comp=None
+  None | карточка товара узум | cpc=None comp=None
+  None | карточка товара uzum | cpc=None comp=None
+  None | инфографика для узум | cpc=None comp=None
+  None | инфографика uzum | cpc=None comp=None
+  None | инфографика для маркетплейсов ташкент | cpc=None comp=None
+  None | инфографика ташкент | cpc=None comp=None
+  None | описание для карточки товара | cpc=None comp=None
+  None | предметная съемка ташкент | cpc=None comp=None
+  None | фотосъемка товаров ташкент | cpc=None comp=None
+  None | mahsulot tavsifi | cpc=None comp=None
+  None | mahsulot rasmi | cpc=None comp=None
+  None | mahsulot suratga olish | cpc=None comp=None
+     0 | infografika uzum | cpc=None comp=None
+  None | kartochka dizayn | cpc=None comp=None
+  None | marketpleys kurslari | cpc=None comp=None
+  None | marketplace kurs | cpc=None comp=None
+  None | marketplace menejer | cpc=None comp=None
+  None | что продавать на uzum | cpc=None comp=None
+  None | внешний трафик на маркетплейс | cpc=None comp=None
+  None | таргет для маркетплейсов | cpc=None comp=None
+  None | продавать на wildberries из узбекистана | cpc=None comp=None
+  None | wildberries узбекистан продавец | cpc=None comp=None
+  None | wildberries o'zbekiston | cpc=None comp=None
+  None | wildberries sotuvchi | cpc=None comp=None
+  None | wildberriesda sotish | cpc=None comp=None
+  None | wildberries sotuvchi bo'lish | cpc=None comp=None
+     0 | как стать поставщиком wildberries | cpc=None comp=None
+     0 | продвижение на wildberries | cpc=None comp=None
+  None | продавать на ozon из узбекистана | cpc=None comp=None
+  None | olxda reklama | cpc=None comp=None
+  None | olx da reklama berish | cpc=None comp=None
+  None | olx e'lon joylash | cpc=None comp=None
+     0 | olx платные услуги | cpc=None comp=None
+  None | olx продвижение | cpc=None comp=None
+  None | olx biznes paket | cpc=None comp=None
+     0 | olx бизнес пакет | cpc=None comp=None
+  None | olx narxlari | cpc=None comp=None
+  None | olx kabinet | cpc=None comp=None
+  None | olx do'kon | cpc=None comp=None
+  None | instagram do'kon ochish | cpc=None comp=None
+  None | instagramda do'kon ochish | cpc=None comp=None
+  None | instagram dokon ochish | cpc=None comp=None
+  None | instagramda savdo | cpc=None comp=None
+  None | instagramda sotish | cpc=None comp=None
+  None | instagram orqali sotish | cpc=None comp=None
+  None | instagramda savdo qilish | cpc=None comp=None
+  None | instagramda biznes | cpc=None comp=None
+  None | instagram biznes | cpc=None comp=None
+  None | instagram biznes akkaunt | cpc=None comp=None
+  None | instagram sahifa ochish | cpc=None comp=None
+  None | instagram sahifani rivojlantirish | cpc=None comp=None
+  None | instagram sahifa yuritish | cpc=None comp=None
+  None | instagram sahifani ko'tarish | cpc=None comp=None
+  None | instagramga obunachi | cpc=None comp=None
+  None | instagram bio uchun | cpc=None comp=None
+  None | instagram uchun status | cpc=None comp=None
+  None | продвижение в инстаграм ташкент | cpc=None comp=None
+  None | продвижение инстаграм узбекистан | cpc=None comp=None
+  None | telegram kanal yaratish | cpc=None comp=None
+  None | telegram kanal qanday ochiladi | cpc=None comp=None
+  None | telegram kanal qanday ochish | cpc=None comp=None
+  None | telegram kanal rivojlantirish | cpc=None comp=None
+  None | telegram kanal obunachi | cpc=None comp=None
+  None | telegram kanalga obunachi yig'ish | cpc=None comp=None
+  None | telegram kanalga obunachi | cpc=None comp=None
+  None | telegram obunachi | cpc=None comp=None
+  None | telegram kanalni reklama qilish | cpc=None comp=None
+  None | telegram kanal reklama | cpc=None comp=None
+  None | telegram kanaldan pul ishlash | cpc=None comp=None
+  None | telegram kanal pul ishlash | cpc=None comp=None
+  None | telegram kanal uchun nom | cpc=None comp=None
+  None | продвижение телеграм канала ташкент | cpc=None comp=None
+  None | telegram do'kon | cpc=None comp=None
+  None | telegram do'kon ochish | cpc=None comp=None
+  None | telegramda do'kon ochish | cpc=None comp=None
+  None | telegramda savdo | cpc=None comp=None
+  None | telegramda sotish | cpc=None comp=None
+  None | telegram orqali sotish | cpc=None comp=None
+  None | телеграм каналы узбекистан | cpc=None comp=None
+  None | o'zbek telegram kanallari | cpc=None comp=None
+  None | reels g'oyalar | cpc=None comp=None
+  None | reels uchun g'oyalar | cpc=None comp=None
+  None | reels g'oyalari | cpc=None comp=None
+  None | reels qanday qilinadi | cpc=None comp=None
+  None | reels qilish | cpc=None comp=None
+  None | reels montaj | cpc=None comp=None
+  None | идеи для рилс для бизнеса | cpc=None comp=None
+     0 | рилс монтаж | cpc=None comp=None
+  None | рилсмейкер ташкент | cpc=None comp=None
+  None | reelsmaker ташкент | cpc=None comp=None
+  None | mobilograf toshkent | cpc=None comp=None
+  None | контент мейкер ташкент | cpc=None comp=None
+  None | сторисмейкер ташкент | cpc=None comp=None
+  None | kontent reja | cpc=None comp=None
+  None | создание интернет магазина ташкент | cpc=None comp=None
+  None | onlayn do'kon ochish | cpc=None comp=None
+  None | internet do'kon yaratish | cpc=None comp=None
+  None | onlayn do'kon yaratish | cpc=None comp=None
+  None | internet magazin yaratish | cpc=None comp=None
+  None | товарный бизнес узбекистан | cpc=None comp=None
+     0 | реклама для интернет магазина | cpc=None comp=None
+  None | do'kon reklama | cpc=None comp=None
+  None | do'kon reklamasi | cpc=None comp=None
+  None | do'kon uchun reklama | cpc=None comp=None
+  None | kiyim do'koni reklama | cpc=None comp=None
+  None | узум сотувчи | cpc=None comp=None
+  None | узумда сотиш | cpc=None comp=None
+  None | инстаграмда дўкон очиш | cpc=None comp=None
+  None | онлайн дўкон очиш | cpc=None comp=None

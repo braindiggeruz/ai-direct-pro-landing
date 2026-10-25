@@ -1,0 +1,9322 @@
+{
+ "summary": {
+  "demand_ads": 134850,
+  "demand_floor": 87395,
+  "demand_head": 28560,
+  "demand_susp": 110000,
+  "pos6_ads": [
+   41,
+   75
+  ],
+  "pos6_floor": [
+   27,
+   48
+  ],
+  "pos3_ads": 157,
+  "pos3_floor": 101,
+  "pos3_no_aio_ads": 242,
+  "excl_contracts": {
+   "demand_ads": 124750,
+   "demand_floor": 77295,
+   "pos6_ads": [
+    38,
+    69
+   ],
+   "pos6_floor": [
+    24,
+    43
+   ],
+   "pos3_ads": 145,
+   "pos3_floor": 89
+  },
+  "existing_pages_undeclared": [
+   [
+    "ariza",
+    4400
+   ],
+   [
+    "ariza yozish",
+    2900
+   ],
+   [
+    "tushuntirish xati namuna",
+    2400
+   ],
+   [
+    "ariza yozish namunasi",
+    2400
+   ],
+   [
+    "ariza yozish namuna",
+    2400
+   ],
+   [
+    "rezyume tayyorlash",
+    1900
+   ],
+   [
+    "rezyume namuna",
+    1600
+   ],
+   [
+    "rezyume",
+    1600
+   ],
+   [
+    "rezyume namunasi",
+    1600
+   ],
+   [
+    "rezyume yozish namunasi",
+    1600
+   ],
+   [
+    "tushuntirish xati",
+    1600
+   ],
+   [
+    "tavsifnoma namuna",
+    1600
+   ],
+   [
+    "rezyume shablon",
+    1300
+   ],
+   [
+    "rezyume shabloni",
+    1300
+   ],
+   [
+    "ariza namuna",
+    1300
+   ],
+   [
+    "rezume",
+    880
+   ],
+   [
+    "tavsifnoma",
+    720
+   ],
+   [
+    "rezume namuna",
+    590
+   ],
+   [
+    "ariza namunasi",
+    590
+   ],
+   [
+    "o'quvchiga tavsifnoma",
+    590
+   ],
+   [
+    "resume tayyorlash",
+    390
+   ],
+   [
+    "rezyume nima",
+    320
+   ],
+   [
+    "ariza blanka",
+    320
+   ],
+   [
+    "tavsifnoma namunasi word",
+    320
+   ],
+   [
+    "tavsifnoma yozish namuna",
+    260
+   ],
+   [
+    "cv tayyorlash",
+    210
+   ],
+   [
+    "ariza qanday yoziladi",
+    210
+   ],
+   [
+    "cv namuna",
+    170
+   ],
+   [
+    "cv namunasi",
+    170
+   ],
+   [
+    "tushuntirish xati yozish",
+    170
+   ],
+   [
+    "rezyume to'ldirish",
+    140
+   ],
+   [
+    "tushuntirish xati namunasi",
+    140
+   ],
+   [
+    "ariza nima",
+    90
+   ],
+   [
+    "tushuntirish xati nima",
+    70
+   ],
+   [
+    "xizmat xati namunasi",
+    40
+   ],
+   [
+    "rezyume yozish",
+    40
+   ],
+   [
+    "xizmat xati",
+    30
+   ],
+   [
+    "rezyume qanday yoziladi",
+    30
+   ],
+   [
+    "xizmat xati namuna",
+    10
+   ]
+  ]
+ },
+ "clusters": [
+  {
+   "id": "office_docs",
+   "name": "Ish qog'ozlari: bildirishnoma, dalolatnoma, bayonnoma, kafolat xati, raport",
+   "k1": 0.06,
+   "aio": 0.655,
+   "demand_ads_core": 21920,
+   "demand_floor_core": 18630,
+   "demand_head_upper": 0,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    6.7,
+    12.1
+   ],
+   "visits_pos6_floor": [
+    5.7,
+    10.3
+   ],
+   "visits_pos3_ads": 25.8,
+   "visits_pos3_floor": 21.9,
+   "pos3_no_aio_ads": 39.4,
+   "m1_visits_ads_mid": 0.56,
+   "m1_visits_floor_mid": 0.48,
+   "months_to_full_pos6": 5.8,
+   "weeks_to_2_ads": 10,
+   "weeks_to_2_floor": 11,
+   "weeks_to_5_ads": 17,
+   "weeks_to_5_floor": 19,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 0.65,
+    "2025-11": 0.93,
+    "2025-12": 0.92,
+    "2026-01": 0.94,
+    "2026-02": 1.21,
+    "2026-03": 1.07,
+    "2026-04": 1.5,
+    "2026-05": 1.78,
+    "2026-06": 1.06,
+    "2026-07": 0.6,
+    "2026-08": 0.46,
+    "2026-09": 0.9
+   },
+   "keywords": [
+    {
+     "kw": "bildirishnoma",
+     "vol": 4400,
+     "floor": 4400,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1000,
+      1000,
+      1900,
+      2900,
+      4400,
+      5400,
+      8100,
+      12100,
+      6600,
+      2900,
+      2400,
+      5400
+     ]
+    },
+    {
+     "kw": "bildirishnoma yozish",
+     "vol": 1900,
+     "floor": 190,
+     "jump": true,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      170,
+      210,
+      480,
+      1300,
+      1600,
+      2900,
+      3600,
+      4400,
+      3600,
+      2900,
+      1000,
+      2400
+     ]
+    },
+    {
+     "kw": "bayonnoma namunasi",
+     "vol": 1900,
+     "floor": 1900,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1300,
+      1900,
+      1900,
+      2400,
+      4400,
+      1900,
+      2400,
+      1900,
+      1900,
+      320,
+      390,
+      1000
+     ]
+    },
+    {
+     "kw": "билдиришнома намуна",
+     "vol": 1600,
+     "floor": 20,
+     "jump": true,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      30,
+      480,
+      880,
+      1600,
+      1900,
+      2400,
+      5400,
+      2400,
+      1000,
+      720,
+      1900
+     ]
+    },
+    {
+     "kw": "dalolatnoma namuna",
+     "vol": 1300,
+     "floor": 1300,
+     "jump": false,
+     "counted": true,
+     "src": "kw2_metrics.json",
+     "ser": [
+      1000,
+      1900,
+      2400,
+      1300,
+      1300,
+      1600,
+      1900,
+      1600,
+      1000,
+      720,
+      720,
+      1000
+     ]
+    },
+    {
+     "kw": "dalolatnoma namunasi",
+     "vol": 1300,
+     "counted": false,
+     "same_bucket_as": "dalolatnoma namuna",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "bildirishnoma namunasi",
+     "vol": 1000,
+     "floor": 1000,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1000,
+      1300,
+      1300,
+      1000,
+      1300,
+      1000,
+      1300,
+      1300,
+      880,
+      480,
+      390,
+      1000
+     ]
+    },
+    {
+     "kw": "bildirishnoma namuna",
+     "vol": 1000,
+     "counted": false,
+     "same_bucket_as": "bildirishnoma namunasi",
+     "src": "kw2_metrics.json"
+    },
+    {
+     "kw": "kafolat xati",
+     "vol": 1000,
+     "floor": 1000,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      480,
+      390,
+      1000,
+      880,
+      1000,
+      1000,
+      1600,
+      2900,
+      1300,
+      1300,
+      1000,
+      1600
+     ]
+    },
+    {
+     "kw": "dalolatnoma",
+     "vol": 880,
+     "floor": 880,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      880,
+      1000,
+      1000,
+      880,
+      880,
+      880,
+      1000,
+      1000,
+      880,
+      720,
+      590,
+      880
+     ]
+    },
+    {
+     "kw": "bayonnoma",
+     "vol": 880,
+     "floor": 880,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      880,
+      1000,
+      1000,
+      880,
+      2900,
+      880,
+      1000,
+      1000,
+      720,
+      260,
+      260,
+      480
+     ]
+    },
+    {
+     "kw": "kafolat xati namuna",
+     "vol": 720,
+     "floor": 720,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      720,
+      880,
+      1600,
+      480,
+      480,
+      590,
+      720,
+      1600,
+      390,
+      170,
+      170,
+      480
+     ]
+    },
+    {
+     "kw": "farmoyish hujjatlari",
+     "vol": 720,
+     "floor": 720,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      720,
+      1000,
+      880,
+      590,
+      880,
+      1000,
+      1600,
+      880,
+      480,
+      170,
+      320,
+      480
+     ]
+    },
+    {
+     "kw": "далолатнома намуна",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      590,
+      590,
+      480,
+      590,
+      590,
+      480,
+      480,
+      480,
+      480,
+      480,
+      390,
+      320
+     ]
+    },
+    {
+     "kw": "tashkiliy hujjatlar",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      720,
+      720,
+      880,
+      390,
+      210,
+      390,
+      880,
+      390,
+      110,
+      10,
+      10,
+      40
+     ]
+    },
+    {
+     "kw": "rasmiy uslub",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      720,
+      720,
+      590,
+      720,
+      320,
+      320,
+      720,
+      320,
+      140,
+      50,
+      20,
+      320
+     ]
+    },
+    {
+     "kw": "e'lon yozish",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      2400,
+      260,
+      1300,
+      210,
+      170,
+      390,
+      140,
+      40,
+      20,
+      20,
+      40
+     ]
+    },
+    {
+     "kw": "e'lon yozish namunasi",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      110,
+      1000,
+      390,
+      880,
+      260,
+      170,
+      320,
+      210,
+      70,
+      90,
+      70,
+      110
+     ]
+    },
+    {
+     "kw": "далолатнома",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      260,
+      320,
+      260,
+      260,
+      260,
+      260,
+      170,
+      210,
+      210,
+      210,
+      260
+     ]
+    },
+    {
+     "kw": "dalolatnoma yozish",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1000,
+      590,
+      210,
+      170,
+      210,
+      170,
+      210,
+      170,
+      110,
+      40,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "bayonnoma yozish",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      70,
+      110,
+      140,
+      260,
+      1300,
+      260,
+      320,
+      210,
+      110,
+      50,
+      50,
+      170
+     ]
+    },
+    {
+     "kw": "majlis bayonnomasi",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      170,
+      110,
+      140,
+      260,
+      260,
+      390,
+      480,
+      320,
+      210,
+      170,
+      210
+     ]
+    },
+    {
+     "kw": "e'lon namunasi",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      720,
+      260,
+      390,
+      110,
+      90,
+      320,
+      170,
+      50,
+      110,
+      90,
+      50
+     ]
+    },
+    {
+     "kw": "dalolatnoma nima",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      260,
+      390,
+      260,
+      210,
+      140,
+      140,
+      260,
+      170,
+      140,
+      90,
+      70,
+      90
+     ]
+    },
+    {
+     "kw": "рапорт",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      170,
+      140,
+      140,
+      170,
+      140,
+      170,
+      110,
+      90,
+      70,
+      90,
+      110
+     ]
+    },
+    {
+     "kw": "рапорт образец",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      170,
+      140,
+      110,
+      140,
+      140,
+      170,
+      110,
+      90,
+      70,
+      50,
+      110
+     ]
+    },
+    {
+     "kw": "rasmiy hujjatlar",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      140,
+      70,
+      140,
+      110,
+      110,
+      170,
+      260,
+      170,
+      90,
+      70,
+      70,
+      140
+     ]
+    },
+    {
+     "kw": "bayonnoma nima",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      170,
+      260,
+      260,
+      210,
+      260,
+      140,
+      170,
+      110,
+      70,
+      30,
+      20,
+      40
+     ]
+    },
+    {
+     "kw": "bildirishnoma yozish namunasi",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      170,
+      170,
+      170,
+      140,
+      140,
+      140,
+      260,
+      260,
+      140,
+      30,
+      40,
+      170
+     ]
+    },
+    {
+     "kw": "кафолат хати",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      140,
+      90,
+      170,
+      110,
+      90,
+      140,
+      210,
+      260,
+      140,
+      90,
+      110,
+      140
+     ]
+    },
+    {
+     "kw": "гарантийное письмо",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "ish qog'ozlari",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      20,
+      20,
+      40,
+      110,
+      110,
+      90,
+      210,
+      260,
+      110,
+      90,
+      110,
+      210
+     ]
+    },
+    {
+     "kw": "ish yuritish hujjatlari",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      50,
+      70,
+      140,
+      90,
+      110,
+      110,
+      320,
+      210,
+      140,
+      70,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "баённома",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      110,
+      140,
+      140,
+      110,
+      170,
+      140,
+      140,
+      110,
+      110,
+      90,
+      50,
+      90
+     ]
+    },
+    {
+     "kw": "bildirishnoma nima",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      140,
+      260,
+      170,
+      110,
+      50,
+      50,
+      110,
+      70,
+      50,
+      40,
+      40,
+      30
+     ]
+    },
+    {
+     "kw": "ish yuritish",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      90,
+      90,
+      70,
+      90,
+      70,
+      70,
+      90,
+      90,
+      40,
+      30,
+      20,
+      70
+     ]
+    },
+    {
+     "kw": "kafolat xati yozish",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      70,
+      70,
+      170,
+      50,
+      50,
+      50,
+      30,
+      170,
+      20,
+      20,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "билдиришнома",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      50,
+      70,
+      50,
+      50,
+      90,
+      70,
+      40,
+      40,
+      30,
+      30,
+      50
+     ]
+    },
+    {
+     "kw": "yig'ilish bayonnomasi",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      50,
+      40,
+      70,
+      90,
+      50,
+      40,
+      50,
+      20,
+      30,
+      30,
+      30
+     ]
+    },
+    {
+     "kw": "протокол собрания образец",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      70,
+      50,
+      70,
+      50,
+      50,
+      70,
+      30,
+      40,
+      30,
+      30,
+      40
+     ]
+    },
+    {
+     "kw": "raport",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      30,
+      30,
+      40,
+      140,
+      50,
+      170,
+      30,
+      20,
+      40,
+      40,
+      70
+     ]
+    },
+    {
+     "kw": "служебная записка",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      70,
+      50,
+      50,
+      50,
+      50,
+      30,
+      40,
+      50,
+      50,
+      40,
+      50
+     ]
+    },
+    {
+     "kw": "e'lon namuna",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      20,
+      50,
+      40,
+      110,
+      30,
+      50,
+      210,
+      140,
+      30,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "делопроизводство",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      40,
+      40,
+      50,
+      40,
+      50,
+      50,
+      40,
+      70,
+      30,
+      40,
+      30,
+      50
+     ]
+    },
+    {
+     "kw": "dalolatnoma shakli",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      50,
+      40,
+      30,
+      30,
+      40,
+      70,
+      50,
+      70,
+      30,
+      30,
+      20
+     ]
+    },
+    {
+     "kw": "dalolatnoma tuzish",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      40,
+      20,
+      40,
+      50,
+      50,
+      30,
+      20,
+      10,
+      20,
+      30
+     ]
+    },
+    {
+     "kw": "акт приема передачи образец",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "dalolatnoma namunalari",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      30,
+      30,
+      30,
+      30,
+      20,
+      40,
+      30,
+      30,
+      20,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "kafolat xati namunasi",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      50,
+      70,
+      20,
+      30,
+      20,
+      30,
+      40,
+      10,
+      20,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "гарантийное письмо образец",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      20,
+      70,
+      30,
+      20,
+      30,
+      40,
+      50,
+      20,
+      30,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "докладная записка",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      40,
+      40,
+      30,
+      30,
+      40,
+      40,
+      30,
+      30,
+      30,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "акт выполненных работ образец",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "hujjat namunalari",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      20,
+      40,
+      140,
+      30,
+      10,
+      20,
+      30,
+      20,
+      20,
+      10,
+      10,
+      20
+     ]
+    },
+    {
+     "kw": "bajarilgan ishlar dalolatnomasi",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      20,
+      20,
+      10,
+      20,
+      20,
+      20,
+      20,
+      20,
+      10,
+      20
+     ]
+    },
+    {
+     "kw": "raport yozish",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      40,
+      30,
+      20,
+      40,
+      20,
+      40,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "служебная записка образец",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      20,
+      30,
+      20,
+      20,
+      10,
+      20,
+      20,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "докладная записка образец",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    }
+   ],
+   "head": [],
+   "existing": [
+    [
+     "xizmat xati namuna",
+     10
+    ],
+    [
+     "xizmat xati namunasi",
+     40
+    ],
+    [
+     "xizmat xati",
+     30
+    ]
+   ],
+   "missing": [],
+   "dedup": [
+    [
+     "bildirishnoma namuna",
+     "bildirishnoma namunasi"
+    ],
+    [
+     "dalolatnoma namunasi",
+     "dalolatnoma namuna"
+    ]
+   ],
+   "excl": []
+  },
+  {
+   "id": "internship_reports",
+   "name": "Amaliyot kundaligi va hisobot (talaba amaliyoti, ish hisoboti)",
+   "k1": 0.06,
+   "aio": 0.655,
+   "demand_ads_core": 27950,
+   "demand_floor_core": 5285,
+   "demand_head_upper": 1600,
+   "demand_susp_upper": 110000,
+   "susp": [
+    [
+     "amaliyot kundaligi to'ldirish",
+     110000
+    ]
+   ],
+   "visits_pos6_ads": [
+    8.6,
+    15.4
+   ],
+   "visits_pos6_floor": [
+    1.6,
+    2.9
+   ],
+   "visits_pos3_ads": 32.9,
+   "visits_pos3_floor": 6.2,
+   "pos3_no_aio_ads": 50.2,
+   "m1_visits_ads_mid": 0.72,
+   "m1_visits_floor_mid": 0.14,
+   "months_to_full_pos6": 5.8,
+   "weeks_to_2_ads": 9,
+   "weeks_to_2_floor": 24,
+   "weeks_to_5_ads": 15,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": 23,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 0.07,
+    "2025-11": 0.11,
+    "2025-12": 0.33,
+    "2026-01": 0.63,
+    "2026-02": 1.12,
+    "2026-03": 1.02,
+    "2026-04": 1.78,
+    "2026-05": 1.99,
+    "2026-06": 1.37,
+    "2026-07": 0.61,
+    "2026-08": 0.53,
+    "2026-09": 2.44
+   },
+   "keywords": [
+    {
+     "kw": "amaliyot kundaligi",
+     "vol": 18100,
+     "floor": 490,
+     "jump": true,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      720,
+      4400,
+      9900,
+      22200,
+      18100,
+      33100,
+      33100,
+      14800,
+      9900,
+      8100,
+      60500
+     ]
+    },
+    {
+     "kw": "hisobot yozish",
+     "vol": 5400,
+     "floor": 345,
+     "jump": true,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      480,
+      1600,
+      3600,
+      5400,
+      5400,
+      8100,
+      12100,
+      12100,
+      5400,
+      5400,
+      5400
+     ]
+    },
+    {
+     "kw": "hisobot namunasi",
+     "vol": 2400,
+     "floor": 2400,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      390,
+      590,
+      1600,
+      1900,
+      1900,
+      2900,
+      4400,
+      5400,
+      8100,
+      880,
+      880,
+      1900
+     ]
+    },
+    {
+     "kw": "hisobot namuna",
+     "vol": 2400,
+     "counted": false,
+     "same_bucket_as": "hisobot namunasi",
+     "src": "dc_kw2_metrics.json"
+    },
+    {
+     "kw": "amaliyot kundaligi namuna",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      480,
+      590,
+      720,
+      390,
+      390,
+      880,
+      880,
+      480,
+      70,
+      20,
+      40
+     ]
+    },
+    {
+     "kw": "amaliyot hisoboti",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      210,
+      320,
+      320,
+      390,
+      390,
+      880,
+      1300,
+      880,
+      210,
+      50,
+      90
+     ]
+    },
+    {
+     "kw": "amaliyot kundaligi yozish",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      70,
+      110,
+      210,
+      480,
+      480,
+      590,
+      1000,
+      880,
+      880,
+      210,
+      50,
+      40
+     ]
+    },
+    {
+     "kw": "amaliyot kundaligi pdf",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      170,
+      170,
+      210,
+      210,
+      170,
+      260,
+      480,
+      480,
+      210,
+      50,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "malakaviy amaliyot hisoboti",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      70,
+      110,
+      90,
+      70,
+      140,
+      320,
+      480,
+      260,
+      50,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "yillik hisobot namunasi",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      50,
+      20,
+      90,
+      50,
+      40,
+      30,
+      320,
+      320,
+      70,
+      50,
+      30
+     ]
+    },
+    {
+     "kw": "amaliyot daftari",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      40,
+      50,
+      70,
+      70,
+      50,
+      90,
+      140,
+      90,
+      20,
+      10,
+      20
+     ]
+    },
+    {
+     "kw": "amaliyot hisobot namunasi",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      30,
+      30,
+      40,
+      40,
+      40,
+      90,
+      70,
+      50,
+      20,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "отчет по практике",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      20,
+      40,
+      30,
+      30,
+      50,
+      50,
+      70,
+      70,
+      30,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "pedagogik amaliyot hisoboti",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      20,
+      50,
+      40,
+      20,
+      50,
+      50,
+      70,
+      10,
+      10,
+      0,
+      0
+     ]
+    },
+    {
+     "kw": "амалиёт кундалиги",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      20,
+      10,
+      40,
+      50,
+      40,
+      70,
+      90,
+      30,
+      10,
+      20,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "amaliyot hisoboti namuna",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      20,
+      30,
+      20,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "amaliyot hisoboti namunasi",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      20,
+      30,
+      20,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "o'quv amaliyoti hisoboti",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      20,
+      10,
+      10,
+      10,
+      20,
+      30,
+      10,
+      10,
+      0
+     ]
+    },
+    {
+     "kw": "дневник практики",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      20,
+      20,
+      10,
+      20,
+      30,
+      20,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "o'qituvchi hisoboti",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      10,
+      10,
+      20,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      0,
+      10,
+      0
+     ]
+    },
+    {
+     "kw": "sinf rahbar hisoboti",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      10,
+      30,
+      10,
+      30,
+      10,
+      10,
+      10,
+      20,
+      10,
+      0,
+      0,
+      10
+     ]
+    },
+    {
+     "kw": "oylik hisobot",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      20,
+      10,
+      10,
+      20,
+      10,
+      10,
+      20,
+      20,
+      10,
+      10,
+      10,
+      20
+     ]
+    }
+   ],
+   "head": [
+    [
+     "hisobot",
+     1600
+    ]
+   ],
+   "existing": [],
+   "missing": [],
+   "dedup": [
+    [
+     "hisobot namuna",
+     "hisobot namunasi"
+    ]
+   ],
+   "excl": []
+  },
+  {
+   "id": "obyektivka",
+   "name": "Obyektivka (ma'lumotnoma) generatori + namuna",
+   "k1": 0.06,
+   "aio": 0.655,
+   "demand_ads_core": 12980,
+   "demand_floor_core": 10815,
+   "demand_head_upper": 2880,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    4.0,
+    7.2
+   ],
+   "visits_pos6_floor": [
+    3.3,
+    6.0
+   ],
+   "visits_pos3_ads": 15.3,
+   "visits_pos3_floor": 12.7,
+   "pos3_no_aio_ads": 23.3,
+   "m1_visits_ads_mid": 0.34,
+   "m1_visits_floor_mid": 0.28,
+   "months_to_full_pos6": 5.8,
+   "weeks_to_2_ads": 14,
+   "weeks_to_2_floor": 15,
+   "weeks_to_5_ads": 24,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 0.97,
+    "2025-11": 0.75,
+    "2025-12": 0.64,
+    "2026-01": 0.83,
+    "2026-02": 1.07,
+    "2026-03": 0.88,
+    "2026-04": 1.13,
+    "2026-05": 1.02,
+    "2026-06": 1.08,
+    "2026-07": 0.81,
+    "2026-08": 1.03,
+    "2026-09": 1.8
+   },
+   "keywords": [
+    {
+     "kw": "obyektivka namuna",
+     "vol": 2400,
+     "floor": 2400,
+     "jump": false,
+     "counted": true,
+     "src": "kw2_metrics.json",
+     "ser": [
+      2400,
+      1600,
+      1300,
+      1900,
+      2400,
+      2400,
+      2900,
+      1900,
+      1900,
+      2400,
+      3600,
+      3600
+     ]
+    },
+    {
+     "kw": "obyektivka namunasi",
+     "vol": 2400,
+     "counted": false,
+     "same_bucket_as": "obyektivka namuna",
+     "src": "kw2_metrics.json"
+    },
+    {
+     "kw": "ma'lumotnoma yozish",
+     "vol": 2400,
+     "floor": 235,
+     "jump": true,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      210,
+      720,
+      1600,
+      2900,
+      2400,
+      3600,
+      4400,
+      4400,
+      2400,
+      1900,
+      2900
+     ]
+    },
+    {
+     "kw": "ma'lumotnoma namuna",
+     "vol": 1600,
+     "floor": 1600,
+     "jump": false,
+     "counted": true,
+     "src": "kw2_metrics.json",
+     "ser": [
+      1900,
+      1300,
+      1300,
+      1600,
+      1600,
+      1300,
+      1900,
+      1600,
+      2400,
+      880,
+      880,
+      1900
+     ]
+    },
+    {
+     "kw": "ma'lumotnoma namunasi",
+     "vol": 1600,
+     "counted": false,
+     "same_bucket_as": "ma'lumotnoma namuna",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "malumotnoma namuna",
+     "vol": 1600,
+     "counted": false,
+     "same_bucket_as": "ma'lumotnoma namuna",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "ma lumotnoma namuna",
+     "vol": 1600,
+     "counted": false,
+     "same_bucket_as": "ma'lumotnoma namuna",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "объективка",
+     "vol": 1600,
+     "floor": 1600,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1900,
+      1600,
+      1300,
+      1600,
+      1900,
+      1300,
+      1300,
+      1300,
+      1600,
+      1300,
+      1900,
+      2900
+     ]
+    },
+    {
+     "kw": "обьективка",
+     "vol": 1600,
+     "counted": false,
+     "same_bucket_as": "объективка",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "obyektivka tayyorlash",
+     "vol": 1300,
+     "floor": 1300,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1900,
+      1900,
+      1000,
+      1000,
+      1300,
+      590,
+      880,
+      720,
+      720,
+      720,
+      1000,
+      3600
+     ]
+    },
+    {
+     "kw": "obyektivka",
+     "vol": 1000,
+     "floor": 1000,
+     "jump": false,
+     "counted": true,
+     "src": "kw1_metrics.json",
+     "ser": [
+      1300,
+      720,
+      720,
+      880,
+      1000,
+      880,
+      1000,
+      720,
+      880,
+      720,
+      1300,
+      3600
+     ]
+    },
+    {
+     "kw": "obektivka",
+     "vol": 720,
+     "floor": 720,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      480,
+      390,
+      390,
+      720,
+      880,
+      590,
+      880,
+      590,
+      590,
+      590,
+      1000,
+      1900
+     ]
+    },
+    {
+     "kw": "obektivka namuna",
+     "vol": 590,
+     "floor": 590,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1000,
+      880,
+      480,
+      480,
+      590,
+      480,
+      590,
+      480,
+      480,
+      480,
+      480,
+      880
+     ]
+    },
+    {
+     "kw": "объективка намуна",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      480,
+      480,
+      320,
+      320,
+      210,
+      210,
+      210,
+      260,
+      260,
+      320,
+      320,
+      390
+     ]
+    },
+    {
+     "kw": "объективка намунаси",
+     "vol": 320,
+     "counted": false,
+     "same_bucket_as": "объективка намуна",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "справка объективка",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      30,
+      140,
+      110,
+      320,
+      590,
+      720,
+      720,
+      260,
+      140,
+      110,
+      260
+     ]
+    },
+    {
+     "kw": "маълумотнома намуна",
+     "vol": 170,
+     "floor": 170,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      140,
+      170,
+      140,
+      140,
+      110,
+      140,
+      110,
+      140,
+      140,
+      170,
+      210
+     ]
+    },
+    {
+     "kw": "obyektivka namuna pdf",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      90,
+      50,
+      70,
+      70,
+      90,
+      140,
+      70,
+      70,
+      110,
+      260,
+      260
+     ]
+    },
+    {
+     "kw": "obyektivka namuna word",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      70,
+      70,
+      50,
+      90,
+      110,
+      140,
+      50,
+      50,
+      90,
+      90,
+      260
+     ]
+    },
+    {
+     "kw": "obyektivka shablon",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      40,
+      40,
+      70,
+      50,
+      50,
+      70,
+      50,
+      40,
+      50,
+      110
+     ]
+    },
+    {
+     "kw": "obyektivka nima",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      50,
+      50,
+      70,
+      70,
+      70,
+      70,
+      50,
+      50,
+      50,
+      50,
+      210
+     ]
+    },
+    {
+     "kw": "obyektivka word",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      20,
+      20,
+      20,
+      70,
+      40,
+      20,
+      20,
+      10,
+      30,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "obyektivka yuklab olish",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      20,
+      30,
+      50,
+      40,
+      110,
+      20,
+      10,
+      10,
+      10,
+      20,
+      70
+     ]
+    },
+    {
+     "kw": "объективка образец",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      50,
+      50,
+      50,
+      40,
+      30,
+      40,
+      20,
+      50,
+      40,
+      30,
+      30
+     ]
+    },
+    {
+     "kw": "объективка узбекистан",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      20,
+      30,
+      20,
+      20,
+      30,
+      30,
+      20,
+      20,
+      20,
+      30,
+      40
+     ]
+    },
+    {
+     "kw": "obyektivka yaratish",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      10,
+      10,
+      40,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      50
+     ]
+    },
+    {
+     "kw": "obyektivka yozish",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "kw2_metrics.json",
+     "ser": [
+      30,
+      10,
+      10,
+      10,
+      20,
+      20,
+      20,
+      10,
+      10,
+      20,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "obyektivka namunasi pdf",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      30,
+      20,
+      10,
+      0,
+      10,
+      10,
+      10,
+      0,
+      0,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "obyektivka to'ldirish",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "личный листок по учету кадров",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    }
+   ],
+   "head": [
+    [
+     "ma'lumotnoma",
+     1900
+    ],
+    [
+     "malumotnoma",
+     1900
+    ],
+    [
+     "маълумотнома",
+     260
+    ],
+    [
+     "ish joyidan ma'lumotnoma",
+     720
+    ]
+   ],
+   "existing": [],
+   "missing": [],
+   "dedup": [
+    [
+     "obyektivka namunasi",
+     "obyektivka namuna"
+    ],
+    [
+     "ma'lumotnoma namunasi",
+     "ma'lumotnoma namuna"
+    ],
+    [
+     "malumotnoma namuna",
+     "ma'lumotnoma namuna"
+    ],
+    [
+     "ma lumotnoma namuna",
+     "ma'lumotnoma namuna"
+    ],
+    [
+     "обьективка",
+     "объективка"
+    ],
+    [
+     "объективка намунаси",
+     "объективка намуна"
+    ]
+   ],
+   "excl": [
+    "obyektivka uz"
+   ]
+  },
+  {
+   "id": "cv_builder",
+   "name": "CV/rezyume konstruktori (UZ/RU/EN) + RU-страница «резюме» + «CV nima»",
+   "k1": 0.04,
+   "aio": 0.655,
+   "demand_ads_core": 16280,
+   "demand_floor_core": 12170,
+   "demand_head_upper": 8100,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    5.0,
+    9.0
+   ],
+   "visits_pos6_floor": [
+    3.7,
+    6.7
+   ],
+   "visits_pos3_ads": 18.2,
+   "visits_pos3_floor": 13.6,
+   "pos3_no_aio_ads": 29.2,
+   "m1_visits_ads_mid": 0.28,
+   "m1_visits_floor_mid": 0.21,
+   "months_to_full_pos6": 7.5,
+   "weeks_to_2_ads": 15,
+   "weeks_to_2_floor": 18,
+   "weeks_to_5_ads": 27,
+   "weeks_to_5_floor": 32,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 0.89,
+    "2025-11": 0.74,
+    "2025-12": 0.7,
+    "2026-01": 1.04,
+    "2026-02": 1.08,
+    "2026-03": 1.08,
+    "2026-04": 1.27,
+    "2026-05": 1.14,
+    "2026-06": 1.1,
+    "2026-07": 1.16,
+    "2026-08": 0.83,
+    "2026-09": 0.96
+   },
+   "keywords": [
+    {
+     "kw": "cv nima",
+     "vol": 4400,
+     "floor": 290,
+     "jump": true,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      320,
+      880,
+      2900,
+      4400,
+      4400,
+      6600,
+      6600,
+      5400,
+      8100,
+      3600,
+      5400
+     ]
+    },
+    {
+     "kw": "резюме шаблон",
+     "vol": 2900,
+     "floor": 2900,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      3600,
+      2900,
+      2400,
+      3600,
+      3600,
+      3600,
+      3600,
+      2900,
+      3600,
+      2900,
+      2900,
+      2400
+     ]
+    },
+    {
+     "kw": "cv maker",
+     "vol": 1600,
+     "floor": 1600,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1900,
+      1600,
+      1600,
+      1900,
+      1600,
+      1600,
+      1600,
+      1300,
+      1300,
+      1300,
+      1000,
+      1000
+     ]
+    },
+    {
+     "kw": "резюме образец",
+     "vol": 880,
+     "floor": 880,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1000,
+      720,
+      720,
+      1000,
+      880,
+      880,
+      880,
+      880,
+      880,
+      880,
+      720,
+      720
+     ]
+    },
+    {
+     "kw": "resume maker",
+     "vol": 590,
+     "floor": 590,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      720,
+      590,
+      590,
+      720,
+      590,
+      590,
+      590,
+      590,
+      590,
+      390,
+      320,
+      390
+     ]
+    },
+    {
+     "kw": "cv example",
+     "vol": 590,
+     "floor": 590,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      880,
+      720,
+      590,
+      590,
+      590,
+      480,
+      590,
+      480,
+      480,
+      480,
+      390,
+      590
+     ]
+    },
+    {
+     "kw": "резюме онлайн",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      590,
+      480,
+      390,
+      590,
+      480,
+      390,
+      480,
+      390,
+      480,
+      390,
+      390,
+      320
+     ]
+    },
+    {
+     "kw": "cv template",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      480,
+      480,
+      390,
+      390,
+      320,
+      390,
+      480,
+      480,
+      390,
+      320,
+      320,
+      480
+     ]
+    },
+    {
+     "kw": "rezyume namunasi pdf",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      260,
+      170,
+      260,
+      320,
+      480,
+      480,
+      590,
+      480,
+      480,
+      390,
+      390,
+      320
+     ]
+    },
+    {
+     "kw": "шаблон резюме",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      260,
+      210,
+      390,
+      320,
+      390,
+      390,
+      390,
+      320,
+      320,
+      260,
+      260
+     ]
+    },
+    {
+     "kw": "создать резюме",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      390,
+      390,
+      320,
+      480,
+      390,
+      320,
+      320,
+      320,
+      390,
+      320,
+      260,
+      320
+     ]
+    },
+    {
+     "kw": "resume namuna",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      390,
+      390,
+      320,
+      390,
+      320,
+      320,
+      320,
+      260,
+      210,
+      260,
+      260,
+      210
+     ]
+    },
+    {
+     "kw": "резюме бланк",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      70,
+      170,
+      390,
+      260,
+      590,
+      320,
+      210,
+      140,
+      110,
+      480
+     ]
+    },
+    {
+     "kw": "resume template",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      320,
+      170,
+      320,
+      260,
+      320,
+      320,
+      170,
+      210,
+      170,
+      170,
+      210
+     ]
+    },
+    {
+     "kw": "образец резюме",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      210,
+      170,
+      260,
+      210,
+      210,
+      210,
+      140,
+      170,
+      140,
+      170,
+      170
+     ]
+    },
+    {
+     "kw": "резюме на работу",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      140,
+      140,
+      210,
+      210,
+      210,
+      210,
+      260,
+      260,
+      210,
+      260,
+      140
+     ]
+    },
+    {
+     "kw": "cv sample",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      140,
+      140,
+      170,
+      140,
+      110,
+      170,
+      140,
+      90,
+      90,
+      110,
+      170
+     ]
+    },
+    {
+     "kw": "resume builder",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      170,
+      110,
+      170,
+      170,
+      170,
+      210,
+      140,
+      90,
+      110,
+      90,
+      90
+     ]
+    },
+    {
+     "kw": "резюме образец узбекистан",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      30,
+      50,
+      140,
+      170,
+      140,
+      260,
+      260,
+      140,
+      70,
+      70,
+      170
+     ]
+    },
+    {
+     "kw": "бланк резюме",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      90,
+      90,
+      140,
+      110,
+      140,
+      90,
+      110,
+      90,
+      90,
+      70,
+      90
+     ]
+    },
+    {
+     "kw": "resume example",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      170,
+      110,
+      140,
+      110,
+      90,
+      110,
+      140,
+      90,
+      110,
+      70,
+      90,
+      90
+     ]
+    },
+    {
+     "kw": "cv format",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      70,
+      90,
+      110,
+      110,
+      110,
+      170,
+      170,
+      140,
+      50,
+      90,
+      110
+     ]
+    },
+    {
+     "kw": "как составить резюме",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      110,
+      90,
+      170,
+      70,
+      140,
+      110,
+      110,
+      140,
+      140,
+      110,
+      70
+     ]
+    },
+    {
+     "kw": "резюме пример",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      90,
+      50,
+      90,
+      70,
+      110,
+      90,
+      70,
+      110,
+      70,
+      50,
+      50
+     ]
+    },
+    {
+     "kw": "пример резюме",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      90,
+      70,
+      90,
+      90,
+      110,
+      70,
+      70,
+      110,
+      70,
+      70,
+      70
+     ]
+    },
+    {
+     "kw": "rezyume yaratish",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      140,
+      70,
+      90,
+      70,
+      110,
+      110,
+      90,
+      90,
+      90,
+      70,
+      90
+     ]
+    },
+    {
+     "kw": "rezyume namuna word",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      110,
+      90,
+      90,
+      110,
+      140,
+      90,
+      70,
+      90,
+      90,
+      90,
+      90
+     ]
+    },
+    {
+     "kw": "resume format",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      70,
+      70,
+      90,
+      90,
+      90,
+      70,
+      70,
+      70,
+      70,
+      50,
+      50
+     ]
+    },
+    {
+     "kw": "как написать резюме",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      70,
+      70,
+      70,
+      90,
+      70,
+      50,
+      70,
+      70,
+      90,
+      70,
+      70
+     ]
+    },
+    {
+     "kw": "составить резюме",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      70,
+      50,
+      70,
+      70,
+      70,
+      90,
+      90,
+      70,
+      70,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "резюме ташкент",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      20,
+      20,
+      50,
+      70,
+      70,
+      110,
+      110,
+      90,
+      90,
+      70,
+      110
+     ]
+    },
+    {
+     "kw": "резюме на английском",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      90,
+      70,
+      70,
+      70,
+      70,
+      70,
+      50,
+      70,
+      70,
+      40,
+      50
+     ]
+    },
+    {
+     "kw": "cv online",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      40,
+      70,
+      70,
+      70,
+      40,
+      40,
+      40,
+      30,
+      30,
+      50,
+      20
+     ]
+    },
+    {
+     "kw": "резюме намуна",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      30,
+      30,
+      30,
+      40,
+      30,
+      40,
+      70,
+      50,
+      50,
+      90,
+      50
+     ]
+    },
+    {
+     "kw": "резюме образец скачать",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      50,
+      50,
+      50,
+      40,
+      40,
+      40,
+      40,
+      40,
+      30,
+      30,
+      30
+     ]
+    },
+    {
+     "kw": "резюме образец word",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      20,
+      20,
+      50,
+      90,
+      70,
+      50,
+      30,
+      30,
+      20,
+      70
+     ]
+    },
+    {
+     "kw": "cv yaratish",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      40,
+      30,
+      50,
+      50,
+      50,
+      30,
+      50,
+      30,
+      40,
+      40,
+      50
+     ]
+    },
+    {
+     "kw": "cv for students",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      50,
+      50,
+      50,
+      70,
+      50,
+      50,
+      20,
+      10,
+      20,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "резюме скачать",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      30,
+      30,
+      50,
+      30,
+      20,
+      50,
+      20,
+      20,
+      40,
+      20,
+      10
+     ]
+    },
+    {
+     "kw": "резюме на работу образец",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      40,
+      30,
+      30,
+      30,
+      30,
+      40,
+      20,
+      70,
+      20,
+      40,
+      20
+     ]
+    },
+    {
+     "kw": "резюме на узбекском",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      40,
+      30,
+      30,
+      30,
+      20,
+      40,
+      30,
+      40,
+      30,
+      40,
+      30
+     ]
+    },
+    {
+     "kw": "резюме тайёрлаш",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      40,
+      40,
+      50,
+      40,
+      40,
+      40,
+      20,
+      40,
+      30,
+      10,
+      20
+     ]
+    },
+    {
+     "kw": "rezyume yuklab olish",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      30,
+      30,
+      40,
+      30,
+      20,
+      10,
+      20,
+      20,
+      20,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "cv yozish",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      20,
+      20,
+      10,
+      10,
+      20,
+      30,
+      30,
+      10,
+      20,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "how to write a cv",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      20,
+      30,
+      30,
+      10,
+      30,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "cv yozish namunasi",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      40,
+      30,
+      10,
+      20,
+      30,
+      30,
+      20,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "написать резюме",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "kw1_metrics.json",
+     "ser": [
+      30,
+      20,
+      20,
+      30,
+      20,
+      30,
+      20,
+      20,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "cv generator",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      20,
+      10,
+      10,
+      20,
+      20,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "cv for job",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      20,
+      10,
+      10,
+      20,
+      10,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "конструктор резюме",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      10,
+      10,
+      20,
+      10,
+      20,
+      20,
+      10,
+      10,
+      20,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "rezyume online",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "cv in english",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      10,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "нейросеть для резюме",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "kw1_metrics.json",
+     "ser": [
+      0,
+      0,
+      0,
+      10,
+      0,
+      10,
+      0,
+      10,
+      0,
+      0,
+      10,
+      0
+     ]
+    },
+    {
+     "kw": "cv ai",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      20,
+      10,
+      20,
+      20,
+      10,
+      10,
+      30,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "ai resume",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      0,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "резюме генератор",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      0,
+      10,
+      0,
+      10,
+      10,
+      10,
+      10,
+      0,
+      10,
+      10,
+      10,
+      10
+     ]
+    }
+   ],
+   "head": [
+    [
+     "cv",
+     3600
+    ],
+    [
+     "resume",
+     1600
+    ],
+    [
+     "резюме",
+     2900
+    ]
+   ],
+   "existing": [
+    [
+     "rezyume tayyorlash",
+     1900
+    ],
+    [
+     "rezyume namuna",
+     1600
+    ],
+    [
+     "rezyume",
+     1600
+    ],
+    [
+     "rezyume shablon",
+     1300
+    ],
+    [
+     "rezyume shabloni",
+     1300
+    ],
+    [
+     "resume tayyorlash",
+     390
+    ],
+    [
+     "rezyume nima",
+     320
+    ],
+    [
+     "cv tayyorlash",
+     210
+    ],
+    [
+     "rezyume to'ldirish",
+     140
+    ],
+    [
+     "cv namuna",
+     170
+    ],
+    [
+     "cv namunasi",
+     170
+    ],
+    [
+     "rezyume namunasi",
+     1600
+    ],
+    [
+     "rezyume yozish namunasi",
+     1600
+    ],
+    [
+     "rezume",
+     880
+    ],
+    [
+     "rezume namuna",
+     590
+    ],
+    [
+     "rezyume yozish",
+     40
+    ],
+    [
+     "rezyume qanday yoziladi",
+     30
+    ]
+   ],
+   "missing": [],
+   "dedup": [],
+   "excl": []
+  },
+  {
+   "id": "tarjimai_hol",
+   "name": "Tarjimai hol (avtobiografiya) namunasi + to‘ldirish shakli",
+   "k1": 0.06,
+   "aio": 0.533,
+   "demand_ads_core": 5390,
+   "demand_floor_core": 5390,
+   "demand_head_upper": 0,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    1.7,
+    3.0
+   ],
+   "visits_pos6_floor": [
+    1.7,
+    3.0
+   ],
+   "visits_pos3_ads": 5.2,
+   "visits_pos3_floor": 5.2,
+   "pos3_no_aio_ads": 9.7,
+   "m1_visits_ads_mid": 0.14,
+   "m1_visits_floor_mid": 0.14,
+   "months_to_full_pos6": 5.8,
+   "weeks_to_2_ads": 23,
+   "weeks_to_2_floor": 23,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 1.42,
+    "2025-11": 0.86,
+    "2025-12": 0.9,
+    "2026-01": 1.36,
+    "2026-02": 1.64,
+    "2026-03": 0.99,
+    "2026-04": 1.27,
+    "2026-05": 0.87,
+    "2026-06": 0.58,
+    "2026-07": 0.46,
+    "2026-08": 0.54,
+    "2026-09": 1.1
+   },
+   "keywords": [
+    {
+     "kw": "tarjimai hol",
+     "vol": 1600,
+     "floor": 1600,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1900,
+      880,
+      1300,
+      2400,
+      2900,
+      1900,
+      2400,
+      1600,
+      1000,
+      720,
+      1000,
+      2400
+     ]
+    },
+    {
+     "kw": "tarjimayi hol",
+     "vol": 1600,
+     "counted": false,
+     "same_bucket_as": "tarjimai hol",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "автобиография",
+     "vol": 1300,
+     "floor": 1300,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1600,
+      1300,
+      1600,
+      1600,
+      1900,
+      1300,
+      1300,
+      1000,
+      720,
+      720,
+      720,
+      1000
+     ]
+    },
+    {
+     "kw": "tarjimai hol yozish",
+     "vol": 880,
+     "floor": 880,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1900,
+      1000,
+      720,
+      1600,
+      1900,
+      590,
+      1000,
+      590,
+      480,
+      320,
+      390,
+      880
+     ]
+    },
+    {
+     "kw": "автобиография образец",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "avtobiografiya",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      480,
+      320,
+      260,
+      320,
+      320,
+      320,
+      320,
+      260,
+      170,
+      140,
+      110,
+      320
+     ]
+    },
+    {
+     "kw": "avtobiografiya namuna",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      210,
+      170,
+      210,
+      320,
+      170,
+      260,
+      170,
+      70,
+      90,
+      90,
+      210
+     ]
+    },
+    {
+     "kw": "tarjimai hol namunasi",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      70,
+      90,
+      210,
+      260,
+      210,
+      590,
+      260,
+      210,
+      90,
+      140,
+      170
+     ]
+    },
+    {
+     "kw": "tarjimai hol namuna",
+     "vol": 210,
+     "counted": false,
+     "same_bucket_as": "tarjimai hol namunasi",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "tarjimai hol blanka",
+     "vol": 170,
+     "floor": 170,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      390,
+      140,
+      140,
+      170,
+      210,
+      170,
+      210,
+      90,
+      90,
+      70,
+      110,
+      210
+     ]
+    },
+    {
+     "kw": "tarjimai xol",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      40,
+      30,
+      40,
+      40,
+      50,
+      70,
+      210,
+      70,
+      30,
+      30,
+      90
+     ]
+    },
+    {
+     "kw": "avtobiografiya yozish",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      170,
+      70,
+      110,
+      170,
+      110,
+      50,
+      40,
+      30,
+      30,
+      20,
+      70
+     ]
+    },
+    {
+     "kw": "tarjimai hol nima",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      110,
+      110,
+      70,
+      90,
+      50,
+      30,
+      50,
+      50,
+      10,
+      10,
+      10,
+      70
+     ]
+    },
+    {
+     "kw": "автобиография пример",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      20,
+      20,
+      30,
+      50,
+      40,
+      30,
+      20,
+      10,
+      20,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "автобиография намуна",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      20,
+      20,
+      30,
+      40,
+      30,
+      50,
+      40,
+      20,
+      30,
+      30,
+      30
+     ]
+    },
+    {
+     "kw": "автобиография бланк",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "автобиография образец на работу",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "как написать автобиографию",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      20,
+      10,
+      10,
+      40,
+      30,
+      20,
+      20,
+      10,
+      10,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "таржимаи ҳол",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      10,
+      10,
+      20,
+      10,
+      20,
+      10,
+      20,
+      10,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "таржимаи ҳол намуна",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      20,
+      10,
+      20,
+      20,
+      10,
+      20,
+      10,
+      20,
+      10,
+      20,
+      10
+     ]
+    }
+   ],
+   "head": [],
+   "existing": [],
+   "missing": [],
+   "dedup": [
+    [
+     "tarjimayi hol",
+     "tarjimai hol"
+    ],
+    [
+     "tarjimai hol namuna",
+     "tarjimai hol namunasi"
+    ]
+   ],
+   "excl": []
+  },
+  {
+   "id": "cyr_ru_mirrors",
+   "name": "Кириллица и RU для действующих гайдов: тушунтириш хати, ариза, тавсифнома; RU объяснительная, заявление, характеристика",
+   "k1": 0.04,
+   "aio": 0.655,
+   "demand_ads_core": 8290,
+   "demand_floor_core": 6045,
+   "demand_head_upper": 3120,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    2.5,
+    4.6
+   ],
+   "visits_pos6_floor": [
+    1.9,
+    3.3
+   ],
+   "visits_pos3_ads": 9.8,
+   "visits_pos3_floor": 7.1,
+   "pos3_no_aio_ads": 14.9,
+   "m1_visits_ads_mid": 0.14,
+   "m1_visits_floor_mid": 0.1,
+   "months_to_full_pos6": 7.5,
+   "weeks_to_2_ads": 23,
+   "weeks_to_2_floor": 28,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 1.04,
+    "2025-11": 0.87,
+    "2025-12": 0.81,
+    "2026-01": 0.88,
+    "2026-02": 1.11,
+    "2026-03": 0.96,
+    "2026-04": 1.32,
+    "2026-05": 1.15,
+    "2026-06": 0.99,
+    "2026-07": 0.83,
+    "2026-08": 0.83,
+    "2026-09": 1.21
+   },
+   "keywords": [
+    {
+     "kw": "тушунтириш хати",
+     "vol": 2900,
+     "floor": 655,
+     "jump": true,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      720,
+      590,
+      880,
+      1300,
+      2400,
+      2400,
+      3600,
+      4400,
+      4400,
+      3600,
+      3600,
+      5400
+     ]
+    },
+    {
+     "kw": "объяснительная",
+     "vol": 880,
+     "floor": 880,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1300,
+      1000,
+      880,
+      880,
+      1000,
+      880,
+      1300,
+      720,
+      480,
+      390,
+      390,
+      880
+     ]
+    },
+    {
+     "kw": "тавсифнома намуна",
+     "vol": 720,
+     "floor": 720,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1000,
+      720,
+      590,
+      880,
+      880,
+      720,
+      880,
+      720,
+      480,
+      480,
+      480,
+      390
+     ]
+    },
+    {
+     "kw": "тавсиянома намуна",
+     "vol": 720,
+     "counted": false,
+     "same_bucket_as": "тавсифнома намуна",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "ариза",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      480,
+      480,
+      480,
+      480,
+      480,
+      480,
+      590,
+      480,
+      480,
+      480,
+      480,
+      480
+     ]
+    },
+    {
+     "kw": "тушунтириш хати намуна",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      590,
+      590,
+      480,
+      390,
+      480,
+      320,
+      480,
+      320,
+      260,
+      260,
+      260,
+      320
+     ]
+    },
+    {
+     "kw": "ариза намуна",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      590,
+      480,
+      480,
+      480,
+      480,
+      260,
+      590,
+      480,
+      320,
+      210,
+      210,
+      260
+     ]
+    },
+    {
+     "kw": "ариза намунаси",
+     "vol": 390,
+     "counted": false,
+     "same_bucket_as": "ариза намуна",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "объяснительная в школу",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      720,
+      590,
+      480,
+      480,
+      590,
+      390,
+      720,
+      260,
+      20,
+      10,
+      10,
+      260
+     ]
+    },
+    {
+     "kw": "объяснительная образец",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      590,
+      480,
+      390,
+      390,
+      480,
+      390,
+      480,
+      260,
+      110,
+      90,
+      90,
+      320
+     ]
+    },
+    {
+     "kw": "заявление на увольнение",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      320,
+      260,
+      260,
+      320,
+      320,
+      320,
+      210,
+      260,
+      260,
+      260,
+      320
+     ]
+    },
+    {
+     "kw": "заявление на отпуск",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      260,
+      260,
+      210,
+      260,
+      260,
+      260,
+      320,
+      390,
+      390,
+      320,
+      260
+     ]
+    },
+    {
+     "kw": "тавсифнома",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      140,
+      110,
+      140,
+      140,
+      170,
+      170,
+      170,
+      140,
+      90,
+      90,
+      110
+     ]
+    },
+    {
+     "kw": "ариза ёзиш",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      210,
+      170,
+      170,
+      140,
+      140,
+      110,
+      50,
+      40,
+      30,
+      70,
+      70
+     ]
+    },
+    {
+     "kw": "характеристика образец",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      110,
+      110,
+      140,
+      110,
+      110,
+      110,
+      90,
+      90,
+      70,
+      70,
+      70
+     ]
+    },
+    {
+     "kw": "заявление образец",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      170,
+      90,
+      110,
+      90,
+      110,
+      70,
+      90,
+      70,
+      30,
+      30,
+      40,
+      50
+     ]
+    },
+    {
+     "kw": "заявление на работу",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      140,
+      90,
+      70,
+      140,
+      110,
+      110,
+      90,
+      50,
+      40,
+      70,
+      90
+     ]
+    },
+    {
+     "kw": "заявление в школу",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      140,
+      90,
+      110,
+      170,
+      90,
+      140,
+      70,
+      30,
+      10,
+      40,
+      90
+     ]
+    },
+    {
+     "kw": "образец заявления",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      90,
+      90,
+      70,
+      90,
+      70,
+      70,
+      70,
+      50,
+      30,
+      20,
+      50
+     ]
+    },
+    {
+     "kw": "характеристика на ученика",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      90,
+      140,
+      70,
+      70,
+      70,
+      110,
+      90,
+      30,
+      20,
+      10,
+      20
+     ]
+    },
+    {
+     "kw": "объяснительная записка",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      70,
+      30,
+      40,
+      70,
+      70,
+      70,
+      40,
+      40,
+      10,
+      10,
+      70
+     ]
+    },
+    {
+     "kw": "объяснительная записка образец",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      70,
+      50,
+      70,
+      90,
+      70,
+      70,
+      40,
+      30,
+      30,
+      20,
+      50
+     ]
+    },
+    {
+     "kw": "заявление о приеме на работу",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      50,
+      50,
+      70,
+      70,
+      50,
+      40,
+      90,
+      50,
+      30,
+      40,
+      30
+     ]
+    },
+    {
+     "kw": "как написать заявление",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      50,
+      50,
+      50,
+      70,
+      70,
+      70,
+      40,
+      20,
+      30,
+      30,
+      40
+     ]
+    },
+    {
+     "kw": "xarakteristika",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      50,
+      50,
+      40,
+      50,
+      50,
+      90,
+      70,
+      50,
+      40,
+      30,
+      40
+     ]
+    },
+    {
+     "kw": "xarakteristika namuna",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "kw2_metrics.json",
+     "ser": [
+      40,
+      40,
+      70,
+      90,
+      110,
+      70,
+      90,
+      70,
+      70,
+      10,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "как написать объяснительную",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      40,
+      50,
+      40,
+      70,
+      50,
+      70,
+      40,
+      10,
+      10,
+      10,
+      70
+     ]
+    },
+    {
+     "kw": "заявление на увольнение по собственному желанию",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      40,
+      30,
+      40,
+      40,
+      30,
+      40,
+      40,
+      50,
+      50,
+      30,
+      40
+     ]
+    },
+    {
+     "kw": "объяснительная за опоздание",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      50,
+      30,
+      30,
+      30,
+      30,
+      40,
+      10,
+      20,
+      10,
+      20,
+      50
+     ]
+    },
+    {
+     "kw": "характеристика на сотрудника",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      40,
+      30,
+      30,
+      40,
+      30,
+      30,
+      20,
+      20,
+      10,
+      20,
+      10
+     ]
+    },
+    {
+     "kw": "характеристика с места работы",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      20,
+      20,
+      20,
+      40,
+      30,
+      20,
+      10,
+      10,
+      20,
+      20,
+      10
+     ]
+    },
+    {
+     "kw": "характеристика намуна",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    }
+   ],
+   "head": [
+    [
+     "характеристика",
+     2400
+    ],
+    [
+     "заявление",
+     720
+    ]
+   ],
+   "existing": [
+    [
+     "tushuntirish xati",
+     1600
+    ],
+    [
+     "tushuntirish xati namunasi",
+     140
+    ],
+    [
+     "tushuntirish xati namuna",
+     2400
+    ],
+    [
+     "tushuntirish xati yozish",
+     170
+    ],
+    [
+     "ariza yozish",
+     2900
+    ],
+    [
+     "ariza namunasi",
+     590
+    ],
+    [
+     "ariza yozish namunasi",
+     2400
+    ],
+    [
+     "ariza yozish namuna",
+     2400
+    ],
+    [
+     "ariza namuna",
+     1300
+    ],
+    [
+     "ariza",
+     4400
+    ],
+    [
+     "ariza blanka",
+     320
+    ],
+    [
+     "ariza qanday yoziladi",
+     210
+    ],
+    [
+     "tavsifnoma namuna",
+     1600
+    ],
+    [
+     "tavsifnoma",
+     720
+    ],
+    [
+     "o'quvchiga tavsifnoma",
+     590
+    ],
+    [
+     "tavsifnoma namunasi word",
+     320
+    ],
+    [
+     "tavsifnoma yozish namuna",
+     260
+    ],
+    [
+     "ariza nima",
+     90
+    ],
+    [
+     "tushuntirish xati nima",
+     70
+    ]
+   ],
+   "missing": [],
+   "dedup": [
+    [
+     "ариза намунаси",
+     "ариза намуна"
+    ],
+    [
+     "тавсиянома намуна",
+     "тавсифнома намуна"
+    ]
+   ],
+   "excl": []
+  },
+  {
+   "id": "tilxat_ishonchnoma",
+   "name": "Tilxat va oddiy yozma ishonchnoma (namuna + to‘ldirish shakli)",
+   "k1": 0.06,
+   "aio": 0.655,
+   "demand_ads_core": 17980,
+   "demand_floor_core": 5000,
+   "demand_head_upper": 1900,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    5.5,
+    9.9
+   ],
+   "visits_pos6_floor": [
+    1.5,
+    2.8
+   ],
+   "visits_pos3_ads": 21.2,
+   "visits_pos3_floor": 5.9,
+   "pos3_no_aio_ads": 32.3,
+   "m1_visits_ads_mid": 0.46,
+   "m1_visits_floor_mid": 0.13,
+   "months_to_full_pos6": 5.8,
+   "weeks_to_2_ads": 11,
+   "weeks_to_2_floor": 25,
+   "weeks_to_5_ads": 20,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 0.26,
+    "2025-11": 0.31,
+    "2025-12": 0.47,
+    "2026-01": 0.73,
+    "2026-02": 0.93,
+    "2026-03": 0.99,
+    "2026-04": 1.46,
+    "2026-05": 1.71,
+    "2026-06": 1.3,
+    "2026-07": 1.13,
+    "2026-08": 1.03,
+    "2026-09": 1.68
+   },
+   "keywords": [
+    {
+     "kw": "тилхат",
+     "vol": 8100,
+     "floor": 230,
+     "jump": true,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      140,
+      320,
+      2400,
+      6600,
+      9900,
+      9900,
+      14800,
+      18100,
+      12100,
+      9900,
+      8100,
+      18100
+     ]
+    },
+    {
+     "kw": "tilxat yozish",
+     "vol": 5400,
+     "floor": 290,
+     "jump": true,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      320,
+      1000,
+      2900,
+      4400,
+      5400,
+      8100,
+      9900,
+      9900,
+      9900,
+      9900,
+      12100
+     ]
+    },
+    {
+     "kw": "tilxat",
+     "vol": 1000,
+     "floor": 1000,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      480,
+      720,
+      880,
+      880,
+      1000,
+      1000,
+      1600,
+      2400,
+      1900,
+      1000,
+      880,
+      1300
+     ]
+    },
+    {
+     "kw": "tilxat namuna",
+     "vol": 1000,
+     "floor": 1000,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1600,
+      1600,
+      1900,
+      1300,
+      1000,
+      1000,
+      1600,
+      1600,
+      590,
+      390,
+      480,
+      880
+     ]
+    },
+    {
+     "kw": "tilxat namunasi",
+     "vol": 1000,
+     "counted": false,
+     "same_bucket_as": "tilxat namuna",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "ishonchnoma",
+     "vol": 880,
+     "floor": 880,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      880,
+      880,
+      1000,
+      880,
+      880,
+      880,
+      1300,
+      880,
+      720,
+      720,
+      720,
+      590
+     ]
+    },
+    {
+     "kw": "ishonchnoma namunasi",
+     "vol": 590,
+     "floor": 590,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      590,
+      1000,
+      1000,
+      880,
+      480,
+      590,
+      720,
+      480,
+      260,
+      260,
+      170,
+      170
+     ]
+    },
+    {
+     "kw": "ishonchnoma namuna",
+     "vol": 590,
+     "counted": false,
+     "same_bucket_as": "ishonchnoma namunasi",
+     "src": "kw2_metrics.json"
+    },
+    {
+     "kw": "тилхат намуна",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      320,
+      260,
+      260,
+      260,
+      210,
+      210,
+      320,
+      260,
+      170,
+      110,
+      110,
+      170
+     ]
+    },
+    {
+     "kw": "ишончнома",
+     "vol": 170,
+     "floor": 170,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      170,
+      170,
+      210,
+      260,
+      210,
+      170,
+      210,
+      170,
+      170,
+      170,
+      170,
+      140
+     ]
+    },
+    {
+     "kw": "расписка",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      170,
+      170,
+      140,
+      140,
+      210,
+      210,
+      170,
+      110,
+      70,
+      50,
+      90,
+      140
+     ]
+    },
+    {
+     "kw": "ишончнома намуна",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      110,
+      20,
+      90,
+      90,
+      140,
+      140,
+      140,
+      110,
+      40,
+      20,
+      10
+     ]
+    },
+    {
+     "kw": "tilxat nima",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      140,
+      260,
+      170,
+      110,
+      70,
+      70,
+      50,
+      90,
+      30,
+      10,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "ishonchnoma nima",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      110,
+      210,
+      170,
+      110,
+      70,
+      70,
+      90,
+      90,
+      40,
+      40,
+      30,
+      40
+     ]
+    },
+    {
+     "kw": "доверенность образец",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      90,
+      110,
+      90,
+      70,
+      90,
+      90,
+      50,
+      50,
+      40,
+      50,
+      40
+     ]
+    },
+    {
+     "kw": "расписка образец",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      40,
+      70,
+      90,
+      50,
+      70,
+      40,
+      30,
+      30,
+      30,
+      70
+     ]
+    },
+    {
+     "kw": "tilxat qanday yoziladi",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      90,
+      50,
+      90,
+      40,
+      70,
+      50,
+      50,
+      70,
+      20,
+      20,
+      20,
+      70
+     ]
+    },
+    {
+     "kw": "ishonchnoma yozish",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      90,
+      70,
+      90,
+      10,
+      30,
+      30,
+      30,
+      20,
+      10,
+      10,
+      20
+     ]
+    },
+    {
+     "kw": "avtomobil ishonchnoma",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      20,
+      20,
+      10,
+      10,
+      10,
+      10
+     ]
+    }
+   ],
+   "head": [
+    [
+     "доверенность",
+     1900
+    ]
+   ],
+   "existing": [],
+   "missing": [],
+   "dedup": [
+    [
+     "tilxat namunasi",
+     "tilxat namuna"
+    ],
+    [
+     "ishonchnoma namuna",
+     "ishonchnoma namunasi"
+    ]
+   ],
+   "excl": []
+  },
+  {
+   "id": "certificates",
+   "name": "Faxriy yorliq, tashakkurnoma, minnatdorchilik xati — chop etiladigan blank generatori",
+   "k1": 0.08,
+   "aio": 0.655,
+   "demand_ads_core": 6460,
+   "demand_floor_core": 6460,
+   "demand_head_upper": 0,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    2.0,
+    3.6
+   ],
+   "visits_pos6_floor": [
+    2.0,
+    3.6
+   ],
+   "visits_pos3_ads": 7.6,
+   "visits_pos3_floor": 7.6,
+   "pos3_no_aio_ads": 11.6,
+   "m1_visits_ads_mid": 0.22,
+   "m1_visits_floor_mid": 0.22,
+   "months_to_full_pos6": 4.8,
+   "weeks_to_2_ads": 18,
+   "weeks_to_2_floor": 18,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 0.89,
+    "2025-11": 0.86,
+    "2025-12": 1.8,
+    "2026-01": 0.89,
+    "2026-02": 0.85,
+    "2026-03": 1.11,
+    "2026-04": 0.87,
+    "2026-05": 3.08,
+    "2026-06": 0.52,
+    "2026-07": 0.31,
+    "2026-08": 0.35,
+    "2026-09": 0.48
+   },
+   "keywords": [
+    {
+     "kw": "faxriy yorliq",
+     "vol": 1600,
+     "floor": 1600,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1600,
+      1600,
+      2900,
+      1600,
+      1300,
+      1600,
+      1300,
+      5400,
+      720,
+      480,
+      480,
+      720
+     ]
+    },
+    {
+     "kw": "tashakkurnoma",
+     "vol": 1300,
+     "floor": 1300,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1000,
+      1300,
+      2900,
+      1300,
+      1000,
+      1900,
+      1300,
+      3600,
+      720,
+      480,
+      590,
+      720
+     ]
+    },
+    {
+     "kw": "faxriy yorliq namuna",
+     "vol": 880,
+     "floor": 880,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      720,
+      480,
+      1300,
+      480,
+      590,
+      1000,
+      720,
+      3600,
+      260,
+      140,
+      170,
+      170
+     ]
+    },
+    {
+     "kw": "faxriy yorliq shablon",
+     "vol": 720,
+     "floor": 720,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      480,
+      720,
+      1600,
+      880,
+      880,
+      880,
+      720,
+      2400,
+      320,
+      140,
+      170,
+      210
+     ]
+    },
+    {
+     "kw": "tashakkurnoma shablon",
+     "vol": 720,
+     "floor": 720,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      590,
+      720,
+      1300,
+      480,
+      590,
+      590,
+      590,
+      1900,
+      480,
+      260,
+      320,
+      590
+     ]
+    },
+    {
+     "kw": "maqtov yorlig'i",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      390,
+      320,
+      720,
+      390,
+      480,
+      480,
+      390,
+      1600,
+      210,
+      140,
+      170,
+      210
+     ]
+    },
+    {
+     "kw": "tashakkurnoma namunasi",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      390,
+      210,
+      480,
+      260,
+      260,
+      390,
+      170,
+      880,
+      170,
+      40,
+      40,
+      110
+     ]
+    },
+    {
+     "kw": "sertifikat namuna",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      90,
+      90,
+      110,
+      210,
+      260,
+      210,
+      260,
+      320,
+      390,
+      210,
+      170,
+      260
+     ]
+    },
+    {
+     "kw": "minnatdorchilik xati",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      390,
+      50,
+      110,
+      50,
+      40,
+      70,
+      40,
+      90,
+      30,
+      50,
+      30,
+      50
+     ]
+    },
+    {
+     "kw": "благодарственное письмо",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      170,
+      70,
+      90,
+      50,
+      110,
+      210,
+      70,
+      40,
+      70,
+      70
+     ]
+    },
+    {
+     "kw": "фахрий ёрлиқ",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      50,
+      70,
+      140,
+      70,
+      50,
+      70,
+      40,
+      110,
+      20,
+      20,
+      70,
+      30
+     ]
+    },
+    {
+     "kw": "rahmatnoma",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      30,
+      50,
+      10,
+      20,
+      20,
+      20,
+      40,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "благодарственное письмо образец",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "sertifikat yaratish",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw2_metrics.json",
+     "ser": [
+      0,
+      0,
+      0,
+      30,
+      20,
+      20,
+      30,
+      20,
+      10,
+      10,
+      10,
+      10
+     ]
+    }
+   ],
+   "head": [],
+   "existing": [],
+   "missing": [],
+   "dedup": [],
+   "excl": []
+  },
+  {
+   "id": "recommendation",
+   "name": "Tavsiyanoma / recommendation letter (UZ/RU/EN)",
+   "k1": 0.04,
+   "aio": 0.655,
+   "demand_ads_core": 2960,
+   "demand_floor_core": 2960,
+   "demand_head_upper": 0,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    0.9,
+    1.6
+   ],
+   "visits_pos6_floor": [
+    0.9,
+    1.6
+   ],
+   "visits_pos3_ads": 3.5,
+   "visits_pos3_floor": 3.5,
+   "pos3_no_aio_ads": 5.3,
+   "m1_visits_ads_mid": 0.05,
+   "m1_visits_floor_mid": 0.05,
+   "months_to_full_pos6": 7.5,
+   "weeks_to_2_ads": null,
+   "weeks_to_2_floor": null,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 1.16,
+    "2025-11": 1.07,
+    "2025-12": 1.08,
+    "2026-01": 1.02,
+    "2026-02": 0.98,
+    "2026-03": 0.84,
+    "2026-04": 1.11,
+    "2026-05": 2.45,
+    "2026-06": 0.82,
+    "2026-07": 0.48,
+    "2026-08": 0.43,
+    "2026-09": 0.57
+   },
+   "keywords": [
+    {
+     "kw": "tavsiyanoma",
+     "vol": 880,
+     "floor": 880,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1000,
+      1000,
+      880,
+      720,
+      720,
+      720,
+      1000,
+      2900,
+      880,
+      480,
+      390,
+      480
+     ]
+    },
+    {
+     "kw": "recommendation letter",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      720,
+      720,
+      720,
+      720,
+      720,
+      480,
+      590,
+      390,
+      320,
+      210,
+      210,
+      320
+     ]
+    },
+    {
+     "kw": "letter of recommendation",
+     "vol": 480,
+     "counted": false,
+     "same_bucket_as": "recommendation letter",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "tavsiyanoma namuna",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      260,
+      260,
+      320,
+      320,
+      390,
+      590,
+      1300,
+      480,
+      210,
+      210,
+      210
+     ]
+    },
+    {
+     "kw": "tavsiyanoma namunasi",
+     "vol": 390,
+     "counted": false,
+     "same_bucket_as": "tavsiyanoma namuna",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "tavsiyanoma yozish",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      320,
+      260,
+      140,
+      140,
+      90,
+      140,
+      1900,
+      110,
+      70,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "recommendation letter sample",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      390,
+      320,
+      480,
+      480,
+      390,
+      260,
+      260,
+      260,
+      170,
+      90,
+      90,
+      170
+     ]
+    },
+    {
+     "kw": "рекомендательное письмо",
+     "vol": 170,
+     "floor": 170,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      170,
+      170,
+      210,
+      210,
+      210,
+      210,
+      170,
+      170,
+      140,
+      110,
+      110
+     ]
+    },
+    {
+     "kw": "тавсиянома",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      90,
+      110,
+      110,
+      110,
+      110,
+      170,
+      170,
+      140,
+      90,
+      90,
+      70
+     ]
+    },
+    {
+     "kw": "reference letter",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      50,
+      110,
+      110,
+      110,
+      40,
+      70,
+      40,
+      30,
+      20,
+      40,
+      70
+     ]
+    },
+    {
+     "kw": "taqdimnoma",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      90,
+      70,
+      50,
+      90,
+      90,
+      90,
+      70,
+      70,
+      50,
+      40,
+      70
+     ]
+    },
+    {
+     "kw": "recommendation letter for student",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      70,
+      70,
+      40,
+      30,
+      30,
+      20,
+      20,
+      10,
+      20,
+      30
+     ]
+    },
+    {
+     "kw": "рекомендательное письмо образец",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "рекомендательное письмо студенту",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      30,
+      30,
+      40,
+      30,
+      30,
+      40,
+      10,
+      20,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "rekomendatsiya",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      20,
+      10,
+      10,
+      10,
+      10,
+      90,
+      50,
+      10,
+      10,
+      10,
+      50
+     ]
+    },
+    {
+     "kw": "tavsiya xati",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      20,
+      20,
+      20,
+      10,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "tavsiya xati namuna",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      20,
+      30,
+      10,
+      20,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "taqdimnoma namuna",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      0,
+      10
+     ]
+    }
+   ],
+   "head": [],
+   "existing": [],
+   "missing": [],
+   "dedup": [
+    [
+     "tavsiyanoma namunasi",
+     "tavsiyanoma namuna"
+    ],
+    [
+     "letter of recommendation",
+     "recommendation letter"
+    ]
+   ],
+   "excl": []
+  },
+  {
+   "id": "motivation_cover",
+   "name": "Motivatsion xat, cover letter, personal statement (o‘qish va ish uchun)",
+   "k1": 0.04,
+   "aio": 0.655,
+   "demand_ads_core": 2630,
+   "demand_floor_core": 2630,
+   "demand_head_upper": 0,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    0.8,
+    1.5
+   ],
+   "visits_pos6_floor": [
+    0.8,
+    1.5
+   ],
+   "visits_pos3_ads": 3.1,
+   "visits_pos3_floor": 3.1,
+   "pos3_no_aio_ads": 4.7,
+   "m1_visits_ads_mid": 0.05,
+   "m1_visits_floor_mid": 0.05,
+   "months_to_full_pos6": 7.5,
+   "weeks_to_2_ads": null,
+   "weeks_to_2_floor": null,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 1.09,
+    "2025-11": 1.07,
+    "2025-12": 1.76,
+    "2026-01": 1.36,
+    "2026-02": 1.44,
+    "2026-03": 0.86,
+    "2026-04": 1.04,
+    "2026-05": 0.75,
+    "2026-06": 0.66,
+    "2026-07": 0.6,
+    "2026-08": 0.62,
+    "2026-09": 0.75
+   },
+   "keywords": [
+    {
+     "kw": "motivation letter",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      390,
+      590,
+      480,
+      590,
+      720,
+      480,
+      590,
+      390,
+      260,
+      210,
+      210,
+      260
+     ]
+    },
+    {
+     "kw": "motivation letter example",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      390,
+      320,
+      480,
+      480,
+      260,
+      390,
+      260,
+      170,
+      170,
+      140,
+      170
+     ]
+    },
+    {
+     "kw": "motivation letter sample",
+     "vol": 320,
+     "counted": false,
+     "same_bucket_as": "motivation letter example",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "cover letter",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      480,
+      390,
+      320,
+      590,
+      320,
+      260,
+      320,
+      210,
+      170,
+      140,
+      170,
+      260
+     ]
+    },
+    {
+     "kw": "сопроводительное письмо",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "kw1_metrics.json",
+     "ser": [
+      320,
+      260,
+      260,
+      260,
+      260,
+      260,
+      260,
+      210,
+      320,
+      260,
+      260,
+      260
+     ]
+    },
+    {
+     "kw": "cover letter example",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      110,
+      1000,
+      260,
+      390,
+      110,
+      140,
+      110,
+      90,
+      70,
+      50,
+      90
+     ]
+    },
+    {
+     "kw": "personal statement example",
+     "vol": 170,
+     "floor": 170,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      170,
+      260,
+      170,
+      140,
+      110,
+      110,
+      70,
+      110,
+      140,
+      140,
+      210
+     ]
+    },
+    {
+     "kw": "personal statement",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      110,
+      210,
+      170,
+      140,
+      140,
+      110,
+      110,
+      90,
+      140,
+      140,
+      210
+     ]
+    },
+    {
+     "kw": "how to write a cover letter",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      880,
+      10,
+      260,
+      20,
+      10,
+      10,
+      20,
+      10,
+      20,
+      10
+     ]
+    },
+    {
+     "kw": "мотивационное письмо",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      110,
+      90,
+      90,
+      110,
+      70,
+      90,
+      70,
+      70,
+      70,
+      70,
+      70
+     ]
+    },
+    {
+     "kw": "motivation letter for university",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      70,
+      70,
+      110,
+      90,
+      70,
+      90,
+      70,
+      50,
+      40,
+      40,
+      40
+     ]
+    },
+    {
+     "kw": "motivatsion xat",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      70,
+      40,
+      50,
+      110,
+      50,
+      90,
+      70,
+      70,
+      40,
+      40,
+      20
+     ]
+    },
+    {
+     "kw": "cover letter sample",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      40,
+      90,
+      90,
+      50,
+      40,
+      40,
+      50,
+      30,
+      40,
+      30,
+      40
+     ]
+    },
+    {
+     "kw": "сопроводительное письмо к резюме",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      50,
+      70,
+      70,
+      50,
+      70,
+      50,
+      50,
+      50,
+      40,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "сопроводительное письмо пример",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "motivation letter for scholarship",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      70,
+      50,
+      110,
+      90,
+      30,
+      40,
+      20,
+      20,
+      10,
+      20,
+      10
+     ]
+    },
+    {
+     "kw": "how to write motivation letter",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      50,
+      40,
+      50,
+      50,
+      40,
+      50,
+      20,
+      30,
+      20,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "motivatsion xat namunasi",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      30,
+      50,
+      50,
+      90,
+      10,
+      40,
+      30,
+      20,
+      10,
+      40,
+      20
+     ]
+    },
+    {
+     "kw": "motivatsion xat namuna",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      30,
+      50,
+      50,
+      90,
+      10,
+      40,
+      30,
+      20,
+      10,
+      40,
+      20
+     ]
+    },
+    {
+     "kw": "мотивационное письмо пример",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      40,
+      20,
+      50,
+      50,
+      30,
+      30,
+      20,
+      10,
+      30,
+      20,
+      10
+     ]
+    },
+    {
+     "kw": "cover letter template",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      30,
+      40,
+      50,
+      40,
+      30,
+      20,
+      30,
+      10,
+      20,
+      20,
+      40
+     ]
+    },
+    {
+     "kw": "statement of purpose",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      30,
+      20,
+      50,
+      30,
+      40,
+      70,
+      20,
+      20,
+      10,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "cover letter for job",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      10,
+      20,
+      20,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "мотивационное письмо образец",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "мотивационное письмо в университет образец",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    }
+   ],
+   "head": [],
+   "existing": [],
+   "missing": [],
+   "dedup": [
+    [
+     "motivation letter sample",
+     "motivation letter example"
+    ]
+   ],
+   "excl": []
+  },
+  {
+   "id": "career_test",
+   "name": "Kasb tanlash testi (o‘z savollari) + kasblar ro‘yxati",
+   "k1": 0.06,
+   "aio": 0.655,
+   "demand_ads_core": 1910,
+   "demand_floor_core": 1910,
+   "demand_head_upper": 1300,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    0.6,
+    1.1
+   ],
+   "visits_pos6_floor": [
+    0.6,
+    1.1
+   ],
+   "visits_pos3_ads": 2.2,
+   "visits_pos3_floor": 2.2,
+   "pos3_no_aio_ads": 3.4,
+   "m1_visits_ads_mid": 0.05,
+   "m1_visits_floor_mid": 0.05,
+   "months_to_full_pos6": 5.8,
+   "weeks_to_2_ads": null,
+   "weeks_to_2_floor": null,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 1.51,
+    "2025-11": 1.36,
+    "2025-12": 1.09,
+    "2026-01": 1.28,
+    "2026-02": 1.19,
+    "2026-03": 1.22,
+    "2026-04": 1.52,
+    "2026-05": 0.86,
+    "2026-06": 0.44,
+    "2026-07": 0.39,
+    "2026-08": 0.51,
+    "2026-09": 0.62
+   },
+   "keywords": [
+    {
+     "kw": "kasblar ro'yxati",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1300,
+      880,
+      720,
+      590,
+      390,
+      320,
+      480,
+      210,
+      110,
+      110,
+      110,
+      170
+     ]
+    },
+    {
+     "kw": "kelajak kasblari",
+     "vol": 480,
+     "floor": 480,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      590,
+      720,
+      480,
+      480,
+      1000,
+      1000,
+      720,
+      480,
+      140,
+      90,
+      110,
+      260
+     ]
+    },
+    {
+     "kw": "kasb tanlash",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      170,
+      210,
+      210,
+      210,
+      260,
+      480,
+      260,
+      90,
+      50,
+      70,
+      110
+     ]
+    },
+    {
+     "kw": "kasb tanlash testi",
+     "vol": 170,
+     "floor": 170,
+     "jump": false,
+     "counted": true,
+     "src": "ep_kw1_metrics.json",
+     "ser": [
+      90,
+      90,
+      110,
+      140,
+      110,
+      260,
+      590,
+      210,
+      110,
+      110,
+      140,
+      210
+     ]
+    },
+    {
+     "kw": "тест на профориентацию",
+     "vol": 170,
+     "floor": 170,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      170,
+      210,
+      140,
+      260,
+      210,
+      140,
+      170,
+      170,
+      140,
+      140,
+      170,
+      140
+     ]
+    },
+    {
+     "kw": "eng yaxshi kasblar",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      210,
+      170,
+      140,
+      110,
+      110,
+      170,
+      50,
+      40,
+      40,
+      20,
+      40
+     ]
+    },
+    {
+     "kw": "профориентация тест",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "ep_kw1_metrics.json",
+     "ser": [
+      90,
+      90,
+      70,
+      320,
+      70,
+      70,
+      90,
+      70,
+      70,
+      70,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "тест на профессию",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      90,
+      50,
+      140,
+      110,
+      90,
+      110,
+      110,
+      90,
+      90,
+      110,
+      90
+     ]
+    },
+    {
+     "kw": "career test",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      20,
+      10,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      140,
+      40
+     ]
+    },
+    {
+     "kw": "eng ko'p maosh oladigan kasblar",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      40,
+      50,
+      70,
+      10,
+      20,
+      20,
+      10,
+      10,
+      10,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "kasb tanlash test",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      20,
+      30,
+      10,
+      10,
+      20,
+      40,
+      30,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "какая профессия мне подходит",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      30,
+      30,
+      30,
+      20,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "профориентационный тест",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    }
+   ],
+   "head": [
+    [
+     "kasblar",
+     1300
+    ]
+   ],
+   "existing": [],
+   "missing": [],
+   "dedup": [],
+   "excl": []
+  },
+  {
+   "id": "contracts_hold",
+   "name": "Shartnoma namunalari (mehnat, pudrat, oldi-sotdi, ijara) — HOLD",
+   "k1": 0.04,
+   "aio": 0.655,
+   "demand_ads_core": 10100,
+   "demand_floor_core": 10100,
+   "demand_head_upper": 9660,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    3.1,
+    5.6
+   ],
+   "visits_pos6_floor": [
+    3.1,
+    5.6
+   ],
+   "visits_pos3_ads": 11.9,
+   "visits_pos3_floor": 11.9,
+   "pos3_no_aio_ads": 18.1,
+   "m1_visits_ads_mid": 0.17,
+   "m1_visits_floor_mid": 0.17,
+   "months_to_full_pos6": 7.5,
+   "weeks_to_2_ads": 20,
+   "weeks_to_2_floor": 20,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 0.92,
+    "2025-11": 0.75,
+    "2025-12": 0.87,
+    "2026-01": 0.86,
+    "2026-02": 1.16,
+    "2026-03": 1.02,
+    "2026-04": 1.15,
+    "2026-05": 0.97,
+    "2026-06": 0.79,
+    "2026-07": 0.82,
+    "2026-08": 0.67,
+    "2026-09": 2.03
+   },
+   "keywords": [
+    {
+     "kw": "ижара шартномаси",
+     "vol": 2900,
+     "floor": 2900,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      1000,
+      880,
+      1000,
+      2400,
+      3600,
+      3600,
+      4400,
+      4400,
+      3600,
+      3600,
+      2900,
+      6600
+     ]
+    },
+    {
+     "kw": "ijara shartnomasi",
+     "vol": 2400,
+     "floor": 2400,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      4400,
+      2900,
+      2400,
+      2400,
+      2400,
+      1900,
+      1900,
+      1600,
+      1300,
+      1300,
+      1600,
+      4400
+     ]
+    },
+    {
+     "kw": "mehnat shartnomasi",
+     "vol": 1600,
+     "floor": 1600,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      880,
+      880,
+      2400,
+      880,
+      1000,
+      880,
+      1000,
+      720,
+      480,
+      1300,
+      480,
+      6600
+     ]
+    },
+    {
+     "kw": "pudrat shartnomasi",
+     "vol": 880,
+     "floor": 880,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      170,
+      390,
+      480,
+      1000,
+      1300,
+      1600,
+      1000,
+      880,
+      720,
+      480,
+      1000
+     ]
+    },
+    {
+     "kw": "shartnoma namunasi",
+     "vol": 390,
+     "floor": 390,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      480,
+      720,
+      720,
+      480,
+      390,
+      480,
+      480,
+      390,
+      260,
+      110,
+      210,
+      210
+     ]
+    },
+    {
+     "kw": "oldi sotdi shartnomasi",
+     "vol": 320,
+     "floor": 320,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      390,
+      390,
+      320,
+      390,
+      390,
+      390,
+      320,
+      210,
+      170,
+      170,
+      140,
+      260
+     ]
+    },
+    {
+     "kw": "трудовой договор",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      260,
+      210,
+      320,
+      210,
+      210,
+      210,
+      210,
+      210,
+      140,
+      140,
+      210
+     ]
+    },
+    {
+     "kw": "договор купли продажи",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      140,
+      110,
+      70,
+      1300,
+      90,
+      110,
+      70,
+      70,
+      90,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "mehnat shartnomasi namunasi",
+     "vol": 170,
+     "floor": 170,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      140,
+      90,
+      140,
+      170,
+      170,
+      210,
+      110,
+      110,
+      70,
+      110,
+      210
+     ]
+    },
+    {
+     "kw": "mehnat shartnomasi namuna",
+     "vol": 170,
+     "counted": false,
+     "same_bucket_as": "mehnat shartnomasi namunasi",
+     "src": "dc_kw1_metrics.json"
+    },
+    {
+     "kw": "hadya shartnomasi",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      170,
+      170,
+      170,
+      210,
+      210,
+      210,
+      110,
+      110,
+      90,
+      70,
+      70
+     ]
+    },
+    {
+     "kw": "договор аренды",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      140,
+      170,
+      170,
+      170,
+      140,
+      90,
+      90,
+      90,
+      110,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "qarz shartnomasi",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      170,
+      140,
+      90,
+      140,
+      140,
+      170,
+      90,
+      110,
+      70,
+      50,
+      40
+     ]
+    },
+    {
+     "kw": "shartnoma namunalari",
+     "vol": 90,
+     "floor": 90,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      40,
+      70,
+      50,
+      90,
+      140,
+      140,
+      170,
+      90,
+      70,
+      40,
+      90
+     ]
+    },
+    {
+     "kw": "договор аренды квартиры",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      70,
+      70,
+      90,
+      70,
+      90,
+      90,
+      90,
+      70,
+      50,
+      70,
+      90
+     ]
+    },
+    {
+     "kw": "ijara shartnomasi namunasi",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      70,
+      70,
+      50,
+      50,
+      70,
+      50,
+      40,
+      40,
+      50,
+      30
+     ]
+    },
+    {
+     "kw": "ijara shartnomasi namuna",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      70,
+      70,
+      50,
+      50,
+      70,
+      50,
+      40,
+      40,
+      50,
+      30
+     ]
+    },
+    {
+     "kw": "трудовой договор узбекистан",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      50,
+      50,
+      50,
+      70,
+      50,
+      70,
+      70,
+      50,
+      50,
+      50,
+      50
+     ]
+    },
+    {
+     "kw": "shartnoma tuzish",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      90,
+      50,
+      50,
+      70,
+      90,
+      70,
+      90,
+      40,
+      20,
+      20,
+      30
+     ]
+    },
+    {
+     "kw": "договор на оказание услуг",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "shartnoma namuna",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "kw2_metrics.json",
+     "ser": [
+      50,
+      50,
+      90,
+      50,
+      50,
+      50,
+      70,
+      70,
+      40,
+      30,
+      10,
+      50
+     ]
+    },
+    {
+     "kw": "qarz shartnomasi namunasi",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      40,
+      30,
+      50,
+      70,
+      70,
+      70,
+      30,
+      40,
+      30,
+      40,
+      40
+     ]
+    },
+    {
+     "kw": "договор займа",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      50,
+      50,
+      40,
+      40,
+      50,
+      50,
+      20,
+      30,
+      30,
+      30,
+      20
+     ]
+    },
+    {
+     "kw": "трудовой договор образец",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "uy ijara shartnomasi",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      20,
+      40,
+      30,
+      20,
+      20,
+      50,
+      20,
+      20,
+      30,
+      20,
+      50
+     ]
+    },
+    {
+     "kw": "меҳнат шартномаси",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      20,
+      30,
+      20,
+      30,
+      30,
+      40,
+      10,
+      20,
+      20,
+      20,
+      20
+     ]
+    }
+   ],
+   "head": [
+    [
+     "shartnoma",
+     8100
+    ],
+    [
+     "договор",
+     1300
+    ],
+    [
+     "шартнома",
+     260
+    ]
+   ],
+   "existing": [],
+   "missing": [],
+   "dedup": [
+    [
+     "mehnat shartnomasi namuna",
+     "mehnat shartnomasi namunasi"
+    ]
+   ],
+   "excl": []
+  }
+ ],
+ "extra": [
+  {
+   "id": "business_proposal",
+   "name": "Tijorat taklifi / коммерческое предложение",
+   "k1": 0.04,
+   "aio": 0.655,
+   "demand_ads_core": 1360,
+   "demand_floor_core": 1360,
+   "demand_head_upper": 3990,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    0.4,
+    0.8
+   ],
+   "visits_pos6_floor": [
+    0.4,
+    0.8
+   ],
+   "visits_pos3_ads": 1.6,
+   "visits_pos3_floor": 1.6,
+   "pos3_no_aio_ads": 2.4,
+   "m1_visits_ads_mid": 0.02,
+   "m1_visits_floor_mid": 0.02,
+   "months_to_full_pos6": 7.5,
+   "weeks_to_2_ads": null,
+   "weeks_to_2_floor": null,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 0.98,
+    "2025-11": 0.79,
+    "2025-12": 0.88,
+    "2026-01": 0.95,
+    "2026-02": 1.01,
+    "2026-03": 1.05,
+    "2026-04": 1.17,
+    "2026-05": 1.06,
+    "2026-06": 1.13,
+    "2026-07": 1.05,
+    "2026-08": 0.94,
+    "2026-09": 0.99
+   },
+   "keywords": [
+    {
+     "kw": "коммерческое предложение",
+     "vol": 720,
+     "floor": 720,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      880,
+      720,
+      720,
+      720,
+      720,
+      720,
+      720,
+      590,
+      720,
+      720,
+      590,
+      480
+     ]
+    },
+    {
+     "kw": "коммерческое предложение образец",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "tijorat taklifi",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      50,
+      90,
+      140,
+      170,
+      260,
+      260,
+      320,
+      320,
+      260,
+      260,
+      390
+     ]
+    },
+    {
+     "kw": "tijorat taklifi namuna",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      30,
+      70,
+      110,
+      140,
+      90,
+      210,
+      170,
+      110,
+      90,
+      110,
+      140
+     ]
+    },
+    {
+     "kw": "коммерческое предложение образец word",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "образец коммерческого предложения",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "коммерческое предложение пример",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    }
+   ],
+   "head": [
+    [
+     "biznes taklif",
+     3600
+    ],
+    [
+     "hisob faktura",
+     110
+    ],
+    [
+     "счет фактура образец",
+     70
+    ],
+    [
+     "счет на оплату образец",
+     50
+    ],
+    [
+     "yuk xati namuna",
+     90
+    ],
+    [
+     "накладная образец",
+     70
+    ]
+   ],
+   "existing": [],
+   "missing": [],
+   "dedup": [],
+   "excl": []
+  },
+  {
+   "id": "interview",
+   "name": "Ish suhbati / собеседование",
+   "k1": 0.04,
+   "aio": 0.655,
+   "demand_ads_core": 780,
+   "demand_floor_core": 780,
+   "demand_head_upper": 880,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    0.2,
+    0.4
+   ],
+   "visits_pos6_floor": [
+    0.2,
+    0.4
+   ],
+   "visits_pos3_ads": 0.9,
+   "visits_pos3_floor": 0.9,
+   "pos3_no_aio_ads": 1.4,
+   "m1_visits_ads_mid": 0.01,
+   "m1_visits_floor_mid": 0.01,
+   "months_to_full_pos6": 7.5,
+   "weeks_to_2_ads": null,
+   "weeks_to_2_floor": null,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 1.02,
+    "2025-11": 0.84,
+    "2025-12": 1.97,
+    "2026-01": 0.87,
+    "2026-02": 1.46,
+    "2026-03": 0.92,
+    "2026-04": 0.92,
+    "2026-05": 0.79,
+    "2026-06": 0.83,
+    "2026-07": 0.73,
+    "2026-08": 0.82,
+    "2026-09": 0.83
+   },
+   "keywords": [
+    {
+     "kw": "собеседование",
+     "vol": 260,
+     "floor": 260,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      210,
+      170,
+      260,
+      210,
+      260,
+      260,
+      260,
+      260,
+      260,
+      320,
+      210
+     ]
+    },
+    {
+     "kw": "interview questions and answers",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      880,
+      10,
+      260,
+      30,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "tell me about yourself",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      170,
+      140,
+      140,
+      170,
+      140,
+      140,
+      90,
+      90,
+      70,
+      70,
+      110
+     ]
+    },
+    {
+     "kw": "intervyu savollari",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      50,
+      140,
+      40,
+      260,
+      10,
+      30,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "interview questions",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      40,
+      40,
+      70,
+      50,
+      70,
+      50,
+      40,
+      70,
+      20,
+      40,
+      30
+     ]
+    },
+    {
+     "kw": "собеседование на английском",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      40,
+      40,
+      40,
+      50,
+      40,
+      50,
+      50,
+      50,
+      50,
+      70,
+      50
+     ]
+    },
+    {
+     "kw": "suhbat savollari",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      20,
+      20,
+      30,
+      30,
+      20,
+      30,
+      30,
+      30,
+      70,
+      50,
+      70
+     ]
+    },
+    {
+     "kw": "job interview questions",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      40,
+      40,
+      50,
+      50,
+      30,
+      30,
+      20,
+      20,
+      10,
+      30
+     ]
+    },
+    {
+     "kw": "вопросы работодателю на собеседовании",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      0,
+      10,
+      50,
+      50,
+      50,
+      30,
+      10,
+      10,
+      70
+     ]
+    },
+    {
+     "kw": "bank suhbat savollari",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      10,
+      10,
+      20,
+      10,
+      20,
+      20,
+      40,
+      10,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "вопросы на собеседовании",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      20,
+      10,
+      10,
+      20,
+      10,
+      10,
+      10,
+      20,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "interview in english",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      10,
+      10,
+      20,
+      10,
+      10,
+      20,
+      10,
+      20,
+      10,
+      10,
+      20
+     ]
+    }
+   ],
+   "head": [
+    [
+     "intervyu",
+     880
+    ]
+   ],
+   "existing": [],
+   "missing": [],
+   "dedup": [],
+   "excl": []
+  },
+  {
+   "id": "invitation_text",
+   "name": "Taklifnoma matni (rasmiy taklifnoma)",
+   "k1": 0.04,
+   "aio": 0.655,
+   "demand_ads_core": 190,
+   "demand_floor_core": 190,
+   "demand_head_upper": 2900,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    0.1,
+    0.1
+   ],
+   "visits_pos6_floor": [
+    0.1,
+    0.1
+   ],
+   "visits_pos3_ads": 0.2,
+   "visits_pos3_floor": 0.2,
+   "pos3_no_aio_ads": 0.3,
+   "m1_visits_ads_mid": 0.0,
+   "m1_visits_floor_mid": 0.0,
+   "months_to_full_pos6": 7.5,
+   "weeks_to_2_ads": null,
+   "weeks_to_2_floor": null,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 1.86,
+    "2025-11": 1.21,
+    "2025-12": 0.88,
+    "2026-01": 0.49,
+    "2026-02": 0.55,
+    "2026-03": 0.49,
+    "2026-04": 0.82,
+    "2026-05": 1.15,
+    "2026-06": 0.82,
+    "2026-07": 1.04,
+    "2026-08": 1.42,
+    "2026-09": 1.26
+   },
+   "keywords": [
+    {
+     "kw": "taklifnoma matni",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      260,
+      140,
+      70,
+      50,
+      70,
+      50,
+      90,
+      110,
+      70,
+      70,
+      110,
+      110
+     ]
+    },
+    {
+     "kw": "taklifnoma namuna",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      50,
+      70,
+      30,
+      20,
+      30,
+      50,
+      90,
+      70,
+      110,
+      140,
+      110
+     ]
+    },
+    {
+     "kw": "to'y taklifnoma matni",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      30,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    }
+   ],
+   "head": [
+    [
+     "taklifnoma",
+     2900
+    ]
+   ],
+   "existing": [],
+   "missing": [],
+   "dedup": [],
+   "excl": []
+  },
+  {
+   "id": "hr_calcs",
+   "name": "Staj / oylik kalkulyatori",
+   "k1": 0.06,
+   "aio": 0.655,
+   "demand_ads_core": 760,
+   "demand_floor_core": 760,
+   "demand_head_upper": 0,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    0.2,
+    0.4
+   ],
+   "visits_pos6_floor": [
+    0.2,
+    0.4
+   ],
+   "visits_pos3_ads": 0.9,
+   "visits_pos3_floor": 0.9,
+   "pos3_no_aio_ads": 1.4,
+   "m1_visits_ads_mid": 0.02,
+   "m1_visits_floor_mid": 0.02,
+   "months_to_full_pos6": 5.8,
+   "weeks_to_2_ads": null,
+   "weeks_to_2_floor": null,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 1.13,
+    "2025-11": 0.97,
+    "2025-12": 1.06,
+    "2026-01": 1.32,
+    "2026-02": 1.02,
+    "2026-03": 0.9,
+    "2026-04": 1.0,
+    "2026-05": 0.8,
+    "2026-06": 0.93,
+    "2026-07": 0.75,
+    "2026-08": 0.87,
+    "2026-09": 1.25
+   },
+   "keywords": [
+    {
+     "kw": "oylik hisoblash",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      210,
+      260,
+      260,
+      170,
+      140,
+      140,
+      110,
+      110,
+      70,
+      170,
+      390
+     ]
+    },
+    {
+     "kw": "стаж калькулятор",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      110,
+      110,
+      140,
+      210,
+      140,
+      140,
+      140,
+      110,
+      210,
+      140,
+      140,
+      110
+     ]
+    },
+    {
+     "kw": "калькулятор стажа",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      140,
+      170,
+      140,
+      210,
+      210,
+      140,
+      170,
+      140,
+      140,
+      140,
+      110,
+      170
+     ]
+    },
+    {
+     "kw": "staj kalkulyator",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      50,
+      50,
+      90,
+      50,
+      50,
+      70,
+      40,
+      90,
+      50,
+      70,
+      90
+     ]
+    },
+    {
+     "kw": "ish haqi hisoblash",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      50,
+      40,
+      50,
+      50,
+      40,
+      30,
+      40,
+      20,
+      40,
+      30,
+      30
+     ]
+    },
+    {
+     "kw": "калькулятор зарплаты",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      20,
+      40,
+      50,
+      40,
+      30,
+      50,
+      30,
+      20,
+      20,
+      30,
+      40
+     ]
+    },
+    {
+     "kw": "ish staji",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      20,
+      20,
+      30,
+      30,
+      30,
+      30,
+      40,
+      50,
+      40,
+      30,
+      30,
+      30
+     ]
+    },
+    {
+     "kw": "daromad solig'i hisoblash",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      40,
+      50,
+      50,
+      30,
+      40,
+      40,
+      20,
+      10,
+      20,
+      20,
+      10
+     ]
+    },
+    {
+     "kw": "soliq hisoblash",
+     "vol": 20,
+     "floor": 20,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      20,
+      20,
+      20,
+      20,
+      30,
+      30,
+      20,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "staj hisoblash",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      20,
+      10,
+      20,
+      20,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "oylik maosh hisoblash",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      30,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      20,
+      40
+     ]
+    },
+    {
+     "kw": "калькулятор зарплаты узбекистан",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      20,
+      10,
+      10,
+      10,
+      20,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "отпускные калькулятор",
+     "vol": 10,
+     "floor": 10,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      20,
+      20,
+      10,
+      10,
+      10
+     ]
+    }
+   ],
+   "head": [],
+   "existing": [],
+   "missing": [],
+   "dedup": [],
+   "excl": []
+  },
+  {
+   "id": "hr_orders",
+   "name": "Buyruq / приказ / lavozim yo‘riqnomasi",
+   "k1": 0.04,
+   "aio": 0.655,
+   "demand_ads_core": 1690,
+   "demand_floor_core": 1690,
+   "demand_head_upper": 1000,
+   "demand_susp_upper": 0,
+   "susp": [],
+   "visits_pos6_ads": [
+    0.5,
+    0.9
+   ],
+   "visits_pos6_floor": [
+    0.5,
+    0.9
+   ],
+   "visits_pos3_ads": 2.0,
+   "visits_pos3_floor": 2.0,
+   "pos3_no_aio_ads": 3.0,
+   "m1_visits_ads_mid": 0.03,
+   "m1_visits_floor_mid": 0.03,
+   "months_to_full_pos6": 7.5,
+   "weeks_to_2_ads": null,
+   "weeks_to_2_floor": null,
+   "weeks_to_5_ads": null,
+   "weeks_to_5_floor": null,
+   "weeks_to_10_ads": null,
+   "weeks_to_10_floor": null,
+   "seasonality_index": {
+    "2025-10": 1.43,
+    "2025-11": 1.19,
+    "2025-12": 1.17,
+    "2026-01": 1.03,
+    "2026-02": 1.0,
+    "2026-03": 0.96,
+    "2026-04": 1.17,
+    "2026-05": 0.92,
+    "2026-06": 0.92,
+    "2026-07": 0.7,
+    "2026-08": 0.68,
+    "2026-09": 0.84
+   },
+   "keywords": [
+    {
+     "kw": "buyruq",
+     "vol": 720,
+     "floor": 720,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      880,
+      590,
+      590,
+      720,
+      720,
+      590,
+      880,
+      720,
+      720,
+      590,
+      590,
+      720
+     ]
+    },
+    {
+     "kw": "приказ",
+     "vol": 210,
+     "floor": 210,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      210,
+      260,
+      260,
+      260,
+      210,
+      210,
+      210,
+      210,
+      170,
+      170,
+      170
+     ]
+    },
+    {
+     "kw": "должностная инструкция",
+     "vol": 140,
+     "floor": 140,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      210,
+      140,
+      140,
+      140,
+      140,
+      140,
+      170,
+      110,
+      140,
+      110,
+      90,
+      110
+     ]
+    },
+    {
+     "kw": "farmoyish namunasi",
+     "vol": 110,
+     "floor": 110,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      320,
+      320,
+      320,
+      90,
+      70,
+      140,
+      140,
+      90,
+      10,
+      20,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "lavozim yo'riqnomasi namunasi",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      170,
+      140,
+      110,
+      70,
+      70,
+      70,
+      70,
+      40,
+      30,
+      30,
+      30,
+      50
+     ]
+    },
+    {
+     "kw": "штатное расписание образец",
+     "vol": 70,
+     "floor": 70,
+     "jump": false,
+     "counted": true,
+     "src": "research1_raw.json",
+     "ser": null
+    },
+    {
+     "kw": "buyruq namunasi",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      90,
+      90,
+      50,
+      40,
+      50,
+      70,
+      50,
+      70,
+      10,
+      10,
+      50
+     ]
+    },
+    {
+     "kw": "buyruq namuna",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      90,
+      90,
+      90,
+      50,
+      40,
+      50,
+      70,
+      50,
+      70,
+      10,
+      10,
+      50
+     ]
+    },
+    {
+     "kw": "буйруқ",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      70,
+      70,
+      70,
+      70,
+      50,
+      50,
+      50,
+      40,
+      40,
+      40,
+      50,
+      50
+     ]
+    },
+    {
+     "kw": "shtat jadvali",
+     "vol": 50,
+     "floor": 50,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      70,
+      40,
+      50,
+      50,
+      70,
+      50,
+      50,
+      30,
+      40,
+      40,
+      40
+     ]
+    },
+    {
+     "kw": "ishdan bo'shatish buyrug'i",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      70,
+      40,
+      50,
+      50,
+      40,
+      30,
+      40,
+      30,
+      40,
+      30,
+      20
+     ]
+    },
+    {
+     "kw": "приказ о приеме на работу",
+     "vol": 40,
+     "floor": 40,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      50,
+      50,
+      40,
+      50,
+      40,
+      50,
+      30,
+      40,
+      20,
+      20,
+      20
+     ]
+    },
+    {
+     "kw": "приказ об увольнении",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      40,
+      30,
+      30,
+      30,
+      40,
+      30,
+      50,
+      20,
+      40,
+      30,
+      20,
+      30
+     ]
+    },
+    {
+     "kw": "буйруқ намуна",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      40,
+      30,
+      30,
+      30,
+      50,
+      30,
+      20,
+      50,
+      20,
+      10,
+      10
+     ]
+    },
+    {
+     "kw": "buyruq namunalari",
+     "vol": 30,
+     "floor": 30,
+     "jump": false,
+     "counted": true,
+     "src": "dc_kw1_metrics.json",
+     "ser": [
+      50,
+      30,
+      40,
+      30,
+      20,
+      30,
+      30,
+      30,
+      20,
+      10,
+      20,
+      30
+     ]
+    }
+   ],
+   "head": [
+    [
+     "mehnat daftarchasi",
+     1000
+    ]
+   ],
+   "existing": [],
+   "missing": [],
+   "dedup": [],
+   "excl": []
+  }
+ ]
+}

@@ -1,0 +1,7 @@
+{
+ "call": "research_keywords, 3 seeds, resultLimit 500, loc 2860 (Google Ads source, flat ~96 credits/seed), 2026-10-25",
+ "uzum market": "10 rows, all buyer navigation: uzum market = uzummarket 450000 (CPC 0,05), узум маркет 74000, узум маркет сайт 720, uzum маркет 720, uzum market контакты 590, uzum market сайт 590, узум маркет контакты 70, узум магазин 20, узум интернет магазин 10. Seller phrases did not surface -> hand-built candidate list (candidates.txt) measured with get_keyword_metrics.",
+ "telegram kanal": "1 row: telegram kanal 5400, CPC null, competition 0 (reader/discovery intent).",
+ "интернет магазин": "179 rows, almost all buyer/product queries (магазин 22200, холодильники 4400 ...). Seller-relevant: wildberries seller 880 (CPC 1,35), seller wildberries ru 110 (CPC 3,05), интернет магазин 590 (CPC 0,49), онлайн магазин 320 (CPC 0,77), продвижение интернет магазинов 10.",
+ "takeaway": "Google Ads idea expansion for loc 2860 returns buyer navigation; seller/DIY phrases have to be enumerated by hand (406 candidates, 260 non-zero)."
+}

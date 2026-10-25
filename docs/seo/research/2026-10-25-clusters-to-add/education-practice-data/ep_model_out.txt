@@ -1,0 +1,66 @@
+== practice_tests: ads 204640 | floor 28685 | upper 315640 | pos6 (63, 113) (floor (9, 16)) | pos3 241 (floor 34)
+   jump: [('informatika test', 49500, 1750), ('fizika test', 40500, 520), ('matematika test', 27100, 2900), ('biologiya test', 18100, 2150), ('ingliz tili test', 14800, 1900), ('tarix testlar', 720, 90), ('geografiya test', 2900, 600), ('geografiya testlar', 590, 60), ('informatika testlari', 590, 30), ('matematika test 5 sinf', 1600, 190), ('matematika test 9 sinf', 590, 20), ('биология тест', 8100, 205), ('тарих тест', 1600, 45), ('test savollari', 12100, 310), ('tarixiy sanalar', 2900, 75), ('matematika test javoblari bilan', 5400, 290)]
+   top: [('informatika test', 49500, ['informatika testlar']), ('fizika test', 40500, []), ('matematika test', 27100, ['matematika testlar']), ('biologiya test', 18100, ['biologiya testlar']), ('ingliz tili test', 14800, ['ingliz tili testlar']), ('test savollari', 12100, []), ('биология тест', 8100, []), ('matematika test javoblari bilan', 5400, []), ('tarix test', 2900, []), ('geografiya test', 2900, []), ('tarixiy sanalar', 2900, []), ('online test yechish', 1900, [])]
+   head: [('test yechish', 1000)] susp: [('ona tili testlar', 110000)]
+   season: {'2026-09': 1.46, '2026-08': 0.85, '2026-07': 1.27, '2026-06': 1.81, '2026-05': 1.72, '2026-04': 1.5, '2026-03': 1.03, '2026-02': 1.02, '2026-01': 0.78, '2025-12': 0.3, '2025-11': 0.12, '2025-10': 0.14}
+== exam_prep: ads 52240 | floor 21420 | upper 80240 | pos6 (16, 29) (floor (7, 12)) | pos3 61 (floor 25)
+   jump: [('dtm test', 18100, 3250), ('дтм тест', 2400, 235), ('dtm online test', 4400, 105), ('dtm 2026', 3600, 15), ('abituriyentlar uchun test', 1900, 60), ('dtm test ishlash', 880, 355), ('dtm test 2026', 880, 0), ('dtm savollari', 720, 140), ('milliy sertifikat 2026', 2400, 300)]
+   top: [('dtm test', 18100, []), ('dtm online test', 4400, []), ('matematika milliy sertifikat', 4400, []), ('dtm 2026', 3600, []), ('tarix milliy sertifikat', 2900, []), ('дтм тест', 2400, []), ('milliy sertifikat matematika', 2400, []), ('milliy sertifikat 2026', 2400, []), ('abituriyentlar uchun test', 1900, []), ('миллий сертификат', 1600, []), ('dtm test ishlash', 880, []), ('dtm blok test', 880, [])]
+   head: [('milliy sertifikat', 18100), ('attestatsiya', 9900)] susp: []
+   season: {'2026-09': 1.51, '2026-08': 0.81, '2026-07': 1.96, '2026-06': 1.72, '2026-05': 1.12, '2026-04': 0.99, '2026-03': 0.92, '2026-02': 0.82, '2026-01': 0.89, '2025-12': 0.59, '2025-11': 0.37, '2025-10': 0.3}
+== math_formulas_calculators: ads 48930 | floor 33095 | upper 50950 | pos6 (15, 27) (floor (10, 18)) | pos3 47 (floor 32)
+   jump: [('tenglamalar sistemasi', 8100, 795), ('uchburchak yuzi', 5400, 1010), ('ekub va ekuk', 4400, 800), ('olchov birliklari', 590, 50)]
+   top: [('qisqa kopaytirish formulalari', 9900, []), ('tenglamalar sistemasi', 8100, []), ('uchburchak yuzi', 5400, []), ('ekub va ekuk', 4400, []), ('tub sonlar', 2400, []), ('kvadrat tenglama', 1600, []), ('калькулятор дробей', 1600, []), ('дискриминант', 1300, []), ('kasrlar', 1300, []), ('pifagor teoremasi', 1300, []), ('gpa calculator', 880, []), ('hosila', 720, [])]
+   head: [('калькулятор процентов', 1300), ('процент от числа', 720)] susp: []
+   season: {'2026-09': 1.55, '2026-08': 0.64, '2026-07': 0.91, '2026-06': 1.17, '2026-05': 1.42, '2026-04': 1.23, '2026-03': 0.83, '2026-02': 1.23, '2026-01': 0.95, '2025-12': 0.82, '2025-11': 0.59, '2025-10': 0.66}
+== logic_quiz: ads 46360 | floor 46360 | upper 53160 | pos6 (14, 26) (floor (14, 26)) | pos3 55 (floor 55)
+   jump: []
+   top: [('mantiqiy savollar', 18100, []), ('zakovat savollari', 12100, []), ('topishmoqlar', 9900, []), ('boshqotirma', 2400, []), ('qiziqarli savollar', 2400, []), ('boshqotirmalar', 720, []), ('mantiqiy masalalar', 390, []), ('viktorina', 260, []), ('viktorina savollari', 90, [])]
+   head: [('zakovat', 4400), ('savol javob', 2400)] susp: []
+   season: {'2026-09': 0.61, '2026-08': 0.29, '2026-07': 0.34, '2026-06': 0.45, '2026-05': 1.02, '2026-04': 1.55, '2026-03': 1.2, '2026-02': 1.23, '2026-01': 1.16, '2025-12': 1.46, '2025-11': 1.43, '2025-10': 1.26}
+== iq_test: ads 15840 | floor 15840 | upper 15840 | pos6 (5, 9) (floor (5, 9)) | pos3 19 (floor 19)
+   jump: []
+   top: [('iq test', 12100, []), ('iq test uzbek tilida', 3600, []), ('тест iq', 140, [])]
+   head: [] susp: []
+   season: {'2026-09': 1.24, '2026-08': 0.83, '2026-07': 1.24, '2026-06': 1.24, '2026-05': 1.51, '2026-04': 1.18, '2026-03': 0.92, '2026-02': 0.92, '2026-01': 0.73, '2025-12': 0.67, '2025-11': 0.81, '2025-10': 0.71}
+== periodic_table_chem: ads 29310 | floor 29310 | upper 119810 | pos6 (9, 16) (floor (9, 16)) | pos3 34 (floor 34)
+   jump: []
+   top: [('mendeleyev jadvali', 12100, []), ('таблица менделеева', 12100, []), ('kimyoviy reaksiyalar', 1300, []), ('oksidlanish darajasi', 1000, []), ('mendeleev jadvali', 720, []), ('kimyoviy elementlar jadvali', 590, []), ('менделеев жадвали', 590, []), ('молярная масса', 390, []), ('valentlik', 320, []), ('molyar massa', 110, []), ('kimyo formulalar', 50, []), ('уравнять реакцию', 40, [])]
+   head: [] susp: [('kimyo masalalar', 90500)]
+   season: {'2026-09': 1.97, '2026-08': 0.55, '2026-07': 0.57, '2026-06': 0.78, '2026-05': 0.67, '2026-04': 0.8, '2026-03': 0.9, '2026-02': 1.02, '2026-01': 1.11, '2025-12': 0.93, '2025-11': 1.1, '2025-10': 1.61}
+== ona_tili_grammar: ads 25240 | floor 21790 | upper 32240 | pos6 (8, 14) (floor (7, 12)) | pos3 30 (floor 26)
+   jump: [('gap bolaklari', 3600, 150)]
+   top: [('imlo qoidalari', 5400, []), ('diktant', 4400, []), ('gap bolaklari', 3600, []), ('kelishiklar', 1900, []), ('ravish', 1300, []), ('fonetika', 1300, []), ('tinish belgilari', 880, []), ('olmosh', 880, []), ('omonimlar', 880, []), ('manodosh sozlar', 720, []), ('morfologiya', 720, []), ('sintaksis', 720, [])]
+   head: [('sifat', 1600), ('imlo', 5400)] susp: []
+   season: {'2026-09': 1.05, '2026-08': 0.51, '2026-07': 0.65, '2026-06': 0.95, '2026-05': 1.29, '2026-04': 1.31, '2026-03': 1.07, '2026-02': 1.11, '2026-01': 1.23, '2025-12': 0.92, '2025-11': 0.82, '2025-10': 1.08}
+== english_grammar: ads 40730 | floor 40730 | upper 40730 | pos6 (12, 23) (floor (12, 23)) | pos3 48 (floor 48)
+   jump: []
+   top: [('irregular verbs', 12100, []), ('present simple', 12100, []), ('present perfect', 5400, []), ('english test', 3600, []), ('ingliz tili grammatika', 2400, []), ('неправильные глаголы', 1900, []), ("noto'g'ri fe'llar", 1000, []), ('english grammar test', 880, []), ('tenses', 480, []), ('тест на уровень английского', 480, []), ('ingliz tili darslari', 320, []), ('неправильные глаголы английского языка', 40, [])]
+   head: [] susp: []
+   season: {'2026-09': 0.86, '2026-08': 0.55, '2026-07': 0.72, '2026-06': 0.84, '2026-05': 0.8, '2026-04': 1.0, '2026-03': 0.96, '2026-02': 1.26, '2026-01': 1.19, '2025-12': 1.17, '2025-11': 1.2, '2025-10': 1.45}
+== ielts_cefr_writing: ads 6760 | floor 6760 | upper 18760 | pos6 (2, 4) (floor (2, 4)) | pos3 8 (floor 8)
+   jump: []
+   top: [('ielts test', 1600, []), ('ielts writing task 2', 1300, []), ('cefr test', 880, []), ('ielts writing', 720, []), ('ielts writing checker', 720, []), ('multilevel writing', 590, []), ('cefr writing', 480, []), ('multilevel test', 390, []), ('multi level test', 50, []), ('writing tekshirish', 30, [])]
+   head: [('cefr', 6600), ('multilevel', 5400)] susp: []
+   season: {'2026-09': 0.84, '2026-08': 0.82, '2026-07': 0.86, '2026-06': 0.97, '2026-05': 1.09, '2026-04': 1.27, '2026-03': 1.1, '2026-02': 1.12, '2026-01': 1.08, '2025-12': 1.0, '2025-11': 0.99, '2025-10': 0.87}
+== number_converters: ads 13250 | floor 13250 | upper 25350 | pos6 (4, 7) (floor (4, 7)) | pos3 16 (floor 16)
+   jump: []
+   top: [('rim raqamlari', 8100, []), ('римские цифры', 3600, []), ('sanoq sistemasi', 1000, ['sanoq sistemalari']), ('ikkilik sanoq sistemasi', 480, []), ('двоичная система счисления', 70, [])]
+   head: [('сумма прописью', 12100)] susp: []
+   season: {'2026-09': 1.02, '2026-08': 0.42, '2026-07': 0.45, '2026-06': 0.74, '2026-05': 0.99, '2026-04': 0.91, '2026-03': 1.0, '2026-02': 1.06, '2026-01': 1.1, '2025-12': 1.55, '2025-11': 1.14, '2025-10': 1.63}
+== primary_math_grades: ads 42910 | floor 30260 | upper 42910 | pos6 (13, 24) (floor (9, 17)) | pos3 50 (floor 36)
+   jump: [('matematika 3 sinf', 14800, 2150)]
+   top: [('matematika 3 sinf', 14800, []), ('таблица умножения', 12100, []), ('matematika 2 sinf', 3600, []), ('matematika 4 sinf', 2900, []), ('matematika 6 sinf', 2900, []), ('matematika 5 sinf', 2400, []), ('примеры для 1 класса', 1000, []), ('matematika 1 sinf', 720, []), ('математика 1 класс', 720, []), ('примеры для 2 класса', 720, []), ('математика 2 класс', 590, []), ('misollar 1 sinf', 140, [])]
+   head: [] susp: []
+   season: {'2026-09': 1.97, '2026-08': 0.59, '2026-07': 0.49, '2026-06': 0.53, '2026-05': 1.02, '2026-04': 1.67, '2026-03': 0.95, '2026-02': 1.34, '2026-01': 1.14, '2025-12': 0.79, '2025-11': 0.76, '2025-10': 0.76}
+== olympiad: ads 6080 | floor 6080 | upper 6080 | pos6 (2, 3) (floor (2, 3)) | pos3 7 (floor 7)
+   jump: []
+   top: [('olimpiada', 3600, []), ('olimpiada savollari', 1600, []), ('fan olimpiadasi', 720, []), ('matematika olimpiada', 70, []), ('informatika olimpiada', 50, []), ('олимпиада по математике', 40, [])]
+   head: [] susp: []
+   season: {'2026-09': 3.62, '2026-08': 0.19, '2026-07': 0.24, '2026-06': 0.32, '2026-05': 0.33, '2026-04': 0.3, '2026-03': 0.33, '2026-02': 1.12, '2026-01': 0.56, '2025-12': 0.55, '2025-11': 0.34, '2025-10': 4.11}
+== driving_theory: ads 24280 | floor 24280 | upper 24280 | pos6 (7, 13) (floor (7, 13)) | pos3 29 (floor 29)
+   jump: []
+   top: [('avtotest', 12100, ['avto test']), ('prava test', 6600, []), ('автотест', 4400, []), ('yol harakati qoidalari test', 480, []), ('yhq test', 390, []), ('пдд тест', 260, []), ('pdd test', 50, [])]
+   head: [] susp: []
+   season: {'2026-09': 1.01, '2026-08': 1.19, '2026-07': 1.1, '2026-06': 0.98, '2026-05': 0.94, '2026-04': 1.17, '2026-03': 1.08, '2026-02': 1.21, '2026-01': 1.14, '2025-12': 0.86, '2025-11': 0.68, '2025-10': 0.65}
+{'total_demand_ads_core': 532290, 'total_demand_floor_core': 293580, 'total_visits_pos6_ads': (163, 295), 'total_visits_pos6_floor': (90, 163), 'total_visits_pos3_ads': 616, 'total_visits_pos3_floor': 340}

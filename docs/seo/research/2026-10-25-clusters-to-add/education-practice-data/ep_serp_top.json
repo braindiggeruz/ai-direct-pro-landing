@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "call": "get_serp_results",
+    "date": "2026-10-25",
+    "locationCode": 2860,
+    "languageCode": "ru (project default)",
+    "device": "desktop",
+    "depth": 20,
+    "resultId": "7ecfa299-018a-475d-9240-2bcc22cfa34b",
+    "note": "Transcribed from the inline tool response (organic rank, domain, page type). rN = SERP element rank, oN = organic rank."
+  },
+  "serps": {
+    "informatika test": {
+      "aio_rank": 2,
+      "features": ["ai_overview r2", "related_searches r11"],
+      "top": [
+        ["o1", "scribd.com", "PDF 'Informatika Test' (teacher professional-development questions, answers marked +A)"],
+        ["o2", "infotest.uz", "?p=765, no title/description (thin)"],
+        ["o3", "wordwall.net", "user-made quiz 'Informatika test'"],
+        ["o4", "es.educaplay.com", "user-made quiz game, Spanish UI"],
+        ["o5", "wayground.com", "user-made quiz 'Informatika fanidan test savollari', 51 questions"],
+        ["o6", "informatika.uz", "programming course platform, 'онлайн-тест' page"],
+        ["o7", "docx.uz", "document 'Informatikadan test baza' (file store)"],
+        ["o8", "wordwall.net", "user-made quiz 'INFORMATIKA FANIDAN TEST'"],
+        ["o9", "ljubaivke.weebly.com", "Serbian school weebly page (irrelevant)"],
+        ["o10", "donish.org", "RU tests category Informatika"],
+        ["o11", "onlinetestpad.com", "RU 'Тесты по информатике для 5 класса'"],
+        ["o14", "wayground.com", "'Informatika 6-sinf uchun test' 15 questions"]
+      ],
+      "weak_signals": ["Scribd PDF #1", "user-generated quiz builders (wordwall x3, wayground x2, educaplay)", "thin/blank page #2", "foreign-language irrelevant page in top-10", "no dedicated Uzbek practice-test site with explanations"]
+    },
+    "mantiqiy savollar": {
+      "aio_rank": 8,
+      "features": ["images r4", "video r5", "ai_overview r8", "related_searches r11", "images r20"],
+      "top": [
+        ["o1", "uzinterbiz.com", "blog list '250+ mantiqiy savollar javoblari bilan' (updated 2026-07-30)"],
+        ["o2", "play.google.com", "app 'Mantiqiy Savollar: Aql Sinovi'"],
+        ["o3", "makepedia.uz", "blog list (2018)"],
+        ["o4", "scribd.com", "PDF 'Mantiqiy Savollar Javoblari Bilan 10'"],
+        ["o5", "audiobook.uz", "blog post (2020)"],
+        ["o6", "play.google.com", "app 'Mantiqiy savollar'"],
+        ["o7", "bilimmarkazi.uz", "education-centre blog page"],
+        ["o8", "youtube.com", "playlist"],
+        ["o9", "soff.uz", "paid document store"],
+        ["o10", "wordwall.net", "user-made quiz"],
+        ["o11", "baxtiyor.uz", "blog '300 ta mantiqiy savollar'"],
+        ["o13", "facebook.com", "group"],
+        ["o14", "t.me", "Telegram channel"]
+      ],
+      "weak_signals": ["old blogs (2018, 2020)", "Scribd PDF", "apps", "paid doc store", "Facebook group", "Telegram channel", "AIO only at r8"]
+    },
+    "qisqa ko'paytirish formulalari": {
+      "aio_rank": 1,
+      "features": ["ai_overview r1", "short_videos r5", "video r6", "related_searches r11"],
+      "top": [
+        ["o1", "scribd.com", "PDF 7-sinf"],
+        ["o2", "instagram.com", "reel"],
+        ["o3", "oefen.uz", "slides document, no description"],
+        ["o4", "soff.uz", "paid lesson plan"],
+        ["o5", "scribd.com", "PDF test"],
+        ["o6", "uz.khanacademy.org", "exercise (Uzbek Khan Academy)"],
+        ["o7", "youtube.com", "video lesson"],
+        ["o8", "youtube.com", "short"],
+        ["o9", "soff.uz", "paid document"],
+        ["o10", "upraktika.uz", "practice material page"]
+      ],
+      "weak_signals": ["Scribd x3 in top-16", "Instagram reel #2", "paid doc stores", "no interactive formula/calculator page", "AIO at r1 (x0.533)"]
+    },
+    "mendeleyev jadvali": {
+      "aio_rank": 2,
+      "features": ["ai_overview r2", "video r5", "related_searches r11", "knowledge_graph", "images r12"],
+      "top": [
+        ["o1", "erus.uz", "journal PDF download"],
+        ["o2", "hilolnashr.uz", "shop: printed poster A4"],
+        ["o3", "scribd.com", "PDF"],
+        ["o4", "hilolnashr.uz", "shop: printed poster A5"],
+        ["o5", "mylab.uz", "article page"],
+        ["o6", "mylab.uz", "test category page"],
+        ["o7", "himmatov.uz", "interactive periodic table (only interactive tool in top-10)"],
+        ["o8", "scribd.com", "PDF"],
+        ["o9", "api.ziyonet.uz", "book PDF"],
+        ["o10", "slideshare.net", "PPTX"]
+      ],
+      "weak_signals": ["PDFs x4", "shop pages x2", "only one interactive table (personal site)", "no Uzbek element pages"]
+    }
+  }
+}

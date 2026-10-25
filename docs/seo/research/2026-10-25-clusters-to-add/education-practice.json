@@ -1,0 +1,1896 @@
+{
+ "meta": {
+  "lens": "education-practice",
+  "date": "2026-10-25",
+  "location": 2860,
+  "language_of_report": "ru",
+  "model": "visits/day = demand x CTR x AIO / 30 x 1.5; pos~6 CTR 0.613-1.105% (own curve, no extra AIO discount, as in demand-sizing); pos~3 CTR 3.593% x 0.533 (AIO r1) / 0.655 (AIO lower or not measured)",
+  "dedupe": "identical volume + identical 12-month series (vol>=100) = one Google Ads bucket",
+  "floor": "jump-shaped keyword (mean Jul-Sep 2026 / mean Oct-Nov 2025 >= 5, vol>=500) replaced by its Oct-Nov 2025 mean",
+  "ramp_assumption": "share of pos-6 forecast in month n = min(1, K1 x n^1.6); K1 0.04 articles (site calibration), 0.06 static collections on weak SERP, 0.08 interactive tools/quizzes on weak SERP (assumption)",
+  "data_files": [
+   "education-practice-data/ep_kw1_metrics.json",
+   "education-practice-data/ep_serp_top.json",
+   "education-practice-data/ep_model.json",
+   "education-practice-data/ep_ramp.json",
+   "education-practice-data/ep_research_note.txt"
+  ],
+  "reused_measurements": [
+   "l3-data/kw1_metrics.json",
+   "l3-data/kw2_metrics.json",
+   "roadmap-1000/data/kw3_metrics.json",
+   "roadmap-1000/data/kw4_metrics.json"
+  ],
+  "credits": "own estimate <=724 of 900 cap (metrics <=416, research ~288, SERP ~20); account 22672 -> 21784 incl. parallel lenses"
+ },
+ "summary": {
+  "total_demand_ads_core": 532290,
+  "total_demand_floor_core": 293580,
+  "total_visits_pos6_ads": [
+   163,
+   295
+  ],
+  "total_visits_pos6_floor": [
+   90,
+   163
+  ],
+  "total_visits_pos3_ads": 616,
+  "total_visits_pos3_floor": 340
+ },
+ "clusters": [
+  {
+   "id": "practice_tests",
+   "priority": 1,
+   "name": "Fanlar bo‘yicha amaliy testlar (o‘z savollari + izoh)",
+   "top_keywords": [
+    {
+     "keyword": "informatika test",
+     "volume": 49500,
+     "same_bucket_as": [
+      "informatika testlar"
+     ]
+    },
+    {
+     "keyword": "fizika test",
+     "volume": 40500,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika test",
+     "volume": 27100,
+     "same_bucket_as": [
+      "matematika testlar"
+     ]
+    },
+    {
+     "keyword": "biologiya test",
+     "volume": 18100,
+     "same_bucket_as": [
+      "biologiya testlar"
+     ]
+    },
+    {
+     "keyword": "ingliz tili test",
+     "volume": 14800,
+     "same_bucket_as": [
+      "ingliz tili testlar"
+     ]
+    },
+    {
+     "keyword": "test savollari",
+     "volume": 12100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "биология тест",
+     "volume": 8100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika test javoblari bilan",
+     "volume": 5400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "tarix test",
+     "volume": 2900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "geografiya test",
+     "volume": 2900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "tarixiy sanalar",
+     "volume": 2900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "online test yechish",
+     "volume": 1900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "ona tili test",
+     "volume": 1600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika test 5 sinf",
+     "volume": 1600,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 204640,
+   "demand_month_floor": 28685,
+   "demand_month_upper_incl_heads": 315640,
+   "jump_shaped_keywords": [
+    {
+     "keyword": "informatika test",
+     "ads": 49500,
+     "oct_nov_2025_mean": 1750
+    },
+    {
+     "keyword": "fizika test",
+     "ads": 40500,
+     "oct_nov_2025_mean": 520
+    },
+    {
+     "keyword": "matematika test",
+     "ads": 27100,
+     "oct_nov_2025_mean": 2900
+    },
+    {
+     "keyword": "biologiya test",
+     "ads": 18100,
+     "oct_nov_2025_mean": 2150
+    },
+    {
+     "keyword": "ingliz tili test",
+     "ads": 14800,
+     "oct_nov_2025_mean": 1900
+    },
+    {
+     "keyword": "tarix testlar",
+     "ads": 720,
+     "oct_nov_2025_mean": 90
+    },
+    {
+     "keyword": "geografiya test",
+     "ads": 2900,
+     "oct_nov_2025_mean": 600
+    },
+    {
+     "keyword": "geografiya testlar",
+     "ads": 590,
+     "oct_nov_2025_mean": 60
+    },
+    {
+     "keyword": "informatika testlari",
+     "ads": 590,
+     "oct_nov_2025_mean": 30
+    },
+    {
+     "keyword": "matematika test 5 sinf",
+     "ads": 1600,
+     "oct_nov_2025_mean": 190
+    },
+    {
+     "keyword": "matematika test 9 sinf",
+     "ads": 590,
+     "oct_nov_2025_mean": 20
+    },
+    {
+     "keyword": "биология тест",
+     "ads": 8100,
+     "oct_nov_2025_mean": 205
+    },
+    {
+     "keyword": "тарих тест",
+     "ads": 1600,
+     "oct_nov_2025_mean": 45
+    },
+    {
+     "keyword": "test savollari",
+     "ads": 12100,
+     "oct_nov_2025_mean": 310
+    },
+    {
+     "keyword": "tarixiy sanalar",
+     "ads": 2900,
+     "oct_nov_2025_mean": 75
+    },
+    {
+     "keyword": "matematika test javoblari bilan",
+     "ads": 5400,
+     "oct_nov_2025_mean": 290
+    }
+   ],
+   "heads_upper_bound_only": [
+    {
+     "keyword": "test yechish",
+     "vol": 1000,
+     "merged": []
+    }
+   ],
+   "suspicious_buckets": [
+    {
+     "keyword": "ona tili testlar",
+     "vol": 110000,
+     "series_sep26_to_oct25": [
+      165000,
+      110000,
+      135000,
+      165000,
+      165000,
+      201000,
+      135000,
+      135000,
+      74000,
+      33100,
+      2900,
+      1300
+     ]
+    }
+   ],
+   "excluded": [
+    {
+     "keyword": "test javoblari",
+     "vol": 8100
+    },
+    {
+     "keyword": "dtm test javoblari",
+     "vol": 18100
+    },
+    {
+     "keyword": "test javoblarini topish",
+     "vol": 110
+    },
+    {
+     "keyword": "test javobi",
+     "vol": 50
+    },
+    {
+     "keyword": "testlar javoblari bilan",
+     "vol": 140
+    },
+    {
+     "keyword": "test savollari javoblari bilan",
+     "vol": 110
+    }
+   ],
+   "seasonality_index": {
+    "2026-09": 1.46,
+    "2026-08": 0.85,
+    "2026-07": 1.27,
+    "2026-06": 1.81,
+    "2026-05": 1.72,
+    "2026-04": 1.5,
+    "2026-03": 1.03,
+    "2026-02": 1.02,
+    "2026-01": 0.78,
+    "2025-12": 0.3,
+    "2025-11": 0.12,
+    "2025-10": 0.14
+   },
+   "seasonality": "пики: 2026-06 ×1.81, 2026-05 ×1.72, 2026-04 ×1.5; провалы: 2025-10 ×0.14, 2025-11 ×0.12",
+   "serp_source": "снято 25.10: «informatika test»; прокси из L3 24.10: «test savollari»",
+   "serp": "«informatika test»: o1 Scribd PDF (тест для учителей), AIO r2, o2 infotest.uz (пустая страница), o3/o8 wordwall (пользовательские квизы), o4 educaplay (испанский интерфейс), o5 wayground, o6 informatika.uz (курсы программирования), o7 docx.uz (файлообменник), o9 сербский weebly. «test savollari» (L3): AIO r1, qnb.uz, test.ziyonet.uz, приложения Play, infotest.uz, мусор (tass.ru, магазин падел-ракеток). Ни одного узбекского сайта с оригинальными вопросами и разбором.",
+   "serp_weakness": "weak",
+   "aio_discount_top3": 0.655,
+   "fit": "(a) детерминированный движок квиза (мгновенная проверка, счёт, фильтр по классу) + (c) свой банк вопросов с разбором каждого ответа + (b) кнопка «Mavzu bo‘yicha test» — уже есть пресет study-test в src/gpt-chat/templates.ts",
+   "build": "Хаб /uz/testlar/ + 10 страниц /uz/testlar/{informatika,fizika,matematika,biologiya,ingliz-tili,ona-tili,tarix,geografiya,kimyo,huquq}/ (тип: интерактивный квиз, schema.org Quiz). На каждой 40–60 своих вопросов с разбором, фильтр 5–11 sinf, трек «attestatsiya (o‘qituvchilar)» для informatika/matematika (о1 выдачи — учительский тест). RU-зеркала /ru/testy/{biologiya,istoriya}/ для «биология тест» 8 100 и «тарих тест» 1 600. Подстраницы-тренажёры: /uz/tarix/tarixiy-sanalar/ (квиз по датам), /uz/geografiya/poytaxtlar/. Пилот: informatika + fizika + matematika — проверка спроса по показам GSC за 4 недели.",
+   "effort": "L",
+   "honesty_risk": "medium",
+   "honesty_note": "Соседство с «test javoblari»/«dtm test javoblari» (исключены). Только свои вопросы и свои ключи с разбором; никаких ключей ДТМ/BSB/ChSB, никаких копий чужих банков. «javoblari bilan» (5 400 + 170 + 90) закрываем собственными ответами с объяснением.",
+   "caveat": "Аномальная форма спроса: у 16 ключей (в т.ч. informatika/fizika/matematika/biologiya/ingliz tili test) рост ×10–100 с декабря 2025. Floor 28 685/мес против Ads 204 640/мес. Отдельно подозрительна корзина «ona tili testlar» 110 000 (у «ona tili test» 1 600) — в расчёт не включена.",
+   "visits_day_pos6_ads": [
+    63,
+    113
+   ],
+   "visits_day_pos6_floor": [
+    9,
+    16
+   ],
+   "visits_day_pos3_ads": 241,
+   "visits_day_pos3_floor": 34,
+   "visits_day_pos3_ads_no_aio_discount": 368,
+   "ramp": {
+    "k1_month1_share": 0.08,
+    "months_to_full_pos6_forecast": 4.8,
+    "month1_visits_ads_mid": 7.0,
+    "month1_visits_floor_mid": 1.0,
+    "weeks_to_5_visits_ads": 4,
+    "weeks_to_5_visits_floor": 12,
+    "weeks_to_10_visits_ads": 6,
+    "weeks_to_10_visits_floor": 19
+   }
+  },
+  {
+   "id": "math_formulas_calculators",
+   "priority": 2,
+   "name": "Formulalar + qadamli kalkulyatorlar (matematika, fizika)",
+   "top_keywords": [
+    {
+     "keyword": "qisqa kopaytirish formulalari",
+     "volume": 9900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "tenglamalar sistemasi",
+     "volume": 8100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "uchburchak yuzi",
+     "volume": 5400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "ekub va ekuk",
+     "volume": 4400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "tub sonlar",
+     "volume": 2400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "kvadrat tenglama",
+     "volume": 1600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "калькулятор дробей",
+     "volume": 1600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "дискриминант",
+     "volume": 1300,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "kasrlar",
+     "volume": 1300,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "pifagor teoremasi",
+     "volume": 1300,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "gpa calculator",
+     "volume": 880,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "hosila",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "integral",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "kvadratlar jadvali",
+     "volume": 720,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 48930,
+   "demand_month_floor": 33095,
+   "demand_month_upper_incl_heads": 50950,
+   "jump_shaped_keywords": [
+    {
+     "keyword": "tenglamalar sistemasi",
+     "ads": 8100,
+     "oct_nov_2025_mean": 795
+    },
+    {
+     "keyword": "uchburchak yuzi",
+     "ads": 5400,
+     "oct_nov_2025_mean": 1010
+    },
+    {
+     "keyword": "ekub va ekuk",
+     "ads": 4400,
+     "oct_nov_2025_mean": 800
+    },
+    {
+     "keyword": "olchov birliklari",
+     "ads": 590,
+     "oct_nov_2025_mean": 50
+    }
+   ],
+   "heads_upper_bound_only": [
+    {
+     "keyword": "калькулятор процентов",
+     "vol": 1300,
+     "merged": []
+    },
+    {
+     "keyword": "процент от числа",
+     "vol": 720,
+     "merged": []
+    }
+   ],
+   "suspicious_buckets": [],
+   "excluded": [
+    {
+     "keyword": "limit",
+     "vol": 1000
+    },
+    {
+     "keyword": "tenglama yechish",
+     "vol": 1900
+    }
+   ],
+   "seasonality_index": {
+    "2026-09": 1.55,
+    "2026-08": 0.64,
+    "2026-07": 0.91,
+    "2026-06": 1.17,
+    "2026-05": 1.42,
+    "2026-04": 1.23,
+    "2026-03": 0.83,
+    "2026-02": 1.23,
+    "2026-01": 0.95,
+    "2025-12": 0.82,
+    "2025-11": 0.59,
+    "2025-10": 0.66
+   },
+   "seasonality": "пики: 2026-09 ×1.55, 2026-05 ×1.42, 2026-04 ×1.23; провалы: 2026-08 ×0.64, 2025-11 ×0.59",
+   "serp_source": "снято 25.10: «qisqa ko‘paytirish formulalari»; прокси L3: «misollar yechish», «masala yechish»",
+   "serp": "AIO r1; o1 Scribd PDF, o2 Instagram reel, o3 oefen.uz (слайды без описания), o4/o9 soff.uz (платные файлы), o5 Scribd, o6 uz.khanacademy (упражнение), o7/o8 YouTube, o10 upraktika.uz. Ни одного интерактивного калькулятора или живой шпаргалки.",
+   "serp_weakness": "weak",
+   "aio_discount_top3": 0.533,
+   "fit": "(a) детерминированные калькуляторы с пошаговым решением + (c) свои шпаргалки формул с примерами и генератором упражнений",
+   "build": "Хаб /uz/matematika/formulalar/ + страницы-инструменты: /uz/matematika/qisqa-kopaytirish-formulalari/ (шпаргалка + генератор примеров), /uz/kalkulyator/tenglamalar-sistemasi/, /uz/kalkulyator/uchburchak-yuzi/ (+ doira yuzi, aylana uzunligi), /uz/kalkulyator/ekub-ekuk/ (+ RU /ru/kalkulyator/nod-i-nok/), /uz/kalkulyator/tub-sonlar/, /uz/kalkulyator/kvadrat-tenglama/ (дискриминант по шагам, RU-зеркало), /uz/kalkulyator/kasr/ (+ /ru/kalkulyator-drobey/), /uz/kalkulyator/foiz/, /uz/kalkulyator/gpa/, /uz/fizika/formulalar/, /uz/olchov-birliklari/. Около 12 страниц, каждая — настоящий инструмент.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Чистые вычисления; проверять формулы и шаги тестами.",
+   "caveat": "Скачок только у 4 ключей (tenglamalar sistemasi, uchburchak yuzi, ekub va ekuk, o‘lchov birliklari); floor 33 095 — самый устойчивый крупный кластер линзы. AIO на r1 → дисконт ×0,533 в топ-3.",
+   "visits_day_pos6_ads": [
+    15,
+    27
+   ],
+   "visits_day_pos6_floor": [
+    10,
+    18
+   ],
+   "visits_day_pos3_ads": 47,
+   "visits_day_pos3_floor": 32,
+   "visits_day_pos3_ads_no_aio_discount": 88,
+   "ramp": {
+    "k1_month1_share": 0.08,
+    "months_to_full_pos6_forecast": 4.8,
+    "month1_visits_ads_mid": 1.7,
+    "month1_visits_floor_mid": 1.1,
+    "weeks_to_5_visits_ads": 9,
+    "weeks_to_5_visits_floor": 12,
+    "weeks_to_10_visits_ads": 14,
+    "weeks_to_10_visits_floor": 18
+   }
+  },
+  {
+   "id": "logic_quiz",
+   "priority": 3,
+   "name": "Mantiqiy savollar, boshqotirmalar, topishmoqlar, viktorina",
+   "top_keywords": [
+    {
+     "keyword": "mantiqiy savollar",
+     "volume": 18100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "zakovat savollari",
+     "volume": 12100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "topishmoqlar",
+     "volume": 9900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "boshqotirma",
+     "volume": 2400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "qiziqarli savollar",
+     "volume": 2400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "boshqotirmalar",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "mantiqiy masalalar",
+     "volume": 390,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "viktorina",
+     "volume": 260,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "viktorina savollari",
+     "volume": 90,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 46360,
+   "demand_month_floor": 46360,
+   "demand_month_upper_incl_heads": 53160,
+   "jump_shaped_keywords": [],
+   "heads_upper_bound_only": [
+    {
+     "keyword": "zakovat",
+     "vol": 4400,
+     "merged": []
+    },
+    {
+     "keyword": "savol javob",
+     "vol": 2400,
+     "merged": []
+    }
+   ],
+   "suspicious_buckets": [],
+   "excluded": [],
+   "seasonality_index": {
+    "2026-09": 0.61,
+    "2026-08": 0.29,
+    "2026-07": 0.34,
+    "2026-06": 0.45,
+    "2026-05": 1.02,
+    "2026-04": 1.55,
+    "2026-03": 1.2,
+    "2026-02": 1.23,
+    "2026-01": 1.16,
+    "2025-12": 1.46,
+    "2025-11": 1.43,
+    "2025-10": 1.26
+   },
+   "seasonality": "пики: 2026-04 ×1.55, 2025-12 ×1.46, 2025-11 ×1.43; провалы: 2026-07 ×0.34, 2026-08 ×0.29",
+   "serp_source": "снято 25.10: «mantiqiy savollar»",
+   "serp": "o1 uzinterbiz.com (блог-список), o2/o6 приложения Play, o3 makepedia.uz (2018), o4 Scribd PDF, o5 audiobook.uz (2020), AIO только на r8, o7 bilimmarkazi.uz, o9 soff.uz (платный файл), o10 wordwall, o13 Facebook-группа, o14 Telegram-канал.",
+   "serp_weakness": "weak",
+   "aio_discount_top3": 0.655,
+   "fit": "(c) свои загадки и логические задачи с ответом под спойлером и разбором + (a) режим квиза со счётом",
+   "build": "/uz/mantiqiy-savollar/ (300+ своих вопросов, темы и уровни, режим «javobni ko‘rsatish»), /uz/topishmoqlar/ (по темам: bolalar uchun, hayvonlar, matematik), /uz/boshqotirmalar/, /uz/zakovat-savollari/ (свои вопросы в формате Zakovat, не копии эфира), /uz/qiziqarli-savollar/. Тип: статическая коллекция + квиз-режим.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Списки в выдаче копируют друг у друга — писать свои; вопросы телеигры «Zakovat» не переносить.",
+   "caveat": "Тренд вниз: «mantiqiy savollar» 22 200–27 100 осенью 2025 → 9 900 в сентябре 2026. Летний провал до ×0,29. «topishmoqlar» может пересечься с линзой детского/развлекательного контента.",
+   "visits_day_pos6_ads": [
+    14,
+    26
+   ],
+   "visits_day_pos6_floor": [
+    14,
+    26
+   ],
+   "visits_day_pos3_ads": 55,
+   "visits_day_pos3_floor": 55,
+   "visits_day_pos3_ads_no_aio_discount": 83,
+   "ramp": {
+    "k1_month1_share": 0.06,
+    "months_to_full_pos6_forecast": 5.8,
+    "month1_visits_ads_mid": 1.2,
+    "month1_visits_floor_mid": 1.2,
+    "weeks_to_5_visits_ads": 11,
+    "weeks_to_5_visits_floor": 11,
+    "weeks_to_10_visits_ads": 17,
+    "weeks_to_10_visits_floor": 17
+   }
+  },
+  {
+   "id": "periodic_table_chem",
+   "priority": 4,
+   "name": "Mendeleyev jadvali (interaktiv) + kimyo ma’lumotnomasi",
+   "top_keywords": [
+    {
+     "keyword": "mendeleyev jadvali",
+     "volume": 12100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "таблица менделеева",
+     "volume": 12100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "kimyoviy reaksiyalar",
+     "volume": 1300,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "oksidlanish darajasi",
+     "volume": 1000,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "mendeleev jadvali",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "kimyoviy elementlar jadvali",
+     "volume": 590,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "менделеев жадвали",
+     "volume": 590,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "молярная масса",
+     "volume": 390,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "valentlik",
+     "volume": 320,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "molyar massa",
+     "volume": 110,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "kimyo formulalar",
+     "volume": 50,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "уравнять реакцию",
+     "volume": 40,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 29310,
+   "demand_month_floor": 29310,
+   "demand_month_upper_incl_heads": 119810,
+   "jump_shaped_keywords": [],
+   "heads_upper_bound_only": [],
+   "suspicious_buckets": [
+    {
+     "keyword": "kimyo masalalar",
+     "vol": 90500,
+     "series_sep26_to_oct25": [
+      165000,
+      74000,
+      74000,
+      135000,
+      165000,
+      135000,
+      90500,
+      110000,
+      74000,
+      27100,
+      1900,
+      20
+     ]
+    }
+   ],
+   "excluded": [],
+   "seasonality_index": {
+    "2026-09": 1.97,
+    "2026-08": 0.55,
+    "2026-07": 0.57,
+    "2026-06": 0.78,
+    "2026-05": 0.67,
+    "2026-04": 0.8,
+    "2026-03": 0.9,
+    "2026-02": 1.02,
+    "2026-01": 1.11,
+    "2025-12": 0.93,
+    "2025-11": 1.1,
+    "2025-10": 1.61
+   },
+   "seasonality": "пики: 2026-09 ×1.97, 2025-10 ×1.61, 2026-01 ×1.11; провалы: 2026-07 ×0.57, 2026-08 ×0.55",
+   "serp_source": "снято 25.10: «mendeleyev jadvali»",
+   "serp": "o1 erus.uz (PDF статьи), AIO r2, o2/o4 hilolnashr.uz (магазин плакатов), o3/o8 Scribd, o5/o6 mylab.uz, o7 himmatov.uz (единственная интерактивная таблица, личный сайт), o9 ziyonet PDF, o10 slideshare. RU «таблица менделеева» не снята — там вероятны ptable/Википедия.",
+   "serp_weakness": "weak",
+   "aio_discount_top3": 0.655,
+   "fit": "(a) интерактивная таблица + калькулятор молярной массы + уравнивание реакций (линейная алгебра) + (c) страницы элементов из открытых данных IUPAC",
+   "build": "/uz/kimyo/mendeleyev-jadvali/ (интерактивная, подписи латиница/кириллица), /ru/tablitsa-mendeleeva/, 118 страниц /uz/kimyo/element/{belgi}/ (масса, конфигурация, степени окисления, валентность), /uz/kimyo/molyar-massa/ (парсер формулы), /uz/kimyo/oksidlanish-darajasi/ (правила + калькулятор), /uz/kimyo/reaksiya-tenglash/.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Факты из IUPAC/NIST; без «решебников».",
+   "caveat": "«kimyo masalalar» 90 500 исключена как аномалия (20 → 165 000 за год, L3 тоже отклонил). Пик сентябрь–октябрь (×1,6–2,0).",
+   "visits_day_pos6_ads": [
+    9,
+    16
+   ],
+   "visits_day_pos6_floor": [
+    9,
+    16
+   ],
+   "visits_day_pos3_ads": 34,
+   "visits_day_pos3_floor": 34,
+   "visits_day_pos3_ads_no_aio_discount": 53,
+   "ramp": {
+    "k1_month1_share": 0.08,
+    "months_to_full_pos6_forecast": 4.8,
+    "month1_visits_ads_mid": 1.0,
+    "month1_visits_floor_mid": 1.0,
+    "weeks_to_5_visits_ads": 12,
+    "weeks_to_5_visits_floor": 12,
+    "weeks_to_10_visits_ads": 19,
+    "weeks_to_10_visits_floor": 19
+   }
+  },
+  {
+   "id": "primary_math_grades",
+   "priority": 5,
+   "name": "Boshlang‘ich matematika: sinf bo‘yicha misollar + karra jadvali trenajyori",
+   "top_keywords": [
+    {
+     "keyword": "matematika 3 sinf",
+     "volume": 14800,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "таблица умножения",
+     "volume": 12100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika 2 sinf",
+     "volume": 3600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika 4 sinf",
+     "volume": 2900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika 6 sinf",
+     "volume": 2900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika 5 sinf",
+     "volume": 2400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "примеры для 1 класса",
+     "volume": 1000,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika 1 sinf",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "математика 1 класс",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "примеры для 2 класса",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "математика 2 класс",
+     "volume": 590,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "misollar 1 sinf",
+     "volume": 140,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "misollar 2 sinf",
+     "volume": 140,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "примеры по математике",
+     "volume": 140,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 42910,
+   "demand_month_floor": 30260,
+   "demand_month_upper_incl_heads": 42910,
+   "jump_shaped_keywords": [
+    {
+     "keyword": "matematika 3 sinf",
+     "ads": 14800,
+     "oct_nov_2025_mean": 2150
+    }
+   ],
+   "heads_upper_bound_only": [],
+   "suspicious_buckets": [],
+   "excluded": [
+    {
+     "keyword": "matematika misollar",
+     "vol": 18100
+    },
+    {
+     "keyword": "karra jadvali",
+     "vol": 2900
+    },
+    {
+     "keyword": "ko'paytirish jadvali",
+     "vol": 720
+    },
+    {
+     "keyword": "misollar",
+     "vol": 1600
+    }
+   ],
+   "seasonality_index": {
+    "2026-09": 1.97,
+    "2026-08": 0.59,
+    "2026-07": 0.49,
+    "2026-06": 0.53,
+    "2026-05": 1.02,
+    "2026-04": 1.67,
+    "2026-03": 0.95,
+    "2026-02": 1.34,
+    "2026-01": 1.14,
+    "2025-12": 0.79,
+    "2025-11": 0.76,
+    "2025-10": 0.76
+   },
+   "seasonality": "пики: 2026-09 ×1.97, 2026-04 ×1.67, 2026-02 ×1.34; провалы: 2026-06 ×0.53, 2026-07 ×0.49",
+   "serp_source": "не снято; прокси L3: «matematika misollar» (Scribd, PDF, ustoz.ai, YouTube, soff.uz)",
+   "serp": "Не снято. Прокси «matematika misollar» (L3): o1 Scribd, o2 ustoz.ai, PDF вузов, YouTube, arxiv.uz, soff.uz, Википедия — слабая. Запросы «matematika N sinf» частью ищут учебник (PDF) — намерение смешанное.",
+   "serp_weakness": "mixed",
+   "aio_discount_top3": 0.655,
+   "fit": "(a) генератор упражнений по классам (печатные листы, столбик, тренажёр таблицы умножения) + (c) короткие объяснения",
+   "build": "Расширение кластера math_examples_generator из roadmap: /uz/matematika/{1..6}-sinf/ (генератор листов по темам программы класса), /uz/karra-jadvali/trenajyor/, /ru/tablitsa-umnozheniya/ (тренажёр, печать), /ru/primery-dlya-1-klassa/, /ru/primery-dlya-2-klassa/.",
+   "effort": "S",
+   "honesty_risk": "medium",
+   "honesty_note": "Не выкладывать учебники и ответы к ним; страница честно предлагает упражнения, а не учебник.",
+   "caveat": "«matematika 3 sinf» 14 800 — форма скачка (floor 2 150). Ключи предыдущего кластера (matematika misollar, karra jadvali, misollar, ko‘paytirish jadvali) не пересчитаны.",
+   "visits_day_pos6_ads": [
+    13,
+    24
+   ],
+   "visits_day_pos6_floor": [
+    9,
+    17
+   ],
+   "visits_day_pos3_ads": 50,
+   "visits_day_pos3_floor": 36,
+   "visits_day_pos3_ads_no_aio_discount": 77,
+   "ramp": {
+    "k1_month1_share": 0.06,
+    "months_to_full_pos6_forecast": 5.8,
+    "month1_visits_ads_mid": 1.1,
+    "month1_visits_floor_mid": 0.8,
+    "weeks_to_5_visits_ads": 12,
+    "weeks_to_5_visits_floor": 14,
+    "weeks_to_10_visits_ads": 18,
+    "weeks_to_10_visits_floor": 22
+   }
+  },
+  {
+   "id": "english_grammar",
+   "priority": 6,
+   "name": "Ingliz tili grammatikasi o‘zbekcha + daraja testi",
+   "top_keywords": [
+    {
+     "keyword": "irregular verbs",
+     "volume": 12100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "present simple",
+     "volume": 12100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "present perfect",
+     "volume": 5400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "english test",
+     "volume": 3600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "ingliz tili grammatika",
+     "volume": 2400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "неправильные глаголы",
+     "volume": 1900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "noto'g'ri fe'llar",
+     "volume": 1000,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "english grammar test",
+     "volume": 880,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "tenses",
+     "volume": 480,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "тест на уровень английского",
+     "volume": 480,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "ingliz tili darslari",
+     "volume": 320,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "неправильные глаголы английского языка",
+     "volume": 40,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "определить уровень английского",
+     "volume": 30,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 40730,
+   "demand_month_floor": 40730,
+   "demand_month_upper_incl_heads": 40730,
+   "jump_shaped_keywords": [],
+   "heads_upper_bound_only": [],
+   "suspicious_buckets": [],
+   "excluded": [
+    {
+     "keyword": "ingliz tili",
+     "vol": 8100
+    }
+   ],
+   "seasonality_index": {
+    "2026-09": 0.86,
+    "2026-08": 0.55,
+    "2026-07": 0.72,
+    "2026-06": 0.84,
+    "2026-05": 0.8,
+    "2026-04": 1.0,
+    "2026-03": 0.96,
+    "2026-02": 1.26,
+    "2026-01": 1.19,
+    "2025-12": 1.17,
+    "2025-11": 1.2,
+    "2025-10": 1.45
+   },
+   "seasonality": "пики: 2025-10 ×1.45, 2026-02 ×1.26, 2025-11 ×1.2; провалы: 2026-07 ×0.72, 2026-08 ×0.55",
+   "serp_source": "не снято",
+   "serp": "Не снято. Для английских голов «irregular verbs», «present simple» в выдаче UZ ожидаемы глобальные сайты (Cambridge, BBC, EF) — сильная часть; узбекские формулировки («noto‘g‘ri fe’llar», «ingliz tili grammatika») — вероятно слабые.",
+   "serp_weakness": "mixed",
+   "aio_discount_top3": 0.655,
+   "fit": "(c) грамматика по-узбекски с упражнениями + (a) тренажёр неправильных глаголов и тест уровня + (b) пресет «объясни ошибку»",
+   "build": "/uz/ingliz-tili/notogri-feillar/ (таблица 150 глаголов с переводом + тренажёр), /uz/ingliz-tili/present-simple/, /uz/ingliz-tili/present-perfect/, /uz/ingliz-tili/zamonlar/ (12 времён), /uz/ingliz-tili/daraja-testi/ (A1–C1, свои вопросы), /ru/test-na-uroven-angliyskogo/.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Уровень по тесту — ориентировочный, без «сертификата».",
+   "caveat": "Медленный разгон (K1=0,04): английские головы держат сильные международные сайты.",
+   "visits_day_pos6_ads": [
+    12,
+    23
+   ],
+   "visits_day_pos6_floor": [
+    12,
+    23
+   ],
+   "visits_day_pos3_ads": 48,
+   "visits_day_pos3_floor": 48,
+   "visits_day_pos3_ads_no_aio_discount": 73,
+   "ramp": {
+    "k1_month1_share": 0.04,
+    "months_to_full_pos6_forecast": 7.5,
+    "month1_visits_ads_mid": 0.7,
+    "month1_visits_floor_mid": 0.7,
+    "weeks_to_5_visits_ads": 15,
+    "weeks_to_5_visits_floor": 15,
+    "weeks_to_10_visits_ads": 23,
+    "weeks_to_10_visits_floor": 23
+   }
+  },
+  {
+   "id": "exam_prep",
+   "priority": 7,
+   "name": "DTM / Milliy sertifikat / attestatsiya: format, mock-test, ball kalkulyatori",
+   "top_keywords": [
+    {
+     "keyword": "dtm test",
+     "volume": 18100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "dtm online test",
+     "volume": 4400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika milliy sertifikat",
+     "volume": 4400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "dtm 2026",
+     "volume": 3600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "tarix milliy sertifikat",
+     "volume": 2900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "дтм тест",
+     "volume": 2400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "milliy sertifikat matematika",
+     "volume": 2400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "milliy sertifikat 2026",
+     "volume": 2400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "abituriyentlar uchun test",
+     "volume": 1900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "миллий сертификат",
+     "volume": 1600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "dtm test ishlash",
+     "volume": 880,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "dtm blok test",
+     "volume": 880,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "dtm test 2026",
+     "volume": 880,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "dtm savollari",
+     "volume": 720,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 52240,
+   "demand_month_floor": 21420,
+   "demand_month_upper_incl_heads": 80240,
+   "jump_shaped_keywords": [
+    {
+     "keyword": "dtm test",
+     "ads": 18100,
+     "oct_nov_2025_mean": 3250
+    },
+    {
+     "keyword": "дтм тест",
+     "ads": 2400,
+     "oct_nov_2025_mean": 235
+    },
+    {
+     "keyword": "dtm online test",
+     "ads": 4400,
+     "oct_nov_2025_mean": 105
+    },
+    {
+     "keyword": "dtm 2026",
+     "ads": 3600,
+     "oct_nov_2025_mean": 15
+    },
+    {
+     "keyword": "abituriyentlar uchun test",
+     "ads": 1900,
+     "oct_nov_2025_mean": 60
+    },
+    {
+     "keyword": "dtm test ishlash",
+     "ads": 880,
+     "oct_nov_2025_mean": 355
+    },
+    {
+     "keyword": "dtm test 2026",
+     "ads": 880,
+     "oct_nov_2025_mean": 0
+    },
+    {
+     "keyword": "dtm savollari",
+     "ads": 720,
+     "oct_nov_2025_mean": 140
+    },
+    {
+     "keyword": "milliy sertifikat 2026",
+     "ads": 2400,
+     "oct_nov_2025_mean": 300
+    }
+   ],
+   "heads_upper_bound_only": [
+    {
+     "keyword": "milliy sertifikat",
+     "vol": 18100,
+     "merged": []
+    },
+    {
+     "keyword": "attestatsiya",
+     "vol": 9900,
+     "merged": []
+    }
+   ],
+   "suspicious_buckets": [],
+   "excluded": [
+    {
+     "keyword": "dtm",
+     "vol": 27100
+    },
+    {
+     "keyword": "abituriyent",
+     "vol": 27100
+    },
+    {
+     "keyword": "uzbmb",
+     "vol": 135000
+    },
+    {
+     "keyword": "prezident maktabi",
+     "vol": 4400
+    },
+    {
+     "keyword": "bsb",
+     "vol": 27100
+    },
+    {
+     "keyword": "bsb test",
+     "vol": 40
+    },
+    {
+     "keyword": "otish ballari",
+     "vol": 320
+    },
+    {
+     "keyword": "dtm test javoblari",
+     "vol": 18100
+    }
+   ],
+   "seasonality_index": {
+    "2026-09": 1.51,
+    "2026-08": 0.81,
+    "2026-07": 1.96,
+    "2026-06": 1.72,
+    "2026-05": 1.12,
+    "2026-04": 0.99,
+    "2026-03": 0.92,
+    "2026-02": 0.82,
+    "2026-01": 0.89,
+    "2025-12": 0.59,
+    "2025-11": 0.37,
+    "2025-10": 0.3
+   },
+   "seasonality": "пики: 2026-07 ×1.96, 2026-06 ×1.72, 2026-09 ×1.51; провалы: 2025-11 ×0.37, 2025-10 ×0.3",
+   "serp_source": "не снято",
+   "serp": "Не снято. Головы «dtm», «abituriyent», «uzbmb», «milliy sertifikat» — навигация к uzbmb.uz / my.uzbmb.uz (исключены или вынесены в верхнюю границу). Хвосты с предметом (matematika/tarix milliy sertifikat) — вероятно Telegram, YouTube, учебные центры.",
+   "serp_weakness": "mixed",
+   "aio_discount_top3": 0.655,
+   "fit": "(c) страницы формата экзамена по предмету (структура, время, баллы → уровень) + (a) мок-тест на банке из кластера practice_tests + калькулятор баллов",
+   "build": "/uz/milliy-sertifikat/ (хаб: что это, уровни, как считаются баллы — со ссылкой на uzbmb.uz и датой проверки), /uz/milliy-sertifikat/{matematika,tarix,biologiya,ona-tili,fizika,kimyo}/ (формат + 30 своих задач уровня B/A), /uz/dtm-test/ (онлайн мок-тест блоками), /uz/kalkulyator/dtm-ball/ и /uz/kalkulyator/milliy-sertifikat-ball/, /uz/attestatsiya-test/ (учителя, по предметам).",
+   "effort": "L",
+   "honesty_risk": "medium",
+   "honesty_note": "Не намекать на аффилиацию с UzBMB; формат и пороги — только из официальных документов с датой; никаких «javoblari», «kalit» и утечек.",
+   "caveat": "9 из 12 крупных ключей — форма скачка (floor 21 420 против 52 240). Пики июнь–июль (×1,7–2,0) и сентябрь: страницы должны быть живы к марту–апрелю 2027.",
+   "visits_day_pos6_ads": [
+    16,
+    29
+   ],
+   "visits_day_pos6_floor": [
+    7,
+    12
+   ],
+   "visits_day_pos3_ads": 61,
+   "visits_day_pos3_floor": 25,
+   "visits_day_pos3_ads_no_aio_discount": 94,
+   "ramp": {
+    "k1_month1_share": 0.04,
+    "months_to_full_pos6_forecast": 7.5,
+    "month1_visits_ads_mid": 0.9,
+    "month1_visits_floor_mid": 0.4,
+    "weeks_to_5_visits_ads": 13,
+    "weeks_to_5_visits_floor": 22,
+    "weeks_to_10_visits_ads": 20,
+    "weeks_to_10_visits_floor": null
+   }
+  },
+  {
+   "id": "ona_tili_grammar",
+   "priority": 8,
+   "name": "Ona tili: qoidalar, imlo, diktant matnlari + mashqlar",
+   "top_keywords": [
+    {
+     "keyword": "imlo qoidalari",
+     "volume": 5400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "diktant",
+     "volume": 4400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "gap bolaklari",
+     "volume": 3600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "kelishiklar",
+     "volume": 1900,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "ravish",
+     "volume": 1300,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "fonetika",
+     "volume": 1300,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "tinish belgilari",
+     "volume": 880,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "olmosh",
+     "volume": 880,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "omonimlar",
+     "volume": 880,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "manodosh sozlar",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "morfologiya",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "sintaksis",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "qoshma gap",
+     "volume": 590,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "fel",
+     "volume": 480,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 25240,
+   "demand_month_floor": 21790,
+   "demand_month_upper_incl_heads": 32240,
+   "jump_shaped_keywords": [
+    {
+     "keyword": "gap bolaklari",
+     "ads": 3600,
+     "oct_nov_2025_mean": 150
+    }
+   ],
+   "heads_upper_bound_only": [
+    {
+     "keyword": "sifat",
+     "vol": 1600,
+     "merged": []
+    },
+    {
+     "keyword": "imlo",
+     "vol": 5400,
+     "merged": []
+    }
+   ],
+   "suspicious_buckets": [],
+   "excluded": [
+    {
+     "keyword": "imlo lug'ati",
+     "vol": 18100
+    }
+   ],
+   "seasonality_index": {
+    "2026-09": 1.05,
+    "2026-08": 0.51,
+    "2026-07": 0.65,
+    "2026-06": 0.95,
+    "2026-05": 1.29,
+    "2026-04": 1.31,
+    "2026-03": 1.07,
+    "2026-02": 1.11,
+    "2026-01": 1.23,
+    "2025-12": 0.92,
+    "2025-11": 0.82,
+    "2025-10": 1.08
+   },
+   "seasonality": "пики: 2026-04 ×1.31, 2026-05 ×1.29, 2026-01 ×1.23; провалы: 2026-07 ×0.65, 2026-08 ×0.51",
+   "serp_source": "не снято",
+   "serp": "Не снято. Ожидаемо: ziyouz/ziyonet PDF, arxiv.uz, Scribd, uz.wikipedia, YouTube, imlo.uz (для «imlo»).",
+   "serp_weakness": "mixed",
+   "aio_discount_top3": 0.655,
+   "fit": "(c) правила с примерами и упражнениями с автопроверкой + (b) пресет проверки орфографии в чате",
+   "build": "Хаб /uz/ona-tili/ + ~20 страниц правил: /uz/ona-tili/imlo-qoidalari/, /gap-bolaklari/, /kelishiklar/, /soz-turkumlari/ (ot, sifat, son, olmosh, fe’l, ravish), /fonetika/, /morfologiya/, /sintaksis/, /qoshma-gap/, /tinish-belgilari/, /sinonim-antonim-omonim/, /frazeologizmlar/; /uz/diktant-matnlari/ (свои тексты по классам 2–11).",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Писать с U+2018 в o‘/g‘ (конвенция сайта); тексты диктантов — свои.",
+   "caveat": "«imlo lug‘ati» 18 100 исключён (словарь, навигация к imlo.uz); «sifat» и «imlo» вынесены в верхнюю границу (многозначны).",
+   "visits_day_pos6_ads": [
+    8,
+    14
+   ],
+   "visits_day_pos6_floor": [
+    7,
+    12
+   ],
+   "visits_day_pos3_ads": 30,
+   "visits_day_pos3_floor": 26,
+   "visits_day_pos3_ads_no_aio_discount": 45,
+   "ramp": {
+    "k1_month1_share": 0.04,
+    "months_to_full_pos6_forecast": 7.5,
+    "month1_visits_ads_mid": 0.4,
+    "month1_visits_floor_mid": 0.4,
+    "weeks_to_5_visits_ads": 20,
+    "weeks_to_5_visits_floor": 22,
+    "weeks_to_10_visits_ads": 31,
+    "weeks_to_10_visits_floor": null
+   }
+  },
+  {
+   "id": "iq_test",
+   "priority": 9,
+   "name": "IQ / mantiqiy fikrlash testi (normasiz, o‘yin formatida)",
+   "top_keywords": [
+    {
+     "keyword": "iq test",
+     "volume": 12100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "iq test uzbek tilida",
+     "volume": 3600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "тест iq",
+     "volume": 140,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 15840,
+   "demand_month_floor": 15840,
+   "demand_month_upper_incl_heads": 15840,
+   "jump_shaped_keywords": [],
+   "heads_upper_bound_only": [],
+   "suspicious_buckets": [],
+   "excluded": [],
+   "seasonality_index": {
+    "2026-09": 1.24,
+    "2026-08": 0.83,
+    "2026-07": 1.24,
+    "2026-06": 1.24,
+    "2026-05": 1.51,
+    "2026-04": 1.18,
+    "2026-03": 0.92,
+    "2026-02": 0.92,
+    "2026-01": 0.73,
+    "2025-12": 0.67,
+    "2025-11": 0.81,
+    "2025-10": 0.71
+   },
+   "seasonality": "пики: 2026-05 ×1.51, 2026-09 ×1.24, 2026-07 ×1.24; провалы: 2025-10 ×0.71, 2025-12 ×0.67",
+   "serp_source": "не снято",
+   "serp": "Не снято. Ожидаемо: международные iq-тест сайты, узбекские блоги, приложения.",
+   "serp_weakness": "mixed",
+   "aio_discount_top3": 0.655,
+   "fit": "(a) детерминированный тест из своих задач (матрицы, ряды) со счётом и разбором",
+   "build": "/uz/iq-test/ и /ru/test-iq/: 30 своих задач (SVG), таймер, разбор каждой задачи, результат как «mantiqiy fikrlash bali», а не IQ.",
+   "effort": "M",
+   "honesty_risk": "medium",
+   "honesty_note": "Нормированной выборки нет — нельзя выдавать «ваш IQ = 120»; прямой дисклеймер, никакой психодиагностики.",
+   "caveat": "Стабильный спрос без скачка (15 840).",
+   "visits_day_pos6_ads": [
+    5,
+    9
+   ],
+   "visits_day_pos6_floor": [
+    5,
+    9
+   ],
+   "visits_day_pos3_ads": 19,
+   "visits_day_pos3_floor": 19,
+   "visits_day_pos3_ads_no_aio_discount": 28,
+   "ramp": {
+    "k1_month1_share": 0.06,
+    "months_to_full_pos6_forecast": 5.8,
+    "month1_visits_ads_mid": 0.4,
+    "month1_visits_floor_mid": 0.4,
+    "weeks_to_5_visits_ads": 21,
+    "weeks_to_5_visits_floor": 21,
+    "weeks_to_10_visits_ads": null,
+    "weeks_to_10_visits_floor": null
+   }
+  },
+  {
+   "id": "number_converters",
+   "priority": 10,
+   "name": "Rim raqamlari, sanoq sistemalari (+ son so‘z bilan)",
+   "top_keywords": [
+    {
+     "keyword": "rim raqamlari",
+     "volume": 8100,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "римские цифры",
+     "volume": 3600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "sanoq sistemasi",
+     "volume": 1000,
+     "same_bucket_as": [
+      "sanoq sistemalari"
+     ]
+    },
+    {
+     "keyword": "ikkilik sanoq sistemasi",
+     "volume": 480,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "двоичная система счисления",
+     "volume": 70,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 13250,
+   "demand_month_floor": 13250,
+   "demand_month_upper_incl_heads": 25350,
+   "jump_shaped_keywords": [],
+   "heads_upper_bound_only": [
+    {
+     "keyword": "сумма прописью",
+     "vol": 12100,
+     "merged": []
+    }
+   ],
+   "suspicious_buckets": [],
+   "excluded": [],
+   "seasonality_index": {
+    "2026-09": 1.02,
+    "2026-08": 0.42,
+    "2026-07": 0.45,
+    "2026-06": 0.74,
+    "2026-05": 0.99,
+    "2026-04": 0.91,
+    "2026-03": 1.0,
+    "2026-02": 1.06,
+    "2026-01": 1.1,
+    "2025-12": 1.55,
+    "2025-11": 1.14,
+    "2025-10": 1.63
+   },
+   "seasonality": "пики: 2025-10 ×1.63, 2025-12 ×1.55, 2025-11 ×1.14; провалы: 2026-07 ×0.45, 2026-08 ×0.42",
+   "serp_source": "не снято",
+   "serp": "Не снято. «rim raqamlari» вероятно слабая (блоги, PDF); RU «римские цифры», «сумма прописью» — сильные русские инструменты.",
+   "serp_weakness": "mixed",
+   "aio_discount_top3": 0.655,
+   "fit": "(a) конвертеры в обе стороны с пояснением шагов",
+   "build": "/uz/konvertor/rim-raqamlari/ (+ /ru/rimskie-tsifry/), /uz/konvertor/sanoq-sistemalari/ (2/8/10/16 по шагам); смежное: /ru/summa-propisyu/ (12 100/мес, документы, вне школьной линзы).",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Чистые вычисления.",
+   "caveat": "Без «сумма прописью» кластер мал (13 250); рядом с уже живым конвертером латиница↔кириллица.",
+   "visits_day_pos6_ads": [
+    4,
+    7
+   ],
+   "visits_day_pos6_floor": [
+    4,
+    7
+   ],
+   "visits_day_pos3_ads": 16,
+   "visits_day_pos3_floor": 16,
+   "visits_day_pos3_ads_no_aio_discount": 24,
+   "ramp": {
+    "k1_month1_share": 0.08,
+    "months_to_full_pos6_forecast": 4.8,
+    "month1_visits_ads_mid": 0.4,
+    "month1_visits_floor_mid": 0.4,
+    "weeks_to_5_visits_ads": 20,
+    "weeks_to_5_visits_floor": 20,
+    "weeks_to_10_visits_ads": null,
+    "weeks_to_10_visits_floor": null
+   }
+  },
+  {
+   "id": "ielts_cefr_writing",
+   "priority": 11,
+   "name": "IELTS / CEFR / Multilevel writing tekshiruvi (AI) + mock",
+   "top_keywords": [
+    {
+     "keyword": "ielts test",
+     "volume": 1600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "ielts writing task 2",
+     "volume": 1300,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "cefr test",
+     "volume": 880,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "ielts writing",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "ielts writing checker",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "multilevel writing",
+     "volume": 590,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "cefr writing",
+     "volume": 480,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "multilevel test",
+     "volume": 390,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "multi level test",
+     "volume": 50,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "writing tekshirish",
+     "volume": 30,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 6760,
+   "demand_month_floor": 6760,
+   "demand_month_upper_incl_heads": 18760,
+   "jump_shaped_keywords": [],
+   "heads_upper_bound_only": [
+    {
+     "keyword": "cefr",
+     "vol": 6600,
+     "merged": []
+    },
+    {
+     "keyword": "multilevel",
+     "vol": 5400,
+     "merged": []
+    }
+   ],
+   "suspicious_buckets": [],
+   "excluded": [
+    {
+     "keyword": "ielts",
+     "vol": 27100
+    }
+   ],
+   "seasonality_index": {
+    "2026-09": 0.84,
+    "2026-08": 0.82,
+    "2026-07": 0.86,
+    "2026-06": 0.97,
+    "2026-05": 1.09,
+    "2026-04": 1.27,
+    "2026-03": 1.1,
+    "2026-02": 1.12,
+    "2026-01": 1.08,
+    "2025-12": 1.0,
+    "2025-11": 0.99,
+    "2025-10": 0.87
+   },
+   "seasonality": "пики: 2026-04 ×1.27, 2026-02 ×1.12, 2026-03 ×1.1; провалы: 2026-09 ×0.84, 2026-08 ×0.82",
+   "serp_source": "не снято",
+   "serp": "Не снято. Для «ielts writing checker» ожидаемы глобальные AI-сервисы (сильная выдача); «multilevel writing», «cefr writing» — локальные учебные центры и Telegram.",
+   "serp_weakness": "mixed",
+   "aio_discount_top3": 0.655,
+   "fit": "(b) лучший AI-fit линзы: пресет «экзаменатор IELTS/CEFR» — разбор эссе по критериям и ориентировочный диапазон балла",
+   "build": "/uz/ielts-writing-tekshirish/, /uz/cefr-multilevel-writing/ (лендинг + пресет чата + свои Task 2 темы и разборы структуры).",
+   "effort": "S",
+   "honesty_risk": "medium",
+   "honesty_note": "Балл — ориентировочный, не официальный; не обещать «band 7».",
+   "caveat": "Малый спрос (6 760; с головами cefr/multilevel 18 760), но прямой путь в платный чат.",
+   "visits_day_pos6_ads": [
+    2,
+    4
+   ],
+   "visits_day_pos6_floor": [
+    2,
+    4
+   ],
+   "visits_day_pos3_ads": 8,
+   "visits_day_pos3_floor": 8,
+   "visits_day_pos3_ads_no_aio_discount": 12,
+   "ramp": {
+    "k1_month1_share": 0.04,
+    "months_to_full_pos6_forecast": 7.5,
+    "month1_visits_ads_mid": 0.1,
+    "month1_visits_floor_mid": 0.1,
+    "weeks_to_5_visits_ads": null,
+    "weeks_to_5_visits_floor": null,
+    "weeks_to_10_visits_ads": null,
+    "weeks_to_10_visits_floor": null
+   }
+  },
+  {
+   "id": "olympiad",
+   "priority": 12,
+   "name": "Olimpiada masalalari (o‘z masalalar + yechim)",
+   "top_keywords": [
+    {
+     "keyword": "olimpiada",
+     "volume": 3600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "olimpiada savollari",
+     "volume": 1600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "fan olimpiadasi",
+     "volume": 720,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "matematika olimpiada",
+     "volume": 70,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "informatika olimpiada",
+     "volume": 50,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "олимпиада по математике",
+     "volume": 40,
+     "same_bucket_as": []
+    }
+   ],
+   "demand_month_ads_deduped": 6080,
+   "demand_month_floor": 6080,
+   "demand_month_upper_incl_heads": 6080,
+   "jump_shaped_keywords": [],
+   "heads_upper_bound_only": [],
+   "suspicious_buckets": [],
+   "excluded": [],
+   "seasonality_index": {
+    "2026-09": 3.62,
+    "2026-08": 0.19,
+    "2026-07": 0.24,
+    "2026-06": 0.32,
+    "2026-05": 0.33,
+    "2026-04": 0.3,
+    "2026-03": 0.33,
+    "2026-02": 1.12,
+    "2026-01": 0.56,
+    "2025-12": 0.55,
+    "2025-11": 0.34,
+    "2025-10": 4.11
+   },
+   "seasonality": "пики: 2025-10 ×4.11, 2026-09 ×3.62, 2026-02 ×1.12; провалы: 2026-07 ×0.24, 2026-08 ×0.19",
+   "serp_source": "не снято",
+   "serp": "Не снято.",
+   "serp_weakness": "mixed",
+   "aio_discount_top3": 0.655,
+   "fit": "(c) свои олимпиадные задачи с полным решением по классам",
+   "build": "/uz/olimpiada/matematika/ (и informatika) — задачи школьного и районного этапа, решения, таймер.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Нужен автор-предметник; задачи прошлых олимпиад — только со ссылкой и своим решением.",
+   "caveat": "Очень сезонный: сентябрь–октябрь ×3,6–4,1, февраль ×1,1, остальное ×0,2–0,5.",
+   "visits_day_pos6_ads": [
+    2,
+    3
+   ],
+   "visits_day_pos6_floor": [
+    2,
+    3
+   ],
+   "visits_day_pos3_ads": 7,
+   "visits_day_pos3_floor": 7,
+   "visits_day_pos3_ads_no_aio_discount": 11,
+   "ramp": {
+    "k1_month1_share": 0.04,
+    "months_to_full_pos6_forecast": 7.5,
+    "month1_visits_ads_mid": 0.1,
+    "month1_visits_floor_mid": 0.1,
+    "weeks_to_5_visits_ads": null,
+    "weeks_to_5_visits_floor": null,
+    "weeks_to_10_visits_ads": null,
+    "weeks_to_10_visits_floor": null
+   }
+  }
+ ],
+ "adjacent_outside_lens": [
+  {
+   "id": "driving_theory",
+   "name": "Avtotest / YHQ (вне школьной линзы)",
+   "demand_month_ads_deduped": 24280,
+   "top_keywords": [
+    {
+     "keyword": "avtotest",
+     "volume": 12100,
+     "same_bucket_as": [
+      "avto test"
+     ]
+    },
+    {
+     "keyword": "prava test",
+     "volume": 6600,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "автотест",
+     "volume": 4400,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "yol harakati qoidalari test",
+     "volume": 480,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "yhq test",
+     "volume": 390,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "пдд тест",
+     "volume": 260,
+     "same_bucket_as": []
+    },
+    {
+     "keyword": "pdd test",
+     "volume": 50,
+     "same_bucket_as": []
+    }
+   ],
+   "visits_day_pos6_ads": [
+    7,
+    13
+   ],
+   "visits_day_pos3_ads": 29,
+   "note": "стабильный спрос; SERP не снят; L-объём (картинки ситуаций), только свои вопросы по ПДД — копия официального банка = «copied archive»"
+  },
+  {
+   "id": "summa_propisyu",
+   "name": "Сумма прописью (RU, документы)",
+   "demand_month_ads_deduped": 12100,
+   "note": "стабильно 12 100–14 800; детерминированный инструмент S; вне школьной линзы"
+  }
+ ],
+ "excluded_in_lens": [
+  {
+   "keyword": "uzbmb",
+   "volume": 135000,
+   "why": "навигация к агентству"
+  },
+  {
+   "keyword": "dtm",
+   "volume": 27100,
+   "why": "навигация"
+  },
+  {
+   "keyword": "abituriyent",
+   "volume": 27100,
+   "why": "навигация (июль–август)"
+  },
+  {
+   "keyword": "bsb",
+   "volume": 27100,
+   "why": "спрос на ответы суммативных работ (BSB/ChSB)"
+  },
+  {
+   "keyword": "dtm test javoblari",
+   "volume": 18100,
+   "why": "утечки ключей"
+  },
+  {
+   "keyword": "test javoblari",
+   "volume": 8100,
+   "why": "ответы"
+  },
+  {
+   "keyword": "imlo lug'ati",
+   "volume": 18100,
+   "why": "словарь, навигация к imlo.uz"
+  },
+  {
+   "keyword": "kimyo masalalar",
+   "volume": 90500,
+   "why": "аномальная корзина 20 → 165 000"
+  },
+  {
+   "keyword": "ona tili testlar",
+   "volume": 110000,
+   "why": "аномальная корзина (у «ona tili test» 1 600) — только верхняя граница"
+  },
+  {
+   "keyword": "ielts",
+   "volume": 27100,
+   "why": "широкая голова/навигация"
+  },
+  {
+   "keyword": "гдз",
+   "volume": 5400,
+   "why": "архивы готовых ответов"
+  },
+  {
+   "keyword": "prezident maktabi",
+   "volume": 4400,
+   "why": "навигация/новости"
+  }
+ ]
+}

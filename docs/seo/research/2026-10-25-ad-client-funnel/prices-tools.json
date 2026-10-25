@@ -1,0 +1,1872 @@
+{
+ "meta": {
+  "lens": "prices-tools",
+  "date": "2026-10-25",
+  "location": 2860,
+  "source": "OpenSEO (DataForSEO, Google Ads data for UZ): research_keywords x3 seeds, get_keyword_metrics x2 (649 keywords), get_serp_results x4; GSC free",
+  "formula": "visits/day = demand x CTR / 30 x 1.5; CTR pos6 0.61-1.10%, pos3 3.59%; AI Overview x0.53-0.655 where present; where SERP not checked the low bound takes x0.53 and the high bound none",
+  "dedupe": "keywords with identical volume+CPC+competition that are close variants in one script are one Google Ads bucket and count once (groups in build_clusters.py); heads owned by existing pages, navigational heads, ambiguous heads, job/course queries and rule-breaking queries are listed per cluster and not counted",
+  "credits": "own spend ~508 of 600 (research 3 seeds ~288, metrics 2 x 104, SERP 4 = 12); whoami 21 772 -> 20 700 account-wide includes parallel lenses",
+  "missing_keywords": [],
+  "cross_lens_dedupe": "Checked against ad-platform-pains.json (same folder, written 2026-10-25 09:59). Removed from this lens because pains owns them: Meta Ads Manager / Business Suite (18 610 measured here, pains counts 3 428 after its own discounts), Telegram Ads how-to and channel buying (telegram ads, ads telegram, телеграм адс, telegram ads узбекистан/цена/стоимость/ton, реклама в телеграм каналах ...), Google Ads / Yandex Direct DIY heads (яндекс директ, yandex direct, гугл реклама, google реклама ...), target qilish. Only the CPM sub-tool and 3 Telegram price rows (сколько стоит реклама в телеграм канале, стоимость рекламы в телеграм канале, телеграм адс цена) stay here, inside the marketing calculator.",
+  "totals": {
+   "demand_month": 9640
+  }
+ },
+ "clusters": [
+  {
+   "id": "ai-reklama-matni",
+   "name": "AI-генератор рекламного текста (reklama matni yozish)",
+   "keywords": "reklama matni yozish 210, reklama matni = reklama matnlari 70, reklama yozish 70, reklama uchun so'zlar 20, caption generator 20; по 10 (нижняя корзина Google Ads): reklama tekst, рекламный текст, рекламный текст пример, как написать рекламный текст, генератор постов, нейросеть для рекламы, нейросеть для текстов, нейросеть для постов, продающий текст, реклама текст, примеры рекламных текстов, генератор описаний, генератор описания товара, описание товара для маркетплейса, post generator, ad copy generator",
+   "keyword_rows": [
+    {
+     "keyword": "reklama matni yozish",
+     "volume": 210,
+     "cpc": 0.77,
+     "competition": 0.02,
+     "bucket": null
+    },
+    {
+     "keyword": "reklama matni",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0,
+     "bucket": "reklama matni = reklama matnlari"
+    },
+    {
+     "keyword": "reklama matnlari",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0,
+     "bucket": "reklama matni = reklama matnlari"
+    },
+    {
+     "keyword": "reklama yozish",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0.03,
+     "bucket": null
+    },
+    {
+     "keyword": "reklama uchun so'zlar",
+     "volume": 20,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "caption generator",
+     "volume": 20,
+     "cpc": 0.84,
+     "competition": 0.28,
+     "bucket": null
+    },
+    {
+     "keyword": "reklama tekst",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "рекламный текст",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "рекламный текст пример",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "как написать рекламный текст",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "генератор постов",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "нейросеть для рекламы",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "нейросеть для текстов",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "нейросеть для постов",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "продающий текст",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "реклама текст",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "примеры рекламных текстов",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "генератор описаний",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "генератор описания товара",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "описание товара для маркетплейса",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "post generator",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "ad copy generator",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    }
+   ],
+   "demand_month": 550,
+   "cpc_usd": "взвеш. 0.78; макс. 0.84 («caption generator»)",
+   "serp": "reklama matni yozish: AI Overview; 1 kursishlari.uz (платная студ. презентация), 2–3 ilmiyhujjat.uz (то же), 4 adshare.uz/uz/blog «7 qoida» (вышла ~7 дней назад), 5 kursishlari.uz; YouTube на 6. Инструмента в выдаче нет.",
+   "serp_weakness": "weak",
+   "ai_overview": true,
+   "ai_overview_note": "AI Overview есть (скидка ×0,53–0,655)",
+   "existing_url": "/uz/gpt-telegram-instagram-ideya/ (0 показов за 3 мес.) и /ru/gpt-v-marketinge-smm/ (0 показов)",
+   "page": "Перенацелить существующие URL, а не создавать новые: UZ /uz/gpt-telegram-instagram-ideya/ → «Reklama matni yozish: AI generator va 7 qoida» (форма → готовый шаблон чата smm-telegram-ad / smm-instagram-post); RU /ru/gpt-v-marketinge-smm/ → блок «Генератор рекламных текстов». Тип: страница-инструмент поверх уже работающего SMM-инструмента чата.",
+   "lead_path": "Таргет (запуск от 1 990 000 сум) и SMM (от 2 490 000 сум/мес). В чате уже есть детектор бизнес-намерения (тема ads) с предложением помощи студии; на странице — CTA «Matn tayyor — reklamani to‘g‘ri yoqishni biz qilamiz» и существующая форма заявки.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Шаблон чата уже запрещает выдумывать скидки. Нужна строка про маркировку рекламы — только нейтрально, со ссылкой на закон РУз «О рекламе».",
+   "visits_day_pos6": "0.09–0.20",
+   "visits_day_pos3": "0.52–0.65",
+   "adjacent_not_counted": {
+    "kopirayting": 170,
+    "kopirayter": 50,
+    "копирайтинг/копирайтер (одна корзина)": 320
+   }
+  },
+  {
+   "id": "kontent-reja",
+   "name": "Контент-план: шаблон + AI-генератор (kontent reja / контент-план)",
+   "keywords": "контент план = контент-план 70, что выложить в инстаграм 40, kontent plan 20, контент план шаблон 20, идеи для сторис 20, content plan 20; по 10 (нижняя корзина Google Ads): kontent plan tuzish, контент план на месяц, как составить контент план, контент план для телеграм канала, контент план для инстаграм, контент план пример, контент план инстаграм, идеи для постов, идеи для рилс, smm контент план, smm план на месяц, готовые контент планы, виды контент плана, instagram контент план, готовый контент для инстаграм, reels ideas",
+   "keyword_rows": [
+    {
+     "keyword": "контент план",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0.01,
+     "bucket": "контент план = контент-план"
+    },
+    {
+     "keyword": "контент-план",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0.01,
+     "bucket": "контент план = контент-план"
+    },
+    {
+     "keyword": "что выложить в инстаграм",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "kontent plan",
+     "volume": 20,
+     "cpc": 1.46,
+     "competition": 0.16,
+     "bucket": null
+    },
+    {
+     "keyword": "контент план шаблон",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.08,
+     "bucket": null
+    },
+    {
+     "keyword": "идеи для сторис",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.01,
+     "bucket": null
+    },
+    {
+     "keyword": "content plan",
+     "volume": 20,
+     "cpc": 5.01,
+     "competition": 0.24,
+     "bucket": null
+    },
+    {
+     "keyword": "kontent plan tuzish",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.04,
+     "bucket": null
+    },
+    {
+     "keyword": "контент план на месяц",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "как составить контент план",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "контент план для телеграм канала",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "контент план для инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "контент план пример",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.14,
+     "bucket": null
+    },
+    {
+     "keyword": "контент план инстаграм",
+     "volume": 10,
+     "cpc": 0.64,
+     "competition": 0.43,
+     "bucket": null
+    },
+    {
+     "keyword": "идеи для постов",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "идеи для рилс",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "smm контент план",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "smm план на месяц",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "готовые контент планы",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "виды контент плана",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "instagram контент план",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "готовый контент для инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "reels ideas",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.05,
+     "bucket": null
+    }
+   ],
+   "demand_month": 350,
+   "cpc_usd": "взвеш. 2.72; макс. 5.01 («content plan»)",
+   "serp": "Не проверялась (лимит 4 SERP). GSC: по «контент» у сайта 1 строка за 3 месяца — сайт в этой выдаче отсутствует.",
+   "serp_weakness": "mixed",
+   "ai_overview": null,
+   "ai_overview_note": "SERP не проверялась: нижняя граница со скидкой AIO ×0,53, верхняя без",
+   "existing_url": "/ru/gpt-v-marketinge-smm/ (secondary «AI контент-план», 0 показов)",
+   "page": "RU: новая страница-инструмент /ru/kontent-plan-instagram-shablon/ (шаблон таблицы для скачивания + запуск шаблона чата smm-plan «7 дней»); у /ru/gpt-v-marketinge-smm/ снять «AI контент-план» из secondaryKeywords, чтобы не было двух владельцев. UZ: раздел «Kontent reja» на той же UZ-странице, что в кластере 1 (UZ-спрос всего 30/мес — отдельный URL не окупается).",
+   "lead_path": "SMM: пакет Start от 2 490 000 сум/мес (CTA «Rejani tuzdingiz — bajarishni bizga topshiring»).",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Шаблон — реальная таблица, не «гарантия охватов».",
+   "visits_day_pos6": "0.06–0.19",
+   "visits_day_pos3": "0.33–0.63"
+  },
+  {
+   "id": "targetolog-narxi",
+   "name": "Таргетолог: цена и найм (targetolog / таргетолог цена)",
+   "keywords": "targetolog 170, таргетолог 140, targetolog kerak 40, таргетолог ташкент 40, target yoqish narxi 20, реклама в инстаграм цена 20; по 10 (нижняя корзина Google Ads): таргетолог цена, таргет цена, сколько стоит таргет, стоимость таргета, стоимость таргетированной рекламы, таргетированная реклама цена, реклама инстаграм цена",
+   "keyword_rows": [
+    {
+     "keyword": "targetolog",
+     "volume": 170,
+     "cpc": 2.47,
+     "competition": 0.12,
+     "bucket": null
+    },
+    {
+     "keyword": "таргетолог",
+     "volume": 140,
+     "cpc": 0.24,
+     "competition": 0.12,
+     "bucket": null
+    },
+    {
+     "keyword": "targetolog kerak",
+     "volume": 40,
+     "cpc": 0.06,
+     "competition": 0.27,
+     "bucket": null
+    },
+    {
+     "keyword": "таргетолог ташкент",
+     "volume": 40,
+     "cpc": 1.33,
+     "competition": 0.65,
+     "bucket": null
+    },
+    {
+     "keyword": "target yoqish narxi",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.04,
+     "bucket": null
+    },
+    {
+     "keyword": "реклама в инстаграм цена",
+     "volume": 20,
+     "cpc": 1.32,
+     "competition": 0.07,
+     "bucket": null
+    },
+    {
+     "keyword": "таргетолог цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "таргет цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.26,
+     "bucket": null
+    },
+    {
+     "keyword": "сколько стоит таргет",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "стоимость таргета",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "стоимость таргетированной рекламы",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "таргетированная реклама цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "реклама инстаграм цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    }
+   ],
+   "demand_month": 500,
+   "cpc_usd": "взвеш. 1.31; макс. 2.47 («targetolog»)",
+   "serp": "targetolog: AI Overview + видео; 1 skillbox.ru (профессия), 2 instagram.com пост (UZ), 3 m.olx.uz (вакансии и услуги таргетологов, в сниппете 598 415 – 4 787 320 сум), 4 practicum.yandex.ru, 5 instagram.com профиль. Ни одной страницы услуги агентства в топ-5.",
+   "serp_weakness": "mixed",
+   "ai_overview": true,
+   "ai_overview_note": "AI Overview есть (скидка ×0,53–0,655)",
+   "existing_url": "/uz/instagram-target-yoqish/ (hub, 0 показов по «targetolog»); /ru/targetirovannaya-reklama-tashkent/; профессия — /uz/blog/target-reklama-nima/ (уже держит «targetolog kim», «таргет нима» 74 показа, поз. 7,3)",
+   "page": "Расширить, не создавать: в hub /uz/instagram-target-yoqish/ раздел «Targetolog xizmati narxi: frilanser, shtatdagi xodim yoki agentlik» с уже опубликованными ценами (1 990 000 запуск / 1 490 000 ведение) и честным сравнением моделей без чужих цен; то же в /ru/targetirovannaya-reklama-tashkent/ для «таргетолог ташкент/цена». Профессиональный интент («targetolog kim») оставить статье target-reklama-nima.",
+   "lead_path": "Прямо услуга таргета — самый горячий интент кластера (CPC targetolog $2,47, «таргетолог ташкент» $1,33).",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Цены конкурентов с OLX не цитировать как факт рынка без даты и источника; свои — только из тарифной таблицы.",
+   "visits_day_pos6": "0.08–0.18",
+   "visits_day_pos3": "0.48–0.59",
+   "owned_not_counted": {
+    "target yoqish": 260,
+    "instagram target yoqish": 140,
+    "instagram target": 50,
+    "facebook target yoqish": 20
+   }
+  },
+  {
+   "id": "kontekst-narxi-kalkulyator",
+   "name": "Сколько стоит контекстная реклама: калькулятор бюджета Google Ads / Директ (RU + UZ)",
+   "keywords": "гугл адс 140, контекстная реклама 110, google adwords 70, яндекс реклама 70, реклама гугл 40; по 10 (нижняя корзина Google Ads): google ads цена, настройка яндекс директ, директолог, контекстная реклама цена, стоимость контекстной рекламы, сколько стоит контекстная реклама, гугл реклама цена, google реклама цена, реклама гугл цена, яндекс реклама цена",
+   "keyword_rows": [
+    {
+     "keyword": "гугл адс",
+     "volume": 140,
+     "cpc": 6.87,
+     "competition": 0.26,
+     "bucket": null
+    },
+    {
+     "keyword": "контекстная реклама",
+     "volume": 110,
+     "cpc": 3.41,
+     "competition": 0.55,
+     "bucket": null
+    },
+    {
+     "keyword": "google adwords",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0.03,
+     "bucket": null
+    },
+    {
+     "keyword": "яндекс реклама",
+     "volume": 70,
+     "cpc": 2.36,
+     "competition": 0.26,
+     "bucket": null
+    },
+    {
+     "keyword": "реклама гугл",
+     "volume": 40,
+     "cpc": 2.54,
+     "competition": 0.43,
+     "bucket": null
+    },
+    {
+     "keyword": "google ads цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "настройка яндекс директ",
+     "volume": 10,
+     "cpc": 0.47,
+     "competition": 0.64,
+     "bucket": null
+    },
+    {
+     "keyword": "директолог",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "контекстная реклама цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.79,
+     "bucket": null
+    },
+    {
+     "keyword": "стоимость контекстной рекламы",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "сколько стоит контекстная реклама",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "гугл реклама цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "google реклама цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "реклама гугл цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "яндекс реклама цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.29,
+     "bucket": null
+    }
+   ],
+   "demand_month": 530,
+   "cpc_usd": "взвеш. 4.35; макс. 6.87 («гугл адс»)",
+   "serp": "Ценовые запросы не проверялись. GSC: /ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/ уже поз. 4 по «контекстная реклама цена» и 7 по «… стоимость в месяц» (3 клика / 53 показа за 3 мес.) — выдача пробиваемая. Для сравнения, навигационная «yandex direct»: AI Overview и 4 из 5 мест у самого Яндекса (yandex.ru/support, yard.yandex.ru, b2b.yandex.ru ×2) — поэтому DIY-головы отданы линзе «боли».",
+   "serp_weakness": "mixed",
+   "ai_overview": null,
+   "ai_overview_note": "SERP не проверялась: нижняя граница со скидкой AIO ×0,53, верхняя без",
+   "existing_url": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/, /uz/blog/kontekst-reklama-narxi-toshkent-2026/, money /ru/kontekstnaya-reklama-tashkent/ (там уже есть CPL-виджет)",
+   "page": "Расширить ценовые статьи, новых URL не делать: встроить калькулятор бюджета «CPC × клики → бюджет → заявки при вашей конверсии → CPL» в RU-статью и в UZ-статью цены (тот же growthTool-механизм, что на money-странице); добавить «гугл адс», «контекстная реклама цена/стоимость» в их ключи. CPC в калькулятор — только ввод пользователя или ссылка на Планировщик ключевых слов Google, без «средних по рынку» от нас.",
+   "lead_path": "Контекстная реклама: запуск от 1 990 000 сум, ведение от 1 490 000 сум/мес (/ru/kontekstnaya-reklama-tashkent/). Самый дорогой клик в линзе: гугл адс $6,87, реклама гугл $2,54.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Не выдавать прогноз за обещание; бюджет площадки — отдельно от цены работы (так уже написано на money-странице).",
+   "visits_day_pos6": "0.09–0.29",
+   "visits_day_pos3": "0.50–0.95",
+   "visits_note": "«гугл адс» (140 из 530) частично навигационный.",
+   "owned_by_pains_lens_not_counted": {
+    "яндекс директ": 590,
+    "yandex direct": 390,
+    "yandex reklama": 70,
+    "яндекс директ узбекистан": 40,
+    "яндекс директ цена": 10,
+    "гугл реклама": 110,
+    "google реклама": 70,
+    "google reklama": 30,
+    "реклама в гугл цена": 10
+   },
+   "navigational_not_counted": {
+    "google ads": 4400,
+    "google ads вход": 50,
+    "google ads login": 20,
+    "яндекс директ вход": 10
+   }
+  },
+  {
+   "id": "marketing-kalkulyator",
+   "name": "Калькулятор маркетолога: ROMI, CPL, ДРР, бюджет (UZ + RU)",
+   "keywords": "romi 320, ltv 210, konversiya nima 140, cpl 110, roi formula 90, drr 90, дрр 70, roi nima 40, roi формула 30, медиаплан 20, ltv nima 20, lid nima 20; по 10 (нижняя корзина Google Ads): калькулятор romi, калькулятор roi, расчет romi, как рассчитать romi, как посчитать cpl, юнит экономика калькулятор = калькулятор юнит экономики, калькулятор конверсии, калькулятор рекламы, roi calculator, roas calculator, romi formula, romi формула = формула romi, формула roi, дрр формула, lead nima, cpm калькулятор, калькулятор cpm, cpm calculator, сколько стоит реклама в телеграм канале, стоимость рекламы в телеграм канале, телеграм адс цена",
+   "keyword_rows": [
+    {
+     "keyword": "romi",
+     "volume": 320,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "ltv",
+     "volume": 210,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "konversiya nima",
+     "volume": 140,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "cpl",
+     "volume": 110,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "roi formula",
+     "volume": 90,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "drr",
+     "volume": 90,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "дрр",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "roi nima",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "roi формула",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "медиаплан",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.02,
+     "bucket": null
+    },
+    {
+     "keyword": "ltv nima",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "lid nima",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "калькулятор romi",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "калькулятор roi",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "расчет romi",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "как рассчитать romi",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "как посчитать cpl",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "юнит экономика калькулятор",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": "юнит экономика калькулятор = калькулятор юнит экономики"
+    },
+    {
+     "keyword": "калькулятор юнит экономики",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": "юнит экономика калькулятор = калькулятор юнит экономики"
+    },
+    {
+     "keyword": "калькулятор конверсии",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "калькулятор рекламы",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "roi calculator",
+     "volume": 10,
+     "cpc": 1.85,
+     "competition": 0.07,
+     "bucket": null
+    },
+    {
+     "keyword": "roas calculator",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.25,
+     "bucket": null
+    },
+    {
+     "keyword": "romi formula",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.02,
+     "bucket": null
+    },
+    {
+     "keyword": "romi формула",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.01,
+     "bucket": "romi формула = формула romi"
+    },
+    {
+     "keyword": "формула romi",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": "romi формула = формула romi"
+    },
+    {
+     "keyword": "формула roi",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "дрр формула",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "lead nima",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "cpm калькулятор",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "калькулятор cpm",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "cpm calculator",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "сколько стоит реклама в телеграм канале",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "стоимость рекламы в телеграм канале",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "телеграм адс цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.5,
+     "bucket": null
+    }
+   ],
+   "demand_month": 1370,
+   "cpc_usd": "взвеш. 1.85; макс. 1.85 («roi calculator»)",
+   "serp": "Не проверялась. GSC: RU-статья /ru/blog/cpa-cpm-cpc-cpl-v-reklame/ держит 21 строку по «cp*», но на позициях 27–85; по «калькул» у сайта 0 строк. Спрос на сам «калькулятор» мал (строки по 10), реальный объём — в голых терминах (romi 320, ltv 210, cpl 110).",
+   "serp_weakness": "mixed",
+   "ai_overview": null,
+   "ai_overview_note": "SERP не проверялась: нижняя граница со скидкой AIO ×0,53, верхняя без",
+   "existing_url": "CPL-калькулятор уже живёт как growthTool на /ru/kontekstnaya-reklama-tashkent/; определения — /ru/blog/cpa-cpm-cpc-cpl-v-reklame/; бюджет — /uz/blog/reklama-byudjeti-qancha-bolishi-kerak/, /ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+   "page": "Новая страница-инструмент в двух языках: /uz/marketing-kalkulyator/ и /ru/kalkulyator-romi-cpl/ (ROMI, ROI, CPL, CPA, ДРР, предельный CPL, бюджет под план заявок, CPM-модуль «цена поста = CPM × охват / 1000»; код CPL-виджета переиспользуется; CPM-модуль также встраивается в Telegram-страницы, владелец которых — линза «боли»). Определения — коротко на UZ-странице (UZ-владельца нет), на RU — ссылка на существующую статью, чтобы не забрать её интент.",
+   "lead_path": "Маркетинговый аудит (/ru/marketingovyi-audit-tashkent/) и контекст/таргет: экран результата → «media-reja tuzib beramiz» → форма.",
+   "effort": "M",
+   "honesty_risk": "low",
+   "honesty_note": "Результат — экономическая граница по данным пользователя, не прогноз площадки (так уже сформулировано в существующем виджете). Аудитория частично — студенты и маркетологи, не владельцы.",
+   "visits_day_pos6": "0.22–0.75",
+   "visits_day_pos3": "1.3–2.5",
+   "owned_not_counted": {
+    "RU «что такое cpa/cpl/ctr/cpm/cpc/romi/ltv/дрр/конверсия» (11 строк по 10)": 110
+   },
+   "ambiguous_not_counted": {
+    "roi": 590,
+    "ctr": 480,
+    "cpm": 390,
+    "cpa": 210,
+    "cpc": 90,
+    "konversiya/конверсия (одна корзина)": 260
+   }
+  },
+  {
+   "id": "mobilograf-reels",
+   "name": "Мобилограф и Reels для бизнеса: нанять или отдать агентству",
+   "keywords": "мобилограф = мобилография 880, mobilograf 590, мобилограф это 320, mobilografiya 260, mobilograf kerak 70, мобилограф ташкент 70, videograf 50, видеограф ташкент = видеосъемка ташкент 50, кто такой мобилограф 40, mobilograf nima 20, video reklama = reklama video 20; по 10 (нижняя корзина Google Ads): mobilograf xizmati, мобилограф цена, рилсмейкер, reelsmaker, съемка рилс, рекламный ролик, съемка рекламы",
+   "keyword_rows": [
+    {
+     "keyword": "мобилограф",
+     "volume": 880,
+     "cpc": 0.26,
+     "competition": 0.02,
+     "bucket": "мобилограф = мобилография"
+    },
+    {
+     "keyword": "мобилография",
+     "volume": 880,
+     "cpc": 0.26,
+     "competition": 0.02,
+     "bucket": "мобилограф = мобилография"
+    },
+    {
+     "keyword": "mobilograf",
+     "volume": 590,
+     "cpc": 0.32,
+     "competition": 0.06,
+     "bucket": null
+    },
+    {
+     "keyword": "мобилограф это",
+     "volume": 320,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "mobilografiya",
+     "volume": 260,
+     "cpc": 0.6,
+     "competition": 0.01,
+     "bucket": null
+    },
+    {
+     "keyword": "mobilograf kerak",
+     "volume": 70,
+     "cpc": 0.05,
+     "competition": 0.17,
+     "bucket": null
+    },
+    {
+     "keyword": "мобилограф ташкент",
+     "volume": 70,
+     "cpc": 1.01,
+     "competition": 0.25,
+     "bucket": null
+    },
+    {
+     "keyword": "videograf",
+     "volume": 50,
+     "cpc": 0.19,
+     "competition": 0.04,
+     "bucket": null
+    },
+    {
+     "keyword": "видеограф ташкент",
+     "volume": 50,
+     "cpc": 0.45,
+     "competition": 0.14,
+     "bucket": "видеограф ташкент = видеосъемка ташкент"
+    },
+    {
+     "keyword": "видеосъемка ташкент",
+     "volume": 50,
+     "cpc": 0.45,
+     "competition": 0.14,
+     "bucket": "видеограф ташкент = видеосъемка ташкент"
+    },
+    {
+     "keyword": "кто такой мобилограф",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "mobilograf nima",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "video reklama",
+     "volume": 20,
+     "cpc": 1.47,
+     "competition": 0.26,
+     "bucket": "video reklama = reklama video"
+    },
+    {
+     "keyword": "reklama video",
+     "volume": 20,
+     "cpc": 1.47,
+     "competition": 0.26,
+     "bucket": "video reklama = reklama video"
+    },
+    {
+     "keyword": "mobilograf xizmati",
+     "volume": 10,
+     "cpc": 0.33,
+     "competition": 0.14,
+     "bucket": null
+    },
+    {
+     "keyword": "мобилограф цена",
+     "volume": 10,
+     "cpc": 0.02,
+     "competition": 0.29,
+     "bucket": null
+    },
+    {
+     "keyword": "рилсмейкер",
+     "volume": 10,
+     "cpc": 0.08,
+     "competition": 0.06,
+     "bucket": null
+    },
+    {
+     "keyword": "reelsmaker",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.07,
+     "bucket": null
+    },
+    {
+     "keyword": "съемка рилс",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "рекламный ролик",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.23,
+     "bucket": null
+    },
+    {
+     "keyword": "съемка рекламы",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.05,
+     "bucket": null
+    }
+   ],
+   "demand_month": 2440,
+   "cpc_usd": "взвеш. 0.35; макс. 1.47 («video reklama»)",
+   "serp": "mobilograf: AI Overview; 1 m.olx.uz (вакансии «mobilograf kerak» 5–8 млн сум), 2 m.olx.uz (одно объявление услуги), 3 m.olx.uz (вакансии), 4 olx.uz (услуги), 5 m.olx.uz (вакансии); дальше ishkop.uz, cloz.uz, карточка студии в Яндекс Картах.",
+   "serp_weakness": "weak",
+   "ai_overview": true,
+   "ai_overview_note": "AI Overview есть (скидка ×0,53–0,655)",
+   "existing_url": "нет владельца; Reels уже входят в SMM-пакеты на /ru/smm-prodvizhenie-tashkent/ и /uz/smm-xizmatlari/",
+   "page": "Новая статья-сравнение UZ /uz/blog/mobilograf-yollash-yoki-smm-agentlik/ (+ RU-двойник): кто такой мобилограф, что входит в съёмку, штатный сотрудник vs фрилансер vs пакет агентства; цены — только наши опубликованные пакеты. Ловит работодателей, которые пишут «mobilograf kerak» — это и есть владельцы бизнеса.",
+   "lead_path": "SMM: «Бизнес» от 4 490 000 сум/мес (8 Reels из материалов клиента), «Про» от 7 900 000 сум/мес (съёмочный день, 12 Reels).",
+   "effort": "M",
+   "honesty_risk": "medium",
+   "honesty_note": "Не утверждать про штатных мобилографов, если съёмку делает подрядчик; зарплаты из вакансий — только с источником и датой.",
+   "visits_day_pos6": "0.39–0.88",
+   "visits_day_pos3": "2.3–2.9",
+   "visits_note": "Трафик, не лиды: ~87% спроса информационный («мобилограф это») или от соискателей; заказной хвост ≈ 310/мес (mobilograf kerak, мобилограф ташкент, видеограф ташкент, video reklama, рекламный ролик…).",
+   "excluded_jobs_courses": {
+    "mobilograf ish": 90,
+    "mobilografiya kursi": 90,
+    "мобилограф вакансии": 20,
+    "мобилограф курсы": 10
+   }
+  },
+  {
+   "id": "agency-narxlar",
+   "name": "Цены агентских услуг одним местом (SMM / сайт / блогер / видео — narxi, цена)",
+   "keywords": "influencer marketing 40; по 10 (нижняя корзина Google Ads): smm цена, смм цена, ведение инстаграм цена, ведение инстаграм, стоимость сайта, сколько стоит сайт, сайт цена, реклама у блогера цена, сколько стоит реклама у блогера, стоимость рекламы у блогера, реклама у блогеров = реклама у блогера, реклама у блогеров инстаграм, инфлюенсер маркетинг, реклама в интернете цены, smm услуги цены, услуги смм цена, прайс смм, смм прайс",
+   "keyword_rows": [
+    {
+     "keyword": "influencer marketing",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0.17,
+     "bucket": null
+    },
+    {
+     "keyword": "smm цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "смм цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "ведение инстаграм цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "ведение инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.24,
+     "bucket": null
+    },
+    {
+     "keyword": "стоимость сайта",
+     "volume": 10,
+     "cpc": 1.41,
+     "competition": 0.36,
+     "bucket": null
+    },
+    {
+     "keyword": "сколько стоит сайт",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.04,
+     "bucket": null
+    },
+    {
+     "keyword": "сайт цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "реклама у блогера цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "сколько стоит реклама у блогера",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "стоимость рекламы у блогера",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "реклама у блогеров",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.14,
+     "bucket": "реклама у блогеров = реклама у блогера"
+    },
+    {
+     "keyword": "реклама у блогера",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.14,
+     "bucket": "реклама у блогеров = реклама у блогера"
+    },
+    {
+     "keyword": "реклама у блогеров инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "инфлюенсер маркетинг",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "реклама в интернете цены",
+     "volume": 10,
+     "cpc": 0.09,
+     "competition": 0.5,
+     "bucket": null
+    },
+    {
+     "keyword": "smm услуги цены",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "услуги смм цена",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "прайс смм",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "смм прайс",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    }
+   ],
+   "demand_month": 220,
+   "cpc_usd": "взвеш. 0.75; макс. 1.41 («стоимость сайта»)",
+   "serp": "Не проверялась. GSC за 3 месяца: 11 UZ-страниц «…narxi» — 1 клик / 201 показ; 19 RU «stoimost/skolko-stoit» — 16 кликов / 1 091 показ. Первая SMM-заявка (07.10) пришла с chatgpt.com, который процитировал страницу с ценами.",
+   "serp_weakness": "mixed",
+   "ai_overview": null,
+   "ai_overview_note": "SERP не проверялась: нижняя граница со скидкой AIO ×0,53, верхняя без",
+   "existing_url": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/, /uz/blog/internet-reklama-narxi-ozbekiston-2026/, /uz/blog/kontekst-reklama-narxi-toshkent-2026/, /uz/blog/sayt-yaratish-narxi-toshkent-2026/, /ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/, /ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/ и ещё ~20",
+   "page": "Новых ценовых статей не писать. Сделать одну таблицу всех опубликованных цен (/uz/narxlar/ + /ru/ceny/ или раздел «Narxlar» на boss-digital) как источник для AI-ассистентов и для конверсии; в существующие статьи — блок «Blogerda reklama: narx nimaga bog‘liq» без чужих цифр. Это ставка на цитирование в ChatGPT, а не на Google.",
+   "lead_path": "Все услуги: таблица ведёт на каждую услугу и форму; главный канал — переходы с chatgpt.com.",
+   "effort": "S",
+   "honesty_risk": "medium",
+   "honesty_note": "Только цены из тарифных таблиц (SMM 2 490 000 / 4 490 000 / 7 900 000; таргет и контекст 1 990 000 + 1 490 000/мес; сайты 2 990 000 / 6 900 000 / 14 900 000). Цены блогеров и Telegram-каналов не публиковать как свои; владелец решает спор 290k vs 490k по поддержке.",
+   "visits_day_pos6": "0.04–0.12",
+   "visits_day_pos3": "0.21–0.39",
+   "owned_not_counted": {
+    "sayt yaratish narxi": 40
+   },
+   "unmeasured_uz": "Все ~60 узбекских «… narxi / нархи» (target narxi, smm narxi, reklama narxi, telegram kanalda reklama narxi, bloger reklama narxi, logo narxi, video reklama narxi, sayt narxi …) вернули null — меньше 10 в месяц у Google Ads."
+  },
+  {
+   "id": "obunachi-halol",
+   "name": "Как честно набрать подписчиков в Instagram и Telegram (без накрутки)",
+   "keywords": "instagram obunachi ko'paytirish 260, instagramda obunachi ko'paytirish 170, obunachi ko'paytirish 90, telegram kanal ochish 70, instagram obunachi 50, telegram obunachi ko'paytirish 40, instagramda obunachi yig'ish 20; по 10 (нижняя корзина Google Ads): telegram kanalni rivojlantirish, instagram rivojlantirish, продвижение инстаграма, продвижение инстаграма с нуля, продвижение группы в телеграмме, продвижение в телеграм, телеграм продвижение, telegram продвижение",
+   "keyword_rows": [
+    {
+     "keyword": "instagram obunachi ko'paytirish",
+     "volume": 260,
+     "cpc": 0.16,
+     "competition": 0.03,
+     "bucket": null
+    },
+    {
+     "keyword": "instagramda obunachi ko'paytirish",
+     "volume": 170,
+     "cpc": 0.09,
+     "competition": 0.07,
+     "bucket": null
+    },
+    {
+     "keyword": "obunachi ko'paytirish",
+     "volume": 90,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "telegram kanal ochish",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "instagram obunachi",
+     "volume": 50,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "telegram obunachi ko'paytirish",
+     "volume": 40,
+     "cpc": 0.68,
+     "competition": 0.07,
+     "bucket": null
+    },
+    {
+     "keyword": "instagramda obunachi yig'ish",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0.05,
+     "bucket": null
+    },
+    {
+     "keyword": "telegram kanalni rivojlantirish",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "instagram rivojlantirish",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "продвижение инстаграма",
+     "volume": 10,
+     "cpc": 4.04,
+     "competition": 0.43,
+     "bucket": null
+    },
+    {
+     "keyword": "продвижение инстаграма с нуля",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "продвижение группы в телеграмме",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "продвижение в телеграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.43,
+     "bucket": null
+    },
+    {
+     "keyword": "телеграм продвижение",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "telegram продвижение",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    }
+   ],
+   "demand_month": 780,
+   "cpc_usd": "взвеш. 0.26; макс. 4.04 («продвижение инстаграма»)",
+   "serp": "Не проверялась. Соседние запросы показывают, что выдачу по росту подписчиков занимают сервисы накрутки (top smm, global smm, smm panel) — им не подражать.",
+   "serp_weakness": "mixed",
+   "ai_overview": null,
+   "ai_overview_note": "SERP не проверялась: нижняя граница со скидкой AIO ×0,53, верхняя без",
+   "existing_url": "нет владельца (/uz/blog/smm-nima/ — про канал в целом)",
+   "page": "Новая статья UZ /uz/blog/instagram-obunachi-kopaytirish/ (+ раздел про Telegram-канал): органика, контент-план, коллаборации, таргет и Telegram Ads как законный платный рост; отдельный раздел «Nakrutka nega zarar» со ссылкой на правила Instagram.",
+   "lead_path": "Таргет (рост через рекламу) и Telegram Ads; SMM для тех, кто не хочет делать сам.",
+   "effort": "M",
+   "honesty_risk": "medium",
+   "honesty_note": "Никаких обещаний «+1000 за неделю», никаких ссылок на панели. Накрутка нарушает правила площадки — так и написать.",
+   "visits_day_pos6": "0.13–0.43",
+   "visits_day_pos3": "0.7–1.4",
+   "excluded_rule_breaking": {
+    "nakrutka": 8100,
+    "накрутка": 880,
+    "накрутка подписчиков": 720,
+    "top smm": 1300,
+    "smm panel": 260,
+    "global smm": 260
+   }
+  },
+  {
+   "id": "biznes-nomi-shior",
+   "name": "Название и слоган для бизнеса: AI-генератор (firma nomlari / название компании)",
+   "keywords": "firma nomlari 90, kompaniya nomlari 70, kafe nomlari 70, firma nomlari ro'yxati 70, business name generator 50, название компании 40, название фирмы 40, firma nomi 30, salon nomlari 30, фирма номлари 30, brend nomi 20, do'kon uchun nomlar 20, magazin nomlari 20, go'zallik saloni nomlari 20; по 10 (нижняя корзина Google Ads): restoran nomlari, nom generator, nom tanlash, reklama shiorlari, slogan generator, генератор названий, название для бренда, название для магазина, придумать название, слоган для компании, генератор слоганов, придумать слоган, названия для магазина одежды, название для кафе, генератор названий для бизнеса",
+   "keyword_rows": [
+    {
+     "keyword": "firma nomlari",
+     "volume": 90,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "kompaniya nomlari",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "kafe nomlari",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "firma nomlari ro'yxati",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "business name generator",
+     "volume": 50,
+     "cpc": 0.31,
+     "competition": 0.52,
+     "bucket": null
+    },
+    {
+     "keyword": "название компании",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0.05,
+     "bucket": null
+    },
+    {
+     "keyword": "название фирмы",
+     "volume": 40,
+     "cpc": 0.4,
+     "competition": 0.05,
+     "bucket": null
+    },
+    {
+     "keyword": "firma nomi",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "salon nomlari",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "фирма номлари",
+     "volume": 30,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "brend nomi",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "do'kon uchun nomlar",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "magazin nomlari",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "go'zallik saloni nomlari",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "restoran nomlari",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.05,
+     "bucket": null
+    },
+    {
+     "keyword": "nom generator",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "nom tanlash",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "reklama shiorlari",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "slogan generator",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "генератор названий",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.2,
+     "bucket": null
+    },
+    {
+     "keyword": "название для бренда",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.11,
+     "bucket": null
+    },
+    {
+     "keyword": "название для магазина",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "придумать название",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "слоган для компании",
+     "volume": 10,
+     "cpc": 1.05,
+     "competition": 0.14,
+     "bucket": null
+    },
+    {
+     "keyword": "генератор слоганов",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0.06,
+     "bucket": null
+    },
+    {
+     "keyword": "придумать слоган",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "названия для магазина одежды",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "название для кафе",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "генератор названий для бизнеса",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    }
+   ],
+   "demand_month": 750,
+   "cpc_usd": "взвеш. 0.42; макс. 1.05 («слоган для компании»)",
+   "serp": "Не проверялась.",
+   "serp_weakness": "mixed",
+   "ai_overview": null,
+   "ai_overview_note": "SERP не проверялась: нижняя граница со скидкой AIO ×0,53, верхняя без",
+   "existing_url": "нет",
+   "page": "Новая страница-инструмент UZ /uz/biznes-nomi-generator/ (+ RU /ru/generator-nazvaniy-dlya-biznesa/): форма «ниша, город, тон» → новый шаблон в бизнес-инструменте чата (название + 5 слоганов) + чек-лист «проверьте товарный знак в Агентстве интеллектуальной собственности и свободный домен .uz».",
+   "lead_path": "Стадия «открываю бизнес» → сайт (лендинг от 2 990 000 сум) и SMM-старт; в результате генерации — «domen va sayt tayyorlab beramiz».",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Не утверждать, что название свободно; проверка знака и домена — на пользователе, со ссылками на официальные реестры.",
+   "visits_day_pos6": "0.12–0.41",
+   "visits_day_pos3": "0.7–1.3",
+   "ambiguous_not_counted": {
+    "shiorlar": 720,
+    "shior": 320,
+    "slogan": 170,
+    "слоган/слоганы": 70,
+    "шиорлар": 30,
+    "шиор": 20,
+    "chiroyli nomlar": 140
+   }
+  },
+  {
+   "id": "heshteg-bio",
+   "name": "Хэштеги и bio для Instagram-профиля бизнеса: AI-генератор",
+   "keywords": "hashtag 480, instagram hashtag 320, xeshteg 140, хештег = хэштеги 140, instagram bio 140, heshteg 110, instagram uchun heshteglar 110, instagram profil 90, hashtag nima 70, хештеги для инстаграм = хэштеги для инстаграм 70, heshteglar 50, био для инстаграм 50, био инстаграм 50, hashtaglar 40, heshteg nima 40, статус для инстаграм 40, описание для инстаграм 40, hashteg 20, хештеги 20, хештег нима 20, hashtag generator 20, instagram uchun bio 20; по 10 (нижняя корзина Google Ads): генератор хештегов = генератор хэштегов, bio uchun so'zlar, instagram bio generator, bio generator, шапка профиля инстаграм, шапка инстаграм, описание профиля инстаграм",
+   "keyword_rows": [
+    {
+     "keyword": "hashtag",
+     "volume": 480,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "instagram hashtag",
+     "volume": 320,
+     "cpc": 2.16,
+     "competition": 0.01,
+     "bucket": null
+    },
+    {
+     "keyword": "xeshteg",
+     "volume": 140,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "хештег",
+     "volume": 140,
+     "cpc": null,
+     "competition": 0,
+     "bucket": "хештег = хэштеги"
+    },
+    {
+     "keyword": "хэштеги",
+     "volume": 140,
+     "cpc": null,
+     "competition": 0,
+     "bucket": "хештег = хэштеги"
+    },
+    {
+     "keyword": "instagram bio",
+     "volume": 140,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "heshteg",
+     "volume": 110,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "instagram uchun heshteglar",
+     "volume": 110,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "instagram profil",
+     "volume": 90,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "hashtag nima",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "хештеги для инстаграм",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0.01,
+     "bucket": "хештеги для инстаграм = хэштеги для инстаграм"
+    },
+    {
+     "keyword": "хэштеги для инстаграм",
+     "volume": 70,
+     "cpc": null,
+     "competition": 0.01,
+     "bucket": "хештеги для инстаграм = хэштеги для инстаграм"
+    },
+    {
+     "keyword": "heshteglar",
+     "volume": 50,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "био для инстаграм",
+     "volume": 50,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "био инстаграм",
+     "volume": 50,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "hashtaglar",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "heshteg nima",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "статус для инстаграм",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "описание для инстаграм",
+     "volume": 40,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "hashteg",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "хештеги",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "хештег нима",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "hashtag generator",
+     "volume": 20,
+     "cpc": 1.85,
+     "competition": 0.03,
+     "bucket": null
+    },
+    {
+     "keyword": "instagram uchun bio",
+     "volume": 20,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "генератор хештегов",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": "генератор хештегов = генератор хэштегов"
+    },
+    {
+     "keyword": "генератор хэштегов",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": "генератор хештегов = генератор хэштегов"
+    },
+    {
+     "keyword": "bio uchun so'zlar",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "instagram bio generator",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "bio generator",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "шапка профиля инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": 0,
+     "bucket": null
+    },
+    {
+     "keyword": "шапка инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    },
+    {
+     "keyword": "описание профиля инстаграм",
+     "volume": 10,
+     "cpc": null,
+     "competition": null,
+     "bucket": null
+    }
+   ],
+   "demand_month": 2150,
+   "cpc_usd": "взвеш. 2.14; макс. 2.16 («instagram hashtag»)",
+   "serp": "Не проверялась.",
+   "serp_weakness": "mixed",
+   "ai_overview": null,
+   "ai_overview_note": "SERP не проверялась: нижняя граница со скидкой AIO ×0,53, верхняя без",
+   "existing_url": "нет",
+   "page": "Новая страница-инструмент UZ /uz/instagram-bio-va-heshteg/ (+ RU): два шаблона в SMM-инструменте чата — «bio для бизнес-профиля» и «хэштеги по нише и городу» — с честной оговоркой, что хэштеги дают мало охвата в 2026 году.",
+   "lead_path": "Слабый: SMM (оформление профиля входит в пакет). Главная польза — регистрации в AI-чате (основной актив сайта) и ретаргетинг-аудитория.",
+   "effort": "S",
+   "honesty_risk": "low",
+   "honesty_note": "Аудитория в основном личные профили и подростки — лидов мало; строить последним.",
+   "visits_day_pos6": "0.3–1.2",
+   "visits_day_pos3": "2.0–3.9",
+   "visits_note": "Визиты реальны, лиды — нет: это трафик для AI-чата, а не для агентства."
+  }
+ ]
+}

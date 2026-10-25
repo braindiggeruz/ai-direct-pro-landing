@@ -1,0 +1,50 @@
+﻿office_docs          ads  21920 floor  18630 head      0 | p6 [6.7, 12.1] (floor [5.7, 10.3]) p3 25.8 (floor 21.9) | m1 0.56 w5 17/19 w10 None/None full 5.8mo
+   DEDUP [('bildirishnoma namuna', 'bildirishnoma namunasi'), ('dalolatnoma namunasi', 'dalolatnoma namuna')]
+   JUMP ['bildirishnoma yozish', 'билдиришнома намуна']
+   SEASON 25-10:0.65 25-11:0.93 25-12:0.92 26-01:0.94 26-02:1.21 26-03:1.07 26-04:1.5 26-05:1.78 26-06:1.06 26-07:0.6 26-08:0.46 26-09:0.9
+internship_reports   ads  27950 floor   5285 head   1600 | p6 [8.6, 15.4] (floor [1.6, 2.9]) p3 32.9 (floor 6.2) | m1 0.72 w5 15/None w10 23/None full 5.8mo
+   DEDUP [('hisobot namuna', 'hisobot namunasi')]
+   JUMP ['amaliyot kundaligi', 'hisobot yozish']
+   SEASON 25-10:0.07 25-11:0.11 25-12:0.33 26-01:0.63 26-02:1.12 26-03:1.02 26-04:1.78 26-05:1.99 26-06:1.37 26-07:0.61 26-08:0.53 26-09:2.44
+obyektivka           ads  12980 floor  10815 head   2880 | p6 [4.0, 7.2] (floor [3.3, 6.0]) p3 15.3 (floor 12.7) | m1 0.34 w5 24/None w10 None/None full 5.8mo
+   DEDUP [('obyektivka namunasi', 'obyektivka namuna'), ("ma'lumotnoma namunasi", "ma'lumotnoma namuna"), ('malumotnoma namuna', "ma'lumotnoma namuna"), ('ma lumotnoma namuna', "ma'lumotnoma namuna"), ('обьективка', 'объективка'), ('объективка намунаси', 'объективка намуна')]
+   JUMP ["ma'lumotnoma yozish"]
+   SEASON 25-10:0.97 25-11:0.75 25-12:0.64 26-01:0.83 26-02:1.07 26-03:0.88 26-04:1.13 26-05:1.02 26-06:1.08 26-07:0.81 26-08:1.03 26-09:1.8
+cv_builder           ads  16280 floor  12170 head   8100 | p6 [5.0, 9.0] (floor [3.7, 6.7]) p3 18.2 (floor 13.6) | m1 0.28 w5 27/32 w10 None/None full 7.5mo
+   JUMP ['cv nima']
+   SEASON 25-10:0.89 25-11:0.74 25-12:0.7 26-01:1.04 26-02:1.08 26-03:1.08 26-04:1.27 26-05:1.14 26-06:1.1 26-07:1.16 26-08:0.83 26-09:0.96
+tarjimai_hol         ads   5390 floor   5390 head      0 | p6 [1.7, 3.0] (floor [1.7, 3.0]) p3 5.2 (floor 5.2) | m1 0.14 w5 None/None w10 None/None full 5.8mo
+   DEDUP [('tarjimayi hol', 'tarjimai hol'), ('tarjimai hol namuna', 'tarjimai hol namunasi')]
+   SEASON 25-10:1.42 25-11:0.86 25-12:0.9 26-01:1.36 26-02:1.64 26-03:0.99 26-04:1.27 26-05:0.87 26-06:0.58 26-07:0.46 26-08:0.54 26-09:1.1
+cyr_ru_mirrors       ads   8290 floor   6045 head   3120 | p6 [2.5, 4.6] (floor [1.9, 3.3]) p3 9.8 (floor 7.1) | m1 0.14 w5 None/None w10 None/None full 7.5mo
+   DEDUP [('ариза намунаси', 'ариза намуна'), ('тавсиянома намуна', 'тавсифнома намуна')]
+   JUMP ['тушунтириш хати']
+   SEASON 25-10:1.04 25-11:0.87 25-12:0.81 26-01:0.88 26-02:1.11 26-03:0.96 26-04:1.32 26-05:1.15 26-06:0.99 26-07:0.83 26-08:0.83 26-09:1.21
+tilxat_ishonchnoma   ads  17980 floor   5000 head   1900 | p6 [5.5, 9.9] (floor [1.5, 2.8]) p3 21.2 (floor 5.9) | m1 0.46 w5 20/None w10 None/None full 5.8mo
+   DEDUP [('tilxat namunasi', 'tilxat namuna'), ('ishonchnoma namuna', 'ishonchnoma namunasi')]
+   JUMP ['тилхат', 'tilxat yozish']
+   SEASON 25-10:0.26 25-11:0.31 25-12:0.47 26-01:0.73 26-02:0.93 26-03:0.99 26-04:1.46 26-05:1.71 26-06:1.3 26-07:1.13 26-08:1.03 26-09:1.68
+certificates         ads   6460 floor   6460 head      0 | p6 [2.0, 3.6] (floor [2.0, 3.6]) p3 7.6 (floor 7.6) | m1 0.22 w5 None/None w10 None/None full 4.8mo
+   SEASON 25-10:0.89 25-11:0.86 25-12:1.8 26-01:0.89 26-02:0.85 26-03:1.11 26-04:0.87 26-05:3.08 26-06:0.52 26-07:0.31 26-08:0.35 26-09:0.48
+recommendation       ads   2960 floor   2960 head      0 | p6 [0.9, 1.6] (floor [0.9, 1.6]) p3 3.5 (floor 3.5) | m1 0.05 w5 None/None w10 None/None full 7.5mo
+   DEDUP [('tavsiyanoma namunasi', 'tavsiyanoma namuna'), ('letter of recommendation', 'recommendation letter')]
+   SEASON 25-10:1.16 25-11:1.07 25-12:1.08 26-01:1.02 26-02:0.98 26-03:0.84 26-04:1.11 26-05:2.45 26-06:0.82 26-07:0.48 26-08:0.43 26-09:0.57
+motivation_cover     ads   2630 floor   2630 head      0 | p6 [0.8, 1.5] (floor [0.8, 1.5]) p3 3.1 (floor 3.1) | m1 0.05 w5 None/None w10 None/None full 7.5mo
+   DEDUP [('motivation letter sample', 'motivation letter example')]
+   SEASON 25-10:1.09 25-11:1.07 25-12:1.76 26-01:1.36 26-02:1.44 26-03:0.86 26-04:1.04 26-05:0.75 26-06:0.66 26-07:0.6 26-08:0.62 26-09:0.75
+career_test          ads   1910 floor   1910 head   1300 | p6 [0.6, 1.1] (floor [0.6, 1.1]) p3 2.2 (floor 2.2) | m1 0.05 w5 None/None w10 None/None full 5.8mo
+   SEASON 25-10:1.51 25-11:1.36 25-12:1.09 26-01:1.28 26-02:1.19 26-03:1.22 26-04:1.52 26-05:0.86 26-06:0.44 26-07:0.39 26-08:0.51 26-09:0.62
+contracts_hold       ads  10100 floor  10100 head   9660 | p6 [3.1, 5.6] (floor [3.1, 5.6]) p3 11.9 (floor 11.9) | m1 0.17 w5 None/None w10 None/None full 7.5mo
+   DEDUP [('mehnat shartnomasi namuna', 'mehnat shartnomasi namunasi')]
+   SEASON 25-10:0.92 25-11:0.75 25-12:0.87 26-01:0.86 26-02:1.16 26-03:1.02 26-04:1.15 26-05:0.97 26-06:0.79 26-07:0.82 26-08:0.67 26-09:2.03
+business_proposal    ads   1360 floor   1360 head   3990 | p6 [0.4, 0.8] (floor [0.4, 0.8]) p3 1.6 (floor 1.6) | m1 0.02 w5 None/None w10 None/None full 7.5mo
+   SEASON 25-10:0.98 25-11:0.79 25-12:0.88 26-01:0.95 26-02:1.01 26-03:1.05 26-04:1.17 26-05:1.06 26-06:1.13 26-07:1.05 26-08:0.94 26-09:0.99
+interview            ads    780 floor    780 head    880 | p6 [0.2, 0.4] (floor [0.2, 0.4]) p3 0.9 (floor 0.9) | m1 0.01 w5 None/None w10 None/None full 7.5mo
+   SEASON 25-10:1.02 25-11:0.84 25-12:1.97 26-01:0.87 26-02:1.46 26-03:0.92 26-04:0.92 26-05:0.79 26-06:0.83 26-07:0.73 26-08:0.82 26-09:0.83
+invitation_text      ads    190 floor    190 head   2900 | p6 [0.1, 0.1] (floor [0.1, 0.1]) p3 0.2 (floor 0.2) | m1 0.0 w5 None/None w10 None/None full 7.5mo
+   SEASON 25-10:1.86 25-11:1.21 25-12:0.88 26-01:0.49 26-02:0.55 26-03:0.49 26-04:0.82 26-05:1.15 26-06:0.82 26-07:1.04 26-08:1.42 26-09:1.26
+hr_calcs             ads    760 floor    760 head      0 | p6 [0.2, 0.4] (floor [0.2, 0.4]) p3 0.9 (floor 0.9) | m1 0.02 w5 None/None w10 None/None full 5.8mo
+   SEASON 25-10:1.13 25-11:0.97 25-12:1.06 26-01:1.32 26-02:1.02 26-03:0.9 26-04:1.0 26-05:0.8 26-06:0.93 26-07:0.75 26-08:0.87 26-09:1.25
+hr_orders            ads   1690 floor   1690 head   1000 | p6 [0.5, 0.9] (floor [0.5, 0.9]) p3 2.0 (floor 2.0) | m1 0.03 w5 None/None w10 None/None full 7.5mo
+   SEASON 25-10:1.43 25-11:1.19 25-12:1.17 26-01:1.03 26-02:1.0 26-03:0.96 26-04:1.17 26-05:0.92 26-06:0.92 26-07:0.7 26-08:0.68 26-09:0.84
+SUMMARY {"demand_ads": 134850, "demand_floor": 87395, "demand_head": 28560, "demand_susp": 110000, "pos6_ads": [41, 75], "pos6_floor": [27, 48], "pos3_ads": 157, "pos3_floor": 101, "pos3_no_aio_ads": 242, "excl_contracts": {"demand_ads": 124750, "demand_floor": 77295, "pos6_ads": [38, 69], "pos6_floor": [24, 43], "pos3_ads": 145, "pos3_floor": 89}, "existing_pages_undeclared": [["ariza", 4400], ["ariza yozish", 2900], ["tushuntirish xati namuna", 2400], ["ariza yozish namunasi", 2400], ["ariza yozish namuna", 2400], ["rezyume tayyorlash", 1900], ["rezyume namuna", 1600], ["rezyume", 1600], ["rezyume namunasi", 1600], ["rezyume yozish namunasi", 1600], ["tushuntirish xati", 1600], ["tavsifnoma namuna", 1600], ["rezyume shablon", 1300], ["rezyume shabloni", 1300], ["ariza namuna", 1300], ["rezume", 880], ["tavsifnoma", 720], ["rezume namuna", 590], ["ariza namunasi", 590], ["o'quvchiga tavsifnoma", 590], ["resume tayyorlash", 390], ["rezyume nima", 320], ["ariza blanka", 320], ["tavsifnoma namunasi word", 320], ["tavsifnoma yozish namuna", 260], ["cv tayyorlash", 210], ["ariza qanday yoziladi", 210], ["cv namuna", 170], ["cv namunasi", 170], ["tushuntirish xati yozish", 170], ["rezyume to'ldirish", 140], ["tushuntirish xati namunasi", 140], ["ariza nima", 90], ["tushuntirish xati nima", 70], ["xizmat xati namunasi", 40], ["rezyume yozish", 40], ["xizmat xati", 30], ["rezyume qanday yoziladi", 30], ["xizmat xati namuna", 10]]}

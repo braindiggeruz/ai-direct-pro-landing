@@ -1,0 +1,1318 @@
+{
+ "date": "2026-10-25",
+ "base_raw_score": 3.363,
+ "totals": {
+  "first10": {
+   "n": 10,
+   "demand": 8968,
+   "visits_day_pos6": [
+    1.46,
+    3.23
+   ],
+   "visits_day_pos3": [
+    4.43,
+    6.31
+   ],
+   "leads_month_pos6": [
+    0.21,
+    1.29
+   ],
+   "leads_month_pos3": [
+    0.95,
+    3.52
+   ]
+  },
+  "active": {
+   "n": 35,
+   "demand": 30714,
+   "visits_day_pos6": [
+    4.96,
+    11.72
+   ],
+   "visits_day_pos3": [
+    25.03,
+    34.08
+   ],
+   "leads_month_pos6": [
+    0.68,
+    4.98
+   ],
+   "leads_month_pos3": [
+    3.85,
+    15.64
+   ]
+  },
+  "all": {
+   "n": 40,
+   "demand": 34748,
+   "visits_day_pos6": [
+    5.57,
+    13.6
+   ],
+   "visits_day_pos3": [
+    28.83,
+    40.19
+   ],
+   "leads_month_pos6": [
+    0.73,
+    5.34
+   ],
+   "leads_month_pos3": [
+    4.16,
+    16.82
+   ]
+  }
+ },
+ "funnels": {
+  "F1": {
+   "n": 9,
+   "demand": 7719,
+   "visits_day_pos6": [
+    1.24,
+    2.77
+   ],
+   "visits_day_pos3": [
+    7.34,
+    9.06
+   ],
+   "leads_month_pos6": [
+    0.19,
+    1.71
+   ],
+   "leads_month_pos3": [
+    1.2,
+    5.58
+   ]
+  },
+  "F2": {
+   "n": 6,
+   "demand": 7431,
+   "visits_day_pos6": [
+    1.2,
+    3.35
+   ],
+   "visits_day_pos3": [
+    6.97,
+    10.95
+   ],
+   "leads_month_pos6": [
+    0.08,
+    0.66
+   ],
+   "leads_month_pos3": [
+    0.49,
+    2.2
+   ]
+  },
+  "F3": {
+   "n": 9,
+   "demand": 12297,
+   "visits_day_pos6": [
+    1.99,
+    4.43
+   ],
+   "visits_day_pos3": [
+    7.61,
+    10.24
+   ],
+   "leads_month_pos6": [
+    0.18,
+    1.2
+   ],
+   "leads_month_pos3": [
+    0.77,
+    3.29
+   ]
+  },
+  "F4": {
+   "n": 9,
+   "demand": 2940,
+   "visits_day_pos6": [
+    0.46,
+    1.06
+   ],
+   "visits_day_pos3": [
+    2.8,
+    3.44
+   ],
+   "leads_month_pos6": [
+    0.22,
+    1.34
+   ],
+   "leads_month_pos3": [
+    1.33,
+    4.35
+   ]
+  },
+  "F5": {
+   "n": 2,
+   "demand": 327,
+   "visits_day_pos6": [
+    0.06,
+    0.12
+   ],
+   "visits_day_pos3": [
+    0.31,
+    0.39
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.07
+   ],
+   "leads_month_pos3": [
+    0.05,
+    0.23
+   ]
+  }
+ },
+ "clusters": [
+  {
+   "id": "tg-ads-howto",
+   "rank_before": 1,
+   "funnel": "F1",
+   "status": "build",
+   "build_order": 2,
+   "demand": 270,
+   "visits_day_pos6": [
+    0.0436455,
+    0.09726749999999999
+   ],
+   "visits_day_pos3": [
+    0.25686450000000005,
+    0.31744575
+   ],
+   "leads_month_pos6": [
+    0.006546824999999999,
+    0.058360499999999996
+   ],
+   "leads_month_pos3": [
+    0.03852967500000001,
+    0.19046745
+   ],
+   "directness": 0.6,
+   "cpc_effective": 3.560416666666667,
+   "serp_factor": 1.0,
+   "effort_divisor": 1.5,
+   "score": 12.160474492640503,
+   "cpc_lens": 4.0125,
+   "corrected": true,
+   "score_before": 100.0
+  },
+  {
+   "id": "hub-target-uz",
+   "rank_before": 2,
+   "funnel": "F1",
+   "status": "build",
+   "build_order": 1,
+   "demand": 1080,
+   "visits_day_pos6": [
+    0.17458200000000001,
+    0.38907
+   ],
+   "visits_day_pos3": [
+    1.027458,
+    1.269783
+   ],
+   "leads_month_pos6": [
+    0.03549834,
+    0.24478987500000002
+   ],
+   "leads_month_pos3": [
+    0.20891646000000003,
+    0.7989051375
+   ],
+   "directness": 0.5842592592592593,
+   "cpc_effective": 1.81,
+   "serp_factor": 1.25,
+   "effort_divisor": 1.0,
+   "score": 45.148558360281,
+   "corrected": true,
+   "score_before": 77.5
+  },
+  {
+   "id": "kontekst-budget-calc",
+   "rank_before": 3,
+   "funnel": "F1",
+   "status": "build",
+   "build_order": 3,
+   "demand": 100,
+   "visits_day_pos6": [
+    0.016165,
+    0.036024999999999995
+   ],
+   "visits_day_pos3": [
+    0.095135,
+    0.1175725
+   ],
+   "leads_month_pos6": [
+    0.009699,
+    0.054037499999999995
+   ],
+   "leads_month_pos3": [
+    0.057081,
+    0.17635875
+   ],
+   "directness": 1.0,
+   "cpc_effective": 1.0233333333333334,
+   "serp_factor": 1.0,
+   "effort_divisor": 1.0,
+   "score": 3.2362574338388344,
+   "cpc_lens": 0.47,
+   "corrected": true,
+   "score_before": 75.1
+  },
+  {
+   "id": "uzum-seller-guide",
+   "rank_before": 4,
+   "funnel": "F3",
+   "status": "build",
+   "build_order": 7,
+   "demand": 5900,
+   "visits_day_pos6": [
+    0.9537350000000002,
+    2.125475
+   ],
+   "visits_day_pos3": [
+    1.5183705000000003,
+    2.708539625
+   ],
+   "leads_month_pos6": [
+    0.057224100000000014,
+    0.31882124999999994
+   ],
+   "leads_month_pos3": [
+    0.09110223000000002,
+    0.40628094374999996
+   ],
+   "directness": 0.3,
+   "cpc_effective": 2.31,
+   "serp_factor": 1.0,
+   "effort_divisor": 2.0,
+   "score": 21.775562865187332,
+   "corrected": true,
+   "score_before": 64.8
+  },
+  {
+   "id": "heshteg-bio-ai",
+   "rank_before": 5,
+   "funnel": "F2",
+   "status": "deferred",
+   "build_order": null,
+   "demand": 2150,
+   "visits_day_pos6": [
+    0.3,
+    1.2
+   ],
+   "visits_day_pos3": [
+    2.0,
+    3.9
+   ],
+   "leads_month_pos6": [
+    0.02,
+    0.18
+   ],
+   "leads_month_pos3": [
+    0.12,
+    0.58
+   ],
+   "score": 22.7,
+   "cpc_effective": 1.72,
+   "corrected": false,
+   "score_before": 22.7
+  },
+  {
+   "id": "google-ads-uz-ru",
+   "rank_before": 6,
+   "funnel": "F1",
+   "status": "next",
+   "build_order": null,
+   "demand": 1015,
+   "visits_day_pos6": [
+    0.16,
+    0.37
+   ],
+   "visits_day_pos3": [
+    0.97,
+    1.19
+   ],
+   "leads_month_pos6": [
+    0.02,
+    0.22
+   ],
+   "leads_month_pos3": [
+    0.15,
+    0.71
+   ],
+   "score": 21.1,
+   "cpc_effective": 2.19,
+   "corrected": false,
+   "score_before": 21.1
+  },
+  {
+   "id": "tg-channel-checklist",
+   "rank_before": 7,
+   "funnel": "F1",
+   "status": "build",
+   "build_order": 4,
+   "demand": 328,
+   "visits_day_pos6": [
+    0.0530212,
+    0.118162
+   ],
+   "visits_day_pos3": [
+    0.3120428,
+    0.3856378
+   ],
+   "leads_month_pos6": [
+    0.00795318,
+    0.0708972
+   ],
+   "leads_month_pos3": [
+    0.04680642,
+    0.23138268
+   ],
+   "directness": 0.6,
+   "cpc_effective": 2.07787456445993,
+   "serp_factor": 0.8,
+   "effort_divisor": 1.0,
+   "score": 10.34571113546578,
+   "cpc_lens": 2.389024390243902,
+   "corrected": true,
+   "score_before": 19.3
+  },
+  {
+   "id": "marketplaces-compare",
+   "rank_before": 8,
+   "funnel": "F3",
+   "status": "next",
+   "build_order": null,
+   "demand": 1543,
+   "visits_day_pos6": [
+    0.25,
+    0.56
+   ],
+   "visits_day_pos3": [
+    1.47,
+    1.81
+   ],
+   "leads_month_pos6": [
+    0.04,
+    0.34
+   ],
+   "leads_month_pos3": [
+    0.22,
+    1.09
+   ],
+   "score": 19.1,
+   "cpc_effective": 1.31,
+   "corrected": false,
+   "score_before": 19.1
+  },
+  {
+   "id": "stomatologiya-klinika",
+   "rank_before": 9,
+   "funnel": "F4",
+   "status": "build",
+   "build_order": 9,
+   "demand": 360,
+   "visits_day_pos6": [
+    0.06,
+    0.13
+   ],
+   "visits_day_pos3": [
+    0.34,
+    0.42
+   ],
+   "leads_month_pos6": [
+    0.04,
+    0.2
+   ],
+   "leads_month_pos3": [
+    0.2,
+    0.63
+   ],
+   "score": 18.2,
+   "cpc_effective": 3.21,
+   "corrected": false,
+   "score_before": 18.2
+  },
+  {
+   "id": "reklama-matni-ai",
+   "rank_before": 10,
+   "funnel": "F2",
+   "status": "build",
+   "build_order": 5,
+   "demand": 520,
+   "visits_day_pos6": [
+    0.084058,
+    0.18733
+   ],
+   "visits_day_pos3": [
+    0.49470200000000003,
+    0.6113770000000001
+   ],
+   "leads_month_pos6": [
+    0.0126087,
+    0.112398
+   ],
+   "leads_month_pos3": [
+    0.0742053,
+    0.3668262
+   ],
+   "directness": 0.6,
+   "cpc_effective": 1.04,
+   "serp_factor": 1.25,
+   "effort_divisor": 1.0,
+   "score": 12.826964317573594,
+   "corrected": true,
+   "score_before": 16.3
+  },
+  {
+   "id": "ru-instagram-ads-howto",
+   "rank_before": 11,
+   "funnel": "F1",
+   "status": "next",
+   "build_order": null,
+   "demand": 624,
+   "visits_day_pos6": [
+    0.1,
+    0.22
+   ],
+   "visits_day_pos3": [
+    0.59,
+    0.73
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.13
+   ],
+   "leads_month_pos3": [
+    0.09,
+    0.44
+   ],
+   "score": 16.0,
+   "cpc_effective": 2.72,
+   "corrected": false,
+   "score_before": 16.0
+  },
+  {
+   "id": "target-nima-link",
+   "rank_before": 12,
+   "funnel": "F1",
+   "status": "next",
+   "build_order": null,
+   "demand": 420,
+   "visits_day_pos6": [
+    0.07,
+    0.15
+   ],
+   "visits_day_pos3": [
+    0.4,
+    0.49
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.09
+   ],
+   "leads_month_pos3": [
+    0.06,
+    0.29
+   ],
+   "score": 15.4,
+   "cpc_effective": 1.94,
+   "corrected": false,
+   "score_before": 15.4
+  },
+  {
+   "id": "marketing-calc",
+   "rank_before": 13,
+   "funnel": "F2",
+   "status": "next",
+   "build_order": null,
+   "demand": 1370,
+   "visits_day_pos6": [
+    0.22,
+    0.75
+   ],
+   "visits_day_pos3": [
+    1.3,
+    2.5
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.11
+   ],
+   "leads_month_pos3": [
+    0.08,
+    0.38
+   ],
+   "score": 12.6,
+   "cpc_effective": 1.48,
+   "corrected": false,
+   "score_before": 12.6
+  },
+  {
+   "id": "meta-ads-manager-uz",
+   "rank_before": 14,
+   "funnel": "F1",
+   "status": "next",
+   "build_order": null,
+   "demand": 3428,
+   "visits_day_pos6": [
+    0.55,
+    1.23
+   ],
+   "visits_day_pos3": [
+    3.26,
+    4.03
+   ],
+   "leads_month_pos6": [
+    0.08,
+    0.74
+   ],
+   "leads_month_pos3": [
+    0.49,
+    2.42
+   ],
+   "score": 11.6,
+   "cpc_effective": 0.54,
+   "corrected": false,
+   "score_before": 11.6
+  },
+  {
+   "id": "restoran-kafe",
+   "rank_before": 15,
+   "funnel": "F4",
+   "status": "next",
+   "build_order": null,
+   "demand": 400,
+   "visits_day_pos6": [
+    0.06,
+    0.14
+   ],
+   "visits_day_pos3": [
+    0.38,
+    0.47
+   ],
+   "leads_month_pos6": [
+    0.04,
+    0.21
+   ],
+   "leads_month_pos3": [
+    0.23,
+    0.71
+   ],
+   "score": 11.6,
+   "cpc_effective": 1.83,
+   "corrected": false,
+   "score_before": 11.6
+  },
+  {
+   "id": "yatt-first-clients",
+   "rank_before": 16,
+   "funnel": "F3",
+   "status": "later",
+   "build_order": null,
+   "demand": 2660,
+   "visits_day_pos6": [
+    0.43,
+    0.96
+   ],
+   "visits_day_pos3": [
+    2.53,
+    3.13
+   ],
+   "leads_month_pos6": [
+    0.03,
+    0.14
+   ],
+   "leads_month_pos3": [
+    0.15,
+    0.47
+   ],
+   "score": 9.7,
+   "cpc_effective": 1.16,
+   "corrected": false,
+   "score_before": 9.7
+  },
+  {
+   "id": "biznes-nomi-ai",
+   "rank_before": 17,
+   "funnel": "F2",
+   "status": "later",
+   "build_order": null,
+   "demand": 1055,
+   "visits_day_pos6": [
+    0.17,
+    0.58
+   ],
+   "visits_day_pos3": [
+    0.98,
+    1.83
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.09
+   ],
+   "leads_month_pos3": [
+    0.06,
+    0.27
+   ],
+   "score": 9.7,
+   "cpc_effective": 0.77,
+   "corrected": false,
+   "score_before": 9.7
+  },
+  {
+   "id": "kontent-plan",
+   "rank_before": 18,
+   "funnel": "F2",
+   "status": "next",
+   "build_order": null,
+   "demand": 350,
+   "visits_day_pos6": [
+    0.06,
+    0.19
+   ],
+   "visits_day_pos3": [
+    0.33,
+    0.63
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.11
+   ],
+   "leads_month_pos3": [
+    0.05,
+    0.38
+   ],
+   "score": 9.2,
+   "cpc_effective": 2.15,
+   "corrected": false,
+   "score_before": 9.2
+  },
+  {
+   "id": "agency-prices-table",
+   "rank_before": 19,
+   "funnel": "F5",
+   "status": "build",
+   "build_order": 6,
+   "demand": 0,
+   "visits_day_pos6": [
+    0,
+    0
+   ],
+   "visits_day_pos3": [
+    0,
+    0
+   ],
+   "leads_month_pos6": [
+    0,
+    0
+   ],
+   "leads_month_pos3": [
+    0,
+    0
+   ],
+   "directness": 1.0,
+   "cpc_effective": 1.02,
+   "serp_factor": 1.0,
+   "effort_divisor": 1.0,
+   "score": 0.0,
+   "note": "GEO only, not modelled",
+   "corrected": true,
+   "score_before": 9.2
+  },
+  {
+   "id": "salon",
+   "rank_before": 20,
+   "funnel": "F4",
+   "status": "next",
+   "build_order": null,
+   "demand": 280,
+   "visits_day_pos6": [
+    0.05,
+    0.1
+   ],
+   "visits_day_pos3": [
+    0.27,
+    0.33
+   ],
+   "leads_month_pos6": [
+    0.03,
+    0.15
+   ],
+   "leads_month_pos3": [
+    0.16,
+    0.5
+   ],
+   "score": 8.7,
+   "cpc_effective": 1.3,
+   "corrected": false,
+   "score_before": 8.7
+  },
+  {
+   "id": "mobilograf",
+   "rank_before": 21,
+   "funnel": "F2",
+   "status": "later",
+   "build_order": null,
+   "demand": 2440,
+   "visits_day_pos6": [
+    0.39,
+    0.88
+   ],
+   "visits_day_pos3": [
+    2.3,
+    2.9
+   ],
+   "leads_month_pos6": [
+    0.02,
+    0.13
+   ],
+   "leads_month_pos3": [
+    0.14,
+    0.43
+   ],
+   "score": 8.6,
+   "cpc_effective": 0.5,
+   "corrected": false,
+   "score_before": 8.6
+  },
+  {
+   "id": "onlayn-dokon-ochish",
+   "rank_before": 22,
+   "funnel": "F3",
+   "status": "later",
+   "build_order": null,
+   "demand": 814,
+   "visits_day_pos6": [
+    0.13,
+    0.29
+   ],
+   "visits_day_pos3": [
+    0.77,
+    0.96
+   ],
+   "leads_month_pos6": [
+    0.02,
+    0.17
+   ],
+   "leads_month_pos3": [
+    0.12,
+    0.58
+   ],
+   "score": 8.5,
+   "cpc_effective": 1.1,
+   "corrected": false,
+   "score_before": 8.5
+  },
+  {
+   "id": "yandex-direct-uz",
+   "rank_before": 23,
+   "funnel": "F1",
+   "status": "later",
+   "build_order": null,
+   "demand": 454,
+   "visits_day_pos6": [
+    0.07,
+    0.16
+   ],
+   "visits_day_pos3": [
+    0.43,
+    0.53
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.1
+   ],
+   "leads_month_pos3": [
+    0.06,
+    0.32
+   ],
+   "score": 7.8,
+   "cpc_effective": 3.04,
+   "corrected": false,
+   "score_before": 7.8
+  },
+  {
+   "id": "nishalar-hub",
+   "rank_before": 24,
+   "funnel": "F4",
+   "status": "next",
+   "build_order": null,
+   "demand": 400,
+   "visits_day_pos6": [
+    0.06,
+    0.14
+   ],
+   "visits_day_pos3": [
+    0.38,
+    0.47
+   ],
+   "leads_month_pos6": [
+    0.04,
+    0.21
+   ],
+   "leads_month_pos3": [
+    0.23,
+    0.71
+   ],
+   "score": 7.4,
+   "cpc_effective": 1.17,
+   "corrected": false,
+   "score_before": 7.4
+  },
+  {
+   "id": "oquv-markazi",
+   "rank_before": 25,
+   "funnel": "F4",
+   "status": "build",
+   "build_order": 10,
+   "demand": 310,
+   "visits_day_pos6": [
+    0.05,
+    0.11
+   ],
+   "visits_day_pos3": [
+    0.29,
+    0.36
+   ],
+   "leads_month_pos6": [
+    0.03,
+    0.17
+   ],
+   "leads_month_pos3": [
+    0.17,
+    0.54
+   ],
+   "score": 7.4,
+   "cpc_effective": 1.02,
+   "corrected": false,
+   "score_before": 7.4
+  },
+  {
+   "id": "uzum-external-ads",
+   "rank_before": 26,
+   "funnel": "F3",
+   "status": "build",
+   "build_order": 8,
+   "demand": 100,
+   "visits_day_pos6": [
+    0.02,
+    0.04
+   ],
+   "visits_day_pos3": [
+    0.1,
+    0.12
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.06
+   ],
+   "leads_month_pos3": [
+    0.06,
+    0.18
+   ],
+   "directness": 1.0,
+   "cpc_effective": 1.3,
+   "serp_factor": 1.5,
+   "effort_divisor": 1.0,
+   "score": 6.378233719892953,
+   "corrected": true,
+   "score_before": 6.8
+  },
+  {
+   "id": "telegram-kanal-biznes",
+   "rank_before": 27,
+   "funnel": "F3",
+   "status": "later",
+   "build_order": null,
+   "demand": 670,
+   "visits_day_pos6": [
+    0.11,
+    0.24
+   ],
+   "visits_day_pos3": [
+    0.64,
+    0.79
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.04
+   ],
+   "leads_month_pos3": [
+    0.04,
+    0.12
+   ],
+   "score": 5.8,
+   "cpc_effective": 1.51,
+   "corrected": false,
+   "score_before": 5.8
+  },
+  {
+   "id": "kartochka-ai",
+   "rank_before": 28,
+   "funnel": "F3",
+   "status": "next",
+   "build_order": null,
+   "demand": 260,
+   "visits_day_pos6": [
+    0.04,
+    0.09
+   ],
+   "visits_day_pos3": [
+    0.25,
+    0.31
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.05
+   ],
+   "leads_month_pos3": [
+    0.04,
+    0.19
+   ],
+   "score": 5.5,
+   "cpc_effective": 1.1,
+   "corrected": false,
+   "score_before": 5.5
+  },
+  {
+   "id": "mahsulot-reklama",
+   "rank_before": 29,
+   "funnel": "F3",
+   "status": "later",
+   "build_order": null,
+   "demand": 170,
+   "visits_day_pos6": [
+    0.03,
+    0.06
+   ],
+   "visits_day_pos3": [
+    0.16,
+    0.2
+   ],
+   "leads_month_pos6": [
+    0.0,
+    0.04
+   ],
+   "leads_month_pos3": [
+    0.02,
+    0.12
+   ],
+   "score": 5.2,
+   "cpc_effective": 1.08,
+   "corrected": false,
+   "score_before": 5.2
+  },
+  {
+   "id": "biznes-goyalar",
+   "rank_before": 30,
+   "funnel": "F3",
+   "status": "deferred",
+   "build_order": null,
+   "demand": 1280,
+   "visits_day_pos6": [
+    0.21,
+    0.46
+   ],
+   "visits_day_pos3": [
+    1.22,
+    1.5
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.07
+   ],
+   "leads_month_pos3": [
+    0.07,
+    0.23
+   ],
+   "score": 5.1,
+   "cpc_effective": 0.84,
+   "corrected": false,
+   "score_before": 5.1
+  },
+  {
+   "id": "marketing-plan-ru",
+   "rank_before": 31,
+   "funnel": "F4",
+   "status": "later",
+   "build_order": null,
+   "demand": 200,
+   "visits_day_pos6": [
+    0.03,
+    0.07
+   ],
+   "visits_day_pos3": [
+    0.19,
+    0.23
+   ],
+   "leads_month_pos6": [
+    0.0,
+    0.04
+   ],
+   "leads_month_pos3": [
+    0.03,
+    0.14
+   ],
+   "score": 5.0,
+   "cpc_effective": 1.32,
+   "corrected": false,
+   "score_before": 5.0
+  },
+  {
+   "id": "kiyim-mebel",
+   "rank_before": 32,
+   "funnel": "F4",
+   "status": "later",
+   "build_order": null,
+   "demand": 270,
+   "visits_day_pos6": [
+    0.04,
+    0.1
+   ],
+   "visits_day_pos3": [
+    0.26,
+    0.32
+   ],
+   "leads_month_pos6": [
+    0.02,
+    0.15
+   ],
+   "leads_month_pos3": [
+    0.16,
+    0.48
+   ],
+   "score": 4.3,
+   "cpc_effective": 1.0,
+   "corrected": false,
+   "score_before": 4.3
+  },
+  {
+   "id": "obunachi-halol",
+   "rank_before": 33,
+   "funnel": "F2",
+   "status": "later",
+   "build_order": null,
+   "demand": 1696,
+   "visits_day_pos6": [
+    0.28,
+    0.76
+   ],
+   "visits_day_pos3": [
+    1.57,
+    2.48
+   ],
+   "leads_month_pos6": [
+    0.02,
+    0.11
+   ],
+   "leads_month_pos3": [
+    0.09,
+    0.37
+   ],
+   "score": 4.1,
+   "cpc_effective": 0.56,
+   "corrected": false,
+   "score_before": 4.1
+  },
+  {
+   "id": "uzum-calc",
+   "rank_before": 34,
+   "funnel": "F3",
+   "status": "next",
+   "build_order": null,
+   "demand": 180,
+   "visits_day_pos6": [
+    0.03,
+    0.06
+   ],
+   "visits_day_pos3": [
+    0.17,
+    0.21
+   ],
+   "leads_month_pos6": [
+    0.0,
+    0.04
+   ],
+   "leads_month_pos3": [
+    0.03,
+    0.13
+   ],
+   "score": 3.9,
+   "cpc_effective": 1.54,
+   "corrected": false,
+   "score_before": 3.9
+  },
+  {
+   "id": "sotuv-voronkasi",
+   "rank_before": 35,
+   "funnel": "F4",
+   "status": "later",
+   "build_order": null,
+   "demand": 590,
+   "visits_day_pos6": [
+    0.09,
+    0.22
+   ],
+   "visits_day_pos3": [
+    0.57,
+    0.69
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.13
+   ],
+   "leads_month_pos3": [
+    0.08,
+    0.41
+   ],
+   "score": 3.9,
+   "cpc_effective": 0.86,
+   "corrected": false,
+   "score_before": 3.9
+  },
+  {
+   "id": "ads-problems-reference",
+   "rank_before": 36,
+   "funnel": "F5",
+   "status": "next",
+   "build_order": null,
+   "demand": 327,
+   "visits_day_pos6": [
+    0.06,
+    0.12
+   ],
+   "visits_day_pos3": [
+    0.31,
+    0.39
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.07
+   ],
+   "leads_month_pos3": [
+    0.05,
+    0.23
+   ],
+   "score": 3.4,
+   "cpc_effective": 0.87,
+   "corrected": false,
+   "score_before": 3.4
+  },
+  {
+   "id": "turizm",
+   "rank_before": 37,
+   "funnel": "F4",
+   "status": "deferred",
+   "build_order": null,
+   "demand": 160,
+   "visits_day_pos6": [
+    0.03,
+    0.06
+   ],
+   "visits_day_pos3": [
+    0.15,
+    0.19
+   ],
+   "leads_month_pos6": [
+    0.02,
+    0.09
+   ],
+   "leads_month_pos3": [
+    0.09,
+    0.29
+   ],
+   "score": 3.3,
+   "cpc_effective": 1.3,
+   "corrected": false,
+   "score_before": 3.3
+  },
+  {
+   "id": "kochmas-mulk",
+   "rank_before": 38,
+   "funnel": "F4",
+   "status": "later",
+   "build_order": null,
+   "demand": 130,
+   "visits_day_pos6": [
+    0.02,
+    0.05
+   ],
+   "visits_day_pos3": [
+    0.12,
+    0.15
+   ],
+   "leads_month_pos6": [
+    0.01,
+    0.08
+   ],
+   "leads_month_pos3": [
+    0.07,
+    0.23
+   ],
+   "score": 2.6,
+   "cpc_effective": 1.3,
+   "corrected": false,
+   "score_before": 2.6
+  },
+  {
+   "id": "olx-biznes",
+   "rank_before": 39,
+   "funnel": "F3",
+   "status": "deferred",
+   "build_order": null,
+   "demand": 270,
+   "visits_day_pos6": [
+    0.04,
+    0.1
+   ],
+   "visits_day_pos3": [
+    0.26,
+    0.32
+   ],
+   "leads_month_pos6": [
+    0.0,
+    0.01
+   ],
+   "leads_month_pos3": [
+    0.02,
+    0.05
+   ],
+   "score": 0.6,
+   "cpc_effective": 0.77,
+   "corrected": false,
+   "score_before": 0.6
+  },
+  {
+   "id": "advertising-law",
+   "rank_before": 40,
+   "funnel": "F5",
+   "status": "deferred",
+   "build_order": null,
+   "demand": 174,
+   "visits_day_pos6": [
+    0.03,
+    0.06
+   ],
+   "visits_day_pos3": [
+    0.17,
+    0.2
+   ],
+   "leads_month_pos6": [
+    0.0,
+    0.01
+   ],
+   "leads_month_pos3": [
+    0.01,
+    0.03
+   ],
+   "score": 0.2,
+   "cpc_effective": 0.8,
+   "corrected": false,
+   "score_before": 0.2
+  }
+ ]
+}

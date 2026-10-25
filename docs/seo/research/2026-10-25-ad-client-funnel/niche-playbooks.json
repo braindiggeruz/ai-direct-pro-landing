@@ -1,0 +1,418 @@
+{
+ "lens": "niche-playbooks",
+ "date": "2026-10-25",
+ "location": 2860,
+ "method": {
+  "sources": [
+   "research_keywords x3 seeds (как найти клиентов, маркетинговая стратегия, продвижение ресторана), resultLimit 500, source google_ads",
+   "get_keyword_metrics x2 (699 + 386 = 1 085 candidates: 12 niches x RU/UZ-Latin modifiers, UZ Cyrillic spot checks, opening stage, generic growth)",
+   "get_serp_results x1 (4 queries, depth 10: o'quv markazi reklama, go'zallik saloni reklama, yatt ochish, бизнес идеи)",
+   "get_search_console_performance (free, last 3 months 2026-07-22..2026-10-22; 13 query/page filters)",
+   "reuse: existing_lookup.json = 6 187 keywords already measured by sibling lenses (checked before buying; naming / agency / outdoor rows left to their owners)"
+  ],
+  "measured": {
+   "total": 1085,
+   "volume_gt_10": 111,
+   "volume_10": 279,
+   "zero": 78,
+   "null": 617
+  },
+  "dedupe": "one Google Ads bucket counted once: phrases differing only by stop-words/word order (для, в, как, на, по, uchun) or listed as plural variants, with identical volume+CPC+competition, are one bucket (shared_buckets); no keyword counted in two clusters; keywords owned by other lenses or existing pages are listed in excluded, not counted",
+  "caveat_10": "279 of the 1 085 measured phrases sit in the lowest Google Ads bucket (10/mo), and almost every counted phrase of the niche clusters is one of them; real demand per phrase is 0-15, so niche totals are an upper-bound sum of a long tail",
+  "visits": "D x CTR / 30 x 1.5 x AIO; CTR pos6 0.61-1.10 %, pos3 3.59 %; AIO x0.53-0.655 applied to every cluster (4/4 SERPs of this lens had an AI Overview)",
+  "uz_spelling": "UZ Latin sent with ASCII apostrophe (OpenSEO rejects U+2018); apostrophe-less variants measured separately and came back null",
+  "credits": "own estimate ~508 of 600 (research 3 x ~96 = ~288, metrics 2 x 104 = 208, SERP 4 x depth 10 = ~12); account 19 744 -> 18 834 incl. parallel lenses; the last window (metrics #2 + 4 SERP) moved the balance by exactly 116"
+ },
+ "totals": {
+  "demand": 7420,
+  "niche_playbooks_only": 2310,
+  "visits_day_pos6": "1,20–2,67",
+  "visits_day_pos3": "7,06–8,72"
+ },
+ "handoffs": [
+  {
+   "to": "prices-tools cluster 5 (business-name generator)",
+   "what": "new rows: brend nomlari 390, fast food nomlari 110, kompaniya nomlari 70, firma nomlari 90, kafe nomlari 70, salon nomlari 30"
+  },
+  {
+   "to": "/uz/blog/marketing-nima/ (owner of marketing nima / marketing turlari)",
+   "what": "маркетинг нима 170 (UZ Cyrillic), marketing turlari 140, raqamli marketing 110 is counted in cluster 8"
+  },
+  {
+   "to": "/uz/blog/biznes-reja-tuzish/ (owner of biznes reja)",
+   "what": "бизнес режа 140, CPC $1.49 (UZ Cyrillic)"
+  },
+  {
+   "to": "smm-uz cluster (/uz/blog/smm-nima/)",
+   "what": "smm marketing 390, CPC $1.71 — check SERP before assigning"
+  },
+  {
+   "to": "UZ ad basics (internet-reklama-toshkent owner)",
+   "what": "reklama turlari 170, reklama nima 170, reklama matnlari 70 (reklama matni yozish 210 already in prices-tools)"
+  },
+  {
+   "to": "not counted, needs SERP",
+   "what": "ingliz tili reklama 210 (ambiguous), dorixona reklama 70 (medicine ads are legally restricted), telefon reklama 30"
+  },
+  {
+   "to": "agency/local pack (needs Google Business Profile, rejected for SEO by prices-tools)",
+   "what": "рекламное агентство 260 ($1.22), рекламное агентство ташкент 90 ($3.38), маркетинговое агентство 90 ($3.11), маркетинговое агентство ташкент 70 ($3.14), reklama agentligi 260 ($0.78)"
+  }
+ ],
+ "gsc_summary": "3 months: no niche-marketing query at all; traces only («сколько стоит лиды для салона красоты» 7 imp pos 26, «ии для салона красоты» 20 imp). Niche AI-bot pages: /ru/ai-bot-dlya-salona-krasoty/ 155 imp, /ru/ai-bot-dlya-yurista/ 93 imp pos 4.5, /ru/ai-bot-dlya-kliniki/ 73, /ru/ai-bot-dlya-horeca/ 60, /uz/oquv-markazi-uchun-ai-bot/ 15 imp 2 clicks — these are the internal-link sources for the playbooks.",
+ "clusters": [
+  {
+   "priority": 1,
+   "id": "oquv-markazi-reklama",
+   "name": "O‘quv markazi reklamasi: o‘quvchi jalb qilish rejasi (UZ, RU-пара)",
+   "keywords": "UZ лат.: o'quv markazi reklama 170 (= o'quv markazlari reklama); по 10 — 2 запр.: o'quv markaz ochish, kurs reklama | RU: по 10 — 12 запр.: реклама учебного центра, реклама для учебного центра, продвижение учебного центра, реклама образовательного центра, реклама курсов, реклама образовательных услуг, как привлечь учеников в учебный центр, маркетинг в образовании, открыть учебный центр в ташкенте ($0,46), реклама учебного центра текст, как открыть учебный центр (= открыть учебный центр), бизнес план учебного центра",
+   "demand_month": 310,
+   "keywords_counted": 15,
+   "keywords_measured": 17,
+   "cpc_usd": "0,46 (один запрос с CPC из 15)",
+   "cpc_weighted": 0.46,
+   "cpc_range": [
+    0.46,
+    0.46
+   ],
+   "visits_day_pos6": "0,05–0,11",
+   "visits_day_pos3": "0,29–0,36",
+   "existing_url": "/uz/oquv-markazi-uchun-ai-bot/",
+   "page": "Новая UZ-статья /uz/blog/oquv-markazi-reklamasi/ (владелец «o‘quv markazi reklama»): сезонность набора (август–сентябрь, январь), Instagram/Telegram-таргет на родителей и абитуриентов, посевы в районных Telegram-каналах, пробный урок как оффер, что считать (стоимость заявки, доходимость до пробного, оплата), чек-лист перед запуском. Ссылки из /uz/oquv-markazi-uchun-ai-bot/ (блок «arizalar kelgach») и на /uz/instagram-target-yoqish/ + /uz/telegram-reklama/. RU-пара /ru/blog/reklama-uchebnogo-tsentra-tashkent/ для RU-хвоста, ссылка из /ru/ai-bot-dlya-uchebnogo-tsentra/. Инструмент: роль AI-чата «reklama matni o‘quv markazi uchun» (шаблон уже есть в чате — «реклама для Telegram»).",
+   "lead_path": "Instagram/Facebook-таргет (/uz/instagram-target-yoqish/), Telegram-реклама (/uz/telegram-reklama/), затем AI-бот для ответов родителям",
+   "effort": "M",
+   "honesty_risk": "low",
+   "serp": "o‘quv markazi reklama: видео-блок №1 + AIO №2; органика = goldenpages.uz (каталог), YouTube «o‘quv markaz ochish», Yandex Maps, YouTube-блогер, infoedu.uz (субсидия на открытие, 08.02.2026), schoolup.uz (CRM), scribd (презентация). Статьи «как рекламировать учебный центр» нет ни одной. Интент владельческий (открытие, субсидия, CRM). RU-хвост: SERP не снят.",
+   "serp_weakness": "weak",
+   "shared_buckets": [
+    "o'quv markazi reklama = o'quv markazlari reklama",
+    "как открыть учебный центр = открыть учебный центр"
+   ],
+   "excluded": {
+    "ingliz tili reklama (210)": "двусмысленно: «реклама на английском» (учебный интент) или реклама курсов английского; без SERP не считаем",
+    "o'quv markazi nomlari (20), название для учебного центра (10)": "нейминг: кластер 5 линзы prices-tools",
+    "o'quv markaz reklama, oquv markazi reklama, o'quv markazi reklama matni/video/banner, o'quvchi jalb qilish": "null (<10/мес): спрос сидит в одной корзине «o‘quv markazi reklama»"
+   }
+  },
+  {
+   "priority": 2,
+   "id": "salon-reklama",
+   "name": "Go‘zallik saloni va barbershop reklamasi (UZ + RU «реклама салона красоты»)",
+   "keywords": "UZ лат.: go'zallik saloni reklama 70; salon reklama 50; barbershop reklama 20; по 10 — 1 запр.: go'zallik saloni ochish | RU: по 10 — 13 запр.: реклама салона красоты (= реклама для салона красоты), продвижение салона красоты, маркетинг для салона красоты, таргет для салона красоты, реклама салона красоты в инстаграм, сайт для салона красоты, как привлечь клиентов в салон красоты, акции для салона красоты, реклама салона красоты текст, как открыть салон красоты, открыть салон красоты, бизнес план салона красоты, как найти клиентов в бьюти сфере",
+   "demand_month": 280,
+   "keywords_counted": 17,
+   "keywords_measured": 18,
+   "cpc_usd": "нет данных (CPC null у всех запросов кластера)",
+   "cpc_weighted": null,
+   "cpc_range": null,
+   "visits_day_pos6": "0,05–0,10",
+   "visits_day_pos3": "0,27–0,33",
+   "existing_url": "/ru/ai-bot-dlya-salona-krasoty/",
+   "page": "Новая UZ-статья /uz/blog/gozallik-saloni-reklamasi/ (go‘zallik saloni, salon, barbershop): портфолио-рилс до/после, таргет на 3–5 км от салона, онлайн-запись вместо «direktga yozing», карта 2GIS/Yandex/Google, акции без демпинга, что считать. RU-пара /ru/blog/reklama-salona-krasoty-tashkent/. Ссылки: из /ru/ai-bot-dlya-salona-krasoty/ (самая видимая нишевая страница: 155 показов за 3 мес.) и /uz/salon-uchun-ai-bot/; наружу на /uz/instagram-target-yoqish/, /ru/targetirovannaya-reklama-tashkent/, /ru/lokalnoe-seo-tashkent/.",
+   "lead_path": "Instagram-таргет + SMM (/uz/smm-xizmatlari/, /ru/smm-prodvizhenie-tashkent/), локальное SEO, AI-администратор записи",
+   "effort": "M",
+   "honesty_risk": "low",
+   "serp": "go‘zallik saloni reklama: AIO №1 + видео; органика = Instagram-профили салонов и рилсы, Facebook-страница салона, рилс типографии (наружная реклама), Pinterest-доска «Реклама салон красоты». Ни одной статьи. GSC уже ловит хвост: «сколько стоит лиды для салона красоты» 7 показов (поз. 26), «ии для салона красоты» 20.",
+   "serp_weakness": "weak",
+   "shared_buckets": [
+    "реклама салона красоты = реклама для салона красоты"
+   ],
+   "excluded": {
+    "salon nomlari (30), go‘zallik saloni nomlari (20), слоган для салона красоты (10)": "нейминг/слоганы: кластер 5 prices-tools",
+    "gozallik saloni reklama, go‘zallik saloni reklama matni/video, salon reklama matni, sartaroshxona reklama, manikyur reklama": "null (<10/мес)"
+   }
+  },
+  {
+   "priority": 3,
+   "id": "stomatologiya-klinika-reklama",
+   "name": "Реклама стоматологии и клиники в Ташкенте (RU, UZ-пара) — самый дорогой клик",
+   "keywords": "UZ лат.: по 10 — 2 запр.: klinika reklama, klinika marketing | RU: стоматология реклама 40; по 10 — 30 запр.: реклама стоматологии ($6,68), реклама для стоматологии, продвижение стоматологии, маркетинг стоматологии, реклама стоматологической клиники, таргет для стоматологии, реклама стоматологии в инстаграм, продвижение стоматологии в инстаграм, контекстная реклама для стоматологии, сайт для стоматологии, как привлечь клиентов в стоматологию, маркетинг в стоматологии, реклама стоматологии примеры, реклама стоматологии текст, как открыть стоматологию (= открыть стоматологию), бизнес план стоматологии, реклама клиники, реклама для клиники, продвижение клиники, маркетинг клиники, маркетинг для клиники ($3,56), реклама медицинского центра, продвижение медицинского центра, реклама медицинских услуг, сайт для клиники, раскрутка клиники, как привлечь пациентов в клинику, как привлечь пациентов, медицинский маркетинг, маркетинг в медицине",
+   "demand_month": 360,
+   "keywords_counted": 33,
+   "keywords_measured": 34,
+   "cpc_usd": "взвешенный 5,12; диапазон 3,56–6,68 (2 запр. с CPC из 33)",
+   "cpc_weighted": 5.12,
+   "cpc_range": [
+    3.56,
+    6.68
+   ],
+   "visits_day_pos6": "0,06–0,13",
+   "visits_day_pos3": "0,34–0,42",
+   "existing_url": "/ru/ai-bot-dlya-kliniki/",
+   "page": "Новая RU-статья /ru/blog/reklama-stomatologii-i-kliniki-tashkent/ + UZ /uz/blog/stomatologiya-va-klinika-reklamasi/: каналы (Google-поиск по услуге и району, карты, Instagram-таргет на конкретную услугу, Telegram), посадочная под услугу, запись и напоминания, что считать (стоимость первичного пациента, доходимость). Отдельный нейтральный блок «что требует закон о рекламе для медицинских услуг» со ссылками на lex.uz, без юридических советов и без обещаний результата лечения. Ссылки из /ru/ai-bot-dlya-kliniki/, /uz/klinika-uchun-ai-bot/ и трёх блог-статей про бота для клиник; наружу на /ru/kontekstnaya-reklama-tashkent/ и /ru/targetirovannaya-reklama-tashkent/.",
+   "lead_path": "Контекстная реклама Google/Яндекс (/ru/kontekstnaya-reklama-tashkent/), таргет, локальное SEO, AI-бот записи",
+   "effort": "M",
+   "honesty_risk": "medium",
+   "serp": "SERP не снят. CPC: «реклама стоматологии» $6,68, «маркетинг для клиники» $3,56 — самые дорогие клики линзы: за эти слова в Google Ads уже борются. Приор: AIO; в Узбекистане по нишевой рекламе в 4 снятых выдачах статей не было.",
+   "serp_weakness": "mixed",
+   "shared_buckets": [
+    "как открыть стоматологию = открыть стоматологию"
+   ],
+   "excluded": {
+    "dorixona reklama (70)": "аптеки: реклама лекарств ограничена законом, интент не ясен (вакансии/объявления)",
+    "название для стоматологии (10)": "нейминг",
+    "stomatologiya reklama, stomatologiya uchun reklama, tish klinikasi reklama, klinika uchun reklama": "null (<10/мес): узбекская латиница по медицине пуста"
+   }
+  },
+  {
+   "priority": 4,
+   "id": "restoran-kafe-reklama",
+   "name": "Restoran, kafe va fast food reklamasi (RU + UZ)",
+   "keywords": "UZ лат.: fast food reklama 30; burger reklama 20; по 10 — 4 запр.: pizza reklama, kafe reklama, restoran marketing, restoran instagram | UZ кир.: ресторан реклама 20; по 10 — 1 запр.: кафе реклама | RU: реклама кафе в инстаграм 40; по 10 — 24 запр.: реклама ресторана ($2,90), реклама для ресторана, продвижение ресторана, маркетинг ресторана (= маркетинг для ресторана), реклама кафе, продвижение кафе, сайт для ресторана, раскрутка ресторана, как привлечь клиентов в ресторан, как привлечь клиентов в кафе, ресторанный маркетинг, реклама кафе примеры, реклама кафе текст, рекламный текст для ресторана, акции для ресторана, реклама ресторана примеры, реклама ресторана текст, как увеличить продажи в ресторане, открыть кафе (= как открыть кафе), как открыть ресторан, бизнес план кафе, продвижение кафе в инстаграм, продвижение ресторана в интернете, продвижение ресторанного бизнеса",
+   "demand_month": 400,
+   "keywords_counted": 33,
+   "keywords_measured": 35,
+   "cpc_usd": "2,9 (один запрос с CPC из 33)",
+   "cpc_weighted": 2.9,
+   "cpc_range": [
+    2.9,
+    2.9
+   ],
+   "visits_day_pos6": "0,06–0,14",
+   "visits_day_pos3": "0,38–0,47",
+   "existing_url": "/ru/ai-bot-dlya-horeca/",
+   "page": "Новая RU-статья /ru/blog/reklama-kafe-i-restorana-tashkent/ + UZ /uz/blog/restoran-va-kafe-reklamasi/ (с разделом fast food): рилс с едой, таргет по радиусу и времени обеда/ужина, Telegram-посевы, карточки на картах и отзывы, доставка через агрегаторы против своего канала, акции и как не убить маржу, что считать (заказ, средний чек, повтор). Ссылки из /ru/ai-bot-dlya-horeca/, /uz/horeca-uchun-ai-bot/, /ru/ai-bot-dlya-dostavki-edy/.",
+   "lead_path": "Instagram-таргет и SMM, Telegram Ads/посевы (/ru/telegram-ads-uzbekistan/), локальное SEO",
+   "effort": "M",
+   "honesty_risk": "low",
+   "serp": "SERP не снят (лимит 4 запроса). Приор: AIO и видео, как во всех 8 снятых выдачах линз. CPC: «реклама ресторана» $2,90.",
+   "serp_weakness": "mixed",
+   "shared_buckets": [
+    "маркетинг ресторана = маркетинг для ресторана",
+    "открыть кафе = как открыть кафе"
+   ],
+   "excluded": {
+    "fast food nomlari (110), kafe nomlari (70), restoran nomlari (10), название для кафе/ресторана, слоган для кафе": "нейминг: кластер 5 prices-tools",
+    "restoran reklama, restoran uchun reklama, kafe reklamasi, choyxona/oshxona reklama": "null (<10/мес)"
+   }
+  },
+  {
+   "priority": 5,
+   "id": "nishalar-hub",
+   "name": "Хаб «Реклама по нишам» + короткие разделы: фитнес, автосалон/автосервис, юристы, малый бизнес (RU + UZ)",
+   "keywords": "UZ лат.: по 10 — 5 запр.: fitnes reklama, fitnes marketing, fitnes instagram, avtoservis ochish, biznes reklama | RU: по 10 — 35 запр.: реклама фитнес клуба, реклама для фитнес клуба, продвижение фитнес клуба, маркетинг фитнес клуба, реклама спортзала, реклама фитнес центра, сайт для фитнес клуба, раскрутка фитнес клуба, как привлечь клиентов в фитнес клуб, реклама фитнес клуба текст, как открыть фитнес клуб, реклама автосалона, реклама для автосалона, маркетинг автосалона, реклама автосервиса, как привлечь клиентов в автосервис, акции для автосервиса, реклама автосервиса текст, как открыть автосервис, открыть автосервис, реклама юридических услуг, реклама юриста, реклама адвоката, реклама юридической компании, сайт для юридических услуг, маркетинг для юристов, как найти клиентов адвокату, маркетинг для малого бизнеса, как рекламировать бизнес, как сделать рекламу ($1,28), бесплатная реклама ($1,41), продвижение бизнеса ($0,58), продвижение бизнеса в интернете, как продвигать бизнес, где дать рекламу",
+   "demand_month": 400,
+   "keywords_counted": 40,
+   "keywords_measured": 40,
+   "cpc_usd": "взвешенный 1,09; диапазон 0,58–1,41 (3 запр. с CPC из 40)",
+   "cpc_weighted": 1.09,
+   "cpc_range": [
+    0.58,
+    1.41
+   ],
+   "visits_day_pos6": "0,06–0,14",
+   "visits_day_pos3": "0,38–0,47",
+   "existing_url": "/ru/ai-bot-dlya-nishi/",
+   "page": "Хаб /ru/reklama-dlya-biznesa-po-nisham/ + /uz/biznes-uchun-reklama-nishalar-boyicha/ (тип — блог-хаб, не money-страница): таблица «ниша → где клиенты → какой канал → что считать», ссылки на 7 глубоких плейбуков (кластеры 1–7), короткие разделы с якорями для фитнеса, авто и юристов. Юристы/адвокаты: нейтральная оговорка о профессиональных ограничениях на рекламу адвокатов со ссылкой на источник, без советов. Входящие ссылки: /ru/ai-bot-dlya-nishi/, /ru/internet-reklama-tashkent/, /uz/internet-reklama-toshkent/.",
+   "lead_path": "Все услуги через подбор канала: таргет, контекст, Telegram, SMM, сайт; форма «расскажите нишу — предложим канал»",
+   "effort": "M",
+   "honesty_risk": "medium",
+   "serp": "SERP не снят. Хвост из запросов по 10 в месяц; хаб нужен для перелинковки и для AI-ассистентов, а не ради объёма.",
+   "serp_weakness": "mixed",
+   "shared_buckets": [],
+   "excluded": {
+    "avtosalon/yurist/fitnes uchun reklama (UZ)": "null (<10/мес)",
+    "реклама для малого бизнеса, продвижение малого бизнеса": "null"
+   }
+  },
+  {
+   "priority": 6,
+   "id": "yatt-ochish",
+   "name": "YaTT / ИП в Узбекистане: как открыть и где взять первых клиентов",
+   "keywords": "UZ лат.: yatt ochish 1600 ($1,15); yakka tartibdagi tadbirkor 390; по 10 — 1 запр.: yatt ro'yxatdan o'tish | RU: как открыть ип в узбекистане 210 ($1,36); самозанятый узбекистан 170 ($0,29); открыть ип в узбекистане 140 ($1,71); ип в узбекистане 140 ($0,50)",
+   "demand_month": 2660,
+   "keywords_counted": 7,
+   "keywords_measured": 7,
+   "cpc_usd": "взвешенный 1,1; диапазон 0,29–1,71 (5 запр. с CPC из 7)",
+   "cpc_weighted": 1.1,
+   "cpc_range": [
+    0.29,
+    1.71
+   ],
+   "visits_day_pos6": "0,43–0,96",
+   "visits_day_pos3": "2,53–3,13",
+   "existing_url": "",
+   "page": "Новая UZ-статья /uz/blog/yatt-ochish-va-birinchi-mijozlar/ + RU /ru/blog/kak-otkryt-ip-v-uzbekistane-i-nayti-klientov/: шаги регистрации только по официальным источникам (soliq.uz, my.gov.uz, lex.uz) с датой проверки, без налоговых советов и с фразой «уточните у налоговой/бухгалтера»; вторая половина — первые 30 дней: карточка на картах, Instagram/Telegram, простой сайт, первая реклама. Риск E-E-A-T: агентство пишет о регистрации — юридическую часть держать короткой и со ссылками.",
+   "lead_path": "Стартовый пакет: сайт-визитка/лендинг (/uz/sayt-yaratish/), SMM, первый таргет",
+   "effort": "L",
+   "honesty_risk": "medium",
+   "serp": "yatt ochish: AIO №1 + видео; органика = 3 видео Soliqpressa в Facebook, soliq.uz (налогообложение ИП), buxgalter.uz (10 шагов, 2022), kadrovik.uz, info.dt.uz, yaran.uz (2022). Официальный источник + бухгалтерские порталы, тексты 2022 года; о клиентах после регистрации — никто. RU: SERP не снят.",
+   "serp_weakness": "mixed",
+   "shared_buckets": [],
+   "excluded": {
+    "o'zini o'zi band qilish, yatt bo'lish": "null"
+   }
+  },
+  {
+   "priority": 7,
+   "id": "biznes-goyalar",
+   "name": "Biznes g‘oyalar / бизнес-идеи в Узбекистане — с планом первых клиентов для каждой идеи",
+   "keywords": "UZ лат.: biznes g'oyalar 170 ($0,86); kichik biznes g'oyalar 90 ($0,15); biznes boshlash 50 ($1,25); yangi biznes g'oyalar 30 ($1,32); biznes qilish 30 ($0,17); biznes sirlari 30; biznes g'oyalar 2025 20; biznes ochish 20; по 10 — 2 запр.: biznes g'oyalar 2026 ($0,21), biznes goyalar | UZ кир.: по 10 — 1 запр.: бизнес ғоялар ($0,77) | RU: бизнес идеи 390 ($0,80); бизнес идеи в узбекистане 90 ($0,55); бизнес идеи 2026 50 ($0,70); бизнес с нуля 50 ($1,12); идеи для бизнеса 50 ($0,93); бизнес идеи 2025 40 ($1,73); малый бизнес идеи 20 ($0,67); бизнес идеи для женщин 20 ($0,94); бизнес в узбекистане 20 ($0,59); бизнес в ташкенте 20 ($0,20); по 10 — 6 запр.: бизнес идеи с минимальными вложениями ($2,62), бизнес идеи ташкент ($0,48), какой бизнес открыть, бизнес идеи узбекистан, какой бизнес открыть в ташкенте ($0,37), открыть бизнес в узбекистане",
+   "demand_month": 1280,
+   "keywords_counted": 27,
+   "keywords_measured": 27,
+   "cpc_usd": "взвешенный 0,79; диапазон 0,15–2,62 (20 запр. с CPC из 27)",
+   "cpc_weighted": 0.79,
+   "cpc_range": [
+    0.15,
+    2.62
+   ],
+   "visits_day_pos6": "0,21–0,46",
+   "visits_day_pos3": "1,22–1,50",
+   "existing_url": "/uz/blog/biznes-reja-tuzish/",
+   "page": "Новая UZ-статья /uz/blog/biznes-goyalar-ozbekiston/ и RU /ru/blog/biznes-idei-v-uzbekistane/: 15–20 идей, по каждой — кто покупатель, нужен ли сайт, где искать первых клиентов (канал), примерный стартовый маркетинг без обещаний дохода; каждая идея-ниша ссылается на свой плейбук (кластеры 1–8). Ссылка на /uz/blog/biznes-reja-tuzish/ (владелец «biznes reja»); не перетягивать «biznes reja». Инструмент: роль AI-чата «biznes g‘oya → birinchi 30 kun marketing rejasi».",
+   "lead_path": "Стартовый пакет: сайт (/uz/sayt-yaratish/) + SMM/таргет на запуск; через нишевые плейбуки",
+   "effort": "M",
+   "honesty_risk": "medium",
+   "serp": "бизнес идеи: AIO №2 + PAA + картинки; органика = moedelo.org (2021), Wikipedia, alterainvest.ru, skillzrun.com, YouTube, hf.ru «бизнес в Узбекистане для россиян», businessmens.ru. Узбекской страницы для местных нет. UZ «biznes g‘oyalar»: SERP не снят.",
+   "serp_weakness": "mixed",
+   "shared_buckets": [],
+   "excluded": {
+    "kichik biznes (210), кичик бизнес (40)": "голый термин: новости, кредиты, госпрограммы",
+    "бизнес идеи для женщин и прочие «для россиян»": "учтены, но SERP — российские листиклы"
+   }
+  },
+  {
+   "priority": 8,
+   "id": "marketing-strategiya",
+   "name": "Marketing strategiyasi va reja (UZ) + маркетинговая стратегия/план с примером (RU — расширение)",
+   "keywords": "UZ лат.: marketing strategiyasi 110; raqamli marketing 110; по 10 — 3 запр.: marketing strategiyasi nima, marketing rejasi, marketing reja | UZ кир.: по 10 — 2 запр.: маркетинг стратегияси, маркетинг стратегия ($1,10) (= маркетинговые стратегии) | RU: маркетинговая стратегия 30; маркетинговый план 20; по 10 — 14 запр.: стратегии маркетинга ($1,58), план маркетинга, разработка маркетинговой стратегии, разработка маркетинговой стратегии цена, маркетинговая стратегия компании, маркетинговая стратегия на год, готовая маркетинговая стратегия, маркетинговая стратегия пример, маркетинговый план пример, маркетинг план пример, стратегия развития бизнеса, smm стратегия, стратегия продвижения, стратегия продвижения в инстаграм",
+   "demand_month": 460,
+   "keywords_counted": 23,
+   "keywords_measured": 24,
+   "cpc_usd": "взвешенный 1,34; диапазон 1,1–1,58 (2 запр. с CPC из 23)",
+   "cpc_weighted": 1.34,
+   "cpc_range": [
+    1.1,
+    1.58
+   ],
+   "visits_day_pos6": "0,07–0,17",
+   "visits_day_pos3": "0,44–0,54",
+   "existing_url": "/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/",
+   "page": "UZ: новая статья /uz/blog/marketing-strategiyasi/ — одностраничный маркетинг-план для малого бизнеса (цель, аудитория, оффер, каналы, бюджет-сетка, метрики) с примером для вымышленной, явно помеченной кофейни; ссылка из /uz/blog/marketing-nima/ (раздел «strategiya»), CTA на маркетинговый аудит. RU: не новая страница — расширить /ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/ (уже держит «маркетинговая стратегия Ташкент») блоком «пример маркетингового плана» и связать с /ru/blog/plan-digital-marketinga-na-90-dney/ (43 показа, поз. 8). Инструмент: роль AI-чата «маркетинг-план на 1 страницу».",
+   "lead_path": "Маркетинговый аудит (/ru/marketingovyi-audit-tashkent/), digital-стратегия (/ru/digital-strategiya-dlya-biznesa/), далее SMM/таргет",
+   "effort": "S",
+   "honesty_risk": "low",
+   "serp": "SERP не снят. Приор: UZ — студенческие рефераты и PDF; RU — Unisender/Calltouch/Skillbox-уровень (сильно).",
+   "serp_weakness": "mixed",
+   "shared_buckets": [
+    "маркетинг стратегия = маркетинговые стратегии"
+   ],
+   "excluded": {
+    "marketing turlari (140), маркетинг нима (170)": "интент владельца /uz/blog/marketing-nima/ — расширять там, не здесь",
+    "marketing 4p (90), marketing asoslari (50), marketing kitob (30), marketing kurs (40)": "учебный интент"
+   }
+  },
+  {
+   "priority": 9,
+   "id": "sotuv-voronkasi",
+   "name": "Воронка продаж и отдел продаж / sotuv voronkasi, biznesni rivojlantirish (RU + UZ)",
+   "keywords": "UZ лат.: biznesni rivojlantirish 70 ($1,01); sotuv bo'limi 40; sotuv texnikasi 40; biznes rivojlantirish 20 ($0,78); sotuv voronkasi 20; по 10 — 3 запр.: sotuv skripti, sotuvni oshirish, savdoni oshirish | UZ кир.: бизнесни ривожлантириш 30 ($1,23) | RU: воронка продаж 210 ($0,51); отдел продаж 70; по 10 — 18 запр.: скрипт продаж, холодные звонки, база клиентов ($1,74), как удержать клиентов, как увеличить продажи, как поднять продажи, увеличение продаж, как привлечь клиентов ($0,59), привлечение клиентов, как найти клиентов, способы привлечения клиентов, методы привлечения клиентов, развитие бизнеса, как развить бизнес, как развивать бизнес, как найти новых клиентов, как найти первых клиентов, как найти клиентов в инстаграм",
+   "demand_month": 710,
+   "keywords_counted": 29,
+   "keywords_measured": 29,
+   "cpc_usd": "взвешенный 0,72; диапазон 0,51–1,74 (6 запр. с CPC из 29)",
+   "cpc_weighted": 0.72,
+   "cpc_range": [
+    0.51,
+    1.74
+   ],
+   "visits_day_pos6": "0,11–0,26",
+   "visits_day_pos3": "0,68–0,83",
+   "existing_url": "/ru/blog/chto-takoe-lid-v-marketinge/",
+   "page": "RU: новая статья /ru/blog/voronka-prodazh-dlya-malogo-biznesa/ (этапы от рекламы до оплаты, где теряются заявки, скрипт первого ответа, CRM, что мерить) со ссылкой из /ru/blog/chto-takoe-lid-v-marketinge/ (1 602 показа, поз. 25 — уже собирает «лид в продажах»). UZ: новая /uz/blog/sotuv-voronkasi-va-biznesni-rivojlantirish/ («biznesni rivojlantirish» 70 + Cyr. 30). CTA: маркетинговый аудит и автоматизация заявок.",
+   "lead_path": "Маркетинговый аудит, затем таргет/контекст; автоматизация заявок и AI-бот (/ru/avtomatizatsiya-zayavok/, /uz/arizalarni-avtomatlashtirish/)",
+   "effort": "M",
+   "honesty_risk": "low",
+   "serp": "SERP не снят. Приор для «воронка продаж»: блоги CRM-вендоров и онлайн-школ (сильно). UZ «biznesni rivojlantirish»: приор слабый.",
+   "serp_weakness": "mixed",
+   "shared_buckets": [],
+   "excluded": {
+    "mijoz topish, mijozlarni jalb qilish, mijoz jalb qilish": "null (<10/мес): узбекский «mijoz topish» в Google не ищут",
+    "sotuv menejeri (170)": "вакансии/соискатели"
+   }
+  },
+  {
+   "priority": 10,
+   "id": "kiyim-mebel-dokon-reklama",
+   "name": "Реклама магазина одежды и мебели (RU, UZ-пара)",
+   "keywords": "UZ лат.: по 10 — 2 запр.: kiyim do'koni ochish, mebel instagram | RU: по 10 — 25 запр.: реклама магазина одежды, реклама для магазина одежды, маркетинг для магазина одежды, реклама одежды, таргет для магазина одежды, реклама магазина одежды в инстаграм, сайт для магазина одежды, раскрутка магазина одежды, как продвигать магазин одежды, как раскрутить магазин одежды, как продвигать бренд одежды, рекламный текст для магазина одежды, акции для магазина одежды, реклама магазина одежды текст, как открыть магазин одежды, открыть магазин одежды, реклама мебели, реклама для мебели, продвижение мебели, реклама мебельного магазина, реклама мебели в инстаграм, сайт для мебели, как продавать мебель ($0,41), маркетинг мебельного магазина, реклама мебели текст",
+   "demand_month": 270,
+   "keywords_counted": 27,
+   "keywords_measured": 27,
+   "cpc_usd": "0,41 (один запрос с CPC из 27)",
+   "cpc_weighted": 0.41,
+   "cpc_range": [
+    0.41,
+    0.41
+   ],
+   "visits_day_pos6": "0,04–0,10",
+   "visits_day_pos3": "0,26–0,32",
+   "existing_url": "/ru/ai-bot-dlya-magazina/",
+   "page": "Две RU-статьи в одном шаблоне: /ru/blog/reklama-magazina-odezhdy-tashkent/ и /ru/blog/reklama-mebeli-tashkent/: каталог в Instagram/Telegram, рилс-примерки и интерьерные рилс, таргет с каталогом товаров, ретаргет, ответы «narxi qancha?» за минуты, доставка и оплата, что считать. UZ-пара — одна статья /uz/blog/kiyim-va-mebel-dokoni-reklamasi/. Ссылки из /ru/ai-bot-dlya-magazina/ и /uz/dokon-uchun-ai-bot/. Линза marketplaces-social-selling отдала «магазин одежды» этой линзе.",
+   "lead_path": "Instagram-таргет с каталогом + SMM, сайт-каталог/интернет-магазин",
+   "effort": "M",
+   "honesty_risk": "low",
+   "serp": "SERP не снят. Приор: AIO; российские агентства/блоги.",
+   "serp_weakness": "mixed",
+   "shared_buckets": [],
+   "excluded": {
+    "brend nomlari (390), название для магазина/бренда одежды": "нейминг: кластер 5 prices-tools (там brend nomlari ещё не учтён — передать)",
+    "kiyim do'koni reklama, kiyim reklama, mebel reklama": "null (<10/мес)"
+   }
+  },
+  {
+   "priority": 11,
+   "id": "kochmas-mulk-reklama",
+   "name": "Реклама недвижимости, ЖК и застройщика (RU)",
+   "keywords": "RU: по 10 — 13 запр.: реклама недвижимости, продвижение недвижимости, маркетинг недвижимости, маркетинг для недвижимости (= маркетинг в недвижимости), реклама застройщика, реклама жк, реклама новостроек, реклама агентства недвижимости, реклама недвижимости в инстаграм, сайт для недвижимости, реклама риэлтора, реклама недвижимости примеры, реклама недвижимости текст",
+   "demand_month": 130,
+   "keywords_counted": 13,
+   "keywords_measured": 14,
+   "cpc_usd": "нет данных (CPC null у всех запросов кластера)",
+   "cpc_weighted": null,
+   "cpc_range": null,
+   "visits_day_pos6": "0,02–0,05",
+   "visits_day_pos3": "0,12–0,15",
+   "existing_url": "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+   "page": "Новая RU-статья /ru/blog/reklama-nedvizhimosti-i-zhk-tashkent/: лид-формы против мессенджеров, квиз «район/бюджет/срок», Telegram-каналы о недвижимости, OLX/uybor как канал, видео-обзоры объектов, квалификация лида до звонка, что считать (стоимость квалифицированного лида, показ, бронь). Ссылка из /ru/ai-bot-dlya-agentstva-nedvizhimosti/ (40 показов, поз. 8,8) и /uz/kochmas-mulk-agentligi-uchun-ai-bot/.",
+   "lead_path": "Таргет с лид-формами + сайт/лендинг ЖК (/ru/razrabotka-saytov-tashkent/), AI-бот квалификации",
+   "effort": "M",
+   "honesty_risk": "low",
+   "serp": "SERP не снят. Приор: AIO; российские агентства и блоги CRM.",
+   "serp_weakness": "mixed",
+   "shared_buckets": [
+    "маркетинг для недвижимости = маркетинг в недвижимости"
+   ],
+   "excluded": {
+    "как продать квартиру быстро (10)": "частный продавец, не бизнес",
+    "ko'chmas mulk reklama, uy sotish reklama, quruvchi reklama, yangi uylar reklama": "все null (<10/мес): узбекского спроса нет"
+   }
+  },
+  {
+   "priority": 12,
+   "id": "turizm-reklama",
+   "name": "Реклама турагентства (RU + UZ «turizm marketing»)",
+   "keywords": "UZ лат.: turizm marketing 20 | RU: по 10 — 14 запр.: реклама турагентства, реклама для турагентства, продвижение турагентства, реклама туров, реклама туристической компании, продвижение туристической компании, сайт для турагентства, как привлечь клиентов в турагентство, маркетинг в туризме, реклама в туризме, реклама турагентства примеры, реклама турагентства текст, открыть турагентство, маркетинговые стратегии в туризме",
+   "demand_month": 160,
+   "keywords_counted": 15,
+   "keywords_measured": 15,
+   "cpc_usd": "нет данных (CPC null у всех запросов кластера)",
+   "cpc_weighted": null,
+   "cpc_range": null,
+   "visits_day_pos6": "0,03–0,06",
+   "visits_day_pos3": "0,15–0,19",
+   "existing_url": "",
+   "page": "Новая RU-статья /ru/blog/reklama-turagentstva-tashkent/ (умра/хадж — только нейтрально, без религиозных обещаний; сезонность, горящие туры в Telegram, лид-формы, визовые вопросы как контент) + раздел в UZ-хабе ниш. Нишевой AI-бот-страницы нет.",
+   "lead_path": "Таргет с лид-формами, Telegram-реклама, SMM",
+   "effort": "M",
+   "honesty_risk": "low",
+   "serp": "SERP не снят. Приор: AIO.",
+   "serp_weakness": "mixed",
+   "shared_buckets": [],
+   "excluded": {
+    "как открыть турагентство (10, CPC $16,12)": "CPC-выброс одного запроса, интент — регистрация, не реклама"
+   }
+  }
+ ]
+}

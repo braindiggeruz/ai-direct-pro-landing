@@ -1,0 +1,74 @@
+{
+  "fetched": "2026-10-25",
+  "tool": "get_serp_results, loc 2860, lang ru, desktop, depth 20, resultId 049a58aa-7247-43ac-a36b-95ecdd241ed4",
+  "queries": {
+    "telegram ads": {
+      "features": ["paid (propellerads)", "video", "ai_overview (rank 5)", "related_searches"],
+      "organic_top10": [
+        [1, "ads.telegram.org", "official platform"],
+        [2, "adsgram.ai", "ad network / platform"],
+        [3, "umnico.com/blog/telegram-ads/", "EN guide (31.05.2026)"],
+        [4, "newage.agency/en/blog/telegram-advertising-what-how-and-how-much/", "agency blog EN"],
+        [5, "carrotquest.io/blog/telegram-ads/", "RU guide (08.10.2026)"],
+        [6, "telega.io", "channel-ads exchange"],
+        [7, "richads.com/telegram_ads/", "ad network"],
+        [8, "ads.yandex.com/en/telegram-ads/advertisers", "Yandex reseller of Telegram Ads"],
+        [9, "kokoc.com/blog/telegram-ads/", "RU agency guide"],
+        [10, "try.elama.ru/telegram_ads", "RU reseller"]
+      ],
+      "uz_local_results": 0,
+      "verdict": "mixed: official #1, 5/10 guides, no Uzbek or UZ-specific page"
+    },
+    "яндекс директ": {
+      "features": ["ai_overview (rank 1)"],
+      "organic_top10": [
+        [1, "b2b.yandex.ru", "Yandex official"],
+        [2, "yandex.ru/support/direct", "Yandex help"],
+        [3, "rtb.sape.ru", "RU glossary"],
+        [4, "demis.ru", "RU agency article"],
+        [5, "new-point.bz", "RU agency article"],
+        [6, "cnews.ru", "RU media"],
+        [7, "trafficmall.site", "RU blog"],
+        [8, "yandex.ru/project/direct", "Yandex official"],
+        [9, "likeni.ru", "RU glossary"],
+        [10, "yandex.ru/support/direct", "Yandex help"]
+      ],
+      "uz_local_results": 0,
+      "verdict": "strong for the head (Yandex + RU agency glossaries); UZ angle (payment/geo for Uzbekistan) absent"
+    },
+    "target yoqish": {
+      "features": ["video (rank 1)", "ai_overview (rank 3)"],
+      "organic_top10": [
+        [1, "instagram.com/reel/...", "UGC reel (free lesson bait)"],
+        [2, "m.olx.uz/uslugi/q-target/", "classifieds: 250 target freelancers"],
+        [3, "ustoz.ai/ru/courses/targeting-bepul...", "course aggregator"],
+        [4, "youtube.com/watch?v=0PyOGSDuvaM", "UZ video tutorial"],
+        [5, "instagram.com/popular/target-yoqish-narxi/", "Instagram tag page"],
+        [6, "rivojuz.uz/target", "freelancer landing"],
+        [7, "youtube.com/watch?v=EWdiF1JMlQY", "Business manager tutorial"],
+        [8, "t.me/s/ustozai", "Telegram channel (snippet about extra fees on $100 ad payments)"],
+        [9, "olx.uz/oz/uslugi/tashkent/q-target/", "classifieds"],
+        [10, "yuzinchi.uz/uz/xizmatlar/instagram-target", "agency, 'oyiga $200 dan'"]
+      ],
+      "uz_local_results": 10,
+      "verdict": "weak: UGC, video, classifieds; no solid Uzbek text guide in top-10; gptbot.uz not in top-20 on this fetch"
+    },
+    "meta ads": {
+      "features": ["ai_overview (rank 1)", "video", "people_also_ask", "paid (facebook.com)", "images"],
+      "organic_top10": [
+        [1, "help.instagram.com", "official help"],
+        [2, "coursera.org/articles/facebook-advertising", "EN article"],
+        [3, "linkedin.com/products/facebook-ads-manager/", "product listing"],
+        [4, "marketinglabs.co.uk", "EN agency guide"],
+        [5, "play.google.com (Meta Ads Manager app)", "app"],
+        [6, "quora.com", "Q&A"],
+        [7, "metaads.team", "unrelated namesake"],
+        [8, "adtribute.io", "directory"],
+        [9, "adintime.com", "EN blog"],
+        [10, "facebook.com/help (Ad Library)", "official help"]
+      ],
+      "uz_local_results": 0,
+      "verdict": "mixed: official + generic EN pages; no RU/UZ guide in top-10"
+    }
+  }
+}

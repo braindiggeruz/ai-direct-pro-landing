@@ -1,0 +1,4458 @@
+{
+ "model": {
+  "ctr_pos6": [
+   0.0061,
+   0.011
+  ],
+  "ctr_pos3": 0.0359,
+  "f_aio_r1": 0.533,
+  "f_aio": 0.655,
+  "visits_per_click": 1.5,
+  "formula": "visits/day = demand × CTR / 30 × 1.5; top-3 × AIO factor; pos-6 = site curve without extra discount"
+ },
+ "clusters": [
+  {
+   "id": "irregular_verbs",
+   "name": "Noto‘g‘ri fe’llar / irregular verbs / неправильные глаголы",
+   "demand_month": 24260,
+   "demand_raw_dedup": 24260,
+   "buckets": [
+    {
+     "keywords": [
+      "irregular verbs"
+     ],
+     "volume": 12100,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "irregular verbs list",
+      "list of irregular verbs"
+     ],
+     "volume": 2900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "noto'g'ri fe'llar jadvali"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "неправильные глаголы"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "noto'g'ri fe'llar"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "notogri fellar"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "past participle"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "regular verbs"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "regular and irregular verbs"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "таблица неправильных глаголов"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "irregular verbs table"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tili noto'g'ri fe'llar"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "3 forms of verbs"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "v1 v2 v3"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "irregular verbs test"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "verb forms"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "неправильные глаголы английского языка"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "3 формы глагола"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "неправильные глаголы английского языка таблица"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "формы глаголов английского"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [
+    "irregular verbs ingliz tili",
+    "fe'lning 3 shakli",
+    "notog'ri fe'llar"
+   ],
+   "not_measured": [],
+   "excluded": {},
+   "aio_factor": 0.533,
+   "aio_note": "AIO r1 в обеих снятых выдачах",
+   "seasonality": {
+    "peak": "2025-10",
+    "peak_index": 1.4,
+    "low": "2026-08",
+    "low_index": 0.53,
+    "last_month": "2026-09",
+    "last_index": 0.81,
+    "series_sum": [
+     34830,
+     30280,
+     28860,
+     31890,
+     34200,
+     23440,
+     24790,
+     18320,
+     19800,
+     18240,
+     13040,
+     20210
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    7.4,
+    13.3
+   ],
+   "visits_day_pos3": 23.2
+  },
+  {
+   "id": "english_tenses",
+   "name": "Ingliz tili zamonlari: Present/Past/Future + mashqlar",
+   "demand_month": 59600,
+   "demand_raw_dedup": 59600,
+   "buckets": [
+    {
+     "keywords": [
+      "present simple"
+     ],
+     "volume": 12100,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "past simple"
+     ],
+     "volume": 8100,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present continuous"
+     ],
+     "volume": 6600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present perfect"
+     ],
+     "volume": 5400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "past continuous"
+     ],
+     "volume": 2900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present perfect continuous"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "past perfect"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present simple exercises"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "future simple"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "past simple exercises"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present continuous exercises"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "past perfect continuous"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "future continuous"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "future perfect"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present simple tense"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "past simple tense"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present perfect tense"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present perfect exercises"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "going to"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "was were"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "future perfect continuous"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "used to"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "tenses"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present simple qoidasi"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english tenses"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present simple vs present continuous"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "времена в английском"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "past simple vs present perfect"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "tenses exercises"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "future in the past"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "времена английского языка"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present simple упражнения"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "simple past"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "таблица времен английского языка"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "12 tenses"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present simple правило"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present perfect правило"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "past simple упражнения"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "present simple mashqlar"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "16 времен английского языка"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "tenses table"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [
+    "ingliz tili zamonlari",
+    "ingliz tilida zamonlar",
+    "zamonlar ingliz tilida",
+    "16 zamon"
+   ],
+   "not_measured": [],
+   "excluded": {},
+   "aio_factor": 0.533,
+   "aio_note": "AIO r1 (present simple)",
+   "seasonality": {
+    "peak": "2025-10",
+    "peak_index": 1.46,
+    "low": "2026-08",
+    "low_index": 0.56,
+    "last_month": "2026-09",
+    "last_index": 0.9,
+    "series_sum": [
+     86090,
+     75120,
+     72430,
+     70630,
+     69040,
+     54370,
+     60430,
+     45540,
+     46600,
+     39250,
+     32690,
+     53120
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    18.2,
+    32.8
+   ],
+   "visits_day_pos3": 57.1
+  },
+  {
+   "id": "english_grammar_topics",
+   "name": "Ingliz tili grammatikasi: conditionals, passive, reported speech, pronouns, prepositions…",
+   "demand_month": 51510,
+   "demand_raw_dedup": 63860,
+   "buckets": [
+    {
+     "keywords": [
+      "pronouns"
+     ],
+     "volume": 14800,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "passive voice"
+     ],
+     "volume": 3600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "conditionals"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "reported speech",
+      "indirect speech"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tili grammatikasi",
+      "ingliz tili grammatika"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "modal verbs"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "there is there are"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "prepositions of place"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "relative clauses"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "second conditional"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "comparative and superlative"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "possessive pronouns"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "countable and uncountable nouns"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "prepositions"
+     ],
+     "volume": 2400,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "adjectives"
+     ],
+     "volume": 2400,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "first conditional"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "third conditional"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "prepositions of time"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "phrasal verbs"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "to be"
+     ],
+     "volume": 1900,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "grammar"
+     ],
+     "volume": 1900,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "zero conditional"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "some any"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english grammar"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "gerund and infinitive"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "adverbs"
+     ],
+     "volume": 1300,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "mixed conditionals"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "question tags",
+      "tag questions"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "comparative adjectives"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "plural nouns"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "much many"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "infinitive"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "quantifiers"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "gerund"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "грамматика английского языка"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "active and passive voice"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "suffixes"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "grammar exercises"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "direct and indirect speech"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "causative"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "have got"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "parts of speech"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "word formation"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "модальные глаголы"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "verb to be"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "a an the"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english exercises"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "i wish"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "phrasal verbs list"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "degrees of comparison"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "фразовые глаголы"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "предлоги в английском"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "to be fe'li"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tili mashqlar"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "l3-data/kw2_metrics.json (2026-10-24, reused)"
+    },
+    {
+     "keywords": [
+      "артикли в английском"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "passive voice упражнения"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "упражнения по английскому"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "степени сравнения прилагательных в английском"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [
+    "ingliz tili qoidalari",
+    "ingliz tili grammatika mashqlar"
+   ],
+   "not_measured": [],
+   "excluded": {
+    "articles": "неоднозначно (4 400, CPC 6.62 — «статьи» вообще), не считаю"
+   },
+   "aio_factor": 0.533,
+   "aio_note": "AIO r1 (pronouns)",
+   "seasonality": {
+    "peak": "2025-10",
+    "peak_index": 1.35,
+    "low": "2026-08",
+    "low_index": 0.6,
+    "last_month": "2026-09",
+    "last_index": 0.79,
+    "series_sum": [
+     69950,
+     62050,
+     57810,
+     59890,
+     56450,
+     52490,
+     64450,
+     46170,
+     42770,
+     36715,
+     31180,
+     41000
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    15.7,
+    28.3
+   ],
+   "visits_day_pos3": 49.3
+  },
+  {
+   "id": "ielts_cefr_calculator",
+   "name": "IELTS / CEFR (Multilevel) ball kalkulyatori",
+   "demand_month": 19640,
+   "demand_raw_dedup": 22940,
+   "buckets": [
+    {
+     "keywords": [
+      "ielts calculator"
+     ],
+     "volume": 8100,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts score"
+     ],
+     "volume": 6600,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts score calculator"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr ballari"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts band score"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts listening band score"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts reading band score"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts band score calculator"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr calculator"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel ballari"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel score calculator"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts listening score calculator"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts reading score calculator"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr ball hisoblash"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts overall score calculator"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel ball hisoblash"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel calculator"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts listening band score calculator"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts reading band score calculator"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts ball hisoblash"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [],
+   "not_measured": [],
+   "excluded": {},
+   "aio_factor": 0.655,
+   "aio_note": "AIO r5 (ielts calculator), r4 (cefr ballari)",
+   "seasonality": {
+    "peak": "2026-06",
+    "peak_index": 1.21,
+    "low": "2026-09",
+    "low_index": 0.69,
+    "last_month": "2026-09",
+    "last_index": 0.69,
+    "series_sum": [
+     17300,
+     19550,
+     21770,
+     23340,
+     20300,
+     20280,
+     22670,
+     19490,
+     24560,
+     20820,
+     19900,
+     13930
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    6.0,
+    10.8
+   ],
+   "visits_day_pos3": 23.1
+  },
+  {
+   "id": "multilevel_cefr_practice",
+   "name": "Multilevel / CEFR: mock-test (speaking, writing, reading) + gid",
+   "demand_month": 22170,
+   "demand_raw_dedup": 29980,
+   "buckets": [
+    {
+     "keywords": [
+      "cefr"
+     ],
+     "volume": 6600,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel"
+     ],
+     "volume": 5400,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel mock test"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel speaking"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel reading"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr mock test"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr sertifikat"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr test"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr speaking"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel writing"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel speaking questions"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel mock"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr writing"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel test"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multi level"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel speaking part 1"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr reading"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel writing task 1"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel speaking part 2"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr mock"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr b2"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel writing task 2"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel speaking part 3"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr c1"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr nima"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr darajalari"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel test online"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr b1"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr ingliz tili"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr narxi"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel narxi"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel speaking topics"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel nima"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel imtihon"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel ingliz tili"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr essay"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel letter"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "multilevel listening"
+     ],
+     "volume": 1600,
+     "weight": 0.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "cefr listening"
+     ],
+     "volume": 210,
+     "weight": 0.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [
+    "multilevel essay"
+   ],
+   "not_measured": [],
+   "excluded": {
+    "milliy sertifikat": "18 100 — навигационный (результаты/регистрация uzbmb), не считаю",
+    "multilevel listening / cefr listening": "вес 0: нужен аудиоконтент, продукт его не делает"
+   },
+   "aio_factor": 0.655,
+   "aio_note": "AIO r2 (multilevel mock test)",
+   "seasonality": {
+    "peak": "2026-04",
+    "peak_index": 1.38,
+    "low": "2025-10",
+    "low_index": 0.73,
+    "last_month": "2026-09",
+    "last_index": 1.1,
+    "series_sum": [
+     16040,
+     17350,
+     22710,
+     21850,
+     22710,
+     24950,
+     30260,
+     22660,
+     19290,
+     20790,
+     20020,
+     24180
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    6.8,
+    12.2
+   ],
+   "visits_day_pos3": 26.1
+  },
+  {
+   "id": "ielts_writing_speaking",
+   "name": "IELTS Writing / Speaking: AI-tekshiruv va mavzular",
+   "demand_month": 18080,
+   "demand_raw_dedup": 19030,
+   "buckets": [
+    {
+     "keywords": [
+      "ielts writing task 1"
+     ],
+     "volume": 2900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking questions"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts writing task 2"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "grammar checker",
+      "grammar check"
+     ],
+     "volume": 1900,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking topics"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts writing"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts writing checker"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts writing task 2 topics"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "linking words"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "speaking topics"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking part 1"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts writing task 1 samples"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "informal letter"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking part 2"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking practice"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "opinion essay"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts vocabulary"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts writing task 2 samples"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "formal letter"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts essay topics"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts essay checker"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking test"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts writing samples"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking band descriptors"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english speaking practice"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts essay"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking part 3"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts essay samples"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts writing band descriptors"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts band descriptors"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "письмо на английском"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english conversation"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts writing task 1 vocabulary"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts words"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "эссе на английском"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts vocabulary list"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts speaking cue cards"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ielts cue card"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "проверка грамматики английского"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [
+    "essay",
+    "essay writing"
+   ],
+   "not_measured": [],
+   "excluded": {
+    "ielts": "27 100 — общий/навигационный (регистрация, IDP/BC)",
+    "ielts listening/reading/mock/practice test": "≈13 300 — нужны аудио и лицензированные тексты; SERP у ielts.org/IDP"
+   },
+   "aio_factor": 0.655,
+   "aio_note": "AIO r2 (ielts writing task 1)",
+   "seasonality": {
+    "peak": "2026-01",
+    "peak_index": 1.15,
+    "low": "2026-08",
+    "low_index": 0.79,
+    "last_month": "2026-09",
+    "last_index": 0.81,
+    "series_sum": [
+     18910,
+     18930,
+     18750,
+     20800,
+     19370,
+     18350,
+     20420,
+     17860,
+     18320,
+     16100,
+     14340,
+     14650
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    5.5,
+    9.9
+   ],
+   "visits_day_pos3": 21.3
+  },
+  {
+   "id": "english_level_test",
+   "name": "Ingliz tili darajasini aniqlash testi (placement / level test)",
+   "demand_month": 25040,
+   "demand_raw_dedup": 25040,
+   "buckets": [
+    {
+     "keywords": [
+      "ingliz tili test"
+     ],
+     "volume": 14800,
+     "weight": 1.0,
+     "source": "l3-data/kw1_metrics.json (2026-10-24, reused)"
+    },
+    {
+     "keywords": [
+      "english test"
+     ],
+     "volume": 3600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english level test"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "уровни английского"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "english grammar test"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "уровни английского языка",
+      "уровни английский язык"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "тест на уровень английского"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "уровни англ"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "level test"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "placement test"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "тест по английскому"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "английский тест"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "все уровни английского языка"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "уровни знания английского"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "английский уровни"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "ingliz tili test online"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tili testlari"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "тест по английскому языку"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "тест на знание английского"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "определить уровень английского"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tili level test"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "тест уровня английского"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [
+    "ingliz tili darajasini aniqlash",
+    "ingliz tili test savollari"
+   ],
+   "not_measured": [],
+   "excluded": {},
+   "aio_factor": 0.655,
+   "aio_note": "SERP не снят (кредиты); приор AIO",
+   "seasonality": {
+    "peak": "2026-05",
+    "peak_index": 1.5,
+    "low": "2025-11",
+    "low_index": 0.4,
+    "last_month": "2026-09",
+    "last_index": 1.23,
+    "series_sum": [
+     11070,
+     9550,
+     13000,
+     22440,
+     26430,
+     25600,
+     30140,
+     35450,
+     35050,
+     28560,
+     17800,
+     29120
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    7.6,
+    13.8
+   ],
+   "visits_day_pos3": 29.4
+  },
+  {
+   "id": "alphabets",
+   "name": "Alifbolar: ingliz, rus, arab, koreys, yapon (+transkripsiya, kartochkalar)",
+   "demand_month": 47360,
+   "demand_raw_dedup": 47360,
+   "buckets": [
+    {
+     "keywords": [
+      "arab alifbosi"
+     ],
+     "volume": 8100,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "русский алфавит"
+     ],
+     "volume": 6600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english alphabet"
+     ],
+     "volume": 5400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "английский алфавит"
+     ],
+     "volume": 3600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "арабский алфавит"
+     ],
+     "volume": 2900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "алфавит английский"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus alifbosi"
+     ],
+     "volume": 2400,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz alifbosi"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "корейский алфавит"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arab tili alifbosi"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tili alifbosi"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arab harflari"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arab yozuvi"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys tili alifbosi"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "korean alphabet"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "yapon alifbosi"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hiragana"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys alifbosi"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "katakana"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "арабские буквы"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "turk tili alifbosi"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "немецкий алфавит"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "хирагана"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hangul"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys harflari"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arabcha harflar"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "хангыль"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "inglizcha alifbo"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "английские буквы"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ruscha harflar"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "kanji"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "inglizcha harflar"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz alfabeti"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "koreys tili harflari"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "английский алфавит с транскрипцией"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz harflari"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [],
+   "not_measured": [],
+   "excluded": {
+    "alphabet": "3 600 — неоднозначно (детские песни/Alphabet Inc.), не считаю"
+   },
+   "aio_factor": 0.533,
+   "aio_note": "AIO r1 (английский алфавит), r2 (arab alifbosi)",
+   "seasonality": {
+    "peak": "2025-10",
+    "peak_index": 1.26,
+    "low": "2026-08",
+    "low_index": 0.67,
+    "last_month": "2026-09",
+    "last_index": 1.12,
+    "series_sum": [
+     59760,
+     53180,
+     50600,
+     58910,
+     55130,
+     45060,
+     44950,
+     35590,
+     42820,
+     37580,
+     31590,
+     53240
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    14.4,
+    26.0
+   ],
+   "visits_day_pos3": 45.3
+  },
+  {
+   "id": "topic_vocabulary",
+   "name": "Mavzuli so‘zlar: «X ingliz tilida» / «X на английском» + kartochkalar",
+   "demand_month": 22985,
+   "demand_raw_dedup": 27380,
+   "buckets": [
+    {
+     "keywords": [
+      "дни недели на английском"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "vocabulary"
+     ],
+     "volume": 3600,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "mevalar ingliz tilida"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "inglizcha so'zlar"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "l3-data/kw1_metrics.json (2026-10-24, reused)"
+    },
+    {
+     "keywords": [
+      "collocations"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "привет на английском"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "flashcards"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hafta kunlari"
+     ],
+     "volume": 1300,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "synonyms"
+     ],
+     "volume": 1300,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "месяцы на английском"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "месяц на английском"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "research_keywords 2026-10-25 (no series)"
+    },
+    {
+     "keywords": [
+      "ranglar ingliz tilida"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "английские слова"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "слова на английском"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "idioms"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "about myself"
+     ],
+     "volume": 1000,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "my family"
+     ],
+     "volume": 1000,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "цифры на английском"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "kasblar ingliz tilida"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "inglizcha so'zlar tarjimasi"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english words"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "oylar ingliz tilida"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "sonlar ingliz tilida"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tilida ranglar"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "фрукты на английском"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "спасибо на английском"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "tana a'zolari ingliz tilida"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english vocabulary"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "my hobby"
+     ],
+     "volume": 590,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "цвета на английском"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "одежда на английском"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "fasllar ingliz tilida"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tilida sonlar"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "inglizcha salomlashish"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "животные на английском"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "овощи на английском"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "время на английском"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "части тела на английском"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "antonyms"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "профессии на английском"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "как дела на английском"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "числа на английском"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "oylar nomi"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tilida oylar"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "семья на английском"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "погода на английском"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "с днем рождения на английском"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "английские слова с переводом"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "еда на английском"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "english idioms"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ranglar inglizcha"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hafta kunlari inglizcha"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tilida mevalar"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "inglizcha sozlar"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "доброе утро на английском"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ovqatlar ingliz tilida"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hayvonlar inglizcha"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "mevalar inglizcha"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "xona jihozlari ingliz tilida"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ingliz tilida salomlashish"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "английские слова для начинающих"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "рассказ о себе на английском"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "о себе на английском"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "порядковые числительные английский"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [],
+   "not_measured": [],
+   "excluded": {},
+   "aio_factor": 0.533,
+   "aio_note": "AIO r1 (дни недели на английском)",
+   "seasonality": {
+    "peak": "2025-10",
+    "peak_index": 1.22,
+    "low": "2026-08",
+    "low_index": 0.64,
+    "last_month": "2026-09",
+    "last_index": 1.15,
+    "series_sum": [
+     26780,
+     23925,
+     23020,
+     25440,
+     23640,
+     20580,
+     25120,
+     18800,
+     19905,
+     17915,
+     14035,
+     25325
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    7.0,
+    12.6
+   ],
+   "visits_day_pos3": 22.0
+  },
+  {
+   "id": "uzbek_for_russian_speakers",
+   "name": "Узбекский для русскоязычных: алфавит (реформа 2026), разговорник, «как будет на узбекском»",
+   "demand_month": 9760,
+   "demand_raw_dedup": 11170,
+   "buckets": [
+    {
+     "keywords": [
+      "узбекский алфавит"
+     ],
+     "volume": 2900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "узбекский язык"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "дни недели на узбекском"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "uzbek language"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "как будет на узбекском"
+     ],
+     "volume": 1300,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "uzbek alphabet"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "по узбекски"
+     ],
+     "volume": 480,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "узбекский алфавит кириллица"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "как по узбекски"
+     ],
+     "volume": 390,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "на узбекском языке"
+     ],
+     "volume": 390,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "спасибо на узбекском"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "цифры на узбекском"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "спасибо по узбекски"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "как будет по узбекски"
+     ],
+     "volume": 260,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "узбекские слова"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "узбекский язык для начинающих"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "русско узбекский разговорник"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "узбекский алфавит латиница"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "learn uzbek"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "с днем рождения на узбекском"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "привет на узбекском"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "слова на узбекском"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "мама на узбекском"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "числа на узбекском"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "учить узбекский язык"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "уроки узбекского языка"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "как дела на узбекском"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "месяцы на узбекском"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "приветствие на узбекском"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "uzbek words"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "словарь узбекского языка"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "фразы на узбекском"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [],
+   "not_measured": [],
+   "excluded": {
+    "русско узбекский словарь / узбекско русский словарь": "3 600 / 1 000 — владеет ветка переводчика RU↔UZ"
+   },
+   "aio_factor": 0.655,
+   "aio_note": "AIO в топ-10 нет (картинки, видео, PAA); дисконт оставлен консервативно",
+   "seasonality": {
+    "peak": "2025-10",
+    "peak_index": 1.38,
+    "low": "2026-06",
+    "low_index": 0.69,
+    "last_month": "2026-09",
+    "last_index": 1.25,
+    "series_sum": [
+     12900,
+     10075,
+     8745,
+     9840,
+     8260,
+     8935,
+     9715,
+     7750,
+     6475,
+     10945,
+     6900,
+     11740
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    3.0,
+    5.4
+   ],
+   "visits_day_pos3": 11.5
+  },
+  {
+   "id": "second_languages_starter",
+   "name": "Turk, yapon, xitoy, arab, nemis tillari: boshlang‘ich so‘zlar + AI til o‘qituvchisi",
+   "demand_month": 46830,
+   "demand_raw_dedup": 46830,
+   "buckets": [
+    {
+     "keywords": [
+      "turkcha so'zlar"
+     ],
+     "volume": 12100,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "yapon tilini o'rganish"
+     ],
+     "volume": 12100,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "xitoy tili"
+     ],
+     "volume": 6600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arabcha so'zlar"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "turk tili"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arab tili"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "nemis tili"
+     ],
+     "volume": 1300,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hsk"
+     ],
+     "volume": 1000,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "turk tilini o'rganish"
+     ],
+     "volume": 880,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "turkcha"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arabcha"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "yapon tili"
+     ],
+     "volume": 720,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arab tilini o'rganish"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hsk 1"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "немецкий язык"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "nemis tilini o'rganish"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "fransuz tili"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arab tili grammatikasi"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "китайский язык"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "арабский язык"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ispan tili"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "yaponcha"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hsk 2"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hsk 3"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "jlpt"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "японский язык"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "турецкий язык"
+     ],
+     "volume": 210,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "xitoycha"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "der die das"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "pinyin"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "turk tili darslari"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arab tili darslari"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "turkcha so'zlar tarjimasi"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "nemis tili 0 dan"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "hsk test"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "nemischa"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "турецкие слова"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "goethe a1"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "nemis tili test"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "немецкие слова"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "arabcha so'zlar tarjimasi"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "italyan tili"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "turk tili test"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "turk tili 0 dan"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "turkcha gaplar"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "jlpt n5"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [],
+   "not_measured": [],
+   "excluded": {
+    "turkcha/koreyscha/arabcha/nemischa o‘zbekcha lug‘at": "словари — ветка переводчика"
+   },
+   "aio_factor": 0.655,
+   "aio_note": "AIO r2 (turkcha so‘zlar), r10 (yapon tilini o‘rganish)",
+   "seasonality": {
+    "peak": "2026-09",
+    "peak_index": 1.71,
+    "low": "2025-10",
+    "low_index": 0.28,
+    "last_month": "2026-09",
+    "last_index": 1.71,
+    "series_sum": [
+     12320,
+     12410,
+     17940,
+     29890,
+     38150,
+     48500,
+     54990,
+     68930,
+     53360,
+     54040,
+     60010,
+     75050
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    14.3,
+    25.8
+   ],
+   "visits_day_pos3": 55.1
+  },
+  {
+   "id": "topik_korean",
+   "name": "TOPIK / EPS-TOPIK: amaliy testlar + koreys tili asoslari",
+   "demand_month": 17920,
+   "demand_raw_dedup": 27520,
+   "buckets": [
+    {
+     "keywords": [
+      "topik"
+     ],
+     "volume": 14800,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "topik test"
+     ],
+     "volume": 3600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "eps topik"
+     ],
+     "volume": 4400,
+     "weight": 0.5,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "eps topik test"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys tili"
+     ],
+     "volume": 590,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys tilini o'rganish"
+     ],
+     "volume": 480,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "topik test online"
+     ],
+     "volume": 390,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "topik 1"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "корейский язык"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "topik 2"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys tili kurslari"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "корейские слова"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreyscha"
+     ],
+     "volume": 140,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "eps topik 2026"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "korean words"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys tili so'zlar"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreyscha so'zlar"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "topik imtihon"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys tili 0 dan"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys tili test"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "koreys tili darslari"
+     ],
+     "volume": 20,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "учить корейский"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "корейский язык для начинающих"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [],
+   "not_measured": [],
+   "excluded": {},
+   "aio_factor": 0.655,
+   "aio_note": "AIO r3 (topik test)",
+   "seasonality": {
+    "peak": "2026-02",
+    "peak_index": 1.43,
+    "low": "2025-11",
+    "low_index": 0.49,
+    "last_month": "2026-09",
+    "last_index": 0.82,
+    "series_sum": [
+     11310,
+     8720,
+     17040,
+     23800,
+     25710,
+     18690,
+     21410,
+     17860,
+     14760,
+     20300,
+     21170,
+     14630
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    5.5,
+    9.9
+   ],
+   "visits_day_pos3": 21.1
+  },
+  {
+   "id": "russian_for_uzbeks",
+   "name": "Rus tili o‘zbeklar uchun: kelishiklar, sonlar, so‘zlar + AI o‘qituvchi",
+   "demand_month": 9830,
+   "demand_raw_dedup": 10840,
+   "buckets": [
+    {
+     "keywords": [
+      "rus tili"
+     ],
+     "volume": 3600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "падежи русского языка"
+     ],
+     "volume": 1900,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tilini o'rganish"
+     ],
+     "volume": 1600,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ruscha"
+     ],
+     "volume": 1300,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tili lug'at"
+     ],
+     "volume": 720,
+     "weight": 0.5,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ruscha sonlar"
+     ],
+     "volume": 320,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tili grammatika"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tili test"
+     ],
+     "volume": 260,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ruscha raqamlar"
+     ],
+     "volume": 170,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tilida kelishiklar"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ruscha so'zlar",
+      "ruscha sozlar"
+     ],
+     "volume": 110,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tilida gaplar"
+     ],
+     "volume": 90,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tili darslari"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "ruscha gaplar"
+     ],
+     "volume": 70,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tili 0 dan"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tili sonlar"
+     ],
+     "volume": 50,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tilini noldan o'rganish"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tilida so'zlar"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tilida salomlashish"
+     ],
+     "volume": 40,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tili mashqlar"
+     ],
+     "volume": 30,
+     "weight": 1.0,
+     "source": "ll_kw_metrics2.json (2026-10-25)"
+    },
+    {
+     "keywords": [
+      "rus tili kelishiklar"
+     ],
+     "volume": 10,
+     "weight": 1.0,
+     "source": "ll_kw_metrics.json (2026-10-25)"
+    }
+   ],
+   "null_keywords": [
+    "rus tili qoidalari"
+   ],
+   "not_measured": [],
+   "excluded": {
+    "rus tili 5/7 sinf": "школьные учебники/ответы — не наш интент"
+   },
+   "aio_factor": 0.655,
+   "aio_note": "AIO r3 (rus tilini o‘rganish)",
+   "seasonality": {
+    "peak": "2025-10",
+    "peak_index": 1.46,
+    "low": "2026-08",
+    "low_index": 0.48,
+    "last_month": "2026-09",
+    "last_index": 1.24,
+    "series_sum": [
+     14320,
+     13920,
+     11420,
+     12020,
+     10850,
+     8750,
+     10680,
+     7350,
+     5835,
+     5360,
+     4730,
+     12135
+    ],
+    "months": [
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07",
+     "2026-08",
+     "2026-09"
+    ]
+   },
+   "visits_day_pos6": [
+    3.0,
+    5.4
+   ],
+   "visits_day_pos3": 11.6
+  }
+ ]
+}
