@@ -1,0 +1,386 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/onlayn-testlar/",
+  "slug": "onlayn-testlar",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzu bo‘yicha 10 ta test",
+      "prompt": "Men aytgan fan va mavzu bo‘yicha 10 ta original test savoli tuz: har birida 4 ta variant (A–D), bittasi to‘g‘ri. Javoblar kaliti va qisqa izohlarni oxirida alohida yoz, men avval o‘zim yechay.\nFan, mavzu va sinf: "
+    },
+    {
+      "label": "Javobimni tekshir",
+      "prompt": "Test savoliga bergan javobimni tekshir. Xato bo‘lsa, qayerda adashganimni tushuntir, lekin men qayta urinib ko‘rmagunimcha to‘g‘ri javobni aytma.\nSavol va variantlar: \nMening javobim: "
+    },
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Shu mavzuni oddiy so‘zlar bilan, 2 ta hayotiy misol orqali tushuntir. Oxirida o‘zimni tekshirishim uchun 3 ta test savoli ber, javoblarini keyin aytasan.\nFan, mavzu va sinf: "
+    },
+    {
+      "label": "Xatolarim bo‘yicha reja",
+      "prompt": "Testda mana shu savollarda xato qildim. Qaysi mavzularni takrorlashim kerakligini aniqlab, 3 kunlik qisqa takrorlash rejasini tuz: har kuni 20 daqiqa.\nXato qilgan savollarim: "
+    },
+    {
+      "label": "O‘qituvchi uchun 2 variant",
+      "prompt": "Sinfim uchun mavzu bo‘yicha 2 variantli test tuz (A va B variant), har birida 10 ta savol, qiyinligi teng bo‘lsin. Javoblar kalitini alohida yoz. Savollar original bo‘lsin.\nFan, mavzu va sinf: "
+    },
+    {
+      "label": "Nazoratga tayyorlanish rejasi",
+      "prompt": "Fan bo‘yicha nazorat ishiga 7 kunda tayyorlanish rejasini tuz: har kunga mavzu, qisqa takrorlash va 5 ta mashq savoli.\nFan, sinf va mavzular: "
+    }
+  ],
+  "primaryKeyword": "online test yechish",
+  "secondaryKeywords": [
+    "onlayn test yechish",
+    "onlayn testlar",
+    "online testlar",
+    "online test",
+    "testlar",
+    "test ishlash",
+    "test yechish",
+    "test savollari",
+    "test tuzish",
+    "ai test tuzish"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Onlayn testlar: fanlar bo‘yicha test savollari va AI test tuzuvchi",
+  "title": "Onlayn testlar: 120 ta test savoli va AI test tuzuvchi",
+  "description": "Online test yechish bepul: informatika, fizika, matematikadan 120 ta mashq savoli, javob va izoh bilan. AI test tuzadi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/onlayn-testlar/",
+  "hreflangUz": "/uz/onlayn-testlar/",
+  "hreflangXDefault": "/uz/onlayn-testlar/",
+  "ogTitle": "Onlayn testlar: 120 ta test savoli va AI test tuzuvchi",
+  "ogDescription": "Online test yechish bepul: informatika, fizika, matematikadan 120 ta mashq savoli, javob va izoh bilan. AI test tuzadi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Onlayn testlar",
+  "heroTitle": "Onlayn testlar: fanlar bo‘yicha test savollari va AI test tuzuvchi",
+  "heroSubtitle": "Tayyor testlar bepul va limitsiz; istalgan mavzuda yangi test savollarini AI o‘qituvchi tuzadi — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "Informatika test",
+  "ctaSecondaryHref": "/uz/informatika-test/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Bu sahifada ikki vosita bor. Birinchisi — tayyor mashq testlari: {inf}, {fiz} va {mat}, har birida 40 ta savol, javobi va izohi bilan; javob darhol tekshiriladi. Ikkinchisi — yuqoridagi AI chat: u «O‘qituvchi» rolida istalgan fan va mavzu bo‘yicha yangi test savollari tuzadi, javobingizni tekshiradi va mavzuni tushuntiradi. Tayyor tugmalardan birini bosing: so‘rov chat maydoniga tushadi, uni to‘ldirib, o‘zingiz yuborasiz.",
+      "links": [
+        {
+          "token": "inf",
+          "target": "/uz/informatika-test/",
+          "anchor": "informatika testi"
+        },
+        {
+          "token": "fiz",
+          "target": "/uz/fizika-test/",
+          "anchor": "fizika testi"
+        },
+        {
+          "token": "mat",
+          "target": "/uz/matematika-test/",
+          "anchor": "matematika testi"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tayyor testlar bepul va limitsiz: ular brauzerda ishlaydi va AI’ga so‘rov yubormaydi. AI chatni GPTBot.uz beradi — bu mustaqil servis, OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "fanlar",
+      "text": "Fanlar bo‘yicha onlayn testlar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Test",
+        "Sinf",
+        "Mavzular",
+        "Savollar"
+      ],
+      "rows": [
+        [
+          "Informatika",
+          "5–11",
+          "Kompyuter va axborot, sanoq sistemalari, mantiq, algoritmlar, elektron jadvallar, internet xavfsizligi, Python",
+          "40"
+        ],
+        [
+          "Fizika",
+          "7–11",
+          "Birliklar, mexanik harakat, Nyuton qonunlari, bosim, energiya, elektr toki, yorug‘lik",
+          "40"
+        ],
+        [
+          "Matematika",
+          "5–9",
+          "Kasrlar, foizlar, tenglama va tengsizliklar, darajalar, burchaklar, yuzalar",
+          "40"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Testni oching: {inf} — algoritm, sanoq sistemasi va Excel formulalari bo‘yicha; {fiz} — formulali masalalar, g = 10 N/kg bilan; {mat} — kasr, foiz, tenglama va geometriya. Har bir testda sinf va mavzu bo‘yicha tanlash, hisob va «Qaytadan boshlash» bor, har bir savol ostida esa javob va izoh.",
+      "links": [
+        {
+          "token": "inf",
+          "target": "/uz/informatika-test/",
+          "anchor": "Informatika test"
+        },
+        {
+          "token": "fiz",
+          "target": "/uz/fizika-test/",
+          "anchor": "Fizika test"
+        },
+        {
+          "token": "mat",
+          "target": "/uz/matematika-test/",
+          "anchor": "Matematika test"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-test-tuzish",
+      "text": "AI bilan istalgan mavzuda test tuzish"
+    },
+    {
+      "type": "p",
+      "text": "Tayyor testlar hozircha uchta fan bo‘yicha. Boshqa fan — biologiya, kimyo, tarix, ona tili yoki ingliz tili — kerak bo‘lsa, AI chatga fan, mavzu va sinfni yozing: u 4 variantli savollar tuzib, kalitni oxirida alohida beradi. Qanday so‘rash kerak:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Aniq yozing: «8-sinf, kimyo, oksidlanish darajasi, 10 ta savol, 4 ta variant».",
+        "Kalitni oxirida so‘rang va avval o‘zingiz yeching — shunda test haqiqiy mashqqa aylanadi.",
+        "Xato qilgan savollaringizni chatga qaytaring va «javobni aytmasdan tushuntir» deb so‘rang.",
+        "O‘qituvchilar ikki variantli test so‘rashi mumkin: A va B variant, qiyinligi teng."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "AI tuzgan savol va kalitlarda xato bo‘lishi mumkin: model sanani, formulani yoki hisobni adashtirishi mumkin. Muhim savollarni darslik bilan solishtiring. Sahifadagi tayyor testlarning javoblari esa qayta tekshirilgan."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-tuzilgan",
+      "text": "Tayyor testlar qanday tuzilgan"
+    },
+    {
+      "type": "p",
+      "text": "Tayyor testlardagi savollar va izohlar shu sayt uchun mashq va o‘zini tekshirish maqsadida AI yordamida tuzilgan, har bir javob va hisob-kitob qayta tekshirilgan. Bular rasmiy imtihon materiallari emas: DTM, milliy sertifikat, BSB yoki ChSB savollari ham, ularning javoblari ham bu yerda yo‘q. Har bir noto‘g‘ri variant odatiy xatodan tuzilgan va izohda qaysi xato ekani yozilgan, shuning uchun noto‘g‘ri javob ham foydali saboq beradi. Sinf belgisi taxminiy: darslik va maktab dasturi farq qilishi mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "kimlar-uchun",
+      "text": "O‘quvchi, ota-ona va o‘qituvchi uchun"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘quvchi: mavzuni o‘tgandan keyin 10–15 ta savol bilan o‘zini tekshiradi va xatolarini AI bilan tahlil qiladi.",
+        "Ota-ona: farzandi bilan testni birga yechib, qaysi mavzu sust ekanini ko‘radi — maktab dasturini eslash shart emas, izoh har bir savol ostida.",
+        "O‘qituvchi: dars oxirida qisqa mashq uchun tayyor savollardan foydalanadi yoki AI bilan mavzu bo‘yicha yangi variantlar tuzib, ularni o‘zi tekshiradi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oqish-haqida-halol",
+      "text": "O‘qish haqida halol"
+    },
+    {
+      "type": "p",
+      "text": "Testlar mashq uchun. Haqiqiy nazorat ishi, BSB, ChSB yoki imtihon paytida chatdan javob so‘ramang: bu ko‘chirish hisoblanadi va bilimni mustahkamlamaydi. «O‘qituvchi» rolidagi AI siz o‘rningizga test yechish uchun emas, tushunishga yordam berish uchun sozlangan."
+    },
+    {
+      "type": "h2",
+      "id": "nega-gptbot",
+      "text": "Nega GPTBot.uz"
+    },
+    {
+      "type": "p",
+      "text": "Tayyor testlar va AI o‘qituvchi bitta joyda: test qaysi mavzu sust ekanini ko‘rsatadi, chat aynan shu mavzuni tushuntirib, yangi savollar beradi. Testlar ro‘yxatsiz ishlaydi, hech narsa yuklab olish shart emas. Chat o‘zbek tilida — lotin yoki kirill yozuvida — va rus tilida yozilgan savollarni tushunadi; o‘zbekcha javob lotin yozuvida keladi. GPTBot.uz — Toshkentdagi mustaqil servis."
+    },
+    {
+      "type": "linkp",
+      "text": "Ingliz tilidan mashq uchun {verbs} bor, hisob-kitob uchun — {calc}. AI chatga qanday so‘rov yozish kerakligi {guide}da. Boshqa vazifalar uchun {chat}ni oching; sinov javoblari tugasa, AI paket shartlari {tariffs} sahifasida.",
+      "links": [
+        {
+          "token": "verbs",
+          "target": "/uz/notogri-fellar/",
+          "anchor": "noto‘g‘ri fe’llar jadvali va testi"
+        },
+        {
+          "token": "calc",
+          "target": "/uz/kalkulyator/",
+          "anchor": "onlayn kalkulyator"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI-chat qo‘llanmasi"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "O‘quv markazi yoki xususiy maktabingiz bormi? Ota-onalar va o‘quvchilarning kurslar, narxlar va dars jadvali haqidagi savollariga Telegram va Instagram’da javob beradigan, sinov darsiga yozadigan {bot}ni joriy qilamiz — 1 990 000 so‘mdan. O‘quvchilarni jalb qilish uchun {target} ham yoqib beramiz — ishga tushirish 1 990 000 so‘mdan, reklama byudjeti alohida. {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "bot",
+          "target": "/uz/oquv-markazi-uchun-ai-bot/",
+          "anchor": "o‘quv markazi uchun AI-bot"
+        },
+        {
+          "token": "target",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "Instagram target reklama"
+        },
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Onlayn testlar bepulmi?",
+      "a": "Ha: tayyor testlar bepul va limitsiz, ular brauzerda ishlaydi va AI’ga so‘rov yubormaydi. Limit faqat AI chatda bor: butun sayt bo‘yicha jami 3 ta bepul sinov javobi, yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Qaysi fanlardan test bor?",
+      "a": "Hozircha informatika (5–11-sinf), fizika (7–11-sinf) va matematika (5–9-sinf), har birida 40 ta savol. Boshqa fanlar bo‘yicha savollarni AI chat tuzib beradi; ularni darslik bilan solishtiring."
+    },
+    {
+      "q": "Bu DTM yoki milliy sertifikat testlarimi?",
+      "a": "Yo‘q. Savollar mashq uchun tuzilgan: bu DTM, milliy sertifikat, BSB yoki ChSB materiallari emas va ularning javoblari ham emas."
+    },
+    {
+      "q": "AI tuzgan testga ishonsa bo‘ladimi?",
+      "a": "Mashq uchun foydali, lekin model xato qilishi mumkin: sanani, formulani yoki hisobni adashtirishi mumkin. Kalitni darslik bilan solishtiring, shubhali savolni chatga qaytarib, tushuntirib berishni so‘rang."
+    },
+    {
+      "q": "Tayyor testlarda natijalar saqlanadimi?",
+      "a": "Yo‘q: tanlovlar faqat ochiq sahifa xotirasida turadi va hech qayerga yuborilmaydi. Sahifa yangilansa, test boshidan boshlanadi."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/informatika-test/",
+      "anchor": "Informatika testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/fizika-test/",
+      "anchor": "Fizika testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/matematika-test/",
+      "anchor": "Matematika testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/notogri-fellar/",
+      "anchor": "Noto‘g‘ri fe’llar jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kalkulyator/",
+      "anchor": "Onlayn kalkulyator",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/oquv-markazi-uchun-ai-bot/",
+      "anchor": "O‘quv markazi uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz onlayn testlar va AI test tuzuvchi",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Informatika, fizika va matematikadan 120 ta original mashq savoli, javobi va izohi bilan: bepul va limitsiz, brauzerda ishlaydi. Istalgan fan va mavzuda yangi test savollarini GPTBot.uz AI chati «O‘qituvchi» rolida tuzadi: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. Rasmiy imtihon materiali emas. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul test va AI’ning 3 ta bepul sinov javobi",
+        "description": "Test bepul va limitsiz ishlaydi. AI tushuntirishlari: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/onlayn-testlar/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

@@ -1,0 +1,440 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/matematika-test/",
+  "slug": "matematika-test",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Shu mavzuda yana 10 ta savol",
+      "prompt": "Matematikadan shu mavzuda 10 ta yangi mashq savoli tuz: har birida 4 ta variant (A–D), bittasi to‘g‘ri. Javoblar kaliti va qisqa yechimlarni oxirida alohida yoz, men avval o‘zim yechay.\nMavzu va sinf: "
+    },
+    {
+      "label": "Javobimni tekshir",
+      "prompt": "Misol yoki masalaga bergan yechimimni tekshir. Xato bo‘lsa, qaysi qadamda adashganimni ko‘rsat, lekin men qayta urinib ko‘rmagunimcha to‘g‘ri javobni aytma.\nShart: \nMening yechimim: "
+    },
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Matematikadagi shu mavzuni oddiy so‘zlar bilan, 2 ta misol orqali tushuntir va qoidani bitta gap bilan yozib ber. Oxirida o‘zimni tekshirishim uchun 3 ta misol ber.\nMavzu va sinf: "
+    },
+    {
+      "label": "Tenglamani qadamma-qadam",
+      "prompt": "Bu tenglamani qanday yechishni qadamma-qadam tushuntir, har bir qadamni bitta gap bilan izohla. Oxirida javobni tenglamaga qo‘yib tekshirishni ko‘rsat.\nTenglama: "
+    },
+    {
+      "label": "Foizli masalani tushuntir",
+      "prompt": "Bu foizli masalada nimadan foiz olinayotganini va qaysi amalni bajarish kerakligini tushuntir. Javobni darhol aytma, avval yechim rejasini tuzishga yordam ber.\nMasala: "
+    },
+    {
+      "label": "Geometriya: formulani tanlash",
+      "prompt": "Bu geometriya masalasida qaysi formula kerakligini va nega shundayligini tushuntir: nimalar berilgan, nimani topish kerak, qaysi qadamlar bilan. Chizmani so‘z bilan tasvirlab ber.\nMasala: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-matematika",
+  "primaryKeyword": "matematika test",
+  "secondaryKeywords": [
+    "matematika testlar",
+    "matematika test savollari",
+    "matematika online test",
+    "matematika onlayn test",
+    "matematika test 5 sinf",
+    "matematika test 6 sinf",
+    "matematika test 9 sinf",
+    "matematika mashq testi"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Matematika test: 40 ta mashq savoli va AI tushuntirish",
+  "title": "Matematika test onlayn: 40 ta savol, javobi va izohi bilan",
+  "description": "Matematika test: 5–9-sinf uchun 40 ta mashq savoli — kasr, foiz, tenglama, daraja, burchak, yuza. Bepul. AI izoh: 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/matematika-test/",
+  "hreflangUz": "/uz/matematika-test/",
+  "hreflangXDefault": "/uz/matematika-test/",
+  "ogTitle": "Matematika test onlayn: 40 ta savol, javobi va izohi bilan",
+  "ogDescription": "Matematika test: 5–9-sinf uchun 40 ta mashq savoli — kasr, foiz, tenglama, daraja, burchak, yuza. Bepul. AI izoh: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Matematika test",
+  "heroTitle": "Matematika test: 40 ta mashq savoli va AI tushuntirish",
+  "heroSubtitle": "Test bepul va limitsiz: javob darhol tekshiriladi, izoh ochiladi. AI o‘qituvchining tushuntirishlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Yuqoridagi {quiz} 40 ta savoldan iborat: kasrlar, foizlar, tenglama va tengsizliklar, darajalar, burchaklar va yuzalar. Javobni tanlang — u darhol tekshiriladi va izoh ochiladi. Misolni tushunmasangiz, «AI bilan tushuntirish» tugmasini bosing: savol variantlari bilan yuqoridagi chat maydoniga tushadi, «O‘qituvchi» rolidagi AI esa yechish yo‘lini tushuntiradi. Savolni tekshirib, o‘zingiz yuborasiz.",
+      "links": [
+        {
+          "token": "quiz",
+          "target": "#practice-quiz",
+          "anchor": "matematika testi"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Savollar va izohlar shu sahifa uchun matematikadan mashq qilish va o‘zini tekshirish maqsadida AI yordamida tuzilgan, har bir javob va hisob-kitob qayta tekshirilgan. Bu rasmiy imtihon materiali emas: DTM, milliy sertifikat, maktabdagi BSB yoki ChSB savollari ham, ularning javoblari ham bu yerda yo‘q. Sinf belgisi taxminiy — mavzu odatda qaysi sinfda o‘tilishiga qarab qo‘yilgan, darslik va maktab dasturi farq qilishi mumkin. Xato topsangiz, ceo@gptbot.uz manziliga yozing."
+    },
+    {
+      "type": "p",
+      "text": "Test har doim bepul va limitsiz: u brauzerning o‘zida ishlaydi, javoblaringizni hech qayerga yubormaydi va AI’ga murojaat qilmaydi. Tushuntirishlarni GPTBot.uz AI chati beradi — bu mustaqil servis, OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi. Sinov javoblarini AI chatda yoki saytning boshqa sahifalarida ishlatib bo‘lgan bo‘lsangiz, bu yerda ular qayta berilmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "mavzular",
+      "text": "Testda qaysi mavzular bor"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Mavzu",
+        "Sinf",
+        "Savollar",
+        "Nimani tekshiradi"
+      ],
+      "rows": [
+        [
+          "Kasrlar",
+          "5–6",
+          "7",
+          "Qo‘shish, ko‘paytirish va bo‘lish, solishtirish, o‘nli kasrni oddiy kasrga aylantirish"
+        ],
+        [
+          "Foizlar",
+          "5–7",
+          "7",
+          "Sonning foizi, foiz bo‘yicha sonni topish, chegirma, narx o‘zgarishi, eritma"
+        ],
+        [
+          "Tenglama va tengsizliklar",
+          "5–9",
+          "8",
+          "Chiziqli tenglama, qavsli tenglama, tenglamalar sistemasi, kvadrat tenglama, tengsizlik"
+        ],
+        [
+          "Darajalar",
+          "7–8",
+          "6",
+          "Daraja xossalari, nolinchi va manfiy daraja, standart ko‘rinish"
+        ],
+        [
+          "Burchaklar",
+          "5–8",
+          "6",
+          "Qo‘shni va vertikal burchaklar, uchburchak va ko‘pburchak burchaklari, soat millari"
+        ],
+        [
+          "Yuzalar",
+          "5–9",
+          "6",
+          "To‘g‘ri to‘rtburchak, kvadrat, uchburchak, trapetsiya va doira yuzi, Pifagor teoremasi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Test ustidagi «Sinf» va «Mavzu» ro‘yxatlari bilan faqat kerakli savollarni qoldirish mumkin: masalan, 6-sinf va «Kasrlar». Hisob faqat ko‘rsatilgan savollar bo‘yicha yuritiladi. Tanlovlaringiz faqat ochiq sahifa xotirasida turadi: sahifa yangilansa, test boshidan boshlanadi."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-ishlash",
+      "text": "Testni qanday ishlash kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sinf va mavzuni tanlang yoki barcha 40 ta savolni ketma-ket yeching.",
+        "Javobni bosing: to‘g‘ri javob yashil, noto‘g‘ri javob qizil bilan belgilanadi va to‘g‘ri variant ko‘rsatiladi. Har bir savolda faqat birinchi tanlov hisobga olinadi — haqiqiy testdagidek.",
+        "«Javob va izoh» ochiladi: unda nega aynan shu javob to‘g‘ri ekani va boshqa variantlar qaysi xatodan kelib chiqqani yozilgan.",
+        "Tushunarsiz qolsa, «AI bilan tushuntirish» tugmasini bosing: savol, variantlar va javobingiz chat maydoniga tushadi. Javob tanlamasdan bossangiz, chatdan javobni darhol aytmasdan, avval fikrlash yo‘lini tushuntirish so‘raladi.",
+        "«Qaytadan boshlash» belgilar va hisobni tozalaydi: xatolar ustida ishlagach, testni yana bir bor yechib ko‘ring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qoidalar",
+      "text": "Asosiy qoidalar: qisqa eslatma"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Mavzu",
+        "Qoida",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "Kasrlarni qo‘shish",
+          "Umumiy maxrajga keltiring, keyin suratlarni qo‘shing",
+          "1/2 + 1/3 = 3/6 + 2/6 = 5/6"
+        ],
+        [
+          "Kasrga bo‘lish",
+          "Teskari kasrga ko‘paytiring",
+          "3/4 : 1/2 = 3/4 · 2 = 3/2"
+        ],
+        [
+          "Sonning foizi",
+          "Sonni foizning o‘nli kasriga ko‘paytiring",
+          "80 ning 15 foizi = 80 · 0,15 = 12"
+        ],
+        [
+          "Foiz o‘zgarishi",
+          "O‘zgarishni boshlang‘ich qiymatga bo‘ling",
+          "50 000 dan 60 000 ga: 10 000 : 50 000 = 20 %"
+        ],
+        [
+          "Darajalar",
+          "Ko‘paytirishda ko‘rsatkichlar qo‘shiladi, darajani darajaga ko‘tarishda ko‘paytiriladi; a⁰ = 1",
+          "2³ · 2² = 2⁵ = 32; (x²)³ = x⁶"
+        ],
+        [
+          "Uchburchak",
+          "Burchaklar yig‘indisi 180°; yuzi S = a · h : 2",
+          "50° + 70° + 60° = 180°"
+        ],
+        [
+          "Doira",
+          "Yuzi S = π · r²; aylana uzunligi C = 2 · π · r",
+          "r = 5 sm bo‘lsa, S ≈ 78,5 sm²"
+        ],
+        [
+          "Pifagor teoremasi",
+          "c² = a² + b² (c — gipotenuza)",
+          "5² + 12² = 13²"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-bilan-mashq",
+      "text": "AI o‘qituvchi bilan qanday mashq qilish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Test qaysi mavzu sust ekanini ko‘rsatadi, AI esa aynan shu mavzuni tushuntirib, yangi misollar beradi. Chat «O‘qituvchi» rolida ochiladi: u fikrlash yo‘lini tushuntiradi va ko‘chirib olishni rag‘batlantirmaydi. Yaxshi so‘rovlarga misollar:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "«6-sinf. Kasrlarni bo‘lish bo‘yicha 10 ta misol tuz, javoblarini oxirida ber.»",
+        "«3x − 7 = 20 tenglamani yechdim va x = 13/3 chiqdi. Qayerda xato qildim? To‘g‘ri javobni darhol aytma.»",
+        "«Nega narx avval 10 foiz oshib, keyin 10 foiz kamaysa, avvalgi narx qaytmaydi? 100 000 so‘mlik misolda tushuntir.»"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Model hisob-kitobda adashishi mumkin: yakuniy sonlarni {calc} bilan tekshiring, AI tuzgan misollarning javoblarini esa darslik yoki o‘qituvchingiz bilan solishtiring. Chat rasmni qabul qilmaydi — misol yoki masalani matn ko‘rinishida yozing.",
+      "links": [
+        {
+          "token": "calc",
+          "target": "/uz/kalkulyator/",
+          "anchor": "onlayn kalkulyator"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oqish-haqida-halol",
+      "text": "O‘qish haqida halol"
+    },
+    {
+      "type": "p",
+      "text": "Bu sahifa mashq va o‘zini tekshirish uchun. Haqiqiy nazorat ishi, BSB, ChSB yoki imtihon paytida chatdan javob so‘ramang: bu ko‘chirish hisoblanadi va bilimni mustahkamlamaydi. «O‘qituvchi» rolidagi AI uy vazifasini siz o‘rningizga bajarish uchun emas, tushunishga yordam berish uchun sozlangan. Ota-onalar uchun ham qulay: farzandingiz bilan testni birga yechib, qaysi mavzuni takrorlash kerakligini ko‘rasiz."
+    },
+    {
+      "type": "h2",
+      "id": "nega-gptbot",
+      "text": "Nega GPTBot.uz"
+    },
+    {
+      "type": "p",
+      "text": "Test, javob kaliti, qoidalar eslatmasi va AI o‘qituvchi bitta sahifada: savolni qayta yozmasdan tushuntirish so‘raysiz. Test ro‘yxatsiz ishlaydi, hech narsa yuklab olish shart emas. Chat o‘zbek tilida — lotin yoki kirill yozuvida — va rus tilida yozilgan savollarni tushunadi; o‘zbekcha javob lotin yozuvida keladi. GPTBot.uz — Toshkentdagi mustaqil servis."
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa fanlardan ham mashq qiling: {inf} va {fiz}; barcha testlar va istalgan mavzuda AI bilan test tuzish — {hub} sahifasida. AI chatga qanday so‘rov yozish kerakligi {guide}da. Boshqa vazifalar uchun {chat}ni oching. Nazorat ishlari va imtihonlar oldidan har kuni tushuntirish kerak bo‘lsa, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida.",
+      "links": [
+        {
+          "token": "inf",
+          "target": "/uz/informatika-test/",
+          "anchor": "informatika testi"
+        },
+        {
+          "token": "fiz",
+          "target": "/uz/fizika-test/",
+          "anchor": "fizika testi"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "Onlayn testlar"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI-chat qo‘llanmasi"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "O‘quv markazi yoki xususiy maktabingiz bormi? Ota-onalar va o‘quvchilarning kurslar, narxlar va dars jadvali haqidagi savollariga Telegram va Instagram’da javob beradigan, sinov darsiga yozadigan {bot}ni joriy qilamiz — 1 990 000 so‘mdan. O‘quvchilarni jalb qilish uchun {target} ham yoqib beramiz — ishga tushirish 1 990 000 so‘mdan, reklama byudjeti alohida. {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "bot",
+          "target": "/uz/oquv-markazi-uchun-ai-bot/",
+          "anchor": "o‘quv markazi uchun AI-bot"
+        },
+        {
+          "token": "target",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "Instagram target reklama"
+        },
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang. Test javoblaringiz esa brauzerdan chiqmaydi."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Matematika testi bepulmi?",
+      "a": "Ha, va limitsiz: 40 ta savol, javoblar va izohlar brauzerda ishlaydi, AI’ga so‘rov yubormaydi. Limit faqat AI tushuntirishlarida bor: butun sayt bo‘yicha jami 3 ta bepul sinov javobi, AI chat bilan umumiy va yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu DTM yoki milliy sertifikat testimi?",
+      "a": "Yo‘q. Savollar shu sahifa uchun mashq maqsadida tuzilgan: bu DTM, milliy sertifikat, BSB yoki ChSB materiali emas va ularning javoblari ham emas. Test mavzuni qanchalik tushunganingizni tekshirishga yordam beradi."
+    },
+    {
+      "q": "Savollar qaysi sinflar uchun?",
+      "a": "5-sinfdan 9-sinfgacha: har bir savol yonida taxminiy sinf ko‘rsatilgan. Sinf belgisi mavzu odatda qachon o‘tilishiga qarab qo‘yilgan; darslik va maktab dasturi farq qilishi mumkin, shuning uchun mavzu bo‘yicha tanlash ham bor."
+    },
+    {
+      "q": "Test paytida kalkulyatordan foydalansa bo‘ladimi?",
+      "a": "Mashq paytida bo‘ladi: saytdagi onlayn kalkulyator brauzerda ishlaydi va bepul. Lekin avval o‘zingiz hisoblang — testning maqsadi usulni o‘rganish, kalkulyator esa natijani tekshirish uchun."
+    },
+    {
+      "q": "Javoblar qayerda?",
+      "a": "Har bir savol ostida «Javob va izoh» bo‘limi bor: to‘g‘ri javob va nega u to‘g‘ri ekani yozilgan. JavaScript yoqilgan bo‘lsa, javobni tanlaganingizdan keyin izoh o‘zi ochiladi va hisob yuritiladi. Natijalar saqlanmaydi va hech qayerga yuborilmaydi."
+    },
+    {
+      "q": "AI bilan tushuntirish qanday ishlaydi?",
+      "a": "Tugma savol, to‘rtta variant va, agar tanlagan bo‘lsangiz, javobingizni yuqoridagi chat maydoniga qo‘yadi. Hech narsa o‘zi yuborilmaydi: matnni tekshirib, o‘zingiz yuborasiz. Bunday savol ham boshqa savollar kabi chatning sinov javobini yoki AI paketni sarflaydi."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/informatika-test/",
+      "anchor": "Informatika testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/fizika-test/",
+      "anchor": "Fizika testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kalkulyator/",
+      "anchor": "Onlayn kalkulyator",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/oquv-markazi-uchun-ai-bot/",
+      "anchor": "O‘quv markazi uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz matematika testi va AI tushuntirish",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "5–9-sinflar uchun 40 ta original matematika mashq savoli, javobi va izohi bilan: bepul va limitsiz, brauzerda ishlaydi. Tushuntirish — GPTBot.uz AI chatida «O‘qituvchi» rolida: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. Rasmiy imtihon materiali emas. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul test va AI’ning 3 ta bepul sinov javobi",
+        "description": "Test bepul va limitsiz ishlaydi. AI tushuntirishlari: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/matematika-test/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

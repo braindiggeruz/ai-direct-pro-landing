@@ -10,5 +10,10 @@
 // folder (tailwind.config.js), so the words of the questions never add a rule
 // to the site's shared stylesheet.
 import type { QuizSet } from '../set';
+import { uzFizika } from './uz-fizika';
+import { uzInformatika } from './uz-informatika';
+import { uzMatematika } from './uz-matematika';
 
-export const QUIZ_SETS: readonly QuizSet[] = [];
+// The tests pilot (2026-10-25): /uz/informatika-test/, /uz/fizika-test/,
+// /uz/matematika-test/, one set per page.
+export const QUIZ_SETS: readonly QuizSet[] = [uzInformatika, uzFizika, uzMatematika];
