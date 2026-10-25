@@ -1,0 +1,73 @@
+{
+ "ratios": {
+  "ga4_google_sessions_per_gsc_click": 0.79,
+  "google_share_of_organic_sessions": 0.671,
+  "direct_per_organic": 0.276
+ },
+ "now": {
+  "google_clicks_day": 56.6,
+  "organic_sessions_day": 66.5,
+  "direct_sessions_day": 18.4,
+  "organic_plus_direct_day": 84.9
+ },
+ "need": {
+  "1000": {
+   "organic_sessions_day": 784,
+   "google_clicks_day": 666,
+   "google_clicks_month": 20258,
+   "x_vs_now": 11.8,
+   "top3_impressions_month_at_3_59pct": 564294
+  },
+  "2000": {
+   "organic_sessions_day": 1568,
+   "google_clicks_day": 1333,
+   "google_clicks_month": 40516,
+   "x_vs_now": 23.6,
+   "top3_impressions_month_at_3_59pct": 1128587
+  }
+ },
+ "pools_month": {
+  "translator_ru_uz": 278100,
+  "translator_en_uz_core": 48900,
+  "script_converter": 12100,
+  "school_writing": 29190,
+  "school_math": 27000,
+  "ai_info": 17600
+ },
+ "ceiling_google_clicks_day": {
+  "chats_at_pos3": 215.4,
+  "download_guide_now": 19.9,
+  "translator_ru_uz_at_pos3": 328.4,
+  "translator_en_uz_core_at_pos3": 57.7,
+  "script_converter_at_pos3": 14.3,
+  "school_writing_at_pos3": 34.5,
+  "school_math_at_pos3": 31.9,
+  "ai_info_at_pos3": 20.8,
+  "rest_of_site_now": 9.2
+ },
+ "ceiling_total_google_clicks_day": 732.1,
+ "ceiling_visits": {
+  "google_clicks_day": 732.1,
+  "organic_sessions_day": 861.1,
+  "direct_sessions_day": 237.6,
+  "organic_plus_direct_day": 1098.6
+ },
+ "realistic_google_clicks_day": {
+  "low": 92.7,
+  "high": 162.7
+ },
+ "realistic_visits": {
+  "low": {
+   "google_clicks_day": 92.7,
+   "organic_sessions_day": 109.0,
+   "direct_sessions_day": 30.1,
+   "organic_plus_direct_day": 139.1
+  },
+  "high": {
+   "google_clicks_day": 162.7,
+   "organic_sessions_day": 191.4,
+   "direct_sessions_day": 52.8,
+   "organic_plus_direct_day": 244.2
+  }
+ }
+}

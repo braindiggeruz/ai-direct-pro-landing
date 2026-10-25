@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "call": "get_keyword_metrics",
+    "projectId": "7534113b-f748-4f98-ac39-9e3782d3d9e7",
+    "locationCode": 2860,
+    "date": "2026-10-25",
+    "note": "Transcribed from the inline tool response (it was not saved to disk by the tool). monthly = Sep-2026 ... Oct-2025, newest first, as returned.",
+    "url": "https://app.openseo.so/p/7534113b-f748-4f98-ac39-9e3782d3d9e7/keywords"
+  },
+  "keywords": [
+    {"keyword": "math solver", "search_volume": 4400, "cpc": 0.14, "competition": 0.03, "monthly": [2400, 1000, 1900, 2900, 4400, 4400, 4400, 5400, 6600, 6600, 6600, 6600]},
+    {"keyword": "esse namunasi", "search_volume": 720, "cpc": null, "competition": 0, "monthly": [880, 320, 320, 260, 480, 1600, 880, 480, 1000, 720, 590, 1000]},
+    {"keyword": "misol ishlash", "search_volume": 320, "cpc": 0.19, "competition": 0.02, "monthly": [320, 70, 110, 170, 320, 390, 390, 390, 320, 480, 320, 390]},
+    {"keyword": "сделать презентацию", "search_volume": 320, "cpc": 0.35, "competition": 0.18, "monthly": [210, 20, 50, 90, 260, 390, 390, 480, 260, 480, 320, 480]},
+    {"keyword": "insho namuna", "search_volume": 320, "cpc": null, "competition": 0, "monthly": [260, 70, 90, 140, 320, 480, 320, 320, 320, 390, 590, 590]},
+    {"keyword": "misollar ishlash", "search_volume": 210, "cpc": 0.14, "competition": 0.01, "monthly": [170, 90, 170, 210, 210, 170, 210, 210, 260, 260, 260, 170]},
+    {"keyword": "решение задач", "search_volume": 170, "cpc": null, "competition": 0, "monthly": [170, 50, 40, 50, 170, 260, 170, 210, 320, 210, 260, 320]},
+    {"keyword": "rasm orqali topish", "search_volume": 90, "cpc": null, "competition": 0, "monthly": [50, 70, 50, 70, 90, 90, 90, 110, 140, 170, 170, 110]},
+    {"keyword": "uy vazifasini bajarish", "search_volume": 90, "cpc": null, "competition": 0, "monthly": [50, 10, 10, 10, 40, 40, 40, 110, 170, 260, 170, 320]},
+    {"keyword": "masala ishlash", "search_volume": 70, "cpc": null, "competition": 0, "monthly": [70, 20, 20, 40, 50, 110, 90, 110, 110, 140, 70, 110]},
+    {"keyword": "matematika misol ishlash", "search_volume": 40, "cpc": 0.25, "competition": 0.07, "monthly": [30, 10, 20, 30, 30, 30, 40, 50, 40, 50, 40, 90]},
+    {"keyword": "prezentatsiya yasash", "search_volume": 30, "cpc": 0.87, "competition": 0.15, "monthly": [20, 10, 10, 10, 30, 30, 30, 30, 30, 90, 30, 70]},
+    {"keyword": "kurs ishi namunalari", "search_volume": 30, "cpc": null, "competition": 0, "monthly": [10, 10, 10, 20, 70, 90, 40, 30, 30, 30, 20, 20]},
+    {"keyword": "referat namunalari", "search_volume": 20, "cpc": null, "competition": 0, "monthly": [10, 10, 10, 0, 10, 20, 10, 10, 10, 30, 50, 50]},
+    {"keyword": "misollar javobi", "search_volume": 10, "cpc": null, "competition": 0, "monthly": [10, 0, 10, 10, 10, 20, 10, 10, 20, 10, 20, 20]},
+    {"keyword": "taqdimot qilish", "search_volume": 10, "cpc": null, "competition": 0.06, "monthly": [10, 10, 10, 10, 20, 20, 10, 10, 10, 40, 20, 10]},
+    {"keyword": "презентация нейросеть бесплатно", "search_volume": 10, "cpc": 0.35, "competition": 0.29, "monthly": [10, 0, 0, 0, 10, 10, 20, 10, 10, 20, 10, 30]},
+    {"keyword": "referat yozish online", "search_volume": 10, "cpc": null, "competition": 0, "monthly": [10, 10, 10, 10, 30, 10, 10, 10, 10, 40, 0, 0]},
+    {"keyword": "masalalar ishlash", "search_volume": null},
+    {"keyword": "misol javoblari", "search_volume": null},
+    {"keyword": "masala javoblari", "search_volume": null},
+    {"keyword": "misol yechib berish sayti", "search_volume": null},
+    {"keyword": "kamera orqali yechish", "search_volume": null},
+    {"keyword": "uy vazifasi yordam", "search_volume": null},
+    {"keyword": "slayd qilish online", "search_volume": null},
+    {"keyword": "prezentatsiya qilish online", "search_volume": null},
+    {"keyword": "taqdimot yaratish online", "search_volume": null},
+    {"keyword": "slayd yasash online", "search_volume": null},
+    {"keyword": "mustaqil ish namunalari", "search_volume": null},
+    {"keyword": "mustaqil ish yozish tartibi", "search_volume": null}
+  ]
+}

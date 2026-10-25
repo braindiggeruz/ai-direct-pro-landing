@@ -1,0 +1,722 @@
+{
+ "multiplier_visits_per_gsc_click": 1.502,
+ "split_per_click": {
+  "google_ga4": 0.79,
+  "yandex_bing_other": 0.387,
+  "direct": 0.325
+ },
+ "now": {
+  "google_clicks_day": 56.5,
+  "search_direct_visits_day": 84.9,
+  "other_channels_day": 6.6,
+  "total_nonpaid_model": 91.5,
+  "total_nonpaid_ga4_channels": 93.4,
+  "total_ga4_channels": 103.1
+ },
+ "need": {
+  "1000": {
+   "google_clicks_day_no_other": 666,
+   "google_clicks_day_with_other_6m_high": 634
+  },
+  "2000": {
+   "google_clicks_day_no_other": 1331,
+   "google_clicks_day_with_other_6m_high": 1299
+  }
+ },
+ "current_model_ceiling": {
+  "demand_sizing_google_clicks_day": 74.6,
+  "visits_day": 119,
+  "feasibility_chats_top3_google_clicks_day": 244.5,
+  "visits_day_feas": 374
+ },
+ "ceilings": {
+  "top3_aio_discount": {
+   "clicks_day": 433,
+   "visits_day": 650
+  },
+  "top3_no_discount": {
+   "clicks_day": 728,
+   "visits_day": 1093
+  },
+  "feasibility_all_pos3": {
+   "clicks_day": 732.1,
+   "visits_day": 1100
+  },
+  "optimistic_thin_cell_pos2": {
+   "clicks_day": 1687,
+   "visits_day": 2535
+  }
+ },
+ "rows": [
+  {
+   "group": "Переводчик RU↔UZ",
+   "kind": "tool_live",
+   "today_clicks_month": 0,
+   "top3_clicks_month": 5760,
+   "visits_day": {
+    "today": 0.0,
+    "top3_ceiling": 284.3,
+    "cons_m3": 1.9,
+    "target_m3": [
+     3.6,
+     6.6
+    ],
+    "cons_m6": 4.9,
+    "target_m6": [
+     45.5,
+     82.0
+    ],
+    "cons_m12": 12.1,
+    "target_m12": [
+     90.9,
+     163.9
+    ]
+   }
+  },
+  {
+   "group": "Переводчик EN↔UZ + TR/KO/AR↔UZ",
+   "kind": "tool_new",
+   "today_clicks_month": 0,
+   "top3_clicks_month": 1186,
+   "visits_day": {
+    "today": 0.0,
+    "top3_ceiling": 58.5,
+    "cons_m3": 0.0,
+    "target_m3": [
+     0.0,
+     0.0
+    ],
+    "cons_m6": 0.0,
+    "target_m6": [
+     4.5,
+     8.2
+    ],
+    "cons_m12": 0.0,
+    "target_m12": [
+     18.2,
+     32.8
+    ]
+   }
+  },
+  {
+   "group": "Конвертер кириллица↔латиница",
+   "kind": "tool_live",
+   "today_clicks_month": 0,
+   "top3_clicks_month": 294,
+   "visits_day": {
+    "today": 0.0,
+    "top3_ceiling": 14.5,
+    "cons_m3": 0.2,
+    "target_m3": [
+     0.2,
+     0.3
+    ],
+    "cons_m6": 0.4,
+    "target_m6": [
+     1.9,
+     3.4
+    ],
+    "cons_m12": 1.0,
+    "target_m12": [
+     3.8,
+     6.8
+    ]
+   }
+  },
+  {
+   "group": "Чаты: «ChatGPT + язык/бесплатно/онлайн»",
+   "kind": "leader_chat",
+   "today_clicks_month": 301,
+   "top3_clicks_month": 839,
+   "visits_day": {
+    "today": 14.9,
+    "top3_ceiling": 41.4,
+    "cons_m3": 14.9,
+    "target_m3": [
+     14.9,
+     14.9
+    ],
+    "cons_m6": 14.9,
+    "target_m6": [
+     19.4,
+     19.4
+    ],
+    "cons_m12": 14.9,
+    "target_m12": [
+     41.4,
+     41.4
+    ]
+   }
+  },
+  {
+   "group": "Чаты: ИИ без бренда (ии онлайн, нейросеть)",
+   "kind": "tool_live",
+   "today_clicks_month": 0,
+   "top3_clicks_month": 284,
+   "visits_day": {
+    "today": 0.0,
+    "top3_ceiling": 14.0,
+    "cons_m3": 0.1,
+    "target_m3": [
+     0.1,
+     0.3
+    ],
+    "cons_m6": 0.4,
+    "target_m6": [
+     1.8,
+     3.3
+    ],
+    "cons_m12": 0.9,
+    "target_m12": [
+     3.7,
+     6.6
+    ]
+   }
+  },
+  {
+   "group": "Гайд по скачиванию и how-to",
+   "kind": "leader_howto",
+   "today_clicks_month": 606,
+   "top3_clicks_month": 619,
+   "visits_day": {
+    "today": 29.9,
+    "top3_ceiling": 30.5,
+    "cons_m3": 29.9,
+    "target_m3": [
+     30.5,
+     30.5
+    ],
+    "cons_m6": 29.9,
+    "target_m6": [
+     30.5,
+     30.5
+    ],
+    "cons_m12": 29.9,
+    "target_m12": [
+     30.5,
+     30.5
+    ]
+   }
+  },
+  {
+   "group": "Навигация к ChatGPT (держим, не растёт)",
+   "kind": "hold",
+   "today_clicks_month": 390,
+   "top3_clicks_month": 390,
+   "visits_day": {
+    "today": 19.2,
+    "top3_ceiling": 19.2,
+    "cons_m3": 19.2,
+    "target_m3": [
+     19.2,
+     19.2
+    ],
+    "cons_m6": 19.2,
+    "target_m6": [
+     19.2,
+     19.2
+    ],
+    "cons_m12": 19.2,
+    "target_m12": [
+     19.2,
+     19.2
+    ]
+   }
+  },
+  {
+   "group": "Slayd/prezentatsiya (Studio)",
+   "kind": "tool_live",
+   "today_clicks_month": 0,
+   "top3_clicks_month": 402,
+   "visits_day": {
+    "today": 0.0,
+    "top3_ceiling": 19.8,
+    "cons_m3": 0.2,
+    "target_m3": [
+     0.2,
+     0.4
+    ],
+    "cons_m6": 0.5,
+    "target_m6": [
+     2.6,
+     4.7
+    ],
+    "cons_m12": 1.3,
+    "target_m12": [
+     5.2,
+     9.3
+    ]
+   }
+  },
+  {
+   "group": "Решатель задач + генератор примеров",
+   "kind": "tool_new",
+   "today_clicks_month": 0,
+   "top3_clicks_month": 938,
+   "visits_day": {
+    "today": 0.0,
+    "top3_ceiling": 46.3,
+    "cons_m3": 0.0,
+    "target_m3": [
+     0.0,
+     0.0
+    ],
+    "cons_m6": 0.0,
+    "target_m6": [
+     3.0,
+     5.4
+    ],
+    "cons_m12": 0.0,
+    "target_m12": [
+     12.1,
+     21.8
+    ]
+   }
+  },
+  {
+   "group": "Тексты и документы (referat, insho, ariza, rezyume, tabrik, sun’iy intellekt…)",
+   "kind": "info",
+   "today_clicks_month": 1,
+   "top3_clicks_month": 1761,
+   "visits_day": {
+    "today": 0.0,
+    "top3_ceiling": 86.9,
+    "cons_m3": 0.9,
+    "target_m3": [
+     0.9,
+     1.7
+    ],
+    "cons_m6": 2.3,
+    "target_m6": [
+     4.7,
+     8.5
+    ],
+    "cons_m12": 5.8,
+    "target_m12": [
+     11.7,
+     21.1
+    ]
+   }
+  },
+  {
+   "group": "B2B (держим, новых страниц не делаем)",
+   "kind": "hold",
+   "today_clicks_month": 6,
+   "top3_clicks_month": 294,
+   "visits_day": {
+    "today": 0.3,
+    "top3_ceiling": 14.5,
+    "cons_m3": 0.3,
+    "target_m3": [
+     0.3,
+     0.3
+    ],
+    "cons_m6": 0.3,
+    "target_m6": [
+     0.3,
+     0.3
+    ],
+    "cons_m12": 0.3,
+    "target_m12": [
+     0.3,
+     0.3
+    ]
+   }
+  },
+  {
+   "group": "Прочие и анонимизированные запросы GSC (держим)",
+   "kind": "hold",
+   "today_clicks_month": 417,
+   "top3_clicks_month": 417,
+   "visits_day": {
+    "today": 20.6,
+    "top3_ceiling": 20.6,
+    "cons_m3": 20.6,
+    "target_m3": [
+     20.6,
+     20.6
+    ],
+    "cons_m6": 20.6,
+    "target_m6": [
+     20.6,
+     20.6
+    ],
+    "cons_m12": 20.6,
+    "target_m12": [
+     20.6,
+     20.6
+    ]
+   }
+  }
+ ],
+ "summary": {
+  "cons_m3": {
+   "google_clicks_day": [
+    58.8,
+    58.8
+   ],
+   "search_direct_visits_day": [
+    88.3,
+    88.3
+   ],
+   "split_day": {
+    "google_ga4": [
+     46.4,
+     46.4
+    ],
+    "yandex_bing_other_search": [
+     22.8,
+     22.8
+    ],
+    "direct": [
+     19.1,
+     19.1
+    ]
+   },
+   "other_channels_day": [
+    5.5,
+    5.5
+   ],
+   "total_visits_day": [
+    94,
+    94
+   ]
+  },
+  "cons_m6": {
+   "google_clicks_day": [
+    62.1,
+    62.1
+   ],
+   "search_direct_visits_day": [
+    93.3,
+    93.3
+   ],
+   "split_day": {
+    "google_ga4": [
+     49.1,
+     49.1
+    ],
+    "yandex_bing_other_search": [
+     24.1,
+     24.1
+    ],
+    "direct": [
+     20.2,
+     20.2
+    ]
+   },
+   "other_channels_day": [
+    7,
+    7
+   ],
+   "total_visits_day": [
+    100,
+    100
+   ]
+  },
+  "cons_m12": {
+   "google_clicks_day": [
+    70.6,
+    70.6
+   ],
+   "search_direct_visits_day": [
+    106.0,
+    106.0
+   ],
+   "split_day": {
+    "google_ga4": [
+     55.8,
+     55.8
+    ],
+    "yandex_bing_other_search": [
+     27.3,
+     27.3
+    ],
+    "direct": [
+     22.9,
+     22.9
+    ]
+   },
+   "other_channels_day": [
+    7,
+    7
+   ],
+   "total_visits_day": [
+    113,
+    113
+   ]
+  },
+  "target_m3": {
+   "google_clicks_day": [
+    60.3,
+    63.0
+   ],
+   "search_direct_visits_day": [
+    90.6,
+    94.7
+   ],
+   "split_day": {
+    "google_ga4": [
+     47.6,
+     49.8
+    ],
+    "yandex_bing_other_search": [
+     23.4,
+     24.4
+    ],
+    "direct": [
+     19.6,
+     20.5
+    ]
+   },
+   "other_channels_day": [
+    5.5,
+    21
+   ],
+   "total_visits_day": [
+    96,
+    116
+   ]
+  },
+  "target_m6": {
+   "google_clicks_day": [
+    102.6,
+    136.8
+   ],
+   "search_direct_visits_day": [
+    154.1,
+    205.5
+   ],
+   "split_day": {
+    "google_ga4": [
+     81.1,
+     108.1
+    ],
+    "yandex_bing_other_search": [
+     39.7,
+     53.0
+    ],
+    "direct": [
+     33.3,
+     44.5
+    ]
+   },
+   "other_channels_day": [
+    7,
+    48
+   ],
+   "total_visits_day": [
+    161,
+    254
+   ]
+  },
+  "target_m12": {
+   "google_clicks_day": [
+    171.5,
+    249.2
+   ],
+   "search_direct_visits_day": [
+    257.6,
+    374.4
+   ],
+   "split_day": {
+    "google_ga4": [
+     135.4,
+     196.9
+    ],
+    "yandex_bing_other_search": [
+     66.4,
+     96.5
+    ],
+    "direct": [
+     55.7,
+     81.0
+    ]
+   },
+   "other_channels_day": [
+    7,
+    48
+   ],
+   "total_visits_day": [
+    265,
+    422
+   ]
+  }
+ },
+ "yandex_lag_loss_target_m12_visits_day": [
+  17.7,
+  29.7
+ ],
+ "translator_quota_cost": {
+  "target_m12_translator_visits_day": [
+   109.1,
+   196.7
+  ],
+  "target_m12_usd_month": [
+   [
+    3.1,
+    8.5
+   ],
+   [
+    5.6,
+    15.3
+   ]
+  ],
+  "target_m6_translator_visits_day": [
+   50.0,
+   90.2
+  ],
+  "target_m6_usd_month": [
+   [
+    1.4,
+    3.9
+   ],
+   [
+    2.6,
+    7.0
+   ]
+  ],
+  "translator_top3_visits_day": 342.8,
+  "top3_usd_month": [
+   9.7,
+   26.6
+  ],
+  "site_1000_visits_usd_month": [
+   28.3,
+   77.6
+  ],
+  "site_1000_uzs_month": [
+   333000,
+   914000
+  ],
+  "revenue_ga4_28d_uzs": 40000
+ },
+ "ramp_assumptions": {
+  "cons": {
+   "tool_live": [
+    0.04,
+    0.1,
+    0.25
+   ],
+   "tool_new": [
+    0,
+    0,
+    0
+   ],
+   "info": [
+    0.04,
+    0.1,
+    0.25
+   ]
+  },
+  "target": {
+   "tool_live": [
+    0.04,
+    0.5,
+    1.0
+   ],
+   "tool_new": [
+    0,
+    0.25,
+    1.0
+   ],
+   "info": [
+    0.04,
+    0.2,
+    0.5
+   ]
+  }
+ },
+ "other_channels": {
+  "AI-ассистенты": {
+   "now": 1.6,
+   "m3": [
+    2,
+    5
+   ],
+   "m6": [
+    3,
+    10
+   ],
+   "m12": [
+    3,
+    10
+   ]
+  },
+  "Telegram": {
+   "now": 0,
+   "m3": [
+    0,
+    5
+   ],
+   "m6": [
+    0,
+    15
+   ],
+   "m12": [
+    0,
+    15
+   ]
+  },
+  "YouTube и короткие видео": {
+   "now": 0,
+   "m3": [
+    0,
+    3
+   ],
+   "m6": [
+    0,
+    10
+   ],
+   "m12": [
+    0,
+    10
+   ]
+  },
+  "Каталоги и рефералы": {
+   "now": 1.0,
+   "m3": [
+    0.5,
+    3
+   ],
+   "m6": [
+    1,
+    5
+   ],
+   "m12": [
+    1,
+    5
+   ]
+  },
+  "Шеринг (вирусность)": {
+   "now": 0,
+   "m3": [
+    0,
+    2
+   ],
+   "m6": [
+    0,
+    5
+   ],
+   "m12": [
+    0,
+    5
+   ]
+  },
+  "Неопознанные (шум) + Organic Social без рекламной недели": {
+   "now": 4.0,
+   "m3": [
+    3,
+    3
+   ],
+   "m6": [
+    3,
+    3
+   ],
+   "m12": [
+    3,
+    3
+   ]
+  }
+ }
+}

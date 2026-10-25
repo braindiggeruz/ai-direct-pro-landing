@@ -1,0 +1,23 @@
+| 1 | `nav_chatgpt_brand` | chatgpt 5 000 000, chat gpt 673 000, чат гпт 550 000, чатгпт 33 100, chatgpt kirish 33 100, чачи пити 5 400 | kw2, kw3 |
+| 2 | `ai_chat_brand_modifier` | chat gpt на русском 8 100, chatgpt uzbekcha 4 400, чат гпт онлайн 4 400, chatgpt uzbek tilida 1 900, chatgpt 4 uzbek tilida 1 600, чат гпт на русском 1 600 … ещё 8 | kw1, kw2, kw3, translator-market |
+| 3 | `ai_chat_generic` | ии онлайн 4 400, ai chat 3 600, ии чат 1 900, нейросеть 1 300 (= нейросети), искусственный интеллект онлайн 390, ии бесплатно 140 … ещё 13 | kw1, kw2 |
+| 4 | `chatgpt_howto` | chatgpt yuklab olish uzbek tilida 6 600, chatgpt yuklab olish 1 900, chatgpt ochish 1 900, chatgpt plus 720, chatgpt yuklash 390, chatgpt nima 140 … ещё 1 | kw1, kw2, kw3 |
+| 5 | `translator_ru_uz` | перевод с русского на узбекский 90 500 (= переводчик с русского на узбекский), перевод с узбекского на русский 60 500, переводчик с узбекского на русский 49 500, узбекско русский переводчик 27 100 (= перевод рус узбек, узбек рус перевод), русско узбекский переводчик 22 200 (= перевод узбек рус), rus uzbek tarjimon 12 100 (= uzbek rus tarjimon) … ещё 36 | translator-market |
+| 6 | `converter_cyr_lat` | лотин кирилл 6 600, кирилл лотин 3 600, kirill lotin 1 900, kirildan lotinga 260, kirill lotin tarjimon 70, кириллица латиница 40 … ещё 1 | translator-market |
+| 7 | `translator_en_uz` | английский узбекский переводчик 18 100, ingliz uzbek tarjimon 12 100, inglizcha tarjima 8 100, переводчик с английского на узбекский 6 600, ingliz tarjima 2 400, ozbekcha inglizcha tarjimon 1 600 … ещё 3 | kw1, kw2, translator-market adjacent |
+| 8 | `translator_other_pairs` | turkcha ozbekcha tarjima 4 400, туркча узбекча таржима 1 300, turkcha o'zbekcha tarjimon 880, koreyscha o'zbekcha tarjima 720, arabcha tarjima 590, turk tarjimon 50 … ещё 2 | kw1, kw2, translator-market adjacent |
+| 9 | `ai_basics` | suniy intellekt 8 100 (= sun'iy intellekt), сунъий интеллект 1 600, suniy intellekt nima 1 300 (= sun'iy intellekt nima), сунъий интеллект нима 1 300, prompt nima 720, suniy intellekt turlari 480 … ещё 4 | kw1, kw2 |
+| 10 | `school_referat` | referat 2 900, referat namuna 2 900, mustaqil ish 1 900, реферат 1 900, mustaqil ish namuna 1 000, referat yozish tartibi 720 … ещё 15 | kw1, kw2, kw3, kw4 |
+| 11 | `school_insho_esse` | esse 4 400, esse yozish tartibi 3 600, esse yozish 2 900, esse namunalari 1 600, insho 1 300, insho yozish 880 … ещё 7 | kw1, kw2, kw3, kw4 |
+| 12 | `school_kurs_ishi` | kurs ishi namuna 1 900, kurs ishi 1 300, kurs ishi tayyorlash 210, kurs ishi yozish 50, kurs ishi namunalari 30, нейросеть для курсовой 10 | kw1, kw3, kw4 |
+| 13 | `school_slayd` | slayd tayyorlash 5 400, prezentatsiya tayyorlash 1 900, prezentatsiya 1 300, taqdimot tayyorlash 1 000, taqdimot 1 000, prezentatsiya ai 720 … ещё 34 | kw1, kw2, kw3, kw4 |
+| 14 | `solver_misol_masala` | misollar yechish 4 400, tenglama yechish 1 900 (= tenglamalar yechish), uyga vazifa 1 300, masalalar 1 000, misol yechish 880, masala yechish 880 … ещё 45 | kw1, kw2, kw3, kw4 |
+| 15 | `math_examples_generator` | matematika misollar 18 100, karra jadvali 2 900, misollar 1 600, ko'paytirish jadvali 720, matematika misollar 1 sinf 40, matematika misollar 2 sinf 40 … ещё 1 | kw1, kw2 |
+| 16 | `test_generator_teacher` | test tuzish 110, test yaratish 70, нейросеть для тестов 10 | kw1 |
+| 17 | `docs_ariza_xat` | xat yozish 3 600, ariza yozish 2 900, ariza yozish namunasi 2 400, tushuntirish xati 1 600, ariza namunasi 590, ariza yozish tartibi 590 … ещё 6 | kw1, kw2, kw3 |
+| 18 | `docs_tavsifnoma` | tavsifnoma namuna 1 600, tavsifnoma 720 | kw2 |
+| 19 | `docs_rezyume_obyektivka` | obyektivka namuna 2 400 (= obyektivka namunasi), rezyume tayyorlash 1 900, rezyume 1 600, rezyume namuna 1 600, ma'lumotnoma namuna 1 600, obyektivka 1 000 … ещё 2 | kw1, kw2, kw3 |
+| 20 | `docs_biznes_reja` | biznes reja 1 000, biznes reja tuzish 260, biznes reja namuna 90 | demand-policy.json, kw1, kw3 |
+| 21 | `tabrik` | tugilgan kun tabriklari 1 300, tabriklar 1 000, yangi yil tabriklari 880, табриклар 590, табрик 480, onaga tabrik 110 … ещё 5 | kw1, kw2 |
+| 22 | `b2b_bots` | чат бот для бизнеса 10, разработка чат бота 10, ии для бизнеса 10, создание ии агента 10, ai консультант 10, ai ассистент 10 … ещё 1 | kw1, kw2 |
+| 23 | `b2b_agency` | telegram ads 6 600, sayt yaratish 1 300, ads telegram 1 000, marketing nima 880, smm nima 720, target nima 390 … ещё 13 | demand-policy.json |

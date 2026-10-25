@@ -1,0 +1,58 @@
+{
+  "_about": "Numbers copied from free OpenSEO MCP calls made 2026-10-25 (project 7534113b-f748-4f98-ac39-9e3782d3d9e7, GA4 properties/540129731 GPTBOTUZ, tz Asia/Tashkent; GSC sc-domain:gptbot.uz). 0 credits. Only rows needed for channels.md are kept; source/medium rows with 1 session are summed into 'other_*'.",
+  "ga4_channel_group": {
+    "2026-09-27..2026-10-24": {"Organic Search": 1907, "Direct": 525, "Paid Social": 210, "Unassigned": 98, "Organic Social": 70, "AI Assistant": 45, "Referral": 27, "Paid Other": 5},
+    "2026-08-30..2026-09-26": {"Organic Search": 1416, "Direct": 286, "Paid Social": 0, "Unassigned": 51, "Organic Social": 1, "AI Assistant": 25, "Referral": 42, "Paid Other": 0, "Organic Video": 1},
+    "2026-07-27..2026-10-24": {"Organic Search": 3769, "Direct": 1209, "Paid Social": 210, "Unassigned": 160, "Referral": 94, "AI Assistant": 78, "Organic Social": 71, "Paid Other": 5, "Organic Video": 1, "Paid Search": 1},
+    "2026-04-28..2026-07-26": {"Organic Search": 58, "Direct": 328, "Paid Search": 82, "Referral": 47, "AI Assistant": 34, "Unassigned": 29, "Organic Social": 1, "Cross-network": 1}
+  },
+  "ga4_engagement_rate_28d": {"Organic Search": 0.683, "Direct": 0.444, "Paid Social": 0.624, "Unassigned": 0.316, "Organic Social": 0.443, "AI Assistant": 0.778, "Referral": 0.704},
+  "ga4_key_events_28d_all_channels": {"generate_lead": 2, "purchase": 2, "prev_28d": {"generate_lead": 3, "purchase": 0}},
+  "ga4_source_medium": {
+    "2026-09-27..2026-10-24": {
+      "google / organic": 1264, "(direct) / (none)": 525, "yandex.uz / referral": 460, "ig / paid": 182, "yandex.ru / referral": 106,
+      "composer / (not set)": 61, "chatgpt.com / ai-assistant": 40, "m.facebook.com / referral": 39, "bing / organic": 29, "fb / paid": 22,
+      "facebook.com / referral": 18, "(not set)": 17, "yandex / organic": 15, "yandex.com.tr / referral": 13, "instagram.com / referral": 12,
+      "ya.ru / referral": 9, "yandex.by / referral": 8, "yandex.kz / referral": 8, "instagram / paid_social": 6, "th / paid": 5,
+      "chatgpt.com / organic": 3, "copilot.com / (not set)": 3, "gemini.google.com / ai-assistant": 3, "gemini / ai-assistant": 1,
+      "perplexity / (not set)": 1, "perplexity.ai / ai-assistant": 1, "github.com / referral": 2, "hotlinks.uz / referral": 1,
+      "gptbotuz.wordpress.com / referral": 1, "telegram / share": 0,
+      "spam_like_metasearch_referrals": {"anoox.com": 1, "casttv.com": 1, "iboogie.com": 1, "iseek.com": 1, "nextgeeker.com": 1, "querycat.com": 1, "roozzy.com": 1, "seekfu.com": 1, "spokeo.com": 1, "search-drru.dt.dbankcloud.com": 5, "search-dra.dt.dbankcloud.com": 1}
+    },
+    "2026-08-30..2026-09-26": {
+      "google / organic": 900, "yandex.uz / referral": 382, "(direct) / (none)": 286, "yandex.ru / referral": 88, "composer / (not set)": 32,
+      "chatgpt.com / ai-assistant": 25, "bing / organic": 20, "yandex.kz / referral": 10, "yandex / organic": 9, "ya.ru / referral": 7,
+      "yandex.by / referral": 2, "yandex.com.tr / referral": 2, "perplexity / (not set)": 2, "youtube.com / referral": 1, "telegram / share": 0
+    },
+    "2026-08-02..2026-08-29": {
+      "google / organic": 184, "yandex.uz / referral": 128, "(direct) / (none)": 94, "yandex.ru / referral": 36, "yandex.kz / referral": 35,
+      "composer / (not set)": 9, "yandex / organic": 5, "chatgpt.com / ai-assistant": 4, "claude.ai / ai-assistant": 3, "yandex.com.tr / referral": 2,
+      "ya.ru / referral": 1, "yandex / cpc": 1,
+      "_caveat": "GA4 loader fired at 30-62 s until 2026-08-27 (memory gptbot-analytics-measurement-gate) -> August GA4 counts are undercounted for every source"
+    },
+    "2026-07-27..2026-10-24_ai_and_social_only": {
+      "chatgpt.com / ai-assistant": 70, "claude.ai / ai-assistant": 3, "gemini.google.com / ai-assistant": 3, "gemini / ai-assistant": 1, "perplexity.ai / ai-assistant": 1, "perplexity / (not set)": 3, "copilot.com / (not set)": 3, "openai / (not set)": 1,
+      "youtube.com / referral": 1, "telegram / share": 0, "autocenter.uz / referral": 6, "link.2gis.ru / referral": 3, "link.2gis.com / referral": 1
+    }
+  },
+  "ga4_weekly_source_medium": {
+    "2026-09-27..10-03": {"google / organic": 297, "yandex.uz": 126, "yandex.ru": 27, "yandex_other": 9, "(direct)": 116, "chatgpt.com / ai-assistant": 5, "bing": 2, "paid": 0},
+    "2026-10-04..10-10": {"google / organic": 399, "yandex.uz": 124, "yandex.ru": 25, "yandex_other": 19, "(direct)": 167, "chatgpt.com / ai-assistant": 2, "bing": 13, "paid": 215, "fb_ig_referral": 56},
+    "2026-10-11..10-17": {"google / organic": 270, "yandex.uz": 106, "yandex.ru": 34, "yandex_other": 18, "(direct)": 154, "chatgpt.com / ai-assistant": 2, "bing": 8, "paid": 0},
+    "2026-10-18..10-24": {"google / organic": 298, "yandex.uz": 103, "yandex.ru": 20, "yandex_other": 6, "(direct)": 88, "chatgpt.com / ai-assistant": 31, "bing": 6, "paid": 0}
+  },
+  "ga4_country_28d_sessions": {"Uzbekistan": 2200, "United States": 180, "Russia": 157, "Germany": 59, "China": 51, "Kyrgyzstan": 44, "Tajikistan": 32, "Kazakhstan": 18},
+  "ga4_new_vs_returning_28d": {"new_users": 2459, "returning_users": 200, "returning_sessions": 330, "prev_28d": {"new_users": 1603, "returning_users": 120}},
+  "ga4_organic_landing_28d_top": {"/uz/gpt-uzbek-tilida": 647, "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish": 535, "/ru/gpt-chat": 264, "/ru/blog/chatgpt-i-claude-v-uzbekistane": 86, "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane": 62, "(not set)": 41, "/": 30, "/uz/blog/chatgptga-qanday-kirish-mumkin": 30, "_total_rows": 91},
+  "gsc_daily_clicks_2026-07-27..2026-10-24": [1,1,1,2,0,0,3,4,2,4,5,7,2,9,3,5,6,2,5,10,9,4,15,10,13,13,10,14,17,18,13,19,15,20,19,25,21,34,47,39,43,42,39,34,49,57,52,37,86,42,46,41,48,40,46,51,43,69,70,47,50,30,52,64,74,51,59,65,47,76,90,71,80,73,59,44,49,51,53,48,62,42,26,45,48,52,76,57,58,33],
+  "gsc_resultId": "b706715d-deb9-4d08-a4d4-1d6af94fa571",
+  "external": {
+    "statcounter_uz_search_share_2026-09": {"Google": 76.31, "Yandex": 21.45, "Bing": 1.72, "DuckDuckGo": 0.24, "url": "https://gs.statcounter.com/search-engine-market-share/all/uzbekistan", "fetched": "2026-10-25"},
+    "yandex_turbo": {"fact": "Yandex announced 2025-02-07 that Turbo support ends in April 2025", "urls": ["https://ppc.world/news/yandeks-prekratit-podderzhivat-turbo-stranicy-cherez-dva-mesyaca/", "https://postium.ru/yandeks-prekrashhaet-podderzhku-turbo-stranic/"]},
+    "yandex_regionality": {"fact": "region affects geo-dependent queries only; set in Webmaster (moderation days-weeks, effect within 2 weeks) or via Yandex Business; 'Нет региона' option exists", "url": "https://yandex.ru/support/webmaster/recommendations/regionality.html"},
+    "yandex_geo_share": {"fact": "15-30% of queries imply local info, depending on region", "url": "https://yandex.ru/company/technologies/regions"},
+    "datareportal_2026_uz": {"internet_users_m": 33.1, "social_identities_m": 14.1, "instagram_m": 14.1, "facebook_m": 2.30, "tiktok_18plus_m": 2.59, "telegram": "not reported", "url": "https://datareportal.com/reports/digital-2026-uzbekistan"},
+    "telegram_uz": {"cabar_2023_prefer_telegram_pct": 70, "url_cabar": "https://ca-barometer.org/en/publications/which-messaging-apps-are-popular-in-uzbekistan-kyrgyzstan-and-kazakhstan", "kun_uz_2023_channels": 123000, "url_kun": "https://kun.uz/en/50659966"},
+    "openai_bots": {"fact": "sites opted out of OAI-SearchBot are not shown in ChatGPT search answers", "url": "https://developers.openai.com/docs/bots"}
+  }
+}

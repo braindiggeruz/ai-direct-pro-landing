@@ -1,0 +1,459 @@
+{
+ "summary": {
+  "serps": 33,
+  "with_ai_overview": 30,
+  "ai_overview_rank_le2": 16,
+  "with_video_block": 10,
+  "note": "video/app counted only where the source kept non-organic rows (L3, L6); translator set lists features separately"
+ },
+ "rows": [
+  {
+   "keyword": "english uzbek translator",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 1,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "yandex": 2,
+    "play_app": 2,
+    "independent": 5,
+    "google_translate": 1
+   },
+   "independent_in_top10": 5
+  },
+  {
+   "keyword": "ingliz uzbek tarjimon",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 2,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 1,
+   "top10_by_platform": {
+    "google_translate": 2,
+    "play_app": 3,
+    "yandex": 2,
+    "independent": 2,
+    "youtube_social_video": 1
+   },
+   "independent_in_top10": 2
+  },
+  {
+   "keyword": "obyektivka namuna",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 6,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 10
+   },
+   "independent_in_top10": 10
+  },
+  {
+   "keyword": "tavsifnoma namuna",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 9,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 8,
+    "youtube_social_video": 2
+   },
+   "independent_in_top10": 8
+  },
+  {
+   "keyword": "xulosa yozish",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 4,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 9,
+    "youtube_social_video": 1
+   },
+   "independent_in_top10": 9
+  },
+  {
+   "keyword": "maktub yozish",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 2,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 3,
+   "top10_by_platform": {
+    "independent": 9,
+    "youtube_social_video": 1
+   },
+   "independent_in_top10": 9
+  },
+  {
+   "keyword": "matn yaratish",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 3,
+   "video_rank": 5,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 10
+   },
+   "independent_in_top10": 10
+  },
+  {
+   "keyword": "misollar yechish",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 8,
+   "video_rank": 1,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "play_app": 2,
+    "independent": 6,
+    "youtube_social_video": 2
+   },
+   "independent_in_top10": 6
+  },
+  {
+   "keyword": "matematika misollar",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 9,
+   "video_rank": 4,
+   "app_rank": null,
+   "first_organic_abs_rank": 1,
+   "top10_by_platform": {
+    "independent": 8,
+    "youtube_social_video": 1,
+    "yandex": 1
+   },
+   "independent_in_top10": 8
+  },
+  {
+   "keyword": "test savollari",
+   "set": "L3-serp1(desktop,hl ru)",
+   "ai_overview_rank": 1,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 7,
+    "play_app": 2,
+    "youtube_social_video": 1
+   },
+   "independent_in_top10": 7
+  },
+  {
+   "keyword": "suniy intellekt",
+   "set": "L3-serp2(desktop,hl ru)",
+   "ai_overview_rank": 1,
+   "video_rank": 6,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "youtube_social_video": 4,
+    "independent": 5,
+    "play_app": 1
+   },
+   "independent_in_top10": 5
+  },
+  {
+   "keyword": "deepseek",
+   "set": "L3-serp2(desktop,hl ru)",
+   "ai_overview_rank": 3,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 1,
+   "top10_by_platform": {
+    "independent": 9,
+    "play_app": 1
+   },
+   "independent_in_top10": 9
+  },
+  {
+   "keyword": "imlo tekshirish",
+   "set": "L3-serp2(desktop,hl ru)",
+   "ai_overview_rank": 2,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 1,
+   "top10_by_platform": {
+    "independent": 9,
+    "play_app": 1
+   },
+   "independent_in_top10": 9
+  },
+  {
+   "keyword": "tugilgan kun tabriklari",
+   "set": "L3-serp2(desktop,hl ru)",
+   "ai_overview_rank": 4,
+   "video_rank": 7,
+   "app_rank": null,
+   "first_organic_abs_rank": 1,
+   "top10_by_platform": {
+    "independent": 8,
+    "youtube_social_video": 1,
+    "play_app": 1
+   },
+   "independent_in_top10": 8
+  },
+  {
+   "keyword": "dalolatnoma namuna",
+   "set": "L3-serp2(desktop,hl ru)",
+   "ai_overview_rank": 4,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 9,
+    "youtube_social_video": 1
+   },
+   "independent_in_top10": 9
+  },
+  {
+   "keyword": "prompt nima",
+   "set": "L3-serp2(desktop,hl ru)",
+   "ai_overview_rank": 1,
+   "video_rank": 3,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 10
+   },
+   "independent_in_top10": 10
+  },
+  {
+   "keyword": "переводчик с английского на узбекский",
+   "set": "L3-serp2(desktop,hl ru)",
+   "ai_overview_rank": 2,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 1,
+   "top10_by_platform": {
+    "google_translate": 2,
+    "play_app": 3,
+    "independent": 4,
+    "yandex": 1
+   },
+   "independent_in_top10": 4
+  },
+  {
+   "keyword": "english to uzbek",
+   "set": "L3-serp2(desktop,hl ru)",
+   "ai_overview_rank": 1,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "yandex": 1,
+    "independent": 5,
+    "play_app": 3,
+    "google_translate": 1
+   },
+   "independent_in_top10": 5
+  },
+  {
+   "keyword": "chatgpt yuklab olish|uz",
+   "set": "L6(mobile,hl by lang)",
+   "ai_overview_rank": 4,
+   "video_rank": 6,
+   "app_rank": 1,
+   "first_organic_abs_rank": 3,
+   "top10_by_platform": {
+    "openai": 6,
+    "independent": 2,
+    "youtube_social_video": 1,
+    "play_app": 1
+   },
+   "independent_in_top10": 2
+  },
+  {
+   "keyword": "chatgpt kirish uzbek tilida|uz",
+   "set": "L6(mobile,hl by lang)",
+   "ai_overview_rank": 7,
+   "video_rank": 5,
+   "app_rank": 6,
+   "first_organic_abs_rank": 1,
+   "top10_by_platform": {
+    "independent": 6,
+    "openai": 2,
+    "youtube_social_video": 2
+   },
+   "independent_in_top10": 6
+  },
+  {
+   "keyword": "sun'iy intellekt|uz",
+   "set": "L6(mobile,hl by lang)",
+   "ai_overview_rank": 1,
+   "video_rank": 5,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 10
+   },
+   "independent_in_top10": 10
+  },
+  {
+   "keyword": "чат гпт на русском|ru",
+   "set": "L6(mobile,hl by lang)",
+   "ai_overview_rank": 8,
+   "video_rank": null,
+   "app_rank": 10,
+   "first_organic_abs_rank": 1,
+   "top10_by_platform": {
+    "independent": 2,
+    "openai": 8
+   },
+   "independent_in_top10": 2
+  },
+  {
+   "keyword": "telegram bot yaratish|uz",
+   "set": "L6(mobile,hl by lang)",
+   "ai_overview_rank": 2,
+   "video_rank": 1,
+   "app_rank": null,
+   "first_organic_abs_rank": 3,
+   "top10_by_platform": {
+    "independent": 7,
+    "youtube_social_video": 3
+   },
+   "independent_in_top10": 7
+  },
+  {
+   "keyword": "чат бот для бизнеса ташкент|ru",
+   "set": "L6(mobile,hl by lang)",
+   "ai_overview_rank": 1,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 10
+   },
+   "independent_in_top10": 10
+  },
+  {
+   "keyword": "chatgpt yuklab olish|ru|mobile",
+   "set": "L6-hlru",
+   "ai_overview_rank": 3,
+   "video_rank": null,
+   "app_rank": 1,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 5,
+    "play_app": 1
+   },
+   "independent_in_top10": 5
+  },
+  {
+   "keyword": "sun'iy intellekt|ru|mobile",
+   "set": "L6-hlru",
+   "ai_overview_rank": null,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "independent": 7,
+    "youtube_social_video": 3
+   },
+   "independent_in_top10": 7
+  },
+  {
+   "keyword": "telegram bot yaratish|ru|mobile",
+   "set": "L6-hlru",
+   "ai_overview_rank": null,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 2,
+   "top10_by_platform": {
+    "youtube_social_video": 2,
+    "independent": 5
+   },
+   "independent_in_top10": 5
+  },
+  {
+   "keyword": "чат гпт на русском|ru|desktop",
+   "set": "L6-hlru",
+   "ai_overview_rank": null,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": 1,
+   "top10_by_platform": {
+    "independent": 3
+   },
+   "independent_in_top10": 3
+  },
+  {
+   "keyword": "tarjimon",
+   "set": "translator(desktop,hl ru)",
+   "ai_overview_rank": 7,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": null,
+   "top10_by_platform": {
+    "google_translate": 4,
+    "play_app": 2,
+    "yandex": 3,
+    "independent": 1
+   },
+   "independent_in_top10": 1
+  },
+  {
+   "keyword": "перевод с русского на узбекский",
+   "set": "translator(desktop,hl ru)",
+   "ai_overview_rank": 1,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": null,
+   "top10_by_platform": {
+    "google_translate": 2,
+    "independent": 5,
+    "yandex": 1,
+    "play_app": 2
+   },
+   "independent_in_top10": 5
+  },
+  {
+   "keyword": "rus tilidan o'zbek tiliga tarjima",
+   "set": "translator(desktop,hl ru)",
+   "ai_overview_rank": 1,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": null,
+   "top10_by_platform": {
+    "play_app": 4,
+    "independent": 4,
+    "google_translate": 1,
+    "yandex": 1
+   },
+   "independent_in_top10": 4
+  },
+  {
+   "keyword": "переводчик с узбекского на русский",
+   "set": "translator(desktop,hl ru)",
+   "ai_overview_rank": 1,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": null,
+   "top10_by_platform": {
+    "independent": 6,
+    "google_translate": 2,
+    "yandex": 2
+   },
+   "independent_in_top10": 6
+  },
+  {
+   "keyword": "ai tarjimon",
+   "set": "translator(desktop,hl ru)",
+   "ai_overview_rank": 2,
+   "video_rank": null,
+   "app_rank": null,
+   "first_organic_abs_rank": null,
+   "top10_by_platform": {
+    "google_translate": 3,
+    "independent": 6,
+    "play_app": 1
+   },
+   "independent_in_top10": 6
+  }
+ ]
+}

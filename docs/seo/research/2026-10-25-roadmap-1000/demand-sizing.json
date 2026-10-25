@@ -1,0 +1,4405 @@
+{
+ "meta": {
+  "date": "2026-10-25",
+  "author": "demand-sizing step, roadmap-1000 workflow",
+  "gsc_window": "2026-09-24..2026-10-21 (last_28_days, all countries for clicks; country=uzb for impression share)",
+  "gsc_visible": {
+   "clicks": 1207,
+   "impressions": 202251
+  },
+  "gsc_site": {
+   "clicks": 1584,
+   "impressions": 214911
+  },
+  "month_factor": 1.0871,
+  "ctr": {
+   "top3": 0.03592814371257485,
+   "top10_info_low": 0.006129476584022038,
+   "top10_info_high": 0.011049723756906077,
+   "top10_chat_low": 0.004463511873808286,
+   "top10_chat_high": 0.011049723756906077
+  },
+  "ctr_sources": {
+   "top3": "L1-ctr.md §3.3, UZ by query, no chats, pos 3: 324/9018",
+   "top10_info_low": "L1-ctr.md §3.3, pooled pos 5-7, no chats: 89/14520",
+   "top10_info_high": "L1-ctr.md §3.3, pos 6, no chats: 16/1448 (thin cell)",
+   "top10_chat_low": "L1-ctr.md §3.3, pos 6, all pages incl. chats: 103/23076"
+  },
+  "discounts": {
+   "aio_rank1": 0.533,
+   "aio_present": 0.655,
+   "sources": [
+    "Pew Research Center 2025-07-22: users clicked a traditional result in 8% of visits with an AI summary vs 15% without",
+    "Ahrefs 2025-04 (300k keywords): AI Overview present -> position-1 CTR 34.5% lower"
+   ]
+  },
+  "rules": [
+   "scenario = max(today, demand x CTR x discount); discount applies to top-3 only",
+   "excluded clusters and anonymised/other GSC clicks are held flat at today in every scenario",
+   "demand_used = max(deduplicated Google Ads 12-month average, Uzbekistan GSC impressions x 30.44/28)"
+  ]
+ },
+ "clusters": [
+  {
+   "id": "nav_chatgpt_brand",
+   "name": "Навигация к ChatGPT (вход, бренд, искажения)",
+   "include": false,
+   "status": "живые чаты получают эти показы сейчас",
+   "owners": [
+    "/uz/gpt-uzbek-tilida/",
+    "/ru/gpt-chat/"
+   ],
+   "serp_type": "навигационный (chatgpt.com ×10)",
+   "serp_aio": "есть",
+   "top3_discount": 1.0,
+   "serp_source": "snippet-data.json c3897348",
+   "demand_ads_low": 6294600,
+   "demand_ads_high": 6294600,
+   "demand_used": 6294600,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "chatgpt",
+     "volume": 5000000,
+     "members": [
+      "chatgpt"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chat gpt",
+     "volume": 673000,
+     "members": [
+      "chat gpt"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "чат гпт",
+     "volume": 550000,
+     "members": [
+      "чат гпт"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "чатгпт",
+     "volume": 33100,
+     "members": [
+      "чатгпт"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt kirish",
+     "volume": 33100,
+     "members": [
+      "chatgpt kirish"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "чачи пити",
+     "volume": 5400,
+     "members": [
+      "чачи пити"
+     ],
+     "source": "kw3 (2026-10-25)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 6294600,
+    "oct_dec_2025_avg": 7483300,
+    "peak": 7609100,
+    "sep_2026": 7609100,
+    "aug_2026": 5164300,
+    "oct_dec_vs_avg": 1.19
+   },
+   "gsc_28d": {
+    "clicks": 359,
+    "impressions": 131003,
+    "position": 7.0,
+    "uz_clicks": 297.0,
+    "uz_impressions": 82190.0,
+    "top_queries": [
+     [
+      "chatgpt kirish",
+      57055
+     ],
+     [
+      "чачи пити",
+      33732
+     ],
+     [
+      "чати пити",
+      15403
+     ],
+     [
+      "jaji piti",
+      7586
+     ],
+     [
+      "чачи пити сайт",
+      5230
+     ]
+    ]
+   },
+   "impression_share_uz": 0.0142,
+   "clicks_month": {
+    "today": 390,
+    "top10_low": 390,
+    "top10_high": 390,
+    "top3": 390
+   },
+   "ctr_used": {
+    "top10_low": 0.00446,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   },
+   "why_excluded": "навигационный бренд: человек ищет chatgpt.com/вход в свой аккаунт; честно не выигрывается (SERP: 10/10 органики — chatgpt.com/openai, snippet-data.json c3897348)"
+  },
+  {
+   "id": "ai_chat_brand_modifier",
+   "name": "AI-чат: «ChatGPT» + язык / бесплатно / онлайн (мы — честная альтернатива)",
+   "include": true,
+   "status": "живой: два чата + /ru/gpt-na-russkom/",
+   "owners": [
+    "/uz/gpt-uzbek-tilida/",
+    "/ru/gpt-chat/",
+    "/ru/gpt-na-russkom/"
+   ],
+   "serp_type": "бренд + «аналоги»: chatgpt.com ×6–8, chatgpt.uz #1, textie, mitup #1 (RU)",
+   "serp_aio": "r7–r8",
+   "top3_discount": 0.655,
+   "serp_source": "serp_l6.json 59a6e29e, serp_l6_hlru.json 8a84033f, snippet-data.json c3897348",
+   "demand_ads_low": 25870,
+   "demand_ads_high": 25870,
+   "demand_used": 35666,
+   "demand_basis": "GSC-показы UZ ×30,44/28 (выше Ads — сайт уже на 1-й странице; Ads не видит хвост)",
+   "buckets": [
+    {
+     "keyword": "chat gpt на русском",
+     "volume": 8100,
+     "members": [
+      "chat gpt на русском"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt uzbekcha",
+     "volume": 4400,
+     "members": [
+      "chatgpt uzbekcha"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "чат гпт онлайн",
+     "volume": 4400,
+     "members": [
+      "чат гпт онлайн"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt uzbek tilida",
+     "volume": 1900,
+     "members": [
+      "chatgpt uzbek tilida"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt 4 uzbek tilida",
+     "volume": 1600,
+     "members": [
+      "chatgpt 4 uzbek tilida"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "чат гпт на русском",
+     "volume": 1600,
+     "members": [
+      "чат гпт на русском"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt bepul",
+     "volume": 1300,
+     "members": [
+      "chatgpt bepul"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "chatgpt uz",
+     "volume": 1300,
+     "members": [
+      "chatgpt uz"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt tarjimon",
+     "volume": 390,
+     "members": [
+      "chatgpt tarjimon"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "chatgpt o'zbekcha",
+     "volume": 320,
+     "members": [
+      "chatgpt o'zbekcha"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "чат гпт узбекча",
+     "volume": 320,
+     "members": [
+      "чат гпт узбекча"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "чат гпт онлайн бесплатно",
+     "volume": 140,
+     "members": [
+      "чат гпт онлайн бесплатно"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt переводчик",
+     "volume": 90,
+     "members": [
+      "chatgpt переводчик"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "chatgpt 5 uzbek tilida",
+     "volume": 10,
+     "members": [
+      "chatgpt 5 uzbek tilida"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 25390,
+    "oct_dec_2025_avg": 32113,
+    "peak": 36440,
+    "sep_2026": 27410,
+    "aug_2026": 15150,
+    "oct_dec_vs_avg": 1.26
+   },
+   "gsc_28d": {
+    "clicks": 277,
+    "impressions": 39375,
+    "position": 6.1,
+    "uz_clicks": 223.0,
+    "uz_impressions": 32807.0,
+    "top_queries": [
+     [
+      "chatgpt yozish",
+      8202
+     ],
+     [
+      "chatgpt kirish uzbek tilida",
+      4935
+     ],
+     [
+      "чачи пити онлайн",
+      4279
+     ],
+     [
+      "chatgpt bepul",
+      3437
+     ],
+     [
+      "jaji piti online",
+      2043
+     ]
+    ]
+   },
+   "impression_share_uz": 1.3787,
+   "clicks_month": {
+    "today": 301,
+    "top10_low": 301,
+    "top10_high": 394,
+    "top3": 839
+   },
+   "ctr_used": {
+    "top10_low": 0.00446,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "ai_chat_generic",
+   "name": "AI-чат без бренда (ИИ онлайн, нейросеть, ai chat)",
+   "include": true,
+   "status": "живой: чаты + /uz/blog/ai-chat-nima-…/",
+   "owners": [
+    "/ru/gpt-chat/",
+    "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/"
+   ],
+   "serp_type": "не снят",
+   "serp_aio": "приор",
+   "top3_discount": 0.655,
+   "serp_source": "AIO в 45 из 45 снятых 24.10 выдач рынка (см. §2)",
+   "demand_ads_low": 12060,
+   "demand_ads_high": 13360,
+   "demand_used": 12060,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "ии онлайн",
+     "volume": 4400,
+     "members": [
+      "ии онлайн"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ai chat",
+     "volume": 3600,
+     "members": [
+      "ai chat"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ии чат",
+     "volume": 1900,
+     "members": [
+      "ии чат"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть",
+     "volume": 1300,
+     "members": [
+      "нейросеть",
+      "нейросети"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "искусственный интеллект онлайн",
+     "volume": 390,
+     "members": [
+      "искусственный интеллект онлайн"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ии бесплатно",
+     "volume": 140,
+     "members": [
+      "ии бесплатно"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть онлайн",
+     "volume": 70,
+     "members": [
+      "нейросеть онлайн"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ai yordamchi",
+     "volume": 50,
+     "members": [
+      "ai yordamchi"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "искусственный интеллект бесплатно",
+     "volume": 40,
+     "members": [
+      "искусственный интеллект бесплатно"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть онлайн бесплатно",
+     "volume": 30,
+     "members": [
+      "нейросеть онлайн бесплатно"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть бесплатно",
+     "volume": 30,
+     "members": [
+      "нейросеть бесплатно"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "искусственный интеллект чат",
+     "volume": 20,
+     "members": [
+      "искусственный интеллект чат"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ai uzbek tilida",
+     "volume": 20,
+     "members": [
+      "ai uzbek tilida"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "suniy intellekt bilan gaplashish",
+     "volume": 20,
+     "members": [
+      "suniy intellekt bilan gaplashish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ai uzbek",
+     "volume": 10,
+     "members": [
+      "ai uzbek"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть чат",
+     "volume": 10,
+     "members": [
+      "нейросеть чат"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть на русском",
+     "volume": 10,
+     "members": [
+      "нейросеть на русском"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть отвечающая на вопросы",
+     "volume": 10,
+     "members": [
+      "нейросеть отвечающая на вопросы"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть чат gpt",
+     "volume": 10,
+     "members": [
+      "нейросеть чат gpt"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 12060,
+    "oct_dec_2025_avg": 8467,
+    "peak": 18340,
+    "sep_2026": 18340,
+    "aug_2026": 14320,
+    "oct_dec_vs_avg": 0.7
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 144,
+    "position": 17.2,
+    "uz_clicks": 0.0,
+    "uz_impressions": 36.0,
+    "top_queries": [
+     [
+      "ии давай пообщаемся",
+      25
+     ],
+     [
+      "обсудить с ии",
+      11
+     ],
+     [
+      "чаты с ии доступны не всем",
+      10
+     ],
+     [
+      "хочу пообщаться с искусственным интеллектом",
+      9
+     ],
+     [
+      "пообщаться с ии",
+      7
+     ]
+    ]
+   },
+   "impression_share_uz": 0.0032,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 74,
+    "top10_high": 133,
+    "top3": 284
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "chatgpt_howto",
+   "name": "ChatGPT how-to: скачать, открыть, оплатить, что это",
+   "include": true,
+   "status": "живой: гайд по скачиванию (лидер), гайд по входу, оплата, sravnenie",
+   "owners": [
+    "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+    "/ru/gpt-vs-chatgpt-sravnenie/"
+   ],
+   "serp_type": "смешанный: app-pack #1, chatgpt.com, статья skillbox #3, APK-клоны",
+   "serp_aio": "r4",
+   "top3_discount": 0.655,
+   "serp_source": "serp_l6.json 59a6e29e, serp_l6_hlru.json 8a84033f",
+   "demand_ads_low": 11660,
+   "demand_ads_high": 11660,
+   "demand_used": 26295,
+   "demand_basis": "GSC-показы UZ ×30,44/28 (выше Ads — сайт уже на 1-й странице; Ads не видит хвост)",
+   "buckets": [
+    {
+     "keyword": "chatgpt yuklab olish uzbek tilida",
+     "volume": 6600,
+     "members": [
+      "chatgpt yuklab olish uzbek tilida"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt yuklab olish",
+     "volume": 1900,
+     "members": [
+      "chatgpt yuklab olish"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "chatgpt ochish",
+     "volume": 1900,
+     "members": [
+      "chatgpt ochish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt plus",
+     "volume": 720,
+     "members": [
+      "chatgpt plus"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "chatgpt yuklash",
+     "volume": 390,
+     "members": [
+      "chatgpt yuklash"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "chatgpt nima",
+     "volume": 140,
+     "members": [
+      "chatgpt nima"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "как оплатить chatgpt",
+     "volume": 10,
+     "members": [
+      "как оплатить chatgpt"
+     ],
+     "source": "kw3 (2026-10-25)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 11660,
+    "oct_dec_2025_avg": 6250,
+    "peak": 26400,
+    "sep_2026": 26400,
+    "aug_2026": 9720,
+    "oct_dec_vs_avg": 0.54
+   },
+   "gsc_28d": {
+    "clicks": 557,
+    "impressions": 27640,
+    "position": 5.3,
+    "uz_clicks": 498.0,
+    "uz_impressions": 24187.0,
+    "top_queries": [
+     [
+      "chatgpt yuklab olish uzbek tilida",
+      11158
+     ],
+     [
+      "chatgpt yuklab olish",
+      4004
+     ],
+     [
+      "chatgpt ochish",
+      3950
+     ],
+     [
+      "chatgpt ilovasini yuklab olish",
+      2207
+     ],
+     [
+      "chatgpt uzbekcha скачать",
+      2104
+     ]
+    ]
+   },
+   "impression_share_uz": 2.2551,
+   "clicks_month": {
+    "today": 606,
+    "top10_low": 606,
+    "top10_high": 606,
+    "top3": 619
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "translator_ru_uz",
+   "name": "Переводчик RU↔UZ (парные запросы, без «tarjimon»)",
+   "include": true,
+   "status": "бета с 2026-10-24, общий пробный лимит 3 ответа",
+   "owners": [
+    "/ru/russko-uzbekskiy-perevodchik/",
+    "/uz/rus-ozbek-tarjimon/"
+   ],
+   "serp_type": "инструменты: Google Translate в топ-10 5/5, tilmoch.ai, sahifa.tj, aibro.io #5",
+   "serp_aio": "r1 в 3 из 5",
+   "top3_discount": 0.533,
+   "serp_source": "translator-market.md §2",
+   "demand_ads_low": 300580,
+   "demand_ads_high": 395360,
+   "demand_used": 300580,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "перевод с русского на узбекский",
+     "volume": 90500,
+     "members": [
+      "перевод с русского на узбекский",
+      "переводчик с русского на узбекский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "перевод с узбекского на русский",
+     "volume": 60500,
+     "members": [
+      "перевод с узбекского на русский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "переводчик с узбекского на русский",
+     "volume": 49500,
+     "members": [
+      "переводчик с узбекского на русский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "узбекско русский переводчик",
+     "volume": 27100,
+     "members": [
+      "узбекско русский переводчик",
+      "перевод рус узбек",
+      "узбек рус перевод"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "русско узбекский переводчик",
+     "volume": 22200,
+     "members": [
+      "русско узбекский переводчик",
+      "перевод узбек рус"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "rus uzbek tarjimon",
+     "volume": 12100,
+     "members": [
+      "rus uzbek tarjimon",
+      "uzbek rus tarjimon"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "перевод узбекский на русский",
+     "volume": 9900,
+     "members": [
+      "перевод узбекский на русский",
+      "рус узбек перевод"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "русча узбекча таржима",
+     "volume": 6600,
+     "members": [
+      "русча узбекча таржима"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "перевод на узбекский",
+     "volume": 5400,
+     "members": [
+      "перевод на узбекский",
+      "переводчик на узбекском"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "узбекча русча таржима",
+     "volume": 4400,
+     "members": [
+      "узбекча русча таржима"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "русча узбекча таржимон",
+     "volume": 2900,
+     "members": [
+      "русча узбекча таржимон"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "узбекский переводчик",
+     "volume": 1300,
+     "members": [
+      "узбекский переводчик",
+      "перевод на узбекский язык",
+      "узбекский перевод"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "ruskiy uzbek perevod",
+     "volume": 1300,
+     "members": [
+      "ruskiy uzbek perevod"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "rus ozbek tarjimon",
+     "volume": 1300,
+     "members": [
+      "rus ozbek tarjimon"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "tarjimon rus uzbek",
+     "volume": 1000,
+     "members": [
+      "tarjimon rus uzbek"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "узбекча русча таржимон",
+     "volume": 1000,
+     "members": [
+      "узбекча русча таржимон"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "узбекский язык переводчик",
+     "volume": 880,
+     "members": [
+      "узбекский язык переводчик"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "tarjimon ruscha",
+     "volume": 480,
+     "members": [
+      "tarjimon ruscha",
+      "ruschadan o'zbekchaga tarjima"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "рус узбек таржимон",
+     "volume": 390,
+     "members": [
+      "рус узбек таржимон"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "переводчик узбекский",
+     "volume": 320,
+     "members": [
+      "переводчик узбекский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "переводчик с русского на узбекский латиница",
+     "volume": 260,
+     "members": [
+      "переводчик с русского на узбекский латиница"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "перевод текста с узбекского на русский",
+     "volume": 170,
+     "members": [
+      "перевод текста с узбекского на русский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "перевод текста с русского на узбекский",
+     "volume": 140,
+     "members": [
+      "перевод текста с русского на узбекский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "uzbekcha ruscha tarjimon",
+     "volume": 140,
+     "members": [
+      "uzbekcha ruscha tarjimon"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "перевод документов с узбекского на русский",
+     "volume": 110,
+     "members": [
+      "перевод документов с узбекского на русский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "ozbekchaga tarjima",
+     "volume": 110,
+     "members": [
+      "ozbekchaga tarjima"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "ai переводчик",
+     "volume": 90,
+     "members": [
+      "ai переводчик"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "ai tarjimon",
+     "volume": 90,
+     "members": [
+      "ai tarjimon"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "o'zbekchadan ruschaga tarjima",
+     "volume": 70,
+     "members": [
+      "o'zbekchadan ruschaga tarjima"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "русча таржима",
+     "volume": 70,
+     "members": [
+      "русча таржима"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "бесплатный переводчик с узбекского на русский",
+     "volume": 50,
+     "members": [
+      "бесплатный переводчик с узбекского на русский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "o zbekchaga tarjima",
+     "volume": 50,
+     "members": [
+      "o zbekchaga tarjima"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "точный переводчик с русского на узбекский",
+     "volume": 40,
+     "members": [
+      "точный переводчик с русского на узбекский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "ruschaga tarjima",
+     "volume": 40,
+     "members": [
+      "ruschaga tarjima"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть переводчик",
+     "volume": 10,
+     "members": [
+      "нейросеть переводчик"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "бесплатный переводчик с русского на узбекский",
+     "volume": 10,
+     "members": [
+      "бесплатный переводчик с русского на узбекский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "переводчик онлайн узбекский",
+     "volume": 10,
+     "members": [
+      "переводчик онлайн узбекский"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "переводчик с русского на узбекский онлайн",
+     "volume": 10,
+     "members": [
+      "переводчик с русского на узбекский онлайн"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "переводчик с русского на узбекский на кириллице",
+     "volume": 10,
+     "members": [
+      "переводчик с русского на узбекский на кириллице"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "ruscha ozbekcha tarjimon",
+     "volume": 10,
+     "members": [
+      "ruscha ozbekcha tarjimon"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "ai tarjima",
+     "volume": 10,
+     "members": [
+      "ai tarjima"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "sun'iy intellekt tarjimon",
+     "volume": 10,
+     "members": [
+      "sun'iy intellekt tarjimon"
+     ],
+     "source": "translator-market (2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": null,
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 1842,
+    "top10_high": 3321,
+    "top3": 5760
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   },
+   "upside_kws": {
+    "volume": 47200,
+    "keywords": [
+     [
+      "russian uzbek translator",
+      40500,
+      [
+       "russian uzbek translator"
+      ]
+     ],
+     [
+      "russian to uzbek",
+      5400,
+      [
+       "russian to uzbek"
+      ]
+     ],
+     [
+      "uzbek to russian",
+      1300,
+      [
+       "uzbek to russian"
+      ]
+     ]
+    ],
+    "unmeasured": []
+   }
+  },
+  {
+   "id": "converter_cyr_lat",
+   "name": "Конвертер кириллица↔латиница (бесплатный, без модели)",
+   "include": true,
+   "status": "вкладка на страницах переводчика с 2026-10-24, отдельной страницы нет",
+   "owners": [
+    "/uz/rus-ozbek-tarjimon/",
+    "/ru/russko-uzbekskiy-perevodchik/"
+   ],
+   "serp_type": "не снят",
+   "serp_aio": "приор",
+   "top3_discount": 0.655,
+   "serp_source": "AIO в 45 из 45 снятых 24.10 выдач рынка",
+   "demand_ads_low": 12490,
+   "demand_ads_high": 12490,
+   "demand_used": 12490,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "лотин кирилл",
+     "volume": 6600,
+     "members": [
+      "лотин кирилл"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "кирилл лотин",
+     "volume": 3600,
+     "members": [
+      "кирилл лотин"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "kirill lotin",
+     "volume": 1900,
+     "members": [
+      "kirill lotin"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "kirildan lotinga",
+     "volume": 260,
+     "members": [
+      "kirildan lotinga"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "kirill lotin tarjimon",
+     "volume": 70,
+     "members": [
+      "kirill lotin tarjimon"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "кириллица латиница",
+     "volume": 40,
+     "members": [
+      "кириллица латиница"
+     ],
+     "source": "translator-market (2026-10-24)"
+    },
+    {
+     "keyword": "lotin kirill tarjima",
+     "volume": 20,
+     "members": [
+      "lotin kirill tarjima"
+     ],
+     "source": "translator-market (2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": null,
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 77,
+    "top10_high": 138,
+    "top3": 294
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "translator_en_uz",
+   "name": "Переводчик EN↔UZ (W3-06, ещё не построен)",
+   "include": true,
+   "status": "не построен; роль translator_en, декабрь (NEXT_RELEASES.md)",
+   "owners": [
+    "(нет) /uz/ingliz-ozbek-tarjimon/, /ru/perevodchik-s-angliyskogo-na-uzbekskiy/"
+   ],
+   "serp_type": "инструменты: Google Translate #1–2, Yandex, приложения; verbly.uz #5/#7",
+   "serp_aio": "r1–r2",
+   "top3_discount": 0.533,
+   "serp_source": "serp1.json 48e0cfbe, serp2.json 7aa3bce8, serp3_table.txt",
+   "demand_ads_low": 52090,
+   "demand_ads_high": 52090,
+   "demand_used": 52090,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "английский узбекский переводчик",
+     "volume": 18100,
+     "members": [
+      "английский узбекский переводчик"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ingliz uzbek tarjimon",
+     "volume": 12100,
+     "members": [
+      "ingliz uzbek tarjimon"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "inglizcha tarjima",
+     "volume": 8100,
+     "members": [
+      "inglizcha tarjima"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "переводчик с английского на узбекский",
+     "volume": 6600,
+     "members": [
+      "переводчик с английского на узбекский"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ingliz tarjima",
+     "volume": 2400,
+     "members": [
+      "ingliz tarjima"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ozbekcha inglizcha tarjimon",
+     "volume": 1600,
+     "members": [
+      "ozbekcha inglizcha tarjimon"
+     ],
+     "source": "translator-market adjacent (2026-10-24)"
+    },
+    {
+     "keyword": "инглизча узбекча переводчик",
+     "volume": 1600,
+     "members": [
+      "инглизча узбекча переводчик"
+     ],
+     "source": "translator-market adjacent (2026-10-24)"
+    },
+    {
+     "keyword": "переводчик с узбекского на английский",
+     "volume": 1000,
+     "members": [
+      "переводчик с узбекского на английский"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "inglizcha tarjimon",
+     "volume": 590,
+     "members": [
+      "inglizcha tarjimon"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 48890,
+    "oct_dec_2025_avg": 73630,
+    "peak": 83580,
+    "sep_2026": 28160,
+    "aug_2026": 24910,
+    "oct_dec_vs_avg": 1.51
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 319,
+    "top10_high": 576,
+    "top3": 998
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   },
+   "upside_kws": {
+    "volume": 225000,
+    "keywords": [
+     [
+      "english to uzbek",
+      135000,
+      [
+       "english to uzbek"
+      ]
+     ],
+     [
+      "uzbek english translator",
+      49500,
+      [
+       "uzbek english translator"
+      ]
+     ],
+     [
+      "english uzbek translator",
+      40500,
+      [
+       "english uzbek translator"
+      ]
+     ]
+    ],
+    "unmeasured": []
+   }
+  },
+  {
+   "id": "translator_other_pairs",
+   "name": "Другие пары TR/KO/AR↔UZ (W3-10, после EN)",
+   "include": true,
+   "status": "не построен",
+   "owners": [
+    "(нет)"
+   ],
+   "serp_type": "не снят",
+   "serp_aio": "приор",
+   "top3_discount": 0.655,
+   "serp_source": "AIO в 45 из 45 снятых 24.10 выдач рынка",
+   "demand_ads_low": 8000,
+   "demand_ads_high": 8000,
+   "demand_used": 8000,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "turkcha ozbekcha tarjima",
+     "volume": 4400,
+     "members": [
+      "turkcha ozbekcha tarjima"
+     ],
+     "source": "translator-market adjacent (2026-10-24)"
+    },
+    {
+     "keyword": "туркча узбекча таржима",
+     "volume": 1300,
+     "members": [
+      "туркча узбекча таржима"
+     ],
+     "source": "translator-market adjacent (2026-10-24)"
+    },
+    {
+     "keyword": "turkcha o'zbekcha tarjimon",
+     "volume": 880,
+     "members": [
+      "turkcha o'zbekcha tarjimon"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "koreyscha o'zbekcha tarjima",
+     "volume": 720,
+     "members": [
+      "koreyscha o'zbekcha tarjima"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "arabcha tarjima",
+     "volume": 590,
+     "members": [
+      "arabcha tarjima"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "turk tarjimon",
+     "volume": 50,
+     "members": [
+      "turk tarjimon"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "koreyscha tarjimon",
+     "volume": 40,
+     "members": [
+      "koreyscha tarjimon"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "arab tarjimon",
+     "volume": 20,
+     "members": [
+      "arab tarjimon"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 2300,
+    "oct_dec_2025_avg": 2807,
+    "peak": 3340,
+    "sep_2026": 1080,
+    "aug_2026": 1450,
+    "oct_dec_vs_avg": 1.22
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 49,
+    "top10_high": 88,
+    "top3": 188
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "ai_basics",
+   "name": "Sun’iy intellekt / что такое ИИ / prompt nima",
+   "include": true,
+   "status": "страница переработана 2026-10-24 (W1-02)",
+   "owners": [
+    "/uz/suniy-intellekt/",
+    "/uz/gpt-uzbek-tilida-ai-chat/"
+   ],
+   "serp_type": "раздробленный: AIO, salom-ai.uz (продукт) #1, Wikipedia, видео, новости",
+   "serp_aio": "r1",
+   "top3_discount": 0.533,
+   "serp_source": "serp2.json 7aa3bce8, serp_l6.json 59a6e29e",
+   "demand_ads_low": 14280,
+   "demand_ads_high": 21880,
+   "demand_used": 14280,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "suniy intellekt",
+     "volume": 8100,
+     "members": [
+      "suniy intellekt",
+      "sun'iy intellekt"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "сунъий интеллект",
+     "volume": 1600,
+     "members": [
+      "сунъий интеллект"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "suniy intellekt nima",
+     "volume": 1300,
+     "members": [
+      "suniy intellekt nima",
+      "sun'iy intellekt nima"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "сунъий интеллект нима",
+     "volume": 1300,
+     "members": [
+      "сунъий интеллект нима"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "prompt nima",
+     "volume": 720,
+     "members": [
+      "prompt nima"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "suniy intellekt turlari",
+     "volume": 480,
+     "members": [
+      "suniy intellekt turlari"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "суний интеллект",
+     "volume": 320,
+     "members": [
+      "суний интеллект"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ai nima",
+     "volume": 210,
+     "members": [
+      "ai nima"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "suniy intellekt haqida malumot",
+     "volume": 210,
+     "members": [
+      "suniy intellekt haqida malumot"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "suniy intellekt haqida",
+     "volume": 40,
+     "members": [
+      "suniy intellekt haqida"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 14280,
+    "oct_dec_2025_avg": 9050,
+    "peak": 21710,
+    "sep_2026": 13440,
+    "aug_2026": 11910,
+    "oct_dec_vs_avg": 0.63
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 3,
+    "position": 65.7,
+    "uz_clicks": 0.0,
+    "uz_impressions": 2.0,
+    "top_queries": [
+     [
+      "ai sun iy intellekt",
+      1
+     ],
+     [
+      "suniy intellekt haqida malumot",
+      1
+     ],
+     [
+      "suniy intellekt turlari",
+      1
+     ]
+    ]
+   },
+   "impression_share_uz": 0.0002,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 88,
+    "top10_high": 158,
+    "top3": 274
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   },
+   "group_note": "«suniy» и «sun’iy» — разные ряды, но Google Ads, похоже, перекладывает спрос между написаниями (L3 §2): в нижней оценке считаю одной корзиной"
+  },
+  {
+   "id": "school_referat",
+   "name": "Referat / mustaqil ish",
+   "include": true,
+   "status": "живой гайд с 2026-10-05",
+   "owners": [
+    "/uz/blog/referat-va-mustaqil-ish/"
+   ],
+   "serp_type": "не снят (вероятно образцы/PDF/статьи)",
+   "serp_aio": "приор",
+   "top3_discount": 0.655,
+   "serp_source": "AIO в 45 из 45 снятых 24.10 выдач рынка",
+   "demand_ads_low": 13110,
+   "demand_ads_high": 13110,
+   "demand_used": 13110,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "referat",
+     "volume": 2900,
+     "members": [
+      "referat"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "referat namuna",
+     "volume": 2900,
+     "members": [
+      "referat namuna"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "mustaqil ish",
+     "volume": 1900,
+     "members": [
+      "mustaqil ish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "реферат",
+     "volume": 1900,
+     "members": [
+      "реферат"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "mustaqil ish namuna",
+     "volume": 1000,
+     "members": [
+      "mustaqil ish namuna"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "referat yozish tartibi",
+     "volume": 720,
+     "members": [
+      "referat yozish tartibi"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "referat tayyorlash",
+     "volume": 590,
+     "members": [
+      "referat tayyorlash"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "referat yozish namuna",
+     "volume": 390,
+     "members": [
+      "referat yozish namuna"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "referat yozish",
+     "volume": 320,
+     "members": [
+      "referat yozish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "referat qanday yoziladi",
+     "volume": 260,
+     "members": [
+      "referat qanday yoziladi"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "referat ai",
+     "volume": 50,
+     "members": [
+      "referat ai"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "реферат ии",
+     "volume": 50,
+     "members": [
+      "реферат ии"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "реферат онлайн",
+     "volume": 40,
+     "members": [
+      "реферат онлайн"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "referat namunalari",
+     "volume": 20,
+     "members": [
+      "referat namunalari"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "referat mavzulari",
+     "volume": 10,
+     "members": [
+      "referat mavzulari"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "реферат намуна",
+     "volume": 10,
+     "members": [
+      "реферат намуна"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "написать реферат",
+     "volume": 10,
+     "members": [
+      "написать реферат"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "написать реферат онлайн",
+     "volume": 10,
+     "members": [
+      "написать реферат онлайн"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "referat yozish online",
+     "volume": 10,
+     "members": [
+      "referat yozish online"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "нейросеть для реферата",
+     "volume": 10,
+     "members": [
+      "нейросеть для реферата"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "написать реферат нейросеть",
+     "volume": 10,
+     "members": [
+      "написать реферат нейросеть"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 13110,
+    "oct_dec_2025_avg": 23343,
+    "peak": 25060,
+    "sep_2026": 5570,
+    "aug_2026": 1490,
+    "oct_dec_vs_avg": 1.78
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 25,
+    "position": 8.8,
+    "uz_clicks": 0.0,
+    "uz_impressions": 23.0,
+    "top_queries": [
+     [
+      "mustaqil ish rejasi",
+      11
+     ],
+     [
+      "referat yozish namunasi",
+      5
+     ],
+     [
+      "referat yozish namuna",
+      4
+     ],
+     [
+      "referat yozish tartibi namuna",
+      3
+     ],
+     [
+      "referat yozish tartibi",
+      2
+     ]
+    ]
+   },
+   "impression_share_uz": 0.0019,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 80,
+    "top10_high": 145,
+    "top3": 309
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "school_insho_esse",
+   "name": "Insho / esse",
+   "include": true,
+   "status": "живой гайд с 2026-09-01",
+   "owners": [
+    "/uz/blog/insho-yozish-suniy-intellekt-bilan/"
+   ],
+   "serp_type": "не снят (вероятно образцы/статьи)",
+   "serp_aio": "приор",
+   "top3_discount": 0.655,
+   "serp_source": "AIO в 45 из 45 снятых 24.10 выдач рынка",
+   "demand_ads_low": 16280,
+   "demand_ads_high": 16280,
+   "demand_used": 16280,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "esse",
+     "volume": 4400,
+     "members": [
+      "esse"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "esse yozish tartibi",
+     "volume": 3600,
+     "members": [
+      "esse yozish tartibi"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "esse yozish",
+     "volume": 2900,
+     "members": [
+      "esse yozish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "esse namunalari",
+     "volume": 1600,
+     "members": [
+      "esse namunalari"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "insho",
+     "volume": 1300,
+     "members": [
+      "insho"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "insho yozish",
+     "volume": 880,
+     "members": [
+      "insho yozish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "esse namunasi",
+     "volume": 720,
+     "members": [
+      "esse namunasi"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "insho namuna",
+     "volume": 320,
+     "members": [
+      "insho namuna"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "insho namunalari",
+     "volume": 260,
+     "members": [
+      "insho namunalari"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "esse namuna",
+     "volume": 210,
+     "members": [
+      "esse namuna"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "insho mavzulari",
+     "volume": 70,
+     "members": [
+      "insho mavzulari"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "suniy intellekt haqida esse",
+     "volume": 10,
+     "members": [
+      "suniy intellekt haqida esse"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть для эссе",
+     "volume": 10,
+     "members": [
+      "нейросеть для эссе"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 16280,
+    "oct_dec_2025_avg": 21307,
+    "peak": 32800,
+    "sep_2026": 20940,
+    "aug_2026": 5960,
+    "oct_dec_vs_avg": 1.31
+   },
+   "gsc_28d": {
+    "clicks": 1,
+    "impressions": 132,
+    "position": 7.3,
+    "uz_clicks": 1.0,
+    "uz_impressions": 131.0,
+    "top_queries": [
+     [
+      "murakkab reja namuna",
+      91
+     ],
+     [
+      "insho yozib ber",
+      17
+     ],
+     [
+      "murakkab reja namunasi",
+      7
+     ],
+     [
+      "insho namuna",
+      4
+     ],
+     [
+      "эссе иншо",
+      4
+     ]
+    ]
+   },
+   "impression_share_uz": 0.0087,
+   "clicks_month": {
+    "today": 1,
+    "top10_low": 100,
+    "top10_high": 180,
+    "top3": 383
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "school_kurs_ishi",
+   "name": "Kurs ishi",
+   "include": true,
+   "status": "живой гайд с 2026-10-07",
+   "owners": [
+    "/uz/blog/kurs-ishi-yozish/"
+   ],
+   "serp_type": "не снят",
+   "serp_aio": "приор",
+   "top3_discount": 0.655,
+   "serp_source": "AIO в 45 из 45 снятых 24.10 выдач рынка",
+   "demand_ads_low": 3500,
+   "demand_ads_high": 3500,
+   "demand_used": 3500,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "kurs ishi namuna",
+     "volume": 1900,
+     "members": [
+      "kurs ishi namuna"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "kurs ishi",
+     "volume": 1300,
+     "members": [
+      "kurs ishi"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "kurs ishi tayyorlash",
+     "volume": 210,
+     "members": [
+      "kurs ishi tayyorlash"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "kurs ishi yozish",
+     "volume": 50,
+     "members": [
+      "kurs ishi yozish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "kurs ishi namunalari",
+     "volume": 30,
+     "members": [
+      "kurs ishi namunalari"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "нейросеть для курсовой",
+     "volume": 10,
+     "members": [
+      "нейросеть для курсовой"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 3500,
+    "oct_dec_2025_avg": 3707,
+    "peak": 9900,
+    "sep_2026": 470,
+    "aug_2026": 200,
+    "oct_dec_vs_avg": 1.06
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 21,
+    "top10_high": 39,
+    "top3": 82
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "school_slayd",
+   "name": "Slayd / prezentatsiya / taqdimot (Studio .pptx)",
+   "include": true,
+   "status": "живой инструмент (Studio) + гайд slayd-tayyorlash — «Crawled, not indexed»",
+   "owners": [
+    "/uz/taqdimot-ai/",
+    "/ru/prezentatsiya-ai/",
+    "/uz/blog/slayd-tayyorlash/"
+   ],
+   "serp_type": "не снят; бренд-инструмент gamma ai 60 500 показывает инструментальный спрос",
+   "serp_aio": "приор",
+   "top3_discount": 0.655,
+   "serp_source": "AIO в 45 из 45 снятых 24.10 выдач рынка",
+   "demand_ads_low": 16920,
+   "demand_ads_high": 16920,
+   "demand_used": 16920,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "slayd tayyorlash",
+     "volume": 5400,
+     "members": [
+      "slayd tayyorlash"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "prezentatsiya tayyorlash",
+     "volume": 1900,
+     "members": [
+      "prezentatsiya tayyorlash"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "prezentatsiya",
+     "volume": 1300,
+     "members": [
+      "prezentatsiya"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "taqdimot tayyorlash",
+     "volume": 1000,
+     "members": [
+      "taqdimot tayyorlash"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "taqdimot",
+     "volume": 1000,
+     "members": [
+      "taqdimot"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "prezentatsiya ai",
+     "volume": 720,
+     "members": [
+      "prezentatsiya ai"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "slayd ai",
+     "volume": 590,
+     "members": [
+      "slayd ai"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "slayd yaratish",
+     "volume": 590,
+     "members": [
+      "slayd yaratish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "презентация ии",
+     "volume": 590,
+     "members": [
+      "презентация ии"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "ai presentation",
+     "volume": 590,
+     "members": [
+      "ai presentation"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "ии для презентаций",
+     "volume": 480,
+     "members": [
+      "ии для презентаций"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "презентация онлайн",
+     "volume": 480,
+     "members": [
+      "презентация онлайн"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "сделать презентацию",
+     "volume": 320,
+     "members": [
+      "сделать презентацию"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "презентация онлайн бесплатно",
+     "volume": 320,
+     "members": [
+      "презентация онлайн бесплатно"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "создать презентацию онлайн",
+     "volume": 210,
+     "members": [
+      "создать презентацию онлайн"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "сделать презентацию онлайн",
+     "volume": 210,
+     "members": [
+      "сделать презентацию онлайн"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "taqdimot yaratish",
+     "volume": 140,
+     "members": [
+      "taqdimot yaratish"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "slayd yasash",
+     "volume": 140,
+     "members": [
+      "slayd yasash"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "taqdimot namunalari",
+     "volume": 110,
+     "members": [
+      "taqdimot namunalari"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "нейросеть для презентаций",
+     "volume": 110,
+     "members": [
+      "нейросеть для презентаций"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "презентация нейросеть",
+     "volume": 90,
+     "members": [
+      "презентация нейросеть"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "slayd qilish",
+     "volume": 70,
+     "members": [
+      "slayd qilish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "сделать презентацию ии",
+     "volume": 70,
+     "members": [
+      "сделать презентацию ии"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "slayd tayyorlash ai",
+     "volume": 50,
+     "members": [
+      "slayd tayyorlash ai"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "taqdimot ai",
+     "volume": 50,
+     "members": [
+      "taqdimot ai"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "презентация тайёрлаш",
+     "volume": 50,
+     "members": [
+      "презентация тайёрлаш"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "сделать презентацию онлайн бесплатно",
+     "volume": 50,
+     "members": [
+      "сделать презентацию онлайн бесплатно"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ai prezentatsiya",
+     "volume": 40,
+     "members": [
+      "ai prezentatsiya"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "slayd namunalari",
+     "volume": 40,
+     "members": [
+      "slayd namunalari"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "нейросеть для создания презентаций",
+     "volume": 40,
+     "members": [
+      "нейросеть для создания презентаций"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "prezentatsiya qilish",
+     "volume": 30,
+     "members": [
+      "prezentatsiya qilish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "prezentatsiya yaratish",
+     "volume": 30,
+     "members": [
+      "prezentatsiya yaratish"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "prezentatsiya yasash",
+     "volume": 30,
+     "members": [
+      "prezentatsiya yasash"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "taqdimot tayyorlash ai",
+     "volume": 20,
+     "members": [
+      "taqdimot tayyorlash ai"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "нейросеть для презентаций бесплатно",
+     "volume": 10,
+     "members": [
+      "нейросеть для презентаций бесплатно"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "prezentatsiya namunalari",
+     "volume": 10,
+     "members": [
+      "prezentatsiya namunalari"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "slayd shablonlari",
+     "volume": 10,
+     "members": [
+      "slayd shablonlari"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "taqdimot qilish",
+     "volume": 10,
+     "members": [
+      "taqdimot qilish"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "презентация нейросеть бесплатно",
+     "volume": 10,
+     "members": [
+      "презентация нейросеть бесплатно"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "suniy intellekt slayd",
+     "volume": 10,
+     "members": [
+      "suniy intellekt slayd"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 16920,
+    "oct_dec_2025_avg": 27400,
+    "peak": 28440,
+    "sep_2026": 11560,
+    "aug_2026": 2740,
+    "oct_dec_vs_avg": 1.62
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 5,
+    "position": 5.0,
+    "uz_clicks": 0.0,
+    "uz_impressions": 5.0,
+    "top_queries": [
+     [
+      "taqdimot uz",
+      5
+     ]
+    ]
+   },
+   "impression_share_uz": 0.0003,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 104,
+    "top10_high": 187,
+    "top3": 398
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "solver_misol_masala",
+   "name": "Решатель задач: misol / masala / tenglama / uy vazifasi (фото + текст)",
+   "include": true,
+   "status": "черновик rasmdan-yechim, STUDIO_PHOTO=false (решение владельца O-04); текстовый путь — чат с ролью teacher",
+   "owners": [
+    "(черновик) /uz/misol-yechish/"
+   ],
+   "serp_type": "ищут решатель: приложения Play, Scribd, новости, khanacademy; uniwork.uz (ИИ) #13; «masala yechish» смешан с robocontest",
+   "serp_aio": "r2 / r8",
+   "top3_discount": 0.655,
+   "serp_source": "serp1.json 48e0cfbe, serp3_table.txt",
+   "demand_ads_low": 16450,
+   "demand_ads_high": 18350,
+   "demand_used": 16450,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "misollar yechish",
+     "volume": 4400,
+     "members": [
+      "misollar yechish"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "tenglama yechish",
+     "volume": 1900,
+     "members": [
+      "tenglama yechish",
+      "tenglamalar yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "uyga vazifa",
+     "volume": 1300,
+     "members": [
+      "uyga vazifa"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "masalalar",
+     "volume": 1000,
+     "members": [
+      "masalalar"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "misol yechish",
+     "volume": 880,
+     "members": [
+      "misol yechish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "masala yechish",
+     "volume": 880,
+     "members": [
+      "masala yechish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "uy ishi",
+     "volume": 880,
+     "members": [
+      "uy ishi"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "fizika masalalar yechish",
+     "volume": 880,
+     "members": [
+      "fizika masalalar yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "rasmga olib misol yechish",
+     "volume": 720,
+     "members": [
+      "rasmga olib misol yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "matematika misollar yechish",
+     "volume": 590,
+     "members": [
+      "matematika misollar yechish"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "misol ishlash",
+     "volume": 320,
+     "members": [
+      "misol ishlash"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "algebra misollar yechish",
+     "volume": 260,
+     "members": [
+      "algebra misollar yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "решение задач по фото",
+     "volume": 260,
+     "members": [
+      "решение задач по фото"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "решить задачу по фото",
+     "volume": 260,
+     "members": [
+      "решить задачу по фото"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "misollar ishlash",
+     "volume": 210,
+     "members": [
+      "misollar ishlash"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "решить пример",
+     "volume": 170,
+     "members": [
+      "решить пример"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "решение задач",
+     "volume": 170,
+     "members": [
+      "решение задач"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "uy vazifasi",
+     "volume": 140,
+     "members": [
+      "uy vazifasi"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "решение уравнений",
+     "volume": 140,
+     "members": [
+      "решение уравнений"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "kimyo masalalar yechish",
+     "volume": 90,
+     "members": [
+      "kimyo masalalar yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "uy vazifasini bajarish",
+     "volume": 90,
+     "members": [
+      "uy vazifasini bajarish"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "решение по фото",
+     "volume": 90,
+     "members": [
+      "решение по фото"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "калькулятор уравнений",
+     "volume": 90,
+     "members": [
+      "калькулятор уравнений"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "masala ishlash",
+     "volume": 70,
+     "members": [
+      "masala ishlash"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "matematika yechish",
+     "volume": 70,
+     "members": [
+      "matematika yechish"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "решение примеров",
+     "volume": 70,
+     "members": [
+      "решение примеров"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "решить уравнение онлайн",
+     "volume": 70,
+     "members": [
+      "решить уравнение онлайн"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "matematikadan misollar yechish",
+     "volume": 50,
+     "members": [
+      "matematikadan misollar yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "matematika masalalar yechish",
+     "volume": 40,
+     "members": [
+      "matematika masalalar yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "matematika masalalar",
+     "volume": 40,
+     "members": [
+      "matematika masalalar"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "matematika misol ishlash",
+     "volume": 40,
+     "members": [
+      "matematika misol ishlash"
+     ],
+     "source": "kw4 (2026-10-25)"
+    },
+    {
+     "keyword": "решить по фото",
+     "volume": 30,
+     "members": [
+      "решить по фото"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "решение задач по математике",
+     "volume": 30,
+     "members": [
+      "решение задач по математике"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "misol yechuvchi",
+     "volume": 20,
+     "members": [
+      "misol yechuvchi"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "rasmga olib yechish",
+     "volume": 20,
+     "members": [
+      "rasmga olib yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "matematika ai",
+     "volume": 20,
+     "members": [
+      "matematika ai"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "matematika masala yechish",
+     "volume": 20,
+     "members": [
+      "matematika masala yechish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "fizika masala yechish",
+     "volume": 10,
+     "members": [
+      "fizika masala yechish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "misol yechib berish",
+     "volume": 10,
+     "members": [
+      "misol yechib berish"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "решатель задач",
+     "volume": 10,
+     "members": [
+      "решатель задач"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "фото решение задач",
+     "volume": 10,
+     "members": [
+      "фото решение задач"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "решение примеров онлайн",
+     "volume": 10,
+     "members": [
+      "решение примеров онлайн"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "matematika misollarni yechish",
+     "volume": 10,
+     "members": [
+      "matematika misollarni yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "geometriya masalalar yechish",
+     "volume": 10,
+     "members": [
+      "geometriya masalalar yechish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "misollar yechish online",
+     "volume": 10,
+     "members": [
+      "misollar yechish online"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "uy vazifalari",
+     "volume": 10,
+     "members": [
+      "uy vazifalari"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "нейросеть для решения задач",
+     "volume": 10,
+     "members": [
+      "нейросеть для решения задач"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "решить задачу нейросеть",
+     "volume": 10,
+     "members": [
+      "решить задачу нейросеть"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть для математики",
+     "volume": 10,
+     "members": [
+      "нейросеть для математики"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть для домашнего задания",
+     "volume": 10,
+     "members": [
+      "нейросеть для домашнего задания"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "решение задач онлайн",
+     "volume": 10,
+     "members": [
+      "решение задач онлайн"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 16450,
+    "oct_dec_2025_avg": 16017,
+    "peak": 21930,
+    "sep_2026": 21780,
+    "aug_2026": 6390,
+    "oct_dec_vs_avg": 0.97
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 101,
+    "top10_high": 182,
+    "top3": 387
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   },
+   "upside_kws": {
+    "volume": 4400,
+    "keywords": [
+     [
+      "math solver",
+      4400,
+      [
+       "math solver"
+      ]
+     ]
+    ],
+    "unmeasured": []
+   },
+   "photo_only": {
+    "volume": 1390,
+    "keywords": [
+     [
+      "rasmga olib misol yechish",
+      720,
+      [
+       "rasmga olib misol yechish"
+      ]
+     ],
+     [
+      "rasmga olib yechish",
+      20,
+      [
+       "rasmga olib yechish"
+      ]
+     ],
+     [
+      "решение задач по фото",
+      260,
+      [
+       "решение задач по фото"
+      ]
+     ],
+     [
+      "решить задачу по фото",
+      260,
+      [
+       "решить задачу по фото"
+      ]
+     ],
+     [
+      "решение по фото",
+      90,
+      [
+       "решение по фото"
+      ]
+     ],
+     [
+      "решить по фото",
+      30,
+      [
+       "решить по фото"
+      ]
+     ],
+     [
+      "фото решение задач",
+      10,
+      [
+       "фото решение задач"
+      ]
+     ]
+    ],
+    "unmeasured": []
+   }
+  },
+  {
+   "id": "math_examples_generator",
+   "name": "Генератор примеров по математике 1–4 кл. (не ИИ, W3-09)",
+   "include": true,
+   "status": "не построен; вне ядра продукта, решение владельца",
+   "owners": [
+    "(нет) /uz/matematika-misollar/"
+   ],
+   "serp_type": "листы с примерами: Scribd, PDF, YouTube, ustoz.ai, mathnet.uz",
+   "serp_aio": "r9",
+   "top3_discount": 0.655,
+   "serp_source": "serp1.json 48e0cfbe",
+   "demand_ads_low": 23420,
+   "demand_ads_high": 23420,
+   "demand_used": 23420,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "matematika misollar",
+     "volume": 18100,
+     "members": [
+      "matematika misollar"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "karra jadvali",
+     "volume": 2900,
+     "members": [
+      "karra jadvali"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "misollar",
+     "volume": 1600,
+     "members": [
+      "misollar"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ko'paytirish jadvali",
+     "volume": 720,
+     "members": [
+      "ko'paytirish jadvali"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "matematika misollar 1 sinf",
+     "volume": 40,
+     "members": [
+      "matematika misollar 1 sinf"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "matematika misollar 2 sinf",
+     "volume": 40,
+     "members": [
+      "matematika misollar 2 sinf"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "matematika misollar 3 sinf",
+     "volume": 20,
+     "members": [
+      "matematika misollar 3 sinf"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 23420,
+    "oct_dec_2025_avg": 6740,
+    "peak": 54790,
+    "sep_2026": 54790,
+    "aug_2026": 16870,
+    "oct_dec_vs_avg": 0.29
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 144,
+    "top10_high": 259,
+    "top3": 551
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "test_generator_teacher",
+   "name": "Тест для учителя (test tuzish / yaratish)",
+   "include": true,
+   "status": "умеет чат; отдельной страницы нет",
+   "owners": [
+    "(нет)"
+   ],
+   "serp_type": "не снят",
+   "serp_aio": "приор",
+   "top3_discount": 0.655,
+   "serp_source": "AIO в 45 из 45 снятых 24.10 выдач рынка",
+   "demand_ads_low": 190,
+   "demand_ads_high": 190,
+   "demand_used": 190,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "test tuzish",
+     "volume": 110,
+     "members": [
+      "test tuzish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "test yaratish",
+     "volume": 70,
+     "members": [
+      "test yaratish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть для тестов",
+     "volume": 10,
+     "members": [
+      "нейросеть для тестов"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 190,
+    "oct_dec_2025_avg": 203,
+    "peak": 280,
+    "sep_2026": 100,
+    "aug_2026": 30,
+    "oct_dec_vs_avg": 1.07
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 1,
+    "top10_high": 2,
+    "top3": 4
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "docs_ariza_xat",
+   "name": "Документы: ariza, tushuntirish xati, rasmiy xat",
+   "include": true,
+   "status": "живые: гайд ariza/tushuntirish (10-07), rasmiy xat (10-24)",
+   "owners": [
+    "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+    "/uz/blog/rasmiy-xat-yozish/"
+   ],
+   "serp_type": "смешанный: Scribd, prezi, soff.uz, словари; ИИ-генератор promli.com #9",
+   "serp_aio": "r2",
+   "top3_discount": 0.655,
+   "serp_source": "serp3_table.txt 3b60d615",
+   "demand_ads_low": 12050,
+   "demand_ads_high": 12050,
+   "demand_used": 12050,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "xat yozish",
+     "volume": 3600,
+     "members": [
+      "xat yozish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ariza yozish",
+     "volume": 2900,
+     "members": [
+      "ariza yozish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ariza yozish namunasi",
+     "volume": 2400,
+     "members": [
+      "ariza yozish namunasi"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "tushuntirish xati",
+     "volume": 1600,
+     "members": [
+      "tushuntirish xati"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ariza namunasi",
+     "volume": 590,
+     "members": [
+      "ariza namunasi"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ariza yozish tartibi",
+     "volume": 590,
+     "members": [
+      "ariza yozish tartibi"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "tushuntirish xati yozish",
+     "volume": 170,
+     "members": [
+      "tushuntirish xati yozish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "tushuntirish xati namunasi",
+     "volume": 140,
+     "members": [
+      "tushuntirish xati namunasi"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "xat namunasi",
+     "volume": 30,
+     "members": [
+      "xat namunasi"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "xat yozish namunasi",
+     "volume": 10,
+     "members": [
+      "xat yozish namunasi"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "xat yozish namuna",
+     "volume": 10,
+     "members": [
+      "xat yozish namuna"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "xizmat xati namuna",
+     "volume": 10,
+     "members": [
+      "xizmat xati namuna"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 12050,
+    "oct_dec_2025_avg": 14380,
+    "peak": 18000,
+    "sep_2026": 14560,
+    "aug_2026": 5460,
+    "oct_dec_vs_avg": 1.19
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 74,
+    "top10_high": 133,
+    "top3": 284
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "docs_tavsifnoma",
+   "name": "Tavsifnoma",
+   "include": true,
+   "status": "живой гайд с 2026-10-24",
+   "owners": [
+    "/uz/blog/tavsifnoma-namuna/"
+   ],
+   "serp_type": "очень слабый: Scribd ×6, oriftolib, мелкие блоги",
+   "serp_aio": "r9",
+   "top3_discount": 0.655,
+   "serp_source": "serp1.json 48e0cfbe",
+   "demand_ads_low": 2320,
+   "demand_ads_high": 2320,
+   "demand_used": 2320,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "tavsifnoma namuna",
+     "volume": 1600,
+     "members": [
+      "tavsifnoma namuna"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "tavsifnoma",
+     "volume": 720,
+     "members": [
+      "tavsifnoma"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 2320,
+    "oct_dec_2025_avg": 2760,
+    "peak": 3700,
+    "sep_2026": 1040,
+    "aug_2026": 600,
+    "oct_dec_vs_avg": 1.19
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 14,
+    "top10_high": 26,
+    "top3": 55
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "docs_rezyume_obyektivka",
+   "name": "Rezyume + obyektivka (ma’lumotnoma)",
+   "include": true,
+   "status": "rezyume — живой гайд; obyektivka — страницы нет (O-05)",
+   "owners": [
+    "/uz/blog/rezyume-tayyorlash/",
+    "(нет) /uz/blog/obyektivka-namuna/"
+   ],
+   "serp_type": "obyektivka: генераторы tez-hujjat/obyektivka.uz сверху, затем PDF",
+   "serp_aio": "r4–r6",
+   "top3_discount": 0.655,
+   "serp_source": "serp1.json 48e0cfbe, serp3_table.txt",
+   "demand_ads_low": 10130,
+   "demand_ads_high": 12530,
+   "demand_used": 10130,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "obyektivka namuna",
+     "volume": 2400,
+     "members": [
+      "obyektivka namuna",
+      "obyektivka namunasi"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "rezyume tayyorlash",
+     "volume": 1900,
+     "members": [
+      "rezyume tayyorlash"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "rezyume",
+     "volume": 1600,
+     "members": [
+      "rezyume"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "rezyume namuna",
+     "volume": 1600,
+     "members": [
+      "rezyume namuna"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "ma'lumotnoma namuna",
+     "volume": 1600,
+     "members": [
+      "ma'lumotnoma namuna"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "obyektivka",
+     "volume": 1000,
+     "members": [
+      "obyektivka"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "obyektivka yozish",
+     "volume": 20,
+     "members": [
+      "obyektivka yozish"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "нейросеть для резюме",
+     "volume": 10,
+     "members": [
+      "нейросеть для резюме"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 10130,
+    "oct_dec_2025_avg": 8990,
+    "peak": 13620,
+    "sep_2026": 13620,
+    "aug_2026": 10310,
+    "oct_dec_vs_avg": 0.89
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 62,
+    "top10_high": 112,
+    "top3": 238
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "docs_biznes_reja",
+   "name": "Biznes reja",
+   "include": true,
+   "status": "живой гайд с 2026-10-07",
+   "owners": [
+    "/uz/blog/biznes-reja-tuzish/"
+   ],
+   "serp_type": "не снят",
+   "serp_aio": "приор",
+   "top3_discount": 0.655,
+   "serp_source": "AIO в 45 из 45 снятых 24.10 выдач рынка",
+   "demand_ads_low": 1350,
+   "demand_ads_high": 1350,
+   "demand_used": 1350,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "biznes reja",
+     "volume": 1000,
+     "members": [
+      "biznes reja"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "biznes reja tuzish",
+     "volume": 260,
+     "members": [
+      "biznes reja tuzish"
+     ],
+     "source": "kw3 (2026-10-25)"
+    },
+    {
+     "keyword": "biznes reja namuna",
+     "volume": 90,
+     "members": [
+      "biznes reja namuna"
+     ],
+     "source": "demand-policy.json (2026-10-07)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 1260,
+    "oct_dec_2025_avg": 1887,
+    "peak": 2190,
+    "sep_2026": 460,
+    "aug_2026": 300,
+    "oct_dec_vs_avg": 1.5
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 8,
+    "top10_high": 15,
+    "top3": 32
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "tabrik",
+   "name": "Tabrik (день рождения, Новый год)",
+   "include": true,
+   "status": "живой гайд с 2026-10-24",
+   "owners": [
+    "/uz/blog/tabrik-yozish/"
+   ],
+   "serp_type": "архивы на слабых доменах, Telegram, YouTube",
+   "serp_aio": "r4",
+   "top3_discount": 0.655,
+   "serp_source": "serp2.json 7aa3bce8",
+   "demand_ads_low": 4430,
+   "demand_ads_high": 4430,
+   "demand_used": 4430,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "tugilgan kun tabriklari",
+     "volume": 1300,
+     "members": [
+      "tugilgan kun tabriklari"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "tabriklar",
+     "volume": 1000,
+     "members": [
+      "tabriklar"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "yangi yil tabriklari",
+     "volume": 880,
+     "members": [
+      "yangi yil tabriklari"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "табриклар",
+     "volume": 590,
+     "members": [
+      "табриклар"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "табрик",
+     "volume": 480,
+     "members": [
+      "табрик"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "onaga tabrik",
+     "volume": 110,
+     "members": [
+      "onaga tabrik"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "tabrik yozish",
+     "volume": 20,
+     "members": [
+      "tabrik yozish"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "tabrik matni",
+     "volume": 20,
+     "members": [
+      "tabrik matni"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "tabrik so'zlari",
+     "volume": 10,
+     "members": [
+      "tabrik so'zlari"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ustozlar kuni tabrik",
+     "volume": 10,
+     "members": [
+      "ustozlar kuni tabrik"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "sms tabrik",
+     "volume": 10,
+     "members": [
+      "sms tabrik"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 4430,
+    "oct_dec_2025_avg": 7010,
+    "peak": 14060,
+    "sep_2026": 3030,
+    "aug_2026": 2930,
+    "oct_dec_vs_avg": 1.58
+   },
+   "gsc_28d": {
+    "clicks": 0,
+    "impressions": 0,
+    "position": null,
+    "uz_clicks": 0,
+    "uz_impressions": 0,
+    "top_queries": []
+   },
+   "impression_share_uz": 0.0,
+   "clicks_month": {
+    "today": 0,
+    "top10_low": 27,
+    "top10_high": 49,
+    "top3": 104
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  },
+  {
+   "id": "b2b_bots",
+   "name": "B2B: Telegram/AI-боты для бизнеса",
+   "include": true,
+   "status": "заморожен в demand-policy.json (bot-services)",
+   "owners": [
+    "/uz/biznes-uchun-ai-bot/",
+    "/ru/chat-bot-dlya-biznesa/",
+    "…"
+   ],
+   "serp_type": "курсы, туториалы, фриланс, объявления",
+   "serp_aio": "r1–r2",
+   "top3_discount": 0.655,
+   "serp_source": "serp_l6.json 59a6e29e",
+   "demand_ads_low": 70,
+   "demand_ads_high": 70,
+   "demand_used": 70,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "чат бот для бизнеса",
+     "volume": 10,
+     "members": [
+      "чат бот для бизнеса"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "разработка чат бота",
+     "volume": 10,
+     "members": [
+      "разработка чат бота"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ии для бизнеса",
+     "volume": 10,
+     "members": [
+      "ии для бизнеса"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "создание ии агента",
+     "volume": 10,
+     "members": [
+      "создание ии агента"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ai консультант",
+     "volume": 10,
+     "members": [
+      "ai консультант"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "ai ассистент",
+     "volume": 10,
+     "members": [
+      "ai ассистент"
+     ],
+     "source": "kw1 (L3, 2026-10-24)"
+    },
+    {
+     "keyword": "чат бот телеграм",
+     "volume": 10,
+     "members": [
+      "чат бот телеграм"
+     ],
+     "source": "kw2 (L3, 2026-10-24)"
+    }
+   ],
+   "unmeasured": [],
+   "season": {
+    "coverage_volume": 70,
+    "oct_dec_2025_avg": 50,
+    "peak": 70,
+    "sep_2026": 60,
+    "aug_2026": 50,
+    "oct_dec_vs_avg": 0.71
+   },
+   "gsc_28d": {
+    "clicks": 1,
+    "impressions": 824,
+    "position": 38.0,
+    "uz_clicks": 1.0,
+    "uz_impressions": 373.0,
+    "top_queries": [
+     [
+      "чат бот для сайту",
+      85
+     ],
+     [
+      "бот instagram direct",
+      63
+     ],
+     [
+      "savollarga javoblar beruvchi bot",
+      53
+     ],
+     [
+      "чат бот для сайта",
+      42
+     ],
+     [
+      "чат бот на заказ ташкент",
+      34
+     ]
+    ]
+   },
+   "impression_share_uz": 5.7929,
+   "clicks_month": {
+    "today": 1,
+    "top10_low": 1,
+    "top10_high": 1,
+    "top3": 2
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   },
+   "bare_kws": {
+    "volume": 2770,
+    "keywords": [
+     [
+      "чат бот",
+      1000,
+      [
+       "чат бот"
+      ]
+     ],
+     [
+      "chat bot",
+      880,
+      [
+       "chat bot"
+      ]
+     ],
+     [
+      "telegram bot",
+      720,
+      [
+       "telegram bot"
+      ]
+     ],
+     [
+      "ai bot",
+      170,
+      [
+       "ai bot"
+      ]
+     ]
+    ],
+    "unmeasured": []
+   },
+   "note": "коммерческие фразы «telegram bot narxi», «chat bot yaratish», «ai bot biznes uchun», «crm integratsiya» вернули null (L3 §1 п.6)"
+  },
+  {
+   "id": "b2b_agency",
+   "name": "B2B: агентские услуги (сайт, SMM, таргет, Telegram Ads)",
+   "include": true,
+   "status": "живые страницы; вне задачи AI-продукта, для полноты",
+   "owners": [
+    "/uz/sayt-yaratish/",
+    "/uz/smm-xizmatlari/",
+    "…"
+   ],
+   "serp_type": "местные агентства, блоги; telegram ads: #1 ads.telegram.org",
+   "serp_aio": "—",
+   "top3_discount": 0.655,
+   "serp_source": "demand-policy.json notes",
+   "demand_ads_low": 12390,
+   "demand_ads_high": 13020,
+   "demand_used": 12390,
+   "demand_basis": "Google Ads (12-мес. среднее, дедуп.)",
+   "buckets": [
+    {
+     "keyword": "telegram ads",
+     "volume": 6600,
+     "members": [
+      "telegram ads"
+     ],
+     "source": "demand-policy.json (2026-08-26)"
+    },
+    {
+     "keyword": "sayt yaratish",
+     "volume": 1300,
+     "members": [
+      "sayt yaratish"
+     ],
+     "source": "demand-policy.json (2026-08-01)"
+    },
+    {
+     "keyword": "ads telegram",
+     "volume": 1000,
+     "members": [
+      "ads telegram"
+     ],
+     "source": "demand-policy.json (2026-08-26)"
+    },
+    {
+     "keyword": "marketing nima",
+     "volume": 880,
+     "members": [
+      "marketing nima"
+     ],
+     "source": "demand-policy.json (2026-08-22)"
+    },
+    {
+     "keyword": "smm nima",
+     "volume": 720,
+     "members": [
+      "smm nima"
+     ],
+     "source": "demand-policy.json (2026-08-21)"
+    },
+    {
+     "keyword": "target nima",
+     "volume": 390,
+     "members": [
+      "target nima"
+     ],
+     "source": "demand-policy.json (2026-08-26)"
+    },
+    {
+     "keyword": "sayt yaratish xizmati",
+     "volume": 260,
+     "members": [
+      "sayt yaratish xizmati",
+      "web sayt yaratish",
+      "target yoqish"
+     ],
+     "source": "demand-policy.json (2026-08-21)"
+    },
+    {
+     "keyword": "создание сайтов ташкент",
+     "volume": 260,
+     "members": [
+      "создание сайтов ташкент"
+     ],
+     "source": "demand-policy.json (2026-08-01)"
+    },
+    {
+     "keyword": "veb sayt yaratish",
+     "volume": 210,
+     "members": [
+      "veb sayt yaratish"
+     ],
+     "source": "demand-policy.json (2026-08-01)"
+    },
+    {
+     "keyword": "instagram target yoqish",
+     "volume": 170,
+     "members": [
+      "instagram target yoqish"
+     ],
+     "source": "demand-policy.json (2026-10-07)"
+    },
+    {
+     "keyword": "разработка сайтов ташкент",
+     "volume": 110,
+     "members": [
+      "разработка сайтов ташкент",
+      "разработка сайтов в ташкенте"
+     ],
+     "source": "demand-policy.json (2026-08-01)"
+    },
+    {
+     "keyword": "smm xizmatlari",
+     "volume": 110,
+     "members": [
+      "smm xizmatlari"
+     ],
+     "source": "demand-policy.json (2026-08-21)"
+    },
+    {
+     "keyword": "bepul sayt yaratish",
+     "volume": 70,
+     "members": [
+      "bepul sayt yaratish"
+     ],
+     "source": "demand-policy.json (2026-08-01)"
+    },
+    {
+     "keyword": "реклама в телеграм",
+     "volume": 70,
+     "members": [
+      "реклама в телеграм"
+     ],
+     "source": "demand-policy.json (2026-08-26)"
+    },
+    {
+     "keyword": "telegram reklama",
+     "volume": 70,
+     "members": [
+      "telegram reklama"
+     ],
+     "source": "demand-policy.json (2026-08-21)"
+    },
+    {
+     "keyword": "sayt yaratish narxi",
+     "volume": 50,
+     "members": [
+      "sayt yaratish narxi"
+     ],
+     "source": "demand-policy.json (2026-08-01)"
+    },
+    {
+     "keyword": "instagram target",
+     "volume": 50,
+     "members": [
+      "instagram target"
+     ],
+     "source": "demand-policy.json (2026-10-06)"
+    },
+    {
+     "keyword": "seo xizmati",
+     "volume": 40,
+     "members": [
+      "seo xizmati"
+     ],
+     "source": "demand-policy.json (2026-08-22)"
+    },
+    {
+     "keyword": "sayt ochish",
+     "volume": 30,
+     "members": [
+      "sayt ochish"
+     ],
+     "source": "demand-policy.json (2026-08-01)"
+    }
+   ],
+   "unmeasured": [],
+   "season": null,
+   "gsc_28d": {
+    "clicks": 5,
+    "impressions": 1907,
+    "position": 27.2,
+    "uz_clicks": 5.0,
+    "uz_impressions": 1415.0,
+    "top_queries": [
+     [
+      "продвижение сайтов",
+      84
+     ],
+     [
+      "разработка сайтов",
+      64
+     ],
+     [
+      "разработка сайтов в ташкенте",
+      62
+     ],
+     [
+      "разработка сайтов ташкент",
+      58
+     ],
+     [
+      "target nima",
+      57
+     ]
+    ]
+   },
+   "impression_share_uz": 0.1242,
+   "clicks_month": {
+    "today": 5,
+    "top10_low": 76,
+    "top10_high": 137,
+    "top3": 292
+   },
+   "ctr_used": {
+    "top10_low": 0.00613,
+    "top10_high": 0.01105,
+    "top3": 0.03593
+   }
+  }
+ ],
+ "excluded": [
+  {
+   "id": "nav_translate",
+   "name": "Навигация к переводчику Google/Яндекс и голые «tarjimon/переводчик»",
+   "demand_ads": 6369850,
+   "top": [
+    [
+     "переводчик",
+     4090000
+    ],
+    [
+     "tarjimon",
+     1220000
+    ],
+    [
+     "tarjima",
+     550000
+    ],
+    [
+     "гугл переводчик",
+     165000
+    ],
+    [
+     "tarjima qilish",
+     135000
+    ],
+    [
+     "таржимон",
+     60500
+    ]
+   ],
+   "why": "навигация к Google Translate / Yandex: в топ-10 «tarjimon» 4 результата Google Translate и 3 Yandex (translator-market.md §2)"
+  },
+  {
+   "id": "translate_photo_voice_dict",
+   "name": "Перевод по фото/голосом, словарь",
+   "demand_ads": 30720,
+   "top": [
+    [
+     "google tarjimon rasm orqali",
+     27100
+    ],
+    [
+     "переводчик с узбекского на русский по фото",
+     2900
+    ],
+    [
+     "голосовой переводчик с узбекского на русский",
+     720
+    ]
+   ],
+   "why": "продукт не переводит фото и голос, словаря нет (translator-market.md §1.5 п.4)"
+  },
+  {
+   "id": "other_ai_brands",
+   "name": "Бренды других ИИ",
+   "demand_ads": 2478800,
+   "top": [
+    [
+     "gemini",
+     1500000
+    ],
+    [
+     "gemini ai",
+     450000
+    ],
+    [
+     "claude ai",
+     135000
+    ],
+    [
+     "deepseek",
+     90500
+    ],
+    [
+     "grok",
+     74000
+    ],
+    [
+     "chatgpt 4",
+     74000
+    ]
+   ],
+   "why": "навигация к чужим продуктам (L3 §7); gamma ai — бренд-инструмент презентаций"
+  },
+  {
+   "id": "test_banks_answers",
+   "name": "Банки тестов и «ответы на тесты»",
+   "demand_ads": 177700,
+   "top": [
+    [
+     "informatika test",
+     49500
+    ],
+    [
+     "fizika test",
+     40500
+    ],
+    [
+     "matematika test",
+     27100
+    ],
+    [
+     "dtm test",
+     18100
+    ],
+    [
+     "dtm test javoblari",
+     18100
+    ],
+    [
+     "test savollari",
+     12100
+    ]
+   ],
+   "why": "SERP — банки тестов (qnb.uz, ziyonet) и утечки ключей ДТМ; ИИ не знает официальных ответов, сгенерированный «ответ» вредит (L3 §7)"
+  },
+  {
+   "id": "gdz_brand_solvers",
+   "name": "ГДЗ и бренды решателей",
+   "demand_ads": 8450,
+   "top": [
+    [
+     "гдз",
+     5400
+    ],
+    [
+     "photomath",
+     2400
+    ],
+    [
+     "gdz uz",
+     320
+    ],
+    [
+     "гдз по фото",
+     260
+    ],
+    [
+     "гдз узбекистан",
+     70
+    ]
+   ],
+   "why": "архивы готовых ответов и навигация к приложению Photomath"
+  }
+ ],
+ "summary": {
+  "totals_clicks_month": {
+   "today": 1721,
+   "top10_low": 4976,
+   "top10_high": 7688,
+   "top3": 13184
+  },
+  "totals_clicks_day": {
+   "today": 57,
+   "top10_low": 163,
+   "top10_high": 253,
+   "top3": 433
+  },
+  "ga4_sessions_per_gsc_click": 1.77,
+  "visits_day_if_channel_mix_holds": {
+   "today": 100,
+   "top10_low": 289,
+   "top10_high": 447,
+   "top3": 767
+  },
+  "flat_rows": {
+   "other_visible_clicks_28d": 7,
+   "anonymized_clicks_28d": 377,
+   "monthly": 417
+  },
+  "top5_by_top3": [
+   [
+    "translator_ru_uz",
+    5760
+   ],
+   [
+    "translator_en_uz",
+    998
+   ],
+   [
+    "ai_chat_brand_modifier",
+    839
+   ],
+   [
+    "chatgpt_howto",
+    619
+   ],
+   [
+    "math_examples_generator",
+    551
+   ]
+  ],
+  "top5_by_top10_high": [
+   [
+    "translator_ru_uz",
+    3321
+   ],
+   [
+    "chatgpt_howto",
+    606
+   ],
+   [
+    "translator_en_uz",
+    576
+   ],
+   [
+    "ai_chat_brand_modifier",
+    394
+   ],
+   [
+    "math_examples_generator",
+    259
+   ]
+  ],
+  "top5_by_top3_growth": [
+   [
+    "translator_ru_uz",
+    5760
+   ],
+   [
+    "translator_en_uz",
+    998
+   ],
+   [
+    "math_examples_generator",
+    551
+   ],
+   [
+    "ai_chat_brand_modifier",
+    538
+   ],
+   [
+    "school_slayd",
+    398
+   ]
+  ],
+  "top5_by_top10_growth": [
+   [
+    "translator_ru_uz",
+    3321
+   ],
+   [
+    "translator_en_uz",
+    576
+   ],
+   [
+    "math_examples_generator",
+    259
+   ],
+   [
+    "school_slayd",
+    187
+   ],
+   [
+    "solver_misol_masala",
+    182
+   ]
+  ],
+  "sensitivity": {
+   "top3_ctr_pos2_thin_cell_no_discount": {
+    "ctr": 0.0851,
+    "source": "L1 §3.3 pos 2, no chats: 8/94 (thin)",
+    "clicks_month": 51367
+   },
+   "top3_no_aio_discount": {
+    "clicks_month": 22151
+   },
+   "translator_ru_uz_top10_if_translate_box": {
+    "discount": 0.533,
+    "clicks_month": [
+     983,
+     1771
+    ]
+   },
+   "math_generator_without_suspect_series": {
+    "keyword": "matematika misollar",
+    "series_oct25_to_sep26": [
+     480,
+     880,
+     3600,
+     12100,
+     33100,
+     14800,
+     22200,
+     18100,
+     18100,
+     14800,
+     12100,
+     49500
+    ],
+    "demand": 5320
+   },
+   "calibration_first_month_K": 0.04
+  },
+  "top5_share_of_top3_growth": 0.686
+ }
+}
