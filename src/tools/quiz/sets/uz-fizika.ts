@@ -103,7 +103,7 @@ export const uzFizika: QuizSet = {
       q: 'Jism tinch holatdan 2 m/s² tezlanish bilan harakatlana boshladi. 5 s da u qancha yo‘l bosadi?',
       options: ['10 m', '50 m', '25 m', '20 m'],
       answer: 2,
-      explanation: 'Boshlang‘ich tezlik nolga teng bo‘lgan tekis tezlanuvchan harakatda s = a · t² : 2 = 2 · 5² : 2 = 2 · 25 : 2 = 25 m. 50 m — 2 ga bo‘lish unutilgan; 10 m — vaqt kvadratga ko‘tarilmagan (a · t).',
+      explanation: 'Boshlang‘ich tezlik nolga teng bo‘lgan tekis tezlanuvchan harakatda s = a · t² : 2 = 2 · 5² : 2 = 2 · 25 : 2 = 25 m. 50 m — 2 ga bo‘lish unutilgan; 10 m — vaqt kvadratga ko‘tarilmagan va 2 ga bo‘linmagan (a · t = 10): bu yo‘l emas, 5 s oxiridagi tezlik (10 m/s).',
     },
     {
       id: 'fiz-11',
@@ -250,7 +250,7 @@ export const uzFizika: QuizSet = {
       q: 'Massasi 2 kg bo‘lgan to‘p 3 m/s tezlik bilan uchmoqda. Uning kinetik energiyasi qancha?',
       options: ['6 J', '9 J', '18 J', '3 J'],
       answer: 1,
-      explanation: 'Kinetik energiya E = m · v² : 2 = 2 · 3² : 2 = 2 · 9 : 2 = 9 J. 18 J — 2 ga bo‘lish unutilgan, 6 J — tezlik kvadratga ko‘tarilmagan. Tezlik ikki marta oshsa, kinetik energiya to‘rt marta oshadi.',
+      explanation: 'Kinetik energiya E = m · v² : 2 = 2 · 3² : 2 = 2 · 9 : 2 = 9 J. 18 J — 2 ga bo‘lish unutilgan, 6 J — tezlik kvadratga ko‘tarilmagan va 2 ga bo‘linmagan (2 · 3), 3 J — faqat kvadrat unutilgan (2 · 3 : 2). Tezlik ikki marta oshsa, kinetik energiya to‘rt marta oshadi.',
     },
     {
       id: 'fiz-27',

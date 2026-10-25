@@ -191,7 +191,7 @@ export const uzInformatika: QuizSet = {
       id: 'inf-20',
       grade: 8,
       topic: 'Algoritmlar',
-      q: 'Sikl i = 1 dan boshlanadi, har qadamda i ga 3 qo‘shiladi va i ≤ 10 bo‘lguncha davom etadi. Sikl tanasi necha marta bajariladi?',
+      q: 'Sikl i = 1 dan boshlanadi, har qadamda i ga 3 qo‘shiladi va sikl i ≤ 10 sharti rost bo‘lgan paytda davom etadi. Sikl tanasi necha marta bajariladi?',
       options: ['3', '4', '5', '10'],
       answer: 1,
       explanation: 'i ning qiymatlarini ketma-ket yozamiz: 1, 4, 7, 10 — har birida i ≤ 10 rost, tana bajariladi. Keyingi qiymat 13: shart yolg‘on, sikl to‘xtaydi. Jami 4 marta. Siklni sanashda chegaraviy qiymatni (10) albatta tekshiring: shart «i < 10» bo‘lganda u kirmasdi va javob 3 bo‘lardi.',
