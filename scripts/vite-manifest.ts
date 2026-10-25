@@ -31,6 +31,7 @@ export const ENTRIES = {
   translit: 'src/uz-translit/main.ts',
   calculatorWidget: 'src/tools/calculator/main.ts',
   irregularVerbs: 'src/tools/irregular-verbs/main.ts',
+  practiceQuiz: 'src/tools/quiz/main.ts',
 } as const;
 
 /** The chat's lazy part for AI tool pages (src/gpt-chat/lazy-part.tsx toolPart): a page with chips preloads it. */

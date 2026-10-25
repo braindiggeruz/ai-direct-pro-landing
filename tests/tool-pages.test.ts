@@ -171,7 +171,7 @@ test('starters only on a tool page: no role or another page type, no attribute a
 // ── Widgets ─────────────────────────────────────────────────────────────────
 
 test('widgets: a closed list, no repeats, each with its own Vite entry built by vite.config.ts', () => {
-  assert.deepEqual([...PAGE_WIDGETS], ['uz-translit', 'calculator', 'irregular-verbs']);
+  assert.deepEqual([...PAGE_WIDGETS], ['uz-translit', 'calculator', 'irregular-verbs', 'practice-quiz']);
   assert.deepEqual(pageWidgetIssues(['calculator', 'irregular-verbs']), []);
   assert.match(pageWidgetIssues('calculator').join(), /not an array/);
   assert.match(pageWidgetIssues([]).join(), /empty/);
@@ -183,7 +183,7 @@ test('widgets: a closed list, no repeats, each with its own Vite entry built by 
     assert.ok(vite.includes(`here('./${source}')`), `${widget}: ${source} is a Vite input`);
   }
   const manifest: ViteManifest = Object.fromEntries(PAGE_WIDGETS.map((widget, i) => [ENTRIES[WIDGET_ENTRY[widget]], { file: `assets/w${i}-H.js`, isEntry: true }]));
-  assert.deepEqual(widgetScriptsFrom(manifest), { 'uz-translit': '/assets/w0-H.js', calculator: '/assets/w1-H.js', 'irregular-verbs': '/assets/w2-H.js' });
+  assert.deepEqual(widgetScriptsFrom(manifest), { 'uz-translit': '/assets/w0-H.js', calculator: '/assets/w1-H.js', 'irregular-verbs': '/assets/w2-H.js', 'practice-quiz': '/assets/w3-H.js' });
   assert.throws(() => widgetScriptsFrom({}), /not in the manifest/, 'a widget without its script stops the build');
 });
 
@@ -246,7 +246,7 @@ test('the translator pages: the translator role and the converter, as before, th
 test('the protected chats carry no tool field, so their HTML changes by asset names only', () => {
   const protectedPaths = new Set<string>(PROTECTED_PATHS);
   for (const page of pages.filter((p) => protectedPaths.has(p.url))) {
-    for (const field of ['chatRole', 'chatStarters', 'widgets'] as const) assert.equal(page[field], undefined, `${page.url}.${field}`);
+    for (const field of ['chatRole', 'chatStarters', 'widgets', 'quizSet'] as const) assert.equal(page[field], undefined, `${page.url}.${field}`);
   }
   for (const chat of [chatRu, chatUz]) {
     assert.equal(chatRoleAttributes(chat), '');

@@ -29,7 +29,7 @@ import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import { renderHeroTrustChip } from './hero-trust';
 import { pageModifiedDate } from './content-dates';
 import { chatRoleAttributes } from './translator-page';
-import { assertToolPage, chatToolHead, renderToolWidgets, starterFrame, toolWidgetScripts, widgetScriptsFrom, type WidgetScripts } from './tool-widgets';
+import { assertToolPage, chatToolHead, renderToolWidgets, starterFrame, toolJsonLd, toolWidgetScripts, widgetScriptsFrom, type WidgetScripts } from './tool-widgets';
 import { asPreviewPage, previewDraftUrls } from './preview-drafts';
 import {
   buildOrganizationLd,
@@ -415,6 +415,10 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
       })),
     });
   }
+
+  // An AI tool page's widgets that describe themselves (the practice quiz as
+  // a schema.org Quiz); nothing on every other page.
+  graph.push(...toolJsonLd(page, fullUrl));
 
   // Page-scoped extra entities (e.g. the Boss Digital agency node on
   // /boss-digital/ that references the GPTBot org via department @id).

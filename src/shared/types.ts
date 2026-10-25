@@ -26,8 +26,9 @@ export type { ChatStarter } from './chat-starters';
  * The in-browser tools a gpt-chat page with a role may show under the chat
  * (Page.widgets), each prerendered as static HTML and bound by its own Vite
  * entry, loaded only on a page that lists it. None calls the model.
+ * 'practice-quiz' shows the question set Page.quizSet names.
  */
-export const PAGE_WIDGETS = ['uz-translit', 'calculator', 'irregular-verbs'] as const;
+export const PAGE_WIDGETS = ['uz-translit', 'calculator', 'irregular-verbs', 'practice-quiz'] as const;
 export type PageWidget = typeof PAGE_WIDGETS[number];
 /** What is wrong with a widgets value; [] when it is valid. */
 export function pageWidgetIssues(value: unknown): string[] {
@@ -204,6 +205,14 @@ export interface Page {
    * (src/shared/chat-prefill.ts); it never sends.
    */
   widgets?: PageWidget[];
+  /**
+   * Only with widgets listing 'practice-quiz' (and that widget needs it): the
+   * id of the question set it shows, a data module registered in
+   * src/tools/quiz/sets/index.ts (format: src/tools/quiz/set.ts), in the
+   * page's language. Prerendered whole, the answer key and its explanation in
+   * a <details> under each question.
+   */
+  quizSet?: string;
 
   bodyBlocks: BodyBlock[];
   faq: FaqItem[];

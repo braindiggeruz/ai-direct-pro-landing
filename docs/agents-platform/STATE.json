@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "AI tools wave A per owner order 25.10 committed on seo/chat-snippets-translator-20261024 (see seo_ai_tools_wave_a_20261025): nine gpt-chat tool pages, the retargeted /uz/gpt-telegram-instagram-ideya/, two Uzum seller guides, ad-client funnel sections, intent-manifest C53–C68 + A9, protected revision 2026-10-25-ai-tools; not deployed (production 62d8fdb0, deployment 97f56ab5)",
+  "current_stage": "AI tools wave A deployed 25.10 (deployment 8d4c8b4e from 99920cdc, see seo_ai_tools_wave_a_20261025); wave B in progress on seo/chat-snippets-translator-20261024: practice-quiz widget committed (see practice_quiz_widget_20261025), content not yet",
   "stage_status": "complete",
   "last_completed_stage": "AI tools wave A content commit on top of the platform commit af0446fe (see seo_ai_tools_wave_a_20261025 and chat_tool_platform_20261025)",
-  "next_stage": "Guarded release of AI tools wave A on owner command: native Uzbek read of the poems and greetings first (the label «jamoa tahriri» must be true), then merge into the deploy line, npm run build:production, deploy_runner.py check|deploy, live content check (11 new URLs, homepage lists, protected 10/10 on live HTML), IndexNow and URL Inspection",
+  "next_stage": "AI tools wave B content (integrator): original question sets for the tests pilot (informatika, fizika, matematika; 40-60 questions with explanations each) as src/tools/quiz/sets/<id>.ts on pages with widgets [\"practice-quiz\"] and quizSet, plus the English tenses pages; registry rows, protected revision if the homepage changes, then a guarded release on owner command",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -2831,5 +2831,21 @@
     "releaseGate": "a native Uzbek speaker must read the 14 poems and the Uzbek greetings before deploy (so «jamoa tahriri» is true); calculator SERP to be looked at from Uzbekistan once before reading results",
     "changeLog": "docs/seo/CHANGE_LOG_2026-10.md «AI-инструменты, волна A 25.10»",
     "notDone": "not deployed, not pushed; no IndexNow; no link from the protected chats (after their 28-day window ≈21–25.11); scripts/chat-layout-check.mjs not run for the tool pages (browser)"
+  },
+  "practice_quiz_widget_20261025": {
+    "status": "committed_not_deployed",
+    "ownerOrder": "2026-10-25: every new page is an AI tool of GPTBot.uz tied to the AI theme and to conversion; tests are original practice questions with explanations, never leaked exam answers, no claim of official DTM/BMBA material",
+    "commit": "the commit that adds this block (git log -1 --format=%H -- src/tools/quiz/set.ts)",
+    "base": "07fa6d36 (wave A deployed: deployment 8d4c8b4e from 99920cdc)",
+    "branch": "seo/chat-snippets-translator-20261024",
+    "pageFields": "widgets includes 'practice-quiz' together with quizSet: '<set id>' (each needs the other; only on a gpt-chat page with a chatRole)",
+    "setFormat": "src/tools/quiz/sets/<id>.ts exporting a QuizSet {id, locale ru|uz, subject, title, questions: [{id, grade? 1-11, topic, q, options: 4 strings, answer: 0-3, explanation}]}, registered in src/tools/quiz/sets/index.ts QUIZ_SETS; limits and checks in src/tools/quiz/set.ts quizSetIssues; request for the chat <= 1500 characters per question",
+    "render": "scripts/widgets/practice-quiz-block.ts: h2, honest intro, hidden-until-JS bar (grade/topic selects when more than one value, score, restart), every question with 4 options and a native <details> with the key and the explanation; scripts/prerender.ts buildJsonLd adds one schema.org Quiz via toolJsonLd",
+    "entry": "src/tools/quiz/main.ts (Vite input practice-quiz, 4.6 kB, 1.7 kB br, no shared chunk): instant check, first pick counts, score over the questions shown, grade/topic choice, restart, «AI bilan tushuntirish / Объяснить с AI» prefill via gptbot:prefill, never sends, no request",
+    "tailwind": "'!./src/tools/quiz/sets/**' in tailwind.config.js content; a probe in that folder leaves the Tailwind output byte-identical",
+    "htmlIdentity": "build:fast in an isolated worktree vs the production build of 99920cdc: 986 of 986 common files byte-identical, the only new file assets/practice-quiz-FAFRG24f.js; index-B7Z1XlOc.css and gpt-chat-cfOqBGh8.js unchanged; seo-protection check 10/10 unchanged; chat-bundle-budget within budget",
+    "tests": "practice-quiz 16, tool-pages 18, chat-bundle-budget 11, gpt-chat-prerender-links 14, seo-protection 15, irregular-verbs 11, calculator-engine 58, translator-pages 13 pass; tsc -b and typecheck:functions exit 0; eslint on touched files 0",
+    "browserCheck": "temporary draft page with a temporary 4-question Uzbek set in an isolated worktree (deleted, never committed): pick, marks, explanation, score, grade/topic choice, none and done messages, restart, prefill of the composer without sending, escaped markup, 375 px without horizontal scroll",
+    "notDone": "no real question set, no content page, no registry rows (integrator); no separate study-test role; not deployed, not pushed"
   }
 }

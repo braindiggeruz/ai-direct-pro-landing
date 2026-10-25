@@ -49,15 +49,15 @@ export default defineConfig({
     manifest: true,
     minify: 'esbuild',
     rollupOptions: {
-      // Six entries:
+      // Seven entries:
       //   index     → landing SPA (index.html), chunk stays "index-[hash].js"
       //   gpt-chat  → standalone AI-chat island, emitted as
       //               "assets/gpt-chat-[hash].js" and injected ONLY on
       //               pageType === 'gpt-chat' pages by scripts/prerender.ts.
       //   telegram-cost-calculator → isolated lead-magnet tool, injected ONLY
       //               on the money page that opts in via interactiveTool.
-      //   uz-translit, calculator-widget, irregular-verbs → the widgets of the
-      //               AI tool pages (Page.widgets, scripts/tool-widgets.ts),
+      //   uz-translit, calculator-widget, irregular-verbs, practice-quiz → the
+      //               widgets of the AI tool pages (Page.widgets, scripts/tool-widgets.ts),
       //               each injected ONLY on a gpt-chat page that lists it. They
       //               share no module with the chat (a type import at most), so
       //               no chunk of theirs reaches the chat's modulepreloads.
@@ -68,6 +68,7 @@ export default defineConfig({
         'uz-translit': here('./src/uz-translit/main.ts'),
         'calculator-widget': here('./src/tools/calculator/main.ts'),
         'irregular-verbs': here('./src/tools/irregular-verbs/main.ts'),
+        'practice-quiz': here('./src/tools/quiz/main.ts'),
       },
       output: {
         manualChunks(id) {

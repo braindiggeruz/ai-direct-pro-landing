@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', './scripts/**/*.{js,ts}'],
+  // The practice quiz's question sets (src/tools/quiz/sets/) are data, not
+  // markup: their words must never add a rule to the shared stylesheet.
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', './scripts/**/*.{js,ts}', '!./src/tools/quiz/sets/**'],
   theme: {
     extend: {
       colors: {
