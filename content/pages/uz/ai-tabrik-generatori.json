@@ -125,7 +125,7 @@
     },
     {
       "type": "linkp",
-      "text": "Quyidagi namunalar shu sahifa uchun AI yordamida yozilgan va jamoa tomonidan tahrir qilingan. Kvadrat qavsdagi joylarni almashtiring va bitta jumlani o‘zingizdan qo‘shing — shunda tabrik shablonga o‘xshamaydi. Tabrik tuzilmasi va boshqa namunalar — {guide}da.",
+      "text": "Quyidagi namunalar shu sahifa uchun AI yordamida yozilgan namunalar. Kvadrat qavsdagi joylarni almashtiring va bitta jumlani o‘zingizdan qo‘shing — shunda tabrik shablonga o‘xshamaydi. Tabrik tuzilmasi va boshqa namunalar — {guide}da.",
       "links": [
         {
           "token": "guide",
@@ -320,7 +320,7 @@
     },
     {
       "q": "Namunalardan foydalansam bo‘ladimi?",
-      "a": "Ha, shaxsiy tabrik uchun bemalol. Ular shu sahifa uchun AI yordamida yozilgan va jamoa tomonidan tahrir qilingan. Kvadrat qavsdagi joylarni almashtiring va bitta shaxsiy jumla qo‘shing."
+      "a": "Ha, shaxsiy tabrik uchun bemalol. Ular shu sahifa uchun AI yordamida yozilgan namunalar. Kvadrat qavsdagi joylarni almashtiring va bitta shaxsiy jumla qo‘shing."
     },
     {
       "q": "Bu ChatGPT’mi?",
