@@ -1,0 +1,412 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/kalkulyator/",
+  "slug": "kalkulyator",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Tenglama yechimini tushuntir",
+      "prompt": "Bu tenglamani qanday yechishni bosqichma-bosqich tushuntir, toki yechimni o‘zim takrorlay olay. Har bir qadamni bitta gap bilan izohla.\nTenglama: "
+    },
+    {
+      "label": "Foizni hisoblash",
+      "prompt": "Mening misolimda foiz qanday hisoblanishini tushuntir: summaning foizini qanday topish, uni qanday qo‘shish va qanday ayirish kerak.\nSumma: \nFoiz: "
+    },
+    {
+      "label": "Masala: tezlik, vaqt, masofa",
+      "prompt": "Tezlik, vaqt va masofaga oid masalani tushunishga yordam ber. Javobni darhol aytma: avval qaysi formulani tanlash kerakligini va nega shundayligini tushuntir.\nShart: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir va xato bo‘lsa, qayerdaligini tushuntir. Men tuzatishga urinib ko‘rmagunimcha to‘g‘ri javobni yozma.\nMasala: \nMening yechimim: "
+    },
+    {
+      "label": "Amallar tartibi",
+      "prompt": "Bu misolda amallarni qaysi tartibda bajarish kerakligini va nega shundayligini bosqichma-bosqich tushuntir: qavslar, daraja, ko‘paytirish va bo‘lish, qo‘shish va ayirish.\nMisol: "
+    },
+    {
+      "label": "Sinus va logarifm nima",
+      "prompt": "Sinus, kosinus, tangens va logarifm nima ekanini, ular hayotda va masalalarda qachon kerak bo‘lishini oddiy so‘zlar bilan tushuntir. Har biriga kalkulyatorda tekshirsa bo‘ladigan bittadan misol ber."
+    }
+  ],
+  "widgets": [
+    "calculator"
+  ],
+  "primaryKeyword": "kalkulyator",
+  "secondaryKeywords": [
+    "onlayn kalkulyator",
+    "kalkulyator online",
+    "kalkulator",
+    "kalkulyatr",
+    "ilmiy kalkulyator",
+    "foiz hisoblash",
+    "foizni hisoblash",
+    "foiz kalkulyator",
+    "misol yechish",
+    "masala yechish"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Onlayn kalkulyator: AI misolni bosqichma-bosqich tushuntiradi",
+  "title": "Onlayn kalkulyator: foiz, daraja, ildiz va AI tushuntirish",
+  "description": "Bepul onlayn kalkulyator: foiz, daraja, ildiz, sin va log, limitsiz. AI yechimni bosqichma-bosqich tushuntiradi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/kalkulyator/",
+  "hreflangRu": "/ru/kalkulyator/",
+  "hreflangUz": "/uz/kalkulyator/",
+  "hreflangXDefault": "/uz/kalkulyator/",
+  "ogTitle": "Onlayn kalkulyator: foiz, daraja, ildiz va AI tushuntirish",
+  "ogDescription": "Bepul onlayn kalkulyator: foiz, daraja, ildiz, sin va log, limitsiz. AI yechimni bosqichma-bosqich tushuntiradi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Onlayn kalkulyator",
+  "heroTitle": "Onlayn kalkulyator: AI misolni bosqichma-bosqich tushuntiradi",
+  "heroSubtitle": "Kalkulyator bepul va limitsiz; yechimni AI tushuntiradi — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Misolni yuqoridagi {calc} hisoblang: u brauzerning o‘zida ishlaydi, AI’ga so‘rov yubormaydi va limiti yo‘q. Faqat javob emas, yechimning mantig‘i ham kerak bo‘lsa, «AI bilan tushuntirish» tugmasini bosing: misol javobi bilan birga chat maydoniga tushadi, «O‘qituvchi» rolidagi chat esa yechimni bosqichma-bosqich tushuntiradi. Savolni tekshirib, o‘zingiz yuborasiz.",
+      "links": [
+        {
+          "token": "calc",
+          "target": "#kalkulyator",
+          "anchor": "kalkulyatorda"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kalkulyator har doim bepul. Tushuntirishlarni GPTBot.uz AI chati beradi — bu mustaqil servis, OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi. Sinov javoblarini AI chatda yoki saytning boshqa sahifalarida ishlatib bo‘lgan bo‘lsangiz, bu yerda ular qayta berilmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-foydalanish",
+      "text": "Kalkulyatordan qanday foydalanish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Misolni tugmalar yoki klaviatura bilan kiriting: Enter — hisoblash, Esc — tozalash. Kasr qismini nuqta yoki vergul bilan ajrating: 180 ÷ 2,5 = 72.",
+        "Qavslar amallar tartibini belgilaydi: (2 + 3) × 4 = 20, qavssiz esa 2 + 3 × 4 = 14.",
+        "Daraja — ^ tugmasi: 2^10 = 1024. Kvadrat ildiz — √ tugmasi: √144 = 12.",
+        "sin, cos va tan uchun avval gradus yoki radianni tanlang: gradusda sin 30 = 0.5.",
+        "Tarix oxirgi 10 ta misolni ko‘rsatadi. U faqat ochiq sahifa xotirasida turadi, sahifa yangilanganda o‘chadi va hech qayerga yuborilmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "foiz-hisoblash",
+      "text": "Foizni qanday hisoblash mumkin: misollar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Nima kiritiladi",
+        "Javob"
+      ],
+      "rows": [
+        [
+          "240 000 ning 15 foizi",
+          "240000 × 15%",
+          "36 000"
+        ],
+        [
+          "240 000 ga 15 foiz qo‘shish",
+          "240000 + 15%",
+          "276 000"
+        ],
+        [
+          "350 000 so‘mlik mahsulotga 20 foiz chegirma",
+          "350000 − 20%",
+          "280 000"
+        ],
+        [
+          "4 500 000 so‘mlik oylikning 10 foizini jamg‘arish",
+          "4500000 × 10%",
+          "450 000"
+        ],
+        [
+          "45 soni 180 ning necha foizi",
+          "45 ÷ 180 × 100",
+          "25"
+        ],
+        [
+          "Narx 200 000 dan 230 000 ga oshdi: necha foiz",
+          "(230000 − 200000) ÷ 200000 × 100",
+          "15"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Qo‘shish va ayirishda % belgisi chapdagi sondan hisoblanadi: 200 + 10% = 220, 200 − 10% = 180. Ko‘paytirishda foiz shunchaki ulush: 200 × 10% = 20. Qaysi amalni tanlashni bilmasangiz, AI’dan so‘rang: u mantiqni aynan sizning misolingizda tushuntiradi."
+    },
+    {
+      "type": "h2",
+      "id": "kundalik-hisoblar",
+      "text": "Kundalik va ilmiy hisob-kitoblar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Nima kiritiladi",
+        "Javob"
+      ],
+      "rows": [
+        [
+          "486 000 so‘mlik hisobni olti kishiga bo‘lish",
+          "486000 ÷ 6",
+          "81 000"
+        ],
+        [
+          "1,5 kg 54 000 so‘m bo‘lsa, 1 kg narxi",
+          "54000 ÷ 1,5",
+          "36 000"
+        ],
+        [
+          "5, 4, 5 va 3 baholarining o‘rtachasi",
+          "(5 + 4 + 5 + 3) ÷ 4",
+          "4.25"
+        ],
+        [
+          "Radiusi 5 sm bo‘lgan aylananing uzunligi",
+          "2 × π × 5",
+          "31.4159265359"
+        ],
+        [
+          "Sonning kvadrati va ildizi",
+          "15^2 va √2",
+          "225 va 1.41421356237"
+        ],
+        [
+          "Gradusda sinus va kosinus",
+          "sin 45 va cos 60",
+          "0.707106781187 va 0.5"
+        ],
+        [
+          "O‘nli va natural logarifm",
+          "log(1000) va ln(e)",
+          "3 va 1"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ketma-ket darajalar o‘ngdan chapga hisoblanadi: 2^3^2 = 2^9 = 512. Daraja oldidagi minus darajaning natijasiga tegishli: −2^2 = −(2^2) = −4, (−2)^2 esa 4. Qavssiz yozilgan funksiya o‘zidan keyingi songa qo‘llanadi: sin 30 — bu sin(30) bilan bir xil."
+    },
+    {
+      "type": "h2",
+      "id": "misol-masala-yechish",
+      "text": "Misol va masala yechishda AI qanday yordam beradi"
+    },
+    {
+      "type": "p",
+      "text": "Kalkulyator siz kiritgan ifodani darhol va aniq hisoblaydi. AI esa nimani kiritish kerakligi noaniq bo‘lganda yoki javob nega aynan shunday chiqqanini tushunmoqchi bo‘lganingizda kerak bo‘ladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Matnli masala — tezlik, ish unumi, ulush va foizga oid: AI ifodani tuzishga yordam beradi, uni esa shu yerning o‘zida hisoblaysiz.",
+        "Tenglamalar: chat yechim yo‘lini ko‘rsatadi, javobni esa kalkulyatorda o‘rniga qo‘yib tekshirish foydali.",
+        "O‘z yechimingizni tekshirish: masalani va qanday yechganingizni yozing — AI xato qayerdaligini ko‘rsatadi.",
+        "Tushunarsiz mavzu: logarifm, sinus yoki amallar tartibi nima ekanini oddiy misollar bilan tushuntirib berishni so‘rang."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "yaxshi-sorov",
+      "text": "Yaxshi so‘rovga misollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Poyezd 180 km yo‘lni 2,5 soatda bosib o‘tdi. Tezligini top. Javobni darhol aytma: avval qaysi formulani tanlashimni so‘ra.» Chat tezlik masofani vaqtga bo‘lish orqali topilishini tushuntiradi, 180 ÷ 2,5 = 72 km/soat natijasini esa kalkulyatorda tekshirasiz.",
+        "«3x + 7 = 22 tenglamasini bosqichma-bosqich yech va har bir qadamni bitta gap bilan izohla.» Javob x = 5 bo‘lsa, uni o‘rniga qo‘yib tekshiring: 3 × 5 + 7 = 22.",
+        "«Mahsulot narxi 200 000 so‘mdan 230 000 so‘mga oshdi. Necha foizga oshganini qanday hisoblashni tushuntir.» Natija — 15 foiz, uni yuqoridagi jadvaldagi ifoda bilan tekshirish mumkin."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Model hisob-kitobda, ayniqsa katta sonlarda, adashishi mumkin, shuning uchun yakuniy raqamlarni doim kalkulyator bilan solishtiring. Chat rasmni qabul qilmaydi: masalaning shartini matn ko‘rinishida yozing."
+    },
+    {
+      "type": "h2",
+      "id": "oqish-haqida-halol",
+      "text": "O‘qish haqida halol"
+    },
+    {
+      "type": "p",
+      "text": "«O‘qituvchi» rolidagi AI chat fikrlash yo‘lini tushuntiradi, lekin o‘quvchi o‘rniga uy vazifasini bajarib berish uchun mo‘ljallanmagan. Undan o‘xshash misolni tahlil qilib berishni so‘rang, o‘z masalangizni esa o‘zingiz yeching: shunda mavzu yodda qoladi va nazorat ishida qiynalmaysiz. Ota-onalar uchun ham qulay: maktab dasturi allaqachon esdan chiqqan bo‘lsa ham, farzandingizning yechimini tekshirish osonlashadi."
+    },
+    {
+      "type": "h2",
+      "id": "nega-gptbot",
+      "text": "Nega GPTBot.uz"
+    },
+    {
+      "type": "p",
+      "text": "Kalkulyator va AI o‘qituvchi bitta sahifada: hisobladingiz, tushunmadingiz — misolni qayta yozmasdan so‘raysiz. Kalkulyator ro‘yxatsiz ishlaydi va misollaringizni serverga yubormaydi. Chat o‘zbek tilida — lotin yoki kirill yozuvida — va rus tilida yozilgan savollarni tushunadi; o‘zbekcha javob lotin yozuvida keladi. GPTBot.uz — Toshkentdagi mustaqil servis."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Онлайн калькулятор: фоиз, даража, илдиз, синус ва логарифм — бепул ва лимитсиз. Мисолни ҳисобланг, тушунмасангиз «AI bilan tushuntirish» тугмасини босинг: AI ечимни қадамма-қадам тушунтиради. Саволни кирилл ёзувида ҳам ёзишингиз мумкин."
+    },
+    {
+      "type": "linkp",
+      "text": "Har kuni tushuntirish kerak bo‘lsa — nazorat ishlari va imtihonlar oldidan — sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. AI chatga qanday so‘rov yozish kerakligi {guide}da, ingliz tili uchun esa {verbs} bor. Do‘koningiz uchun chegirma va ustamani hisoblayapsizmi? Mijozlarning narx va buyurtma haqidagi savollariga Telegram yoki Instagram’da javob beradigan AI-botni ham joriy qilamiz: {bot} — 1 990 000 so‘mdan. Kalkulyatorning ruscha varianti — {ru}.",
+      "links": [
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI-chat qo‘llanmasi"
+        },
+        {
+          "token": "verbs",
+          "target": "/uz/notogri-fellar/",
+          "anchor": "noto‘g‘ri fe’llar jadvali va testi"
+        },
+        {
+          "token": "bot",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "Biznes uchun AI-bot"
+        },
+        {
+          "token": "ru",
+          "target": "/ru/kalkulyator/",
+          "anchor": "Онлайн-калькулятор",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket yoki AI-bot bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Kalkulyator bepulmi?",
+      "a": "Ha, va limitsiz: u brauzerda hisoblaydi va AI’ga murojaat qilmaydi. Limit faqat tushuntirishlarda bor: butun sayt bo‘yicha jami 3 ta bepul sinov javobi, AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ilmiy kalkulyatormi?",
+      "a": "Unda ilmiy kalkulyatorning asosiy funksiyalari bor: daraja, ildiz, sin, cos, tan, natural va o‘nli logarifm, π va e sonlari, gradus va radian. Grafik va matritsalar yo‘q; 1/2 kabi oddiy kasrni kalkulyator bo‘lib, o‘nli kasr ko‘rinishida ko‘rsatadi: 0.5."
+    },
+    {
+      "q": "Sonning foizini qanday hisoblash mumkin?",
+      "a": "Sonni, × belgisini va foizni kiriting: 240000 × 15% = 36 000. Foizni qo‘shish yoki ayirish uchun + yoki − belgisidan foydalaning: 240000 + 15% = 276 000, 350000 − 20% = 280 000."
+    },
+    {
+      "q": "AI uy vazifamni yechib beradimi?",
+      "a": "Chat qanday yechish kerakligini tushuntiradi va yechimingizni tekshiradi, lekin siz o‘rningizga yechib berish uchun mo‘ljallanmagan. Model javoblarini tekshiring: u hisob-kitobda adashishi mumkin, kalkulyator esa aniq hisoblaydi."
+    },
+    {
+      "q": "Kalkulyator nega xato ko‘rsatyapti?",
+      "a": "Odatda qavs yoki son yetishmaydi, ikki amal belgisi ketma-ket kelgan yoki misolda nolga bo‘lish bor. Maydon ostidagi xabar nimani tuzatish kerakligini aytadi, xato bo‘lganda esa «AI bilan tushuntirish» tugmasi chatga misol yozuvidagi xatoni topishni taklif qiladi."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/kalkulyator/",
+      "anchor": "Онлайн-калькулятор",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/notogri-fellar/",
+      "anchor": "Noto‘g‘ri fe’llar jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz onlayn kalkulyatori va AI tushuntirish",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "description": "GPTBot.uz bepul onlayn kalkulyatori: qavslar, foizlar, daraja, ildiz, trigonometriya va logarifmlar, limitsiz va AI’ga so‘rovsiz. Yechimni bosqichma-bosqich tushuntirish — AI chatda: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul kalkulyator va AI’ning 3 ta bepul sinov javobi",
+        "description": "Kalkulyator bepul va limitsiz ishlaydi. AI tushuntirishlari: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/kalkulyator/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

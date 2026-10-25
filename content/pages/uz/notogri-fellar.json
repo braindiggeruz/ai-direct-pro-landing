@@ -1,0 +1,348 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/notogri-fellar/",
+  "slug": "notogri-fellar",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "10 ta fe’l bo‘yicha tekshir",
+      "prompt": "Ingliz tilidagi 10 ta noto‘g‘ri fe’l bo‘yicha meni tekshir: fe’lni bittadan ayt, men V2 va V3 shakllarini yozaman, sen esa har bir javobimdan keyin to‘g‘ri yoki noto‘g‘riligini aytib, xatoni tuzat. Eng ko‘p ishlatiladigan fe’llardan boshla."
+    },
+    {
+      "label": "Past Simple yoki Present Perfect",
+      "prompt": "Past Simple va Present Perfect farqini oddiy so‘zlar bilan tushuntir. O‘zbekcha tarjimasi bilan 3 tadan misol ber, keyin zamonni o‘zim tanlaydigan 5 ta gap yoz. Javoblarni oxirida ko‘rsat."
+    },
+    {
+      "label": "Fe’llarni guruhlarga ajrat",
+      "prompt": "Ingliz tilidagi noto‘g‘ri fe’llarni shakllari qanday o‘zgarishiga qarab guruhlarga ajrat (cut-cut-cut, buy-bought-bought, go-went-gone va boshqalar) va har bir guruhga o‘zbekcha tarjimasi bilan 5 tadan ko‘p ishlatiladigan fe’l ber."
+    },
+    {
+      "label": "Gapimdagi xatoni top",
+      "prompt": "Gapimdagi noto‘g‘ri fe’l bilan bog‘liq xatoni top va tushuntir. Xato bo‘lmasa, shakl nega to‘g‘ri ekanini ayt.\nGap: "
+    },
+    {
+      "label": "Fe’llarim bilan qisqa hikoya",
+      "prompt": "Shu fe’llar Past Simple va Present Perfect zamonlarida qatnashgan, 6–8 ta oddiy gapdan iborat qisqa inglizcha hikoya tuz. Pastida o‘zbekcha tarjimasini ber.\nFe’llar: "
+    },
+    {
+      "label": "2 haftalik yodlash rejasi",
+      "prompt": "Ingliz tilidagi eng ko‘p ishlatiladigan 50 ta noto‘g‘ri fe’lni 2 haftada yodlash rejasini tuz: kuniga nechta fe’l, qanday takrorlash va o‘zimni qanday tekshirish kerak."
+    }
+  ],
+  "widgets": [
+    "irregular-verbs"
+  ],
+  "primaryKeyword": "noto‘g‘ri fe’llar jadvali",
+  "secondaryKeywords": [
+    "irregular verbs",
+    "irregular verbs list",
+    "list of irregular verbs",
+    "noto‘g‘ri fe’llar",
+    "notogri fellar",
+    "ingliz tili noto‘g‘ri fe’llar",
+    "irregular verbs table",
+    "irregular verbs test",
+    "past participle"
+  ],
+  "searchIntent": "informational",
+  "h1": "Noto‘g‘ri fe’llar jadvali: irregular verbs ro‘yxati va AI bilan mashq",
+  "title": "Noto‘g‘ri fe’llar jadvali: irregular verbs ro‘yxati va test",
+  "description": "Ingliz tilidagi 163 ta noto‘g‘ri fe’l jadvali: V1, V2, V3, o‘zbekcha tarjima va 10 savollik test. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/notogri-fellar/",
+  "hreflangRu": "/ru/nepravilnye-glagoly/",
+  "hreflangUz": "/uz/notogri-fellar/",
+  "hreflangXDefault": "/uz/notogri-fellar/",
+  "ogTitle": "Noto‘g‘ri fe’llar jadvali: irregular verbs ro‘yxati va test",
+  "ogDescription": "Ingliz tilidagi 163 ta noto‘g‘ri fe’l jadvali: V1, V2, V3, o‘zbekcha tarjima va 10 savollik test. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Noto‘g‘ri fe’llar",
+  "heroTitle": "Noto‘g‘ri fe’llar jadvali: irregular verbs ro‘yxati va AI bilan mashq",
+  "heroSubtitle": "Jadval va test bepul va limitsiz; AI o‘qituvchining tushuntirish va mashqlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Yuqoridagi {table}da ingliz tilidagi eng ko‘p ishlatiladigan 163 ta noto‘g‘ri fe’l (irregular verbs) o‘zbekcha tarjimasi bilan berilgan. Fe’lni inglizcha yoki o‘zbekcha qidiring, o‘zingizni tekshirish uchun ustunni yashiring va 10 savollik testdan o‘ting: bularning hammasi brauzerda, AI’siz va limitsiz ishlaydi. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u zamonlarni tushuntiradi, gaplaringizni tekshiradi va xato qilgan fe’llaringiz bo‘yicha mashq beradi.",
+      "links": [
+        {
+          "token": "table",
+          "target": "#irregular-verbs",
+          "anchor": "jadval"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Jadval va test har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "v1-v2-v3",
+      "text": "V1, V2 va V3 nima"
+    },
+    {
+      "type": "p",
+      "text": "To‘g‘ri (regular) fe’llarda o‘tgan zamon va sifatdosh -ed qo‘shimchasi bilan yasaladi: work — worked — worked. Noto‘g‘ri (irregular) fe’llarda esa shakllarni yodlash kerak: go — went — gone. V1 — asosiy shakl (I go to school). V2 — Past Simple, oddiy o‘tgan zamon (I went there yesterday). V3 — Past Participle, o‘tgan zamon sifatdoshi: u Present Perfect (I have gone), Past Perfect (I had gone) va majhul nisbatda (The letter was written) kerak bo‘ladi."
+    },
+    {
+      "type": "p",
+      "text": "Jadvaldagi ayrim kataklarda qiya chiziq bilan ikki shakl berilgan. Was va were songa qarab tanlanadi (I was, they were), learned/learnt yoki got/gotten kabi juftliklar esa britancha va amerikancha variantlar. Testda ikkalasi ham to‘g‘ri hisoblanadi."
+    },
+    {
+      "type": "h2",
+      "id": "guruhlar",
+      "text": "Fe’l guruhlari: qanday oson yodlash mumkin"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qolip",
+        "Misollar",
+        "Qanday eslab qolish"
+      ],
+      "rows": [
+        [
+          "Uchala shakl bir xil",
+          "cut — cut — cut; put, let, set, hit, cost, shut",
+          "Shakl o‘zgarmaydi, faqat ma’nosini yodlang"
+        ],
+        [
+          "V2 va V3 -ought / -aught bilan",
+          "buy — bought — bought; bring, think, teach, catch",
+          "Yozilishi har xil bo‘lsa ham, bir xil o‘qiladi"
+        ],
+        [
+          "V2 = V3, oxiri -t",
+          "send — sent — sent; spend, build, keep, sleep, feel, meet, leave",
+          "Ikki holat uchun bitta yangi shakl"
+        ],
+        [
+          "Unli i — a — u",
+          "begin — began — begun; drink, sing, swim, ring",
+          "Faqat o‘rtadagi unli o‘zgaradi"
+        ],
+        [
+          "V3 -n yoki -en bilan",
+          "write — wrote — written; speak, take, give, drive, eat",
+          "Sifatdosh oxiridagi -n dan taniladi"
+        ],
+        [
+          "V2 -ew, V3 -own bilan",
+          "know — knew — known; grow, throw, blow, fly",
+          "Ohangdoshligi bo‘yicha eslab qolinadi"
+        ],
+        [
+          "V3 V1 bilan bir xil",
+          "come — came — come; become, run",
+          "Sifatdosh asosiy shaklga qaytadi"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qanday-yodlash",
+      "text": "Noto‘g‘ri fe’llarni qanday yodlash kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Eng ko‘p ishlatiladigan 30–50 ta fe’ldan boshlang: be, have, do, go, get, make, say, take, see, come. Qolganlari kamroq uchraydi, ularni keyin o‘rganish osonroq.",
+        "Alifbo bo‘yicha emas, yuqoridagi jadvaldagi qoliplar bo‘yicha guruhlab o‘rganing: bitta qonuniyat bir nechta fe’lni birdaniga qamrab oladi.",
+        "Uchala shaklni ovoz chiqarib va darhol gap ichida ayting: I see — I saw — I have seen.",
+        "Har kuni 10 ta fe’l bo‘yicha testdan o‘ting, xatolarni yozib boring va ertasi kuni ularni takrorlang.",
+        "Haftada bir marta AI’dan «qiyin» fe’llaringiz bilan qisqa hikoya tuzib berishni so‘rang: kontekstda shakllar ro‘yxatdagiga qaraganda tezroq esda qoladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-oqituvchi",
+      "text": "AI o‘qituvchidan qanday yaxshi natija olish mumkin"
+    },
+    {
+      "type": "p",
+      "text": "So‘rovda nima kerakligini, darajangizni va javob formatini yozing. Masalan: «take, bring va catch fe’llari Past Simple’da qatnashgan, o‘zbekchadan inglizchaga tarjima qilinadigan 10 ta gap ber, javoblarini oxirida yoz». Yoki: «Present Perfect’ni A2 darajasi uchun tushuntir va 3 ta misol keltir». Testdan keyin «AI bilan mashq qilish» tugmasini bosing: chat maydoniga aynan siz xato qilgan fe’llar bilan mashq so‘rovi tushadi. Uni yuborishdan oldin o‘zgartirishingiz mumkin, yuborishni esa doim o‘zingiz hal qilasiz."
+    },
+    {
+      "type": "p",
+      "text": "Mashqlar yodlash va tushunishga yordam beradi, lekin AI siz o‘rningizga uy vazifasini bajarib bermaydi: gapni o‘zingiz tuzing, chatdan esa tekshirib, xatoni tushuntirishni so‘rang. Model ham adashishi mumkin, ayniqsa kam uchraydigan fe’llar va britancha-amerikancha variantlarda, shuning uchun shubhali shaklni jadval yoki lug‘at bilan solishtiring. Chat ovozli javob bermaydi va talaffuzingizni eshitib tekshira olmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "nega-gptbot",
+      "text": "Nega GPTBot.uz"
+    },
+    {
+      "type": "linkp",
+      "text": "Jadval, test va AI o‘qituvchi bitta sahifada, tushuntirishlar esa o‘zbek yoki rus tilida. Savolni lotin yoki kirill yozuvida yozishingiz mumkin; o‘zbekcha javob lotin yozuvida keladi. Jadval va test ro‘yxatsiz ishlaydi va javoblaringizni serverga yubormaydi. Ruscha tarjimali variant — {ru}.",
+      "links": [
+        {
+          "token": "ru",
+          "target": "/ru/nepravilnye-glagoly/",
+          "anchor": "Неправильные глаголы английского",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Инглиз тилидаги нотўғри феъллар жадвали: V1, V2, V3 ва ўзбекча таржима. Феълни қидиринг, устунни яшириб ўзингизни текширинг ёки 10 саволлик тестдан ўтинг; хато қилган феълларингиз бўйича AI ўқитувчидан машқ сўранг."
+    },
+    {
+      "type": "linkp",
+      "text": "Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Matematika uchun {calc} bor, AI chatga qanday so‘rov yozish kerakligi esa {guide}da tushuntirilgan. O‘quv markazingiz uchun o‘quvchilarni kursga yozadigan va ota-onalarga Telegram yoki saytda javob beradigan AI yordamchi kerak bo‘lsa, {edu} sahifasini oching — 1 990 000 so‘mdan. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "calc",
+          "target": "/uz/kalkulyator/",
+          "anchor": "AI tushuntiradigan onlayn kalkulyator"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI-chat qo‘llanmasi"
+        },
+        {
+          "token": "edu",
+          "target": "/uz/oquv-markazi-uchun-ai-bot/",
+          "anchor": "O‘quv markazi uchun AI-bot"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket yoki AI-bot bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Ingliz tilida nechta noto‘g‘ri fe’l bor?",
+      "a": "Aniq son lug‘atga bog‘liq: to‘liq ro‘yxatlarda 200 dan ortiq fe’l bor, lekin kundalik nutqda taxminan 100–150 tasi uchraydi. Shu sahifadagi jadvalda eng ko‘p ishlatiladigan 163 ta fe’l berilgan."
+    },
+    {
+      "q": "Nega ba’zi fe’llarning ikki shakli bor?",
+      "a": "Was va were songa qarab tanlanadi: I was, they were. Qolgan juftliklar — britancha va amerikancha variantlar: learned va learnt, got va gotten. Testda ikkala shakl ham qabul qilinadi."
+    },
+    {
+      "q": "Test bepulmi?",
+      "a": "Ha. Jadval, qidiruv va test brauzerda ishlaydi va AI’ga murojaat qilmaydi. Limit faqat AI o‘qituvchining tushuntirish va mashqlarida bor: butun sayt bo‘yicha jami 3 ta bepul sinov javobi, AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Past Simple Present Perfect’dan nimasi bilan farq qiladi?",
+      "a": "Past Simple o‘tmishdagi aniq vaqtda bo‘lib o‘tgan va tugagan ish haqida: I saw him yesterday. Present Perfect esa natijasi hozir muhim bo‘lgan, vaqti ko‘rsatilmagan ish haqida: I have seen this film. Present Perfect’da aynan V3 kerak bo‘ladi."
+    },
+    {
+      "q": "Fe’lni o‘zbekcha qidirsa bo‘ladimi?",
+      "a": "Ha, qidiruv maydoniga fe’lni inglizcha (go, take) yoki o‘zbekcha (bormoq, olmoq) yozing. AI o‘qituvchi ham savollarga o‘zbek yoki rus tilida javob beradi."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/nepravilnye-glagoly/",
+      "anchor": "Неправильные глаголы английского",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kalkulyator/",
+      "anchor": "Onlayn kalkulyator",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/oquv-markazi-uchun-ai-bot/",
+      "anchor": "O‘quv markazi uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz noto‘g‘ri fe’llar jadvali va testi",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Ingliz tilidagi 163 ta noto‘g‘ri fe’lning V1, V2, V3 shakllari va o‘zbekcha tarjimasi, qidiruv, ustunni yashirib mashq qilish va 10 savollik test — bepul, limitsiz va AI’ga so‘rovsiz. AI o‘qituvchi GPTBot.uz chatida: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul jadval va test, AI’ning 3 ta bepul sinov javobi",
+        "description": "Jadval va test bepul va limitsiz ishlaydi. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/notogri-fellar/",
+      "inLanguage": [
+        "uz",
+        "en"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

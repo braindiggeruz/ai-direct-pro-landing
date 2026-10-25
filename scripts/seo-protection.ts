@@ -159,7 +159,17 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // byte. The other nine protected pages are byte-identical. The llms-full
 // superset (W2-07) and the dropped draft link in one Markdown twin stay outside
 // the gate; invisibleToGate lists them.
-export const BASELINE = 'docs/seo/evidence/2026-10-24-wave1b/reviewed-protected-pages.json';
+// The 2026-10-25-ai-tools revision (owner order of 25.10: AI-tools wave A, every
+// new page an AI tool of GPTBot.uz) changes the same two fields on the same
+// page: the homepage shell lists the nine new tool pages (calculator, irregular
+// verbs, Cyrillic-Latin converter in both languages, the Uzbek poem tool and the
+// greeting generators; by H1) and the two Uzum seller guides (by title), and the
+// retargeted /uz/gpt-telegram-instagram-ideya/ under its new H1 (same href).
+// internalLinks +11, body text by those twelve labels only; the HTML is
+// otherwise the predecessor's byte for byte. The seven protected articles are
+// byte-identical; the two chats differ only by the chat bundle's name (platform
+// commit af0446fe), which the generator puts back before it compares hashes.
+export const BASELINE = 'docs/seo/evidence/2026-10-25-ai-tools/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

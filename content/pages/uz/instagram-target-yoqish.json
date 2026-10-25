@@ -56,6 +56,14 @@
           "label": "O‘zingiz yoki mutaxassis"
         },
         {
+          "anchor": "7-qadam",
+          "label": "O‘zingiz yoqmoqchimisiz? 7 qadam"
+        },
+        {
+          "anchor": "targetolog-narxi",
+          "label": "Targetolog xizmati narxi"
+        },
+        {
           "anchor": "ariza",
           "label": "Klikdan arizagacha"
         },
@@ -124,6 +132,17 @@
           "token": "ads",
           "target": "/uz/internet-reklama-toshkent/",
           "anchor": "Toshkentda internet reklama kanallari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Marketpleysda sotsangiz, targetni Uzum kartochkasi yoki do‘koningiz havolasiga ham yo‘naltirish mumkin. Sotuvchi bo‘lish bosqichlari, FBO/FBS va birinchi xaridorlar haqida — {uzum} qo‘llanmasida.",
+      "links": [
+        {
+          "token": "uzum",
+          "target": "/uz/blog/uzum-marketda-sotuvchi-bolish/",
+          "anchor": "Uzum Market’da sotuvchi bo‘lish"
         }
       ]
     },
@@ -266,6 +285,97 @@
           "token": "nima",
           "target": "/uz/blog/target-reklama-nima/",
           "anchor": "target nima va qachon mutaxassis kerak"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "7-qadam",
+      "text": "O‘zingiz yoqmoqchimisiz? 7 qadam"
+    },
+    {
+      "type": "p",
+      "text": "Kichik sinovni o‘zingiz ham boshlashingiz mumkin. Quyidagi tartib — Meta’ning rasmiy vositalari orqali ishlash uchun; kabinet va to‘lov har doim sizning nomingizda qoladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kabinetni o‘z nomingizga oching. Instagram akkauntini professional akkauntga o‘tkazing, Meta Business Suite’da biznes portfeli yarating va unga reklama kabineti, Facebook sahifasi hamda Instagram’ni ulang. Keyin mutaxassis kerak bo‘lsa, unga parol emas, faqat rol berasiz.",
+        "To‘lov usulini qo‘shing. Kabinetga o‘z nomingizdagi Visa yoki Mastercard kartasini ulang; to‘lov o‘tmasa, bankingizdan kartaning xorijiy onlayn to‘lovlarga ochiqligini so‘rang. Begona karta, ijaraga olingan kabinet va norasmiy vositachilardan foydalanmang: kabinet bloklanishi mumkin.",
+        "Bitta maqsad tanlang. Ariza, Direct’dagi yozishma yoki saytga o‘tish — qaysi harakat «natija» hisoblanishini oldindan yozib qo‘ying va kampaniya maqsadini shunga moslang.",
+        "O‘lchovni sozlang. Sayt bo‘lsa — Meta pikseli yoki Conversions API hodisalari va havolalarda UTM-belgilar; Direct bo‘lsa — yozishmalar va arizalarni CRM yoki jadvalda hisoblang.",
+        "Auditoriya va kreativni tayyorlang: 2–3 segment, har biriga 2–3 kreativ va matn. Reklama matnining qoralamasini AI bilan tayyorlash mumkin — havola quyida.",
+        "Ads Manager’da kampaniya yarating, kunlik limit va to‘xtatish qoidasini belgilang. E’lon moderatsiyadan o‘tadi; rad etilsa, sababini kabinetdagi «Account Quality» (hisob sifati) bo‘limida ko‘rib, e’lonni tuzating yoki qayta tekshiruv so‘rang.",
+        "Natijani o‘lchang va qaror qiling: bosish narxini emas, malakali ariza narxini hisoblang, kuchsiz bog‘lamalarni o‘chiring va kuchlilariga byudjet qo‘shing."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Matn va sarlavha variantlarini {matn} sahifasidagi tayyor so‘rovlar bilan yozish mumkin: chat «SMM mutaxassisi» rolida ishlaydi, ro‘yxatsiz 3 ta bepul sinov javobi bor, keyin AI paket. Byudjetni rejalashtirish tartibi {byudjet} maqolasida.",
+      "links": [
+        {
+          "token": "matn",
+          "target": "/uz/gpt-telegram-instagram-ideya/",
+          "anchor": "AI bilan reklama matni yozish"
+        },
+        {
+          "token": "byudjet",
+          "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+          "anchor": "sinov byudjetini qanday hisoblash"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Bu qadamlar murakkab tuyulsa — targetni biz yoqib beramiz",
+      "href": "#lead-form"
+    },
+    {
+      "type": "h2",
+      "id": "targetolog-narxi",
+      "text": "Targetolog xizmati narxi: frilanser, xodim yoki agentlik"
+    },
+    {
+      "type": "p",
+      "text": "«Targetolog kerak» degan qidiruv ortida uch xil yo‘l bor. Quyida ularni ish hajmi va javobgarlik bo‘yicha solishtirdik. Frilanser va xodim narxini yozmaymiz — ular kelishuvga bog‘liq va biz ularni tasdiqlay olmaymiz; jadvalda faqat o‘z narxlarimiz."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Model",
+        "Qanday ishlaydi",
+        "Nimani tekshirish kerak",
+        "Narx"
+      ],
+      "rows": [
+        [
+          "Frilanser-targetolog",
+          "Bir kishi kabinetni sozlaydi va yuritadi; kreativ va qo‘nish sahifasi ko‘pincha alohida kelishiladi",
+          "Oldingi ishlari (skrinshot emas, kabinetga ko‘rish huquqi bilan), kabinet kimning nomida, hisobot shakli, u band bo‘lsa, o‘rnini kim bosadi",
+          "Kelishuvga ko‘ra"
+        ],
+        [
+          "Shtatdagi xodim",
+          "Faqat sizning loyihangiz bilan ishlaydi, jamoangiz ichida",
+          "Ish haqidan tashqari: dizayn, kreativ, analitika va o‘qitish xarajati; bitta odamga bog‘liqlik",
+          "Ish haqi va soliqlar — o‘z hisobingizdan"
+        ],
+        [
+          "Agentlik (GPTBot.uz)",
+          "Jamoa: strategiya, kreativ, sozlash, analitika va hisobot; kabinet sizning nomingizda",
+          "Ish hajmi, oylik hisobot va to‘xtatish qoidasi shartnomada yozilganmi",
+          "Ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Qaysi model tanlanmasin, reklama byudjeti xizmat narxiga kirmaydi va platformaga to‘lanadi. Modellarni batafsil solishtirish — {model} maqolasida.",
+      "links": [
+        {
+          "token": "model",
+          "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+          "anchor": "agentlik, frilanser yoki birja"
         }
       ]
     },
@@ -415,6 +525,14 @@
       "a": "Instagram’da target ishga tushirish 1 990 000 so‘mdan (bir martalik): auditoriyalar, kreativlar, qo‘nish sahifasi, UTM va maqsadlar, dastlabki 2 hafta yuritish. Keyingi yuritish — oyiga 1 490 000 so‘mdan. Reklama byudjeti platformaga alohida to‘lanadi va soha hamda maqsadga bog‘liq: uning hajmi va to‘xtatish qoidasi boshlashdan oldin kelishiladi, o‘zini oqlash oldindan va’da qilinmaydi."
     },
     {
+      "q": "Targetolog xizmati narxi qancha?",
+      "a": "GPTBot.uz’da targetolog ishi — ishga tushirish 1 990 000 so‘mdan (bir martalik) va yuritish oyiga 1 490 000 so‘mdan; reklama byudjeti alohida. Frilanser yoki shtatdagi xodim narxini ko‘rsatmaymiz, u kelishuvga bog‘liq. Solishtirishda narxdan tashqari ish hajmi, hisobot va kabinet kimning nomida ochilishini ko‘ring."
+    },
+    {
+      "q": "Targetni o‘zim yoqsam bo‘ladimi?",
+      "a": "Ha. Kabinetni o‘z nomingizga oching, o‘z kartangizni ulang, bitta maqsad tanlang, o‘lchovni sozlang va kichik byudjet bilan sinab ko‘ring — tartib shu sahifadagi «7 qadam» bo‘limida. Begona karta, ijaraga olingan kabinet va norasmiy vositachilardan foydalanmang. Bir nechta segment, kreativ sinovlari va ariza narxini kuzatish kerak bo‘lsa, ishni mutaxassisga topshirgan ma’qul."
+    },
+    {
       "q": "Reklama byudjeti xizmat narxiga kiradimi?",
       "a": "Yo‘q. Platforma byudjeti alohida to‘lanadi. Smetada media byudjet, jamoa ishi, materiallar tayyorlash va texnik servislar alohida satrlarda ko‘rsatiladi."
     },
@@ -488,6 +606,18 @@
       "anchor": "Telegram reklama",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/uzum-marketda-sotuvchi-bolish/",
+      "anchor": "Uzum Market’da sotuvchi bo‘lish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-telegram-instagram-ideya/",
+      "anchor": "AI bilan reklama matni yozish",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "sources": [
@@ -509,9 +639,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-07",
+  "lastReviewedAt": "2026-10-25",
   "createdAt": "2026-10-07T00:00:00Z",
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-10-25T00:00:00.000Z",
   "heroTrust": [
     "Ishga tushirish 1 990 000 so‘mdan",
     "Yuritish oyiga 1 490 000 so‘mdan",

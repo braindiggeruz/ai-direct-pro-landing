@@ -1,0 +1,421 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/ai-tabrik-generatori/",
+  "slug": "ai-tabrik-generatori",
+  "pageType": "gpt-chat",
+  "chatRole": "writer",
+  "chatStarters": [
+    {
+      "label": "Onamga tug‘ilgan kun tabrigi",
+      "prompt": "Onamga tug‘ilgan kun tabrigi yoz: iliq ohang, 3–4 gap, sizlab. Uning ismi va bitta xotira: "
+    },
+    {
+      "label": "Do‘stga hazilomuz tabrik",
+      "prompt": "Do‘stimga tug‘ilgan kuniga hazilomuz tabrik yoz: 3 gap, «sen» deb, xafa qiladigan hazilsiz. Ismi va uning bir odati: "
+    },
+    {
+      "label": "Rahbarga jamoa nomidan",
+      "prompt": "Jamoa nomidan rahbarimizga tug‘ilgan kun tabrigi yoz: rasmiy, samimiy, 4 gapdan oshmasin. U jamoaga qanday yordam bergani: "
+    },
+    {
+      "label": "Yangi yil tabrigi oilaga",
+      "prompt": "Oilam uchun Yangi yil tabrigi yoz: o‘tgan yil uchun minnatdorchilik va kelasi yilga tilak, 4 gap, iliq ohangda."
+    },
+    {
+      "label": "8-mart tabrigi",
+      "prompt": "8-mart bayrami uchun 3 gaplik iliq tabrik yoz. Kimga va u haqida bitta detal: "
+    },
+    {
+      "label": "To‘y tabrigi",
+      "prompt": "Kelin-kuyovga to‘y tabrigi yoz: 4–5 gap, tantanali, lekin sodda so‘zlar bilan. Ularning ismlari va ularni qayerdan taniyman: "
+    }
+  ],
+  "widgets": [
+    "uz-translit"
+  ],
+  "primaryKeyword": "tug‘ilgan kun tabrigi",
+  "secondaryKeywords": [
+    "tugilgan kun tabrigi",
+    "туғилган кун табриги",
+    "tug‘ilgan kunga tabrik",
+    "tugilgan kunga tabrik",
+    "tugilgan kun tabrik",
+    "yangi yil tabrigi",
+    "янги йил табриклари",
+    "yangi yilingiz bilan",
+    "туғилган кунингиз билан",
+    "8 mart tabriklari",
+    "8 март табриклари",
+    "8 mart tabrik",
+    "to‘y tabriklari",
+    "ustozga tabrik",
+    "dugonamga tabrik",
+    "rahbarga tabrik",
+    "tabrik generatori",
+    "ai tabrik generatori"
+  ],
+  "searchIntent": "transactional",
+  "h1": "AI tabrik generatori: tug‘ilgan kun, Yangi yil va 8-mart",
+  "title": "Tug‘ilgan kun tabrigi va Yangi yil tabrigi — AI generator",
+  "description": "Onaga, otaga, do‘stga, hamkasb va rahbarga tug‘ilgan kun tabrigi, Yangi yil va 8-mart tabrigi: AI shaxsiy matn yozadi. 3 ta bepul sinov javobi, kirill ham.",
+  "canonical": "https://gptbot.uz/uz/ai-tabrik-generatori/",
+  "hreflangRu": "/ru/generator-pozdravleniy/",
+  "hreflangUz": "/uz/ai-tabrik-generatori/",
+  "hreflangXDefault": "/uz/ai-tabrik-generatori/",
+  "ogTitle": "Tug‘ilgan kun tabrigi va Yangi yil tabrigi — AI generator",
+  "ogDescription": "Onaga, otaga, do‘stga, hamkasb va rahbarga tug‘ilgan kun tabrigi, Yangi yil va 8-mart tabrigi: AI shaxsiy matn yozadi. 3 ta bepul sinov javobi, kirill ham.",
+  "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "AI tabrik generatori",
+  "heroTitle": "AI tabrik generatori: tug‘ilgan kun, Yangi yil va 8-mart",
+  "heroSubtitle": "Kimga va qaysi bayram uchun ekanini yozib, bitta shaxsiy detal qo‘shing — AI chat tayyor tabrik tuzib beradi: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket. Kirill yozuviga bepul konvertor bor.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "AI she’r yozish",
+  "ctaSecondaryHref": "/uz/ai-sher-yozish/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Kimga, qaysi bayram uchun va qanday ohangda tabrik kerakligini shu sahifadagi chatga yozing: chat «Ijodkor» rolida ochiladi va tug‘ilgan kun, Yangi yil, 8-mart, to‘y yoki Ustozlar kuni uchun tayyor matn yozadi. Chatdagi tayyor tugmalar so‘rov qolipini xabar maydoniga qo‘yadi — ism va bitta detalni qo‘shib, o‘zingiz yuborasiz. Tabrik kirill yozuvida kerak bo‘lsa, tayyor matnni yuqoridagi {translit} bilan o‘giring.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "#kirill-lotin",
+          "anchor": "kirill ↔ lotin konvertori"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Generator — o‘sha GPTBot.uz AI chati, faqat oldindan tanlangan rol bilan. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas; javoblarni boshqa kompaniyalarning til modellari API orqali beradi. Shartlar AI chat bilan umumiy: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi. Keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi. Kirill ↔ lotin konvertori esa AI’siz, bepul va limitsiz ishlaydi."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-ishlaydi",
+      "text": "Tabrik generatori qanday ishlaydi: 4 ta tanlov"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kimga: ona, ota, do‘st, dugona, hamkasb, rahbar yoki ustoz. Murojaatni ham yozing: «Onajon», «[Ism]», «Hurmatli [ism va otasining ismi]».",
+        "Bayram: tug‘ilgan kun, Yangi yil, 8-mart, to‘y, 1-oktabr — O‘qituvchi va murabbiylar kuni yoki boshqa sana.",
+        "Ohang va hajm: iliq, hazilomuz yoki rasmiy; SMS uchun 1–2 gap, otkritka uchun 3–4 gap, to‘ydagi nutq uchun 6–8 gap.",
+        "Shaxsiy detal: bitta haqiqiy xotira, odat yoki yutuq. Usiz tabrik umumiy chiqadi yoki model detalni o‘zidan to‘qib qo‘yadi — yuborishdan oldin tekshiring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Natija yoqmasa, aniqlashtiring: «qisqaroq yoz», «rasmiyroq qil», «hazilni olib tashla», «sen o‘rniga siz deb yoz». Aniqlashtirishga berilgan javob ham limitdan bitta javob sifatida hisoblanadi."
+    },
+    {
+      "type": "h2",
+      "id": "sorov-namunalari",
+      "text": "Yaxshi so‘rov namunalari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Dadamning 60 yoshiga tabrik yoz. U 35 yil maktabda fizikadan dars bergan, endi nevaralari bilan bog‘da ishlaydi. Hurmat bilan, sizlab, 5 gap.»",
+        "«Hamkasbim Dilnozaga tug‘ilgan kuniga 2 gaplik SMS yoz: u har kuni bo‘limga qahva olib keladi. Yengil hazil bilan.»",
+        "«Do‘stimning to‘yiga 6 gaplik nutq yoz: talabalikda yotoqxonada bir xonada yashaganmiz. Tantanali, lekin sodda so‘zlar bilan.»",
+        "«Sinf rahbarimizga 1-oktabrga ota-onalar nomidan 4 gaplik samimiy tabrik yoz.»"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Quyidagi namunalar shu sahifa uchun AI yordamida yozilgan va jamoa tomonidan tahrir qilingan. Kvadrat qavsdagi joylarni almashtiring va bitta jumlani o‘zingizdan qo‘shing — shunda tabrik shablonga o‘xshamaydi. Tabrik tuzilmasi va boshqa namunalar — {guide}da.",
+      "links": [
+        {
+          "token": "guide",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tugilgan-kun",
+      "text": "Tug‘ilgan kun tabrigi: onaga, otaga, do‘stga va hamkasbga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Onaga: Onajon, tug‘ilgan kuningiz muborak! Siz yopgan non hidi men uchun hamon «uy» so‘zining ma’nosi. Sog‘lig‘ingiz mustahkam, ko‘nglingiz doim to‘q bo‘lsin, nevaralaringizning quvonchini ko‘rib yuring.",
+        "Otaga: Dadajon, tug‘ilgan kuningiz bilan tabriklayman! Velosiped haydashni o‘rgatganingizda «yiqilsang, tur» degan edingiz — shu gap hali ham menga kuch beradi. Sizga uzoq umr, sog‘lik va farzandlaringizdan faqat yaxshi xabarlar tilayman.",
+        "Do‘stga: [Ism], tug‘ilgan kuning muborak! Birinchi sinfda bitta partada o‘tirganmiz, o‘shandan beri sen mening eng yaqin maslahatchimsan. Yangi yoshingda yangi shaharlar, katta rejalar va faqat sevimli ishlar bo‘lsin. Kechqurun ko‘rishamiz!",
+        "Dugonaga: Jonim dugonam, tug‘ilgan kuning bilan! Sen bilan gaplashsak, bir soat besh daqiqadek o‘tib ketadi. Yangi yoshingda sog‘lik, sevgi va ko‘ngling tusagan sayohatlar bo‘lsin. Bu yil albatta birga dengizga boramiz — va’da!",
+        "Hamkasbga: Hurmatli [ism], tug‘ilgan kuningiz bilan butun bo‘limimiz nomidan tabriklaymiz! Murakkab loyihada ham xotirjam qolasiz va kimgadir yordam berishga doim vaqt topasiz — bunday hamkasb bilan ishlash — katta omad. Yangi yoshingiz qiziqarli vazifalar va ko‘proq dam olish kunlari olib kelsin!",
+        "Rahbarga: Hurmatli [ism va otasining ismi], tug‘ilgan kuningiz bilan chin dildan tabriklaymiz! Har bir xodimning fikrini tinglashingiz va qiyin damlarda jamoani birlashtira olishingiz biz uchun katta ibrat. Sizga sog‘lik, kuch-quvvat va kompaniyamizni yangi bosqichga olib chiqadigan to‘g‘ri qarorlar tilaymiz. Jamoa nomidan, [ismingiz].",
+        "Ustozga: Aziz ustoz, tug‘ilgan kuningiz muborak! Siz qo‘ygan birinchi «besh»ni hali ham eslayman — o‘shanda o‘zimga ishona boshlaganman. Sizga sog‘lik, uzoq umr va darsingizni intiqlik bilan kutadigan o‘quvchilar tilayman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yangi-yil",
+      "text": "Yangi yil tabrigi: oila, do‘st va qo‘shnilar uchun"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Oilaga: Yangi yil muborak, aziz oilam! Bu yil qiyin kunlarda ham bir-birimizning yonida bo‘ldik. Kelasi yil hammamizga sog‘lik, uyimizga ko‘p mehmon, bolalarimizga esa sovg‘alar ham, besh baholar ham ko‘p bo‘lsin!",
+        "Do‘stga (SMS): Yangi yiling bilan! Bir yil davomidagi kulgi, qo‘llab-quvvatlash va kechki suhbatlar uchun rahmat. Yangi yilda ham shunday qolamiz — faqat ko‘proq uchrashamiz!",
+        "Qo‘shnilarga: Qadrli qo‘shnilar, Yangi yilingiz bilan! Yil davomida samimiy salomingiz va kerak paytda bergan yordamingiz uchun rahmat. Mahallamizda tinchlik, uylaringizda quvonch va to‘kinlik bo‘lsin!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bayramlar",
+      "text": "8-mart, to‘y va Ustozlar kuni tabriklari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Rafiqamga (8-mart): Azizam, bayraming muborak! Uyimizdagi har bir iliq kun — sening mehring va mehnating. Bugun barcha tashvishni menga qoldir: kechki ovqat ham, gullar ham mendan.",
+        "Singlimga (8-mart): Singiljonim, 8-mart bayraming bilan! Kichkina qizaloqdan shunday aqlli va mehribon qiz bo‘lib ulg‘ayding. Orzularing ro‘yobga chiqsin, yuzingdan tabassum arimasin.",
+        "Kelin-kuyovga: Aziz [kelin va kuyovning ismlari], to‘yingiz muborak! Bugun ikki yurak bir oila bo‘ldi. Bir-biringizni tinglang, kichik narsalardan ham birga quvonishni unutmang. Uyingiz mehrga to‘lsin, oilangiz yildan yilga mustahkam bo‘lsin.",
+        "Do‘stning to‘yiga (qisqa): Do‘stim, to‘ying muborak! Sen tanlagan inson bilan har kuning bayramdek o‘tsin. Yangi uyingizga birinchi mehmon bo‘lib borishga hozirdan tayyorman!",
+        "Ustozlar kuniga: Hurmatli ustozimiz, 1-oktabr — O‘qituvchi va murabbiylar kuni bilan tabriklaymiz! Bilim berish bilan birga bizni yaxshi inson bo‘lishga o‘rgatganingiz uchun rahmat. Sizga sog‘lik, sabr-toqat va shogirdlaringiz yutuqlaridan quvonch tilaymiz."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kirill",
+      "text": "Kirill yozuvida tug‘ilgan kun tabrigi"
+    },
+    {
+      "type": "linkp",
+      "text": "Ko‘pchilik, ayniqsa katta yoshdagilar, tabrikni kirill yozuvida o‘qishni afzal ko‘radi. Chat o‘zbekcha javobni lotin yozuvida yozadi, shuning uchun kirill kerak bo‘lsa, tayyor matnni {translit2} bilan bir bosishda o‘giring. Quyidagi namunalar ham yuqoridagi lotin matnlardan shu konvertor bilan o‘girilgan.",
+      "links": [
+        {
+          "token": "translit2",
+          "target": "#kirill-lotin",
+          "anchor": "kirill ↔ lotin konvertori"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Туғилган кун табриги ва Янги йил табриги: кирилл ёзувидаги намуналар."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Онага: Онажон, туғилган кунингиз муборак! Сиз ёпган нон ҳиди мен учун ҳамон «уй» сўзининг маъноси. Соғлиғингиз мустаҳкам, кўнглингиз доим тўқ бўлсин, невараларингизнинг қувончини кўриб юринг."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Отага: Дадажон, туғилган кунингиз билан табриклайман! Велосипед ҳайдашни ўргатганингизда «йиқилсанг, тур» деган эдингиз — шу гап ҳали ҳам менга куч беради. Сизга узоқ умр, соғлик ва фарзандларингиздан фақат яхши хабарлар тилайман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Дўстга: [Исм], туғилган кунинг муборак! Биринчи синфда битта партада ўтирганмиз, ўшандан бери сен менинг энг яқин маслаҳатчимсан. Янги ёшингда янги шаҳарлар, катта режалар ва фақат севимли ишлар бўлсин. Кечқурун кўришамиз!"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Устозга: Азиз устоз, туғилган кунингиз муборак! Сиз қўйган биринчи «беш»ни ҳали ҳам эслайман — ўшанда ўзимга ишона бошлаганман. Сизга соғлик, узоқ умр ва дарсингизни интиқлик билан кутадиган ўқувчилар тилайман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Оилага: Янги йил муборак, азиз оилам! Бу йил қийин кунларда ҳам бир-биримизнинг ёнида бўлдик. Келаси йил ҳаммамизга соғлик, уйимизга кўп меҳмон, болаларимизга эса совғалар ҳам, беш баҳолар ҳам кўп бўлсин!"
+    },
+    {
+      "type": "h2",
+      "id": "cheklovlar",
+      "text": "Cheklovlar: generator nimani qilmaydi"
+    },
+    {
+      "type": "p",
+      "text": "Chat faqat matn yozadi: otkritka, rasm, ovozli yoki video tabrik yaratmaydi. U yaqinlaringizni tanimaydi — ism, yosh va xotirani siz yozasiz; model qo‘shgan to‘qima detalni olib tashlang. Diniy va milliy bayramlarda tabrik hurmat bilan, betaraf ohangda yoziladi: chat siyosiy va diniy baho bermaydi."
+    },
+    {
+      "type": "p",
+      "text": "Chatga boshqa odamning telefon raqami, manzili, sog‘lig‘i yoki oilaviy sirlarini yozmang: so‘rov matni serverimizga va xorijdagi AI-provayderlarga yuboriladi. Tabrik uchun ism (yoki [ism] belgisi) va bitta xotira yetarli."
+    },
+    {
+      "type": "h2",
+      "id": "nega-gptbot",
+      "text": "Nega aynan GPTBot.uz"
+    },
+    {
+      "type": "p",
+      "text": "Chat o‘zbekcha so‘rovni tushunadi va rol ko‘rsatmasiga ko‘ra tabrikni lotin yozuvida, o‘, g‘ va ’ belgilari bilan yozadi; ruscha so‘rasangiz, ruscha javob beradi. Ilova o‘rnatish va ro‘yxatdan o‘tish shart emas, kirill konvertori shu sahifaning o‘zida."
+    },
+    {
+      "type": "linkp",
+      "text": "Tabrikka qisqa she’r qo‘shmoqchimisiz? {sher} sahifasida chat to‘rt yoki sakkiz qatorlik original she’r yozib beradi. Boshqa vazifalar uchun {chat}ni oching; sinov javoblari tugasa, AI paket shartlari {tariffs} sahifasida. Bu sahifaning ruscha varianti — {ru}.",
+      "links": [
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "ru",
+          "target": "/ru/generator-pozdravleniy/",
+          "anchor": "Генератор поздравлений",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Kompaniya nomidan mijozlar va hamkorlarga bayram tabriklari, Telegram kanal va Instagram uchun postlar kerakmi? Ularni {smm} doirasida jamoamiz tayyorlaydi (oyiga 2 490 000 so‘mdan, reklama byudjeti alohida). Mijozlarga Telegram va Instagram’da javob beradigan bot — {bot} (1 990 000 so‘mdan). {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "SMM xizmatlari"
+        },
+        {
+          "token": "bot",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "Biznes uchun AI-bot"
+        },
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Kompaniya nomidan yuboriladigan rasmiy tabrikni mas’ul xodim o‘qib chiqsin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tabrik generatori bepulmi?",
+      "a": "Qisman. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor — butun sayt bo‘yicha, AI chat bilan umumiy; ular har kuni yangilanmaydi. Keyin yangi tabriklar uchun AI paket kerak: narx, javoblar soni va muddat chatda ko‘rsatiladi. Namunalar va kirill ↔ lotin konvertori bepul va limitsiz."
+    },
+    {
+      "q": "Tabrikni kirill yozuvida olsa bo‘ladimi?",
+      "a": "Ha. Chat o‘zbekcha javobni lotin yozuvida yozadi; tayyor matnni shu sahifadagi konvertorga qo‘ying va «Lotin → kirill» tugmasini bosing. Konvertor brauzerda, AI’siz ishlaydi va sinov javoblarini sarflamaydi. Ism va ruscha so‘zlarni bir ko‘zdan kechiring."
+    },
+    {
+      "q": "Otkritka, rasm yoki ovozli tabrik ham yasaydimi?",
+      "a": "Yo‘q, chat faqat matn yozadi. Tayyor matnni otkritkaga yozishingiz yoki Telegram va SMS orqali yuborishingiz mumkin."
+    },
+    {
+      "q": "Namunalardan foydalansam bo‘ladimi?",
+      "a": "Ha, shaxsiy tabrik uchun bemalol. Ular shu sahifa uchun AI yordamida yozilgan va jamoa tomonidan tahrir qilingan. Kvadrat qavsdagi joylarni almashtiring va bitta shaxsiy jumla qo‘shing."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis, OpenAI ham, ChatGPT ham emas. Tabrikni boshqa kompaniyaning til modeli yozadi; qaysi model javob bergani har bir javob ostida yozilgan."
+    },
+    {
+      "q": "Kompaniya nomidan mijozlarga tabrik yozsa bo‘ladimi?",
+      "a": "Ha, bitta tabrik matnini chat yozib beradi. Mijozlarga muntazam bayram postlari va kontent reja kerak bo‘lsa, bu — SMM xizmati: paketlar va narxlar «SMM xizmatlari» sahifasida yozilgan."
+    },
+    {
+      "q": "Ruscha tabrik ham yozadimi?",
+      "a": "Ha: so‘rovni ruscha yozsangiz, javob ruscha keladi. Bu sahifaning ruscha varianti — «Генератор поздравлений»."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ai-sher-yozish/",
+      "anchor": "AI she’r yozish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/generator-pozdravleniy/",
+      "anchor": "Генератор поздравлений",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "SMM xizmatlari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI tabrik generatori",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "description": "Tug‘ilgan kun, Yangi yil, 8-mart, to‘y va Ustozlar kuni uchun o‘zbekcha tabrik yozadigan mustaqil AI vosita, GPTBot.uz chatida «Ijodkor» rolida: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket. Kirill ↔ lotin konvertori AI’siz ishlaydi. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "3 ta bepul sinov javobi",
+        "description": "Butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/ai-tabrik-generatori/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

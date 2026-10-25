@@ -471,6 +471,150 @@
       "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-24-growth-audit/l3-data/kw1_metrics.json, kw1_table.txt)",
       "measuredAt": "2026-10-24",
       "note": "Google Ads competition index 0; 12-month range 10–40. The how-to phrasing behind the guide's H1; small on its own. Same owner as «tugilgan kun tabriklari» (pair C51)."
+    },
+    {
+      "keyword": "ona haqida sherlar",
+      "volumePerMonth": 5400,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw2_metrics.json; CLUSTERS_TO_ADD.md §3.1 №2)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 3 600, March 2026 22 200, August 2026 1 600, September 2026 3 600. Measured spelling of the primary «ona haqida she’rlar» of /uz/ai-sher-yozish/ (AI-tools wave A, pair C53); the U+2019 spelling has no Ads bucket of its own. gpt-chat page: recorded for the demand evidence, outside the money/niche gate."
+    },
+    {
+      "keyword": "yangi yil sherlari",
+      "volumePerMonth": 3600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw1_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; the 12-month average hides one peak: October 2025 90, November 2025 1 300, December 2025 40 500, January 2026 590, September 2026 20. Secondary of /uz/ai-sher-yozish/ (pair C53). Read it in December–January."
+    },
+    {
+      "keyword": "tugilgan kun tabrigi",
+      "volumePerMonth": 6600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw1_metrics.json; CLUSTERS_TO_ADD.md §3.1 №8)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 6 600, September 2026 5 400. Measured spelling of the primary «tug‘ilgan kun tabrigi» of /uz/ai-tabrik-generatori/ (pairs C54, C55); a separate bucket from the plural «tugilgan kun tabriklari» (1 300/mo), which /uz/blog/tabrik-yozish/ keeps (C51)."
+    },
+    {
+      "keyword": "туғилган кун табриги",
+      "volumePerMonth": 9900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw1_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 9 900, September 2026 6 600 (the fall is not corrected in the research). Uzbek Cyrillic; secondary of /uz/ai-tabrik-generatori/, which carries a Cyrillic block produced with the site's converter (pair C54)."
+    },
+    {
+      "keyword": "tugilgan kunga tabrik",
+      "volumePerMonth": 4400,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw1_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 4 400, January 2026 5 400, September 2026 2 900. Secondary of /uz/ai-tabrik-generatori/ (pairs C54, C55)."
+    },
+    {
+      "keyword": "поздравления с днем рождения",
+      "volumePerMonth": 18100,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw1_metrics.json and ru-audience-ai-data/uz_metrics_raw.json; CLUSTERS_TO_ADD.md §3.1 №10)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 22 200, September 2026 14 800 (a fall the research did not correct). Primary of /ru/generator-pozdravleniy/ (AI-tools wave A, pair C57); the SERP has an AI Overview and greeting archives."
+    },
+    {
+      "keyword": "калькулятор онлайн",
+      "volumePerMonth": 3600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/calculators-utility-data/cu_kw1_metrics.json; CLUSTERS_TO_ADD.md §3.1 №3)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0.01, CPC 0.10 USD; October 2025 4 400, September 2026 2 900. Primary of /ru/kalkulyator/ (AI-tools wave A, pairs C59, C60)."
+    },
+    {
+      "keyword": "калькулятор",
+      "volumePerMonth": 74000,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/calculators-utility-data/cu_kw1_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0.07, CPC 0.06 USD; 74 000 every month, 90 500 in September 2026. The bare head is a secondary of /ru/kalkulyator/ and a long shot (x-calculator.ru, calculator888, desmos and calc.ru hold the SERP); not a page target on its own (pair C60 keeps it off the bot cost calculator)."
+    },
+    {
+      "keyword": "kalkulyator",
+      "volumePerMonth": 40500,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/prices-tools-data/kw1_metrics.json; docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №3 and §9.5)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0.10, CPC 0.05 USD; no monthly series was returned. Primary of /uz/kalkulyator/ (AI-tools wave A, pair C58). The Latin SERP was not captured and a Google calculator box above the results was not checked: one manual look from Uzbekistan before reading results."
+    },
+    {
+      "keyword": "неправильные глаголы",
+      "volumePerMonth": 1900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics.json; CLUSTERS_TO_ADD.md §3.1 №12)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0, CPC 2.40 USD; October 2025 2 900, September 2026 1 900. Primary of /ru/nepravilnye-glagoly/ (AI-tools wave A, pair C62)."
+    },
+    {
+      "keyword": "noto'g'ri fe'llar jadvali",
+      "volumePerMonth": 2400,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 3 600, September 2026 1 900. Measured spelling (ASCII apostrophes, as Google Ads stores it) of the primary «noto‘g‘ri fe’llar jadvali» of /uz/notogri-fellar/ (AI-tools wave A, pair C61)."
+    },
+    {
+      "keyword": "irregular verbs",
+      "volumePerMonth": 12100,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0, CPC 1.84 USD; October 2025 18 100, September 2026 9 900. Secondary of /uz/notogri-fellar/ (pair C61); English-language query from Uzbekistan, SERP not captured."
+    },
+    {
+      "keyword": "кириллица в латиницу",
+      "volumePerMonth": 1300,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw1_metrics.json; CLUSTERS_TO_ADD.md §3.1 №20)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 1 600, September 2026 1 000. Primary of /ru/kirillica-v-latinicu/ (AI-tools wave A, pair C64); script conversion, not translation."
+    },
+    {
+      "keyword": "kirill lotin",
+      "volumePerMonth": 1900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw1_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 2 400, September 2026 1 000. Primary of /uz/kirill-lotin/ (AI-tools wave A, pair C63)."
+    },
+    {
+      "keyword": "lotin krill",
+      "volumePerMonth": 4400,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw1_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 4 400, September 2026 3 600. Secondary of /uz/kirill-lotin/, the largest single bucket of the script-conversion cluster (pair C63)."
+    },
+    {
+      "keyword": "reklama matni yozish",
+      "volumePerMonth": 210,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/prices-tools-data/kw1_metrics.json; docs/seo/research/2026-10-25-clusters-to-add/text-tools-data/tt_kw1_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0.02, CPC 0.77 USD; October 2025 90, March 2026 880, September 2026 40. Primary of /uz/gpt-telegram-instagram-ideya/ since its retargeting on 2026-10-25 (AI-tools wave A, pairs C65, C66)."
+    },
+    {
+      "keyword": "uzumda savdo qilish",
+      "volumePerMonth": 260,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/marketplaces-social-selling-data/kw_metrics_raw.json; AD_CLIENT_FUNNEL.md §5 row 7)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition 0.09, CPC 1.22 USD. First keyword of the Uzbek guide /uz/blog/uzum-marketda-sotuvchi-bolish/ (pair C67); the navigational heads «uzum seller» and «seller uzum uz» belong to Uzum itself. Blog article: recorded for the demand evidence, outside the money/niche gate."
+    },
+    {
+      "keyword": "стать продавцом на узум",
+      "volumePerMonth": 20,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/marketplaces-social-selling-data/kw_metrics_raw.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition 0.11, CPC 3.64 USD. First keyword of the Russian guide /ru/blog/kak-stat-prodavcom-na-uzum-market/ (pair C68); small Russian demand, the page is mainly the hreflang pair of the Uzbek guide."
     }
   ],
   "qualityRequirements": {

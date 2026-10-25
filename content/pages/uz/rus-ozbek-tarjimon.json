@@ -89,6 +89,17 @@
       "text": "Lotin yozuvida o‘ va g‘ harflari ‘ belgisi bilan yoziladi, tutuq belgisi esa boshqa belgi: ’ (санъат → san’at, маъно → ma’no). Chat va shu sahifadagi konvertor bu belgilarni aynan shunday yozadi; konvertor oddiy ' apostrofni ham qabul qiladi va kerakli belgiga almashtiradi."
     },
     {
+      "type": "linkp",
+      "text": "Faqat yozuvni almashtirish kerak bo‘lsa, alohida {kirill} sahifasi bor: u yerda 29 harfli alifbo jadvali va o‘, g‘ hamda tutuq belgisi qoidalari jamlangan.",
+      "links": [
+        {
+          "token": "kirill",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        }
+      ]
+    },
+    {
       "type": "p",
       "lang": "uz-Cyrl",
       "text": "Русча-ўзбекча таржимон: матнни кирилл ёки лотин ёзувида юборинг. Ўзбекча таржима одатда лотин ёзувида келади; кирилл керак бўлса, буни сўровда ёзинг ёки юқоридаги конвертордан фойдаланинг."

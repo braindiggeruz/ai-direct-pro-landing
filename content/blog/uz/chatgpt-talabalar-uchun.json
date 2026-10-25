@@ -118,6 +118,22 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Hisob-kitob va ingliz tili uchun alohida vositalar bor: {kalk} misolni brauzerda hisoblaydi, AI esa yechimni bosqichma-bosqich tushuntiradi; {fellar} sahifasida 163 ta fe’l va 10 savollik test bor. Ular uy vazifasini siz uchun bajarmaydi: avval o‘zingiz yeching, keyin xatoni tushuntirishni so‘rang.",
+      "links": [
+        {
+          "token": "kalk",
+          "target": "/uz/kalkulyator/",
+          "anchor": "onlayn kalkulyator"
+        },
+        {
+          "token": "fellar",
+          "target": "/uz/notogri-fellar/",
+          "anchor": "noto‘g‘ri fe’llar jadvali"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "prompt",
       "text": "O‘qish uchun tayyor promptlar"

@@ -1,0 +1,422 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/ai-sher-yozish/",
+  "slug": "ai-sher-yozish",
+  "pageType": "gpt-chat",
+  "chatRole": "writer",
+  "chatStarters": [
+    {
+      "label": "Onamga 8 qatorlik she’r",
+      "prompt": "Onamga tug‘ilgan kuniga 8 qatorlik iliq she’r yoz, 2- va 4-satrlar qofiyalansin. Uning ismi va bitta xotira: "
+    },
+    {
+      "label": "Yangi yil she’ri bolalar uchun",
+      "prompt": "Bolalar Yangi yil ertaligida yodlashi uchun 4 qatorlik quvnoq she’r yoz: qisqa so‘zlar, har satrda 7 bo‘g‘in, Qorbobo va archa haqida."
+    },
+    {
+      "label": "Qish haqida 4 qator",
+      "prompt": "Qish haqida 4 qatorlik she’r yoz: qor, sovuq va uydagi iliqlik haqida, har satrda 8 bo‘g‘in, qofiyali."
+    },
+    {
+      "label": "Do‘stimga tug‘ilgan kun she’ri",
+      "prompt": "Do‘stimga tug‘ilgan kuniga hazilomuz to‘rtlik yoz, xafa qiladigan gapsiz. Ismi va u yaxshi ko‘radigan narsa: "
+    },
+    {
+      "label": "Ustozimga minnatdorchilik",
+      "prompt": "Ustozimga minnatdorchilik she’ri yoz, 8 qator, hurmat bilan. U qaysi fandan dars bergan va undan nimani eslayman: "
+    },
+    {
+      "label": "Vazn va qofiyani tekshir",
+      "prompt": "Mana o‘zim yozgan she’r. Bo‘g‘inlarni sanab, vazn va qofiyani tekshir, zaif joylarini izohla, lekin she’rni o‘rnimga qayta yozma: "
+    }
+  ],
+  "primaryKeyword": "ona haqida she’rlar",
+  "secondaryKeywords": [
+    "ona haqida sherlar",
+    "yangi yil she’rlari",
+    "yangi yil sherlari",
+    "yangi yilga sher",
+    "bolalar uchun she’rlar",
+    "bolalar uchun sherlar",
+    "qish haqida she’r",
+    "qish haqida sher",
+    "ustoz haqida sher",
+    "dost haqida sher",
+    "tugilgan kun sher",
+    "tabrik she’rlar",
+    "qisqa sherlar",
+    "sherlar 4 qator",
+    "sher yozish",
+    "ai she’r yozish",
+    "она ҳақида шеърлар"
+  ],
+  "searchIntent": "transactional",
+  "h1": "AI she’r yozish: onaga, Yangi yilga, bolalar va do‘stlarga",
+  "title": "Ona haqida she’rlar va Yangi yil she’rlari — AI she’r yozish",
+  "description": "Onaga, ustozga, do‘stga, Yangi yil va qish haqida she’r: AI chat 4–8 qatorlik original she’r yozadi. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas.",
+  "canonical": "https://gptbot.uz/uz/ai-sher-yozish/",
+  "hreflangUz": "/uz/ai-sher-yozish/",
+  "hreflangXDefault": "/uz/ai-sher-yozish/",
+  "ogTitle": "Ona haqida she’rlar va Yangi yil she’rlari — AI she’r yozish",
+  "ogDescription": "Onaga, ustozga, do‘stga, Yangi yil va qish haqida she’r: AI chat 4–8 qatorlik original she’r yozadi. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas.",
+  "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "AI she’r yozish",
+  "heroTitle": "AI she’r yozish: onaga, Yangi yilga, bolalar va do‘stlarga",
+  "heroSubtitle": "Mavzu, ism va bitta xotirani yozing — AI chat qofiyali original she’r tayyorlaydi: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "AI tabrik generatori",
+  "ctaSecondaryHref": "/uz/ai-tabrik-generatori/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Kimga va qaysi munosabat bilan she’r kerakligini shu sahifadagi chatga yozing: chat «Ijodkor» rolida ochiladi va onaga, ustozga, do‘stga, Yangi yilga, qish haqida yoki bolalar uchun qofiyali original she’r yozadi. Ism va bitta shaxsiy xotira qo‘shsangiz, she’r umumiy emas, aynan o‘sha odamga atalgan bo‘lib chiqadi. Pastda har mavzu bo‘yicha qisqa namunalar bor: uslubini tanlang yoki o‘zingiznikini so‘rang."
+    },
+    {
+      "type": "p",
+      "text": "Bu — o‘sha GPTBot.uz AI chati, faqat oldindan tanlangan rol bilan. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas; javoblarni boshqa kompaniyalarning til modellari API orqali beradi. Shartlar AI chat bilan umumiy: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi. Keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi. Sinov javoblarini boshqa sahifada ishlatib bo‘lgan bo‘lsangiz, bu yerda ular qayta berilmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-sorash",
+      "text": "She’rni qanday so‘rash kerak: 3 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kimga va qanday munosabat bilan: «onamga, tug‘ilgan kuniga», «2-sinf o‘quvchilari uchun Yangi yil ertaligiga», «ustozimga, 1-oktabrga». Kimga atalgani ohangni belgilaydi: onaga — iliq, do‘stga — hazil bilan ham bo‘ladi, ustozga — hurmat bilan.",
+        "Shakl: necha qator (4 yoki 8), qaysi satrlar qofiyalanishi va satr uzunligi. Bolalar uchun «qisqa, oson yodlanadigan so‘zlar bilan» deb qo‘shing.",
+        "Shaxsiy detal: ism va bitta haqiqiy xotira yoki odat — «buvim har qishda jun paypoq to‘qib beradi». Detal bo‘lmasa, model uni o‘zidan to‘qib qo‘yishi mumkin: yuborishdan oldin shuni tekshiring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javobni o‘qing va aniqlashtiring: «3-satrdagi qofiyani almashtir», «soddaroq so‘zlar bilan yoz», «yana bir variant ber». Aniqlashtirishga berilgan javob ham limitdan bitta javob sifatida hisoblanadi."
+    },
+    {
+      "type": "h2",
+      "id": "sorov-namunalari",
+      "text": "Yaxshi so‘rov namunalari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Onamga tug‘ilgan kuniga 8 qatorlik iliq she’r yoz. U shifokor, ko‘p yillar tungi navbatchilikda ishlagan. 2- va 4-satrlar qofiyalansin.»",
+        "«2-sinf o‘quvchisi yodlashi uchun qish haqida 4 qatorlik quvnoq she’r yoz: har satrda 7 bo‘g‘in, qor odam va chana haqida.»",
+        "«Do‘stim Jasurning 30 yoshiga hazilomuz to‘rtlik yoz: u har yakshanba tog‘ga chiqadi va hammani o‘zi bilan olib ketadi. Xafa qiladigan gap bo‘lmasin.»",
+        "«Ustozimga Ustozlar kuniga 4 qatorlik she’r yoz: u menga ingliz tilini o‘rgatgan, sabri uchun rahmat aytmoqchiman.»"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qofiya-vazn",
+      "text": "Qofiya, vazn va to‘rtlik: qisqa eslatma"
+    },
+    {
+      "type": "p",
+      "text": "O‘zbek she’riyatida keng tarqalgan barmoq vaznida har satrdagi bo‘g‘inlar soni teng bo‘ladi. Bolalar she’rlarida ko‘pincha 7 yoki 8 bo‘g‘inli, kattalar she’rlarida esa 8 yoki 11 bo‘g‘inli satrlar uchraydi. Bo‘g‘inni unli tovushlar bo‘yicha sanash oson: «O-na-jo-nim» — 4 bo‘g‘in."
+    },
+    {
+      "type": "p",
+      "text": "Qofiya — satr oxiridagi ohangdosh so‘zlar: «yumshoq — chiroq», «chalar — ochar». To‘rtlikda odatda 2- va 4-satr yoki 1-, 2- va 4-satr qofiyalanadi. AI ba’zan bo‘g‘inlar sonini buzadi yoki zaif qofiya tanlaydi: she’rni ovoz chiqarib o‘qing va kerak bo‘lsa, aynan bitta satrni qayta yozdiring."
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi she’rlar shu sahifa uchun AI yordamida yozilgan va jamoa tomonidan tahrir qilingan: ular hech bir shoirning asaridan olinmagan. Ularni shaxsiy tabrikda bemalol ishlating. Tanlov yoki nashrga yubormoqchi bo‘lsangiz, uning qoidalarini o‘qing: ko‘pincha faqat o‘zingiz yozgan asar qabul qilinadi."
+    },
+    {
+      "type": "h2",
+      "id": "onaga",
+      "text": "Ona haqida she’rlar"
+    },
+    {
+      "type": "quote",
+      "text": "Onajonim, qo‘llaringiz / Bahor kabi iliq, yumshoq. / Duoingiz bilan har kun / Yo‘limda yonar bir chiroq. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "quote",
+      "text": "Bugun sizning bayramingiz, / Gulga to‘lsin keng hovlimiz. / Sog‘ bo‘ling, onajon, doim — / Siz bilan to‘liq baxtimiz. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "quote",
+      "text": "Tong otmasdan uyg‘onib, / Choy damlaysiz hammaga. / Charchasangiz ham kulib, / Mehr berasiz barchaga. / Bolaligim ertagi / Allangizda yashaydi. / Onajonim, mehringiz / Har qadamda qo‘llaydi. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "h2",
+      "id": "yangi-yil",
+      "text": "Yangi yil she’rlari"
+    },
+    {
+      "type": "quote",
+      "text": "Soat o‘n ikkini chalar, / Eshikni Yangi yil ochar. / Oila bir dasturxonda — / Har ko‘ngilda umid yonar. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "quote",
+      "text": "Qorbobo keldi shoshib, / Qopi to‘la o‘yinchoq. / Archa yonida davra, / Qo‘shiq aytar har o‘rtoq. (bolalar uchun; AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "quote",
+      "text": "Eski yil bilan xayrlashib, / Yangisiga cho‘zamiz qo‘l. / Kelgan yilda sizga, do‘stlar, / Sog‘lik, omad va yorug‘ yo‘l! (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "h2",
+      "id": "bolalar-uchun",
+      "text": "Bolalar uchun she’rlar"
+    },
+    {
+      "type": "quote",
+      "text": "Mushukcham bor, momiq, oq, / Ko‘zlari — ikki chiroq. / Koptogini quvlaydi, / Menga sodiq bir o‘rtoq. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "quote",
+      "text": "Ertalab quyosh kulib / Derazamga qaradi. / «Tur, uyquchi!» — dedi-yu, / Yuzlarimni siladi. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "h2",
+      "id": "qish",
+      "text": "Qish haqida she’rlar"
+    },
+    {
+      "type": "quote",
+      "text": "Oq gilamday yoyildi qor, / Oppoq bo‘ldi butun diyor. / Sovuq chimchilaydi yuzni — / Uyda sandal, issiq choy bor. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "quote",
+      "text": "Qor yog‘di — biz hovlida / Qor odamcha yasadik. / Sabzidan burun qilib, / Atrofida o‘ynadik. (bolalar uchun; AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "h2",
+      "id": "dostga",
+      "text": "Do‘st haqida she’rlar"
+    },
+    {
+      "type": "quote",
+      "text": "Do‘stim, yillar o‘tsa hamki, / Sen hamisha menga qadrdon. / Quvonchimni ikki qilding, / Dardimga sen bo‘lding darmon. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "quote",
+      "text": "Tug‘ilgan kuning bugun, / Kulgi to‘lsin uyingga. / Orzularing ushalsin, / Baxt yor bo‘lsin o‘zingga! (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "h2",
+      "id": "ustozga",
+      "text": "Ustoz haqida she’rlar"
+    },
+    {
+      "type": "quote",
+      "text": "Ilk harfni sizdan o‘rgandik, / Bilim yo‘lin sizdan topdik. / Ustoz, sabringizga rahmat — / Sizdek bo‘lishni istadik. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "quote",
+      "text": "Doska yonida turib, / Dunyoni ochdingiz siz. / Bugun gul tutib sizga, / «Rahmat!» deymiz hammamiz. (AI yordamida yozilgan, jamoa tahriri)"
+    },
+    {
+      "type": "h2",
+      "id": "shaxsiy",
+      "text": "Namunani shaxsiy qilish: ism va xotira"
+    },
+    {
+      "type": "p",
+      "text": "Namunani o‘zgarishsiz yuborish mumkin, lekin bitta satrni o‘zingizniki qilsangiz, she’r ancha iliq chiqadi. Chatga namunani qo‘yib, shunday yozing: «Shu she’rni dadam uchun qayta yoz, ismi Anvar, u har yakshanba hammamizga palov damlaydi. Vazn va qofiyani saqla»."
+    },
+    {
+      "type": "p",
+      "text": "Chatga boshqa odamlarning telefon raqami, manzili yoki sog‘lig‘i haqidagi ma’lumotlarni yozmang: so‘rov matni serverimizga va xorijdagi AI-provayderlarga yuboriladi. She’r uchun ism va bitta xotira yetarli."
+    },
+    {
+      "type": "h2",
+      "id": "cheklovlar",
+      "text": "Cheklovlar: chat nimani qilmaydi"
+    },
+    {
+      "type": "p",
+      "text": "Chat faqat matn yozadi: rasm, otkritka, ovozli yoki video tabrik yaratmaydi. Mashhur shoirlarning she’rlarini ko‘chirib bermaydi va ularni yangi she’r sifatida taqdim etmaydi: klassik she’r kerak bo‘lsa, kitob yoki kutubxonaga murojaat qiling. Model vazn yoki qofiyada xato qilishi, ba’zan so‘zni noo‘rin ishlatishi mumkin — yuborishdan oldin o‘qib chiqing."
+    },
+    {
+      "type": "p",
+      "text": "Maktab topshirig‘ida she’rni o‘zingiz yozishingiz kerak bo‘lsa, chatdan tayyor she’r emas, yordam so‘rang: qofiyadosh so‘zlar ro‘yxati, bo‘g‘inlarni sanash yoki o‘zingiz yozgan satrlarga izoh. Shunda she’r sizniki bo‘lib qoladi, chat esa maslahatchi o‘rnida yordam beradi."
+    },
+    {
+      "type": "h2",
+      "id": "nega-gptbot",
+      "text": "Nega aynan GPTBot.uz"
+    },
+    {
+      "type": "linkp",
+      "text": "Chat o‘zbekcha so‘rovni tushunadi va rol ko‘rsatmasiga ko‘ra javobni lotin yozuvida, o‘, g‘ va ’ belgilari bilan yozadi; ruscha yozsangiz, ruscha javob beradi. Ilova o‘rnatish va ro‘yxatdan o‘tish shart emas. Kirill yozuvi kerak bo‘lsa, tayyor she’rni {translit} bilan bepul o‘giring: u AI’siz ishlaydi va sinov javoblarini sarflamaydi. Sinov shartlari va cheklovlar shu sahifada ochiq yozilgan.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "/uz/rus-ozbek-tarjimon/",
+          "anchor": "kirill ↔ lotin konvertori"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "She’r bilan birga nasriy tabrik ham kerakmi? {tabrik}ga kimga va qaysi bayram uchun ekanini yozsangiz, tayyor matn beradi; tabrik tuzilmasi va namunalar {guide}da. Boshqa vazifalar uchun {chat}ni oching. Sinov javoblari tugasa, AI paket shartlari {tariffs} sahifasida.",
+      "links": [
+        {
+          "token": "tabrik",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish qo‘llanmasi"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Kompaniyangiz uchun bayram postlari, mijozlarga tabriklar va Telegram kanal matnlari kerakmi? Ularni {smm} doirasida jamoamiz rejalashtirib tayyorlaydi (oyiga 2 490 000 so‘mdan, reklama byudjeti alohida). Mijozlarga Telegram va Instagram’da javob beradigan bot kerak bo‘lsa — {bot} (1 990 000 so‘mdan). {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "SMM xizmatlari"
+        },
+        {
+          "token": "bot",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "Biznes uchun AI-bot"
+        },
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Sahifadagi she’rlar namuna sifatida berilgan; muhim tadbir uchun tayyorlangan matnni o‘zingiz ham o‘qib chiqing."
+    }
+  ],
+  "faq": [
+    {
+      "q": "AI she’r yozish bepulmi?",
+      "a": "Qisman. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor — butun sayt bo‘yicha, AI chat bilan umumiy; ular har kuni yangilanmaydi. Keyin yangi she’rlar uchun AI paket kerak: narx, javoblar soni va muddat chatda ko‘rsatiladi. Sahifadagi namunalarni o‘qish va ko‘chirish bepul."
+    },
+    {
+      "q": "She’r necha qatordan iborat bo‘ladi?",
+      "a": "Qancha so‘rasangiz, shuncha: odatda 4 yoki 8 qator. Uzun she’rni qismlarga bo‘lib so‘ragan ma’qul — qisqa she’rda vazn va qofiyani tekshirish osonroq. Har bir qism alohida javob hisoblanadi."
+    },
+    {
+      "q": "Namunadagi she’rlardan foydalansam bo‘ladimi?",
+      "a": "Ha, shaxsiy tabrik, oilaviy davra yoki maktab ertaligi uchun bemalol. Ular shu sahifa uchun AI yordamida yozilgan va jamoa tomonidan tahrir qilingan. Tanlov yoki nashrga yubormoqchi bo‘lsangiz, qoidalarni o‘qing va AI ishtirokini yashirmang."
+    },
+    {
+      "q": "Mashhur shoirning she’rini topib bera oladimi?",
+      "a": "Yo‘q. Chat mashhur shoirlarning she’rlarini ko‘chirmaydi va arxiv matnlarini qayta bermaydi — faqat yangi, original she’r yozadi. Klassik she’riyat uchun kitob, kutubxona yoki nashriyotlarning rasmiy manbalariga murojaat qiling."
+    },
+    {
+      "q": "She’rni kirill yozuvida olsa bo‘ladimi?",
+      "a": "Chat o‘zbekcha javobni lotin yozuvida yozadi. Kirill kerak bo‘lsa, tayyor she’rni rus-o‘zbek tarjimon yoki AI tabrik generatori sahifasidagi kirill ↔ lotin konvertori bilan o‘giring: u brauzerda, AI’siz va limitsiz ishlaydi."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis, OpenAI ham, ChatGPT ham emas. She’rni boshqa kompaniyaning til modeli yozadi; qaysi model javob bergani har bir javob ostida yozilgan."
+    },
+    {
+      "q": "Ovozli she’r yoki rasmli otkritka ham yasaydimi?",
+      "a": "Yo‘q, chat faqat matn yozadi: rasm, otkritka, ovoz va video yaratmaydi. Tayyor matnni otkritkaga o‘zingiz yozishingiz yoki ovoz chiqarib o‘qib, yozib olishingiz mumkin."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/rus-ozbek-tarjimon/",
+      "anchor": "Rus-o‘zbek tarjimon va kirill ↔ lotin konvertori",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "SMM xizmatlari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI she’r yozish",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "description": "O‘zbek tilida original she’r yozadigan mustaqil AI vosita, GPTBot.uz chatida «Ijodkor» rolida: onaga, ustozga, do‘stga, Yangi yil, qish va bolalar uchun. Ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "3 ta bepul sinov javobi",
+        "description": "Butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/ai-sher-yozish/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

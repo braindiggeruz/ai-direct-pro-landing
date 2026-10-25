@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-10-25",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "commercialClusters": [
     {
@@ -316,7 +316,7 @@
         }
       ],
       "evidence": "gptbot.uz-audit/raw/smm-cluster-2026-10-06/: Google Ads location 2860 pulled 2026-10-06 (target yoqish 260/mo at competition 0.34, targetolog 170, instagram target 50 at CPC 2.79, targetolog kerak 40, target yoqish narxi 20; about 330 a month for the phrasing the page targets — target yoqish 260, instagram target 50, target yoqish narxi 20 — while the other 210, targetolog 170 (vacancies and courses) and targetolog kerak 40 (hiring), is recorded but not targeted); Search Console 2026-07-08..2026-10-05 shows /uz/blog/target-reklama-nima/ at 165 impressions, average position 6.8 and 0 clicks, a distinct Uzbek targeting intent with no commercial page behind it; the live SERP for target xizmati has no agency page in the top ten (OLX, birbir, Instagram) and target yoqish has an OLX service listing at 2.",
-      "note": "Registered with decision A7. The hub prints the same launch and management prices as /uz/internet-reklama-toshkent/#target and /ru/targetirovannaya-reklama-tashkent/ (tests/advertising-seo-content.test.ts) and is the reciprocal hreflang pair of the Russian targeting page. The article keeps the definitional intent (target nima, target reklama nima, таргет нима) and hands the declared keywords «target yoqish narxi» and «instagramda target yoqish» to the hub (removed from its keywords); its platform-budget H2 «Target yoqish narxi: minimal byudjet qancha» stays, as the plan decided, and links the hub. /uz/internet-reklama-toshkent/#target stays as a channel-overview summary with its price table and links here. Organic social management stays with smm-uz; the Biznes and Pro SMM packages include target management and link here as a separate service. Still rejected (A2): targetolog as a primary keyword and target reklama as a hub keyword."
+      "note": "Registered with decision A7. The hub prints the same launch and management prices as /uz/internet-reklama-toshkent/#target and /ru/targetirovannaya-reklama-tashkent/ (tests/advertising-seo-content.test.ts) and is the reciprocal hreflang pair of the Russian targeting page. The article keeps the definitional intent (target nima, target reklama nima, таргет нима) and hands the declared keywords «target yoqish narxi» and «instagramda target yoqish» to the hub (removed from its keywords); its platform-budget H2 «Target yoqish narxi: minimal byudjet qancha» stays, as the plan decided, and links the hub. /uz/internet-reklama-toshkent/#target stays as a channel-overview summary with its price table and links here. Organic social management stays with smm-uz; the Biznes and Pro SMM packages include target management and link here as a separate service. Still rejected (A2): targetolog as a primary keyword and target reklama as a hub keyword. Updated 2026-10-25 (AI-tools wave A, AD_CLIENT_FUNNEL §5 row 1): the hub gained a do-it-yourself section «O‘zingiz yoqmoqchimisiz? 7 qadam» and a section «Targetolog xizmati narxi: frilanser, xodim yoki agentlik»; «targetolog» stays a section word, not a declared key (A7), and the keywords and prices of the hub are unchanged. It now links the ad-copy tool /uz/gpt-telegram-instagram-ideya/ (pair C66) and the Uzum seller guide /uz/blog/uzum-marketda-sotuvchi-bolish/ (pair C67). Neither is a spoke: writing ad copy and becoming a seller are not subtopics of targeted ads."
     },
     {
       "id": "seo-uz",
@@ -370,10 +370,15 @@
           "url": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
           "ownsIntent": "buy an advertising placement inside someone else's Telegram channel, and tell that apart from the official ad platform",
           "primaryKeyword": "купить рекламу в телеграм"
+        },
+        {
+          "url": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+          "ownsIntent": "what launching the official Telegram ad platform costs from Uzbekistan and how to launch it yourself: the platform's own minimum, the team's work priced separately, and a dated step-by-step section through official routes only (added 2026-10-25)",
+          "primaryKeyword": "telegram ads стоимость"
         }
       ],
       "evidence": "Measured 2026-08-26, location 2860. telegram ads 6,600/mo at CPC 1.30 and competition 0.17; ads telegram 1,000/mo; реклама в телеграм 70/mo at CPC 1.17; telegram ad platform 20/mo; and ten-a-month modifiers including telegram ads цена, telegram ads на русском and telegram ads что это. Search Console over three months: this URL holds telegram ads узбекистан at position 50 on 3 impressions, the only Telegram-advertising query the site receives.",
-      "note": "Registered 2026-08-26 so the cluster-quality gates finally run against the Russian side too, and so the two Telegram pages are managed as one cluster with the Uzbek hub. Registering it surfaced the same defect the Uzbek side had: the exact phrase «Telegram Ads в Узбекистане» carried 8 of the 14 internal anchors (57%), close to the 60% cap. Two in-sentence anchors were rewritten to describe the section they link to; no link was added or removed. Deliberately NOT claimed by this cluster: the bare head term google ads (3,600/mo), whose SERP is entirely Google's own properties, and the bare telegram ads, whose rank 1 is ads.telegram.org itself. The hub competes for the commercial slice below the platform, not for the platform's own name. One spoke was added 2026-08-26: /ru/blog/telegram-ads-ili-posevy-v-kanalah/. It exists because the Russian tail discovery of the same day separated into four intents, and one of them is not the hub's — ~25 phrases around «биржа рекламы», «купить рекламу», «закупка» and «разместить» aggregating ~250/mo, whose searcher wants to buy a post inside someone else's channel rather than hire an agency. One URL for the whole family, never one per phrase. Anchor concentration on the hub measured 43% (6 of 14) before the spoke and 38% (6 of 16) after; the earlier note's 57% figure describes the state before the two anchors were rewritten in commit a3e37b7."
+      "note": "Registered 2026-08-26 so the cluster-quality gates finally run against the Russian side too, and so the two Telegram pages are managed as one cluster with the Uzbek hub. Registering it surfaced the same defect the Uzbek side had: the exact phrase «Telegram Ads в Узбекистане» carried 8 of the 14 internal anchors (57%), close to the 60% cap. Two in-sentence anchors were rewritten to describe the section they link to; no link was added or removed. Deliberately NOT claimed by this cluster: the bare head term google ads (3,600/mo), whose SERP is entirely Google's own properties, and the bare telegram ads, whose rank 1 is ads.telegram.org itself. The hub competes for the commercial slice below the platform, not for the platform's own name. One spoke was added 2026-08-26: /ru/blog/telegram-ads-ili-posevy-v-kanalah/. It exists because the Russian tail discovery of the same day separated into four intents, and one of them is not the hub's — ~25 phrases around «биржа рекламы», «купить рекламу», «закупка» and «разместить» aggregating ~250/mo, whose searcher wants to buy a post inside someone else's channel rather than hire an agency. One URL for the whole family, never one per phrase. Anchor concentration on the hub measured 43% (6 of 14) before the spoke and 38% (6 of 16) after; the earlier note's 57% figure describes the state before the two anchors were rewritten in commit a3e37b7. Updated 2026-10-25 (AI-tools wave A; AD_CLIENT_FUNNEL §11, cannibalisation list): /ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/ is recorded as the second spoke, because it shares «цена» and «запуск» wording with the hub. It owns the cost and do-it-yourself launch questions («telegram ads стоимость», «telegram ads Узбекистан цена», «telegram ads запустить») and gained a dated section on launching from Uzbekistan through official routes only; the hub keeps «telegram ads цена» and «запуск telegram ads» as the agency's service phrasing. The two already linked each other. The bare head «telegram ads» stays unclaimed."
     }
   ],
   "pairs": [
@@ -1657,6 +1662,470 @@
       "evidence": "backlog W2-04 (the new guide's mustNotTarget takes the ariza and tushuntirish keys); docs/seo/research/2026-10-24-growth-audit/L3-demand-gaps.md L3-09",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-10-24"
+    },
+    {
+      "id": "C53-uz-chat-vs-ai-sher-yozish",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; a reader may ask it for a poem, but the chat page does not answer «ona haqida she’rlar» or the other poem-by-topic queries. The chat page does not link the poem tool (protected; its 28-day snippet window from 2026-10-24 is open)",
+        "mustNotTarget": [
+          "ona haqida she’rlar",
+          "ona haqida sherlar",
+          "yangi yil she’rlari",
+          "yangi yil sherlari",
+          "bolalar uchun she’rlar",
+          "sher yozish",
+          "ai she’r yozish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/ai-sher-yozish/",
+        "owns": "write an original short poem with the AI chat in the writer role — primary «ona haqida she’rlar» (measured spelling «ona haqida sherlar»), with Yangi yil, bolalar, qish, do‘st and ustoz poems as secondaries: six page chips, 14 original sample poems labelled as AI-assisted and edited by the team, metre and rhyme basics; the writer role does not reproduce known authors' poems; it links the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): ona haqida sherlar 5 400/mo (March 2026 22 200), yangi yil sherlari 3 600/mo (December 2025 40 500, October 2025 90), bolalar uchun sherlar 3 600, qish haqida sher 2 900. The hub head «sherlar» (9 900) and «vatan haqida sher» (18 100) are not claimed here (research wave 2). The sample poems were written for the page with AI; a native speaker reads them before deploy, so that the label «jamoa tahriri» is true when the page ships. Read the New Year terms in December–January.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №2 and §4 row 7; text-tools-data/tt_kw1_metrics.json and tt_kw2_metrics.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C54-uz-chat-vs-ai-tabrik-generatori",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; the chat page does not answer «tug‘ilgan kun tabrigi» or the other greeting-generator queries (protected; it does not link the generator)",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabrigi",
+          "tugilgan kun tabrigi",
+          "туғилган кун табриги",
+          "tug‘ilgan kunga tabrik",
+          "tugilgan kunga tabrik",
+          "yangi yil tabrigi",
+          "tabrik generatori"
+        ]
+      },
+      "informational": {
+        "url": "/uz/ai-tabrik-generatori/",
+        "owns": "get a personal greeting from the AI chat in the writer role — primary «tug‘ilgan kun tabrigi» (measured spellings «tugilgan kun tabrigi» and the Cyrillic «туғилган кун табриги»), «tug‘ilgan kunga tabrik», «yangi yil tabrigi», the Cyrillic «янги йил табриклари» and the 8-mart, to‘y and ustoz greetings: six chips, 15 original samples, a Cyrillic block produced with the site's converter, and the free Cyrillic ↔ Latin converter; it links the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): туғилган кун табриги 9 900/mo, tugilgan kun tabrigi 6 600/mo, tugilgan kunga tabrik 4 400/mo, 8 март табриклари 1 900/mo, yangi yil tabrigi 1 600/mo, янги йил табриклари 1 300/mo. The birthday heads fell from October 2025 to September 2026 (9 900 → 6 600 and 6 600 → 5 400), a fall the research did not correct. Hreflang pair of /ru/generator-pozdravleniy/ (x-default the Uzbek page). Read the New Year and 8 March terms in December–March.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №8 and §4 row 5; text-tools-data/tt_kw1_metrics.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C55-uz-tabrik-guide-vs-ai-tabrik-generatori",
+      "commercial": {
+        "url": "/uz/blog/tabrik-yozish/",
+        "owns": "how to write a greeting and 30 ready samples — the plural collection heads «tug‘ilgan kun tabriklari», «tabriklar», «yangi yil tabriklari», «tabrik yozish» and the Cyrillic «табриклар» (C51); since 2026-10-25 one paragraph after its AI section links the generator and the poem tool; it declares none of the generator's keys",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabrigi",
+          "tugilgan kun tabrigi",
+          "туғилган кун табриги",
+          "tug‘ilgan kunga tabrik",
+          "tugilgan kunga tabrik",
+          "yangi yil tabrigi",
+          "tabrik generatori",
+          "ai tabrik generatori"
+        ]
+      },
+      "informational": {
+        "url": "/uz/ai-tabrik-generatori/",
+        "owns": "a personal greeting written now by the AI chat: the singular «tug‘ilgan kun tabrigi» family and «tug‘ilgan kunga tabrik» (C54); it links the guide for the structure and the ready samples",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabriklari",
+          "tugilgan kun tabriklari",
+          "tabriklar",
+          "yangi yil tabriklari",
+          "tabrik yozish",
+          "табриклар"
+        ]
+      },
+      "gscNote": "No measured overlap yet: both URLs are new (2026-10-24 and 2026-10-25). Google Ads keeps the singular and the plural in separate buckets (tugilgan kun tabrigi 6 600 against tugilgan kun tabriklari 1 300; yangi yil tabrigi 1 600 against yangi yil tabriklari 880), and the research counted the guide's 11 keys out of the generator's cluster, so the pair records the split before Search Console can mix them. The Cyrillic «янги йил табриклари» (1 300/mo) is the generator's: the guide declares only the Latin plural and «табриклар». The pages link each other.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №8 («already exists: /uz/blog/tabrik-yozish/, its 11 keys are not counted»); demand-policy rows of 2026-10-24 and 2026-10-25",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C56-uz-tabrik-generator-vs-ai-sher-yozish",
+      "commercial": {
+        "url": "/uz/ai-tabrik-generatori/",
+        "owns": "a greeting in prose — the «tabrigi»/«tabrik» family (C54, C55); it links the poem tool for a greeting in verse and declares no poem key",
+        "mustNotTarget": [
+          "ona haqida she’rlar",
+          "ona haqida sherlar",
+          "yangi yil she’rlari",
+          "yangi yil sherlari",
+          "tabrik she’rlar",
+          "tugilgan kun sher",
+          "sher yozish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/ai-sher-yozish/",
+        "owns": "a poem — the «she’r/sherlar» family (C53), including the verse greeting «tabrik she’rlar» and «tugilgan kun sher»; it links the generator for a greeting in prose",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabrigi",
+          "tugilgan kun tabrigi",
+          "yangi yil tabrigi",
+          "tabrik generatori",
+          "ai tabrik generatori"
+        ]
+      },
+      "gscNote": "Two writer-role tools for the same occasions (birthday, New Year, 8 March, teachers): the poem tool owns verse, the generator owns prose. «tabrik she’rlar» and «tugilgan kun sher» sit on the poem page because that searcher asks for verse. No Search Console history; the pages link each other.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №2 and №8",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C57-ru-chat-vs-generator-pozdravleniy",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now — «ии чат», «чат гпт онлайн» and its spellings (C23–C27, C33, C38); a reader may ask it for a greeting, but the chat page does not answer «поздравления с днем рождения» (protected; it does not link the generator)",
+        "mustNotTarget": [
+          "поздравления с днем рождения",
+          "поздравление с днем рождения своими словами",
+          "поздравление с днем рождения мужчине",
+          "поздравление с новым годом",
+          "генератор поздравлений"
+        ]
+      },
+      "informational": {
+        "url": "/ru/generator-pozdravleniy/",
+        "owns": "write a greeting now with the AI chat in the writer role — primary «поздравления с днем рождения», by addressee (мужчине, подруге, маме, коллеге), «своими словами», the New Year and «на узбекском»: six chips, 18 original samples labelled as AI-assisted and edited by the team, no cards or images; it links the chat",
+        "mustNotTarget": [
+          "ии чат",
+          "ии чат онлайн",
+          "чат гпт онлайн",
+          "чат gpt онлайн",
+          "chatgpt онлайн",
+          "аналог chatgpt онлайн"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): поздравления с днем рождения 18 100/mo (22 200 in October 2025, 14 800 in September 2026, a fall the research did not correct), поздравление с днем рождения мужчине 4 400, с днем рождения подруге 4 400, поздравление с днем рождения своими словами 3 600, поздравление с новым годом 1 900. SERP: greeting archives and Pinterest under an AI Overview, no Uzbek resource (CLUSTERS_TO_ADD §3.1 №10). Hreflang pair of /uz/ai-tabrik-generatori/ (x-default the Uzbek page). Read the New Year term in December–January.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №10 and §4 row 6; text-tools-data/tt_kw1_metrics.json; ru-audience-ai-data/uz_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C58-uz-chat-vs-kalkulyator",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; the chat page does not answer «kalkulyator» or «foiz hisoblash» (protected; it does not link the calculator)",
+        "mustNotTarget": [
+          "kalkulyator",
+          "onlayn kalkulyator",
+          "kalkulator",
+          "foiz hisoblash",
+          "misol yechish",
+          "masala yechish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/kalkulyator/",
+        "owns": "calculate now in the browser — primary «kalkulyator» with «onlayn kalkulyator», the misspellings «kalkulator» and «kalkulyatr», «ilmiy kalkulyator» and percentages: a deterministic calculator with no limit and no model call, and the AI teacher that explains a solution step by step on request (trial replies); it explains and does not do homework for the pupil; it links the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860): kalkulyator 40 500/mo (prices-tools data of 2026-10-25, no monthly series returned); kalkulator and kalkulyatr 40 500 each, counted ×0.5 by the research because a misspelling bucket that size is implausible. The Latin SERP was not captured and a Google calculator box above the results was not checked (CLUSTERS_TO_ADD §9.5): look at the SERP from Uzbekistan once before reading any result. Hreflang pair of /ru/kalkulyator/ (x-default the Uzbek page).",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №3, §4 row 2 and §9.5; docs/seo/research/2026-10-25-ad-client-funnel/prices-tools-data/kw1_metrics.json; calculators-utility-data/cu_kw1_metrics.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C59-ru-chat-vs-kalkulyator",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now (C23–C27, C33, C38); the chat page does not answer «калькулятор» or «калькулятор онлайн» (protected; it does not link the calculator)",
+        "mustNotTarget": [
+          "калькулятор",
+          "калькулятор онлайн",
+          "онлайн калькулятор",
+          "инженерный калькулятор",
+          "научный калькулятор"
+        ]
+      },
+      "informational": {
+        "url": "/ru/kalkulyator/",
+        "owns": "calculate now in the browser — primary «калькулятор онлайн» with «калькулятор», «онлайн калькулятор» and «инженерный/научный калькулятор»: the same deterministic calculator as the Uzbek page, with an AI explanation of the steps on request (trial replies); it links the chat",
+        "mustNotTarget": [
+          "ии чат",
+          "ии чат онлайн",
+          "чат гпт онлайн",
+          "чат gpt онлайн",
+          "chatgpt онлайн",
+          "аналог chatgpt онлайн"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): калькулятор 74 000/mo (90 500 in September 2026), калькулятор онлайн 3 600/mo. The Russian SERP is held by x-calculator.ru, calculator888, desmos and calc.ru with Play cards and no AI Overview (CLUSTERS_TO_ADD §3.1 №3): the bare head is a long shot, so the primary is the «онлайн» phrase.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №3; calculators-utility-data/cu_kw1_metrics.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C60-ru-bot-cost-calculator-vs-kalkulyator",
+      "commercial": {
+        "url": "/ru/kalkulyator-stoimosti-telegram-bota/",
+        "owns": "estimate the cost of a specific Telegram-bot project (commercialClusters telegram-leads-ru) — «калькулятор стоимости Telegram-бота» and its pricing phrases; it does not claim the general calculator heads",
+        "mustNotTarget": [
+          "калькулятор",
+          "калькулятор онлайн",
+          "онлайн калькулятор",
+          "инженерный калькулятор",
+          "научный калькулятор"
+        ]
+      },
+      "informational": {
+        "url": "/ru/kalkulyator/",
+        "owns": "the general arithmetic and scientific calculator (C59); its business line links the bot cost calculator with that page's own name as the anchor and declares none of its keys",
+        "mustNotTarget": [
+          "калькулятор стоимости telegram-бота",
+          "рассчитать стоимость telegram-бота",
+          "сколько стоит telegram-бот",
+          "расчёт telegram-бота онлайн"
+        ]
+      },
+      "gscNote": "Both URLs carry «калькулятор» in their names, and the bot page was the site's only calculator until 2026-10-25, so the pair fixes the split before Search Console can mix them: the general head and its «онлайн» variants belong to /ru/kalkulyator/, the project-estimate phrasing to the bot page. The general calculator links the bot page — a business extension of an existing owner, not a twin; the bot page does not link back.",
+      "evidence": "reports/commercial-seo-20261009/cluster-plan.md (telegram-leads-ru); docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №3",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C61-uz-chat-vs-notogri-fellar",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; the chat page does not answer «noto‘g‘ri fe’llar jadvali» or «irregular verbs» (protected; it does not link the trainer)",
+        "mustNotTarget": [
+          "noto‘g‘ri fe’llar jadvali",
+          "noto‘g‘ri fe’llar",
+          "notogri fellar",
+          "irregular verbs",
+          "irregular verbs list"
+        ]
+      },
+      "informational": {
+        "url": "/uz/notogri-fellar/",
+        "owns": "learn English irregular verbs — primary «noto‘g‘ri fe’llar jadvali» (measured as «noto'g'ri fe'llar jadvali»), «irregular verbs», «irregular verbs list» and «past participle»: a 163-verb V1–V2–V3 table with Uzbek translation, search and a 10-question test that work without a model, and the AI teacher for practice (trial replies); it links the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): irregular verbs 12 100/mo (18 100 in October 2025, 9 900 in September 2026), irregular verbs list 2 900, noto'g'ri fe'llar jadvali 2 400, noto'g'ri fe'llar 1 000, notogri fellar 720, past participle 720. SERP for the Uzbek head: an AI Overview, Scribd PDFs and insho.uz, no interactive trainer (CLUSTERS_TO_ADD §3.1 №12). Hreflang pair of /ru/nepravilnye-glagoly/ (x-default the Uzbek page).",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №12 and §4 row 4; language-learning-data/ll_kw_metrics.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C62-ru-chat-vs-nepravilnye-glagoly",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now (C23–C27, C33, C38); the chat page does not answer «неправильные глаголы» (protected; it does not link the trainer)",
+        "mustNotTarget": [
+          "неправильные глаголы",
+          "таблица неправильных глаголов",
+          "неправильные глаголы английского языка"
+        ]
+      },
+      "informational": {
+        "url": "/ru/nepravilnye-glagoly/",
+        "owns": "the Russian side of the same trainer — primary «неправильные глаголы» and «таблица неправильных глаголов»: the table with Russian translation, search, a 10-verb test and the AI teacher (trial replies); it links the chat",
+        "mustNotTarget": [
+          "ии чат",
+          "ии чат онлайн",
+          "чат гпт онлайн",
+          "чат gpt онлайн",
+          "chatgpt онлайн",
+          "аналог chatgpt онлайн"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): неправильные глаголы 1 900/mo (2 900 in October 2025, 1 900 in September 2026), CPC 2.40. Hreflang pair of /uz/notogri-fellar/ (x-default the Uzbek page).",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №12; language-learning-data/ll_kw_metrics.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C63-uz-tarjimon-vs-kirill-lotin",
+      "commercial": {
+        "url": "/uz/rus-ozbek-tarjimon/",
+        "owns": "translate Russian ↔ Uzbek (C47, A8); it keeps the Cyrillic ↔ Latin converter as a tab next to the translator, but the script-conversion queries belong to /uz/kirill-lotin/; since 2026-10-25 a sentence after its alphabet section links that page",
+        "mustNotTarget": [
+          "kirill lotin",
+          "lotin krill",
+          "lotin kirill",
+          "krill lotin",
+          "lotin alifbosi",
+          "o‘zbek alifbosi",
+          "kirildan lotinga",
+          "lotindan kirilga",
+          "лотин алифбоси"
+        ]
+      },
+      "informational": {
+        "url": "/uz/kirill-lotin/",
+        "owns": "change the script of an Uzbek text — primary «kirill lotin» with «lotin krill», «lotin kirill», «krill lotin», «lotin alifbosi», «o‘zbek alifbosi» and the Cyrillic «лотин алифбоси»: the same converter in both directions with no model and no limit, a 29-row alphabet table with the o‘/g‘ and tutuq rules, and the AI teacher for spelling checks (trial replies); conversion is not translation, and it links the translator for that",
+        "mustNotTarget": [
+          "rus o‘zbek tarjimon",
+          "rus uzbek tarjimon",
+          "rus ozbek tarjimon",
+          "ruschadan o‘zbekchaga tarjima",
+          "o‘zbekchadan ruschaga tarjima"
+        ]
+      },
+      "gscNote": "The converter shipped on 2026-10-24 as a tab of the translator pages, which declare none of its keys; the research sizes the script queries as a cluster of their own: lotin krill 4 400/mo, lotin alifbosi 3 600, kirill lotin 1 900 (2 400 in October 2025, 1 000 in September 2026), o'zbek alifbosi 1 600, лотин алифбоси 1 300, krill lotin 1 000 (Google Ads, location 2860, measured 2026-10-25). The SERP was not captured; lotin.uz and Play apps are the known competitors. New URL of AI-tools wave A, no Search Console history; hreflang pair of /ru/kirillica-v-latinicu/.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №20 and §4 row 3; text-tools-data/tt_kw1_metrics.json",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C64-ru-perevodchik-vs-kirillica-v-latinicu",
+      "commercial": {
+        "url": "/ru/russko-uzbekskiy-perevodchik/",
+        "owns": "translate Russian ↔ Uzbek (C48, A8); its converter tab stays, but «кириллица в латиницу» and the other script queries belong to /ru/kirillica-v-latinicu/; since 2026-10-25 a sentence in its alphabet section links that page",
+        "mustNotTarget": [
+          "кириллица в латиницу",
+          "латиница в кириллицу",
+          "перевод с кириллицы на латиницу",
+          "с кириллицы на латиницу",
+          "конвертер кириллица латиница",
+          "узбекский алфавит латиница"
+        ]
+      },
+      "informational": {
+        "url": "/ru/kirillica-v-latinicu/",
+        "owns": "change the script of an Uzbek text, for Russian-speaking searchers — primary «кириллица в латиницу», the reverse direction, «перевод с кириллицы на латиницу» and «узбекский алфавит латиница»: the converter, the 29-letter table and the rules for Ё/Ю/Я, Е, Ц and Ъ, with the AI teacher for spelling checks; it says that conversion is not translation and links the translator",
+        "mustNotTarget": [
+          "переводчик с русского на узбекский",
+          "перевод с русского на узбекский",
+          "русско узбекский переводчик",
+          "узбекско русский переводчик"
+        ]
+      },
+      "gscNote": "Demand (Google Ads, location 2860, measured 2026-10-25): кириллица в латиницу 1 300/mo (1 600 in October 2025, 1 000 in September 2026). «перевод с кириллицы на латиницу» contains the word «перевод» but asks for script conversion, not translation, so it stays with the converter; the translator keeps every «перевод с русского/узбекского» phrase (C48). New URL of AI-tools wave A, no Search Console history; hreflang pair of /uz/kirill-lotin/ (x-default the Uzbek page).",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №20; text-tools-data/tt_kw1_metrics.json; ru-audience-ai-data/uz_metrics_raw.json",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C65-uz-chat-vs-reklama-matni",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; it has linked this URL since July 2026 with the anchor «Telegram va Instagram uchun GPT», which stays as it is (protected), but the chat page does not answer «reklama matni yozish»",
+        "mustNotTarget": [
+          "reklama matni yozish",
+          "reklama matni",
+          "reklama yozish",
+          "reklama matnlari"
+        ]
+      },
+      "informational": {
+        "url": "/uz/gpt-telegram-instagram-ideya/",
+        "owns": "write ad copy now with the AI chat in the SMM role — primary «reklama matni yozish» with «reklama matni», «reklama yozish», «reklama uchun so‘zlar» and «caption generator»: six chips built on the smm and business-uzum templates, seven original rules, a platform table and the converter; retargeted on 2026-10-25 from the informational «GPT Telegram Instagram» (same URL, new H1); it links the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "Existing URL (2026-07-12), retargeted by AI-tools wave A instead of creating a twin (AD_CLIENT_FUNNEL §5 row 5). Demand (Google Ads, location 2860, measured 2026-10-25): reklama matni yozish 210/mo (CPC 0.77; 880 in March 2026, 40 in September 2026), reklama matni 70, reklama yozish 70, reklama uchun so‘zlar 20, caption generator 20; the three product-description phrases are left to a future card generator. SERP of 2026-10-25: an AI generator (promli.com) at 1, otherwise weak or mixed. The new H1 is listed on the protected homepage (revision 2026-10-25-ai-tools).",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F2, §5 row 5 and §11 item 7; prices-tools-data/kw1_metrics.json; verify-data/serp_recheck_summary.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C66-uz-target-vs-reklama-matni",
+      "commercial": {
+        "url": "/uz/instagram-target-yoqish/",
+        "owns": "commission Instagram and Facebook targeted ads (target-uz, A7); since 2026-10-25 it links the ad-copy tool (anchor «AI bilan reklama matni yozish») and declares none of its keys",
+        "mustNotTarget": [
+          "reklama matni yozish",
+          "reklama matni",
+          "reklama yozish",
+          "caption generator"
+        ]
+      },
+      "informational": {
+        "url": "/uz/gpt-telegram-instagram-ideya/",
+        "owns": "the free do-it-yourself step before the paid one: the visitor writes the copy with the AI chat, and the call to action under the result («Matn tayyor — reklamani biz yoqamiz») leads to the hub's #lead-form; it declares no targeting key",
+        "mustNotTarget": [
+          "target yoqish",
+          "instagram target",
+          "instagram target yoqish",
+          "target yoqish narxi",
+          "targetolog"
+        ]
+      },
+      "gscNote": "Funnel F2 of AD_CLIENT_FUNNEL: a result from the AI tool, then the agency (targeting from 1 990 000 so‘m for the launch and 1 490 000 so‘m a month, SMM from 2 490 000 so‘m a month, as the service pages print them). The pair keeps the copywriting query off the service page and the targeting queries off the tool, so neither drifts toward the other. The pages link each other.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F2 and §5 rows 1 and 5",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C67-uz-target-vs-uzum-guide",
+      "commercial": {
+        "url": "/uz/instagram-target-yoqish/",
+        "owns": "commission targeted ads (A7); for a marketplace seller that means external traffic to a product card. It links the Uzum seller guide and declares none of its keys",
+        "mustNotTarget": [
+          "uzumda savdo qilish",
+          "uzum sotuvchi",
+          "uzum market sotuvchi bo‘lish",
+          "uzum seller"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/uzum-marketda-sotuvchi-bolish/",
+        "owns": "become a seller on Uzum Market — primary «uzumda savdo qilish», «uzum market sotuvchi bo‘lish» and «uzum sotuvchi»: legal status, account, registration in Uzum Sellers, FBO or FBS and the first sale, with links to the official seller manual; the agency runs neither Uzum's internal ads nor stores, so the offer is external traffic and copy; it links the hub",
+        "mustNotTarget": [
+          "target yoqish",
+          "instagram target yoqish",
+          "target yoqish narxi",
+          "targetolog"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Funnel F3. Demand (Google Ads, location 2860, measured 2026-10-25): uzumda savdo qilish 260/mo (CPC 1.22), uzum sotuvchi 70, uzum market sotuvchi bo‘lish 50; the navigational heads «uzum seller» (74 000) and «seller uzum uz» (12 100) belong to Uzum itself (ranks 1–3) and are counted ×0.05. Not a target-uz spoke: becoming a seller is not a subtopic of targeted ads, so the guide is fenced from the hub instead. Hreflang pair of /ru/blog/kak-stat-prodavcom-na-uzum-market/.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F3, §5 row 7 and §11 item 4; marketplaces-social-selling-data/kw_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C68-ru-target-vs-uzum-guide",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "commission targeted ads in Russian; since 2026-10-25 a line in its «Когда выбрать другой канал» section links the Uzum seller guide; it declares none of the guide's keys",
+        "mustNotTarget": [
+          "стать продавцом на узум",
+          "как стать продавцом на uzum market",
+          "uzum market для продавцов",
+          "продавать на узум",
+          "узум селлер"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-stat-prodavcom-na-uzum-market/",
+        "owns": "become a seller on Uzum Market, for Russian-speaking sellers — primary «стать продавцом на узум»: status, account, registration, FBO or FBS and the first sale, with links to the official manual; its call to action leads to the targeting page for external traffic to the product card; it links that page",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "настройка таргетированной рекламы ташкент"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): стать продавцом на узум 20/mo (CPC 3.64); the Russian demand is small, and the page exists mainly as the hreflang pair of the Uzbek guide. Facts were checked against seller.uzum.uz on 2026-10-25; the seller interface changes, so re-check before each update.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §5 row 7; marketplaces-social-selling-data/kw_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
     }
   ],
   "architectureDecisions": [
@@ -1767,6 +2236,25 @@
       "evidence": "docs/seo/research/2026-10-24-snippets-translator/translator-market.md (commit d54d5b61, branch seo/chat-snippets-translator-20261024; Google Ads data, location 2860, measured 2026-10-24): «перевод/переводчик с русского на узбекский» 90 500/mo (one bucket), «перевод с узбекского на русский» 60 500, «переводчик с узбекского на русский» 49 500, «узбекско русский переводчик» 27 100, «русско узбекский переводчик» 22 200, «rus uzbek tarjimon» 12 100 (one bucket with «uzbek rus tarjimon»; spellings with U+2018 have no Ads bucket), «rus ozbek tarjimon» 1 300, «русча узбекча таржима» 6 600; competition 0 throughout. Search Console 2026-07-21..2026-10-21: no impressions for any RU↔UZ translator query; the only translation family the site is shown for is «chatgpt tarjima/tarjimon» (853 impressions, 836 on /uz/gpt-uzbek-tilida/), which pair C6 already fences to the Uzbek chat. Head terms («tarjimon» 1 220 000, «таржимон», «переводчик») are navigational searches for Google and Yandex and are not targets. Photo and voice translation have demand but the chat accepts no images or audio (functions/api/gpt/chat.ts), so the pages do not claim them.",
       "publicationNote": "Published 2026-10-24 by the owner's order of that day (growth backlog release), which overrides the draft gate below. The native-speaker blind check and the native proofreading have NOT been done, so both pages say in the second paragraph under the converter that AI translation is a beta and that important and official texts must be checked by a person (RU «бета», UZ «beta»); they make no quality claim (tests/translator-pages.test.ts). Free quota: option C + D of translator-market.md §4.3 — the chat's 3 lifetime trial replies, shared site-wide, then the AI pack, plus the free Cyrillic ↔ Latin converter that calls no model; a separate translation quota (options A and B) stays an open owner decision. The chat-vs-translator fences now live in pairs C47 (UZ) and C48 (RU); this entry keeps fencing both translator URLs from the navigational heads, the chatgpt family and the photo and voice phrases, for keywords and for anchors (tests/seo-anchor-intent.test.ts). Release steps done with the publication: status published, both URLs in APPROVED_STATIC_ROUTE_ADDITIONS (tests/react-router-v8-migration.test.ts), contextual inbound links from unprotected pages only (RU: /ru/gpt-chat-guide/, /ru/gpt-dlya-ucheby/, /ru/promty-gpt-chatgpt-50-primerov/; UZ: /uz/gpt-chat-qollanma/, /uz/gpt-uzbek-tilida-ai-chat/, /uz/blog/chatgpt-talabalar-uchun/), entries in public/llms.txt and public/llms-full.txt, and scripts/chat-layout-check.mjs --translator for their chat frame. Sitemap, hreflang and the updates feed follow from the status. The homepage (protected) lists every published page by its H1, so the release also needs a reviewed protected revision for / (internalLinks and bodyTextSha256), written from the build.",
       "note": "Draft record of 2026-10-24, kept as written: recorded as an architecture decision, not as a cluster or a pair, because both pages are drafts: tests/seo-intent-manifest.test.ts and tests/seo-cluster-quality.test.ts require every pair and cluster URL to be published. The two pages are one RU↔UZ hreflang pair (x-default the Uzbek member, as for the chat pair), pageType gpt-chat with chatRole translator: the same chat, endpoint and 3 lifetime trial replies (shared site-wide, then the AI pack), opened in the translator role, plus a deterministic Uzbek Cyrillic ↔ Latin converter with no model call. The Uzbek chat keeps «chatgpt tarjima» and its spellings (C6); neither translator page declares them (tests/translator-pages.test.ts). Publication gate (owner): a native-speaker blind check of the translator role scoring 4/5 or better (docs/seo/research/2026-10-24-translator-blind-check/), the free-quota decision (options A–D in translator-market.md §4.3) and native proofreading of both pages. At publication: status → published, turn this entry into a pair or cluster entry, add both URLs to APPROVED_STATIC_ROUTE_ADDITIONS (tests/react-router-v8-migration.test.ts), write the protected revision for / (the homepage lists every published page), add at least two inbound links from unprotected pages, and add the pages to scripts/chat-layout-check.mjs."
+    },
+    {
+      "id": "A9-agency-price-table-on-boss-digital-2026-10-25",
+      "url": "/uz/boss-digital/",
+      "counterpart": "/boss-digital/",
+      "decision": "SECTION_ON_EXISTING_PAGES_NO_NEW_URL",
+      "decidedAt": "2026-10-25",
+      "mustNotTarget": [
+        "smm xizmati narxi",
+        "smm narxlari",
+        "sayt yaratish narxi",
+        "стоимость smm услуг",
+        "прайс смм услуг",
+        "ведение инстаграм цена узбекистан",
+        "сколько стоит разработка сайта в ташкенте",
+        "стоимость сайта ташкент"
+      ],
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F5, §5 row 6 and §11 item 6",
+      "note": "One table of every published agency price, with a link to each service page, is a «Narxlar» / «Цены» section on the two existing Boss Digital pages instead of new /uz/narxlar/ and /ru/ceny/ URLs: the table has no Google demand of its own (its price phrases already have owners — the SMM, Instagram-management and website price articles), its value is as a source for AI assistants, and a new URL would also have needed a homepage revision. The section declares no keyword (the boss-digital keyword fields are unchanged) and must not take the price articles' heads listed here, for keywords or anchors. It prints only prices that the service pages print (targeting and context 1 990 000 launch / 1 490 000 a month, SMM 2 490 000 / 4 490 000 / 7 900 000 a month, websites 2 990 000 / 6 900 000 / 14 900 000, AI bot 1 990 000 / 3 900 000 / 6 900 000; checked 2026-10-25), and the same release brought the /uz/sayt-yaratish/ package table in line with its own title (2 990 000 / 6 900 000 / 14 900 000 instead of the old ranges). No Offer markup was added."
     }
   ]
 }

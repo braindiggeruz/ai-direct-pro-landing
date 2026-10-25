@@ -329,21 +329,21 @@
       "rows": [
         [
           "Landing page",
-          "3 500 000 – 7 000 000",
-          "5 – 10 kun",
-          "Dizayn, mobil versiya, forma, hosting 1 yil"
+          "2 990 000 dan",
+          "7 kundan",
+          "Dizayn, mobil versiya, forma, domen va hosting ulash"
         ],
         [
           "Korporativ sayt",
-          "7 000 000 – 15 000 000",
-          "10 – 20 kun",
-          "Barcha sahifalar, SEO, blog, admin panel"
+          "6 900 000 dan",
+          "14 kundan",
+          "15 tagacha sahifa, SEO-baza, blog, boshqaruv paneli (CMS)"
         ],
         [
           "Internet do‘kon",
-          "15 000 000 – 35 000 000",
-          "20 – 40 kun",
-          "Katalog, to‘lov, yetkazib berish, CRM"
+          "14 900 000 dan",
+          "30 kundan",
+          "Katalog, savat, to‘lov, yetkazib berish"
         ]
       ]
     },
@@ -725,9 +725,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-19",
+  "lastReviewedAt": "2026-10-25",
   "createdAt": "2026-08-01T00:00:00Z",
-  "updatedAt": "2026-10-09",
+  "updatedAt": "2026-10-25",
   "heroTrust": [
     "Landing 2 990 000 so‘mdan",
     "7 kundan",

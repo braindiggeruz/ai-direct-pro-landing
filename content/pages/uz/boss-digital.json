@@ -194,6 +194,125 @@
     },
     {
       "type": "h2",
+      "id": "narxlar",
+      "text": "Narxlar: GPTBot.uz xizmatlari"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi narxlar GPTBot.uz xizmat sahifalarida e’lon qilingan boshlang‘ich narxlar («dan»), 25.10.2026 holatida. Yakuniy smeta brifdan keyin qayd etiladi; reklama byudjeti va tashqi servislar har doim alohida. Natija, arizalar soni yoki reklamaning o‘zini oqlashi kafolatlanmaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Xizmat",
+        "Paketlar",
+        "Narx (so‘m)",
+        "Alohida to‘lanadi"
+      ],
+      "rows": [
+        [
+          "Instagram va Facebook’da target",
+          "Ishga tushirish / yuritish",
+          "1 990 000 dan / oyiga 1 490 000 dan",
+          "Reklama byudjeti"
+        ],
+        [
+          "Google Ads kontekst reklama",
+          "Ishga tushirish / yuritish",
+          "1 990 000 dan / oyiga 1 490 000 dan",
+          "Klik uchun byudjet"
+        ],
+        [
+          "SMM: Instagram va Telegram sahifalarini yuritish",
+          "Start / Biznes / Pro",
+          "oyiga 2 490 000 / 4 490 000 / 7 900 000 dan",
+          "Reklama byudjeti"
+        ],
+        [
+          "Sayt yaratish",
+          "Landing / korporativ sayt / internet-do‘kon",
+          "2 990 000 / 6 900 000 / 14 900 000 dan",
+          "Qo‘shimcha integratsiyalar va tashqi platformalar — smetada"
+        ],
+        [
+          "Biznes uchun AI-bot",
+          "Start / Biznes / Pro",
+          "1 990 000 / 3 900 000 / 6 900 000 dan",
+          "AI/API, infratuzilma va litsenziyalar — smetada"
+        ],
+        [
+          "Telegram-bot",
+          "Start / Biznes / Pro",
+          "990 000 / 2 490 000 / 4 900 000 dan",
+          "Qo‘shimcha funksiyalar va muntazam xarajatlar — smetada"
+        ],
+        [
+          "SEO xizmati",
+          "Audit / Start / O‘sish / Lider",
+          "audit 990 000 dan; oyiga 2 490 000 / 4 900 000 / 7 900 000 dan",
+          "—"
+        ],
+        [
+          "Telegram reklama (Telegram Ads va kanallardagi postlar)",
+          "Brifdan keyin smeta",
+          "Saytda e’lon qilingan narx yo‘q",
+          "Media byudjet"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Har bir paketning tarkibi va muddati xizmat sahifalarida: {target}, {kontekst}, {smm}, {sayt}, {aibot}, {tgbot}, {seo} va {tg}. Qo‘llab-quvvatlash narxi har bir xizmat sahifasida alohida ko‘rsatilgan.",
+      "links": [
+        {
+          "token": "target",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "Instagram va Facebook target"
+        },
+        {
+          "token": "kontekst",
+          "target": "/uz/internet-reklama-toshkent/#kontekst",
+          "anchor": "Google Ads kontekst reklama"
+        },
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "SMM paketlari"
+        },
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish tariflari"
+        },
+        {
+          "token": "aibot",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "AI-bot paketlari"
+        },
+        {
+          "token": "tgbot",
+          "target": "/uz/telegram-bot-biznes-uchun/",
+          "anchor": "Telegram-bot paketlari"
+        },
+        {
+          "token": "seo",
+          "target": "/uz/seo-xizmati/",
+          "anchor": "SEO paketlari"
+        },
+        {
+          "token": "tg",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "Telegram reklama smetasi"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Narx bo‘yicha savolingiz bormi? Ariza qoldiring",
+      "href": "#lead-form"
+    },
+    {
+      "type": "h2",
       "text": "Boss Digital Toshkentda"
     },
     {
@@ -279,6 +398,10 @@
     {
       "q": "Botni CRM bilan integratsiya qilish mumkinmi?",
       "a": "Ha. AmoCRM, Bitrix24 va boshqa tizimlar bilan integratsiya qo‘llab-quvvatlanadi: ariza CRM’ga suhbat tarixi bilan birga tushadi."
+    },
+    {
+      "q": "GPTBot.uz xizmatlari qancha turadi?",
+      "a": "Boshlang‘ich narxlar xizmat sahifalarida e’lon qilingan: target va kontekst reklama — ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan; SMM — oyiga 2 490 000 so‘mdan; sayt — 2 990 000 so‘mdan; biznes uchun AI-bot — 1 990 000 so‘mdan; Telegram-bot — 990 000 so‘mdan; SEO audit — 990 000 so‘mdan. Telegram reklama brifdan keyin hisoblanadi. Reklama byudjeti har doim alohida; to‘liq jadval shu sahifadagi «Narxlar» bo‘limida."
     },
     {
       "q": "Ishni qanday boshlash mumkin?",
@@ -385,7 +508,7 @@
       }
     }
   ],
-  "lastReviewedAt": "2026-07-02",
+  "lastReviewedAt": "2026-10-25",
   "createdAt": "2026-07-02T00:00:00Z",
-  "updatedAt": "2026-07-02"
+  "updatedAt": "2026-10-25"
 }

@@ -305,6 +305,22 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Tabrikni noldan yozishni istamasangiz, {gen} sahifasidan foydalaning: tayyor so‘rov tugmasini bosib, kimga va qaysi bayram uchun ekanini yozasiz, AI esa matnni lotin yoki kirill yozuvida tayyorlaydi. Tabrik she’r shaklida kerak bo‘lsa, {sher} sahifasiga o‘ting.",
+      "links": [
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "tekshiruv",
       "text": "Yuborishdan oldin: qisqa tekshiruv"

@@ -1,0 +1,487 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/kirill-lotin/",
+  "slug": "kirill-lotin",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Matnimdagi imlo xatolarini tekshir",
+      "prompt": "Matnimdagi imlo xatolarini o‘zbek lotin yozuvi qoidalari bo‘yicha tekshir: o‘, g‘, sh, ch harflari va ’ (tutuq belgisi) to‘g‘ri yozilganmi, qo‘shma so‘zlar to‘g‘ri yozilganmi. Tuzatilgan matnni ber va har bir tuzatishni qisqa izohla.\nMatn: "
+    },
+    {
+      "label": "O‘, g‘ va ’ farqini tushuntir",
+      "prompt": "O‘zbek lotin yozuvida o‘ va g‘ harflaridagi belgi tutuq belgisidan (’) nimasi bilan farq qilishini oddiy so‘zlar bilan tushuntir. Lotin va kirill yozuvida 3 tadan so‘z misol keltir."
+    },
+    {
+      "label": "Shubhali so‘zni tekshir",
+      "prompt": "O‘giruvchi bergan variantga ishonchim komil emas. Bu o‘zbekcha so‘z qoidaga ko‘ra qanday yoziladi va nega?\nKirill: \nLotin: "
+    },
+    {
+      "label": "Lotin yozuvini o‘qishni o‘rganish",
+      "prompt": "Kirill yozuvini bemalol o‘qiyman, lotin yozuvini esa qiynalib o‘qiyman. Qaysi harflar men kutgandek o‘qilmasligini tushuntir va o‘qishni mashq qilish uchun 10 ta so‘z ber, javoblarini oxirida yoz."
+    },
+    {
+      "label": "e, ye va ts qachon yoziladi",
+      "prompt": "O‘zbek lotin yozuvida qachon e, qachon ye yozilishini va o‘zlashma so‘zlardagi ц harfi qanday berilishini tushuntir. Ikkala yozuvda misollar keltir."
+    },
+    {
+      "label": "Mashq: lotinda yozib ko‘raman",
+      "prompt": "Kirill yozuvida 10 ta qisqa o‘zbekcha gap ber, men ularni o‘zim lotin yozuvida yozaman. To‘g‘ri variantlarni barcha gaplardan keyin, oxirida ko‘rsat."
+    }
+  ],
+  "widgets": [
+    "uz-translit"
+  ],
+  "primaryKeyword": "kirill lotin",
+  "secondaryKeywords": [
+    "lotin krill",
+    "lotin kirill",
+    "krill lotin",
+    "lotin alifbosi",
+    "o‘zbek alifbosi",
+    "o‘zbek lotin alifbosi",
+    "kirill alifbosi",
+    "kirildan lotinga",
+    "lotindan kirilga",
+    "лотин кирилл",
+    "кирилл лотин",
+    "лотин алифбоси",
+    "ўзбек алифбоси"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Kirill-lotin o‘giruvchi va o‘zbek lotin alifbosi: jadval va qoidalar",
+  "title": "Kirill-lotin o‘giruvchi va o‘zbek lotin alifbosi jadvali",
+  "description": "Kirill-lotin o‘giruvchi: o‘zbekcha matnni bepul o‘giring, o‘, g‘ va ’ bilan. Lotin alifbosi jadvali. AI imloni tekshiradi: 3 ta sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/kirill-lotin/",
+  "hreflangRu": "/ru/kirillica-v-latinicu/",
+  "hreflangUz": "/uz/kirill-lotin/",
+  "hreflangXDefault": "/uz/kirill-lotin/",
+  "ogTitle": "Kirill-lotin o‘giruvchi va o‘zbek lotin alifbosi jadvali",
+  "ogDescription": "Kirill-lotin o‘giruvchi: o‘zbekcha matnni bepul o‘giring, o‘, g‘ va ’ bilan. Lotin alifbosi jadvali. AI imloni tekshiradi: 3 ta sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Kirill-lotin o‘giruvchi",
+  "heroTitle": "Kirill-lotin o‘giruvchi va o‘zbek lotin alifbosi: jadval va qoidalar",
+  "heroSubtitle": "O‘giruvchi bepul va limitsiz; imloni AI o‘qituvchi tekshiradi — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "O‘zbekcha matnni yuqoridagi {conv}ga qo‘ying va «Kirill → lotin» yoki «Lotin → kirill» tugmasini bosing. «Apostroflarni tuzatish» tugmasi tayyor lotin matnni bir xil ko‘rinishga keltiradi: o‘ va g‘ da ‘ belgisini, harflar orasida esa tutuq belgisini — ’ ni qo‘yadi. O‘giruvchi tilni emas, yozuvni almashtiradi: u brauzerda, AI’siz va limitsiz ishlaydi, matnni serverga yubormaydi.",
+      "links": [
+        {
+          "token": "conv",
+          "target": "#kirill-lotin",
+          "anchor": "o‘giruvchi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ruschadan o‘zbekchaga yoki o‘zbekchadan ruschaga tarjima kerak bo‘lsa, bu boshqa vazifa: buning uchun {translator} bor.",
+      "links": [
+        {
+          "token": "translator",
+          "target": "/uz/rus-ozbek-tarjimon/",
+          "anchor": "rus-o‘zbek AI tarjimoni"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u lotin yozuvidagi imloni tekshiradi, qoidani tushuntiradi va shubhali so‘zlarda yordam beradi. Bu GPTBot.uz AI chati — mustaqil servis, OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi. O‘giruvchining o‘zi sinov javoblarini sarflamaydi."
+    },
+    {
+      "type": "h2",
+      "id": "alifbo",
+      "text": "O‘zbek lotin alifbosi va kirill yozuvi: jadval"
+    },
+    {
+      "type": "p",
+      "text": "O‘zbek tilining rasmiy alifbosi — lotin yozuvi: u 1993-yilda joriy etilgan, amaldagi tahriri 1995-yilda qabul qilingan. Unda 29 ta belgi bor: c va w dan tashqari 24 ta lotin harfi, O‘ va G‘ harflari, Sh va Ch harf birikmalari hamda tutuq belgisi — ’. O‘zbek kirill alifbosida 35 ta harf bor. E’tibor bering: h — bu ҳ, x esa — х."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Lotin",
+        "Kirill",
+        "Misol: lotin — kirill"
+      ],
+      "rows": [
+        [
+          "A a",
+          "А а",
+          "ota — ота"
+        ],
+        [
+          "B b",
+          "Б б",
+          "bola — бола"
+        ],
+        [
+          "D d",
+          "Д д",
+          "daryo — дарё"
+        ],
+        [
+          "E e",
+          "Э э, Е е",
+          "eshik — эшик, kecha — кеча"
+        ],
+        [
+          "F f",
+          "Ф ф",
+          "fan — фан"
+        ],
+        [
+          "G g",
+          "Г г",
+          "gul — гул"
+        ],
+        [
+          "H h",
+          "Ҳ ҳ",
+          "hayot — ҳаёт"
+        ],
+        [
+          "I i",
+          "И и",
+          "ish — иш"
+        ],
+        [
+          "J j",
+          "Ж ж",
+          "jon — жон"
+        ],
+        [
+          "K k",
+          "К к",
+          "kitob — китоб"
+        ],
+        [
+          "L l",
+          "Л л",
+          "lola — лола"
+        ],
+        [
+          "M m",
+          "М м",
+          "maktab — мактаб"
+        ],
+        [
+          "N n",
+          "Н н",
+          "non — нон"
+        ],
+        [
+          "O o",
+          "О о",
+          "olma — олма"
+        ],
+        [
+          "P p",
+          "П п",
+          "paxta — пахта"
+        ],
+        [
+          "Q q",
+          "Қ қ",
+          "qalam — қалам"
+        ],
+        [
+          "R r",
+          "Р р",
+          "rang — ранг"
+        ],
+        [
+          "S s",
+          "С с",
+          "suv — сув"
+        ],
+        [
+          "T t",
+          "Т т",
+          "tosh — тош"
+        ],
+        [
+          "U u",
+          "У у",
+          "uy — уй"
+        ],
+        [
+          "V v",
+          "В в",
+          "vatan — ватан"
+        ],
+        [
+          "X x",
+          "Х х",
+          "xat — хат"
+        ],
+        [
+          "Y y",
+          "Й й",
+          "yil — йил"
+        ],
+        [
+          "Z z",
+          "З з",
+          "zamon — замон"
+        ],
+        [
+          "O‘ o‘",
+          "Ў ў",
+          "o‘qituvchi — ўқитувчи"
+        ],
+        [
+          "G‘ g‘",
+          "Ғ ғ",
+          "g‘isht — ғишт"
+        ],
+        [
+          "Sh sh",
+          "Ш ш",
+          "shahar — шаҳар"
+        ],
+        [
+          "Ch ch",
+          "Ч ч",
+          "choy — чой"
+        ],
+        [
+          "’",
+          "Ъ ъ",
+          "san’at — санъат"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "juftsiz-harflar",
+      "text": "Lotinda alohida harfi bo‘lmagan kirill harflari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ё → yo, Ю → yu, Я → ya: дарё → daryo, юлдуз → yulduz, ярим → yarim.",
+        "Е so‘z boshida va unlidan keyin → ye: ер → yer, поезд → poyezd; undoshdan keyin → e: кел → kel.",
+        "Ц so‘z boshida va undoshdan keyin → s (цирк → sirk, концерт → konsert), unlidan keyin → ts (милиция → militsiya).",
+        "Ь yozilmaydi. Ъ tutuq belgisi bilan beriladi: маъно → ma’no. Ў dan keyin belgi kerak emas: мўъжиза → mo‘jiza.",
+        "Щ va Ы faqat ruscha so‘zlarda uchraydi: o‘giruvchi ularni sh va i deb yozadi va bu haqda ogohlantiradi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "apostrof-qoidalari",
+      "text": "O‘, g‘ va ’ (tutuq belgisi) qoidalari"
+    },
+    {
+      "type": "p",
+      "text": "O‘ va g‘ harflarida lotin harfidan keyin ochiluvchi yakka qo‘shtirnoqqa o‘xshash ‘ belgisi turadi: o‘g‘il, g‘isht, o‘qituvchi. Tutuq belgisi boshqa belgi — ’ bilan yoziladi va kirill yozuvidagi ъ o‘rnida harflar orasiga qo‘yiladi: san’at, ma’no, ta’lim. O‘ va g‘ harflarini tutuq belgisi bilan yozish xato: bu ikki belgining vazifasi har xil. Klaviaturada odatda oddiy apostrof ' teriladi — o‘giruvchi uni ham, boshqa o‘xshash belgilarni ham qabul qiladi va kerakli belgiga almashtiradi."
+    },
+    {
+      "type": "p",
+      "text": "Teskari yo‘nalishda, lotindan kirillga o‘girganda, e so‘z boshida va unlidan keyin э bo‘ladi (eshik → эшик, poeziya → поэзия), undoshdan keyin esa е. ng birikmasi ikkala yozuvda ham ikki harf bilan yoziladi: ming — минг. Harflar orasida belgi turgan s’h birikmasi — bu sh emas, сҳ: Is’hoq → Исҳоқ."
+    },
+    {
+      "type": "h2",
+      "id": "qolda-tekshirish",
+      "text": "Qayerda qo‘lda tekshirish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "ц harfli ruscha o‘zlashmalar: militsiya милитсия bo‘lib chiqadi, милиция emas — lotin yozuvi kirillda qaysi harf bo‘lganini saqlamaydi.",
+        "о oldidagi й: rayon раён bo‘lib chiqadi, район emas.",
+        "c va w harfli so‘zlarni, masalan WhatsApp yoki Coca-Cola’ni, o‘giruvchi lotincha qoldiradi: bu harflar o‘zbek alifbosida yo‘q.",
+        "Ruscha matnni o‘giruvchi pasport yoki kutubxona standartlari bo‘yicha transliteratsiya qilmaydi: u faqat o‘zbek tili uchun mo‘ljallangan."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "imloni-tekshirish",
+      "text": "Imlo xatolarini AI bilan qanday tekshirish mumkin"
+    },
+    {
+      "type": "p",
+      "text": "Matn kirillda bo‘lsa, avval uni o‘giruvchida lotinga o‘giring, keyin chatga qo‘ying. So‘rovda nimani tekshirish kerakligini aniq yozing: faqat imlo, tinish belgilari yoki uslub ham. Yaxshi so‘rovlarga misollar:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Matnimdagi imlo xatolarini tekshir, ayniqsa o‘, g‘ va ’ belgilariga e’tibor ber. Tuzatilgan matnni va tuzatishlar ro‘yxatini ber.»",
+        "«Bu e’londa qo‘shma so‘zlar to‘g‘ri yozilganmi? Ma’nosini o‘zgartirma, faqat imloni tuzat.»",
+        "«Qaysi biri to‘g‘ri: ma’lumot yoki malumot? Qoidani bitta gap bilan tushuntir.»"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "AI imloni tez tekshiradi, lekin adashishi ham mumkin: kam uchraydigan so‘zlar, atoqli otlar va yangi o‘zlashmalarda javobni imlo lug‘ati bilan solishtiring. Uzun matnni qismlarga bo‘lib yuboring; har bir qism — alohida javob. Rasmiy matn — ariza, peshlavha, hujjat — uchun model javobini o‘zbek imlosini yaxshi biladigan odamga ham ko‘rsating."
+    },
+    {
+      "type": "h2",
+      "id": "nega-gptbot",
+      "text": "Nega GPTBot.uz"
+    },
+    {
+      "type": "p",
+      "text": "O‘giruvchi o‘, g‘ va ’ ni hamma joyda bir xil belgilar bilan yozadi, havolalar va e-pochta manzillariga tegmaydi va ro‘yxatsiz ishlaydi. Yonida — qoidalarni o‘zbek yoki rus tilida tushuntiradigan AI o‘qituvchi; savolni lotin yoki kirill yozuvida yozish mumkin. GPTBot.uz — Toshkentdagi mustaqil servis."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Кирилл-лотин ўгирувчи: ўзбекча матнни кирилл ёзувидан лотинга ва лотиндан кириллга бепул ўгиради, o‘, g‘ ва ’ белгилари тўғри қўйилади. Лотин алифбосининг 29 белгидан иборат жадвали ва имло қоидалари шу саҳифада."
+    },
+    {
+      "type": "linkp",
+      "text": "AI’ga savollaringiz ko‘p bo‘lsa, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Mijozlaringiz Telegram yoki Instagram’da o‘zbek va rus tilida yozadimi? Ularga javob beradigan va arizani menejerga uzatadigan AI-botni joriy qilamiz: {bot} — 1 990 000 so‘mdan. Boshqa vazifalar uchun {chat}ni oching; bu sahifaning ruscha varianti — {ru}.",
+      "links": [
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "bot",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "Biznes uchun AI-bot"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "ru",
+          "target": "/ru/kirillica-v-latinicu/",
+          "anchor": "Кириллица в латиницу",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket yoki AI-bot bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. O‘giruvchiga qo‘yilgan matn brauzeringizda qoladi; chatga yozilgan savollar esa serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "O‘giruvchi bepulmi?",
+      "a": "Ha, limitsiz va ro‘yxatsiz: u brauzerda ishlaydi va AI’ga murojaat qilmaydi. Chatning sinov javoblari (butun sayt bo‘yicha jami 3 ta, har kuni yangilanmaydi) va ulardan keyingi AI paket faqat AI o‘qituvchiga beriladigan savollarga tegishli."
+    },
+    {
+      "q": "O‘giruvchi tarjimondan nimasi bilan farq qiladi?",
+      "a": "O‘giruvchi yozuvni almashtiradi, til esa o‘zbekcha qoladi: Тошкент → Toshkent. Tarjimon tilni almashtiradi — ruschadan o‘zbekchaga yoki aksincha. Tarjima uchun saytda alohida sahifa bor: rus-o‘zbek AI tarjimon."
+    },
+    {
+      "q": "O‘zbek lotin alifbosida nechta harf bor?",
+      "a": "29 ta belgi: c va w dan tashqari 24 ta lotin harfi, O‘ va G‘ harflari, Sh va Ch birikmalari va tutuq belgisi ’. O‘zbek kirill alifbosida 35 ta harf bor."
+    },
+    {
+      "q": "O‘ va g‘ harflarida qaysi belgi qo‘yiladi?",
+      "a": "O‘ va g‘ da — ‘ belgisi, harflar orasidagi tutuq uchun — ’ belgisi. Klaviaturadan oddiy apostrof ' terish mumkin: «Apostroflarni tuzatish» tugmasi uni kerakli belgiga almashtiradi."
+    },
+    {
+      "q": "Ruscha matnni lotinga o‘girsa bo‘ladimi?",
+      "a": "Yo‘q, o‘giruvchi o‘zbek tili uchun mo‘ljallangan. Ruscha щ va ы harflarini u sh va i deb yozadi, lekin rus tilining pasport yoki kutubxona transliteratsiyasi qoidalarini qo‘llamaydi."
+    },
+    {
+      "q": "Matnim saqlanadimi?",
+      "a": "O‘giruvchiga qo‘yilgan matn hech qayerga yuborilmaydi: hammasi brauzerda hisoblanadi. AI o‘qituvchiga yozilgan savollar, AI chatdagi kabi, serverimizda saqlanadi va AI-provayderlar tomonidan qayta ishlanadi; ma’lumotlarni qanday o‘chirish mumkinligi Maxfiylik siyosatida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/kirillica-v-latinicu/",
+      "anchor": "Кириллица в латиницу",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/rus-ozbek-tarjimon/",
+      "anchor": "Rus-o‘zbek AI tarjimon",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz kirill-lotin o‘giruvchisi",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "description": "O‘zbekcha matnni kirilldan lotinga va lotindan kirillga o‘giradigan bepul vosita: o‘, g‘ va ’ bilan, limitsiz va AI’ga so‘rovsiz. Imloni AI o‘qituvchi GPTBot.uz chatida tekshiradi: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul o‘giruvchi va AI’ning 3 ta bepul sinov javobi",
+        "description": "O‘giruvchi bepul va limitsiz ishlaydi. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/kirill-lotin/",
+      "inLanguage": [
+        "uz",
+        "uz-Cyrl"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

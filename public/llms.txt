@@ -125,6 +125,16 @@ must be confirmed for the specific project.
 - GPT in Uzbek (UZ): https://gptbot.uz/uz/gpt-uzbek-tilida/
 - Russian ↔ Uzbek AI translator (RU; the same chat opened in the translator role, a beta, plus a free Uzbek Cyrillic ↔ Latin converter): https://gptbot.uz/ru/russko-uzbekskiy-perevodchik/
 - Rus-o‘zbek AI tarjimon (UZ; the same page in Uzbek): https://gptbot.uz/uz/rus-ozbek-tarjimon/
+- Online calculator with a step-by-step AI explanation (UZ; the calculator itself runs in the browser with no model and no limit; the explanation uses the chat's trial replies): https://gptbot.uz/uz/kalkulyator/
+- Online calculator (RU; the same tool in Russian): https://gptbot.uz/ru/kalkulyator/
+- English irregular verbs: a 163-verb V1–V2–V3 table with translation, search and a 10-question test, plus an AI teacher for practice (UZ; the table and the test need no model): https://gptbot.uz/uz/notogri-fellar/
+- English irregular verbs trainer (RU; the same tool with Russian translation): https://gptbot.uz/ru/nepravilnye-glagoly/
+- Uzbek Cyrillic ↔ Latin converter with the 29-letter alphabet table and the o‘, g‘ and ’ rules (UZ; no model and no limit; the AI teacher checks spelling on request; changing the script is not translation): https://gptbot.uz/uz/kirill-lotin/
+- Uzbek Cyrillic ↔ Latin converter (RU; the same tool for Russian speakers): https://gptbot.uz/ru/kirillica-v-latinicu/
+- AI poem writing in Uzbek (UZ; the chat in the writer role writes original short poems on request; the sample poems on the page are AI-assisted and labelled so; it does not reproduce known authors' poems): https://gptbot.uz/uz/ai-sher-yozish/
+- AI greeting generator (UZ; birthday, New Year, 8 March and wedding greetings in Latin or Cyrillic script; text only, no cards or images): https://gptbot.uz/uz/ai-tabrik-generatori/
+- AI greeting generator (RU; birthday and New Year greetings in Russian, or in Uzbek with a translation; text only): https://gptbot.uz/ru/generator-pozdravleniy/
+- Ad-copy writing with AI for Telegram, Instagram and Uzum (UZ; the chat in the SMM role plus seven rules; the team can then launch the targeting): https://gptbot.uz/uz/gpt-telegram-instagram-ideya/
 - GPT in Russian (RU): https://gptbot.uz/ru/gpt-na-russkom/
 - GPT for business (RU): https://gptbot.uz/ru/gpt-dlya-biznesa/
 - AI chat widget for websites (RU): https://gptbot.uz/ru/ai-chat-dlya-sayta/
@@ -194,6 +204,8 @@ must be confirmed for the specific project.
 - Targeted advertising (RU): https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
+- All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar
+- All published starting prices in one table, "Цены" (RU): https://gptbot.uz/boss-digital/#ceny
 
 Starting prices are printed on these service pages and repeated in each
 page's Service -> Offer JSON-LD as `minPrice` in UZS. Quote them as "from"
@@ -457,6 +469,13 @@ request form above.
 - "tavsifnoma namuna" / "tavsifnoma" -> https://gptbot.uz/uz/blog/tavsifnoma-namuna/ (how a tavsifnoma (character reference) differs from a tavsiyanoma, its structure and three conditional samples with placeholders; the organisation's requirements come first, the signer checks the text, this is not legal advice; the GPTBot.uz chat drafts text only, with no letterhead, signature or stamp)
 - "rasmiy xat yozish" / "xat yozish" / "xizmat xati namuna" -> https://gptbot.uz/uz/blog/rasmiy-xat-yozish/ (the requisites of an official letter between organisations and conditional samples of request, guarantee, claim and thank-you letters; not legal advice, the signer checks the final text; the GPTBot.uz chat drafts text only)
 - "tug‘ilgan kun tabriklari" / "yangi yil tabriklari" / "tabriklar" -> https://gptbot.uz/uz/blog/tabrik-yozish/ (30 original greeting samples with placeholders and how to ask the GPTBot.uz chat to personalise one; text only, no card, image or voice greeting)
+- "tug‘ilgan kun tabrigi" / "поздравления с днем рождения" -> https://gptbot.uz/uz/ai-tabrik-generatori/ (Uzbek) or https://gptbot.uz/ru/generator-pozdravleniy/ (Russian) (a personal greeting written now by the GPTBot.uz chat in the writer role, in Latin or Cyrillic script; text only, no card or image; ready samples are on the guide above)
+- "ona haqida she’rlar" / "yangi yil she’rlari" -> https://gptbot.uz/uz/ai-sher-yozish/ (the GPTBot.uz chat in the writer role writes original short poems in Uzbek on request; the sample poems on the page are AI-assisted; it does not copy known authors)
+- "kalkulyator" / "калькулятор онлайн" -> https://gptbot.uz/uz/kalkulyator/ (Uzbek) or https://gptbot.uz/ru/kalkulyator/ (Russian) (a free in-browser calculator for percentages, powers, roots, sin and log with no limit; the GPTBot.uz AI teacher explains a solution step by step on request, using the chat's 3 lifetime trial replies; it explains and does not do homework)
+- "noto‘g‘ri fe’llar jadvali" / "irregular verbs" / "неправильные глаголы" -> https://gptbot.uz/uz/notogri-fellar/ (Uzbek) or https://gptbot.uz/ru/nepravilnye-glagoly/ (Russian) (163 English irregular verbs with V1–V2–V3 and translation, search and a 10-question test in the browser, plus an AI teacher for practice)
+- "kirill lotin" / "lotin alifbosi" / "кириллица в латиницу" -> https://gptbot.uz/uz/kirill-lotin/ (Uzbek) or https://gptbot.uz/ru/kirillica-v-latinicu/ (Russian) (a deterministic Uzbek Cyrillic ↔ Latin converter with the alphabet table and the o‘, g‘ and ’ rules, no model and no limit; changing the script is not translation, for that see the translator pages above)
+- "reklama matni yozish" -> https://gptbot.uz/uz/gpt-telegram-instagram-ideya/ (ad copy for Telegram, Instagram and Uzum written with the GPTBot.uz chat in the SMM role, with seven rules; the team can then launch the targeting from 1 990 000 UZS, management from 1 490 000 UZS a month, ad budget separate)
+- "uzumda savdo qilish" / "стать продавцом на узум" -> https://gptbot.uz/uz/blog/uzum-marketda-sotuvchi-bolish/ (Uzbek) or https://gptbot.uz/ru/blog/kak-stat-prodavcom-na-uzum-market/ (Russian) (how to become a seller on Uzum Market: legal status, registration, FBO or FBS and the first sale, with links to the official seller manual; GPTBot.uz does not run Uzum's internal ads)
 - "как оплатить ChatGPT в Узбекистане" -> https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/
 
 ## Markdown versions for LLM agents

@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "AI tool pages per owner order 25.10: platform committed in source (role presets incl. new writer, Page.chatStarters, Page.widgets calculator / irregular-verbs / uz-translit, gptbot:prefill bridge; see chat_tool_platform_20261025); no content page uses it yet; wave 1b deployed (97f56ab5 from 62d8fdb0)",
+  "current_stage": "AI tools wave A per owner order 25.10 committed on seo/chat-snippets-translator-20261024 (see seo_ai_tools_wave_a_20261025): nine gpt-chat tool pages, the retargeted /uz/gpt-telegram-instagram-ideya/, two Uzum seller guides, ad-client funnel sections, intent-manifest C53–C68 + A9, protected revision 2026-10-25-ai-tools; not deployed (production 62d8fdb0, deployment 97f56ab5)",
   "stage_status": "complete",
-  "last_completed_stage": "AI tool pages platform commit on seo/chat-snippets-translator-20261024 (see chat_tool_platform_20261025); wave 1b deployed and verified before it (97f56ab5, 62d8fdb0)",
-  "next_stage": "AI tool content pages on this platform from docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md (section 3 cards, section 9 corrections) and docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md (sections 3, 5, corrected 11): each page = chatRole + chatStarters + widgets, intent-manifest pair first, honest copy; then a guarded release on owner command",
+  "last_completed_stage": "AI tools wave A content commit on top of the platform commit af0446fe (see seo_ai_tools_wave_a_20261025 and chat_tool_platform_20261025)",
+  "next_stage": "Guarded release of AI tools wave A on owner command: native Uzbek read of the poems and greetings first (the label «jamoa tahriri» must be true), then merge into the deploy line, npm run build:production, deploy_runner.py check|deploy, live content check (11 new URLs, homepage lists, protected 10/10 on live HTML), IndexNow and URL Inspection",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1913,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-25T10:30:00.000Z",
+  "updated_at": "2026-10-25T18:30:00.000Z",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -2790,5 +2790,43 @@
     "tests": "new tool-pages 18, calculator-engine 58, irregular-verbs 11 pass; translator-pages 13, uz-translit 94, gpt-chat-prerender-links 14, seo-page-integrity 17, chat-bundle-budget 11, gpt-chat-lazy-part 10, seo-protection 14 pass; 33 chat/SEO files: only the pre-existing failures (same names on a clean HEAD worktree); tsc -b and typecheck:functions exit 0; eslint on 32 touched files 0; seo-audit no critical",
     "browserCheck": "local static preview with two temporary draft pages (deleted, not committed): chips fill and focus the composer; calculator 7×8, 1/(5-5) message, 2^3^2 + sin 30 = 512.5; «Объяснить с AI» prefills and scrolls to the chat; verbs search, hide V2, a 10-question quiz and the mistakes prompt; 375 px without horizontal scroll",
     "notDone": "no content page uses chatStarters or the calculator / irregular-verbs widgets yet; not deployed, not pushed"
+  },
+  "seo_ai_tools_wave_a_20261025": {
+    "status": "committed_not_deployed",
+    "ownerOrder": "2026-10-25: implement the researched clusters as AI tools of GPTBot.uz — the visitor gets a result from the AI chat or a free in-browser tool, then the AI chat / AI pack (B2C) or the ad and bot services (B2B); relevant traffic, not random traffic; out of scope: currency rates, calendar, PDF, QR",
+    "commit": "the commit that adds this block (git log -1 --format=%H -- docs/seo/evidence/2026-10-25-ai-tools/)",
+    "base": "af0446fe (tool-page platform) on 5a579414 (production 62d8fdb0, deployment 97f56ab5, plus research docs)",
+    "branch": "seo/chat-snippets-translator-20261024",
+    "research": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md (§3.1 cards, §9 corrections) and docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md (§3, §5, corrected §11)",
+    "resumed": "the integrator session restarted mid-stage; the content agents' files were uncommitted in the tree and no integrator edit had been made, so the integration ran from the start on top of them",
+    "newUrls": [
+      "/uz/ai-sher-yozish/",
+      "/uz/ai-tabrik-generatori/",
+      "/ru/generator-pozdravleniy/",
+      "/uz/kalkulyator/",
+      "/ru/kalkulyator/",
+      "/uz/notogri-fellar/",
+      "/ru/nepravilnye-glagoly/",
+      "/uz/kirill-lotin/",
+      "/ru/kirillica-v-latinicu/",
+      "/uz/blog/uzum-marketda-sotuvchi-bolish/",
+      "/ru/blog/kak-stat-prodavcom-na-uzum-market/"
+    ],
+    "retargeted": "/uz/gpt-telegram-instagram-ideya/: «GPT Telegram Instagram» (pageType blog) → «reklama matni yozish» (gpt-chat, role smm + converter), new H1 «Reklama matni yozish: Telegram va Instagram uchun AI generator»",
+    "changedPages": "/uz/instagram-target-yoqish/ (DIY 7 qadam + Targetolog xizmati narxi), /ru/gpt-v-marketinge-smm/ (ad-copy section), /ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/ (step-by-step launch), /uz/boss-digital/ and /boss-digital/ (price tables), /uz/sayt-yaratish/ (package table = title), /ru/razrabotka-telegram-bota-tashkent/ (anchor), nine pages with one inbound linkp each, three Uzbek teacher pages with a phone/e-mail line, scripts/widgets/calculator-block.ts (Uzbek copy)",
+    "intentManifest": "pairs C53–C68 (tools vs chats C53, C54, C57–C59, C61, C62, C65; C55 tabrik guide vs generator; C56 poems vs greetings; C60 general vs bot-cost calculator; C63/C64 translators vs converters; C66 target hub vs ad tool; C67/C68 target hubs vs Uzum guides); telegram-ru second spoke /ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/; target-uz note; decision A9 (price table as a Boss Digital section, no new URL)",
+    "demandPolicy": "18 rows, Google Ads location 2860, measured 2026-10-25, each with its research data file",
+    "llms": "public/llms.txt +19 lines (10 tool lines, 2 price-table lines, 7 intent lines)",
+    "routes": "APPROVED_STATIC_ROUTE_ADDITIONS +11",
+    "protectedBaseline": "docs/seo/evidence/2026-10-25-ai-tools/reviewed-protected-pages.json",
+    "protectedPreviousRevision": "docs/seo/evidence/2026-10-24-wave1b/reviewed-protected-pages.json",
+    "protectedChange": "/ only: internalLinks 300 -> 311, body text +11 labels and the retargeted H1; the two chats differ by the chat bundle name only (gpt-chat-qKkuHbSa.js -> gpt-chat-cfOqBGh8.js, platform af0446fe); seven articles byte-identical; generator docs/seo/implementation/2026-10-25-ai-tools/review-candidate.ts",
+    "protectionCheck": "before the revision: /: internalLinks, bodyTextSha256; after: Protected SEO 10/10 unchanged",
+    "build": "npm run build:fast exit 0: 135 pages, 175 articles, 316 sitemap entries; shared CSS index-B7Z1XlOc.css unchanged",
+    "tests": "61 test files file by file: no new failure; known only gpt-chat «chat first screen», gpt-chat-business-line, gpt-chat-rev-design §5.3, seo-push-revision R3-6/R3-9, react-router-v8-migration ×3 (count gaps 42/38 unchanged), seo-revenue-claims pricing free limits, studio-contact ×2; seo-protection 15/15, homepage-lists-frozen 4/4; tsc -b and typecheck:functions 0; eslint on changed TS 0; seo-audit no critical; scan:secrets only tests/telegram-assistant.test.ts:639",
+    "honesty": "independent service, 3 lifetime trial replies then the AI pack, only tariff-page prices, no invented clients or stats; samples original and labelled AI-assisted; the RU generator label no longer says the samples were written in the GPTBot.uz chat",
+    "releaseGate": "a native Uzbek speaker must read the 14 poems and the Uzbek greetings before deploy (so «jamoa tahriri» is true); calculator SERP to be looked at from Uzbekistan once before reading results",
+    "changeLog": "docs/seo/CHANGE_LOG_2026-10.md «AI-инструменты, волна A 25.10»",
+    "notDone": "not deployed, not pushed; no IndexNow; no link from the protected chats (after their 28-day window ≈21–25.11); scripts/chat-layout-check.mjs not run for the tool pages (browser)"
   }
 }

@@ -149,6 +149,37 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Ba’zi vazifalar uchun tayyor AI vositalar ham bor: {kalk} va {fellar} brauzerda modelsiz va limitsiz ishlaydi, {kirill} esa matn yozuvini bepul almashtiradi. AI’dan tushuntirish so‘rasangiz, chatning umumiy 3 ta sinov javobi sarflanadi. Ijodiy matn uchun {sher} va {tabrik} sahifalari tayyor so‘rov tugmalari bilan ochiladi.",
+      "links": [
+        {
+          "token": "kalk",
+          "target": "/uz/kalkulyator/",
+          "anchor": "onlayn kalkulyator"
+        },
+        {
+          "token": "fellar",
+          "target": "/uz/notogri-fellar/",
+          "anchor": "noto‘g‘ri fe’llar jadvali"
+        },
+        {
+          "token": "kirill",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        },
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        },
+        {
+          "token": "tabrik",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "AI kabinet: bo‘sh chat o‘rniga tayyor ssenariylar"
     },

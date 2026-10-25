@@ -3,119 +3,440 @@
   "locale": "uz",
   "url": "/uz/gpt-telegram-instagram-ideya/",
   "slug": "gpt-telegram-instagram-ideya",
-  "pageType": "blog",
-  "primaryKeyword": "GPT Telegram Instagram",
-  "secondaryKeywords": [
-    "gpt instagram post",
-    "gpt telegram kanal",
-    "ai chat telegram",
-    "sun’iy intellekt marketing",
-    "gpt reklama matni"
+  "pageType": "gpt-chat",
+  "chatRole": "smm",
+  "chatStarters": [
+    {
+      "label": "Telegram reklama matni",
+      "prompt": "Telegram kanal uchun reklama matni yoz.\nMahsulot yoki xizmat: \nKimga: \nAsosiy foyda: \nNarx yoki aksiya (faqat haqiqiysi): \nUzunligi: \nChegirma va faktlarni o‘ylab topma, oxirida bitta aniq harakatga chaqiruv bo‘lsin."
+    },
+    {
+      "label": "Instagram posti",
+      "prompt": "Instagram uchun post yoz: sarlavha, asosiy matn va CTA.\nMahsulot yoki xizmat: \nKimga: \nOhang (samimiy, rasmiy yoki boshqa): \nTasdiqlangan faktlar: \nAsossiz va’da va o‘ylab topilgan sharh qo‘shma."
+    },
+    {
+      "label": "Uzum uchun mahsulot tavsifi",
+      "prompt": "Uzum Market kartochkasi uchun mahsulot tavsifini yoz.\nNomi: \nAniq xususiyatlari: \nKomplekt: \nKimga mo‘ljallangan: \nFaqat men bergan ma’lumotdan foydalan, tasdiqlanmagan xususiyat qo‘shma."
+    },
+    {
+      "label": "5 ta sarlavha varianti",
+      "prompt": "Reklamam uchun 5 ta sarlavha varianti yoz, har biri 60 belgidan oshmasin.\nMahsulot: \nAuditoriya: \nAsosiy foyda: \nHar bir variant qaysi yondashuvga (foyda, muammo yoki savol) asoslanganini qisqa izohla."
+    },
+    {
+      "label": "Matnni 7 qoida bo‘yicha tekshirish",
+      "prompt": "Reklama matnimni tekshir: kimga qaratilgani aniqmi, bitta asosiy foyda bormi, birinchi qator diqqatni tortadimi, isbotsiz va’da bormi, harakatga chaqiruv aniqmi. Avval kamchiliklarni sanab ber, keyin tuzatilgan variantni yoz.\nMatn: "
+    },
+    {
+      "label": "Ruscha variantini yozish",
+      "prompt": "Shu reklama matnining ruscha variantini yoz: ma’no, narx va shartlarni o‘zgartirma; so‘zma-so‘z tarjima qilma, matn rus tilida tabiiy o‘qilsin.\nMatn: "
+    }
   ],
-  "searchIntent": "informational",
-  "h1": "GPT Telegram va Instagram uchun: g‘oyalar va reklama matnlari",
-  "title": "GPT Telegram va Instagram uchun: post g‘oyalari | GPTBot.uz",
-  "description": "GPTdan Telegram va Instagram uchun foydalanish: post g‘oyalari, reklama matni, mahsulot tavsifi va kontent-reja. Biznes uchun amaliy misollar.",
+  "widgets": [
+    "uz-translit"
+  ],
+  "primaryKeyword": "reklama matni yozish",
+  "secondaryKeywords": [
+    "reklama matni",
+    "reklama matnlari",
+    "reklama yozish",
+    "reklama uchun so‘zlar",
+    "telegram reklama matni",
+    "instagram post matni",
+    "ai reklama matni",
+    "gpt reklama matni",
+    "caption generator"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Reklama matni yozish: Telegram va Instagram uchun AI generator",
+  "title": "Reklama matni yozish: AI generator va 7 qoida | GPTBot.uz",
+  "description": "Telegram, Instagram va Uzum uchun reklama matnini AI chatda yozing: tayyor so‘rovlar, 7 qoida, ruscha variant. 3 ta bepul sinov javobi, keyin AI paket.",
   "canonical": "https://gptbot.uz/uz/gpt-telegram-instagram-ideya/",
   "hreflangUz": "/uz/gpt-telegram-instagram-ideya/",
-  "ogTitle": "GPT Telegram va Instagram uchun: g‘oyalar va reklama matnlari",
-  "ogDescription": "Telegram va Instagram uchun GPT bilan post g‘oyalari, reklama matni, mahsulot tavsifi va kontent-reja tayyorlash bo‘yicha amaliy qo‘llanma.",
+  "ogTitle": "Reklama matni yozish — Telegram va Instagram uchun AI generator",
+  "ogDescription": "Telegram, Instagram va Uzum uchun reklama matnini AI chatda yozing: tayyor so‘rovlar, 7 qoida, ruscha variant. 3 ta bepul sinov javobi, keyin AI paket.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
-  "breadcrumbLabel": "GPT Telegram va Instagram uchun",
-  "heroSubtitle": "GPTdan Telegram va Instagram uchun qanday foydalanish: g‘oya, reklama matni, mahsulot tavsifi, story va kontent-reja. O‘zbekistondagi biznes uchun amaliy misollar.",
-  "ctaPrimaryLabel": "GPT o‘zbek tilida savol bering",
-  "ctaPrimaryHref": "/uz/gpt-uzbek-tilida/",
-  "ctaSecondaryLabel": "Prompt misollari",
-  "ctaSecondaryHref": "#misollar",
-  "heroTrust": ["Uzbek Latin", "Telegram va Instagram", "Toshkent va O‘zbekiston"],
+  "breadcrumbLabel": "Reklama matni yozish",
+  "heroTitle": "Reklama matni yozish: Telegram va Instagram uchun AI generator",
+  "heroSubtitle": "Reklama matni, post va mahsulot tavsifini «SMM mutaxassisi» rolidagi AI chatda yozing: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "Target yoqish xizmati",
+  "ctaSecondaryHref": "/uz/instagram-target-yoqish/",
   "bodyBlocks": [
-    { "type": "p", "text": "Telegram va Instagram uchun GPT — bu post g‘oyalari, reklama matni va kontent-rejani tayyorlaydigan til modeli yordamchisi." },
-    { "type": "p", "text": "GPT — til modeli asosidagi AI chat bo‘lib, u Telegram va Instagram uchun kontent tayyorlashda yordam beradi: post g‘oyalari, reklama matni, mahsulot tavsifi, story va kontent-reja. Siz vazifani Uzbek Latin yozuvida aniq tushuntirasiz, model esa qoralama yaratadi. Natijani nashr qilishdan oldin tekshirib chiqing." },
-    { "type": "p", "text": "ChatGPT va OpenAI mashhur texnologiyalar sifatida tilga olinadi. GPTBot.uz — til modellari asosidagi mustaqil AI servis; u OpenAI yoki ChatGPTning rasmiy mahsuloti emas." },
-    { "type": "toc", "text": "Maqola mazmuni", "links": [
-      { "anchor": "nima-uchun", "label": "Nima uchun foydali" },
-      { "anchor": "vazifalar", "label": "Qanday vazifalar" },
-      { "anchor": "misollar", "label": "Prompt misollari" },
-      { "anchor": "biznes", "label": "Biznes va mijozlar" },
-      { "anchor": "cheklov", "label": "Cheklov va tekshiruv" }
-    ] },
-
-    { "type": "h2", "id": "nima-uchun", "text": "Nima uchun GPT Telegram va Instagram uchun foydali" },
-    { "type": "p", "text": "Telegram va Instagram O‘zbekistonda savdo va muloqotning asosiy kanallari. Har kuni post, reklama va mijozlarga javob kerak bo‘ladi. GPT bu rutinani tezlashtiradi: bir necha variant g‘oya beradi, matnni qisqartiradi yoki uslubini o‘zgartiradi. Marketolog yoki tadbirkor esa strategiya va tekshiruvni o‘z zimmasiga oladi." },
-
-    { "type": "h2", "id": "vazifalar", "text": "GPT qanday vazifalarni bajaradi" },
-    { "type": "list", "items": [
-      "Post g‘oyalari: kanal yoki sahifa uchun mavzular ro‘yxati.",
-      "Reklama matni: sarlavha, offer va aksiya tavsifi variantlari.",
-      "Mahsulot tavsifi: tushunarli va ishonchli matn (asossiz va’dasiz).",
-      "Story va Reels: qisqa matn va raskadrovka g‘oyalari.",
-      "Kontent-reja: hafta yoki oy uchun mavzu va format jadvali.",
-      "Mijozlarga javob: tez-tez beriladigan savollarga shablon javoblar."
-    ] },
-
-    { "type": "h2", "id": "misollar", "text": "Prompt misollari (Uzbek Latin)" },
-    { "type": "h3", "text": "Post va g‘oyalar" },
-    { "type": "quote", "text": "[nisha] biznesi uchun Instagram’da 10 ta post mavzusini taklif qil. Har biriga qisqa tavsif va format ber." },
-    { "type": "quote", "text": "Telegram kanali uchun bir haftalik kontent-reja tuz: har kuni mavzu, format va maqsad." },
-    { "type": "h3", "text": "Reklama va aksiya" },
-    { "type": "quote", "text": "[mahsulot] uchun Instagram reklama uchun 5 ta sarlavha yoz. Auditoriya — [auditoriya]. Ohang ishonchli, sodda, 60 belgidan oshmasin." },
-    { "type": "quote", "text": "Story uchun [aksiya] haqida matn yoz, 150 belgidan oshmasin, oxirida harakatga chaqiruv bo‘lsin." },
-    { "type": "h3", "text": "Mahsulot va story" },
-    { "type": "quote", "text": "Mahsulot tavsifini o‘zbek tilida yaxshila: tushunarli va sotadigan qil, xususiyatlarni saqla, asossiz va’dalarni olib tashla. Tavsif: …" },
-    { "type": "quote", "text": "[nisha] uchun 5 ta Reels g‘oyasini qisqa raskadrovka bilan taklif qil." },
-
-    { "type": "h2", "id": "biznes", "text": "Biznes va mijozlar bilan ishlash" },
-    { "type": "p", "text": "Shaxsiy AI chat kontent tayyorlashni tezlashtiradi. Biznesga esa keyingi daraja kerak bo‘lishi mumkin: saytga yoki Telegram’ga AI chat qo‘yish, mijozlarga avtomatik javob berish va arizalarni menejerga hamda CRM’ga uzatish. Bu bilim bazasi va sozlashni talab qiladi." },
-    { "type": "linkp", "text": "Biznes uchun {businessbot}, mijoz murojaatlari uchun {telegrambot}, saytga AI chat uchun {saytbot} sahifalarini ko‘ring.", "links": [
-      { "token": "businessbot", "target": "/uz/biznes-uchun-ai-bot/", "anchor": "biznes uchun AI bot" },
-      { "token": "telegrambot", "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun" },
-      { "token": "saytbot", "target": "/uz/sayt-uchun-ai-bot/", "anchor": "sayt uchun AI bot" }
-    ] },
-
-    { "type": "h2", "id": "cheklov", "text": "Cheklovlar va tekshiruv" },
-    { "type": "p", "text": "GPT mahsulotingizning real afzalliklarini bilmaydi va fakt yoki va’da o‘ylab topishi mumkin. Shuning uchun narx, xususiyat va aksiya shartlarini oshkora bering va nashr qilishdan oldin tekshiring. O‘ylab topilgan sharh va keyslarni e’lon qilmang. Parol, karta va mijozlarning shaxsiy ma’lumotlarini AI chatga kiritmang." },
-    { "type": "linkp", "text": "Amaliy suhbat uchun {uzchat}. So‘rovlarni aniqroq yozishni {rus} maqolasidan o‘rganish mumkin.", "links": [
-      { "token": "uzchat", "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida" },
-      { "token": "rus", "target": "/ru/blog/chat-gpt-na-russkom/", "anchor": "so‘rov yozish bo‘yicha qo‘llanma" }
-    ] },
-    { "type": "cta", "text": "GPTBot.uz AI chatni sinab ko‘ring", "href": "/uz/gpt-uzbek-tilida/" },
+    {
+      "type": "linkp",
+      "text": "Mahsulotingiz haqidagi ma’lumotni shu sahifadagi chatga yozing: chat «SMM mutaxassisi» rolida ochiladi va Telegram posti, Instagram matni, Uzum kartochkasi uchun tavsif yoki sarlavha variantlarini tayyorlaydi. Tayyor so‘rov tugmasini bossangiz, u yozish maydoniga qo‘yiladi — siz faqat bo‘sh joylarni to‘ldirasiz, hech narsa o‘zi yuborilmaydi. Tayyor matnni kirill yozuviga o‘girish kerak bo‘lsa, yuqoridagi {translit}dan foydalaning: u AI’siz va limitsiz ishlaydi.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "#kirill-lotin",
+          "anchor": "kirill ↔ lotin konvertori"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Generator — o‘sha GPTBot.uz AI chati, faqat oldindan tanlangan rol va tayyor so‘rovlar bilan. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas; javoblarni boshqa kompaniyalarning til modellari API orqali beradi. Shartlar AI chat bilan umumiy: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi. Keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
     {
       "type": "h2",
-      "text": "Asosiy xulosalar"
+      "id": "3-qadam",
+      "text": "Reklama matnini 3 qadamda tayyorlash"
     },
     {
       "type": "list",
       "items": [
-        "GPT Telegram va Instagram uchun post g‘oyalari va reklama matnini tayyorlaydi.",
-        "Mahsulot tavsifi, story va kontent-reja tuzishga yordam beradi.",
-        "Matnni brend ostida tekshirib, moslash kerak.",
-        "Rus va o‘zbek tilida ishlaydi.",
-        "Biznes uchun xuddi shu dvigatel bot sifatida joriy etiladi."
+        "Vazifani tanlang: tayyor so‘rov tugmasini bosing yoki o‘zingiz yozing. Matn qayer uchun kerakligini (Telegram kanal, Instagram post, Uzum kartochkasi) va qancha hajmda bo‘lishini ko‘rsating.",
+        "Faktlarni bering: mahsulot nima, kimga mo‘ljallangan, asosiy foydasi, narx va aksiya shartlari. So‘rovda «faqat men bergan ma’lumotdan foydalan» deb alohida yozing.",
+        "Natijani tahrirlang: 2–3 variant so‘rang, eng yaxshisini tanlang, so‘ng «qisqartir», «ohangni samimiyroq qil» yoki «ruscha variantini yoz» deb aniqlashtiring. Aniqlashtirishga berilgan javob ham limitdan bitta javob sifatida hisoblanadi."
       ]
+    },
+    {
+      "type": "h2",
+      "id": "sorov",
+      "text": "Yaxshi natija uchun so‘rov qanday yoziladi"
+    },
+    {
+      "type": "p",
+      "text": "Model mahsulotingizni ko‘rmagan va bozoringizni bilmaydi, shuning uchun natija sifati deyarli butunlay so‘rovdagi ma’lumotga bog‘liq. Quyida bir xil vazifa uchun kuchsiz va yaxshi so‘rov taqqoslangan."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Kuchsiz so‘rov",
+        "Yaxshi so‘rov"
+      ],
+      "rows": [
+        [
+          "«Kafe uchun reklama yoz»",
+          "«Chilonzordagi oilaviy kafe uchun Telegram kanalga post yoz. Auditoriya — atrofdagi ofis xodimlari. Foyda: tushlik vaqtida biznes-lanch. Narxni yozma, uni o‘zim qo‘shaman. 400 belgigacha, oxirida manzil va telefon uchun joy qoldir.»"
+        ],
+        [
+          "«Instagram’ga post yoz»",
+          "«Bolalar uchun ingliz tili kursi haqida Instagram’ga post yoz. Auditoriya — 7–10 yoshli bolalarning ota-onalari. Asosiy taklif: birinchi dars bepul. Ohang samimiy, «siz» bilan. Sarlavha, 3–4 qisqa xatboshi va bitta CTA.»"
+        ],
+        [
+          "«Mahsulotni maqtab yoz»",
+          "«Uzum kartochkasi uchun tavsif yoz: termos, 500 ml, po‘lat korpus, komplektda qopqoq-piyola. Faqat shu xususiyatlardan foydalan, «eng yaxshi» va «№1» kabi so‘zlarni ishlatma.»"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Jadvaldagi so‘rovlar — shartli o‘quv misollari: kafe, kurs va termos o‘ylab topilgan. O‘z so‘rovingizda faqat haqiqiy ma’lumotni yozing."
+    },
+    {
+      "type": "h2",
+      "id": "7-qoida",
+      "text": "Reklama matni uchun 7 qoida"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta matn — bitta auditoriya. «Hammaga» yozilgan reklama hech kimga ta’sir qilmaydi: matn kimga qaratilgani birinchi so‘zlardanoq sezilsin — ona, talaba yoki do‘kon egasi.",
+        "Bitta asosiy foyda. O‘quvchi eslab qoladigan bitta fikrni tanlang; qolgan afzalliklarni qo‘nish sahifasi yoki kanaldagi postga qoldiring.",
+        "Birinchi qator diqqatni tortsin. Lentada odam avval bir-ikki qatorni ko‘radi: savol, muammo yoki aniq fakt bilan boshlang, salomlashuv bilan emas.",
+        "Xususiyatni foydaga aylantiring. «Yetkazib berish 24 soat ichida» — xususiyat, «bugun buyurtma bersangiz, ertaga qo‘lingizda» — o‘sha faktning mijoz tilidagi foydasi. Faqat haqiqatda bajaradigan narsangizni yozing.",
+        "Isbotsiz va’da bermang. «Kafolatlangan natija», «eng arzon», «№1» kabi gaplar ishonchni pasaytiradi va reklama qoidalariga zid kelishi mumkin; o‘ylab topilgan sharh va raqamlarni ishlatmang.",
+        "Bitta aniq harakatga chaqiruv. «Batafsil», «yozing», «qo‘ng‘iroq qiling» va «saytga o‘ting»ni birdaniga bermang: bitta qadamni tanlang va u qayerga olib borishini ayting.",
+        "Formatga moslang va tekshiring. Telegram Ads e’loni, kanaldagi post, Instagram matni va Uzum tavsifi turli uzunlik va qoidalarga ega (quyidagi jadvalga qarang). Nashrdan oldin narx, sana, manzil va imloni o‘zingiz tekshiring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tayyor matningizni shu qoidalar bo‘yicha chatdagi «Matnni 7 qoida bo‘yicha tekshirish» tugmasi yordamida tekshirish mumkin: model avval kamchiliklarni sanaydi, keyin tuzatilgan variantni beradi."
+    },
+    {
+      "type": "h2",
+      "id": "platformalar",
+      "text": "Telegram, Instagram va Uzum: matn qanday farq qiladi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qayer uchun",
+        "Format",
+        "Nimaga e’tibor berish kerak"
+      ],
+      "rows": [
+        [
+          "Telegram Ads e’loni",
+          "Qisqa matn va bitta havola",
+          "Rasmiy qoidalarga ko‘ra matn 160 belgidan oshmasligi, havola esa faqat Telegram kanal yoki botga olib borishi kerak (ads.telegram.org, 25.10.2026 da tekshirildi)"
+        ],
+        [
+          "Telegram kanalidagi post",
+          "Kanal uslubidagi to‘liq post",
+          "Matn, havola, joylashtirish vaqti va reklama belgisini kanal egasi bilan oldindan kelishing"
+        ],
+        [
+          "Instagram posti",
+          "Sarlavha, asosiy matn, CTA, xeshteglar",
+          "Lentada matnning faqat boshi ko‘rinadi — asosiy fikr birinchi qatorda bo‘lsin; rasm va matn bitta narsani va’da qilsin"
+        ],
+        [
+          "Uzum Market kartochkasi",
+          "Mahsulot tavsifi va xususiyatlar",
+          "Faqat haqiqiy xususiyatlar va komplekt; kartochka talablari Uzum sotuvchi qo‘llanmasida (seller.uzum.uz/manual) yozilgan"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Uzum’da endigina sotuvchi bo‘layotgan bo‘lsangiz, ro‘yxatdan o‘tish, FBO/FBS va birinchi xaridorlar haqida {uzum} qo‘llanmasini o‘qing. Telegram kanallaridagi reklamaning narxi va ishga tushirilishi {telegram} sahifasida.",
+      "links": [
+        {
+          "token": "uzum",
+          "target": "/uz/blog/uzum-marketda-sotuvchi-bolish/",
+          "anchor": "Uzum Market’da sotuvchi bo‘lish"
+        },
+        {
+          "token": "telegram",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "Telegram kanallarida reklama"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "cheklovlar",
+      "text": "Cheklovlar: AI nimani qila olmaydi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Rasm, video va ovoz yaratmaydi — faqat matn yozadi. Kerak bo‘lsa, dizayner yoki tasvir generatori uchun matnli topshiriq (prompt) tuzib beradi.",
+        "Mahsulotingiz, narxingiz va raqobatchilaringizni bilmaydi. Siz bermagan faktni o‘ylab topishi mumkin, shuning uchun har bir raqam va va’dani nashrdan oldin tekshiring.",
+        "Yuridik maslahat bermaydi. O‘zbekistonda tarqatiladigan reklamaning tili va mazmuniga «Reklama to‘g‘risida»gi qonun talablar qo‘yadi; shubha bo‘lsa, matnni yurist bilan kelishing.",
+        "Reklama kabinetini sozlamaydi va reklamani o‘zi yoqmaydi: auditoriya, byudjet, to‘lov va moderatsiya — alohida ish.",
+        "Mijozlarning shaxsiy ma’lumotlari, parol va karta raqamlarini chatga yozmang."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Reklama tiliga oid talab {qonun}ning 6-moddasida berilgan.",
+      "links": [
+        {
+          "token": "qonun",
+          "target": "https://lex.uz/ru/docs/6052631",
+          "anchor": "«Reklama to‘g‘risida»gi qonun"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "reklamani-yoqamiz",
+      "text": "Matn tayyor — reklamani biz yoqamiz"
+    },
+    {
+      "type": "p",
+      "text": "Yaxshi matn — reklamaning yarmi. Qolgani: to‘g‘ri auditoriya, kreativ, qo‘nish sahifasi yoki Direct, UTM-belgilar va arizaning menejerga yetib borishi. Ko‘pchilik aynan shu bosqichda to‘xtab qoladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Toshkentdagi GPTBot.uz jamoasi Instagram va Facebook’da targetni auditoriyadan arizagacha sozlaydi — {target}: ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan, reklama byudjeti alohida va platformaga to‘lanadi. Telegram kanallaridagi reklama uchun — {telegram}, sahifani muntazam yuritish uchun — {smm}. Arizalar soni va reklamaning o‘zini oqlashi oldindan kafolatlanmaydi.",
+      "links": [
+        {
+          "token": "target",
+          "target": "/uz/instagram-target-yoqish/#lead-form",
+          "anchor": "Instagram target yoqish xizmati"
+        },
+        {
+          "token": "telegram",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "Telegram reklama xizmati"
+        },
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "Instagram va Telegram sahifasini yuritish"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Matn tayyor — reklamani biz yoqamiz: ariza qoldiring",
+      "href": "/uz/instagram-target-yoqish/#lead-form"
+    },
+    {
+      "type": "h2",
+      "id": "nega",
+      "text": "Nega GPTBot.uz"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘zbek va rus tilida yozadi: o‘zbekcha javob lotin yozuvida, o‘ va g‘ harflari to‘g‘ri belgilar bilan; kirill kerak bo‘lsa, konvertor shu sahifada.",
+        "Ro‘yxatsiz boshlash mumkin: 3 ta bepul sinov javobi, keyin AI paket; ilova o‘rnatish shart emas.",
+        "Tayyor so‘rovlar mahsulot va faktlarni so‘raydi hamda chegirma va xususiyatlarni o‘ylab topmaslikni talab qiladi.",
+        "Chat ortida Toshkentdagi jamoa turadi: matndan keyin target, Telegram reklama, SMM yoki savdo boti kerak bo‘lsa, shu yerning o‘zida buyurtma qilish mumkin.",
+        "GPTBot.uz — mustaqil servis, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas."
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Реклама матни ёзиш: Telegram, Instagram ва Uzum учун матнни AI чатда тайёрланг. Ўзбекча жавоб лотин ёзувида келади; кирилл керак бўлса, юқоридаги конвертордан фойдаланинг."
+    },
+    {
+      "type": "linkp",
+      "lang": "ru",
+      "text": "Генератор рекламных текстов на узбекском и русском: пост для Telegram, текст для Instagram и описание товара для Uzum в AI-чате GPTBot.uz. 3 бесплатных пробных ответа на весь сайт, они не обновляются, дальше нужен AI-пакет. Подробнее по-русски — {ru}.",
+      "links": [
+        {
+          "token": "ru",
+          "target": "/ru/gpt-v-marketinge-smm/",
+          "anchor": "GPT в маркетинге и SMM",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Reklamani yoqish yoki savdo boti bo‘yicha savolingiz bormi? {call} yoki {mail}. AI paket shartlari — {tariffs} sahifasida, boshqa vazifalar uchun — {chat}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "Bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        },
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Chatga parol, karta raqami, pasport ma’lumotlari va mijozlarning shaxsiy ma’lumotlarini yubormang: so‘rov matni serverimizga va xorijdagi AI-provayderlarga yuboriladi."
     }
   ],
   "faq": [
-    { "q": "GPT Telegram va Instagram uchun foydalimi?", "a": "Ha. GPT post g‘oyalari, reklama matni, mahsulot tavsifi, story va kontent-reja tayyorlashda yordam beradi. Natijani nashrdan oldin tekshirish kerak." },
-    { "q": "GPT o‘zbek tilida post yoza oladimi?", "a": "Ha, Uzbek Latin yozuvida vazifa berish mumkin. Ohang, hajm va auditoriyani ko‘rsating, javob esa o‘zbek tilida keladi." },
-    { "q": "GPT marketologni to‘liq almashtiradimi?", "a": "Yo‘q. GPT rutinani tezlashtiradi — qoralama va g‘oyalar beradi, lekin strategiya, faktlarni tekshirish va yakuniy tahrir inson zimmasida." },
-    { "q": "Reklama matnini qanday tekshirish kerak?", "a": "Narx, xususiyat va aksiya shartlarini modelga oshkora bering va u o‘ylab topmasligini so‘rang. Tayyor matnni mahsulot va reklama qoidalariga moslab tekshiring." },
-    { "q": "Telegram va saytga AI chat qo‘yish mumkinmi?", "a": "Ha. Biznes uchun AI chatni saytga va Telegram’ga ulash, mijozlarga avtomatik javob berish va arizalarni CRM’ga uzatish mumkin." },
-    { "q": "AI chatga qanday ma’lumotni yozmaslik kerak?", "a": "Parol, karta raqami, tijorat siri va mijozlarning shaxsiy ma’lumotlarini kiritmang. Ishchi materialni shaxssizlantiring." }
+    {
+      "q": "Reklama matni generatori bepulmi?",
+      "a": "Qisman. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor — butun sayt bo‘yicha, AI chat bilan umumiy; ular har kuni yangilanmaydi. Keyin AI paket kerak: narx, javoblar soni va muddat chatda ko‘rsatiladi. Shu sahifadagi kirill ↔ lotin konvertori esa bepul va limitsiz, chunki u AI’siz ishlaydi."
+    },
+    {
+      "q": "Matnni o‘zbek va rus tilida yoza oladimi?",
+      "a": "Ha. So‘rov qaysi tilda bo‘lsa, javob shu tilda keladi; o‘zbekcha matn lotin yozuvida yoziladi. Ikki tildagi variant kerak bo‘lsa, avval bittasini tayyorlang, so‘ng «Ruscha variantini yozish» tugmasidan foydalaning."
+    },
+    {
+      "q": "Telegram Ads uchun matn qancha uzunlikda bo‘lishi kerak?",
+      "a": "Telegram Ads rasmiy qoidalarida e’lon matni 160 belgidan oshmasligi, havola esa faqat Telegram kanal yoki botga olib borishi kerakligi ko‘rsatilgan (25.10.2026 da tekshirildi). So‘rovda «160 belgigacha» deb yozing va natijani belgi soni bo‘yicha tekshiring. Kanaldagi oddiy post uchun bunday chegara yo‘q — shartlarni kanal egasi belgilaydi."
+    },
+    {
+      "q": "AI reklama uchun rasm yoki video ham tayyorlaydimi?",
+      "a": "Yo‘q. Chat faqat matn yozadi: rasm, video va ovoz yaratmaydi. U dizayner yoki tasvir generatori uchun matnli topshiriq tuzib berishi mumkin."
+    },
+    {
+      "q": "AI yozgan matnni darhol e’lon qilsa bo‘ladimi?",
+      "a": "Avval tekshiring. Model siz bermagan fakt, chegirma yoki xususiyatni o‘ylab topishi mumkin. Narx, sana, manzil, aksiya shartlari va imloni o‘zingiz ko‘rib chiqing, o‘ylab topilgan sharhlarni ishlatmang."
+    },
+    {
+      "q": "Reklamani kim yoqadi?",
+      "a": "Chat faqat matn tayyorlaydi. Instagram va Facebook’da targetni GPTBot.uz jamoasi yoqishi mumkin: ishga tushirish 1 990 000 so‘mdan, yuritish oyiga 1 490 000 so‘mdan, reklama byudjeti alohida. Ariza qoldirish uchun «Instagram target yoqish» sahifasidagi formadan foydalaning yoki +998 50 587 07 20 raqamiga qo‘ng‘iroq qiling."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Matnni boshqa kompaniyaning til modeli yozadi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
   ],
   "internalLinks": [
-    { "target": "/uz/gpt-uzbek-tilida/", "anchor": "GPT o‘zbek tilida", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/gpt-uzbek-tilida-ai-chat/", "anchor": "O‘zbek tilida prompt yozish qo‘llanmasi", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/biznes-uchun-ai-bot/", "anchor": "Biznes uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/telegram-bot-biznes-uchun/", "anchor": "Telegram bot biznes uchun", "locale": "uz", "type": "block" },
-    { "target": "/uz/sayt-uchun-ai-bot/", "anchor": "Sayt uchun AI bot", "locale": "uz", "type": "block" },
-    { "target": "/uz/smm-xizmatlari/", "anchor": "Kontent va sahifa yuritishni topshirish", "locale": "uz", "type": "contextual" },
-    { "target": "/uz/telegram-reklama/", "anchor": "Reklama matnini kampaniyaga aylantirish", "locale": "uz", "type": "contextual" },
-    { "target": "/ru/blog/chat-gpt-na-russkom/", "anchor": "So‘rov yozish qo‘llanmasi", "locale": "uz", "type": "block" }
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/instagram-target-yoqish/",
+      "anchor": "Instagram target yoqish xizmati",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram kanallarida reklama",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "Instagram va Telegram sahifasini yuritish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/uzum-marketda-sotuvchi-bolish/",
+      "anchor": "Uzum Market’da sotuvchi bo‘lish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/gpt-v-marketinge-smm/",
+      "anchor": "GPT в маркетинге и SMM",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
   ],
-  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
-  "lastReviewedAt": "2026-07-12",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz reklama matni generatori",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Telegram, Instagram va Uzum uchun reklama matni, post va mahsulot tavsifini yozadigan mustaqil AI chat, «SMM mutaxassisi» rolida: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket. Kirill ↔ lotin konvertori AI’siz ishlaydi. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "3 ta bepul sinov javobi",
+        "description": "Butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/gpt-telegram-instagram-ideya/",
+      "inLanguage": [
+        "uz",
+        "ru"
+      ]
+    }
+  ],
+  "lastReviewedAt": "2026-10-25",
   "createdAt": "2026-07-12T00:00:00Z",
-  "updatedAt": "2026-07-12"
+  "updatedAt": "2026-10-25"
 }

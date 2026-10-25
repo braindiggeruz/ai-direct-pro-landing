@@ -1,0 +1,343 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "uzum-marketda-sotuvchi-bolish",
+  "url": "/uz/blog/uzum-marketda-sotuvchi-bolish/",
+  "title": "Uzumda savdo qilish: sotuvchi bo‘lish qo‘llanmasi 2026",
+  "description": "Uzumda savdo qilish: YaTT, MChJ yoki o‘zini o‘zi band qilgan shaxs maqomi, hisob raqam, Uzum Sellers’da ro‘yxatdan o‘tish, FBO yoki FBS va birinchi savdo.",
+  "h1": "Uzum Market’da sotuvchi bo‘lish: ro‘yxatdan o‘tishdan birinchi savdogacha",
+  "topicCluster": "marketpleys-sotuvchi",
+  "targetMoneyPage": "/uz/instagram-target-yoqish/",
+  "keywords": [
+    "uzumda savdo qilish",
+    "uzum market sotuvchi bo‘lish",
+    "uzum sotuvchi",
+    "uzumda sotuvchi bo‘lish",
+    "uzum market ro‘yxatdan o‘tish",
+    "uzum seller"
+  ],
+  "intro": "Uzum Market’da sotish uchun biznesni rasmiylashtirish, bankda hisob raqam ochish va Uzum Sellers kabinetida anketa to‘ldirish kerak. Keyin kartochkalar yaratiladi, ishlash sxemasi (FBO yoki FBS) tanlanadi va birinchi xaridorlarni qayerdan jalb qilish rejalashtiriladi. Quyida bosqichlar rasmiy sotuvchi qo‘llanmasi (seller.uzum.uz) asosida o‘z so‘zlarimiz bilan berilgan; ma’lumotlar 25.10.2026 da tekshirildi, shartlar o‘zgarishi mumkin.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: Uzum’da yakka tartibdagi tadbirkor (YaTT), MChJ yoki boshqa yuridik shaxs va o‘zini o‘zi band qilgan shaxs sotuvchi bo‘la oladi. Kerakli hujjatlar maqomga bog‘liq. Komissiya va logistika tariflari qo‘llanmaning tariflar bo‘limida e’lon qilinadi — biz ularni bu yerda takrorlamaymiz, chunki ular toifaga bog‘liq va vaqti-vaqti bilan o‘zgaradi."
+    },
+    {
+      "type": "h2",
+      "id": "kim-sotadi",
+      "text": "Kim Uzum’da sotuvchi bo‘la oladi va qanday hujjatlar kerak"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Maqom",
+        "Qo‘llanmada ko‘rsatilgan hujjatlar",
+        "E’tibor bering"
+      ],
+      "rows": [
+        [
+          "YaTT (yakka tartibdagi tadbirkor)",
+          "Davlat ro‘yxatidan o‘tganlik guvohnomasi va pasport",
+          "Soliq rejimi va hisobotlarni buxgalter yoki soliq idorasi bilan aniqlang"
+        ],
+        [
+          "MChJ yoki boshqa yuridik shaxs",
+          "Ro‘yxatdan o‘tganlik guvohnomasi yoki xabarnomasi, direktorni tayinlash to‘g‘risidagi buyruq yoki qaror, pasport",
+          "Kabinetga xodimlarni rollar bilan qo‘shish mumkin — parolni hammaga bermang"
+        ],
+        [
+          "O‘zini o‘zi band qilgan shaxs",
+          "O‘zini o‘zi band qilgan shaxs sifatida ro‘yxatdan o‘tganlik ma’lumotnomasi va pasport",
+          "Bu maqomda qaysi faoliyatga ruxsat borligini soliq organlarida tekshiring"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hujjatlar ro‘yxati 25.10.2026 holatida seller.uzum.uz sahifasidan olindi. Maqomni tanlash — soliq masalasi: qaror qabul qilishdan oldin buxgalter yoki soliq idorasi bilan maslahatlashing."
+    },
+    {
+      "type": "h2",
+      "id": "royxatdan-otish",
+      "text": "Ro‘yxatdan o‘tish: 5 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Biznesni rasmiylashtiring: YaTT, MChJ yoki o‘zini o‘zi band qilgan shaxs maqomini rasmiy davlat xizmatlari orqali oling.",
+        "Mamlakatdagi istalgan bankda hisob raqam oching — u sotuvdan tushgan pulni olish uchun kerak bo‘ladi.",
+        "Uzum Sellers’da akkaunt yarating va anketani to‘ldiring: maqom, rekvizitlar va hujjatlar. Ro‘yxatdan o‘tish havolasi va batafsil yo‘riqnoma seller.uzum.uz sahifasida.",
+        "Do‘kon ma’lumotlari va birinchi kartochkalarni tayyorlang: nom, toifa, xususiyatlar, rasmlar va narx. Mahsulot va sotuvchiga qo‘yiladigan talablar qo‘llanmada alohida bo‘limda berilgan.",
+        "Ishlash sxemasini tanlang va tovarni tayyorlang: FBO bo‘lsa — tovarni Uzum omboriga yuborasiz, FBS bo‘lsa — buyurtmalarni o‘z omboringizdan topshirasiz."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "fbo-fbs",
+      "text": "FBO yoki FBS: qaysi sxema sizga mos"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "FBO — Uzum omboridan",
+        "FBS — o‘z omboringizdan"
+      ],
+      "rows": [
+        [
+          "Tovar qayerda saqlanadi",
+          "Uzum Market omborida",
+          "Sizning omboringizda"
+        ],
+        [
+          "Buyurtmani kim yig‘adi va yetkazadi",
+          "Uzum yig‘adi va xaridorga yetkazadi",
+          "Siz qadoqlab, belgilangan muddatda Uzum’ga topshirasiz, xaridorga Uzum yetkazadi"
+        ],
+        [
+          "Kimga qulay",
+          "Tovarni partiya bilan omborga yuborishga tayyor sotuvchilarga",
+          "Ishlab chiqaruvchi, distribyutor va o‘z ombori bor sotuvchilarga"
+        ],
+        [
+          "Tariflar",
+          "Qo‘llanmaning tariflar bo‘limida",
+          "Uzum 2024-yilda FBS’ni ishga tushirganda komissiya va logistika shartlarini ikkala sxemada bir xil deb e’lon qilgan; joriy shartlarni tariflar bo‘limida tekshiring"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Qo‘llanmada DBS va EDBS kabi boshqa sxemalar ham tasvirlangan — ularning shartlarini o‘sha yerda o‘qing. Sxemani keyinroq o‘zgartirish mumkinmi va qanday shartlarda — buni ham ro‘yxatdan o‘tishdan oldin aniqlab oling."
+    },
+    {
+      "type": "h2",
+      "id": "kartochka",
+      "text": "Mahsulot kartochkasi va AI bilan tavsif"
+    },
+    {
+      "type": "p",
+      "text": "Xaridor kartochkada rasm, narx, xususiyatlar va tavsifni ko‘radi. Tavsif aniq va to‘liq bo‘lsa, savollar va tovar qaytarishlar kamayadi. Uni yozishda asosiy qoida bitta: faqat haqiqiy xususiyatlar — o‘lcham, material, komplekt va kimga mos ekani."
+    },
+    {
+      "type": "linkp",
+      "text": "Tavsif qoralamasini {tool} sahifasidagi «Uzum uchun mahsulot tavsifi» tugmasi bilan tayyorlash mumkin: chat nom, aniq xususiyatlar, komplekt va auditoriyani so‘raydi, so‘rovning o‘zi esa tasdiqlanmagan xususiyat qo‘shishni taqiqlaydi. Ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Tayyor matnni kartochkadagi ma’lumotlar bilan solishtirib chiqing.",
+      "links": [
+        {
+          "token": "tool",
+          "target": "/uz/gpt-telegram-instagram-ideya/",
+          "anchor": "AI bilan mahsulot tavsifi"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Nomda mahsulot turi va asosiy xususiyat bo‘lsin, ortiqcha belgilarsiz.",
+        "Rasmlar mahsulotni turli tomondan ko‘rsatsin; aniq talablar qo‘llanmaning kartochka yaratish bo‘limida.",
+        "«Eng yaxshi», «№1» kabi tasdiqlanmagan gaplarni yozmang.",
+        "Xaridorlarning savollarini kuzatib boring va javobni tavsifga qo‘shing."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "birinchi-savdo",
+      "text": "Birinchi xaridorlar qayerdan keladi"
+    },
+    {
+      "type": "p",
+      "text": "Kartochka chiqishi bilan savdo o‘z-o‘zidan boshlanmaydi. Xaridor sizni uch yo‘l bilan topadi: Uzum ichidagi qidiruv va toifalar, sotuvchi kabinetidagi ichki reklama vositalari va tashqi trafik — Instagram, Telegram va boshqa kanallardan kelganlar."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Kanal",
+        "Nima qilinadi",
+        "Kim boshqaradi"
+      ],
+      "rows": [
+        [
+          "Uzum ichidagi qidiruv",
+          "To‘liq kartochka, to‘g‘ri toifa, raqobatbardosh narx",
+          "Sotuvchi"
+        ],
+        [
+          "Kabinetdagi ichki reklama",
+          "Qo‘llanmaning targ‘ib qilish bo‘limida: vaqtli chegirmalar, promokodlar, marketpleys aksiyalari, qidiruv va katalogda ko‘rsatish auksioni, buyurtma uchun foiz to‘lanadigan reklama",
+          "Sotuvchi o‘z kabinetida; GPTBot.uz ichki reklamani yuritmaydi"
+        ],
+        [
+          "Tashqi trafik",
+          "Instagram va Facebook’da target, Telegram kanallaridagi postlar, blogerlar — kartochka yoki do‘kon havolasiga",
+          "Sotuvchi yoki agentlik"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "olchash",
+      "text": "Tashqi reklama natijasini qanday o‘lchash mumkin"
+    },
+    {
+      "type": "p",
+      "text": "uz24.uz’ning 22.05.2026 dagi xabariga ko‘ra, 2026-yil 8-iyundan sotuvchi kabinetida UTM-belgili reklama havolalari vositasi ishlaydi: har bir kanal uchun alohida havola yaratib, o‘tishlar, savatga qo‘shish va buyurtmalar bo‘yicha hisobotni yuklab olish mumkin. Bu vosita sotuvchi qo‘llanmasining targ‘ib qilish bo‘limida ham tilga olingan. Ishlatishdan oldin uni o‘z kabinetingizda tekshiring. Qo‘shimcha nazorat uchun har bir kanalga alohida promokod berish mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "sotuv-yoq",
+      "text": "Kartochka bor, sotuv yo‘qmi?"
+    },
+    {
+      "type": "p",
+      "text": "Ko‘pchilik aynan shu bosqichda to‘xtab qoladi: kartochka tayyor, narx belgilangan, lekin buyurtma kam. Ko‘pincha sabab oddiy — kartochkani hali deyarli hech kim ko‘rmagan. Tashqi trafik buni tezlashtirishi mumkin, lekin sotuvni kafolatlamaydi: natija narx, kartochka sifati, sharhlar va mavsumga ham bog‘liq."
+    },
+    {
+      "type": "linkp",
+      "text": "Kartochka tayyor, lekin sotuv yo‘qmi? Instagram va Facebook’dan tashqi trafikni biz yoqib beramiz — xizmat tarkibi, narxi va ariza formasi {target} sahifasida. Uzum ichidagi reklamani yuritmaymiz va do‘konni yuritish xizmatini taklif qilmaymiz. Telegram kanallaridagi reklama uchun — {telegram}, kontent va sahifani yuritish uchun — {smm}.",
+      "links": [
+        {
+          "token": "target",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "kartochkaga Instagram target"
+        },
+        {
+          "token": "telegram",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "Telegram kanallarida reklama"
+        },
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "Instagram va Telegram sahifasini yuritish"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Kartochkaga reklama: ariza qoldirish",
+      "href": "/uz/instagram-target-yoqish/#lead-form"
+    },
+    {
+      "type": "h2",
+      "id": "xulosa",
+      "text": "Asosiy xulosalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Uzum’da YaTT, MChJ yoki o‘zini o‘zi band qilgan shaxs sifatida sotish mumkin; hujjatlar maqomga bog‘liq.",
+        "Ro‘yxatdan o‘tish: biznesni rasmiylashtirish, hisob raqam, Uzum Sellers’dagi anketa.",
+        "FBO — Uzum omboridan, FBS — o‘z omboringizdan; tariflar qo‘llanmada.",
+        "Tavsifda faqat haqiqiy xususiyatlar; qoralamani AI bilan tayyorlab, o‘zingiz tekshiring.",
+        "Birinchi savdolar uchun ichki reklama va tashqi trafik kerak bo‘lishi mumkin, natija esa kafolatlanmaydi."
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Uzum’da sotuvchi bo‘lish uchun YaTT shartmi?",
+      "a": "Yo‘q. 25.10.2026 holatida qo‘llanmada uch maqom ko‘rsatilgan: YaTT, MChJ yoki boshqa yuridik shaxs va o‘zini o‘zi band qilgan shaxs. Qaysi biri sizga to‘g‘ri kelishini buxgalter yoki soliq idorasi bilan aniqlang."
+    },
+    {
+      "q": "Uzum Market komissiyasi qancha?",
+      "a": "Komissiya va logistika tariflari toifaga bog‘liq va o‘zgarib turadi, shuning uchun biz ularni takrorlamaymiz: joriy jadval sotuvchi qo‘llanmasining tariflar bo‘limida (seller.uzum.uz/manual/3.tariffs/)."
+    },
+    {
+      "q": "FBO va FBS farqi nimada?",
+      "a": "FBO’da tovar Uzum omborida saqlanadi va marketpleys uni xaridorga yetkazadi. FBS’da tovar sizning omboringizda turadi: buyurtma kelganda uni qadoqlab, belgilangan muddatda Uzum’ga topshirasiz."
+    },
+    {
+      "q": "Uzum’dagi mahsulotga tashqi reklama berish mumkinmi?",
+      "a": "Ha. Instagram, Telegram yoki boshqa kanaldan kartochka yoki do‘kon havolasiga trafik yuborish mumkin. uz24.uz xabariga ko‘ra, 8.06.2026 dan kabinetda UTM-belgili reklama havolalari vositasi bor — uni o‘z kabinetingizda tekshiring. GPTBot.uz Instagram va Facebook’da target yoqadi; Uzum ichidagi reklamani yuritmaymiz."
+    },
+    {
+      "q": "Mahsulot tavsifini AI bilan yozsa bo‘ladimi?",
+      "a": "Ha, qoralama sifatida. GPTBot.uz chatidagi tayyor so‘rov nom, xususiyatlar va komplektni so‘raydi va modelga tasdiqlanmagan xususiyat qo‘shishni taqiqlaydi. Ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Tayyor matnni kartochka ma’lumotlari bilan solishtiring."
+    },
+    {
+      "q": "GPTBot.uz Uzum’ning rasmiy hamkorimi?",
+      "a": "Yo‘q. GPTBot.uz — Toshkentdagi mustaqil jamoa: AI chat va reklama xizmatlari. Bu qo‘llanma Uzum sotuvchi qo‘llanmasi asosida o‘z so‘zlarimiz bilan yozilgan; rasmiy shartlar seller.uzum.uz’da."
+    }
+  ],
+  "cta": {
+    "label": "Kartochkaga reklama yoqish",
+    "href": "/uz/instagram-target-yoqish/#lead-form"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/instagram-target-yoqish/",
+      "anchor": "kartochkaga Instagram target",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/gpt-telegram-instagram-ideya/",
+      "anchor": "AI bilan mahsulot tavsifi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "Telegram kanallarida reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "Instagram va Telegram sahifasini yuritish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Uzum Market’da sotuvchi bo‘lish: ro‘yxatdan o‘tishdan birinchi savdogacha",
+  "ogDescription": "Uzum’da kim sota oladi, qanday hujjatlar kerak, FBO va FBS farqi, kartochka tavsifi va birinchi xaridorlar: rasmiy qo‘llanma asosida qisqa yo‘l xaritasi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/uzum-marketda-sotuvchi-bolish/",
+  "hreflangRu": "/ru/blog/kak-stat-prodavcom-na-uzum-market/",
+  "hreflangUz": "/uz/blog/uzum-marketda-sotuvchi-bolish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Sellers starting on Uzum Market in Uzbekistan"
+  },
+  "breadcrumbLabel": "Uzum’da sotuvchi bo‘lish",
+  "author": "GPTBot.uz",
+  "datePublished": "2026-10-25",
+  "dateModified": "2026-10-25",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Uzum Market — sotuvchilar sahifasi (seller.uzum.uz)",
+      "url": "https://seller.uzum.uz/",
+      "note": "Kim sotuvchi bo‘la oladi, hujjatlar, ro‘yxatdan o‘tish bosqichlari, FBO va FBS; 2026-10-25 da tekshirildi."
+    },
+    {
+      "title": "Uzum Market sotuvchi qo‘llanmasi",
+      "url": "https://seller.uzum.uz/manual/",
+      "note": "Talablar, tariflar, kartochka yaratish, FBS, DBS, targ‘ib qilish (jumladan UTM-belgili reklama havolalari) bo‘limlari; 2026-10-25 da tekshirildi."
+    },
+    {
+      "title": "Uzum — FBS logistika modeli haqida press-reliz",
+      "url": "https://uzum.com/en/press-center/news-and-press-releases/uzum-market-has-launched-a-new-logistics-model-now-entrepreneurs-can-sell-products-from-their-own-warehouses/",
+      "note": "FBS ishga tushirilgani; komissiya va logistika shartlari ikkala modelda bir xil deb e’lon qilingan. Joriy shartlar — qo‘llanmada."
+    },
+    {
+      "title": "UZ24 — Uzum Market UTM-belgili reklama havolalari vositasi",
+      "url": "https://uz24.uz/uz/articles/uzum-market-26-5-22",
+      "note": "22.05.2026 dagi xabar: vosita 8.06.2026 dan sotuvchi kabinetida. Kabinetingizda tekshiring."
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00.000Z",
+  "updatedAt": "2026-10-25T00:00:00.000Z"
+}
