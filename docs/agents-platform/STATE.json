@@ -2792,7 +2792,10 @@
     "notDone": "no content page uses chatStarters or the calculator / irregular-verbs widgets yet; not deployed, not pushed"
   },
   "seo_ai_tools_wave_a_20261025": {
-    "status": "committed_not_deployed",
+    "status": "deployed_and_verified",
+    "deployment": "8d4c8b4e",
+    "sourceCommit": "99920cdc41d98ad7303c8cd5f9049df6f2d37098",
+    "releaseEvidence": "reports/ai-tools-wave-a-20261025/RELEASE.md",
     "ownerOrder": "2026-10-25: implement the researched clusters as AI tools of GPTBot.uz — the visitor gets a result from the AI chat or a free in-browser tool, then the AI chat / AI pack (B2C) or the ad and bot services (B2B); relevant traffic, not random traffic; out of scope: currency rates, calendar, PDF, QR",
     "commit": "the commit that adds this block (git log -1 --format=%H -- docs/seo/evidence/2026-10-25-ai-tools/)",
     "base": "af0446fe (tool-page platform) on 5a579414 (production 62d8fdb0, deployment 97f56ab5, plus research docs)",

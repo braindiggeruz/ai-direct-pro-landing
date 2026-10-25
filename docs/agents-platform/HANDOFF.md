@@ -1,6 +1,7 @@
 # HANDOFF — AI tools wave A (calculator, irregular verbs, Cyrillic-Latin converter, poems, greetings, ad copy, Uzum seller guides) · 25.10.2026
 
 ## 1. Состояние
+DEPLOYED 25.10: AI tools wave A, deployment 8d4c8b4e from 99920cdc (reports/ai-tools-wave-a-20261025/RELEASE.md); IndexNow 30 URLs 200. Next: wave B (English tenses, practice tests pilot, niche playbooks).
 - Дата: 2026-10-25.
 - Ветка: seo/chat-snippets-translator-20261024 (worktree F:/Claude/gptbot-snippets-translator-20261024); production line, merge it into codex/continuation-20261007 before any deploy from there.
 - HEAD: the commit «feat(seo): AI tool pages wave A — poems, greetings, calculator, irregular verbs, converter, ad-copy and Uzum funnel» on top of af0446fe (tool-page platform) → 5a579414 (production 62d8fdb0, deployment 97f56ab5, plus research docs).
