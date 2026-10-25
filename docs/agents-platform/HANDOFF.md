@@ -1,6 +1,7 @@
 # HANDOFF — AI tool pages wave B: English tenses tutor, practice tests pilot, niche ad playbooks · 25.10.2026
 
 ## 1. Состояние
+DEPLOYED 25.10: AI tools wave B, deployment d3010231 from 61c70ce6 (reports/ai-tools-wave-b-20261025/RELEASE.md); IndexNow 30 URLs 200. Production line = seo/chat-snippets-translator-20261024; merge into codex/continuation-20261007 before any deploy from there.
 - Дата: 2026-10-25.
 - Ветка: seo/chat-snippets-translator-20261024 (worktree F:/Claude/gptbot-snippets-translator-20261024).
 - HEAD: the commit «feat(seo): AI tool pages wave B — English tenses tutor, practice tests pilot, niche ad playbooks» on top of 5afc925c (independent check of the pilot tests) ← 1de4cd78 (tests pilot content) ← 205461eb (practice-quiz widget) ← 07fa6d36 (wave A deployed: deployment 8d4c8b4e from 99920cdc). The practice-quiz handoff is 205461eb:docs/agents-platform/HANDOFF.md.

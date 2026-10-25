@@ -2849,7 +2849,10 @@
     "notDone": "no real question set, no content page, no registry rows (integrator); no separate study-test role; not deployed, not pushed"
   },
   "seo_ai_tools_wave_b_20261025": {
-    "status": "committed_not_deployed",
+    "status": "deployed_and_verified",
+    "deployment": "d3010231",
+    "sourceCommit": "61c70ce6bc404b3faedf845660614903beb7a8fa",
+    "releaseEvidence": "reports/ai-tools-wave-b-20261025/RELEASE.md",
     "ownerOrder": "2026-10-25: every new page is an AI tool of GPTBot.uz tied to the AI theme and to conversion (B2C → AI chat / AI pack; B2B → ad and AI-bot services); tests are original practice questions with explanations, never leaked exam answers, no claim of official DTM/BMBA material",
     "commit": "the commit that adds this block (git log -1 --format=%H -- docs/seo/evidence/2026-10-25-ai-tools-b/)",
     "base": "5afc925c (independent check of the pilot tests) ← 1de4cd78 (tests pilot content) ← 205461eb (practice-quiz widget) ← 07fa6d36 (wave A deployed: deployment 8d4c8b4e from 99920cdc)",
