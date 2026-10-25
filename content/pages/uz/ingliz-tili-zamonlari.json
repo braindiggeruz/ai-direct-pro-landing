@@ -1,0 +1,520 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/ingliz-tili-zamonlari/",
+  "slug": "ingliz-tili-zamonlari",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "10 ta mashq: istalgan zamon",
+      "prompt": "Quyidagi zamon bo‘yicha menga 10 ta mashq ber: qavs ichidagi fe’lni to‘g‘ri shaklga qo‘yish kerak bo‘lsin, darak, inkor va so‘roq gaplar aralash. Javoblarni darhol ko‘rsatma: men yozaman, sen tekshirib, xatolarimni o‘zbek tilida tushuntirasan.\nZamon: "
+    },
+    {
+      "label": "Gapimni tekshir",
+      "prompt": "Inglizcha gapimni tekshir: zamon to‘g‘ri tanlanganmi va fe’l shakli to‘g‘rimi? Xato bo‘lsa, to‘g‘ri variantni yoz va sababini qisqa tushuntir. Xato bo‘lmasa, nega to‘g‘ri ekanini ayt.\nGap: "
+    },
+    {
+      "label": "Present Simple yoki Continuous?",
+      "prompt": "Present Simple va Present Continuous farqini oddiy so‘zlar bilan tushuntir, har biriga o‘zbekcha tarjimasi bilan 3 tadan misol ber. Keyin qaysi zamon kerakligini o‘zim tanlaydigan 6 ta gap yoz, javoblarni oxirida ko‘rsat."
+    },
+    {
+      "label": "Qaysi zamonni tanlash kerak?",
+      "prompt": "O‘zbekcha gap yozaman. Uni ingliz tiliga qaysi zamonda tarjima qilish kerakligini va nega aynan shu zamon ekanini tushuntir, keyin inglizcha variantini ber.\nGap: "
+    },
+    {
+      "label": "Zamonni oddiy tushuntir",
+      "prompt": "Quyidagi zamonni oddiy so‘zlar bilan tushuntir: qachon ishlatiladi, formulasi (darak, inkor, so‘roq), vaqt belgilari va o‘zbekcha tarjimasi bilan 5 ta misol.\nZamon: "
+    },
+    {
+      "label": "Aralash zamonlar testi",
+      "prompt": "Ingliz tili zamonlari bo‘yicha 10 savollik aralash test tuz: Present Simple, Present Continuous, Past Simple, Present Perfect va Future Simple. Har bir savolda 3 ta variant bo‘lsin. Javoblarimni olgandan keyin tekshir va har bir xatoni tushuntir."
+    }
+  ],
+  "primaryKeyword": "ingliz tili zamonlari",
+  "secondaryKeywords": [
+    "ingliz tilida zamonlar",
+    "zamonlar ingliz tilida",
+    "ingliz tili zamonlari jadvali",
+    "16 zamon",
+    "tenses",
+    "english tenses",
+    "12 tenses",
+    "tenses table"
+  ],
+  "searchIntent": "informational",
+  "h1": "Ingliz tili zamonlari: 12 zamon jadvali va AI o‘qituvchi bilan mashq",
+  "title": "Ingliz tili zamonlari: 12 zamon jadvali, formula va misollar",
+  "description": "Ingliz tilidagi 12 zamon bitta jadvalda: formula, vaqt belgilari va o‘zbekcha tarjimali misollar. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/ingliz-tili-zamonlari/",
+  "hreflangRu": "/ru/vremena-angliyskogo-yazyka/",
+  "hreflangUz": "/uz/ingliz-tili-zamonlari/",
+  "hreflangXDefault": "/uz/ingliz-tili-zamonlari/",
+  "ogTitle": "Ingliz tili zamonlari: 12 zamon jadvali, formula va misollar",
+  "ogDescription": "Ingliz tilidagi 12 zamon bitta jadvalda: formula, vaqt belgilari va o‘zbekcha tarjimali misollar. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Ingliz tili zamonlari",
+  "heroTitle": "Ingliz tili zamonlari: 12 zamon jadvali va AI o‘qituvchi bilan mashq",
+  "heroSubtitle": "Jadval va qoidalar bepul; AI o‘qituvchining tushuntirish va mashqlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Bu sahifada ingliz tilidagi 12 zamon bitta {table}da jamlangan: har biri uchun darak, inkor va so‘roq gap formulasi, vaqt belgilari va o‘zbekcha tarjimali misol. Pastda zamonni qanday tanlash, o‘zbekzabon o‘quvchilar ko‘p qiladigan xatolar va eng ko‘p kerak bo‘ladigan uchta zamon bo‘yicha batafsil sahifalar bor. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u istalgan zamon bo‘yicha mashq tuzadi, gaplaringizni tekshiradi va xatoni o‘zbek tilida tushuntiradi.",
+      "links": [
+        {
+          "token": "table",
+          "target": "#jadval",
+          "anchor": "jadval"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Jadval va qoidalar har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "jadval",
+      "text": "12 zamon bitta jadvalda"
+    },
+    {
+      "type": "p",
+      "text": "Ingliz tilida uch vaqt bor — hozirgi (Present), o‘tgan (Past) va kelasi (Future), har birida esa to‘rt shakl: Simple (oddiy), Continuous (davomli), Perfect (tugallangan) va Perfect Continuous (tugallangan davomli). 3 × 4 = 12 zamon shundan kelib chiqadi. Jadvalda «ega» — gapning egasi (I, you, he, she, it, we, they), V1 — fe’lning asosiy shakli, V2 — o‘tgan zamon shakli, V3 — uchinchi shakl (past participle), V-ing — -ing qo‘shimchali shakl."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Zamon",
+        "Darak (+)",
+        "Inkor (−)",
+        "So‘roq (?)",
+        "Vaqt belgilari",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "Present Simple",
+          "Ega + V1 (he, she, it: V1 + s/es)",
+          "Ega + don’t / doesn’t + V1",
+          "Do / Does + ega + V1?",
+          "every day, usually, often, sometimes, never",
+          "She works in a bank. — U bankda ishlaydi."
+        ],
+        [
+          "Present Continuous",
+          "Ega + am / is / are + V-ing",
+          "Ega + am / is / are + not + V-ing",
+          "Am / Is / Are + ega + V-ing?",
+          "now, right now, at the moment, today, Look!",
+          "I am reading a book now. — Men hozir kitob o‘qiyapman."
+        ],
+        [
+          "Present Perfect",
+          "Ega + have / has + V3",
+          "Ega + haven’t / hasn’t + V3",
+          "Have / Has + ega + V3?",
+          "already, just, yet, ever, never, since, for",
+          "We have already finished the project. — Biz loyihani allaqachon tugatib bo‘ldik."
+        ],
+        [
+          "Present Perfect Continuous",
+          "Ega + have / has + been + V-ing",
+          "Ega + haven’t / hasn’t + been + V-ing",
+          "Have / Has + ega + been + V-ing?",
+          "for two hours, since this morning, all day, how long",
+          "He has been waiting for an hour. — U bir soatdan beri kutyapti."
+        ],
+        [
+          "Past Simple",
+          "Ega + V2 (to‘g‘ri fe’l: V1 + ed)",
+          "Ega + didn’t + V1",
+          "Did + ega + V1?",
+          "yesterday, last week, two days ago, in 2020",
+          "They visited Samarkand last year. — Ular o‘tgan yili Samarqandga borib kelishdi."
+        ],
+        [
+          "Past Continuous",
+          "Ega + was / were + V-ing",
+          "Ega + wasn’t / weren’t + V-ing",
+          "Was / Were + ega + V-ing?",
+          "at 8 p.m. yesterday, while, when, all evening",
+          "I was cooking dinner when you called. — Sen qo‘ng‘iroq qilganingda men kechki ovqat pishirayotgan edim."
+        ],
+        [
+          "Past Perfect",
+          "Ega + had + V3",
+          "Ega + hadn’t + V3",
+          "Had + ega + V3?",
+          "before, after, by the time, already",
+          "The film had started before we arrived. — Biz yetib kelishimizdan oldin film boshlanib bo‘lgan edi."
+        ],
+        [
+          "Past Perfect Continuous",
+          "Ega + had been + V-ing",
+          "Ega + hadn’t been + V-ing",
+          "Had + ega + been + V-ing?",
+          "for, since, how long, before",
+          "She had been working there for five years before she moved to Tashkent. — U Toshkentga ko‘chib kelishidan oldin u yerda besh yil ishlagan edi."
+        ],
+        [
+          "Future Simple",
+          "Ega + will + V1",
+          "Ega + won’t + V1",
+          "Will + ega + V1?",
+          "tomorrow, next week, soon, in 2030",
+          "I will call you tomorrow. — Ertaga senga qo‘ng‘iroq qilaman."
+        ],
+        [
+          "Future Continuous",
+          "Ega + will be + V-ing",
+          "Ega + won’t be + V-ing",
+          "Will + ega + be + V-ing?",
+          "at this time tomorrow, at 10 a.m. tomorrow, all day tomorrow",
+          "At this time tomorrow I will be flying to Istanbul. — Ertaga shu paytda Istanbulga uchayotgan bo‘laman."
+        ],
+        [
+          "Future Perfect",
+          "Ega + will have + V3",
+          "Ega + won’t have + V3",
+          "Will + ega + have + V3?",
+          "by Friday, by the end of the year, by then",
+          "We will have finished the report by Friday. — Jumagacha hisobotni tugatib bo‘lamiz."
+        ],
+        [
+          "Future Perfect Continuous",
+          "Ega + will have been + V-ing",
+          "Ega + won’t have been + V-ing",
+          "Will + ega + have been + V-ing?",
+          "for ten years by June, by the end of the year",
+          "By June she will have been teaching for ten years. — Iyunga kelib u dars berayotganiga o‘n yil bo‘ladi."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inkor ustunida qisqartmalar berilgan: don’t = do not, doesn’t = does not, didn’t = did not, won’t = will not, haven’t = have not. Rasmiy yozma matnda ko‘pincha to‘liq shakl, og‘zaki nutqda esa qisqartma ishlatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-tanlash",
+      "text": "Zamonni qanday tanlash kerak"
+    },
+    {
+      "type": "p",
+      "text": "Zamon ikkita savolga javob beradi. Birinchisi — ish qachon bo‘ladi: hozir, o‘tmishda yoki kelajakda. Ikkinchisi — ish qanday ko‘rsatiladi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Simple — oddiy fakt, odat yoki bir martalik ish: I work. I worked. I will work.",
+        "Continuous — ma’lum bir paytda davom etayotgan jarayon: I am working now. I was working at 8 p.m.",
+        "Perfect — ma’lum bir paytgacha tugagan ish va uning natijasi: I have finished. I had finished before you came.",
+        "Perfect Continuous — ish ma’lum bir paytgacha qancha vaqt davom etgani: I have been working since this morning."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "O‘zbekcha fe’l shakli ham yordam beradi, lekin har doim emas. Masalan, «ishlayman» odatni ham (har kuni ishlayman), kelajakni ham (ertaga ishlayman) bildiradi, ingliz tilida esa birinchisi Present Simple, ikkinchisi Future Simple bo‘ladi. Shuning uchun vaqtni ko‘rsatadigan so‘zga va gapning ma’nosiga qarang. Quyidagi jadval taxminiy moslikni ko‘rsatadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "O‘zbekcha",
+        "Inglizcha",
+        "Zamon"
+      ],
+      "rows": [
+        [
+          "Men har kuni ishlayman.",
+          "I work every day.",
+          "Present Simple"
+        ],
+        [
+          "Men hozir ishlayapman.",
+          "I am working now.",
+          "Present Continuous"
+        ],
+        [
+          "Men ishni tugatdim (natijasi hozir muhim).",
+          "I have finished the work.",
+          "Present Perfect"
+        ],
+        [
+          "Men ertalabdan beri ishlayapman.",
+          "I have been working since this morning.",
+          "Present Perfect Continuous"
+        ],
+        [
+          "Men kecha ishladim.",
+          "I worked yesterday.",
+          "Past Simple"
+        ],
+        [
+          "Sen kelganingda men ishlayotgan edim.",
+          "I was working when you came.",
+          "Past Continuous"
+        ],
+        [
+          "Sen kelguningcha men ishni tugatgan edim.",
+          "I had finished the work by the time you came.",
+          "Past Perfect"
+        ],
+        [
+          "Men ertaga ishlayman.",
+          "I will work tomorrow.",
+          "Future Simple"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "batafsil",
+      "text": "Present Simple, Past Simple va Present Continuous batafsil"
+    },
+    {
+      "type": "linkp",
+      "text": "Uchta zamonning har biriga alohida sahifa ajratilgan: har birida formula, yozilish qoidalari, o‘zbekcha tarjimali 10 ta misol, tipik xatolar va javoblari bilan 10 ta mashq berilgan. {ps} — odat, fakt va jadval bo‘yicha ishlar uchun. {past} — o‘tmishda tugagan ishlar uchun: -ed qo‘shimchasi va did bilan inkor va so‘roq. {pc} — hozir davom etayotgan ish va yaqin rejalar uchun. Qolgan zamonlar bo‘yicha AI o‘qituvchidan tushuntirish va mashq so‘rang: «Zamonni oddiy tushuntir» tugmasini bosing va zamon nomini yozing.",
+      "links": [
+        {
+          "token": "ps",
+          "target": "/uz/present-simple/",
+          "anchor": "Present Simple qoidasi va mashqlari"
+        },
+        {
+          "token": "past",
+          "target": "/uz/past-simple/",
+          "anchor": "Past Simple qoidasi va mashqlari"
+        },
+        {
+          "token": "pc",
+          "target": "/uz/present-continuous/",
+          "anchor": "Present Continuous qoidasi va mashqlari"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "O‘zbekzabon o‘quvchilar ko‘p qiladigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "He work every day → He works every day. Present Simple’da he, she, it bilan fe’lga -s qo‘shiladi.",
+        "I am agree → I agree. Agree — fe’l, unga am kerak emas: «roziman» so‘zidagi «-man» am degani emas.",
+        "Did you went? → Did you go? O‘tgan zamonni did allaqachon ko‘rsatgan, shuning uchun undan keyin fe’l V1 shaklida keladi.",
+        "I have seen him yesterday → I saw him yesterday. Aniq o‘tgan vaqt (yesterday, last week, ago) ko‘rsatilgan bo‘lsa, Past Simple kerak.",
+        "I know him since 2020 → I have known him since 2020. Since va for bilan hozirgacha davom etayotgan holat Present Perfect’da aytiladi.",
+        "When I will arrive, I will call you → When I arrive, I will call you. When, if, after, before, until, as soon as bilan boshlanadigan ergash gapda kelajak ma’nosida Present Simple ishlatiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-oqituvchi",
+      "text": "AI o‘qituvchi bilan qanday mashq qilish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Chat ustidagi tugmalarda tayyor so‘rovlar bor: istalgan zamon bo‘yicha 10 ta mashq, gapingizni tekshirish, o‘zbekcha gap uchun zamon tanlash yoki aralash test. Tugma so‘rovni faqat yozish maydoniga qo‘yadi; uni o‘zgartirishingiz mumkin, yuborishni esa doim o‘zingiz hal qilasiz. So‘rovga darajangizni (A1, A2, B1) va qaysi zamonlar kerakligini yozsangiz, mashq sizga mosroq bo‘ladi. Masalan: «Present Perfect va Past Simple bo‘yicha A2 darajasida 8 ta gap ber, men zamonni tanlayman, keyin tekshir»."
+    },
+    {
+      "type": "p",
+      "text": "AI uy vazifasini o‘rningizga bajarish uchun emas: avval gapni o‘zingiz tuzing, keyin uni tekshirib, xatoni tushuntirib berishni so‘rang. Model ham adashishi mumkin, ayniqsa murakkab gaplarda va britan hamda amerikan variantlari farq qiladigan joylarda, shuning uchun shubhali javobni shu sahifadagi jadval yoki grammatika kitobi bilan solishtiring. Chat ovozli javob bermaydi va talaffuzingizni tekshira olmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "nega-gptbot",
+      "text": "Nega GPTBot.uz"
+    },
+    {
+      "type": "linkp",
+      "text": "Zamonlar jadvali, tipik xatolar va AI o‘qituvchi bitta sahifada, tushuntirishlar esa o‘zbek yoki rus tilida. Savolni lotin yoki kirill yozuvida yozishingiz mumkin; o‘zbekcha javob lotin yozuvida keladi. Shu sahifaning rus tilidagi varianti — {ru}.",
+      "links": [
+        {
+          "token": "ru",
+          "target": "/ru/vremena-angliyskogo-yazyka/",
+          "anchor": "Времена английского языка",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Инглиз тилидаги 12 замон битта жадвалда: формула, вақт белгилари ва ўзбекча таржимали мисоллар. Замонни қандай танлаш кераклигини ўқинг, кейин AI ўқитувчидан машқ сўранг ва гапларингизни текширтиринг."
+    },
+    {
+      "type": "linkp",
+      "text": "Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Past Simple va Perfect zamonlari uchun fe’llarning V2 va V3 shakllari {verbs}da, AI chatga qanday so‘rov yozish kerakligi esa {guide}da tushuntirilgan. O‘quv markazingiz yoki til maktabingiz uchun o‘quvchilarni kursga yozadigan va ota-onalarga Telegram va Instagram’da javob beradigan AI yordamchi kerak bo‘lsa, {edu} sahifasini oching: narxi 1 990 000 so‘mdan. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "verbs",
+          "target": "/uz/notogri-fellar/",
+          "anchor": "noto‘g‘ri fe’llar jadvali"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI-chat qo‘llanmasi"
+        },
+        {
+          "token": "edu",
+          "target": "/uz/oquv-markazi-uchun-ai-bot/",
+          "anchor": "O‘quv markazi uchun AI-bot"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket yoki AI-bot bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Ingliz tilida nechta zamon bor?",
+      "a": "Darsliklarda odatda 12 ta zamon o‘rgatiladi: uch vaqt (Present, Past, Future) va to‘rt shakl (Simple, Continuous, Perfect, Perfect Continuous). Ba’zi darsliklar o‘tmishdan qaraganda kelajakni bildiradigan to‘rt shaklni (Future in the Past: would + V1 va boshqalar) ham qo‘shib, 16 ta zamon deb hisoblaydi. Avval asosiy 12 tasini, ayniqsa Simple va Continuous zamonlarini o‘zlashtirgan ma’qul."
+    },
+    {
+      "q": "Qaysi zamonlardan boshlash kerak?",
+      "a": "Present Simple, Present Continuous, Past Simple va will bilan yasaladigan Future Simple’dan boshlang: kundalik nutqda ular eng ko‘p uchraydi. Keyin Present Perfect’ni Past Simple bilan solishtirib o‘rganing. Perfect Continuous va Future Perfect zamonlarini asosiy zamonlarni ishonch bilan ishlata boshlaganingizdan keyin o‘rganish osonroq."
+    },
+    {
+      "q": "Present Perfect va Past Simple farqi nima?",
+      "a": "Past Simple o‘tmishdagi aniq vaqtda tugagan ish haqida: I lost my keys yesterday. Present Perfect esa vaqti aytilmagan, lekin natijasi hozir muhim bo‘lgan ish haqida: I have lost my keys (kalitim hozir ham yo‘q). Yesterday, last week, ago kabi so‘zlar bo‘lsa, Present Perfect ishlatilmaydi."
+    },
+    {
+      "q": "Zamonni to‘g‘ri tanlaganimni qanday tekshiraman?",
+      "a": "Chat ustidagi «Gapimni tekshir» tugmasini bosing va gapingizni yozing: AI zamon to‘g‘ri tanlangan-tanlanmaganini aytadi va xatoni tushuntiradi. Shubhali javobni shu sahifadagi jadval bilan solishtiring, chunki model ham adashishi mumkin."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Jadval va qoidalar bepul va limitsiz. AI o‘qituvchining tushuntirish va mashqlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/vremena-angliyskogo-yazyka/",
+      "anchor": "Времена английского языка",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/present-simple/",
+      "anchor": "Present Simple qoidasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/past-simple/",
+      "anchor": "Past Simple qoidasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/present-continuous/",
+      "anchor": "Present Continuous qoidasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/notogri-fellar/",
+      "anchor": "Noto‘g‘ri fe’llar jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI-chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/oquv-markazi-uchun-ai-bot/",
+      "anchor": "O‘quv markazi uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: ingliz tili zamonlari",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Ingliz tilidagi 12 zamon jadvali (formula, vaqt belgilari, o‘zbekcha tarjimali misollar) va GPTBot.uz chatidagi AI o‘qituvchi: mashq tuzadi va gaplarni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul jadval va AI’ning 3 ta bepul sinov javobi",
+        "description": "Jadval va qoidalar bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/ingliz-tili-zamonlari/",
+      "inLanguage": [
+        "uz",
+        "en"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

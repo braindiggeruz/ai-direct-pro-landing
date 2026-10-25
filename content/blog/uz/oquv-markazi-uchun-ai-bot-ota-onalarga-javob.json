@@ -96,6 +96,17 @@
       "text": "To‘g‘ri sozlangan o‘quv markazi boti qabul mavsumidagi yukni yengillashtiradi, qiziqqan ota-onalarni sinov darsga olib keladi va administrator vaqtini tejaydi. Bu esa reklamadan kelgan har bir murojaatni yo‘qotmaslik uchun amaliy yechim."
     },
     {
+      "type": "linkp",
+      "text": "Ota-onalardan murojaatlar ko‘payishi uchun avval reklama kerak: qabul mavsumi, target va tuman Telegram kanallarini tanlash {plan} qo‘llanmasida yozilgan.",
+      "links": [
+        {
+          "token": "plan",
+          "target": "/uz/blog/oquv-markazi-reklamasi/",
+          "anchor": "o‘quv markaziga o‘quvchi jalb qilish"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "O‘quv markazingiz uchun bot stsenariysini muhokama qilish",
       "href": "#contact"

@@ -237,6 +237,22 @@
       "text": "Model hisob-kitobda, ayniqsa katta sonlarda, adashishi mumkin, shuning uchun yakuniy raqamlarni doim kalkulyator bilan solishtiring. Chat rasmni qabul qilmaydi: masalaning shartini matn ko‘rinishida yozing."
     },
     {
+      "type": "linkp",
+      "text": "Mavzuni mustahkamlamoqchi bo‘lsangiz, {mat} va {fiz} sahifalarida javobi va izohi bilan 40 tadan mashq savoli bor: kasr, foiz, tenglama, harakat, bosim va energiya. Hisob-kitobni shu kalkulyatorda tekshirib boring.",
+      "links": [
+        {
+          "token": "mat",
+          "target": "/uz/matematika-test/",
+          "anchor": "matematika testi"
+        },
+        {
+          "token": "fiz",
+          "target": "/uz/fizika-test/",
+          "anchor": "fizika testi"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "oqish-haqida-halol",
       "text": "O‘qish haqida halol"

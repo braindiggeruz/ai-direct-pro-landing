@@ -21,7 +21,7 @@ export const uzFizika: QuizSet = {
       q: 'Xalqaro birliklar sistemasida (SI) massaning asosiy birligi qaysi?',
       options: ['Gramm', 'Nyuton', 'Kilogramm', 'Tonna'],
       answer: 2,
-      explanation: 'SI ning asosiy birliklari: uzunlik — metr (m), massa — kilogramm (kg), vaqt — sekund (s), tok kuchi — amper (A), temperatura — kelvin (K). Nyuton (N) — kuch birligi, massa emas. Gramm va tonna kilogrammdan hosil qilingan: 1 kg = 1000 g, 1 t = 1000 kg. Masalada boshqa birlik berilsa, hisoblashdan oldin uni SI ga o‘tkazing.',
+      explanation: 'Xalqaro birliklar sistemasining (SI) asosiy birliklari: uzunlik — metr (m), massa — kilogramm (kg), vaqt — sekund (s), tok kuchi — amper (A), temperatura — kelvin (K). Nyuton (N) — kuch birligi, massa emas. Gramm va tonna — kilogrammning ulushli va karrali birliklari: 1 kg = 1000 g, 1 t = 1000 kg. Masalada boshqa birlik berilsa, hisoblashdan oldin uni SI birligiga o‘tkazing.',
     },
     {
       id: 'fiz-02',
@@ -30,13 +30,13 @@ export const uzFizika: QuizSet = {
       q: '72 km/soat tezlik necha m/s ga teng?',
       options: ['72 m/s', '20 m/s', '7,2 m/s', '259,2 m/s'],
       answer: 1,
-      explanation: '1 km = 1000 m, 1 soat = 3600 s. 72 km/soat = 72 · 1000 m : 3600 s = 72 000 : 3600 = 20 m/s. Qisqa yo‘l: km/soatni 3,6 ga bo‘lsangiz, m/s chiqadi: 72 : 3,6 = 20. 259,2 — 3,6 ga bo‘lish o‘rniga ko‘paytirish xatosi.',
+      explanation: '1 km = 1000 m, 1 soat = 3600 s. 72 km/soat = 72 · 1000 m : 3600 s = 72 000 : 3600 = 20 m/s. Qisqa usul: km/soatdagi qiymatni 3,6 ga bo‘lsangiz, m/s dagi qiymat chiqadi: 72 : 3,6 = 20. 259,2 — 3,6 ga bo‘lish o‘rniga ko‘paytirish xatosi.',
     },
     {
       id: 'fiz-03',
       grade: 7,
       topic: 'Kattaliklar va birliklar',
-      q: 'SI da zichlik birligi qanday yoziladi?',
+      q: 'Xalqaro birliklar sistemasida (SI) zichlik birligi qanday yoziladi?',
       options: ['kg/m³', 'g/sm²', 'N/m', 'kg·m'],
       answer: 0,
       explanation: 'Zichlik — massaning hajmga nisbati: ρ = m : V. Massa kg da, hajm m³ da o‘lchanadi, shuning uchun zichlik birligi kg/m³. Masalan, suvning zichligi 1000 kg/m³, ya’ni 1 g/sm³. Birlikni formuladan chiqarish usuli har doim ish beradi: kattaliklar o‘rniga ularning birliklarini qo‘ying.',
@@ -57,7 +57,7 @@ export const uzFizika: QuizSet = {
       q: 'Quyidagi kattaliklardan qaysi biri vektor kattalik?',
       options: ['Massa', 'Vaqt', 'Temperatura', 'Tezlik'],
       answer: 3,
-      explanation: 'Vektor kattalikning son qiymatidan tashqari yo‘nalishi ham bo‘ladi: tezlik, kuch, ko‘chish, tezlanish. Massa, vaqt va temperatura — skalyar kattaliklar: ular son va birlik bilan to‘liq beriladi. Tekshirish usuli: «qayoqqa?» degan savol ma’noga egami? Tezlik uchun ha (shimolga 20 m/s), massa uchun yo‘q.',
+      explanation: 'Vektor kattalikning son qiymatidan tashqari yo‘nalishi ham bo‘ladi: tezlik, kuch, ko‘chish, tezlanish. Massa, vaqt va temperatura — skalyar kattaliklar: ular son va birlik bilan to‘liq beriladi. Tekshirish usuli: «qayoqqa?» degan savol ma’noli bo‘ladimi? Tezlik uchun ha (shimolga 20 m/s), massa uchun yo‘q.',
     },
     // ── Mexanik harakat ───────────────────────────────────────────────────
     {
@@ -241,7 +241,7 @@ export const uzFizika: QuizSet = {
       q: 'Kran 30 kJ ish bajarish uchun 1 minut sarfladi. Kranning quvvati qancha?',
       options: ['500 Vt', '30 kVt', '1800 kVt', '0,5 Vt'],
       answer: 0,
-      explanation: 'Quvvat — vaqt birligida bajarilgan ish: N = A : t. Avval SI ga o‘tkazamiz: 30 kJ = 30 000 J, 1 minut = 60 s. N = 30 000 : 60 = 500 Vt. 30 kVt — minutni sekundga o‘tkazmaslik xatosi (30 kJ : 1), 1800 kVt — bo‘lish o‘rniga ko‘paytirish xatosi.',
+      explanation: 'Quvvat — vaqt birligida bajarilgan ish: N = A : t. Avval SI birliklariga o‘tkazamiz: 30 kJ = 30 000 J, 1 minut = 60 s. N = 30 000 : 60 = 500 Vt. 30 kVt — minutni sekundga o‘tkazmaslik xatosi (30 kJ : 1), 1800 kVt — bo‘lish o‘rniga ko‘paytirish xatosi.',
     },
     {
       id: 'fiz-26',

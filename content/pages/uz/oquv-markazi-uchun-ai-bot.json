@@ -185,6 +185,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Bot arizaga javob beradi, arizalarni esa reklama olib keladi. Qabul mavsumi, ota-onalarga target, tuman Telegram kanallari va sinov darsi haqida {plan} maqolasida yozilgan.",
+      "links": [
+        {
+          "token": "plan",
+          "target": "/uz/blog/oquv-markazi-reklamasi/",
+          "anchor": "o‘quv markazi reklamasi"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Markaz uchun bot sozlash",
       "href": "#contact"

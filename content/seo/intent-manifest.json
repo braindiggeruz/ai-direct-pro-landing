@@ -2126,6 +2126,584 @@
       "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §5 row 7; marketplaces-social-selling-data/kw_metrics_raw.json",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C69-uz-chat-vs-ingliz-tili-zamonlari",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; a reader may ask it to explain a tense, but the chat page does not answer «ingliz tili zamonlari» or the per-tense queries (protected; it does not link the tenses pages)",
+        "mustNotTarget": [
+          "ingliz tili zamonlari",
+          "ingliz tilida zamonlar",
+          "zamonlar ingliz tilida",
+          "english tenses",
+          "tenses",
+          "present simple",
+          "past simple",
+          "present continuous"
+        ]
+      },
+      "informational": {
+        "url": "/uz/ingliz-tili-zamonlari/",
+        "owns": "learn the English tenses in Uzbek — primary «ingliz tili zamonlari» with «ingliz tilida zamonlar», «zamonlar ingliz tilida», «ingliz tili zamonlari jadvali», «16 zamon», «tenses», «english tenses», «12 tenses» and «tenses table»: a 12-tense table (formula for +, − and ?, time markers, one English example with its Uzbek translation), how to choose a tense, Uzbek verb forms matched to tenses, six typical mistakes and why some textbooks count 16, with the AI teacher in the teacher role (trial replies); it links the three detail pages and the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): the Uzbek heads «ingliz tili zamonlari», «ingliz tilida zamonlar», «zamonlar ingliz tilida» and «16 zamon» returned no volume; the measured English phrasing is tenses 480/mo, english tenses 210, 12 tenses 40, tenses table 10. Most of the cluster's demand sits on the per-tense pages (C70–C72). Hreflang pair of /ru/vremena-angliyskogo-yazyka/ (x-default the Uzbek page).",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №4 and §4 row 9; language-learning-data/ll_kw_metrics.json and ll_kw_metrics2.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C70-uz-ingliz-tili-zamonlari-vs-present-simple",
+      "commercial": {
+        "url": "/uz/ingliz-tili-zamonlari/",
+        "owns": "the overview of all twelve tenses (C69); it gives Present Simple one table row and a short note and links the detail page; it declares none of the detail page's keys",
+        "mustNotTarget": [
+          "present simple",
+          "present simple tense",
+          "present simple qoidasi",
+          "present simple exercises",
+          "present simple mashqlar"
+        ]
+      },
+      "informational": {
+        "url": "/uz/present-simple/",
+        "owns": "one tense in depth — primary «present simple» with «present simple tense», «present simple qoidasi», «present simple exercises» and «present simple mashqlar»: the formula table, the -s/-es spelling rules, time markers, 10 English–Uzbek examples, six typical mistakes and 10 exercises with their answers, plus the AI teacher (trial replies); it links the overview",
+        "mustNotTarget": [
+          "ingliz tili zamonlari",
+          "ingliz tilida zamonlar",
+          "zamonlar ingliz tilida",
+          "ingliz tili zamonlari jadvali",
+          "english tenses",
+          "tenses",
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): present simple 12 100/mo (18 100 in October 2025, 12 100 in September 2026), present simple exercises 2 400 (CPC 0.73), present simple tense 1 000, present simple qoidasi 320, present simple mashqlar 30. SERP for «present simple»: an AI Overview at 1, YouTube three times, slideshare, pinterest and a Kazakh school blog, no Uzbek text page (CLUSTERS_TO_ADD §3.1 №4). Uzbek only: the Russian per-tense phrases measure 30–70 a month (present simple упражнения 70, present simple правило 30, past simple упражнения 30), so the Russian hub links these Uzbek pages instead of twins. The hub lists the tense in one row and links here; this page links the hub.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №4 and §4 row 9; language-learning-data/ll_kw_metrics.json and ll_kw_metrics2.json",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C71-uz-ingliz-tili-zamonlari-vs-past-simple",
+      "commercial": {
+        "url": "/uz/ingliz-tili-zamonlari/",
+        "owns": "the overview of all twelve tenses (C69); it gives Past Simple one table row and a short note and links the detail page; it declares none of the detail page's keys",
+        "mustNotTarget": [
+          "past simple",
+          "past simple tense",
+          "past simple exercises",
+          "simple past",
+          "past simple vs present perfect"
+        ]
+      },
+      "informational": {
+        "url": "/uz/past-simple/",
+        "owns": "one tense in depth — primary «past simple» with «past simple tense», «past simple exercises», «simple past» and «past simple vs present perfect»: the formula table, the -ed spelling rules and did-questions, time markers, a table contrasting it with Present Perfect, 10 English–Uzbek examples, six typical mistakes and 10 exercises with their answers, plus the AI teacher (trial replies); it links the overview and, for V2 forms, the irregular-verbs table (C74)",
+        "mustNotTarget": [
+          "ingliz tili zamonlari",
+          "ingliz tilida zamonlar",
+          "zamonlar ingliz tilida",
+          "ingliz tili zamonlari jadvali",
+          "english tenses",
+          "tenses",
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): past simple 8 100/mo (12 100 in October 2025, 6 600 in September 2026), past simple exercises 1 900, past simple tense 880, past simple vs present perfect 140, simple past 50. SERP for «present simple»: an AI Overview at 1, YouTube three times, slideshare, pinterest and a Kazakh school blog, no Uzbek text page (CLUSTERS_TO_ADD §3.1 №4). Uzbek only: the Russian per-tense phrases measure 30–70 a month (present simple упражнения 70, present simple правило 30, past simple упражнения 30), so the Russian hub links these Uzbek pages instead of twins. The hub lists the tense in one row and links here; this page links the hub.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №4 and §4 row 9; language-learning-data/ll_kw_metrics.json and ll_kw_metrics2.json",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C72-uz-ingliz-tili-zamonlari-vs-present-continuous",
+      "commercial": {
+        "url": "/uz/ingliz-tili-zamonlari/",
+        "owns": "the overview of all twelve tenses (C69); it gives Present Continuous one table row and a short note and links the detail page; it declares none of the detail page's keys",
+        "mustNotTarget": [
+          "present continuous",
+          "present continuous exercises",
+          "present simple vs present continuous"
+        ]
+      },
+      "informational": {
+        "url": "/uz/present-continuous/",
+        "owns": "one tense in depth — primary «present continuous» with «present continuous exercises» and «present simple vs present continuous»: the formula table, the -ing spelling rules, time markers, state verbs, a table contrasting it with Present Simple, 10 English–Uzbek examples, six typical mistakes and 10 exercises with their answers, plus the AI teacher (trial replies); it links the overview",
+        "mustNotTarget": [
+          "ingliz tili zamonlari",
+          "ingliz tilida zamonlar",
+          "zamonlar ingliz tilida",
+          "ingliz tili zamonlari jadvali",
+          "english tenses",
+          "tenses",
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): present continuous 6 600/mo (9 900 in October 2025, 6 600 in September 2026), present continuous exercises 1 600, present simple vs present continuous 210. SERP for «present simple»: an AI Overview at 1, YouTube three times, slideshare, pinterest and a Kazakh school blog, no Uzbek text page (CLUSTERS_TO_ADD §3.1 №4). Uzbek only: the Russian per-tense phrases measure 30–70 a month (present simple упражнения 70, present simple правило 30, past simple упражнения 30), so the Russian hub links these Uzbek pages instead of twins. The hub lists the tense in one row and links here; this page links the hub.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №4 and §4 row 9; language-learning-data/ll_kw_metrics.json and ll_kw_metrics2.json",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C73-uz-present-simple-vs-present-continuous",
+      "commercial": {
+        "url": "/uz/present-simple/",
+        "owns": "Present Simple (C70); it names Present Continuous among the next steps and links that page, which owns the comparison query",
+        "mustNotTarget": [
+          "present continuous",
+          "present continuous exercises",
+          "present simple vs present continuous"
+        ]
+      },
+      "informational": {
+        "url": "/uz/present-continuous/",
+        "owns": "Present Continuous (C72), including the comparison «present simple vs present continuous» (its contrast table); it links the Present Simple page for the habitual tense",
+        "mustNotTarget": [
+          "present simple",
+          "present simple tense",
+          "present simple qoidasi",
+          "present simple exercises",
+          "present simple mashqlar"
+        ]
+      },
+      "gscNote": "Both URLs are new (AI-tools wave B) and teach neighbouring tenses that searchers confuse; Google Ads keeps «present simple vs present continuous» (210/mo, measured 2026-10-25) in its own bucket, and the page with the contrast table owns it. The pair records the split before Search Console can mix the two heads (present simple 12 100, present continuous 6 600). The pages link each other.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №4 and §4 row 9; language-learning-data/ll_kw_metrics.json and ll_kw_metrics2.json",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C74-uz-notogri-fellar-vs-past-simple",
+      "commercial": {
+        "url": "/uz/notogri-fellar/",
+        "owns": "the irregular-verbs table and trainer (C61), V2 forms included; since 2026-10-25 a paragraph after its AI section links the tenses pages; it declares no Past Simple key",
+        "mustNotTarget": [
+          "past simple",
+          "past simple tense",
+          "past simple exercises",
+          "simple past"
+        ]
+      },
+      "informational": {
+        "url": "/uz/past-simple/",
+        "owns": "the Past Simple tense (C71); it explains -ed and shows a few irregular V2 forms, and links the table for the full list; it declares no irregular-verbs key",
+        "mustNotTarget": [
+          "noto‘g‘ri fe’llar jadvali",
+          "noto‘g‘ri fe’llar",
+          "notogri fellar",
+          "irregular verbs",
+          "irregular verbs list",
+          "past participle"
+        ]
+      },
+      "gscNote": "The two pages meet at V2: the Past Simple affirmative uses it, and the trainer lists it for 163 verbs. Demand (Google Ads, location 2860, measured 2026-10-25): irregular verbs 12 100/mo against past simple 8 100/mo, separate buckets. The pair keeps the table queries on /uz/notogri-fellar/ (wave A) and the tense queries on the new page (wave B). The pages link each other.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №4 and №12; language-learning-data/ll_kw_metrics.json",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C75-ru-chat-vs-vremena-angliyskogo-yazyka",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now (C23–C27, C33, C38); the chat page does not answer «времена английского языка» (protected; it does not link the tenses page)",
+        "mustNotTarget": [
+          "времена английского языка",
+          "времена в английском",
+          "таблица времен английского языка",
+          "времена английского"
+        ]
+      },
+      "informational": {
+        "url": "/ru/vremena-angliyskogo-yazyka/",
+        "owns": "learn the English tenses in Russian — primary «времена английского языка» with «времена в английском» and «таблица времен английского языка»: the 12-tense table with Russian translations, how to choose a tense and the mistakes typical for Russian speakers, with the AI teacher (trial replies); it links the chat and, for one tense in depth, the Uzbek detail pages",
+        "mustNotTarget": [
+          "ии чат",
+          "ии чат онлайн",
+          "чат гпт онлайн",
+          "чат gpt онлайн",
+          "chatgpt онлайн",
+          "аналог chatgpt онлайн"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): времена в английском 210/mo, времена английского языка 70 (110 in October 2025), таблица времен английского языка 50. The Russian per-tense phrases measure 30–70 a month, so there are no Russian detail pages. Hreflang pair of /uz/ingliz-tili-zamonlari/ (x-default the Uzbek page).",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №4 and §4 row 9; language-learning-data/ll_kw_metrics.json and ll_kw_metrics2.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C76-uz-chat-vs-onlayn-testlar",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself; a reader may ask it for practice questions, but the chat page does not answer «online test yechish», «test savollari» or the subject tests (protected; it does not link the tests)",
+        "mustNotTarget": [
+          "online test yechish",
+          "onlayn test yechish",
+          "onlayn testlar",
+          "test savollari",
+          "test tuzish",
+          "ai test tuzish",
+          "informatika test",
+          "fizika test",
+          "matematika test"
+        ]
+      },
+      "informational": {
+        "url": "/uz/onlayn-testlar/",
+        "owns": "practise school subjects and build new tests with the AI teacher — primary «online test yechish» with «onlayn test yechish», «onlayn testlar», «online testlar», «online test», «testlar», «test ishlash», «test yechish», «test savollari», «test tuzish» and «ai test tuzish»: links to the three subject tests (120 original practice questions with answers and explanations, free and without a limit) and six chips for new questions on any subject, two variants for teachers and a revision plan (trial replies); it has no quiz of its own; it links the chat",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat",
+          "test javoblari",
+          "dtm test javoblari",
+          "dtm test",
+          "milliy sertifikat"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): test savollari 12 100/mo (floor 310), online test yechish 1 900, testlar 1 300, online test 1 000, test ishlash 1 000, test yechish 1 000 (an upper bound only). Since December 2025 these school keys jumped ×10–100 for an unknown reason (education-practice.md §2): Ads is the 12-month average, the floor is the October–November 2025 mean, and part of the demand may be searches for answers during BSB/ChSB. Pilot rule (CLUSTERS_TO_ADD card 7): compare Search Console impressions with Ads after 4–6 weeks (decision ≈10.01.2027) before any full bank; no «test javoblari» and no DTM keys. SERP for «test savollari»: an AI Overview at 1, qnb.uz, test.ziyonet.uz, Play apps and noise; no Uzbek bank with explanations.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №7 and §4 row 10; education-practice.md §2 and §4 card 1; education-practice.json (practice_tests); education-practice-data/ep_kw1_metrics.json and known_keywords.json; tests-verification.md",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C77-uz-onlayn-testlar-vs-informatika-test",
+      "commercial": {
+        "url": "/uz/onlayn-testlar/",
+        "owns": "the hub of the tests pilot and the AI test builder (C76); it links the informatika test and declares none of its keys",
+        "mustNotTarget": [
+          "informatika test",
+          "informatika testlar",
+          "informatika testlari",
+          "informatika test savollari",
+          "informatika online test",
+          "informatika onlayn test"
+        ]
+      },
+      "informational": {
+        "url": "/uz/informatika-test/",
+        "owns": "practise informatika — primary «informatika test» with «informatika testlar», «informatika testlari», «informatika test savollari», «informatika online test», the grade phrases and «informatika mashq testi»: 40 original practice questions for grades 5–11 (computers and information, number systems, logic, algorithms, spreadsheets, internet safety, Python basics), each with its answer and an explanation, checked in the browser, and the AI teacher for explanations (trial replies); not official material; it links the hub",
+        "mustNotTarget": [
+          "online test yechish",
+          "onlayn test yechish",
+          "onlayn testlar",
+          "test savollari",
+          "testlar",
+          "test javoblari",
+          "dtm test javoblari",
+          "dtm test"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): informatika test 49 500/mo (one bucket with «informatika testlar»; floor 1 750, 1 900 in October 2025, 49 500 in September 2026), informatika testlari 590, informatika test savollari 140, informatika online test 110, informatika test 5 sinf 70, informatika test 7 sinf 30. Since December 2025 these school keys jumped ×10–100 for an unknown reason (education-practice.md §2): Ads is the 12-month average, the floor is the October–November 2025 mean, and part of the demand may be searches for answers during BSB/ChSB. Pilot rule (CLUSTERS_TO_ADD card 7): compare Search Console impressions with Ads after 4–6 weeks (decision ≈10.01.2027) before any full bank; no «test javoblari» and no DTM keys. SERP for «informatika test» (2026-10-25): a Scribd PDF of a teachers' test at 1, an AI Overview at 2, an empty infotest.uz, user quizzes on wordwall, educaplay and wayground, a file host and a Serbian weebly; no Uzbek bank with explanations.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №7 and §4 row 10; education-practice.md §2 and §4 card 1; education-practice.json (practice_tests); education-practice-data/ep_kw1_metrics.json and known_keywords.json; tests-verification.md",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C78-uz-onlayn-testlar-vs-fizika-test",
+      "commercial": {
+        "url": "/uz/onlayn-testlar/",
+        "owns": "the hub of the tests pilot and the AI test builder (C76); it links the fizika test and declares none of its keys",
+        "mustNotTarget": [
+          "fizika test",
+          "fizika testlar",
+          "fizika testi",
+          "fizika test savollari",
+          "fizika onlayn test",
+          "fizika online test"
+        ]
+      },
+      "informational": {
+        "url": "/uz/fizika-test/",
+        "owns": "practise fizika — primary «fizika test» with «fizika testlar», «fizika testi», «fizika test savollari», «fizika onlayn/online test» and «fizika mashq testi»: 40 original practice questions for grades 7–11 (units, motion, Newton's laws, pressure and buoyancy, work and energy, electric current, light) with clean numbers and g = 10 N/kg stated, each with its answer and an explanation, and the AI teacher (trial replies); not official material; it links the hub",
+        "mustNotTarget": [
+          "online test yechish",
+          "onlayn test yechish",
+          "onlayn testlar",
+          "test savollari",
+          "testlar",
+          "test javoblari",
+          "dtm test javoblari",
+          "dtm test"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): fizika test 40 500/mo (floor 520; 60 500 in September 2026), fizika testlar 480, fizika test savollari 50, fizika online test 30. Since December 2025 these school keys jumped ×10–100 for an unknown reason (education-practice.md §2): Ads is the 12-month average, the floor is the October–November 2025 mean, and part of the demand may be searches for answers during BSB/ChSB. Pilot rule (CLUSTERS_TO_ADD card 7): compare Search Console impressions with Ads after 4–6 weeks (decision ≈10.01.2027) before any full bank; no «test javoblari» and no DTM keys. The «fizika test» SERP was not captured; the «informatika test» SERP of the same family is weak.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №7 and §4 row 10; education-practice.md §2 and §4 card 1; education-practice.json (practice_tests); education-practice-data/ep_kw1_metrics.json and known_keywords.json; tests-verification.md",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C79-uz-onlayn-testlar-vs-matematika-test",
+      "commercial": {
+        "url": "/uz/onlayn-testlar/",
+        "owns": "the hub of the tests pilot and the AI test builder (C76); it links the matematika test and declares none of its keys",
+        "mustNotTarget": [
+          "matematika test",
+          "matematika testlar",
+          "matematika test savollari",
+          "matematika online test",
+          "matematika onlayn test"
+        ]
+      },
+      "informational": {
+        "url": "/uz/matematika-test/",
+        "owns": "practise matematika — primary «matematika test» with «matematika testlar», «matematika test savollari», «matematika online test», the grade phrases (5, 6 and 9 sinf) and «matematika mashq testi»: 40 original practice questions for grades 5–9 (fractions, percents, equations and inequalities, powers, angles, areas), each with its answer and an explanation, and the AI teacher (trial replies); not official material; it links the hub and the calculator",
+        "mustNotTarget": [
+          "online test yechish",
+          "onlayn test yechish",
+          "onlayn testlar",
+          "test savollari",
+          "testlar",
+          "test javoblari",
+          "dtm test javoblari",
+          "dtm test"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): matematika test 27 100/mo (one bucket with «matematika testlar», CPC 0.53; floor 2 900, 40 500 in September 2026), matematika test 5 sinf 1 600, matematika online test 720 (CPC 0.66), matematika test 9 sinf 590, matematika test 6 sinf 70; «matematika test javoblari bilan» 5 400 is not declared. Since December 2025 these school keys jumped ×10–100 for an unknown reason (education-practice.md §2): Ads is the 12-month average, the floor is the October–November 2025 mean, and part of the demand may be searches for answers during BSB/ChSB. Pilot rule (CLUSTERS_TO_ADD card 7): compare Search Console impressions with Ads after 4–6 weeks (decision ≈10.01.2027) before any full bank; no «test javoblari» and no DTM keys. The «matematika test» SERP was not captured; the «informatika test» SERP of the same family is weak.",
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №7 and §4 row 10; education-practice.md §2 and §4 card 1; education-practice.json (practice_tests); education-practice-data/ep_kw1_metrics.json and known_keywords.json; tests-verification.md",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C80-ru-kontekst-vs-reklama-stomatologii",
+      "commercial": {
+        "url": "/ru/kontekstnaya-reklama-tashkent/",
+        "owns": "commission Google Ads and Yandex Direct in Tashkent; it is the playbook's main service link (the article's targetMoneyPage) and declares none of its keys",
+        "mustNotTarget": [
+          "реклама стоматологии",
+          "стоматология реклама",
+          "реклама клиники",
+          "маркетинг для клиники",
+          "продвижение стоматологии",
+          "реклама медицинского центра"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-stomatologii-i-kliniki-tashkent/",
+        "owns": "advertise a dental clinic or a medical centre in Tashkent — primary «реклама стоматологии» with «стоматология реклама», «реклама клиники», «маркетинг для клиники», «продвижение стоматологии» and «реклама медицинского центра»: search by service and district, maps, a page per service, booking and an AI assistant for enquiries, the cost of a first-time patient as formulas only, and a neutral legal note (law ЗРУ-776 on lex.uz, Google and Meta health-ad rules, checked 2026-10-25; not legal advice); it links the context-ads page",
+        "mustNotTarget": [
+          "контекстная реклама в ташкенте",
+          "настройка контекстной рекламы ташкент",
+          "google ads узбекистан",
+          "яндекс директ узбекистан",
+          "ведение контекстной рекламы",
+          "заказать контекстную рекламу"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Niche playbook F4 of AD_CLIENT_FUNNEL. Demand (Google Ads, location 2860, measured 2026-10-25): стоматология реклама 40/mo, реклама стоматологии 10 (CPC 6.68 USD), маркетинг для клиники 10 (CPC 3.56 USD) and about 30 more tails of 10 each, 360 a month for the cluster. SERP for «реклама стоматологии» (2026-10-25): Russian agencies and blogs under an AI Overview, no Uzbek page in the top 16 (§11). The playbook prints only the agency prices its service pages print. Hreflang pair of /uz/blog/stomatologiya-va-klinika-reklamasi/.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F4, §5 rows 9–10, §6 and §11; niche-playbooks.md / niche-playbooks.json; niche-playbooks-data/kw1_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C81-ru-ai-bot-dlya-kliniki-vs-reklama-stomatologii",
+      "commercial": {
+        "url": "/ru/ai-bot-dlya-kliniki/",
+        "owns": "the AI bot for clinics (bot-services, frozen in demand-policy: no new keys); since 2026-10-25 one paragraph after its price table links the advertising playbook; it declares none of the playbook's keys",
+        "mustNotTarget": [
+          "реклама стоматологии",
+          "стоматология реклама",
+          "реклама клиники",
+          "маркетинг для клиники",
+          "продвижение стоматологии"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-stomatologii-i-kliniki-tashkent/",
+        "owns": "advertising for clinics (C80); its AI-assistant section describes 24/7 answers, booking and hand-over to the administrator, without medical advice, and links the bot page; it declares no bot key",
+        "mustNotTarget": [
+          "ai-бот для клиники",
+          "медицинский чат-бот",
+          "запись на приём бот",
+          "бот для медцентра",
+          "автоматизация клиники",
+          "чат бот для клиники"
+        ]
+      },
+      "gscNote": "AD_CLIENT_FUNNEL §3 F4 routes the niche playbooks through the AI-bot pages that already have impressions (the clinic page: 73 in the research window), and §6 keeps the playbook out of the bot page itself because the bot-services cluster is frozen. So the bot page links the playbook, the playbook links the bot page, and neither takes the other's keys.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F4, §5 rows 9–10, §6 and §11; niche-playbooks.md / niche-playbooks.json; niche-playbooks-data/kw1_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C82-uz-internet-reklama-vs-stomatologiya-reklamasi",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "commission online advertising in Uzbek (search, maps, targeting; the article's targetMoneyPage); it declares none of the playbook's keys",
+        "mustNotTarget": [
+          "stomatologiya reklamasi",
+          "klinika reklama",
+          "klinika marketing",
+          "stomatologiya uchun reklama",
+          "tibbiyot markazi reklamasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/stomatologiya-va-klinika-reklamasi/",
+        "owns": "the Uzbek side of the clinic playbook — primary «stomatologiya reklamasi» with «klinika reklama», «klinika marketing», «stomatologiya uchun reklama» and «tibbiyot markazi reklamasi»: the same channels, booking, AI assistant, formulas and neutral legal note as the Russian article; it links the service page",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent",
+          "google ads toshkent"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): klinika reklama 10/mo and klinika marketing 10; «stomatologiya reklamasi» and «stomatologiya uchun reklama» returned no volume. The Uzbek article exists mainly as the hreflang pair of /ru/blog/reklama-stomatologii-i-kliniki-tashkent/.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F4, §5 rows 9–10, §6 and §11; niche-playbooks.md / niche-playbooks.json; niche-playbooks-data/kw1_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C83-uz-klinika-ai-bot-vs-stomatologiya-reklamasi",
+      "commercial": {
+        "url": "/uz/klinika-uchun-ai-bot/",
+        "owns": "the AI bot for clinics in Uzbek (bot-services, frozen: no new keys); since 2026-10-25 one paragraph after its price table links the playbook; it declares none of the playbook's keys",
+        "mustNotTarget": [
+          "stomatologiya reklamasi",
+          "klinika reklama",
+          "klinika marketing",
+          "stomatologiya uchun reklama"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/stomatologiya-va-klinika-reklamasi/",
+        "owns": "advertising for clinics (C82); its «AI yordamchi» section links the bot page and declares no bot key",
+        "mustNotTarget": [
+          "klinika uchun ai bot",
+          "tibbiy chatbot",
+          "qabulga yozilish bot",
+          "klinikani avtomatlashtirish",
+          "bemor uchun bot"
+        ]
+      },
+      "gscNote": "Same split as C81 for the Uzbek pages (AD_CLIENT_FUNNEL §3 F4 and §6): the bot page links the playbook, the playbook links the bot page, the playbook is not placed inside the frozen bot page and neither takes the other's keys.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F4, §5 rows 9–10, §6 and §11; niche-playbooks.md / niche-playbooks.json; niche-playbooks-data/kw1_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C84-uz-target-vs-oquv-markazi-reklamasi",
+      "commercial": {
+        "url": "/uz/instagram-target-yoqish/",
+        "owns": "commission targeted ads (target-uz, A7); it is the playbook's targetMoneyPage and declares none of its keys",
+        "mustNotTarget": [
+          "o‘quv markazi reklama",
+          "o‘quv markazlari reklama",
+          "o‘quv markazi reklamasi",
+          "kurs reklama",
+          "o‘quv markaziga o‘quvchi jalb qilish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/oquv-markazi-reklamasi/",
+        "owns": "advertise a learning centre — primary «o‘quv markazi reklama» with «o‘quv markazlari reklama», «o‘quv markazi reklamasi», «kurs reklama» and «o‘quv markaziga o‘quvchi jalb qilish»: enrolment seasons (typical, check your own data), separate ads for parents, school-leavers and adults (Meta's age and location rule for teens, article 17 of the advertising law), checking district Telegram channels, a trial-lesson funnel, measurement and an AI assistant; it links the targeting hub",
+        "mustNotTarget": [
+          "target yoqish",
+          "instagram target",
+          "instagram target yoqish",
+          "target yoqish narxi",
+          "targetolog"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): o'quv markazi reklama 170/mo (one bucket with o'quv markazlari reklama), kurs reklama 10; 310 a month for the cluster with the Russian tails. SERP: a video block and an AI Overview, then a catalogue, YouTube and owner-intent pages (opening a centre, subsidies, CRM); no article on how to advertise a learning centre. Not a target-uz spoke: one niche across several channels is not a subtopic of targeted ads (as C67). Hreflang pair of /ru/blog/reklama-uchebnogo-tsentra-tashkent/.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F4, §5 rows 9–10, §6 and §11; niche-playbooks.md / niche-playbooks.json; niche-playbooks-data/kw1_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C85-uz-oquv-markazi-ai-bot-vs-oquv-markazi-reklamasi",
+      "commercial": {
+        "url": "/uz/oquv-markazi-uchun-ai-bot/",
+        "owns": "the AI bot for learning centres (bot-services, frozen: no new keys); since 2026-10-25 one paragraph after its price table links the playbook; it declares none of the playbook's keys",
+        "mustNotTarget": [
+          "o‘quv markazi reklama",
+          "o‘quv markazlari reklama",
+          "o‘quv markazi reklamasi",
+          "kurs reklama"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/oquv-markazi-reklamasi/",
+        "owns": "advertising for learning centres (C84); its AI section links the bot page and declares no bot key",
+        "mustNotTarget": [
+          "o‘quv markazi uchun ai bot",
+          "ta’lim bot",
+          "kurslarga yozilish bot",
+          "ai bot maktab",
+          "o‘quv markaz telegram bot"
+        ]
+      },
+      "gscNote": "AD_CLIENT_FUNNEL §3 F4: the learning-centre bot page has impressions and clicks (15 impressions, 2 clicks in the research window) and links the playbook; the playbook is not placed inside the frozen bot page and neither takes the other's keys.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F4, §5 rows 9–10, §6 and §11; niche-playbooks.md / niche-playbooks.json; niche-playbooks-data/kw1_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C86-ru-target-vs-reklama-uchebnogo-tsentra",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "commission targeted ads in Russian; it is the playbook's targetMoneyPage and declares none of its keys",
+        "mustNotTarget": [
+          "реклама учебного центра",
+          "продвижение учебного центра",
+          "реклама образовательного центра",
+          "как привлечь учеников в учебный центр",
+          "реклама курсов"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+        "owns": "advertise a learning centre, for Russian-speaking owners — primary «реклама учебного центра» with «продвижение учебного центра», «реклама образовательного центра», «как привлечь учеников в учебный центр» and «реклама курсов»: the same seasons, audiences, Telegram checks, trial-lesson funnel and measurement as the Uzbek article; it links the targeting page",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "настройка таргетированной рекламы ташкент",
+          "таргет instagram ташкент",
+          "заказать таргет",
+          "услуги таргетолога"
+        ]
+      },
+      "gscNote": "New URL of AI-tools wave B (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): реклама учебного центра 10/mo and about a dozen tails of 10 each; the Russian demand is small, and the page exists mainly as the hreflang pair of /uz/blog/oquv-markazi-reklamasi/. The Russian SERP was not captured.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F4, §5 rows 9–10, §6 and §11; niche-playbooks.md / niche-playbooks.json; niche-playbooks-data/kw1_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "C87-ru-ai-bot-uchebnyy-tsentr-vs-reklama-uchebnogo-tsentra",
+      "commercial": {
+        "url": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+        "owns": "the AI bot for learning centres in Russian (bot-services, frozen: no new keys); since 2026-10-25 one paragraph after its price table links the playbook; it declares none of the playbook's keys",
+        "mustNotTarget": [
+          "реклама учебного центра",
+          "продвижение учебного центра",
+          "реклама образовательного центра",
+          "реклама курсов"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+        "owns": "advertising for learning centres (C86); its AI section links the bot page and declares no bot key",
+        "mustNotTarget": [
+          "ai-бот для учебного центра",
+          "бот учебный центр",
+          "ai-бот образование",
+          "запись на курсы бот",
+          "бот для школы"
+        ]
+      },
+      "gscNote": "Same split as C85 for the Russian pages (AD_CLIENT_FUNNEL §3 F4 and §6): the bot page links the playbook, the playbook links the bot page, the playbook is not placed inside the frozen bot page and neither takes the other's keys.",
+      "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F4, §5 rows 9–10, §6 and §11; niche-playbooks.md / niche-playbooks.json; niche-playbooks-data/kw1_metrics_raw.json",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-10-25"
     }
   ],
   "architectureDecisions": [
@@ -2255,6 +2833,27 @@
       ],
       "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F5, §5 row 6 and §11 item 6",
       "note": "One table of every published agency price, with a link to each service page, is a «Narxlar» / «Цены» section on the two existing Boss Digital pages instead of new /uz/narxlar/ and /ru/ceny/ URLs: the table has no Google demand of its own (its price phrases already have owners — the SMM, Instagram-management and website price articles), its value is as a source for AI assistants, and a new URL would also have needed a homepage revision. The section declares no keyword (the boss-digital keyword fields are unchanged) and must not take the price articles' heads listed here, for keywords or anchors. It prints only prices that the service pages print (targeting and context 1 990 000 launch / 1 490 000 a month, SMM 2 490 000 / 4 490 000 / 7 900 000 a month, websites 2 990 000 / 6 900 000 / 14 900 000, AI bot 1 990 000 / 3 900 000 / 6 900 000; checked 2026-10-25), and the same release brought the /uz/sayt-yaratish/ package table in line with its own title (2 990 000 / 6 900 000 / 14 900 000 instead of the old ranges). No Offer markup was added."
+    },
+    {
+      "id": "A10-tests-pilot-2026-10-25",
+      "url": "/uz/onlayn-testlar/",
+      "decision": "PILOT_THREE_SUBJECTS_FLAT_URLS",
+      "decidedAt": "2026-10-25",
+      "status": "published",
+      "pages": [
+        "/uz/onlayn-testlar/",
+        "/uz/informatika-test/",
+        "/uz/fizika-test/",
+        "/uz/matematika-test/"
+      ],
+      "pairs": [
+        "C76-uz-chat-vs-onlayn-testlar",
+        "C77-uz-onlayn-testlar-vs-informatika-test",
+        "C78-uz-onlayn-testlar-vs-fizika-test",
+        "C79-uz-onlayn-testlar-vs-matematika-test"
+      ],
+      "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №7 and §4 row 10; education-practice.md §2 and §4 card 1; education-practice.json (practice_tests); education-practice-data/ep_kw1_metrics.json and known_keywords.json; tests-verification.md",
+      "note": "The research card 7 («Тренировочные тесты по предметам») proposed /uz/testlar/ with nested subject pages; the content platform builds one flat file per URL (content/pages/<locale>/<slug>.json), so the pilot ships as /uz/informatika-test/, /uz/fizika-test/ and /uz/matematika-test/ (each slug carries its head query) under the hub /uz/onlayn-testlar/, which links all three and is linked back. Each subject page is a gpt-chat AI tool page in the teacher role with the practice-quiz widget (205461eb): 40 original practice questions with the key and an explanation in a native <details>, checked in the browser with no model and no limit, a schema.org Quiz node, and «AI bilan tushuntirish» that only prefills the composer (trial replies, then the AI pack). The 120 questions were written for the site and solved blind by a second agent (docs/seo/research/2026-10-25-clusters-to-add/tests-verification.md: 120/120 keys agree, three wording fixes). Pilot rule: biologiya, ona tili, tarix, geografiya, kimyo, huquq and the Russian «биология тест» wait until Search Console impressions of the three pages have been compared with Ads after 4–6 weeks (decision ≈10.01.2027), because 16 school keys jumped ×10–100 since December 2025 for an unknown reason. The pages make no claim of official DTM, BMBA, milliy sertifikat, BSB or ChSB material and do not target «test javoblari», «dtm test javoblari» or other answer queries (pairs C76–C79 fence them); «matematika test javoblari bilan» (5 400/mo) is not declared either, although the pages print their own answers with explanations. A native Uzbek reader and a subject teacher have not yet read the questions."
     }
   ]
 }

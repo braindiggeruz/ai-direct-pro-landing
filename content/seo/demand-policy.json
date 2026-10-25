@@ -615,6 +615,190 @@
       "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/marketplaces-social-selling-data/kw_metrics_raw.json)",
       "measuredAt": "2026-10-25",
       "note": "Google Ads competition 0.11, CPC 3.64 USD. First keyword of the Russian guide /ru/blog/kak-stat-prodavcom-na-uzum-market/ (pair C68); small Russian demand, the page is mainly the hreflang pair of the Uzbek guide."
+    },
+    {
+      "keyword": "present simple",
+      "volumePerMonth": 12100,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 18 100, September 2026 12 100 (part of the fall is seasonal: the research saw 12 100 again in September). Primary of /uz/present-simple/ (AI-tools wave B, pairs C70, C73)."
+    },
+    {
+      "keyword": "present simple exercises",
+      "volumePerMonth": 2400,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics2.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0, CPC 0.73 USD; October 2025 3 600, September 2026 2 900. Secondary of /uz/present-simple/ (10 exercises with answers on the page)."
+    },
+    {
+      "keyword": "past simple",
+      "volumePerMonth": 8100,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 12 100, September 2026 6 600 (a fall the research did not correct). Primary of /uz/past-simple/ (AI-tools wave B, pairs C71, C74)."
+    },
+    {
+      "keyword": "past simple exercises",
+      "volumePerMonth": 1900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics2.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 2 900, September 2026 1 900. Secondary of /uz/past-simple/."
+    },
+    {
+      "keyword": "present continuous",
+      "volumePerMonth": 6600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 9 900, September 2026 6 600. Primary of /uz/present-continuous/ (AI-tools wave B, pairs C72, C73)."
+    },
+    {
+      "keyword": "present continuous exercises",
+      "volumePerMonth": 1600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics2.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 2 400, September 2026 1 600. Secondary of /uz/present-continuous/."
+    },
+    {
+      "keyword": "tenses",
+      "volumePerMonth": 480,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics2.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 590, September 2026 480. Measured English phrasing behind /uz/ingliz-tili-zamonlari/ (pair C69): its Uzbek primary «ingliz tili zamonlari» and the variants «ingliz tilida zamonlar» and «zamonlar ingliz tilida» returned no volume, so no row is recorded for them."
+    },
+    {
+      "keyword": "english tenses",
+      "volumePerMonth": 210,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics2.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 260, September 2026 170. Secondary of /uz/ingliz-tili-zamonlari/ (pair C69)."
+    },
+    {
+      "keyword": "времена в английском",
+      "volumePerMonth": 210,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; 210 in October 2025 and September 2026. Secondary of /ru/vremena-angliyskogo-yazyka/ (AI-tools wave B, pair C75); the larger of the Russian phrases."
+    },
+    {
+      "keyword": "времена английского языка",
+      "volumePerMonth": 70,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/language-learning-data/ll_kw_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 110, September 2026 70. Primary of /ru/vremena-angliyskogo-yazyka/ (pair C75); small Russian demand, the page is mainly the hreflang pair of the Uzbek hub."
+    },
+    {
+      "keyword": "informatika test",
+      "volumePerMonth": 49500,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/education-practice.json practice_tests; education-practice-data/known_keywords.json; docs/seo/research/2026-10-25-clusters-to-add/education-practice-data/ep_kw1_metrics.json «informatika testlar»)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; one bucket with «informatika testlar» (October 2025 1 900, September 2026 49 500, peak 90 500); floor 1 750. Primary of /uz/informatika-test/ (AI-tools wave B, pair C77). Jump-shaped since December 2025 (education-practice.md §2): recorded at the Ads 12-month average with the October–November 2025 floor in this note; the tests pilot (decision A10) compares Search Console impressions with Ads after 4–6 weeks."
+    },
+    {
+      "keyword": "fizika test",
+      "volumePerMonth": 40500,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/education-practice.json practice_tests; education-practice-data/known_keywords.json)",
+      "measuredAt": "2026-10-25",
+      "note": "October–November 2025 mean 520, September 2026 60 500 (education-practice.md §2); floor 520. Primary of /uz/fizika-test/ (AI-tools wave B, pair C78). Jump-shaped since December 2025 (education-practice.md §2): recorded at the Ads 12-month average with the October–November 2025 floor in this note; the tests pilot (decision A10) compares Search Console impressions with Ads after 4–6 weeks."
+    },
+    {
+      "keyword": "matematika test",
+      "volumePerMonth": 27100,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/education-practice.json practice_tests; education-practice-data/known_keywords.json; docs/seo/research/2026-10-25-clusters-to-add/education-practice-data/ep_kw1_metrics.json «matematika testlar»)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0, CPC 0.53 USD; one bucket with «matematika testlar» (October 2025 2 900, September 2026 40 500); floor 2 900. Primary of /uz/matematika-test/ (AI-tools wave B, pair C79). Jump-shaped since December 2025 (education-practice.md §2): recorded at the Ads 12-month average with the October–November 2025 floor in this note; the tests pilot (decision A10) compares Search Console impressions with Ads after 4–6 weeks."
+    },
+    {
+      "keyword": "test savollari",
+      "volumePerMonth": 12100,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/education-practice.json practice_tests; education-practice-data/known_keywords.json)",
+      "measuredAt": "2026-10-25",
+      "note": "October–November 2025 140 / 480, September 2026 33 100 (education-practice.md §2); floor 310. Secondary of the hub /uz/onlayn-testlar/ (pair C76). Jump-shaped since December 2025 (education-practice.md §2): recorded at the Ads 12-month average with the October–November 2025 floor in this note; the tests pilot (decision A10) compares Search Console impressions with Ads after 4–6 weeks."
+    },
+    {
+      "keyword": "online test yechish",
+      "volumePerMonth": 1900,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/education-practice.json practice_tests; education-practice-data/known_keywords.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Primary of the hub /uz/onlayn-testlar/ (AI-tools wave B, pair C76): the hub is an AI test builder that links the three subject tests and has no quiz of its own."
+    },
+    {
+      "keyword": "matematika test 5 sinf",
+      "volumePerMonth": 1600,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/education-practice-data/ep_kw1_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; October 2025 210, September 2026 3 600; floor 190. Secondary of /uz/matematika-test/ (grade-5 questions on the page). Jump-shaped since December 2025 (education-practice.md §2): recorded at the Ads 12-month average with the October–November 2025 floor in this note; the tests pilot (decision A10) compares Search Console impressions with Ads after 4–6 weeks."
+    },
+    {
+      "keyword": "matematika online test",
+      "volumePerMonth": 720,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-clusters-to-add/education-practice-data/ep_kw1_metrics.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0, CPC 0.66 USD; October 2025 720, September 2026 320 (no jump shape). Secondary of /uz/matematika-test/."
+    },
+    {
+      "keyword": "стоматология реклама",
+      "volumePerMonth": 40,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/niche-playbooks-data/kw1_metrics_raw.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; no monthly series in the pull. The largest phrase of the clinic playbook /ru/blog/reklama-stomatologii-i-kliniki-tashkent/ (AI-tools wave B, pairs C80, C81; cluster 360 a month, AD_CLIENT_FUNNEL §5 row 9). Blog article: recorded for the demand evidence, outside the money/niche gate."
+    },
+    {
+      "keyword": "реклама стоматологии",
+      "volumePerMonth": 10,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/niche-playbooks-data/kw1_metrics_raw.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition 0.03, CPC 6.68 USD (the most expensive click of the niche lens). Primary of /ru/blog/reklama-stomatologii-i-kliniki-tashkent/ (pairs C80, C81)."
+    },
+    {
+      "keyword": "маркетинг для клиники",
+      "volumePerMonth": 10,
+      "competition": "MEDIUM",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/niche-playbooks-data/kw1_metrics_raw.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition 0.57, CPC 3.56 USD. Secondary of /ru/blog/reklama-stomatologii-i-kliniki-tashkent/."
+    },
+    {
+      "keyword": "klinika reklama",
+      "volumePerMonth": 10,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/niche-playbooks-data/kw1_metrics_raw.json)",
+      "measuredAt": "2026-10-25",
+      "note": "No competition or CPC returned. Secondary of /uz/blog/stomatologiya-va-klinika-reklamasi/ (pairs C82, C83); its primary «stomatologiya reklamasi» returned no volume, so no row is recorded for it."
+    },
+    {
+      "keyword": "o'quv markazi reklama",
+      "volumePerMonth": 170,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/niche-playbooks-data/kw1_metrics_raw.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0; one bucket with «o‘quv markazlari reklama». Measured spelling (ASCII apostrophe, as Google Ads stores it) of the primary «o‘quv markazi reklama» of /uz/blog/oquv-markazi-reklamasi/ (AI-tools wave B, pairs C84, C85; AD_CLIENT_FUNNEL §5 row 10). Blog article: outside the money/niche gate."
+    },
+    {
+      "keyword": "реклама учебного центра",
+      "volumePerMonth": 10,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads (get_keyword_metrics), location 2860 (docs/seo/research/2026-10-25-ad-client-funnel/niche-playbooks-data/kw1_metrics_raw.json)",
+      "measuredAt": "2026-10-25",
+      "note": "Google Ads competition index 0. Primary of /ru/blog/reklama-uchebnogo-tsentra-tashkent/ (pairs C86, C87); small Russian demand, the page is mainly the hreflang pair of the Uzbek article."
     }
   ],
   "qualityRequirements": {

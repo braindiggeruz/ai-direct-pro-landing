@@ -20,7 +20,7 @@ export const uzMatematika: QuizSet = {
       q: '2/5 + 1/5 nechaga teng?',
       options: ['3/10', '3/5', '2/25', '1/5'],
       answer: 1,
-      explanation: 'Maxrajlari bir xil kasrlarni qo‘shishda suratlar qo‘shiladi, maxraj o‘zgarmaydi: 2/5 + 1/5 = (2 + 1)/5 = 3/5. 3/10 — maxrajlarni ham qo‘shib yuborish xatosi. Ma’nosini tekshiring: butun narsani 5 bo‘lakka bo‘lsak, 2 bo‘lak va yana 1 bo‘lak — jami 3 bo‘lak, bo‘laklarning o‘lchami esa o‘zgarmaydi.',
+      explanation: 'Maxrajlari bir xil kasrlarni qo‘shishda suratlar qo‘shiladi, maxraj o‘zgarmaydi: 2/5 + 1/5 = (2 + 1)/5 = 3/5. 3/10 — maxrajlarni ham qo‘shib yuborish xatosi. Ma’nosini tekshiring: butunni 5 ta teng bo‘lakka bo‘lsak, 2 bo‘lak va yana 1 bo‘lak — jami 3 bo‘lak, bo‘laklarning o‘lchami esa o‘zgarmaydi.',
     },
     {
       id: 'mat-02',
@@ -230,7 +230,7 @@ export const uzMatematika: QuizSet = {
       q: 'Ifodani soddalashtiring: a³ · a⁴',
       options: ['a⁷', 'a¹²', '2a⁷', 'a¹'],
       answer: 0,
-      explanation: 'Asoslari bir xil darajalar ko‘paytirilganda ko‘rsatkichlar qo‘shiladi: a³ · a⁴ = a³⁺⁴ = a⁷. Tekshirish: a³ — uchta a, a⁴ — to‘rtta a, hammasi bo‘lib yettita a ko‘paytiriladi. Ko‘rsatkichlar darajani darajaga ko‘targanda ko‘paytiriladi: (a³)⁴ = a¹².',
+      explanation: 'Asoslari bir xil darajalar ko‘paytirilganda ko‘rsatkichlar qo‘shiladi: a³ · a⁴ = a³⁺⁴ = a⁷. Tekshirish: a³ — uchta a, a⁴ — to‘rtta a, hammasi bo‘lib yettita a ko‘paytiriladi. Darajani darajaga ko‘tarishda esa ko‘rsatkichlar ko‘paytiriladi: (a³)⁴ = a¹².',
     },
     {
       id: 'mat-25',
@@ -263,7 +263,7 @@ export const uzMatematika: QuizSet = {
       id: 'mat-28',
       grade: 8,
       topic: 'Darajalar',
-      q: 'Yerdan Quyoshgacha masofa taxminan 150 000 000 km. Bu sonni standart ko‘rinishda yozing.',
+      q: 'Yerdan Quyoshgacha bo‘lgan masofa taxminan 150 000 000 km. Bu sonni standart ko‘rinishda yozing.',
       options: ['1,5 · 10⁸ km', '1,5 · 10⁷ km', '15 · 10⁹ km', '1,5 · 10⁶ km'],
       answer: 0,
       explanation: 'Standart ko‘rinish: a · 10ⁿ, bunda 1 ≤ a < 10. 150 000 000 dan 1,5 ni hosil qilish uchun vergul 8 xona chapga suriladi, demak n = 8: 1,5 · 10⁸ km. Tekshiruv: 10⁸ = 100 000 000, 1,5 · 100 000 000 = 150 000 000. Qolgan javoblarda nollar soni noto‘g‘ri sanalgan.',
@@ -358,7 +358,7 @@ export const uzMatematika: QuizSet = {
       q: 'Trapetsiyaning asoslari 8 sm va 12 sm, balandligi 5 sm. Trapetsiyaning yuzi qancha?',
       options: ['100 sm²', '50 sm²', '480 sm²', '25 sm²'],
       answer: 1,
-      explanation: 'Trapetsiya yuzi asoslar yig‘indisining yarmi bilan balandlik ko‘paytmasiga teng: S = (8 + 12) : 2 · 5 = 10 · 5 = 50 sm². 100 — 2 ga bo‘lish unutilgan. Formulaning ma’nosi: trapetsiya yuzi tomonlari o‘rta chiziq (asoslarning o‘rtachasi) va balandlikka teng to‘g‘ri to‘rtburchak yuziga teng.',
+      explanation: 'Trapetsiya yuzi asoslar yig‘indisining yarmi bilan balandlik ko‘paytmasiga teng: S = (8 + 12) : 2 · 5 = 10 · 5 = 50 sm². 100 — 2 ga bo‘lish unutilgan. Formulaning ma’nosi: trapetsiya yuzi tomonlari o‘rta chiziq (asoslarning o‘rta arifmetigi) va balandlikka teng to‘g‘ri to‘rtburchak yuziga teng.',
     },
     {
       id: 'mat-39',

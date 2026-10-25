@@ -20,15 +20,15 @@
     },
     {
       "label": "Qaysi formula kerak?",
-      "prompt": "Bu masalani yechish uchun qaysi formula kerakligini va nega aynan u ekanini tushuntir. Javobni darhol aytma: berilganlarni yozishga va birliklarni SI ga o‘tkazishga yordam ber.\nMasala: "
+      "prompt": "Bu masalani yechish uchun qaysi formula kerakligini va nega aynan u ekanini tushuntir. Javobni darhol aytma: berilganlarni yozib olishga va kattaliklarni SI birliklariga o‘tkazishga yordam ber.\nMasala: "
     },
     {
-      "label": "Birliklarni SI ga o‘tkaz",
+      "label": "Kattaliklarni SI birliklariga o‘tkaz",
       "prompt": "Bu kattaliklarni SI birliklariga qadamma-qadam o‘tkazishni ko‘rsat va har bir qadamda nima uchun shunday qilinganini izohla.\nKattaliklar (masalan, 72 km/soat, 2 sm, 30 kJ): "
     },
     {
-      "label": "Hodisani hayotda tushuntir",
-      "prompt": "Bu fizik hodisa kundalik hayotda qayerda uchrashini 3 ta misol bilan tushuntir va har birida qaysi qonun ishlayotganini ayt.\nHodisa: "
+      "label": "Hodisani hayotiy misollarda tushuntir",
+      "prompt": "Bu fizik hodisa kundalik hayotda qayerda uchrashini 3 ta misol bilan tushuntir va har birida qaysi qonun amal qilayotganini ayt.\nHodisa: "
     }
   ],
   "widgets": [
@@ -77,7 +77,7 @@
     },
     {
       "type": "p",
-      "text": "Savollar va izohlar shu sahifa uchun fizikadan mashq qilish va o‘zini tekshirish maqsadida AI yordamida tuzilgan, har bir javob va hisob-kitob qayta tekshirilgan. Bu rasmiy imtihon materiali emas: DTM, milliy sertifikat, maktabdagi BSB yoki ChSB savollari ham, ularning javoblari ham bu yerda yo‘q. Sinf belgisi taxminiy — mavzu odatda qaysi sinfda o‘tilishiga qarab qo‘yilgan, darslik va maktab dasturi farq qilishi mumkin. Xato topsangiz, ceo@gptbot.uz manziliga yozing."
+      "text": "Savollar va izohlar shu sahifa uchun fizikadan mashq qilish va o‘z-o‘zini tekshirish maqsadida AI yordamida tuzilgan, har bir javob va hisob-kitob qayta tekshirilgan. Bu rasmiy imtihon materiali emas: DTM, milliy sertifikat, maktabdagi BSB yoki ChSB savollari ham, ularning javoblari ham bu yerda yo‘q. Sinf belgisi taxminiy — mavzu odatda qaysi sinfda o‘tilishiga qarab qo‘yilgan, darslik va maktab dasturi farq qilishi mumkin. Xato topsangiz, ceo@gptbot.uz manziliga yozing."
     },
     {
       "type": "p",
@@ -143,7 +143,7 @@
     },
     {
       "type": "p",
-      "text": "Test ustidagi «Sinf» va «Mavzu» ro‘yxatlari bilan faqat kerakli savollarni qoldirish mumkin: masalan, 7-sinf va «Bosim va Arximed kuchi». Hisob faqat ko‘rsatilgan savollar bo‘yicha yuritiladi. Tanlovlaringiz faqat ochiq sahifa xotirasida turadi: sahifa yangilansa, test boshidan boshlanadi."
+      "text": "Test ustidagi «Sinf» va «Mavzu» ro‘yxatlari bilan faqat kerakli savollarni qoldirish mumkin: masalan, 7-sinf va «Bosim va Arximed kuchi». Hisob faqat ko‘rsatilgan savollar bo‘yicha yuritiladi. Tanlagan javoblaringiz faqat ochiq sahifada saqlanadi: sahifa yangilansa, test boshidan boshlanadi."
     },
     {
       "type": "h2",
@@ -154,7 +154,7 @@
       "type": "list",
       "items": [
         "Sinf va mavzuni tanlang yoki barcha 40 ta savolni ketma-ket yeching.",
-        "Javobni bosing: to‘g‘ri javob yashil, noto‘g‘ri javob qizil bilan belgilanadi va to‘g‘ri variant ko‘rsatiladi. Har bir savolda faqat birinchi tanlov hisobga olinadi — haqiqiy testdagidek.",
+        "Javobni bosing: to‘g‘ri javob yashil, noto‘g‘risi qizil rangda belgilanadi va to‘g‘ri variant ko‘rsatiladi. Har bir savolda faqat birinchi tanlov hisobga olinadi — haqiqiy testdagidek.",
         "«Javob va izoh» ochiladi: unda nega aynan shu javob to‘g‘ri ekani va boshqa variantlar qaysi xatodan kelib chiqqani yozilgan.",
         "Tushunarsiz qolsa, «AI bilan tushuntirish» tugmasini bosing: savol, variantlar va javobingiz chat maydoniga tushadi. Javob tanlamasdan bossangiz, chatdan javobni darhol aytmasdan, avval fikrlash yo‘lini tushuntirish so‘raladi.",
         "«Qaytadan boshlash» belgilar va hisobni tozalaydi: xatolar ustida ishlagach, testni yana bir bor yechib ko‘ring."
@@ -242,7 +242,7 @@
     },
     {
       "type": "p",
-      "text": "Hisoblashdan oldin hamma kattaliklarni SI ga o‘tkazing: km → m, minut → s, sm → m, kJ → J. Testdagi ko‘p noto‘g‘ri variantlar aynan birlik xatolaridan tuzilgan — izohda har bir noto‘g‘ri variant qaysi xatodan kelib chiqqani yozilgan."
+      "text": "Hisoblashdan oldin hamma kattaliklarni SI birliklariga o‘tkazing: km → m, minut → s, sm → m, kJ → J. Testdagi ko‘p noto‘g‘ri variantlar aynan birliklar bilan bog‘liq xatolar asosida tuzilgan — izohda har bir noto‘g‘ri variant qaysi xatodan kelib chiqqani yozilgan."
     },
     {
       "type": "h2",
@@ -251,7 +251,7 @@
     },
     {
       "type": "p",
-      "text": "Test qaysi mavzu sust ekanini ko‘rsatadi, AI esa aynan shu mavzuni tushuntirib, yangi masalalar beradi. Chat «O‘qituvchi» rolida ochiladi: u fikrlash yo‘lini tushuntiradi va ko‘chirib olishni rag‘batlantirmaydi. Yaxshi so‘rovlarga misollar:"
+      "text": "Test qaysi mavzuni yaxshi bilmasligingizni ko‘rsatadi, AI esa aynan shu mavzuni tushuntirib, yangi masalalar beradi. Chat «O‘qituvchi» rolida ochiladi: u fikrlash yo‘lini tushuntiradi va ko‘chirib olishni rag‘batlantirmaydi. Yaxshi so‘rovlarga misollar:"
     },
     {
       "type": "list",
@@ -263,16 +263,16 @@
     },
     {
       "type": "p",
-      "text": "Model ham xato qilishi mumkin: AI tuzgan savollar va javoblarni darslik yoki o‘qituvchingiz bilan solishtiring. Chat rasmni qabul qilmaydi — savol yoki masalani matn ko‘rinishida yozing."
+      "text": "Model ham xato qilishi mumkin: AI tuzgan savol va javoblarni darslik bilan solishtiring yoki o‘qituvchingizdan so‘rang. Chat rasmni qabul qilmaydi — savol yoki masalani matn ko‘rinishida yozing."
     },
     {
       "type": "h2",
       "id": "oqish-haqida-halol",
-      "text": "O‘qish haqida halol"
+      "text": "Halol o‘qish haqida"
     },
     {
       "type": "p",
-      "text": "Bu sahifa mashq va o‘zini tekshirish uchun. Haqiqiy nazorat ishi, BSB, ChSB yoki imtihon paytida chatdan javob so‘ramang: bu ko‘chirish hisoblanadi va bilimni mustahkamlamaydi. «O‘qituvchi» rolidagi AI uy vazifasini siz o‘rningizga bajarish uchun emas, tushunishga yordam berish uchun sozlangan. Ota-onalar uchun ham qulay: farzandingiz bilan testni birga yechib, qaysi mavzuni takrorlash kerakligini ko‘rasiz."
+      "text": "Bu sahifa mashq va o‘z-o‘zini tekshirish uchun. Haqiqiy nazorat ishi, BSB, ChSB yoki imtihon paytida chatdan javob so‘ramang: bu ko‘chirish hisoblanadi va bilimni mustahkamlamaydi. «O‘qituvchi» rolidagi AI uy vazifasini sizning o‘rningizga bajarish uchun emas, tushunishga yordam berish uchun sozlangan. Ota-onalar uchun ham qulay: farzandingiz bilan testni birga yechib, qaysi mavzuni takrorlash kerakligini ko‘rasiz."
     },
     {
       "type": "h2",

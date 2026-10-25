@@ -20,7 +20,7 @@ export const uzInformatika: QuizSet = {
       q: 'Quyidagilardan qaysi biri kiritish qurilmasi?',
       options: ['Monitor', 'Klaviatura', 'Printer', 'Karnay'],
       answer: 1,
-      explanation: 'Kiritish qurilmasi ma’lumotni kompyuterga olib kiradi: klaviatura, sichqoncha, mikrofon, skaner. Monitor, printer va karnay — chiqarish qurilmalari: ular kompyuterdagi natijani ko‘rsatadi, qog‘ozga chiqaradi yoki eshittiradi. Ajratish usuli: ma’lumot qurilmadan kompyuterga ketadimi (kiritish) yoki kompyuterdan bizga keladimi (chiqarish) — shuni so‘rang.',
+      explanation: 'Kiritish qurilmasi ma’lumotni kompyuterga olib kiradi: klaviatura, sichqoncha, mikrofon, skaner. Monitor, printer va karnay — chiqarish qurilmalari: ular kompyuterdagi natijani ko‘rsatadi, qog‘ozga chiqaradi yoki eshittiradi. Ajratish usuli: ma’lumot qurilmadan kompyuterga ketadimi (kiritish) yoki kompyuterdan bizga keladimi (chiqarish) — o‘zingizdan shuni so‘rang.',
     },
     {
       id: 'inf-02',
@@ -56,7 +56,7 @@ export const uzInformatika: QuizSet = {
       q: 'Qaysi hajm eng katta? (Har bir keyingi birlik oldingisidan 1024 marta katta: Kbayt, Mbayt, Gbayt, Tbayt.)',
       options: ['2 Gbayt', '1500 Mbayt', '3 000 000 Kbayt', '0,002 Tbayt'],
       answer: 2,
-      explanation: 'Hammasini bitta birlikka, masalan Mbaytga o‘tkazamiz: 2 Gbayt = 2 · 1024 = 2048 Mbayt; 1500 Mbayt shundayligicha qoladi; 3 000 000 Kbayt = 3 000 000 : 1024 ≈ 2930 Mbayt; 0,002 Tbayt = 0,002 · 1024 · 1024 ≈ 2097 Mbayt. Eng kattasi — 3 000 000 Kbayt. Usul: turli birlikdagi hajmlarni solishtirishdan oldin ularni bir xil birlikka keltiring; son katta ko‘rinsa ham, birligi kichik bo‘lishi mumkin.',
+      explanation: 'Hammasini bitta birlikka, masalan Mbaytga o‘tkazamiz: 2 Gbayt = 2 · 1024 = 2048 Mbayt; 1500 Mbayt o‘zgarishsiz qoladi; 3 000 000 Kbayt = 3 000 000 : 1024 ≈ 2930 Mbayt; 0,002 Tbayt = 0,002 · 1024 · 1024 ≈ 2097 Mbayt. Eng kattasi — 3 000 000 Kbayt. Usul: turli birlikdagi hajmlarni solishtirishdan oldin ularni bir xil birlikka keltiring; son katta ko‘rinsa ham, birligi kichik bo‘lishi mumkin.',
     },
     {
       id: 'inf-06',
@@ -93,7 +93,7 @@ export const uzInformatika: QuizSet = {
       q: 'Ikkilik sistemada qo‘shing: 101₂ + 11₂ = ?',
       options: ['112₂', '110₂', '1110₂', '1000₂'],
       answer: 3,
-      explanation: 'Ikkilik sistemada 1 + 1 = 10₂: 0 yoziladi, 1 keyingi xonaga o‘tadi. O‘ngdan ustun bo‘yicha qo‘shamiz: 1 + 1 = 10 — 0 yozamiz, 1 o‘tadi; 0 + 1 + 1 = 10 — 0 yozamiz, 1 o‘tadi; 1 + 0 + 1 = 10 — 0 yozamiz, 1 o‘tadi; oxirgi 1 ni yozamiz: 1000₂. Tekshiruv: 101₂ = 5, 11₂ = 3, 5 + 3 = 8 = 1000₂. 112₂ bo‘lishi mumkin emas: ikkilik sistemada faqat 0 va 1 raqamlari bor.',
+      explanation: 'Ikkilik sistemada 1 + 1 = 10₂: 0 yoziladi, 1 keyingi xonaga o‘tadi. O‘ngdan boshlab xonama-xona qo‘shamiz: 1 + 1 = 10 — 0 yozamiz, 1 o‘tadi; 0 + 1 + 1 = 10 — 0 yozamiz, 1 o‘tadi; 1 + 0 + 1 = 10 — 0 yozamiz, 1 o‘tadi; oxirgi 1 ni yozamiz: 1000₂. Tekshiruv: 101₂ = 5, 11₂ = 3, 5 + 3 = 8 = 1000₂. 112₂ bo‘lishi mumkin emas: ikkilik sistemada faqat 0 va 1 raqamlari bor.',
     },
     {
       id: 'inf-10',
@@ -130,7 +130,7 @@ export const uzInformatika: QuizSet = {
       q: '«EMAS (5 > 3)» ifodasining qiymati qanday?',
       options: ['Yolg‘on', 'Rost', 'Qiymati 5 ga teng', 'Qiymati 2 ga teng'],
       answer: 0,
-      explanation: 'Avval qavs ichini baholaymiz: 5 > 3 — rost. EMAS (inkor) qiymatni teskarisiga almashtiradi: rost yolg‘onga aylanadi. Mantiqiy ifoda son emas, u faqat «rost» yoki «yolg‘on» qiymat oladi, shuning uchun 5 yoki 2 javob bo‘la olmaydi.',
+      explanation: 'Avval qavs ichidagi ifodaning qiymatini topamiz: 5 > 3 — rost. EMAS (inkor) qiymatni teskarisiga almashtiradi: rost yolg‘onga aylanadi. Mantiqiy ifoda son emas, u faqat «rost» yoki «yolg‘on» qiymat oladi, shuning uchun 5 yoki 2 javob bo‘la olmaydi.',
     },
     {
       id: 'inf-14',
@@ -139,7 +139,7 @@ export const uzInformatika: QuizSet = {
       q: 'x = 7 bo‘lsa, qaysi ifoda rost?',
       options: ['(x > 5) VA (x < 7)', '(x < 5) YOKI (x > 10)', '(x > 5) VA (x ≠ 8)', 'EMAS (x > 5)'],
       answer: 2,
-      explanation: 'Har bir qismni alohida hisoblaymiz. A: 7 > 5 rost, 7 < 7 yolg‘on (7 o‘zidan kichik emas), VA bo‘lgani uchun hammasi yolg‘on. B: 7 < 5 yolg‘on, 7 > 10 yolg‘on — YOKI ham yolg‘on. C: 7 > 5 rost, 7 ≠ 8 rost — VA rost. D: 7 > 5 rost, EMAS uni yolg‘onga aylantiradi. Javob: C. Chegaraviy qiymatlarga (7 < 7) alohida e’tibor bering.',
+      explanation: 'Har bir qismni alohida hisoblaymiz. A: 7 > 5 rost, 7 < 7 yolg‘on (7 o‘zidan kichik emas), VA bo‘lgani uchun butun ifoda yolg‘on. B: 7 < 5 yolg‘on, 7 > 10 yolg‘on — YOKI ham yolg‘on. C: 7 > 5 rost, 7 ≠ 8 rost — VA rost. D: 7 > 5 rost, EMAS uni yolg‘onga aylantiradi. Javob: C. Chegaraviy qiymatlarga (7 < 7) alohida e’tibor bering.',
     },
     {
       id: 'inf-15',
@@ -293,9 +293,9 @@ export const uzInformatika: QuizSet = {
       grade: 6,
       topic: 'Internet xavfsizligi',
       q: 'SMS keldi: «Kartangiz bloklandi. Ochish uchun havolaga kirib, karta raqami va SMS-kodni kiriting». Nima qilish to‘g‘ri?',
-      options: ['Havolaga kirib, karta raqami va kodni kiritaman', 'Kodni do‘stimga yuborib, maslahat so‘rayman', 'SMS ga javob yozib, kodni yuboraman', 'Havolani ochmayman, bankning rasmiy raqamiga o‘zim qo‘ng‘iroq qilaman'],
+      options: ['Havolaga kirib, karta raqami va kodni kiritaman', 'Kodni do‘stimga yuborib, maslahat so‘rayman', 'SMSga javob yozib, kodni yuboraman', 'Havolani ochmayman, bankning rasmiy raqamiga o‘zim qo‘ng‘iroq qilaman'],
       answer: 3,
-      explanation: 'Bu fishing — aldov xabarining belgilari: shoshiltirish («bloklandi»), notanish havola va maxfiy kodni so‘rash. SMS-kod — to‘lovni tasdiqlash kaliti: uni hech kimga, hatto o‘zini bank xodimi deb tanishtirgan odamga ham aytmang. Bank raqamini xabardagi havoladan emas, kartaning orqasidan yoki bankning rasmiy ilovasidan oling.',
+      explanation: 'Bu — fishing. Aldov xabarining belgilari: shoshiltirish («bloklandi»), notanish havola va maxfiy kodni so‘rash. SMS-kod — to‘lovni tasdiqlash kaliti: uni hech kimga, hatto o‘zini bank xodimi deb tanishtirgan odamga ham aytmang. Bank raqamini xabardagi havoladan emas, kartaning orqasidan yoki bankning rasmiy ilovasidan oling.',
     },
     {
       id: 'inf-32',
@@ -313,7 +313,7 @@ export const uzInformatika: QuizSet = {
       q: 'Ikki bosqichli autentifikatsiya (2FA) nima?',
       options: ['Bitta parolni ikki marta kiritish', 'Ikki xil brauzerdan kirish', 'Paroldan tashqari ikkinchi tasdiq so‘raladi: SMS yoki ilovadagi kod', 'Ikki kishi bitta akkauntdan foydalanadi'],
       answer: 2,
-      explanation: '2FA da akkauntga kirish uchun ikki narsa kerak: siz biladigan narsa (parol) va sizda bor narsa (telefon yoki kod chiqaradigan ilova). Parol o‘g‘irlansa ham, ikkinchi kodsiz akkauntga kirib bo‘lmaydi. Shuning uchun bu kodni ham hech kimga bermang.',
+      explanation: '2FA usulida akkauntga kirish uchun ikki narsa kerak: siz biladigan narsa (parol) va sizda bor narsa (telefon yoki kod chiqaradigan ilova). Parol o‘g‘irlansa ham, ikkinchi kodsiz akkauntga kirib bo‘lmaydi. Shuning uchun bu kodni ham hech kimga bermang.',
     },
     {
       id: 'inf-34',
@@ -359,7 +359,7 @@ export const uzInformatika: QuizSet = {
       q: 'Quyidagi kod nimani chiqaradi?\ns = 0\nfor i in range(1, 5): s = s + i\nprint(s)',
       options: ['15', '10', '4', '5'],
       answer: 1,
-      explanation: 'range(1, 5) 1 dan 4 gacha sonlarni beradi: oxirgi chegara (5) kirmaydi. Sikl s ga ketma-ket 1, 2, 3 va 4 ni qo‘shadi: 0 + 1 + 2 + 3 + 4 = 10. 15 — 5 ham qo‘shiladi deb o‘ylash xatosi. Tekshirish usuli: range(a, b) da b − a ta son bor.',
+      explanation: 'range(1, 5) 1 dan 4 gacha sonlarni beradi: oxirgi chegara (5) kirmaydi. Sikl s ga ketma-ket 1, 2, 3 va 4 ni qo‘shadi: 0 + 1 + 2 + 3 + 4 = 10. 15 — 5 ham qo‘shiladi deb o‘ylash xatosi. Tekshirish usuli: range(a, b) ichida b − a ta son bor.',
     },
     {
       id: 'inf-39',
@@ -377,7 +377,7 @@ export const uzInformatika: QuizSet = {
       q: 'Kod: if n % 2 == 0: print("Juft")\nn ning qaysi qiymatida ekranga «Juft» chiqadi?',
       options: ['7', '15', '12', '1'],
       answer: 2,
-      explanation: 'n % 2 — n ni 2 ga bo‘lgandagi qoldiq. Juft son 2 ga qoldiqsiz bo‘linadi: 12 % 2 = 0, shart rost va «Juft» chiqadi. 7, 15 va 1 toq sonlar: qoldiq 1, shart yolg‘on. «==» — tenglikni tekshirish, «=» esa qiymat yozish.',
+      explanation: 'n % 2 — n ni 2 ga bo‘lgandagi qoldiq. Juft son 2 ga qoldiqsiz bo‘linadi: 12 % 2 = 0, shart rost va «Juft» chiqadi. 7, 15 va 1 toq sonlar: qoldiq 1, shart yolg‘on. «==» — tenglikni tekshirish, «=» esa qiymat berish (o‘zlashtirish).',
     },
   ],
 };

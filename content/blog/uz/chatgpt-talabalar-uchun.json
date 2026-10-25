@@ -134,6 +134,32 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "O‘zingizni tekshirish uchun {inf}, {fiz} va {mat} sahifalarida 40 tadan mashq savoli bor: javob darhol tekshiriladi va izoh ochiladi. Bu rasmiy imtihon savollari emas, mavzuni mustahkamlash uchun yozilgan mashqlar. Boshqa fan kerak bo‘lsa, {hub} sahifasida AI o‘qituvchi mavzu bo‘yicha yangi savollar tuzib beradi.",
+      "links": [
+        {
+          "token": "inf",
+          "target": "/uz/informatika-test/",
+          "anchor": "informatika testi"
+        },
+        {
+          "token": "fiz",
+          "target": "/uz/fizika-test/",
+          "anchor": "fizika testi"
+        },
+        {
+          "token": "mat",
+          "target": "/uz/matematika-test/",
+          "anchor": "matematika testi"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "prompt",
       "text": "O‘qish uchun tayyor promptlar"

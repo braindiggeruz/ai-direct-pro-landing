@@ -180,6 +180,37 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "O‘qish uchun yana ikki xil vosita bor. Ingliz tili grammatikasi: {zamon} sahifasida 12 zamon bitta jadvalda, {present}, {past} va {cont} esa alohida sahifalarda misollar va javobli mashqlar bilan. Fanlardan mashq: {testlar} sahifasi informatika, fizika va matematikadan javobi va izohi bilan berilgan testlarga olib boradi; testlar AI’siz va limitsiz ishlaydi, AI izohi esa chatning umumiy sinov javoblaridan sarflanadi.",
+      "links": [
+        {
+          "token": "zamon",
+          "target": "/uz/ingliz-tili-zamonlari/",
+          "anchor": "ingliz tili zamonlari"
+        },
+        {
+          "token": "present",
+          "target": "/uz/present-simple/",
+          "anchor": "Present Simple qoidasi"
+        },
+        {
+          "token": "past",
+          "target": "/uz/past-simple/",
+          "anchor": "Past Simple qoidasi"
+        },
+        {
+          "token": "cont",
+          "target": "/uz/present-continuous/",
+          "anchor": "Present Continuous qoidasi"
+        },
+        {
+          "token": "testlar",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "AI kabinet: bo‘sh chat o‘rniga tayyor ssenariylar"
     },

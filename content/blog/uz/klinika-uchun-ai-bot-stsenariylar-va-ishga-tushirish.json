@@ -96,6 +96,17 @@
       "text": "To‘g‘ri sozlangan klinika boti registraturaning yukini yengillashtiradi, yozilishlarni tartibga soladi va bemor bilan birinchi aloqani professional darajada ushlab turadi. Bu esa marketingga sarflangan pulni behuda ketkazmaslik va jadvalni to‘ldirish uchun eng amaliy qadamlardan biri."
     },
     {
+      "type": "linkp",
+      "text": "Bot ishlashi uchun murojaatlar oqimi kerak. Uni qidiruv, xaritalar va target orqali qanday olish mumkinligi va tibbiy reklamada nimalarga e’tibor berish kerakligi {plan} bo‘yicha qo‘llanmada yozilgan.",
+      "links": [
+        {
+          "token": "plan",
+          "target": "/uz/blog/stomatologiya-va-klinika-reklamasi/",
+          "anchor": "klinika reklamasi"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Klinikangiz uchun bot stsenariysini muhokama qilish",
       "href": "#contact"

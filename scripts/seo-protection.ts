@@ -169,7 +169,18 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // otherwise the predecessor's byte for byte. The seven protected articles are
 // byte-identical; the two chats differ only by the chat bundle's name (platform
 // commit af0446fe), which the generator puts back before it compares hashes.
-export const BASELINE = 'docs/seo/evidence/2026-10-25-ai-tools/reviewed-protected-pages.json';
+// The 2026-10-25-ai-tools-b revision (owner order of 25.10: AI-tools wave B,
+// every new page an AI tool of GPTBot.uz) changes the same two fields on the
+// same page: the homepage shell lists the nine new tool pages (the Uzbek
+// English-tenses hub with its Present Simple, Past Simple and Present
+// Continuous pages, the Russian tenses hub, the tests hub and the informatika,
+// fizika and matematika practice tests; by H1) and the four niche ad playbooks
+// (clinic and learning centre, RU and UZ; by title). internalLinks +13, body
+// text by those thirteen labels only; the HTML is otherwise the predecessor's
+// byte for byte. The seven protected articles and the two chats are
+// byte-identical: the practice-quiz widget (205461eb) is its own entry and the
+// chat bundle keeps its name.
+export const BASELINE = 'docs/seo/evidence/2026-10-25-ai-tools-b/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

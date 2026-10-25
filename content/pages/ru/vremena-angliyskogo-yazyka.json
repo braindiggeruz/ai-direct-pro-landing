@@ -1,0 +1,483 @@
+{
+  "status": "published",
+  "locale": "ru",
+  "url": "/ru/vremena-angliyskogo-yazyka/",
+  "slug": "vremena-angliyskogo-yazyka",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "10 упражнений на любое время",
+      "prompt": "Дай мне 10 упражнений на это время: раскрыть скобки, утвердительные, отрицательные и вопросительные предложения вперемешку. Ответы сразу не показывай: я пишу ответы, ты проверяешь и объясняешь ошибки по-русски.\nВремя: "
+    },
+    {
+      "label": "Проверь моё предложение",
+      "prompt": "Проверь моё предложение на английском: правильно ли выбрано время и форма глагола? Если есть ошибка, напиши правильный вариант и коротко объясни почему. Если ошибки нет, скажи, почему так верно.\nПредложение: "
+    },
+    {
+      "label": "Present Simple или Continuous?",
+      "prompt": "Объясни простыми словами разницу между Present Simple и Present Continuous, дай по 3 примера с переводом на русский. Потом напиши 6 предложений, где я сам выберу время, а ответы покажи в конце."
+    },
+    {
+      "label": "Past Simple или Present Perfect?",
+      "prompt": "Объясни простыми словами разницу между Past Simple и Present Perfect, дай по 3 примера с переводом на русский. Потом напиши 6 предложений, где я сам выберу время, а ответы покажи в конце."
+    },
+    {
+      "label": "Объясни время простыми словами",
+      "prompt": "Объясни простыми словами это время: когда оно употребляется, формула утверждения, отрицания и вопроса, слова-маркеры и 5 примеров с переводом на русский.\nВремя: "
+    },
+    {
+      "label": "Какое время выбрать?",
+      "prompt": "Я пишу предложение на русском. Скажи, какое время английского здесь нужно и почему именно оно, а потом дай английский вариант.\nПредложение: "
+    }
+  ],
+  "primaryKeyword": "времена английского языка",
+  "secondaryKeywords": [
+    "времена в английском",
+    "таблица времен английского языка"
+  ],
+  "searchIntent": "informational",
+  "h1": "Времена английского языка: таблица 12 времён и AI-учитель",
+  "title": "Времена английского языка: таблица 12 времён с примерами",
+  "description": "Все 12 времён английского в одной таблице: формулы, слова-маркеры и примеры с переводом. AI-учитель: 3 бесплатных пробных ответа, затем AI-пакет. Не OpenAI.",
+  "canonical": "https://gptbot.uz/ru/vremena-angliyskogo-yazyka/",
+  "hreflangRu": "/ru/vremena-angliyskogo-yazyka/",
+  "hreflangUz": "/uz/ingliz-tili-zamonlari/",
+  "hreflangXDefault": "/uz/ingliz-tili-zamonlari/",
+  "ogTitle": "Времена английского языка: таблица 12 времён с примерами",
+  "ogDescription": "Все 12 времён английского в одной таблице: формулы, слова-маркеры и примеры с переводом. AI-учитель: 3 бесплатных пробных ответа, затем AI-пакет. Не OpenAI.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Времена английского",
+  "heroTitle": "Времена английского языка: таблица 12 времён и AI-учитель",
+  "heroSubtitle": "Таблица и правила бесплатны; упражнения и объяснения от AI — 3 бесплатных пробных ответа без регистрации, общие с AI-чатом, затем AI-пакет.",
+  "ctaPrimaryLabel": "Тарифы AI-чата",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "AI-чат GPTBot.uz",
+  "ctaSecondaryHref": "/ru/gpt-chat/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Здесь все 12 времён английского языка собраны в одной {table}: для каждого — формула утвердительного, отрицательного и вопросительного предложения, слова-маркеры и пример с переводом на русский. Ниже — как выбрать время и частые ошибки русскоязычных. AI-чат на этой странице открыт в роли «Учитель»: он составит упражнения на любое время, проверит ваши предложения и объяснит ошибку по-русски.",
+      "links": [
+        {
+          "token": "table",
+          "target": "#tablica",
+          "anchor": "таблице"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Таблица и правила всегда бесплатны. AI-учитель — это AI-чат GPTBot.uz, а GPTBot.uz — независимый сервис: не OpenAI и не ChatGPT. Без регистрации доступны 3 бесплатных пробных ответа на весь сайт, и они не обновляются; затем для продолжения нужен AI-пакет — цена, срок и способы оплаты показаны в чате."
+    },
+    {
+      "type": "h2",
+      "id": "tablica",
+      "text": "12 времён в одной таблице"
+    },
+    {
+      "type": "p",
+      "text": "В английском три времени — настоящее (Present), прошедшее (Past) и будущее (Future), и у каждого четыре формы: Simple (простое), Continuous (длительное), Perfect (совершенное) и Perfect Continuous (совершенное длительное). Отсюда 3 × 4 = 12. В таблице «подл.» — подлежащее (I, you, he, she, it, we, they), V1 — начальная форма глагола, V2 — форма прошедшего времени, V3 — третья форма (past participle), V-ing — форма с окончанием -ing."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Время",
+        "Утверждение (+)",
+        "Отрицание (−)",
+        "Вопрос (?)",
+        "Маркеры",
+        "Пример"
+      ],
+      "rows": [
+        [
+          "Present Simple",
+          "подл. + V1 (he, she, it: V1 + s/es)",
+          "подл. + don’t / doesn’t + V1",
+          "Do / Does + подл. + V1?",
+          "every day, usually, often, sometimes, never",
+          "She works in a bank. — Она работает в банке."
+        ],
+        [
+          "Present Continuous",
+          "подл. + am / is / are + V-ing",
+          "подл. + am / is / are + not + V-ing",
+          "Am / Is / Are + подл. + V-ing?",
+          "now, right now, at the moment, today, Look!",
+          "I am reading a book now. — Я сейчас читаю книгу."
+        ],
+        [
+          "Present Perfect",
+          "подл. + have / has + V3",
+          "подл. + haven’t / hasn’t + V3",
+          "Have / Has + подл. + V3?",
+          "already, just, yet, ever, never, since, for",
+          "We have already finished the project. — Мы уже закончили проект."
+        ],
+        [
+          "Present Perfect Continuous",
+          "подл. + have / has + been + V-ing",
+          "подл. + haven’t / hasn’t + been + V-ing",
+          "Have / Has + подл. + been + V-ing?",
+          "for two hours, since this morning, all day, how long",
+          "He has been waiting for an hour. — Он ждёт уже час."
+        ],
+        [
+          "Past Simple",
+          "подл. + V2 (правильный глагол: V1 + ed)",
+          "подл. + didn’t + V1",
+          "Did + подл. + V1?",
+          "yesterday, last week, two days ago, in 2020",
+          "They visited Samarkand last year. — В прошлом году они ездили в Самарканд."
+        ],
+        [
+          "Past Continuous",
+          "подл. + was / were + V-ing",
+          "подл. + wasn’t / weren’t + V-ing",
+          "Was / Were + подл. + V-ing?",
+          "at 8 p.m. yesterday, while, when, all evening",
+          "I was cooking dinner when you called. — Когда ты позвонил, я готовил ужин."
+        ],
+        [
+          "Past Perfect",
+          "подл. + had + V3",
+          "подл. + hadn’t + V3",
+          "Had + подл. + V3?",
+          "before, after, by the time, already",
+          "The film had started before we arrived. — Когда мы пришли, фильм уже начался."
+        ],
+        [
+          "Past Perfect Continuous",
+          "подл. + had been + V-ing",
+          "подл. + hadn’t been + V-ing",
+          "Had + подл. + been + V-ing?",
+          "for, since, how long, before",
+          "She had been working there for five years before she moved to Tashkent. — До переезда в Ташкент она проработала там пять лет."
+        ],
+        [
+          "Future Simple",
+          "подл. + will + V1",
+          "подл. + won’t + V1",
+          "Will + подл. + V1?",
+          "tomorrow, next week, soon, in 2030",
+          "I will call you tomorrow. — Я позвоню тебе завтра."
+        ],
+        [
+          "Future Continuous",
+          "подл. + will be + V-ing",
+          "подл. + won’t be + V-ing",
+          "Will + подл. + be + V-ing?",
+          "at this time tomorrow, at 10 a.m. tomorrow, all day tomorrow",
+          "At this time tomorrow I will be flying to Istanbul. — Завтра в это время я буду лететь в Стамбул."
+        ],
+        [
+          "Future Perfect",
+          "подл. + will have + V3",
+          "подл. + won’t have + V3",
+          "Will + подл. + have + V3?",
+          "by Friday, by the end of the year, by then",
+          "We will have finished the report by Friday. — Мы закончим отчёт к пятнице."
+        ],
+        [
+          "Future Perfect Continuous",
+          "подл. + will have been + V-ing",
+          "подл. + won’t have been + V-ing",
+          "Will + подл. + have been + V-ing?",
+          "for ten years by June, by the end of the year",
+          "By June she will have been teaching for ten years. — К июню будет десять лет, как она преподаёт."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "В колонке отрицаний даны сокращения: don’t = do not, doesn’t = does not, didn’t = did not, won’t = will not, haven’t = have not. В официальном письменном тексте чаще пишут полную форму, в разговорной речи — сокращённую."
+    },
+    {
+      "type": "h2",
+      "id": "kak-vybrat",
+      "text": "Как выбрать время"
+    },
+    {
+      "type": "p",
+      "text": "Время отвечает на два вопроса. Первый — когда происходит действие: сейчас, в прошлом или в будущем. Второй — как оно показано:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Simple — факт, привычка или однократное действие: I work. I worked. I will work.",
+        "Continuous — процесс в определённый момент: I am working now. I was working at 8 p.m.",
+        "Perfect — действие завершилось к определённому моменту, важен результат: I have finished. I had finished before you came.",
+        "Perfect Continuous — как долго действие длится к определённому моменту: I have been working since this morning."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Русский глагол помогает, но не всегда. «Я работаю» может означать и привычку (I work every day), и процесс прямо сейчас (I am working now), а «я сделал» — и Past Simple (I did it yesterday), и Present Perfect (I have done it, если важен результат сейчас). Смотрите на слова-маркеры и на смысл. В таблице ниже — примерные соответствия."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "По-русски",
+        "По-английски",
+        "Время"
+      ],
+      "rows": [
+        [
+          "Я работаю каждый день.",
+          "I work every day.",
+          "Present Simple"
+        ],
+        [
+          "Я сейчас работаю.",
+          "I am working now.",
+          "Present Continuous"
+        ],
+        [
+          "Я уже закончил работу (важен результат).",
+          "I have already finished the work.",
+          "Present Perfect"
+        ],
+        [
+          "Я работаю с самого утра.",
+          "I have been working since this morning.",
+          "Present Perfect Continuous"
+        ],
+        [
+          "Вчера я работал.",
+          "I worked yesterday.",
+          "Past Simple"
+        ],
+        [
+          "Когда ты пришёл, я работал.",
+          "I was working when you came.",
+          "Past Continuous"
+        ],
+        [
+          "К твоему приходу я уже закончил работу.",
+          "I had already finished the work by the time you came.",
+          "Past Perfect"
+        ],
+        [
+          "Завтра я буду работать.",
+          "I will work tomorrow.",
+          "Future Simple"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oshibki",
+      "text": "Частые ошибки русскоязычных"
+    },
+    {
+      "type": "list",
+      "items": [
+        "He work every day → He works every day. В Present Simple с he, she, it к глаголу добавляется -s.",
+        "I am agree → I agree. Agree — глагол, am не нужен; по-русски «согласен» — не глагол, отсюда и ошибка.",
+        "Did you went? → Did you go? После did глагол стоит в V1: прошедшее время уже показал did.",
+        "I have seen him yesterday → I saw him yesterday. С точным временем в прошлом (yesterday, last week, ago) нужен Past Simple.",
+        "I know him since 2020 → I have known him since 2020. С since и for о состоянии, которое длится до сих пор, нужен Present Perfect.",
+        "When I will arrive, I will call you → When I arrive, I will call you. В придаточных времени и условия — после when, if, after, before, until, as soon as — о будущем говорят в Present Simple."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-uchitel",
+      "text": "Как заниматься с AI-учителем"
+    },
+    {
+      "type": "p",
+      "text": "Кнопки над полем ввода чата вставляют готовый запрос: 10 упражнений на выбранное время, проверку вашего предложения, разницу Present Simple и Continuous, Past Simple и Present Perfect, объяснение любого времени простыми словами и выбор времени для русской фразы. Кнопка только заполняет поле ввода: запрос можно изменить, а отправляете его вы сами. Укажите свой уровень (A1, A2, B1) и нужные времена, например: «Дай 8 предложений уровня A2 на Present Perfect и Past Simple, я выберу время, потом проверь»."
+    },
+    {
+      "type": "p",
+      "text": "Учитель объясняет и тренирует, а не делает домашнее задание за вас: сначала напишите ответ сами, потом попросите проверить. Модель может ошибиться, особенно в сложных предложениях и в различиях британского и американского английского, поэтому сверяйтесь с таблицей и учебником. Произношение и аудио чат не даёт: он работает с текстом."
+    },
+    {
+      "type": "linkp",
+      "text": "Подробные разборы трёх базовых времён — с правилами написания окончаний, 10 примерами, типичными ошибками и 10 упражнениями с ответами — есть на узбекском: {ps}, {past} и {pc}. Объяснение любого времени на русском можно попросить у AI-учителя на этой странице.",
+      "links": [
+        {
+          "token": "ps",
+          "target": "/uz/present-simple/",
+          "anchor": "Present Simple qoidasi",
+          "lang": "uz"
+        },
+        {
+          "token": "past",
+          "target": "/uz/past-simple/",
+          "anchor": "Past Simple qoidasi",
+          "lang": "uz"
+        },
+        {
+          "token": "pc",
+          "target": "/uz/present-continuous/",
+          "anchor": "Present Continuous qoidasi",
+          "lang": "uz"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "pochemu-gptbot",
+      "text": "Почему GPTBot.uz"
+    },
+    {
+      "type": "linkp",
+      "text": "Таблица времён, частые ошибки и AI-учитель — на одной странице, объяснения на русском или на узбекском. Узбекская версия с переводом примеров на узбекский — {uz}.",
+      "links": [
+        {
+          "token": "uz",
+          "target": "/uz/ingliz-tili-zamonlari/",
+          "anchor": "Ingliz tili zamonlari",
+          "lang": "uz"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Если занимаетесь каждый день, пробных ответов хватит ненадолго: условия AI-пакета на странице {tariffs}. Формы неправильных глаголов для Past Simple и Perfect — в {verbs}, другие учебные запросы разобраны в статье {study}. Учебным центрам и языковым школам, которым нужен AI-помощник для записи на курсы и ответов родителям в Telegram и Instagram, подойдёт {edu} — от 1 990 000 сум; чтобы обсудить внедрение, {call} или {mail}. Для других задач откройте {chat}.",
+      "links": [
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "тарифов AI-чата"
+        },
+        {
+          "token": "verbs",
+          "target": "/ru/nepravilnye-glagoly/",
+          "anchor": "таблице неправильных глаголов"
+        },
+        {
+          "token": "study",
+          "target": "/ru/gpt-dlya-ucheby/",
+          "anchor": "про AI для учёбы"
+        },
+        {
+          "token": "edu",
+          "target": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+          "anchor": "AI-бот для учебного центра"
+        },
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "позвоните нам"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "напишите на ceo@gptbot.uz"
+        },
+        {
+          "token": "chat",
+          "target": "/ru/gpt-chat/",
+          "anchor": "AI-чат GPTBot.uz"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — независимый AI-сервис и не является официальным продуктом OpenAI или ChatGPT. Вопросы в чат уходят на наш сервер и зарубежным AI-провайдерам, поэтому не отправляйте туда пароли, номера карт и паспортные данные."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Сколько времён в английском языке?",
+      "a": "В учебниках обычно 12: три времени (Present, Past, Future) и четыре формы (Simple, Continuous, Perfect, Perfect Continuous). Некоторые учебники добавляют четыре формы Future in the Past (would + V1 и другие) и насчитывают 16. Сначала стоит освоить основные 12, прежде всего Simple и Continuous."
+    },
+    {
+      "q": "С каких времён начать?",
+      "a": "С Present Simple, Present Continuous, Past Simple и Future Simple с will: в повседневной речи они встречаются чаще всего. Затем изучите Present Perfect в сравнении с Past Simple. Perfect Continuous и Future Perfect проще осваивать, когда основные времена уже получаются уверенно."
+    },
+    {
+      "q": "Чем Present Perfect отличается от Past Simple?",
+      "a": "Past Simple — о законченном действии в прошлом, и важно, когда оно произошло: I lost my keys yesterday. Present Perfect — о результате к настоящему моменту, время не называется: I have lost my keys (ключей нет и сейчас). С yesterday, last week, ago Present Perfect не употребляется."
+    },
+    {
+      "q": "Как проверить, что я правильно выбрал время?",
+      "a": "Нажмите кнопку «Проверь моё предложение» над полем ввода чата и допишите своё предложение: AI скажет, верно ли выбрано время, и объяснит ошибку. Сомнительный ответ сверьте с таблицей на этой странице: модель тоже может ошибиться."
+    },
+    {
+      "q": "AI-учитель бесплатный?",
+      "a": "Таблица и правила — бесплатно и без лимита. Упражнения и объяснения AI-учителя — в пределах 3 бесплатных пробных ответов на весь сайт, общих с AI-чатом и без ежедневного обновления, затем AI-пакет."
+    },
+    {
+      "q": "Это ChatGPT?",
+      "a": "Нет. GPTBot.uz — независимый сервис: не OpenAI и не ChatGPT. Отвечает языковая модель другой компании; название модели указано под каждым ответом."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/ru/gpt-chat/",
+      "anchor": "AI-чат GPTBot.uz",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ingliz-tili-zamonlari/",
+      "anchor": "Ingliz tili zamonlari",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/nepravilnye-glagoly/",
+      "anchor": "Неправильные глаголы английского",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/gpt-dlya-ucheby/",
+      "anchor": "AI для учёбы",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "Тарифы AI-чата",
+      "locale": "ru",
+      "type": "block"
+    },
+    {
+      "target": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+      "anchor": "AI-бот для учебного центра",
+      "locale": "ru",
+      "type": "block"
+    },
+    {
+      "target": "/ru/politika-konfidentsialnosti/",
+      "anchor": "Политика конфиденциальности",
+      "locale": "ru",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "AI-учитель GPTBot.uz: времена английского языка",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Таблица 12 времён английского языка (формулы, слова-маркеры, примеры с переводом на русский) и AI-учитель в чате GPTBot.uz: составляет упражнения и проверяет предложения. 3 бесплатных пробных ответа без регистрации, затем AI-пакет. Не является официальным продуктом OpenAI или ChatGPT.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Таблица бесплатно и 3 бесплатных пробных ответа AI",
+        "description": "Таблица и правила бесплатны. AI-учитель: всего 3 успешно полученных пробных ответа на весь сайт, общие с AI-чатом, без ежедневного обновления. Затем для продолжения нужен AI-пакет.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/ru/vremena-angliyskogo-yazyka/",
+      "inLanguage": [
+        "ru",
+        "en"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

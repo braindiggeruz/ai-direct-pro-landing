@@ -1,0 +1,532 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/past-simple/",
+  "slug": "past-simple",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "10 ta mashq: Past Simple",
+      "prompt": "Menga Past Simple bo‘yicha 10 ta mashq ber: to‘g‘ri va noto‘g‘ri fe’llar aralash, darak, inkor va so‘roq gaplar bo‘lsin. Javoblarni darhol ko‘rsatma: men yozaman, sen tekshirib, xatolarimni o‘zbek tilida tushuntirasan."
+    },
+    {
+      "label": "Gapimni tekshir",
+      "prompt": "Past Simple’da yozgan gaplarimni tekshir: fe’l shakli, did bilan inkor va so‘roq to‘g‘rimi? Xato bo‘lsa, to‘g‘ri variantni yoz va sababini qisqa tushuntir.\nGaplarim: "
+    },
+    {
+      "label": "Past Simple yoki Present Perfect?",
+      "prompt": "Past Simple va Present Perfect farqini oddiy so‘zlar bilan tushuntir, har biriga o‘zbekcha tarjimasi bilan 3 tadan misol ber. Keyin zamonni o‘zim tanlaydigan 6 ta gap yoz, javoblarni oxirida ko‘rsat."
+    },
+    {
+      "label": "-ed qo‘shish qoidasi",
+      "prompt": "Past Simple’da -ed qo‘shimchasi qanday yozilishini (live → lived, study → studied, stop → stopped) va qanday talaffuz qilinishini misollar bilan tushuntir. Keyin 10 ta to‘g‘ri fe’l ber: men V2 shaklini yozaman, sen tekshirasan."
+    },
+    {
+      "label": "Kechagi kunim haqida matn",
+      "prompt": "Past Simple’da kechagi kunim haqida 6–8 gap yozmoqchiman. Avval menga yordamchi savollar ber, men javob yozaman, keyin sen matnimdagi xatolarni tuzatib, tushuntirasan."
+    },
+    {
+      "label": "Tarjima mashqi: o‘zbekchadan",
+      "prompt": "Past Simple bo‘yicha o‘zbekchadan inglizchaga tarjima qilish uchun 8 ta gap ber, kamida 4 tasida noto‘g‘ri fe’l bo‘lsin. Men inglizcha variantini yozaman, sen tekshirib, xatolarimni tushuntirasan."
+    }
+  ],
+  "primaryKeyword": "past simple",
+  "secondaryKeywords": [
+    "past simple tense",
+    "past simple exercises",
+    "simple past",
+    "past simple vs present perfect"
+  ],
+  "searchIntent": "informational",
+  "h1": "Past Simple: qoidasi, -ed qo‘shimchasi, misollar va AI bilan mashq",
+  "title": "Past Simple: qoidasi, -ed qo‘shimchasi, misollar va mashqlar",
+  "description": "Past Simple o‘zbek tilida: formula, -ed qoidasi, did bilan so‘roq, 10 ta misol va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/past-simple/",
+  "hreflangUz": "/uz/past-simple/",
+  "hreflangXDefault": "/uz/past-simple/",
+  "ogTitle": "Past Simple: qoidasi, -ed qo‘shimchasi, misollar va mashqlar",
+  "ogDescription": "Past Simple o‘zbek tilida: formula, -ed qoidasi, did bilan so‘roq, 10 ta misol va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Past Simple",
+  "heroTitle": "Past Simple: qoidasi, -ed qo‘shimchasi, misollar va AI bilan mashq",
+  "heroSubtitle": "Qoida, misollar va mashqlar bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Past Simple — ingliz tilidagi o‘tgan oddiy zamon. U o‘tmishda, aniq vaqtda bo‘lib o‘tgan va tugagan ishlar haqida gapirganda ishlatiladi: I saw him yesterday. To‘g‘ri fe’llar -ed qo‘shimchasini oladi (work → worked), noto‘g‘ri fe’llarning V2 shaklini esa yodlash kerak (go → went). Bu sahifada formula, -ed qoidalari, vaqt belgilari, o‘zbekcha tarjimali 10 ta misol, Present Perfect bilan farqi va javoblari bilan 10 ta mashq bor. Boshqa zamonlar {hub}da. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi mashqlar tuzadi va gaplaringizni tekshiradi.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/ingliz-tili-zamonlari/",
+          "anchor": "ingliz tili zamonlari jadvali"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Qoida, misollar va mashqlar har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "qachon",
+      "text": "Past Simple qachon ishlatiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘tmishdagi aniq vaqtda tugagan ish: I met Aziz yesterday. — Kecha Aziz bilan uchrashdim.",
+        "Ketma-ket bo‘lgan ishlar: He came home, had dinner and went to bed. — U uyga keldi, kechki ovqatni yedi va uxlashga yotdi.",
+        "O‘tmishdagi odat yoki uzoq davom etgan holat (hozir yo‘q): We lived in Fergana when I was a child. — Bolaligimda biz Farg‘onada yashardik.",
+        "O‘tmishdagi holat: She was tired after work. — U ishdan keyin charchagan edi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "formula",
+      "text": "Formula: darak, inkor va so‘roq gaplar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Gap turi",
+        "Formula",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "Darak (+)",
+          "Ega + V2 (to‘g‘ri fe’l: V1 + ed)",
+          "I worked. She went home."
+        ],
+        [
+          "Inkor (−)",
+          "Ega + did not (didn’t) + V1",
+          "I didn’t work. She didn’t go home."
+        ],
+        [
+          "So‘roq (?)",
+          "Did + ega + V1?",
+          "Did you work? Did she go home?"
+        ],
+        [
+          "Qisqa javob",
+          "Yes, ega + did. / No, ega + didn’t.",
+          "Yes, I did. / No, she didn’t."
+        ],
+        [
+          "Maxsus so‘roq",
+          "So‘roq so‘zi + did + ega + V1?",
+          "Where did you go?"
+        ],
+        [
+          "Be fe’li",
+          "was (I, he, she, it) / were (you, we, they)",
+          "I was at home. They were late. Was he there? He wasn’t there."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Past Simple’da fe’l hamma shaxslarda bir xil: I worked, she worked, they worked. Faqat be fe’li was va were’ga bo‘linadi. Did bor gapda asosiy fe’l V1 shaklida bo‘ladi, chunki o‘tgan zamonni did’ning o‘zi ko‘rsatadi: Did you see? — to‘g‘ri, Did you saw? — noto‘g‘ri."
+    },
+    {
+      "type": "h2",
+      "id": "ed",
+      "text": "-ed qo‘shimchasining yozilishi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qoida",
+        "Misollar"
+      ],
+      "rows": [
+        [
+          "Ko‘pchilik fe’llarga -ed qo‘shiladi",
+          "work → worked, open → opened, watch → watched"
+        ],
+        [
+          "-e bilan tugasa, faqat -d qo‘shiladi",
+          "live → lived, like → liked, close → closed"
+        ],
+        [
+          "Undosh + y bo‘lsa, y o‘rniga -ied",
+          "study → studied, try → tried, carry → carried"
+        ],
+        [
+          "Unli + y bo‘lsa, faqat -ed",
+          "play → played, stay → stayed, enjoy → enjoyed"
+        ],
+        [
+          "Bir bo‘g‘inli fe’l bitta unli + bitta undosh bilan tugasa, undosh ikkilanadi",
+          "stop → stopped, plan → planned, shop → shopped"
+        ],
+        [
+          "Urg‘u oxirgi bo‘g‘inda bo‘lsa, undosh ikkilanadi",
+          "prefer → preferred, admit → admitted (lekin visit → visited)"
+        ],
+        [
+          "w, x, y bilan tugasa, undosh ikkilanmaydi",
+          "fix → fixed, show → showed, relax → relaxed"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Britaniya variantida oxirgi l ham ikkilanadi: travel → travelled, Amerika variantida esa traveled. Talaffuzda -ed uch xil eshitiladi: /t/ — worked, watched; /d/ — played, lived; /ɪd/ — wanted, needed (t yoki d bilan tugaydigan fe’llarda)."
+    },
+    {
+      "type": "linkp",
+      "text": "Noto‘g‘ri fe’llar -ed olmaydi: go → went, see → saw, buy → bought, take → took. Eng ko‘p ishlatiladigan 163 ta fe’lning V2 va V3 shakllarini {verbs}da qidiring va test bilan o‘zingizni tekshiring.",
+      "links": [
+        {
+          "token": "verbs",
+          "target": "/uz/notogri-fellar/",
+          "anchor": "noto‘g‘ri fe’llar jadvali"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "vaqt-belgilari",
+      "text": "Vaqt belgilari"
+    },
+    {
+      "type": "p",
+      "text": "Past Simple’ni quyidagi so‘zlar ko‘rsatadi: yesterday, the day before yesterday, last night (week, month, year), two days ago, in 2019, when I was a child, then. Ular odatda gap oxirida yoki boshida turadi: I called her yesterday. Last year we went to Khiva. Ago so‘zi vaqtdan keyin keladi: three days ago — uch kun oldin."
+    },
+    {
+      "type": "h2",
+      "id": "misollar",
+      "text": "10 ta misol: inglizcha va o‘zbekcha"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Inglizcha",
+        "O‘zbekcha"
+      ],
+      "rows": [
+        [
+          "I watched a good film yesterday.",
+          "Kecha yaxshi film ko‘rdim."
+        ],
+        [
+          "We moved to Tashkent in 2018.",
+          "Biz 2018-yilda Toshkentga ko‘chib keldik."
+        ],
+        [
+          "She didn’t come to the lesson last week.",
+          "U o‘tgan hafta darsga kelmadi."
+        ],
+        [
+          "Did you finish your homework?",
+          "Uy vazifangizni tugatdingizmi?"
+        ],
+        [
+          "They bought a new car two months ago.",
+          "Ular ikki oy oldin yangi mashina sotib olishdi."
+        ],
+        [
+          "He went to the market and bought some fruit.",
+          "U bozorga borib, meva sotib oldi."
+        ],
+        [
+          "I was very tired after the trip.",
+          "Safardan keyin juda charchagan edim."
+        ],
+        [
+          "Where did you spend your holiday?",
+          "Ta’tilingizni qayerda o‘tkazdingiz?"
+        ],
+        [
+          "My grandmother taught me to cook plov.",
+          "Buvim menga palov pishirishni o‘rgatgan."
+        ],
+        [
+          "The concert didn’t start on time.",
+          "Konsert o‘z vaqtida boshlanmadi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "present-perfect-farqi",
+      "text": "Past Simple va Present Perfect farqi"
+    },
+    {
+      "type": "p",
+      "text": "Past Simple ishning qachon bo‘lganini ko‘rsatadi va o‘tmishda qoladi. Present Perfect (have/has + V3) esa vaqtni aytmaydi: ishning natijasi yoki tajribasi hozir muhim bo‘ladi. Yesterday, last week, ago, in 2020 kabi aniq vaqt so‘zlari bo‘lsa, faqat Past Simple ishlatiladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Past Simple",
+        "Present Perfect"
+      ],
+      "rows": [
+        [
+          "I lost my keys yesterday. — Kecha kalitimni yo‘qotdim.",
+          "I have lost my keys. — Kalitimni yo‘qotib qo‘ydim (hozir ham yo‘q)."
+        ],
+        [
+          "Did you see the film last night? — Kecha kechqurun filmni ko‘rdingmi?",
+          "Have you ever seen this film? — Bu filmni hech ko‘rganmisan?"
+        ],
+        [
+          "She finished school in 2020. — U maktabni 2020-yilda tamomlagan.",
+          "She has just finished her homework. — U uy vazifasini hozirgina tugatdi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "O‘zbekzabon o‘quvchilarning tipik xatolari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Did you went? → Did you go? Did’dan keyin fe’l V1 shaklida bo‘ladi.",
+        "I didn’t saw him → I didn’t see him. Inkorda ham did’dan keyin V1.",
+        "Yesterday I go to the shop → Yesterday I went to the shop. O‘tgan vaqtni yesterday ko‘rsatsa ham, fe’l V2 shaklida bo‘lishi shart.",
+        "I have seen him yesterday → I saw him yesterday. Aniq o‘tgan vaqt bilan Present Perfect ishlatilmaydi.",
+        "He was went home → He went home. Was va V2 birga ishlatilmaydi: yo He went home, yo He was at home.",
+        "stoped, studyed, plaied → stopped, studied, played. -ed yozilishini yuqoridagi jadval bilan tekshiring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mashqlar",
+      "text": "10 ta mashq"
+    },
+    {
+      "type": "p",
+      "text": "Qavs ichidagi fe’lni Past Simple shaklida yozing. Avval hammasini o‘zingiz bajaring, keyin pastdagi javoblar bilan solishtiring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. We ___ (visit) our grandparents last Sunday.",
+        "2. She ___ (not / call) me yesterday.",
+        "3. ___ you ___ (see) the match last night?",
+        "4. I ___ (study) for the exam all weekend.",
+        "5. The driver ___ (stop) the car near the bridge.",
+        "6. He ___ (buy) a new phone two days ago.",
+        "7. The children ___ (be) very happy at the party.",
+        "8. I ___ (not / be) at home at 6 p.m. yesterday.",
+        "9. Where ___ you ___ (go) on holiday last summer?",
+        "10. My mother ___ (make) plov for dinner."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar",
+      "text": "Javoblar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. visited — to‘g‘ri fe’l: visit + ed; urg‘u birinchi bo‘g‘inda, shuning uchun t ikkilanmaydi.",
+        "2. didn’t call — inkor: did not (didn’t) + V1.",
+        "3. Did … see — so‘roq: Did + ega + V1.",
+        "4. studied — undosh + y: y o‘rniga -ied.",
+        "5. stopped — bir bo‘g‘inli fe’l, unli + undosh: p ikkilanadi.",
+        "6. bought — noto‘g‘ri fe’l: buy — bought — bought.",
+        "7. were — the children ko‘plikda, shuning uchun were.",
+        "8. wasn’t — I bilan was, inkori wasn’t (was not).",
+        "9. did … go — maxsus so‘roq: Where + did + ega + V1.",
+        "10. made — noto‘g‘ri fe’l: make — made — made."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Xato qilgan bo‘lsangiz, chat ustidagi «Gapimni tekshir» tugmasini bosing va gapingizni yozing: AI xatoni tushuntiradi va shu qoida bo‘yicha yangi mashq beradi."
+    },
+    {
+      "type": "h2",
+      "id": "ai-oqituvchi",
+      "text": "AI o‘qituvchi bilan mashq"
+    },
+    {
+      "type": "p",
+      "text": "Chat ustidagi tugmalarda tayyor so‘rovlar bor: Past Simple bo‘yicha 10 ta mashq, gapingizni tekshirish, Present Perfect bilan farqi, -ed qoidasi, kechagi kuningiz haqida matn va tarjima mashqi. Tugma so‘rovni faqat yozish maydoniga qo‘yadi; uni o‘zgartirishingiz mumkin, yuborishni esa o‘zingiz hal qilasiz. So‘rovga darajangizni va qaysi fe’llarda qiynalayotganingizni yozing, masalan: «A2 darajasi uchun take, bring va catch fe’llari bilan Past Simple’da 8 ta gap ber»."
+    },
+    {
+      "type": "p",
+      "text": "AI uy vazifasini o‘rningizga bajarish uchun emas: avval o‘zingiz yozing, keyin tekshirishni so‘rang. Model ham adashishi mumkin, ayniqsa kam uchraydigan noto‘g‘ri fe’llarda va britan hamda amerikan variantlari farq qiladigan shakllarda, shuning uchun shubhali shaklni jadval yoki lug‘at bilan solishtiring. Chat ovozli javob bermaydi va talaffuzingizni tekshira olmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "keyingi-qadam",
+      "text": "Keyingi qadam"
+    },
+    {
+      "type": "linkp",
+      "text": "Past Simple’dan keyin uni Present Perfect bilan solishtirib mashq qiling: chat ustidagi «Past Simple yoki Present Perfect?» tugmasi shunga mo‘ljallangan. Hozirgi zamonlar uchun {ps} va {pc} sahifalari bor. Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. O‘quv markazi yoki til maktabi uchun o‘quvchilarni kursga yozadigan AI yordamchi kerak bo‘lsa, {edu} sahifasini oching: narxi 1 990 000 so‘mdan. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "ps",
+          "target": "/uz/present-simple/",
+          "anchor": "Present Simple"
+        },
+        {
+          "token": "pc",
+          "target": "/uz/present-continuous/",
+          "anchor": "Present Continuous"
+        },
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "edu",
+          "target": "/uz/oquv-markazi-uchun-ai-bot/",
+          "anchor": "O‘quv markazi uchun AI-bot"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Past Simple қоидаси: формула, -ed қўшимчаси, did билан инкор ва сўроқ, ўзбекча таржимали 10 та мисол ва жавоблари билан 10 та машқ. Хатоларингиз бўйича AI ўқитувчидан янги машқ сўранг."
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket yoki AI-bot bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Past Simple qachon ishlatiladi?",
+      "a": "O‘tmishda aniq vaqtda bo‘lib o‘tgan va tugagan ish (I visited Bukhara in 2022), ketma-ket bo‘lgan ishlar (He opened the door and went in) va o‘tmishdagi odat yoki holat (We lived in Namangan) haqida. Natijasi hozir muhim, vaqti aytilmagan ish uchun esa Present Perfect kerak."
+    },
+    {
+      "q": "To‘g‘ri va noto‘g‘ri fe’llarning farqi nima?",
+      "a": "To‘g‘ri fe’llar Past Simple’da -ed qo‘shimchasini oladi: work → worked, study → studied. Noto‘g‘ri fe’llarning V2 shakli boshqacha yasaladi va uni yodlash kerak: go → went, see → saw, take → took. Ularning ro‘yxati shu saytdagi noto‘g‘ri fe’llar jadvalida berilgan."
+    },
+    {
+      "q": "Nega did’dan keyin fe’l V1 shaklida bo‘ladi?",
+      "a": "Chunki o‘tgan zamonni did allaqachon ko‘rsatgan, uni ikkinchi marta ko‘rsatish shart emas: Did you go? I didn’t go. Darak gapda did bo‘lmaydi, shuning uchun fe’lning o‘zi V2 shaklini oladi: I went."
+    },
+    {
+      "q": "Was va were qachon ishlatiladi?",
+      "a": "Was — I, he, she, it va birlikdagi ega bilan: I was tired, the shop was closed. Were — you, we, they va ko‘plikdagi ega bilan: We were at home, the children were happy. Inkori: wasn’t va weren’t."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Qoida, misollar va mashqlar bepul va limitsiz. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ingliz-tili-zamonlari/",
+      "anchor": "Ingliz tili zamonlari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/notogri-fellar/",
+      "anchor": "Noto‘g‘ri fe’llar jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/present-simple/",
+      "anchor": "Present Simple",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/present-continuous/",
+      "anchor": "Present Continuous",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/oquv-markazi-uchun-ai-bot/",
+      "anchor": "O‘quv markazi uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: Past Simple",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Past Simple qoidasi, -ed yozilishi, Present Perfect bilan farqi, o‘zbekcha tarjimali misollar va javobli mashqlar, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: yangi mashq tuzadi va gaplarni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul qoida va mashqlar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Qoida, misollar va mashqlar bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/past-simple/",
+      "inLanguage": [
+        "uz",
+        "en"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}

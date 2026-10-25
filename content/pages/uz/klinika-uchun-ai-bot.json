@@ -181,6 +181,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Bot murojaatlarga javob beradi, murojaatlarni esa reklama olib keladi. Klinikaga qaysi kanal mos kelishi — xizmat va tuman bo‘yicha qidiruv, xaritalar, aniq xizmatga target — hamda yangi bemorni jalb qilish narxi qanday hisoblanishi {plan} maqolasida yozilgan.",
+      "links": [
+        {
+          "token": "plan",
+          "target": "/uz/blog/stomatologiya-va-klinika-reklamasi/",
+          "anchor": "stomatologiya va klinika reklamasi"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Bemorlarni qabul qilishni avtomatlashtirish",
       "href": "#contact"

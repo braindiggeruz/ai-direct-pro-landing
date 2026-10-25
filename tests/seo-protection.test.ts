@@ -322,6 +322,85 @@ test('the AI-tools revision changes only the homepage list: nine tool pages, two
   }
 });
 
+test('the AI-tools wave B revision changes only the homepage list: nine tool pages and four niche playbooks; the other nine pages are byte-identical', () => {
+  type AiToolsB = Revision & {
+    reviewedChanges: Array<{ pathname: string; fields: string[]; reason: string; htmlSha256: string }>;
+    invisibleToGate: Array<{ change: string; pages?: string[]; htmlSha256?: Record<string, string> }>;
+    measurement: string;
+    pages: Array<{ pathname: string; contract: Record<string, unknown>; bodyText: string; htmlSha256: string }>;
+  };
+  const WAVE_A = 'docs/seo/evidence/2026-10-25-ai-tools/reviewed-protected-pages.json';
+  const current = readRevision('docs/seo/evidence/2026-10-25-ai-tools-b/reviewed-protected-pages.json') as AiToolsB;
+  const previous = readRevision(WAVE_A) as AiToolsB;
+  assert.equal(current.previousRevision, WAVE_A);
+  assert.deepEqual(current.reviewedChanges.map((c) => [c.pathname, [...c.fields].sort()]), [['/', ['bodyTextSha256', 'internalLinks']]]);
+  // The nine other protected pages, both chats included, keep their HTML byte for byte
+  // (chat snippet window from 24.10, download guide P-CTR ≈06–10.11).
+  const chats = ['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/'];
+  for (const page of current.pages) {
+    if (page.pathname === '/') continue;
+    const before = previous.pages.find((p) => p.pathname === page.pathname)!;
+    assert.deepEqual(page.contract, before.contract, page.pathname);
+    assert.equal(page.bodyText, before.bodyText, page.pathname);
+    assert.equal(page.htmlSha256, before.htmlSha256, page.pathname);
+  }
+  const chatRecord = current.invisibleToGate.find((c) => JSON.stringify(c.pages) === JSON.stringify(chats))!;
+  assert.match(chatRecord.change, /byte-identical/);
+  assert.match(chatRecord.change, /205461eb/);
+  for (const pathname of chats) {
+    const [before, after] = chatRecord.htmlSha256![pathname].split(' → ');
+    assert.equal(before, after, pathname);
+  }
+  const added = [
+    '/ru/blog/reklama-stomatologii-i-kliniki-tashkent/', '/ru/blog/reklama-uchebnogo-tsentra-tashkent/', '/ru/vremena-angliyskogo-yazyka/',
+    '/uz/blog/oquv-markazi-reklamasi/', '/uz/blog/stomatologiya-va-klinika-reklamasi/', '/uz/fizika-test/', '/uz/informatika-test/',
+    '/uz/ingliz-tili-zamonlari/', '/uz/matematika-test/', '/uz/onlayn-testlar/', '/uz/past-simple/', '/uz/present-continuous/', '/uz/present-simple/',
+  ];
+  const home = current.pages.find((p) => p.pathname === '/')!;
+  const homeBefore = previous.pages.find((p) => p.pathname === '/')!;
+  const links = (p: typeof home) => p.contract.internalLinks as string[];
+  assert.deepEqual(links(home).filter((l) => !links(homeBefore).includes(l)), added);
+  assert.deepEqual(links(homeBefore).filter((l) => !links(home).includes(l)), []);
+  for (const key of ['title', 'h1', 'description', 'canonical', 'robots', 'googlebot', 'hreflang']) {
+    assert.deepEqual(home.contract[key], homeBefore.contract[key], `/: ${key}`);
+  }
+  // The labels as the shell prints them (from content/: H1 for pages, title for articles) are the whole text change.
+  const doc = (file: string) => JSON.parse(fs.readFileSync(path.join(REPO, file), 'utf8')) as BlogArticle & Page;
+  const pageFile = (url: string) => `content/pages/${url.split('/')[1]}/${url.split('/')[2]}.json`;
+  const labels = added.map((url) => (url.includes('/blog/')
+    ? doc(`content/blog/${url.split('/')[1]}/${url.split('/')[3]}.json`).title
+    : doc(pageFile(url)).h1));
+  let text = home.bodyText;
+  for (const label of labels) {
+    assert.equal(text.split(`${label} `).length, 2, label);
+    text = text.replace(`${label} `, '');
+  }
+  assert.equal(text, homeBefore.bodyText);
+  // Honest labels: no ChatGPT, official, model, exam-key or answer claim on the homepage entries.
+  for (const label of labels) assert.doesNotMatch(label, /chatgpt|rasmiy|официальн|official|GPT-4|GPT-5|OpenAI|Google|DTM|javoblari|ответы/i, label);
+  // Every new tool page is a chat tool page in the teacher role, none is protected, and the three tests carry the quiz.
+  for (const url of added.filter((u) => !u.includes('/blog/'))) {
+    const page = doc(pageFile(url));
+    assert.equal(page.pageType, 'gpt-chat', url);
+    assert.equal(page.chatRole, 'teacher', url);
+    assert.ok(!(PROTECTED_PATHS as readonly string[]).includes(url), url);
+    const quiz = url.endsWith('-test/');
+    assert.equal((page.widgets || []).includes('practice-quiz'), quiz, url);
+    assert.equal(Boolean(page.quizSet), quiz, url);
+  }
+  assert.notEqual(home.htmlSha256, homeBefore.htmlSha256);
+  const invisible = current.invisibleToGate.map((c) => c.change).join('\n');
+  assert.match(invisible, /seven protected articles are byte-identical/);
+  assert.match(invisible, /llms\.txt/);
+  assert.match(invisible, /sitemap lastmod of \//);
+  assert.match(current.measurement, /28-day window/);
+  assert.match(current.measurement, /C69, C75, C76/);
+  assert.match(current.measurement, /A10/);
+  for (const text of [...current.invisibleToGate.map((c) => c.change), ...current.reviewedChanges.map((c) => JSON.stringify(c))]) {
+    assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+  }
+});
+
 test('the current revision documents every contract change against its predecessor, which stays untouched', () => {
   const current = readRevision(BASELINE);
   assert.ok(current.previousRevision && current.previousRevision !== BASELINE, 'a revision names its predecessor');

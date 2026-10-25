@@ -1,0 +1,488 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/present-simple/",
+  "slug": "present-simple",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "10 ta mashq: Present Simple",
+      "prompt": "Menga Present Simple bo‘yicha 10 ta mashq ber: qavs ichidagi fe’lni to‘g‘ri shaklga qo‘yish kerak bo‘lsin, darak, inkor va so‘roq gaplar aralash. Javoblarni darhol ko‘rsatma: men yozaman, sen tekshirib, xatolarimni o‘zbek tilida tushuntirasan."
+    },
+    {
+      "label": "Gapimni tekshir",
+      "prompt": "Present Simple’da yozgan gaplarimni tekshir: xato bo‘lsa, to‘g‘ri variantni yoz va sababini qisqa tushuntir. Xato bo‘lmasa, gap nega to‘g‘ri ekanini ayt.\nGaplarim: "
+    },
+    {
+      "label": "Present Simple yoki Continuous?",
+      "prompt": "Present Simple va Present Continuous farqini oddiy so‘zlar bilan tushuntir, har biriga o‘zbekcha tarjimasi bilan 3 tadan misol ber. Keyin qaysi zamon kerakligini o‘zim tanlaydigan 6 ta gap yoz, javoblarni oxirida ko‘rsat."
+    },
+    {
+      "label": "-s yoki -es: qoidani tushuntir",
+      "prompt": "He, she, it bilan fe’lga -s yoki -es qachon qo‘shilishini va y harfi qachon -ies’ga aylanishini misollar bilan tushuntir. Keyin 10 ta fe’l ber: men ularning he/she/it shaklini yozaman, sen tekshirasan."
+    },
+    {
+      "label": "Tarjima mashqi: o‘zbekchadan",
+      "prompt": "Present Simple bo‘yicha o‘zbekchadan inglizchaga tarjima qilish uchun 8 ta oddiy gap ber (odat, kun tartibi, fakt). Men inglizcha variantini yozaman, sen xatolarimni tuzatib, tushuntirasan."
+    },
+    {
+      "label": "Kun tartibim haqida matn",
+      "prompt": "Present Simple’da kun tartibim haqida 6–8 gapdan iborat qisqa matn yozishimga yordam ber: avval menga yordamchi savollar ber, men javob yozaman, keyin sen matnimdagi xatolarni tuzatib, tushuntirasan."
+    }
+  ],
+  "primaryKeyword": "present simple",
+  "secondaryKeywords": [
+    "present simple tense",
+    "present simple qoidasi",
+    "present simple exercises",
+    "present simple mashqlar"
+  ],
+  "searchIntent": "informational",
+  "h1": "Present Simple: qoidasi, formulasi, misollar va AI bilan mashq",
+  "title": "Present Simple: qoidasi, formulasi, misollar va mashqlar",
+  "description": "Present Simple o‘zbek tilida: formula, -s/-es qoidasi, 10 ta misol va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/present-simple/",
+  "hreflangUz": "/uz/present-simple/",
+  "hreflangXDefault": "/uz/present-simple/",
+  "ogTitle": "Present Simple: qoidasi, formulasi, misollar va mashqlar",
+  "ogDescription": "Present Simple o‘zbek tilida: formula, -s/-es qoidasi, 10 ta misol va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Present Simple",
+  "heroTitle": "Present Simple: qoidasi, formulasi, misollar va AI bilan mashq",
+  "heroSubtitle": "Qoida, misollar va mashqlar bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "linkp",
+      "text": "Present Simple — ingliz tilidagi hozirgi oddiy zamon. U odat va takrorlanadigan ishlar, doimiy holatlar, umumiy faktlar va jadval bo‘yicha bo‘ladigan ishlar haqida gapirganda ishlatiladi. Bu sahifada formula, -s/-es qo‘shimchasining yozilish qoidalari, vaqt belgilari, o‘zbekcha tarjimali 10 ta misol, tipik xatolar va javoblari bilan 10 ta mashq bor. Boshqa zamonlar bilan solishtirish uchun {hub}ga qarang. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi mashqlar tuzadi va gaplaringizni tekshiradi.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/ingliz-tili-zamonlari/",
+          "anchor": "12 ta zamon jadvali"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Qoida, misollar va mashqlar har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "qachon",
+      "text": "Present Simple qachon ishlatiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Odat va takrorlanadigan ish: I drink tea every morning. — Men har kuni ertalab choy ichaman.",
+        "Doimiy holat: She lives in Tashkent. — U Toshkentda yashaydi.",
+        "Umumiy fakt: The sun rises in the east. — Quyosh sharqdan chiqadi.",
+        "Jadval va dastur bo‘yicha ish: The train leaves at 7:30. — Poyezd soat 7:30 da jo‘naydi.",
+        "Holat fe’llari (know, like, want, need, understand): I know the answer. — Men javobni bilaman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "formula",
+      "text": "Formula: darak, inkor va so‘roq gaplar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Gap turi",
+        "I, you, we, they",
+        "he, she, it"
+      ],
+      "rows": [
+        [
+          "Darak (+)",
+          "Ega + V1: They work.",
+          "Ega + V1 + s/es: He works."
+        ],
+        [
+          "Inkor (−)",
+          "Ega + do not (don’t) + V1: They don’t work.",
+          "Ega + does not (doesn’t) + V1: He doesn’t work."
+        ],
+        [
+          "So‘roq (?)",
+          "Do + ega + V1? Do they work?",
+          "Does + ega + V1? Does he work?"
+        ],
+        [
+          "Qisqa javob",
+          "Yes, they do. / No, they don’t.",
+          "Yes, he does. / No, he doesn’t."
+        ],
+        [
+          "Maxsus so‘roq",
+          "Where do they work?",
+          "Where does he work?"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Does yoki doesn’t bor gapda asosiy fe’l -s olmaydi: -s does’ning o‘zida turibdi. To‘g‘ri: Does she work? She doesn’t work. Noto‘g‘ri: Does she works? Be fe’li bilan esa do va does ishlatilmaydi: I am a student. He is not at home. Are you ready?"
+    },
+    {
+      "type": "h2",
+      "id": "s-es",
+      "text": "-s va -es qo‘shimchasining yozilishi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qoida",
+        "Misollar"
+      ],
+      "rows": [
+        [
+          "Ko‘pchilik fe’llarga -s qo‘shiladi",
+          "work → works, read → reads, play → plays"
+        ],
+        [
+          "-s, -ss, -sh, -ch, -x, -z bilan tugasa, -es qo‘shiladi",
+          "focus → focuses, pass → passes, wash → washes, watch → watches, fix → fixes, buzz → buzzes"
+        ],
+        [
+          "-o bilan tugasa, -es qo‘shiladi",
+          "go → goes, do → does"
+        ],
+        [
+          "Undosh + y bo‘lsa, y o‘rniga -ies",
+          "study → studies, try → tries, fly → flies"
+        ],
+        [
+          "Unli + y bo‘lsa, faqat -s",
+          "play → plays, buy → buys, say → says"
+        ],
+        [
+          "Istisno",
+          "have → has"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Talaffuzda -s uch xil eshitiladi: /s/ — works, likes; /z/ — plays, reads; /ɪz/ — watches, washes."
+    },
+    {
+      "type": "h2",
+      "id": "vaqt-belgilari",
+      "text": "Vaqt belgilari va ularning o‘rni"
+    },
+    {
+      "type": "p",
+      "text": "Present Simple’ni ko‘pincha quyidagi so‘zlar ko‘rsatadi: always, usually, often, sometimes, rarely, never, every day (week, year), on Mondays, once a week, twice a month. Always, usually, often, sometimes, never kabi so‘zlar asosiy fe’ldan oldin, lekin be fe’lidan keyin turadi: She often reads. He is always late. Every day, once a week kabi birikmalar odatda gap oxirida keladi: I call my parents every day."
+    },
+    {
+      "type": "h2",
+      "id": "misollar",
+      "text": "10 ta misol: inglizcha va o‘zbekcha"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Inglizcha",
+        "O‘zbekcha"
+      ],
+      "rows": [
+        [
+          "I get up at seven every day.",
+          "Men har kuni soat yettida turaman."
+        ],
+        [
+          "My brother works in a hospital.",
+          "Akam kasalxonada ishlaydi."
+        ],
+        [
+          "We don’t watch TV in the morning.",
+          "Biz ertalab televizor ko‘rmaymiz."
+        ],
+        [
+          "Does your sister speak English?",
+          "Opangiz inglizcha gapiradimi?"
+        ],
+        [
+          "The shop opens at nine.",
+          "Do‘kon soat to‘qqizda ochiladi."
+        ],
+        [
+          "She usually goes to work by metro.",
+          "U odatda ishga metroda boradi."
+        ],
+        [
+          "Water boils at 100 degrees Celsius.",
+          "Suv 100 darajada qaynaydi."
+        ],
+        [
+          "I don’t like cold weather.",
+          "Men sovuq havoni yoqtirmayman."
+        ],
+        [
+          "How often do you play football?",
+          "Qanchalik tez-tez futbol o‘ynaysiz?"
+        ],
+        [
+          "He never drinks coffee in the evening.",
+          "U kechqurun hech qachon qahva ichmaydi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "O‘zbekzabon o‘quvchilarning tipik xatolari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "He work every day → He works every day. He, she, it bilan -s’ni unutmang.",
+        "Does she works? → Does she work? -s faqat does’da turadi, asosiy fe’l V1 shaklida qoladi.",
+        "She don’t like tea → She doesn’t like tea. He, she, it bilan inkor doesn’t orqali yasaladi.",
+        "I am work in a bank → I work in a bank. Present Simple’da am, is, are kerak emas: o‘zbekchadagi «-man» qo‘shimchasi am degani emas.",
+        "I am agree → I agree. Agree — fe’l, «roziman» deyish uchun am kerak emas.",
+        "I am knowing the answer → I know the answer. Know, like, want kabi holat fe’llari odatda Continuous shaklida ishlatilmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mashqlar",
+      "text": "10 ta mashq"
+    },
+    {
+      "type": "p",
+      "text": "Qavs ichidagi fe’lni Present Simple shaklida yozing. Avval hammasini o‘zingiz bajaring, keyin pastdagi javoblar bilan solishtiring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. She ___ (live) in Bukhara.",
+        "2. They ___ (not / eat) meat.",
+        "3. ___ you ___ (work) on Saturdays?",
+        "4. My father ___ (watch) the news every evening.",
+        "5. The lesson ___ (start) at 9 a.m.",
+        "6. He ___ (study) at university.",
+        "7. ___ your brother ___ (have) a car?",
+        "8. I ___ (not / understand) this word.",
+        "9. Water ___ (freeze) at 0 °C.",
+        "10. We often ___ (go) to the cinema."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar",
+      "text": "Javoblar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. lives — she bilan fe’lga -s qo‘shiladi.",
+        "2. don’t eat — they bilan inkor: do not (don’t) + V1.",
+        "3. Do … work — so‘roq: Do + ega + V1.",
+        "4. watches — fe’l -ch bilan tugagani uchun -es qo‘shiladi.",
+        "5. starts — the lesson = it, shuning uchun -s.",
+        "6. studies — undosh + y: y o‘rniga -ies.",
+        "7. Does … have — so‘roqda does, asosiy fe’l esa V1 (has emas).",
+        "8. don’t understand — I bilan inkor: don’t + V1.",
+        "9. freezes — water = it, umumiy fakt.",
+        "10. go — we bilan fe’l o‘zgarmaydi; often fe’ldan oldin turadi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Xato qilgan bo‘lsangiz, chat ustidagi «Gapimni tekshir» tugmasini bosing va gapingizni yozing: AI xatoni tushuntiradi va shu qoida bo‘yicha yangi mashq beradi."
+    },
+    {
+      "type": "h2",
+      "id": "ai-oqituvchi",
+      "text": "AI o‘qituvchi bilan mashq"
+    },
+    {
+      "type": "p",
+      "text": "Chat ustidagi tugmalarda tayyor so‘rovlar bor: Present Simple bo‘yicha 10 ta mashq, gapingizni tekshirish, Present Continuous bilan farqi, -s/-es qoidasi, tarjima mashqi va kun tartibingiz haqida matn. Tugma so‘rovni faqat yozish maydoniga qo‘yadi; uni o‘zgartirishingiz mumkin, yuborishni esa o‘zingiz hal qilasiz. So‘rovga darajangizni yozing, masalan: «A1 darajasi uchun Present Simple bo‘yicha 8 ta inkor va so‘roq gap ber»."
+    },
+    {
+      "type": "p",
+      "text": "AI uy vazifasini o‘rningizga bajarish uchun emas: avval o‘zingiz yozing, keyin tekshirishni so‘rang. Model ham adashishi mumkin, shuning uchun shubhali javobni shu sahifadagi qoida va jadvallar bilan solishtiring. Chat ovozli javob bermaydi va talaffuzingizni tekshira olmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "keyingi-qadam",
+      "text": "Keyingi qadam"
+    },
+    {
+      "type": "linkp",
+      "text": "Present Simple’ni o‘zlashtirgach, {pc} zamoniga o‘ting: bu ikki zamon ko‘pincha adashtiriladi. O‘tgan zamon uchun {past} sahifasi, noto‘g‘ri fe’llarning shakllari uchun {verbs} bor. Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. O‘quv markazi yoki til maktabi uchun o‘quvchilarni kursga yozadigan AI yordamchi kerak bo‘lsa, {edu} sahifasini oching: narxi 1 990 000 so‘mdan. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "pc",
+          "target": "/uz/present-continuous/",
+          "anchor": "Present Continuous"
+        },
+        {
+          "token": "past",
+          "target": "/uz/past-simple/",
+          "anchor": "Past Simple"
+        },
+        {
+          "token": "verbs",
+          "target": "/uz/notogri-fellar/",
+          "anchor": "noto‘g‘ri fe’llar jadvali"
+        },
+        {
+          "token": "tariffs",
+          "target": "/ru/tarify-ai-chat/",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "edu",
+          "target": "/uz/oquv-markazi-uchun-ai-bot/",
+          "anchor": "O‘quv markazi uchun AI-bot"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Present Simple қоидаси: формула, -s ва -es қўшимчаси, вақт белгилари, ўзбекча таржимали 10 та мисол ва жавоблари билан 10 та машқ. Хатоларингиз бўйича AI ўқитувчидан янги машқ сўранг."
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket yoki AI-bot bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "bizga qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Present Simple qachon ishlatiladi?",
+      "a": "Odat va takrorlanadigan ishlar (I go to the gym on Mondays), doimiy holatlar (He lives in Andijan), umumiy faktlar (Water boils at 100 °C) va jadval bo‘yicha ishlar (The bus leaves at 8 a.m.) haqida. Hozir, ayni paytda bo‘layotgan ish uchun esa Present Continuous kerak."
+    },
+    {
+      "q": "Nega he, she, it bilan fe’lga -s qo‘shiladi?",
+      "a": "Bu ingliz tilining qoidasi: hozirgi oddiy zamonda uchinchi shaxs birlikdagi ega (he, she, it yoki bitta odam, bitta narsa) bilan fe’lga -s yoki -es qo‘shiladi: I work, lekin she works. Qolgan shaxslarda fe’l o‘zgarmaydi."
+    },
+    {
+      "q": "Do va does farqi nima?",
+      "a": "Ikkalasi ham inkor va so‘roq gap yasaydigan yordamchi fe’l. Does he, she, it bilan, do esa I, you, we, they bilan ishlatiladi: Do you like tea? Does she like tea? Does’dan keyin asosiy fe’l -s olmaydi."
+    },
+    {
+      "q": "Present Simple kelajak haqida ishlatiladimi?",
+      "a": "Ha: jadval va dastur bo‘yicha ishlar (The film starts at 9 p.m.), when, after, before, until, as soon as bilan boshlanadigan vaqt ergash gaplari (When he comes, I will call you) va if bilan boshlanadigan shart ergash gaplari (If it rains, we will stay at home). Boshqa hollarda kelajak uchun will yoki be going to, kelishilgan reja uchun esa Present Continuous ishlatiladi."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Qoida, misollar va mashqlar bepul va limitsiz. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ingliz-tili-zamonlari/",
+      "anchor": "Ingliz tili zamonlari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/present-continuous/",
+      "anchor": "Present Continuous",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/past-simple/",
+      "anchor": "Past Simple",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/notogri-fellar/",
+      "anchor": "Noto‘g‘ri fe’llar jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/tarify-ai-chat/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/oquv-markazi-uchun-ai-bot/",
+      "anchor": "O‘quv markazi uchun AI bot",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: Present Simple",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Present Simple qoidasi, -s/-es yozilishi, o‘zbekcha tarjimali misollar va javobli mashqlar, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: yangi mashq tuzadi va gaplarni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul qoida va mashqlar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Qoida, misollar va mashqlar bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/present-simple/",
+      "inLanguage": [
+        "uz",
+        "en"
+      ]
+    }
+  ],
+  "createdAt": "2026-10-25T00:00:00Z",
+  "updatedAt": "2026-10-25"
+}
