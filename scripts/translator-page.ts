@@ -1,15 +1,18 @@
-// What a gpt-chat page with `chatRole` adds to the chat template
-// (scripts/prerender.ts, renderGptChatMain): the role and its paired page on
-// #gpt-chat-root, and the Uzbek Cyrillic ↔ Latin converter as the first block
-// under the chat. A page without chatRole gets two empty strings, so the two
-// main chat pages (protected, scripts/seo-protection.ts) render byte for byte
-// as before. Lives in its own module so tests can read it without running the
-// prerender pass.
+// What a gpt-chat page with `chatRole` (an AI tool page) adds to the chat
+// template (scripts/prerender.ts, renderGptChatMain): the role, its paired
+// page and its chips (Page.chatStarters) on #gpt-chat-root, and, when it lists
+// the 'uz-translit' widget (the translator pages), the Uzbek Cyrillic ↔ Latin
+// converter as a block under the chat (scripts/tool-widgets.ts places the
+// widgets). A page without chatRole gets empty strings, so the two main chat
+// pages (protected, scripts/seo-protection.ts) render byte for byte as before.
+// Lives in its own module so tests can read it without running the prerender
+// pass.
 //
 // The converter itself is src/shared/uz-translit.ts; src/uz-translit/main.ts
 // (its own Vite entry, loaded only on these pages) binds the buttons. It runs
 // in the browser with no model call: no quota and no trial reply is spent.
 import { chatRolePreset, type Page } from '../src/shared/types';
+import { chatStarters } from '../src/shared/chat-starters';
 
 /** A same-site page of the other language: /ru/<slug>/ or /uz/<slug>/. */
 const PAIR_PATH = /^\/(?:ru|uz)\/[a-z0-9-]+\/$/;
@@ -31,13 +34,17 @@ export function pairedPath(page: Page): string | undefined {
 
 /**
  * Attributes for #gpt-chat-root, with their leading space; '' without a
- * role, so the main chats' mount point does not change.
+ * role, so the main chats' mount point does not change. The chips ride as
+ * escaped JSON (data-chat-starters), only when the page has valid ones; the
+ * chat (src/gpt-chat/main.tsx, through its lazy part chat-tool) checks them
+ * again and takes them only whole.
  */
 export function chatRoleAttributes(page: Page): string {
   const role = pageChatRole(page);
   if (!role) return '';
   const pair = pairedPath(page);
-  return ` data-chat-role="${role}"${pair ? ` data-alt-href="${escapeHtml(pair)}"` : ''}`;
+  const starters = chatStarters(page.chatStarters);
+  return ` data-chat-role="${role}"${pair ? ` data-alt-href="${escapeHtml(pair)}"` : ''}${starters ? ` data-chat-starters="${escapeHtml(JSON.stringify(starters))}"` : ''}`;
 }
 
 const COPY = {
@@ -99,9 +106,9 @@ const STYLE = `<style>
 #kirill-lotin .uzt-note{margin:1rem 0 0;font-size:.85rem}
 </style>`;
 
-/** The converter block, first in the text under the chat on a page with a role. */
+/** The converter block, under the chat on a page with a role that lists the 'uz-translit' widget. */
 export function renderUzTranslitBlock(page: Page): string {
-  if (!pageChatRole(page)) return '';
+  if (!pageChatRole(page) || !page.widgets?.includes('uz-translit')) return '';
   const t = COPY[page.locale === 'uz' ? 'uz' : 'ru'];
   const data = (name: string, value: string) => ` data-msg-${name}="${escapeHtml(value)}"`;
   return `<section id="${UZ_TRANSLIT_ANCHOR}" data-uz-translit aria-labelledby="uzt-heading"${data('done', t.done)}${data('empty', t.empty)}${data('russian', t.russian)}${data('foreign', t.foreign)}${data('copied', t.copied)}${data('copy-failed', t.copyFailed)}>

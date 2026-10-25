@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { Locale } from '../types';
-import { getRoles, type RoleId } from '../roles';
+import type { RoleId } from '../roles';
+import { getRoles } from '../role-labels';
 
 export function RoleSelector({ locale, value, onChange, disabled }: { locale: Locale; value: RoleId; onChange: (role: RoleId) => void; disabled?: boolean }) {
   const roles = getRoles(locale);

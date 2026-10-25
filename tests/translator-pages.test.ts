@@ -227,7 +227,7 @@ test('intent manifest: A8 published and still fencing both URLs, pairs C47 and C
   assert.ok(declared(json<Page>(CHATS[1])).includes('chatgpt tarjima'));
 });
 
-test('only the translator role is a preset: anything else on the page is ignored', () => {
+test('the translator role is a preset; a value outside the presets is ignored', () => {
   assert.equal(chatRolePreset('translator'), 'translator');
   for (const value of ['general', 'Translator', 'translator ', '<script>', '', undefined, null, 1]) assert.equal(chatRolePreset(value), undefined, String(value));
   const main = read('src/gpt-chat/main.tsx');
@@ -240,7 +240,7 @@ test('only the translator role is a preset: anything else on the page is ignored
   assert.equal((chat.match(/\{\.\.\.altLink\}/g) || []).length, 3);
 });
 
-test('the template adds the role, the pair and the converter only to a page with a role', () => {
+test('the template adds the role, the pair and the converter only to a page with a role and the widget', () => {
   const chatRu = json<Page>(CHATS[0]);
   const chatUz = json<Page>(CHATS[1]);
   for (const chat of [chatRu, chatUz]) {
@@ -266,9 +266,11 @@ test('the template adds the role, the pair and the converter only to a page with
 
   const prerender = read('scripts/prerender.ts');
   assert.match(prerender, /data-h1="\$\{escapeHtml\(page\.h1\)\}"\$\{chatRoleAttributes\(page\)\} class="h-full ym-hide-content"/);
-  assert.match(prerender, /\$\{renderUzTranslitBlock\(page\)\}\$\{updatedIso \?/);
-  assert.match(prerender, /entryScript\(manifest, ENTRIES\.translit\)/);
-  assert.match(prerender, /\$\{pageChatRole\(page\) && translitHref \? `\\n<script type="module" src="\$\{translitHref\}"><\/script>` : ''\}/);
+  // The converter is the translator pages' widget (Page.widgets ['uz-translit'], scripts/tool-widgets.ts).
+  assert.match(prerender, /\$\{renderToolWidgets\(page\)\}\$\{updatedIso \?/);
+  assert.match(prerender, /const widgetScripts = widgetScriptsFrom\(manifest\);/);
+  assert.match(read('scripts/tool-widgets.ts'), /'uz-translit': 'translit'/);
+  assert.match(prerender, /\$\{toolWidgetScripts\(page, widgetScripts\)\}/);
   assert.match(read('vite.config.ts'), /'uz-translit': here\('\.\/src\/uz-translit\/main\.ts'\)/);
 });
 

@@ -1,6 +1,7 @@
 // Entry for the Uzbek Cyrillic ↔ Latin converter on the translator pages.
 // A separate Vite entry (vite.config.ts) that scripts/prerender.ts loads only
-// on a gpt-chat page with a chatRole, so no other page, the chat bundle
+// on a gpt-chat page with a chatRole that lists the 'uz-translit' widget
+// (Page.widgets, scripts/tool-widgets.ts), so no other page, the chat bundle
 // included, gets heavier. The markup and its messages are prerendered by
 // scripts/translator-page.ts; this file only binds the buttons. Everything
 // runs in the browser: no request, no analytics event carries the text.

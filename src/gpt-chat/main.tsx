@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client';
 import { AiChatConsole } from './components/AiChatConsole';
 import type { Locale, MountConfig } from './types';
 import { chatRolePreset } from '../shared/types';
+import { toolPart } from './lazy-part';
 // The chat's own stylesheet (chat design 2026-10-06): Vite emits it beside
 // this entry and scripts/prerender.ts links it on the two chat pages only, so
 // no other page downloads the chat's rules. The site's sheet comes first.
@@ -19,9 +20,9 @@ const ALT_HREF = /^\/(?:ru|uz)\/[a-z0-9-]+\/$/;
 
 function readConfig(el: HTMLElement): MountConfig {
   const locale = (el.dataset.locale === 'uz' ? 'uz' : 'ru') as Locale;
-  // The translator pages open in the translator role (Page.chatRole). Only a
-  // value on the closed list is taken; the two main chats carry neither
-  // attribute and open as before.
+  // The AI tool pages (the translator, …) open in their role (Page.chatRole).
+  // Only a value on the closed list is taken; the two main chats carry none
+  // of these attributes and open as before.
   const role = chatRolePreset(el.dataset.chatRole);
   const altHref = role && ALT_HREF.test(el.dataset.altHref || '') ? el.dataset.altHref : undefined;
   return {
@@ -41,11 +42,20 @@ function mount() {
   // The prerendered frame stays until React's first commit, which replaces it
   // in one go (createRoot clears its container then): no blank frame between
   // the frame and the chat, and the H1 stays where it is (UX plan REV-3).
-  createRoot(el).render(
+  const render = (next: MountConfig) => createRoot(el).render(
     <StrictMode>
-      <AiChatConsole config={config} />
+      <AiChatConsole config={next} />
     </StrictMode>,
   );
+  // An AI tool page (a role) brings its chips and the tools' bridge in the
+  // lazy part chat-tool. With chips the chat mounts once it is here (the frame
+  // shows them meanwhile), or with its own four if it fails; without, at once.
+  const tool = config.role ? toolPart.load().then((part) => part.toolPage(config, el)) : null;
+  if (tool && el.dataset.chatStarters) tool.then(render, () => render(config));
+  else {
+    tool?.catch(() => undefined);
+    render(config);
+  }
 }
 
 // The frame paints first, then the chat mounts, a frame later: on a slow

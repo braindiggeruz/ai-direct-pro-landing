@@ -5,6 +5,9 @@
   "slug": "russko-uzbekskiy-perevodchik",
   "pageType": "gpt-chat",
   "chatRole": "translator",
+  "widgets": [
+    "uz-translit"
+  ],
   "primaryKeyword": "переводчик с русского на узбекский",
   "secondaryKeywords": [
     "перевод с русского на узбекский",

@@ -1577,10 +1577,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "SEO growth waves per owner order 24.10: wave 1 deployed (a1f56a62, f97295b5); wave 1b committed in source (three Uzbek guides tavsifnoma / rasmiy xat / tabrik, UZ Telegram hub H1 + BotFather/constructor/developer section, llms-full superset; protected revision 2026-10-24-wave1b); guarded release pending",
+  "current_stage": "AI tool pages per owner order 25.10: platform committed in source (role presets incl. new writer, Page.chatStarters, Page.widgets calculator / irregular-verbs / uz-translit, gptbot:prefill bridge; see chat_tool_platform_20261025); no content page uses it yet; wave 1b deployed (97f56ab5 from 62d8fdb0)",
   "stage_status": "complete",
-  "last_completed_stage": "Wave 1b source commit on seo/chat-snippets-translator-20261024 (see seo_wave1b_20261024); wave 1 deployed and verified before it (a1f56a62, f97295b5)",
-  "next_stage": "Wave 1b guarded release on owner command: build:production, deploy_runner.py check|deploy with DR_ROOT=this worktree, live readback of the three guides, the hub and /, IndexNow for the changed URLs, URL Inspection; then the remaining wave 2 items (NEXT_RELEASES.md dates)",
+  "last_completed_stage": "AI tool pages platform commit on seo/chat-snippets-translator-20261024 (see chat_tool_platform_20261025); wave 1b deployed and verified before it (97f56ab5, 62d8fdb0)",
+  "next_stage": "AI tool content pages on this platform from docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md (section 3 cards, section 9 corrections) and docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md (sections 3, 5, corrected 11): each page = chatRole + chatStarters + widgets, intent-manifest pair first, honest copy; then a guarded release on owner command",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1913,7 +1913,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-25T12:00:00.000Z",
+  "updated_at": "2026-10-25T10:30:00.000Z",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -2773,5 +2773,22 @@
     "changeLog": "docs/seo/CHANGE_LOG_2026-10.md «Волна 1b 24.10»",
     "postDeploy": "live readback of the three guides (200, index, self-canonical, in sitemap), /uz/telegram-bot-biznes-uchun/ H1, / list, /llms-full.txt size; IndexNow for the 6 changed pages (/, the 3 guides, the hub, the tushuntirish guide); URL Inspection request for the 3 guides",
     "businessOutcomes": "Unmeasured: guides read like C41 (>= 100 Uzbekistan impressions within 21 days of a confirmed recrawl); «yangi yil tabriklari» read in December–January; no ranking or traffic guarantee."
+  },
+  "chat_tool_platform_20261025": {
+    "status": "committed_not_deployed",
+    "ownerOrder": "2026-10-25: implement the researched clusters as AI tools of GPTBot.uz (a result from the AI chat or a free in-browser tool, then the AI chat / AI pack or the ad and bot services); this commit is the code platform only, no new content page",
+    "commit": "the commit that adds this block (git log -1 --format=%H -- scripts/tool-widgets.ts)",
+    "base": "5a579414 (production 62d8fdb0, deployment 97f56ab5, plus research docs)",
+    "branch": "seo/chat-snippets-translator-20261024",
+    "resumed": "a previous session (12:47–14:05) left the work uncommitted with the chat start bundle at 110.1 kB br; resumed, reviewed and finished here",
+    "pageFields": "chatRole (translator, teacher, smm, marketer, business, writer), chatStarters (<= 6 × {label <= 40, prompt <= 400}, plain text, validated by scripts/tool-widgets.ts assertToolPage at build and src/shared/chat-starters.ts in the chat), widgets (uz-translit, calculator, irregular-verbs)",
+    "roles": "new writer role (RU «Автор текстов», UZ «Ijodkor»); role names moved to src/gpt-chat/role-labels.ts in the lazy part chat-role, instructions stay in roles.ts on the start bundle",
+    "widgets": "calculator: safe recursive-descent parser (no eval/Function), DEG/RAD, history of 10 in memory, keyboard, «Объяснить с AI / AI bilan tushuntirish»; irregular-verbs: 163 verbs V1/V2/V3 with RU and UZ translations, search, hide-a-column practice, 10-question quiz, «Потренироваться с AI / AI bilan mashq qilish»; uz-translit: the translator pages' converter, unchanged",
+    "bridge": "window CustomEvent gptbot:prefill {text}; the lazy part chat-tool (only on a page with a role) fills and focuses the composer and sets detail.accepted; nothing is sent, nothing reaches analytics",
+    "budget": "chat start 109 790 B br (HEAD 109 765, limit 110 000); start CSS 6 764 B and page CSS 26 919 B unchanged from HEAD; lazy chat-tool 941 B, chat-role 2 012 B",
+    "htmlIdentity": "build:fast vs the HEAD build: 339 of 344 files byte-identical, the 4 gpt-chat pages differ only by the gpt-chat-*.js name; shared CSS index-B7Z1XlOc.css and gpt-chat-CNoiPl9O.css as in production; seo-protection check 10/10 unchanged",
+    "tests": "new tool-pages 18, calculator-engine 58, irregular-verbs 11 pass; translator-pages 13, uz-translit 94, gpt-chat-prerender-links 14, seo-page-integrity 17, chat-bundle-budget 11, gpt-chat-lazy-part 10, seo-protection 14 pass; 33 chat/SEO files: only the pre-existing failures (same names on a clean HEAD worktree); tsc -b and typecheck:functions exit 0; eslint on 32 touched files 0; seo-audit no critical",
+    "browserCheck": "local static preview with two temporary draft pages (deleted, not committed): chips fill and focus the composer; calculator 7×8, 1/(5-5) message, 2^3^2 + sin 30 = 512.5; «Объяснить с AI» prefills and scrolls to the chat; verbs search, hide V2, a 10-question quiz and the mistakes prompt; 375 px without horizontal scroll",
+    "notDone": "no content page uses chatStarters or the calculator / irregular-verbs widgets yet; not deployed, not pushed"
   }
 }

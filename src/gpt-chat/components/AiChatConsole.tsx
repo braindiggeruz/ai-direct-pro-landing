@@ -1402,7 +1402,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 {/* A returning visitor whose hour is spent: the card in the tasks' place. */}
                 {limitCardEl || (
                   <AiPromptChips
-                    chips={t.chips}
+                    // An AI tool page's own chips (Page.chatStarters, the lazy part chat-tool) take the four tasks' place.
+                    chips={config.starters || t.chips}
+                    own={!!config.starters}
                     onPick={onChipPick}
                     disabled={busy || limitBlocked}
                     label={t.emptyPrompt}

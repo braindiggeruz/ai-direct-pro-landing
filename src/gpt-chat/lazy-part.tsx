@@ -55,6 +55,7 @@ export const toolsPart = part(() => import('./parts/chat-tools'));
 export const turnstilePart = part(() => import('./parts/chat-turnstile'));
 export const presentationPart = part(() => import('./parts/chat-presentation'));
 export const conversionPart = part(() => import('./parts/chat-conversion'));
+export const toolPart = part(() => import('./parts/chat-tool'));
 
 class PartBoundary extends Component<{ failed: ReactNode; children: ReactNode }, { failed: boolean }> {
   state = { failed: false };

@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import fg from 'fast-glob';
 import { renderSiteStylesheets } from './site-stylesheets';
-import { ENTRIES, entryImports, entryScript, entryStyles, readViteManifest } from './vite-manifest';
+import { CHAT_TOOL_PART, ENTRIES, dynamicChunk, entryImports, entryScript, entryStyles, readViteManifest } from './vite-manifest';
 import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/shared/types';
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
@@ -28,7 +28,8 @@ import { LLM_MARKDOWN_URLS } from './llm-pages';
 import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import { renderHeroTrustChip } from './hero-trust';
 import { pageModifiedDate } from './content-dates';
-import { chatRoleAttributes, pageChatRole, renderUzTranslitBlock } from './translator-page';
+import { chatRoleAttributes } from './translator-page';
+import { assertToolPage, chatToolHead, renderToolWidgets, starterFrame, toolWidgetScripts, widgetScriptsFrom, type WidgetScripts } from './tool-widgets';
 import { asPreviewPage, previewDraftUrls } from './preview-drafts';
 import {
   buildOrganizationLd,
@@ -498,7 +499,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
                   <span class="gpt-meta"><span class="gpt-shell-bar gpt-shell-meta" aria-hidden="true"></span></span>
                   <span class="gpt-shell-bar gpt-shell-links" aria-hidden="true"></span>
                 </div>
-                <ul class="gpt-tasks gpt-shell-tasks" aria-hidden="true">${tiles}</ul>
+                ${starterFrame(page) ?? `<ul class="gpt-tasks gpt-shell-tasks" aria-hidden="true">${tiles}</ul>`}
               </div>
             </div>
           </div>
@@ -518,7 +519,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
 
 <section id="seo-summary" data-testid="seo-summary" class="border-t border-white/[0.06]">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-    ${renderUzTranslitBlock(page)}${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
+    ${renderToolWidgets(page)}${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
     <div class="prose-invert">
       ${renderBlocks(page.bodyBlocks || [])}
     </div>
@@ -846,7 +847,9 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
 </div>`;
 }
 
-function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null, chatPreloads: string[] = [], chatStyles: string[] = [], translitHref: string | null = null): string {
+function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null, chatPreloads: string[] = [], chatStyles: string[] = [], widgetScripts: Partial<WidgetScripts> = {}, chatToolHref: string | null = null): string {
+  // An AI tool page's starters and widgets are checked before anything renders.
+  assertToolPage(page);
   const marketVariant = page.designVariant === 'warm-market-signals';
   const fullUrl = `${global.siteUrl}${page.url}`;
   const ogTitle = page.ogTitle || page.title;
@@ -1027,7 +1030,7 @@ ${marketVariant ? '' : `<link rel="icon" type="image/png" sizes="96x96" href="/a
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />`}
 ${cssLinks}
 ${page.pageType === 'gpt-chat' ? chatStyles.map((href) => `<link rel="stylesheet" href="${escapeHtml(href)}" />`).join('\n') : ''}
-${page.pageType === 'gpt-chat' ? chatPreloads.map((href) => `<link rel="modulepreload" href="${escapeHtml(href)}" />`).join('\n') : ''}
+${page.pageType === 'gpt-chat' ? chatPreloads.map((href) => `<link rel="modulepreload" href="${escapeHtml(href)}" />`).join('\n') : ''}${chatToolHead(page, chatToolHref)}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
 <script type="application/ld+json">${buildJsonLd(page, global)}</script>
@@ -1115,7 +1118,7 @@ ${marketVariant ? renderMarketFooter(page) : page.pageType === 'gpt-chat' ? '' :
 
 ${marketVariant ? '' : stickyCtaHtml}
 ${jsHref ? `<!-- The landing React bundle is intentionally not loaded on money pages. -->` : ''}
-${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}${pageChatRole(page) && translitHref ? `\n<script type="module" src="${translitHref}"></script>` : ''}
+${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}${toolWidgetScripts(page, widgetScripts)}
 ${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
 ${page.growthTool ? GROWTH_TOOL_SCRIPT : ''}
 ${hasCopyablePrompts ? PROMPT_COPY_SCRIPT : ''}${leadForm ? `\n${LEAD_FORM_SCRIPT}` : ''}
@@ -1146,8 +1149,13 @@ async function main() {
   const chatStyles = entryStyles(manifest, ENTRIES.chat);
   if (!chatStyles.length) throw new Error('The chat entry has no stylesheet; refusing to render the chat pages unstyled.');
   const calculatorHref = entryScript(manifest, ENTRIES.calculator);
-  // The Uzbek Cyrillic ↔ Latin converter, loaded only on a gpt-chat page with a chatRole.
-  const translitHref = entryScript(manifest, ENTRIES.translit);
+  // The AI tool pages' widgets (scripts/tool-widgets.ts), the Uzbek Cyrillic ↔
+  // Latin converter among them: one script each, loaded only on a gpt-chat
+  // page that lists the widget.
+  const widgetScripts = widgetScriptsFrom(manifest);
+  // The chat's lazy part for AI tool pages: a page with chips preloads it
+  // (chatToolHead, with the chips' style).
+  const chatToolHref = dynamicChunk(manifest, CHAT_TOOL_PART);
   // Local preview only: the drafts PREVIEW_DRAFTS names are written noindex,nofollow.
   const previews = previewDraftUrls(process.env.PREVIEW_DRAFTS, pages);
   if (previews.size) console.warn(`  ! PREVIEW_DRAFTS: rendering draft(s) ${[...previews].join(', ')} as noindex for a local preview; never release this dist.`);
@@ -1157,7 +1165,7 @@ async function main() {
     const page = source.status === 'draft' ? asPreviewPage(source) : source;
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref, chatPreloads, chatStyles, translitHref);
+    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref, chatPreloads, chatStyles, widgetScripts, chatToolHref);
     // Every bare studio-contact link gets a prefilled first message naming the
     // service and the page; protected pages come back unchanged. Then every
     // e-mail address is wrapped in <!--email_off--> (scripts/email-off.ts).

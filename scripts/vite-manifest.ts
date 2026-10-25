@@ -29,7 +29,12 @@ export const ENTRIES = {
   chat: 'src/gpt-chat/main.tsx',
   calculator: 'src/calculator/main.tsx',
   translit: 'src/uz-translit/main.ts',
+  calculatorWidget: 'src/tools/calculator/main.ts',
+  irregularVerbs: 'src/tools/irregular-verbs/main.ts',
 } as const;
+
+/** The chat's lazy part for AI tool pages (src/gpt-chat/lazy-part.tsx toolPart): a page with chips preloads it. */
+export const CHAT_TOOL_PART = 'src/gpt-chat/parts/chat-tool.ts';
 
 export function readViteManifest(dist: string): ViteManifest {
   const file = path.join(dist, MANIFEST_FILE);
@@ -42,6 +47,15 @@ export function entryScript(manifest: ViteManifest, src: string): string {
   const chunk = manifest[src];
   if (!chunk?.isEntry || !/^assets\/[\w.-]+\.js$/.test(chunk.file)) {
     throw new Error(`Vite entry ${src} is not in the manifest; refusing to render pages without their script.`);
+  }
+  return `/${chunk.file}`;
+}
+
+/** The root-relative URL of a lazy part (a dynamic import): the file a page may preload for it. */
+export function dynamicChunk(manifest: ViteManifest, src: string): string {
+  const chunk = manifest[src];
+  if (!chunk?.isDynamicEntry || !/^assets\/[\w.-]+\.js$/.test(chunk.file)) {
+    throw new Error(`Lazy part ${src} is not in the manifest; refusing to render pages that wait for it.`);
   }
   return `/${chunk.file}`;
 }

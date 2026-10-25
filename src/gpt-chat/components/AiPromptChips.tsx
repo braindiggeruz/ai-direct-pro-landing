@@ -14,19 +14,27 @@ const icons: Record<string, string> = {
   plan: 'M3 3h18v13H3zM12 16v5m-4 0h8M7 8h10M7 11h6',
 };
 
-export function AiPromptChips({ chips, onPick, disabled, label, presentation }: {
+// An AI tool page brings its own chips (Page.chatStarters, up to six, ids
+// starter-N): no icons, its labels whole, one scrolling row on a phone and
+// centred rows from 640px (.gpt-starters: scripts/tool-widgets.ts
+// STARTERS_STYLE, in the head of a page with chips). They fill the composer
+// the same way; none of them is the presentation tile.
+
+export function AiPromptChips({ chips, onPick, disabled, label, presentation, own }: {
   chips: PromptChip[]; onPick: (chip: PromptChip) => void; disabled?: boolean; label: string;
   presentation?: { label: string; onOpen: () => void; disabled: boolean };
+  /** `chips` are the page's own (Page.chatStarters). */
+  own?: boolean;
 }) {
   return (
-    <ul className="gpt-tasks" aria-label={label}>
-      {chips.slice(0, 4).map((chip) => {
+    <ul className={own ? 'gpt-tasks gpt-starters' : 'gpt-tasks'} aria-label={label}>
+      {chips.slice(0, own ? 6 : 4).map((chip) => {
         const tool = chip.id === 'plan' ? presentation : undefined;
         return (
         <li key={chip.id}>
           {/* Fills the composer and never sends: a task is a start, not a message. */}
           <button type="button" disabled={tool ? tool.disabled : disabled} onClick={() => tool ? tool.onOpen() : onPick(chip)} className="gpt-task" data-chat-presentation-open={tool ? '' : undefined}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={icons[chip.id]} /></svg>
+            {!own && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={icons[chip.id]} /></svg>}
             <span>{tool ? tool.label : chip.label}</span>
           </button>
         </li>

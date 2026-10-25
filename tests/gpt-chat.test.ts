@@ -12,7 +12,8 @@ import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { renderMarkdown } from '../src/gpt-chat/markdown';
 import { latexLite } from '../src/gpt-chat/latex-lite';
 import { plainText } from '../src/gpt-chat/plain-text';
-import { applyRole, frameLocale, getRoles, maxRolePrefixLength, rolePrefixLength, type RoleId } from '../src/gpt-chat/roles';
+import { applyRole, frameLocale, maxRolePrefixLength, rolePrefixLength, type RoleId } from '../src/gpt-chat/roles';
+import { getRoles } from '../src/gpt-chat/role-labels';
 import { buildImagePromptRequest, getTemplates } from '../src/gpt-chat/templates';
 import { clearSessionId, loadRemaining, saveRemaining, saveSessionId } from '../src/gpt-chat/storage';
 import { strings } from '../src/gpt-chat/i18n';
@@ -261,8 +262,9 @@ test('latexLite: formulas read as plain text; code and prices stay as written', 
 });
 
 test('AI cabinet roles are localized and affect the request without user data', () => {
-  assert.equal(getRoles('ru').length, 7);
-  assert.equal(getRoles('uz').length, 7);
+  // Seven roles and the writer of the AI tool pages (2026-10-25).
+  assert.equal(getRoles('ru').length, 8);
+  assert.equal(getRoles('uz').length, 8);
   const prompt = applyRole('Напиши пост', 'smm', 'ru');
   assert.match(prompt, /SMM-специалист/);
   assert.match(prompt, /Задача: Напиши пост/);

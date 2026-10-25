@@ -1,15 +1,44 @@
 // Shared content/SEO types used by admin UI, Cloudflare Functions,
 // FastAPI dev mirror, and build-time scripts.
+import type { ChatStarter } from './chat-starters';
 
 export type Locale = 'ru' | 'uz';
 export type Status = 'draft' | 'published' | 'noindex';
 export type PageType = 'homepage' | 'money' | 'niche' | 'blog' | 'faq' | 'legal' | 'gpt-chat';
-/** The chat roles a gpt-chat page may open with (Page.chatRole). */
-export const CHAT_ROLE_PRESETS = ['translator'] as const;
+/**
+ * The chat roles a gpt-chat page may open with (Page.chatRole): the roles of
+ * src/gpt-chat/roles.ts that an AI tool page can start in. 'general' and
+ * 'seller' are not on it: the main chats open in 'general' without a preset.
+ */
+export const CHAT_ROLE_PRESETS = ['translator', 'teacher', 'smm', 'marketer', 'business', 'writer'] as const;
 export type ChatRolePreset = typeof CHAT_ROLE_PRESETS[number];
 /** A value from the page (data-chat-role) if it is on the list, else undefined. */
 export function chatRolePreset(value: unknown): ChatRolePreset | undefined {
   return CHAT_ROLE_PRESETS.find((role) => role === value);
+}
+
+// Page.chatStarters: the chips' type and checks live in ./chat-starters, a
+// module of its own, so the chat's start bundle (which imports this file)
+// does not carry them.
+export type { ChatStarter } from './chat-starters';
+
+/**
+ * The in-browser tools a gpt-chat page with a role may show under the chat
+ * (Page.widgets), each prerendered as static HTML and bound by its own Vite
+ * entry, loaded only on a page that lists it. None calls the model.
+ */
+export const PAGE_WIDGETS = ['uz-translit', 'calculator', 'irregular-verbs'] as const;
+export type PageWidget = typeof PAGE_WIDGETS[number];
+/** What is wrong with a widgets value; [] when it is valid. */
+export function pageWidgetIssues(value: unknown): string[] {
+  if (!Array.isArray(value)) return ['widgets is not an array'];
+  const issues: string[] = [];
+  if (value.length === 0) issues.push('widgets is empty: leave the field out instead');
+  value.forEach((item: unknown, index) => {
+    if (!PAGE_WIDGETS.some((widget) => widget === item)) issues.push(`widgets[${index}] is not one of ${PAGE_WIDGETS.join(', ')}`);
+    else if (value.indexOf(item) !== index) issues.push(`widgets[${index}] repeats ${String(item)}`);
+  });
+  return issues;
 }
 
 export interface FaqItem {
@@ -154,13 +183,27 @@ export interface Page {
   /** Optional client-side island injected only on the page that declares it. */
   interactiveTool?: 'telegram-cost-calculator';
   /**
-   * gpt-chat pages only: the chat role the page opens with (a closed list).
-   * scripts/prerender.ts emits data-chat-role and data-alt-href, plus the
-   * Uzbek Cyrillic ↔ Latin converter, only when it is set, so the two chat
-   * pages without it keep their HTML; src/gpt-chat/main.tsx reads it against
-   * the same list.
+   * gpt-chat pages only: the chat role the page opens with (a closed list),
+   * which makes it an AI tool page. scripts/prerender.ts emits data-chat-role
+   * and data-alt-href only when it is set, so the two chat pages without it
+   * keep their HTML; src/gpt-chat/main.tsx reads it against the same list.
    */
   chatRole?: ChatRolePreset;
+  /**
+   * gpt-chat pages with a chatRole only (an AI tool page): up to six chips the
+   * chat shows on its resting screen instead of its own four. Each fills the
+   * composer with its prompt and focuses it; nothing is sent. Plain text,
+   * label ≤ 40 and prompt ≤ 400 characters (CHAT_STARTER_LIMITS). Prerendered
+   * as data-chat-starters on #gpt-chat-root, and as the frame's chips.
+   */
+  chatStarters?: ChatStarter[];
+  /**
+   * gpt-chat pages with a chatRole only: the in-browser tools shown first
+   * under the chat, in this order (PAGE_WIDGETS). The translator pages list
+   * 'uz-translit'. A tool can hand its result to the chat's composer
+   * (src/shared/chat-prefill.ts); it never sends.
+   */
+  widgets?: PageWidget[];
 
   bodyBlocks: BodyBlock[];
   faq: FaqItem[];

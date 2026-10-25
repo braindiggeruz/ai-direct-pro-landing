@@ -1,6 +1,7 @@
 // Shared types for the AI-chat island.
 import { receiptHost, UZUM_HOST } from '../shared/payment-hosts';
 import type { ChatRolePreset } from '../shared/types';
+import type { PromptChip } from './i18n';
 
 export type Locale = "ru" | "uz";
 
@@ -293,6 +294,8 @@ export interface MountConfig {
   role?: ChatRolePreset;
   /** The paired page in the other language (data-alt-href), for the language links; absent on the two main chats. */
   altHref?: string;
+  /** An AI tool page's chips (data-chat-starters, checked whole by the lazy part chat-tool): shown on the resting screen instead of the chat's own. */
+  starters?: PromptChip[];
 }
 
 export interface ChatApiResponse {

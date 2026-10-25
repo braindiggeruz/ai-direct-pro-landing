@@ -5,6 +5,9 @@
   "slug": "rus-ozbek-tarjimon",
   "pageType": "gpt-chat",
   "chatRole": "translator",
+  "widgets": [
+    "uz-translit"
+  ],
   "primaryKeyword": "rus o‘zbek tarjimon",
   "secondaryKeywords": [
     "rus uzbek tarjimon",
