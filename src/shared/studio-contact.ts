@@ -47,6 +47,11 @@ export function formatUzPhone(raw: string): string {
     : raw.trim();
 }
 
+/** "+998 50 587-07-20" → "+998505870720". */
+function e164(raw: string): string {
+  return `+${raw.replace(/\D/g, '')}`;
+}
+
 /** The studio's public Telegram, or null while none is configured. */
 export const STUDIO_TELEGRAM_URL: string | null = studioTelegramUrl(studioTelegram);
 /** "@handle" of STUDIO_TELEGRAM_URL for visible text, or null. */
@@ -63,7 +68,7 @@ export interface StudioPhone {
  * the bundler folds it away and no script on the site carries the number.
  */
 export const STUDIO_PUBLIC_PHONE: StudioPhone | null = phonePublic === true
-  ? { tel: `+${phone.replace(/\D/g, '')}`, display: formatUzPhone(phone) }
+  ? { tel: e164(phone), display: formatUzPhone(phone) }
   : null;
 export const STUDIO_PHONE_PUBLIC: boolean = STUDIO_PUBLIC_PHONE !== null;
 /**
@@ -72,7 +77,7 @@ export const STUDIO_PHONE_PUBLIC: boolean = STUDIO_PUBLIC_PHONE !== null;
  * (scripts/contact-card.ts OFFER_EDITION_CONTACT). Browser code uses
  * STUDIO_PUBLIC_PHONE instead.
  */
-export const STUDIO_PHONE = `+${phone.replace(/\D/g, '')}`;
+export const STUDIO_PHONE = /*#__PURE__*/ e164(phone);
 export const STUDIO_PHONE_DISPLAY = /*#__PURE__*/ formatUzPhone(phone);
 export const STUDIO_EMAIL = email.trim();
 
