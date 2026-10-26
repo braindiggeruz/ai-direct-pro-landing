@@ -148,6 +148,7 @@ must be confirmed for the specific project.
 - GPT for business (RU): https://gptbot.uz/ru/gpt-dlya-biznesa/
 - AI chat widget for websites (RU): https://gptbot.uz/ru/ai-chat-dlya-sayta/
 - AI chat pricing / tariffs (RU): https://gptbot.uz/ru/tarify-ai-chat/
+- All tariffs in Uzbek: the AI pack for every AI chat on the site, Studio presentation plans and the organisations pilot (UZ): https://gptbot.uz/uz/tariflar/
 
 ### General
 
