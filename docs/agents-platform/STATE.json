@@ -2936,5 +2936,19 @@
       "/ru/oferta/ and /uz/oferta/ keep the phone (edition v5)",
       "privacy policies keep the phone only in the requisites block"
     ]
+  },
+  "top3_stage1_20261026": {
+    "status": "deployed_and_verified",
+    "deployment": "7b6cef54",
+    "sourceCommit": "77e54817cbecdb00d28906e0470888f5e4bc2367",
+    "releaseEvidence": "reports/top3-stage1-20261026/RELEASE.md",
+    "protectedRevision": "2026-10-26-address",
+    "roadmap": "docs/seo/research/2026-10-26-top3-roadmap/ROADMAP_TOP3.md",
+    "next": [
+      "R-S1b ≈08.11 after P-CTR reads ≈05–07.11",
+      "R-S2 download guide 16.11",
+      "UZ chat + kirish guide ≈25.11; RU chat ≈27.11–02.12",
+      "Telegram Ads title after ≈22.11"
+    ]
   }
 }

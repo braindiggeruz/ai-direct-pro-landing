@@ -1,6 +1,7 @@
 # HANDOFF — AI tool pages wave B: English tenses tutor, practice tests pilot, niche ad playbooks · 25.10.2026
 
 ## 1. Состояние
+DEPLOYED 26.10: TOP-3 steps A/B + studio address Kichik Xalqa Yo‘li 57, deployment 7b6cef54 from 77e54817 (reports/top3-stage1-20261026/RELEASE.md); next dated steps in ROADMAP_TOP3.md §4.
 DEPLOYED 26.10: owner phone replaced by Telegram, deployment a535be94 from 4b219a0c (reports/contact-telegram-20261026/RELEASE.md); phone only on the offers and the privacy-policy requisites.
 DEPLOYED 26.10: monetization stages A–B, deployment 853130c0 from d110b692, then acb2c864 from 4924c998 (lastmod + llms.txt); reports/monetization-20261026/RELEASE.md; IndexNow 54 URLs (indexnow.org 200, Yandex 202, Bing 200). Till untouched (offer v5, 20 000 / 300). Before 17.12: docs/paid-chat/MODEL-CLIFF-1712-RU.md.
 DEPLOYED 25.10: AI tools wave B, deployment d3010231 from 61c70ce6 (reports/ai-tools-wave-b-20261025/RELEASE.md); IndexNow 30 URLs 200. Production line = seo/chat-snippets-translator-20261024; merge into codex/continuation-20261007 before any deploy from there.
