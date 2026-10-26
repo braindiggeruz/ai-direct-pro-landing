@@ -17,6 +17,9 @@ export const BUSINESS_LINE_PAGES: Readonly<Record<BusinessTopic, Readonly<Record
   crm: { ru: '/ru/gpt-dlya-biznesa/', uz: '/uz/biznes-uchun-ai-bot/' },
   site: { ru: '/boss-digital/', uz: '/uz/boss-digital/' },
   ads: { ru: '/ru/internet-reklama-tashkent/', uz: '/uz/internet-reklama-toshkent/' },
+  // After a ready text (Ш11): pages that publish their prices.
+  smm: { ru: '/ru/smm-prodvizhenie-tashkent/', uz: '/uz/smm-xizmatlari/' },
+  uzum: { ru: '/ru/targetirovannaya-reklama-tashkent/', uz: '/uz/instagram-target-yoqish/' },
 };
 
 // One impression per page view. The chat reveals the line once per browser
@@ -53,6 +56,7 @@ export function AiBusinessLine({
   onDismiss: () => void;
 }) {
   const copy = leadStrings(locale);
+  const ready = topic === 'smm' || topic === 'uzum' ? topic : null;
 
   // Mounted = shown, counted once per page view.
   useEffect(() => {
@@ -82,7 +86,7 @@ export function AiBusinessLine({
           <span className="inline-block rounded-full bg-brand-cyan/[0.1] px-2.5 py-1 text-[11px] font-medium text-brand-cyan">
             {copy.lineLabel}
           </span>
-          <p className="mt-2 text-[14px] leading-relaxed text-white/75">{copy.lineText}</p>
+          <p className="mt-2 text-[14px] leading-relaxed text-white/75">{ready ? copy.lineReady[ready] : copy.lineText}</p>
         </div>
         <button
           type="button"
@@ -122,7 +126,7 @@ export function AiBusinessLine({
             href={BUSINESS_LINE_PAGES[topic][locale]}
             className="inline-flex min-h-11 items-center rounded-lg text-[13px] text-white/55 underline underline-offset-4 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
           >
-            {copy.lineMore}
+            {ready ? copy.linePrices : copy.lineMore}
           </a>
         </div>
       )}

@@ -20,7 +20,9 @@
 | Покупка | `purchase` (ecommerce GA4) | `transaction_id` (номер заказа, не ПДн), `value` 20000, `currency` UZS, `items[{item_id: ai_paket_300}]`; только `mode=live`, один раз на заказ в браузере |
 | Любая кнопка Telegram | `telegram_cta_clicked` | `from`, `channel` (bot / studio), `with_session` |
 | Лид | `lead_form_opened`, `generate_lead` (только после ответа сервера), `lead_form_failed` | `method` (offer_b2b / chat_b2b_line), `source` (gpt_chat / chat_b2b, как в `gpt_leads.source`), `intent`, `code` |
-| Бизнес-строка под первым ответом (WP-20, `B2B-RU.md`) | `b2b_line_shown` (раз за просмотр), `b2b_line_dismissed` | `topic` (bot / site / ads / crm) |
+| Бизнес-строка под первым ответом (WP-20, `B2B-RU.md`); с 26.10.2026 и после готового текста шаблонов SMM и Uzum и 2-го ответа роли SMM (Ш11) | `b2b_line_shown` (раз за просмотр), `b2b_line_dismissed` | `topic` (bot / site / ads / crm / smm / uzum) |
+| Предложение пакета (карточка после ответа и окно «проба закончилась») | `pack_prompt_viewed`, `pack_prompt_clicked`, `pack_prompt_dismissed` | `surface` (after_answer / near_limit / trial_exhausted / trial_last — карточка «1 ta sinov javobi qoldi», Ш7), `provider`; у окна пробы ещё `role_id` — роль страницы (general на главных чатах, Ш1) и `from: have_pack` у кнопки «Paketim bor» |
+| Виджеты страниц-инструментов (Ш4, без текста посетителя, каждое раз за просмотр) | `translit_converted`, `translit_ai_clicked`, `calc_used`, `calc_ai_clicked`, `iv_used`, `iv_quiz_finished`, `iv_ai_clicked`, `quiz_answered`, `quiz_finished`, `quiz_ai_clicked` | `route`, `lang`; у `quiz_finished` ещё `correct` — сколько ответов верно. `*_ai_clicked` — только когда чат принял просьбу в поле ввода (отправляет человек). Шлёт помощник `report()` внутри точки входа виджета (`src/uz-translit/main.ts`, `src/tools/*/main.ts`), не бандл чата |
 | Ссылка на цены в меню | `pricing_clicked` | `from` |
 | Прочее | `prompt_chip_clicked` (`chip_id`), `template_used` (`template_id`), `message_copied`, `new_chat`, `role_selected`, `tool_opened`, `image_prompt_generated`, `official_link_clicked`, `locale_switched`, `business_clicked`, `offer_viewed`, `offer_dismissed`, `account_action_failed`, `account_logout` | — |
 
@@ -39,7 +41,12 @@ GA4 не видит тех, кто блокирует аналитику. Поэ
 | `login_result` | `done` / `rejected` / `expired` / `failed` |
 | `checkout_started` | `click` / `uzum` / `payme` |
 | `checkout_result` | `paid` / `pending` / `cancelled` |
-| `b2b_line_shown`, `b2b_line_dismissed` | тема бизнес-строки: `bot` / `site` / `ads` / `crm` |
+| `b2b_line_shown`, `b2b_line_dismissed` | тема бизнес-строки: `bot` / `site` / `ads` / `crm` / `smm` / `uzum` |
+| `pack_prompt_viewed`, `pack_prompt_dismissed` | `after_answer` / `near_limit` / `trial_exhausted` / `trial_last` |
+| `trial_paywall_role` (с 26.10.2026) | роль страницы, где кончилась проба: `general` (главные чаты) / `translator` / `teacher` / `smm` / `marketer` / `business` / `writer` — какой инструмент приводит к пэйволлу |
+| `trial_exit_reason` (с 26.10.2026) | ответ на «Nega hozir emas? / Почему не сейчас?» после закрытия окна пробы без оплаты: `price` / `once` / `no_card` / `later`. Поля для текста нет; вопрос раз за просмотр и не мешает закрыть окно. Источник гейта G1 («Qimmat» ≥ 30 % при ≥ 60 ответах) |
+
+Новые типы — те же закрытые списки в той же таблице, без миграции: у `gpt_ui_events` нет CHECK на `type` и `detail`. Админка «Недели» показывает окно пробы по ролям и ответы опроса отдельными строками.
 
 В строке — шаг, квалификатор, случайный id вкладки (`view_id`, sessionStorage) и время. Ни текста, ни IP, ни аккаунта, ни сессии чата: строку нельзя связать с человеком или перепиской. `id` строки — свой у каждого события из браузера, повтор запроса считается один раз. Лимит — 60 событий в час на хеш IP. Пока оплата выключена (провайдер не предложен посетителю), шаг окна пакета получает 404 до D1. Шаги бизнес-строки считаются всегда, поэтому тело (до 1 кБ) читается раньше: тип решает. Покупки здесь не считаются: их источник — заказы (`gpt_payment_orders_all`).
 
@@ -54,6 +61,7 @@ GA4 не видит тех, кто блокирует аналитику. Поэ
 1. GTM `GTM-NLR4WFX8`: убрать второй тег GA4, иначе `page_view` считается дважды.
 2. GA4: зарегистрировать пользовательские параметры (custom dimensions, уровень события) `reason`, `from`, `provider`, `source`, `status`, а после R6 и `topic`. После выпуска chat-UX NOW ещё `in_app`: `telegram` (браузер Telegram на Android: в user agent есть `Telegram-Android` или в окне есть `TelegramWebviewProxy`), `instagram`, `other`. Telegram на iOS по user agent не отличить от Safari, он попадает в `other`. Событие `purchase` отметить ключевым (key event) после первой живой покупки. Прежние имена параметров не были зарегистрированы, поэтому переименование ничего не ломает.
 3. Метрика, счётчик 111312750: создать цели «JavaScript-событие» `chat_opened` и `chat_limit_hit` (остальные четыре уже есть).
+4. После выката этапа B монетизации (26.10.2026): в GA4 зарегистрировать параметр `role_id` (если ещё нет) и `correct` (числовой, у `quiz_finished`). События виджетов — обычные, не ключевые: ключевыми остаются `purchase`, `generate_lead`, `checkout_started`, `telegram_cta_clicked` и клик по телефону (роадмап §7.1). В Метрику виджеты не шлют ничего: её каталог целей закрыт.
 
 ## Проверка после деплоя
 

@@ -22,6 +22,25 @@ function share(part: number | null | undefined, whole: number): string {
   return part === null || part === undefined || !whole ? '—' : `${Math.round((100 * part) / whole)}%`;
 }
 
+/** The page role the trial's paywall showed on (gpt_ui_events trial_paywall_role). */
+const PAYWALL_ROLE: Readonly<Record<string, string>> = {
+  general: 'главные чаты',
+  translator: 'переводчик',
+  teacher: 'учёба',
+  smm: 'SMM',
+  marketer: 'маркетинг',
+  business: 'бизнес',
+  writer: 'поздравления и стихи',
+};
+
+/** «Nega hozir emas?» (gpt_ui_events trial_exit_reason). */
+const EXIT_REASON: Readonly<Record<string, string>> = {
+  price: 'дорого',
+  once: 'нужно было один раз',
+  no_card: 'нет карты',
+  later: 'позже',
+};
+
 const LIMIT_REASON: Readonly<Record<string, string>> = {
   hourly: 'час',
   daily: 'сутки',
@@ -58,6 +77,26 @@ const METRICS: readonly Metric[] = [
   })),
   { label: 'Предложение пакета увидели / скрыли', hint: 'События видимости и закрытия; повторные показы не равны уникальным людям. Тире — наблюдений нового блока ещё нет.', value: (w) => `${count(w.funnel?.promptViewed)} / ${count(w.funnel?.promptDismissed)}` },
   { label: 'Пакет открыт из предложения', value: (w) => count(w.funnel?.afterValueOpened) },
+  {
+    label: 'Окно «проба закончилась» показано',
+    hint: 'один раз на браузер; по роли страницы, где кончилась проба',
+    value: (w) => count(sum(w.funnel?.trialRoles ?? null)),
+  },
+  ...Object.entries(PAYWALL_ROLE).map(([role, label]) => ({
+    label,
+    sub: true,
+    value: (w: AiChatWeek) => (w.funnel?.trialRoles ? count(w.funnel.trialRoles[role] ?? 0) : '—'),
+  })),
+  {
+    label: 'Опрос «Почему не сейчас?»: ответов',
+    hint: 'после закрытия окна пробы без оплаты; гейт G1 читает долю «дорого» при 60+ ответах',
+    value: (w) => count(sum(w.funnel?.exitReasons ?? null)),
+  },
+  ...Object.entries(EXIT_REASON).map(([reason, label]) => ({
+    label,
+    sub: true,
+    value: (w: AiChatWeek) => (w.funnel?.exitReasons ? count(w.funnel.exitReasons[reason] ?? 0) : '—'),
+  })),
   { label: 'Окно пакета открыто', value: (w) => count(w.funnel?.packViewed) },
   { label: 'Вход начат / успешен', value: (w) => (w.funnel ? `${count(w.funnel.loginStarted)} / ${count(w.funnel.loginDone)}` : '—') },
   { label: 'Оплата начата / прошла', value: (w) => (w.funnel ? `${count(w.funnel.checkoutStarted)} / ${count(w.funnel.checkoutPaid)}` : '—') },

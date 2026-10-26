@@ -4,6 +4,9 @@
 // it; this table does not, and the admin (WP-19) counts from it. The chat's
 // business line (plan WP-20) counts here too: shown and closed, by topic, so
 // its false alarms can be read against the leads it brings (source chat_b2b).
+// The trial's paywall (roadmap 2026-10-25 §5.2) adds the page role it showed
+// on and the answer to «Nega hozir emas?»: closed lists, so no migration
+// (the table has no CHECK on type or detail).
 //
 // One row per event: a type and one qualifier, both from closed lists, the
 // browser tab's random id and the time. No text, no IP, no account and no
@@ -26,17 +29,26 @@ export const UI_EVENTS = {
     "pay_return",
   ],
   login_started: ["bot", "oidc"],
-  pack_prompt_viewed: ["after_answer", "near_limit", "trial_exhausted"],
-  pack_prompt_dismissed: ["after_answer", "near_limit", "trial_exhausted"],
+  /** The pack offered in the thread or in the trial's window; trial_last is the card at one trial answer left (Ш7). */
+  pack_prompt_viewed: ["after_answer", "near_limit", "trial_exhausted", "trial_last"],
+  pack_prompt_dismissed: ["after_answer", "near_limit", "trial_exhausted", "trial_last"],
+  /**
+   * The trial's paywall showed (once per owner); the qualifier is the page's
+   * role (data-chat-role, CHAT_ROLE_PRESETS in src/shared/types.ts), or
+   * general on the two main chats: which tool's visitors reach it.
+   */
+  trial_paywall_role: ["general", "translator", "teacher", "smm", "marketer", "business", "writer"],
+  /** «Nega hozir emas?» after the paywall closed without a payment: expensive, needed once, no card, later. */
+  trial_exit_reason: ["price", "once", "no_card", "later"],
   login_result: ["done", "rejected", "expired", "failed"],
   /** A checkout began with this provider: its page opened, its app code showed, or a test order. */
   checkout_started: ["click", "uzum", "payme"],
   /** How the payment the browser waited for ended: paid, still pending after the wait, or cancelled. */
   checkout_result: ["paid", "pending", "cancelled"],
-  /** The chat's business line showed under a first answer; the qualifier is the topic (business-intent.ts). */
-  b2b_line_shown: ["bot", "site", "ads", "crm"],
+  /** The chat's business line showed under an answer; the qualifier is the topic (business-intent.ts): smm and uzum follow a ready text. */
+  b2b_line_shown: ["bot", "site", "ads", "crm", "smm", "uzum"],
   /** The visitor closed it. */
-  b2b_line_dismissed: ["bot", "site", "ads", "crm"],
+  b2b_line_dismissed: ["bot", "site", "ads", "crm", "smm", "uzum"],
 } as const satisfies Record<string, readonly string[]>;
 
 export type UiEventType = keyof typeof UI_EVENTS;
@@ -54,6 +66,9 @@ export const PACK_WINDOW_EVENTS: ReadonlySet<UiEventType> = new Set<UiEventType>
   "login_result",
   "checkout_started",
   "checkout_result",
+  // The trial's paywall shows only while a pack can be bought.
+  "trial_paywall_role",
+  "trial_exit_reason",
 ]);
 
 export interface UiEvent {

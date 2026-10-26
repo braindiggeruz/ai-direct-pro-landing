@@ -20,6 +20,7 @@ import { STARTERS_STYLE, WIDGET_ENTRY, assertToolPage, chatToolHead, pageWidgets
 import { CALCULATOR_ANCHOR, renderCalculatorBlock } from '../scripts/widgets/calculator-block';
 import { CHAT_TOOL_PART, ENTRIES, dynamicChunk, type ViteManifest } from '../scripts/vite-manifest';
 import { PROTECTED_PATHS } from '../scripts/seo-protection';
+import { assertWidgetEvents, runReport } from './helpers/widget-events';
 
 const ROOT = process.cwd();
 const read = (file: string) => fs.readFileSync(path.join(ROOT, file), 'utf8');
@@ -293,6 +294,46 @@ test('the translator pages: the translator role and the converter, as before, th
   assert.equal(renderUzTranslitBlock({ ...translatorRu, widgets: undefined }), '');
 });
 
+test('Ш10: after a conversion the converter offers the AI chat once, by the page: translate on the translator pages, check the spelling elsewhere', () => {
+  const kirillUz = json<Page>('content/pages/uz/kirill-lotin.json');
+  const kirillRu = json<Page>('content/pages/ru/kirillica-v-latinicu.json');
+  const attr = (html: string, name: string) => {
+    const value = html.match(new RegExp(`data-msg-${name}="([^"]*)"`))?.[1];
+    assert.ok(value !== undefined, name);
+    return value.replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+  };
+  const cases = [
+    [translatorUz, 'AI bilan tarjima qilish', /rus tiliga tarjima qiling/],
+    [translatorRu, 'Перевести с AI', /на русский/],
+    [kirillUz, 'AI bilan imloni tekshirish', /imlosini tekshiring/],
+    [kirillRu, 'Проверить орфографию с AI', /Проверь орфографию/],
+  ] as const;
+  for (const [page, button, prompt] of cases) {
+    const block = renderUzTranslitBlock(page);
+    // Hidden until a conversion; one button that only fills the composer.
+    assert.match(block, new RegExp(`<p class="uzt-ai" data-uzt-ai hidden><span>[^<]+</span><button type="button" data-uzt="ai">${button}</button></p>`), page.url);
+    assert.match(attr(block, 'ai-prompt'), prompt, page.url);
+    assert.ok(attr(block, 'ai-prompt').endsWith('\n\n{text}'), `${page.url}: the result goes last`);
+    // Honest: the request costs a trial answer or the pack, the converter itself does not.
+    assert.match(attr(block, 'ai-sent'), page.locale === 'uz' ? /sinov javobini yoki AI paketni sarflaydi/ : /пробный ответ чата или AI-пакет/, page.url);
+    for (const name of ['ai-wait', 'ai-long']) assert.ok(attr(block, name).length > 10, `${page.url}: ${name}`);
+    assert.ok(block.includes('#kirill-lotin .uzt-ai[hidden]{display:none}'), 'the flex row stays hidden until a conversion');
+  }
+  for (const page of [translatorUz, kirillUz]) {
+    assert.doesNotMatch(renderUzTranslitBlock(page).replace(/<style>[\s\S]*?<\/style>/, ''), /[A-Za-z]'[A-Za-z]|&#39;/, page.url);
+  }
+  const entry = read('src/uz-translit/main.ts').replace(/\r\n/g, '\n');
+  assert.ok(entry.includes("import type { ChatPrefillDetail, ChatPrefillEventName } from '../shared/chat-prefill';"));
+  assert.doesNotMatch(entry, /^import \{[^}]*\} from '\.\.\/shared\/chat-prefill'/m, 'a type-only bridge import');
+  assert.equal(Number(entry.match(/const PREFILL_MAX = (\d+);/)?.[1]), CHAT_PREFILL_MAX, 'the chat takes no longer text');
+  assert.ok(entry.includes(".replace('{text}', () => text)"), 'a dollar pattern in the text stays the text');
+  assert.ok(entry.includes('if (prompt.length > PREFILL_MAX) { say(message.msgAiLong); return; }'));
+  assert.match(entry, /say\(notes\.length \? notes\.map\(noteText\)\.join\(' '\) : message\.msgDone\);\n\s*report\('translit_converted'\);\n\s*if \(aiLine\) aiLine\.hidden = false;/);
+  assert.match(entry, /if \(askChat\(prompt\)\) \{\n\s*report\('translit_ai_clicked'\);/);
+  assert.doesNotMatch(entry, /\.click\(\)|requestSubmit|doSend/, 'nothing is sent');
+  assertWidgetEvents('src/uz-translit/main.ts', entry, ['translit_converted', 'translit_ai_clicked']);
+});
+
 test('the protected chats carry no tool field, so their HTML changes by asset names only', () => {
   const protectedPaths = new Set<string>(PROTECTED_PATHS);
   for (const page of pages.filter((p) => protectedPaths.has(p.url))) {
@@ -376,14 +417,47 @@ test('the chat side: a lazy part on tool pages only, nothing on the start bundle
   assert.match(part, /detail\.accepted = true/);
   assert.doesNotMatch(part, /doSend|\.click\(\)|requestSubmit|track\(|reachYandexGoal|fetch\(|sendBeacon/, 'nothing is sent, nothing reaches analytics');
   assert.match(read('src/gpt-chat/components/AiChatInput.tsx'), /<div className="gpt-input-surface" aria-busy=\{busy\}>/, 'the busy mark the part reads');
-  // The tools: a type-only import of the bridge, the event name checked by the compiler, no request.
-  for (const file of ['src/tools/calculator/main.ts', 'src/tools/irregular-verbs/main.ts']) {
+  // The tools: a type-only import of the bridge, the event name checked by the compiler, no request;
+  // GA4 hears their closed list of steps only through report() (Ш4).
+  for (const [file, events] of [
+    ['src/tools/calculator/main.ts', ['calc_used', 'calc_ai_clicked']],
+    ['src/tools/irregular-verbs/main.ts', ['iv_used', 'iv_quiz_finished', 'iv_ai_clicked']],
+  ] as const) {
     const source = read(file);
     assert.match(source, /import type \{ ChatPrefillDetail, ChatPrefillEventName \} from '\.\.\/\.\.\/shared\/chat-prefill';/, file);
     assert.doesNotMatch(source, /^import \{[^}]*\} from '\.\.\/\.\.\/shared\//m, `${file}: no value import from src/shared (it would share a chunk with the chat)`);
     assert.match(source, /const PREFILL: ChatPrefillEventName = 'gptbot:prefill';/, file);
-    assert.doesNotMatch(source, /fetch\(|XMLHttpRequest|sendBeacon|gtag|dataLayer|ym\(/, `${file}: no request, no analytics`);
+    assertWidgetEvents(file, source, events);
   }
+});
+
+test('Ш4: a widget step reaches GA4 once per page view, with the path and language only', () => {
+  const calculator = read('src/tools/calculator/main.ts');
+  for (const gtag of [true, false]) {
+    const { report, calls, window } = runReport(calculator, { gtag, path: '/ru/kalkulyator/', lang: 'ru' });
+    report('calc_used');
+    report('calc_used');
+    report('calc_ai_clicked');
+    const sent = gtag ? calls.map(([kind, event, data]) => ({ kind, event, data })) : (window.dataLayer as Array<Record<string, unknown>>).map(({ event, ...data }) => ({ kind: 'event', event, data }));
+    assert.deepEqual(sent, [
+      { kind: 'event', event: 'calc_used', data: { route: '/ru/kalkulyator/', lang: 'ru' } },
+      { kind: 'event', event: 'calc_ai_clicked', data: { route: '/ru/kalkulyator/', lang: 'ru' } },
+    ], gtag ? 'gtag' : 'dataLayer');
+  }
+  // When it fires: the first result (= or Enter), and a request the chat took; never while typing.
+  const calc = calculator.replace(/\r\n/g, '\n');
+  assert.match(calc, /output\.value = result\.text;\n\s*say\(''\);\n\s*report\('calc_used'\);/);
+  assert.doesNotMatch(calc.slice(calc.indexOf('const preview = () => {'), calc.indexOf('const renderHistory')), /report\(/);
+  assert.match(calc, /if \(askChat\(prompt\)\) \{\n\s*report\('calc_ai_clicked'\);/);
+  const verbs = read('src/tools/irregular-verbs/main.ts').replace(/\r\n/g, '\n');
+  assert.match(verbs, /search\.addEventListener\('input', \(\) => \{\n\s*report\('iv_used'\);/);
+  assert.match(verbs, /result\.hidden = false;\n\s*report\('iv_quiz_finished'\);/);
+  assert.match(verbs, /if \(askChat\(text\)\) \{\n\s*report\('iv_ai_clicked'\);/);
+  // A broken analytics tag never stops the tool.
+  const { report } = runReport(calculator, { gtag: true });
+  const broken = runReport(calculator.replace("if (typeof w.gtag === 'function') w.gtag('event', event, data);", "throw new Error('tag');"), { gtag: true });
+  assert.doesNotThrow(() => broken.report('calc_used'));
+  assert.doesNotThrow(() => report('calc_used'));
 });
 
 test('a page with chips preloads the lazy part it waits for and styles the chips row; no other page does', () => {

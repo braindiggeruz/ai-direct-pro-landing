@@ -205,6 +205,10 @@ test('the prerendered table: every verb, the page language’s translation, no s
     assert.match(html, /data-msg-ai-prompt="/);
     // The AI note is honest: sending spends a trial reply or the pack.
     assert.match(html, locale === 'ru' ? /пробный ответ чата или AI-пакет/ : /sinov javobini yoki AI paketni/);
+    // Ш10: after the quiz, one quiet line beside its AI button says what the AI adds; no price, no promise of a score.
+    const result = html.slice(html.indexOf('<div data-iv-result hidden>'), html.indexOf('</div>', html.indexOf('data-iv-ai-value')));
+    assert.match(result, /data-iv-action="ai"[\s\S]*<p class="iv-small" data-iv-ai-value>[^<]+<\/p>/, locale);
+    assert.doesNotMatch(result.match(/data-iv-ai-value>([^<]+)</)![1], /so‘m|сум|\d/, locale);
   }
   const uz = renderIrregularVerbsBlock(page('uz')).replace(/<style>[\s\S]*?<\/style>/, '');
   assert.doesNotMatch(uz, /[A-Za-z]'[A-Za-z]|&#39;|[ʻʼ]/);

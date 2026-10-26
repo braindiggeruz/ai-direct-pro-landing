@@ -492,6 +492,16 @@ export class AiChatAdminStore {
         const promptMeasured = (funnel.get(week) ?? []).some(row =>
           row.type === 'pack_prompt_viewed' || row.type === 'pack_prompt_dismissed'
           || (row.type === 'pack_viewed' && row.detail === 'after_value'));
+        // The trial's paywall (roadmap 2026-10-25 §5.2): by the page role it
+        // showed on, and the answers to «Nega hozir emas?»; null before the
+        // week's first such row, never a calm zero.
+        const byDetail = (type: string) => {
+          const rows = (funnel.get(week) ?? []).filter((row) => row.type === type);
+          if (!rows.length) return null;
+          const out: Record<string, number> = {};
+          for (const row of rows) out[String(row.detail)] = (out[String(row.detail)] ?? 0) + num(row.n);
+          return out;
+        };
         windowFunnel = {
           packViewed: count("pack_viewed"),
           promptViewed: promptMeasured ? count('pack_prompt_viewed') : null,
@@ -501,6 +511,8 @@ export class AiChatAdminStore {
           loginDone: count("login_result", "done"),
           checkoutStarted: count("checkout_started"),
           checkoutPaid: count("checkout_result", "paid"),
+          trialRoles: byDetail("trial_paywall_role"),
+          exitReasons: byDetail("trial_exit_reason"),
         };
       }
       const o = orders.get(week)?.[0];

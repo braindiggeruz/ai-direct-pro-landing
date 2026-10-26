@@ -116,6 +116,10 @@ export interface AiChatWeek {
     promptViewed?: number | null;
     promptDismissed?: number | null;
     afterValueOpened?: number | null;
+    /** The trial's paywall shown, by the page's role (general = the main chats); null before the week's first. Optional for older servers. */
+    trialRoles?: Record<string, number> | null;
+    /** «Nega hozir emas?» answers: price, once, no_card, later; null before the week's first. Optional for older servers. */
+    exitReasons?: Record<string, number> | null;
     loginStarted: number;
     loginDone: number;
     checkoutStarted: number;

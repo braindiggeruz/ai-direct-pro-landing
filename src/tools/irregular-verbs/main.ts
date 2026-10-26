@@ -6,10 +6,33 @@
 // search, the «hide a column» practice, the 10-question quiz and «Practise
 // with AI», which puts a request into the chat's composer through the prefill
 // bridge (src/shared/chat-prefill.ts) and never sends it. No request, no model call.
+// GA4 hears the first use, a finished quiz and the first hand-over to the chat
+// (Ш4), never a verb or an answer.
 import { answerQuiz, fillTemplate, makeQuiz, matchesVerb, quizOver, startQuiz, type QuizState, type QuizVerb } from './quiz';
 import type { ChatPrefillDetail, ChatPrefillEventName } from '../../shared/chat-prefill';
 
 const PREFILL: ChatPrefillEventName = 'gptbot:prefill';
+
+/** Ш4: the steps GA4 hears about, each once per page view. */
+type WidgetEvent = 'iv_used' | 'iv_quiz_finished' | 'iv_ai_clicked';
+const reported = new Set<WidgetEvent>();
+
+/**
+ * One GA4 event, the first time the step happens on this page view: its fixed
+ * name, the page's path and language; nothing typed or chosen. In
+ * this file on purpose: a module the widgets shared would become a chunk of its own.
+ */
+function report(event: WidgetEvent): void {
+  if (reported.has(event)) return;
+  reported.add(event);
+  try {
+    const w = window as unknown as { gtag?: (...args: unknown[]) => void; dataLayer?: unknown[] };
+    const data = { route: location.pathname, lang: document.documentElement.lang.slice(0, 2) };
+    if (typeof w.gtag === 'function') w.gtag('event', event, data);
+    else (w.dataLayer ??= []).push({ event, ...data });
+  } catch { /* Analytics never stops the tool. */ }
+}
+
 type Column = 'v1' | 'v2' | 'v3' | 'tr';
 const COLUMNS: readonly Column[] = ['v1', 'v2', 'v3', 'tr'];
 
@@ -42,6 +65,7 @@ function bind(root: HTMLElement): void {
 
   // Search: the rows that match stay, with their number said once typing stops.
   search.addEventListener('input', () => {
+    report('iv_used');
     const query = search.value;
     let shown = 0;
     for (const { row, verb } of rows) {
@@ -54,6 +78,7 @@ function bind(root: HTMLElement): void {
 
   // Practice: one column hidden; a hidden cell shows its answer on a click, Enter or Space.
   const hide = (column: Column | 'none') => {
+    report('iv_used');
     if (column === 'none') delete verbTable.dataset.hide;
     else verbTable.dataset.hide = column;
     root.querySelectorAll<HTMLButtonElement>('button[data-iv-hide]').forEach((button) => {
@@ -121,12 +146,14 @@ function bind(root: HTMLElement): void {
     lastMistakes = state.mistakes;
     question.hidden = true;
     result.hidden = false;
+    report('iv_quiz_finished');
     const line = fillTemplate(msg.msgScore || '', { score: state.correct, total: state.questions.length });
     score.textContent = lastMistakes.length ? `${line} ${fillTemplate(msg.msgMistakes || '', { list: lastMistakes.join(', ') })}` : line;
     score.focus();
   };
   const startNew = () => {
     if (!verbs.length) return;
+    report('iv_used');
     state = startQuiz(makeQuiz(verbs));
     begin.hidden = true;
     result.hidden = true;
@@ -156,6 +183,7 @@ function bind(root: HTMLElement): void {
       : msg.msgAiPrompt || '';
     if (!text.trim()) return;
     if (askChat(text)) {
+      report('iv_ai_clicked');
       status.textContent = msg.msgAiSent || '';
       showChat();
     } else {

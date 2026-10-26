@@ -157,8 +157,12 @@ export interface ChatStrings {
   limitReady: string;
   /** Said only while the refused question is back in the composer. */
   limitDraftKept: string;
-  /** Under a free-cap refusal, while a pack can really be bought: its value from the server's terms. */
-  limitOffer: (pack: PackTerms) => string;
+  /**
+   * Under a free-cap or trial refusal, while a pack can really be bought: its
+   * value from the server's terms. «Kutishni xohlamaysizmi?» only where time
+   * lifts the cap: the trial never comes back (`trial`).
+   */
+  limitOffer: (pack: PackTerms, trial?: boolean) => string;
   /** The limit card's pack button with the price; `again` once the pack's own answers ran out. */
   limitBuy: (pack: PackTerms, again: boolean) => string;
   /** Under an answer cut at the length limit, which is never charged. */
@@ -278,7 +282,7 @@ const RU: ChatStrings = {
   limitLessMinute: 'Снова написать можно меньше чем через минуту.',
   limitReady: 'Можно писать снова.',
   limitDraftKept: 'Ваш вопрос остался в поле ввода.',
-  limitOffer: (p) => `Не хотите ждать? AI-пакет — ${p.messageLimit} ответов на ${p.months === 1 ? 'месяц' : `${p.months} мес.`}, до ${p.dailyLimit} в день, за ${sum(p.priceUzs)} сум. Без автосписаний.`,
+  limitOffer: (p, trial) => `${trial ? '' : 'Не хотите ждать? '}AI-пакет — ${p.messageLimit} ответов на ${p.months === 1 ? 'месяц' : `${p.months} мес.`}, до ${p.dailyLimit} в день, за ${sum(p.priceUzs)} сум. Без автосписаний.`,
   limitBuy: (p, again) => `${again ? 'Купить новый AI-пакет' : 'Купить AI-пакет'} за ${sum(p.priceUzs)} сум`,
   truncated: 'Ответ остановился на пределе длины и не списан с лимита. Нажмите «Продолжить».',
   answeredBy: 'Ответила модель',
@@ -385,7 +389,7 @@ const UZ: ChatStrings = {
   limitLessMinute: 'Bir daqiqadan kamroq qoldi.',
   limitReady: 'Endi yana yozishingiz mumkin.',
   limitDraftKept: 'Savolingiz yozish maydonida turibdi.',
-  limitOffer: (p) => `Kutishni xohlamaysizmi? AI paket — ${p.months === 1 ? 'bir oyga' : `${p.months} oyga`} ${p.messageLimit} ta javob, kuniga ${p.dailyLimit} tagacha, ${sum(p.priceUzs)} so‘m. Avtomatik yechib olinmaydi.`,
+  limitOffer: (p, trial) => `${trial ? '' : 'Kutishni xohlamaysizmi? '}AI paket — ${p.months === 1 ? 'bir oyga' : `${p.months} oyga`} ${p.messageLimit} ta javob, kuniga ${p.dailyLimit} tagacha, ${sum(p.priceUzs)} so‘m. Avtomatik yechib olinmaydi.`,
   limitBuy: (p, again) => `${again ? 'Yangi AI paket olish' : 'AI paket olish'} — ${sum(p.priceUzs)} so‘m`,
   truncated: 'Javob uzunlik chegarasida to‘xtadi va limitdan hisoblanmadi. «Davom ettir»ni bosing.',
   answeredBy: 'Javob bergan model',

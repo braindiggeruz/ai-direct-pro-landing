@@ -8,11 +8,33 @@
 // score follows, grade and topic narrow the list, «Restart» clears it, and
 // «Explain with AI» puts the question, its options and the pick into the
 // chat's composer through the prefill bridge (src/shared/chat-prefill.ts),
-// never sending it. No request, no model call.
+// never sending it. No request, no model call. GA4 hears the first answer, a
+// finished list (the number right, nothing else) and the first hand-over to
+// the chat (Ш4), never a question or a pick.
 import { fillTemplate, optionLine, pickOption, quizPrefill, quizScore, shownItems, type QuizItem, type QuizPicks, type QuizView } from './logic';
 import type { ChatPrefillDetail, ChatPrefillEventName } from '../../shared/chat-prefill';
 
 const PREFILL: ChatPrefillEventName = 'gptbot:prefill';
+
+/** Ш4: the steps GA4 hears about, each once per page view. */
+type WidgetEvent = 'quiz_answered' | 'quiz_finished' | 'quiz_ai_clicked';
+const reported = new Set<WidgetEvent>();
+
+/**
+ * One GA4 event, the first time the step happens on this page view: its fixed
+ * name, the page's path and language, and how many were right; nothing typed or chosen. In
+ * this file on purpose: a module the widgets shared would become a chunk of its own.
+ */
+function report(event: WidgetEvent, counts: Record<string, number> = {}): void {
+  if (reported.has(event)) return;
+  reported.add(event);
+  try {
+    const w = window as unknown as { gtag?: (...args: unknown[]) => void; dataLayer?: unknown[] };
+    const data = { route: location.pathname, lang: document.documentElement.lang.slice(0, 2), ...counts };
+    if (typeof w.gtag === 'function') w.gtag('event', event, data);
+    else (w.dataLayer ??= []).push({ event, ...data });
+  } catch { /* Analytics never stops the tool. */ }
+}
 
 /** Puts text into the chat's composer; false when the chat is still loading or busy. */
 function askChat(text: string): boolean {
@@ -123,6 +145,9 @@ function bind(root: HTMLElement): void {
     item.feedback.dataset.tone = outcome.right ? 'right' : 'wrong';
     if (item.key) item.key.open = true;
     showScore();
+    report('quiz_answered');
+    const result = quizScore(shownItems(items, view), picks);
+    if (result.total && result.answered === result.total) report('quiz_finished', { correct: result.correct });
   };
 
   const applyView = () => {
@@ -156,6 +181,7 @@ function bind(root: HTMLElement): void {
     const chosen = Object.prototype.hasOwnProperty.call(picks, item.id) ? picks[item.id] : undefined;
     const text = quizPrefill(templates, subject, item, chosen);
     if (askChat(text)) {
+      report('quiz_ai_clicked');
       item.status.textContent = msg.msgAiSent || '';
       showChat();
     } else {

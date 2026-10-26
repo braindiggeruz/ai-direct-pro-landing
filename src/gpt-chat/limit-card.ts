@@ -132,7 +132,7 @@ export function limitCard(locale: Locale, limit: LimitState, s: LimitCardInput, 
     ready,
     account,
     // The 'monthly' body already says the pack ran out; the value line is for a free cap.
-    offer: pack && (freeCap !== null || limit.reason === 'trial') ? t.limitOffer(pack) : null,
+    offer: pack && (freeCap !== null || limit.reason === 'trial') ? t.limitOffer(pack, limit.reason === 'trial') : null,
     cta: pack ? t.limitBuy(pack, limit.reason === 'monthly') : t.premium.account,
     bot: s.botHandoff ? freeCap : null,
   };

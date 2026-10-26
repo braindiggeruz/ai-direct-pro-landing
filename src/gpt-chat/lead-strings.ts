@@ -12,7 +12,7 @@ export interface LeadStrings {
   offerBadge: string;
   offerBody: string;
   dismissOffer: string;
-  // The business line (AiBusinessLine), once after a first answer about a bot, a site, ads or a CRM.
+  // The business line (AiBusinessLine), once after a first answer about a bot, a site, ads or a CRM, or after a ready SMM or Uzum text.
   /** Marks the line as the studio's, not part of the model's answer. */
   lineLabel: string;
   lineText: string;
@@ -20,6 +20,14 @@ export interface LeadStrings {
   lineDismiss: string;
   /** The link to the service page, which carries the same form. */
   lineMore: string;
+  /**
+   * After a ready text (Ш11): an SMM template or the SMM role's second answer
+   * (smm), the Uzum card template (uzum). Each points to a service page that
+   * publishes its prices; no sum is written here, so none can drift from it.
+   */
+  lineReady: Record<'smm' | 'uzum', string>;
+  /** The link on those lines: the page shows the prices. */
+  linePrices: string;
   // The lead form (AiLeadForm).
   leadName: string;
   leadNameOptional: string;
@@ -55,6 +63,11 @@ const RU: LeadStrings = {
   lineCta: 'Оставить заявку',
   lineDismiss: 'Скрыть',
   lineMore: 'Об услуге',
+  lineReady: {
+    smm: 'Хотите передать посты и рекламу специалистам? Цены на SMM указаны на странице услуги.',
+    uzum: 'Нужны покупатели на товар? Настроим таргетированную рекламу — цены на странице услуги.',
+  },
+  linePrices: 'Цены и состав услуги',
   leadName: 'Имя',
   leadNameOptional: 'необязательно',
   leadNamePlaceholder: 'Как к вам обращаться',
@@ -87,6 +100,11 @@ const UZ: LeadStrings = {
   lineCta: 'Ariza qoldirish',
   lineDismiss: 'Yopish',
   lineMore: 'Xizmat haqida',
+  lineReady: {
+    smm: 'Post va reklamani mutaxassislarga topshirmoqchimisiz? SMM xizmati narxlari sahifada ko‘rsatilgan.',
+    uzum: 'Mahsulotingizga xaridor kerakmi? Target reklamani sozlab beramiz — narxlari xizmat sahifasida.',
+  },
+  linePrices: 'Narxlar va xizmat tarkibi',
   leadName: 'Ism',
   leadNameOptional: 'ixtiyoriy',
   leadNamePlaceholder: 'Sizga qanday murojaat qilaylik',

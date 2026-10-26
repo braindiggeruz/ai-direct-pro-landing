@@ -6,11 +6,33 @@
 // The arithmetic is src/tools/calculator/engine.ts: no eval, no request, no
 // model call. «Explain with AI» puts the example into the chat's composer
 // through the prefill bridge (src/shared/chat-prefill.ts) and never sends it.
+// GA4 hears the first result and the first hand-over to the chat (Ш4), never
+// the example.
 import { calculate, usesAngles, type AngleUnit, type CalcErrorCode } from './engine';
 import type { ChatPrefillDetail, ChatPrefillEventName } from '../../shared/chat-prefill';
 
 const PREFILL: ChatPrefillEventName = 'gptbot:prefill';
 const HISTORY_SIZE = 10;
+
+/** Ш4: the steps GA4 hears about, each once per page view. */
+type WidgetEvent = 'calc_used' | 'calc_ai_clicked';
+const reported = new Set<WidgetEvent>();
+
+/**
+ * One GA4 event, the first time the step happens on this page view: its fixed
+ * name, the page's path and language; nothing typed or chosen. In
+ * this file on purpose: a module the widgets shared would become a chunk of its own.
+ */
+function report(event: WidgetEvent): void {
+  if (reported.has(event)) return;
+  reported.add(event);
+  try {
+    const w = window as unknown as { gtag?: (...args: unknown[]) => void; dataLayer?: unknown[] };
+    const data = { route: location.pathname, lang: document.documentElement.lang.slice(0, 2) };
+    if (typeof w.gtag === 'function') w.gtag('event', event, data);
+    else (w.dataLayer ??= []).push({ event, ...data });
+  } catch { /* Analytics never stops the tool. */ }
+}
 
 /** Puts text into the chat's composer; false when the chat is still loading or busy. */
 function askChat(text: string): boolean {
@@ -92,6 +114,7 @@ function bind(root: HTMLElement): void {
     }
     output.value = result.text;
     say('');
+    report('calc_used');
     if (history[0]?.expression !== expression || history[0]?.result !== result.text) {
       history.unshift({ expression, result: result.text });
       history.length = Math.min(history.length, HISTORY_SIZE);
@@ -139,6 +162,7 @@ function bind(root: HTMLElement): void {
       : (msg.msgAiFix || '').replace('{expression}', expression);
     if (!prompt.trim()) return;
     if (askChat(prompt)) {
+      report('calc_ai_clicked');
       say(msg.msgAiSent);
       showChat();
     } else {

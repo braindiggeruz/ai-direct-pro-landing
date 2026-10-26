@@ -24,6 +24,7 @@ import {
   WIDGET_ENTRY, assertToolPage, pageQuizSet, pageWidgets, quizPageIssues, renderToolWidgets, toolJsonLd, toolPageIssues, toolWidgetScripts, widgetScriptsFrom,
 } from '../scripts/tool-widgets';
 import { ENTRIES, type ViteManifest } from '../scripts/vite-manifest';
+import { assertWidgetEvents, runReport } from './helpers/widget-events';
 
 const ROOT = process.cwd();
 const read = (file: string) => fs.readFileSync(path.join(ROOT, file), 'utf8');
@@ -475,7 +476,17 @@ test('the script: a type-only bridge import, the event name checked by the compi
   assert.match(entry, /const PREFILL: ChatPrefillEventName = 'gptbot:prefill';/);
   assert.match(entry, /window\.dispatchEvent\(new CustomEvent\(PREFILL, \{ detail \}\)\);/);
   assert.match(entry, /return detail\.accepted === true;/);
-  assert.doesNotMatch(entry, /fetch\(|XMLHttpRequest|sendBeacon|gtag|dataLayer|ym\(|localStorage|sessionStorage|\.click\(\)|requestSubmit|\.submit\(/, 'no request, no storage, no send');
+  assert.doesNotMatch(entry, /fetch\(|XMLHttpRequest|sendBeacon|ym\(|localStorage|sessionStorage|\.click\(\)|requestSubmit|\.submit\(/, 'no request, no storage, no send');
+  // Ш4: GA4 hears the first answer, a finished list and the first hand-over to the chat, through report() only.
+  assertWidgetEvents('src/tools/quiz/main.ts', entry, ['quiz_answered', 'quiz_finished', 'quiz_ai_clicked']);
+  const src = entry.replace(/\r\n/g, '\n');
+  assert.match(src, /report\('quiz_answered'\);\n\s*const result = quizScore\(shownItems\(items, view\), picks\);\n\s*if \(result\.total && result\.answered === result\.total\) report\('quiz_finished', \{ correct: result\.correct \}\);/);
+  assert.match(src, /if \(askChat\(text\)\) \{\n\s*report\('quiz_ai_clicked'\);/);
+  // quiz_finished carries how many were right and nothing else: no question, no pick.
+  const { report, calls } = runReport(entry, { gtag: true, path: '/uz/fizika-test/', lang: 'uz' });
+  report('quiz_finished', { correct: 7 });
+  report('quiz_finished', { correct: 9 });
+  assert.deepEqual(calls, [['event', 'quiz_finished', { route: '/uz/fizika-test/', lang: 'uz', correct: 7 }]], 'once per page view');
   // Its imports: the logic only (no set, no chat module).
   const imports = [...entry.matchAll(/^import (?:type )?\{[^}]*\} from '([^']+)';/gm)].map((match) => match[1]);
   assert.deepEqual(imports, ['./logic', '../../shared/chat-prefill']);

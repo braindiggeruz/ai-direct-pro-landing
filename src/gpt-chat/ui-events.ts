@@ -1,5 +1,6 @@
 // The chat's steps counted on the server (POST /api/gpt/event): the pack
-// window's funnel (plan WP-17) and the business line (plan WP-20), each sent
+// window's funnel (plan WP-17), the business line (plan WP-20) and the
+// trial's paywall (roadmap 2026-10-25 §5.2: its page role and the exit survey), each sent
 // next to the GA4 event of the same step: GA4 misses everyone who blocks it,
 // this counter does not. Fire and forget — a lost event costs a count, never
 // a sign-in, a purchase or a lead. The body is a fresh id per event (a resend
@@ -8,6 +9,7 @@
 // answers 404 to a pack-window step while the window is out of reach (billing
 // off) and counts the business line whatever billing does.
 import type { BusinessTopic } from './business-intent';
+import type { ExitReason, PaywallRole } from './trial-copy';
 
 /** Which button opened the pack window: GA4's `from` of pack_viewed and the counter's qualifier. */
 export const PACK_FROM = [
@@ -18,8 +20,12 @@ export type PackFrom = (typeof PACK_FROM)[number];
 /** The steps, with the qualifiers functions/lib/gpt-chat/ui-event-store.ts accepts. */
 export interface UiEventDetails {
   pack_viewed: PackFrom;
-  pack_prompt_viewed: 'after_answer'|'near_limit'|'trial_exhausted';
-  pack_prompt_dismissed: 'after_answer'|'near_limit'|'trial_exhausted';
+  pack_prompt_viewed: 'after_answer'|'near_limit'|'trial_exhausted'|'trial_last';
+  pack_prompt_dismissed: 'after_answer'|'near_limit'|'trial_exhausted'|'trial_last';
+  /** The trial's paywall showed on a page with this role ('general' on the main chats). */
+  trial_paywall_role: PaywallRole;
+  /** «Nega hozir emas?» under the closed paywall: one answer from a closed list. */
+  trial_exit_reason: ExitReason;
   login_started: 'bot' | 'oidc';
   login_result: 'done' | 'rejected' | 'expired' | 'failed';
   checkout_started: 'click' | 'uzum' | 'payme';

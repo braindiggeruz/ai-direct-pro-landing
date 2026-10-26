@@ -69,7 +69,7 @@ export function AiLeadForm({
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileRequired, setTurnstileRequired] = useState(false);
   const copy = leadStrings(locale);
-  const service = ({ business_site: 'website-development', business_crm: 'crm-integration', business_ads: 'internet-reklama' } as Record<string, string>)[intent] || 'ai-bot';
+  const service = ({ business_site: 'website-development', business_crm: 'crm-integration', business_ads: 'internet-reklama', business_smm: 'smm', business_uzum: 'target' } as Record<string, string>)[intent] || 'ai-bot';
   const budgetField = LEAD_BUDGET_FIELD[locale];
   const quick = studioQuickContact(locale);
   const quickLink =

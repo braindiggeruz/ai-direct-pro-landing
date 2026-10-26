@@ -13,6 +13,8 @@ import { onRequest as eventOther, onRequestPost as event } from "../functions/ap
 import { BILLING_ORG, type BillingEnv } from "../functions/lib/gpt-chat/billing-config";
 import { PACK_WINDOW_EVENTS, parseUiEvent, UI_EVENTS, UiEventStore, type UiEvent } from "../functions/lib/gpt-chat/ui-event-store";
 import { maintainBilling, TELEMETRY_RETENTION_DAYS } from "../functions/lib/gpt-chat/billing-maintenance-store";
+import { CHAT_ROLE_PRESETS } from "../src/shared/types";
+import { EXIT_REASONS } from "../src/gpt-chat/trial-copy";
 
 const ORIGIN = "https://gpt.test";
 const ENDPOINT = `${ORIGIN}/api/gpt/event`;
@@ -143,8 +145,9 @@ test("a pack-window step is out of reach while no provider is offered: 404 befor
 
 test("the business line is counted whatever billing does: off, in test outside a rehearsal, and in a rehearsal", async () => {
   const { f, send, rows } = await counter();
-  assert.deepEqual([...UI_EVENTS.b2b_line_shown], ["bot", "site", "ads", "crm"]);
-  assert.deepEqual([...UI_EVENTS.b2b_line_dismissed], ["bot", "site", "ads", "crm"]);
+  // smm and uzum follow a ready text (Ш11): an SMM or Uzum template, the SMM role's second answer.
+  assert.deepEqual([...UI_EVENTS.b2b_line_shown], ["bot", "site", "ads", "crm", "smm", "uzum"]);
+  assert.deepEqual([...UI_EVENTS.b2b_line_dismissed], ["bot", "site", "ads", "crm", "smm", "uzum"]);
   assert.equal(PACK_WINDOW_EVENTS.has("b2b_line_shown") || PACK_WINDOW_EVENTS.has("b2b_line_dismissed"), false);
   const off = { ...f.env, GPT_BILLING_MODE: "", GPT_BILLING_MODE_CLICK: "", GPT_BILLING_MODE_UZUM: "" };
   const shown = fresh({ type: "b2b_line_shown", detail: "site" });
@@ -160,6 +163,45 @@ test("the business line is counted whatever billing does: off, in test outside a
   assert.equal((await send(fresh({ type: "b2b_line_shown", detail: "bot" }), { Origin: "https://evil.example" }, off)).status, 403);
   assert.equal((await send(fresh({ type: "b2b_line_shown", detail: "bot", text: "нужен бот" }), {}, off)).status, 200);
   assert.doesNotMatch(JSON.stringify(rows()), /нужен/);
+});
+
+test("the trial's paywall: its page role and «Nega hozir emas?» from closed lists, out of reach without a provider, nothing typed", async () => {
+  const { f, send, rows } = await counter();
+  // Every page role the chat can mount with, plus the main chats.
+  assert.deepEqual([...UI_EVENTS.trial_paywall_role], ["general", ...CHAT_ROLE_PRESETS]);
+  assert.deepEqual([...UI_EVENTS.trial_exit_reason], ["price", "once", "no_card", "later"]);
+  assert.deepEqual([...UI_EVENTS.trial_exit_reason], [...EXIT_REASONS], "the survey's buttons are the server's list");
+  // The card at one trial answer left (Ш7) is a surface of its own.
+  assert.ok(UI_EVENTS.pack_prompt_viewed.includes("trial_last") && UI_EVENTS.pack_prompt_dismissed.includes("trial_last"));
+  for (const type of ["trial_paywall_role", "trial_exit_reason"] as const) assert.ok(PACK_WINDOW_EVENTS.has(type), type);
+  for (const detail of UI_EVENTS.trial_exit_reason) {
+    const answer = fresh({ type: "trial_exit_reason", detail, text: "слишком дорого для меня" });
+    assert.equal((await send(answer)).status, 200, detail);
+    assert.equal((await send(answer)).status, 200, `${detail}: a resent answer`);
+  }
+  assert.equal((await send(fresh({ type: "trial_paywall_role", detail: "translator" }))).status, 200);
+  assert.equal((await send(fresh({ type: "pack_prompt_viewed", detail: "trial_last" }))).status, 200);
+  // An answer or a role outside the lists is refused: no free text can reach the table.
+  for (const broken of [
+    { type: "trial_exit_reason", detail: "too_expensive" },
+    { type: "trial_exit_reason", detail: "Qimmat" },
+    { type: "trial_exit_reason", detail: "" },
+    { type: "trial_paywall_role", detail: "seller" },
+    { type: "trial_paywall_role", detail: "/uz/rus-ozbek-tarjimon/" },
+    { type: "pack_prompt_viewed", detail: "trial_first" },
+  ])
+    assert.equal((await send(fresh(broken))).status, 400, JSON.stringify(broken));
+  assert.deepEqual(
+    rows().map((row) => `${row.type}/${row.detail}`).sort(),
+    ["pack_prompt_viewed/trial_last", "trial_exit_reason/later", "trial_exit_reason/no_card", "trial_exit_reason/once", "trial_exit_reason/price", "trial_paywall_role/translator"],
+    "one row per answer however often it is resent",
+  );
+  assert.doesNotMatch(JSON.stringify(rows()), /дорого/);
+  // Billing off: the paywall cannot show, so its steps are 404 before D1.
+  const bomb = { prepare() { throw new Error("DB touched"); }, batch() { throw new Error("DB touched"); } } as unknown as D1Database;
+  const off = { ...f.env, GPTBOT_DRAFTS_DB: bomb, GPT_BILLING_MODE: "", GPT_BILLING_MODE_CLICK: "", GPT_BILLING_MODE_UZUM: "" };
+  assert.equal((await send(fresh({ type: "trial_exit_reason", detail: "price" }), {}, off)).status, 404);
+  assert.equal((await send(fresh({ type: "trial_paywall_role", detail: "general" }), {}, off)).status, 404);
 });
 
 test("60 events an hour per IP hash, then 429; another address is counted on its own", async () => {

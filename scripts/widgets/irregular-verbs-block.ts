@@ -32,6 +32,8 @@ interface VerbsCopy {
   next: string;
   restart: string;
   ai: string;
+  /** Ш10: one quiet line beside the button after the quiz, what the AI adds. */
+  aiValue: string;
   aiNote: string;
   noscript: string;
   messages: Record<string, string>;
@@ -57,6 +59,7 @@ const COPY: Record<'ru' | 'uz', VerbsCopy> = {
     next: 'Дальше',
     restart: 'Пройти ещё раз',
     ai: 'Потренироваться с AI',
+    aiValue: 'AI составит новые упражнения — с глаголами, в которых вы ошиблись, если такие были.',
     aiNote: 'Кнопка «Потренироваться с AI» ставит в поле чата выше просьбу дать упражнения — после теста с теми глаголами, в которых вы ошиблись. Отправляете вы сами; такой вопрос расходует пробный ответ чата или AI-пакет.',
     noscript: 'Поиск, скрытие колонок и тест работают при включённом JavaScript; таблица видна и без него.',
     messages: {
@@ -96,6 +99,7 @@ const COPY: Record<'ru' | 'uz', VerbsCopy> = {
     next: 'Keyingisi',
     restart: 'Qaytadan o‘tish',
     ai: 'AI bilan mashq qilish',
+    aiValue: 'AI yangi mashqlar tuzib beradi — xato qilgan fe’llaringiz bo‘lsa, aynan ular bilan.',
     aiNote: '«AI bilan mashq qilish» tugmasi yuqoridagi chat maydoniga mashq so‘rovini qo‘yadi — testdan keyin xato qilgan fe’llaringiz bilan. Uni o‘zingiz yuborasiz; bunday savol chatning sinov javobini yoki AI paketni sarflaydi.',
     noscript: 'Qidiruv, ustunni yashirish va test JavaScript yoqilganda ishlaydi; jadval usiz ham ko‘rinadi.',
     messages: {
@@ -191,6 +195,7 @@ ${rows}
         <div data-iv-result hidden>
           <p data-iv-score tabindex="-1"></p>
           <div class="iv-row"><button type="button" data-iv-action="start">${escapeHtml(t.restart)}</button><button type="button" data-iv-action="ai">${escapeHtml(t.ai)}</button></div>
+          <p class="iv-small" data-iv-ai-value>${escapeHtml(t.aiValue)}</p>
         </div>
       </div>
       <div class="iv-row"><button type="button" data-iv-action="ai">${escapeHtml(t.ai)}</button></div>

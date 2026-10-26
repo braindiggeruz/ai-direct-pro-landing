@@ -580,6 +580,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         tool: meta.tool || activeTool,
         typed: !meta.templateId && !meta.answerAction && !meta.retry,
         spent: offerDismissed || loadBusinessLineShown(),
+        template: meta.templateId,
+        role,
       });
       if (lineTopic) leadPart.preload();
       readyTopic = lineTopic;
@@ -1212,7 +1214,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // one is active. It is one line beside the language switch and «new chat»,
   // so a conversation says the honest line short until the server has counted,
   // and below 340px (premium.css) the resting screen does too.
-  const usage = paid ? null : freeLimits?.lifetime === 3 && remaining >= 0
+  // The lifetime trial (3 answers, never renewed), not the old daily allowance.
+  const trial = freeLimits?.lifetime === 3;
+  const usage = paid ? null : trial && remaining >= 0
     ? { text: config.locale === 'ru' ? `Пробных ответов: ${remaining} из 3` : `Sinov javoblari: ${remaining}/3`, short: config.locale === 'ru' ? `Проба: ${remaining}/3` : `Sinov: ${remaining}/3`, low: remaining <= 1 }
     : usageLine(remaining, hourShown, hourBlocked, t);
   const sub: { text: string; short?: string; tone?: string } = paid
@@ -1462,14 +1466,14 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     )}
                   </LazyPart>
                 )}
-                {canShowOffer && packTerms && payOffer && !limit && assistantCount >= 1 && !businessLine && !showOffer && freeLimits?.lifetime !== 3 && (
+                {canShowOffer && packTerms && payOffer && !limit && assistantCount >= 1 && !businessLine && !showOffer && (!trial || remaining === 1) && (
                   <LazyPart part={conversionPart} fallback={null} failed={null}>
-                    {({ChatPackPrompt}) => <ChatPackPrompt key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} nearLimit={fewLeft} onPay={(provider)=>openAccount("after_value",provider)} onOpen={()=>openAccount("after_value")}/>}
+                    {({ChatPackPrompt}) => <ChatPackPrompt key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} nearLimit={fewLeft} trial={trial} onPay={(provider)=>openAccount("after_value",provider)} onOpen={()=>openAccount("after_value")}/>}
                   </LazyPart>
                 )}
                 {canShowOffer && packTerms && payOffer && limit?.reason === 'trial' && !accountOpen && (
                   <LazyPart part={conversionPart} fallback={null} failed={null}>
-                    {({TrialPaywall}) => <TrialPaywall key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} onPay={provider=>openAccount('limit_card',provider)}/>}
+                    {({TrialPaywall}) => <TrialPaywall key={ownerKey} owner={ownerKey} locale={config.locale} role={config.role} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} onPay={provider=>openAccount('limit_card',provider)}/>}
                   </LazyPart>
                 )}
                 {/* The free allowance running low, at the end of the thread: one
@@ -1477,7 +1481,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                     the header's count turns. */}
                 {!limit && !paid && dayWarning && (
                   <div className="gpt-low-line" role="status">
-                    <span>{freeLimits?.lifetime === 3 ? usage?.text : t.lowWarning(remaining)}</span>
+                    <span>{trial ? usage?.text : t.lowWarning(remaining)}</span>
                     {/* The pack only while it can really be bought (F6). */}
                     {billingAvailable && (
                       <button

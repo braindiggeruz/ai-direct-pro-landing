@@ -308,7 +308,7 @@ test("2. a week starts on Monday 00:00 in Tashkent: Sunday 19:30Z is the next we
   assert.equal(empty.outcomes, null);
   assert.equal(empty.limitHits, null);
   // The funnel exists from its first event on.
-  assert.deepEqual(current.funnel, { packViewed: 1, promptViewed: null, promptDismissed: null, afterValueOpened: null, loginStarted: 0, loginDone: 0, checkoutStarted: 0, checkoutPaid: 0 });
+  assert.deepEqual(current.funnel, { packViewed: 1, promptViewed: null, promptDismissed: null, afterValueOpened: null, loginStarted: 0, loginDone: 0, checkoutStarted: 0, checkoutPaid: 0, trialRoles: null, exitReasons: null });
   assert.equal(previous.funnel, null);
   assert.deepEqual(current.orders, { created: 0, paid: 0, refunded: 0 });
 });
@@ -329,6 +329,29 @@ test('contextual purchase steps are visible in the owner funnel, isolated by org
   assert.equal(current.funnel?.afterValueOpened,1);
   assert.equal(current.funnel?.checkoutPaid,0);
   assert.equal(current.orders?.paid,0,'client telemetry is not financial proof');
+});
+
+test('the trial paywall by page role and the «Nega hozir emas?» answers reach the owner by week, isolated by org', async () => {
+  const f = await adminFixture(), now = Date.parse('2026-11-12T10:00:00Z');
+  const insert = (org: string, type: string, detail: string) => f.db.prepare('INSERT INTO gpt_ui_events(org_id,id,type,view_id,detail,created_at) VALUES(?,?,?,?,?,?)').bind(org, randomUUID(), type, null, detail, now - 1000).runSync();
+  insert(BILLING_ORG, 'trial_paywall_role', 'teacher');
+  insert(BILLING_ORG, 'trial_paywall_role', 'teacher');
+  insert(BILLING_ORG, 'trial_paywall_role', 'translator');
+  insert(BILLING_ORG, 'trial_exit_reason', 'price');
+  insert(BILLING_ORG, 'trial_exit_reason', 'later');
+  insert(BILLING_ORG, 'trial_exit_reason', 'price');
+  insert('other-org', 'trial_paywall_role', 'smm');
+  insert('other-org', 'trial_exit_reason', 'no_card');
+  const { weeks } = await new AiChatAdminStore(f.binding).overview(BILLING_ORG, { now, weeks: 8, capUsd: 1 });
+  assert.ok(weeks.ok);
+  const current = weeks.data.at(-1)!;
+  assert.deepEqual(current.funnel?.trialRoles, { teacher: 2, translator: 1 });
+  assert.deepEqual(current.funnel?.exitReasons, { price: 2, later: 1 });
+  // A week with funnel rows but none of these: null, not a calm zero.
+  insert(BILLING_ORG, 'pack_viewed', 'header');
+  const before = weeks.data.at(-2)!;
+  assert.ok(before.funnel === null || (before.funnel.trialRoles === null && before.funnel.exitReasons === null));
+  assert.doesNotMatch(JSON.stringify(weeks.data), /no_card|smm/, 'org B never shows in org A');
 });
 
 test("3. privacy: no message, contact, IP hash, subject, session or account id reaches any answer; the store names no text column", async () => {

@@ -31,7 +31,9 @@ import type { Page } from '../src/shared/types';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const read = (relative: string) => readFileSync(path.join(ROOT, relative), 'utf8').replace(/\r\n/g, '\n');
 const LOCALES = ['ru', 'uz'] as const;
-const TOPICS: readonly BusinessTopic[] = ['bot', 'site', 'ads', 'crm'];
+const TOPICS: readonly BusinessTopic[] = ['bot', 'site', 'ads', 'crm', 'smm', 'uzum'];
+/** What the words of a typed question can name; smm and uzum follow a ready text (Ш11). */
+const DETECTED: readonly BusinessTopic[] = ['bot', 'site', 'ads', 'crm'];
 
 const page = (url: string): Page | null => {
   const [, locale, slug] = url.match(/^\/(?:(ru|uz)\/)?([^/]+)\/$/) ?? [];
@@ -55,9 +57,40 @@ test('the line asks only on a typed first message in the plain chat, once per se
   assert.equal(businessLineTopic({ ...turn, text: 'Нужна работа в магазине' }), null, 'no topic');
 });
 
+test('Ш11: a ready SMM or Uzum text offers the studio once per session; the SMM role after its second answer', () => {
+  const turn = { text: 'Reklama matnini yoz', messageNumber: 1, tool: 'chat', typed: true, spent: false };
+  // The detector reads «reklama matnini yoz» as a task, not an order: no line on the words alone.
+  assert.equal(businessLineTopic(turn), null);
+  // A template's ready text: whatever its words and position, sent from the tool panel (not typed).
+  for (const template of ['smm-plan', 'smm-stories', 'smm-telegram-ad', 'smm-instagram-post']) {
+    assert.equal(businessLineTopic({ ...turn, tool: 'smm', typed: false, messageNumber: 3, template }), 'smm', template);
+  }
+  assert.equal(businessLineTopic({ ...turn, tool: 'business', typed: false, template: 'business-uzum' }), 'uzum');
+  for (const template of ['business-faq', 'business-bot', 'study-explain', 'image-banner']) {
+    assert.equal(businessLineTopic({ ...turn, tool: 'business', typed: false, template }), null, template);
+  }
+  // The SMM role (the ad-copy page, or picked in the menu): after its second typed answer, once.
+  const smm = { ...turn, role: 'smm' };
+  assert.equal(businessLineTopic(smm), null, 'not after the first ready text');
+  assert.equal(businessLineTopic({ ...smm, messageNumber: 2 }), 'smm');
+  assert.equal(businessLineTopic({ ...smm, messageNumber: 3 }), null);
+  assert.equal(businessLineTopic({ ...smm, messageNumber: 2, typed: false }), null, 'an answer action or a retry');
+  assert.equal(businessLineTopic({ ...turn, role: 'teacher', messageNumber: 2 }), null, 'another role');
+  // Shown this session or closed today: nothing, whatever the trigger.
+  assert.equal(businessLineTopic({ ...smm, messageNumber: 2, spent: true }), null);
+  assert.equal(businessLineTopic({ ...turn, typed: false, template: 'smm-plan', spent: true }), null);
+  assert.equal(businessLineTopic({ ...turn, typed: false, template: 'business-uzum', spent: true }), null);
+  // Its lead goes to the service of the page it links: SMM, and targeted ads for the product card.
+  assert.equal(LEAD_FORM_PAGES[BUSINESS_LINE_PAGES.smm.uz], 'smm');
+  assert.equal(LEAD_FORM_PAGES[BUSINESS_LINE_PAGES.smm.ru], 'smm');
+  assert.equal(LEAD_FORM_PAGES[BUSINESS_LINE_PAGES.uzum.uz], 'target');
+  assert.equal(LEAD_FORM_PAGES[BUSINESS_LINE_PAGES.uzum.ru], 'target');
+  assert.match(read('src/gpt-chat/components/AiLeadForm.tsx'), /business_smm: 'smm', business_uzum: 'target'/);
+});
+
 test('every topic the detector names is one the server counts, and its page carries the form', () => {
   const named = new Set(['Сделайте сайт для клиники', 'Bot do‘kon uchun', 'Bitrix24 ni sozlash kerak', 'Таргет для кафе: сколько стоит?'].map(detectBusinessTopic));
-  assert.deepEqual([...named].sort(), [...TOPICS].sort());
+  assert.deepEqual([...named].sort(), [...DETECTED].sort());
   assert.deepEqual([...UI_EVENTS.b2b_line_shown], [...TOPICS]);
   assert.deepEqual([...UI_EVENTS.b2b_line_dismissed], [...TOPICS]);
   assert.ok((LEAD_SOURCES as readonly string[]).includes('chat_b2b'));
@@ -89,6 +122,14 @@ test('the line says it is the studio’s, offers the form and closes; the form i
     assert.ok(closed.includes(`href="${BUSINESS_LINE_PAGES.bot[locale]}"`), locale);
     assert.ok(!closed.includes('ai-lead-form'), 'the form waits for the button');
     assert.match(render(false, 'ads'), new RegExp(`data-topic="ads"[\\s\\S]*href="${BUSINESS_LINE_PAGES.ads[locale]}"`));
+    // After a ready text: its own line and a link to the page that publishes the prices; no sum of its own.
+    for (const topic of ['smm', 'uzum'] as const) {
+      const ready = render(false, topic);
+      assert.ok(ready.includes(copy.lineReady[topic]) && !ready.includes(copy.lineText), `${locale}/${topic}`);
+      assert.ok(ready.includes(`href="${BUSINESS_LINE_PAGES[topic][locale]}"`) && ready.includes(copy.linePrices), `${locale}/${topic}`);
+      assert.doesNotMatch(copy.lineReady[topic], /\d/, 'the price lives on the page only');
+      assert.doesNotMatch(copy.lineReady[topic], /[A-Za-z]'[A-Za-z]/, 'o‘ and g‘ with U+2018');
+    }
 
     const open = render(true);
     assert.ok(open.includes('data-testid="ai-lead-form"'), locale);
@@ -139,7 +180,7 @@ test('the chat form asks for an optional budget from the closed list and sends i
 
 test('the console: detected at send time, shown once the answer is complete, gone at the next message', () => {
   const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(chat, /const lineTopic = businessLineTopic\(\{\s*text: trimmed,\s*messageNumber,\s*tool: meta\.tool \|\| activeTool,\s*typed: !meta\.templateId && !meta\.answerAction && !meta\.retry,\s*spent: offerDismissed \|\| loadBusinessLineShown\(\),\s*\}\);\s*if \(lineTopic\) leadPart\.preload\(\);/);
+  assert.match(chat, /const lineTopic = businessLineTopic\(\{\s*text: trimmed,\s*messageNumber,\s*tool: meta\.tool \|\| activeTool,\s*typed: !meta\.templateId && !meta\.answerAction && !meta\.retry,\s*spent: offerDismissed \|\| loadBusinessLineShown\(\),\s*template: meta\.templateId,\s*role,\s*\}\);\s*if \(lineTopic\) leadPart\.preload\(\);/);
   assert.match(chat, /const revealLine = \(\) => \{\s*const lineTopic = readyTopic;\s*if \(!lineTopic\) return;\s*saveBusinessLineShown\(\);\s*setBusinessLine\(\{ topic: lineTopic, open: false \}\);\s*\};/);
   assert.match(chat,/void answerPart\.load\(\)\.then/,'optional detector stays lazy and does not block the AI request');
   // Exactly the two complete answers (JSON and stream), after they are stored; never a stop, an error or a limit.

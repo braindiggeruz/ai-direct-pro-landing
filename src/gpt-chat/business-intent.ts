@@ -1,9 +1,10 @@
 // Is the first question of a conversation about ordering a business service:
 // a bot, a site, ads or a CRM (plan WP-20, map 03 §9)? Then, after the first
 // answer, the chat shows one line offering the studio's help (AiBusinessLine,
-// lazy part chat-lead). Runs in the browser on text the visitor just sent and
-// sends nothing: the topic alone, from the closed list below, reaches the
-// counter and GA4.
+// lazy part chat-lead). An SMM or Uzum template's ready text, and the SMM
+// role's second answer, offer the studio too (Ш11). Runs in the browser on
+// text the visitor just sent and sends nothing: the topic alone, from the
+// closed list below, reaches the counter and GA4.
 //
 // Plain string work, no \b and no lookbehind: \b does not see Cyrillic
 // letters (AGENTS.md §11), and a lookbehind in a regex literal stops Safari
@@ -11,7 +12,14 @@
 // forms, so "botir", "ботинки" or "работа" are not bots; intent and context
 // words are prefixes, minus the few words they would wrongly catch.
 
-export type BusinessTopic = 'bot' | 'site' | 'ads' | 'crm';
+/**
+ * What the line offers. bot, site, ads and crm come from the words of a
+ * typed question; smm and uzum come from a ready text (Ш11, owner decision
+ * №9): an SMM template's answer, the SMM role's second answer, and the Uzum
+ * product-card template's answer. The studio sells no marketplace service
+ * (decision №23), so uzum offers targeted ads for the product.
+ */
+export type BusinessTopic = 'bot' | 'site' | 'ads' | 'crm' | 'smm' | 'uzum';
 
 const words = (list: string) => list.split(' ').filter(Boolean);
 
@@ -96,10 +104,30 @@ export interface FirstTurn {
   typed: boolean;
   /** The line showed already in this browser session, or a business offer was closed today. */
   spent: boolean;
+  /** The template it was sent from (templates.ts id), if any. */
+  template?: string;
+  /** The chat's role when it was sent (roles.ts id). */
+  role?: string;
 }
 
-/** The topic the line will offer once this message is answered, or null. */
+/** SMM templates whose answer is a ready text: a plan, stories, an ad, a post. */
+const SMM_TEMPLATE = /^smm-/;
+const UZUM_TEMPLATE = 'business-uzum';
+/** The SMM role offers the studio after its second ready text, not its first. */
+const SMM_ROLE_AFTER = 2;
+
+/**
+ * The topic the line will offer once this message is answered, or null. Once
+ * per browser session whatever the trigger (`spent`). A typed first question
+ * in the plain chat is read for a bot, a site, ads or a CRM; a template's
+ * ready text and the SMM role's second answer offer the studio's SMM or ads
+ * for the product card instead, whatever words they carry.
+ */
 export function businessLineTopic(turn: FirstTurn): BusinessTopic | null {
-  if (turn.messageNumber !== 1 || turn.tool !== 'chat' || !turn.typed || turn.spent) return null;
-  return detectBusinessTopic(turn.text);
+  if (turn.spent) return null;
+  if (turn.template && SMM_TEMPLATE.test(turn.template)) return 'smm';
+  if (turn.template === UZUM_TEMPLATE) return 'uzum';
+  if (turn.tool !== 'chat' || !turn.typed) return null;
+  if (turn.messageNumber === 1) return detectBusinessTopic(turn.text);
+  return turn.role === 'smm' && turn.messageNumber === SMM_ROLE_AFTER ? 'smm' : null;
 }

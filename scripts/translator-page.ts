@@ -11,6 +11,9 @@
 // The converter itself is src/shared/uz-translit.ts; src/uz-translit/main.ts
 // (its own Vite entry, loaded only on these pages) binds the buttons. It runs
 // in the browser with no model call: no quota and no trial reply is spent.
+// After a conversion one quiet line offers the AI chat (Ш10): on a translator
+// page «translate it», elsewhere «check the spelling». Its button only puts
+// the request into the chat's composer (gptbot:prefill); the visitor sends it.
 import { chatRolePreset, type Page } from '../src/shared/types';
 import { chatStarters } from '../src/shared/chat-starters';
 
@@ -66,6 +69,13 @@ const COPY = {
     foreign: 'Слова с буквами c и w оставлены латиницей: этих букв нет в узбекском алфавите.',
     copied: 'Скопировано.',
     copyFailed: 'Не удалось скопировать: выделите результат и скопируйте вручную.',
+    ai: {
+      translate: { lead: 'Нужен и перевод?', button: 'Перевести с AI', prompt: 'Переведи этот узбекский текст на русский, сохрани смысл и имена:\n\n{text}' },
+      check: { lead: 'Есть ли в тексте ошибки?', button: 'Проверить орфографию с AI', prompt: 'Проверь орфографию этого узбекского текста: покажи ошибки и коротко объясни правило.\n\n{text}' },
+      sent: 'Просьба в поле чата выше: проверьте и отправьте. Такой вопрос расходует пробный ответ чата или AI-пакет.',
+      wait: 'AI-чат ещё загружается или отвечает: попробуйте через пару секунд.',
+      long: 'Текст длиннее, чем помещается в чат: вставьте его в чат частями.',
+    },
   },
   uz: {
     heading: 'Lotin ↔ kirill: o‘zbekcha matn konvertori',
@@ -85,6 +95,13 @@ const COPY = {
     foreign: 'c yoki w harfi bor so‘zlar lotincha qoldirildi: bu harflar o‘zbek alifbosida yo‘q.',
     copied: 'Nusxalandi.',
     copyFailed: 'Nusxalab bo‘lmadi: natijani belgilab, o‘zingiz nusxalang.',
+    ai: {
+      translate: { lead: 'Tarjimasi ham kerakmi?', button: 'AI bilan tarjima qilish', prompt: 'Ushbu o‘zbekcha matnni rus tiliga tarjima qiling, ma’no va ismlarni saqlang:\n\n{text}' },
+      check: { lead: 'Matnda xato bormi?', button: 'AI bilan imloni tekshirish', prompt: 'Ushbu o‘zbekcha matnning imlosini tekshiring: xatolarni ko‘rsating va qoidasini qisqa tushuntiring.\n\n{text}' },
+      sent: 'So‘rov yuqoridagi chat maydonida: tekshirib, yuboring. Bunday savol chatning sinov javobini yoki AI paketni sarflaydi.',
+      wait: 'AI-chat hali yuklanmoqda yoki javob yozmoqda: birozdan keyin qayta urinib ko‘ring.',
+      long: 'Matn chatga sig‘maydigan darajada uzun: uni chatga qismlab qo‘ying.',
+    },
   },
 } as const;
 
@@ -104,14 +121,18 @@ const STYLE = `<style>
 #kirill-lotin button[data-uzt="latin"],#kirill-lotin button[data-uzt="cyrillic"]{background:#66ecdd;border-color:#66ecdd;color:#08262b;font-weight:700}
 #kirill-lotin .uzt-status{min-height:1.5em;margin:0 0 .75rem;color:#bafdf5}
 #kirill-lotin .uzt-note{margin:1rem 0 0;font-size:.85rem}
+#kirill-lotin .uzt-ai{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:1rem 0 0;padding:.75rem;border:1px solid #2fe6d130;border-radius:.75rem;background:#0a1921}
+#kirill-lotin .uzt-ai[hidden]{display:none}
 </style>`;
 
 /** The converter block, under the chat on a page with a role that lists the 'uz-translit' widget. */
 export function renderUzTranslitBlock(page: Page): string {
   if (!pageChatRole(page) || !page.widgets?.includes('uz-translit')) return '';
   const t = COPY[page.locale === 'uz' ? 'uz' : 'ru'];
+  // A translator page translates the result; every other page checks its spelling.
+  const ai = pageChatRole(page) === 'translator' ? t.ai.translate : t.ai.check;
   const data = (name: string, value: string) => ` data-msg-${name}="${escapeHtml(value)}"`;
-  return `<section id="${UZ_TRANSLIT_ANCHOR}" data-uz-translit aria-labelledby="uzt-heading"${data('done', t.done)}${data('empty', t.empty)}${data('russian', t.russian)}${data('foreign', t.foreign)}${data('copied', t.copied)}${data('copy-failed', t.copyFailed)}>
+  return `<section id="${UZ_TRANSLIT_ANCHOR}" data-uz-translit aria-labelledby="uzt-heading"${data('done', t.done)}${data('empty', t.empty)}${data('russian', t.russian)}${data('foreign', t.foreign)}${data('copied', t.copied)}${data('copy-failed', t.copyFailed)}${data('ai-prompt', ai.prompt)}${data('ai-sent', t.ai.sent)}${data('ai-wait', t.ai.wait)}${data('ai-long', t.ai.long)}>
 ${STYLE}
       <h2 id="uzt-heading">${escapeHtml(t.heading)}</h2>
       <p>${escapeHtml(t.intro)}</p>
@@ -126,6 +147,7 @@ ${STYLE}
       <textarea id="uzt-out" rows="5" readonly spellcheck="false"></textarea>
       <p class="uzt-status" role="status" aria-live="polite" data-uzt-status></p>
       <button type="button" data-uzt="copy">${escapeHtml(t.copy)}</button>
+      <p class="uzt-ai" data-uzt-ai hidden><span>${escapeHtml(ai.lead)}</span><button type="button" data-uzt="ai">${escapeHtml(ai.button)}</button></p>
       <noscript><p>${escapeHtml(t.noscript)}</p></noscript>
       <p class="uzt-note">${escapeHtml(t.note)}</p>
     </section>
