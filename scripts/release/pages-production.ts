@@ -133,8 +133,8 @@ export function inspectArtifact(dist: string, commit: string, studioPages: reado
   const htmlChecks = [
     ['index.html', '/assets/index-'],
     ['admin/index.html', '<div id="root">'],
-    ['uz/internet-reklama-toshkent/index.html', 'Reklama xizmatlari'],
-    ['ru/internet-reklama-tashkent/index.html', 'Услуги продвижения'],
+    ['uz/internet-reklama-toshkent/index.html', 'Studiya xizmatlari'],
+    ['ru/internet-reklama-tashkent/index.html', 'Услуги студии'],
     ...studioPages.map((url) => [`${url.slice(1)}index.html`, 'id="studio-root"']),
   ];
   for (const [filename, marker] of htmlChecks) {

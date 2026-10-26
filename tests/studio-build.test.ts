@@ -297,8 +297,8 @@ function releaseFixture(t: { after: (fn: () => void) => void }): string {
   put('assets/index-fixture.css', 'body{margin:0}');
   put('index.html', `<script src="/assets/index-fixture.js"></script>${css}`);
   put('admin/index.html', '<div id="root"></div>');
-  put('uz/internet-reklama-toshkent/index.html', `Reklama xizmatlari${css}`);
-  put('ru/internet-reklama-tashkent/index.html', `Услуги продвижения${css}`);
+  put('uz/internet-reklama-toshkent/index.html', `Studiya xizmatlari${css}`);
+  put('ru/internet-reklama-tashkent/index.html', `Услуги студии${css}`);
   return dist;
 }
 

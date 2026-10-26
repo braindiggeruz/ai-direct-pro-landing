@@ -313,6 +313,23 @@ function footerWebsiteLink(page: Pick<Page, 'locale'> & { termsVersion?: string 
     : `\n      <a href="/ru/razrabotka-saytov-tashkent/" class="hover:text-brand-cyan transition">Разработка сайтов</a>`;
 }
 
+/**
+ * Name of the landing footer's service nav. With website development in it
+ * (footerWebsiteLink) the nav is no longer only promotion or advertising, so
+ * it is «Услуги» / «Xizmatlar». The approved offer edition has no website link
+ * and keeps its edition's names byte for byte.
+ */
+function footerServiceNavLabel(page: Pick<Page, 'locale'> & { termsVersion?: string }): { aria: string; caption: string } {
+  if (page.locale === 'uz') {
+    return page.termsVersion
+      ? { aria: 'Reklama xizmatlari', caption: 'Reklama:' }
+      : { aria: 'Studiya xizmatlari', caption: 'Xizmatlar:' };
+  }
+  return page.termsVersion
+    ? { aria: 'Услуги продвижения', caption: 'Продвижение:' }
+    : { aria: 'Услуги студии', caption: 'Услуги:' };
+}
+
 function renderInternalLinks(page: Page): string {
   if (!page.internalLinks?.length) return '';
   const items = page.internalLinks.map((l) => `
@@ -1137,14 +1154,14 @@ ${marketVariant ? renderMarketFooter(page) : page.pageType === 'gpt-chat' ? '' :
       </a>
       ${studioFooterLinks('hover:text-white', { contact: pageContact(page) })}
     </div>
-    ${page.locale === 'uz' ? `<nav class="w-full flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40" aria-label="Reklama xizmatlari">
-      <span class="text-white/50">Reklama:</span>
+    ${page.locale === 'uz' ? `<nav class="w-full flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40" aria-label="${footerServiceNavLabel(page).aria}">
+      <span class="text-white/50">${footerServiceNavLabel(page).caption}</span>
       <a href="/uz/internet-reklama-toshkent/" class="hover:text-brand-cyan transition">Internet reklama</a>
       <a href="/uz/smm-xizmatlari/" class="hover:text-brand-cyan transition">SMM xizmatlari</a>
       <a href="/uz/telegram-reklama/" class="hover:text-brand-cyan transition">Telegram reklama</a>
       <a href="/uz/seo-xizmati/" class="hover:text-brand-cyan transition">SEO xizmati</a>${footerWebsiteLink(page)}
-    </nav>` : `<nav class="w-full flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40" aria-label="Услуги продвижения">
-      <span class="text-white/50">Продвижение:</span>
+    </nav>` : `<nav class="w-full flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40" aria-label="${footerServiceNavLabel(page).aria}">
+      <span class="text-white/50">${footerServiceNavLabel(page).caption}</span>
       <a href="/ru/internet-reklama-tashkent/" class="hover:text-brand-cyan transition">Интернет-реклама</a>
       <a href="/ru/kontekstnaya-reklama-tashkent/" class="hover:text-brand-cyan transition">Контекстная реклама</a>
       <a href="/ru/targetirovannaya-reklama-tashkent/" class="hover:text-brand-cyan transition">Таргетированная реклама</a>
