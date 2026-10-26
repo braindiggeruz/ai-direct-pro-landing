@@ -315,6 +315,26 @@ test("2. checkout success: exact register body, pulled COMPLETED grants one peri
   }
 });
 
+test("2d. Ш2-lite: Uzum's page sends the payer back to the listed chat page it was registered from, else to the main chat", async () => {
+  for (const [returnPath, path] of [
+    ["/uz/fizika-test/", "/uz/fizika-test/"],
+    ["https://evil.example/uz/fizika-test/", "/uz/gpt-uzbek-tilida/"],
+    ["//evil.example/uz/fizika-test/", "/uz/gpt-uzbek-tilida/"],
+    ["/ru/kalkulyator/", "/uz/gpt-uzbek-tilida/"],
+  ] as const) {
+    const f = await uzumFixture();
+    try {
+      const started = await f.subscribeUzum(randomUUID(), "uz", undefined, returnPath);
+      assert.equal(started.status, 200, JSON.stringify(started.body));
+      const body = f.calls[0].body as { successUrl: string; failureUrl: string; amount: number };
+      assert.deepEqual([body.successUrl, body.failureUrl], [`https://gpt.test${path}?pay=return`, `https://gpt.test${path}?pay=return`], returnPath);
+      assert.equal(body.amount, 2000000);
+    } finally {
+      f.restore();
+    }
+  }
+});
+
 test("2b. auto-fiscalization sends the cart on register and refund; Uzum register error cancels the invoice", async () => {
   const f = await uzumFixture();
   try {

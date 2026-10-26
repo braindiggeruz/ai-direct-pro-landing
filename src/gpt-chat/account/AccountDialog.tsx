@@ -259,6 +259,8 @@ export function AccountDialog({
       const result = await post("/api/gpt/subscribe", {
         provider,
         locale,
+        // Back to this page after paying; the server keeps only a listed chat page (return-path.ts).
+        returnPath: location.pathname,
         acceptTerms: true,
         termsVersion: data.termsVersion,
         requestId: memoryRef.current.requestKeys[provider],

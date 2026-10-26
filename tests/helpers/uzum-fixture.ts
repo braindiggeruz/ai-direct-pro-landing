@@ -268,7 +268,7 @@ export async function uzumFixture(
   };
   // A test provider is offered in a rehearsal session only (rehearsal.ts).
   const viewerCookie = mode === "test" ? f.testCookie : f.cookie;
-  const subscribeUzum = async (requestId: string, locale: "ru" | "uz" = "ru", cookie = viewerCookie) => {
+  const subscribeUzum = async (requestId: string, locale: "ru" | "uz" = "ru", cookie = viewerCookie, returnPath?: unknown) => {
     const response = await subscribe(
       ctx(
         new Request("https://gpt.test/api/gpt/subscribe", {
@@ -280,6 +280,7 @@ export async function uzumFixture(
             locale,
             acceptTerms: true,
             termsVersion: f.env.GPT_BILLING_TERMS_VERSION,
+            returnPath,
           }),
         }),
       ),

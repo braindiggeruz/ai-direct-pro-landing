@@ -425,6 +425,10 @@ test('the way back: ?pay=return opens the window, leaves the address, and the br
   assert.match(dialog, /checkout\.start\(\{ provider, flow: "redirect", at: Date\.now\(\), attemptId, before: null \}\);\s*location\.assign\(url\);/);
   // The server's return address carries the marker (subscribe.ts).
   assert.match(read('functions/api/gpt/subscribe.ts'), /\?pay=return`;/);
+  // Ш2-lite: the window names the page it pays from; the server keeps it only
+  // from the closed list of chat pages (return-path.ts), never a host or scheme.
+  assert.match(dialog, /post\("\/api\/gpt\/subscribe", \{\s*provider,\s*locale,\s*\/\/[^\n]*\n\s*returnPath: location\.pathname,\s*acceptTerms: true,/);
+  assert.match(read('functions/api/gpt/subscribe.ts'), /`\$\{origin\}\$\{chatReturnPath\(locale, page\)\}\?pay=return`;/);
 });
 
 test('the local preview (scripts/pack-window-preview.ts) answers with views the window accepts', async () => {

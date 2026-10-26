@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createHash, randomBytes } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { billingFixture } from "./helpers/gpt-billing-fixture";
 import {
   BILLING_ORG,
@@ -28,6 +28,13 @@ import { renderMarkdown } from "../src/gpt-chat/markdown";
 import { strings } from "../src/gpt-chat/i18n";
 import { accountStrings } from "../src/gpt-chat/account-strings";
 import { BILLING_DDL, UZUM_BILLING_DDL } from "../functions/lib/gpt-chat/billing-schema";
+import {
+  CHAT_HOME_PATH,
+  CHAT_RETURN_PATHS,
+  RETURN_PATH_MAX,
+  RETURN_PATH_SHAPE,
+  chatReturnPath,
+} from "../functions/lib/gpt-chat/return-path";
 
 /**
  * The account's free answers of the day, spent just now (as a pack holder's,
@@ -896,4 +903,125 @@ test("0065 migration and runtime Uzum schema match", () => {
     "utf8",
   ).replace(/\r\n/g, "\n");
   for (const ddl of UZUM_BILLING_DDL) assert.ok(migration.includes(ddl + ";"));
+});
+
+// Ш2-lite (monetization ROADMAP 2026-10-25 §5.2): the buyer goes back to the
+// chat page the checkout started from, only from a closed list of exact paths.
+const chatPagesOnDisk = () =>
+  (["ru", "uz"] as const).flatMap((locale) =>
+    readdirSync(new URL(`../content/pages/${locale}/`, import.meta.url))
+      .filter((file) => file.endsWith(".json"))
+      .map((file) => JSON.parse(readFileSync(new URL(`../content/pages/${locale}/${file}`, import.meta.url), "utf8")) as {
+        url: string; locale: string; pageType?: string; status?: string;
+      })
+      // The build writes every page but a draft, and mounts the chat on pageType "gpt-chat" (scripts/prerender.ts).
+      .filter((page) => page.pageType === "gpt-chat" && page.status !== "draft"));
+
+test("Ш2-lite: the return list is exactly the pages that embed the chat, exact paths of their own language", () => {
+  const pages = chatPagesOnDisk();
+  assert.deepEqual([...CHAT_RETURN_PATHS].sort(), pages.map((page) => page.url).sort(), "a chat page joins (or leaves) return-path.ts on purpose");
+  assert.equal(new Set(CHAT_RETURN_PATHS).size, CHAT_RETURN_PATHS.length);
+  assert.ok(Object.isFrozen(CHAT_RETURN_PATHS) && Object.isFrozen(CHAT_HOME_PATH));
+  for (const page of pages) {
+    assert.match(page.url, RETURN_PATH_SHAPE, page.url);
+    assert.ok(page.url.length <= RETURN_PATH_MAX, page.url);
+    assert.ok(page.url.startsWith(`/${page.locale}/`), `${page.url} is a ${page.locale} page`);
+  }
+  // The main chats, where every payment returned before, stay on the list.
+  assert.deepEqual(CHAT_HOME_PATH, { ru: "/ru/gpt-chat/", uz: "/uz/gpt-uzbek-tilida/" });
+  for (const home of Object.values(CHAT_HOME_PATH)) assert.ok(CHAT_RETURN_PATHS.includes(home), home);
+});
+
+test("Ш2-lite: chatReturnPath keeps a listed chat page of the language; anything else goes back to the main chat", () => {
+  for (const path of CHAT_RETURN_PATHS) {
+    const locale = path.startsWith("/uz/") ? "uz" : "ru";
+    const other = locale === "uz" ? "ru" : "uz";
+    assert.equal(chatReturnPath(locale, path), path, path);
+    // The other language's page is never a return of this one.
+    assert.equal(chatReturnPath(other, path), CHAT_HOME_PATH[other], path);
+  }
+  const hostile: unknown[] = [
+    // Absolute URLs, even of the site itself, and other schemes.
+    "https://evil.example/ru/kalkulyator/", "http://gptbot.uz/ru/kalkulyator/", "https://gptbot.uz/ru/gpt-chat/",
+    "javascript:alert(1)", "data:text/html,<b>x</b>", "ftp://evil.example/",
+    // Protocol-relative and backslash forms a browser resolves to another host.
+    "//evil.example/ru/kalkulyator/", "//evil.example", "///evil.example/", "/\\evil.example/", "\\\\evil.example\\ru\\",
+    "/ru/kalkulyator\\", "\\ru\\kalkulyator\\",
+    // Encoded and dot-segment tricks.
+    "%2F%2Fevil.example", "/ru/%6Balkulyator/", "/ru/kalkulyator%2F", "/%2e%2e/ru/kalkulyator/", "/ru/../uz/kalkulyator/",
+    "/ru/./kalkulyator/", "/ru/kalkulyator/%00", "/ru/kalkulyator/\u0000", "/ru/k%C3%A1lkulyator/",
+    // Look-alikes: case, Cyrillic а, full-width slashes, whitespace, missing slash, query, fragment.
+    "/RU/KALKULYATOR/", "/ru/Kalkulyator/", "/ru/kаlkulyator/", "／ru／kalkulyator／", " /ru/kalkulyator/",
+    "/ru/kalkulyator/ ", "/ru/kalkulyator/\n", "\t/ru/kalkulyator/", "/ru/kalkulyator", "ru/kalkulyator/",
+    "/ru/kalkulyator/?pay=return", "/ru/kalkulyator/#x", "/ru/kalkulyator//", "/ru//kalkulyator/",
+    // Payme's key=value;… format: a separator would add a field.
+    "/ru/gpt-chat/;c=https://evil.example", "/ru/gpt-chat/;l=uz",
+    // Real site pages without the chat, and pages that do not exist.
+    "/ru/tarify-ai-chat/", "/ru/oferta/", "/ru/", "/", "/ru/unknown-page/", "/ru/gpt-chat/extra/",
+    // Overlong.
+    `/ru/${"a".repeat(RETURN_PATH_MAX)}/`, `/ru/gpt-chat/${"a".repeat(4096)}`, "/".repeat(RETURN_PATH_MAX + 1),
+    // Not a string at all.
+    "", null, undefined, 42, true, {}, ["/ru/kalkulyator/"], { toString: () => "/ru/kalkulyator/" }, new String("/ru/kalkulyator/"),
+  ];
+  for (const value of hostile) {
+    assert.equal(chatReturnPath("ru", value), "/ru/gpt-chat/", JSON.stringify(String(value)));
+    assert.equal(chatReturnPath("uz", value), "/uz/gpt-uzbek-tilida/", JSON.stringify(String(value)));
+  }
+  for (const value of ["/uz/kalkulyator\\", "//evil.example/uz/kalkulyator/", "/uz/%6Balkulyator/", "/uz/tariflar/", "/UZ/KALKULYATOR/"])
+    assert.equal(chatReturnPath("uz", value), "/uz/gpt-uzbek-tilida/", value);
+});
+
+test("Ш2-lite checkout: the provider's page returns to the listed page; the order, its amount and its key do not change, and the path is kept nowhere", async () => {
+  const f = await billingFixture();
+  const requestId = crypto.randomUUID();
+  const buy = (returnPath: unknown, id = requestId, provider = "payme") =>
+    subscribe(f.ctx(new Request("https://gpt.test/api/gpt/subscribe", {
+      method: "POST",
+      headers: { cookie: f.testCookie, Origin: "https://gpt.test", "Content-Type": "application/json" },
+      body: JSON.stringify({ provider, requestId: id, locale: "ru", acceptTerms: true, termsVersion: f.env.GPT_BILLING_TERMS_VERSION, returnPath }),
+    })));
+  const payme = async (returnPath: unknown) => {
+    const response = await buy(returnPath);
+    const body = (await response.json()) as { mode: string; checkoutUrl: string; attemptId: string };
+    assert.equal(response.status, 200, JSON.stringify(body));
+    assert.equal(body.mode, "checkout");
+    const page = new URL(body.checkoutUrl);
+    assert.equal(page.origin, "https://test.paycom.uz");
+    return { attemptId: body.attemptId, params: atob(page.pathname.slice(1)) };
+  };
+  const expected = (attemptId: string, path: string) =>
+    `m=${f.env.GPT_PAYME_MERCHANT_ID};ac.order_id=${attemptId};a=2000000;c=https://gpt.test${path}?pay=return;l=ru;ct=15000`;
+  const first = await payme("/ru/kalkulyator/");
+  assert.equal(first.params, expected(first.attemptId, "/ru/kalkulyator/"));
+  // The same key from another page (a reload, a second tab) re-serves the
+  // same order; only the way back follows the page, never off the list.
+  for (const [returnPath, path] of [
+    ["/ru/russko-uzbekskiy-perevodchik/", "/ru/russko-uzbekskiy-perevodchik/"],
+    ["https://evil.example/ru/kalkulyator/", "/ru/gpt-chat/"],
+    ["//evil.example/", "/ru/gpt-chat/"],
+    ["/ru/kalkulyator/;c=https://evil.example", "/ru/gpt-chat/"],
+    ["/uz/kalkulyator/", "/ru/gpt-chat/"],
+    [undefined, "/ru/gpt-chat/"],
+  ] as const) {
+    const again = await payme(returnPath);
+    assert.equal(again.attemptId, first.attemptId, String(returnPath));
+    assert.equal(again.params, expected(first.attemptId, path), String(returnPath));
+  }
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders"), 1);
+  assert.equal(f.db.value("SELECT amount FROM gpt_payment_orders WHERE id=?", first.attemptId), 2000000);
+  assert.equal(f.db.value("SELECT request_id FROM gpt_payment_orders WHERE id=?", first.attemptId), requestId);
+  // A path too long for the request body is a bad request: no order, no page.
+  const huge = await buy(`/ru/${"a".repeat(3000)}/`, crypto.randomUUID());
+  assert.equal(huge.status, 400);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders"), 1);
+  // Click in test mode still opens no page, whatever path it is given.
+  await f.store.transition(first.attemptId, "cancelled", "invoice_cancelled", { from: ["pending"], unseen: true });
+  const click = (await (await buy("/ru/kalkulyator/", crypto.randomUUID(), "click")).json()) as Record<string, unknown>;
+  assert.deepEqual([click.mode, click.amount, "checkoutUrl" in click], ["test", 2000000, false]);
+  // The page is not stored: no table holds any path the browser sent.
+  const tables = f.db.rows<{ name: string }>("SELECT name FROM sqlite_master WHERE type='table'");
+  for (const { name } of tables) {
+    const dump = JSON.stringify(f.db.rows(`SELECT * FROM "${name}"`));
+    for (const slug of ["kalkulyator", "russko-uzbekskiy-perevodchik", "evil.example"]) assert.ok(!dump.includes(slug), `${name} holds ${slug}`);
+  }
 });

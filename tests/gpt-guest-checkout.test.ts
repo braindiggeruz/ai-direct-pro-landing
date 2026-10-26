@@ -247,6 +247,86 @@ test("a guest pays with Payme live: checkout.paycom.uz, the pack is the browser'
   }
 });
 
+test("Ш2-lite: a guest paying live with Click or Payme goes back to the chat page it paid from, only from the closed list; anything else returns to the main chat", async () => {
+  const f = await billingFixture();
+  // Production's shape: Click and Payme live by their own switches, guest checkout on.
+  Object.assign(f.env, liveSettings(), {
+    GPT_BILLING_MODE: "",
+    GPT_BILLING_MODE_CLICK: "live",
+    GPT_BILLING_MODE_PAYME: "live",
+    GPT_PAYME_KEY: randomBytes(32).toString("hex"),
+    GPT_CLICK_CREDENTIALS_JSON: JSON.stringify({
+      live: { service_id: 41001, merchant_id: 32002, secret_key: randomBytes(32).toString("hex"), merchant_user_id: 50003 },
+    }),
+    GPT_GUEST_CHECKOUT: "true",
+  });
+  let address = 0;
+  const pay = async (provider: "click" | "payme", locale: "ru" | "uz", returnPath: unknown, cookie = "", requestId: string = crypto.randomUUID()) => {
+    const response = await subscribe(f.ctx(new Request(`${ORIGIN}/api/gpt/subscribe`, {
+      method: "POST",
+      // A new guest per payment: one address each, under the five an hour.
+      headers: { cookie, Origin: ORIGIN, "Content-Type": "application/json", "CF-Connecting-IP": `198.51.100.${++address}` },
+      body: JSON.stringify({ provider, requestId, acceptTerms: true, termsVersion: f.env.GPT_BILLING_TERMS_VERSION, locale, returnPath }),
+    })));
+    const body = (await response.json()) as { mode: string; checkoutUrl: string; attemptId: string };
+    assert.equal(response.status, 200, JSON.stringify(body));
+    assert.equal(body.mode, "checkout");
+    const page = new URL(body.checkoutUrl);
+    return { body, page, token: cookieOf(response), requestId };
+  };
+  // Each provider's page in full: the amount is the server's, only the way back may differ.
+  const clickPage = async (locale: "ru" | "uz", returnPath: unknown, path: string) => {
+    const { body, page } = await pay("click", locale, returnPath);
+    assert.equal(page.origin + page.pathname, "https://my.click.uz/services/pay/");
+    assert.deepEqual(Object.fromEntries(page.searchParams), {
+      service_id: "41001",
+      merchant_id: "32002",
+      amount: "20000.00",
+      transaction_param: body.attemptId,
+      return_url: `${ORIGIN}${path}?pay=return`,
+    }, String(returnPath));
+  };
+  const paymeParams = (attemptId: string, locale: string, path: string) =>
+    `m=${f.env.GPT_PAYME_MERCHANT_ID};ac.order_id=${attemptId};a=2000000;c=${ORIGIN}${path}?pay=return;l=${locale};ct=15000`;
+  const paymePage = async (locale: "ru" | "uz", returnPath: unknown, path: string) => {
+    const { body, page } = await pay("payme", locale, returnPath);
+    assert.equal(page.origin, "https://checkout.paycom.uz");
+    assert.equal(atob(page.pathname.slice(1)), paymeParams(body.attemptId, locale, path), String(returnPath));
+  };
+  // A listed chat page of the checkout's language: back to it.
+  await clickPage("ru", "/ru/kalkulyator/", "/ru/kalkulyator/");
+  await clickPage("uz", "/uz/rus-ozbek-tarjimon/", "/uz/rus-ozbek-tarjimon/");
+  await paymePage("uz", "/uz/matematika-test/", "/uz/matematika-test/");
+  await paymePage("ru", "/ru/generator-pozdravleniy/", "/ru/generator-pozdravleniy/");
+  // Open-redirect attempts and everything off the list: the main chat, as before.
+  for (const returnPath of [
+    "https://evil.example/uz/kalkulyator/",
+    "//evil.example/uz/kalkulyator/",
+    "/\\evil.example/uz/kalkulyator/",
+    "/uz/%6Balkulyator/",
+    "/uz/tariflar/",
+    "/ru/kalkulyator/",
+    `/uz/${"a".repeat(200)}/`,
+    "/uz/kalkulyator/;c=https://evil.example",
+    undefined,
+  ]) {
+    await clickPage("uz", returnPath, "/uz/gpt-uzbek-tilida/");
+    await paymePage("uz", returnPath, "/uz/gpt-uzbek-tilida/");
+  }
+  // The guest's retry from another chat page (same key, its own cookie) is the
+  // same order at the same amount; only the way back follows the page.
+  const first = await pay("payme", "uz", "/uz/kirill-lotin/");
+  const cookie = `__Host-gpt_account=${first.token}`;
+  const again = await pay("payme", "uz", "/uz/kalkulyator/", cookie, first.requestId);
+  assert.equal(again.body.attemptId, first.body.attemptId);
+  assert.equal(atob(again.page.pathname.slice(1)), paymeParams(first.body.attemptId, "uz", "/uz/kalkulyator/"));
+  const guest = f.db.value("SELECT user_id FROM gpt_payment_orders WHERE id=?", first.body.attemptId) as string;
+  assert.ok(isGuestAccount(guest));
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders WHERE user_id=?", guest), 1);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders WHERE amount <> 2000000"), 0);
+  assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders WHERE mode <> 'live'"), 0);
+});
+
 test("new guests count an IPv6 network as one address, and the site has a ceiling", async () => {
   assert.equal(addressKey("2001:db8:1:2:3:4:5:6"), "2001:db8:1:2::/64");
   assert.equal(addressKey("2001:DB8:1:2::9"), "2001:db8:1:2::/64");

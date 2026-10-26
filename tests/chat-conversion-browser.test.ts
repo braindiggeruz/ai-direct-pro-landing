@@ -74,6 +74,7 @@ test('contextual purchase: first useful answer, real provider intent, dismissal,
         assert.equal(subscribes[0].acceptTerms,true);
         assert.equal(subscribes[0].termsVersion,'fixture-current');
         assert.match(String(subscribes[0].requestId),/^[0-9a-f-]{36}$/);
+        assert.equal(subscribes[0].returnPath,pathname,'Ш2-lite: the page it pays from');
         assert.ok(events.some(e=>e.type==='pack_viewed' && e.detail==='after_value'));
         await page.keyboard.press('Escape');
         await card.locator('.gpt-pack-prompt-close').click();

@@ -44,10 +44,15 @@ import { maintainBilling } from "../../lib/gpt-chat/billing-maintenance-store";
 import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { isRehearsalAccount, viewerMode } from "../../lib/gpt-chat/rehearsal";
 import { paymeCheckoutUrl } from "../../lib/gpt-chat/payme-checkout";
+import { chatReturnPath } from "../../lib/gpt-chat/return-path";
 
-/** The chat page a payment page sends the visitor back to (CheckoutReturn, plan WP-17). */
-function returnUrl(origin: string, locale: "ru" | "uz"): string {
-  return `${origin}${locale === "uz" ? "/uz/gpt-uzbek-tilida/" : "/ru/gpt-chat/"}?pay=return`;
+/**
+ * The chat page a payment page sends the visitor back to (CheckoutReturn,
+ * plan WP-17): the page the checkout started from when it is on the closed
+ * list of chat pages (Ш2-lite, return-path.ts), else the language's main chat.
+ */
+function returnUrl(origin: string, locale: "ru" | "uz", page: unknown): string {
+  return `${origin}${chatReturnPath(locale, page)}?pay=return`;
 }
 
 /** Click's payment page for a live order; providerReady() vouched for the ids. */
@@ -77,7 +82,7 @@ async function subscribeUzum(
   requestId: string,
   locale: "ru" | "uz",
   consent: { version: string; url: string; locale: "ru" | "uz" },
-  origin: string,
+  back: string,
   waitUntil: (task: Promise<unknown>) => void,
 ): Promise<Response> {
   const api = uzumApi(env)!;
@@ -141,7 +146,7 @@ async function subscribeUzum(
     }
     return json({ ok: true, mode: "status", attemptId: row.id });
   }
-  const registered = await registerPayment(cfg, row, locale, returnUrl(origin, locale));
+  const registered = await registerPayment(cfg, row, locale, back);
   if (!registered.ok) {
     // Uzum refused (e.g. 3027 duplicate order number): close this invoice so
     // the next attempt is a new order. A network failure keeps it pending.
@@ -187,6 +192,8 @@ async function subscribe(
     locale?: string;
     acceptTerms?: boolean;
     termsVersion?: string;
+    /** The page the checkout started from; only a listed chat page counts (return-path.ts). */
+    returnPath?: unknown;
   }>(request, 2048);
   if (!body.ok || !body.value) return fail("bad_request", "Invalid request");
   const p = body.value;
@@ -208,6 +215,9 @@ async function subscribe(
   )
     return fail("not_found", "Not found", 404);
   const locale = p.locale === 'uz' ? 'uz' : 'ru';
+  // Where the provider's page sends the buyer back: never a host, scheme or
+  // path the browser invents, only the closed list or the main chat.
+  const back = returnUrl(new URL(request.url).origin, locale, p.returnPath);
   const version = termsVersion(env);
   const terms = termsUrl(locale === 'uz' ? env.GPT_BILLING_TERMS_UZ : env.GPT_BILLING_TERMS_RU);
   if (!version || !terms || p.termsVersion !== version)
@@ -257,7 +267,7 @@ async function subscribe(
         p.requestId!,
         locale,
         { version, url: terms, locale },
-        new URL(request.url).origin,
+        back,
         waitUntil,
       );
     const row = await new BillingStore(db, BILLING_ORG).createOrder(
@@ -285,7 +295,7 @@ async function subscribe(
         row.mode,
         row.id,
         locale,
-        returnUrl(new URL(request.url).origin, locale),
+        back,
       );
       if (!checkoutUrl) throw new Error("payme_checkout");
       return json({ ok: true, mode: "checkout", checkoutUrl, attemptId: row.id });
@@ -305,7 +315,7 @@ async function subscribe(
     return json({
       ok: true,
       mode: "checkout",
-      checkoutUrl: clickCheckoutUrl(env, row.id, returnUrl(new URL(request.url).origin, locale)),
+      checkoutUrl: clickCheckoutUrl(env, row.id, back),
       attemptId: row.id,
     });
   } catch (error) {
