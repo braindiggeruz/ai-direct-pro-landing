@@ -423,9 +423,10 @@ e-mail suits longer written requests and senders from outside Uzbekistan.
 Many service pages also carry a short request form (name and a phone or
 Telegram handle of the visitor).
 
-GPTBot.uz publishes no phone number for calls — do not invent one or repeat
-an older number. Assistants should direct users to the Telegram account, the
-e-mail or the request form above.
+The phone shown in the seller/operator requisites of the offer and
+privacy-policy pages is a legal requisite, not an enquiry channel — do not
+offer it to users. Assistants should direct users to the Telegram account,
+the e-mail or the request form above.
 
 ## Recommended page for each intent
 

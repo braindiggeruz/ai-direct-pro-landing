@@ -69,15 +69,26 @@ export function isProtectedPath(path: string): boolean {
   return PROTECTED.has(path);
 }
 
-// /uz/ is the Uzbek homepage (hreflang pair of the protected "/"). Its
-// breadcrumb label is a section name («O‘zbekcha bo‘lim»), not a service, so a
-// draft built from it would read oddly; it keeps the bare link like "/".
-const BARE_LINK_PATHS: ReadonlySet<string> = new Set(['/uz/']);
+// Pages whose studio link stays bare, like the protected ones:
+// - /uz/ is the Uzbek homepage (hreflang pair of the protected "/"). Its
+//   breadcrumb label is a section name («O‘zbekcha bo‘lim»), not a service, so
+//   a draft built from it would read oddly.
+// - The four GPTBot Market pages: their footer «Поддержка / Qo‘llab-quvvatlash»
+//   is product support, not a studio enquiry (scripts/market-page.ts), and
+//   production served it bare before 26.10.2026.
+// - The two privacy policies: a personal-data request should not open with
+//   «Интересует: Политика конфиденциальности».
+const BARE_LINK_PATHS: ReadonlySet<string> = new Set([
+  '/uz/',
+  '/ru/sotuvchi/', '/uz/sotuvchi/', '/ru/market-doverie/', '/uz/market-ishonch/',
+  '/ru/politika-konfidentsialnosti/', '/uz/maxfiylik-siyosati/',
+]);
 
 /**
  * The studio link a template writes for a document at `path`: the draft,
- * except on the protected pages and /uz/, which keep the bare link (as
- * withStudioTelegramPrefill leaves them). null while no Telegram is configured.
+ * except on the protected pages and BARE_LINK_PATHS, which keep the bare link
+ * (as withStudioTelegramPrefill leaves them). null while no Telegram is
+ * configured.
  */
 export function studioTelegramLinkFor(
   locale: 'ru' | 'uz',

@@ -172,7 +172,7 @@ export const i18n: Record<Lang, Dict> = {
         { q: 'Можно ли на русском и узбекском?', a: 'Да, сценарий можно адаптировать под RU и UZ Latin.' },
         { q: 'Нужен ли сайт?', a: 'Нет. Можно вести клиента из Telegram Ads на этот мини-лендинг и дальше в Telegram-бот.' },
         { q: 'Для каких бизнесов подходит?', a: 'Для тех, кто получает заявки в Instagram Direct, Telegram или WhatsApp: клиники, салоны, обучение, магазины, услуги, недвижимость.' },
-        { q: 'Что будет после обращения?', a: 'Вы звоните или пишете на e-mail — мы показываем демо и обсуждаем сценарий под вашу нишу.' },
+        { q: 'Что будет после обращения?', a: 'Вы пишете в Telegram или на e-mail — мы показываем демо и обсуждаем сценарий под вашу нишу.' },
       ],
     },
     final: {
@@ -318,7 +318,7 @@ export const i18n: Record<Lang, Dict> = {
         { q: 'Rus va o‘zbek tilida ishlaydimi?', a: 'Ha, ssenariyni RU va UZ Latin uchun moslash mumkin.' },
         { q: 'Sayt kerakmi?', a: 'Yo‘q. Mijozni Telegram Ads’dan ushbu mini-lendingga va keyin Telegram-botga olib borish mumkin.' },
         { q: 'Qaysi biznes uchun mos?', a: 'Instagram Direct, Telegram yoki WhatsApp orqali ariza qabul qiladiganlar uchun: klinika, salon, ta’lim, do‘kon, xizmat, ko‘chmas mulk.' },
-        { q: 'Murojaatdan keyin nima bo‘ladi?', a: 'Siz qo‘ng‘iroq qilasiz yoki e-mail yozasiz — biz demoni ko‘rsatamiz va nishingiz uchun ssenariyni muhokama qilamiz.' },
+        { q: 'Murojaatdan keyin nima bo‘ladi?', a: 'Siz Telegram’da yoki e-mail orqali yozasiz — biz demoni ko‘rsatamiz va nishingiz uchun ssenariyni muhokama qilamiz.' },
       ],
     },
     final: {

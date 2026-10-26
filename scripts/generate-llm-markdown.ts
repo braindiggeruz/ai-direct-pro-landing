@@ -45,7 +45,10 @@ const DIST_DIR = path.join(ROOT, 'dist');
 
 type Locale = 'ru' | 'uz';
 
-const absolute = (target: string) => (target.startsWith('http') ? target : `${SITE_URL}${target}`);
+// Site paths get the origin; a target with its own scheme (https:, mailto:,
+// tel:) is already absolute. Until 26.10.2026 only http(s) passed, so the
+// e-mail alternative of a contact link read «https://gptbot.uzmailto:…».
+const absolute = (target: string) => (/^[a-z][a-z0-9+.-]*:/i.test(target) ? target : `${SITE_URL}${target}`);
 const cell = (s: string) => (s || '').replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
 
 function blockToMd(b: BodyBlock): string | null {

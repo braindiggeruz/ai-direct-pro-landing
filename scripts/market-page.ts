@@ -1,5 +1,6 @@
 import type { BodyBlock, FaqItem, Page } from '../src/shared/types';
 import { headerChatLink } from '../src/shared/site-chat-nav';
+import { STUDIO_CONTACT_ATTR, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 
 function e(value: string): string {
   return (value || '').replace(/[&<>"']/g, (character) => ({
@@ -19,12 +20,16 @@ function trustPath(locale: Page['locale']): string {
   return locale === 'uz' ? '/uz/market-ishonch/' : '/ru/market-doverie/';
 }
 
-// GPTBot Market is a separate product with its own support channel; the
-// studio contact of gptbot.uz (src/shared/studio-contact.ts, plan decision L14)
-// does not apply here. The footer used to read the site-wide `telegram` field,
-// which the protected-pages revision (paid-chat WP-12) removed, so the channel
-// is named where it is used.
-const MARKET_SUPPORT_URL = 'https://t.me/XGame_changerx';
+// GPTBot Market's support link goes to the studio contact. Until 25.10.2026 it
+// named the owner's Telegram here by hand while decision L14 kept that account
+// off the rest of the site; since the owner's order of 26.10.2026 the same
+// account is the studio's public contact (content/global/site.json
+// `studioTelegram`, src/shared/studio-contact.ts), so the footer reads it from
+// there, carries the studio marker (a click counts as contact_click /
+// telegram_cta_studio) and keeps the bare link: scripts/telegram-cta.ts lists
+// the market pages in BARE_LINK_PATHS, so no sales draft is prefilled. With no
+// studio Telegram configured the support link is left out.
+const MARKET_SUPPORT_URL: string | null = STUDIO_TELEGRAM_URL;
 
 export function renderMarketHeader(
   page: Page,
@@ -292,7 +297,7 @@ export function renderMarketTrust(page: Page): string {
 
 export function renderMarketFooter(page: Page): string {
   const uz = page.locale === 'uz';
-  return `<footer class="market-footer"><div class="market-shell market-footer-row"><div><img src="/assets/market/gptbot-market-wordmark-dark.svg" width="255" height="48" alt="GPTBot Market" /><p>${uz ? 'GPTBot.uz mahsuloti. Ulangan do‘kon kataloglarida mahsulot topishga yordam beradi. Telegram, OpenAI yoki do‘konlar nomidan chiqmaydi.' : 'Продукт GPTBot.uz. Помогает находить товары в каталогах подключённых магазинов. Не выступает от имени Telegram, OpenAI или магазинов.'}</p></div><nav class="market-footer-links" aria-label="${uz ? 'Yordamchi havolalar' : 'Служебные ссылки'}"><a href="${trustPath(page.locale)}">${uz ? 'Ishonch markazi' : 'Центр доверия'}</a><a href="${uz ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/'}">${uz ? 'Maxfiylik' : 'Конфиденциальность'}</a><a href="${MARKET_SUPPORT_URL}" rel="nofollow noopener noreferrer" target="_blank">${uz ? 'Qo‘llab-quvvatlash' : 'Поддержка'}</a></nav></div></footer>`;
+  return `<footer class="market-footer"><div class="market-shell market-footer-row"><div><img src="/assets/market/gptbot-market-wordmark-dark.svg" width="255" height="48" alt="GPTBot Market" /><p>${uz ? 'GPTBot.uz mahsuloti. Ulangan do‘kon kataloglarida mahsulot topishga yordam beradi. Telegram, OpenAI yoki do‘konlar nomidan chiqmaydi.' : 'Продукт GPTBot.uz. Помогает находить товары в каталогах подключённых магазинов. Не выступает от имени Telegram, OpenAI или магазинов.'}</p></div><nav class="market-footer-links" aria-label="${uz ? 'Yordamchi havolalar' : 'Служебные ссылки'}"><a href="${trustPath(page.locale)}">${uz ? 'Ishonch markazi' : 'Центр доверия'}</a><a href="${uz ? '/uz/maxfiylik-siyosati/' : '/ru/politika-konfidentsialnosti/'}">${uz ? 'Maxfiylik' : 'Конфиденциальность'}</a>${MARKET_SUPPORT_URL ? `<a ${STUDIO_CONTACT_ATTR} href="${e(MARKET_SUPPORT_URL)}" rel="nofollow noopener noreferrer" target="_blank">${uz ? 'Qo‘llab-quvvatlash' : 'Поддержка'}</a>` : ''}</nav></div></footer>`;
 }
 
 export const MARKET_FAQ_SCRIPT = `<script>

@@ -70,6 +70,6 @@ for (const { page, file } of guides) {
     assert.ok(html.includes(`rel="canonical" href="${page.canonical}"`));
     assert.ok(html.includes(`href="${page.ctaPrimaryHref}"`), 'the direct chat entry must remain');
     assert.equal((html.match(/<h1\b/g) || []).length, 1, 'keep a single visible heading');
-    assert.doesNotMatch(html, /data-testid="sticky-call-cta"/, 'the guide must not inherit the commercial sales bar');
+    assert.doesNotMatch(html, /data-testid="sticky-(?:call|telegram)-cta"|class="sticky-cta /, 'the guide must not inherit the commercial sales bar');
   });
 }

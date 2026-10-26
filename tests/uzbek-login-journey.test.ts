@@ -35,7 +35,7 @@ test('the login instruction and independent chat guide provide a reciprocal lear
   assert.ok(login.includes(`href="${GUIDE}"`));
   assert.ok(guide.includes(`href="${LOGIN}"`));
   assert.match(guide, /GPTBot\.uz/);
-  assert.doesNotMatch(guide, /data-testid="sticky-call-cta"/);
+  assert.doesNotMatch(guide, /data-testid="sticky-(?:call|telegram)-cta"|class="sticky-cta /);
 });
 
 test('the Uzbek login revision changes one protected body while keeping all search metadata and nine peers', () => {

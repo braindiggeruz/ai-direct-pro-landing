@@ -1,11 +1,10 @@
 // Calls to action of the homepage landing and their tracking.
 //
 // Every "demo" button on the homepage leads to its contact section
-// (#contact, src/components/FinalCTA.tsx): the studio phone, the e-mail and,
-// once content/global/site.json names one, the work Telegram
-// (src/shared/studio-contact.ts). The owner's personal Telegram, where these
-// buttons used to go, is no longer a public contact (paid-chat plan, decision
-// L14), and the section keeps naming a work Telegram a one-line change.
+// (#contact, src/components/FinalCTA.tsx): the studio Telegram (the owner's
+// account, the public contact since the owner's order of 26.10.2026,
+// superseding paid-chat decision L14) and the e-mail; the phone only while
+// content/global/site.json phonePublic is true (src/shared/studio-contact.ts).
 export const CONTACT_HREF = '#contact';
 
 // Map our custom events to standard Meta Pixel events where applicable. A

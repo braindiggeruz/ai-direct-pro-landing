@@ -209,11 +209,13 @@ test('llms.txt and llms-full.txt name the Telegram and the e-mail, and no phone'
     assert.ok(text.includes(STUDIO_EMAIL), `${file}: e-mail`);
     assert.doesNotMatch(text, PHONE, file);
   }
-  // llms.txt is hand-written: it tells assistants the studio takes no calls,
-  // so an older number in their memory is not repeated.
+  // llms.txt is hand-written. The phone is still printed in the requisites of
+  // the offers and the privacy policies, so llms.txt must not claim the site
+  // publishes none: it names that number a legal requisite, not a channel.
   const llms = read('public/llms.txt');
   assert.ok(llms.includes(`| Telegram (public, write) | ${STUDIO_TELEGRAM_HANDLE} — ${OWNER} |`));
-  assert.ok(llms.includes('GPTBot.uz publishes no phone number for calls'));
+  assert.match(llms, /requisites of the offer and\s+privacy-policy pages is a legal requisite, not an enquiry channel/);
+  assert.doesNotMatch(llms, /publishes no phone number/);
   assert.ok(!llms.includes('publishes no Telegram account of its own'));
 });
 
@@ -420,8 +422,6 @@ const HANDLE_FILES = new Map<string, string>([
   ['public/llms-full.txt', 'hand-written opening of the superset'],
   // The header comment records the owner's order of 26.10.2026; the code reads site.json.
   ['src/shared/studio-contact.ts', 'comment: the decision record'],
-  // A separate product with its own support channel.
-  ['scripts/market-page.ts', 'GPTBot Market footer'],
   ['functions/platform/bunzy/content.ts', 'Bunzy'],
   ['functions/platform/bunzy/render.ts', 'Bunzy'],
   // The lead bot @aidirectprobot; not to be touched (AGENTS.md section 2).
@@ -540,4 +540,53 @@ test('built site: protected pages link the bare Telegram (no draft) and every #c
       assert.equal((text.match(/id="contact"/g) ?? []).length, 1, `${file}: #contact without exactly one card`);
     }
   }
+});
+
+test('the homepage FAQ invites a written contact in both languages, never a call', () => {
+  // src/i18n.ts feeds the React landing, the crawler shell of "/" and its FAQPage.
+  const i18n = read('src/i18n.ts');
+  assert.ok(i18n.includes("a: 'Вы пишете в Telegram или на e-mail — мы показываем демо"));
+  assert.ok(i18n.includes("a: 'Siz Telegram’da yoki e-mail orqali yozasiz — biz demoni"));
+  assert.doesNotMatch(i18n, /Вы звоните|qo[‘']ng[‘']iroq qilasiz/);
+});
+
+test('built site: every studio Telegram link carries the marker, market support included; market pages and policies link it bare', { skip: !built && 'no dist/ build present' }, () => {
+  let links = 0;
+  for (const file of listFiles('dist', /\.html$/)) {
+    if (OFFERS.has(file)) continue;
+    for (const tag of markup(read(file)).match(/<a\b[^>]*href="https:\/\/t\.me\/XGame_changerx[^"]*"[^>]*>/g) ?? []) {
+      links += 1;
+      assert.ok(tag.includes(STUDIO_CONTACT_ATTR), `${file}: ${tag.slice(0, 120)}`);
+      assert.match(tag, /rel="nofollow noopener noreferrer"/, file);
+      assert.match(tag, /target="_blank"/, file);
+    }
+  }
+  assert.ok(links > 700, `only ${links} studio Telegram links`);
+  // Market support and personal-data requests are not sales enquiries: no draft.
+  for (const file of [...MARKET, ...POLICIES]) {
+    const tags = markup(read(file)).match(/<a\b[^>]*href="https:\/\/t\.me\/XGame_changerx[^"]*"[^>]*>/g) ?? [];
+    assert.ok(tags.length > 0, `${file}: no studio Telegram link`);
+    for (const tag of tags) {
+      assert.ok(tag.includes(`href="${OWNER}"`), `${file}: ${tag.slice(0, 120)}`);
+      assert.ok(tag.includes(STUDIO_CONTACT_ATTR), file);
+    }
+  }
+  assert.equal(MARKET.size, 4);
+});
+
+test('built site: the homepage FAQ and its FAQPage answer name the Telegram, not a call', { skip: !built && 'no dist/ build present' }, () => {
+  const html = read('dist/index.html');
+  assert.equal((html.match(/Вы пишете в Telegram или на e-mail — мы показываем демо/g) ?? []).length, 2, 'visible FAQ and FAQPage');
+  assert.doesNotMatch(html, /Вы звоните/);
+});
+
+test('built site: Markdown twins and llms-full.txt keep mailto: and tel: targets unprefixed', { skip: !built && 'no dist/ build present' }, () => {
+  let twins = 0;
+  for (const file of [...listFiles('dist', /\.html\.md$/), 'dist/llms-full.txt']) {
+    const text = read(file);
+    twins += 1;
+    assert.doesNotMatch(text, /gptbot\.uz(?:mailto|tel|https?):/, file);
+  }
+  assert.ok(twins > 20, `only ${twins} Markdown files`);
+  assert.match(read('dist/llms-full.txt'), /\]\(mailto:ceo@gptbot\.uz\)/);
 });
