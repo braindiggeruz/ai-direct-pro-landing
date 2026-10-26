@@ -191,7 +191,22 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // byte-identical. The 54 changed unprotected pages, the sitemap lastmod of /
 // and /ru/tarify-ai-chat/ and the updates feed stay outside the gate;
 // invisibleToGate lists them.
-export const BASELINE = 'docs/seo/evidence/2026-10-26-monetization/reviewed-protected-pages.json';
+// The 2026-10-26-contact revision (owner order of 26.10: «где мой номер —
+// грамотно замени на мой Telegram, чтобы писали, а не звонили»; it supersedes
+// decision L14, the owner names his Telegram account, site.json studioTelegram,
+// as the public contact) changes one contract field, bodyTextSha256, on all ten, and only in
+// contact surfaces: every footer names «Telegram» instead of the phone; the
+// business contact lines of four articles and both chats, the #contact card of
+// two articles, the chats' noscript line and, on /, the shell's contact line
+// and the FAQ answer «Что будет после обращения?» invite to write in Telegram
+// or by e-mail instead of calling. Title, H1, description, robots, canonical,
+// hreflang, internal links and dates are unchanged on every page of the site.
+// The Organization JSON-LD loses telephone and gains contactPoint customer
+// support + e-mail + url Telegram; the chat bundle and the SPA entry move by
+// name. The generator puts every reviewed swap and both names back and
+// requires the predecessor's HTML byte for byte; reviewedChanges records the
+// text steps, which replayed on the new body text give the old one.
+export const BASELINE = 'docs/seo/evidence/2026-10-26-contact/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

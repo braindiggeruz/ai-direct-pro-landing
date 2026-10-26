@@ -468,6 +468,79 @@ test('the monetization revision changes no contract: the ten keep contract and b
   }
 });
 
+test('the contact revision changes body text only, in contact surfaces: the phone gives way to the owner\'s Telegram on all ten', () => {
+  type Step = { surface: string; before: string; after: string };
+  type Contact = Revision & {
+    reviewedChanges: Array<{
+      pathname: string; fields: string[]; reason: string;
+      change: Record<string, unknown> & { body: Step[] };
+      nonContract: { markup: string; jsonLd: string; asset?: string };
+      htmlSha256: string;
+    }>;
+    invisibleToGate: Array<{ change: string; pages?: string[] }>;
+    measurement: string;
+    changedUnprotectedPages: { bodyText: string[]; htmlOnly: string[]; byteIdentical: string[] };
+    pages: Array<{ pathname: string; contract: Record<string, unknown>; bodyText: string; htmlSha256: string }>;
+  };
+  const MONETIZATION = 'docs/seo/evidence/2026-10-26-monetization/reviewed-protected-pages.json';
+  const current = readRevision('docs/seo/evidence/2026-10-26-contact/reviewed-protected-pages.json') as Contact;
+  const previous = readRevision(MONETIZATION) as Contact;
+  assert.equal(current.previousRevision, MONETIZATION);
+  assert.deepEqual(current.reviewedChanges.map((c) => c.pathname), [...PROTECTED_PATHS]);
+  // Only the surfaces the owner's order covers: footer, contact lines, contact
+  // card, noscript line, the homepage contact section and its contact FAQ answer.
+  const SURFACE = /^(footer|business contact line in the (article text|text under the chat)|#contact card: (intro|button)|<noscript> contact line|contact section #contact of the crawler shell|FAQ answer «Что будет после обращения\?»)/;
+  for (const page of current.pages) {
+    const before = previous.pages.find((p) => p.pathname === page.pathname)!;
+    const record = current.reviewedChanges.find((c) => c.pathname === page.pathname)!;
+    assert.deepEqual(record.fields, ['bodyTextSha256'], page.pathname);
+    for (const key of ['title', 'h1', 'description', 'robots', 'googlebot', 'canonical', 'hreflang', 'internalLinks']) {
+      assert.deepEqual(page.contract[key], before.contract[key], `${page.pathname}: ${key} must not change in this revision`);
+    }
+    assert.equal(sha256(page.bodyText), page.contract.bodyTextSha256, page.pathname);
+    // Replaying the reviewed steps on the new body text gives the predecessor's: nothing else moved.
+    let text = page.bodyText;
+    for (const step of record.change.body) {
+      assert.match(step.surface, SURFACE, `${page.pathname}: ${step.surface}`);
+      assert.match(step.before, /\+998 50 587 07 20|звон|Позвон|qo‘ng‘iroq|Qo‘ng‘iroq/, `${page.pathname}: a step removes a call or the number`);
+      assert.match(step.after, /Telegram/, `${page.pathname}: a step names Telegram`);
+      assert.doesNotMatch(step.after, /'|ʻ|ʼ/, `${page.pathname}: Uzbek apostrophes are U+2018/U+2019`);
+      assert.equal(text.split(step.after).length, 2, `${page.pathname}: «${step.after}» is unique`);
+      text = text.replace(step.after, () => step.before);
+    }
+    assert.equal(text, before.bodyText, `${page.pathname}: the reviewed steps reproduce the predecessor's body text`);
+    assert.ok(record.change.body.some((s) => s.surface.startsWith('footer')), `${page.pathname}: the footer names Telegram`);
+    assert.doesNotMatch(page.bodyText, /505870720|50 587 07 20|позвон|звоните|qo‘ng‘iroq/i, page.pathname);
+    assert.match(page.bodyText, /Telegram/, page.pathname);
+    assert.match(page.bodyText, /ceo@gptbot\.uz/, page.pathname);
+    const [hashBefore, hashAfter] = record.htmlSha256.split(' → ');
+    assert.equal(hashBefore, before.htmlSha256, page.pathname);
+    assert.equal(hashAfter, page.htmlSha256, page.pathname);
+    assert.match(record.reason, /2026-10-26.*XGame_changerx.*L14/s);
+    assert.match(record.nonContract.markup, /data-contact="studio".*rel="nofollow noopener noreferrer".*target="_blank"/s);
+    assert.match(record.nonContract.jsonLd, /telephone removed.*customer support.*https:\/\/t\.me\/XGame_changerx.*name, address/s);
+    assert.equal(Boolean(record.nonContract.asset), ['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/', '/'].includes(page.pathname), page.pathname);
+  }
+  // Outside the protected set: the two offers stay byte for byte (approved edition),
+  // the market pages change markup only, nothing protected is listed twice.
+  const { bodyText, htmlOnly, byteIdentical } = current.changedUnprotectedPages;
+  assert.deepEqual(byteIdentical, ['/ru/oferta/', '/uz/oferta/']);
+  assert.deepEqual(htmlOnly, ['/ru/market-doverie/', '/ru/sotuvchi/', '/uz/market-ishonch/', '/uz/sotuvchi/']);
+  assert.equal(new Set([...bodyText, ...htmlOnly, ...byteIdentical]).size, bodyText.length + htmlOnly.length + byteIdentical.length);
+  for (const url of [...bodyText, ...htmlOnly]) assert.ok(!(PROTECTED_PATHS as readonly string[]).includes(url), url);
+  assert.ok(bodyText.includes('/ru/politika-konfidentsialnosti/') && bodyText.includes('/uz/maxfiylik-siyosati/'));
+  const invisible = current.invisibleToGate.map((c) => c.change).join('\n');
+  assert.match(invisible, /sitemap\.xml, sitemap-updates\.xml, robots\.txt.* are byte-identical/);
+  assert.match(invisible, /index-B7Z1XlOc\.css/);
+  assert.match(invisible, /ai-paket-2026-10-v5/);
+  assert.match(current.measurement, /contact_click/);
+  assert.match(current.measurement, /telegram_cta_studio/);
+  assert.match(current.measurement, /No ranking or traffic guarantee/);
+  for (const text of [invisible, current.measurement, ...current.reviewedChanges.map((c) => JSON.stringify(c))]) {
+    assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+  }
+});
+
 test('the current revision documents every contract change against its predecessor, which stays untouched', () => {
   const current = readRevision(BASELINE);
   assert.ok(current.previousRevision && current.previousRevision !== BASELINE, 'a revision names its predecessor');
