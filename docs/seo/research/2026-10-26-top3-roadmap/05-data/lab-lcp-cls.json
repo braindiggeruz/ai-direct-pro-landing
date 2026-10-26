@@ -1,0 +1,229 @@
+{
+ "note": "scripts/chat-layout-check.mjs --perf-only on dist 4b219a0c, 4x CPU, 562.5 ms RTT, 1.44 Mbit/s; two runs 26.10.2026",
+ "runs": {
+  "perf-report.json": [
+   {
+    "size": "320x568",
+    "locale": "uz",
+    "lcp": 13692,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      12904,
+      "::after."
+     ],
+     [
+      13692,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.1436
+   },
+   {
+    "size": "320x568",
+    "locale": "ru",
+    "lcp": 3256,
+    "el": "h1.gpt-kicker",
+    "candidates": [
+     [
+      2592,
+      "h1.gpt-kicker"
+     ],
+     [
+      3256,
+      "h1.gpt-kicker"
+     ]
+    ],
+    "cls": 0.002
+   },
+   {
+    "size": "360x612",
+    "locale": "uz",
+    "lcp": 2160,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2160,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0018
+   },
+   {
+    "size": "360x612",
+    "locale": "ru",
+    "lcp": 2216,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2216,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0018
+   },
+   {
+    "size": "390x844",
+    "locale": "uz",
+    "lcp": 2440,
+    "el": null,
+    "candidates": [
+     [
+      2440,
+      null
+     ]
+    ],
+    "cls": 0.0009
+   },
+   {
+    "size": "390x844",
+    "locale": "ru",
+    "lcp": 2352,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2352,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0009
+   },
+   {
+    "size": "1366x768",
+    "locale": "uz",
+    "lcp": 2188,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2188,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0053
+   },
+   {
+    "size": "1366x768",
+    "locale": "ru",
+    "lcp": 2320,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2320,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0051
+   }
+  ],
+  "perf-report2.json": [
+   {
+    "size": "320x568",
+    "locale": "uz",
+    "lcp": 2052,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2052,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.002
+   },
+   {
+    "size": "320x568",
+    "locale": "ru",
+    "lcp": 2980,
+    "el": "h1.gpt-kicker",
+    "candidates": [
+     [
+      2216,
+      "h1.gpt-kicker"
+     ],
+     [
+      2980,
+      "h1.gpt-kicker"
+     ]
+    ],
+    "cls": 0.002
+   },
+   {
+    "size": "360x612",
+    "locale": "uz",
+    "lcp": 2264,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2264,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0018
+   },
+   {
+    "size": "360x612",
+    "locale": "ru",
+    "lcp": 2340,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2340,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0018
+   },
+   {
+    "size": "390x844",
+    "locale": "uz",
+    "lcp": 2044,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2044,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0009
+   },
+   {
+    "size": "390x844",
+    "locale": "ru",
+    "lcp": 2176,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2176,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0009
+   },
+   {
+    "size": "1366x768",
+    "locale": "uz",
+    "lcp": 2220,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2220,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0053
+   },
+   {
+    "size": "1366x768",
+    "locale": "ru",
+    "lcp": 2228,
+    "el": "p.gpt-greet gpt-shell-greet",
+    "candidates": [
+     [
+      2228,
+      "p.gpt-greet gpt-shell-greet"
+     ]
+    ],
+    "cls": 0.0051
+   }
+  ]
+ }
+}

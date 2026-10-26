@@ -1,0 +1,16 @@
+{
+  "source": "OpenSEO inspect_urls, projectId 7534113b-f748-4f98-ac39-9e3782d3d9e7, sc-domain:gptbot.uz, 2026-10-26, 1 call, 0 credits",
+  "rows": [
+    { "url": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/", "lastCrawl": "2026-10-13T00:50:08Z", "breadcrumbName": "Unnamed item", "contentDateModified": "2026-10-25" },
+    { "url": "/uz/sayt-yaratish/", "lastCrawl": "2026-10-19T05:45:53Z", "breadcrumbName": "Unnamed item", "contentDateModified": "2026-10-25" },
+    { "url": "/ru/gpt-vs-chatgpt-sravnenie/", "lastCrawl": "2026-10-16T04:00:54Z", "breadcrumbName": "Unnamed item", "contentDateModified": "2026-10-24" },
+    { "url": "/uz/suniy-intellekt/", "lastCrawl": "2026-10-11T17:04:36Z", "breadcrumbName": "Unnamed item", "contentDateModified": "2026-10-24", "gscSitemaps": ["sitemap-new.xml (404)", "sitemap-updates.xml", "sitemap.xml", "updates/atom.xml"] },
+    { "url": "/ru/blog/chat-gpt-online/", "lastCrawl": "2026-10-19T20:57:31Z", "breadcrumbName": "Unnamed item", "contentDateModified": "2026-09-01" },
+    { "url": "/uz/gpt-uzbek-tilida/", "lastCrawl": "2026-10-25T20:56:49Z", "breadcrumbName": "Unnamed item", "protected": true },
+    { "url": "/ru/gpt-chat/", "lastCrawl": "2026-10-25T17:11:26Z", "breadcrumbName": "Unnamed item", "protected": true },
+    { "url": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/", "lastCrawl": "2026-10-20T19:12:54Z", "breadcrumbName": "Unnamed item", "protected": true },
+    { "url": "/ru/razrabotka-saytov-tashkent/", "lastCrawl": "2026-10-11T19:35:06Z", "breadcrumbName": "Unnamed item", "contentDateModified": "2026-10-09" },
+    { "url": "/ru/seo-prodvizhenie-saytov-tashkent/", "lastCrawl": "2026-10-14T13:44:02Z", "breadcrumbName": "Unnamed item", "contentDateModified": "2026-09-18" }
+  ],
+  "allTen": "verdict PASS, Submitted and indexed, googleCanonical == userCanonical, crawledAs MOBILE, mobileUsability VERDICT_UNSPECIFIED, rich result Breadcrumbs PASS"
+}

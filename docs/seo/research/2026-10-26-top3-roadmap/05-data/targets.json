@@ -1,0 +1,3128 @@
+{
+ "/uz/gpt-uzbek-tilida/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 489,
+   "imp": 74002,
+   "pos": 6.7
+  },
+  "gscUz": {
+   "clicks": 372,
+   "imp": 68997,
+   "pos": 0.0054
+  },
+  "inLinks": 280,
+  "inSources": 138,
+  "byZone": {
+   "body": 77,
+   "related": 33,
+   "other": 25,
+   "nav": 131,
+   "chat-entry": 11,
+   "header": 3
+  },
+  "bodySources": 27,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "imp": 23438,
+    "impUz": 19948
+   },
+   {
+    "s": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "imp": 11707,
+    "impUz": 10626
+   },
+   {
+    "s": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+    "imp": 857,
+    "impUz": 355
+   },
+   {
+    "s": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+    "imp": 745,
+    "impUz": 183
+   },
+   {
+    "s": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+    "imp": 391,
+    "impUz": 29
+   },
+   {
+    "s": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "imp": 309,
+    "impUz": 132
+   },
+   {
+    "s": "/ru/gde-polzovatsya-gpt-besplatno/",
+    "imp": 308,
+    "impUz": 56
+   },
+   {
+    "s": "/uz/blog/referat-va-mustaqil-ish/",
+    "imp": 100,
+    "impUz": 29
+   }
+  ],
+  "anchors": [
+   [
+    "GPTBot.uz bepul AI chati",
+    6
+   ],
+   [
+    "GPTBot.uz AI chati",
+    6
+   ],
+   [
+    "o‘zbek tilidagi AI chat",
+    4
+   ],
+   [
+    "O‘zbek tilida AI chatni sinab ko‘rish",
+    3
+   ],
+   [
+    "AI chatni o‘zbek tilida ochish",
+    3
+   ],
+   [
+    "GPT o‘zbek tilida",
+    2
+   ],
+   [
+    "GPTBot.uz AI chati: 3 ta sinov javobi",
+    2
+   ],
+   [
+    "AI-chatni ochish",
+    2
+   ],
+   [
+    "AI-чате на узбекском языке",
+    1
+   ],
+   [
+    "Открыть независимый AI-чат на узбекском языке",
+    1
+   ],
+   [
+    "o‘zbek tilidagi AI chatda tuzib ko‘ring",
+    1
+   ],
+   [
+    "Biznes reja tuzilmasini AI chatda tuzish",
+    1
+   ]
+  ],
+  "outBodyDistinct": 0,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+   "hreflang": [
+    [
+     "ru",
+     "https://gptbot.uz/ru/gpt-chat/"
+    ],
+    [
+     "uz",
+     "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+    ],
+    [
+     "x-default",
+     "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+    ]
+   ],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": null,
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "O‘zbek tilida AI chat",
+      "item": "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "FAQPage",
+    "SoftwareApplication"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-07-11",
+    "WebPage.dateModified": "2026-10-23"
+   },
+   "time": [
+    "2026-10-23"
+   ],
+   "bytes": 85469,
+   "faq": 13,
+   "app": {
+    "type": "SoftwareApplication",
+    "name": "GPTBot.uz AI chat",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": 1,
+    "aggregateRating": false
+   },
+   "h1": [
+    "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"
+   ]
+  }
+ },
+ "/ru/gpt-chat/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 280,
+   "imp": 94001,
+   "pos": 6.9
+  },
+  "gscUz": {
+   "clicks": 127,
+   "imp": 37912,
+   "pos": 0.0033
+  },
+  "inLinks": 299,
+  "inSources": 198,
+  "byZone": {
+   "nav": 197,
+   "body": 54,
+   "related": 27,
+   "chat-entry": 6,
+   "other": 7,
+   "header": 8
+  },
+  "bodySources": 25,
+  "topBodySources": [
+   {
+    "s": "/ru/gpt-vs-chatgpt-sravnenie/",
+    "imp": 2334,
+    "impUz": 52
+   },
+   {
+    "s": "/ru/blog/chat-gpt-online/",
+    "imp": 1966,
+    "impUz": 1517
+   },
+   {
+    "s": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+    "imp": 745,
+    "impUz": 183
+   },
+   {
+    "s": "/ru/blog/chat-gpt-na-russkom/",
+    "imp": 517,
+    "impUz": 4
+   },
+   {
+    "s": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+    "imp": 391,
+    "impUz": 29
+   },
+   {
+    "s": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+    "imp": 333,
+    "impUz": 28
+   },
+   {
+    "s": "/ru/gde-polzovatsya-gpt-besplatno/",
+    "imp": 308,
+    "impUz": 56
+   },
+   {
+    "s": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+    "imp": 226,
+    "impUz": 76
+   }
+  ],
+  "anchors": [
+   [
+    "Открыть AI-чат",
+    5
+   ],
+   [
+    "AI-чат онлайн",
+    4
+   ],
+   [
+    "AI-чате GPTBot.uz",
+    4
+   ],
+   [
+    "Попробуйте GPTBot.uz AI-чат",
+    4
+   ],
+   [
+    "ИИ-чате GPTBot.uz",
+    3
+   ],
+   [
+    "GPT-чат онлайн",
+    3
+   ],
+   [
+    "Попробовать AI-чат",
+    2
+   ],
+   [
+    "Открыть AI-чат на русском",
+    2
+   ],
+   [
+    "ИИ-чат GPTBot.uz",
+    2
+   ],
+   [
+    "откройте чат",
+    2
+   ],
+   [
+    "GPT-чата онлайн",
+    1
+   ],
+   [
+    "ИИ-чат на узбекском и русском",
+    1
+   ]
+  ],
+  "outBodyDistinct": 0,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/gpt-chat/",
+   "hreflang": [
+    [
+     "ru",
+     "https://gptbot.uz/ru/gpt-chat/"
+    ],
+    [
+     "uz",
+     "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+    ],
+    [
+     "x-default",
+     "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+    ]
+   ],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": null,
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "ИИ-чат онлайн",
+      "item": "https://gptbot.uz/ru/gpt-chat/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "FAQPage",
+    "SoftwareApplication"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-07-11",
+    "WebPage.dateModified": "2026-10-08"
+   },
+   "time": [
+    "2026-10-08"
+   ],
+   "bytes": 65098,
+   "faq": 5,
+   "app": {
+    "type": "SoftwareApplication",
+    "name": "AI-чат от GPTBot.uz",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": 1,
+    "aggregateRating": false
+   },
+   "h1": [
+    "ИИ-чат онлайн — бесплатный аналог ChatGPT"
+   ]
+  }
+ },
+ "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 557,
+   "imp": 23438,
+   "pos": 4.7
+  },
+  "gscUz": {
+   "clicks": 463,
+   "imp": 19948,
+   "pos": 0.0232
+  },
+  "inLinks": 19,
+  "inSources": 12,
+  "byZone": {
+   "body": 8,
+   "related": 8,
+   "other": 3
+  },
+  "bodySources": 6,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "imp": 11707,
+    "impUz": 10626
+   },
+   {
+    "s": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "imp": 309,
+    "impUz": 132
+   },
+   {
+    "s": "/uz/gpt-uzbek-tilida-ai-chat/",
+    "imp": 96,
+    "impUz": 13
+   },
+   {
+    "s": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+    "imp": 81,
+    "impUz": 6
+   },
+   {
+    "s": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+    "imp": 73,
+    "impUz": 26
+   },
+   {
+    "s": "/uz/blog/chatgpt-talabalar-uchun/",
+    "imp": 47,
+    "impUz": 1
+   }
+  ],
+  "anchors": [
+   [
+    "ChatGPT yuklab olish",
+    3
+   ],
+   [
+    "ilovani yuklab olish",
+    1
+   ],
+   [
+    "telefon va kompyuter qo‘llanmasi",
+    1
+   ],
+   [
+    "ChatGPTni telefon va kompyuterda xavfsiz ochish",
+    1
+   ],
+   [
+    "ChatGPTni xavfsiz ochish",
+    1
+   ]
+  ],
+  "outBodyDistinct": 9,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+   "hreflang": [],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": null,
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Blog",
+      "item": "https://gptbot.uz/uz/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "ChatGPT yuklab olish: telefon va kompyuterga xavfsiz o‘rnatish",
+      "item": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-07-30",
+    "BlogPosting.dateModified": "2026-09-30"
+   },
+   "time": [
+    "2026-07-30",
+    "2026-09-30"
+   ],
+   "bytes": 71335,
+   "faq": 10,
+   "h1": [
+    "ChatGPT yuklab olish: telefon va kompyuterga xavfsiz o‘rnatish"
+   ]
+  }
+ },
+ "/uz/blog/chatgptga-qanday-kirish-mumkin/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 50,
+   "imp": 11707,
+   "pos": 7
+  },
+  "gscUz": {
+   "clicks": 34,
+   "imp": 10626,
+   "pos": 0.0032
+  },
+  "inLinks": 16,
+  "inSources": 12,
+  "byZone": {
+   "body": 8,
+   "related": 7,
+   "other": 1
+  },
+  "bodySources": 6,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "imp": 309,
+    "impUz": 132
+   },
+   {
+    "s": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+    "imp": 81,
+    "impUz": 6
+   },
+   {
+    "s": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+    "imp": 73,
+    "impUz": 26
+   },
+   {
+    "s": "/uz/blog/chatgpt-talabalar-uchun/",
+    "imp": 47,
+    "impUz": 1
+   },
+   {
+    "s": "/uz/gpt-chat-qollanma/",
+    "imp": 17,
+    "impUz": 1
+   },
+   {
+    "s": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+    "imp": 9,
+    "impUz": 0
+   }
+  ],
+  "anchors": [
+   [
+    "ChatGPT’ga kirish (login)",
+    2
+   ],
+   [
+    "ChatGPT’ga qanday kirish mumkin",
+    2
+   ],
+   [
+    "ChatGPT’ga kirish (login) yo‘riqnomasi",
+    1
+   ],
+   [
+    "ChatGPT’ga qanday kirish",
+    1
+   ],
+   [
+    "ChatGPT’ga kirish yo‘riqnomasi",
+    1
+   ]
+  ],
+  "outBodyDistinct": 9,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+   "hreflang": [],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": null,
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Blog",
+      "item": "https://gptbot.uz/uz/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "ChatGPT kirish va ochish: chatgpt.com, ro‘yxatdan o‘tish va xatolar",
+      "item": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-09-01",
+    "BlogPosting.dateModified": "2026-10-23"
+   },
+   "time": [
+    "2026-09-01",
+    "2026-10-23"
+   ],
+   "bytes": 71563,
+   "faq": 8,
+   "h1": [
+    "ChatGPT kirish va ochish: chatgpt.com, ro‘yxatdan o‘tish va xatolar"
+   ]
+  }
+ },
+ "/ru/blog/chat-gpt-online/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 20,
+   "imp": 1966,
+   "pos": 6.4
+  },
+  "gscUz": {
+   "clicks": 14,
+   "imp": 1517,
+   "pos": 0.0092
+  },
+  "inLinks": 5,
+  "inSources": 4,
+  "byZone": {
+   "body": 2,
+   "related": 3
+  },
+  "bodySources": 1,
+  "topBodySources": [
+   {
+    "s": "/ru/blog/zakazat-telegram-bota/",
+    "imp": 4,
+    "impUz": 0
+   }
+  ],
+  "anchors": [
+   [
+    "чат GPT онлайн",
+    1
+   ]
+  ],
+  "outBodyDistinct": 5,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/blog/chat-gpt-online/",
+   "hreflang": [],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Чат GPT онлайн бесплатно в Узбекистане — русский AI чат",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Блог",
+      "item": "https://gptbot.uz/ru/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "Чат GPT онлайн бесплатно в Узбекистане — русский AI чат",
+      "item": "https://gptbot.uz/ru/blog/chat-gpt-online/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-07-14",
+    "BlogPosting.dateModified": "2026-09-01"
+   },
+   "time": [
+    "2026-07-14",
+    "2026-09-01"
+   ],
+   "bytes": 96034,
+   "faq": 10,
+   "h1": [
+    "Чат GPT онлайн бесплатно в Узбекистане — русский AI чат"
+   ]
+  }
+ },
+ "/uz/blog/chatgpt-uzbek-tilida-promptlar/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 16,
+   "imp": 857,
+   "pos": 6.7
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 355,
+   "pos": 0
+  },
+  "inLinks": 31,
+  "inSources": 17,
+  "byZone": {
+   "body": 14,
+   "lang": 1,
+   "related": 14,
+   "other": 2
+  },
+  "bodySources": 13,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "imp": 23438,
+    "impUz": 19948
+   },
+   {
+    "s": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "imp": 11707,
+    "impUz": 10626
+   },
+   {
+    "s": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "imp": 309,
+    "impUz": 132
+   },
+   {
+    "s": "/uz/blog/referat-va-mustaqil-ish/",
+    "imp": 100,
+    "impUz": 29
+   },
+   {
+    "s": "/uz/gpt-uzbek-tilida-ai-chat/",
+    "imp": 96,
+    "impUz": 13
+   },
+   {
+    "s": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+    "imp": 81,
+    "impUz": 6
+   },
+   {
+    "s": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+    "imp": 73,
+    "impUz": 26
+   },
+   {
+    "s": "/uz/blog/chatgpt-talabalar-uchun/",
+    "imp": 47,
+    "impUz": 1
+   }
+  ],
+  "anchors": [
+   [
+    "50 ta o‘zbekcha prompt",
+    4
+   ],
+   [
+    "o‘zbekcha promptlar to‘plami",
+    4
+   ],
+   [
+    "50 ta tayyor prompt",
+    3
+   ],
+   [
+    "o‘zbekcha promptlar",
+    2
+   ]
+  ],
+  "outBodyDistinct": 7,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+   "hreflang": [
+    [
+     "ru",
+     "https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/"
+    ],
+    [
+     "uz",
+     "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+    ],
+    [
+     "x-default",
+     "https://gptbot.uz/ru/promty-gpt-chatgpt-50-primerov/"
+    ]
+   ],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": null,
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Blog",
+      "item": "https://gptbot.uz/uz/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "ChatGPT uchun o‘zbek tilida 50 ta tayyor prompt",
+      "item": "https://gptbot.uz/uz/blog/chatgpt-uzbek-tilida-promptlar/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-07-30",
+    "BlogPosting.dateModified": "2026-09-01"
+   },
+   "time": [
+    "2026-07-30",
+    "2026-09-01"
+   ],
+   "bytes": 75857,
+   "faq": 6,
+   "h1": [
+    "ChatGPT uchun o‘zbek tilida 50 ta tayyor prompt"
+   ]
+  }
+ },
+ "/ru/seo-prodvizhenie-saytov-tashkent/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 1,
+   "imp": 500,
+   "pos": 26.2
+  },
+  "gscUz": {
+   "clicks": 1,
+   "imp": 464,
+   "pos": 0.0022
+  },
+  "inLinks": 108,
+  "inSources": 86,
+  "byZone": {
+   "body": 19,
+   "nav": 68,
+   "related": 20,
+   "lang": 1
+  },
+  "bodySources": 14,
+  "topBodySources": [
+   {
+    "s": "/ru/razrabotka-saytov-tashkent/",
+    "imp": 324,
+    "impUz": 293
+   },
+   {
+    "s": "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+    "imp": 25,
+    "impUz": 19
+   },
+   {
+    "s": "/ru/internet-reklama-tashkent/",
+    "imp": 25,
+    "impUz": 3
+   },
+   {
+    "s": "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+    "imp": 17,
+    "impUz": 7
+   },
+   {
+    "s": "/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/",
+    "imp": 12,
+    "impUz": 4
+   },
+   {
+    "s": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+    "imp": 8,
+    "impUz": 3
+   },
+   {
+    "s": "/ru/digital-marketing-tashkent/",
+    "imp": 7,
+    "impUz": 3
+   },
+   {
+    "s": "/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+    "imp": 4,
+    "impUz": 3
+   }
+  ],
+  "anchors": [
+   [
+    "SEO-продвижения сайтов в Ташкенте",
+    4
+   ],
+   [
+    "SEO-продвижение",
+    2
+   ],
+   [
+    "SEO-продвижение сайтов в Ташкенте",
+    2
+   ],
+   [
+    "SEO-продвижение в Ташкенте",
+    2
+   ],
+   [
+    "что входит в SEO-продвижение",
+    1
+   ],
+   [
+    "услуга SEO-продвижения",
+    1
+   ],
+   [
+    "SEO-продвижение сайта в Ташкенте",
+    1
+   ],
+   [
+    "поискового продвижения сайта",
+    1
+   ],
+   [
+    "Проверим индексацию, структуру, запросы, конкурентов и путь до заявки. Вы получите список работ с приоритетами, а не обещание позиции без диагностики.",
+    1
+   ],
+   [
+    "Проверим индексирование, региональность, структуру, контент и путь до обращения. Составим приоритетный план для сайта и команды.",
+    1
+   ],
+   [
+    "Обсудить задачу",
+    1
+   ],
+   [
+    "SEO-продвижение сайта после запуска",
+    1
+   ]
+  ],
+  "outBodyDistinct": 10,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+   "hreflang": [
+    [
+     "ru",
+     "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+    ],
+    [
+     "uz",
+     "https://gptbot.uz/uz/seo-xizmati/"
+    ],
+    [
+     "x-default",
+     "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+    ]
+   ],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "SEO-продвижение сайтов",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "SEO-продвижение сайтов",
+      "item": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "Service",
+    "FAQPage"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-07-28",
+    "WebPage.dateModified": "2026-09-18",
+    "Service.dateModified": "2026-09-18"
+   },
+   "time": [
+    "2026-09-18"
+   ],
+   "bytes": 138607,
+   "faq": 12,
+   "h1": [
+    "SEO-продвижение сайтов в Ташкенте для заявок и продаж"
+   ]
+  }
+ },
+ "/uz/blog/target-reklama-nima/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 2,
+   "imp": 185,
+   "pos": 6.8
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 105,
+   "pos": 0
+  },
+  "inLinks": 13,
+  "inSources": 10,
+  "byZone": {
+   "body": 6,
+   "related": 7
+  },
+  "bodySources": 5,
+  "topBodySources": [
+   {
+    "s": "/uz/instagram-target-yoqish/",
+    "imp": 89,
+    "impUz": 19
+   },
+   {
+    "s": "/uz/telegram-reklama/",
+    "imp": 56,
+    "impUz": 0
+   },
+   {
+    "s": "/uz/blog/smm-nima/",
+    "imp": 8,
+    "impUz": 5
+   },
+   {
+    "s": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+    "imp": 7,
+    "impUz": 0
+   },
+   {
+    "s": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+    "imp": 2,
+    "impUz": 0
+   }
+  ],
+  "anchors": [
+   [
+    "targetda minimal byudjet qanday belgilanadi",
+    1
+   ],
+   [
+    "target reklama nima",
+    1
+   ],
+   [
+    "target qanday ishlaydi",
+    1
+   ],
+   [
+    "target nima va qachon mutaxassis kerak",
+    1
+   ],
+   [
+    "Instagram target qanday ishlashi",
+    1
+   ]
+  ],
+  "outBodyDistinct": 7,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+   "hreflang": [],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Target reklama nima va u O‘zbekistonda qanday ishlaydi",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Blog",
+      "item": "https://gptbot.uz/uz/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "Target reklama nima va u O‘zbekistonda qanday ishlaydi",
+      "item": "https://gptbot.uz/uz/blog/target-reklama-nima/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-09-01",
+    "BlogPosting.dateModified": "2026-10-07"
+   },
+   "time": [
+    "2026-09-01",
+    "2026-10-07"
+   ],
+   "bytes": 72949,
+   "faq": 10,
+   "h1": [
+    "Target reklama nima va u O‘zbekistonda qanday ishlaydi"
+   ]
+  }
+ },
+ "/uz/blog/insho-yozish-suniy-intellekt-bilan/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 1,
+   "imp": 309,
+   "pos": 6.8
+  },
+  "gscUz": {
+   "clicks": 1,
+   "imp": 132,
+   "pos": 0.0076
+  },
+  "inLinks": 16,
+  "inSources": 12,
+  "byZone": {
+   "body": 8,
+   "related": 7,
+   "other": 1
+  },
+  "bodySources": 7,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/referat-va-mustaqil-ish/",
+    "imp": 100,
+    "impUz": 29
+   },
+   {
+    "s": "/uz/gpt-uzbek-tilida-ai-chat/",
+    "imp": 96,
+    "impUz": 13
+   },
+   {
+    "s": "/uz/blog/chatgpt-talabalar-uchun/",
+    "imp": 47,
+    "impUz": 1
+   },
+   {
+    "s": "/uz/gpt-chat-qollanma/",
+    "imp": 17,
+    "impUz": 1
+   },
+   {
+    "s": "/uz/blog/rezyume-tayyorlash/",
+    "imp": 14,
+    "impUz": 0
+   },
+   {
+    "s": "/uz/suniy-intellekt/",
+    "imp": 14,
+    "impUz": 6
+   },
+   {
+    "s": "/uz/blog/slayd-tayyorlash/",
+    "imp": 1,
+    "impUz": 0
+   }
+  ],
+  "anchors": [
+   [
+    "insho va esse yozish",
+    5
+   ],
+   [
+    "insho va esse tuzilmasi",
+    1
+   ],
+   [
+    "esse yozish tartibi",
+    1
+   ]
+  ],
+  "outBodyDistinct": 9,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+   "hreflang": [],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Insho va esse yozish sun’iy intellekt bilan: reja, namuna va tekshiruv",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Blog",
+      "item": "https://gptbot.uz/uz/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "Insho va esse yozish sun’iy intellekt bilan: reja, namuna va tekshiruv",
+      "item": "https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-09-01",
+    "BlogPosting.dateModified": "2026-10-24"
+   },
+   "time": [
+    "2026-09-01",
+    "2026-10-24"
+   ],
+   "bytes": 81220,
+   "faq": 8,
+   "h1": [
+    "Insho va esse yozish sun’iy intellekt bilan: reja, namuna va tekshiruv"
+   ]
+  }
+ },
+ "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 45,
+   "imp": 745,
+   "pos": 4.5
+  },
+  "gscUz": {
+   "clicks": 9,
+   "imp": 183,
+   "pos": 0.0492
+  },
+  "inLinks": 7,
+  "inSources": 7,
+  "byZone": {
+   "body": 6,
+   "related": 1
+  },
+  "bodySources": 5,
+  "topBodySources": [
+   {
+    "s": "/ru/gpt-vs-chatgpt-sravnenie/",
+    "imp": 2334,
+    "impUz": 52
+   },
+   {
+    "s": "/ru/blog/chat-gpt-na-russkom/",
+    "imp": 517,
+    "impUz": 4
+   },
+   {
+    "s": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+    "imp": 333,
+    "impUz": 28
+   },
+   {
+    "s": "/ru/gde-polzovatsya-gpt-besplatno/",
+    "imp": 308,
+    "impUz": 56
+   },
+   {
+    "s": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+    "imp": 36,
+    "impUz": 5
+   }
+  ],
+  "anchors": [
+   [
+    "как оплатить ChatGPT в Узбекистане",
+    2
+   ],
+   [
+    "как оплатить подписку из Узбекистана",
+    1
+   ],
+   [
+    "как оплатить ChatGPT из Узбекистана",
+    1
+   ],
+   [
+    "как оплатить ChatGPT Plus из Узбекистана",
+    1
+   ]
+  ],
+  "outBodyDistinct": 5,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+   "hreflang": [],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": null,
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Блог",
+      "item": "https://gptbot.uz/ru/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "Как оплатить ChatGPT в Узбекистане: карты, приложения и ошибки платежа",
+      "item": "https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-07-30",
+    "BlogPosting.dateModified": "2026-07-30"
+   },
+   "time": [
+    "2026-07-30",
+    "2026-07-30"
+   ],
+   "bytes": 68335,
+   "faq": 7,
+   "h1": [
+    "Как оплатить ChatGPT в Узбекистане: карты, приложения и ошибки платежа"
+   ]
+  }
+ },
+ "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 1,
+   "imp": 226,
+   "pos": 9.5
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 76,
+   "pos": 0
+  },
+  "inLinks": 3,
+  "inSources": 3,
+  "byZone": {
+   "body": 1,
+   "related": 2
+  },
+  "bodySources": 0,
+  "topBodySources": [],
+  "anchors": [],
+  "outBodyDistinct": 3,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+   "hreflang": [],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "GPT чат-бот на русском и узбекском: как работает",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Блог",
+      "item": "https://gptbot.uz/ru/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "GPT чат-бот на русском и узбекском: как работает",
+      "item": "https://gptbot.uz/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-07-03",
+    "BlogPosting.dateModified": "2026-10-06"
+   },
+   "time": [
+    "2026-07-03",
+    "2026-10-06"
+   ],
+   "bytes": 54224,
+   "faq": 4,
+   "h1": [
+    "GPT чат-бот на русском и узбекском: как работает"
+   ]
+  }
+ },
+ "/uz/gpt-bot-biznes-uchun/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 0,
+   "imp": 63,
+   "pos": 12.1
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 55,
+   "pos": 0
+  },
+  "inLinks": 19,
+  "inSources": 17,
+  "byZone": {
+   "body": 3,
+   "related": 16
+  },
+  "bodySources": 2,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+    "imp": 82,
+    "impUz": 6
+   },
+   {
+    "s": "/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/",
+    "imp": 0,
+    "impUz": 0
+   }
+  ],
+  "anchors": [
+   [
+    "Biznesingiz mijozlari uchun AI-chat ulash",
+    1
+   ],
+   [
+    "Bu sizning biznesingizda qanday ishlashini bilib oling",
+    1
+   ]
+  ],
+  "outBodyDistinct": 1,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/gpt-bot-biznes-uchun/",
+   "hreflang": [],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Biznes uchun GPT bot",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Biznes uchun GPT bot",
+      "item": "https://gptbot.uz/uz/gpt-bot-biznes-uchun/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "Service",
+    "FAQPage"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-02-01",
+    "WebPage.dateModified": "2026-09-19",
+    "Service.dateModified": "2026-09-19"
+   },
+   "time": [
+    "2026-09-19"
+   ],
+   "bytes": 63059,
+   "faq": 7,
+   "h1": [
+    "Biznes uchun GPT bot: aqlli 24/7 javob beruvchi"
+   ]
+  }
+ },
+ "/ru/gde-polzovatsya-gpt-besplatno/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 6,
+   "imp": 308,
+   "pos": 9.4
+  },
+  "gscUz": {
+   "clicks": 1,
+   "imp": 56,
+   "pos": 0.0179
+  },
+  "inLinks": 5,
+  "inSources": 5,
+  "byZone": {
+   "body": 4,
+   "related": 1
+  },
+  "bodySources": 3,
+  "topBodySources": [
+   {
+    "s": "/ru/gpt-vs-chatgpt-sravnenie/",
+    "imp": 2334,
+    "impUz": 52
+   },
+   {
+    "s": "/ru/blog/chat-gpt-na-russkom/",
+    "imp": 517,
+    "impUz": 4
+   },
+   {
+    "s": "/ru/gpt-na-russkom/",
+    "imp": 95,
+    "impUz": 13
+   }
+  ],
+  "anchors": [
+   [
+    "разбор бесплатных вариантов GPT и их лимитов",
+    1
+   ],
+   [
+    "где пользоваться GPT бесплатно",
+    1
+   ],
+   [
+    "разбор бесплатного доступа к GPT",
+    1
+   ]
+  ],
+  "outBodyDistinct": 10,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/gde-polzovatsya-gpt-besplatno/",
+   "hreflang": [],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "GPT бесплатно",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "GPT бесплатно",
+      "item": "https://gptbot.uz/ru/gde-polzovatsya-gpt-besplatno/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "Article",
+    "FAQPage"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-07-12",
+    "WebPage.dateModified": "2026-10-24",
+    "Article.datePublished": "2026-07-12",
+    "Article.dateModified": "2026-10-24"
+   },
+   "time": [
+    "2026-10-24"
+   ],
+   "bytes": 66003,
+   "faq": 6,
+   "h1": [
+    "Где пользоваться GPT бесплатно: варианты и честные ограничения"
+   ]
+  }
+ },
+ "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 3,
+   "imp": 80,
+   "pos": 3.8
+  },
+  "gscUz": {
+   "clicks": 1,
+   "imp": 39,
+   "pos": 0.0256
+  },
+  "inLinks": 8,
+  "inSources": 5,
+  "byZone": {
+   "body": 2,
+   "related": 6
+  },
+  "bodySources": 1,
+  "topBodySources": [
+   {
+    "s": "/ru/telegram-ads-uzbekistan/",
+    "imp": 70,
+    "impUz": 20
+   }
+  ],
+  "anchors": [
+   [
+    "таблице минимального бюджета Telegram Ads",
+    1
+   ]
+  ],
+  "outBodyDistinct": 3,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+   "hreflang": [],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Telegram Ads в Узбекистане: сколько стоит и как запустить",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Блог",
+      "item": "https://gptbot.uz/ru/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "Telegram Ads в Узбекистане: сколько стоит и как запустить",
+      "item": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-09-02",
+    "BlogPosting.dateModified": "2026-10-25"
+   },
+   "time": [
+    "2026-09-02",
+    "2026-10-25"
+   ],
+   "bytes": 79101,
+   "faq": 6,
+   "h1": [
+    "Telegram Ads в Узбекистане: сколько стоит и как запустить"
+   ]
+  }
+ },
+ "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 1,
+   "imp": 94,
+   "pos": 5.4
+  },
+  "gscUz": {
+   "clicks": 1,
+   "imp": 48,
+   "pos": 0.0208
+  },
+  "inLinks": 5,
+  "inSources": 4,
+  "byZone": {
+   "body": 2,
+   "related": 3
+  },
+  "bodySources": 1,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/target-reklama-nima/",
+    "imp": 185,
+    "impUz": 105
+   }
+  ],
+  "anchors": [
+   [
+    "Instagram Direct nima va AI-bot qanday ishlaydi",
+    1
+   ]
+  ],
+  "outBodyDistinct": 1,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+   "hreflang": [
+    [
+     "ru",
+     "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+    ],
+    [
+     "uz",
+     "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/"
+    ],
+    [
+     "x-default",
+     "https://gptbot.uz/ru/blog/instagram-direct-bot-kak-rabotaet/"
+    ]
+   ],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Instagram Direct uchun AI-bot qanday ishlaydi va nima uchun kerak",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Blog",
+      "item": "https://gptbot.uz/uz/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "Instagram Direct uchun AI-bot qanday ishlaydi va nima uchun kerak",
+      "item": "https://gptbot.uz/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-07-01",
+    "BlogPosting.dateModified": "2026-09-19"
+   },
+   "time": [
+    "2026-07-01",
+    "2026-09-19"
+   ],
+   "bytes": 56756,
+   "faq": 7,
+   "h1": [
+    "Instagram Direct uchun AI-bot qanday ishlaydi va nima uchun kerak"
+   ]
+  }
+ },
+ "/ru/telegram-ads-uzbekistan/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 0,
+   "imp": 70,
+   "pos": 8.4
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 20,
+   "pos": 0
+  },
+  "inLinks": 111,
+  "inSources": 85,
+  "byZone": {
+   "body": 19,
+   "nav": 68,
+   "related": 23,
+   "lang": 1
+  },
+  "bodySources": 15,
+  "topBodySources": [
+   {
+    "s": "/ru/blog/chat-gpt-online/",
+    "imp": 1966,
+    "impUz": 1517
+   },
+   {
+    "s": "/ru/kontekstnaya-reklama-tashkent/",
+    "imp": 99,
+    "impUz": 89
+   },
+   {
+    "s": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+    "imp": 93,
+    "impUz": 1
+   },
+   {
+    "s": "/ru/targetirovannaya-reklama-tashkent/",
+    "imp": 83,
+    "impUz": 20
+   },
+   {
+    "s": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+    "imp": 80,
+    "impUz": 39
+   },
+   {
+    "s": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+    "imp": 60,
+    "impUz": 0
+   },
+   {
+    "s": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+    "imp": 48,
+    "impUz": 3
+   },
+   {
+    "s": "/ru/internet-reklama-tashkent/",
+    "imp": 25,
+    "impUz": 3
+   }
+  ],
+  "anchors": [
+   [
+    "Telegram Ads",
+    3
+   ],
+   [
+    "Telegram Ads в Узбекистане",
+    3
+   ],
+   [
+    "Telegram Ads и посевы",
+    2
+   ],
+   [
+    "реклама в Telegram",
+    1
+   ],
+   [
+    "реклама в Telegram под ключ",
+    1
+   ],
+   [
+    "Telegram Ads и размещения в каналах",
+    1
+   ],
+   [
+    "Telegram-рекламы",
+    1
+   ],
+   [
+    "отдельном материале о запуске рекламы в Telegram",
+    1
+   ],
+   [
+    "запуск и ведение Telegram Ads в Узбекистане",
+    1
+   ],
+   [
+    "запуск Telegram Ads под ключ",
+    1
+   ],
+   [
+    "услуги Telegram-рекламы",
+    1
+   ],
+   [
+    "размещение в Telegram-каналах",
+    1
+   ]
+  ],
+  "outBodyDistinct": 11,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/telegram-ads-uzbekistan/",
+   "hreflang": [
+    [
+     "ru",
+     "https://gptbot.uz/ru/telegram-ads-uzbekistan/"
+    ],
+    [
+     "uz",
+     "https://gptbot.uz/uz/telegram-reklama/"
+    ],
+    [
+     "x-default",
+     "https://gptbot.uz/ru/telegram-ads-uzbekistan/"
+    ]
+   ],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Telegram Ads",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Telegram Ads",
+      "item": "https://gptbot.uz/ru/telegram-ads-uzbekistan/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "Service",
+    "FAQPage"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-08-20",
+    "WebPage.dateModified": "2026-09-28",
+    "Service.dateModified": "2026-09-28"
+   },
+   "time": [
+    "2026-09-28"
+   ],
+   "bytes": 147985,
+   "faq": 16,
+   "h1": [
+    "Telegram Ads в Узбекистане — цена, запуск и настройка"
+   ]
+  }
+ },
+ "/ru/blog/telegram-bot-s-oplatoy-payme-click/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 1,
+   "imp": 105,
+   "pos": 7.3
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 20,
+   "pos": 0
+  },
+  "inLinks": 5,
+  "inSources": 5,
+  "byZone": {
+   "body": 1,
+   "related": 4
+  },
+  "bodySources": 0,
+  "topBodySources": [],
+  "anchors": [],
+  "outBodyDistinct": 9,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/blog/telegram-bot-s-oplatoy-payme-click/",
+   "hreflang": [],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Telegram-бот с оплатой Payme и Click: как принимать заказы и платежи в Узбекистане",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Блог",
+      "item": "https://gptbot.uz/ru/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "Telegram-бот с оплатой Payme и Click: как принимать заказы и платежи в Узбекистане",
+      "item": "https://gptbot.uz/ru/blog/telegram-bot-s-oplatoy-payme-click/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-07-13",
+    "BlogPosting.dateModified": "2026-08-20"
+   },
+   "time": [
+    "2026-07-13",
+    "2026-08-20"
+   ],
+   "bytes": 147666,
+   "faq": 30,
+   "h1": [
+    "Telegram-бот с оплатой Payme и Click: как принимать заказы и платежи в Узбекистане"
+   ]
+  }
+ },
+ "/ru/razrabotka-saytov-tashkent/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 2,
+   "imp": 324,
+   "pos": 35
+  },
+  "gscUz": {
+   "clicks": 2,
+   "imp": 293,
+   "pos": 0.0068
+  },
+  "inLinks": 63,
+  "inSources": 36,
+  "byZone": {
+   "body": 30,
+   "related": 30,
+   "sources": 1,
+   "other": 1,
+   "lang": 1
+  },
+  "bodySources": 22,
+  "topBodySources": [
+   {
+    "s": "/ru/seo-prodvizhenie-saytov-tashkent/",
+    "imp": 500,
+    "impUz": 464
+   },
+   {
+    "s": "/ru/telegram-ads-uzbekistan/",
+    "imp": 70,
+    "impUz": 20
+   },
+   {
+    "s": "/ru/ai-chat-dlya-sayta/",
+    "imp": 61,
+    "impUz": 1
+   },
+   {
+    "s": "/ru/gpt-dlya-biznesa/",
+    "imp": 22,
+    "impUz": 9
+   },
+   {
+    "s": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+    "imp": 20,
+    "impUz": 6
+   },
+   {
+    "s": "/ru/sayt-s-ai-botom/",
+    "imp": 17,
+    "impUz": 0
+   },
+   {
+    "s": "/ru/gpt-v-marketinge-smm/",
+    "imp": 16,
+    "impUz": 0
+   },
+   {
+    "s": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+    "imp": 14,
+    "impUz": 6
+   }
+  ],
+  "anchors": [
+   [
+    "разработка сайтов",
+    5
+   ],
+   [
+    "разработка сайтов в Ташкенте",
+    3
+   ],
+   [
+    "разработку сайтов",
+    2
+   ],
+   [
+    "Обсудить задачу",
+    2
+   ],
+   [
+    "разработки сайтов в Ташкенте",
+    2
+   ],
+   [
+    "сайт с каталогом и заявками",
+    1
+   ],
+   [
+    "разработку сайта",
+    1
+   ],
+   [
+    "странице разработки сайтов в Ташкенте",
+    1
+   ],
+   [
+    "разработки сайтов и лендингов",
+    1
+   ],
+   [
+    "разработку интернет-магазина",
+    1
+   ],
+   [
+    "сопровождение сайта",
+    1
+   ],
+   [
+    "разработку сайтов в Ташкенте",
+    1
+   ]
+  ],
+  "outBodyDistinct": 18,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/razrabotka-saytov-tashkent/",
+   "hreflang": [
+    [
+     "ru",
+     "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+    ],
+    [
+     "uz",
+     "https://gptbot.uz/uz/sayt-yaratish/"
+    ],
+    [
+     "x-default",
+     "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+    ]
+   ],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Разработка сайтов в Ташкенте",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Разработка сайтов в Ташкенте",
+      "item": "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "Service",
+    "FAQPage"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-07-10",
+    "WebPage.dateModified": "2026-10-09",
+    "Service.dateModified": "2026-10-09"
+   },
+   "time": [
+    "2026-10-09"
+   ],
+   "bytes": 166848,
+   "faq": 22,
+   "h1": [
+    "Разработка сайтов в Ташкенте для бизнеса"
+   ]
+  }
+ },
+ "/ru/gpt-vs-chatgpt-sravnenie/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 12,
+   "imp": 2334,
+   "pos": 7
+  },
+  "gscUz": {
+   "clicks": 1,
+   "imp": 52,
+   "pos": 0.0192
+  },
+  "inLinks": 7,
+  "inSources": 6,
+  "byZone": {
+   "body": 4,
+   "related": 2,
+   "other": 1
+  },
+  "bodySources": 3,
+  "topBodySources": [
+   {
+    "s": "/ru/blog/chat-gpt-na-russkom/",
+    "imp": 517,
+    "impUz": 4
+   },
+   {
+    "s": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+    "imp": 391,
+    "impUz": 29
+   },
+   {
+    "s": "/ru/gde-polzovatsya-gpt-besplatno/",
+    "imp": 308,
+    "impUz": 56
+   }
+  ],
+  "anchors": [
+   [
+    "чем GPT отличается от ChatGPT",
+    1
+   ],
+   [
+    "GPT и ChatGPT: в чём разница",
+    1
+   ],
+   [
+    "сравнение GPT и ChatGPT",
+    1
+   ]
+  ],
+  "outBodyDistinct": 11,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/",
+   "hreflang": [],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "GPT vs ChatGPT",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "GPT vs ChatGPT",
+      "item": "https://gptbot.uz/ru/gpt-vs-chatgpt-sravnenie/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "Article",
+    "FAQPage"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-07-12",
+    "WebPage.dateModified": "2026-10-24",
+    "Article.datePublished": "2026-07-12",
+    "Article.dateModified": "2026-10-24"
+   },
+   "time": [
+    "2026-10-24"
+   ],
+   "bytes": 65614,
+   "faq": 9,
+   "h1": [
+    "GPT vs ChatGPT: в чём разница простыми словами"
+   ]
+  }
+ },
+ "/ru/blog/chto-takoe-smm-prodvizhenie/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 0,
+   "imp": 62,
+   "pos": 15.2
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 22,
+   "pos": 0
+  },
+  "inLinks": 8,
+  "inSources": 7,
+  "byZone": {
+   "body": 1,
+   "related": 7
+  },
+  "bodySources": 0,
+  "topBodySources": [],
+  "anchors": [],
+  "outBodyDistinct": 8,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/",
+   "hreflang": [
+    [
+     "ru",
+     "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+    ],
+    [
+     "uz",
+     "https://gptbot.uz/uz/blog/smm-nima/"
+    ],
+    [
+     "x-default",
+     "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+    ]
+   ],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Что такое SMM-продвижение",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Блог",
+      "item": "https://gptbot.uz/ru/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "Что такое SMM-продвижение",
+      "item": "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-08-02",
+    "BlogPosting.dateModified": "2026-09-28"
+   },
+   "time": [
+    "2026-08-02",
+    "2026-09-28"
+   ],
+   "bytes": 85237,
+   "faq": 12,
+   "h1": [
+    "Что такое SMM-продвижение"
+   ]
+  }
+ },
+ "/uz/gpt-uzbek-tilida-ai-chat/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 0,
+   "imp": 96,
+   "pos": 7.6
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 13,
+   "pos": 0
+  },
+  "inLinks": 10,
+  "inSources": 8,
+  "byZone": {
+   "body": 3,
+   "related": 4,
+   "other": 3
+  },
+  "bodySources": 2,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+    "imp": 857,
+    "impUz": 355
+   },
+   {
+    "s": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+    "imp": 309,
+    "impUz": 132
+   }
+  ],
+  "anchors": [
+   [
+    "amaliy GPT qo‘llanmasi",
+    1
+   ],
+   [
+    "o‘zbek tilida prompt yozish formulasi",
+    1
+   ]
+  ],
+  "outBodyDistinct": 25,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/",
+   "hreflang": [],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "GPT o‘zbek tilida: qo‘llanma",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "GPT o‘zbek tilida: qo‘llanma",
+      "item": "https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "Article",
+    "FAQPage"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-07-12",
+    "WebPage.dateModified": "2026-10-07",
+    "Article.datePublished": "2026-07-12",
+    "Article.dateModified": "2026-10-07"
+   },
+   "time": [
+    "2026-10-07"
+   ],
+   "bytes": 81779,
+   "faq": 12,
+   "h1": [
+    "GPT o‘zbek tilida: AI chatdan qanday foydalanish mumkin"
+   ]
+  }
+ },
+ "/ru/gpt-na-russkom/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 0,
+   "imp": 95,
+   "pos": 16.2
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 13,
+   "pos": 0
+  },
+  "inLinks": 14,
+  "inSources": 12,
+  "byZone": {
+   "body": 3,
+   "related": 9,
+   "other": 2
+  },
+  "bodySources": 2,
+  "topBodySources": [
+   {
+    "s": "/ru/blog/chat-gpt-na-russkom/",
+    "imp": 517,
+    "impUz": 4
+   },
+   {
+    "s": "/uz/gpt-uzbek-tilida-ai-chat/",
+    "imp": 96,
+    "impUz": 13
+   }
+  ],
+  "anchors": [
+   [
+    "Открыть GPT на русском для SMM-задач",
+    1
+   ],
+   [
+    "rus tilida GPT",
+    1
+   ]
+  ],
+  "outBodyDistinct": 11,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/gpt-na-russkom/",
+   "hreflang": [],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "AI-чат на русском",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "AI-чат на русском",
+      "item": "https://gptbot.uz/ru/gpt-na-russkom/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "FAQPage",
+    "SoftwareApplication"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-07-11",
+    "WebPage.dateModified": "2026-10-23"
+   },
+   "time": [
+    "2026-10-23"
+   ],
+   "bytes": 60818,
+   "faq": 4,
+   "app": {
+    "type": "SoftwareApplication",
+    "name": "AI-чат на русском — GPTBot.uz",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": 1,
+    "aggregateRating": false
+   },
+   "h1": [
+    "AI-чат на русском языке"
+   ]
+  }
+ },
+ "/ru/blog/chatgpt-i-claude-v-uzbekistane/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 38,
+   "imp": 958,
+   "pos": 4.1
+  },
+  "gscUz": {
+   "clicks": 2,
+   "imp": 78,
+   "pos": 0.0256
+  },
+  "inLinks": 9,
+  "inSources": 9,
+  "byZone": {
+   "body": 7,
+   "related": 2
+  },
+  "bodySources": 6,
+  "topBodySources": [
+   {
+    "s": "/ru/gpt-vs-chatgpt-sravnenie/",
+    "imp": 2334,
+    "impUz": 52
+   },
+   {
+    "s": "/ru/blog/chat-gpt-na-russkom/",
+    "imp": 517,
+    "impUz": 4
+   },
+   {
+    "s": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+    "imp": 391,
+    "impUz": 29
+   },
+   {
+    "s": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+    "imp": 333,
+    "impUz": 28
+   },
+   {
+    "s": "/ru/gde-polzovatsya-gpt-besplatno/",
+    "imp": 308,
+    "impUz": 56
+   },
+   {
+    "s": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+    "imp": 36,
+    "impUz": 5
+   }
+  ],
+  "anchors": [
+   [
+    "отдельном сравнении ChatGPT и Claude",
+    1
+   ],
+   [
+    "руководстве по ChatGPT и Claude в Узбекистане",
+    1
+   ],
+   [
+    "сравнение ChatGPT и Claude",
+    1
+   ],
+   [
+    "ChatGPT и Claude в Узбекистане",
+    1
+   ],
+   [
+    "сравнение ChatGPT и Claude в Узбекистане",
+    1
+   ],
+   [
+    "ChatGPT и Claude в Узбекистане: доступ и регистрация",
+    1
+   ]
+  ],
+  "outBodyDistinct": 1,
+  "head": {
+   "lang": "ru",
+   "canonical": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+   "hreflang": [],
+   "ogLocale": "ru_RU",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": null,
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Блог",
+      "item": "https://gptbot.uz/ru/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "ChatGPT и Claude в Узбекистане: доступ, оплата и сравнение",
+      "item": "https://gptbot.uz/ru/blog/chatgpt-i-claude-v-uzbekistane/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-07-08",
+    "BlogPosting.dateModified": "2026-09-06"
+   },
+   "time": [
+    "2026-07-08",
+    "2026-09-06"
+   ],
+   "bytes": 93373,
+   "faq": 7,
+   "h1": [
+    "ChatGPT и Claude в Узбекистане: доступ, оплата и сравнение"
+   ]
+  }
+ },
+ "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 0,
+   "imp": 73,
+   "pos": 4.8
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 26,
+   "pos": 0
+  },
+  "inLinks": 15,
+  "inSources": 10,
+  "byZone": {
+   "body": 6,
+   "related": 8,
+   "other": 1
+  },
+  "bodySources": 5,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "imp": 23438,
+    "impUz": 19948
+   },
+   {
+    "s": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "imp": 11707,
+    "impUz": 10626
+   },
+   {
+    "s": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+    "imp": 745,
+    "impUz": 183
+   },
+   {
+    "s": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+    "imp": 82,
+    "impUz": 6
+   },
+   {
+    "s": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+    "imp": 15,
+    "impUz": 3
+   }
+  ],
+  "anchors": [
+   [
+    "подробном руководстве по ChatGPT в Узбекистане",
+    1
+   ],
+   [
+    "ChatGPT O‘zbekistonda qanday ishlashi",
+    1
+   ],
+   [
+    "ChatGPT’dan O‘zbekistonda foydalanish",
+    1
+   ],
+   [
+    "ChatGPT O‘zbekistonda ishlashi haqidagi qo‘llanma",
+    1
+   ],
+   [
+    "ChatGPT O‘zbekistonda VPNsiz ishlaydimi",
+    1
+   ]
+  ],
+  "outBodyDistinct": 15,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+   "hreflang": [],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": null,
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Blog",
+      "item": "https://gptbot.uz/uz/blog/"
+     },
+     {
+      "pos": 3,
+      "name": "ChatGPT O‘zbekistonda: ishlaydimi, VPN kerakmi va rasmiy usul",
+      "item": "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "WebSite",
+    "Person",
+    "BreadcrumbList",
+    "BlogPosting",
+    "FAQPage"
+   ],
+   "dates": {
+    "BlogPosting.datePublished": "2026-07-26",
+    "BlogPosting.dateModified": "2026-09-18"
+   },
+   "time": [
+    "2026-07-26",
+    "2026-09-18"
+   ],
+   "bytes": 89234,
+   "faq": 14,
+   "h1": [
+    "ChatGPT O‘zbekistonda: ishlaydimi, VPN kerakmi va rasmiy usul"
+   ]
+  }
+ },
+ "/uz/suniy-intellekt/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 0,
+   "imp": 14,
+   "pos": 20.1
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 6,
+   "pos": 0
+  },
+  "inLinks": 13,
+  "inSources": 12,
+  "byZone": {
+   "body": 7,
+   "related": 6
+  },
+  "bodySources": 6,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/referat-va-mustaqil-ish/",
+    "imp": 100,
+    "impUz": 29
+   },
+   {
+    "s": "/uz/gpt-uzbek-tilida-ai-chat/",
+    "imp": 96,
+    "impUz": 13
+   },
+   {
+    "s": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+    "imp": 81,
+    "impUz": 6
+   },
+   {
+    "s": "/uz/blog/chatgpt-talabalar-uchun/",
+    "imp": 47,
+    "impUz": 1
+   },
+   {
+    "s": "/uz/gpt-chat-qollanma/",
+    "imp": 17,
+    "impUz": 1
+   },
+   {
+    "s": "/uz/blog/slayd-tayyorlash/",
+    "imp": 1,
+    "impUz": 0
+   }
+  ],
+  "anchors": [
+   [
+    "sun’iy intellekt nima",
+    2
+   ],
+   [
+    "sun’iy intellekt nima va turlari",
+    1
+   ],
+   [
+    "sun’iy intellekt tarixi",
+    1
+   ],
+   [
+    "sun’iy intellekt haqida ma’lumot",
+    1
+   ],
+   [
+    "sun’iy intellekt turlari",
+    1
+   ]
+  ],
+  "outBodyDistinct": 15,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/suniy-intellekt/",
+   "hreflang": [],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Sun’iy intellekt",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Sun’iy intellekt",
+      "item": "https://gptbot.uz/uz/suniy-intellekt/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "Article",
+    "FAQPage"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-09-01",
+    "WebPage.dateModified": "2026-10-24",
+    "Article.datePublished": "2026-09-01",
+    "Article.dateModified": "2026-10-24"
+   },
+   "time": [
+    "2026-10-24"
+   ],
+   "bytes": 94916,
+   "faq": 8,
+   "h1": [
+    "Sun’iy intellekt nima: oddiy tushuntirish, turlari va O‘zbekistonda qo‘llanishi"
+   ]
+  }
+ },
+ "/uz/sayt-yaratish/": {
+  "exists": true,
+  "gscAll": {
+   "clicks": 0,
+   "imp": 62,
+   "pos": 27.3
+  },
+  "gscUz": {
+   "clicks": 0,
+   "imp": 57,
+   "pos": 0
+  },
+  "inLinks": 55,
+  "inSources": 31,
+  "byZone": {
+   "body": 24,
+   "lang": 1,
+   "related": 27,
+   "sources": 1,
+   "nav": 1,
+   "other": 1
+  },
+  "bodySources": 20,
+  "topBodySources": [
+   {
+    "s": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "imp": 23438,
+    "impUz": 19948
+   },
+   {
+    "s": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+    "imp": 73,
+    "impUz": 26
+   },
+   {
+    "s": "/uz/seo-xizmati/",
+    "imp": 43,
+    "impUz": 41
+   },
+   {
+    "s": "/uz/smm-xizmatlari/",
+    "imp": 32,
+    "impUz": 23
+   },
+   {
+    "s": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+    "imp": 22,
+    "impUz": 19
+   },
+   {
+    "s": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+    "imp": 12,
+    "impUz": 12
+   },
+   {
+    "s": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+    "imp": 10,
+    "impUz": 0
+   },
+   {
+    "s": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+    "imp": 7,
+    "impUz": 5
+   }
+  ],
+  "anchors": [
+   [
+    "sayt yaratish",
+    5
+   ],
+   [
+    "biznes uchun sayt yaratish",
+    3
+   ],
+   [
+    "sayt yaratish xizmati",
+    3
+   ],
+   [
+    "biznes uchun sayt",
+    2
+   ],
+   [
+    "professional sayt xizmati",
+    1
+   ],
+   [
+    "veb sayt xizmatlari",
+    1
+   ],
+   [
+    "sayt bo‘yicha maslahat",
+    1
+   ],
+   [
+    "internet do'kon yaratishni",
+    1
+   ],
+   [
+    "Bog'lanish",
+    1
+   ],
+   [
+    "Xizmat tarkibini ko‘rish va vazifani yuborish",
+    1
+   ],
+   [
+    "sayt yaratishni",
+    1
+   ],
+   [
+    "landing va sayt yaratish xizmati",
+    1
+   ]
+  ],
+  "outBodyDistinct": 12,
+  "head": {
+   "lang": "uz",
+   "canonical": "https://gptbot.uz/uz/sayt-yaratish/",
+   "hreflang": [
+    [
+     "ru",
+     "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+    ],
+    [
+     "uz",
+     "https://gptbot.uz/uz/sayt-yaratish/"
+    ],
+    [
+     "x-default",
+     "https://gptbot.uz/ru/razrabotka-saytov-tashkent/"
+    ]
+   ],
+   "ogLocale": "uz_UZ",
+   "ogLocaleAlt": [],
+   "bc": {
+    "name": "Sayt yaratish",
+    "items": [
+     {
+      "pos": 1,
+      "name": "GPTBot.uz",
+      "item": "https://gptbot.uz/uz/"
+     },
+     {
+      "pos": 2,
+      "name": "Sayt yaratish",
+      "item": "https://gptbot.uz/uz/sayt-yaratish/"
+     }
+    ]
+   },
+   "ldTypes": [
+    "Organization+ProfessionalService",
+    "Person",
+    "WebSite",
+    "BreadcrumbList",
+    "WebPage",
+    "Service",
+    "FAQPage"
+   ],
+   "dates": {
+    "WebPage.datePublished": "2026-08-01",
+    "WebPage.dateModified": "2026-10-25",
+    "Service.dateModified": "2026-10-25"
+   },
+   "time": [
+    "2026-10-25"
+   ],
+   "bytes": 127159,
+   "faq": 16,
+   "h1": [
+    "Sayt yaratish xizmati — biznesingizga ariza keltiradigan sayt"
+   ]
+  }
+ },
+ "/ru/blog/kak-skachat-chatgpt-na-telefon-i-kompyuter/": {
+  "exists": false,
+  "inLinks": 0,
+  "inSources": 0,
+  "byZone": {},
+  "bodySources": 0,
+  "topBodySources": [],
+  "anchors": [],
+  "outBodyDistinct": 0,
+  "head": null
+ }
+}

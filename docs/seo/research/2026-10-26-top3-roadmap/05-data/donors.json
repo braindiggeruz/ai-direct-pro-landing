@@ -1,0 +1,543 @@
+[
+ {
+  "u": "/ru/gpt-chat/",
+  "imp": 94001,
+  "clicks": 280,
+  "impUz": 37912,
+  "lang": "ru",
+  "outBody": 0,
+  "toTargets": {}
+ },
+ {
+  "u": "/uz/gpt-uzbek-tilida/",
+  "imp": 74002,
+  "clicks": 489,
+  "impUz": 68997,
+  "lang": "uz",
+  "outBody": 0,
+  "toTargets": {}
+ },
+ {
+  "u": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+  "imp": 23438,
+  "clicks": 557,
+  "impUz": 19948,
+  "lang": "uz",
+  "outBody": 9,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "o‘zbek tilidagi AI chat",
+    "O‘zbek tilida AI chatni brauzerda ochish",
+    "AI chatni yuklamasdan ochish"
+   ],
+   "/uz/blog/chatgpt-uzbek-tilida-promptlar/": [
+    "50 ta tayyor prompt"
+   ]
+  }
+ },
+ {
+  "u": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+  "imp": 11707,
+  "clicks": 50,
+  "impUz": 10626,
+  "lang": "uz",
+  "outBody": 9,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "ro‘yxatsiz o‘zbekcha AI-chati",
+    "GPTBot.uz o‘zbekcha AI-chati",
+    "GPTBot.uz AI chati: 3 ta sinov javobi",
+    "GPTBot.uz AI chati: 3 ta sinov javobi"
+   ],
+   "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": [
+    "ChatGPT yuklab olish"
+   ],
+   "/uz/blog/chatgpt-uzbek-tilida-promptlar/": [
+    "50 ta o‘zbekcha prompt"
+   ]
+  }
+ },
+ {
+  "u": "/ru/gpt-vs-chatgpt-sravnenie/",
+  "imp": 2334,
+  "clicks": 12,
+  "impUz": 52,
+  "lang": "ru",
+  "outBody": 11,
+  "toTargets": {
+   "/ru/gpt-chat/": [
+    "Попробуйте GPTBot.uz AI-чат",
+    "аналог ChatGPT онлайн от GPTBot.uz",
+    "Попробуйте GPTBot.uz AI-чат"
+   ]
+  }
+ },
+ {
+  "u": "/ru/blog/chat-gpt-online/",
+  "imp": 1966,
+  "clicks": 20,
+  "impUz": 1517,
+  "lang": "ru",
+  "outBody": 5,
+  "toTargets": {
+   "/ru/gpt-chat/": [
+    "Попробуйте AI-чат онлайн на русском",
+    "Попробовать AI-чат"
+   ]
+  }
+ },
+ {
+  "u": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+  "imp": 958,
+  "clicks": 38,
+  "impUz": 78,
+  "lang": "ru",
+  "outBody": 1,
+  "toTargets": {}
+ },
+ {
+  "u": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+  "imp": 857,
+  "clicks": 16,
+  "impUz": 355,
+  "lang": "uz",
+  "outBody": 7,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "o‘zbek tilidagi AI chat",
+    "O‘zbek tilida AI chatni sinab ko‘rish",
+    "Promptlarni AI chatda sinash"
+   ]
+  }
+ },
+ {
+  "u": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+  "imp": 745,
+  "clicks": 45,
+  "impUz": 183,
+  "lang": "ru",
+  "outBody": 5,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "AI-чате на узбекском языке",
+    "Открыть независимый AI-чат на узбекском языке"
+   ],
+   "/ru/gpt-chat/": [
+    "Открыть AI-чат на русском"
+   ]
+  }
+ },
+ {
+  "u": "/ru/blog/chat-gpt-na-russkom/",
+  "imp": 517,
+  "clicks": 0,
+  "impUz": 4,
+  "lang": "ru",
+  "outBody": 12,
+  "toTargets": {
+   "/ru/gpt-chat/": [
+    "Попробовать AI-чат онлайн на русском",
+    "аналог ChatGPT с ответами по-русски и по-узбекски",
+    "Попробовать AI-чат GPTBot.uz"
+   ]
+  }
+ },
+ {
+  "u": "/ru/seo-prodvizhenie-saytov-tashkent/",
+  "imp": 500,
+  "clicks": 1,
+  "impUz": 464,
+  "lang": "ru",
+  "outBody": 10,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+  "imp": 391,
+  "clicks": 0,
+  "impUz": 29,
+  "lang": "ru",
+  "outBody": 7,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "GPT o‘zbek tilida"
+   ],
+   "/ru/gpt-chat/": [
+    "Попробовать AI-чат",
+    "ИИ-чате GPTBot.uz",
+    "Откройте чат",
+    "AI-чат на русском",
+    "Попробовать GPTBot.uz AI-чат"
+   ]
+  }
+ },
+ {
+  "u": "/ru/blog/chto-takoe-lid-v-marketinge/",
+  "imp": 376,
+  "clicks": 1,
+  "impUz": 19,
+  "lang": "ru",
+  "outBody": 5,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+  "imp": 333,
+  "clicks": 1,
+  "impUz": 28,
+  "lang": "ru",
+  "outBody": 5,
+  "toTargets": {
+   "/ru/gpt-chat/": [
+    "ИИ-чате GPTBot.uz — независимом аналоге ChatGPT",
+    "Открыть AI-чат на русском"
+   ]
+  }
+ },
+ {
+  "u": "/ru/razrabotka-saytov-tashkent/",
+  "imp": 324,
+  "clicks": 2,
+  "impUz": 293,
+  "lang": "ru",
+  "outBody": 18,
+  "toTargets": {}
+ },
+ {
+  "u": "/",
+  "imp": 320,
+  "clicks": 6,
+  "impUz": 164,
+  "lang": "ru",
+  "outBody": 323,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "O‘zbekcha bepul AI chat",
+    "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil"
+   ],
+   "/ru/gpt-chat/": [
+    "ИИ-чат онлайн",
+    "ИИ-чат онлайн — бесплатный аналог ChatGPT"
+   ],
+   "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": [
+    "ChatGPT yuklab olish o‘zbek tilida — 3 usul (2026)"
+   ],
+   "/uz/blog/chatgptga-qanday-kirish-mumkin/": [
+    "ChatGPT kirish (login): chatgpt.com, 3 qadam (2026)"
+   ],
+   "/ru/blog/chat-gpt-online/": [
+    "Чат GPT онлайн бесплатно в Узбекистане — русский AI чат"
+   ],
+   "/uz/blog/chatgpt-uzbek-tilida-promptlar/": [
+    "ChatGPT uchun o‘zbek tilida 50 ta tayyor prompt"
+   ]
+  }
+ },
+ {
+  "u": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+  "imp": 309,
+  "clicks": 1,
+  "impUz": 132,
+  "lang": "uz",
+  "outBody": 9,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "GPTBot.uz bepul AI chati",
+    "GPTBot.uz AI chati",
+    "o‘zbek tilidagi AI chat",
+    "AI chatni o‘zbek tilida ochish",
+    "AI chatni o‘zbek tilida ochish"
+   ],
+   "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": [
+    "ChatGPT yuklab olish"
+   ],
+   "/uz/blog/chatgptga-qanday-kirish-mumkin/": [
+    "ChatGPT’ga qanday kirish"
+   ],
+   "/uz/blog/chatgpt-uzbek-tilida-promptlar/": [
+    "o‘zbekcha promptlar"
+   ]
+  }
+ },
+ {
+  "u": "/ru/gde-polzovatsya-gpt-besplatno/",
+  "imp": 308,
+  "clicks": 6,
+  "impUz": 56,
+  "lang": "ru",
+  "outBody": 10,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "GPT o‘zbek tilida"
+   ],
+   "/ru/gpt-chat/": [
+    "Открыть AI-чат",
+    "ИИ-чат GPTBot.uz",
+    "откройте чат",
+    "ИИ-чат — аналог ChatGPT без регистрации",
+    "Открыть бесплатный AI-чат"
+   ]
+  }
+ },
+ {
+  "u": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+  "imp": 226,
+  "clicks": 1,
+  "impUz": 76,
+  "lang": "ru",
+  "outBody": 3,
+  "toTargets": {
+   "/ru/gpt-chat/": [
+    "ИИ-чат на русском и узбекском"
+   ]
+  }
+ },
+ {
+  "u": "/ru/promty-gpt-chatgpt-50-primerov/",
+  "imp": 214,
+  "clicks": 3,
+  "impUz": 0,
+  "lang": "ru",
+  "outBody": 5,
+  "toTargets": {
+   "/ru/gpt-chat/": [
+    "Попробуйте GPTBot.uz AI-чат",
+    "GPT-чат онлайн",
+    "Попробуйте GPTBot.uz AI-чат"
+   ]
+  }
+ },
+ {
+  "u": "/uz/blog/target-reklama-nima/",
+  "imp": 185,
+  "clicks": 2,
+  "impUz": 105,
+  "lang": "uz",
+  "outBody": 7,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/blog/chat-bot-dlya-sayta/",
+  "imp": 174,
+  "clicks": 1,
+  "impUz": 35,
+  "lang": "ru",
+  "outBody": 2,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+  "imp": 125,
+  "clicks": 2,
+  "impUz": 14,
+  "lang": "ru",
+  "outBody": 4,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/instagram-direct-bot/",
+  "imp": 115,
+  "clicks": 0,
+  "impUz": 0,
+  "lang": "ru",
+  "outBody": 2,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/smm-prodvizhenie-tashkent/",
+  "imp": 112,
+  "clicks": 1,
+  "impUz": 74,
+  "lang": "ru",
+  "outBody": 8,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/blog/telegram-bot-s-oplatoy-payme-click/",
+  "imp": 105,
+  "clicks": 1,
+  "impUz": 20,
+  "lang": "ru",
+  "outBody": 9,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+  "imp": 101,
+  "clicks": 0,
+  "impUz": 1,
+  "lang": "ru",
+  "outBody": 5,
+  "toTargets": {}
+ },
+ {
+  "u": "/uz/blog/referat-va-mustaqil-ish/",
+  "imp": 100,
+  "clicks": 1,
+  "impUz": 29,
+  "lang": "uz",
+  "outBody": 9,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "GPTBot.uz bepul AI chati",
+    "Referat rejasini AI chatda tuzish",
+    "AI chatda reja tuzish"
+   ],
+   "/uz/blog/chatgpt-uzbek-tilida-promptlar/": [
+    "o‘zbekcha promptlar to‘plami"
+   ]
+  }
+ },
+ {
+  "u": "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
+  "imp": 100,
+  "clicks": 0,
+  "impUz": 1,
+  "lang": "ru",
+  "outBody": 2,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/kontekstnaya-reklama-tashkent/",
+  "imp": 99,
+  "clicks": 0,
+  "impUz": 89,
+  "lang": "ru",
+  "outBody": 9,
+  "toTargets": {}
+ },
+ {
+  "u": "/uz/gpt-uzbek-tilida-ai-chat/",
+  "imp": 96,
+  "clicks": 0,
+  "impUz": 13,
+  "lang": "uz",
+  "outBody": 25,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "GPT o‘zbek tilida savol bering",
+    "ChatGPT’ga o‘zbekcha muqobil",
+    "O‘zbekcha AI chatni",
+    "GPTBot.uz AI chatni sinab ko‘ring"
+   ],
+   "/ru/gpt-chat/": [
+    "rus tilidagi GPT chat"
+   ],
+   "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": [
+    "ChatGPTni xavfsiz ochish"
+   ],
+   "/uz/blog/chatgpt-uzbek-tilida-promptlar/": [
+    "50 ta o‘zbekcha prompt"
+   ]
+  }
+ },
+ {
+  "u": "/ru/gpt-na-russkom/",
+  "imp": 95,
+  "clicks": 0,
+  "impUz": 13,
+  "lang": "ru",
+  "outBody": 11,
+  "toTargets": {
+   "/ru/gpt-chat/": [
+    "Открыть AI-чат",
+    "ИИ-чат GPTBot.uz с пробными ответами",
+    "задать в чате",
+    "AI-чат онлайн",
+    "ИИ-чат GPTBot.uz"
+   ]
+  }
+ },
+ {
+  "u": "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+  "imp": 94,
+  "clicks": 1,
+  "impUz": 48,
+  "lang": "uz",
+  "outBody": 1,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+  "imp": 93,
+  "clicks": 0,
+  "impUz": 1,
+  "lang": "ru",
+  "outBody": 5,
+  "toTargets": {}
+ },
+ {
+  "u": "/uz/instagram-target-yoqish/",
+  "imp": 89,
+  "clicks": 3,
+  "impUz": 19,
+  "lang": "uz",
+  "outBody": 12,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/targetirovannaya-reklama-tashkent/",
+  "imp": 83,
+  "clicks": 1,
+  "impUz": 20,
+  "lang": "ru",
+  "outBody": 11,
+  "toTargets": {}
+ },
+ {
+  "u": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+  "imp": 82,
+  "clicks": 2,
+  "impUz": 6,
+  "lang": "uz",
+  "outBody": 3,
+  "toTargets": {}
+ },
+ {
+  "u": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+  "imp": 81,
+  "clicks": 1,
+  "impUz": 6,
+  "lang": "uz",
+  "outBody": 7,
+  "toTargets": {
+   "/uz/gpt-uzbek-tilida/": [
+    "ChatGPT’ning mustaqil muqobili — GPTBot.uz chati",
+    "O‘zbek tilida AI chatni sinab ko‘rish",
+    "O‘zbekcha AI chatni tekshirish"
+   ],
+   "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/": [
+    "ilovani yuklab olish",
+    "telefon va kompyuter qo‘llanmasi"
+   ],
+   "/uz/blog/chatgptga-qanday-kirish-mumkin/": [
+    "ChatGPT’ga qanday kirish mumkin"
+   ],
+   "/uz/blog/chatgpt-uzbek-tilida-promptlar/": [
+    "50 ta o‘zbekcha prompt"
+   ]
+  }
+ },
+ {
+  "u": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+  "imp": 80,
+  "clicks": 3,
+  "impUz": 39,
+  "lang": "ru",
+  "outBody": 3,
+  "toTargets": {}
+ },
+ {
+  "u": "/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/",
+  "imp": 80,
+  "clicks": 1,
+  "impUz": 9,
+  "lang": "ru",
+  "outBody": 3,
+  "toTargets": {
+   "/ru/gpt-chat/": [
+    "ИИ-чат на узбекском и русском"
+   ]
+  }
+ }
+]
