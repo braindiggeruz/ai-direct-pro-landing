@@ -221,7 +221,27 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // byte; across the site it also proves that no title, description, H1,
 // canonical, robots or hreflang moves and that dates move only on the four
 // TOP-3 pages with a new section and /ru/blog/.
-export const BASELINE = 'docs/seo/evidence/2026-10-26-address/reviewed-protected-pages.json';
+// The 2026-10-26-rs1b revision is the one revision of release R-S1b (backlog
+// W2-01; ROADMAP_TOP3.md §4.2 step 2.4 and §6 Т-08), shipped on the owner's
+// order of 26.10 instead of ≈08.11. It changes two contract fields,
+// internalLinks and bodyTextSha256, on three articles: the Claude article links
+// the payment article in a new paragraph; the payment article links the Claude
+// article in its link paragraph and, after the re-check against the OpenAI help
+// center on 26.10, names the app publisher in both stores, says uninstalling the
+// app «does not» cancel the subscription and moves its update date, dateModified
+// and sources to 2026-10-26; promptlar links the ariza / tushuntirish xati guide
+// in a new paragraph and names the insho/esse guide «insho va esse yozish» (H-5).
+// The VPN article and ai-chat-nima change in JSON-LD only: with the three above
+// they leave BREADCRUMB_NAME_HELD, so their BreadcrumbList gets a name, the H1.
+// Title, H1, description, robots, canonical and hreflang of all ten are
+// unchanged; the download guide, both chats, the login guide and the homepage
+// are byte for byte the predecessor's (their own windows: R-S2 16.11, the chats
+// and the login guide ≈25.11–02.12). The generator puts every reviewed swap back
+// and requires the predecessor's HTML byte for byte; across the site it also
+// proves that only /ru/blog/ (its «Недавно обновлённые» list) changes outside
+// the ten and that every other file but the feeds, sitemaps, Markdown twins and
+// llms-full is byte-identical.
+export const BASELINE = 'docs/seo/evidence/2026-10-26-rs1b/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

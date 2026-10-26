@@ -630,6 +630,118 @@ test('the address revision changes body text only, by the footer address: the st
   }
 });
 
+test('the R-S1b revision changes links and body text of three articles and the breadcrumb name of five; the four pages of later windows and / stay byte for byte', () => {
+  type Step = { surface: string; before: string; after: string };
+  type RS1b = Revision & {
+    reviewedChanges: Array<{
+      pathname: string; fields: string[]; reason: string;
+      change: Record<string, unknown> & { body: Step[] };
+      nonContract: { jsonLd: string; head?: string };
+      htmlSha256: string;
+    }>;
+    invisibleToGate: Array<{ change: string; pages?: string[]; names?: Record<string, string>; htmlSha256?: Record<string, string> }>;
+    measurement: string;
+    changedUnprotectedPages: {
+      mainContent: string[]; byteIdentical: number; datesMoved: string[];
+      internalLinks: Record<string, { added: string[]; removed: string[] }>;
+    };
+    pages: Array<{ pathname: string; contract: Record<string, unknown>; bodyText: string; htmlSha256: string }>;
+  };
+  const ADDRESS = 'docs/seo/evidence/2026-10-26-address/reviewed-protected-pages.json';
+  const CLAUDE = '/ru/blog/chatgpt-i-claude-v-uzbekistane/';
+  const PAY = '/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/';
+  const PROMPTS = '/uz/blog/chatgpt-uzbek-tilida-promptlar/';
+  const VPN = '/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/';
+  const AI_CHAT = '/uz/blog/ai-chat-nima-va-qanday-turlari-bor/';
+  const current = readRevision('docs/seo/evidence/2026-10-26-rs1b/reviewed-protected-pages.json') as RS1b;
+  const previous = readRevision(ADDRESS) as RS1b;
+  assert.equal(current.previousRevision, ADDRESS);
+  assert.deepEqual(current.reviewedChanges.map((c) => [c.pathname, c.fields]), [
+    [CLAUDE, ['internalLinks', 'bodyTextSha256']],
+    [PAY, ['internalLinks', 'bodyTextSha256']],
+    [PROMPTS, ['internalLinks', 'bodyTextSha256']],
+  ]);
+  // The in-body link each article gains (W2-01: payment ↔ Claude, promptlar → ariza); none removed.
+  const ADDED: Record<string, string> = { [CLAUDE]: PAY, [PAY]: CLAUDE, [PROMPTS]: '/uz/blog/tushuntirish-xati-va-ariza-yozish/' };
+  const page = (list: RS1b['pages'], p: string) => list.find((x) => x.pathname === p)!;
+  for (const now of current.pages) {
+    const before = page(previous.pages, now.pathname);
+    assert.equal(sha256(now.bodyText), now.contract.bodyTextSha256, now.pathname);
+    for (const key of ['title', 'h1', 'description', 'robots', 'googlebot', 'canonical', 'hreflang']) {
+      assert.deepEqual(now.contract[key], before.contract[key], `${now.pathname}: ${key} must not change in this revision`);
+    }
+    const record = current.reviewedChanges.find((c) => c.pathname === now.pathname);
+    if (!record) {
+      // The other seven keep contract and body text; only the VPN article and ai-chat-nima move (JSON-LD).
+      assert.deepEqual(now.contract, before.contract, now.pathname);
+      assert.equal(now.bodyText, before.bodyText, now.pathname);
+      assert.equal(now.htmlSha256 === before.htmlSha256, ![VPN, AI_CHAT].includes(now.pathname), `${now.pathname}: HTML`);
+      continue;
+    }
+    const linksBefore = before.contract.internalLinks as string[];
+    const linksNow = now.contract.internalLinks as string[];
+    assert.deepEqual(linksNow.filter((h) => !linksBefore.includes(h)), [ADDED[now.pathname]], now.pathname);
+    assert.deepEqual(linksBefore.filter((h) => !linksNow.includes(h)), [], `${now.pathname}: no link removed`);
+    // Replaying the reviewed text steps gives the predecessor's body text.
+    let replay = now.bodyText;
+    for (const step of record.change.body) {
+      assert.equal(replay.split(step.after).length, 2, `${now.pathname}: «${step.after}» is unique`);
+      replay = replay.replace(step.after, () => step.before);
+    }
+    assert.equal(replay, before.bodyText, `${now.pathname}: the reviewed steps reproduce the predecessor's body text`);
+    const [hashBefore, hashAfter] = record.htmlSha256.split(' → ');
+    assert.equal(hashBefore, before.htmlSha256, now.pathname);
+    assert.equal(hashAfter, now.htmlSha256, now.pathname);
+    assert.match(record.reason, /26\.10\.2026.*R-S1b.*W2-01.*≈08\.11/s);
+    assert.match(record.nonContract.jsonLd, /BreadcrumbList gets name/);
+    for (const key of ['title', 'h1', 'description', 'robots', 'canonical', 'hreflang']) {
+      assert.match(String(record.change[key]), /^unchanged/, `${now.pathname}: ${key}`);
+    }
+    assert.match(String(record.change.dates), now.pathname === PAY ? /2026-07-30 → 2026-10-26.*datePublished unchanged/ : /^unchanged/, now.pathname);
+  }
+  // What the visible text says: the anchors, the H-5 fix and the corrected payment facts.
+  const steps = (p: string) => current.reviewedChanges.find((c) => c.pathname === p)!.change.body;
+  assert.ok(steps(CLAUDE).some((s) => s.after.includes('оплата ChatGPT из Узбекистана: карты и ошибки')));
+  assert.ok(steps(PAY).some((s) => s.after.includes('сравнении ChatGPT и Claude для пользователей из Узбекистана')));
+  assert.ok(steps(PROMPTS).some((s) => s.after.includes('ariza va tushuntirish xati namunasi') && s.after.includes('o‘zi') && s.after.includes('qo‘llanmasida')));
+  assert.ok(steps(PROMPTS).some((s) => s.before.includes('insho va referat yozish') && s.after.includes('insho va esse yozish')));
+  const pay = page(current.pages, PAY).bodyText;
+  assert.match(pay, /в App Store разработчик — OpenAI OpCo, LLC, в Google Play издатель — OpenAI/);
+  assert.match(pay, /Удаление приложения само по себе не отменяет подписку/);
+  assert.doesNotMatch(pay, /обычно не отменяет|Обычно нет|2026-07-30 Проверяйте|проверено 2026-07-30/);
+  assert.match(pay, /Обновлено 2026-10-26/);
+  assert.match(pay, /20 долларов в месяц/);
+  assert.doesNotMatch(page(current.pages, PROMPTS).bodyText, /insho va referat yozish/);
+  const article = JSON.parse(fs.readFileSync(path.join(REPO, 'content/blog/ru/kak-oplatit-chatgpt-v-uzbekistane.json'), 'utf8')) as BlogArticle & { lastReviewedAt: string };
+  assert.equal(article.lastReviewedAt, '2026-10-26');
+  assert.equal(article.dateModified, '2026-10-26');
+  assert.equal(article.datePublished, '2026-07-30');
+  // JSON-LD only: the breadcrumb name of all five is the H1; the two text-free pages carry their hashes.
+  const breadcrumb = current.invisibleToGate.find((c) => c.names)!;
+  assert.deepEqual(breadcrumb.pages, [CLAUDE, PAY, PROMPTS, VPN, AI_CHAT]);
+  for (const p of breadcrumb.pages!) assert.equal(breadcrumb.names![p], (page(current.pages, p).contract.h1 as string[])[0], p);
+  assert.deepEqual(Object.keys(breadcrumb.htmlSha256!), [VPN, AI_CHAT]);
+  for (const p of [VPN, AI_CHAT]) {
+    assert.equal(breadcrumb.htmlSha256![p], `${page(previous.pages, p).htmlSha256} → ${page(current.pages, p).htmlSha256}`, p);
+  }
+  // Outside the protected set only the blog index moves; nothing is removed anywhere.
+  const { mainContent, datesMoved, internalLinks, byteIdentical } = current.changedUnprotectedPages;
+  assert.deepEqual(mainContent, ['/ru/blog/']);
+  assert.deepEqual(datesMoved, ['/ru/blog/']);
+  assert.deepEqual(internalLinks, {});
+  assert.ok(byteIdentical > 300, String(byteIdentical));
+  const invisible = current.invisibleToGate.map((c) => c.change).join('\n');
+  assert.match(invisible, /chatgpt-telefon-va-kompyuterga-yuklab-olish\/, \/uz\/gpt-uzbek-tilida\/, \/ru\/gpt-chat\/, \/uz\/blog\/chatgptga-qanday-kirish-mumkin\/, \/ are byte-identical/);
+  assert.match(invisible, /robots\.txt, uz\/blog\/feed\.xml, _redirects, _headers, ru\/oferta\/index\.html, uz\/oferta\/index\.html, assets\/index-B7Z1XlOc\.css, assets\/gpt-chat-Cqn8gEiy\.js are byte-identical/);
+  assert.match(invisible, /lastmod 2026-07-30 → 2026-10-26 on \/ru\/blog\/kak-oplatit-chatgpt-v-uzbekistane\/ only/);
+  assert.match(current.measurement, /R-S1 \+ R-S1b together/);
+  assert.match(current.measurement, /R-S2 \(16\.11\)/);
+  assert.match(current.measurement, /No ranking or traffic guarantee/);
+  for (const text of [invisible, current.measurement, ...current.reviewedChanges.map((c) => JSON.stringify(c))]) {
+    assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+  }
+});
+
 test('the current revision documents every contract change against its predecessor, which stays untouched', () => {
   const current = readRevision(BASELINE);
   assert.ok(current.previousRevision && current.previousRevision !== BASELINE, 'a revision names its predecessor');
