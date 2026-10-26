@@ -324,7 +324,8 @@ if (predecessorDist) {
     ...html.matchAll(/<meta\b[^>]*property="article:(?:modified|published)_time"[^>]*>/g),
     ...html.matchAll(/<time\b[^>]*>[^<]*/g),
   ].map((m) => m[0]);
-  const IGNORED = new Set(['_pages-release.json']);
+  // The release stamp (scripts/release/pages-production.ts) exists only in a stamped build.
+  const IGNORED = new Set(['gptbot-release.json']);
   const before = walk(predecessorDist).filter((f) => !IGNORED.has(f)).sort();
   const after = walk(path.join(root, 'dist')).filter((f) => !IGNORED.has(f)).sort();
   if (JSON.stringify(before) !== JSON.stringify(after)) {
