@@ -25,7 +25,7 @@ import path from 'node:path';
 import { STUDIO_TELEGRAM_URL, studioTelegramHref, studioTelegramMessage, telegramServiceLabel, withStudioTelegramPrefill } from '../scripts/telegram-cta';
 import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY } from '../src/shared/studio-contact';
 import { FIRST_TOUCH_SCRIPT, FIRST_TOUCH_STORAGE_KEY } from '../scripts/attribution-snippet';
-import { LEAD_FORM_PAGES, LEAD_FORM_SCRIPT, PRIVACY_PAGE, leadFormFallback, leadFormServiceFor, renderLeadForm } from '../scripts/lead-form';
+import { LEAD_FORM_PAGES, LEAD_FORM_SCRIPT, PRIVACY_PAGE, TASK_PLACEHOLDER_BY_SERVICE, leadFormFallback, leadFormServiceFor, renderLeadForm, taskPlaceholderFor } from '../scripts/lead-form';
 import { renderContactCard } from '../scripts/contact-card';
 import { MEASUREMENT_HOLD_PATHS } from '../scripts/measurement-hold';
 import { PROTECTED_PATHS } from '../scripts/seo-protection';
@@ -367,6 +367,39 @@ test('the SEO and sales-automation landings carry the form, and every call to ac
   }
   assert.equal(LEAD_FORM_PAGES['/uz/seo-xizmati/'], LEAD_FORM_PAGES['/ru/seo-prodvizhenie-saytov-tashkent/']);
   assert.equal(LEAD_FORM_PAGES['/uz/savdoni-avtomatlashtirish/'], LEAD_FORM_PAGES['/ru/avtomatizatsiya-prodazh/']);
+});
+
+// Review 2026-10-26: the shared task example is a bot brief; an SEO request
+// gets an SEO example. Only the 'seo' and 'local-seo' slugs change.
+test('SEO forms show an SEO task example; every other form keeps the shared one', () => {
+  const seoExample = {
+    ru: 'Например: сайт example.uz, нужны заявки из Google и Яндекса по Ташкенту',
+    uz: 'Masalan: sayt example.uz, Google’dan Toshkent bo‘yicha arizalar kerak',
+  } as const;
+  const shared = {
+    ru: 'Например: принимать заявки на запись и передавать менеджеру',
+    uz: 'Masalan: yozilish arizalarini qabul qilib, menejerga uzatish',
+  } as const;
+  for (const url of ['/ru/seo-prodvizhenie-saytov-tashkent/', '/uz/seo-xizmati/', '/ru/lokalnoe-seo-tashkent/']) {
+    const page = PAGES.get(url);
+    assert.ok(page, url);
+    const locale = page.locale === 'uz' ? 'uz' : 'ru';
+    const html = renderLeadForm(page);
+    assert.ok(html.includes(`<textarea name="task" rows="3" maxlength="420" placeholder="${seoExample[locale]}"`), url);
+    assert.ok(!html.includes(shared[locale]), `${url}: still shows the bot example`);
+  }
+  assert.equal(taskPlaceholderFor('seo', 'uz'), seoExample.uz);
+  assert.equal(taskPlaceholderFor('local-seo', 'ru'), seoExample.ru);
+  assert.deepEqual(Object.keys(TASK_PLACEHOLDER_BY_SERVICE).sort(), ['local-seo', 'seo']);
+  // The Uzbek example uses U+2019 after a brand name and U+2018 in o‘/g‘.
+  assert.ok(!/['ʻʼ]/.test(seoExample.uz));
+  for (const [url, service] of Object.entries(LEAD_FORM_PAGES)) {
+    if (service === 'seo' || service === 'local-seo') continue;
+    const page = PAGES.get(url);
+    if (!page || !leadFormServiceFor(page)) continue;
+    const locale = page.locale === 'uz' ? 'uz' : 'ru';
+    assert.ok(renderLeadForm(page).includes(`placeholder="${shared[locale]}"`), `${url}: the shared example changed`);
+  }
 });
 
 test('after the hold lift the two Uzbek advertising landings carry the form of their RU twins', () => {
@@ -1036,6 +1069,9 @@ test('built pages: the SEO and sales-automation landings render the form, link i
     assert.ok(html, `${url} is not built`);
     assert.equal((html.match(/<section id="lead-form" data-testid="page-lead-form"/g) ?? []).length, 1, url);
     assert.match(html, new RegExp(`<form data-lead-form method="post" data-service="${service}"`), url);
+    if (service === 'seo' || service === 'local-seo') {
+      assert.ok(html.includes(`placeholder="${taskPlaceholderFor(service, url.startsWith('/uz/') ? 'uz' : 'ru')}"`), `${url}: the built form lacks the SEO task example`);
+    }
     assert.equal((html.match(/data-lead-form-script/g) ?? []).length, 1, url);
     assert.ok(html.includes('href="#lead-form"'), `${url}: nothing links the form`);
     assert.ok(!html.includes('href="#contact"'), `${url}: a call to action still leads to the card`);

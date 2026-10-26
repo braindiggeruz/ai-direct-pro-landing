@@ -193,6 +193,26 @@ const COPY = {
   },
 } as const;
 
+/**
+ * Task placeholders for services whose request is not a bot scenario: the
+ * shared COPY example ("принимать заявки на запись…") reads as a chatbot brief
+ * on an SEO landing. Every other slug keeps the shared example.
+ */
+const SEO_TASK_PLACEHOLDER = {
+  ru: 'Например: сайт example.uz, нужны заявки из Google и Яндекса по Ташкенту',
+  uz: 'Masalan: sayt example.uz, Google’dan Toshkent bo‘yicha arizalar kerak',
+} as const;
+
+export const TASK_PLACEHOLDER_BY_SERVICE: Readonly<Record<string, { ru: string; uz: string }>> = {
+  seo: SEO_TASK_PLACEHOLDER,
+  'local-seo': SEO_TASK_PLACEHOLDER,
+};
+
+/** The task placeholder of a form: the service's own example, otherwise the shared one. */
+export function taskPlaceholderFor(service: string, locale: 'ru' | 'uz'): string {
+  return TASK_PLACEHOLDER_BY_SERVICE[service]?.[locale] ?? COPY[locale].taskPlaceholder;
+}
+
 /** Status lines the client script shows. Server codes map onto these. */
 const CLIENT_COPY = {
   ru: {
@@ -302,7 +322,7 @@ export function renderLeadForm(page: LeadFormPage): string {
         </div>
         <label class="grid gap-2 text-sm text-white/80">
           <span>${escapeText(t.task)} <span class="text-white/45">${escapeText(t.optional)}</span></span>
-          <textarea name="task" rows="3" maxlength="420" placeholder="${escapeAttr(t.taskPlaceholder)}" class="${INPUT_CLASS}"></textarea>
+          <textarea name="task" rows="3" maxlength="420" placeholder="${escapeAttr(taskPlaceholderFor(service, locale))}" class="${INPUT_CLASS}"></textarea>
         </label>
         <label class="grid gap-2 text-sm text-white/80">
           <span>${escapeText(budget.label)} <span class="text-white/45">${escapeText(budget.optional)}</span></span>
