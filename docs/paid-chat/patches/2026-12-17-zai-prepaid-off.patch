@@ -1,0 +1,67 @@
+diff --git a/tests/gpt-zai-provider.test.ts b/tests/gpt-zai-provider.test.ts
+index e37c6eb1..e26fee20 100644
+--- a/tests/gpt-zai-provider.test.ts
++++ b/tests/gpt-zai-provider.test.ts
+@@ -789,9 +789,10 @@ test('16 the Z.ai switches are allowlisted public config, committed on with the
+   const keys = ['GPT_MODEL_PROVIDER', 'GPT_ZAI_EVAL_APPROVED', 'ZAI_MODEL_FREE', 'ZAI_MODEL_PAID', 'ZAI_TIERS', 'ZAI_PREPAID_MODELS', 'ZAI_TIMEOUT_MS'];
+   for (const key of keys) assert.ok((RUNTIME_CONFIG_KEYS as readonly string[]).includes(key), key);
+   assert.ok(!(RUNTIME_CONFIG_KEYS as readonly string[]).includes('ZAI_API_KEY'), 'the key is a secret, never runtime config');
+-  // On since 2026-10-03 (owner directive). Both tiers use glm-5.3-flash from
+-  // the owner's prepaid usage bundle; pay-as-you-go models would answer 1113.
+-  const expected = { GPT_MODEL_PROVIDER: 'zai', GPT_ZAI_EVAL_APPROVED: '2026-10-03', ZAI_MODEL_FREE: 'glm-5.3-flash', ZAI_MODEL_PAID: 'glm-5.3-flash', ZAI_TIERS: 'free,paid', ZAI_PREPAID_MODELS: 'glm-5.3-flash', ZAI_TIMEOUT_MS: '12000' };
++  // On since 2026-10-03 (owner directive). On 17.12.2026 the prepaid bundle
++  // ended with no Z.ai money in place (MODEL-CLIFF-1712-RU.md, case C):
++  // glm-5.3-flash left ZAI_PREPAID_MODELS, so neither tier may call it.
++  const expected = { GPT_MODEL_PROVIDER: 'zai', GPT_ZAI_EVAL_APPROVED: '2026-10-03', ZAI_MODEL_FREE: 'glm-5.3-flash', ZAI_MODEL_PAID: 'glm-5.3-flash', ZAI_TIERS: 'free,paid', ZAI_PREPAID_MODELS: '', ZAI_TIMEOUT_MS: '12000' };
+   const packed = packedRuntimeConfig();
+   const source = fs.readFileSync(path.join(ROOT, 'wrangler.toml'), 'utf8');
+   const table = source.slice(source.indexOf('[vars.GPTBOT_RUNTIME_CONFIG]'));
+@@ -805,12 +806,13 @@ test('16 the Z.ai switches are allowlisted public config, committed on with the
+   const cfg = resolveConfig(env);
+   assert.deepEqual(
+     [cfg.modelProvider, cfg.zaiEvalApproved, cfg.zaiModelFree, cfg.zaiModelPaid, cfg.zaiTiers, cfg.zaiPrepaidModels, cfg.zaiTimeoutMs],
+-    ['zai', '2026-10-03', 'glm-5.3-flash', 'glm-5.3-flash', ['free', 'paid'], ['glm-5.3-flash'], 12_000],
++    ['zai', '2026-10-03', 'glm-5.3-flash', 'glm-5.3-flash', ['free', 'paid'], [], 12_000],
+   );
+-  // With the Pages secret, both tiers put that one Z.ai model in front of the
+-  // OpenRouter chain; without it they stay on OpenRouter.
++  // Even with the Pages secret both tiers stay on OpenRouter: an unlisted
++  // GLM-5 model is rejected for either tier.
++  _resetZaiWarning();
+   for (const tier of ['free', 'paid'] as const) {
+-    assert.deepEqual(webChatChain(cfg, { ZAI_API_KEY: 'k' } as Env, tier), ['zai/glm-5.3-flash', ...modelChain(cfg, tier).filter((m) => !m.startsWith('zai/'))]);
++    assert.deepEqual(webChatChain(cfg, { ZAI_API_KEY: 'k' } as Env, tier), modelChain(cfg, tier));
+     assert.deepEqual(webChatChain(cfg, {} as Env, tier), modelChain(cfg, tier));
+   }
+ });
+diff --git a/wrangler.toml b/wrangler.toml
+index 6c85089e..a215984c 100644
+--- a/wrangler.toml
++++ b/wrangler.toml
+@@ -150,7 +150,7 @@ queue = "gptbot-automation"
+ # this JSON serializes to about 2.5 KiB, below the 5 KiB per-variable limit.
+ # functions/_middleware.ts expands only its explicit allowlist at request time.
+ [vars]
+-GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREMENT_MODELS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","FIRST_PARTY_AUTOMATION_ENABLED":"true","BUNZY_DEFAULT_LOCALE":"ru","OPENROUTER_MODEL_FREE":"nvidia/nemotron-3-super-120b-a12b:free","OPENROUTER_MODEL_FREE_FALLBACKS":"dots-studio/dots-3-note-preview:free,google/gemma-4-31b-it:free","OPENROUTER_MODEL_PAID":"google/gemma-4-26b-a4b-it","OPENROUTER_MODEL_PAID_FALLBACKS":"mistralai/mistral-small-3.2-24b-instruct,google/gemma-4-31b-it:free","GPT_MAX_OUTPUT_TOKENS":"1600","GPT_FIRST_CONTENT_TIMEOUT_MS":"12000","GPT_FREE_TRIAL_ENABLED":"true","GPT_FREE_TIER_PAID_PRIMARY":"false","GPT_FREE_PAID_DAILY_USD":"0.3","GPT_PACK_PAID_DAILY_USD":"3","GPT_STOP_CHARGE_MIN_CHARS":"600","GPT_HANDOFF_BOT_USERNAME":"gptbotuz_bot","GPT_HANDOFF_TTL_MINUTES":"1440","GPT_LEAD_MAX_PER_HOUR":"5","GPT_LEAD_MAX_PER_DAY":"20","GPT_HANDOFF_MAX_PER_HOUR":"20","GPT_LEAD_GLOBAL_MAX_PER_HOUR":"30","GPT_HANDOFF_GLOBAL_MAX_PER_HOUR":"100","GPT_LEAD_TURNSTILE_AFTER":"2","GPT_OWNER_NOTIFY_MAX_PER_HOUR":"30","LEAD_RADAR_ADMISSION_ENABLED":"true","LEAD_RADAR_PROCESSING_ENABLED":"true","LEAD_RADAR_CRAWLER_ENABLED":"true","LEAD_RADAR_CONTACT_ENABLED":"true","LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_TRANSPORT_MODE":"local_bridge","LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED":"false","LEAD_RADAR_PERSONAL_RETENTION_DAYS":"30","LEAD_RADAR_ALLOWED_ORGS":"owner_8ee98dc3040f160b308166b0","LEAD_RADAR_MAX_DISPATCH_PER_TICK":"5","LEAD_RADAR_SIGNAL_ENABLED":"true","LEAD_RADAR_SIGNAL_AUTOJOIN_MODE":"discover","LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_BOT_USERNAME":"","LEAD_RADAR_CONTACT_DAILY_LIMIT":"10","LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT":"30","LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS":"120","TELEGRAM_AGENTS_BOT_USERNAME":"BormiMarketBot","MARKET_MINI_APP_ENABLED":"true","MARKET_MINI_APP_BUYER_ENABLED":"true","MARKET_MINI_APP_SELLER_READS_ENABLED":"true","MARKET_MINI_APP_SELLER_COMMANDS_ENABLED":"true","MARKET_MINI_APP_ORIGINS":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_URL":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_BUILD_ID":"bormi-public-beta-20260804-cabinet","MARKET_VOICE_SEARCH_ENABLED":"true","MARKET_AI_SEARCH_ENABLED":"true","MARKET_SELLER_MEDIA_UPLOAD_ENABLED":"true","MARKET_CABINET_ENABLED":"true","MARKET_CABINET_HOME_V2":"true","MARKET_NAV_BACK_ENABLED":"true","MARKET_QUICKPOST_ENABLED":"false","MARKET_QUICKPOST_AI_ENABLED":"false","MARKET_CLASSIFIEDS_DISCOVERY_ENABLED":"true","MARKET_PRIVATE_LISTING_ENABLED":"true","MARKET_OWNER_TELEGRAM_BINDING_ENABLED":"false","BORMI_ADMIN_V2_ENABLED":"true","GPT_MODEL_PROVIDER":"zai","GPT_ZAI_EVAL_APPROVED":"2026-10-03","ZAI_MODEL_FREE":"glm-5.3-flash","ZAI_MODEL_PAID":"glm-5.3-flash","ZAI_TIERS":"free,paid","ZAI_PREPAID_MODELS":"glm-5.3-flash","ZAI_TIMEOUT_MS":"12000","UZUM_API":"","UZUM_CHECKOUT_BASE_URL":"","UZUM_CHECKOUT_TEST_BASE_URL":"https://test-chk-api.uzumcheckout.uz","UZUM_AUTOFISCAL":"false","UZUM_FISCAL_BASE_URL":"https://ofd-key.inplat-tech.com","UZUM_FISCAL_TEST_BASE_URL":"https://test-ofd.ipt-merch.com","GPT_PAYMENT_PROVIDERS":"click,payme","GPT_BILLING_MODE":"","GPT_BILLING_MODE_CLICK":"live","GPT_BILLING_MODE_UZUM":"","GPT_BILLING_MODE_PAYME":"live","GPT_BILLING_LIVE_READY":"true","GPT_BILLING_TERMS_RU":"https://gptbot.uz/ru/oferta/","GPT_BILLING_TERMS_UZ":"https://gptbot.uz/uz/oferta/","GPT_BILLING_TERMS_VERSION":"ai-paket-2026-10-v5","GPT_BILLING_TERMS_APPROVED_AT":"2026-10-07","GPT_GUEST_CHECKOUT":"true","GPT_FISCAL_IKPU":"10305008002000000","GPT_FISCAL_PACKAGE_CODE":"1514296","GPT_FISCAL_VAT_PERCENT":"12","GPT_FISCAL_TIN":"310618348","GPT_CLICK_AUTOFISCAL":"","GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES":"10","GPT_BOT_HANDOFF_ENABLED":"false","GPT_BOT_LOGIN_MODE":"pick","GPT_ALERTS_ENABLED":"true","GPT_ALERTS_MAX_PER_HOUR":"6","GPT_WATCHDOG_WINDOW_MINUTES":"180","GPT_WATCHDOG_MIN_TURNS":"3","GPT_HASH_SALT_SINCE":"2026-10-02T00:00:00Z","GPT_MESSAGES_RETENTION_DAYS":"","TELEGRAM_FREE_DAILY_LIMIT":"10","TELEGRAM_FREE_MONTHLY_LIMIT":"100","TELEGRAM_ASSISTANT_BOT_USERNAME":"gptbotuz_bot"}'''
++GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREMENT_MODELS":"nvidia/nemotron-3-super-120b-a12b:free,dots-studio/dots-3-note-preview:free","FIRST_PARTY_AUTOMATION_ENABLED":"true","BUNZY_DEFAULT_LOCALE":"ru","OPENROUTER_MODEL_FREE":"nvidia/nemotron-3-super-120b-a12b:free","OPENROUTER_MODEL_FREE_FALLBACKS":"dots-studio/dots-3-note-preview:free,google/gemma-4-31b-it:free","OPENROUTER_MODEL_PAID":"google/gemma-4-26b-a4b-it","OPENROUTER_MODEL_PAID_FALLBACKS":"mistralai/mistral-small-3.2-24b-instruct,google/gemma-4-31b-it:free","GPT_MAX_OUTPUT_TOKENS":"1600","GPT_FIRST_CONTENT_TIMEOUT_MS":"12000","GPT_FREE_TRIAL_ENABLED":"true","GPT_FREE_TIER_PAID_PRIMARY":"false","GPT_FREE_PAID_DAILY_USD":"0.3","GPT_PACK_PAID_DAILY_USD":"3","GPT_STOP_CHARGE_MIN_CHARS":"600","GPT_HANDOFF_BOT_USERNAME":"gptbotuz_bot","GPT_HANDOFF_TTL_MINUTES":"1440","GPT_LEAD_MAX_PER_HOUR":"5","GPT_LEAD_MAX_PER_DAY":"20","GPT_HANDOFF_MAX_PER_HOUR":"20","GPT_LEAD_GLOBAL_MAX_PER_HOUR":"30","GPT_HANDOFF_GLOBAL_MAX_PER_HOUR":"100","GPT_LEAD_TURNSTILE_AFTER":"2","GPT_OWNER_NOTIFY_MAX_PER_HOUR":"30","LEAD_RADAR_ADMISSION_ENABLED":"true","LEAD_RADAR_PROCESSING_ENABLED":"true","LEAD_RADAR_CRAWLER_ENABLED":"true","LEAD_RADAR_CONTACT_ENABLED":"true","LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_TRANSPORT_MODE":"local_bridge","LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED":"true","LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED":"false","LEAD_RADAR_PERSONAL_RETENTION_DAYS":"30","LEAD_RADAR_ALLOWED_ORGS":"owner_8ee98dc3040f160b308166b0","LEAD_RADAR_MAX_DISPATCH_PER_TICK":"5","LEAD_RADAR_SIGNAL_ENABLED":"true","LEAD_RADAR_SIGNAL_AUTOJOIN_MODE":"discover","LEAD_RADAR_SIGNAL_DISCOVERY_ENABLED":"true","LEAD_RADAR_TELEGRAM_BOT_USERNAME":"","LEAD_RADAR_CONTACT_DAILY_LIMIT":"10","LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT":"30","LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS":"120","TELEGRAM_AGENTS_BOT_USERNAME":"BormiMarketBot","MARKET_MINI_APP_ENABLED":"true","MARKET_MINI_APP_BUYER_ENABLED":"true","MARKET_MINI_APP_SELLER_READS_ENABLED":"true","MARKET_MINI_APP_SELLER_COMMANDS_ENABLED":"true","MARKET_MINI_APP_ORIGINS":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_URL":"https://gptbot-market-mini-app.pages.dev","MARKET_MINI_APP_BUILD_ID":"bormi-public-beta-20260804-cabinet","MARKET_VOICE_SEARCH_ENABLED":"true","MARKET_AI_SEARCH_ENABLED":"true","MARKET_SELLER_MEDIA_UPLOAD_ENABLED":"true","MARKET_CABINET_ENABLED":"true","MARKET_CABINET_HOME_V2":"true","MARKET_NAV_BACK_ENABLED":"true","MARKET_QUICKPOST_ENABLED":"false","MARKET_QUICKPOST_AI_ENABLED":"false","MARKET_CLASSIFIEDS_DISCOVERY_ENABLED":"true","MARKET_PRIVATE_LISTING_ENABLED":"true","MARKET_OWNER_TELEGRAM_BINDING_ENABLED":"false","BORMI_ADMIN_V2_ENABLED":"true","GPT_MODEL_PROVIDER":"zai","GPT_ZAI_EVAL_APPROVED":"2026-10-03","ZAI_MODEL_FREE":"glm-5.3-flash","ZAI_MODEL_PAID":"glm-5.3-flash","ZAI_TIERS":"free,paid","ZAI_PREPAID_MODELS":"","ZAI_TIMEOUT_MS":"12000","UZUM_API":"","UZUM_CHECKOUT_BASE_URL":"","UZUM_CHECKOUT_TEST_BASE_URL":"https://test-chk-api.uzumcheckout.uz","UZUM_AUTOFISCAL":"false","UZUM_FISCAL_BASE_URL":"https://ofd-key.inplat-tech.com","UZUM_FISCAL_TEST_BASE_URL":"https://test-ofd.ipt-merch.com","GPT_PAYMENT_PROVIDERS":"click,payme","GPT_BILLING_MODE":"","GPT_BILLING_MODE_CLICK":"live","GPT_BILLING_MODE_UZUM":"","GPT_BILLING_MODE_PAYME":"live","GPT_BILLING_LIVE_READY":"true","GPT_BILLING_TERMS_RU":"https://gptbot.uz/ru/oferta/","GPT_BILLING_TERMS_UZ":"https://gptbot.uz/uz/oferta/","GPT_BILLING_TERMS_VERSION":"ai-paket-2026-10-v5","GPT_BILLING_TERMS_APPROVED_AT":"2026-10-07","GPT_GUEST_CHECKOUT":"true","GPT_FISCAL_IKPU":"10305008002000000","GPT_FISCAL_PACKAGE_CODE":"1514296","GPT_FISCAL_VAT_PERCENT":"12","GPT_FISCAL_TIN":"310618348","GPT_CLICK_AUTOFISCAL":"","GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES":"10","GPT_BOT_HANDOFF_ENABLED":"false","GPT_BOT_LOGIN_MODE":"pick","GPT_ALERTS_ENABLED":"true","GPT_ALERTS_MAX_PER_HOUR":"6","GPT_WATCHDOG_WINDOW_MINUTES":"180","GPT_WATCHDOG_MIN_TURNS":"3","GPT_HASH_SALT_SINCE":"2026-10-02T00:00:00Z","GPT_MESSAGES_RETENTION_DAYS":"","TELEGRAM_FREE_DAILY_LIMIT":"10","TELEGRAM_FREE_MONTHLY_LIMIT":"100","TELEGRAM_ASSISTANT_BOT_USERNAME":"gptbotuz_bot"}'''
+ 
+ # Studio (apps/studio; functions/lib/studio/config.ts reads it). Its own text
+ # variable, so the chat's packed JSON above keeps its room and its parity
+@@ -455,12 +455,16 @@ BORMI_ADMIN_V2_ENABLED = "true"
+ # Since UE-3 the bundle model is priced at its list price and spends the two
+ # daily USD budgets above like any billable model. What to change on
+ # 15.11 / 17.11 / 17.12: docs/paid-chat/MODEL-CLIFF-1712-RU.md.
++# 17.12.2026 (MODEL-CLIFF-1712-RU.md, case C): the bundle ended and no Z.ai
++# money is in place, so glm-5.3-flash left ZAI_PREPAID_MODELS in both places;
++# neither tier may call it (gpt_zai_model_rejected once per isolate) and the
++# chat answers through OpenRouter only. Back: list it again, then deploy.
+ GPT_MODEL_PROVIDER = "zai"
+ GPT_ZAI_EVAL_APPROVED = "2026-10-03"
+ ZAI_MODEL_FREE = "glm-5.3-flash"
+ ZAI_MODEL_PAID = "glm-5.3-flash"
+ ZAI_TIERS = "free,paid"
+-ZAI_PREPAID_MODELS = "glm-5.3-flash"
++ZAI_PREPAID_MODELS = ""
+ ZAI_TIMEOUT_MS = "12000"
+ 
+ # ── Consumer AI chat: Uzum Bank payments ──────────────────────────────────────

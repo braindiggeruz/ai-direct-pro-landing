@@ -1,0 +1,146 @@
+diff --git a/content/studio/pages/ru/prezentatsiya-ai.json b/content/studio/pages/ru/prezentatsiya-ai.json
+index abb3cc2b..803d72b0 100644
+--- a/content/studio/pages/ru/prezentatsiya-ai.json
++++ b/content/studio/pages/ru/prezentatsiya-ai.json
+@@ -60,7 +60,7 @@
+         "ИИ пишет быстро, но может ошибаться. Даты, числа, имена и термины сверяйте с учебником или надёжным источником. Презентация — это основа, а не готовая работа для сдачи: добавьте свои мысли, примеры и вывод.",
+         "ИИ может выдумать названия книг и источников. Список литературы составьте сами — по учебнику и источникам, которые рекомендовал учитель или преподаватель.",
+         {
+-          "text": "Текст слайдов не хранится на сервере GPTBot.uz: он приходит только в ваш браузер, и файл собирается тоже в браузере. Текст пишет ИИ-модель Z.ai (Сингапур) — ей отправляется ваша тема. Картинки рисует и проверяет Cloudflare Workers AI. То, что вы не робот, проверяет Cloudflare Turnstile, а в браузере на 1 год сохраняется метка (cookie): по ней считаются бесплатные презентации. Общие правила — в {privacy}.",
++          "text": "Текст слайдов не хранится на сервере GPTBot.uz: он приходит только в ваш браузер, и файл собирается тоже в браузере. Текст пишет ИИ-модель Z.ai (Сингапур) — ей отправляется ваша тема, а если она не отвечает — через OpenRouter другой ИИ-модели. Картинки рисует и проверяет Cloudflare Workers AI. То, что вы не робот, проверяет Cloudflare Turnstile, а в браузере на 1 год сохраняется метка (cookie): по ней считаются бесплатные презентации. Общие правила — в {privacy}.",
+           "links": [
+             {
+               "token": "privacy",
+diff --git a/content/studio/pages/uz/taqdimot-ai.json b/content/studio/pages/uz/taqdimot-ai.json
+index 72c21a3e..8453d6d9 100644
+--- a/content/studio/pages/uz/taqdimot-ai.json
++++ b/content/studio/pages/uz/taqdimot-ai.json
+@@ -64,7 +64,7 @@
+         "AI tez yozadi, lekin adashishi mumkin. Sana, raqam, ism va atamalarni darslik yoki ishonchli manbadan tekshiring. Taqdimot — ishning rejasi va asosi, topshirishga tayyor ish emas: unga o‘z fikringiz, misollaringiz va xulosangizni qo‘shing.",
+         "AI kitob va manba nomlarini to‘qib chiqarishi mumkin. Shuning uchun manbalar ro‘yxatini o‘qituvchi tavsiya qilgan darslik va kitoblardan o‘zingiz tuzing.",
+         {
+-          "text": "Slaydlar matni GPTBot.uz serverida saqlanmaydi: u faqat sizning brauzeringizga yuboriladi, fayl ham shu brauzerda yaratiladi. Matnni yozish uchun mavzu Z.ai (Singapur) AI modeliga yuboriladi. Rasmlarni Cloudflare Workers AI chizadi va tekshiradi. Bot emasligingizni Cloudflare Turnstile tekshiradi, brauzeringizda esa 1 yilga cookie fayli saqlanadi: u bepul taqdimotlarni sanash uchun kerak. Umumiy qoidalar — {privacy}.",
++          "text": "Slaydlar matni GPTBot.uz serverida saqlanmaydi: u faqat sizning brauzeringizga yuboriladi, fayl ham shu brauzerda yaratiladi. Matnni yozish uchun mavzu Z.ai (Singapur) AI modeliga, u javob bermasa OpenRouter orqali boshqa AI modeliga yuboriladi. Rasmlarni Cloudflare Workers AI chizadi va tekshiradi. Bot emasligingizni Cloudflare Turnstile tekshiradi, brauzeringizda esa 1 yilga cookie fayli saqlanadi: u bepul taqdimotlarni sanash uchun kerak. Umumiy qoidalar — {privacy}.",
+           "links": [
+             {
+               "token": "privacy",
+diff --git a/scripts/release/studio-live-gate.ts b/scripts/release/studio-live-gate.ts
+index 72b53f3f..8845358e 100644
+--- a/scripts/release/studio-live-gate.ts
++++ b/scripts/release/studio-live-gate.ts
+@@ -29,7 +29,7 @@ export function assertStudioLiveGate(root:string,dist:string,production:Readonly
+   if(config.paymentProviders.includes('click')&&config.clickUseChatService&&chat.GPT_BILLING_MODE_CLICK!=='live')issues.push('Shared Click cash desk is not live');
+   if(config.paymentProviders.includes('click')&&!config.clickAmountsConfirmed)issues.push('Studio Click amounts not confirmed');
+   for(const field of ['GPT_FISCAL_IKPU','GPT_FISCAL_PACKAGE_CODE','GPT_FISCAL_VAT_PERCENT','GPT_FISCAL_TIN'])if(!chat[field])issues.push(`missing ${field}`);
+-  if(config.freeTextFallback||config.paidTextFallback)issues.push('unreviewed Studio AI fallback');
++  if((config.freeTextFallback||config.paidTextFallback)&&!['uz/taqdimot-ai','ru/prezentatsiya-ai'].every(page=>fs.existsSync(path.join(dist,page,'index.html'))&&fs.readFileSync(path.join(dist,page,'index.html'),'utf8').includes('OpenRouter')))issues.push('Studio AI fallback not named on the built pages');
+   for(const page of ['uz/tariflar','uz/taqdimot-ai','ru/prezentatsiya-ai'])if(!fs.existsSync(path.join(dist,page,'index.html')))issues.push(`missing built ${page}`);
+   if(issues.length)throw new Error(`Studio live gate: ${issues.join('; ')}`);
+ }
+diff --git a/tests/pages-config-parity.test.ts b/tests/pages-config-parity.test.ts
+index 844de1f2..40500bf9 100644
+--- a/tests/pages-config-parity.test.ts
++++ b/tests/pages-config-parity.test.ts
+@@ -217,7 +217,8 @@ test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON
+   const launch = {
+     ...STUDIO_CONFIG_DEFAULTS,
+     STUDIO_TURNSTILE_SITE_KEY: '0x4AAAAAAFO5Y7cXhqeASg8P',
+-    STUDIO_FREE_TEXT_FALLBACK: '',
++    STUDIO_FREE_TEXT_FALLBACK: 'openrouter:google/gemma-4-31b-it:free',
++    STUDIO_PAID_TEXT_FALLBACK: 'openrouter:google/gemma-4-31b-it:free',
+     STUDIO_PAID_SERVICE: 'on', STUDIO_FULL_DECK: 'true', STUDIO_PAYMENTS: 'live',
+     STUDIO_PAYMENT_PROVIDERS: 'click,payme', STUDIO_CLICK_AMOUNTS_CONFIRMED: 'true', STUDIO_CLICK_USE_CHAT_SERVICE: 'true',
+     STUDIO_TERMS_VERSION: 'ai-paket-2026-10-v5', STUDIO_TERMS_RU: 'https://gptbot.uz/ru/oferta/',
+@@ -239,8 +240,9 @@ test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON
+     [true, true, false, 'live', true, false, false],
+   );
+   assert.equal(studio.turnstileSiteKey, '0x4AAAAAAFO5Y7cXhqeASg8P');
+-  assert.equal(studio.freeTextFallback, null, 'no OpenRouter fallback at launch: the pages do not name it');
+-  assert.equal(studio.paidTextFallback, null, 'UE-4: no paid fallback until the 17.12 runbook names it on the pages');
++  // UE-4, 17.12.2026: both decks fall back to OpenRouter ':free', and the pages name it.
++  assert.equal(studio.freeTextFallback, 'openrouter:google/gemma-4-31b-it:free');
++  assert.equal(studio.paidTextFallback, 'openrouter:google/gemma-4-31b-it:free');
+   assert.deepEqual(
+     [studio.freeDailyUsd, studio.rampDecksDaily, studio.jobGlobalPerMin, studio.ipYoungDecks, studio.freeAlertDecks],
+     [0.3, 50, 3, 20, 300],
+diff --git a/tests/studio-config.test.ts b/tests/studio-config.test.ts
+index 1cbb5dfe..4eb3e166 100644
+--- a/tests/studio-config.test.ts
++++ b/tests/studio-config.test.ts
+@@ -52,8 +52,9 @@ test("the defaults stay off; production sells Studio through approved shared Cli
+   assert.equal(committed.maxSlides, 12);
+   assert.equal(committed.paidProofread, true);
+   assert.equal(committed.ga4Mp, false);
+-  assert.equal(committed.freeTextFallback, null);
+-  assert.equal(committed.paidTextFallback, null, "UE-4: no paid fallback until the 17.12 runbook");
++  // UE-4, 17.12.2026 (MODEL-CLIFF-1712-RU.md): both fallbacks on OpenRouter ':free'.
++  assert.equal(committed.freeTextFallback, "openrouter:google/gemma-4-31b-it:free");
++  assert.equal(committed.paidTextFallback, "openrouter:google/gemma-4-31b-it:free");
+   assert.match(committed.turnstileSiteKey, /^0x4[0-9A-Za-z_-]+$/);
+   assert.deepEqual(SWITCHES(DEFAULTS), ALL_OFF);
+   assert.deepEqual(
+diff --git a/tests/studio-live-gate.test.ts b/tests/studio-live-gate.test.ts
+index 294ba4a3..a2ac9977 100644
+--- a/tests/studio-live-gate.test.ts
++++ b/tests/studio-live-gate.test.ts
+@@ -38,7 +38,7 @@ function fixture(t: TestContext) {
+     write(`dist${offer.url}index.html`, `<html><main>${offer.termsVersion} Studio</main></html>`);
+     return [locale, offer];
+   }));
+-  for (const page of ['uz/tariflar', 'uz/taqdimot-ai', 'ru/prezentatsiya-ai']) write(`dist/${page}/index.html`, '<div id="studio-root"></div>');
++  for (const page of ['uz/tariflar', 'uz/taqdimot-ai', 'ru/prezentatsiya-ai']) write(`dist/${page}/index.html`, '<div id="studio-root"></div><p>Z.ai, OpenRouter</p>');
+   return { root, dist, studio, chat, offers, write, config, check: (names: ReadonlySet<string> | null = SHARED) => assertStudioLiveGate(root, dist, names) };
+ }
+ 
+@@ -144,23 +144,20 @@ test('Studio live gate: both offers must be published, name Studio, match their
+   }
+ });
+ 
+-test('Studio live gate: missing built delivery pages and unreviewed AI fallback block release', t => {
++test('Studio live gate: missing built delivery pages, and a fallback the built pages do not name, block release', t => {
+   const f = fixture(t);
+   for (const page of ['uz/tariflar', 'uz/taqdimot-ai', 'ru/prezentatsiya-ai']) {
+     const file = `dist/${page}/index.html`;
+     fs.unlinkSync(path.join(f.root, file));
+     assert.throws(() => f.check(), new RegExp(`missing built ${page}`));
+-    f.write(file, '<div id="studio-root"></div>');
++    f.write(file, '<div id="studio-root"></div><p>Z.ai, OpenRouter</p>');
+   }
+-  f.config({ STUDIO_FREE_TEXT_FALLBACK: 'openrouter:google/gemma-4-31b-it:free' });
+-  assert.throws(() => f.check(), /unreviewed Studio AI fallback/);
+-  // UE-4: a paid fallback, ':free' or paid, blocks the same way until the 17.12 runbook lifts it.
+-  for (const model of ['openrouter:google/gemma-4-31b-it:free', 'openrouter:google/gemma-4-26b-a4b-it']) {
+-    f.config({ STUDIO_PAID_TEXT_FALLBACK: model });
+-    assert.throws(() => f.check(), /unreviewed Studio AI fallback/, model);
+-  }
+-  f.config();
++  // UE-4 (17.12.2026): the fallbacks are reviewed; the built deck pages must name OpenRouter.
+   assert.doesNotThrow(() => f.check());
++  f.write('dist/uz/taqdimot-ai/index.html', '<div id="studio-root"></div><p>Z.ai</p>');
++  assert.throws(() => f.check(), /Studio AI fallback not named on the built pages/);
++  f.config({ STUDIO_FREE_TEXT_FALLBACK: '', STUDIO_PAID_TEXT_FALLBACK: '' });
++  assert.doesNotThrow(() => f.check(), 'without a fallback the pages need not name it');
+ });
+ 
+ test('Studio live gate: stopping live sales remains deployable with missing secrets, terms, fiscal data and built pages', t => {
+diff --git a/wrangler.toml b/wrangler.toml
+index 6c85089e..215191c1 100644
+--- a/wrangler.toml
++++ b/wrangler.toml
+@@ -164,10 +164,12 @@ GPTBOT_RUNTIME_CONFIG_JSON = '''{"AEO_MEASUREMENTS_ENABLED":"true","AEO_MEASUREM
+ # so the pages' data paragraph names Z.ai, Workers AI and Turnstile only.
+ # Everything paid stays off. Rollback: docs/studio/LAUNCH-RU.md (one command
+ # writes the switches off, then the usual build and guarded deploy).
+-# STUDIO_PAID_TEXT_FALLBACK (UE-4, last key) is "": paid steps have no
+-# fallback until the 17.12 runbook docs/paid-chat/MODEL-CLIFF-1712-RU.md is
+-# followed (pages name OpenRouter, a quality check, the live gate).
+-STUDIO_RUNTIME_CONFIG_JSON = '''{"STUDIO_API":"on","STUDIO_PAID_SERVICE":"on","STUDIO_FREE_DECK":"true","STUDIO_FULL_DECK":"true","STUDIO_PHOTO":"false","STUDIO_PAYMENTS":"live","STUDIO_CLICK_AMOUNTS_CONFIRMED":"true","STUDIO_CLICK_USE_CHAT_SERVICE":"true","STUDIO_CLICK_AUTOFISCAL":"","STUDIO_TERMS_VERSION":"ai-paket-2026-10-v5","STUDIO_TERMS_RU":"https://gptbot.uz/ru/oferta/","STUDIO_TERMS_UZ":"https://gptbot.uz/uz/oferta/","STUDIO_TERMS_APPROVED_AT":"2026-10-07","STUDIO_EVENTS":"true","STUDIO_TURNSTILE_SITE_KEY":"0x4AAAAAAFO5Y7cXhqeASg8P","STUDIO_TURNSTILE_PAID":"false","STUDIO_FREE_DAILY_USD":"0.3","STUDIO_RAMP_DECKS_DAILY":"50","STUDIO_FREE_ALERT_DECKS":"300","STUDIO_FREE_ALERT_PHOTOS":"600","STUDIO_IP_YOUNG_DECKS":"20","STUDIO_IP_YOUNG_PHOTOS":"40","STUDIO_PAID_DAILY_USD_STOP":"20","STUDIO_JOB_GLOBAL_PER_MIN":"3","STUDIO_MAX_SLIDES":"12","STUDIO_TEXT_MODELS":"zai/glm-5.3-flash","STUDIO_FREE_TEXT_FALLBACK":"","STUDIO_VISION_MODELS":"zai/glm-5.3-flash,zai/glm-4.6v-flash","STUDIO_IMAGE_CHECK_MODEL":"@cf/google/gemma-4-26b-a4b-it","STUDIO_AI_LABEL":"true","STUDIO_GA4_MP":"false","STUDIO_PAYMENT_PROVIDERS":"click,payme","STUDIO_PAID_PROOFREAD":"true","STUDIO_PAID_TEXT_FALLBACK":""}'''
++# UE-4, 17.12.2026 (docs/paid-chat/MODEL-CLIFF-1712-RU.md, step S): both
++# STUDIO_FREE_TEXT_FALLBACK and STUDIO_PAID_TEXT_FALLBACK name OpenRouter's
++# google/gemma-4-31b-it:free, so decks keep coming when Z.ai answers 1113;
++# the pages name OpenRouter again. With OpenRouter credits the paid one
++# becomes openrouter:google/gemma-4-26b-a4b-it.
++STUDIO_RUNTIME_CONFIG_JSON = '''{"STUDIO_API":"on","STUDIO_PAID_SERVICE":"on","STUDIO_FREE_DECK":"true","STUDIO_FULL_DECK":"true","STUDIO_PHOTO":"false","STUDIO_PAYMENTS":"live","STUDIO_CLICK_AMOUNTS_CONFIRMED":"true","STUDIO_CLICK_USE_CHAT_SERVICE":"true","STUDIO_CLICK_AUTOFISCAL":"","STUDIO_TERMS_VERSION":"ai-paket-2026-10-v5","STUDIO_TERMS_RU":"https://gptbot.uz/ru/oferta/","STUDIO_TERMS_UZ":"https://gptbot.uz/uz/oferta/","STUDIO_TERMS_APPROVED_AT":"2026-10-07","STUDIO_EVENTS":"true","STUDIO_TURNSTILE_SITE_KEY":"0x4AAAAAAFO5Y7cXhqeASg8P","STUDIO_TURNSTILE_PAID":"false","STUDIO_FREE_DAILY_USD":"0.3","STUDIO_RAMP_DECKS_DAILY":"50","STUDIO_FREE_ALERT_DECKS":"300","STUDIO_FREE_ALERT_PHOTOS":"600","STUDIO_IP_YOUNG_DECKS":"20","STUDIO_IP_YOUNG_PHOTOS":"40","STUDIO_PAID_DAILY_USD_STOP":"20","STUDIO_JOB_GLOBAL_PER_MIN":"3","STUDIO_MAX_SLIDES":"12","STUDIO_TEXT_MODELS":"zai/glm-5.3-flash","STUDIO_FREE_TEXT_FALLBACK":"openrouter:google/gemma-4-31b-it:free","STUDIO_VISION_MODELS":"zai/glm-5.3-flash,zai/glm-4.6v-flash","STUDIO_IMAGE_CHECK_MODEL":"@cf/google/gemma-4-26b-a4b-it","STUDIO_AI_LABEL":"true","STUDIO_GA4_MP":"false","STUDIO_PAYMENT_PROVIDERS":"click,payme","STUDIO_PAID_PROOFREAD":"true","STUDIO_PAID_TEXT_FALLBACK":"openrouter:google/gemma-4-31b-it:free"}'''
+ 
+ # Wrangler understands the nested object below for local typing and future
+ # runtimes. Pages Direct Upload currently persists the chat's packed text
