@@ -2924,5 +2924,17 @@
       "decisions 1-11 and 17 by 07.11",
       "Yandex.Webmaster verification"
     ]
+  },
+  "contact_telegram_20261026": {
+    "status": "deployed_and_verified",
+    "deployment": "a535be94",
+    "sourceCommit": "4b219a0cf2f58cbebb9b19a2eca7e6168e69b450",
+    "releaseEvidence": "reports/contact-telegram-20261026/RELEASE.md",
+    "protectedRevision": "2026-10-26-contact",
+    "ownerOrder": "2026-10-26: phone -> Telegram https://t.me/XGame_changerx everywhere visitors are invited to contact; SEO intact; supersedes decision L14",
+    "legalExceptions": [
+      "/ru/oferta/ and /uz/oferta/ keep the phone (edition v5)",
+      "privacy policies keep the phone only in the requisites block"
+    ]
   }
 }
