@@ -95,7 +95,7 @@ export default function Footer({ t, lang }: { t: Dict; lang: Lang }) {
       </a>
     </li>
   );
-  const officeLabel = isUz ? "Ofis: Yahyo Gulyamov ko‘chasi 35, Toshkent" : "Офис: Yahyo Gulyamov ko‘chasi 35, Ташкент";
+  const officeLabel = isUz ? "Ofis: Kichik Xalqa Yo‘li 57, Toshkent" : "Офис: Kichik Xalqa Yo‘li 57, Ташкент";
   // Same hours as openingHoursSpecification in scripts/jsonld-helpers.ts:
   // structured data has to describe something a visitor can see.
   const hoursLabel = isUz ? 'Ish vaqti: Du–Sha 10:00–19:00' : 'Часы работы: Пн–Сб 10:00–19:00';

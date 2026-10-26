@@ -57,7 +57,7 @@
   "authorNameLatin": "Boris Gerasimov",
   "authorUrl": "https://gptbot.uz/ru/avtor-boris-gerasimov/",
   "instagram": "",
-  "address": "Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan",
+  "address": "Kichik Xalqa Yo‘li 57, Toshkent, Uzbekistan",
   "addressLocality": "Toshkent",
   "addressCountry": "UZ",
   "availableLanguage": [
@@ -88,10 +88,10 @@
   "businessProfiles": [
     "https://yandex.ru/maps/org/109235624736"
   ],
-  "streetAddress": "Yahyo Gulyamov ko‘chasi 35",
+  "streetAddress": "Kichik Xalqa Yo‘li 57",
   "geo": {
-    "latitude": 41.3340,
-    "longitude": 69.2860
+    "latitude": 41.3364,
+    "longitude": 69.2723
   },
   "openingHours": "Mo-Sa 10:00-19:00",
   "priceRange": "$$"

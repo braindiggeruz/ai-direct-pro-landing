@@ -1,5 +1,18 @@
 # Boss Digital — NAP Audit (Name / Address / Phone)
 
+> **Обновление 2026-10-26 (решение владельца, заменяет адрес ниже).** Настоящий адрес студии —
+> тот, что в карточке Google: **`Kichik Xalqa Yo‘li 57`, Toshkent** (Шайхантахурский район).
+> Сайт переведён на него: `content/global/site.json` (`address`, `streetAddress`), подвалы,
+> контактные строки, `/boss-digital/` (текст и JSON-LD), `llms.txt`, `llms-full.txt`.
+> Координаты `geo` взяты из той же карточки (cid 15658123710081809529, place_id
+> `ChIJbev6pAyLrjgReTyM1I3UTNk`, 41.3363711, 69.2723445 по данным Google Business Profile на
+> 26.10; plus code `87PC+GW` из снимка 2026-07-02 даёт ту же точку) и округлены до 41.3364, 69.2723.
+> Карточка на 26.10: телефон +998 50 587 07 20, сайт `https://gptbot.uz/boss-digital/`,
+> часы Пн–Сб 10:00–19:00 — совпадают с сайтом. `Yahyo Gulyamov ko‘chasi 35` остаётся только в
+> утверждённой редакции оферты (ai-paket-2026-10-v5, `scripts/contact-card.ts` `OFFER_EDITION_NAP`):
+> новый адрес там — новая редакция. Юридический адрес в реквизитах — `content/global/legal-entity.json`.
+> Всё ниже — история.
+
 Дата аудита: 2026-07-02. Последнее уточнение владельца: 2026-09-04.
 Источник истины для адреса сайта: подтверждённый владельцем канонический адрес
 `Yahyo Gulyamov ko‘chasi 35`. Карточка Boss Digital в Google Maps

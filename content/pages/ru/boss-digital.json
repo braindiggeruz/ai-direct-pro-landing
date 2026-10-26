@@ -125,7 +125,7 @@
     { "type": "list", "items": [
       "Название: Boss Digital",
       "Категория: маркетинговое агентство / digital-агентство",
-      "Адрес: Yahyo Gulyamov ko‘chasi 35, Ташкент, Узбекистан",
+      "Адрес: Kichik Xalqa Yo‘li 57, Ташкент, Узбекистан",
       "Telegram: @XGame_changerx",
       "График: 10:00–19:00 (актуальный график — в карточке Google)",
       "Территория обслуживания: Ташкент и весь Узбекистан (дистанционно)"
@@ -136,7 +136,7 @@
       "Boss Digital, Ташкент, Узбекистан",
       "Telegram: @XGame_changerx",
       "E-mail: ceo@gptbot.uz",
-      "Адрес: Yahyo Gulyamov ko‘chasi 35, Ташкент",
+      "Адрес: Kichik Xalqa Yo‘li 57, Ташкент",
       "Часы работы: 10:00–19:00",
       "Сайт AI-направления: gptbot.uz"
     ] },
@@ -215,7 +215,7 @@
       "image": "https://gptbot.uz/assets/landing/og.jpg",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Yahyo Gulyamov ko‘chasi 35",
+        "streetAddress": "Kichik Xalqa Yo‘li 57",
         "addressLocality": "Tashkent",
         "addressCountry": "UZ"
       },

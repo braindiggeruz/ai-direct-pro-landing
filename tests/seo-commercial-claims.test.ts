@@ -83,7 +83,12 @@ test('Uzbek internet advertising hub exposes commercial body bridges and funnel 
 });
 
 test('public NAP uses the owner-confirmed canonical address everywhere', () => {
-  const canonicalStreet = 'Yahyo Gulyamov ko‘chasi 35';
+  // Owner answer of 26.10.2026: the studio's real address is the one on the
+  // Google Business card «Boss Digital» (cid 15658123710081809529),
+  // «Kichik Xalqa Yo‘li 57». The office address published before it,
+  // «Yahyo Gulyamov ko‘chasi 35», is now the stale variant; only the frozen
+  // offer edition keeps it (scripts/contact-card.ts OFFER_EDITION_NAP).
+  const canonicalStreet = 'Kichik Xalqa Yo‘li 57';
   const files: string[] = [];
   const visit = (relativePath: string) => {
     const absolutePath = path.join(ROOT, relativePath);
@@ -97,15 +102,18 @@ test('public NAP uses the owner-confirmed canonical address everywhere', () => {
 
   for (const file of files) {
     const text = fs.readFileSync(path.join(ROOT, file), 'utf8');
-    assert.doesNotMatch(text, /Kichik Xalqa Yo[‘']li 57|Yahyo Gulyamov ko'chasi 35/, `${file} contains a stale or non-canonical address variant`);
+    assert.doesNotMatch(text, /Yahyo Gulyamov|Gulyamov ko[‘']chasi|Kichik Xalqa Yo'li 57/, `${file} contains a stale or non-canonical address variant`);
   }
 
   const site = read('content/global/site.json');
   assert.equal(site.streetAddress, canonicalStreet);
   assert.equal(site.address, `${canonicalStreet}, Toshkent, Uzbekistan`);
+  // The pin of the same Google card (41.3363711, 69.2723445 on 26.10.2026),
+  // not the coordinates of the old address.
+  assert.deepEqual(site.geo, { latitude: 41.3364, longitude: 69.2723 });
   for (const file of ['content/pages/ru/boss-digital.json', 'content/pages/uz/boss-digital.json']) {
     const text = serialized(file);
     assert.match(text, new RegExp(canonicalStreet));
-    assert.doesNotMatch(text, /Kichik Xalqa Yo[‘']li 57/);
+    assert.doesNotMatch(text, /Gulyamov/);
   }
 });

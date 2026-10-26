@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-10-26",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "commercialClusters": [
     {
@@ -2854,6 +2854,17 @@
       ],
       "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №7 and §4 row 10; education-practice.md §2 and §4 card 1; education-practice.json (practice_tests); education-practice-data/ep_kw1_metrics.json and known_keywords.json; tests-verification.md",
       "note": "The research card 7 («Тренировочные тесты по предметам») proposed /uz/testlar/ with nested subject pages; the content platform builds one flat file per URL (content/pages/<locale>/<slug>.json), so the pilot ships as /uz/informatika-test/, /uz/fizika-test/ and /uz/matematika-test/ (each slug carries its head query) under the hub /uz/onlayn-testlar/, which links all three and is linked back. Each subject page is a gpt-chat AI tool page in the teacher role with the practice-quiz widget (205461eb): 40 original practice questions with the key and an explanation in a native <details>, checked in the browser with no model and no limit, a schema.org Quiz node, and «AI bilan tushuntirish» that only prefills the composer (trial replies, then the AI pack). The 120 questions were written for the site and solved blind by a second agent (docs/seo/research/2026-10-25-clusters-to-add/tests-verification.md: 120/120 keys agree, three wording fixes). Pilot rule: biologiya, ona tili, tarix, geografiya, kimyo, huquq and the Russian «биология тест» wait until Search Console impressions of the three pages have been compared with Ads after 4–6 weeks (decision ≈10.01.2027), because 16 school keys jumped ×10–100 since December 2025 for an unknown reason. The pages make no claim of official DTM, BMBA, milliy sertifikat, BSB or ChSB material and do not target «test javoblari», «dtm test javoblari» or other answer queries (pairs C76–C79 fence them); «matematika test javoblari bilan» (5 400/mo) is not declared either, although the pages print their own answers with explanations. A native Uzbek reader and a subject teacher have not yet read the questions."
+    },
+    {
+      "id": "A11-uz-access-guides-no-hreflang-pair-2026-10-26",
+      "decision": "NO_HREFLANG_PAIR_WITH_RU",
+      "decidedAt": "2026-10-26",
+      "pages": [
+        "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+        "/uz/blog/chatgptga-qanday-kirish-mumkin/"
+      ],
+      "evidence": "docs/seo/research/2026-10-26-top3-roadmap/05-technical-and-links.md §2.1–2.2 (Т-05); ROADMAP_TOP3.md §2 (target map, row «chatgpt yuklab olish…») and §4 step 1.4",
+      "note": "The Uzbek download guide and the Uzbek login guide are single-language pages and stay so: no hreflang pair with any RU page, today (they have none) or when a Russian download or login guide is published. Hreflang tells Google that two URLs are one document in two languages and to serve the member that matches the searcher's interface language; Google's interface in Uzbekistan defaults to Russian, and through the chat pair the RU chat takes part of the Uzbek chat's queries («chatgpt kirish» moves between 0 and 99 % to the RU chat by day; research 05 §2.2, the mechanism UNVERIFIED, the figures consistent with it). The download guide holds the site's only top-3 («chatgpt yuklab olish uzbek tilida», position 2.6, CTR 3.7 % on 26.10). A future RU guide is a standalone page joined to these guides by a plain cross-link, never by hreflangRu / hreflangUz / hreflangXDefault, a sitemap xhtml:link or a <link rel=\"alternate\" hreflang>. tests/seo-hreflang-guard.test.ts enforces it in content, in the sitemap and in the built HTML. Lifting it needs a new decision with measured evidence and an owner order."
     }
   ]
 }

@@ -56,6 +56,29 @@ export function pageContact(page: { termsVersion?: string }): ContactSet {
   return page.termsVersion ? OFFER_EDITION_CONTACT : SITE_CONTACT;
 }
 
+/**
+ * The studio address the approved offer edition was published with: its
+ * footer line and its Organization node (street and coordinates). Owner
+ * answer of 26.10.2026: the studio sits at «Kichik Xalqa Yo‘li 57», as on the
+ * Google Business card, and content/global/site.json says so for every other
+ * page. The offer keeps this text byte for byte like its contact set; a new
+ * address there is a new edition. The seller's registered address in the
+ * offer's requisites is content/global/legal-entity.json, not this.
+ */
+export const OFFER_EDITION_NAP = {
+  address: 'Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan',
+  streetAddress: 'Yahyo Gulyamov ko‘chasi 35',
+  geo: { latitude: 41.334, longitude: 69.286 },
+} as const;
+
+/** The site facts a page renders: the offer edition's address on a page with `termsVersion`, site.json elsewhere. */
+export function pageNap<G extends { address?: string; streetAddress?: string; geo?: { latitude: number; longitude: number } }>(
+  page: { termsVersion?: string },
+  global: G,
+): G {
+  return page.termsVersion ? { ...global, ...OFFER_EDITION_NAP } : global;
+}
+
 type ContactPage = Pick<Page, 'url' | 'locale' | 'h1' | 'breadcrumbLabel' | 'ctaPrimaryHref' | 'ctaSecondaryHref' | 'bodyBlocks'> & { termsVersion?: string };
 type ContactArticle = Pick<BlogArticle, 'url' | 'locale' | 'h1' | 'cta' | 'body'>;
 

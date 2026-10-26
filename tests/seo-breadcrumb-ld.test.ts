@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { buildBreadcrumbLd } from '../scripts/jsonld-helpers';
+import { BREADCRUMB_NAME_HELD, buildBreadcrumbLd } from '../scripts/jsonld-helpers';
 import { PROTECTED_PATHS } from '../scripts/seo-protection';
 
 const SITE = 'https://gptbot.uz';
@@ -31,13 +31,21 @@ test('a BreadcrumbList is named after its last crumb, the page itself', () => {
   assert.equal(buildBreadcrumbLd(crumbs('/ru/blog/'), 'Блог GPTBot.uz').name, 'Блог GPTBot.uz');
 });
 
-test('protected pages keep the nameless list they were reviewed with', () => {
-  // Their HTML stays byte for byte while their measurement windows are open;
-  // the next reviewed protected-pages revision may lift this.
-  for (const pathname of PROTECTED_PATHS) {
+test('only the held protected pages keep the nameless list they were reviewed with', () => {
+  // TOP-3 roadmap 2026-10-26, Т-08 / Т-09: each held page leaves the set in
+  // the reviewed revision of its own window (R-S1b ≈08.11, R-S2 16.11, the
+  // chats and the login guide ≈21–25.11); until then its JSON-LD stays as reviewed.
+  const protectedPaths = new Set<string>(PROTECTED_PATHS);
+  for (const pathname of BREADCRUMB_NAME_HELD) {
+    assert.ok(protectedPaths.has(pathname), `${pathname}: only a protected page may be held`);
     const ld = buildBreadcrumbLd(crumbs(pathname));
     assert.deepEqual(Object.keys(ld), ['@type', 'itemListElement'], pathname);
   }
+  for (const pathname of PROTECTED_PATHS) {
+    if (BREADCRUMB_NAME_HELD.has(pathname)) continue;
+    assert.equal(buildBreadcrumbLd(crumbs(pathname)).name, 'Страница', `${pathname} is not held, so its list is named`);
+  }
+  assert.equal(buildBreadcrumbLd(crumbs('/ru/razrabotka-saytov-tashkent/', 'Разработка сайтов в Ташкенте')).name, 'Разработка сайтов в Ташкенте');
 });
 
 test('/uz/ emits no BreadcrumbList that points back at itself', () => {
@@ -49,21 +57,39 @@ test('/uz/ emits no BreadcrumbList that points back at itself', () => {
   for (const kept of ['Organization', 'WebSite', 'FAQPage']) assert.ok(hub.schemaTypes.includes(kept), kept);
 });
 
-test('built protected pages carry no BreadcrumbList name', (t) => {
+test('built pages: a BreadcrumbList is nameless only on a held page, named everywhere else', (t) => {
   const dist = path.join(process.cwd(), 'dist');
   if (!fs.existsSync(path.join(dist, 'index.html'))) {
     t.skip('dist absent — run the build');
     return;
   }
-  for (const pathname of PROTECTED_PATHS) {
-    const file = path.join(dist, pathname.slice(1), 'index.html');
-    if (!fs.existsSync(file)) continue;
+  const pages: string[] = [];
+  const visit = (dir: string) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (entry.isDirectory()) { if (entry.name !== 'assets') visit(path.join(dir, entry.name)); }
+      else if (entry.name === 'index.html') pages.push(path.join(dir, entry.name));
+    }
+  };
+  visit(dist);
+  let named = 0;
+  const nameless: string[] = [];
+  for (const file of pages) {
+    const pathname = `/${path.relative(dist, path.dirname(file)).split(path.sep).join('/')}/`.replace(/^\/\/$/, '/');
     const html = fs.readFileSync(file, 'utf8');
     for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
       const data = JSON.parse(match[1]) as { '@graph'?: Array<Record<string, unknown>> } & Record<string, unknown>;
       for (const node of data['@graph'] ?? [data]) {
-        if (node['@type'] === 'BreadcrumbList') assert.equal('name' in node, false, `${pathname}: BreadcrumbList gained a name`);
+        if (node['@type'] !== 'BreadcrumbList') continue;
+        if ('name' in node) {
+          assert.ok(!BREADCRUMB_NAME_HELD.has(pathname), `${pathname}: BreadcrumbList gained a name outside its window`);
+          named += 1;
+        } else {
+          assert.ok(BREADCRUMB_NAME_HELD.has(pathname), `${pathname}: BreadcrumbList has no name («Unnamed item» in Search Console)`);
+          nameless.push(pathname);
+        }
       }
     }
   }
+  assert.ok(named > 300, `only ${named} named lists: is dist complete?`);
+  assert.deepEqual(nameless.sort(), [...BREADCRUMB_NAME_HELD].sort());
 });

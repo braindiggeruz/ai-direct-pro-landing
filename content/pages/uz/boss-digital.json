@@ -324,7 +324,7 @@
       "items": [
         "Nomi: Boss Digital",
         "Kategoriya: marketing agentligi / digital-agentlik",
-        "Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent, O‘zbekiston",
+        "Manzil: Kichik Xalqa Yo‘li 57, Toshkent, O‘zbekiston",
         "Telegram: @XGame_changerx",
         "Ish vaqti: 10:00–19:00 (dolzarb jadval — Google kartochkasida)",
         "Xizmat hududi: Toshkent va butun O‘zbekiston (masofadan)"
@@ -345,7 +345,7 @@
         "Boss Digital, Toshkent, O‘zbekiston",
         "Telegram: @XGame_changerx",
         "E-mail: ceo@gptbot.uz",
-        "Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent",
+        "Manzil: Kichik Xalqa Yo‘li 57, Toshkent",
         "Ish vaqti: 10:00–19:00",
         "AI-yo‘nalish sayti: gptbot.uz"
       ]
@@ -470,7 +470,7 @@
       "image": "https://gptbot.uz/assets/landing/og.jpg",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Yahyo Gulyamov ko‘chasi 35",
+        "streetAddress": "Kichik Xalqa Yo‘li 57",
         "addressLocality": "Tashkent",
         "addressCountry": "UZ"
       },

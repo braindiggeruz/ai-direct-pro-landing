@@ -1,7 +1,7 @@
 # GPTBot.uz full LLM context
 
 > GPTBot.uz is an independent AI chat in Uzbek and Russian with 3 free trial replies and a separate presentation mode, not ChatGPT and not an OpenAI product: https://gptbot.uz/uz/gpt-uzbek-tilida/ (Uzbek), https://gptbot.uz/ru/gpt-chat/ (Russian).
-> It is also a Tashkent team (Yahyo Gulyamov ko‘chasi 35) that works for businesses in Uzbekistan: SMM and Instagram / Telegram management, Instagram and Facebook targeted ads, websites, SEO, AI bots, Telegram bots, CRM integrations and lead automation.
+> It is also a Tashkent team (Kichik Xalqa Yo‘li 57) that works for businesses in Uzbekistan: SMM and Instagram / Telegram management, Instagram and Facebook targeted ads, websites, SEO, AI bots, Telegram bots, CRM integrations and lead automation.
 
 Last updated: 2026-10-25. This file contains all of https://gptbot.uz/llms.txt and more, in this order: the notes per service cluster below; then llms.txt itself, word for word (key facts, the AI crawler policy, every service page, the recommended page for each intent and the claims that need page-level confirmation); then the full text of the key service pages and guides, taken from their Markdown twins.
 

@@ -41,7 +41,9 @@ import {
   isStudioTelegramHref,
   linksContactCard,
   OFFER_EDITION_CONTACT,
+  OFFER_EDITION_NAP,
   pageContact,
+  pageNap,
   renderContactCard,
   SITE_CONTACT,
   stickyContactBar,
@@ -317,6 +319,25 @@ test('the approved offer edition renders the card, footer and Organization as ap
   assert.deepEqual(org.contactPoint, { '@type': 'ContactPoint', contactType: 'sales', telephone: STUDIO_PHONE, email: STUDIO_EMAIL, availableLanguage: ['Russian', 'Uzbek'] });
 });
 
+test('the studio address: site.json everywhere, the approved offer edition keeps the address it was published with', () => {
+  // Owner answer of 26.10.2026: the studio is at «Kichik Xalqa Yo‘li 57», the
+  // address of the Google Business card. The offer edition stays byte for byte.
+  const global = site as unknown as GlobalSEO;
+  assert.equal(global.address, 'Kichik Xalqa Yo‘li 57, Toshkent, Uzbekistan');
+  assert.equal(pageNap({}, global), global);
+  const offers = PAGES.filter(({ page }) => isOffer(page)).map(({ page }) => page);
+  assert.equal(offers.length, 2);
+  for (const page of offers) {
+    const nap = pageNap(page, global);
+    assert.equal(nap.address, OFFER_EDITION_NAP.address, page.url);
+    const org = buildOrganizationLd(nap, OFFER_EDITION_CONTACT);
+    assert.deepEqual(org.address, { '@type': 'PostalAddress', streetAddress: 'Yahyo Gulyamov ko‘chasi 35', addressLocality: 'Toshkent', addressCountry: 'UZ' }, page.url);
+    assert.deepEqual(org.geo, { '@type': 'GeoCoordinates', latitude: 41.334, longitude: 69.286 }, page.url);
+  }
+  const org = buildOrganizationLd(global);
+  assert.deepEqual(org.geo, { '@type': 'GeoCoordinates', latitude: 41.3364, longitude: 69.2723 });
+});
+
 test('the Organization node: no telephone, a customer-support contactPoint with the e-mail and the Telegram url', () => {
   const org = buildOrganizationLd(site as unknown as GlobalSEO);
   assert.ok(!('telephone' in org));
@@ -334,7 +355,7 @@ test('Boss Digital JSON-LD: no telephone, its contactPoint carries the e-mail an
     const node = page.extraJsonLd.find((n) => n['@id'] === 'https://gptbot.uz/boss-digital/#boss-digital')!;
     assert.ok(!JSON.stringify(node).includes('telephone'), file);
     assert.equal(node.name, 'Boss Digital');
-    assert.deepEqual(node.address, { '@type': 'PostalAddress', streetAddress: 'Yahyo Gulyamov ko‘chasi 35', addressLocality: 'Tashkent', addressCountry: 'UZ' });
+    assert.deepEqual(node.address, { '@type': 'PostalAddress', streetAddress: 'Kichik Xalqa Yo‘li 57', addressLocality: 'Tashkent', addressCountry: 'UZ' });
     assert.deepEqual(node.contactPoint, [{ '@type': 'ContactPoint', contactType: 'customer support', email: STUDIO_EMAIL, url: OWNER, availableLanguage: ['Russian', 'Uzbek'] }]);
   }
 });

@@ -1,7 +1,7 @@
 # GPTBot.uz
 
 > GPTBot.uz is an independent AI chat in Uzbek and Russian with 3 free trial replies and a separate presentation mode, not ChatGPT and not an OpenAI product: https://gptbot.uz/uz/gpt-uzbek-tilida/ (Uzbek), https://gptbot.uz/ru/gpt-chat/ (Russian).
-> It is also a Tashkent team (Yahyo Gulyamov ko‘chasi 35) that works for businesses in Uzbekistan: SMM and Instagram / Telegram management, Instagram and Facebook targeted ads, websites, SEO, and AI bots for Telegram, Instagram Direct, WhatsApp and websites.
+> It is also a Tashkent team (Kichik Xalqa Yo‘li 57) that works for businesses in Uzbekistan: SMM and Instagram / Telegram management, Instagram and Facebook targeted ads, websites, SEO, and AI bots for Telegram, Instagram Direct, WhatsApp and websites.
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -43,7 +43,7 @@
 | Payment-context-aware | Click, Payme, Humo, наличные при доставке / yetkazib berishda naqd to'lov |
 | Primary contact | Telegram @XGame_changerx, e-mail ceo@gptbot.uz, request forms on the service pages |
 | Telegram (public, write) | @XGame_changerx — https://t.me/XGame_changerx |
-| Studio address | Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan |
+| Studio address | Kichik Xalqa Yo‘li 57, Toshkent, Uzbekistan |
 | Working hours | Mo–Sa 10:00–19:00 (Asia/Tashkent, UTC+5) |
 | Public email | ceo@gptbot.uz |
 | Domain | https://gptbot.uz |
@@ -414,7 +414,7 @@ Medium form (one paragraph):
 - Telegram (public, write): @XGame_changerx — https://t.me/XGame_changerx
 - E-mail: ceo@gptbot.uz
 - Website: https://gptbot.uz/
-- Studio address: Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan
+- Studio address: Kichik Xalqa Yo‘li 57, Toshkent, Uzbekistan
 - Working hours: Mo–Sa 10:00–19:00 (Asia/Tashkent, UTC+5)
 
 Since 26 October 2026 GPTBot.uz takes enquiries in writing. The Telegram

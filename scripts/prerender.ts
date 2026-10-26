@@ -22,6 +22,7 @@ import {
   CONTACT_CTA_LABEL,
   isStudioTelegramHref as isStudioTelegram,
   pageContact,
+  pageNap,
   renderContactCard,
   stickyContactBar,
   studioFooterLinks,
@@ -297,6 +298,21 @@ function renderFaq(faq: FaqItem[], locale: 'ru' | 'uz' = 'ru'): string {
   return `<section id="faq" data-testid="page-faq" class="mt-16 scroll-mt-24"><div class="eyebrow mb-3">${escapeHtml(eyebrow)}</div><h2 class="font-display text-3xl sm:text-4xl mb-6 text-white">${escapeText(label)}</h2>${items}</section>`;
 }
 
+/**
+ * The website-development entry of the landing footer's service nav (TOP-3
+ * roadmap 2026-10-26, step 1.3 / Т-04): the SEO and Telegram Ads pages had a
+ * footer link from every B2B landing and website development none. Same
+ * classes as its neighbours. The footer is on none of the ten protected
+ * pages (chats have their own, articles and / are other templates); the
+ * approved offer edition keeps its footer byte for byte (pageContact).
+ */
+function footerWebsiteLink(page: Pick<Page, 'locale'> & { termsVersion?: string }): string {
+  if (page.termsVersion) return '';
+  return page.locale === 'uz'
+    ? `\n      <a href="/uz/sayt-yaratish/" class="hover:text-brand-cyan transition">Sayt yaratish</a>`
+    : `\n      <a href="/ru/razrabotka-saytov-tashkent/" class="hover:text-brand-cyan transition">Разработка сайтов</a>`;
+}
+
 function renderInternalLinks(page: Page): string {
   if (!page.internalLinks?.length) return '';
   const items = page.internalLinks.map((l) => `
@@ -356,7 +372,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   // WebSite in its schemaTypes — they are the entity backbone and the rest of
   // the graph references them via @id. We never duplicate or shorten them.
   if (types.has('Organization')) {
-    graph.push(buildOrganizationLd(global, pageContact(page)));
+    graph.push(buildOrganizationLd(pageNap(page, global), pageContact(page)));
     // Named expert Person rides along with the Organization node — E-E-A-T
     // anchor referenced by Article.author on blog pages.
     const authorPerson = buildAuthorPersonLd(global);
@@ -1113,7 +1129,7 @@ ${marketVariant
 
 ${marketVariant ? renderMarketFooter(page) : page.pageType === 'gpt-chat' ? '' : `<footer class="border-t border-white/5 mt-20 py-10">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4 text-sm text-white/50">
-    <span>${escapeHtml(global.siteName)} · ${escapeHtml(global.address || '')} · ${page.locale === 'uz' ? 'Du–Sha 10:00–19:00' : 'Пн–Сб 10:00–19:00'}</span>
+    <span>${escapeHtml(global.siteName)} · ${escapeHtml(pageNap(page, global).address || '')} · ${page.locale === 'uz' ? 'Du–Sha 10:00–19:00' : 'Пн–Сб 10:00–19:00'}</span>
     <div class="flex items-center gap-4">
       <a href="https://yandex.ru/maps/org/109235624736" rel="nofollow noopener noreferrer" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 hover:border-brand-cyan/40 transition-colors text-white/50 hover:text-white text-xs" title="${page.locale === 'uz' ? 'GPTBot.uz Yandex Xaritalarda' : 'GPTBot.uz на Яндекс Картах'}">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00ff88"/></svg>
@@ -1126,7 +1142,7 @@ ${marketVariant ? renderMarketFooter(page) : page.pageType === 'gpt-chat' ? '' :
       <a href="/uz/internet-reklama-toshkent/" class="hover:text-brand-cyan transition">Internet reklama</a>
       <a href="/uz/smm-xizmatlari/" class="hover:text-brand-cyan transition">SMM xizmatlari</a>
       <a href="/uz/telegram-reklama/" class="hover:text-brand-cyan transition">Telegram reklama</a>
-      <a href="/uz/seo-xizmati/" class="hover:text-brand-cyan transition">SEO xizmati</a>
+      <a href="/uz/seo-xizmati/" class="hover:text-brand-cyan transition">SEO xizmati</a>${footerWebsiteLink(page)}
     </nav>` : `<nav class="w-full flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40" aria-label="Услуги продвижения">
       <span class="text-white/50">Продвижение:</span>
       <a href="/ru/internet-reklama-tashkent/" class="hover:text-brand-cyan transition">Интернет-реклама</a>
@@ -1134,7 +1150,7 @@ ${marketVariant ? renderMarketFooter(page) : page.pageType === 'gpt-chat' ? '' :
       <a href="/ru/targetirovannaya-reklama-tashkent/" class="hover:text-brand-cyan transition">Таргетированная реклама</a>
       <a href="/ru/smm-prodvizhenie-tashkent/" class="hover:text-brand-cyan transition">SMM-продвижение</a>
       <a href="/ru/telegram-ads-uzbekistan/" class="hover:text-brand-cyan transition">Telegram Ads</a>
-      <a href="/ru/seo-prodvizhenie-saytov-tashkent/" class="hover:text-brand-cyan transition">SEO-продвижение</a>
+      <a href="/ru/seo-prodvizhenie-saytov-tashkent/" class="hover:text-brand-cyan transition">SEO-продвижение</a>${footerWebsiteLink(page)}
     </nav>`}
   </div>
 </footer>`}
