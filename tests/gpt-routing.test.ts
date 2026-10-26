@@ -199,12 +199,26 @@ test("real chat endpoint uses paid account, bounds context, charges one answer a
     );
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_model_attempts"), 2);
     // One charged answer, settled with the model that gave it and both attempts;
-    // a pack turn never touches the free tier's daily budget.
+    // a pack turn never touches the free tier's daily budget (free_paid). Since
+    // G0-code (87eb2728) and the per-pack share (4d4c4e74) each billable attempt
+    // reserves on the pack's own share of the day and on the packs' brake, the
+    // same amount on both rows; the attempt that failed and the answer that
+    // reported no usage keep their worst case (money fails closed).
     assert.deepEqual(
       { ...f.db.rows("SELECT outcome, charged, model, attempts FROM gpt_turn_reservations WHERE period_id IS NOT NULL")[0] as object },
       { outcome: "answered", charged: 1, model: modelChain(resolveConfig(f.env), "paid")[1], attempts: 2 },
     );
-    assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_model_spend"), 0);
+    const spend = f.db.rows("SELECT bucket, reserved_micro, attempts FROM gpt_model_spend ORDER BY bucket") as Array<{
+      bucket: string;
+      reserved_micro: number;
+      attempts: number;
+    }>;
+    assert.deepEqual(spend.map((r) => [r.bucket, r.attempts]), [
+      ["pack_paid", 2],
+      [`pack_paid:${order.id}`, 2],
+    ]);
+    assert.ok(spend[0].reserved_micro > 0);
+    assert.equal(spend[1].reserved_micro, spend[0].reserved_micro);
     assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_messages"), 0);
     const history = Array.from({ length: 20 }, () => ({
       role: "user" as const,
