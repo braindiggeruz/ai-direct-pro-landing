@@ -516,7 +516,12 @@ test('protected page sources keep the honest wording outside the HTML too: FAQ, 
   const page = (rel: string) => JSON.parse(fs.readFileSync(path.join(REPO, 'content/pages', rel), 'utf8')) as Page;
   for (const chat of [page('uz/gpt-uzbek-tilida.json'), page('ru/gpt-chat.json')]) {
     const text = JSON.stringify(chat);
-    assert.doesNotMatch(text, /hali ishga tushirilmagan|пока не запущен|ещё не запущен|tarixi brauzeringizda|остаётся в вашем браузере|Kutmaslik uchun|Чтобы не ждать|XGame_changerx/, chat.url);
+    assert.doesNotMatch(text, /hali ishga tushirilmagan|пока не запущен|ещё не запущен|tarixi brauzeringizda|остаётся в вашем браузере|Kutmaslik uchun|Чтобы не ждать/, chat.url);
+    // Since the owner's order of 26.10.2026 the business contact line links the
+    // studio Telegram (the owner's account) instead of the phone: only that
+    // bare link, never a draft or a call.
+    assert.deepEqual(text.match(/https:\/\/t\.me\/XGame_changerx[^"]*/g), ['https://t.me/XGame_changerx'], chat.url);
+    assert.doesNotMatch(text, /tel:|505870720/, chat.url);
   }
   // The guide that promises the official site links it (roadmap v2 №18).
   const guide = JSON.parse(fs.readFileSync(path.join(REPO, 'content/blog/uz/chatgptga-qanday-kirish-mumkin.json'), 'utf8')) as BlogArticle;

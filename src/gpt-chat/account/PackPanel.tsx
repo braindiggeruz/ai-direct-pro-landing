@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { AccountView, PackTerms } from "../types";
 import type { AccountStrings } from "../account-strings";
 import { safeAccountLink } from "../types";
-import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY } from "../../shared/studio-contact";
+import { STUDIO_CONTACT_PROPS, STUDIO_EMAIL, STUDIO_PUBLIC_PHONE, STUDIO_TELEGRAM_URL } from "../../shared/studio-contact";
 
 type Access = NonNullable<AccountView["access"]>;
 
@@ -41,16 +41,17 @@ export function AccessSummary({
 
 /**
  * Where a payment problem goes (money taken twice, or a payment that started
- * no pack: the offer, section 8): the studio's e-mail and phone from
+ * no pack: the offer, section 8): the studio's e-mail and Telegram from
  * content/global/site.json (src/shared/studio-contact.ts), the one place
- * every page reads them from. Never a personal Telegram (decision L14).
+ * every page reads them from; the phone only while it is public (owner order
+ * of 26.10.2026: visitors write, not call).
  */
 export function SupportLine({ copy }: { copy: AccountStrings }) {
   return (
     <p className="gpt-panel-note" data-testid="ai-pack-support">
       {copy.supportLabel} <a href={`mailto:${STUDIO_EMAIL}`}>{STUDIO_EMAIL}</a>
-      {", "}
-      <a href={`tel:${STUDIO_PHONE}`}>{STUDIO_PHONE_DISPLAY}</a>
+      {STUDIO_TELEGRAM_URL && <>{", "}<a {...STUDIO_CONTACT_PROPS} href={STUDIO_TELEGRAM_URL} target="_blank" rel="nofollow noopener noreferrer">Telegram</a></>}
+      {STUDIO_PUBLIC_PHONE && <>{", "}<a href={`tel:${STUDIO_PUBLIC_PHONE.tel}`}>{STUDIO_PUBLIC_PHONE.display}</a></>}
     </p>
   );
 }

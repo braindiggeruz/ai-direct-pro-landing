@@ -489,11 +489,12 @@ test('metrika: the studio goal follows the studio-contact marker; bots are split
   ]);
 });
 
+// Dormant since 26.10.2026 (no public tel: link; site.json phonePublic: false), kept harmless for the day the phone returns.
 test('metrika: a phone link reports phone_click with no number attached', () => {
   const h = harness();
   h.run();
-  click(h, 'tel:+998505870720');
-  click(h, 'TEL:+998505870720');
+  click(h, 'tel:+998901234567');
+  click(h, 'TEL:+998901234567');
   const reported = goals(h.calls);
   assert.deepEqual(reported.map((c) => c[2]), ['phone_click', 'phone_click']);
   for (const call of reported) {

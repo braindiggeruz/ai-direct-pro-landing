@@ -161,7 +161,9 @@ test('signed in without a pack: the free day left, the price, the offer, Click t
     assert.match(page, /<button type="button" class="gpt-primary" data-provider="click">/);
     assert.doesNotMatch(page, /type="checkbox"/, 'a member sees no box at all');
     assert.match(page, new RegExp(`<div class="gpt-payment-buttons">[^]*</div>\\s*${acceptLine(locale).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*</div>`), 'the line sits under the buttons, in the sticky block');
-    assert.ok(page.includes('data-testid="ai-pack-support"') && page.includes('href="mailto:ceo@gptbot.uz"') && page.includes('href="tel:+998505870720"'));
+    // Owner order of 26.10.2026: a payment problem is written, not called in.
+    assert.ok(page.includes('data-testid="ai-pack-support"') && page.includes('href="mailto:ceo@gptbot.uz"') && page.includes('href="https://t.me/XGame_changerx"'));
+    assert.ok(!page.includes('href="tel:'), 'no phone in the pack window');
     assert.ok(has(page, `${copy.supportLabel} `), `${locale}: a payment problem goes to the studio`);
     assert.ok(has(page, copy.logout));
     // One provider: one button and its name alone.
@@ -236,8 +238,8 @@ test('the window never asks a refund: the only account action closes an unseen i
   const uz = accountStrings('uz');
   assert.equal(ru.noRefund, 'Деньги за оплаченный пакет не возвращаются: он начинает действовать сразу после оплаты.');
   assert.equal(uz.noRefund, 'To‘langan paket uchun pul qaytarilmaydi: u to‘lovdan keyin darhol amal qila boshlaydi.');
-  assert.equal(ru.supportLabel, 'Проблема с оплатой? Напишите или позвоните:');
-  assert.equal(uz.supportLabel, 'To‘lovda muammo bormi? Yozing yoki qo‘ng‘iroq qiling:');
+  assert.equal(ru.supportLabel, 'Проблема с оплатой? Напишите нам:');
+  assert.equal(uz.supportLabel, 'To‘lovda muammo bormi? Bizga yozing:');
   const dialog = read('src/gpt-chat/account/AccountDialog.tsx');
   const panel = read('src/gpt-chat/account/PackPanel.tsx');
   assert.deepEqual([...dialog.matchAll(/action: "(\w+)"/g)].map((m) => m[1]), ['cancel_invoice']);
@@ -362,7 +364,7 @@ test('the Uzum Bank app: the code in groups, the steps with the service and the 
   }
 });
 
-test('every link on every screen goes to an allowed place, and never to a personal Telegram', async () => {
+test('every link on every screen goes to an allowed place: Telegram only as the studio contact, never a phone', async () => {
   const pages: string[] = [];
   for (const locale of LOCALES) {
     pages.push(
@@ -379,13 +381,18 @@ test('every link on every screen goes to an allowed place, and never to a person
     /^\/ru\/politika-konfidentsialnosti\/$/,
     /^\/uz\/maxfiylik-siyosati\/$/,
     /^mailto:ceo@gptbot\.uz$/,
-    /^tel:\+998505870720$/,
+    // The studio Telegram (owner order of 26.10.2026), bare, in the support line.
+    /^https:\/\/t\.me\/XGame_changerx$/,
     /^https:\/\/ofd\.soliq\.uz\//,
   ];
   const hrefs = pages.flatMap((page) => [...page.matchAll(/href="([^"]*)"/g)].map((m) => m[1].replace(/&amp;/g, '&')));
   assert.ok(hrefs.length > 20);
   for (const href of hrefs) assert.ok(allowed.some((rule) => rule.test(href)), href);
-  for (const page of pages) assert.doesNotMatch(page, /XGame|t\.me\/(?!gptbotuz_bot)|javascript:/i);
+  for (const page of pages) {
+    assert.doesNotMatch(page, /t\.me\/(?!gptbotuz_bot|XGame_changerx")|javascript:|tel:/i);
+    // Every studio link carries the marker the head click handlers count.
+    for (const tag of page.match(/<a [^>]*XGame_changerx[^>]*>/g) ?? []) assert.match(tag, /data-contact="studio"/, tag);
+  }
 });
 
 test('one report per ended payment: checkout_result always, a purchase for real money only', () => {

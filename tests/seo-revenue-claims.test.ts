@@ -18,7 +18,7 @@ import { resolveConfig } from '../functions/lib/gpt-chat/config';
 import { resolveTelegramConfig } from '../functions/lib/telegram/config';
 import { STUDIO_PLANS, TERMS_PLAN } from '../functions/lib/studio/plans';
 import { telegramDeepLink } from '../src/lib/telegram';
-import { STUDIO_PHONE } from '../src/shared/studio-contact';
+import { STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { LEAD_FORM_PAGES } from '../scripts/lead-form';
 import { PROTECTED_PATHS } from '../scripts/seo-protection';
 import { strings } from '../src/gpt-chat/i18n';
@@ -289,7 +289,7 @@ test('«Ustozlar va o‘quv markazlari uchun»: an honest pilot through a contac
     assert.match(text, /o‘quvchilarning ismi va ishlarini chatga yubormang/, file);
     assert.match(text, /xato bo‘lishi mumkin|xato qilishi mumkin/, file);
     const targets = targetsOf(block.body);
-    for (const target of [`tel:${STUDIO_PHONE}`, 'mailto:ceo@gptbot.uz', UZ_HUB_ORGS]) assert.ok(targets.includes(target), `${file}: ${target}`);
+    for (const target of [STUDIO_TELEGRAM_URL!, 'mailto:ceo@gptbot.uz', UZ_HUB_ORGS]) assert.ok(targets.includes(target), `${file}: ${target}`);
     assert.ok(!targets.some((target) => /checkout|payment|\/api\//.test(target)), file);
   }
 });
@@ -305,7 +305,7 @@ test('/ru/tarify-ai-chat/: «Для организаций» — the same pilot,
   assert.ok(text.includes('Оплаты одним счётом по договору пока нет.'));
   assert.ok(text.includes('Пилот только для взрослых'));
   const targets = targetsOf(blockAfter(tariffs, 'dlya-organizatsiy')!.body);
-  for (const target of [`tel:${STUDIO_PHONE}`, 'mailto:ceo@gptbot.uz', UZ_HUB_ORGS]) assert.ok(targets.includes(target), target);
+  for (const target of [STUDIO_TELEGRAM_URL!, 'mailto:ceo@gptbot.uz', UZ_HUB_ORGS]) assert.ok(targets.includes(target), target);
 });
 
 test('/ru/tarify-ai-chat/ names the header button as the chat shows it before a purchase', () => {

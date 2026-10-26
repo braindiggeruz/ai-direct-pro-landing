@@ -12,7 +12,8 @@
 //   * Only schema.org-valid properties are emitted for each type.
 //     Organization must NOT carry inLanguage / slogan / knowsAbout
 //     (SEMrush flags them as invalid structured data), and ContactPoint
-//     must NOT carry url / areaServed.
+//     must NOT carry areaServed. Its url (a Thing property every type
+//     inherits) is the studio Telegram since 26.10.2026.
 //
 //   * One canonical WebSite — same name, same inLanguage, same
 //     publisher reference.
@@ -26,6 +27,7 @@
 // inside <script type="application/ld+json">.
 
 import type { GlobalSEO } from '../src/shared/types';
+import { studioTelegramUrl } from '../src/shared/studio-contact';
 import { PROTECTED_PATHS } from './seo-protection';
 
 const TASHKENT_TIMEZONE = 'Asia/Tashkent';
@@ -34,7 +36,19 @@ const TASHKENT_TIMEZONE = 'Asia/Tashkent';
 // full language names rather than BCP-47 codes.
 const LANGUAGE_NAMES: Record<string, string> = { ru: 'Russian', uz: 'Uzbek', en: 'English' };
 
-export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> {
+/**
+ * The Organization node. `contact` names the public channels: by default the
+ * ones content/global/site.json publishes (`phonePublic`, `studioTelegram`);
+ * the approved offer edition passes its own (scripts/contact-card.ts
+ * OFFER_EDITION_CONTACT) so its page stays byte for byte as approved.
+ */
+export function buildOrganizationLd(
+  global: GlobalSEO,
+  contact: { phone: boolean; telegram: string | null } = {
+    phone: global.phonePublic === true,
+    telegram: studioTelegramUrl(global.studioTelegram ?? ''),
+  },
+): Record<string, unknown> {
   // NOTE: inLanguage, legalName, slogan and knowsAbout are intentionally NOT
   // emitted — they are not valid Organization properties (inLanguage/slogan/
   // knowsAbout) or duplicate name (legalName), and SEMrush marks them as
@@ -81,22 +95,24 @@ export function buildOrganizationLd(global: GlobalSEO): Record<string, unknown> 
     };
   }
 
-  // contactPoint — ContactPoint has no `url` or `areaServed` properties on
-  // schema.org, so only contactType + telephone + email + availableLanguage
-  // are emitted. telephone and email appear once global.phone and global.email
-  // are filled in content/global/site.json — the same phone and e-mail every
-  // footer and contact card shows (src/shared/studio-contact.ts).
+  // contactPoint — the channels every footer and contact card shows
+  // (src/shared/studio-contact.ts): the e-mail, the studio Telegram as the
+  // point's url, and telephone only while the phone is public. Owner order of
+  // 26.10.2026: visitors write, they do not call, so neither the point nor the
+  // Organization carries a telephone and the point is 'customer support'.
+  // The frozen offer edition keeps its phone-only 'sales' point as approved.
   const langCodes = global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'];
   const email = global.email?.trim();
+  const telephone = contact.phone && global.phone ? global.phone : '';
   org.contactPoint = {
     '@type': 'ContactPoint',
-    // The public number takes new-client enquiries, not support tickets.
-    contactType: 'sales',
-    ...(global.phone ? { telephone: global.phone } : {}),
+    contactType: telephone && !contact.telegram ? 'sales' : 'customer support',
+    ...(telephone ? { telephone } : {}),
     ...(email ? { email } : {}),
+    ...(contact.telegram ? { url: contact.telegram } : {}),
     availableLanguage: langCodes.map((code) => LANGUAGE_NAMES[code] || code),
   };
-  if (global.phone) org.telephone = global.phone;
+  if (telephone) org.telephone = telephone;
   if (email) org.email = email;
 
   // sameAs — the studio's own map and directory cards only

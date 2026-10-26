@@ -49,7 +49,7 @@ export interface AccountStrings {
   renew: string;
   noPack: string;
   freeLeft: (left: number) => string;
-  /** Before the studio's e-mail and phone: where a payment problem (a double charge) goes. */
+  /** Before the studio's e-mail and Telegram: where a payment problem (a double charge) goes. */
   supportLabel: string;
   failed: string; pending: string; cancelled: string; expired: string; test: string;
   receipt: string; refundReceipt: string;
@@ -133,7 +133,7 @@ const RU: AccountStrings = {
   renew: 'Пакет скоро закончится. Новый можно купить в любой момент — он начнёт действовать сразу.',
   noPack: 'Активного пакета нет.',
   freeLeft: (n) => `Бесплатно на сегодня осталось: ${n}.`,
-  supportLabel: 'Проблема с оплатой? Напишите или позвоните:',
+  supportLabel: 'Проблема с оплатой? Напишите нам:',
   failed: 'Статус не получен. Если уже платили, проверьте статус перед повторной оплатой.',
   pending: 'Ожидаем подтверждение оплаты. Возврат с платёжной страницы сам по себе не подтверждает платёж.',
   cancelled: 'Платёж отменён, пакет не подключён. Если деньги всё же списаны, напишите нам — разберёмся.',
@@ -235,7 +235,7 @@ const UZ: AccountStrings = {
   renew: 'Paket muddati tugashiga oz qoldi. Yangisini istalgan payt olishingiz mumkin — u darhol boshlanadi.',
   noPack: 'Faol paket yo‘q.',
   freeLeft: (n) => `Bepul: bugun ${n} ta xabar qoldi.`,
-  supportLabel: 'To‘lovda muammo bormi? Yozing yoki qo‘ng‘iroq qiling:',
+  supportLabel: 'To‘lovda muammo bormi? Bizga yozing:',
   failed: 'Holatni aniqlab bo‘lmadi. To‘lagan bo‘lsangiz, yana to‘lashdan oldin holatni tekshiring.',
   pending: 'To‘lov tasdig‘ini kutyapmiz. To‘lov sahifasidan qaytish to‘lov amalga oshganini bildirmaydi.',
   cancelled: 'To‘lov bekor qilindi, paket yoqilmadi. Pul baribir yechilgan bo‘lsa, bizga yozing — hal qilamiz.',

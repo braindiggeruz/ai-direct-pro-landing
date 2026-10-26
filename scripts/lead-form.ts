@@ -15,7 +15,14 @@
 import { MEASUREMENT_HOLD_PATHS } from './measurement-hold';
 import { PROTECTED_PATHS } from './seo-protection';
 import { studioTelegramHref, telegramServiceLabel } from './telegram-cta';
-import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import {
+  STUDIO_CONTACT_ATTR,
+  STUDIO_EMAIL,
+  STUDIO_PHONE,
+  STUDIO_PHONE_DISPLAY,
+  STUDIO_PHONE_PUBLIC,
+  STUDIO_TELEGRAM_URL,
+} from '../src/shared/studio-contact';
 import { LEAD_BUDGETS, LEAD_BUDGET_FIELD, LEAD_BUDGET_LABELS } from '../src/shared/lead-budget';
 import { shouldTrackLead } from '../src/shared/lead-conversion';
 import { prepareLeadRequest, postLeadJson } from '../src/shared/lead-client';
@@ -203,28 +210,35 @@ const CLIENT_COPY = {
 } as const;
 
 /**
- * Where the form sends a visitor it could not take: the studio's work Telegram
- * with a draft naming the page, or, while no work account is configured
- * (src/shared/studio-contact.ts), the studio phone.
+ * Where the form sends a visitor it could not take: the studio Telegram with a
+ * draft naming the page; without a Telegram (src/shared/studio-contact.ts) the
+ * phone while it is public, otherwise the e-mail.
  */
 export function leadFormFallback(
   locale: 'ru' | 'uz',
   label: string,
   path: string,
   studio: string | null = STUDIO_TELEGRAM_URL,
+  phonePublic: boolean = STUDIO_PHONE_PUBLIC,
 ): { href: string; text: string } {
   const telegram = studioTelegramHref(locale, label, path, studio);
-  if (telegram) return { href: telegram, text: locale === 'uz' ? 'Telegramda yozish' : 'Написать в Telegram' };
+  if (telegram) return { href: telegram, text: locale === 'uz' ? 'Telegram’da yozish' : 'Написать в Telegram' };
+  if (phonePublic) {
+    return {
+      href: `tel:${STUDIO_PHONE}`,
+      text: `${locale === 'uz' ? 'Qo‘ng‘iroq qilish' : 'Позвонить'}: ${STUDIO_PHONE_DISPLAY}`,
+    };
+  }
   return {
-    href: `tel:${STUDIO_PHONE}`,
-    text: `${locale === 'uz' ? 'Qo‘ng‘iroq qilish' : 'Позвонить'}: ${STUDIO_PHONE_DISPLAY}`,
+    href: `mailto:${STUDIO_EMAIL}`,
+    text: locale === 'uz' ? `${STUDIO_EMAIL} manziliga yozish` : `Написать на ${STUDIO_EMAIL}`,
   };
 }
 
 /**
- * Attributes of a fallback href: a web link is the studio's work Telegram, so
- * it carries the studio-contact marker the head click handlers count and opens
- * a new tab; tel: does neither.
+ * Attributes of a fallback href: a web link is the studio Telegram, so it
+ * carries the studio-contact marker the head click handlers count and opens a
+ * new tab; tel: and mailto: do neither.
  */
 function fallbackTarget(href: string): string {
   return /^https:/.test(href) ? ` ${STUDIO_CONTACT_ATTR} target="_blank" rel="nofollow noopener noreferrer"` : '';

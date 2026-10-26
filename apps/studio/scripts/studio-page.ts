@@ -34,8 +34,9 @@
  *            (24 px under 360 px, 26 px under 640 px) and the honesty line;
  *            #studio-root with the form's first state and nothing else; the
  *            text, the FAQ, the links; the footer from
- *            content/global/legal-entity.json with the e-mail behind
- *            <!--email_off-->.
+ *            content/global/legal-entity.json with the studio Telegram and
+ *            the e-mail behind <!--email_off--> (the phone only while
+ *            site.json makes it public: owner order of 26.10.2026).
  *
  * Class names here are studio utilities (prefix st): the studio's Tailwind
  * reads this directory (@source "../scripts" in src/styles.css). The root
@@ -274,7 +275,12 @@ export const CHROME = {
 /** The parts of content/global/site.json and legal-entity.json the page needs. */
 export interface StudioSiteContext {
   global: GlobalSEO;
+  /** E.164; in the footer only while `phonePublic`. */
   phone: string;
+  /** site.json phonePublic: false since 26.10.2026 (visitors write, not call). */
+  phonePublic: boolean;
+  /** The studio Telegram (https://t.me/<handle>), or null. */
+  telegram: string | null;
   email: string;
   entity: { shortName: Record<StudioLocale, string>; stir: string };
 }
@@ -462,7 +468,7 @@ ${content.faq.map((item) => `<div class="st:mt-4 st:rounded-2xl st:border st:bor
 <footer class="st:border-t st:border-studio-line">
 <div class="st:mx-auto st:max-w-3xl st:space-y-1 st:px-4 st:py-8 st:text-sm st:text-studio-muted st:sm:px-6">
 <p>${escapeHtml(context.site.entity.shortName[content.locale])} · ${escapeHtml(chrome.taxId)} ${escapeHtml(context.site.entity.stir)}</p>
-<p class="st:flex st:flex-wrap st:gap-x-4"><a href="tel:${escapeHtml(context.site.phone)}" class="${TAP} st:hover:text-studio-text">${escapeHtml(phoneDisplay)}</a><a href="mailto:${escapeHtml(context.site.email)}" class="${TAP} st:hover:text-studio-text">${escapeHtml(context.site.email)}</a><a href="${chrome.privacy.href}" class="${TAP} st:hover:text-studio-text">${escapeHtml(chrome.privacy.label)}</a></p>
+<p class="st:flex st:flex-wrap st:gap-x-4">${context.site.phonePublic ? `<a href="tel:${escapeHtml(context.site.phone)}" class="${TAP} st:hover:text-studio-text">${escapeHtml(phoneDisplay)}</a>` : ''}${context.site.telegram ? `<a data-contact="studio" href="${escapeHtml(context.site.telegram)}" target="_blank" rel="nofollow noopener noreferrer" class="${TAP} st:hover:text-studio-text">Telegram</a>` : ''}<a href="mailto:${escapeHtml(context.site.email)}" class="${TAP} st:hover:text-studio-text">${escapeHtml(context.site.email)}</a><a href="${chrome.privacy.href}" class="${TAP} st:hover:text-studio-text">${escapeHtml(chrome.privacy.label)}</a></p>
 </div>
 </footer>
 </body>

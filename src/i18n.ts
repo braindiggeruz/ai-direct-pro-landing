@@ -325,7 +325,7 @@ export const i18n: Record<Lang, Dict> = {
       h: 'Menejer o‘ylab turguncha — mijoz ketadi',
       sub: 'Darhol javob beradigan, kontakt yig‘adigan va lidlarni yo‘qotmaydigan AI-sotuvchini ishga tushiring.',
       call: 'Qo‘ng‘iroq qilish',
-      telegram: 'Telegramda yozish',
+      telegram: 'Telegram’da yozish',
       micro: 'Du–Sha 10:00–19:00 javob beramiz.',
     },
     footer: {

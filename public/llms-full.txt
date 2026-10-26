@@ -114,8 +114,8 @@ Traffic (SEO / ads) -> website -> AI bot / form -> lead captured (name + phone +
 The preferred conversion path:
 1. user visits a service page;
 2. user understands the business problem;
-3. user calls, writes an e-mail or leaves a request;
+3. user writes in Telegram, sends an e-mail or leaves a request;
 4. GPTBot.uz analyzes the business process;
 5. GPTBot.uz proposes a website, AI bot, Telegram bot, CRM integration or advertising funnel.
 
-Primary contact for consultation: phone +998 50 587 07 20, e-mail ceo@gptbot.uz, or the request form on the service page.
+Primary contact for consultation: Telegram @XGame_changerx (https://t.me/XGame_changerx), e-mail ceo@gptbot.uz, or the request form on the service page.

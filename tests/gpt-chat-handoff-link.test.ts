@@ -2,13 +2,14 @@
 //
 // Run: node --import tsx --test tests/gpt-chat-handoff-link.test.ts
 //
-// The property worth pinning: no surface — sidebar, lead form, limit card,
-// B2B card, any handoff failure, a tap before the mint answers — can produce
-// a link to the owner's personal Telegram account (paid-chat plan, L14).
-// Consumers go to the assistant bot @gptbotuz_bot. Only the explicit B2B card
-// reaches the studio in Telegram, and only once a work account is configured
-// (content/global/site.json studioTelegram); until then it offers its form,
-// and the lead form's quick contact is the phone.
+// The property worth pinning: no consumer surface — sidebar, limit card, any
+// handoff failure, a tap before the mint answers — can produce a link to the
+// studio's Telegram account. Consumers go to the assistant bot @gptbotuz_bot.
+// Only the explicit B2B card and the lead form's quick contact reach the
+// studio in Telegram (content/global/site.json studioTelegram). Since the
+// owner's order of 26.10.2026 that is the owner's account, named as the public
+// contact (it supersedes plan decision L14), and the phone is no public
+// contact (phonePublic: false).
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -26,7 +27,7 @@ import {
 } from '../src/gpt-chat/handoff';
 import { studioBusinessLink, studioQuickContact } from '../src/gpt-chat/contact';
 import { telegramDeepLink } from '../src/lib/telegram';
-import { STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_PHONE_PUBLIC, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 
 // tsx compiles .tsx with the classic transform in tests; the app build uses
 // react-jsx. Same shim as tests/lead-radar-telegram-ui.test.ts.
@@ -162,14 +163,18 @@ test('no consumer case can reach the owner account', () => {
   assert.equal(telegramDeepLink('ru'), PUBLIC.ru);
 });
 
-test('no work Telegram is configured, and the personal account is not one (L14)', () => {
-  assert.equal(STUDIO_TELEGRAM_URL, null);
+test('the studio Telegram is the owner account (owner order of 26.10.2026) and the phone is not public', () => {
+  assert.equal(STUDIO_TELEGRAM_URL, `https://t.me/${OWNER}`);
+  assert.equal(STUDIO_PHONE_PUBLIC, false);
   for (const locale of ['ru', 'uz'] as const) {
-    assert.equal(studioBusinessLink(locale), null);
-    assert.deepEqual(studioQuickContact(locale), { href: `tel:${STUDIO_PHONE}`, channel: 'phone', display: STUDIO_PHONE_DISPLAY });
+    const link = studioBusinessLink(locale)!;
+    assert.ok(link.startsWith(`${STUDIO_TELEGRAM_URL}?text=`), link);
+    assert.deepEqual(studioQuickContact(locale), { href: link, channel: 'studio', display: 'Telegram' });
+    // Without a Telegram the quick contact is the e-mail; the phone only while public.
+    assert.deepEqual(studioQuickContact(locale, null), { href: `mailto:${STUDIO_EMAIL}`, channel: 'email', display: STUDIO_EMAIL });
+    const phone = { tel: STUDIO_PHONE, display: STUDIO_PHONE_DISPLAY };
+    assert.deepEqual(studioQuickContact(locale, null, phone), { href: `tel:${STUDIO_PHONE}`, channel: 'phone', display: STUDIO_PHONE_DISPLAY });
   }
-  assert.equal(STUDIO_PHONE, '+998505870720');
-  assert.equal(STUDIO_PHONE_DISPLAY, '+998 50 587 07 20');
 });
 
 test('once a work account is configured, the B2B routes open it with a B2B opener', () => {
@@ -209,15 +214,15 @@ test('before the mint answers, the limit card already links to the public bot', 
   }
 });
 
-test('without a work account the offer card offers its lead form and no Telegram', () => {
+test('the offer card links the studio Telegram with a B2B opener and the studio marker, next to its lead form', () => {
   for (const locale of ['ru', 'uz'] as const) {
     const t = strings(locale);
     const b2b = renderToStaticMarkup(React.createElement(AiOfferCard, { t, locale, apiBase: '', sessionId: 'sess_1', onDismiss: () => {} }));
-    assert.deepEqual(hrefs(b2b).filter((h) => h.includes('t.me')), []);
-    assert.ok(!b2b.includes(t.contactTelegram));
-    assert.ok(!b2b.includes('data-testid="telegram-cta-b2b"'));
-    assert.ok(b2b.includes('data-testid="offer-lead-b2b"'), 'the lead form is the route');
-    assert.ok(!b2b.includes(OWNER));
+    assert.deepEqual(hrefs(b2b).filter((h) => h.includes('t.me')), [studioBusinessLink(locale)]);
+    assert.ok(b2b.includes('data-testid="telegram-cta-b2b"'));
+    assert.ok(b2b.includes('data-contact="studio"'), 'contact_click / telegram_cta_studio fire on it');
+    assert.ok(b2b.includes('data-testid="offer-lead-b2b"'), 'the lead form stays a route');
+    assert.doesNotMatch(b2b, /tel:/);
   }
 });
 

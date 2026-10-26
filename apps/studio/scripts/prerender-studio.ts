@@ -35,6 +35,7 @@ import { siteStylesheetHrefs } from '../../../scripts/site-stylesheets';
 import { staticClosure } from '../../../scripts/chat-bundle-budget';
 import type { ViteManifest } from '../../../scripts/vite-manifest';
 import type { GlobalSEO } from '../../../src/shared/types';
+import { studioTelegramUrl } from '../../../src/shared/studio-contact';
 import { readStudioPages, STUDIO_URL, type StudioPageRecord } from '../shared/published-urls';
 import {
   MIN_WORDS_OUTSIDE_ISLAND,
@@ -177,7 +178,8 @@ export function readStudioSite(root: string): StudioSiteContext {
   const email = String(global.email ?? '').trim();
   const issues = legalEntityIssues(entity, { email, phone });
   if (issues.length) throw new Error(`The studio footer needs complete site and legal-entity data (${issues.join(', ')}).`);
-  return { global, phone, email, entity: entity as unknown as StudioSiteContext['entity'] };
+  const telegram = studioTelegramUrl(String(global.studioTelegram ?? ''));
+  return { global, phone, phonePublic: global.phonePublic === true, telegram, email, entity: entity as unknown as StudioSiteContext['entity'] };
 }
 
 /** Every record's problems, by file; throws when any record cannot be rendered. */

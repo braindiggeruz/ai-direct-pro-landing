@@ -4,8 +4,7 @@ import { CONTACT_HREF, track, trackContact } from '../lib/cta';
 import {
   STUDIO_CONTACT_PROPS,
   STUDIO_EMAIL,
-  STUDIO_PHONE,
-  STUDIO_PHONE_DISPLAY,
+  STUDIO_PUBLIC_PHONE,
   STUDIO_TELEGRAM_URL,
 } from '../shared/studio-contact';
 
@@ -81,7 +80,21 @@ export default function Footer({ t, lang }: { t: Dict; lang: Lang }) {
   const lBlog = isUz ? 'Blog' : 'Блог';
   const lSitemap = 'Sitemap';
   const lDemo = t.nav.cta;
-  const phoneLabel = `${isUz ? 'Qo‘ng‘iroq qilish' : 'Позвонить'}: ${STUDIO_PHONE_DISPLAY}`;
+  const telegramItem = STUDIO_TELEGRAM_URL && (
+    <li>
+      <a
+        {...STUDIO_CONTACT_PROPS}
+        href={STUDIO_TELEGRAM_URL}
+        target="_blank"
+        rel="nofollow noopener noreferrer"
+        data-testid="footer-telegram"
+        onClick={() => trackContact('telegram', 'footer', lang)}
+        className="text-white/65 hover:text-brand-cyan transition"
+      >
+        {isUz ? 'Telegram’da yozish' : 'Написать в Telegram'}
+      </a>
+    </li>
+  );
   const officeLabel = isUz ? "Ofis: Yahyo Gulyamov ko‘chasi 35, Toshkent" : "Офис: Yahyo Gulyamov ko‘chasi 35, Ташкент";
   // Same hours as openingHoursSpecification in scripts/jsonld-helpers.ts:
   // structured data has to describe something a visitor can see.
@@ -201,16 +214,21 @@ export default function Footer({ t, lang }: { t: Dict; lang: Lang }) {
             </ul>
             <h3 className="text-white font-semibold text-sm mb-4">{lContacts}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li>
-                <a
-                  href={`tel:${STUDIO_PHONE}`}
-                  data-testid="footer-phone"
-                  onClick={() => trackContact('phone', 'footer', lang)}
-                  className="text-white/65 hover:text-brand-cyan transition"
-                >
-                  {phoneLabel}
-                </a>
-              </li>
+              {/* The phone only while site.json makes it public (owner order
+                  of 26.10.2026: visitors write, not call); the Telegram then
+                  takes its place at the top of the list. */}
+              {STUDIO_PUBLIC_PHONE ? (
+                <li>
+                  <a
+                    href={`tel:${STUDIO_PUBLIC_PHONE.tel}`}
+                    data-testid="footer-phone"
+                    onClick={() => trackContact('phone', 'footer', lang)}
+                    className="text-white/65 hover:text-brand-cyan transition"
+                  >
+                    {`${isUz ? 'Qo‘ng‘iroq qilish' : 'Позвонить'}: ${STUDIO_PUBLIC_PHONE.display}`}
+                  </a>
+                </li>
+              ) : telegramItem}
               <li>
                 <a
                   href={`mailto:${STUDIO_EMAIL}`}
@@ -221,21 +239,7 @@ export default function Footer({ t, lang }: { t: Dict; lang: Lang }) {
                   {STUDIO_EMAIL}
                 </a>
               </li>
-              {STUDIO_TELEGRAM_URL && (
-                <li>
-                  <a
-                    {...STUDIO_CONTACT_PROPS}
-                    href={STUDIO_TELEGRAM_URL}
-                    target="_blank"
-                    rel="nofollow noopener noreferrer"
-                    data-testid="footer-telegram"
-                    onClick={() => trackContact('telegram', 'footer', lang)}
-                    className="text-white/65 hover:text-brand-cyan transition"
-                  >
-                    Telegram
-                  </a>
-                </li>
-              )}
+              {STUDIO_PUBLIC_PHONE && telegramItem}
               <li className="text-white/50 leading-relaxed" data-testid="footer-office-address">{officeLabel}</li>
               <li className="text-white/50 leading-relaxed" data-testid="footer-office-hours">{hoursLabel}</li>
             </ul>

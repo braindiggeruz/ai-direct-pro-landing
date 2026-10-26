@@ -298,9 +298,9 @@ export function AiLeadForm({
 }
 
 /**
- * The fastest way to a person after a lead (contact.ts): the studio's work
- * Telegram while one is configured, the phone otherwise. A tel: link opens in
- * place and the analytics snippet in the page head records it as phone_click.
+ * The fastest way to a person after a lead (contact.ts): the studio Telegram
+ * while one is configured, otherwise the phone while it is public, otherwise
+ * the e-mail. tel: and mailto: open in place.
  */
 function QuickContactLink({
   quick,
@@ -313,7 +313,7 @@ function QuickContactLink({
   locale: Locale;
   className: string;
 }) {
-  if (quick.channel === 'phone') return <a href={quick.href} className={className}>{quick.display}</a>;
+  if (quick.channel !== 'studio') return <a href={quick.href} className={className}>{quick.display}</a>;
   return (
     <a
       {...STUDIO_CONTACT_PROPS}

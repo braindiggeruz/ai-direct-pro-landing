@@ -108,9 +108,9 @@ The tag never reads `.value`, `FormData`, `localStorage`, `sessionStorage`,
 | `gpt_chat_open` | head block, delegated click | `/gpt-chat/`, `/gpt-uzbek-tilida/` |
 | `pricing_cta_click` | head block, delegated click | slug contains `tarify` or `narx` |
 | `lead_form_submit_success` | `src/calculator/CalculatorApp.tsx` | **only after the server accepted the lead** |
-| `telegram_cta_studio` | head block, delegated click | a link marked `data-contact="studio"`: the studio's work Telegram from `content/global/site.json` `studioTelegram` (with or without `?text=`); fires **in addition to** `telegram_cta_click`. Since 2026-10-01 (paid-chat WP-12, decision L14) no work Telegram is named and the personal account is no longer linked, so this goal does not fire until one is |
+| `telegram_cta_studio` | head block, delegated click | a link marked `data-contact="studio"`: the studio's work Telegram from `content/global/site.json` `studioTelegram` (with or without `?text=`); fires **in addition to** `telegram_cta_click`. From 2026-10-01 (paid-chat WP-12, decision L14) to 2026-10-25 no studio Telegram was linked and this goal did not fire. Since 2026-10-26 (owner order: visitors write, not call) `studioTelegram` is https://t.me/XGame_changerx and every contact surface links it: **this is the contact goal now** |
 | `telegram_cta_bot` | head block, delegated click | a `t.me/<name>bot` product bot; fires **in addition to** `telegram_cta_click` |
-| `phone_click` | head block, delegated click | any `tel:` link |
+| `phone_click` | head block, delegated click | any `tel:` link. **Dormant since 2026-10-26**: `site.json` `phonePublic: false` removed every public `tel:` link (only the legal requisites of the offer and the privacy policies, and the approved offer edition, keep one); the handler stays, harmless, for the day the phone returns |
 | `lead_form_success` | page lead form (`scripts/lead-form.ts`, inline) and the AI chat's lead form (`AiLeadForm.tsx`, next to `chat_lead_success`) | **only after `/api/gpt/lead` answered `ok:true`** |
 | `calculator_lead_success` | `src/calculator/CalculatorApp.tsx` | same moment as `lead_form_submit_success`, calculator only |
 | `chat_lead_success` | `src/gpt-chat/components/AiLeadForm.tsx` | **only after the server accepted the chat lead** |
@@ -126,7 +126,9 @@ keep counting exactly as before; the six added 2026-09-29 split them by source.
 
 **The six goals to report on** (paid-chat plan WP-09, 2026-10-01): `chat_opened`,
 `chat_limit_hit`, `lead_form_success`, `calculator_lead_success`,
-`telegram_cta_studio`, `phone_click`. Leads are `lead_form_success` +
+`telegram_cta_studio`, `phone_click`. Since 2026-10-26 the phone links are
+gone and `telegram_cta_studio` is the contact signal (`phone_click` stays at
+zero); compare periods across that date accordingly. Leads are `lead_form_success` +
 `calculator_lead_success`: the chat's form fires `lead_form_success` too, the
 calculator does not, so nothing is counted twice. `chat_opened` and
 `chat_limit_hit` come from React through `reachYandexGoalOnce()`; WP-09 left the

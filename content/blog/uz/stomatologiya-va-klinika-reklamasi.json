@@ -306,7 +306,7 @@
     },
     {
       "type": "linkp",
-      "text": "Klinikangiz haqida yozing — kanallar va sinov byudjetini taklif qilamiz. GPTBot.uz jamoasi Toshkentda {kontekst} hamda {target} sozlaydi: ishga tushirish va yuritish narxlari xizmat sahifalarida, reklama byudjeti alohida va platformaga to‘lanadi. Xarita kartochkalari — {seo} doirasida. Bemorlar sonini oldindan kafolatlamaymiz. Telefonda gaplashish qulayroq bo‘lsa — {contact}.",
+      "text": "Klinikangiz haqida yozing — kanallar va sinov byudjetini taklif qilamiz. GPTBot.uz jamoasi Toshkentda {kontekst} hamda {target} sozlaydi: ishga tushirish va yuritish narxlari xizmat sahifalarida, reklama byudjeti alohida va platformaga to‘lanadi. Xarita kartochkalari — {seo} doirasida. Bemorlar sonini oldindan kafolatlamaymiz. To‘g‘ridan-to‘g‘ri yozish qulayroq bo‘lsa — {contact}.",
       "links": [
         {
           "token": "kontekst",
@@ -326,7 +326,7 @@
         {
           "token": "contact",
           "target": "#contact",
-          "anchor": "jamoa telefoni va e-mail"
+          "anchor": "jamoaning Telegram’i va e-mail manzili"
         }
       ]
     },

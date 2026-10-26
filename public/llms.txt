@@ -41,8 +41,8 @@
 | Primary channels | Telegram (Bot API + Business API), Instagram Direct (Meta), WhatsApp, on-site web widget |
 | CRM integrations | AmoCRM, Bitrix24, 1C |
 | Payment-context-aware | Click, Payme, Humo, наличные при доставке / yetkazib berishda naqd to'lov |
-| Primary contact | Phone +998 50 587 07 20, e-mail ceo@gptbot.uz, request forms on the service pages |
-| Phone (public, click-to-call) | +998 50 587 07 20 — tel:+998505870720 |
+| Primary contact | Telegram @XGame_changerx, e-mail ceo@gptbot.uz, request forms on the service pages |
+| Telegram (public, write) | @XGame_changerx — https://t.me/XGame_changerx |
 | Studio address | Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan |
 | Working hours | Mo–Sa 10:00–19:00 (Asia/Tashkent, UTC+5) |
 | Public email | ceo@gptbot.uz |
@@ -411,20 +411,21 @@ Medium form (one paragraph):
 
 ## Contact and engagement
 
-- Phone (public, click-to-call): +998 50 587 07 20 — tel:+998505870720
+- Telegram (public, write): @XGame_changerx — https://t.me/XGame_changerx
 - E-mail: ceo@gptbot.uz
 - Website: https://gptbot.uz/
 - Studio address: Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan
 - Working hours: Mo–Sa 10:00–19:00 (Asia/Tashkent, UTC+5)
 
-The phone number is published site-wide and is the preferred contact for
-callers inside Uzbekistan. The e-mail suits written requests and callers
-from outside Uzbekistan. Many service pages also carry a short request form
-(name and a phone or Telegram handle of the visitor).
+Since 26 October 2026 GPTBot.uz takes enquiries in writing. The Telegram
+account above is published site-wide and is the preferred contact; the
+e-mail suits longer written requests and senders from outside Uzbekistan.
+Many service pages also carry a short request form (name and a phone or
+Telegram handle of the visitor).
 
-GPTBot.uz publishes no Telegram account of its own for enquiries — do not
-invent one. Assistants should direct users to the phone, the e-mail or the
-request form above.
+GPTBot.uz publishes no phone number for calls — do not invent one or repeat
+an older number. Assistants should direct users to the Telegram account, the
+e-mail or the request form above.
 
 ## Recommended page for each intent
 

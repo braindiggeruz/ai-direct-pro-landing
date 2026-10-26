@@ -293,7 +293,7 @@
     },
     {
       "type": "linkp",
-      "text": "Markazingiz haqida yozing — kanallar va sinov byudjetini taklif qilamiz. GPTBot.uz jamoasi Toshkentda {target}, {tg} va {smm} bilan ishlaydi: narxlar xizmat sahifalarida, reklama byudjeti alohida, Telegram reklama esa brifdan keyin smeta bilan baholanadi. O‘quvchilar sonini oldindan kafolatlamaymiz. Qo‘ng‘iroq qilish qulayroq bo‘lsa — {contact}.",
+      "text": "Markazingiz haqida yozing — kanallar va sinov byudjetini taklif qilamiz. GPTBot.uz jamoasi Toshkentda {target}, {tg} va {smm} bilan ishlaydi: narxlar xizmat sahifalarida, reklama byudjeti alohida, Telegram reklama esa brifdan keyin smeta bilan baholanadi. O‘quvchilar sonini oldindan kafolatlamaymiz. To‘g‘ridan-to‘g‘ri yozish qulayroq bo‘lsa — {contact}.",
       "links": [
         {
           "token": "target",
@@ -313,7 +313,7 @@
         {
           "token": "contact",
           "target": "#contact",
-          "anchor": "jamoa telefoni va e-mail"
+          "anchor": "jamoaning Telegram’i va e-mail manzili"
         }
       ]
     },

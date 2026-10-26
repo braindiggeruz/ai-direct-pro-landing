@@ -28,7 +28,14 @@ import type { Page, BlogArticle, BodyBlock, FaqItem, InternalLink, SourceReferen
 import { SITE_URL } from '../src/shared/site-config';
 import { LLM_MARKDOWN_BLOG_URLS, LLM_MARKDOWN_SLUGS_RU, LLM_MARKDOWN_SLUGS_UZ } from './llm-pages';
 import { publishedRelatedLinks } from './blog-related-links';
-import { STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import {
+  STUDIO_EMAIL,
+  STUDIO_PHONE,
+  STUDIO_PHONE_DISPLAY,
+  STUDIO_PHONE_PUBLIC,
+  STUDIO_TELEGRAM_HANDLE,
+  STUDIO_TELEGRAM_URL,
+} from '../src/shared/studio-contact';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const PAGES_DIR = path.join(ROOT, 'content', 'pages');
@@ -111,11 +118,15 @@ function sourcesMd(sources: SourceReference[] | undefined, locale: Locale): stri
   return [`\n## ${TEXT[locale].sources}\n`, ...live.map((s) => `- [${s.title.trim()}](${s.url})${s.note ? ` — ${s.note.trim()}` : ''}`)];
 }
 
-/** The studio's contact channels from content/global/site.json (src/shared/studio-contact.ts). */
+/**
+ * The studio's contact channels from content/global/site.json
+ * (src/shared/studio-contact.ts): the Telegram and the e-mail, and the phone
+ * only while it is public (owner order of 26.10.2026: visitors write, not call).
+ */
 const CONTACTS = [
-  `[${STUDIO_PHONE_DISPLAY}](tel:${STUDIO_PHONE})`,
+  ...(STUDIO_PHONE_PUBLIC ? [`[${STUDIO_PHONE_DISPLAY}](tel:${STUDIO_PHONE})`] : []),
+  ...(STUDIO_TELEGRAM_URL ? [`[Telegram ${STUDIO_TELEGRAM_HANDLE}](${STUDIO_TELEGRAM_URL})`] : []),
   `[${STUDIO_EMAIL}](mailto:${STUDIO_EMAIL})`,
-  ...(STUDIO_TELEGRAM_URL ? [`[Telegram](${STUDIO_TELEGRAM_URL})`] : []),
 ].join(' · ');
 
 function tail(url: string, locale: Locale): string[] {

@@ -9,10 +9,11 @@
 // "Здравствуйте" that has to be asked about.
 //
 // Which account that is comes from content/global/site.json `studioTelegram`
-// (src/shared/studio-contact.ts). It is empty while the studio has no work
-// account (paid-chat plan, decision L14): studioTelegramHref() then returns
-// null, every caller offers the phone and e-mail instead, and
-// withStudioTelegramPrefill() has nothing to rewrite.
+// (src/shared/studio-contact.ts): since the owner's order of 26.10.2026 the
+// owner's own account, the studio's public contact. Were it
+// emptied, studioTelegramHref() would return null, every caller would offer
+// the e-mail (and the phone, while it is public) instead, and
+// withStudioTelegramPrefill() would have nothing to rewrite.
 //
 // Used by scripts/prerender.ts (landings), scripts/prerender-blog.ts (articles
 // and blog indexes), scripts/contact-card.ts and scripts/lead-form.ts. The ten
@@ -72,6 +73,21 @@ export function isProtectedPath(path: string): boolean {
 // breadcrumb label is a section name («O‘zbekcha bo‘lim»), not a service, so a
 // draft built from it would read oddly; it keeps the bare link like "/".
 const BARE_LINK_PATHS: ReadonlySet<string> = new Set(['/uz/']);
+
+/**
+ * The studio link a template writes for a document at `path`: the draft,
+ * except on the protected pages and /uz/, which keep the bare link (as
+ * withStudioTelegramPrefill leaves them). null while no Telegram is configured.
+ */
+export function studioTelegramLinkFor(
+  locale: 'ru' | 'uz',
+  label: string,
+  path: string,
+  studio: string | null = STUDIO_TELEGRAM_URL,
+): string | null {
+  if (!studio) return null;
+  return isProtectedPath(path) || BARE_LINK_PATHS.has(path) ? studio : prefilled(studio, locale, label, path);
+}
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 

@@ -56,12 +56,14 @@ GA4 не видит тех, кто блокирует аналитику. Поэ
 
 `chat_opened`, `chat_limit_hit`, `lead_form_success`, `calculator_lead_success`, `telegram_cta_studio`, `phone_click`. Лиды = `lead_form_success` + `calculator_lead_success`: форма чата теперь шлёт и `lead_form_success`, калькулятор — нет, двойного счёта нет. `chat_opened` — раз за просмотр, `chat_limit_hit` — раз на причину за просмотр. Блок Метрики в `<head>` не менялся. Полный каталог — `docs/analytics/yandex-metrika-111312750/README.md` §4.
 
+**С 26.10.2026 телефон снят с сайта** (поручение владельца: «чтобы писали, а не звонили»; `content/global/site.json` `phonePublic: false`, `studioTelegram` = https://t.me/XGame_changerx). На публичных страницах больше нет ссылок `tel:` (кроме реквизитов в оферте и политиках конфиденциальности и утверждённой редакции оферты), поэтому `phone_click` (Метрика) и событие `phone_click` в dataLayer больше не срабатывают: обработчики оставлены как есть, они безвредны и оживут, если телефон вернут. Сигнал контакта теперь — клик по Telegram студии: каждая такая ссылка несёт `data-contact="studio"`, из неё приходят `contact_click` (GA4, `contact_method: telegram`) и цель Метрики `telegram_cta_studio` (вместе с `telegram_cta_click`). Сравнивая периоды, учитывайте: до 26.10 контакт — `phone_click`, после — `telegram_cta_studio` / `contact_click`.
+
 ## Что сделать владельцу (после выката R3)
 
 1. GTM `GTM-NLR4WFX8`: убрать второй тег GA4, иначе `page_view` считается дважды.
 2. GA4: зарегистрировать пользовательские параметры (custom dimensions, уровень события) `reason`, `from`, `provider`, `source`, `status`, а после R6 и `topic`. После выпуска chat-UX NOW ещё `in_app`: `telegram` (браузер Telegram на Android: в user agent есть `Telegram-Android` или в окне есть `TelegramWebviewProxy`), `instagram`, `other`. Telegram на iOS по user agent не отличить от Safari, он попадает в `other`. Событие `purchase` отметить ключевым (key event) после первой живой покупки. Прежние имена параметров не были зарегистрированы, поэтому переименование ничего не ломает.
 3. Метрика, счётчик 111312750: создать цели «JavaScript-событие» `chat_opened` и `chat_limit_hit` (остальные четыре уже есть).
-4. После выката этапа B монетизации (26.10.2026): в GA4 зарегистрировать параметр `role_id` (если ещё нет) и `correct` (числовой, у `quiz_finished`). События виджетов — обычные, не ключевые: ключевыми остаются `purchase`, `generate_lead`, `checkout_started`, `telegram_cta_clicked` и клик по телефону (роадмап §7.1). В Метрику виджеты не шлют ничего: её каталог целей закрыт.
+4. После выката этапа B монетизации (26.10.2026): в GA4 зарегистрировать параметр `role_id` (если ещё нет) и `correct` (числовой, у `quiz_finished`). События виджетов — обычные, не ключевые: ключевыми остаются `purchase`, `generate_lead`, `checkout_started`, `telegram_cta_clicked` и клик по телефону (роадмап §7.1); с 26.10.2026 телефона на сайте нет, контакт — клик по Telegram студии (`contact_click` / `telegram_cta_studio`, см. выше). В Метрику виджеты не шлют ничего: её каталог целей закрыт.
 
 ## Проверка после деплоя
 

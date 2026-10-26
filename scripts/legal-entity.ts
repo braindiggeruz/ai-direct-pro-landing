@@ -6,7 +6,11 @@
 // business.json (plan §7, outside Git) and saying so in `_source`. The e-mail
 // and the phone are not copied into it: they are the studio contact of
 // content/global/site.json (src/shared/studio-contact.ts), so a new contact
-// stays a one-line change.
+// stays a one-line change. The phone stays in this block although it is no
+// public contact since the owner's order of 26.10.2026 (site.json
+// `phonePublic: false`): the block renders only inside the legal documents
+// (the offer and the privacy policies), where it is a requisite of the seller
+// and the data operator, and the approved offer edition names it.
 //
 // A page asks for the block with `requisites`; scripts/prerender.ts renders it
 // after the body and refuses to build a page that asks for it while any field

@@ -253,7 +253,15 @@ test('(e) the product is «AI-пакет» / «AI paket»: no GPT, Plus, Pro, ob
   assert.match(offers.uz.h1, /AI paket/);
   for (const doc of [...Object.values(offers), ...Object.values(policies)]) {
     assert.doesNotMatch(text(doc), /\bPlus\b|\bPro\b|obuna|подписк|Day Pass/i, doc.url);
-    assert.doesNotMatch(JSON.stringify(doc), /t\.me\/|XGame_changerx/i, `${doc.url}: no personal Telegram (L14)`);
+  }
+  // The offers are the approved edition: no Telegram. The policies name the
+  // studio Telegram for data requests since the owner's order of 26.10.2026,
+  // as text, never as a link out of the legal document.
+  for (const doc of Object.values(offers)) assert.doesNotMatch(JSON.stringify(doc), /t\.me\/|XGame_changerx/i, `${doc.url}: the approved edition names no Telegram`);
+  for (const doc of Object.values(policies)) {
+    assert.doesNotMatch(JSON.stringify(doc), /t\.me\//i, doc.url);
+    assert.match(text(doc), /@XGame_changerx/, `${doc.url}: the Telegram for data requests`);
+    assert.doesNotMatch(JSON.stringify(doc), /505870720|50 587 07 20/, `${doc.url}: the phone stays in the requisites block only`);
   }
   // The offer states what GPTBot.uz is not.
   assert.match(text(offers.ru), /не является продуктом OpenAI и не даёт доступа к ChatGPT/);
@@ -322,8 +330,8 @@ test('(h) a paid pack is not refundable: two narrow exceptions, said the same in
   // pricing page says it too. The panel points a payment problem to the studio.
   assert.equal(accountStrings('ru').noRefund, 'Деньги за оплаченный пакет не возвращаются: он начинает действовать сразу после оплаты.');
   assert.equal(accountStrings('uz').noRefund, 'To‘langan paket uchun pul qaytarilmaydi: u to‘lovdan keyin darhol amal qila boshlaydi.');
-  assert.equal(accountStrings('ru').supportLabel, 'Проблема с оплатой? Напишите или позвоните:');
-  assert.equal(accountStrings('uz').supportLabel, 'To‘lovda muammo bormi? Yozing yoki qo‘ng‘iroq qiling:');
+  assert.equal(accountStrings('ru').supportLabel, 'Проблема с оплатой? Напишите нам:'); // e-mail and Telegram since 26.10.2026
+  assert.equal(accountStrings('uz').supportLabel, 'To‘lovda muammo bormi? Bizga yozing:');
   const pricing = text(page('ru/tarify-ai-chat'));
   assert.ok(pricing.includes('Оплаченный AI-пакет не возвращается: он начинает действовать сразу после оплаты. Деньги, списанные по ошибке, возвращаются.'));
   assert.doesNotMatch(pricing, /Запросить возврат|неиспользованн/);

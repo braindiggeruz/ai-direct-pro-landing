@@ -320,14 +320,21 @@ export interface GlobalSEO {
    */
   knowsAbout?: string[];
   logo: string;
+  /** The studio phone. Public only while `phonePublic` is true; always in the legal requisites. */
   phone?: string;
+  /**
+   * false (owner order of 26.10.2026): no public surface shows the phone or a
+   * tel: link, JSON-LD has no telephone; visitors write to `studioTelegram`
+   * or the e-mail instead (src/shared/studio-contact.ts).
+   */
+  phonePublic?: boolean;
   /** The studio's public e-mail (contact card, landing footer, llms.txt). */
   email?: string;
   /**
-   * The studio's WORK Telegram (https://t.me/<handle>), or "" when there is
+   * The studio's public Telegram (https://t.me/<handle>), or "" when there is
    * none. The one setting behind every studio Telegram link on the site and
-   * in the chat (src/shared/studio-contact.ts). Empty means no Telegram is
-   * offered at all: phone, e-mail and forms remain (plan L14).
+   * in the chat (src/shared/studio-contact.ts). Since 26.10.2026 the owner's
+   * account, named by the owner as the public contact (supersedes plan L14).
    */
   studioTelegram?: string;
   /** Named expert/founder used as Article author (Person) for E-E-A-T. */

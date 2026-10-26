@@ -28,6 +28,7 @@ import {
   STUDIO_EMAIL,
   STUDIO_PHONE,
   STUDIO_PHONE_DISPLAY,
+  STUDIO_PHONE_PUBLIC,
   STUDIO_TELEGRAM_URL,
 } from '../src/shared/studio-contact';
 import { SITE_CHAT_NAV } from '../src/shared/site-chat-nav';
@@ -135,13 +136,22 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
     .map((a) => `<li><a href="${escapeHtml(a.url)}" hreflang="uz">${escapeText(a.title || a.h1)}</a></li>`)
     .join('');
 
-  // The phone, the e-mail and, once content/global/site.json names one, the
-  // studio's work Telegram (src/shared/studio-contact.ts) — the same links as
-  // the contact section and the footer of the React landing.
+  // The studio Telegram and the e-mail (src/shared/studio-contact.ts), and the
+  // phone only while it is public (owner order of 26.10.2026: visitors write,
+  // not call) — the same links as the contact section and the footer of the
+  // React landing, in the same order.
+  const telegramLink = (text: string) => `<a ${STUDIO_CONTACT_ATTR} href="${escapeHtml(STUDIO_TELEGRAM_URL ?? '')}" target="_blank" rel="nofollow noopener noreferrer">${escapeText(text)}</a>`;
   const contacts = [
-    `<a href="tel:${STUDIO_PHONE}">${escapeText(RU.final.call)}: ${escapeText(STUDIO_PHONE_DISPLAY)}</a>`,
+    ...(STUDIO_PHONE_PUBLIC ? [`<a href="tel:${STUDIO_PHONE}">${escapeText(RU.final.call)}: ${escapeText(STUDIO_PHONE_DISPLAY)}</a>`] : []),
+    ...(STUDIO_TELEGRAM_URL && !STUDIO_PHONE_PUBLIC ? [telegramLink(RU.final.telegram)] : []),
     `<a href="mailto:${escapeHtml(STUDIO_EMAIL)}">E-mail: ${escapeText(STUDIO_EMAIL)}</a>`,
-    ...(STUDIO_TELEGRAM_URL ? [`<a ${STUDIO_CONTACT_ATTR} href="${escapeHtml(STUDIO_TELEGRAM_URL)}" rel="nofollow noopener noreferrer">${escapeText(RU.final.telegram)}</a>`] : []),
+    ...(STUDIO_TELEGRAM_URL && STUDIO_PHONE_PUBLIC ? [telegramLink(RU.final.telegram)] : []),
+  ];
+  const footerContacts = [
+    ...(STUDIO_PHONE_PUBLIC ? [`<a data-testid="footer-call-cta" href="tel:${STUDIO_PHONE}">${escapeText(STUDIO_PHONE_DISPLAY)}</a>`] : []),
+    ...(STUDIO_TELEGRAM_URL && !STUDIO_PHONE_PUBLIC ? [telegramLink('Telegram')] : []),
+    `<a href="mailto:${escapeHtml(STUDIO_EMAIL)}">${escapeText(STUDIO_EMAIL)}</a>`,
+    ...(STUDIO_TELEGRAM_URL && STUDIO_PHONE_PUBLIC ? [telegramLink('Telegram')] : []),
   ];
 
   // Single self-contained fallback block. index.html contains a tiny critical
@@ -232,17 +242,15 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
 
   <footer>
     <p>GPTBot.uz · ${escapeHtml(global.address || 'Tashkent, Uzbekistan')} · Пн–Сб 10:00–19:00</p>
-    <!-- NAP: the phone belongs here too, same as the real footer and the sticky
-         bar. This shell is the no-JS / crawler view of the homepage, so it is
-         the only NAP a crawler that does not execute JavaScript will ever see.
-         No gtag handler on purpose: this block is only visible when JavaScript
-         is unavailable, so any onclick here would be dead code. -->
+    <!-- NAP: the contacts belong here too, same as the real footer and the
+         sticky bar. This shell is the no-JS / crawler view of the homepage, so
+         it is the only NAP a crawler that does not execute JavaScript will
+         ever see. No gtag handler on purpose: this block is only visible when
+         JavaScript is unavailable, so any onclick here would be dead code. -->
     <p>
-      <a data-testid="footer-call-cta" href="tel:${STUDIO_PHONE}">${escapeText(STUDIO_PHONE_DISPLAY)}</a>
+      ${footerContacts.join(`
       ·
-      <a href="mailto:${escapeHtml(STUDIO_EMAIL)}">${escapeText(STUDIO_EMAIL)}</a>${STUDIO_TELEGRAM_URL ? `
-      ·
-      <a ${STUDIO_CONTACT_ATTR} href="${escapeHtml(STUDIO_TELEGRAM_URL)}" rel="nofollow noopener noreferrer">Telegram</a>` : ''}
+      `)}
     </p>
   </footer>
 </div>`;

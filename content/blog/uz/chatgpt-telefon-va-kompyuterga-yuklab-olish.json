@@ -44,13 +44,13 @@
       "links": [
         {
           "token": "call",
-          "target": "tel:+998505870720",
-          "anchor": "Qo‘ng‘iroq qilish"
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram’da"
         },
         {
           "token": "mail",
           "target": "mailto:ceo@gptbot.uz",
-          "anchor": "e-mail yozish"
+          "anchor": "e-mail orqali yozing"
         }
       ]
     },
@@ -162,13 +162,13 @@
       "links": [
         {
           "token": "call",
-          "target": "tel:+998505870720",
-          "anchor": "Qo‘ng‘iroq qilish"
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "Telegram’da"
         },
         {
           "token": "mail",
           "target": "mailto:ceo@gptbot.uz",
-          "anchor": "e-mail yozish"
+          "anchor": "e-mail orqali yozing"
         }
       ]
     },

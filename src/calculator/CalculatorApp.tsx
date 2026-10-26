@@ -3,7 +3,13 @@ import { track } from '../lib/cta';
 import { shouldTrackLead, type LeadAcknowledgement } from '../shared/lead-conversion';
 import { prepareLeadRequest, postLeadJson, type LeadRequestAttempt } from '../shared/lead-client';
 import { readFirstTouch, leadAttribution, leadUtm } from '../shared/lead-attribution';
-import { STUDIO_CONTACT_PROPS, STUDIO_EMAIL, STUDIO_PHONE, STUDIO_PHONE_DISPLAY, STUDIO_TELEGRAM_URL } from '../shared/studio-contact';
+import {
+  STUDIO_CONTACT_PROPS,
+  STUDIO_EMAIL,
+  STUDIO_PUBLIC_PHONE,
+  STUDIO_TELEGRAM_HANDLE,
+  STUDIO_TELEGRAM_URL,
+} from '../shared/studio-contact';
 import { reachYandexGoal, YANDEX_GOALS } from '../lib/analytics/yandexMetrika';
 import {
   buildEstimateSummary,
@@ -31,6 +37,17 @@ const SEND_HOW = SEND_BY_TELEGRAM
   ? 'по кнопке ниже расчёт скопируется, останется вставить его в сообщение'
   : `по кнопке ниже откроется письмо на ${STUDIO_EMAIL} с расчётом внутри`;
 
+/**
+ * Where an urgent visitor goes when the form refuses new requests: the studio
+ * Telegram (owner order of 26.10.2026: visitors write, not call), the phone
+ * only while it is public, otherwise the e-mail.
+ */
+const URGENT = STUDIO_TELEGRAM_URL
+  ? { how: `напишите в Telegram ${STUDIO_TELEGRAM_HANDLE}`, href: STUDIO_TELEGRAM_URL, label: 'Написать в Telegram' }
+  : STUDIO_PUBLIC_PHONE
+    ? { how: `позвоните: ${STUDIO_PUBLIC_PHONE.display}`, href: `tel:${STUDIO_PUBLIC_PHONE.tel}`, label: `Позвонить: ${STUDIO_PUBLIC_PHONE.display}` }
+    : { how: `напишите на ${STUDIO_EMAIL}`, href: `mailto:${STUDIO_EMAIL}`, label: `Написать на ${STUDIO_EMAIL}` };
+
 function sendEstimateHref(summary: string): string {
   if (STUDIO_TELEGRAM_URL) return STUDIO_TELEGRAM_URL;
   const subject = 'Расчёт Telegram-бота с сайта GPTBot.uz';
@@ -41,7 +58,7 @@ const LEAD_ERROR_TEXT: Record<LeadError, string> = {
   form: 'Укажите контакт и подтвердите согласие.',
   contact: 'Не получилось распознать контакт. Укажите телефон в формате +998… или Telegram-ник @username — или отправьте расчёт напрямую.',
   turnstile: `Форма временно просит дополнительную проверку. Отправьте расчёт напрямую: ${SEND_HOW}.`,
-  rate_limited: `Форма временно не принимает новые заявки — возможно, вы уже отправляли расчёт. Если нужно срочно, позвоните: ${STUDIO_PHONE_DISPLAY}.`,
+  rate_limited: `Форма временно не принимает новые заявки — возможно, вы уже отправляли расчёт. Если нужно срочно, ${URGENT.how}.`,
   failed: `Не удалось отправить заявку. Отправьте расчёт напрямую: ${SEND_HOW}.`,
   uncertain: `Не удалось подтвердить получение заявки. Она могла сохраниться. Повторите отправку без изменения данных — повторную заявку мы не создадим. Или отправьте расчёт напрямую: ${SEND_HOW}.`,
 };
@@ -477,10 +494,11 @@ export default function CalculatorApp() {
                       <p>{LEAD_ERROR_TEXT[leadError]}</p>
                       {leadError === 'rate_limited' ? (
                         <a
-                          href={`tel:${STUDIO_PHONE}`}
+                          href={URGENT.href}
+                          {...(STUDIO_TELEGRAM_URL ? { ...STUDIO_CONTACT_PROPS, target: '_blank', rel: 'nofollow noopener noreferrer' } : {})}
                           className="mt-1 inline-flex min-h-11 items-center font-semibold text-brand-cyan underline underline-offset-4 hover:no-underline"
                         >
-                          Позвонить: {STUDIO_PHONE_DISPLAY}
+                          {URGENT.label}
                         </a>
                       ) : leadError !== 'form' && (
                         <a

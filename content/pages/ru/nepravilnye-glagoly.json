@@ -200,13 +200,13 @@
       "links": [
         {
           "token": "call",
-          "target": "tel:+998505870720",
-          "anchor": "позвоните нам"
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "напишите нам в Telegram"
         },
         {
           "token": "mail",
           "target": "mailto:ceo@gptbot.uz",
-          "anchor": "напишите на ceo@gptbot.uz"
+          "anchor": "на e-mail ceo@gptbot.uz"
         },
         {
           "token": "tariffs",

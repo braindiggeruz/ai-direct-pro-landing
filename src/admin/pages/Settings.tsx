@@ -61,7 +61,9 @@ export default function Settings() {
           <div><Label>Studio Telegram <span className="text-white/40 text-xs">(https://t.me/handle, empty = none)</span></Label><Input value={data.studioTelegram || ''} onChange={(e) => set('studioTelegram', e.target.value)}/></div>
           <div><Label>E-mail</Label><Input value={data.email || ''} onChange={(e) => set('email', e.target.value)}/></div>
           <div><Label>Instagram</Label><Input value={data.instagram || ''} onChange={(e) => set('instagram', e.target.value)}/></div>
-          <div><Label>Phone</Label><Input value={data.phone || ''} onChange={(e) => set('phone', e.target.value)}/></div>
+          {/* Legal requisites only while site.json phonePublic is false
+              (owner order of 26.10.2026: visitors write, not call). */}
+          <div><Label>Phone <span className="text-white/40 text-xs">(requisites; public only if phonePublic)</span></Label><Input value={data.phone || ''} onChange={(e) => set('phone', e.target.value)}/></div>
           <div><Label>Address</Label><Input value={data.address || ''} onChange={(e) => set('address', e.target.value)}/></div>
           <div className="sm:col-span-2"><Label>sameAs <span className="text-white/40 text-xs">(comma-separated URLs)</span></Label>
             <Input value={(data.sameAs || []).join(', ')} onChange={(e) => set('sameAs', e.target.value.split(',').map((s) => s.trim()).filter(Boolean))}/></div>

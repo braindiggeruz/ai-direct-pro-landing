@@ -317,7 +317,7 @@
     },
     {
       "type": "p",
-      "text": "Kompaniya Toshkentda ishlaydi va mijozlarni ofis manzilida qabul qiladi. Uchrashuvni oldindan kelishib olgan ma’qul — qo‘ng‘iroq qiling yoki e-mail yozing. O‘zbekistonning boshqa shaharlaridagi kompaniyalar bilan masofadan ishlaymiz: muhokama, joriy etish va qo‘llab-quvvatlash onlayn o‘tadi."
+      "text": "Kompaniya Toshkentda ishlaydi va mijozlarni ofis manzilida qabul qiladi. Uchrashuvni oldindan kelishib olgan ma’qul — Telegram’da yoki e-mail orqali yozing. O‘zbekistonning boshqa shaharlaridagi kompaniyalar bilan masofadan ishlaymiz: muhokama, joriy etish va qo‘llab-quvvatlash onlayn o‘tadi."
     },
     {
       "type": "list",
@@ -325,7 +325,7 @@
         "Nomi: Boss Digital",
         "Kategoriya: marketing agentligi / digital-agentlik",
         "Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent, O‘zbekiston",
-        "Telefon: +998 50 587 07 20",
+        "Telegram: @XGame_changerx",
         "Ish vaqti: 10:00–19:00 (dolzarb jadval — Google kartochkasida)",
         "Xizmat hududi: Toshkent va butun O‘zbekiston (masofadan)"
       ]
@@ -343,7 +343,7 @@
       "type": "list",
       "items": [
         "Boss Digital, Toshkent, O‘zbekiston",
-        "Telefon: +998 50 587 07 20",
+        "Telegram: @XGame_changerx",
         "E-mail: ceo@gptbot.uz",
         "Manzil: Yahyo Gulyamov ko‘chasi 35, Toshkent",
         "Ish vaqti: 10:00–19:00",
@@ -405,7 +405,7 @@
     },
     {
       "q": "Ishni qanday boshlash mumkin?",
-      "a": "+998 50 587 07 20 raqamiga qo‘ng‘iroq qiling, ceo@gptbot.uz manziliga yozing yoki shu sahifadagi formada ariza qoldiring. Vazifani muhokama qilamiz, murojaatlar bilan ishlash jarayonini ko‘rib chiqamiz va aniq yechim taklif qilamiz."
+      "a": "Telegram’da (@XGame_changerx) yoki ceo@gptbot.uz manziliga yozing yoxud shu sahifadagi formada ariza qoldiring. Vazifani muhokama qilamiz, murojaatlar bilan ishlash jarayonini ko‘rib chiqamiz va aniq yechim taklif qilamiz."
     }
   ],
   "internalLinks": [
@@ -468,7 +468,6 @@
       "url": "https://gptbot.uz/boss-digital/",
       "description": "Boss Digital — Toshkentdagi digital-agentlik: saytlar, raqamli yechimlar va biznesni avtomatlashtirish tizimlari. GPTBot.uz — kompaniyaning biznesni AI-avtomatlashtirish bo‘yicha ixtisoslashgan yo‘nalishi.",
       "image": "https://gptbot.uz/assets/landing/og.jpg",
-      "telephone": "+998505870720",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Yahyo Gulyamov ko‘chasi 35",
@@ -493,7 +492,8 @@
         {
           "@type": "ContactPoint",
           "contactType": "customer support",
-          "telephone": "+998505870720",
+          "email": "ceo@gptbot.uz",
+          "url": "https://t.me/XGame_changerx",
           "availableLanguage": [
             "Russian",
             "Uzbek"

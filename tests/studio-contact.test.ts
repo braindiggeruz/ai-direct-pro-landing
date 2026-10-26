@@ -1,31 +1,36 @@
-// How visitors reach the studio (paid-chat plan WP-11 and WP-12, decision L14).
+// How visitors reach the studio: the owner's order of 26.10.2026.
 //
 // Run: node --import tsx --test tests/studio-contact.test.ts
 //
-// One setting, content/global/site.json `studioTelegram`, decides whether the
-// site offers a Telegram contact at all (src/shared/studio-contact.ts). No work
-// account has been named, so it is empty and the owner's personal account is
-// gone from the whole site: WP-11 moved the unprotected pages, WP-12 the ten
-// protected pages, the templates they share (homepage, AI-chat pages, blog),
-// the click handlers in <head> and the blog articles. Calls to action lead to
-// a lead form or to a contact card (phone and e-mail); naming a work account
-// later puts Telegram back everywhere with one edit. Every link to it carries
-// the studio-contact marker the analytics count. The guard at the end lists
-// the few places the handle still lives, all of them other products or code
-// outside the build.
+// «На всех формах и вообще где мой номер — грамотно замени на мой Telegram,
+// чтобы писали, а не звонили … Только аккуратнее, чтобы SEO не нарушилось.»
+// Two settings in content/global/site.json decide every studio contact on the
+// site (src/shared/studio-contact.ts): `studioTelegram`, now the owner's
+// https://t.me/XGame_changerx (the order supersedes paid-chat decision L14,
+// under which that account was no public contact), and `phonePublic: false`,
+// which takes the phone and every tel: link off the public surfaces. The
+// number stays in site.json for the legal requisites only. Every link to the
+// Telegram carries the studio-contact marker the analytics count.
+//
+// Legal exceptions, kept on purpose: the approved offer edition
+// (/ru/oferta/, /uz/oferta/, ai-paket-2026-10-v5) renders with the contacts it
+// was approved with (OFFER_EDITION_CONTACT), and the requisites block of the
+// offer and of the privacy policies keeps the phone as a requisite.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 
 import site from '../content/global/site.json';
-import { email, phone, studioTelegram } from '../content/global/site.json';
+import { email, phone, phonePublic, studioTelegram } from '../content/global/site.json';
 import {
   formatUzPhone,
   STUDIO_CONTACT_ATTR,
   STUDIO_EMAIL,
   STUDIO_PHONE,
   STUDIO_PHONE_DISPLAY,
+  STUDIO_PHONE_PUBLIC,
+  STUDIO_TELEGRAM_HANDLE,
   STUDIO_TELEGRAM_URL,
   studioTelegramUrl,
 } from '../src/shared/studio-contact';
@@ -33,17 +38,28 @@ import {
   articleLinksContactCard,
   CONTACT_ANCHOR,
   contactCardHtml,
+  isStudioTelegramHref,
   linksContactCard,
+  OFFER_EDITION_CONTACT,
+  pageContact,
   renderContactCard,
+  SITE_CONTACT,
+  stickyContactBar,
   studioFooterLinks,
 } from '../scripts/contact-card';
+import { buildOrganizationLd } from '../scripts/jsonld-helpers';
 import { leadFormServiceFor } from '../scripts/lead-form';
+import { PROTECTED_PATHS } from '../scripts/seo-protection';
 import { studioTelegramHref } from '../scripts/telegram-cta';
-import type { BlogArticle, Page } from '../src/shared/types';
+import type { BlogArticle, GlobalSEO, Page } from '../src/shared/types';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const PERSONAL = /XGame_changerx/i;
+const OWNER = 'https://t.me/XGame_changerx';
+const HANDLE = /XGame_changerx/;
 const WORK = 'https://t.me/studio_work';
+/** The phone in any written shape: digits, spaced display, tel: link. */
+const PHONE = /505870720|50 587 07 20|tel:\+?998/;
+const TELEGRAM_REL = 'target="_blank" rel="nofollow noopener noreferrer"';
 
 function listFiles(dir: string, ext: RegExp): string[] {
   return fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true }).flatMap((entry) => {
@@ -59,20 +75,26 @@ const ARTICLES = listFiles('content/blog', /\.json$/).map((file) => ({ file, art
 /** GPTBot Market is a separate product with its own template and support channel. */
 const isMarket = (page: Page) => page.designVariant === 'warm-market-signals';
 const SITE_PAGES = PAGES.filter(({ page }) => !isMarket(page));
+/** The approved offer edition: its content source stays as approved. */
+const isOffer = (page: Page) => Boolean(page.termsVersion);
 
-test('one setting: the studio Telegram is empty or a valid work handle, never the personal account', () => {
-  assert.equal(typeof studioTelegram, 'string');
-  assert.ok(studioTelegram === '' || studioTelegramUrl(studioTelegram) !== null, `invalid studioTelegram: ${studioTelegram}`);
+test('two settings: the owner Telegram is the public contact, the phone is not public', () => {
+  assert.equal(studioTelegram, OWNER);
   assert.equal(STUDIO_TELEGRAM_URL, studioTelegramUrl(studioTelegram));
-  assert.doesNotMatch(studioTelegram, PERSONAL, 'the personal account is not a studio contact (L14)');
-  assert.equal(STUDIO_TELEGRAM_URL, null, 'no work Telegram has been named yet');
+  assert.equal(STUDIO_TELEGRAM_URL, OWNER);
+  assert.equal(STUDIO_TELEGRAM_HANDLE, '@XGame_changerx');
+  assert.equal(phonePublic, false);
+  assert.equal(STUDIO_PHONE_PUBLIC, false);
+  assert.deepEqual(SITE_CONTACT, { phone: false, telegram: OWNER });
+  assert.deepEqual(OFFER_EDITION_CONTACT, { phone: true, telegram: null });
 });
 
-test('site.json keeps no second contact: the legacy telegram field, defaultCTA and the personal sameAs are gone', () => {
+test('site.json keeps no second contact: the legacy telegram field, defaultCTA and a Telegram sameAs are gone', () => {
   const global = site as Record<string, unknown>;
   assert.ok(!('telegram' in global), 'telegram');
   assert.ok(!('defaultCTA' in global), 'defaultCTA');
-  assert.doesNotMatch(JSON.stringify(global), PERSONAL);
+  // The handle lives in one setting: studioTelegram, not sameAs or businessProfiles.
+  assert.equal(JSON.stringify(global).match(/XGame_changerx/g)?.length, 1);
   assert.deepEqual(global.sameAs, ['https://github.com/braindiggeruz']);
   // The admin edits the one setting, not the field it replaced.
   const settings = read('src/admin/pages/Settings.tsx');
@@ -90,9 +112,11 @@ test('the setting is parsed strictly: only https://t.me/<public handle> becomes 
     'https://t.me/+invite_hash', 'https://evil.example/studio_work', 'https://t.me/studio work', 'https://t.me/1studio']) {
     assert.equal(studioTelegramUrl(bad), null, bad);
   }
+  assert.ok(isStudioTelegramHref(OWNER) && isStudioTelegramHref(`${OWNER}?text=x`) && isStudioTelegramHref(`${OWNER}/`));
+  assert.ok(!isStudioTelegramHref('https://t.me/XGame_changerx_bot') && !isStudioTelegramHref('https://t.me/gptbotuz_bot'));
 });
 
-test('phone and e-mail come from the same file', () => {
+test('the phone and the e-mail still come from the same file: the phone for the legal requisites', () => {
   assert.equal(STUDIO_PHONE, phone);
   assert.equal(STUDIO_PHONE, '+998505870720');
   assert.equal(STUDIO_PHONE_DISPLAY, '+998 50 587 07 20');
@@ -102,79 +126,95 @@ test('phone and e-mail come from the same file', () => {
   assert.equal(STUDIO_EMAIL, 'ceo@gptbot.uz');
 });
 
-test('no page or article names or links the personal account, and no contact button promises Telegram', () => {
-  // A button to the studio leads to a form or a card, neither of which is
-  // Telegram while none is configured. Buttons to the bot may say Telegram.
-  const studio = (href?: string) => href === '#lead-form' || href === CONTACT_ANCHOR;
-  const viaTelegram = / в Telegram$|Telegram[’']?da |Telegramda /;
+test('no page or article outside the offer names the phone or links tel:', () => {
+  let offers = 0;
+  for (const { file, page } of PAGES) {
+    if (isOffer(page)) { offers += 1; continue; }
+    assert.doesNotMatch(read(file), PHONE, file);
+  }
+  assert.equal(offers, 2, 'the two offers are the only exception');
+  for (const { file } of ARTICLES) assert.doesNotMatch(read(file), PHONE, file);
+});
+
+test('every content link to the owner account is the bare studio Telegram, no draft and no other path', () => {
+  let links = 0;
+  const check = (file: string, target?: string) => {
+    if (!target || !HANDLE.test(target)) return;
+    links += 1;
+    assert.equal(target, OWNER, `${file}: ${target}`);
+  };
   for (const { file, page } of SITE_PAGES) {
-    assert.doesNotMatch(read(file), PERSONAL, file);
     for (const block of page.bodyBlocks || []) {
-      if (block.type === 'cta' && studio(block.href)) assert.doesNotMatch(block.text || '', viaTelegram, `${file}: ${block.text}`);
+      check(file, block.href);
+      for (const link of block.links || []) check(file, link.target);
     }
-    if (studio(page.ctaPrimaryHref)) assert.doesNotMatch(page.ctaPrimaryLabel || '', viaTelegram, `${file}: ${page.ctaPrimaryLabel}`);
   }
   for (const { file, article } of ARTICLES) {
-    assert.doesNotMatch(read(file), PERSONAL, file);
     for (const block of article.body || []) {
-      if (block.type === 'cta' && studio(block.href)) assert.doesNotMatch(block.text || '', viaTelegram, `${file}: ${block.text}`);
+      check(file, block.href);
+      for (const link of block.links || []) check(file, link.target);
     }
-    if (studio(article.cta?.href)) assert.doesNotMatch(article.cta!.label, viaTelegram, `${file}: ${article.cta!.label}`);
   }
+  // 32 «call us» links became Telegram links on 26.10.2026.
+  assert.ok(links >= 30, `only ${links} content links to the studio Telegram`);
 });
 
-test('no page tells a visitor to write to the studio in Telegram while none is configured', () => {
-  // Body copy as well as buttons: "Вы пишете нам в Telegram" or "Borisga
-  // Telegram orqali yuboring" sends a visitor to a channel the page no longer
-  // offers. Sentences about the assistant bot or a client's own Telegram do
-  // not address the studio and are not matched.
-  assert.equal(STUDIO_TELEGRAM_URL, null, 'with a work account configured, review this guard');
-  const writeToStudio = new RegExp([
-    '(?:пишете|напишите|пишите|откройте)(?: нам)? (?:в |через )?Telegram',
-    '(?:нам|Борису) в Telegram',
-    'Telegram[’\']?(?:ga|da) yoz(?:asiz|ing)',
-    'Telegram orqali (?:yozing|yuboring|bog‘laning)',
-    'Telegramda (?:yozing|bog‘laning)',
-  ].join('|'), 'i');
-  for (const { file } of SITE_PAGES) assert.doesNotMatch(read(file), writeToStudio, file);
+test('no page or article invites the visitor to call the studio', () => {
+  // The studio speaking: «позвоните нам», «Позвоните +998…», «по телефону или
+  // e-mail», «bizga qo‘ng‘iroq qiling», «Telefon: …». Pages about a client's
+  // own calls («менеджер позвонит», «qo‘ng‘iroqlar jurnali») are not matched;
+  // the offer keeps the approved edition's wording.
+  const callStudio = new RegExp([
+    'позвон(?:ите|ить)(?: нам|:| или напишите)',
+    '(?:^|"|[.!?]\\s)Позвоните',
+    'или позвоните',
+    'звоните нам',
+    'по телефону(?: \\+998| или e-mail)',
+    'поговорить голосом',
+    '(?<!«)[Bb]izga qo[‘\']ng[‘\']iroq qil',
+    'qo[‘\']ng[‘\']iroq qiling(?: yoki e-mail|, ceo@|\\.")',
+    'Qo[‘\']ng[‘\']iroq qilish(?: qulayroq|")',
+    'Telefonda gaplashish',
+    'telefoni (?:yoki ceo|orqali bog)',
+    '(?:Telefon|Телефон):? \\+998',
+  ].join('|'));
+  for (const { file, page } of SITE_PAGES) {
+    if (isOffer(page)) continue;
+    assert.doesNotMatch(read(file), callStudio, file);
+  }
+  for (const { file } of ARTICLES) assert.doesNotMatch(read(file), callStudio, file);
 });
 
-test('no article asks the reader to contact the studio in Telegram', () => {
-  // Articles explain Telegram itself ("Откройте Telegram и найдите @BotFather")
-  // and clients' Telegram channels ("пишете в Telegram компании"), so the
-  // pattern here only matches the studio speaking: "напишите нам в Telegram",
-  // "в Telegram по кнопке ниже", "Telegram’da muhokama qilamiz". Checked against
-  // the articles before WP-12 (e11524f0): it flags 29 of them, and none now.
-  assert.equal(STUDIO_TELEGRAM_URL, null, 'with a work account configured, review this guard');
-  const studioSpeaks = new RegExp([
-    'напишите(?: нам)? в Telegram',
-    'нам в Telegram',
-    'в Telegram по кнопке',
-    'в Telegram, ответим',
-    'Telegram[’\'‘]?(?:ga|da) yozing',
-    'Telegram[’\'‘]?da muhokama qil(?:amiz|ish mumkin|ib)',
-    'Telegram orqali (?:yozing|bog‘laning)',
-  ].join('|'), 'i');
-  for (const { file } of ARTICLES) assert.doesNotMatch(read(file), studioSpeaks, file);
-});
-
-test('the e-mail that replaced Telegram reads as Russian, not as a swapped word', () => {
-  // «обсудить в Telegram» rewritten word for word leaves «обсудить в E-mail»
-  // (an article FAQ shipped in WP-12 like that); in Russian one writes
-  // «по e-mail» or «на e-mail».
+test('the e-mail that replaced the phone reads as Russian, not as a swapped word', () => {
+  // «обсудить в Telegram» rewritten word for word leaves «обсудить в E-mail»;
+  // in Russian one writes «по e-mail» or «на e-mail».
   const swapped = /(?:обсудить|написать|напишите|пишите)(?: нам)? в e-?mail/i;
   for (const { file } of [...ARTICLES, ...SITE_PAGES]) assert.doesNotMatch(read(file), swapped, file);
 });
 
-test('llms.txt and llms-full.txt name the same phone and e-mail, and no Telegram while none is configured', () => {
+test('the Uzbek copy writes Telegram’da with the tutuq belgisi (U+2019), never Telegramda or an ASCII apostrophe', () => {
+  for (const { file } of [...ARTICLES, ...SITE_PAGES].filter(({ file }) => file.includes('/uz/'))) {
+    assert.doesNotMatch(read(file), /Telegram(?:da|'da|‘da) (?:yoz|\()/, file);
+  }
+  for (const file of ['scripts/contact-card.ts', 'scripts/lead-form.ts', 'scripts/prerender.ts', 'src/components/StickyCTA.tsx',
+    'src/components/Footer.tsx', 'src/i18n.ts']) {
+    assert.doesNotMatch(read(file), /Telegramda yoz/, file);
+  }
+});
+
+test('llms.txt and llms-full.txt name the Telegram and the e-mail, and no phone', () => {
   for (const file of ['public/llms.txt', 'public/llms-full.txt']) {
     const text = read(file);
-    assert.ok(text.includes(STUDIO_PHONE_DISPLAY), `${file}: phone`);
+    assert.ok(text.includes(STUDIO_TELEGRAM_HANDLE!), `${file}: Telegram`);
     assert.ok(text.includes(STUDIO_EMAIL), `${file}: e-mail`);
+    assert.doesNotMatch(text, PHONE, file);
   }
-  // llms.txt is hand-written, so naming a work account in site.json must come
-  // with an edit of its contact section, or assistants keep saying there is none.
-  assert.equal(read('public/llms.txt').includes('publishes no Telegram account of its own'), STUDIO_TELEGRAM_URL === null);
+  // llms.txt is hand-written: it tells assistants the studio takes no calls,
+  // so an older number in their memory is not repeated.
+  const llms = read('public/llms.txt');
+  assert.ok(llms.includes(`| Telegram (public, write) | ${STUDIO_TELEGRAM_HANDLE} — ${OWNER} |`));
+  assert.ok(llms.includes('GPTBot.uz publishes no phone number for calls'));
+  assert.ok(!llms.includes('publishes no Telegram account of its own'));
 });
 
 test('every #lead-form link is on a page that renders the form, and every #contact link has its card', () => {
@@ -193,18 +233,17 @@ test('every #lead-form link is on a page that renders the form, and every #conta
       assert.equal(renderContactCard(page), '', `${file}: a card nothing links to`);
     }
   }
-  // 70 until 2026-10-26, when the 27 niche AI-bot pages and four form pages
-  // whose last call to action still pointed at the card moved to the form.
   assert.ok(contact >= 39, `only ${contact} pages link the contact card`);
 });
 
-test('the AI-chat pages link no in-page card: their summary has no CTA row, so their copy names phone and e-mail itself', () => {
+test('the AI-chat pages link no in-page card: their copy names the Telegram and the e-mail itself', () => {
   for (const { file, page } of SITE_PAGES.filter(({ page }) => page.pageType === 'gpt-chat')) {
     const hrefs = [page.ctaPrimaryHref, page.ctaSecondaryHref,
       ...(page.bodyBlocks || []).flatMap((block) => [block.href, ...(block.links || []).map((link) => link.target)])];
     assert.ok(!hrefs.includes(CONTACT_ANCHOR) && !hrefs.includes('#lead-form'), file);
-    assert.ok(hrefs.includes(`tel:${STUDIO_PHONE}`), `${file}: phone`);
+    assert.ok(hrefs.includes(OWNER), `${file}: Telegram`);
     assert.ok(hrefs.includes(`mailto:${STUDIO_EMAIL}`), `${file}: e-mail`);
+    assert.ok(!hrefs.some((href) => href?.startsWith('tel:')), `${file}: no phone`);
   }
 });
 
@@ -212,8 +251,6 @@ test('an article that links #contact gets the card, and its own call to action n
   let linking = 0;
   for (const { file, article } of ARTICLES) {
     if (article.status !== 'published') continue;
-    // prerender-blog.ts: without its own CTA (and without a chat entry) the
-    // header button leads to the card.
     const headerHref = article.cta?.href || CONTACT_ANCHOR;
     if (articleLinksContactCard(article, headerHref)) linking += 1;
     for (const block of article.body || []) {
@@ -226,69 +263,115 @@ test('an article that links #contact gets the card, and its own call to action n
     }
   }
   assert.ok(linking >= 150, `only ${linking} articles link the contact card`);
-  const one = { url: '/ru/blog/x/', locale: 'ru', h1: 'X', body: [{ type: 'p', text: 'x' }] } as unknown as BlogArticle;
-  assert.equal(articleLinksContactCard(one, '/ru/gpt-chat/'), false, 'a chat entry in the header links no card');
-  assert.equal(articleLinksContactCard({ ...one, cta: { label: 'Связаться', href: CONTACT_ANCHOR } }, '/ru/gpt-chat/'), true);
-  assert.equal(articleLinksContactCard(one, CONTACT_ANCHOR), true);
 });
 
-test('the contact card offers the phone and the e-mail, and Telegram only once one is configured', () => {
-  // The clinic pages that served here carry the lead form since 2026-10-26
-  // (the 27 niche AI-bot pages, scripts/lead-form.ts); the WhatsApp pages
-  // still link the card.
+test('the contact card offers the Telegram first and the e-mail; the phone only with the switch or the offer edition', () => {
   const ru = PAGES.find(({ page }) => page.url === '/ru/whatsapp-bot-dlya-biznesa/')!.page;
   const uz = PAGES.find(({ page }) => page.url === '/uz/whatsapp-bot-biznes-uchun/')!.page;
   const card = renderContactCard(ru);
-  assert.ok(card.includes(`href="tel:${STUDIO_PHONE}"`));
-  assert.ok(card.includes(`Позвонить: ${STUDIO_PHONE_DISPLAY}`));
+  const href = studioTelegramHref('ru', ru.breadcrumbLabel || ru.h1, ru.url, OWNER)!.replace(/&/g, '&amp;');
+  assert.ok(card.includes(`<a data-testid="contact-telegram" ${STUDIO_CONTACT_ATTR} href="${href}" ${TELEGRAM_REL} class="btn-primary`), card);
+  assert.ok(card.includes('>Написать в Telegram</a>'));
+  assert.ok(card.includes(`Напишите в Telegram ${STUDIO_TELEGRAM_HANDLE} или на e-mail — ответим в рабочее время, Пн–Сб 10:00–19:00.`));
   assert.ok(card.includes(`href="mailto:${STUDIO_EMAIL}"`));
-  assert.ok(card.includes('Пн–Сб 10:00–19:00'));
-  assert.doesNotMatch(card, /t\.me|Telegram/);
+  assert.ok(card.indexOf('contact-telegram') < card.indexOf('contact-email'), 'Telegram first');
+  assert.doesNotMatch(card, PHONE);
   assert.equal((card.match(/min-h-\[44px\]/g) ?? []).length, 2, 'two 44 px targets');
   assert.match(card, /aria-labelledby="contact-heading"/);
 
   const uzCard = renderContactCard(uz);
-  assert.ok(uzCard.includes(`Qo‘ng‘iroq qilish: ${STUDIO_PHONE_DISPLAY}`));
+  assert.ok(uzCard.includes('>Telegram’da yozish</a>'));
+  assert.ok(uzCard.includes(`Telegram’da (${STUDIO_TELEGRAM_HANDLE}) yoki e-mail orqali yozing — ish vaqtida javob beramiz: Du–Sha 10:00–19:00.`));
   assert.ok(uzCard.includes('GPTBot.uz bilan bog‘lanish'));
-  assert.ok(uzCard.includes('Du–Sha 10:00–19:00'));
+  assert.doesNotMatch(uzCard, PHONE);
 
-  // The one-line change: a configured work account joins the card, with the
-  // same prefilled draft the rest of the site uses and the studio marker.
-  const withWork = renderContactCard(ru, WORK);
-  const href = studioTelegramHref('ru', ru.breadcrumbLabel || ru.h1, ru.url, WORK)!;
-  assert.ok(withWork.includes(`${STUDIO_CONTACT_ATTR} href="${href.replace(/&/g, '&amp;')}"`));
-  assert.ok(withWork.includes('target="_blank" rel="nofollow noopener noreferrer"'));
-  assert.ok(withWork.includes('Написать в Telegram'));
-  assert.ok(renderContactCard(uz, WORK).includes('Telegramda yozish'));
-  // The same card on an article, keyed by its URL and H1.
-  const article = contactCardHtml({ url: '/uz/blog/x/', locale: 'uz', label: 'AI-chat nima' }, WORK);
-  assert.ok(article.includes(studioTelegramHref('uz', 'AI-chat nima', '/uz/blog/x/', WORK)!.replace(/&/g, '&amp;')));
+  // The switch: phonePublic true brings the phone back first, Telegram beside it.
+  const withPhone = renderContactCard(ru, { phone: true, telegram: OWNER });
+  assert.ok(withPhone.includes(`href="tel:${STUDIO_PHONE}"`) && withPhone.includes(`Позвонить: ${STUDIO_PHONE_DISPLAY}`));
+  assert.ok(withPhone.includes(`${STUDIO_CONTACT_ATTR} href="${href}"`));
+  // No Telegram and no phone: the e-mail alone, said honestly.
+  const mailOnly = renderContactCard(ru, { phone: false, telegram: null });
+  assert.doesNotMatch(mailOnly, /t\.me|tel:|Telegram/);
+  assert.ok(mailOnly.includes('Напишите на e-mail — ответим'));
+  // Protected pages keep the bare link in the card (the draft names the page).
+  assert.ok(contactCardHtml({ url: PROTECTED_PATHS[0], locale: 'uz', label: 'x' }).includes(`href="${OWNER}"`));
 });
 
-test('footers list phone and e-mail, and the work Telegram with its marker once configured', () => {
-  const now = studioFooterLinks('hover:text-white', { phoneTestId: 'footer-call-cta' });
-  assert.ok(now.includes(`data-testid="footer-call-cta" href="tel:${STUDIO_PHONE}"`));
-  assert.ok(now.includes(`>${STUDIO_PHONE_DISPLAY}</a>`));
+test('the approved offer edition renders the card, footer and Organization as approved: phone and e-mail, no Telegram', () => {
+  const offers = PAGES.filter(({ page }) => isOffer(page)).map(({ page }) => page);
+  assert.deepEqual(offers.map((page) => page.url).sort(), ['/ru/oferta/', '/uz/oferta/']);
+  for (const page of offers) {
+    assert.equal(page.termsVersion, 'ai-paket-2026-10-v5');
+    assert.deepEqual(pageContact(page), OFFER_EDITION_CONTACT);
+    const card = renderContactCard(page);
+    assert.ok(card.includes(`data-testid="contact-phone" href="tel:${STUDIO_PHONE}"`), page.url);
+    assert.ok(card.includes(page.locale === 'uz' ? 'Qo‘ng‘iroq qiling yoki yozing' : 'Позвоните или напишите'), page.url);
+    assert.doesNotMatch(card, /t\.me|data-contact/, page.url);
+  }
+  const org = buildOrganizationLd(site as unknown as GlobalSEO, OFFER_EDITION_CONTACT);
+  assert.equal(org.telephone, STUDIO_PHONE);
+  assert.deepEqual(org.contactPoint, { '@type': 'ContactPoint', contactType: 'sales', telephone: STUDIO_PHONE, email: STUDIO_EMAIL, availableLanguage: ['Russian', 'Uzbek'] });
+});
+
+test('the Organization node: no telephone, a customer-support contactPoint with the e-mail and the Telegram url', () => {
+  const org = buildOrganizationLd(site as unknown as GlobalSEO);
+  assert.ok(!('telephone' in org));
+  assert.deepEqual(org.contactPoint, { '@type': 'ContactPoint', contactType: 'customer support', email: STUDIO_EMAIL, url: OWNER, availableLanguage: ['Russian', 'Uzbek'] });
+  assert.equal(org.email, STUDIO_EMAIL);
+  // NAP: name and address stay as they were.
+  assert.equal(org.name, 'GPTBot.uz');
+  assert.deepEqual(org.address, { '@type': 'PostalAddress', addressLocality: 'Toshkent', addressCountry: 'UZ',
+    ...((site as unknown as GlobalSEO).streetAddress ? { streetAddress: (site as unknown as GlobalSEO).streetAddress } : {}) });
+});
+
+test('Boss Digital JSON-LD: no telephone, its contactPoint carries the e-mail and the Telegram url; name and address unchanged', () => {
+  for (const file of ['content/pages/ru/boss-digital.json', 'content/pages/uz/boss-digital.json']) {
+    const page = JSON.parse(read(file)) as Page & { extraJsonLd: Array<Record<string, unknown>> };
+    const node = page.extraJsonLd.find((n) => n['@id'] === 'https://gptbot.uz/boss-digital/#boss-digital')!;
+    assert.ok(!JSON.stringify(node).includes('telephone'), file);
+    assert.equal(node.name, 'Boss Digital');
+    assert.deepEqual(node.address, { '@type': 'PostalAddress', streetAddress: 'Yahyo Gulyamov ko‘chasi 35', addressLocality: 'Tashkent', addressCountry: 'UZ' });
+    assert.deepEqual(node.contactPoint, [{ '@type': 'ContactPoint', contactType: 'customer support', email: STUDIO_EMAIL, url: OWNER, availableLanguage: ['Russian', 'Uzbek'] }]);
+  }
+});
+
+test('footers list the Telegram with its marker and the e-mail; the phone only with the switch', () => {
+  const now = studioFooterLinks('hover:text-white', { phoneTestId: 'footer-call-cta', telegramTestId: 'footer-telegram-cta' });
+  assert.ok(now.startsWith(`<a data-testid="footer-telegram-cta" ${STUDIO_CONTACT_ATTR} href="${OWNER}" rel="nofollow noopener noreferrer" target="_blank"`), now);
   assert.ok(now.includes(`href="mailto:${STUDIO_EMAIL}"`));
-  assert.doesNotMatch(now, /t\.me|Telegram|data-contact/);
-  const later = studioFooterLinks('hover:text-white', { studio: WORK });
-  assert.ok(later.includes(`<a ${STUDIO_CONTACT_ATTR} href="${WORK}" rel="nofollow noopener noreferrer" target="_blank"`));
+  assert.doesNotMatch(now, PHONE);
+  // The offer edition: exactly the footer it was approved with.
+  assert.equal(studioFooterLinks('hover:text-white', { contact: OFFER_EDITION_CONTACT }),
+    `<a href="tel:${STUDIO_PHONE}" class="hover:text-white">${STUDIO_PHONE_DISPLAY}</a>\n      <a href="mailto:${STUDIO_EMAIL}" class="hover:text-white">${STUDIO_EMAIL}</a>`);
+});
+
+test('the mobile bar: «Написать в Telegram» takes the row, the form beside it; the phone only with the switch', () => {
+  const ru = stickyContactBar('ru');
+  assert.ok(ru.includes(`<a data-testid="sticky-telegram-cta" ${STUDIO_CONTACT_ATTR} href="${OWNER}" ${TELEGRAM_REL} class="bg-grad-cta`), ru);
+  assert.ok(ru.includes('>Написать в Telegram</a>') && ru.includes('grid-cols-1'));
+  assert.doesNotMatch(ru, PHONE);
+  const uz = stickyContactBar('uz', { leadForm: true });
+  assert.ok(uz.includes('>Telegram’da yozish</a>') && uz.includes('data-testid="sticky-form-cta" href="#lead-form"') && uz.includes('grid-cols-[1fr_auto]'));
+  const legacy = stickyContactBar('ru', { leadForm: true, contact: { phone: true, telegram: null } });
+  assert.ok(legacy.includes(`data-testid="sticky-call-cta" href="tel:${STUDIO_PHONE}"`) && legacy.includes('>Позвонить</a>'));
+  assert.equal(stickyContactBar('ru', { contact: { phone: false, telegram: null } }), '', 'no direct contact, no bar');
 });
 
 test('every surface takes the contact from the one module and marks a studio Telegram link', () => {
-  // Readers of src/shared/studio-contact.ts.
   for (const file of ['src/calculator/CalculatorApp.tsx', 'src/gpt-chat/contact.ts', 'src/components/FinalCTA.tsx',
-    'src/components/Footer.tsx', 'src/components/StickyCTA.tsx']) {
-    assert.match(read(file), /from '\.\.\/shared\/studio-contact'/, file);
+    'src/components/Footer.tsx', 'src/components/StickyCTA.tsx', 'src/gpt-chat/account/PackPanel.tsx']) {
+    const source = read(file);
+    assert.match(source, /from ['"]\.\.\/(?:\.\.\/)?shared\/studio-contact['"]/, file);
+    assert.doesNotMatch(source, HANDLE, `${file} hard-codes the handle`);
   }
   for (const file of ['scripts/lead-form.ts', 'scripts/contact-card.ts', 'scripts/telegram-cta.ts', 'scripts/prerender.ts',
     'scripts/prerender-blog.ts', 'scripts/prerender-home.ts', 'scripts/generate-llm-markdown.ts']) {
     assert.match(read(file), /from '\.\.\/src\/shared\/studio-contact'/, file);
   }
-  // Each place that can render the work Telegram marks it for the analytics
+  // Each place that renders the Telegram marks it for the analytics
   // (contact_click and telegram_cta_studio key off the marker, not a handle).
   for (const file of ['src/calculator/CalculatorApp.tsx', 'src/components/FinalCTA.tsx', 'src/components/Footer.tsx',
-    'src/components/StickyCTA.tsx', 'src/gpt-chat/components/AiLeadForm.tsx']) {
+    'src/components/StickyCTA.tsx', 'src/gpt-chat/components/AiLeadForm.tsx', 'src/gpt-chat/account/PackPanel.tsx']) {
     assert.match(read(file), /STUDIO_CONTACT_PROPS/, file);
   }
   assert.match(read('src/gpt-chat/components/AiTelegramCta.tsx'), /data-contact=\{link\.channel === 'studio' \? 'studio' : undefined\}/);
@@ -296,9 +379,21 @@ test('every surface takes the contact from the one module and marks a studio Tel
     assert.match(read(file), /STUDIO_CONTACT_ATTR/, file);
   }
   assert.match(read('scripts/lead-form.ts'), /a\.setAttribute\('data-contact','studio'\)/);
+  assert.match(read('apps/studio/scripts/studio-page.ts'), /data-contact="studio"/);
+  // Every phone renderer asks the switch first.
+  for (const file of ['src/components/FinalCTA.tsx', 'src/components/Footer.tsx', 'src/components/StickyCTA.tsx',
+    'src/calculator/CalculatorApp.tsx', 'src/gpt-chat/account/PackPanel.tsx', 'src/gpt-chat/contact.ts', 'scripts/prerender-home.ts',
+    'scripts/generate-llm-markdown.ts', 'scripts/contact-card.ts', 'scripts/lead-form.ts']) {
+    assert.match(read(file), /STUDIO_PHONE_PUBLIC|STUDIO_PUBLIC_PHONE/, file);
+  }
+  // Browser code reads only STUDIO_PUBLIC_PHONE, so its bundles carry no number while it is null.
+  for (const file of ['src/components/FinalCTA.tsx', 'src/components/Footer.tsx', 'src/components/StickyCTA.tsx',
+    'src/calculator/CalculatorApp.tsx', 'src/gpt-chat/account/PackPanel.tsx', 'src/gpt-chat/contact.ts']) {
+    assert.doesNotMatch(read(file), /STUDIO_PHONE(?:_DISPLAY)?\b/, file);
+  }
 });
 
-test('the homepage sends every demo button to its contact section, not to Telegram', () => {
+test('the homepage sends every demo button to its contact section; the section leads with the Telegram', () => {
   assert.match(read('src/lib/cta.ts'), /export const CONTACT_HREF = '#contact';/);
   for (const file of ['src/components/Header.tsx', 'src/components/Hero.tsx', 'src/components/Solution.tsx',
     'src/components/DemoChat.tsx', 'src/components/Offer.tsx', 'src/components/Footer.tsx']) {
@@ -308,20 +403,23 @@ test('the homepage sends every demo button to its contact section, not to Telegr
   }
   const finalCta = read('src/components/FinalCTA.tsx');
   assert.match(finalCta, /<section id="contact"/);
-  assert.match(finalCta, /href=\{`tel:\$\{STUDIO_PHONE\}`\}/);
+  assert.match(finalCta, /\{STUDIO_PUBLIC_PHONE \? \(/, 'the phone only with the switch');
   assert.match(finalCta, /href=\{`mailto:\$\{STUDIO_EMAIL\}`\}/);
-  assert.match(finalCta, /\{STUDIO_TELEGRAM_URL && \(/, 'Telegram only once one is configured');
-  // The crawler shell says what the landing says (tests/homepage-crawler-shell.test.ts).
+  assert.match(finalCta, /STUDIO_PUBLIC_PHONE \? 'btn-secondary[^']*' : 'btn-primary/, 'without the phone the Telegram is primary');
   const shell = read('scripts/prerender-home.ts');
   assert.match(shell, /<section id="contact" aria-labelledby="contact-heading">/);
   assert.match(shell, /<a href="#contact">\$\{escapeText\(RU\.hero\.cta\)\}<\/a>/);
-  // A scroll to the contact section is not a lead: no Meta Lead from the browser.
   assert.doesNotMatch(read('src/lib/cta.ts'), /'Lead'/);
 });
 
-// Where the personal handle may still appear, and why. Anything else in
-// src/, scripts/, functions/ or public/ fails here.
-const LEGACY = new Map<string, string>([
+// Where the handle is written. The studio contact reaches every page through
+// src/shared/studio-contact.ts; any other source file that writes the handle
+// is another product, a hand-written text or code outside the build.
+const HANDLE_FILES = new Map<string, string>([
+  ['public/llms.txt', 'hand-written: the studio contact for assistants'],
+  ['public/llms-full.txt', 'hand-written opening of the superset'],
+  // The header comment records the owner's order of 26.10.2026; the code reads site.json.
+  ['src/shared/studio-contact.ts', 'comment: the decision record'],
   // A separate product with its own support channel.
   ['scripts/market-page.ts', 'GPTBot Market footer'],
   ['functions/platform/bunzy/content.ts', 'Bunzy'],
@@ -338,7 +436,7 @@ const LEGACY = new Map<string, string>([
   ['scripts/research-data.json', 'content generator data'],
 ]);
 
-test('the personal handle survives only where another product or code outside the build owns it', () => {
+test('the handle is written only in site.json, the hand-written llms texts and code outside the studio contact', () => {
   const files = [
     ...listFiles('src', /\.(tsx?|json)$/),
     ...listFiles('scripts', /\.(tsx?|json|mjs)$/),
@@ -346,24 +444,100 @@ test('the personal handle survives only where another product or code outside th
     ...listFiles('public', /\.(txt|html|json)$/),
     'index.html',
   ];
-  const found = files.filter((file) => PERSONAL.test(read(file)));
-  assert.deepEqual(found.filter((file) => !LEGACY.has(file)), [], 'a new place links the personal account');
-  for (const file of LEGACY.keys()) assert.ok(found.includes(file), `${file} no longer needs its exemption — remove it`);
+  const found = files.filter((file) => HANDLE.test(read(file)));
+  assert.deepEqual(found.filter((file) => !HANDLE_FILES.has(file)), [], 'a new place hard-codes the handle; read it from studio-contact');
+  for (const file of HANDLE_FILES.keys()) assert.ok(found.includes(file), `${file} no longer needs its entry — remove it`);
 });
+
+// ── The built site ───────────────────────────────────────────────────────────
 
 const DIST = path.join(ROOT, 'dist');
 const built = fs.existsSync(path.join(DIST, 'ru', 'gpt-chat', 'index.html'));
+const MARKET = new Set(PAGES.filter(({ page }) => isMarket(page)).map(({ page }) => `dist${page.url}index.html`));
+const OFFERS = new Set(['dist/ru/oferta/index.html', 'dist/uz/oferta/index.html']);
+const POLICIES = new Set(['dist/ru/politika-konfidentsialnosti/index.html', 'dist/uz/maxfiylik-siyosati/index.html']);
+/** The requisites block of a legal document: the one place the phone stays (scripts/legal-entity.ts). */
+const withoutRequisites = (html: string) => html.replace(/<section id="requisites"[\s\S]*?<\/section>/, '');
+/** The page's markup without <script> elements: the head click handlers name tel: and the marker in code. */
+const markup = (html: string) => html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
 
-test('built site: only GPTBot Market names the personal account, and every #contact link has one card', { skip: !built && 'no dist/ build present' }, () => {
-  const market = new Set(PAGES.filter(({ page }) => isMarket(page)).map(({ page }) => `dist${page.url}index.html`));
+test('built site: no public page outside the legal exceptions names the phone or links tel:', { skip: !built && 'no dist/ build present' }, () => {
   let documents = 0;
   for (const file of listFiles('dist', /\.(html|md|txt|xml)$/)) {
-    const text = read(file);
+    if (OFFERS.has(file)) continue;
+    const text = POLICIES.has(file) ? withoutRequisites(read(file)) : read(file);
     documents += 1;
-    if (!market.has(file)) assert.doesNotMatch(text, PERSONAL, file);
-    if (file.endsWith('.html') && text.includes(`href="${CONTACT_ANCHOR}"`)) {
+    assert.doesNotMatch(markup(text), PHONE, file);
+    assert.ok(!text.includes('href="tel:'), file);
+  }
+  assert.ok(documents > 250, `only ${documents} built documents`);
+  for (const file of POLICIES) {
+    // The requisites block keeps the operator's phone; the text names Telegram for data requests.
+    const html = read(file);
+    assert.match(html, /data-testid="legal-requisites"[\s\S]*href="tel:\+998505870720"/, file);
+    assert.ok(html.includes('XGame_changerx'), file);
+  }
+});
+
+test('built site: the offers are the approved edition, with the phone and without the Telegram', { skip: !built && 'no dist/ build present' }, () => {
+  for (const file of OFFERS) {
+    const html = markup(read(file));
+    assert.ok(html.includes('data-terms-version="ai-paket-2026-10-v5"'), file);
+    assert.ok(html.includes(`href="tel:${STUDIO_PHONE}"`), file);
+    assert.doesNotMatch(html, HANDLE, file);
+  }
+});
+
+test('built site: every page with a contact surface links the studio Telegram with its marker and the Telegram rel', { skip: !built && 'no dist/ build present' }, () => {
+  let pages = 0;
+  for (const file of listFiles('dist', /\.html$/)) {
+    if (MARKET.has(file) || OFFERS.has(file)) continue;
+    const html = markup(read(file));
+    // A contact surface: the studio e-mail in a footer, card or contact line.
+    if (!html.includes(`mailto:${STUDIO_EMAIL}`)) continue;
+    pages += 1;
+    const links = html.match(/<a\b[^>]*href="https:\/\/t\.me\/XGame_changerx[^"]*"[^>]*>/g) ?? [];
+    assert.ok(links.length > 0, `${file}: no studio Telegram link`);
+    for (const tag of links) {
+      assert.ok(tag.includes(STUDIO_CONTACT_ATTR), `${file}: ${tag.slice(0, 120)}`);
+      assert.match(tag, /rel="nofollow noopener noreferrer"/, file);
+      assert.match(tag, /target="_blank"/, file);
+    }
+  }
+  assert.ok(pages > 250, `only ${pages} pages with a contact surface`);
+});
+
+test('built site: JSON-LD carries no telephone outside the offers; Organization and Boss Digital point to the Telegram', { skip: !built && 'no dist/ build present' }, () => {
+  let organizations = 0;
+  for (const file of listFiles('dist', /\.html$/)) {
+    if (OFFERS.has(file) || MARKET.has(file)) continue;
+    for (const [, json] of read(file).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      assert.ok(!json.includes('"telephone"'), file);
+      const graph = (JSON.parse(json)['@graph'] ?? [JSON.parse(json)]) as Array<Record<string, unknown>>;
+      for (const node of graph) {
+        if (node['@id'] === 'https://gptbot.uz/#org') {
+          organizations += 1;
+          assert.deepEqual(node.contactPoint, { '@type': 'ContactPoint', contactType: 'customer support', email: STUDIO_EMAIL, url: OWNER, availableLanguage: ['Russian', 'Uzbek'] }, file);
+        }
+        if (node['@id'] === 'https://gptbot.uz/boss-digital/#boss-digital') {
+          assert.deepEqual((node.contactPoint as Array<Record<string, unknown>>)[0].url, OWNER, file);
+        }
+      }
+    }
+  }
+  assert.ok(organizations > 250, `only ${organizations} Organization nodes`);
+});
+
+test('built site: protected pages link the bare Telegram (no draft) and every #contact link has one card', { skip: !built && 'no dist/ build present' }, () => {
+  for (const pathname of PROTECTED_PATHS) {
+    const html = read(`dist${pathname}index.html`);
+    assert.ok(html.includes(`href="${OWNER}"`), pathname);
+    assert.doesNotMatch(html, /t\.me\/XGame_changerx\?text=/, pathname);
+  }
+  for (const file of listFiles('dist', /\.html$/)) {
+    const text = read(file);
+    if (text.includes(`href="${CONTACT_ANCHOR}"`)) {
       assert.equal((text.match(/id="contact"/g) ?? []).length, 1, `${file}: #contact without exactly one card`);
     }
   }
-  assert.ok(documents > 250, `only ${documents} built documents`);
 });

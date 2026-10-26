@@ -30,9 +30,12 @@ import {
   CONTACT_ANCHOR,
   CONTACT_CTA_LABEL,
   contactCardHtml,
+  isStudioTelegramHref,
+  stickyContactBar,
   studioFooterLinks,
+  type ContactSet,
 } from './contact-card';
-import { STUDIO_CONTACT_ATTR, STUDIO_PHONE, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import { STUDIO_CONTACT_ATTR } from '../src/shared/studio-contact';
 import { SITE_CHAT_NAV, headerChatLink } from '../src/shared/site-chat-nav';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import {
@@ -195,12 +198,15 @@ function renderBlock(b: BodyBlock): string {
         if (!l.token || !l.target || !l.anchor) continue;
         const _ext = l.target.startsWith('http');
         const _lang = l.lang ? ` lang="${escapeHtml(l.lang)}" hreflang="${escapeHtml(l.lang)}"` : '';
-        const a = `<a href="${escapeHtml(l.target)}"${_ext ? ' rel="noopener noreferrer" target="_blank"' : ''}${_lang} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
+        // The studio Telegram (linked where the phone stood until 26.10.2026):
+        // the marker the head click handlers count and the site's Telegram rel.
+        const _rel = isStudioTelegramHref(l.target) ? ` ${STUDIO_CONTACT_ATTR} rel="nofollow noopener noreferrer" target="_blank"` : _ext ? ' rel="noopener noreferrer" target="_blank"' : '';
+        const a = `<a href="${escapeHtml(l.target)}"${_rel}${_lang} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
         html = html.split(`{${l.token}}`).join(a);
       }
       return `<p${blockLang(b)} class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
     }
-    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a data-testid="article-cta-inline" href="${escapeHtml(b.href || '#')}"${_isExt ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">${escapeText(b.text || 'Запустить')}</a></div>`; }
+    case 'cta': { const _isExt = (b.href || '').startsWith('http'); return `<div class="my-10"><a data-testid="article-cta-inline" href="${escapeHtml(b.href || '#')}"${isStudioTelegramHref(b.href || '') ? ` ${STUDIO_CONTACT_ATTR}` : ''}${_isExt ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="btn-primary text-base w-full sm:w-auto">${escapeText(b.text || 'Запустить')}</a></div>`; }
     case 'table': {
       const headers = b.headers || [];
       const rows = b.rows || [];
@@ -337,24 +343,20 @@ function buildJsonLd(a: BlogArticle, global: GlobalSEO): string {
 // Scoped by the topicCluster the content already declares, not by a slug guess,
 // and rendered with the same markup, classes, contact values and tracking
 // attributes as the bar in scripts/prerender.ts — same `.sticky-cta` rule in
-// src/index.css, same data-testids, the same phone and, once one is
-// configured, the same work Telegram (src/shared/studio-contact.ts); without
-// it the phone takes the whole bar (plan decision L14).
+// src/index.css, same data-testids (scripts/contact-card.ts stickyContactBar):
+// since the owner's order of 26.10.2026 «Написать в Telegram» takes the whole
+// bar, and the phone joins it only while it is public.
 const UZ_CHATGPT_CLUSTERS = new Set(['chatgpt-uzbek-tilida', 'chatgpt-ozbekistonda']);
 
 function showsStickyCta(a: BlogArticle): boolean {
   return Boolean(chatEntryForArticle(a.url)) || a.locale === 'uz' && UZ_CHATGPT_CLUSTERS.has(a.topicCluster || '');
 }
 
-function renderStickyCta(a: BlogArticle, studio: string | null = STUDIO_TELEGRAM_URL): string {
+function renderStickyCta(a: BlogArticle, contact?: ContactSet): string {
   if (!showsStickyCta(a)) return '';
   const entry = chatEntryForArticle(a.url);
   if (entry) return `<div class="sticky-cta lg:hidden article-chat-sticky"><a href="${chatEntryHref(entry)}" data-chat-entry="${entry.id}" class="article-chat-button">${entry.locale === 'ru' ? 'Открыть AI-чат' : 'AI-chatni ochish'} <span aria-hidden="true">↗</span></a></div>`;
-  const phoneLabel = a.locale === 'uz' ? 'Qo\u2018ng\u2018iroq qilish' : 'Позвонить';
-  const telegram = studio
-    ? `<a data-testid="sticky-telegram-cta" ${STUDIO_CONTACT_ATTR} href="${escapeHtml(studio)}" rel="nofollow noopener noreferrer" target="_blank" class="px-4 py-3 rounded-xl border border-white/15 text-white/80 text-sm">Telegram</a>`
-    : '';
-  return `<div class="sticky-cta lg:hidden grid ${telegram ? 'grid-cols-[1fr_auto]' : 'grid-cols-1'} gap-2 rounded-2xl border border-white/10 bg-bg-base/95 p-2 shadow-2xl backdrop-blur"><a data-testid="sticky-call-cta" href="tel:${STUDIO_PHONE}" class="bg-grad-cta text-bg-base font-semibold px-4 py-3 rounded-xl text-center text-sm">${escapeText(phoneLabel)}</a>${telegram}</div>`;
+  return stickyContactBar(a.locale === 'uz' ? 'uz' : 'ru', { contact });
 }
 
 function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publishedArticleUrls: ReadonlySet<string>): string {
@@ -379,7 +381,7 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publ
   // download guide (its P-CTR window).
   const headerChat = headerChatLink(lang, a.url);
   const endChatEntry = entry && a.cta && ['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/'].includes(a.cta.href) ? entry : undefined;
-  // The card (phone, e-mail, the work Telegram once configured) renders where
+  // The card (the studio Telegram and the e-mail) renders where
   // the end button stood, on every article that links "#contact"; an end CTA
   // that only pointed at it gives way to the card itself.
   const contactCard = articleLinksContactCard(a, headerCtaHref)

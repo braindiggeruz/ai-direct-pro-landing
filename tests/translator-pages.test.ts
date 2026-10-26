@@ -134,13 +134,14 @@ test('the Uzbek page writes o‘ g‘ with U+2018 and the tutuq with U+2019 only
   assert.match(cyrillic.text || '', /^Русча-ўзбекча таржимон:/);
 });
 
-test('contacts and links: phone and e-mail in the body, every target reachable, nothing broken once both publish', () => {
+test('contacts and links: Telegram and e-mail in the body, every target reachable, nothing broken once both publish', () => {
   // The studio's published pages (content/studio/pages) are served too: the
   // UZ page links the UZ tariff hub /uz/tariflar/ (monetization stage B).
   const served = new Set([...pages.filter((p) => p.status === 'published').map((p) => p.url), ...publishedStudioUrls(ROOT)]);
   for (const page of [ru, uz]) {
     const targets = linkTargets(page);
-    assert.ok(targets.includes('tel:+998505870720'), `${page.url}: phone`);
+    assert.ok(targets.includes('https://t.me/XGame_changerx'), `${page.url}: the studio Telegram (owner order of 26.10.2026)`);
+    assert.ok(!targets.some((t) => t.startsWith('tel:')), `${page.url}: no phone`);
     assert.ok(targets.includes('mailto:ceo@gptbot.uz'), `${page.url}: e-mail`);
     assert.ok(targets.includes(`#${UZ_TRANSLIT_ANCHOR}`), `${page.url}: the text points at the converter`);
     for (const target of targets.filter((t) => t.startsWith('/'))) {
