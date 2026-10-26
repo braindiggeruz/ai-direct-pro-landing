@@ -2945,10 +2945,17 @@
     "protectedRevision": "2026-10-26-address",
     "roadmap": "docs/seo/research/2026-10-26-top3-roadmap/ROADMAP_TOP3.md",
     "next": [
-      "R-S1b ≈08.11 after P-CTR reads ≈05–07.11",
       "R-S2 download guide 16.11",
       "UZ chat + kirish guide ≈25.11; RU chat ≈27.11–02.12",
       "Telegram Ads title after ≈22.11"
     ]
+  },
+  "rs1b_early_20261026": {
+    "status": "deployed_and_verified",
+    "deployment": "5a760212",
+    "sourceCommit": "720937883d3752a6ed3dcb9bc1f03a2f01f86fb8",
+    "releaseEvidence": "reports/rs1b-20261026/RELEASE.md",
+    "protectedRevision": "2026-10-26-rs1b",
+    "note": "shipped early on owner order; the ≈05–07.11 read measures R-S1 + R-S1b together"
   }
 }

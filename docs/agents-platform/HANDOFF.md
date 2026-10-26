@@ -1,6 +1,7 @@
 # HANDOFF — AI tool pages wave B: English tenses tutor, practice tests pilot, niche ad playbooks · 25.10.2026
 
 ## 1. Состояние
+DEPLOYED 26.10: R-S1b early (owner order), deployment 5a760212 from 72093788 (reports/rs1b-20261026/RELEASE.md). Next dated: R-S2 16.11, UZ chat + kirish guide ≈25.11, RU chat ≈27.11–02.12, Telegram Ads title after ≈22.11.
 DEPLOYED 26.10: TOP-3 steps A/B + studio address Kichik Xalqa Yo‘li 57, deployment 7b6cef54 from 77e54817 (reports/top3-stage1-20261026/RELEASE.md); next dated steps in ROADMAP_TOP3.md §4.
 DEPLOYED 26.10: owner phone replaced by Telegram, deployment a535be94 from 4b219a0c (reports/contact-telegram-20261026/RELEASE.md); phone only on the offers and the privacy-policy requisites.
 DEPLOYED 26.10: monetization stages A–B, deployment 853130c0 from d110b692, then acb2c864 from 4924c998 (lastmod + llms.txt); reports/monetization-20261026/RELEASE.md; IndexNow 54 URLs (indexnow.org 200, Yandex 202, Bing 200). Till untouched (offer v5, 20 000 / 300). Before 17.12: docs/paid-chat/MODEL-CLIFF-1712-RU.md.
