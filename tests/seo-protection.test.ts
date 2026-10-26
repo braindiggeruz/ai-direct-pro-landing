@@ -401,6 +401,73 @@ test('the AI-tools wave B revision changes only the homepage list: nine tool pag
   }
 });
 
+test('the monetization revision changes no contract: the ten keep contract and body text, the chats and the homepage move by one script name each', () => {
+  type Monetization = Revision & {
+    reviewedChanges: Array<{ pathname: string; fields: string[] }>;
+    invisibleToGate: Array<{ change: string; pages?: string[]; htmlSha256?: Record<string, string> }>;
+    measurement: string;
+    changedUnprotectedPages: Record<string, string[]>;
+    pages: Array<{ pathname: string; contract: Record<string, unknown>; bodyText: string; htmlSha256: string }>;
+  };
+  const WAVE_B = 'docs/seo/evidence/2026-10-25-ai-tools-b/reviewed-protected-pages.json';
+  const current = readRevision('docs/seo/evidence/2026-10-26-monetization/reviewed-protected-pages.json') as Monetization;
+  const previous = readRevision(WAVE_B) as Monetization;
+  assert.equal(current.previousRevision, WAVE_B);
+  assert.deepEqual(current.reviewedChanges, []);
+  // All ten keep contract and body text; the seven protected articles keep their HTML
+  // byte for byte (chat snippet window from 24.10, download guide P-CTR ≈06–10.11).
+  const chats = ['/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/'];
+  for (const page of current.pages) {
+    const before = previous.pages.find((p) => p.pathname === page.pathname)!;
+    assert.deepEqual(page.contract, before.contract, page.pathname);
+    assert.equal(page.bodyText, before.bodyText, page.pathname);
+    if (![...chats, '/'].includes(page.pathname)) assert.equal(page.htmlSha256, before.htmlSha256, page.pathname);
+  }
+  // The chats move by the chat bundle's name, the homepage by the SPA entry's name;
+  // each record carries the hashes before and after and names what it reviews.
+  const moved = [
+    { pages: chats, asset: /\/assets\/gpt-chat-[\w-]+\.js → \/assets\/gpt-chat-[\w-]+\.js/, commits: /c377b572.*40fbefbb.*fa309da1.*4d4c4e74/s },
+    { pages: ['/'], asset: /\/assets\/index-[\w-]+\.js → \/assets\/index-[\w-]+\.js/, commits: /87eb2728.*40fbefbb/s },
+  ];
+  for (const { pages, asset, commits } of moved) {
+    const record = current.invisibleToGate.find((c) => JSON.stringify(c.pages) === JSON.stringify(pages))!;
+    assert.ok(record, JSON.stringify(pages));
+    assert.match(record.change, asset);
+    assert.match(record.change, commits);
+    assert.match(record.change, /puts the old name back and requires the predecessor's htmlSha256/);
+    assert.deepEqual(Object.keys(record.htmlSha256!), pages);
+    for (const pathname of pages) {
+      const [before, after] = record.htmlSha256![pathname].split(' → ');
+      assert.equal(before, previous.pages.find((p) => p.pathname === pathname)!.htmlSha256, pathname);
+      assert.equal(after, current.pages.find((p) => p.pathname === pathname)!.htmlSha256, pathname);
+      assert.notEqual(before, after, pathname);
+    }
+  }
+  assert.match(current.invisibleToGate.find((c) => /no homepage list entry/i.test(c.change))?.change ?? '', /publishes no page/);
+  // The changed unprotected pages: none protected, each built and listed once.
+  const changed = Object.values(current.changedUnprotectedPages).flat();
+  assert.equal(changed.length, 54);
+  assert.equal(new Set(changed).size, changed.length);
+  for (const url of changed) {
+    assert.match(url, /^\/(ru|uz)\/[a-z0-9-]+\/$/, url);
+    assert.ok(!(PROTECTED_PATHS as readonly string[]).includes(url), url);
+  }
+  const invisible = current.invisibleToGate.map((c) => c.change).join('\n');
+  assert.match(invisible, /seven protected articles are byte-identical/);
+  assert.match(invisible, /index-B7Z1XlOc\.css/);
+  assert.match(invisible, /sitemap lastmod of \/ moves/);
+  assert.match(invisible, /llms\.txt, llms-full\.txt and robots\.txt are byte-identical/);
+  assert.match(current.measurement, /28-day window/);
+  assert.match(current.measurement, /No ranking or traffic guarantee/);
+  // Honesty: the record claims no answer-free tutoring and no translation quality.
+  for (const text of [invisible, current.measurement]) {
+    assert.doesNotMatch(text, /готовых ответов|tayyor javob bermaydi|translation quality|sifatli tarjima/i);
+  }
+  for (const text of [...current.invisibleToGate.map((c) => c.change), current.measurement]) {
+    assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+  }
+});
+
 test('the current revision documents every contract change against its predecessor, which stays untouched', () => {
   const current = readRevision(BASELINE);
   assert.ok(current.previousRevision && current.previousRevision !== BASELINE, 'a revision names its predecessor');

@@ -180,7 +180,18 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // byte for byte. The seven protected articles and the two chats are
 // byte-identical: the practice-quiz widget (205461eb) is its own entry and the
 // chat bundle keeps its name.
-export const BASELINE = 'docs/seo/evidence/2026-10-25-ai-tools-b/reviewed-protected-pages.json';
+// The 2026-10-26-monetization revision (owner order of 26.10: the monetization
+// roadmap's stages A and B) reviews no contract change: the release publishes
+// no page and edits no protected content file, so the ten keep their contract
+// and body text and the homepage lists stay as they are. Two shared script
+// names move: the chats' bundle (the chat code of c377b572, 40fbefbb, fa309da1
+// and 4d4c4e74) and the homepage's SPA entry (its lazy admin chunk changed in
+// 87eb2728 and 40fbefbb); the generator puts each old name back and requires
+// the predecessor's HTML byte for byte. The seven protected articles are
+// byte-identical. The 54 changed unprotected pages, the sitemap lastmod of /
+// and /ru/tarify-ai-chat/ and the updates feed stay outside the gate;
+// invisibleToGate lists them.
+export const BASELINE = 'docs/seo/evidence/2026-10-26-monetization/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
