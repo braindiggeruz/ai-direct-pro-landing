@@ -2639,7 +2639,10 @@
     "previousProduction": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
     "protectedBaseline": "docs/seo/evidence/2026-10-24-chat-snippets/reviewed-protected-pages.json",
     "research": "docs/seo/research/2026-10-24-snippets-translator/",
-    "changedFields": ["/ru/gpt-chat/: title, description", "/uz/gpt-uzbek-tilida/: title, description"],
+    "changedFields": [
+      "/ru/gpt-chat/: title, description",
+      "/uz/gpt-uzbek-tilida/: title, description"
+    ],
     "translatorBranch": "seo/translator-ru-uz-20261024 (draft, unpublished; gates: native-speaker blind check, free-quota decision)",
     "businessOutcomes": "Unmeasured: 28-day Uzbekistan CTR read after confirmed recrawl; no ranking or traffic guarantee."
   },
@@ -2730,7 +2733,10 @@
       "W1-14": "done: BreadcrumbList name outside PROTECTED_PATHS; /uz/ self-loop removed",
       "W1-15": "post-deploy: IndexNow with an explicit URL list, inspect after 14 days"
     },
-    "translatorPublication": ["/ru/russko-uzbekskiy-perevodchik/", "/uz/rus-ozbek-tarjimon/"],
+    "translatorPublication": [
+      "/ru/russko-uzbekskiy-perevodchik/",
+      "/uz/rus-ozbek-tarjimon/"
+    ],
     "protectedBaseline": "docs/seo/evidence/2026-10-24-wave1/reviewed-protected-pages.json",
     "protectedPreviousRevision": "docs/seo/evidence/2026-10-24-chat-snippets/reviewed-protected-pages.json",
     "protectedChange": "/ only: internalLinks 295 -> 297 and body text (+2 translator H1 labels); HTML otherwise byte for byte; 7 protected articles byte-identical; both chats differ only by the gpt-chat bundle name (translator merge)",
@@ -2760,7 +2766,11 @@
       "W2-06": "done: /uz/telegram-bot-biznes-uchun/ H1 «Telegram bot yaratish biznes uchun: arizalarni avtomatlashtirish», BotFather / no-code constructor / developer section with a 3-row table, link to /ru/blog/kak-sozdat-telegram-bota/, 2 FAQ; title, description, keywords, prices unchanged",
       "W2-07": "done: dist/llms-full.txt = cluster notes + llms.txt verbatim + index and bodies of the 28 Markdown twins (≈586 KB); twins drop links to unpublished articles; llms.txt +3 intent lines"
     },
-    "newUrls": ["/uz/blog/tavsifnoma-namuna/", "/uz/blog/rasmiy-xat-yozish/", "/uz/blog/tabrik-yozish/"],
+    "newUrls": [
+      "/uz/blog/tavsifnoma-namuna/",
+      "/uz/blog/rasmiy-xat-yozish/",
+      "/uz/blog/tabrik-yozish/"
+    ],
     "intentManifest": "pairs C49, C50, C51 (UZ chat as commercial side, manifest only) and C52 (tushuntirish/ariza guide vs rasmiy xat guide, DIFFERENTIATE)",
     "demandPolicy": "11 rows from l3-data (Google Ads, location 2860, 2026-10-24); «rasmiy xat yozish» recorded as 0 / UNMEASURED (no Ads bucket)",
     "protectedBaseline": "docs/seo/evidence/2026-10-24-wave1b/reviewed-protected-pages.json",
@@ -2890,5 +2900,29 @@
     "releaseGate": "owner command for build:production + deploy_runner.py check|deploy; recommended first: a native Uzbek read of the tenses pages and playbooks and a subject-teacher read of the 120 questions",
     "changeLog": "docs/seo/CHANGE_LOG_2026-10.md «AI-инструменты, волна B 25.10»",
     "notDone": "no deploy, push, IndexNow or URL Inspection; no further subjects or tenses before the pilot read; no links from the protected chats (after their 28-day window ≈21–25.11); scripts/chat-layout-check.mjs not run (needs a browser)"
+  },
+  "monetization_stage_ab_20261026": {
+    "status": "deployed_and_verified",
+    "deployment": "853130c0 (d110b692), then acb2c864 (4924c998: lastmod + llms.txt)",
+    "sourceCommit": "4924c9988089de7ba43d1236a46dc2bb5356d861",
+    "releaseEvidence": "reports/monetization-20261026/RELEASE.md",
+    "roadmap": "docs/monetization/2026-10-25-tariffs-roadmap/ROADMAP.md (stages A-B; gates at the start of §5; 25 owner decisions in §9)",
+    "ownerOrder": "2026-10-26: implement the roadmap turnkey and deploy; no new sums in the till before the gates; then fastest discovery by search engines (Google URL inspection by the owner)",
+    "branch": "seo/chat-snippets-translator-20261024",
+    "protectedRevision": "2026-10-26-monetization",
+    "notShipped": [
+      "parents block / Sh6 on tests+calculator / ЧСБ texts (decision 17)",
+      "translator quota (G4, offer v6)",
+      "T1 split test and Sh3 columns (migration)",
+      "pack block on English tenses pages",
+      "Studio fallback model (off until the 17.12 runbook)"
+    ],
+    "ownerActions": [
+      "OpenRouter credits >= $10 and Z.ai decision by 15.11 (docs/paid-chat/MODEL-CLIFF-1712-RU.md)",
+      "send letters 12-owner-letters.md",
+      "GA4: parameters role_id, correct; key events",
+      "decisions 1-11 and 17 by 07.11",
+      "Yandex.Webmaster verification"
+    ]
   }
 }

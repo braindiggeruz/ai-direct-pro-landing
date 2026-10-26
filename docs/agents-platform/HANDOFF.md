@@ -1,6 +1,7 @@
 # HANDOFF — AI tool pages wave B: English tenses tutor, practice tests pilot, niche ad playbooks · 25.10.2026
 
 ## 1. Состояние
+DEPLOYED 26.10: monetization stages A–B, deployment 853130c0 from d110b692, then acb2c864 from 4924c998 (lastmod + llms.txt); reports/monetization-20261026/RELEASE.md; IndexNow 54 URLs (indexnow.org 200, Yandex 202, Bing 200). Till untouched (offer v5, 20 000 / 300). Before 17.12: docs/paid-chat/MODEL-CLIFF-1712-RU.md.
 DEPLOYED 25.10: AI tools wave B, deployment d3010231 from 61c70ce6 (reports/ai-tools-wave-b-20261025/RELEASE.md); IndexNow 30 URLs 200. Production line = seo/chat-snippets-translator-20261024; merge into codex/continuation-20261007 before any deploy from there.
 - Дата: 2026-10-25.
 - Ветка: seo/chat-snippets-translator-20261024 (worktree F:/Claude/gptbot-snippets-translator-20261024).
