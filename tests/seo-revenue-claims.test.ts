@@ -5,8 +5,9 @@
 //     PACK_DAILY_LIMIT a day (functions/lib/gpt-chat);
 //   - the free chat: resolveConfig() over the packed runtime config;
 //   - the Telegram bot: resolveTelegramConfig() over the same config.
-// No page sells a «Plus», a «Day Pass» or a subscription, and none sends a
-// visitor to a personal Telegram account (decision L14).
+// No page sells a «Plus», a «Day Pass» or a subscription. Since the owner's
+// order of 26.10.2026 (it supersedes decision L14) the owner's Telegram is the
+// studio's public contact: a page names it only as that bare contact.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -18,7 +19,7 @@ import { resolveConfig } from '../functions/lib/gpt-chat/config';
 import { resolveTelegramConfig } from '../functions/lib/telegram/config';
 import { STUDIO_PLANS, TERMS_PLAN } from '../functions/lib/studio/plans';
 import { telegramDeepLink } from '../src/lib/telegram';
-import { STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import { STUDIO_TELEGRAM_HANDLE, STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 import { LEAD_FORM_PAGES } from '../scripts/lead-form';
 import { PROTECTED_PATHS } from '../scripts/seo-protection';
 import { strings } from '../src/gpt-chat/i18n';
@@ -199,7 +200,11 @@ test('no AI-chat page sells a Plus, a Day Pass or a subscription', () => {
       assert.ok(studio.includes('Kunlik') && studio.includes('Oylik'));
     }
     assert.doesNotMatch(text, /\bPlus\b|Day Pass|подписк|\bobuna\b|tarifi mavjud|Онлайн-оплата подключается|to‘lov ulanmoqda/, file);
-    assert.doesNotMatch(text, /XGame_changerx/i, file);
+    // Owner order of 26.10.2026 (supersedes decision L14): the owner's Telegram
+    // is the studio's public contact. A chat page may name it only as that
+    // contact — the bare link or the handle, never a draft or another path.
+    const contactFree = text.split(JSON.stringify(STUDIO_TELEGRAM_URL)).join('').split(STUDIO_TELEGRAM_HANDLE!).join('');
+    assert.doesNotMatch(contactFree, /XGame_changerx/i, file);
   }
 });
 
