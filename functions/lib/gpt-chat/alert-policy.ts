@@ -45,6 +45,10 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
   // Signing in on the site through the bot failed on our side (D1): a payer
   // cannot sign in (functions/lib/telegram/web-login.ts).
   "bot_login_failed",
+  // The packs' day brake in USD (GPT_PACK_PAID_DAILY_USD, model-spend-store.ts)
+  // is spent: buyers' answers moved to ':free' models until 00:00 UTC
+  // (rule S5: the owner is told, then tops up or finds the error).
+  "pack_paid_budget_exhausted",
   // Providers and channels a human has to fix.
   "zai_*",
   "click_*",
@@ -88,6 +92,7 @@ export const URGENT_ALERT_PATTERNS: readonly string[] = [
  * hour, so the owner is reminded daily instead of paged 24 times. The free
  * tier's spent daily budget (model-spend-store.ts) is one too, and only
  * informational (background): ':free' keeps answering until the UTC day ends.
+ * The packs' spent brake is the same state for buyers, so it pages, once a day.
  * So is bot_silent: its window is 24 h, so three failed updates nobody follows
  * up keep it true on every watchdog run of the next day, which hourly rows
  * would turn into a page an hour. So is uzum_receipt_missing: the Uzum step
@@ -100,6 +105,7 @@ const DAILY_ALERTS: ReadonlySet<string> = new Set([
   "openrouter_key_credit_low",
   "openrouter_free_tier_50rpd",
   "free_paid_budget_exhausted",
+  "pack_paid_budget_exhausted",
   "bot_silent",
   "uzum_receipt_missing",
   "studio_paid_stop",
@@ -147,6 +153,8 @@ const ALERT_TEXT: Readonly<Record<string, string>> = {
   bot_model_unavailable: "бот @gptbotuz_bot: вся цепочка моделей отклонена как неизвестная",
   bot_models_cooling: "бот @gptbotuz_bot: все модели на паузе после сбоев, ответ не отправлен",
   bot_silent: "бот @gptbotuz_bot: за сутки 3+ сбоя и ни одного ответа",
+  free_paid_budget_exhausted: "дневной бюджет бесплатных ответов на платных моделях (GPT_FREE_PAID_DAILY_USD) израсходован: бесплатные и пробные ответы до 05:00 Ташкента идут на моделях :free",
+  pack_paid_budget_exhausted: "дневной тормоз расходов пакетов (GPT_PACK_PAID_DAILY_USD) израсходован: ответы покупателей до 05:00 Ташкента идут на модели :free; проверьте расход и ошибки, при нужде поднимите потолок",
   zai_balance_exhausted: "Z.ai: закончился баланс, ответы идут через OpenRouter",
   zai_auth_failed: "Z.ai: ключ отклонён, ответы идут через OpenRouter",
   click_fiscal_failed: "Click: подтверждение чека ОФД не получено после 6 проверок или за сутки после оплаты; причина — в сводке очереди",

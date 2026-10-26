@@ -29,7 +29,9 @@
 
 Фоновые коды — всё остальное: `chat_rate_limit`, `chat_timeout`, `chat_provider_error`, `chat_empty`, `chat_budget_exhausted`, `stale_reservations`, `chat_truncation_high`, `free_paid_budget_exhausted`, `openrouter_key_unavailable`, а также единичные сбои бота: `bot_rate_limit`, `bot_timeout`, `bot_validation_failed`, `bot_truncated`, `bot_provider_error` и другие `bot_<код>`.
 
-`free_paid_budget_exhausted` (WP-04) значит: бесплатные ответы за сутки UTC потратили бюджет платной модели `GPT_FREE_PAID_DAILY_USD`, и до конца суток бесплатным отвечают модели `:free`. Это не сбой, а сведение, поэтому код фоновый и пишется одной строкой в сутки (`MODELS-RU.md`, раздел «Бюджет»).
+`free_paid_budget_exhausted` (WP-04) значит: бесплатные ответы за сутки UTC потратили бюджет платной модели `GPT_FREE_PAID_DAILY_USD` (с UE-3 в него входит и `glm-5.3-flash` по прайсу), и до конца суток бесплатным отвечают модели `:free`. Это не сбой, а сведение, поэтому код фоновый и пишется одной строкой в сутки (`MODELS-RU.md`, раздел «Два дневных бюджета»).
+
+`pack_paid_budget_exhausted` (UE-3) — **срочный**, одна строка в сутки: ответы пакетов за сутки UTC потратили тормоз `GPT_PACK_PAID_DAILY_USD`, и до 05:00 по Ташкенту покупателям отвечают модели `:free` цепочки пакета. При нынешнем объёме это значит ошибку или атаку: проверьте «Модели и алерты» в админке (расход пакетов за сегодня, модели за 24 часа) и, если расход настоящий, поднимите потолок (`wrangler.toml`, JSON и таблица, затем деплой).
 
 ## Как доставляется
 

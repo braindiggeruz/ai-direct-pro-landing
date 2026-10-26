@@ -1,5 +1,7 @@
-// «Модели и алерты»: which models answered, which cool down now, the free
-// tier's spend today against its cap, and the alert codes of the week.
+// «Модели и алерты»: which models answered, which cool down now, the two day
+// budgets of today against their caps (UE-3), the pack answers a provider
+// outage left without a model, Z.ai's 1113 hours of the week, and the alert
+// codes of the week.
 import { Badge, Card } from '../ui';
 import { CardHead, count, dateTime, SectionGap, usd } from './format';
 import type {
@@ -56,6 +58,11 @@ function ModelTable({ title, rows, primary }: { title: string; rows: AiChatModel
   );
 }
 
+/** Hours of the week with a Z.ai 1113 (zai_balance_exhausted is recorded once an hour). */
+function zaiBalanceHours(alerts: AiChatAlerts): number {
+  return alerts.last7d.find((row) => row.code === 'zai_balance_exhausted')?.n ?? 0;
+}
+
 export function ModelsCard({
   models,
   alerts,
@@ -97,6 +104,24 @@ export function ModelsCard({
                 ? <span>{usd(models.data.spendToday.usd)} из {usd(models.data.spendToday.capUsd)} · в резерве {usd(models.data.spendToday.reservedUsd)} · попыток {count(models.data.spendToday.attempts)}</span>
                 : <span className="text-white/40">—</span>}
             </div>
+            {models.data.packSpendToday && (
+              <div>
+                <div className="text-white/50 text-xs uppercase tracking-wide mb-1">Платные модели у пакетов сегодня (UTC), тормоз</div>
+                <span>{usd(models.data.packSpendToday.usd)} из {usd(models.data.packSpendToday.capUsd)} · в резерве {usd(models.data.packSpendToday.reservedUsd)} · попыток {count(models.data.packSpendToday.attempts)}</span>
+              </div>
+            )}
+            {models.data.packNoModel7d != null && (
+              <div>
+                <div className="text-white/50 text-xs uppercase tracking-wide mb-1">Ходы пакета без модели за 7 дней</div>
+                <span className={models.data.packNoModel7d ? 'text-red-300' : undefined}>{count(models.data.packNoModel7d)}</span>
+              </div>
+            )}
+            {alerts.ok && (
+              <div>
+                <div className="text-white/50 text-xs uppercase tracking-wide mb-1">Z.ai 1113 «нет баланса» за 7 дней, часов</div>
+                <span className={zaiBalanceHours(alerts.data) ? 'text-red-300' : undefined}>{count(zaiBalanceHours(alerts.data))}</span>
+              </div>
+            )}
           </div>
         </>
       )}

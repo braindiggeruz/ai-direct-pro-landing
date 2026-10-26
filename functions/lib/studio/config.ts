@@ -38,6 +38,25 @@ export const STUDIO_LOCAL_HOSTS: readonly string[] = ["localhost", "127.0.0.1"];
 export const TEXT_MODELS = ["zai/glm-5.3-flash"] as const;
 /** OpenRouter ':free' only, and only for the free deck (spec §7.2). */
 export const FREE_TEXT_FALLBACKS = ["openrouter:google/gemma-4-31b-it:free"] as const;
+/**
+ * UE-4 (tariffs roadmap §5.2, docs/paid-chat/MODEL-CLIFF-1712-RU.md): the
+ * model a PAID step may move to when Z.ai cannot answer (1113 no balance,
+ * 5xx, a timeout; never a 1302 rate limit), so paid decks do not die with the
+ * prepaid bundle on 17.12.2026. Off as committed, because a paid unit goes to
+ * a model nobody has measured on our decks yet, the pages must name
+ * OpenRouter (tests/studio-prerender.test.ts) and the live gate refuses an
+ * unreviewed fallback (scripts/release/studio-live-gate.ts):
+ *   gemma-4-31b-it:free  works without OpenRouter credits (max_price 0), but
+ *                        shares the account's 50 ':free' requests a day with
+ *                        the chat, Javob and AEO until credits are bought;
+ *   gemma-4-26b-a4b-it   the chat's paid primary, needs credits, billed at
+ *                        most PAID_PRICE_CEILING (max_price), cheaper than
+ *                        glm-5.3-flash, so the worst case stays the same.
+ */
+export const PAID_TEXT_FALLBACKS = [
+  "openrouter:google/gemma-4-31b-it:free",
+  "openrouter:google/gemma-4-26b-a4b-it",
+] as const;
 /** Photos never go to a ':free' provider (spec §8.2). */
 export const VISION_MODELS = ["zai/glm-5.3-flash", "zai/glm-4.6v-flash"] as const;
 /**
@@ -54,6 +73,7 @@ export const IMAGE_CHECK_MODELS = ["@cf/google/gemma-4-26b-a4b-it"] as const;
 
 export type TextModel = (typeof TEXT_MODELS)[number];
 export type FreeTextFallback = (typeof FREE_TEXT_FALLBACKS)[number];
+export type PaidTextFallback = (typeof PAID_TEXT_FALLBACKS)[number];
 export type VisionModel = (typeof VISION_MODELS)[number];
 export type ImageCheckModel = (typeof IMAGE_CHECK_MODELS)[number];
 export type PaymentsMode = "off" | "test" | "live";
@@ -130,6 +150,11 @@ export const STUDIO_CONFIG_DEFAULTS = {
    * worst case is priced with it on.
    */
   STUDIO_PAID_PROOFREAD: "true",
+  /**
+   * UE-4: one of PAID_TEXT_FALLBACKS for paid steps when Z.ai cannot answer;
+   * "" = none (committed). Anything else reads as none.
+   */
+  STUDIO_PAID_TEXT_FALLBACK: "",
 } as const satisfies Record<string, string>;
 
 export type StudioConfigKey = keyof typeof STUDIO_CONFIG_DEFAULTS;
@@ -181,6 +206,8 @@ export interface StudioConfig {
   readonly paymentProviders: readonly StudioProvider[];
   /** The Uzbek proofreading pass of paid decks. */
   readonly paidProofread: boolean;
+  /** null: a paid step has no fallback (committed); UE-4. */
+  readonly paidTextFallback: PaidTextFallback | null;
 }
 
 type Raw = Partial<Record<StudioConfigKey, unknown>>;
@@ -305,6 +332,8 @@ export function parseStudioConfig(json: unknown): StudioConfig {
     // Unlike the model lists, nothing left means nobody: a typo never falls back to a provider.
     paymentProviders: Object.freeze(namesOf(text(raw, "STUDIO_PAYMENT_PROVIDERS"), STUDIO_PROVIDERS)),
     paidProofread: text(raw, "STUDIO_PAID_PROOFREAD") !== "false",
+    // Unlike the free fallback, a typo never falls back to a model: none.
+    paidTextFallback: oneOf(text(raw, "STUDIO_PAID_TEXT_FALLBACK"), PAID_TEXT_FALLBACKS),
   });
 }
 

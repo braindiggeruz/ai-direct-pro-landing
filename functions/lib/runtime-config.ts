@@ -124,6 +124,7 @@ export const RUNTIME_CONFIG_KEYS = [
   'GPT_FREE_TIER_PAID_PRIMARY',
   'GPT_FREE_TRIAL_ENABLED',
   'GPT_FREE_PAID_DAILY_USD',
+  'GPT_PACK_PAID_DAILY_USD',
   'GPT_STOP_CHARGE_MIN_CHARS',
   // Hash salt switch-over and message retention (functions/lib/gpt-chat/hash.ts,
   // salt-rekey-store.ts, retention-store.ts). The salt itself is the secret

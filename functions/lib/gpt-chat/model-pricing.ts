@@ -9,7 +9,8 @@
 //   Z.ai — https://docs.z.ai/guides/overview/pricing, read 2026-09-30:
 //     GLM-4.7-Flash, GLM-4.5-Flash free; GLM-4.7-FlashX 0.07 / 0.4;
 //     GLM-4.5-Air 0.2 / 1.1; GLM-4.7 0.6 / 2.2 (listed for accounting only;
-//     it is not on the chain allowlist in model-provider.ts).
+//     it is not on the chain allowlist in model-provider.ts); read again
+//     2026-10-25: GLM-5.3-Flash 0.15 / 0.5 (cached input 0.03).
 //   OpenRouter — https://openrouter.ai/api/v1/models, read 2026-09-30:
 //     google/gemma-4-26b-a4b-it prompt 0.00000009 / completion 0.0000003 per
 //     token → 0.09 / 0.30 per 1M (the paid primary; its cheaper providers,
@@ -65,9 +66,14 @@ export const PRICE_USD_PER_MTOK: Readonly<Record<string, ModelPrice>> = {
   "zai/glm-4.7-flashx": { in: 0.07, out: 0.4 },
   "zai/glm-4.5-air": { in: 0.2, out: 1.1 },
   "zai/glm-4.7": { in: 0.6, out: 2.2 },
-  // Prepaid usage bundle (ZAI_PREPAID_MODELS): the tokens are already paid for,
-  // so a turn adds nothing; when the bundle is empty Z.ai answers 1113.
-  "zai/glm-5.3-flash": { in: 0, out: 0 },
+  // The list price (docs.z.ai/guides/overview/pricing, read 2026-10-25; the
+  // studio's pricing.ts carries the same 0.15 / 0.50, cached input 0.03 not
+  // modelled here), even while the owner's prepaid bundle (ZAI_PREPAID_MODELS,
+  // until 2026-12-17) covers the tokens (UE-3). Pricing it at 0 hid what the
+  // trial costs and let the free tier call it with no daily cap: once the
+  // bundle is gone the same model bills per token. The day budgets
+  // (model-spend-store.ts) reserve and settle at this price.
+  "zai/glm-5.3-flash": { in: 0.15, out: 0.5 },
   "google/gemma-4-26b-a4b-it": { in: 0.09, out: 0.3 },
   "mistralai/mistral-small-3.2-24b-instruct": { in: 0.09375, out: 0.25 },
   "meta-llama/llama-3.3-70b-instruct": { in: 0.1, out: 0.32 },

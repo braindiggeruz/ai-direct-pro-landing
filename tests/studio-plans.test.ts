@@ -37,7 +37,7 @@ import {
   worstPhotoMicro,
   worstPlanCase,
 } from "../functions/lib/studio/pricing";
-import { FREE_TEXT_FALLBACKS, IMAGE_CHECK_MODELS, TEXT_MODELS, VISION_MODELS } from "../functions/lib/studio/config";
+import { FREE_TEXT_FALLBACKS, IMAGE_CHECK_MODELS, PAID_TEXT_FALLBACKS, TEXT_MODELS, VISION_MODELS } from "../functions/lib/studio/config";
 import { maxSteps, proofSteps } from "../functions/lib/studio/jobs";
 import { includedVat } from "../functions/lib/gpt-chat/fiscal-config";
 
@@ -222,8 +222,14 @@ test("step limits cover what the 30-topic measurement saw, with room for a 1.5×
   assert.equal(STEP_LIMITS.imageCheck.attempts, 1);
 });
 
-test("every model a setting may choose has a shadow price; photos and paid text never use a ':free' model", () => {
-  for (const model of [...TEXT_MODELS, ...FREE_TEXT_FALLBACKS, ...VISION_MODELS]) assert.ok(modelPrice(model), model);
+test("every model a setting may choose has a shadow price; photos never use a ':free' model, paid text only as the opt-in UE-4 fallback", () => {
+  for (const model of [...TEXT_MODELS, ...FREE_TEXT_FALLBACKS, ...PAID_TEXT_FALLBACKS, ...VISION_MODELS]) assert.ok(modelPrice(model), model);
+  // UE-4: a paid step's fallback is never dearer than the text model, so the
+  // paid worst case (and its share of the net) is the same with it on. The
+  // worst case counts no cache, so the cached-input price does not enter it.
+  for (const fallback of PAID_TEXT_FALLBACKS)
+    for (const kind of ["input", "output"] as const)
+      assert.ok(modelPrice(fallback)![kind] <= Math.min(...TEXT_MODELS.map((model) => modelPrice(model)![kind])), `${fallback} ${kind}`);
   for (const model of IMAGE_CHECK_MODELS) assert.ok(IMAGE_CHECK_PRICES[model], model);
   for (const model of [...TEXT_MODELS, ...VISION_MODELS]) assert.doesNotMatch(model, /:free$/);
   for (const model of FREE_TEXT_FALLBACKS) assert.match(model, /^openrouter:.+:free$/);

@@ -648,7 +648,7 @@ test('copy: the processing named next to the form is the committed config\'s (th
   for (const file of ['content/studio/pages/uz/taqdimot-ai.json', 'content/studio/pages/ru/prezentatsiya-ai.json']) {
     const text = fs.readFileSync(path.join(REPO, file), 'utf8');
     for (const name of ['Z.ai', 'Cloudflare Workers AI', 'Cloudflare Turnstile', 'cookie']) assert.ok(text.includes(name), `${file}: ${name}`);
-    assert.equal(text.includes('OpenRouter'), config.freeTextFallback !== null, `${file}: OpenRouter is named exactly when the free deck may fall back to it`);
+    assert.equal(text.includes('OpenRouter'), config.freeTextFallback !== null || config.paidTextFallback !== null, `${file}: OpenRouter is named exactly when a deck may fall back to it`);
     assert.match(text, /1 yilga|на 1 год/, file);
     assert.doesNotMatch(text, /Batafsil — \{privacy\}|Подробнее — в \{privacy\}/, `${file}: the policy is a general link, not "the details"`);
   }

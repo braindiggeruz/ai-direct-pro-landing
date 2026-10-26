@@ -53,6 +53,7 @@ test("the defaults stay off; production sells Studio through approved shared Cli
   assert.equal(committed.paidProofread, true);
   assert.equal(committed.ga4Mp, false);
   assert.equal(committed.freeTextFallback, null);
+  assert.equal(committed.paidTextFallback, null, "UE-4: no paid fallback until the 17.12 runbook");
   assert.match(committed.turnstileSiteKey, /^0x4[0-9A-Za-z_-]+$/);
   assert.deepEqual(SWITCHES(DEFAULTS), ALL_OFF);
   assert.deepEqual(
@@ -68,6 +69,7 @@ test("the defaults stay off; production sells Studio through approved shared Cli
   assert.deepEqual(DEFAULTS.textModels, ["zai/glm-5.3-flash"]);
   assert.deepEqual(DEFAULTS.visionModels, ["zai/glm-5.3-flash", "zai/glm-4.6v-flash"]);
   assert.equal(DEFAULTS.freeTextFallback, "openrouter:google/gemma-4-31b-it:free");
+  assert.equal(DEFAULTS.paidTextFallback, null);
   assert.equal(DEFAULTS.aiLabel, true);
   assert.equal(DEFAULTS.clickAutofiscal, "");
   assert.deepEqual([...STUDIO_CONFIG_KEYS], Object.keys(JSON.parse(COMMITTED)));
@@ -152,6 +154,11 @@ test("models stay on the priced lists; the free fallback is OpenRouter ':free' o
   assert.deepEqual(parse({ STUDIO_VISION_MODELS: "openrouter:google/gemma-4-31b-it:free" }).visionModels, ["zai/glm-5.3-flash", "zai/glm-4.6v-flash"]);
   assert.equal(parse({ STUDIO_FREE_TEXT_FALLBACK: "" }).freeTextFallback, null);
   assert.equal(parse({ STUDIO_FREE_TEXT_FALLBACK: "openrouter:openai/gpt-5" }).freeTextFallback, "openrouter:google/gemma-4-31b-it:free");
+  // UE-4: the paid fallback is one of its closed list or none; a typo is none, never a model.
+  assert.equal(parse({ STUDIO_PAID_TEXT_FALLBACK: "openrouter:google/gemma-4-31b-it:free" }).paidTextFallback, "openrouter:google/gemma-4-31b-it:free");
+  assert.equal(parse({ STUDIO_PAID_TEXT_FALLBACK: "openrouter:google/gemma-4-26b-a4b-it" }).paidTextFallback, "openrouter:google/gemma-4-26b-a4b-it");
+  for (const value of ["", "openrouter:openai/gpt-5", "zai/glm-5.3-flash", "openrouter:google/gemma-4-26b-a4b-it ", 1])
+    assert.equal(parse({ STUDIO_PAID_TEXT_FALLBACK: value }).paidTextFallback, null, String(value));
   // Pictures are checked on Workers AI only (DECISIONS 07.10.2026 §16): the R-ST1 pages say so,
   // and the paid worst case is priced with it. glm-5.3-flash is no longer a choice.
   assert.deepEqual([...IMAGE_CHECK_MODELS], ["@cf/google/gemma-4-26b-a4b-it"]);

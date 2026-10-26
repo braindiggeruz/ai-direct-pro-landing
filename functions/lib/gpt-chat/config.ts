@@ -30,8 +30,23 @@ export interface GptChatConfig extends HashSalt {
   // the catalogue check stay ':free'.
   /** GPT_FREE_TIER_PAID_PRIMARY === 'true'; anything else (and unset) is false. */
   freeTierPaidPrimary: boolean;
-  /** Daily USD the free tier may spend on the paid primary (GPT_FREE_PAID_DAILY_USD). 0..20, default 1; 0 = never. */
+  /**
+   * Daily USD of the bucket «free, trial, R2» (GPT_FREE_PAID_DAILY_USD): what
+   * free answers, the site's and Javob's, may spend on billable models — a
+   * paid OpenRouter model at its max_price, a priced Z.ai model (the prepaid
+   * glm-5.3-flash included, UE-3) at its list price. 0..20, default 1; 0 =
+   * never. Production sets 0.3 (decision №13).
+   */
   freePaidDailyUsd: number;
+  /**
+   * Daily USD of the bucket «packs» (GPT_PACK_PAID_DAILY_USD): the emergency
+   * brake on what pack answers may spend on billable models in one UTC day,
+   * an error or an attack rather than buyers (UE-3, rule S5). Once spent,
+   * a pack answer skips them to the chain's ':free' model and the owner is
+   * paged once a day. 1..50, default 3: never 0, so a typo cannot cut paid
+   * answers.
+   */
+  packPaidDailyUsd: number;
   /**
    * GPT_STOP_CHARGE_MIN_CHARS (decision L4): a turn the visitor stopped or
    * left is charged only once at least this many answer characters reached
@@ -83,9 +98,9 @@ function clampedInt(v: string | undefined, def: number, min: number, max: number
   return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : def;
 }
 
-function clampedUsd(v: string | undefined, def: number, max: number): number {
+function clampedUsd(v: string | undefined, def: number, max: number, min = 0): number {
   const n = v?.trim() ? Number(v) : NaN;
-  return Number.isFinite(n) ? Math.max(0, Math.min(max, n)) : def;
+  return Number.isFinite(n) ? Math.max(min, Math.min(max, n)) : def;
 }
 
 // '2026-10-05' → itself; '2026-02-30', '5.10.2026', '' → ''. A date that does
@@ -181,6 +196,7 @@ export function resolveConfig(env: Env): GptChatConfig {
     firstContentTimeoutMs: clampedInt(env.GPT_FIRST_CONTENT_TIMEOUT_MS, 12_000, 5_000, 20_000),
     freeTierPaidPrimary: (env.GPT_FREE_TIER_PAID_PRIMARY || '').trim().toLowerCase() === 'true',
     freePaidDailyUsd: clampedUsd(env.GPT_FREE_PAID_DAILY_USD, 1, 20),
+    packPaidDailyUsd: clampedUsd(env.GPT_PACK_PAID_DAILY_USD, 3, 50, 1),
     stopChargeMinChars: clampedInt(env.GPT_STOP_CHARGE_MIN_CHARS, 600, 0, 20_000),
     modelProvider: (env.GPT_MODEL_PROVIDER || '').trim().toLowerCase() === 'zai' ? 'zai' : 'openrouter',
     zaiModelFree: (env.ZAI_MODEL_FREE || '').trim().toLowerCase() || 'glm-4.7-flash',

@@ -26,7 +26,7 @@ import { TELEMETRY_RETENTION_DAYS } from "./billing-maintenance-store";
 import { alertText, isUrgentAlert } from "./alert-policy";
 import { CATALOGUE_INTERVAL_MS } from "./billing-operations-store";
 import { receiptLink } from "./fiscal-config";
-import { FREE_PAID_BUCKET, spendDay } from "./model-spend-store";
+import { FREE_PAID_BUCKET, PACK_PAID_BUCKET, spendDay } from "./model-spend-store";
 import { REHEARSAL_ACCOUNT_PREFIX } from "./rehearsal";
 import { GUEST_ACCOUNT_PREFIX } from "./identity-store";
 import { PACK_WINDOW_EVENTS } from "./ui-event-store";
@@ -150,6 +150,8 @@ export interface OverviewOptions {
   weeks: number;
   /** GPT_FREE_PAID_DAILY_USD: the cap the spend of today is shown against. */
   capUsd: number;
+  /** GPT_PACK_PAID_DAILY_USD: the packs' brake their spend of today is shown against (UE-3). */
+  packCapUsd?: number;
   /** The request's id: a query_failed section is logged with it (the page shows it). */
   requestId?: string;
 }
@@ -193,7 +195,7 @@ export class AiChatAdminStore {
     }
   }
 
-  private async loadOverview(orgId: string, { now, weeks, capUsd }: OverviewOptions): Promise<OverviewSections> {
+  private async loadOverview(orgId: string, { now, weeks, capUsd, packCapUsd }: OverviewOptions): Promise<OverviewSections> {
     const has = await this.objects();
     const db = this.db;
     const legacy = orgId === BILLING_ORG;
@@ -343,14 +345,26 @@ export class AiChatAdminStore {
           .bind(orgId, now),
       );
       if (has.has("gpt_model_spend"))
+        // Today's two day budgets (UE-3): «free, trial, R2» and «packs».
         add(
           "spend",
           db
             .prepare(
-              "SELECT reserved_micro, actual_micro, attempts FROM gpt_model_spend WHERE org_id=? AND day=? AND bucket=?",
+              "SELECT bucket, reserved_micro, actual_micro, attempts FROM gpt_model_spend WHERE org_id=? AND day=? AND bucket IN (?,?)",
             )
-            .bind(orgId, spendDay(now), FREE_PAID_BUCKET),
+            .bind(orgId, spendDay(now), FREE_PAID_BUCKET, PACK_PAID_BUCKET),
         );
+      // G0-code: pack answers of the last 7 days that ended with no model at
+      // all — buyers a provider outage left without an answer
+      // (turn-outcome.ts no_model). A holder's free answers carry no period.
+      add(
+        "packNoModel",
+        db
+          .prepare(
+            "SELECT COUNT(*) AS n FROM gpt_turn_reservations WHERE org_id=? AND created_at>=? AND period_id IS NOT NULL AND outcome='no_model'",
+          )
+          .bind(orgId, now - WEEK_MS),
+      );
     }
 
     const alertsReady = has.has("gpt_service_alerts");
@@ -395,14 +409,10 @@ export class AiChatAdminStore {
               code: String(row.code),
               until: num(row.blocked_until),
             })),
-            spendToday: rows.has("spend")
-              ? {
-                  usd: num(get("spend")[0]?.actual_micro) / 1e6,
-                  reservedUsd: num(get("spend")[0]?.reserved_micro) / 1e6,
-                  capUsd,
-                  attempts: num(get("spend")[0]?.attempts),
-                }
-              : null,
+            spendToday: rows.has("spend") ? spendOf(get("spend"), FREE_PAID_BUCKET, capUsd) : null,
+            packSpendToday:
+              rows.has("spend") && packCapUsd !== undefined ? spendOf(get("spend"), PACK_PAID_BUCKET, packCapUsd) : null,
+            packNoModel7d: rows.has("packNoModel") ? num(get("packNoModel")[0]?.n) : null,
           })
         : sectionError("schema_pending"),
       alerts: alertsReady
@@ -713,6 +723,17 @@ export class AiChatAdminStore {
       return sectionError("query_failed");
     }
   }
+}
+
+/** One day budget's row of today; zeros when nothing was reserved yet. */
+function spendOf(rows: Row[], bucket: string, capUsd: number) {
+  const row = rows.find((candidate) => candidate.bucket === bucket);
+  return {
+    usd: num(row?.actual_micro) / 1e6,
+    reservedUsd: num(row?.reserved_micro) / 1e6,
+    capUsd,
+    attempts: num(row?.attempts),
+  };
 }
 
 function modelRow(row: Row): AiChatModelRow {

@@ -17,10 +17,15 @@
 //   out per 1M. Gemma 4 26B as the picture check: measured 4.4 neurons a
 //   call, priced at 5 (studio/MEASURE-30.md §3).
 //   OpenRouter ':free' ids cost $0 (the chat's buildChatBody sends max_price 0).
+//   A paid OpenRouter id (the UE-4 fallback, config.ts PAID_TEXT_FALLBACKS)
+//   is priced at PAID_PRICE_CEILING, the max_price its request carries: the
+//   most any of its providers may bill (gemma-4-26b lists 0.09 / 0.30).
 import { includedVat } from "../gpt-chat/fiscal-config";
+import { PAID_PRICE_CEILING } from "../gpt-chat/model-pricing";
 import {
   FREE_TEXT_FALLBACKS,
   IMAGE_CHECK_MODELS,
+  PAID_TEXT_FALLBACKS,
   TEXT_MODELS,
   VISION_MODELS,
 } from "./config";
@@ -65,12 +70,19 @@ export interface TokenUsage {
 
 const ZERO: TokenPrice = { input: 0, cachedInput: 0, output: 0 };
 const GLM_53_FLASH: TokenPrice = { input: 0.15, cachedInput: 0.03, output: 0.5 };
+/** A paid OpenRouter id at its max_price; no cache discount is assumed. */
+const OPENROUTER_CEILING: TokenPrice = {
+  input: PAID_PRICE_CEILING.prompt,
+  cachedInput: PAID_PRICE_CEILING.prompt,
+  output: PAID_PRICE_CEILING.completion,
+};
 
 /** Every text and vision model a setting may choose (config.ts lists). */
 export const MODEL_PRICES: Readonly<Record<string, TokenPrice>> = {
   "zai/glm-5.3-flash": GLM_53_FLASH,
   "zai/glm-4.6v-flash": ZERO,
   "openrouter:google/gemma-4-31b-it:free": ZERO,
+  "openrouter:google/gemma-4-26b-a4b-it": OPENROUTER_CEILING,
 };
 
 export const WORKERS_AI_USD_PER_1K_NEURONS = 0.011;
@@ -209,7 +221,8 @@ function picturesMicro(shape: keyof typeof DECK_SHAPES): number {
  * (proofreadDeckTextMicro, DECISIONS §16).
  */
 export function worstFullDeckMicro(proofread = true): number {
-  const price = dearest(TEXT_MODELS);
+  // A paid step may move to its fallback (UE-4): the dearest of all of them.
+  const price = dearest([...TEXT_MODELS, ...PAID_TEXT_FALLBACKS]);
   const slides = DECK_SHAPES.full.maxSlides;
   const text = proofread
     ? proofreadDeckTextMicro(price, slides)

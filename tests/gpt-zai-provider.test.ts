@@ -317,7 +317,9 @@ test('4b a prepaid GLM-5.3-Flash enters a chain only when listed, and is sent wi
   const glm4 = buildZaiBody('glm-4.7-flash', [{ role: 'user', content: 'Salom' }], 1600, false) as Record<string, unknown>;
   assert.deepEqual(glm4.thinking, { type: 'disabled' });
   assert.equal('reasoning_effort' in glm4, false);
-  assert.equal(estimateCostUsd('zai/glm-5.3-flash', 1500, 500), 0);
+  // Priced at its list price even while the prepaid bundle covers it (UE-3):
+  // 1500 × 0.15 + 500 × 0.50 per 1M tokens, the repository's reference answer (ZAI-RU.md).
+  assert.equal(estimateCostUsd('zai/glm-5.3-flash', 1500, 500), 0.000475);
 });
 
 // ── 5. JSON success ────────────────────────────────────────────────────────
@@ -770,9 +772,15 @@ test('15b a pack holder\'s free answer never calls a Z.ai model that bills per t
   assert.deepEqual(await ask(), [true, 'zai/glm-4.5-air', 299]);
   assert.deepEqual(seen.filter((s) => s.host === 'api.z.ai').map((s) => s.body!.model), [...Array(5).fill('glm-4.7-flash'), 'glm-4.5-air']);
   assert.equal(seen.some((s) => s.host === 'openrouter.ai'), false);
-  // Only the pack's answer spent an attempt of its ceiling; no budget row (both $0 or the pack's).
+  // Only the pack's answer spent an attempt of its ceiling. The free answers'
+  // $0 model reserved nothing; the pack's answer went through the packs' day
+  // budget (UE-3) and was settled at its list price: 10 × 0.2 + 5 × 1.1 = 7.5
+  // micro-USD, rounded to 8.
   assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), 1);
-  assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_spend'), 0);
+  assert.deepEqual(
+    plain(f.db.rows('SELECT bucket, reserved_micro, actual_micro, attempts FROM gpt_model_spend')),
+    [{ bucket: 'pack_paid', reserved_micro: 8, actual_micro: 8, attempts: 1 }],
+  );
   assert.equal(f.db.value(`SELECT COUNT(*) FROM gpt_turn_reservations WHERE id LIKE '${ACCOUNT_FREE_ID}%' AND model='zai/glm-4.7-flash'`), 5);
 });
 

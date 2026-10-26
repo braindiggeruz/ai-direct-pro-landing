@@ -253,7 +253,12 @@ export interface Env extends FirecrawlEnvironment {
   // daily USD budget (default 1, clamped 0..20; functions/lib/gpt-chat/
   // model-spend-store.ts); stays "false" until the model probe clears the chain.
   GPT_FREE_TIER_PAID_PRIMARY?: string;
+  // Public. Daily USD of the bucket «free, trial, R2» (paid OpenRouter at
+  // max_price, a priced Z.ai model at list price; production 0.3).
   GPT_FREE_PAID_DAILY_USD?: string;
+  // Public. Daily USD brake of the bucket «packs» (default 3, clamped 1..50;
+  // model-spend-store.ts packPaidBudget).
+  GPT_PACK_PAID_DAILY_USD?: string;
   // Public. A stopped or abandoned answer is charged only once this many
   // characters reached the visitor (default 600, clamped 0..20000; 0 = never).
   GPT_STOP_CHARGE_MIN_CHARS?: string;

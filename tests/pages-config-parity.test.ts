@@ -240,6 +240,7 @@ test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON
   );
   assert.equal(studio.turnstileSiteKey, '0x4AAAAAAFO5Y7cXhqeASg8P');
   assert.equal(studio.freeTextFallback, null, 'no OpenRouter fallback at launch: the pages do not name it');
+  assert.equal(studio.paidTextFallback, null, 'UE-4: no paid fallback until the 17.12 runbook names it on the pages');
   assert.deepEqual(
     [studio.freeDailyUsd, studio.rampDecksDaily, studio.jobGlobalPerMin, studio.ipYoungDecks, studio.freeAlertDecks],
     [0.3, 50, 3, 20, 300],

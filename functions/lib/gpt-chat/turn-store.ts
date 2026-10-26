@@ -78,8 +78,18 @@ export type Bucket = "free" | "pack";
 export const PACK_DAILY_LIMIT = 50;
 /** Answers one subject may have in flight at once (the offer states it). */
 export const MAX_CONCURRENT_TURNS = 2;
-/** Requests per IP hash and rolling hour, whatever became of them: the abuse ceiling. */
-const IP_HOURLY_CEILING = { free: 100, paid: 1000 } as const;
+/**
+ * Requests per IP hash and rolling hour, whatever became of them: the abuse
+ * ceiling. With the lifetime trial on it is the only bound on turns that end
+ * uncharged (cut at the length limit, failed, stopped early), and since UE-3
+ * those cost money at list price. Without a pack it is 30 (was 100, G0-code,
+ * 26.10.2026): the trial gives 3 answers a browser, and in the 28 days to
+ * 25.10 two senders of ~700 got 11+ answers in all, the whole chat 25–57
+ * turns a day (docs/monetization/2026-10-25-tariffs-roadmap/
+ * 04-funnel-data.md §2), so 30 an hour still fits ten fresh trials behind
+ * one shared address (mobile NAT, a classroom). A holder's turns keep 1000.
+ */
+export const IP_HOURLY_CEILING = { free: 30, paid: 1000 } as const;
 /** An unsettled reservation stops counting after this. */
 const RESERVATION_MS = 120_000;
 /** Retry hint when concurrent turns keep changing the counts under a refusal. */

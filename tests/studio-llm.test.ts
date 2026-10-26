@@ -1,5 +1,6 @@
 // The studio's model client (functions/lib/studio/llm.ts; spec §7.2,
-// MEASURE-30 §9): 1302 → studio_busy at once; paid steps never fall back;
+// MEASURE-30 §9): 1302 → studio_busy at once; paid steps fall back only to
+// STUDIO_PAID_TEXT_FALLBACK (UE-4, off as committed);
 // the free deck falls back to OpenRouter ':free'; finish_reason=length is
 // asked again with more room; one repair of an invalid answer; Z.ai's own
 // refusal is a refusal. Provider calls are a mocked fetch; no network.
@@ -14,6 +15,7 @@ import { outlineMessages } from "../functions/lib/studio/prompts";
 import { tokenCostMicro, MODEL_PRICES } from "../functions/lib/studio/pricing";
 import { ZAI_ENDPOINT } from "../functions/lib/gpt-chat/zai-chat";
 import { OPENROUTER_ENDPOINT } from "../functions/lib/gpt-chat/openrouter-chat";
+import { PAID_PRICE_CEILING } from "../functions/lib/gpt-chat/model-pricing";
 
 // Placeholder credentials for the mocked providers (no scanner reads them as keys).
 const ENV = { ZAI_API_KEY: "zai-placeholder-for-tests", OPENROUTER_API_KEY: "openrouter-placeholder-for-tests" };
@@ -384,4 +386,52 @@ test("logs carry {event, code} only: never the topic, the answer or a key", asyn
     assert.doesNotMatch(line, /kasr|placeholder|echo/i);
   }
   assert.deepEqual(lines.map((line) => JSON.parse(line).code), ["outline.invalid_output", "outline.rate_limit"]);
+});
+
+// ── UE-4: the paid fallback, off as committed ───────────────────────────────
+
+test("UE-4: a paid step has no fallback as committed; with STUDIO_PAID_TEXT_FALLBACK it is the last of the chain", () => {
+  assert.equal(CONFIG.paidTextFallback, null);
+  assert.deepEqual(textChain(CONFIG, "paid", ENV), ["zai/glm-5.3-flash"]);
+  const free = parseStudioConfig(JSON.stringify({ STUDIO_PAID_TEXT_FALLBACK: "openrouter:google/gemma-4-31b-it:free" }));
+  assert.deepEqual(textChain(free, "paid", ENV), ["zai/glm-5.3-flash", "openrouter:google/gemma-4-31b-it:free"]);
+  // The free deck keeps its own fallback, never the paid one.
+  assert.deepEqual(textChain({ ...free, freeTextFallback: null }, "free", ENV), ["zai/glm-5.3-flash"]);
+  // Without a Z.ai key the paid step goes to the fallback; without the OpenRouter key it has none.
+  assert.deepEqual(textChain(free, "paid", { OPENROUTER_API_KEY: ENV.OPENROUTER_API_KEY }), ["openrouter:google/gemma-4-31b-it:free"]);
+  assert.deepEqual(textChain(free, "paid", { ZAI_API_KEY: ENV.ZAI_API_KEY }), ["zai/glm-5.3-flash"]);
+});
+
+test("UE-4: 1113 on a paid step moves to the ':free' fallback at a price of 0, on one endpoint, never keeping the text", async () => {
+  const config = parseStudioConfig(JSON.stringify({ STUDIO_PAID_TEXT_FALLBACK: "openrouter:google/gemma-4-31b-it:free" }));
+  const { fn, sent } = mockFetch([zaiError(429, "1113"), openRouterAnswer(JSON.stringify(OUTLINE))]);
+  const result = await step(fn, { tier: "paid", config });
+  assert.deepEqual(sent.map((call) => call.url), [ZAI_ENDPOINT, OPENROUTER_ENDPOINT]);
+  assert.equal(sent[1].body.model, "google/gemma-4-31b-it:free");
+  assert.deepEqual(sent[1].body.provider, { allow_fallbacks: false, max_price: { prompt: 0, completion: 0, request: 0 }, data_collection: "deny" });
+  assert.equal(sent[1].body.max_tokens, 1300);
+  assert.ok(result.ok);
+  assert.equal(result.model, "openrouter:google/gemma-4-31b-it:free");
+  assert.equal(result.costMicro, 0);
+});
+
+test("UE-4: the paid fallback with credits is capped at the chat's max_price and priced at it", async () => {
+  const config = parseStudioConfig(JSON.stringify({ STUDIO_PAID_TEXT_FALLBACK: "openrouter:google/gemma-4-26b-a4b-it" }));
+  const { fn, sent } = mockFetch([zaiError(500, "1234"), openRouterAnswer(JSON.stringify(OUTLINE))]);
+  const result = await step(fn, { tier: "paid", config });
+  assert.deepEqual(sent.map((call) => call.url), [ZAI_ENDPOINT, OPENROUTER_ENDPOINT]);
+  assert.equal(sent[1].body.model, "google/gemma-4-26b-a4b-it");
+  // Any provider under the ceiling, none that keeps the text.
+  assert.deepEqual(sent[1].body.provider, { allow_fallbacks: true, max_price: { ...PAID_PRICE_CEILING }, data_collection: "deny" });
+  assert.ok(result.ok);
+  assert.equal(result.costMicro, tokenCostMicro(MODEL_PRICES["openrouter:google/gemma-4-26b-a4b-it"], { input: 800, output: 600 }));
+  assert.deepEqual(MODEL_PRICES["openrouter:google/gemma-4-26b-a4b-it"], { input: PAID_PRICE_CEILING.prompt, cachedInput: PAID_PRICE_CEILING.prompt, output: PAID_PRICE_CEILING.completion });
+});
+
+test("UE-4: 1302 stays studio_busy at once even with a paid fallback (the chat's share of the key comes first)", async () => {
+  const config = parseStudioConfig(JSON.stringify({ STUDIO_PAID_TEXT_FALLBACK: "openrouter:google/gemma-4-31b-it:free" }));
+  const { fn, sent } = mockFetch([zaiError(429, "1302")]);
+  const result = await step(fn, { tier: "paid", config });
+  assert.equal(sent.length, 1);
+  assert.ok(!result.ok && result.kind === "fault" && result.code === "studio_busy");
 });

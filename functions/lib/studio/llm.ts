@@ -18,10 +18,16 @@
 //   - Z.ai's own safety refusal (1301, finish_reason "sensitive") ends the
 //     step as a refusal: 422 topic_refused, no content, the unit goes back;
 //   - paid units never move to a model that was not measured: when Z.ai
-//     fails (1113 no balance, 5xx, timeout) the step is a server fault;
-//   - the free deck alone may fall back to OpenRouter's ':free' model
+//     fails (1113 no balance, 5xx, timeout) the step is a server fault,
+//     unless the owner names a paid fallback (STUDIO_PAID_TEXT_FALLBACK,
+//     UE-4, off as committed; docs/paid-chat/MODEL-CLIFF-1712-RU.md says
+//     when and what has to be checked first);
+//   - the free deck may fall back to OpenRouter's ':free' model
 //     (STUDIO_FREE_TEXT_FALLBACK) when Z.ai fails or has no key, at a
-//     max_price of 0 and with data_collection "deny".
+//     max_price of 0 and with data_collection "deny"; a paid step to its own
+//     fallback in the same cases, data_collection "deny" again, a ':free'
+//     id at max_price 0 on one endpoint, a paid id at PAID_PRICE_CEILING
+//     with OpenRouter free to pick another provider under that price.
 // Every call is metered at the shadow list price (pricing.ts) for the
 // ledger; a call the provider refused before answering costs 0.
 //
@@ -128,7 +134,7 @@ export type AdmitCall = (call: { readonly model: string; readonly maxTokens: num
 
 export interface StepOptions<T> {
   readonly env: LlmEnv;
-  readonly config: Pick<StudioConfig, "textModels" | "freeTextFallback">;
+  readonly config: Pick<StudioConfig, "textModels" | "freeTextFallback"> & Partial<Pick<StudioConfig, "paidTextFallback">>;
   readonly tier: StudioTier;
   readonly step: TextStep;
   readonly messages: readonly ChatMessage[];
@@ -148,12 +154,13 @@ export function stepTemperature(step: TextStep): number {
 
 /**
  * The models a step may use, in order, without the ones whose key is
- * missing: STUDIO_TEXT_MODELS, and for the free deck only, the ':free'
- * fallback.
+ * missing: STUDIO_TEXT_MODELS, then the tier's own fallback — the ':free'
+ * one for the free deck, STUDIO_PAID_TEXT_FALLBACK for a paid step.
  */
 export function textChain(config: StepOptions<unknown>["config"], tier: StudioTier, env: LlmEnv): string[] {
   const chain: string[] = env.ZAI_API_KEY ? config.textModels.filter((model) => model.startsWith(ZAI_PREFIX)) : [];
-  if (tier === "free" && config.freeTextFallback && env.OPENROUTER_API_KEY) chain.push(config.freeTextFallback);
+  const fallback = tier === "free" ? config.freeTextFallback : config.paidTextFallback ?? null;
+  if (fallback && env.OPENROUTER_API_KEY) chain.push(fallback);
   return chain;
 }
 
@@ -335,8 +342,10 @@ async function callOpenRouter(fetchFn: typeof fetch, env: LlmEnv, model: string,
     max_tokens: shape.maxTokens,
     response_format: { type: "json_object" },
     provider: {
-      // One ':free' endpoint, no silent move to a paid one, no provider that keeps or trains on the text.
-      allow_fallbacks: false,
+      // A ':free' id: one endpoint, no silent move to a paid one. A paid id
+      // (UE-4): any provider under the same max_price. Never a provider that
+      // keeps or trains on the text.
+      allow_fallbacks: !id.endsWith(":free"),
       max_price: { ...priceCeiling(id) },
       data_collection: "deny",
     },

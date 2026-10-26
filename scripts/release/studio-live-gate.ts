@@ -29,7 +29,7 @@ export function assertStudioLiveGate(root:string,dist:string,production:Readonly
   if(config.paymentProviders.includes('click')&&config.clickUseChatService&&chat.GPT_BILLING_MODE_CLICK!=='live')issues.push('Shared Click cash desk is not live');
   if(config.paymentProviders.includes('click')&&!config.clickAmountsConfirmed)issues.push('Studio Click amounts not confirmed');
   for(const field of ['GPT_FISCAL_IKPU','GPT_FISCAL_PACKAGE_CODE','GPT_FISCAL_VAT_PERCENT','GPT_FISCAL_TIN'])if(!chat[field])issues.push(`missing ${field}`);
-  if(config.freeTextFallback)issues.push('unreviewed Studio AI fallback');
+  if(config.freeTextFallback||config.paidTextFallback)issues.push('unreviewed Studio AI fallback');
   for(const page of ['uz/tariflar','uz/taqdimot-ai','ru/prezentatsiya-ai'])if(!fs.existsSync(path.join(dist,page,'index.html')))issues.push(`missing built ${page}`);
   if(issues.length)throw new Error(`Studio live gate: ${issues.join('; ')}`);
 }

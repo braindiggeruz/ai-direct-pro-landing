@@ -18,7 +18,7 @@ import { BillingStore, type AccessPeriod } from '../functions/lib/gpt-chat/billi
 import { hashIp } from '../functions/lib/gpt-chat/hash';
 import { spendDay } from '../functions/lib/gpt-chat/model-spend-store';
 import { limitMessage, providerMessage } from '../functions/lib/gpt-chat/chat-copy';
-import { ACCOUNT_FREE_ID, PACK_DAILY_LIMIT, TurnStore, type LimitReason } from '../functions/lib/gpt-chat/turn-store';
+import { ACCOUNT_FREE_ID, IP_HOURLY_CEILING, PACK_DAILY_LIMIT, TurnStore, type LimitReason } from '../functions/lib/gpt-chat/turn-store';
 import { onRequestPost as chat } from '../functions/api/gpt/chat';
 import { onRequestGet as account } from '../functions/api/gpt/account';
 
@@ -168,11 +168,17 @@ test('explain: the day, a turn in flight and the address ceiling each name their
     { subject: 'busy', ip: 'ip-busy', at: T0 - 10_000, status: 'reserved' },
   ]);
   assert.deepEqual(await turns.explain('busy', 'ip-busy', null, cfg, T0), { reason: 'busy', retryAt: T0 + 90_000, remaining: 13 });
-  // 101 requests from one address in the hour, whatever became of them (all
-  // released here, so no answer limit applies): the 100th newest lifts it.
-  seed(f, times(101, (i) => T0 - 3000_000 + i * 25_000, { subject: 'flood', ip: 'ip-flood', status: 'released' }));
+  // 30 requests an hour without a pack (G0-code, was 100), 1000 with one.
+  assert.deepEqual(IP_HOURLY_CEILING, { free: 30, paid: 1000 });
+  // 29 requests from one address in the hour, whatever became of them (all
+  // released here, so no answer limit applies): one more still fits.
+  seed(f, times(29, (i) => T0 - 3000_000 + (i + 2) * 25_000, { subject: 'flood', ip: 'ip-flood', status: 'released' }));
+  assert.equal(await turns.explain('guest-flood', 'ip-flood', null, cfg, T0), null);
+  // The 30th and 31st: the 30th newest lifts it.
+  seed(f, times(2, (i) => T0 - 3000_000 + i * 25_000, { subject: 'flood', ip: 'ip-flood', status: 'released' }));
   assert.deepEqual(await turns.explain('guest-flood', 'ip-flood', null, cfg, T0), { reason: 'ip', retryAt: T0 - 2975_000 + HOUR, remaining: 15 });
-  // A pack has a ceiling ten times higher on the same address.
+  assert.equal((await turns.reserve('guest-flood', 'ip-flood', null, cfg, T0)).limit?.reason, 'ip');
+  // A pack holder on the same address keeps the pack's ceiling of 1000.
   const p = pack(f, 'pack-flood', 300);
   assert.equal(await turns.explain(f.user, 'ip-flood', p, cfg, T0), null);
 });

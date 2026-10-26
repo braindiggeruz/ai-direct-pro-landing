@@ -12,14 +12,21 @@ import { billingFixture } from './helpers/gpt-billing-fixture';
 import { BILLING_ORG } from '../functions/lib/gpt-chat/billing-config';
 import { freeChain, modelChain, resolveConfig } from '../functions/lib/gpt-chat/config';
 import { ACCOUNT_FREE_ID } from '../functions/lib/gpt-chat/turn-store';
-import { webChatChain } from '../functions/lib/gpt-chat/model-provider';
-import { PAID_PRICE_CEILING } from '../functions/lib/gpt-chat/model-pricing';
-import { alertRowId, isUrgentAlert } from '../functions/lib/gpt-chat/alert-policy';
+import { ZAI_PAID_ALLOWED, ZAI_PREPAID_CAPABLE, ZAI_ZERO_PRICE, webChatChain } from '../functions/lib/gpt-chat/model-provider';
+import { PAID_PRICE_CEILING, modelPrice } from '../functions/lib/gpt-chat/model-pricing';
+import { MODEL_PRICES as STUDIO_PRICES } from '../functions/lib/studio/pricing';
+import { alertRowId, alertText, isUrgentAlert } from '../functions/lib/gpt-chat/alert-policy';
+import { RUNTIME_CONFIG_KEYS, hydrateRuntimeConfig } from '../functions/lib/runtime-config';
+import fs from 'node:fs';
+import path from 'node:path';
 import { buildMessages, promptTokenBound } from '../functions/lib/gpt-chat/prompt';
 import {
   FREE_PAID_BUCKET,
   ModelSpendStore,
+  PACK_PAID_BUCKET,
+  attemptWorstCaseMicro,
   freePaidBudget,
+  packPaidBudget,
   spendDay,
   worstCaseMicroUsd,
 } from '../functions/lib/gpt-chat/model-spend-store';
@@ -31,21 +38,25 @@ import { onRequestPost as chat } from '../functions/api/gpt/chat';
 type Fixture = Awaited<ReturnType<typeof billingFixture>>;
 type Body = { model: string; provider: { max_price: { prompt: number; completion: number } } };
 
+const ROOT = path.resolve(import.meta.dirname, '..');
 const T0 = Date.UTC(2026, 8, 30, 6);
 const DAY = spendDay(T0);
 const OTHER = 'other-org';
 const PAID = 'google/gemma-4-26b-a4b-it';
 const messages = buildMessages([], 'Salom', 10, 'uz');
 
-function spend(f: Fixture, org = BILLING_ORG, day = spendDay(Date.now())) {
+function spend(f: Fixture, org = BILLING_ORG, day = spendDay(Date.now()), bucket = FREE_PAID_BUCKET) {
   const row = f.db.rows<{ reserved_micro: number; actual_micro: number; attempts: number }>(
     'SELECT reserved_micro, actual_micro, attempts FROM gpt_model_spend WHERE org_id=? AND day=? AND bucket=?',
     org,
     day,
-    FREE_PAID_BUCKET,
+    bucket,
   )[0];
   return row ? { ...row } : null;
 }
+
+/** The packs' row of today (UE-3). */
+const packSpend = (f: Fixture) => spend(f, BILLING_ORG, spendDay(Date.now()), PACK_PAID_BUCKET);
 
 /** An OpenRouter stream: one answer, a finish reason and the usage chunk. */
 function sse(text: string, usage = { prompt_tokens: 900, completion_tokens: 100 }): Response {
@@ -164,13 +175,13 @@ test('a free turn: ":free" passes untouched, the paid model reserves, a spent bu
   const first = freePaidBudget(store, cfg, messages, () => exhausted++, T0);
   assert.equal(await first.admit('google/gemma-4-31b-it:free'), 'ok');
   assert.equal(await first.admit('zai/glm-4.7-flash'), 'ok');
-  // A Z.ai model that bills per token has no max_price to reserve against:
-  // a free answer (a pack holder's walks the pack's chain, R2) skips it, and
-  // a prepaid bundle passes only while listed. Neither is a spent budget.
+  // A Z.ai model the free tier may not call is skipped before the budget is
+  // asked: one that bills per token (a pack holder's free answer walks the
+  // pack's chain, R2), and a prepaid bundle that is not listed. Neither is a
+  // spent budget. A listed one reserves at its list price (UE-3, below).
   assert.equal(await first.admit('zai/glm-4.5-air'), 'skip');
   assert.equal(await first.admit('zai/glm-4.7-flashx'), 'skip');
   assert.equal(await first.admit('zai/glm-5.3-flash'), 'skip');
-  assert.equal(await freePaidBudget(store, { ...cfg, zaiPrepaidModels: ['glm-5.3-flash'] }, messages, () => exhausted++, T0).admit('zai/glm-5.3-flash'), 'ok');
   assert.equal(exhausted, 0);
   assert.equal(spend(f, BILLING_ORG, DAY), null, 'no row for free models');
   assert.equal(await first.admit(PAID), 'ok');
@@ -338,6 +349,9 @@ test('web chat: a pack turn walks the paid chain under its own attempt ceiling a
   assert.deepEqual(bodies.map((b) => b.model), [PAID]);
   assert.equal(spend(f), null);
   assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), 1);
+  // UE-3: the pack's answer is booked on the packs' own day budget, settled
+  // at its price (900 × 0.09 + 100 × 0.30 = 111 micro-USD).
+  assert.deepEqual(packSpend(f), { reserved_micro: 111, actual_micro: 111, attempts: 1 });
 });
 
 test('web chat: a pack holder\'s free answer walks the pack\'s chain on the free budget, never the pack\'s attempt ceiling (R2)', async (t) => {
@@ -376,4 +390,182 @@ test('retention: the maintenance cron drops spend and limit-hit days older than 
       [[BILLING_ORG, recent], [OTHER, old], [OTHER, recent]],
       table,
     );
+});
+
+// ── UE-3: the prepaid model's real price and the two day budgets ────────────
+
+/** Mock api.z.ai and openrouter.ai; records the host and model of every request. */
+function providers(t: TestContext, handlers: { zai?: () => Response; openrouter?: (body: Body) => Response }) {
+  const seen: Array<{ host: string; model: string }> = [];
+  t.mock.method(globalThis, 'fetch', async (input: RequestInfo | URL, init?: RequestInit) => {
+    const host = new URL(input instanceof Request ? input.url : String(input)).host;
+    const body = JSON.parse(String(init?.body)) as Body;
+    seen.push({ host, model: body.model });
+    if (host === 'api.z.ai' && handlers.zai) return handlers.zai();
+    if (host === 'openrouter.ai' && handlers.openrouter) return handlers.openrouter(body);
+    throw new Error(`unexpected host ${host}`);
+  });
+  return seen;
+}
+
+/** Production's model config: both tiers on the prepaid glm-5.3-flash, OpenRouter behind it. */
+async function prepaidFixture(dailyUsd = '0.3') {
+  const f = await billingFixture();
+  Object.assign(f.env, {
+    OPENROUTER_API_KEY: randomBytes(24).toString('hex'),
+    ZAI_API_KEY: randomBytes(24).toString('hex'),
+    GPT_MODEL_PROVIDER: 'zai',
+    GPT_ZAI_EVAL_APPROVED: '2026-09-30',
+    ZAI_MODEL_FREE: 'glm-5.3-flash',
+    ZAI_MODEL_PAID: 'glm-5.3-flash',
+    ZAI_PREPAID_MODELS: 'glm-5.3-flash',
+    GPT_FREE_PAID_DAILY_USD: dailyUsd,
+  });
+  return f;
+}
+
+/** The holder's free answers of the day are spent: the next turn is the pack's (R2). */
+function spendHolderFreeDay(f: Fixture) {
+  const now = Date.now();
+  for (let i = 0; i < resolveConfig(f.env).freeDailyLimit; i++)
+    f.db
+      .prepare("INSERT INTO gpt_turn_reservations(org_id,id,subject,ip_hash,period_id,status,created_at,expires_at) VALUES(?,?,?,'ip',NULL,'done',?,?)")
+      .bind(BILLING_ORG, ACCOUNT_FREE_ID + crypto.randomUUID(), f.user, now, now + 120_000)
+      .runSync();
+}
+
+test('UE-3: every Z.ai model a chain may hold has a price; glm-5.3-flash costs its list price, as in the studio', () => {
+  for (const id of [...ZAI_ZERO_PRICE, ...ZAI_PAID_ALLOWED, ...ZAI_PREPAID_CAPABLE]) assert.ok(modelPrice(`zai/${id}`), id);
+  assert.deepEqual(modelPrice('zai/glm-5.3-flash'), { in: 0.15, out: 0.5 });
+  const studio = STUDIO_PRICES['zai/glm-5.3-flash'];
+  assert.deepEqual([studio.input, studio.output], [0.15, 0.5], 'the chat and the studio price it alike');
+  const bound = promptTokenBound(messages);
+  assert.equal(attemptWorstCaseMicro('zai/glm-5.3-flash', messages, 1600), Math.ceil(bound * 0.15 + 1600 * 0.5));
+  assert.equal(attemptWorstCaseMicro('zai/glm-4.5-air', messages, 1600), Math.ceil(bound * 0.2 + 1600 * 1.1));
+  assert.equal(attemptWorstCaseMicro('zai/glm-4.7-flash', messages, 1600), 0);
+  assert.equal(attemptWorstCaseMicro('google/gemma-4-31b-it:free', messages, 1600), 0);
+  assert.equal(attemptWorstCaseMicro(PAID, messages, 1600), worstCaseMicroUsd(messages, 1600));
+  assert.equal(attemptWorstCaseMicro('zai/glm-9-unpriced', messages, 1600), null, 'an unpriced model cannot be bounded');
+  // The longest prompt buildMessages lets through, at the committed 1600
+  // tokens, reserves at most $0.0025 on glm-5.3-flash: $0.3 holds 120 at once.
+  const history = Array.from({ length: 20 }, (_, i) => ({ role: i % 2 ? 'assistant' as const : 'user' as const, content: 'Я'.repeat(8000) }));
+  const longest = buildMessages(history, '‘’'.repeat(1500), 10, 'uz');
+  assert.ok(attemptWorstCaseMicro('zai/glm-5.3-flash', longest, 1600)! <= 2_500);
+});
+
+test('UE-3: a listed prepaid glm-5.3-flash reserves on «free» at its list price and is skipped once the day is spent', async () => {
+  const f = await billingFixture();
+  const store = new ModelSpendStore(f.binding, BILLING_ORG);
+  const worst = attemptWorstCaseMicro('zai/glm-5.3-flash', messages, 1600)!;
+  let exhausted = 0;
+  const cfg = { freePaidDailyUsd: (worst * 1.5) / 1_000_000, maxOutputTokens: 1600, zaiPrepaidModels: ['glm-5.3-flash'] };
+  const first = freePaidBudget(store, cfg, messages, () => exhausted++, T0);
+  assert.equal(await first.admit('zai/glm-5.3-flash'), 'ok');
+  assert.deepEqual(spend(f, BILLING_ORG, DAY), { reserved_micro: worst, actual_micro: 0, attempts: 1 });
+  // A second free answer does not fit beside the first one's worst case.
+  const second = freePaidBudget(store, cfg, messages, () => exhausted++, T0);
+  assert.equal(await second.admit('zai/glm-5.3-flash'), 'skip');
+  assert.equal(exhausted, 1);
+  // ':free' and $0 models still pass: the free answer moves to them.
+  assert.equal(await second.admit('google/gemma-4-31b-it:free'), 'ok');
+  assert.equal(await second.admit('zai/glm-4.7-flash'), 'ok');
+  // 1500 in, 500 out = 475 micro-USD; the rest of the worst case comes back.
+  await first.settle('zai/glm-5.3-flash', 0.000475);
+  assert.deepEqual(spend(f, BILLING_ORG, DAY), { reserved_micro: 475, actual_micro: 475, attempts: 1 });
+  assert.equal(await second.admit('zai/glm-5.3-flash'), 'ok');
+  // The packs' bucket never saw any of it; a released reservation comes back whole.
+  assert.equal(spend(f, BILLING_ORG, DAY, PACK_PAID_BUCKET), null);
+  const pack = packPaidBudget(store, { packPaidDailyUsd: 3, maxOutputTokens: 1600 }, messages, () => exhausted++, T0);
+  assert.equal(await pack.admit('zai/glm-5.3-flash'), 'ok');
+  assert.deepEqual(spend(f, BILLING_ORG, DAY, PACK_PAID_BUCKET), { reserved_micro: worst, actual_micro: 0, attempts: 1 });
+  await pack.release('zai/glm-5.3-flash');
+  await pack.release('zai/glm-5.3-flash');
+  await pack.settle('zai/glm-5.3-flash', 0.000475);
+  assert.deepEqual(spend(f, BILLING_ORG, DAY, PACK_PAID_BUCKET), { reserved_micro: 0, actual_micro: 0, attempts: 1 }, 'released once, never settled after');
+  assert.equal(exhausted, 1);
+});
+
+test('web chat, production shape: a trial answer on the prepaid glm-5.3-flash books its list price on «free»; a spent day moves it to ":free"', async (t) => {
+  const f = await prepaidFixture();
+  const seen = providers(t, {
+    zai: () => Response.json({ choices: [{ message: { content: 'Javob' }, finish_reason: 'stop' }], usage: { prompt_tokens: 1500, completion_tokens: 500 } }),
+  });
+  assert.match(await turn(f, { stream: false }), /"ok":true/);
+  assert.deepEqual(seen, [{ host: 'api.z.ai', model: 'glm-5.3-flash' }]);
+  assert.deepEqual(spend(f), { reserved_micro: 475, actual_micro: 475, attempts: 1 });
+  assert.equal(packSpend(f), null);
+  assert.equal(f.db.value('SELECT cost_micro_usd FROM gpt_turn_reservations'), 475);
+
+  // Below one worst case: Z.ai is never called, OpenRouter's ':free' answers
+  // and the day's background note is written. The packs are not touched.
+  t.mock.restoreAll();
+  const g = await prepaidFixture('0.0001');
+  const skipped = providers(t, { openrouter: () => sse('Bepul javob') });
+  assert.match(await turn(g), /"type":"done"/);
+  assert.ok(skipped.length > 0 && skipped.every((s) => s.host === 'openrouter.ai' && s.model.endsWith(':free')), JSON.stringify(skipped));
+  assert.equal(spend(g), null);
+  assert.equal(packSpend(g), null);
+  assert.deepEqual(g.db.rows<{ code: string }>('SELECT code FROM gpt_service_alerts').map((r) => r.code), ['free_paid_budget_exhausted']);
+});
+
+test('web chat: a spent «packs» brake skips the billable models to ":free" without spending the ceiling, and pages the owner once a day', async (t) => {
+  const f = await paidPrimaryFixture();
+  await buyPack(f);
+  spendHolderFreeDay(f);
+  const cap = Math.floor(resolveConfig(f.env).packPaidDailyUsd * 1_000_000);
+  f.db
+    .prepare('INSERT INTO gpt_model_spend(org_id,day,bucket,reserved_micro,actual_micro,attempts) VALUES(?,?,?,?,?,1)')
+    .bind(BILLING_ORG, spendDay(Date.now()), PACK_PAID_BUCKET, cap, cap)
+    .runSync();
+  const bodies = openrouter(t, () => sse('Bepul javob'));
+  // Still the pack's answer, from the chain's ':free' model.
+  assert.match(await turn(f, { cookie: f.testCookie }), /"type":"done"[^\n]*"remaining":299/);
+  const chain = modelChain(resolveConfig(f.env), 'paid');
+  assert.deepEqual(bodies.map((b) => b.model), [chain.find((model) => model.endsWith(':free'))]);
+  // The skipped paid models spent no attempt of the pack's ceiling.
+  assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), 1);
+  assert.deepEqual(packSpend(f), { reserved_micro: cap, actual_micro: cap, attempts: 1 });
+  assert.equal(spend(f), null, 'the free budget is never a fallback for the packs');
+  assert.deepEqual(
+    f.db.rows<{ code: string }>('SELECT DISTINCT code FROM gpt_service_alerts').map((r) => r.code),
+    ['pack_paid_budget_exhausted'],
+  );
+  assert.equal(isUrgentAlert('pack_paid_budget_exhausted'), true);
+  assert.equal(alertRowId('pack_paid_budget_exhausted', T0), alertRowId('pack_paid_budget_exhausted', T0 + 3 * 3_600_000));
+  assert.ok(alertText('pack_paid_budget_exhausted'));
+  assert.ok(alertText('free_paid_budget_exhausted'));
+});
+
+test('web chat: an attempt the pack ceiling stops gives its «packs» reservation back', async (t) => {
+  const f = await paidPrimaryFixture();
+  const order = await buyPack(f);
+  spendHolderFreeDay(f);
+  // The pack's attempt ceiling (3 × message_limit) is spent.
+  const limit = Number(f.db.value('SELECT message_limit FROM gpt_access_periods WHERE order_id=?', order));
+  const attempt = f.db.prepare('INSERT INTO gpt_model_attempts(org_id,id,period_id,created_at) VALUES(?,?,?,?)');
+  for (let i = 0; i < limit * 3; i++) attempt.bind(BILLING_ORG, crypto.randomUUID(), order, Date.now()).runSync();
+  const bodies = openrouter(t, () => sse('never'));
+  assert.doesNotMatch(await turn(f, { cookie: f.testCookie }), /"type":"done"/);
+  assert.equal(bodies.length, 0);
+  assert.deepEqual(packSpend(f), { reserved_micro: 0, actual_micro: 0, attempts: 1 });
+  assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), limit * 3);
+});
+
+test('GPT_PACK_PAID_DAILY_USD: default 3, clamped 1..50, never 0; committed 0.3 and 3 in both places', () => {
+  assert.equal(resolveConfig({} as never).packPaidDailyUsd, 3);
+  assert.equal(resolveConfig({ GPT_PACK_PAID_DAILY_USD: '0' } as never).packPaidDailyUsd, 1);
+  assert.equal(resolveConfig({ GPT_PACK_PAID_DAILY_USD: '500' } as never).packPaidDailyUsd, 50);
+  assert.equal(resolveConfig({ GPT_PACK_PAID_DAILY_USD: '7.5' } as never).packPaidDailyUsd, 7.5);
+  assert.equal(resolveConfig({ GPT_PACK_PAID_DAILY_USD: 'lots' } as never).packPaidDailyUsd, 3);
+  assert.ok((RUNTIME_CONFIG_KEYS as readonly string[]).includes('GPT_PACK_PAID_DAILY_USD'));
+  const source = fs.readFileSync(path.join(ROOT, 'wrangler.toml'), 'utf8');
+  const packed = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(source)![1]) as Record<string, string>;
+  const table = source.slice(source.indexOf('[vars.GPTBOT_RUNTIME_CONFIG]'));
+  // Decision №13: the free bucket from $1 to $0.3 a day.
+  for (const [key, value] of [['GPT_FREE_PAID_DAILY_USD', '0.3'], ['GPT_PACK_PAID_DAILY_USD', '3']]) {
+    assert.equal(packed[key], value, `packed ${key}`);
+    assert.match(table, new RegExp(`^${key} = "${value}"\\r?$`, 'mu'), `table ${key}`);
+  }
+  const cfg = resolveConfig(hydrateRuntimeConfig({ GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packed) } as never));
+  assert.deepEqual([cfg.freePaidDailyUsd, cfg.packPaidDailyUsd], [0.3, 3]);
 });

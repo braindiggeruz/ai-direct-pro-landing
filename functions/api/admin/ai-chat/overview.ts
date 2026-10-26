@@ -26,10 +26,12 @@ export const onRequestGet = withOwnerRole('platform_owner', async (ctx) => {
   if (weeks === null) return ownerError('invalid_query', ctx.requestId, 400);
   const env = ctx.env as BillingEnv;
   const now = Date.now();
+  const cfg = resolveConfig(env);
   const sections = await new AiChatAdminStore(ctx.db).overview(BILLING_ORG, {
     now,
     weeks,
-    capUsd: resolveConfig(env).freePaidDailyUsd,
+    capUsd: cfg.freePaidDailyUsd,
+    packCapUsd: cfg.packPaidDailyUsd,
     requestId: ctx.requestId,
   });
   const body: AiChatOverview = {

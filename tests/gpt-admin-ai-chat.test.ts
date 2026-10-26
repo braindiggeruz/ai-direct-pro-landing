@@ -49,6 +49,7 @@ import {
 import { REQUIRED_FEATURES } from "../scripts/release/pages-production";
 import { Sidebar } from "../src/admin/components/Sidebar.tsx";
 import { AiChatView, type AiChatViewProps } from "../src/admin/components/ai-chat/AiChatView.tsx";
+import { ModelsCard } from "../src/admin/components/ai-chat/ModelsCard.tsx";
 
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
 
@@ -975,4 +976,67 @@ test("10. the page shows pseudonyms and setting names, no raw id; the menu has �
   // The release guard rejects an admin bundle without the section.
   assert.ok(REQUIRED_FEATURES.some(([id, marker]) => id === "ai_chat_admin" && marker === "/api/admin/ai-chat/overview"));
   assert.match(read("src/admin/lib/ai-chat-api.ts"), /\/api\/admin\/ai-chat\/overview/);
+});
+
+test("G0-code rows: today's two day budgets, pack answers left without a model and Z.ai's 1113 hours, own org only", async () => {
+  const f = await adminFixture();
+  const now = Date.now();
+  const at = now - HOUR;
+  // Pack answers that ended without any model: one this week, one older,
+  // one of another org; a holder's free answer and an upstream error do not count.
+  addTurn(f.db, { ip: "h2_pack", at, period: "ord_pack", status: "released", outcome: "no_model" });
+  addTurn(f.db, { ip: "h2_pack", at: now - 8 * DAY, period: "ord_pack", status: "released", outcome: "no_model" });
+  addTurn(f.db, { ip: "h2_pack", at, period: "ord_pack", status: "released", outcome: "upstream_error" });
+  addTurn(f.db, { ip: "h2_free", at, status: "released", outcome: "no_model" });
+  addTurn(f.db, { org: "org_other", ip: "h2_theirs", at, period: "ord_theirs", status: "released", outcome: "no_model" });
+  const spend = f.db.prepare("INSERT INTO gpt_model_spend(org_id,day,bucket,reserved_micro,actual_micro,attempts) VALUES(?,?,?,?,?,?)");
+  const today = new Date(now).toISOString().slice(0, 10);
+  spend.bind(BILLING_ORG, today, "free_paid", 150_000, 120_000, 4).runSync();
+  spend.bind(BILLING_ORG, today, "pack_paid", 450_000, 450_000, 3).runSync();
+  spend.bind("org_other", today, "pack_paid", 9_000_000, 9_000_000, 9).runSync();
+  const store = new AiChatAdminStore(f.binding);
+  const { models } = await store.overview(BILLING_ORG, { now, weeks: 1, capUsd: 0.3, packCapUsd: 3 });
+  assert.ok(models.ok);
+  assert.deepEqual(models.data.spendToday, { usd: 0.12, reservedUsd: 0.15, capUsd: 0.3, attempts: 4 });
+  assert.deepEqual(models.data.packSpendToday, { usd: 0.45, reservedUsd: 0.45, capUsd: 3, attempts: 3 });
+  assert.equal(models.data.packNoModel7d, 1);
+  // A caller without the packs' cap gets no packs row; an empty day reads as zeros.
+  const older = await store.overview(BILLING_ORG, { now, weeks: 1, capUsd: 0.3 });
+  assert.ok(older.models.ok);
+  assert.equal(older.models.data.packSpendToday, null);
+  const tomorrow = await store.overview(BILLING_ORG, { now: now + DAY, weeks: 1, capUsd: 0.3, packCapUsd: 3 });
+  assert.ok(tomorrow.models.ok);
+  assert.deepEqual(tomorrow.models.data.packSpendToday, { usd: 0, reservedUsd: 0, capUsd: 3, attempts: 0 });
+  // Through the endpoint the caps are the configuration's.
+  const answer = await call(overview, f.env, `${API}/overview`, { token: f.tokens.owner });
+  const body = answer.body as unknown as AiChatOverview;
+  assert.ok(body.models.ok);
+  assert.equal(body.models.data.packSpendToday?.capUsd, 3);
+  assert.equal(body.models.data.packNoModel7d, 1);
+
+  // The card shows the three rows; the 1113 hours come from the week's alerts.
+  const html = renderToStaticMarkup(React.createElement(ModelsCard, {
+    models: { ok: true, error: null, data: { ...models.data, last24h: [], last7d: [] } },
+    alerts: {
+      ok: true,
+      error: null,
+      data: {
+        last7d: [{ code: "zai_balance_exhausted", n: 5, delivered: 5, lastAt: now, urgent: true, text: "Z.ai: закончился баланс, ответы идут через OpenRouter" }],
+        watchdogLastRun: now,
+        catalogueLastRun: null,
+      },
+    },
+    primary: null,
+  }));
+  assert.match(html, /Платные модели у пакетов сегодня \(UTC\), тормоз/);
+  assert.match(html, /Ходы пакета без модели за 7 дней/);
+  assert.match(html, /Z\.ai 1113 «нет баланса» за 7 дней, часов<\/div><span class="text-red-300">5<\/span>/);
+  // An older server without the new fields: the packs' rows are simply absent.
+  const plain = renderToStaticMarkup(React.createElement(ModelsCard, {
+    models: { ok: true, error: null, data: { last24h: [], last7d: [], blocked: [], spendToday: null } },
+    alerts: { ok: true, error: null, data: { last7d: [], watchdogLastRun: null, catalogueLastRun: null } },
+    primary: null,
+  }));
+  assert.doesNotMatch(plain, /у пакетов|без модели/);
+  assert.match(plain, /Z\.ai 1113 «нет баланса» за 7 дней, часов<\/div><span>0<\/span>/);
 });

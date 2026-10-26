@@ -154,6 +154,13 @@ test('Studio live gate: missing built delivery pages and unreviewed AI fallback 
   }
   f.config({ STUDIO_FREE_TEXT_FALLBACK: 'openrouter:google/gemma-4-31b-it:free' });
   assert.throws(() => f.check(), /unreviewed Studio AI fallback/);
+  // UE-4: a paid fallback, ':free' or paid, blocks the same way until the 17.12 runbook lifts it.
+  for (const model of ['openrouter:google/gemma-4-31b-it:free', 'openrouter:google/gemma-4-26b-a4b-it']) {
+    f.config({ STUDIO_PAID_TEXT_FALLBACK: model });
+    assert.throws(() => f.check(), /unreviewed Studio AI fallback/, model);
+  }
+  f.config();
+  assert.doesNotThrow(() => f.check());
 });
 
 test('Studio live gate: stopping live sales remains deployable with missing secrets, terms, fiscal data and built pages', t => {

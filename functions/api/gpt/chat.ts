@@ -17,9 +17,10 @@
 // the length limit is never charged and says so (done.truncated); a stopped
 // answer is charged only past GPT_STOP_CHARGE_MIN_CHARS delivered characters
 // (turn-outcome.ts). `remaining` / `hourRemaining` are read after that
-// settlement. A free answer may use a paid model only through the free
-// tier's day budget (model-spend-store.ts); a pack answer walks under the
-// pack's attempt ceiling (TurnStore.admitModelAttempt).
+// settlement. A free answer may use a billable model only through the day
+// budget «free, trial, R2» (model-spend-store.ts); a pack answer walks under
+// the day budget «packs» and the pack's attempt ceiling
+// (TurnStore.admitModelAttempt).
 //
 // Free answers first, then the pack (decision R2): a pack holder's turn is a
 // free answer while the holder's own free day and hour allow it, counted by
@@ -47,7 +48,9 @@ import { estimateCostUsd } from "../../lib/gpt-chat/model-pricing";
 import {
   FREE_PAID_BUDGET_ALERT,
   ModelSpendStore,
+  PACK_PAID_BUDGET_ALERT,
   freePaidBudget,
+  packPaidBudget,
 } from "../../lib/gpt-chat/model-spend-store";
 import { recordServiceAlert } from "../../lib/gpt-chat/billing-maintenance-store";
 import { alertOperator } from "../../lib/gpt-chat/operator-alert";
@@ -341,24 +344,36 @@ export const onRequestPost: PagesFunction<Env> = async ({
     await settle({ outcome: "context_too_large", charged: false });
     return fail("context_too_large", "Shorten the message", 400);
   }
-  // A free answer, a pack holder's included, pays for a paid model only out
-  // of the free tier's day budget; its exhaustion is recorded once a day
-  // (informational, alert-policy.ts). A pack answer is bounded by the pack's
-  // attempt ceiling instead, which a free answer never spends: every answer
-  // the pack holds stays reachable.
+  // Two day budgets in USD for billable models (model-spend-store.ts, UE-3).
+  // A free answer, a pack holder's included, pays for one only out of
+  // «free, trial, R2»; its exhaustion is recorded once a day (informational,
+  // alert-policy.ts). A pack answer pays out of «packs», an emergency brake
+  // whose exhaustion pages the owner, AND under the pack's attempt ceiling,
+  // which a free answer never spends: every answer the pack holds stays
+  // reachable. The brake is asked first, so a model it skips spends no
+  // attempt; an attempt the ceiling stops gives its reservation back.
+  const spendStore = new ModelSpendStore(db, BILLING_ORG);
   const budget =
     bucket === "pack"
-      ? null
-      : freePaidBudget(new ModelSpendStore(db, BILLING_ORG), cfg, messages, () =>
+      ? packPaidBudget(spendStore, cfg, messages, () =>
+          waitUntil(alertOperator(env, PACK_PAID_BUDGET_ALERT)),
+        )
+      : freePaidBudget(spendStore, cfg, messages, () =>
           waitUntil(
             recordServiceAlert(env, FREE_PAID_BUDGET_ALERT).catch(() =>
               console.warn("gpt_operator_alert_record_failed"),
             ),
           ),
         );
-  const admitAttempt: AdmitAttempt = budget
-    ? budget.admit
-    : async () => ((await turns!.admitModelAttempt(period!)) ? "ok" : "stop");
+  const admitAttempt: AdmitAttempt =
+    bucket === "pack"
+      ? async (model) => {
+          if ((await budget.admit(model)) === "skip") return "skip";
+          if (await turns!.admitModelAttempt(period!)) return "ok";
+          await budget.release(model);
+          return "stop";
+        }
+      : budget.admit;
   // A pack holder's free answers walk the pack's chain too: R2 changes what a
   // turn draws on, not how it is answered. Only a Z.ai head that bills per
   // token gives way to the free tier's Z.ai model (holderFreeChain).
@@ -528,7 +543,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
         costMicroUsd: microUsd(costUsd),
         attempts: start.attempts,
       });
-      await budget?.settle(start.model, costUsd);
+      await budget.settle(start.model, costUsd);
       if (!clientGone && (upstreamCode !== null || !completed)) {
         // Z.ai: a mid-stream safety stop (1301 / finish_reason 'sensitive')
         // refused this answer only, so it cools nothing down; a balance or
@@ -686,7 +701,7 @@ export const onRequestPost: PagesFunction<Env> = async ({
     costMicroUsd: microUsd(costUsd),
     attempts: result.attempts,
   });
-  if (result.modelUsed) await budget?.settle(result.modelUsed, costUsd);
+  if (result.modelUsed) await budget.settle(result.modelUsed, costUsd);
   const nowIso = new Date().toISOString();
 
   // Persist (best-effort — never block the answer on a write failure).

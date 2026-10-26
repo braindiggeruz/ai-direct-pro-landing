@@ -156,6 +156,10 @@ export interface AiChatModels {
   blocked: Array<{ model: string; code: string; until: number }>;
   /** The free tier's spend on paid models today (UTC day); null before 0066. */
   spendToday: { usd: number; reservedUsd: number; capUsd: number; attempts: number } | null;
+  /** The packs' spend today against their brake (UE-3); optional for older servers. */
+  packSpendToday?: { usd: number; reservedUsd: number; capUsd: number; attempts: number } | null;
+  /** Pack answers of the last 7 days that ended no_model; optional for older servers. */
+  packNoModel7d?: number | null;
 }
 
 export interface AiChatAlertRow {
