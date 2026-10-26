@@ -60,7 +60,7 @@
   "heroTitle": "Onlayn testlar: fanlar bo‘yicha test savollari va AI test tuzuvchi",
   "heroSubtitle": "Tayyor testlar bepul va limitsiz; istalgan mavzuda yangi test savollarini AI o‘qituvchi tuzadi — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
   "ctaPrimaryLabel": "AI chat tariflari",
-  "ctaPrimaryHref": "/uz/tariflar/",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
   "ctaSecondaryLabel": "Informatika test",
   "ctaSecondaryHref": "/uz/informatika-test/",
   "bodyBlocks": [
@@ -232,7 +232,7 @@
         },
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "AI chat tariflari"
         }
       ]
@@ -262,7 +262,7 @@
         },
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#tashkilotlar",
           "anchor": "tariflar"
         }
       ]

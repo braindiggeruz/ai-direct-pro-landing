@@ -2,6 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { createServer } from 'node:http';
 import { chromium } from 'playwright-core';
@@ -19,7 +20,8 @@ test('trial UI: third answer finishes before paywall; close, reload, locale, dra
   await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
   const origin = `http://127.0.0.1:${(server.address() as { port: number }).port}`;
   const browser = await chromium.launch({ executablePath, headless: true, args: ['--disable-gpu'] });
-  const reports = process.env.GPTBOT_BROWSER_REPORT_DIR || path.join(root, 'reports/chat-lifetime-trial-20261008'); fs.mkdirSync(reports, { recursive: true });
+  // Screenshots land outside the repository unless GPTBOT_BROWSER_REPORT_DIR names a folder.
+  const reports = process.env.GPTBOT_BROWSER_REPORT_DIR || path.join(os.tmpdir(), 'gptbot-chat-trial'); fs.mkdirSync(reports, { recursive: true });
   try {
     // The two main chats, and an AI tool page whose paywall speaks to its task (Ш1).
     for (const [locale, width, start, role, title] of [

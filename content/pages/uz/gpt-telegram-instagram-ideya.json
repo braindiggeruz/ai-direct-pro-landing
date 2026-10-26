@@ -61,7 +61,7 @@
   "heroTitle": "Reklama matni yozish: Telegram va Instagram uchun AI generator",
   "heroSubtitle": "Reklama matni, post va mahsulot tavsifini «SMM mutaxassisi» rolidagi AI chatda yozing: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
   "ctaPrimaryLabel": "AI chat tariflari",
-  "ctaPrimaryHref": "/uz/tariflar/",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
   "ctaSecondaryLabel": "Target yoqish xizmati",
   "ctaSecondaryHref": "/uz/instagram-target-yoqish/",
   "bodyBlocks": [
@@ -309,7 +309,7 @@
         },
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "AI chat tariflari"
         },
         {
@@ -326,11 +326,11 @@
     },
     {
       "type": "linkp",
-      "text": "Paket bilan bitta mahsulot uchun Telegram post, Instagram matni, sarlavhalar va Uzum kartochkasini ketma-ket yozdirish va tahrir qilish mumkin: har bir matn yoki tahrir paketdan bitta javob oladi. AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik to‘lovsiz. Bitta paket saytdagi barcha AI sahifalarida ishlaydi, to‘lov — chatning o‘zida. Batafsil shartlar — {tariffs} sahifasida.",
+      "text": "Paket bilan bitta mahsulot uchun Telegram post, Instagram matni, sarlavhalar va Uzum kartochkasini ketma-ket yozdirish va tahrir qilish mumkin: har bir matn yoki tahrir paketdan bitta javob oladi. AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik to‘lovsiz. Bitta paket saytdagi barcha AI chatlarda ishlaydi, to‘lov — chatning o‘zida; Studio taqdimotlari alohida to‘lanadi. Batafsil shartlar — {tariffs} sahifasida.",
       "links": [
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "tariflar"
         }
       ]

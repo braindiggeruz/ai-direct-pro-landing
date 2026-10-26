@@ -60,7 +60,7 @@
   "heroTitle": "Fizika test: 40 ta mashq savoli va AI tushuntirish",
   "heroSubtitle": "Test bepul va limitsiz: javob darhol tekshiriladi, izoh ochiladi. AI o‘qituvchining tushuntirishlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
   "ctaPrimaryLabel": "AI chat tariflari",
-  "ctaPrimaryHref": "/uz/tariflar/",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
   "ctaSecondaryLabel": "Barcha onlayn testlar",
   "ctaSecondaryHref": "/uz/onlayn-testlar/",
   "bodyBlocks": [
@@ -319,7 +319,7 @@
         },
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "AI chat tariflari"
         }
       ]
@@ -349,7 +349,7 @@
         },
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#tashkilotlar",
           "anchor": "tariflar"
         }
       ]

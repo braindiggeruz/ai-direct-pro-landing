@@ -67,7 +67,7 @@
   "heroTitle": "AI she’r yozish: onaga, Yangi yilga, bolalar va do‘stlarga",
   "heroSubtitle": "Mavzu, ism va bitta xotirani yozing — AI chat qofiyali original she’r tayyorlaydi: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
   "ctaPrimaryLabel": "AI chat tariflari",
-  "ctaPrimaryHref": "/uz/tariflar/",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
   "ctaSecondaryLabel": "AI tabrik generatori",
   "ctaSecondaryHref": "/uz/ai-tabrik-generatori/",
   "bodyBlocks": [
@@ -276,7 +276,7 @@
         },
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "AI chat tariflari"
         }
       ]
@@ -314,11 +314,11 @@
     },
     {
       "type": "linkp",
-      "text": "Paket bilan she’rning yangi variantlarini so‘rash, qofiyani almashtirish yoki qisqartirish mumkin: har bir variant yoki tahrir paketdan bitta javob oladi. AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik to‘lovsiz. Bitta paket saytdagi barcha AI sahifalarida ishlaydi, to‘lov — chatning o‘zida. Batafsil shartlar — {tariffs} sahifasida.",
+      "text": "Paket bilan she’rning yangi variantlarini so‘rash, qofiyani almashtirish yoki qisqartirish mumkin: har bir variant yoki tahrir paketdan bitta javob oladi. AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik to‘lovsiz. Bitta paket saytdagi barcha AI chatlarda ishlaydi, to‘lov — chatning o‘zida; Studio taqdimotlari alohida to‘lanadi. Batafsil shartlar — {tariffs} sahifasida.",
       "links": [
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "tariflar"
         }
       ]

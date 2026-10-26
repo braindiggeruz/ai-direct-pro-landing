@@ -67,7 +67,7 @@
   "heroTitle": "Kirill-lotin o‘giruvchi va o‘zbek lotin alifbosi: jadval va qoidalar",
   "heroSubtitle": "O‘giruvchi bepul va limitsiz; imloni AI o‘qituvchi tekshiradi — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
   "ctaPrimaryLabel": "AI chat tariflari",
-  "ctaPrimaryHref": "/uz/tariflar/",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
   "ctaSecondaryLabel": "O‘zbek tilida AI chat",
   "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
   "bodyBlocks": [
@@ -344,7 +344,7 @@
       "links": [
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "AI chat tariflari"
         },
         {
@@ -388,11 +388,11 @@
     },
     {
       "type": "linkp",
-      "text": "O‘giruvchi AI’siz va limitsiz ishlaydi, unga paket kerak emas. AI paket chat uchun: imloni tekshirish, o‘, g‘ va tutuq belgisi qoidasini tushuntirish, matnni tahrir qilish — har bir javob paketdan bittadan. AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik to‘lovsiz. Bitta paket saytdagi barcha AI sahifalarida ishlaydi, to‘lov — chatning o‘zida. Batafsil shartlar — {tariffs} sahifasida.",
+      "text": "O‘giruvchi AI’siz va limitsiz ishlaydi, unga paket kerak emas. AI paket chat uchun: imloni tekshirish, o‘, g‘ va tutuq belgisi qoidasini tushuntirish, matnni tahrir qilish — har bir javob paketdan bittadan. AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik to‘lovsiz. Bitta paket saytdagi barcha AI chatlarda ishlaydi, to‘lov — chatning o‘zida; Studio taqdimotlari alohida to‘lanadi. Batafsil shartlar — {tariffs} sahifasida.",
       "links": [
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "tariflar"
         }
       ]

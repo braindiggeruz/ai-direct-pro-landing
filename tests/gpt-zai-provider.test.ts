@@ -775,11 +775,14 @@ test('15b a pack holder\'s free answer never calls a Z.ai model that bills per t
   // Only the pack's answer spent an attempt of its ceiling. The free answers'
   // $0 model reserved nothing; the pack's answer went through the packs' day
   // budget (UE-3) and was settled at its list price: 10 × 0.2 + 5 × 1.1 = 7.5
-  // micro-USD, rounded to 8.
+  // micro-USD, rounded to 8, on the brake and on this pack's share of it.
   assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), 1);
   assert.deepEqual(
-    plain(f.db.rows('SELECT bucket, reserved_micro, actual_micro, attempts FROM gpt_model_spend')),
-    [{ bucket: 'pack_paid', reserved_micro: 8, actual_micro: 8, attempts: 1 }],
+    plain(f.db.rows('SELECT bucket, reserved_micro, actual_micro, attempts FROM gpt_model_spend ORDER BY bucket')),
+    [
+      { bucket: 'pack_paid', reserved_micro: 8, actual_micro: 8, attempts: 1 },
+      { bucket: `pack_paid:${order.id}`, reserved_micro: 8, actual_micro: 8, attempts: 1 },
+    ],
   );
   assert.equal(f.db.value(`SELECT COUNT(*) FROM gpt_turn_reservations WHERE id LIKE '${ACCOUNT_FREE_ID}%' AND model='zai/glm-4.7-flash'`), 5);
 });

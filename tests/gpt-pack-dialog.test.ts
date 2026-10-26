@@ -25,7 +25,8 @@ import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings, groupDigits } from '../src/gpt-chat/account-strings';
 import { checkoutReport, type CheckoutOutcome, type CheckoutWatch } from '../src/gpt-chat/checkout';
 import { groupPaymentCode, UZUM_APP_SERVICE } from '../src/gpt-chat/account/UzumCodeScreen';
-import type { AccountWindowMemory } from '../src/gpt-chat/account/AccountDialog';
+import { PROVIDER_NAMES, type AccountWindowMemory } from '../src/gpt-chat/account/AccountDialog';
+import { GUEST_PROVIDERS } from '../functions/lib/gpt-chat/billing-config';
 import type { AccountHandle } from '../src/gpt-chat/use-account';
 import { validAccountView, type AccountView, type PackTerms } from '../src/gpt-chat/types';
 import { previewViews } from '../scripts/pack-window-preview';
@@ -459,8 +460,9 @@ test('guest checkout: the pack, the offer and Click without signing in; a guest 
     for (const line of [copy.payNote('Click'), copy.guestPayNote, copy.otherBrowser]) assert.ok(has(folded, line), `${locale}: folded ${line}`);
     assert.ok(!has(page, copy.loginWhy), locale);
     // Paid without signing in in another browser (Telegram's own, say): where
-    // the pack is, and who to write to with the Click receipt.
+    // the pack is, and who to write to with the receipt of any guest provider.
     assert.ok(has(page, copy.otherBrowser), locale);
+    for (const provider of GUEST_PROVIDERS) assert.ok(copy.otherBrowser.includes(PROVIDER_NAMES[provider]), `${locale}: the ${provider} receipt`);
     assert.match(page, /data-testid="ai-pack-support"/);
     // One tap: no box, the button is live, and the line under it says the press accepts the offer.
     assert.doesNotMatch(page, /type="checkbox"/, 'the sign-in consent is behind «Войти», the offer needs no box');

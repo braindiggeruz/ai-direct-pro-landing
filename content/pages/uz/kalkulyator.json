@@ -64,7 +64,7 @@
   "heroTitle": "Onlayn kalkulyator: AI misolni bosqichma-bosqich tushuntiradi",
   "heroSubtitle": "Kalkulyator bepul va limitsiz; yechimni AI tushuntiradi — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
   "ctaPrimaryLabel": "AI chat tariflari",
-  "ctaPrimaryHref": "/uz/tariflar/",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
   "ctaSecondaryLabel": "O‘zbek tilida AI chat",
   "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
   "bodyBlocks": [
@@ -281,7 +281,7 @@
       "links": [
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "AI chat tariflari"
         },
         {

@@ -21,6 +21,7 @@ import { telegramDeepLink } from '../src/lib/telegram';
 import { STUDIO_PHONE } from '../src/shared/studio-contact';
 import { LEAD_FORM_PAGES } from '../scripts/lead-form';
 import { PROTECTED_PATHS } from '../scripts/seo-protection';
+import { strings } from '../src/gpt-chat/i18n';
 import type { Env } from '../functions/_types';
 
 type Link = { token?: string; target?: string; anchor?: string };
@@ -234,6 +235,9 @@ const blockAfter = (doc: Page, id: string) => {
 };
 const targetsOf = (blocks: Block[]) => blocks.flatMap((block) => [block.href, ...(block.links ?? []).map((link) => link.target)]).filter(Boolean) as string[];
 const UZ_HUB = '/uz/tariflar/';
+// A link to the hub from a pack or a pilot lands on the section it names, not on the Studio plans above it.
+const UZ_HUB_PACK = `${UZ_HUB}#ai-paket`;
+const UZ_HUB_ORGS = `${UZ_HUB}#tashkilotlar`;
 
 test('«AI paket bu sahifada»: the wave A tool pages state the pack the code sells and link the tariffs of their language', () => {
   for (const file of PACK_BLOCK_PAGES) {
@@ -250,7 +254,11 @@ test('«AI paket bu sahifada»: the wave A tool pages state the pack the code se
     }
     // What the pack gives on this very tool comes first, then the pack, then its page.
     assert.ok(text.indexOf(uz ? 'AI paket —' : 'AI-пакет —') > 40, `${file}: the block opens with this tool`);
-    assert.deepEqual(targetsOf(block.body), [uz ? UZ_HUB : '/ru/tarify-ai-chat/'], file);
+    assert.deepEqual(targetsOf(block.body), [uz ? UZ_HUB_PACK : '/ru/tarify-ai-chat/'], file);
+    // The pack covers the AI chats; Studio presentations are sold apart (plans.ts), so no «every AI page».
+    assert.doesNotMatch(text, /всех AI-страницах|barcha AI sahifalarida/, file);
+    assert.ok(text.includes(uz ? 'Bitta paket saytdagi barcha AI chatlarda ishlaydi' : 'Один пакет работает во всех AI-чатах сайта'), file);
+    assert.ok(text.includes(uz ? 'Studio taqdimotlari alohida to‘lanadi' : 'презентации Studio оплачиваются отдельно'), file);
   }
   for (const file of NO_PACK_BLOCK_PAGES) {
     const doc = page(file);
@@ -281,7 +289,7 @@ test('«Ustozlar va o‘quv markazlari uchun»: an honest pilot through a contac
     assert.match(text, /o‘quvchilarning ismi va ishlarini chatga yubormang/, file);
     assert.match(text, /xato bo‘lishi mumkin|xato qilishi mumkin/, file);
     const targets = targetsOf(block.body);
-    for (const target of [`tel:${STUDIO_PHONE}`, 'mailto:ceo@gptbot.uz', UZ_HUB]) assert.ok(targets.includes(target), `${file}: ${target}`);
+    for (const target of [`tel:${STUDIO_PHONE}`, 'mailto:ceo@gptbot.uz', UZ_HUB_ORGS]) assert.ok(targets.includes(target), `${file}: ${target}`);
     assert.ok(!targets.some((target) => /checkout|payment|\/api\//.test(target)), file);
   }
 });
@@ -297,7 +305,15 @@ test('/ru/tarify-ai-chat/: «Для организаций» — the same pilot,
   assert.ok(text.includes('Оплаты одним счётом по договору пока нет.'));
   assert.ok(text.includes('Пилот только для взрослых'));
   const targets = targetsOf(blockAfter(tariffs, 'dlya-organizatsiy')!.body);
-  for (const target of [`tel:${STUDIO_PHONE}`, 'mailto:ceo@gptbot.uz', UZ_HUB]) assert.ok(targets.includes(target), target);
+  for (const target of [`tel:${STUDIO_PHONE}`, 'mailto:ceo@gptbot.uz', UZ_HUB_ORGS]) assert.ok(targets.includes(target), target);
+});
+
+test('/ru/tarify-ai-chat/ names the header button as the chat shows it before a purchase', () => {
+  const all = JSON.stringify(tariffs);
+  const button = strings('ru').premium.buyPack;
+  assert.ok(all.includes(`кнопка «${button}» появляется в его шапке`), button);
+  assert.ok(all.includes(`кнопка «${button}» в шапке открывает оплату`), button);
+  assert.doesNotMatch(all, /кнопка «AI-пакет»/);
 });
 
 test('the Uzbek chat-tool pages send «AI paket shartlari» to the UZ hub, not to the Russian page', () => {
@@ -306,7 +322,23 @@ test('the Uzbek chat-tool pages send «AI paket shartlari» to the UZ hub, not t
   assert.ok(tools.length >= 15);
   for (const doc of tools) {
     assert.doesNotMatch(JSON.stringify(doc), /"\/ru\/tarify-ai-chat\/"/, doc.url);
-    assert.ok(targetsOf(doc.bodyBlocks).includes(UZ_HUB), `${doc.url}: no link to the UZ hub`);
+    assert.ok(targetsOf(doc.bodyBlocks).includes(UZ_HUB_PACK), `${doc.url}: no link to the hub's AI paket`);
+  }
+  // Ш8 on every unprotected Uzbek page, the guides included: the UZ hub, never the Russian page.
+  const uzPages = [...PAGES.values()].filter((doc) => doc.locale === 'uz' && !protectedPaths.has(doc.url));
+  for (const doc of uzPages) assert.doesNotMatch(JSON.stringify(doc), /"\/ru\/tarify-ai-chat\/"/, doc.url);
+  // A body link or the primary button to the hub lands on «AI paket · 1 oy» or «Tashkilotlar uchun»
+  // (its title and H1 name Studio only); internalLinks keep the canonical URL for the link graph.
+  const sections = new Set((JSON.parse(readFileSync('content/studio/pages/uz/tariflar.json', 'utf8')) as { sections: { id: string }[] }).sections.map((s) => s.id));
+  for (const doc of uzPages) {
+    const hubLinks = [...targetsOf(doc.bodyBlocks), doc.ctaPrimaryHref ?? ''].filter((target) => target.startsWith(UZ_HUB));
+    for (const target of hubLinks) {
+      const anchor = doc.bodyBlocks.flatMap((block) => block.links ?? []).find((link) => link.target === target)?.anchor;
+      if (anchor && /^Studio/.test(anchor)) { assert.equal(target, UZ_HUB, `${doc.url}: a Studio link keeps the hub's top`); continue; }
+      assert.ok([UZ_HUB_PACK, UZ_HUB_ORGS].includes(target), `${doc.url}: ${target}`);
+      assert.ok(sections.has(target.slice(target.indexOf('#') + 1)), `${doc.url}: the hub has ${target}`);
+    }
+    if (doc.ctaPrimaryHref?.startsWith(UZ_HUB)) assert.equal(doc.ctaPrimaryHref, UZ_HUB_PACK, doc.url);
   }
 });
 
@@ -356,6 +388,10 @@ test('/uz/tariflar/ is the UZ hub of every tariff: numbers from the code, Studio
     assert.ok([PRICE, kunlik, oylik, pair].includes(amount), `uz/tariflar: ${amount}`);
   }
   assert.ok(hub.links.links.some((link) => link.target === '/ru/tarify-ai-chat/'), 'the Russian AI-chat tariffs are one click away');
+  // The pack covers the AI chats, not the Studio pages; the button is named as the chat shows it before a purchase.
+  assert.ok(pack.includes('U saytdagi barcha AI chatlarda ishlaydi'));
+  assert.doesNotMatch(JSON.stringify(hub), /barcha AI sahifalarida/);
+  assert.ok(pack.includes(`chat sarlavhasidagi «${strings('uz').premium.buyPack}» tugmasi`));
 });
 
 test('SEO package starting prices remain present and are not contradicted by no-price-list copy', () => {

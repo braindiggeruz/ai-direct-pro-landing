@@ -14,6 +14,7 @@ import test from 'node:test';
 import { EXIT_REASONS, paywallRole, sum, trialCopy, type PaywallRole } from '../src/gpt-chat/trial-copy';
 import { CHAT_ROLE_PRESETS } from '../src/shared/types';
 import { UI_EVENTS } from '../functions/lib/gpt-chat/ui-event-store';
+import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 import { limitCard } from '../src/gpt-chat/limit-card';
 import type { PackTerms } from '../src/gpt-chat/types';
 
@@ -35,13 +36,18 @@ test('Ш1: every page role has its own heading and line in both languages; the m
     for (const [i, c] of copies.entries()) {
       const label = `${locale}/${ROLES[i]}`;
       assert.match(c.title, /\?$/, `${label}: a question about the task`);
-      // The trial's end is said in the line itself: the same 3 as the limit card and the server.
-      assert.match(c.line, locale === 'uz' ? /^3 ta sinov javobi tugadi\. / : /^Три пробных ответа использованы\. /, label);
+      // The trial's end is said in the line itself: the server's FREE_TRIAL_LIMIT,
+      // as a figure in Uzbek and as the word «Три» in Russian.
+      assert.ok(c.line.startsWith(locale === 'uz' ? `${FREE_TRIAL_LIMIT} ta sinov javobi tugadi. ` : 'Три пробных ответа использованы. '), label);
       // No figure of its own beyond the trial's 3, no recommendation, no preselection words.
       assert.doesNotMatch(`${c.title} ${c.line}`.replace(/^3 /, '').replace(/ 3 /, ' '), /\d/, label);
       assert.doesNotMatch(Object.values(c).filter((v) => typeof v === 'string').join(' '), /Tavsiya|Рекоменд|рекоменд|tavsiya/, label);
     }
   }
+  // «Три» is written as a word: it holds only while the server's trial is 3.
+  assert.equal(FREE_TRIAL_LIMIT, 3, 'a new trial size needs new words in trial-copy.ts and limit-card.ts (RU «Три»)');
+  const card = read('src/gpt-chat/limit-card.ts');
+  assert.ok(card.includes(`'${FREE_TRIAL_LIMIT} ta sinov javobi tugadi'`) && card.includes("'Три пробных ответа использованы'"), 'the limit card says the same trial size');
   // The main chats say what they said before (only the tool pages change).
   assert.equal(trialCopy('uz', 'general', PACK).title, 'Vazifangizni davom ettiramizmi?');
   assert.equal(trialCopy('ru', 'general', PACK).title, 'Продолжим вашу задачу?');

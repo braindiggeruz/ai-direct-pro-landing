@@ -65,7 +65,7 @@
   "heroTitle": "Ruscha-o‘zbekcha AI tarjimon: izohli tarjima",
   "heroSubtitle": "Ruschadan o‘zbekchaga va o‘zbekchadan ruschaga tarjima: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
   "ctaPrimaryLabel": "AI chat tariflari",
-  "ctaPrimaryHref": "/uz/tariflar/",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
   "ctaSecondaryLabel": "O‘zbek tilida AI chat",
   "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
   "bodyBlocks": [
@@ -203,7 +203,7 @@
         },
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "AI chat tariflari"
         }
       ]
@@ -215,11 +215,11 @@
     },
     {
       "type": "linkp",
-      "text": "3 ta sinov javobi tugagach, tarjimani shu chatda AI paket bilan davom ettirasiz: har bir tarjima, aniqlashtirish yoki qayta yozilgan variant paketdan bitta javob oladi. AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik to‘lovsiz. Bitta paket saytdagi barcha AI sahifalarida ishlaydi, to‘lov — chatning o‘zida. Batafsil shartlar — {tariffs} sahifasida.",
+      "text": "3 ta sinov javobi tugagach, tarjimani shu chatda AI paket bilan davom ettirasiz: har bir tarjima, aniqlashtirish yoki qayta yozilgan variant paketdan bitta javob oladi. AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik to‘lovsiz. Bitta paket saytdagi barcha AI chatlarda ishlaydi, to‘lov — chatning o‘zida; Studio taqdimotlari alohida to‘lanadi. Batafsil shartlar — {tariffs} sahifasida.",
       "links": [
         {
           "token": "tariffs",
-          "target": "/uz/tariflar/",
+          "target": "/uz/tariflar/#ai-paket",
           "anchor": "tariflar"
         }
       ]

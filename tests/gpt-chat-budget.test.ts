@@ -24,12 +24,15 @@ import {
   FREE_PAID_BUCKET,
   ModelSpendStore,
   PACK_PAID_BUCKET,
+  PACK_PERIOD_DAILY_USD,
   attemptWorstCaseMicro,
   freePaidBudget,
   packPaidBudget,
+  packPeriodBucket,
   spendDay,
   worstCaseMicroUsd,
 } from '../functions/lib/gpt-chat/model-spend-store';
+import { PACK_DAILY_LIMIT } from '../functions/lib/gpt-chat/turn-store';
 import { maintainBilling } from '../functions/lib/gpt-chat/billing-maintenance-store';
 import { chatComplete } from '../functions/lib/gpt-chat/openrouter-chat';
 import { chatStreamStart } from '../functions/lib/gpt-chat/openrouter-stream';
@@ -475,14 +478,83 @@ test('UE-3: a listed prepaid glm-5.3-flash reserves on «free» at its list pric
   assert.equal(await second.admit('zai/glm-5.3-flash'), 'ok');
   // The packs' bucket never saw any of it; a released reservation comes back whole.
   assert.equal(spend(f, BILLING_ORG, DAY, PACK_PAID_BUCKET), null);
-  const pack = packPaidBudget(store, { packPaidDailyUsd: 3, maxOutputTokens: 1600 }, messages, () => exhausted++, T0);
+  const pack = packPaidBudget(store, { packPaidDailyUsd: 3, maxOutputTokens: 1600 }, messages, 'order-a', { period: () => exhausted++, brake: () => exhausted++ }, T0);
   assert.equal(await pack.admit('zai/glm-5.3-flash'), 'ok');
   assert.deepEqual(spend(f, BILLING_ORG, DAY, PACK_PAID_BUCKET), { reserved_micro: worst, actual_micro: 0, attempts: 1 });
+  assert.deepEqual(spend(f, BILLING_ORG, DAY, packPeriodBucket('order-a')), { reserved_micro: worst, actual_micro: 0, attempts: 1 });
   await pack.release('zai/glm-5.3-flash');
   await pack.release('zai/glm-5.3-flash');
   await pack.settle('zai/glm-5.3-flash', 0.000475);
   assert.deepEqual(spend(f, BILLING_ORG, DAY, PACK_PAID_BUCKET), { reserved_micro: 0, actual_micro: 0, attempts: 1 }, 'released once, never settled after');
+  assert.deepEqual(spend(f, BILLING_ORG, DAY, packPeriodBucket('order-a')), { reserved_micro: 0, actual_micro: 0, attempts: 1 }, 'the share is released with the brake');
   assert.equal(exhausted, 1);
+});
+
+test('packs: one pack spends only its own share of the day; the shared brake and the other packs stay whole', async () => {
+  const f = await billingFixture();
+  const store = new ModelSpendStore(f.binding, BILLING_ORG);
+  const model = 'zai/glm-5.3-flash';
+  const worst = attemptWorstCaseMicro(model, messages, 1600)!;
+  const share = Math.floor(PACK_PERIOD_DAILY_USD * 1_000_000);
+  const cfg = { packPaidDailyUsd: 3, maxOutputTokens: 1600 };
+  const heard = { period: 0, brake: 0 };
+  const alerts = { period: () => heard.period++, brake: () => heard.brake++ };
+  // One holder's failed attempts keep their whole reservation (the provider
+  // may bill them) and spend no answer of the day: they fill the share.
+  const fits = Math.floor(share / worst);
+  for (let i = 0; i < fits; i++) {
+    assert.equal(await packPaidBudget(store, cfg, messages, 'order-a', alerts, T0).admit(model), 'ok');
+  }
+  const refused = packPaidBudget(store, cfg, messages, 'order-a', alerts, T0);
+  assert.equal(await refused.admit(model), 'skip');
+  assert.deepEqual(heard, { period: 1, brake: 0 }, 'a spent share is not the brake: nobody is paged');
+  assert.equal(await refused.admit('google/gemma-4-31b-it:free'), 'ok', 'that holder still gets a :free answer');
+  assert.deepEqual(spend(f, BILLING_ORG, DAY, PACK_PAID_BUCKET), { reserved_micro: fits * worst, actual_micro: 0, attempts: fits });
+  assert.deepEqual(spend(f, BILLING_ORG, DAY, packPeriodBucket('order-a')), { reserved_micro: fits * worst, actual_micro: 0, attempts: fits });
+  assert.ok(fits * worst < cfg.packPaidDailyUsd * 1_000_000 / 5, 'one pack holds under a fifth of the brake');
+  // Another pack answers on its own share and the brake.
+  const other = packPaidBudget(store, cfg, messages, 'order-b', alerts, T0);
+  assert.equal(await other.admit(model), 'ok');
+  await other.settle(model, 0.000475);
+  assert.deepEqual(spend(f, BILLING_ORG, DAY, packPeriodBucket('order-b')), { reserved_micro: 475, actual_micro: 475, attempts: 1 });
+  assert.deepEqual(spend(f, BILLING_ORG, DAY, PACK_PAID_BUCKET), { reserved_micro: fits * worst + 475, actual_micro: 475, attempts: fits + 1 });
+  // The next UTC day starts a new share.
+  assert.equal(await packPaidBudget(store, cfg, messages, 'order-a', alerts, T0 + 86_400_000).admit(model), 'ok');
+  // Tenant isolation: the same order id in another org has its own rows.
+  assert.equal(await packPaidBudget(new ModelSpendStore(f.binding, OTHER), cfg, messages, 'order-a', alerts, T0).admit(model), 'ok');
+  assert.deepEqual(spend(f, OTHER, DAY, packPeriodBucket('order-a')), { reserved_micro: worst, actual_micro: 0, attempts: 1 });
+  assert.deepEqual(heard, { period: 1, brake: 0 });
+});
+
+test('packs: a spent brake gives the share back and pages; the share never covers for the brake', async () => {
+  const f = await billingFixture();
+  const store = new ModelSpendStore(f.binding, BILLING_ORG);
+  const model = 'zai/glm-5.3-flash';
+  const worst = attemptWorstCaseMicro(model, messages, 1600)!;
+  const heard = { period: 0, brake: 0 };
+  const alerts = { period: () => heard.period++, brake: () => heard.brake++ };
+  // A brake below one worst case: the share admits, the brake refuses.
+  const cfg = { packPaidDailyUsd: (worst / 2) / 1_000_000, maxOutputTokens: 1600 };
+  assert.equal(await packPaidBudget(store, cfg, messages, 'order-a', alerts, T0).admit(model), 'skip');
+  assert.deepEqual(heard, { period: 0, brake: 1 });
+  assert.equal(spend(f, BILLING_ORG, DAY, PACK_PAID_BUCKET), null);
+  assert.deepEqual(spend(f, BILLING_ORG, DAY, packPeriodBucket('order-a')), { reserved_micro: 0, actual_micro: 0, attempts: 1 }, 'the share reservation came back');
+});
+
+test('PACK_PERIOD_DAILY_USD: a day of the pack\'s answers fits it many times over, and one share is a small part of the brake', () => {
+  // The longest prompt buildMessages lets through, on the dearest model a
+  // pack chain may call (glm-5.3-flash at list price, or max_price).
+  const history = Array.from({ length: 20 }, (_, i) => ({ role: i % 2 ? 'assistant' as const : 'user' as const, content: 'Я'.repeat(8000) }));
+  const longest = buildMessages(history, '‘’'.repeat(1500), 10, 'uz');
+  const worst = Math.max(attemptWorstCaseMicro('zai/glm-5.3-flash', longest, 1600)!, worstCaseMicroUsd(longest, 1600));
+  const share = Math.floor(PACK_PERIOD_DAILY_USD * 1_000_000);
+  assert.ok(share >= PACK_DAILY_LIMIT * worst * 2, `${PACK_DAILY_LIMIT} worst-case answers fit twice: ${share} vs ${PACK_DAILY_LIMIT * worst}`);
+  const brake = resolveConfig({} as never).packPaidDailyUsd * 1_000_000;
+  assert.ok(share * 5 < brake, 'it takes six spent shares to stop every buyer');
+  assert.equal(packPeriodBucket('ord_1'), `${PACK_PAID_BUCKET}:ord_1`);
+  assert.equal(isUrgentAlert('pack_period_budget_exhausted'), false, 'one holder is not a page');
+  assert.equal(alertRowId('pack_period_budget_exhausted', T0), alertRowId('pack_period_budget_exhausted', T0 + 3 * 3_600_000));
+  assert.ok(alertText('pack_period_budget_exhausted'));
 });
 
 test('web chat, production shape: a trial answer on the prepaid glm-5.3-flash books its list price on «free»; a spent day moves it to ":free"', async (t) => {
@@ -536,6 +608,26 @@ test('web chat: a spent «packs» brake skips the billable models to ":free" wit
   assert.ok(alertText('free_paid_budget_exhausted'));
 });
 
+test('web chat: a pack whose own share is spent answers on ":free" without a page; the brake is untouched', async (t) => {
+  const f = await paidPrimaryFixture();
+  const order = await buyPack(f);
+  spendHolderFreeDay(f);
+  const share = Math.floor(PACK_PERIOD_DAILY_USD * 1_000_000);
+  f.db
+    .prepare('INSERT INTO gpt_model_spend(org_id,day,bucket,reserved_micro,actual_micro,attempts) VALUES(?,?,?,?,?,1)')
+    .bind(BILLING_ORG, spendDay(Date.now()), packPeriodBucket(order), share, share)
+    .runSync();
+  const bodies = openrouter(t, () => sse('Bepul javob'));
+  assert.match(await turn(f, { cookie: f.testCookie }), /"type":"done"[^\n]*"remaining":299/);
+  const chain = modelChain(resolveConfig(f.env), 'paid');
+  assert.deepEqual(bodies.map((b) => b.model), [chain.find((model) => model.endsWith(':free'))]);
+  assert.equal(packSpend(f), null, 'the shared brake never saw the refused attempts');
+  assert.deepEqual(
+    f.db.rows<{ code: string }>('SELECT DISTINCT code FROM gpt_service_alerts').map((r) => r.code),
+    ['pack_period_budget_exhausted'],
+  );
+});
+
 test('web chat: an attempt the pack ceiling stops gives its «packs» reservation back', async (t) => {
   const f = await paidPrimaryFixture();
   const order = await buyPack(f);
@@ -548,6 +640,7 @@ test('web chat: an attempt the pack ceiling stops gives its «packs» reservatio
   assert.doesNotMatch(await turn(f, { cookie: f.testCookie }), /"type":"done"/);
   assert.equal(bodies.length, 0);
   assert.deepEqual(packSpend(f), { reserved_micro: 0, actual_micro: 0, attempts: 1 });
+  assert.deepEqual(spend(f, BILLING_ORG, spendDay(Date.now()), packPeriodBucket(order)), { reserved_micro: 0, actual_micro: 0, attempts: 1 });
   assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_attempts'), limit * 3);
 });
 

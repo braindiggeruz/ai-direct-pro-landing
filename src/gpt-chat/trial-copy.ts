@@ -2,11 +2,14 @@
 // roadmap 2026-10-25, §5.2: Ш1 the paywall by role, Ш7 «1 ta sinov javobi
 // qoldi», the exit survey «Nega hozir emas?»). Only the lazy part
 // chat-conversion imports this file, so none of it rides on the chat's start
-// bundle (the role-labels.ts pattern). No number is written here: the price,
-// the answers, the period and the daily cap come from the server's PackTerms
-// (AGENTS.md §1, §5), and the trial's 3 is the server's FREE_TRIAL_LIMIT, as
-// on the limit card. Nothing here promises what the server does not enforce:
-// a role is set in the browser, so the copy names the task, never a rule.
+// bundle (the role-labels.ts pattern). The price, the answers, the period and
+// the daily cap come from the server's PackTerms (AGENTS.md §1, §5). The one
+// figure written here is the trial's size, «3 ta» / «Три», as on the limit
+// card (limit-card.ts): it is the server's FREE_TRIAL_LIMIT (trial-store.ts),
+// and tests/chat-trial-paywall.test.ts fails when the two part, so a new
+// trial size cannot ship with the old words. Nothing here promises what the
+// server does not enforce: a role is set in the browser, so the copy names
+// the task, never a rule.
 import type { ChatRolePreset } from '../shared/types';
 import type { Locale, PackTerms, PaymentProvider } from './types';
 

@@ -144,7 +144,9 @@ test('contacts and links: phone and e-mail in the body, every target reachable, 
     assert.ok(targets.includes('mailto:ceo@gptbot.uz'), `${page.url}: e-mail`);
     assert.ok(targets.includes(`#${UZ_TRANSLIT_ANCHOR}`), `${page.url}: the text points at the converter`);
     for (const target of targets.filter((t) => t.startsWith('/'))) {
-      assert.ok(served.has(target) || target === RU_URL || target === UZ_URL, `${page.url} links ${target}, which is not a published page`);
+      // A section of a page (the hub's #ai-paket) is reachable when its page is.
+      const url = target.split('#')[0];
+      assert.ok(served.has(url) || url === RU_URL || url === UZ_URL, `${page.url} links ${target}, which is not a published page`);
     }
     const nav = new Set(gptChatNavLinks(page).map((l) => l.href));
     const body = new Set((page.bodyBlocks || []).flatMap((b) => (b.links || []).map((l) => l.target)));

@@ -6,7 +6,14 @@
 //              Javob's replies (decision L15) — under GPT_FREE_PAID_DAILY_USD
 //              (production 0.3, decision №13);
 //   pack_paid  «packs»: every pack answer, under GPT_PACK_PAID_DAILY_USD, a
-//              generous emergency brake (an error or an attack, not buyers).
+//              generous emergency brake (an error or an attack, not buyers);
+//   pack_paid:<order_id>
+//              one pack's share of that day, under PACK_PERIOD_DAILY_USD:
+//              a pack answer reserves here first, then on pack_paid, so one
+//              holder's uncharged attempts (cut, stopped, failed: they spend
+//              no answer of PACK_DAILY_LIMIT) cannot spend the brake every
+//              buyer shares. A spent share moves only that holder's answers
+//              to ':free' (a background note, never a page).
 // Separate rows, so a busy free day can never spend what the packs need:
 // when free_paid is spent the free answers move to ':free' models and the
 // packs are untouched; when pack_paid is spent the owner is paged.
@@ -53,11 +60,25 @@ import { promptTokenBound, type ChatMessage } from "./prompt";
 export const FREE_PAID_BUCKET = "free_paid";
 /** gpt_model_spend.bucket of the pack answers' spend on billable models. */
 export const PACK_PAID_BUCKET = "pack_paid";
+/**
+ * One pack's share of the packs' day, in USD. A pack answers at most
+ * PACK_DAILY_LIMIT (50) times a UTC day and one attempt reserves at most
+ * ~$0.002 (attemptWorstCaseMicro, the longest prompt), so 50 answers fit
+ * five times over; at the default $3 brake it takes six holders spending
+ * their whole share to stop every buyer's billable models.
+ */
+export const PACK_PERIOD_DAILY_USD = 0.5;
+/** gpt_model_spend.bucket of one pack's share of the day (the access period's order_id). */
+export function packPeriodBucket(orderId: string): string {
+  return `${PACK_PAID_BUCKET}:${orderId}`;
+}
 
 /** Background, one row a day: free answers moved to ':free' models (alert-policy.ts). */
 export const FREE_PAID_BUDGET_ALERT = "free_paid_budget_exhausted";
 /** Urgent, one row a day: the packs' brake is spent, pack answers moved to ':free' (alert-policy.ts). */
 export const PACK_PAID_BUDGET_ALERT = "pack_paid_budget_exhausted";
+/** Background, one row a day: one pack's own share is spent, its answers moved to ':free' (alert-policy.ts). */
+export const PACK_PERIOD_BUDGET_ALERT = "pack_period_budget_exhausted";
 
 /** UTC day of `now` as gpt_model_spend.day ('2026-09-30'); the quotas use the same day. */
 export function spendDay(now: number): string {
@@ -152,33 +173,57 @@ export type FreePaidBudget = DayBudget;
 
 type BudgetConfig = Pick<GptChatConfig, "maxOutputTokens">;
 
+/** One row an attempt reserves on: its bucket, its cap and who hears that it is spent. */
+interface BudgetLayer {
+  bucket: string;
+  capUsd: number;
+  onExhausted: () => void;
+}
+
+/**
+ * A billable attempt reserves its worst case on every layer, in order, and
+ * passes only when all of them hold it. A refusal (or an unreadable row)
+ * gives back what the earlier layers reserved and skips the model; only the
+ * layer that refused hears it. Settlement and release apply to every layer.
+ */
 function dayBudget(
   store: ModelSpendStore,
-  bucket: string,
-  capUsd: number,
+  layers: readonly BudgetLayer[],
   worstCase: (model: string) => number | null,
-  onExhausted: () => void,
   now: number,
 ): DayBudget {
   const day = spendDay(now);
-  const cap = Math.floor(capUsd * 1_000_000);
   // The open reservation of each model in this turn's walk, in micro-USD.
   const reserved = new Map<string, number>();
+  const settleAll = async (on: readonly BudgetLayer[], micro: number, actualMicro: number) => {
+    for (const layer of on)
+      try {
+        await store.settle(day, layer.bucket, micro, actualMicro);
+      } catch {
+        console.warn("gpt_model_spend_settlement_failed");
+      }
+  };
   return {
     async admit(model) {
       const micro = worstCase(model);
       if (micro === null) return "skip";
       if (micro === 0) return "ok";
-      let admitted: boolean;
-      try {
-        admitted = await store.reserve(day, bucket, micro, cap);
-      } catch {
-        console.warn("gpt_model_spend_unavailable");
-        return "skip";
-      }
-      if (!admitted) {
-        onExhausted();
-        return "skip";
+      const taken: BudgetLayer[] = [];
+      for (const layer of layers) {
+        let admitted: boolean;
+        try {
+          admitted = await store.reserve(day, layer.bucket, micro, Math.floor(layer.capUsd * 1_000_000));
+        } catch {
+          console.warn("gpt_model_spend_unavailable");
+          await settleAll(taken, micro, 0);
+          return "skip";
+        }
+        if (!admitted) {
+          await settleAll(taken, micro, 0);
+          layer.onExhausted();
+          return "skip";
+        }
+        taken.push(layer);
       }
       reserved.set(model, micro);
       return "ok";
@@ -187,21 +232,13 @@ function dayBudget(
       const micro = reserved.get(model);
       if (costUsd === null || micro === undefined) return;
       reserved.delete(model);
-      try {
-        await store.settle(day, bucket, micro, Math.round(costUsd * 1_000_000));
-      } catch {
-        console.warn("gpt_model_spend_settlement_failed");
-      }
+      await settleAll(layers, micro, Math.round(costUsd * 1_000_000));
     },
     async release(model) {
       const micro = reserved.get(model);
       if (micro === undefined) return;
       reserved.delete(model);
-      try {
-        await store.settle(day, bucket, micro, 0);
-      } catch {
-        console.warn("gpt_model_spend_settlement_failed");
-      }
+      await settleAll(layers, micro, 0);
     },
   };
 }
@@ -225,10 +262,8 @@ export function freePaidBudget(
 ): FreePaidBudget {
   const budget = dayBudget(
     store,
-    FREE_PAID_BUCKET,
-    cfg.freePaidDailyUsd,
+    [{ bucket: FREE_PAID_BUCKET, capUsd: cfg.freePaidDailyUsd, onExhausted }],
     (model) => attemptWorstCaseMicro(model, messages, cfg.maxOutputTokens),
-    onExhausted,
     now,
   );
   return {
@@ -251,23 +286,28 @@ export function freePaidBudget(
  * One pack answer's view of the day's «packs» budget (GPT_PACK_PAID_DAILY_USD).
  * Same rules as freePaidBudget, without the free tier's Z.ai allowlist: the
  * pack's chain (webChatChain 'paid') already holds only models the paid tier
- * may call. A spent brake skips billable models to the chain's ':free' one
- * and calls `onExhausted` (an urgent, once-a-day page); an unreadable one
- * skips them too.
+ * may call. A billable attempt reserves first on the pack's own share of the
+ * day (packPeriodBucket(periodId), PACK_PERIOD_DAILY_USD), then on the shared
+ * brake. A spent share skips billable models to the chain's ':free' one for
+ * this pack only and calls `alerts.period` (background); a spent brake does
+ * the same for every pack and calls `alerts.brake` (an urgent, once-a-day
+ * page). An unreadable row skips them too.
  */
 export function packPaidBudget(
   store: ModelSpendStore,
   cfg: Pick<GptChatConfig, "packPaidDailyUsd"> & BudgetConfig,
   messages: ChatMessage[],
-  onExhausted: () => void,
+  periodId: string,
+  alerts: { period: () => void; brake: () => void },
   now = Date.now(),
 ): DayBudget {
   return dayBudget(
     store,
-    PACK_PAID_BUCKET,
-    cfg.packPaidDailyUsd,
+    [
+      { bucket: packPeriodBucket(periodId), capUsd: PACK_PERIOD_DAILY_USD, onExhausted: alerts.period },
+      { bucket: PACK_PAID_BUCKET, capUsd: cfg.packPaidDailyUsd, onExhausted: alerts.brake },
+    ],
     (model) => attemptWorstCaseMicro(model, messages, cfg.maxOutputTokens),
-    onExhausted,
     now,
   );
 }

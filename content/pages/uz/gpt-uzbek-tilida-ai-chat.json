@@ -131,7 +131,7 @@
     { "type": "linkp", "text": "Rus tilidagi vazifalar uchun {ruchat} va {russkom}, xizmat shartlarini solishtirish uchun {tariffs} sahifalari mavjud. Biznesga joriy etish bo‘yicha {business}.", "links": [
       { "token": "ruchat", "target": "/ru/gpt-chat/", "anchor": "rus tilidagi GPT chat" },
       { "token": "russkom", "target": "/ru/gpt-na-russkom/", "anchor": "rus tilida GPT" },
-      { "token": "tariffs", "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari" },
+      { "token": "tariffs", "target": "/uz/tariflar/#ai-paket", "anchor": "AI chat tariflari" },
       { "token": "business", "target": "/ru/gpt-dlya-biznesa/", "anchor": "biznes uchun GPT" }
     ] },
     { "type": "cta", "text": "GPTBot.uz AI chatni sinab ko‘ring", "href": "/uz/gpt-uzbek-tilida/" },
@@ -179,7 +179,7 @@
     { "target": "/uz/sayt-uchun-ai-bot/", "anchor": "Sayt uchun AI bot", "locale": "uz", "type": "block" },
     { "target": "/ru/gpt-dlya-biznesa/", "anchor": "Biznes uchun GPT", "locale": "uz", "type": "block" },
     { "target": "/ru/ai-chat-dlya-sayta/", "anchor": "Sayt uchun AI chat", "locale": "uz", "type": "block" },
-    { "target": "/ru/tarify-ai-chat/", "anchor": "AI chat tariflari", "locale": "uz", "type": "block" }
+    { "target": "/uz/tariflar/", "anchor": "AI chat tariflari", "locale": "uz", "type": "block" }
   ],
   "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "Article", "FAQPage"],
   "lastReviewedAt": "2026-10-07",

@@ -49,6 +49,7 @@ import {
   FREE_PAID_BUDGET_ALERT,
   ModelSpendStore,
   PACK_PAID_BUDGET_ALERT,
+  PACK_PERIOD_BUDGET_ALERT,
   freePaidBudget,
   packPaidBudget,
 } from "../../lib/gpt-chat/model-spend-store";
@@ -350,14 +351,23 @@ export const onRequestPost: PagesFunction<Env> = async ({
   // alert-policy.ts). A pack answer pays out of «packs», an emergency brake
   // whose exhaustion pages the owner, AND under the pack's attempt ceiling,
   // which a free answer never spends: every answer the pack holds stays
-  // reachable. The brake is asked first, so a model it skips spends no
-  // attempt; an attempt the ceiling stops gives its reservation back.
+  // reachable. Inside the brake each pack holds its own share of the day
+  // (PACK_PERIOD_DAILY_USD), so one holder's uncharged attempts cannot spend
+  // what every buyer shares; a spent share is only recorded (background).
+  // The brake is asked first, so a model it skips spends no attempt; an
+  // attempt the ceiling stops gives its reservation back.
   const spendStore = new ModelSpendStore(db, BILLING_ORG);
   const budget =
     bucket === "pack"
-      ? packPaidBudget(spendStore, cfg, messages, () =>
-          waitUntil(alertOperator(env, PACK_PAID_BUDGET_ALERT)),
-        )
+      ? packPaidBudget(spendStore, cfg, messages, period!.order_id, {
+          period: () =>
+            waitUntil(
+              recordServiceAlert(env, PACK_PERIOD_BUDGET_ALERT).catch(() =>
+                console.warn("gpt_operator_alert_record_failed"),
+              ),
+            ),
+          brake: () => waitUntil(alertOperator(env, PACK_PAID_BUDGET_ALERT)),
+        })
       : freePaidBudget(spendStore, cfg, messages, () =>
           waitUntil(
             recordServiceAlert(env, FREE_PAID_BUDGET_ALERT).catch(() =>

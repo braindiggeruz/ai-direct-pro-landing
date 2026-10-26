@@ -432,8 +432,8 @@
       "type": "block"
     },
     {
-      "target": "/ru/tarify-ai-chat/",
-      "anchor": "AI chat tariflari (RU)",
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
       "locale": "uz",
       "type": "block"
     },
