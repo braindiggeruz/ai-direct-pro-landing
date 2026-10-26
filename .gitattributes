@@ -13,3 +13,6 @@ content/studio/pages/uz/taqdimot-ai.json text eol=lf
 
 migrations/0077_studio_shared_click.sql text eol=lf
 src/gpt-chat/premium.css text eol=lf
+
+# Ready config patches (docs/paid-chat/MODEL-CLIFF-1712-RU.md): git apply needs them byte-exact with LF.
+docs/paid-chat/patches/*.patch text eol=lf
