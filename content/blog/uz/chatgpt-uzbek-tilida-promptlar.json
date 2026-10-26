@@ -149,6 +149,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Ariza yoki tushuntirish xatining o‘zi kerak bo‘lsa, tuzilma va shartli namunalar {ariza} qo‘llanmasida.",
+      "links": [
+        {
+          "token": "ariza",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "ariza va tushuntirish xati namunasi"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "marketing",
       "text": "Marketing va kontent uchun 10 ta prompt"
@@ -346,7 +357,7 @@
     },
     {
       "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
-      "anchor": "insho va referat yozish",
+      "anchor": "insho va esse yozish",
       "locale": "uz",
       "type": "contextual"
     },

@@ -33,7 +33,7 @@ test('a BreadcrumbList is named after its last crumb, the page itself', () => {
 
 test('only the held protected pages keep the nameless list they were reviewed with', () => {
   // TOP-3 roadmap 2026-10-26, Т-08 / Т-09: each held page leaves the set in
-  // the reviewed revision of its own window (R-S1b ≈08.11, R-S2 16.11, the
+  // the reviewed revision of its own window (R-S1b 26.10, R-S2 16.11, the
   // chats and the login guide ≈21–25.11); until then its JSON-LD stays as reviewed.
   const protectedPaths = new Set<string>(PROTECTED_PATHS);
   for (const pathname of BREADCRUMB_NAME_HELD) {
@@ -46,6 +46,31 @@ test('only the held protected pages keep the nameless list they were reviewed wi
     assert.equal(buildBreadcrumbLd(crumbs(pathname)).name, 'Страница', `${pathname} is not held, so its list is named`);
   }
   assert.equal(buildBreadcrumbLd(crumbs('/ru/razrabotka-saytov-tashkent/', 'Разработка сайтов в Ташкенте')).name, 'Разработка сайтов в Ташкенте');
+});
+
+// R-S1b (W2-01, released 26.10.2026 by the owner's decision instead of ≈08.11)
+// names the lists of its five articles; the download guide (R-S2 16.11), both
+// chats and the login guide (≈25.11–02.12) keep theirs nameless until then.
+const R_S1B_NAMED = [
+  '/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/',
+  '/ru/blog/chatgpt-i-claude-v-uzbekistane/',
+  '/uz/blog/chatgpt-uzbek-tilida-promptlar/',
+  '/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/',
+  '/uz/blog/ai-chat-nima-va-qanday-turlari-bor/',
+];
+const STILL_HELD = [
+  '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
+  '/ru/gpt-chat/',
+  '/uz/gpt-uzbek-tilida/',
+  '/uz/blog/chatgptga-qanday-kirish-mumkin/',
+];
+
+test('R-S1b names its five articles; the four pages of later windows stay held', () => {
+  assert.deepEqual([...BREADCRUMB_NAME_HELD].sort(), [...STILL_HELD].sort());
+  for (const pathname of R_S1B_NAMED) {
+    assert.ok(!BREADCRUMB_NAME_HELD.has(pathname), `${pathname} left the held set in R-S1b`);
+    assert.equal(buildBreadcrumbLd(crumbs(pathname, 'Статья')).name, 'Статья', pathname);
+  }
 });
 
 test('/uz/ emits no BreadcrumbList that points back at itself', () => {
@@ -73,6 +98,7 @@ test('built pages: a BreadcrumbList is nameless only on a held page, named every
   visit(dist);
   let named = 0;
   const nameless: string[] = [];
+  const renamed: string[] = [];
   for (const file of pages) {
     const pathname = `/${path.relative(dist, path.dirname(file)).split(path.sep).join('/')}/`.replace(/^\/\/$/, '/');
     const html = fs.readFileSync(file, 'utf8');
@@ -82,6 +108,11 @@ test('built pages: a BreadcrumbList is nameless only on a held page, named every
         if (node['@type'] !== 'BreadcrumbList') continue;
         if ('name' in node) {
           assert.ok(!BREADCRUMB_NAME_HELD.has(pathname), `${pathname}: BreadcrumbList gained a name outside its window`);
+          if (R_S1B_NAMED.includes(pathname)) {
+            const crumbsLd = node.itemListElement as Array<{ name: string }>;
+            assert.equal(node.name, crumbsLd[crumbsLd.length - 1].name, `${pathname}: named after the article itself`);
+            renamed.push(pathname);
+          }
           named += 1;
         } else {
           assert.ok(BREADCRUMB_NAME_HELD.has(pathname), `${pathname}: BreadcrumbList has no name («Unnamed item» in Search Console)`);
@@ -92,4 +123,5 @@ test('built pages: a BreadcrumbList is nameless only on a held page, named every
   }
   assert.ok(named > 300, `only ${named} named lists: is dist complete?`);
   assert.deepEqual(nameless.sort(), [...BREADCRUMB_NAME_HELD].sort());
+  assert.deepEqual(renamed.sort(), [...R_S1B_NAMED].sort());
 });

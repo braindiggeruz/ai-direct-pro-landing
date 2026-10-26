@@ -212,20 +212,16 @@ export function buildWebSiteLd(global: GlobalSEO): Record<string, unknown> {
  * Each leaves the set in the reviewed protected-pages revision of its own
  * measurement window (TOP-3 roadmap 2026-10-26, Т-08 / Т-09; research
  * 05-technical-and-links.md §1.4), so a page changes its JSON-LD only then:
- *   - R-S1b ≈08.11: the payment and Claude articles, promptlar, the VPN
- *     article and ai-chat-nima;
+ *   - R-S1b (released 26.10 by the owner's decision, not ≈08.11): the
+ *     payment and Claude articles, promptlar, the VPN article and
+ *     ai-chat-nima are named now;
  *   - R-S2 16.11: the download guide;
  *   - the chats' and the login guide's revision ≈21–25.11: the last three.
- * Every other page (317 of 326 lists on 26.10) has had its name since 24.10.
- * When the set is empty, delete it. Each entry must stay a protected page
- * (tests/seo-breadcrumb-ld.test.ts).
+ * Every other page has its name: 317 of 326 lists since 24.10, the five
+ * R-S1b articles since 26.10. When the set is empty, delete it. Each entry
+ * must stay a protected page (tests/seo-breadcrumb-ld.test.ts).
  */
 export const BREADCRUMB_NAME_HELD: ReadonlySet<string> = new Set([
-  '/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/',
-  '/ru/blog/chatgpt-i-claude-v-uzbekistane/',
-  '/uz/blog/chatgpt-uzbek-tilida-promptlar/',
-  '/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/',
-  '/uz/blog/ai-chat-nima-va-qanday-turlari-bor/',
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/ru/gpt-chat/',
   '/uz/gpt-uzbek-tilida/',

@@ -151,7 +151,7 @@
     },
     {
       "type": "p",
-      "text": "Устанавливайте только официальное приложение. Для iOS OpenAI отдельно рекомендует проверять, что издатель приложения — OpenAI. Не оформляйте подписку в приложении-клоне с похожим названием."
+      "text": "Устанавливайте только официальное приложение. OpenAI рекомендует проверять издателя: в App Store разработчик — OpenAI OpCo, LLC, в Google Play издатель — OpenAI. Не оформляйте подписку в приложении-клоне с похожим названием."
     },
     {
       "type": "h2",
@@ -240,12 +240,17 @@
     },
     {
       "type": "linkp",
-      "text": "Информацию о доступе без VPN читайте в {access}. Если нужна независимая AI-платформа с узбекским интерфейсом, откройте {chat}; варианты для бизнеса разобраны в {business}.",
+      "text": "Информацию о доступе без VPN читайте в {access}. Что доступно в ChatGPT и Claude из Узбекистана и чем они отличаются, — в {claude}. Если нужна независимая AI-платформа с узбекским интерфейсом, откройте {chat}; варианты для бизнеса разобраны в {business}.",
       "links": [
         {
           "token": "access",
           "target": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
           "anchor": "подробном руководстве по ChatGPT в Узбекистане"
+        },
+        {
+          "token": "claude",
+          "target": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+          "anchor": "сравнении ChatGPT и Claude для пользователей из Узбекистана"
         },
         {
           "token": "chat",
@@ -355,7 +360,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-30",
-  "dateModified": "2026-07-30",
+  "dateModified": "2026-10-26",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -364,27 +369,28 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-30T00:00:00.000Z",
-  "updatedAt": "2026-07-30T00:00:00.000Z",
+  "updatedAt": "2026-10-26T00:00:00.000Z",
+  "lastReviewedAt": "2026-10-26",
   "sources": [
     {
       "title": "OpenAI Help Center — What is ChatGPT Plus?",
       "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
-      "note": "Цена Plus 20 долларов в месяц на дату проверки 2026-07-30; условия могут меняться."
+      "note": "Цена Plus 20 долларов в месяц на дату проверки 2026-10-26; условия могут меняться."
     },
     {
-      "title": "OpenAI Help Center — Multi-currency billing FAQ",
-      "url": "https://help.openai.com/en/articles/10421635-multi-currency-billing-faq",
-      "note": "Карты для web-подписок, биллинг Apple и Google, опубликованный список валют; проверено 2026-07-30."
+      "title": "OpenAI Help Center — Multi-currency billing",
+      "url": "https://help.openai.com/en/articles/10421635-multicurrency-billing",
+      "note": "Карты для web-подписок, биллинг Apple и Google, опубликованный список валют (UZS в нём нет); проверено 2026-10-26."
     },
     {
       "title": "OpenAI Help Center — ChatGPT supported countries",
       "url": "https://help.openai.com/en/articles/7947663-chatgpt-supported-countries",
-      "note": "Узбекистан присутствует в списке поддерживаемых стран; проверено 2026-07-30."
+      "note": "Узбекистан присутствует в списке поддерживаемых стран; проверено 2026-10-26."
     },
     {
-      "title": "OpenAI Help Center — official ChatGPT iOS app",
-      "url": "https://help.openai.com/en/articles/7908378-where-can-i-download-the-openai-chatgpt-ios-app-on-the-apple-app-store",
-      "note": "Проверка официального издателя приложения OpenAI; проверено 2026-07-30."
+      "title": "OpenAI Help Center — ChatGPT iOS and Android app FAQ",
+      "url": "https://help.openai.com/en/articles/8142208-chatgpt-ios-and-android-app-faq",
+      "note": "Официальное приложение: в App Store разработчик OpenAI OpCo, LLC, в Google Play издатель OpenAI; проверено 2026-10-26."
     }
   ]
 }

@@ -137,8 +137,9 @@ for (const link of links) {
 // RU chat's query signals do not move inside its measurement window. Nothing
 // else may be added here. Keyed by (file, block, target, anchor): when W3-02
 // fixes one, the entry stops matching and the second test fails until the
-// entry is deleted. H-3 is not here: W1-10 fixed it. H-4b and H-5 are
-// substring-only matches the exact rule does not see (W3-02 / W2-01 own them).
+// entry is deleted. H-3 is not here: W1-10 fixed it. H-4b is a
+// substring-only match the exact rule does not see (W3-02 owns it). H-5 was
+// one too; W2-01 (R-S1b, 26.10.2026) fixed it, and a test below keeps it fixed.
 type Deferred = { id: string; backlog: 'W3-02'; file: string; block: string; target: string; anchor: string };
 const DEFERRED: Deferred[] = [
   // H-1 → W3-02 ≈2026-11-25: «чат GPT онлайн» is in C23's mustNotTarget for the article itself.
@@ -195,6 +196,18 @@ test('every deferred exception is still live, so the list cannot rot', () => {
           : `matches ${live.length} links; an exception covers exactly one.`),
     );
   }
+});
+
+test('H-5 stays fixed: the prompt library names the insho guide by insho and esse, not referat', () => {
+  // Backlog W2-01 (R-S1b, 26.10.2026; intent manifest C30): «referat yozish»
+  // is fenced on the insho/esse guide and belongs to /uz/blog/referat-va-mustaqil-ish/.
+  // The exact-match rule above cannot see «insho va referat yozish».
+  const source = 'content/blog/uz/chatgpt-uzbek-tilida-promptlar.json';
+  const toInsho = links.filter((link) => link.file === source
+    && internalPath(link.target) === '/uz/blog/insho-yozish-suniy-intellekt-bilan/');
+  assert.deepEqual(toInsho.map((link) => normalize(link.anchor)), [normalize('insho va esse yozish')]);
+  assert.ok(!links.some((link) => internalPath(link.target) === '/uz/blog/insho-yozish-suniy-intellekt-bilan/'
+    && /referat/i.test(link.anchor)), 'no anchor to the insho/esse guide mentions referat');
 });
 
 test('no internal link uses the bare «ChatGPT kirish» or «чат джипити» as its anchor', () => {
