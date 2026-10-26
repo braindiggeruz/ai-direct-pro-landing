@@ -541,6 +541,95 @@ test('the contact revision changes body text only, in contact surfaces: the phon
   }
 });
 
+test('the address revision changes body text only, by the footer address: the studio moves to the Google Business card\'s address on all ten', () => {
+  type Step = { surface: string; before: string; after: string };
+  type Address = Revision & {
+    reviewedChanges: Array<{
+      pathname: string; fields: string[]; reason: string;
+      change: Record<string, unknown> & { body: Step[] };
+      nonContract: { jsonLd: string; asset?: string };
+      htmlSha256: string;
+    }>;
+    invisibleToGate: Array<{ change: string; pages?: string[] }>;
+    measurement: string;
+    changedUnprotectedPages: {
+      mainContent: string[]; addressOrFooterOnly: string[]; markupOnly: string[]; byteIdentical: string[];
+      datesMoved: string[]; internalLinks: Record<string, { added: string[]; removed: string[] }>;
+    };
+    pages: Array<{ pathname: string; contract: Record<string, unknown>; bodyText: string; htmlSha256: string }>;
+  };
+  const CONTACT = 'docs/seo/evidence/2026-10-26-contact/reviewed-protected-pages.json';
+  const OLD = 'Yahyo Gulyamov ko‘chasi 35';
+  const NEW = 'Kichik Xalqa Yo‘li 57';
+  const current = readRevision('docs/seo/evidence/2026-10-26-address/reviewed-protected-pages.json') as Address;
+  const previous = readRevision(CONTACT) as Address;
+  assert.equal(current.previousRevision, CONTACT);
+  assert.deepEqual(current.reviewedChanges.map((c) => c.pathname), [...PROTECTED_PATHS]);
+  for (const page of current.pages) {
+    const before = previous.pages.find((p) => p.pathname === page.pathname)!;
+    const record = current.reviewedChanges.find((c) => c.pathname === page.pathname)!;
+    assert.deepEqual(record.fields, ['bodyTextSha256'], page.pathname);
+    for (const key of ['title', 'h1', 'description', 'robots', 'googlebot', 'canonical', 'hreflang', 'internalLinks']) {
+      assert.deepEqual(page.contract[key], before.contract[key], `${page.pathname}: ${key} must not change in this revision`);
+    }
+    assert.equal(sha256(page.bodyText), page.contract.bodyTextSha256, page.pathname);
+    // One text step, in the footer, and it moves the street and nothing else.
+    assert.equal(record.change.body.length, 1, page.pathname);
+    const [step] = record.change.body;
+    assert.equal(step.surface, 'footer NAP line', page.pathname);
+    assert.ok(step.before.includes(OLD) && step.after.includes(NEW), page.pathname);
+    assert.equal(step.after.split(NEW).join(OLD), step.before, `${page.pathname}: the step changes the street only`);
+    assert.equal(page.bodyText.split(step.after).length, 2, `${page.pathname}: «${step.after}» is unique`);
+    assert.equal(page.bodyText.replace(step.after, () => step.before), before.bodyText, `${page.pathname}: the reviewed step reproduces the predecessor's body text`);
+    assert.doesNotMatch(page.bodyText, /Gulyamov/, page.pathname);
+    assert.equal(page.bodyText.split(NEW).length, 2, `${page.pathname}: the address appears once, in the footer`);
+    const [hashBefore, hashAfter] = record.htmlSha256.split(' → ');
+    assert.equal(hashBefore, before.htmlSha256, page.pathname);
+    assert.equal(hashAfter, page.htmlSha256, page.pathname);
+    assert.notEqual(hashBefore, hashAfter, page.pathname);
+    assert.match(record.reason, /26\.10\.2026.*Kichik Xalqa Yo‘li 57.*§9 item 1/s);
+    assert.match(record.nonContract.jsonLd, /streetAddress.*Kichik Xalqa Yo‘li 57.*41\.3364 \/ 69\.2723.*contactPoint.*unchanged/s);
+    assert.equal(Boolean(record.nonContract.asset), page.pathname === '/', page.pathname);
+    for (const key of ['title', 'h1', 'description', 'robots', 'canonical', 'hreflang', 'internalLinks']) {
+      assert.match(String(record.change[key]), /^unchanged/, `${page.pathname}: ${key}`);
+    }
+  }
+  // The source the ten render: site.json carries the card's address; the offer edition keeps its own.
+  const site = JSON.parse(fs.readFileSync(path.join(REPO, 'content/global/site.json'), 'utf8'));
+  assert.equal(site.streetAddress, NEW);
+  assert.equal(site.address, `${NEW}, Toshkent, Uzbekistan`);
+  assert.deepEqual(site.geo, { latitude: 41.3364, longitude: 69.2723 });
+  assert.match(fs.readFileSync(path.join(REPO, 'scripts/contact-card.ts'), 'utf8'), /OFFER_EDITION_NAP = \{\s*address: 'Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan'/);
+  // Outside the protected set: the offers stay byte for byte, dates move only where a
+  // section was added, no page is listed twice and none of them is protected.
+  const { mainContent, addressOrFooterOnly, markupOnly, byteIdentical, datesMoved, internalLinks } = current.changedUnprotectedPages;
+  assert.ok(byteIdentical.includes('/ru/oferta/') && byteIdentical.includes('/uz/oferta/'));
+  const DATED = ['/ru/blog/', '/ru/blog/chto-takoe-smm-prodvizhenie/', '/ru/luchshie-razrabotchiki-chat-botov-tashkent/',
+    '/ru/razrabotka-saytov-tashkent/', '/ru/targetirovannaya-reklama-tashkent/'];
+  assert.deepEqual(datesMoved, DATED);
+  for (const url of DATED) assert.ok(mainContent.includes(url), url);
+  // The 25.10 pages read ≈22.11 keep their copy: footer and address only (the Telegram Ads
+  // article only gains its «Смета» block, with title, description and dates unchanged).
+  assert.ok(addressOrFooterOnly.includes('/uz/sayt-yaratish/') && addressOrFooterOnly.includes('/uz/instagram-target-yoqish/'));
+  assert.ok(!datesMoved.includes('/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/'));
+  const all = [...mainContent, ...addressOrFooterOnly, ...markupOnly, ...byteIdentical];
+  assert.equal(new Set(all).size, all.length);
+  for (const url of [...all, ...Object.keys(internalLinks)]) assert.ok(!(PROTECTED_PATHS as readonly string[]).includes(url), url);
+  for (const [url, { removed }] of Object.entries(internalLinks)) {
+    if (removed.length) assert.equal(url, '/ru/razrabotka-saytov-tashkent/', `${url}: only the case links that gave way to the case sections are removed`);
+  }
+  const invisible = current.invisibleToGate.map((c) => c.change).join('\n');
+  assert.match(invisible, /robots\.txt, uz\/blog\/feed\.xml, _redirects, _headers are byte-identical/);
+  assert.match(invisible, /index-B7Z1XlOc\.css/);
+  assert.match(invisible, /ai-paket-2026-10-v5/);
+  assert.match(invisible, /gpt-chat-Cqn8gEiy\.js/);
+  assert.match(current.measurement, /R-S2 \(16\.11\)/);
+  assert.match(current.measurement, /No ranking or traffic guarantee/);
+  for (const text of [invisible, current.measurement, ...current.reviewedChanges.map((c) => JSON.stringify(c))]) {
+    assert.doesNotMatch(text, /\bundefined\b|\bnull\b|\bNaN\b/, text.slice(0, 80));
+  }
+});
+
 test('the current revision documents every contract change against its predecessor, which stays untouched', () => {
   const current = readRevision(BASELINE);
   assert.ok(current.previousRevision && current.previousRevision !== BASELINE, 'a revision names its predecessor');

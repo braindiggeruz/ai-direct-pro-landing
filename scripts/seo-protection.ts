@@ -206,7 +206,22 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // name. The generator puts every reviewed swap and both names back and
 // requires the predecessor's HTML byte for byte; reviewedChanges records the
 // text steps, which replayed on the new body text give the old one.
-export const BASELINE = 'docs/seo/evidence/2026-10-26-contact/reviewed-protected-pages.json';
+// The 2026-10-26-address revision (owner, chat 26.10 with the TOP-3 roadmap
+// order: «Адрес студии. В карточке Google указано «Kichik Xalqa Yo‘li 57»»,
+// read as the answer to ROADMAP_TOP3.md §9 item 1; site.json address,
+// streetAddress and geo follow the Google Business card) changes one contract
+// field, bodyTextSha256, on all ten, by one text step each: the footer NAP line
+// «Yahyo Gulyamov ko‘chasi 35» → «Kichik Xalqa Yo‘li 57». The Organization
+// JSON-LD moves streetAddress and geo (41.334 / 69.286 → 41.3364 / 69.2723) and
+// the homepage's SPA entry moves by name (Footer.tsx); the chats keep their
+// bundle. Title, H1, description, robots, canonical, hreflang, internal links
+// and dates of the ten are unchanged, and the landing footers' new «Разработка
+// сайтов / Sayt yaratish» link reaches none of them. The generator puts the
+// swaps and the entry name back and requires the predecessor's HTML byte for
+// byte; across the site it also proves that no title, description, H1,
+// canonical, robots or hreflang moves and that dates move only on the four
+// TOP-3 pages with a new section and /ru/blog/.
+export const BASELINE = 'docs/seo/evidence/2026-10-26-address/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
