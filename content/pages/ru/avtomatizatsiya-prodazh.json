@@ -27,7 +27,7 @@
   "heroTitle": "Автоматизация продаж: больше сделок, меньше ручного труда",
   "heroSubtitle": "CRM + AI-боты ведут лида до сделки: рассылки, онлайн-запись, мессенджеры в одном процессе.",
   "ctaPrimaryLabel": "Внедрить автоматизацию",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -129,7 +129,7 @@
     {
       "type": "cta",
       "text": "Внедрить автоматизацию",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

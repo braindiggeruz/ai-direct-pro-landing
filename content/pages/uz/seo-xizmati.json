@@ -29,7 +29,7 @@
   "heroTitle": "Toshkentda SEO xizmati",
   "heroSubtitle": "Saytingizni Google qidiruvida odam izlayotgan so‘rovlar bo‘yicha ko‘rinadigan qilamiz: texnik xatolarni tuzatamiz, sahifalarni so‘rov bo‘yicha ajratamiz va natijani Search Console orqali o‘lchaymiz. Maqsad — trafik raqami emas, saytdan keladigan ariza.",
   "ctaPrimaryLabel": "Bepul maslahat olish",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Xizmat tarkibi",
   "ctaSecondaryHref": "#tarkib",
   "bodyBlocks": [
@@ -513,7 +513,7 @@
     {
       "type": "cta",
       "text": "Saytingizni ko‘rib chiqamiz va nimadan boshlash kerakligini aytamiz — maslahat bepul.",
-      "href": "#contact"
+      "href": "#lead-form"
     }
   ],
   "faq": [

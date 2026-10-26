@@ -85,6 +85,16 @@ export const LEAD_FORM_PAGES: Readonly<Record<string, string>> = {
   '/uz/amocrm-bitrix24-bilan-ai-bot/': 'crm-integration',
   '/ru/razrabotka-saytov-tashkent/': 'website-development',
   '/uz/sayt-yaratish/': 'website-development',
+  // SEO and sales automation (TOP-3 roadmap 2026-10-26, step 1.1; research
+  // 04-commercial-cluster.md К1): the SEO landing has the most impressions of
+  // the commercial pages and sells a 2 490 000 a month service, yet until
+  // 2026-10-26 these five offered only the contact card. Each UZ page sends
+  // the slug of its RU twin.
+  '/ru/seo-prodvizhenie-saytov-tashkent/': 'seo',
+  '/uz/seo-xizmati/': 'seo',
+  '/ru/lokalnoe-seo-tashkent/': 'local-seo',
+  '/ru/avtomatizatsiya-prodazh/': 'sales-automation',
+  '/uz/savdoni-avtomatlashtirish/': 'sales-automation',
   // The 27 niche AI-bot pages (monetization roadmap 2026-10-25, §3.1 #35 and
   // 07-b2b-channels.md §1.4 L1): until 2026-10-26 their every call to action
   // led to the contact card (phone and e-mail only). Each now carries the form

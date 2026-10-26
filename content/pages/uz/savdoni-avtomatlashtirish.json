@@ -27,7 +27,7 @@
   "heroTitle": "Savdoni avtomatlashtirish",
   "heroSubtitle": "CRM va AI-botlar tizimi lidni bitimga olib boradi: xabarlar, onlayn yozuv, messendjerlar bir jarayonda.",
   "ctaPrimaryLabel": "Avtomatlashtirishni joriy etish",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -129,7 +129,7 @@
     {
       "type": "cta",
       "text": "Avtomatlashtirishni joriy etish",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

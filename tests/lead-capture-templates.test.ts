@@ -338,6 +338,37 @@ test('the 27 niche AI-bot pages carry the form, and every call to action on them
   }
 });
 
+// TOP-3 roadmap 2026-10-26, step 1.1 (research 04-commercial-cluster.md К1):
+// until 2026-10-26 the SEO landings and sales automation, RU and UZ, offered
+// only the contact card. Each UZ page sends the slug of its RU twin.
+const SEO_AND_AUTOMATION_PAGES = {
+  '/ru/seo-prodvizhenie-saytov-tashkent/': 'seo',
+  '/uz/seo-xizmati/': 'seo',
+  '/ru/lokalnoe-seo-tashkent/': 'local-seo',
+  '/ru/avtomatizatsiya-prodazh/': 'sales-automation',
+  '/uz/savdoni-avtomatlashtirish/': 'sales-automation',
+} as const;
+
+test('the SEO and sales-automation landings carry the form, and every call to action on them leads to it', () => {
+  for (const [url, service] of Object.entries(SEO_AND_AUTOMATION_PAGES)) {
+    const page = PAGES.get(url);
+    assert.ok(page, `${url} is not a page`);
+    assert.equal(page.status, 'published', url);
+    assert.equal(LEAD_FORM_PAGES[url], service, url);
+    assert.equal(leadFormServiceFor(page), service, `${url}: the generator would skip it`);
+    assert.equal(page.ctaPrimaryHref, '#lead-form', url);
+    assert.ok(!JSON.stringify(page).includes('#contact'), `${url}: a call to action still leads to the contact card`);
+    assert.equal(renderContactCard(page), '', `${url}: the card would render next to the form`);
+    const locale = page.locale === 'uz' ? 'uz' : 'ru';
+    const html = renderLeadForm(page);
+    assert.match(html, new RegExp(`<form data-lead-form method="post" data-service="${service}"`), url);
+    assert.match(html, new RegExp(`data-locale="${locale}"`), url);
+    assert.ok(html.includes(`href="${PRIVACY_PAGE[locale]}"`), url);
+  }
+  assert.equal(LEAD_FORM_PAGES['/uz/seo-xizmati/'], LEAD_FORM_PAGES['/ru/seo-prodvizhenie-saytov-tashkent/']);
+  assert.equal(LEAD_FORM_PAGES['/uz/savdoni-avtomatlashtirish/'], LEAD_FORM_PAGES['/ru/avtomatizatsiya-prodazh/']);
+});
+
 test('after the hold lift the two Uzbek advertising landings carry the form of their RU twins', () => {
   // The 2026-09-19 measurement hold kept these two out of the allowlist until
   // it was lifted on 2026-09-29 (scripts/measurement-hold.ts).
@@ -992,6 +1023,19 @@ test('built pages: each of the 27 niche AI-bot pages renders the form, links it 
     assert.ok(html, `${url} is not built`);
     assert.equal((html.match(/<section id="lead-form" data-testid="page-lead-form"/g) ?? []).length, 1, url);
     assert.match(html, /<form data-lead-form method="post" data-service="ai-bot"/, url);
+    assert.equal((html.match(/data-lead-form-script/g) ?? []).length, 1, url);
+    assert.ok(html.includes('href="#lead-form"'), `${url}: nothing links the form`);
+    assert.ok(!html.includes('href="#contact"'), `${url}: a call to action still leads to the card`);
+    assert.ok(!html.includes('id="contact"'), `${url}: the contact card is still rendered`);
+  }
+});
+
+test('built pages: the SEO and sales-automation landings render the form, link it and have no contact card', { skip }, () => {
+  for (const [url, service] of Object.entries(SEO_AND_AUTOMATION_PAGES)) {
+    const html = distHtml(url);
+    assert.ok(html, `${url} is not built`);
+    assert.equal((html.match(/<section id="lead-form" data-testid="page-lead-form"/g) ?? []).length, 1, url);
+    assert.match(html, new RegExp(`<form data-lead-form method="post" data-service="${service}"`), url);
     assert.equal((html.match(/data-lead-form-script/g) ?? []).length, 1, url);
     assert.ok(html.includes('href="#lead-form"'), `${url}: nothing links the form`);
     assert.ok(!html.includes('href="#contact"'), `${url}: a call to action still leads to the card`);

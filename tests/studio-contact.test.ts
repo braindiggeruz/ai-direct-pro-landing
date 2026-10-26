@@ -235,7 +235,9 @@ test('every #lead-form link is on a page that renders the form, and every #conta
       assert.equal(renderContactCard(page), '', `${file}: a card nothing links to`);
     }
   }
-  assert.ok(contact >= 39, `only ${contact} pages link the contact card`);
+  // 39 until 2026-10-26; the SEO and sales-automation landings (TOP-3 roadmap
+  // step 1.1) then swapped the card for the form.
+  assert.ok(contact >= 34, `only ${contact} pages link the contact card`);
 });
 
 test('the AI-chat pages link no in-page card: their copy names the Telegram and the e-mail itself', () => {
