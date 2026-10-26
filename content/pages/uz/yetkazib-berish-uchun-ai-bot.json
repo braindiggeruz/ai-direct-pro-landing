@@ -28,7 +28,7 @@
   "heroTitle": "Ovqat yetkazib berish uchun AI bot",
   "heroSubtitle": "Buyurtmalarni qabul qiladi, menyu bo‘yicha yo‘naltiradi, summani hisoblaydi, manzilni aniqlaydi va yetkazib berish holatini xabar qiladi — kechayu kunduz.",
   "ctaPrimaryLabel": "Botni ishga tushirishni muhokama qilish",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
@@ -149,7 +149,7 @@
     {
       "type": "cta",
       "text": "Botni ishga tushirishni muhokama qilish",
-      "href": "#contact"
+      "href": "#lead-form"
     }
   ],
   "faq": [

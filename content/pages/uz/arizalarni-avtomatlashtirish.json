@@ -27,7 +27,7 @@
   "heroTitle": "Arizalarni avtomatlashtirish",
   "heroSubtitle": "AI bot arizalarga zudlik bilan javob beradi, ma’lumot yig‘adi va issiq mijozlarni menejerga uzatadi.",
   "ctaPrimaryLabel": "Avtomatlashtirishni olish",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -129,7 +129,7 @@
     {
       "type": "cta",
       "text": "Avtomatlashtirishni olish",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

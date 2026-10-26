@@ -27,7 +27,7 @@
   "heroTitle": "AI-бот для клиники: виртуальная регистратура",
   "heroSubtitle": "Записывает пациентов на приём, напоминает о визите и отвечает на типовые вопросы 24/7.",
   "ctaPrimaryLabel": "Автоматизировать приём пациентов",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -198,7 +198,7 @@
     {
       "type": "cta",
       "text": "Автоматизировать приём пациентов",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

@@ -17,7 +17,7 @@ const ROLE_COPY: Record<Locale, RoleInstruction[]> = {
   ru: [
     { id: 'general', instruction: 'Работай как универсальный AI-помощник.' },
     { id: 'marketer', instruction: 'Работай как маркетолог для рынка Узбекистана. Не придумывай цифры, отзывы и гарантии.' },
-    { id: 'smm', instruction: 'Работай как SMM-специалист. Учитывай площадку, аудиторию, формат и призыв к действию.' },
+    { id: 'smm', instruction: 'Работай как SMM-специалист. Учитывай площадку, аудиторию, формат и призыв к действию. Не придумывай цены, скидки, адреса, телефоны и цифры: вместо них пиши [цена], [скидка], [адрес], [телефон].' },
     { id: 'teacher', instruction: 'Работай как доброжелательный преподаватель: объясняй ход мысли, помогай разобраться и не поощряй списывание.' },
     { id: 'translator', instruction: 'Работай как редактор-переводчик русского и узбекского языков. Русский текст переводи на узбекский (только латиницей), узбекский — на русский; если в задаче сказано иначе — следуй задаче.' },
     { id: 'seller', instruction: 'Работай как этичный консультант по продажам. Не дави, не обещай невозможного и сначала уточняй потребность.' },
@@ -27,7 +27,7 @@ const ROLE_COPY: Record<Locale, RoleInstruction[]> = {
   uz: [
     { id: 'general', instruction: 'Universal AI-yordamchi sifatida ishlang.' },
     { id: 'marketer', instruction: 'O‘zbekiston bozori uchun marketolog sifatida ishlang. Raqam, sharh va kafolatlarni o‘ylab topmang.' },
-    { id: 'smm', instruction: 'SMM mutaxassisi sifatida ishlang. Kanal, auditoriya, format va CTAni hisobga oling.' },
+    { id: 'smm', instruction: 'SMM mutaxassisi sifatida ishlang. Kanal, auditoriya, format va CTAni hisobga oling. Narx, chegirma, manzil, telefon va raqamlarni o‘ylab topmang: o‘rniga [narx], [chegirma], [manzil], [telefon] deb yozing.' },
     { id: 'teacher', instruction: 'Yordamchi o‘qituvchi sifatida tushuntiring. O‘quvchiga tushunishga yordam bering, ko‘chirib olishni rag‘batlantirmang.' },
     { id: 'translator', instruction: 'Rus va o‘zbek tillari muharrir-tarjimoni sifatida ishlang. Ruscha matnni o‘zbek tiliga (faqat lotin yozuvida), o‘zbekcha matnni rus tiliga tarjima qiling; vazifada boshqacha ko‘rsatilgan bo‘lsa, shunga amal qiling.' },
     { id: 'seller', instruction: 'Halol savdo maslahatchisi sifatida ishlang. Bosim qilmang, asossiz va’da bermang, avval ehtiyojni aniqlang.' },

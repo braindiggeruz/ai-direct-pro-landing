@@ -28,7 +28,7 @@
   "heroTitle": "AI-бот для доставки еды",
   "heroSubtitle": "Принимает заказы, ведёт по меню, считает сумму, уточняет адрес и сообщает статус доставки — круглосуточно.",
   "ctaPrimaryLabel": "Обсудить запуск бота",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Что умеет бот",
   "ctaSecondaryHref": "#chto-umeet",
   "bodyBlocks": [
@@ -149,7 +149,7 @@
     {
       "type": "cta",
       "text": "Обсудить запуск бота",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

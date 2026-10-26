@@ -27,7 +27,7 @@
   "heroTitle": "AI-бот для учебного центра: виртуальный тьютор",
   "heroSubtitle": "Отвечает абитуриентам, записывает на курсы и наполняет группы — круглосуточно в Telegram и Instagram.",
   "ctaPrimaryLabel": "Настроить бота для центра",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -202,7 +202,7 @@
     {
       "type": "cta",
       "text": "Настроить бота для центра",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

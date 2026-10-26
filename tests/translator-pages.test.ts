@@ -250,8 +250,9 @@ test('the template adds the role, the pair and the converter only to a page with
   }
   assert.equal(chatRoleAttributes({ ...chatRu, pageType: 'money', chatRole: 'translator' }), '', 'gpt-chat pages only');
   assert.equal(chatRoleAttributes({ ...chatRu, chatRole: 'general' as never }), '', 'closed list');
-  assert.equal(chatRoleAttributes(ru), ` data-chat-role="translator" data-alt-href="${UZ_URL}"`);
-  assert.equal(chatRoleAttributes(uz), ` data-chat-role="translator" data-alt-href="${RU_URL}"`);
+  // Role, pair, then the page's own chips (2026-10-26).
+  assert.match(chatRoleAttributes(ru), new RegExp(`^ data-chat-role="translator" data-alt-href="${UZ_URL}" data-chat-starters="`));
+  assert.match(chatRoleAttributes(uz), new RegExp(`^ data-chat-role="translator" data-alt-href="${RU_URL}" data-chat-starters="`));
   assert.equal(pairedPath({ ...ru, hreflangUz: 'https://evil.test/' }), undefined);
   assert.equal(pairedPath({ ...ru, hreflangUz: '/uz/"><script>/' }), undefined);
 

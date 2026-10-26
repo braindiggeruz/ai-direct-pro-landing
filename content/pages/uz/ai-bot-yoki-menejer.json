@@ -28,7 +28,7 @@
   "heroTitle": "AI bot yoki menejer",
   "heroSubtitle": "Bot qayerda kuchli, qayerda inson almashtirib bo‘lmas va nega bot plyus menejer bog‘lamasi arizalarni eng samarali qayta ishlaydi.",
   "ctaPrimaryLabel": "Biznes uchun bog‘lamani muhokama qilish",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bot va menejerni solishtirish",
   "ctaSecondaryHref": "#solishtirish",
   "bodyBlocks": [
@@ -80,7 +80,7 @@
     {
       "type": "cta",
       "text": "Biznes uchun bog‘lamani muhokama qilish",
-      "href": "#contact"
+      "href": "#lead-form"
     }
   ],
   "faq": [

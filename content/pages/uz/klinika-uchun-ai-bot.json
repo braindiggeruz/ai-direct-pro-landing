@@ -27,7 +27,7 @@
   "heroTitle": "Klinika uchun AI bot: virtual ro‘yxatxona",
   "heroSubtitle": "Bemorlarni qabulga yozadi, tashrifni eslatadi va tipik savollarga 24/7 javob beradi.",
   "ctaPrimaryLabel": "Bemorlarni qabul qilishni avtomatlashtirish",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -194,7 +194,7 @@
     {
       "type": "cta",
       "text": "Bemorlarni qabul qilishni avtomatlashtirish",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

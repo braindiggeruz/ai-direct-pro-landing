@@ -230,15 +230,65 @@ test('every content page with starters or widgets is a tool page with valid fiel
   }
 });
 
+// The ad-copy generator (monetization roadmap §3.1 #25, Ш9): a ready text in
+// the first answer, written from what the visitor filled in, with a
+// placeholder where a price, a discount, an address or a phone is missing.
+// The SMM role says the same to the model, as the marketer role already
+// does for figures; both live on the chat's start bundle (roles.ts).
+test('the ad-copy generator: ready text in the first answer, placeholders instead of invented facts', () => {
+  const uzRole = applyRole('x', 'smm', 'uz');
+  assert.match(uzRole, /Narx, chegirma, manzil, telefon va raqamlarni o‘ylab topmang: o‘rniga \[narx\], \[chegirma\], \[manzil\], \[telefon\] deb yozing\./);
+  const ruRole = applyRole('x', 'smm', 'ru');
+  assert.match(ruRole, /Не придумывай цены, скидки, адреса, телефоны и цифры: вместо них пиши \[цена\], \[скидка\], \[адрес\], \[телефон\]\./);
+  assert.match(applyRole('x', 'marketer', 'uz'), /Raqam, sharh va kafolatlarni o‘ylab topmang/);
+
+  const page = json<Page>('content/pages/uz/gpt-telegram-instagram-ideya.json');
+  assert.equal(page.chatRole, 'smm');
+  assert.deepEqual(chatStarterIssues(page.chatStarters), []);
+  const chips = new Map(page.chatStarters!.map(({ label, prompt }) => [label, prompt]));
+  // The chips that write a new text ask for it at once, with no questions back.
+  for (const label of ['Telegram reklama matni', 'Instagram posti', 'Uzum uchun mahsulot tavsifi', '5 ta sarlavha varianti']) {
+    const prompt = chips.get(label);
+    assert.ok(prompt, label);
+    assert.match(prompt, /darhol/i, `${label}: not at once`);
+    assert.match(prompt, /savol berma/i, `${label}: may ask first`);
+    assert.match(prompt, /\[narx\]/, `${label}: no placeholder for a missing price`);
+  }
+  for (const label of ['Telegram reklama matni', 'Instagram posti']) {
+    assert.ok(chips.get(label)!.includes('[narx], [chegirma], [manzil], [telefon]'), label);
+  }
+  // No chip carries a price, a phone or a figure of its own: only the limits it sets.
+  for (const [label, prompt] of chips) {
+    assert.doesNotMatch(prompt, /so‘m|сум|\+998|\d{3,}/, label);
+  }
+});
+
 test('the translator pages: the translator role and the converter, as before, through widgets', () => {
   for (const page of [translatorRu, translatorUz]) {
     assert.deepEqual(page.widgets, ['uz-translit']);
-    assert.equal(page.chatStarters, undefined);
     assert.equal(renderToolWidgets(page), renderUzTranslitBlock(page), 'the widgets are exactly the converter');
     assert.match(renderToolWidgets(page), /^<section id="kirill-lotin" data-uz-translit/);
     assert.equal(toolWidgetScripts(page, SCRIPTS), '\n<script type="module" src="/assets/uz-translit-A.js"></script>', 'the same one line after the chat');
-    assert.equal(starterFrame(page), undefined, 'the frame keeps its four empty pills');
   }
+  // Their own six chips since 2026-10-26 (monetization roadmap §3.1 #5–6, Ш9)
+  // instead of the general four: a formal letter, a message to a client, a CV
+  // line, an announcement, a phrase explained, a translation checked. They
+  // only fill the composer.
+  for (const page of [translatorRu, translatorUz]) {
+    assert.deepEqual(chatStarterIssues(page.chatStarters), [], page.url);
+    assert.equal(page.chatStarters!.length, CHAT_STARTER_LIMITS.count, page.url);
+    const frame = starterFrame(page)!;
+    assert.match(frame, /^<ul class="gpt-tasks gpt-starters gpt-shell-tasks" aria-hidden="true">/, page.url);
+    for (const { label } of page.chatStarters!) assert.ok(frame.includes(`<span>${label}</span>`), `${page.url}: ${label}`);
+  }
+  assert.deepEqual(translatorRu.chatStarters!.map(({ label }) => label), [
+    'Перевести официальное письмо', 'Сообщение клиенту на узбекском', 'Строка для резюме',
+    'Объявление на двух языках', 'Объяснить узбекскую фразу', 'Проверить мой перевод',
+  ]);
+  assert.deepEqual(translatorUz.chatStarters!.map(({ label }) => label), [
+    'Rasmiy xatni tarjima qilish', 'Mijozga xabarni tarjima qilish', 'Rezyume uchun qator',
+    'E’lonni ikki tilda yozish', 'Iborani tushuntirish', 'Tarjimamni tekshirish',
+  ]);
   // A tool page in the translator role without the widget has no converter.
   assert.equal(renderUzTranslitBlock({ ...translatorRu, widgets: undefined }), '');
 });
@@ -338,7 +388,9 @@ test('the chat side: a lazy part on tool pages only, nothing on the start bundle
 
 test('a page with chips preloads the lazy part it waits for and styles the chips row; no other page does', () => {
   assert.equal(chatToolHead(toolPage({ chatStarters: STARTERS }), '/assets/chat-tool-X.js'), `\n<link rel="modulepreload" href="/assets/chat-tool-X.js" />\n${STARTERS_STYLE}`);
-  for (const page of [toolPage({}), toolPage({ widgets: ['calculator'] }), translatorRu, translatorUz, chatRu, chatUz]) assert.equal(chatToolHead(page, '/assets/chat-tool-X.js'), '', page.url);
+  for (const page of [toolPage({}), toolPage({ widgets: ['calculator'] }), chatRu, chatUz]) assert.equal(chatToolHead(page, '/assets/chat-tool-X.js'), '', page.url);
+  // The translator pages have chips since 2026-10-26, so they wait for the part too.
+  for (const page of [translatorRu, translatorUz]) assert.equal(chatToolHead(page, '/assets/chat-tool-X.js'), `\n<link rel="modulepreload" href="/assets/chat-tool-X.js" />\n${STARTERS_STYLE}`, page.url);
   assert.equal(chatToolHead(toolPage({ chatStarters: STARTERS }), null), `\n${STARTERS_STYLE}`);
   // The row's rules: one scrolling line on a phone, wrapped and centred from 640px; never in the chat's own sheet (held to 30 000 B).
   assert.match(STARTERS_STYLE, /^<style>\.gpt-starters\{display:flex;[^}]*overflow-x:auto/);
@@ -362,7 +414,10 @@ test('built HTML: the main chats have no tool trace; the translator pages keep t
     if (!fs.existsSync(built(page.url))) continue;
     const html = fs.readFileSync(built(page.url), 'utf8');
     assert.equal((html.match(/<script type="module" src="\/assets\/uz-translit-[\w-]+\.js"><\/script>/g) || []).length, 1, page.url);
-    assert.doesNotMatch(html, /data-chat-starters|data-calculator|data-irregular-verbs/, page.url);
+    assert.doesNotMatch(html, /data-calculator|data-irregular-verbs/, page.url);
+    // Their own chips (2026-10-26): on the mount point and in the frame.
+    assert.equal((html.match(/ data-chat-starters="/g) || []).length, 1, page.url);
+    assert.ok(html.includes('<ul class="gpt-tasks gpt-starters gpt-shell-tasks" aria-hidden="true">'), page.url);
   }
   // Every built tool page loads exactly the scripts of its widgets.
   for (const page of pages.filter((p) => p.widgets && p.status === 'published' && fs.existsSync(built(p.url)))) {

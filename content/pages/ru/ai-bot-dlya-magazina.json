@@ -27,7 +27,7 @@
   "heroTitle": "AI-бот для интернет-магазина: виртуальный консультант",
   "heroSubtitle": "Показывает товары, отвечает на вопросы о наличии и доставке и оформляет заказы 24/7.",
   "ctaPrimaryLabel": "Заказать бота для магазина",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -208,7 +208,7 @@
     {
       "type": "cta",
       "text": "Заказать бота для магазина",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

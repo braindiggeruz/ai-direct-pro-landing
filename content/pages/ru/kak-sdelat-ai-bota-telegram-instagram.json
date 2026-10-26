@@ -27,7 +27,7 @@
   "heroTitle": "Как сделать AI-бота для Telegram и Instagram",
   "heroSubtitle": "Пошаговый разбор: от идеи до запуска за несколько дней. Что подготовить, какие шаги пройти и сколько это стоит.",
   "ctaPrimaryLabel": "Заказать Telegram-бота",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#steps",
   "bodyBlocks": [
@@ -86,7 +86,7 @@
     {
       "type": "cta",
       "text": "Заказать Telegram-бота",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

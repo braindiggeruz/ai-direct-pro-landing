@@ -27,7 +27,7 @@
   "heroTitle": "HoReCa uchun AI-bot — stol band qilish va buyurtmalar 24/7",
   "heroSubtitle": "Restoran, kafe va yetkazib berish xizmati uchun AI-bot stol band qiladi, menyu bo‘yicha javob beradi va tayyor arizani administratorga uzatadi.",
   "ctaPrimaryLabel": "Demo so‘rash",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -199,7 +199,7 @@
     {
       "type": "cta",
       "text": "Demo so‘rash",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

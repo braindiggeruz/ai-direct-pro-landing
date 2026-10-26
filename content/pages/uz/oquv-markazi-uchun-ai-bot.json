@@ -27,7 +27,7 @@
   "heroTitle": "O‘quv markazi uchun AI bot: virtual o‘qituvchi",
   "heroSubtitle": "Abituriyentlarga javob beradi, kurslarga yozadi va guruhlarni to‘ldiradi — Telegram va Instagram’da 24/7.",
   "ctaPrimaryLabel": "Markaz uchun bot sozlash",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bu qanday ishlaydi",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -198,7 +198,7 @@
     {
       "type": "cta",
       "text": "Markaz uchun bot sozlash",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

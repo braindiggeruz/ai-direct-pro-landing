@@ -28,7 +28,7 @@
   "heroTitle": "AI-бот для автосалона и автосервиса",
   "heroSubtitle": "Квалифицирует заявки на авто, отвечает по моделям, цене и трейд-ин, записывает на тест-драйв и сервис — круглосуточно.",
   "ctaPrimaryLabel": "Обсудить запуск бота",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Что умеет бот",
   "ctaSecondaryHref": "#chto-umeet",
   "bodyBlocks": [
@@ -138,7 +138,7 @@
     {
       "type": "cta",
       "text": "Обсудить запуск бота",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

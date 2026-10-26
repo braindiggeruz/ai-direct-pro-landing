@@ -78,6 +78,40 @@ export const LEAD_FORM_PAGES: Readonly<Record<string, string>> = {
   '/uz/amocrm-bitrix24-bilan-ai-bot/': 'crm-integration',
   '/ru/razrabotka-saytov-tashkent/': 'website-development',
   '/uz/sayt-yaratish/': 'website-development',
+  // The 27 niche AI-bot pages (monetization roadmap 2026-10-25, §3.1 #35 and
+  // 07-b2b-channels.md §1.4 L1): until 2026-10-26 their every call to action
+  // led to the contact card (phone and e-mail only). Each now carries the form
+  // and links it instead; the niche stays visible in the lead through the
+  // page path in its first-touch record.
+  // RU
+  '/ru/ai-bot-dlya-uchebnogo-tsentra/': 'ai-bot',
+  '/ru/ai-bot-dlya-kliniki/': 'ai-bot',
+  '/ru/ai-bot-dlya-salona-krasoty/': 'ai-bot',
+  '/ru/ai-bot-dlya-magazina/': 'ai-bot',
+  '/ru/ai-bot-dlya-horeca/': 'ai-bot',
+  '/ru/ai-bot-dlya-yurista/': 'ai-bot',
+  '/ru/ai-bot-dlya-avtosalona/': 'ai-bot',
+  '/ru/ai-bot-dlya-agentstva-nedvizhimosti/': 'ai-bot',
+  '/ru/ai-bot-dlya-fitnes-kluba/': 'ai-bot',
+  '/ru/ai-bot-dlya-dostavki-edy/': 'ai-bot',
+  '/ru/ai-bot-dlya-sayta/': 'ai-bot',
+  '/ru/ai-bot-dlya-nishi/': 'ai-bot',
+  '/ru/ai-bot-ili-menedzher/': 'ai-bot',
+  '/ru/kak-sdelat-ai-bota-telegram-instagram/': 'ai-bot',
+  '/ru/sayt-s-ai-botom/': 'ai-bot',
+  // UZ
+  '/uz/oquv-markazi-uchun-ai-bot/': 'ai-bot',
+  '/uz/klinika-uchun-ai-bot/': 'ai-bot',
+  '/uz/salon-uchun-ai-bot/': 'ai-bot',
+  '/uz/dokon-uchun-ai-bot/': 'ai-bot',
+  '/uz/horeca-uchun-ai-bot/': 'ai-bot',
+  '/uz/yurist-uchun-ai-bot/': 'ai-bot',
+  '/uz/avtosalon-uchun-ai-bot/': 'ai-bot',
+  '/uz/kochmas-mulk-agentligi-uchun-ai-bot/': 'ai-bot',
+  '/uz/fitnes-klub-uchun-ai-bot/': 'ai-bot',
+  '/uz/yetkazib-berish-uchun-ai-bot/': 'ai-bot',
+  '/uz/sayt-uchun-ai-bot/': 'ai-bot',
+  '/uz/ai-bot-yoki-menejer/': 'ai-bot',
 };
 
 /** Pages that must never carry the form, whatever the allowlist says. */

@@ -8,23 +8,23 @@
   "chatStarters": [
     {
       "label": "Telegram reklama matni",
-      "prompt": "Telegram kanal uchun reklama matni yoz.\nMahsulot yoki xizmat: \nKimga: \nAsosiy foyda: \nNarx yoki aksiya (faqat haqiqiysi): \nUzunligi: \nChegirma va faktlarni o‘ylab topma, oxirida bitta aniq harakatga chaqiruv bo‘lsin."
+      "prompt": "Telegram kanal uchun tayyor reklama matnini darhol yoz, savol berma.\nMahsulot yoki xizmat: \nKimga: \nAsosiy foyda: \nNarx yoki aksiya (faqat haqiqiysi): \nMen bermagan narx, chegirma, manzil va telefon o‘rniga [narx], [chegirma], [manzil], [telefon] qo‘y, raqam va faktlarni o‘ylab topma. Oxirida bitta aniq harakatga chaqiruv bo‘lsin."
     },
     {
       "label": "Instagram posti",
-      "prompt": "Instagram uchun post yoz: sarlavha, asosiy matn va CTA.\nMahsulot yoki xizmat: \nKimga: \nOhang (samimiy, rasmiy yoki boshqa): \nTasdiqlangan faktlar: \nAsossiz va’da va o‘ylab topilgan sharh qo‘shma."
+      "prompt": "Instagram uchun tayyor post yoz: sarlavha, asosiy matn va CTA. Darhol yoz, savol berma.\nMahsulot yoki xizmat: \nKimga: \nOhang (samimiy, rasmiy yoki boshqa): \nTasdiqlangan faktlar: \nMen bermagan narx, chegirma, manzil va telefon o‘rniga [narx], [chegirma], [manzil], [telefon] qo‘y. Asossiz va’da va o‘ylab topilgan sharh qo‘shma."
     },
     {
       "label": "Uzum uchun mahsulot tavsifi",
-      "prompt": "Uzum Market kartochkasi uchun mahsulot tavsifini yoz.\nNomi: \nAniq xususiyatlari: \nKomplekt: \nKimga mo‘ljallangan: \nFaqat men bergan ma’lumotdan foydalan, tasdiqlanmagan xususiyat qo‘shma."
+      "prompt": "Uzum Market kartochkasi uchun tayyor mahsulot tavsifini darhol yoz, savol berma.\nNomi: \nAniq xususiyatlari: \nKomplekt: \nKimga mo‘ljallangan: \nFaqat men bergan ma’lumotdan foydalan: yetishmagan narx yoki o‘lcham o‘rniga [narx], [o‘lcham] qo‘y, tasdiqlanmagan xususiyat qo‘shma."
     },
     {
       "label": "5 ta sarlavha varianti",
-      "prompt": "Reklamam uchun 5 ta sarlavha varianti yoz, har biri 60 belgidan oshmasin.\nMahsulot: \nAuditoriya: \nAsosiy foyda: \nHar bir variant qaysi yondashuvga (foyda, muammo yoki savol) asoslanganini qisqa izohla."
+      "prompt": "Reklamam uchun darhol 5 ta sarlavha varianti yoz, har biri 60 belgidan oshmasin. Savol berma: men bermagan narx yoki chegirma o‘rniga [narx], [chegirma] qo‘y.\nMahsulot: \nAuditoriya: \nAsosiy foyda: \nHar bir variant qaysi yondashuvga (foyda, muammo yoki savol) asoslanganini qisqa izohla."
     },
     {
       "label": "Matnni 7 qoida bo‘yicha tekshirish",
-      "prompt": "Reklama matnimni tekshir: kimga qaratilgani aniqmi, bitta asosiy foyda bormi, birinchi qator diqqatni tortadimi, isbotsiz va’da bormi, harakatga chaqiruv aniqmi. Avval kamchiliklarni sanab ber, keyin tuzatilgan variantni yoz.\nMatn: "
+      "prompt": "Reklama matnimni tekshir: kimga qaratilgani aniqmi, bitta asosiy foyda bormi, birinchi qator diqqatni tortadimi, isbotsiz va’da bormi, harakatga chaqiruv aniqmi. Avval kamchiliklarni sanab ber, keyin tuzatilgan variantni yoz: matnda yo‘q narx, chegirma va raqam qo‘shma.\nMatn: "
     },
     {
       "label": "Ruscha variantini yozish",

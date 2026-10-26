@@ -193,7 +193,9 @@ test('every #lead-form link is on a page that renders the form, and every #conta
       assert.equal(renderContactCard(page), '', `${file}: a card nothing links to`);
     }
   }
-  assert.ok(contact >= 70, `only ${contact} pages link the contact card`);
+  // 70 until 2026-10-26, when the 27 niche AI-bot pages and four form pages
+  // whose last call to action still pointed at the card moved to the form.
+  assert.ok(contact >= 39, `only ${contact} pages link the contact card`);
 });
 
 test('the AI-chat pages link no in-page card: their summary has no CTA row, so their copy names phone and e-mail itself', () => {
@@ -231,8 +233,11 @@ test('an article that links #contact gets the card, and its own call to action n
 });
 
 test('the contact card offers the phone and the e-mail, and Telegram only once one is configured', () => {
-  const ru = PAGES.find(({ page }) => page.url === '/ru/ai-bot-dlya-kliniki/')!.page;
-  const uz = PAGES.find(({ page }) => page.url === '/uz/klinika-uchun-ai-bot/')!.page;
+  // The clinic pages that served here carry the lead form since 2026-10-26
+  // (the 27 niche AI-bot pages, scripts/lead-form.ts); the WhatsApp pages
+  // still link the card.
+  const ru = PAGES.find(({ page }) => page.url === '/ru/whatsapp-bot-dlya-biznesa/')!.page;
+  const uz = PAGES.find(({ page }) => page.url === '/uz/whatsapp-bot-biznes-uchun/')!.page;
   const card = renderContactCard(ru);
   assert.ok(card.includes(`href="tel:${STUDIO_PHONE}"`));
   assert.ok(card.includes(`Позвонить: ${STUDIO_PHONE_DISPLAY}`));

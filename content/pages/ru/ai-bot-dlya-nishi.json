@@ -27,7 +27,7 @@
   "heroTitle": "AI-бот для вашей ниши",
   "heroSubtitle": "Клиника, салон, магазин, HoReCa, учебный центр, недвижимость — у каждой ниши свои задачи. Выберите свою и узнайте, что умеет бот.",
   "ctaPrimaryLabel": "Подобрать бота под нишу",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Выбрать нишу",
   "ctaSecondaryHref": "#nishi",
   "bodyBlocks": [
@@ -89,7 +89,7 @@
     {
       "type": "cta",
       "text": "Подобрать бота под нишу",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

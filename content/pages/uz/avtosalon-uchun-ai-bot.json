@@ -28,7 +28,7 @@
   "heroTitle": "Avtosalon va avtoservis uchun AI bot",
   "heroSubtitle": "Avtomobil arizalarini saralaydi, model, narx va treyd-in bo‘yicha javob beradi, test-drayv va servisga yozadi — kechayu kunduz.",
   "ctaPrimaryLabel": "Botni ishga tushirishni muhokama qilish",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
@@ -138,7 +138,7 @@
     {
       "type": "cta",
       "text": "Botni ishga tushirishni muhokama qilish",
-      "href": "#contact"
+      "href": "#lead-form"
     }
   ],
   "faq": [

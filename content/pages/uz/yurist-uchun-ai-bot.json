@@ -28,7 +28,7 @@
   "heroTitle": "Yurist va yuridik kompaniya uchun AI bot",
   "heroSubtitle": "Murojaatni saralaydi, tipik savollarga javob beradi, konsultatsiyaga yozadi va birorta arizani yo‘qotmaydi — kechayu kunduz.",
   "ctaPrimaryLabel": "Botni ishga tushirishni muhokama qilish",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Bot nima qiladi",
   "ctaSecondaryHref": "#nima-qiladi",
   "bodyBlocks": [
@@ -132,7 +132,7 @@
     {
       "type": "cta",
       "text": "Botni ishga tushirishni muhokama qilish",
-      "href": "#contact"
+      "href": "#lead-form"
     }
   ],
   "faq": [

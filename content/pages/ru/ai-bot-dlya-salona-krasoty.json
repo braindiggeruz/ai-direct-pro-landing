@@ -27,7 +27,7 @@
   "heroTitle": "AI-бот для салона красоты: виртуальный администратор",
   "heroSubtitle": "Записывает клиентов на услуги салона 24/7, напоминает о визите, разгружает администратора.",
   "ctaPrimaryLabel": "Получить бота для салона",
-  "ctaPrimaryHref": "#contact",
+  "ctaPrimaryHref": "#lead-form",
   "ctaSecondaryLabel": "Как это работает",
   "ctaSecondaryHref": "#how",
   "bodyBlocks": [
@@ -186,7 +186,7 @@
     {
       "type": "cta",
       "text": "Получить бота для салона",
-      "href": "#contact"
+      "href": "#lead-form"
     },
     {
       "type": "h2",

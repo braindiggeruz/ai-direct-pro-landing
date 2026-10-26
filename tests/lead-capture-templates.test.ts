@@ -26,6 +26,7 @@ import { STUDIO_TELEGRAM_URL, studioTelegramHref, studioTelegramMessage, telegra
 import { STUDIO_PHONE, STUDIO_PHONE_DISPLAY } from '../src/shared/studio-contact';
 import { FIRST_TOUCH_SCRIPT, FIRST_TOUCH_STORAGE_KEY } from '../scripts/attribution-snippet';
 import { LEAD_FORM_PAGES, LEAD_FORM_SCRIPT, PRIVACY_PAGE, leadFormFallback, leadFormServiceFor, renderLeadForm } from '../scripts/lead-form';
+import { renderContactCard } from '../scripts/contact-card';
 import { MEASUREMENT_HOLD_PATHS } from '../scripts/measurement-hold';
 import { PROTECTED_PATHS } from '../scripts/seo-protection';
 import { ANALYTICS_HEAD } from '../scripts/analytics-snippet';
@@ -278,6 +279,45 @@ test('the four B2B pages carry the form, and every call to action on them leads 
   }
   // Its H1 is an anchor in the protected homepage's body: unchanged.
   assert.equal(PAGES.get('/ru/luchshie-razrabotchiki-chat-botov-tashkent/')!.h1, 'Разработка чат-ботов на заказ в Ташкенте');
+});
+
+// The 27 niche AI-bot pages (monetization roadmap 2026-10-25, §3.1 #35; 07 §1.4
+// L1): until 2026-10-26 every call to action on them led to the contact card.
+const NICHE_AI_BOT_PAGES = [
+  '/ru/ai-bot-dlya-uchebnogo-tsentra/', '/ru/ai-bot-dlya-kliniki/', '/ru/ai-bot-dlya-salona-krasoty/',
+  '/ru/ai-bot-dlya-magazina/', '/ru/ai-bot-dlya-horeca/', '/ru/ai-bot-dlya-yurista/',
+  '/ru/ai-bot-dlya-avtosalona/', '/ru/ai-bot-dlya-agentstva-nedvizhimosti/', '/ru/ai-bot-dlya-fitnes-kluba/',
+  '/ru/ai-bot-dlya-dostavki-edy/', '/ru/ai-bot-dlya-sayta/', '/ru/ai-bot-dlya-nishi/',
+  '/ru/ai-bot-ili-menedzher/', '/ru/kak-sdelat-ai-bota-telegram-instagram/', '/ru/sayt-s-ai-botom/',
+  '/uz/oquv-markazi-uchun-ai-bot/', '/uz/klinika-uchun-ai-bot/', '/uz/salon-uchun-ai-bot/',
+  '/uz/dokon-uchun-ai-bot/', '/uz/horeca-uchun-ai-bot/', '/uz/yurist-uchun-ai-bot/',
+  '/uz/avtosalon-uchun-ai-bot/', '/uz/kochmas-mulk-agentligi-uchun-ai-bot/', '/uz/fitnes-klub-uchun-ai-bot/',
+  '/uz/yetkazib-berish-uchun-ai-bot/', '/uz/sayt-uchun-ai-bot/', '/uz/ai-bot-yoki-menejer/',
+] as const;
+
+test('the 27 niche AI-bot pages carry the form, and every call to action on them leads to it', () => {
+  assert.equal(new Set(NICHE_AI_BOT_PAGES).size, 27);
+  for (const url of NICHE_AI_BOT_PAGES) {
+    const page = PAGES.get(url);
+    assert.ok(page, `${url} is not a page`);
+    assert.equal(page.status, 'published', url);
+    assert.equal(LEAD_FORM_PAGES[url], 'ai-bot', url);
+    assert.equal(leadFormServiceFor(page), 'ai-bot', `${url}: the generator would skip it`);
+    assert.equal(page.ctaPrimaryHref, '#lead-form', url);
+    const json = JSON.stringify(page);
+    assert.ok(!json.includes('#contact'), `${url}: a call to action still leads to the contact card`);
+    assert.equal(renderContactCard(page), '', `${url}: the card would render next to the form`);
+    const locale = page.locale === 'uz' ? 'uz' : 'ru';
+    const html = renderLeadForm(page);
+    assert.match(html, /<form data-lead-form method="post" data-service="ai-bot"/, url);
+    assert.match(html, new RegExp(`data-locale="${locale}"`), url);
+    assert.ok(html.includes(`href="${PRIVACY_PAGE[locale]}"`), url);
+  }
+  // Every ai-bot page of content/pages that is not a chat now has the form.
+  for (const page of PAGES.values()) {
+    if (page.status !== 'published' || page.pageType === 'gpt-chat' || !/\/[a-z-]*ai-bot[a-z-]*\/$/.test(page.url)) continue;
+    assert.ok(leadFormServiceFor(page), `${page.url}: an AI-bot page without the form`);
+  }
 });
 
 test('after the hold lift the two Uzbek advertising landings carry the form of their RU twins', () => {
@@ -921,6 +961,19 @@ test('built pages: the form sits on the allowlist only, before the FAQ', { skip 
   for (const url of [...PROTECTED_PATHS, ...MEASUREMENT_HOLD_PATHS, '/ru/kalkulyator-stoimosti-telegram-bota/', '/ru/sotuvchi/']) {
     const html = distHtml(url);
     if (html) assert.ok(!html.includes('data-lead-form'), `${url} carries the form`);
+  }
+});
+
+test('built pages: each of the 27 niche AI-bot pages renders the form, links it and has no contact card', { skip }, () => {
+  for (const url of NICHE_AI_BOT_PAGES) {
+    const html = distHtml(url);
+    assert.ok(html, `${url} is not built`);
+    assert.equal((html.match(/<section id="lead-form" data-testid="page-lead-form"/g) ?? []).length, 1, url);
+    assert.match(html, /<form data-lead-form method="post" data-service="ai-bot"/, url);
+    assert.equal((html.match(/data-lead-form-script/g) ?? []).length, 1, url);
+    assert.ok(html.includes('href="#lead-form"'), `${url}: nothing links the form`);
+    assert.ok(!html.includes('href="#contact"'), `${url}: a call to action still leads to the card`);
+    assert.ok(!html.includes('id="contact"'), `${url}: the contact card is still rendered`);
   }
 });
 

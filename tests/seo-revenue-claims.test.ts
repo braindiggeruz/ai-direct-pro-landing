@@ -11,7 +11,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-import { PAID_MESSAGES, PRICE_TIYIN } from '../functions/lib/gpt-chat/billing-config';
+import { GUEST_PROVIDERS, PAID_MESSAGES, PRICE_TIYIN, PROVIDERS, guestCheckoutOn, providersInMode } from '../functions/lib/gpt-chat/billing-config';
+import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 import { PACK_DAILY_LIMIT } from '../functions/lib/gpt-chat/turn-store';
 import { resolveConfig } from '../functions/lib/gpt-chat/config';
 import { resolveTelegramConfig } from '../functions/lib/telegram/config';
@@ -31,6 +32,15 @@ function deployedEnv(): Env {
   const packed = /GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(readFileSync('wrangler.toml', 'utf8'))?.[1];
   assert.ok(packed, 'the packed runtime config is missing');
   return JSON.parse(packed) as Env;
+}
+
+/** How the pages name a provider. */
+const PROVIDER_NAME = { click: 'Click', payme: 'Payme', uzum: 'Uzum' } as const;
+/** The live providers of the packed config, as the page lists them: «Click или Payme». */
+function livePaymentNames(env: Env): string {
+  const names = providersInMode(env, 'live').map((provider) => PROVIDER_NAME[provider]);
+  assert.ok(names.length > 0, 'no live provider in the packed config');
+  return names.length === 1 ? names[0] : `${names.slice(0, -1).join(', ')} или ${names.at(-1)}`;
 }
 
 /** 2 000 000 tiyin → "20 000", grouped the way the pages write sums. */
@@ -63,28 +73,50 @@ test('the pack the pages describe is the pack the code sells', () => {
   assert.ok(all.includes(`${PAID_MESSAGES} ответов на месяц за ${PRICE} сум`));
   assert.ok(all.includes(`до ${PACK_DAILY_LIMIT} в день`));
   assert.match(all, /без автосписаний/);
-  // The ways to pay as the pack window offers them (2026-10-07): Click, also
-  // without signing in. Payme went back to test the same day (its cash desk is
-  // not active for production yet), so the page does not name it; Uzum Bank is
-  // off, so unnamed.
-  assert.ok(tariffs.bodyBlocks.some((block) => block.type === 'table' && JSON.stringify(block).includes('"Click — можно без входа"')));
-  assert.ok(all.includes('через Click (можно без входа).'));
-  assert.doesNotMatch(all, /Payme/);
-  assert.ok(all.includes('через Click пакет можно оплатить и без входа'));
-  assert.doesNotMatch(all, /Uzum|обязательно: пакет можно оплатить|Click, Payme/);
+  // The ways to pay are the providers the packed config runs live (Click and
+  // Payme since 2026-10-07): the page names every live one and none that is
+  // off. «Можно без входа» holds only while each of them may pay as a guest.
+  const env = deployedEnv();
+  const live = providersInMode(env, 'live');
+  const pay = livePaymentNames(env);
+  assert.ok(guestCheckoutOn(env), 'the page promises payment without signing in');
+  for (const provider of live) assert.ok(GUEST_PROVIDERS.includes(provider), `${provider} cannot pay as a guest`);
+  const table = tariffs.bodyBlocks.find((block) => block.type === 'table');
+  const payRow = table?.rows?.find((row) => row[0] === 'Оплата');
+  assert.equal(payRow?.[2], `${pay} — можно без входа`, 'the table row names every live provider');
+  assert.ok(all.includes(`через ${pay} пакет можно оплатить и без входа`), 'the paragraph');
+  assert.ok(all.includes(`через ${pay} (можно без входа).`), 'the summary');
+  for (const provider of PROVIDERS) {
+    if (!live.includes(provider)) assert.doesNotMatch(all, new RegExp(PROVIDER_NAME[provider]), `${provider} is off but named`);
+  }
+  assert.doesNotMatch(all, /обязательно: пакет можно оплатить/);
+  // A second pack works at once and side by side (BillingStore.transition and
+  // usablePacks; PACKS_LEFT in turn-store), under one day cap for all packs.
+  assert.ok(all.includes('Второй пакет можно купить, не дожидаясь конца первого: он тоже начинает действовать сразу и работает параллельно'));
+  const second = tariffs.faq.find((item) => /второй пакет/i.test(item.q));
+  assert.ok(second, 'the FAQ answers whether a second pack can be bought');
+  assert.match(second.a, /сразу после оплаты и работает параллельно/);
+  assert.ok(second.a.includes(`Из всех пакетов вместе списывается до ${PACK_DAILY_LIMIT} ответов в день.`));
 });
 
-test('the free limits on the pricing page are the deployed free limits', () => {
-  const cfg = resolveConfig(deployedEnv());
-  const all = JSON.stringify(tariffs);
-  assert.ok(all.includes(`до ${cfg.freeDailyLimit} сообщений в день и ${cfg.freeHourlyLimit} в час`), 'table row and summary');
-  assert.ok(tariffs.faq.some((item) => item.a.includes(`до ${cfg.freeDailyLimit} сообщений в день и ${cfg.freeHourlyLimit} в час`)));
+test('the free tier on the pricing page is the deployed lifetime trial', () => {
+  // Since the trial went live (GPT_FREE_TRIAL_ENABLED) a visitor without a pack
+  // gets FREE_TRIAL_LIMIT answers in all, not a daily and hourly allowance.
+  assert.equal(resolveConfig(deployedEnv()).freeTrialEnabled, true);
+  const trial = `${FREE_TRIAL_LIMIT} пробных ответа всего`;
+  const table = tariffs.bodyBlocks.find((block) => block.type === 'table');
+  assert.equal(table?.rows?.find((row) => row[0] === 'Ответы')?.[1], trial, 'table row');
+  assert.ok(tariffs.bodyBlocks.some((block) => block.type === 'list' && JSON.stringify(block).includes(`Бесплатный AI-чат: ${trial}`)), 'summary');
+  const free = tariffs.faq.find((item) => /бесплатный тариф/i.test(item.q));
+  assert.ok(free?.a.includes(`Бесплатно — ${trial}`), 'FAQ');
+  assert.match(free!.a, /не обновляется каждый день/);
+  assert.doesNotMatch(JSON.stringify(tariffs), /сообщений в день и \d+ в час|бесплатн\S* лимит/, 'no daily or hourly free allowance');
 });
 
 test('the pricing page is honest before and after payment opens', () => {
   const payment = tariffs.faq.find((item) => /оплатить/i.test(item.q));
   assert.ok(payment, 'Pricing must explain how and when the pack can be paid');
-  assert.match(payment.a, /открывает оплату: Click — можно без входа\./);
+  assert.ok(payment.a.includes(`открывает оплату: ${livePaymentNames(deployedEnv())} — можно без входа.`));
   assert.match(payment.a, /Если кнопки нет, оплата сейчас недоступна/);
   const offer = JSON.stringify(tariffs);
   assert.doesNotMatch(offer, /(?:href|target)":\s*"[^"]*(?:checkout|payment|\/api\/gpt\/)/);

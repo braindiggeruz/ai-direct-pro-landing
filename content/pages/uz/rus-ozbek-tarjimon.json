@@ -5,6 +5,32 @@
   "slug": "rus-ozbek-tarjimon",
   "pageType": "gpt-chat",
   "chatRole": "translator",
+  "chatStarters": [
+    {
+      "label": "Rasmiy xatni tarjima qilish",
+      "prompt": "Shu rasmiy xatni tarjima qil: ruscha bo‘lsa — o‘zbekchaga (lotin yozuvida), o‘zbekcha bo‘lsa — ruschaga. Rasmiy uslubni saqla, ism, sana, summa va tashkilot nomlarini o‘zgartirma. Ishonching komil bo‘lmagan atamalarni oxirida alohida sanab ber.\nXat matni: "
+    },
+    {
+      "label": "Mijozga xabarni tarjima qilish",
+      "prompt": "Mijozga yuboriladigan xabarni tarjima qil: xushmuomala va tabiiy ohangda, so‘zma-so‘z emas. Narx, sana va shartlarni o‘zgartirma, yangi va’da qo‘shma.\nXabar: "
+    },
+    {
+      "label": "Rezyume uchun qator",
+      "prompt": "Rezyumemdagi shu qatorni tarjima qil: qisqa, ish uslubida, lavozim va ko‘nikmalar shu sohada qabul qilingan atamalar bilan. 2 ta variant ber, matnda yo‘q tajriba yoki yutuq qo‘shma.\nQator: "
+    },
+    {
+      "label": "E’lonni ikki tilda yozish",
+      "prompt": "Shu e’lonni ikki tilda tayyorla: o‘zbekcha (lotin va kirill yozuvida) va ruscha. Ma’no, sana, manzil va telefonni o‘zgartirma.\nE’lon matni: "
+    },
+    {
+      "label": "Iborani tushuntirish",
+      "prompt": "Shu ibora yoki gapning ma’nosini tushuntir: so‘zma-so‘z tarjimasi, aslida nimani anglatadi va qaysi vaziyatda ishlatiladi. Tarjimaning 2–3 ta tabiiy variantini ber.\nIbora: "
+    },
+    {
+      "label": "Tarjimamni tekshirish",
+      "prompt": "Tarjimamni tekshir: ma’nosi buzilgan, grammatik yoki uslubiy xatosi bor joylarni ko‘rsat va har birini qisqa izohla. Keyin tuzatilgan variantni yoz.\nAsl matn: \nMening tarjimam: "
+    }
+  ],
   "widgets": [
     "uz-translit"
   ],
