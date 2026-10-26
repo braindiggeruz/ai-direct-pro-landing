@@ -19,6 +19,7 @@ import { gptChatNavLinks } from '../scripts/gpt-chat-nav';
 import { chatRoleAttributes, pairedPath, renderUzTranslitBlock, UZ_TRANSLIT_ANCHOR } from '../scripts/translator-page';
 import { asPreviewPage, previewDraftUrls } from '../scripts/preview-drafts';
 import { PROTECTED_PATHS } from '../scripts/seo-protection';
+import { publishedStudioUrls } from '../apps/studio/shared/published-urls';
 
 const ROOT = process.cwd();
 const RU_URL = '/ru/russko-uzbekskiy-perevodchik/';
@@ -134,7 +135,9 @@ test('the Uzbek page writes o‘ g‘ with U+2018 and the tutuq with U+2019 only
 });
 
 test('contacts and links: phone and e-mail in the body, every target reachable, nothing broken once both publish', () => {
-  const served = new Set(pages.filter((p) => p.status === 'published').map((p) => p.url));
+  // The studio's published pages (content/studio/pages) are served too: the
+  // UZ page links the UZ tariff hub /uz/tariflar/ (monetization stage B).
+  const served = new Set([...pages.filter((p) => p.status === 'published').map((p) => p.url), ...publishedStudioUrls(ROOT)]);
   for (const page of [ru, uz]) {
     const targets = linkTargets(page);
     assert.ok(targets.includes('tel:+998505870720'), `${page.url}: phone`);

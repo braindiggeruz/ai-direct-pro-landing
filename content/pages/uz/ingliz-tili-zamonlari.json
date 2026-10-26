@@ -59,7 +59,7 @@
   "heroTitle": "Ingliz tili zamonlari: 12 zamon jadvali va AI o‘qituvchi bilan mashq",
   "heroSubtitle": "Jadval va qoidalar bepul; AI o‘qituvchining tushuntirish va mashqlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
   "ctaPrimaryLabel": "AI chat tariflari",
-  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaPrimaryHref": "/uz/tariflar/",
   "ctaSecondaryLabel": "O‘zbek tilida AI chat",
   "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
   "bodyBlocks": [
@@ -350,12 +350,42 @@
       "text": "Инглиз тилидаги 12 замон битта жадвалда: формула, вақт белгилари ва ўзбекча таржимали мисоллар. Замонни қандай танлаш кераклигини ўқинг, кейин AI ўқитувчидан машқ сўранг ва гапларингизни текширтиринг."
     },
     {
+      "type": "h2",
+      "id": "ustozlar-uchun",
+      "text": "Ustozlar va o‘quv markazlari uchun"
+    },
+    {
+      "type": "p",
+      "text": "Ustoz chatda dars uchun zamonlar bo‘yicha mashqlar va ularning javoblarini, A va B variantli kichik testni tuzishi mumkin: har bir javob AI paketdan bittadan. AI ingliz tilida ham xato qilishi mumkin — mashqni o‘quvchilarga berishdan oldin javoblarni o‘zingiz tekshiring."
+    },
+    {
+      "type": "linkp",
+      "text": "O‘quv markazlari uchun pilot: Tashkilotlar uchun AI paket — 20 000 so‘m bir o‘rin uchun, oyiga. Bir o‘rin — bitta o‘qituvchi yoki xodim uchun oddiy AI paket: bir kalendar oyga 300 ta javob, kuniga 50 tagacha. Hozircha har bir o‘qituvchi paketni chatda o‘zi sotib oladi; markaz uchun bitta hisob-faktura va shartnoma bilan to‘lash hali yo‘q. Pilot faqat kattalar uchun: akkauntdan o‘qituvchi yoki xodim foydalanadi, o‘quvchilarning ismi va ishlarini chatga yubormang. Pilotga qo‘shilish uchun {call} yoki {mail}; shartlar — {tariffs} sahifasida.",
+      "links": [
+        {
+          "token": "call",
+          "target": "tel:+998505870720",
+          "anchor": "qo‘ng‘iroq qiling"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/",
+          "anchor": "tariflar"
+        }
+      ]
+    },
+    {
       "type": "linkp",
       "text": "Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Past Simple va Perfect zamonlari uchun fe’llarning V2 va V3 shakllari {verbs}da, AI chatga qanday so‘rov yozish kerakligi esa {guide}da tushuntirilgan. O‘quv markazingiz yoki til maktabingiz uchun o‘quvchilarni kursga yozadigan va ota-onalarga Telegram va Instagram’da javob beradigan AI yordamchi kerak bo‘lsa, {edu} sahifasini oching: narxi 1 990 000 so‘mdan. Boshqa vazifalar uchun {chat}ni oching.",
       "links": [
         {
           "token": "tariffs",
-          "target": "/ru/tarify-ai-chat/",
+          "target": "/uz/tariflar/",
           "anchor": "AI chat tariflari"
         },
         {
@@ -471,7 +501,7 @@
       "type": "contextual"
     },
     {
-      "target": "/ru/tarify-ai-chat/",
+      "target": "/uz/tariflar/",
       "anchor": "AI chat tariflari",
       "locale": "uz",
       "type": "block"

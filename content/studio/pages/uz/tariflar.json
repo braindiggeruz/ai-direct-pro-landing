@@ -17,7 +17,7 @@
   "tariffsVisible": true,
   "ogImage": "/assets/studio/og-taqdimot-v1.png",
   "ogImageAlt": "GPTBot.uz: mavzudan tayyor .pptx taqdimot",
-  "lead": "To‘liq taqdimot uchun mos paketni tanlang. Oylik — bir kalendar oyga 10 ta taqdimot. Kunlik — 24 soatga 1 ta taqdimot. Bepul namunani ham sinab ko‘rishingiz mumkin. Sotuv holati to‘lov oynasida ko‘rsatiladi. AI chat paketi alohida.",
+  "lead": "To‘liq taqdimot uchun mos paketni tanlang. Oylik — bir kalendar oyga 10 ta taqdimot. Kunlik — 24 soatga 1 ta taqdimot. Bepul namunani ham sinab ko‘rishingiz mumkin. Sotuv holati to‘lov oynasida ko‘rsatiladi. AI chat uchun alohida AI paket bor: u quyida, «AI paket · 1 oy» bo‘limida.",
   "sections": [
     {
       "id": "tarif-0",
@@ -31,6 +31,52 @@
         "Studio bitta brauzer yoki Studio akkaunti uchun bir vaqtda 1 ta topshiriqni bajaradi.",
         "Tarifga to‘lov sanasida ushbu bo‘limda sanab o‘tilganlargina kiradi. Studio xizmatida keyinroq paydo bo‘ladigan funksiyalar to‘langan tarifga kirmaydi.",
         "Studio tariflari AI chatda javoblar olish huquqini bermaydi, AI paket esa Studio birliklarini bermaydi."
+      ]
+    },
+    {
+      "id": "ai-paket",
+      "h2": "AI paket · 1 oy: AI chat uchun",
+      "paragraphs": [
+        "AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha. U saytdagi barcha AI sahifalarida ishlaydi: o‘zbek tilidagi AI chat, rus-o‘zbek tarjimon, she’r va tabrik generatorlari, reklama matni, testlar va boshqa vositalar. Javoblar hamma sahifalar uchun umumiy.",
+        "Muddati — to‘lov paytidan boshlab bir kalendar oy. To‘lov bir martalik, avtomatik to‘lov yo‘q: paket o‘z-o‘zidan uzaytirilmaydi. Muddat oxirigacha ishlatilmagan javoblar bekor bo‘ladi. Ikkinchi paketni birinchisi tugashini kutmasdan olish mumkin: u ham darhol amal qila boshlaydi.",
+        "Paket chatning o‘zida sotib olinadi: chat sarlavhasidagi «AI paket» tugmasi yoki sinov javoblari tugaganda chiqadigan oyna orqali. To‘lov — Click yoki Payme, kirmasdan ham mumkin: bunda paket shu brauzerga bog‘lanadi, keyin uni Telegram akkauntiga saqlash mumkin. Tugma bo‘lmasa, to‘lov hozir mavjud emas.",
+        {
+          "text": "Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular yangilanmaydi. To‘langan paket uchun pul qaytarilmaydi: u to‘lovdan keyin darhol amal qila boshlaydi; xato bilan yechilgan pul qaytariladi. To‘liq shartlar — {oferta}da.",
+          "links": [
+            {
+              "token": "oferta",
+              "target": "/uz/oferta/",
+              "anchor": "ommaviy oferta"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "juftlik",
+      "h2": "Juftlik: AI paket va Studio Oylik",
+      "paragraphs": [
+        "O‘qituvchi yoki talabaga ikkalasi kerak bo‘lsa: AI paket (20 000 so‘m) — chatda reja, matn, tarjima va tushuntirish uchun, Studio Oylik (39 900 so‘m) — bir kalendar oyga 10 ta tayyor .pptx taqdimot uchun. Ikkalasi birga — oyiga 59 900 so‘m.",
+        "Bu ikki alohida xarid, umumiy chegirma yo‘q. AI paket chatda, Oylik esa shu sahifadagi tugma orqali to‘lanadi; har birining muddati o‘z to‘lov paytidan boshlanadi. Hisoblar bog‘lanmagan: AI paket javoblari Studio birliklariga o‘tmaydi va aksincha."
+      ]
+    },
+    {
+      "id": "qaysi-biri",
+      "h2": "Qaysi biri menga kerak: AI chat yoki Studio",
+      "items": [
+        "Savol-javob, matn, tarjima, tushuntirish yoki mashq kerak — AI paket.",
+        "Mavzudan tayyor .pptx taqdimot kerak — Studio: bir martalik ish uchun Kunlik, oy davomida bir necha marta — Oylik.",
+        "Ikkalasi ham kerak — Juftlik: ikki alohida xarid.",
+        "O‘quv markazi, xususiy maktab yoki ofis uchun — «Tashkilotlar uchun» bo‘limi."
+      ]
+    },
+    {
+      "id": "tashkilotlar",
+      "h2": "Tashkilotlar uchun",
+      "paragraphs": [
+        "Tashkilotlar uchun AI paket — 20 000 so‘m bir o‘rin uchun, oyiga. Bir o‘rin — bitta o‘qituvchi yoki xodim uchun oddiy AI paket: bir kalendar oyga 300 ta javob, kuniga 50 tagacha. O‘quv markazlari, xususiy maktablar va ofislar uchun.",
+        "Hozir bu pilot: har bir o‘qituvchi yoki xodim paketni chatda o‘zi sotib oladi, tashkilot esa xohlasa, xarajatni qoplaydi. Bitta hisob-faktura va shartnoma bilan to‘lash hozircha yo‘q. Pilot faqat kattalar uchun: akkauntdan o‘qituvchi yoki xodim foydalanadi, o‘quvchilar emas; chatga o‘quvchilarning ismi va ishlarini yubormang.",
+        "Pilotga qo‘shilish uchun sahifa oxiridagi telefon yoki e-mail orqali bog‘laning."
       ]
     },
     {
@@ -89,7 +135,7 @@
     },
     {
       "q": "AI chat ham tarifga kiradimi?",
-      "a": "Yo‘q. Studio taqdimotlari va AI chat paketi alohida xizmatlar."
+      "a": "Yo‘q. Studio taqdimotlari va AI chat paketi alohida xizmatlar: AI paket — 20 000 so‘m, bir kalendar oyga 300 ta javob, u chatda sotib olinadi. Ikkalasi kerak bo‘lsa — ikki alohida xarid."
     },
     {
       "q": "Pulni qaytarish mumkinmi?",
@@ -101,7 +147,7 @@
     }
   ],
   "links": {
-    "text": "Slaydlarni o‘zingiz tuzish, 6×6 qoidasi va ma’ruza matni haqida — {guide}. Reja yoki ma’ruza matnini chat yordamida yozmoqchi bo‘lsangiz — {chat}.",
+    "text": "Slaydlarni o‘zingiz tuzish, 6×6 qoidasi va ma’ruza matni haqida — {guide}. Reja yoki ma’ruza matnini chat yordamida yozmoqchi bo‘lsangiz — {chat}. Rus tilida AI chat shartlari — {ru}.",
     "links": [
       {
         "token": "guide",
@@ -112,6 +158,11 @@
         "token": "chat",
         "target": "/uz/gpt-uzbek-tilida/",
         "anchor": "GPTBot.uz bepul AI chati"
+      },
+      {
+        "token": "ru",
+        "target": "/ru/tarify-ai-chat/",
+        "anchor": "AI chat tariflari (ruscha)"
       }
     ]
   },

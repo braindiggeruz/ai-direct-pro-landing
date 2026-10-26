@@ -54,7 +54,7 @@
   "heroTitle": "Past Simple: qoidasi, -ed qo‘shimchasi, misollar va AI bilan mashq",
   "heroSubtitle": "Qoida, misollar va mashqlar bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
   "ctaPrimaryLabel": "AI chat tariflari",
-  "ctaPrimaryHref": "/ru/tarify-ai-chat/",
+  "ctaPrimaryHref": "/uz/tariflar/",
   "ctaSecondaryLabel": "O‘zbek tilida AI chat",
   "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
   "bodyBlocks": [
@@ -384,7 +384,7 @@
         },
         {
           "token": "tariffs",
-          "target": "/ru/tarify-ai-chat/",
+          "target": "/uz/tariflar/",
           "anchor": "AI chat tariflari"
         },
         {
@@ -483,7 +483,7 @@
       "type": "contextual"
     },
     {
-      "target": "/ru/tarify-ai-chat/",
+      "target": "/uz/tariflar/",
       "anchor": "AI chat tariflari",
       "locale": "uz",
       "type": "block"
