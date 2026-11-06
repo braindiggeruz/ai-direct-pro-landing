@@ -1,0 +1,42 @@
+[
+  {
+    "url": "https://gptbot.uz/sitemap.xml",
+    "requestedAt": "2026-11-06T07:49:55.415992+00:00",
+    "operation": "sitemaps.submit",
+    "property": "sc-domain:gptbot.uz",
+    "httpStatus": 204,
+    "response": "",
+    "accepted": true,
+    "completedAt": "2026-11-06T07:49:56.165975+00:00"
+  },
+  {
+    "url": "https://gptbot.uz/sitemap-updates.xml",
+    "requestedAt": "2026-11-06T07:49:56.165975+00:00",
+    "operation": "sitemaps.submit",
+    "property": "sc-domain:gptbot.uz",
+    "httpStatus": 204,
+    "response": "",
+    "accepted": true,
+    "completedAt": "2026-11-06T07:49:56.319284+00:00"
+  },
+  {
+    "url": "https://gptbot.uz/uz/blog/feed.xml",
+    "requestedAt": "2026-11-06T07:49:56.319284+00:00",
+    "operation": "sitemaps.submit",
+    "property": "sc-domain:gptbot.uz",
+    "httpStatus": 204,
+    "response": "",
+    "accepted": true,
+    "completedAt": "2026-11-06T07:49:56.580327+00:00"
+  },
+  {
+    "url": "https://gptbot.uz/updates/atom.xml",
+    "requestedAt": "2026-11-06T07:49:56.580327+00:00",
+    "operation": "sitemaps.submit",
+    "property": "sc-domain:gptbot.uz",
+    "httpStatus": 204,
+    "response": "",
+    "accepted": true,
+    "completedAt": "2026-11-06T07:49:56.733694+00:00"
+  }
+]

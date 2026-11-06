@@ -1,0 +1,16 @@
+{
+  "submittedAt": "2026-11-06T07:46:24.784Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "seo-recovery-20261106",
+  "releaseCommit": "6531d35bf0d401e33587eea2d4c959c3e9793a1f",
+  "reason": "Four reviewed content updates after guarded production release",
+  "count": 4,
+  "urls": [
+    "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+    "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+    "https://gptbot.uz/uz/gpt-chat-qollanma/"
+  ],
+  "responseExcerpt": ""
+}

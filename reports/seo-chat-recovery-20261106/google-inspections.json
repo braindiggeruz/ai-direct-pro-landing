@@ -1,0 +1,259 @@
+[
+  {
+    "url": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+    "inspectedAt": "2026-11-06T07:48:18.188195+00:00",
+    "response": {
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=cOUQbtKu5zhyNipocG0hUA&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "Submitted and indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-11-05T01:47:38Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "userCanonical": "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "referringUrls": [
+            "https://gptbot.uz/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        },
+        "richResultsResult": {
+          "verdict": "PASS",
+          "detectedItems": [
+            {
+              "richResultType": "Breadcrumbs",
+              "items": [
+                {
+                  "name": "Unnamed item"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "url": "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+    "inspectedAt": "2026-11-06T07:48:25.496218+00:00",
+    "response": {
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=JW03BNUXV9sKD7UiwnY09A&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "Submitted and indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-11-03T09:36:44Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+          "userCanonical": "https://gptbot.uz/uz/blog/chatgpt-talabalar-uchun/",
+          "sitemap": [
+            "https://gptbot.uz/sitemap.xml",
+            "https://gptbot.uz/updates/atom.xml",
+            "https://gptbot.uz/uz/blog/feed.xml"
+          ],
+          "referringUrls": [
+            "https://gptbot.uz/sitemap.xml"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        },
+        "richResultsResult": {
+          "verdict": "PASS",
+          "detectedItems": [
+            {
+              "richResultType": "Breadcrumbs",
+              "items": [
+                {
+                  "name": "ChatGPT talabalar uchun: o‘qishda foydalanishning 20 ta usuli"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "url": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+    "inspectedAt": "2026-11-06T07:48:32.109930+00:00",
+    "response": {
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=ADYrDMy16KOM52xMOhdUvw&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "Submitted and indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-10-31T04:26:07Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+          "userCanonical": "https://gptbot.uz/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+          "sitemap": [
+            "https://gptbot.uz/sitemap.xml",
+            "https://gptbot.uz/updates/atom.xml",
+            "https://gptbot.uz/uz/blog/feed.xml"
+          ],
+          "referringUrls": [
+            "https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+            "https://gptbot.uz/"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        },
+        "richResultsResult": {
+          "verdict": "PASS",
+          "detectedItems": [
+            {
+              "richResultType": "Breadcrumbs",
+              "items": [
+                {
+                  "name": "ChatGPT va AI-bot biznes uchun: qaysi yechimni tanlash kerak?"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "url": "https://gptbot.uz/uz/gpt-chat-qollanma/",
+    "inspectedAt": "2026-11-06T07:48:38.703002+00:00",
+    "response": {
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=HHgK3W9bKRSlph117gyO2A&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "Submitted and indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-11-03T09:44:02Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://gptbot.uz/uz/gpt-chat-qollanma/",
+          "userCanonical": "https://gptbot.uz/uz/gpt-chat-qollanma/",
+          "referringUrls": [
+            "https://gptbot.uz/ru/gpt-chat-guide/",
+            "https://gptbot.uz/"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        },
+        "richResultsResult": {
+          "verdict": "PASS",
+          "detectedItems": [
+            {
+              "richResultType": "Breadcrumbs",
+              "items": [
+                {
+                  "name": "AI-chat qo‘llanmasi"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+    "inspectedAt": "2026-11-06T07:48:45.500066+00:00",
+    "response": {
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=XQDC4fRMozR-RMA1yRVVEw&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "Submitted and indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-11-05T07:08:12Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+          "userCanonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+          "sitemap": [
+            "https://gptbot.uz/sitemap-updates.xml",
+            "https://gptbot.uz/sitemap.xml",
+            "https://gptbot.uz/updates/atom.xml"
+          ],
+          "referringUrls": [
+            "https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/",
+            "https://gptbot.uz/ru/gpt-chat/",
+            "https://gptbot.uz/"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        },
+        "richResultsResult": {
+          "verdict": "PASS",
+          "detectedItems": [
+            {
+              "richResultType": "Breadcrumbs",
+              "items": [
+                {
+                  "name": "Unnamed item"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "url": "https://gptbot.uz/ru/gpt-chat/",
+    "inspectedAt": "2026-11-06T07:48:52.037551+00:00",
+    "response": {
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=p9GKKqIq9MZ_FGLgDuGZWg&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "Submitted and indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-11-05T15:35:56Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://gptbot.uz/ru/gpt-chat/",
+          "userCanonical": "https://gptbot.uz/ru/gpt-chat/",
+          "sitemap": [
+            "https://gptbot.uz/sitemap.xml",
+            "https://gptbot.uz/updates/atom.xml"
+          ],
+          "referringUrls": [
+            "https://gptbot.uz/"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        },
+        "richResultsResult": {
+          "verdict": "PASS",
+          "detectedItems": [
+            {
+              "richResultType": "Breadcrumbs",
+              "items": [
+                {
+                  "name": "Unnamed item"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+]

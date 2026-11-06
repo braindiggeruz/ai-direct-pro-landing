@@ -1,0 +1,43 @@
+{
+  "publicConfig": {
+    "GPT_MODEL_PROVIDER": "zai",
+    "OPENROUTER_MODEL_FREE": "dots-studio/dots-3-note-preview:free",
+    "OPENROUTER_MODEL_FREE_FALLBACKS": "google/gemma-4-31b-it:free",
+    "OPENROUTER_MODEL_PAID": "google/gemma-4-26b-a4b-it",
+    "OPENROUTER_MODEL_PAID_FALLBACKS": "mistralai/mistral-small-3.2-24b-instruct,google/gemma-4-31b-it:free",
+    "GPT_ZAI_EVAL_APPROVED": "2026-10-03",
+    "ZAI_MODEL_FREE": "glm-5.3-flash",
+    "ZAI_MODEL_PAID": "glm-5.3-flash",
+    "ZAI_TIERS": "free,paid",
+    "ZAI_PREPAID_MODELS": "glm-5.3-flash",
+    "GPT_FREE_PAID_DAILY_USD": "0.3",
+    "GPT_PACK_PAID_DAILY_USD": "3",
+    "AEO_MEASUREMENT_MODELS": "dots-studio/dots-3-note-preview:free,google/gemma-4-31b-it:free",
+    "GPT_FREE_TRIAL_ENABLED": "true"
+  },
+  "zaiSecretPresent": true,
+  "hasPackedRuntimeConfig": true,
+  "hasObjectRuntimeConfig": false,
+  "canonicalDeployment": {
+    "id": "07d8e4e8-b6c2-423b-b3ee-8eb5ecc09d48",
+    "url": "https://07d8e4e8.ai-direct-pro-landing.pages.dev",
+    "created_on": "2026-11-06T07:38:37.735684Z"
+  },
+  "topLevelPublicConfig": {},
+  "deployedPublicConfig": {
+    "GPT_MODEL_PROVIDER": "zai",
+    "OPENROUTER_MODEL_FREE": "dots-studio/dots-3-note-preview:free",
+    "OPENROUTER_MODEL_FREE_FALLBACKS": "google/gemma-4-31b-it:free",
+    "OPENROUTER_MODEL_PAID": "google/gemma-4-26b-a4b-it",
+    "OPENROUTER_MODEL_PAID_FALLBACKS": "mistralai/mistral-small-3.2-24b-instruct,google/gemma-4-31b-it:free",
+    "GPT_ZAI_EVAL_APPROVED": "2026-10-03",
+    "ZAI_MODEL_FREE": "glm-5.3-flash",
+    "ZAI_MODEL_PAID": "glm-5.3-flash",
+    "ZAI_TIERS": "free,paid",
+    "ZAI_PREPAID_MODELS": "glm-5.3-flash",
+    "GPT_FREE_PAID_DAILY_USD": "0.3",
+    "GPT_PACK_PAID_DAILY_USD": "3",
+    "AEO_MEASUREMENT_MODELS": "dots-studio/dots-3-note-preview:free,google/gemma-4-31b-it:free",
+    "GPT_FREE_TRIAL_ENABLED": "true"
+  }
+}

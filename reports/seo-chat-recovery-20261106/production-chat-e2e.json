@@ -1,0 +1,41 @@
+{
+  "synthetic": true,
+  "freshSession": true,
+  "realPurchase": false,
+  "accountHttp": 200,
+  "trialCookieIssued": true,
+  "chatHttp": 200,
+  "contentType": "text/event-stream; charset=utf-8",
+  "elapsedMs": 8953,
+  "events": [
+    {
+      "event": "meta",
+      "keys": [
+        "type",
+        "sessionId",
+        "model"
+      ],
+      "model": "zai/glm-5.3-flash"
+    },
+    {
+      "event": "delta",
+      "keys": [
+        "type",
+        "text"
+      ]
+    },
+    {
+      "event": "done",
+      "keys": [
+        "type",
+        "remaining",
+        "hourRemaining",
+        "modelUsed",
+        "truncated",
+        "charged"
+      ],
+      "modelUsed": "zai/glm-5.3-flash"
+    }
+  ],
+  "hasOkText": true
+}

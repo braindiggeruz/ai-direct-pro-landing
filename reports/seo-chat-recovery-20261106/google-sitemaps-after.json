@@ -1,0 +1,98 @@
+{
+  "observedAt": "2026-11-06T07:49:57.503684+00:00",
+  "property": "sc-domain:gptbot.uz",
+  "response": {
+    "sitemap": [
+      {
+        "path": "https://gptbot.uz/updates/atom.xml",
+        "lastSubmitted": "2026-11-06T07:49:56.682Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "atomFeed",
+        "lastDownloaded": "2026-11-06T07:38:51.756Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "201",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/uz/blog/feed.xml",
+        "lastSubmitted": "2026-11-06T07:49:56.454Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "lastDownloaded": "2026-11-06T05:18:23.668Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "51",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/sitemap-updates.xml",
+        "lastSubmitted": "2026-11-06T07:49:56.270Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "lastDownloaded": "2026-11-04T23:04:23.684Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "65",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/sitemap.xml",
+        "lastSubmitted": "2026-11-06T07:49:56.070Z",
+        "isPending": true,
+        "isSitemapsIndex": false,
+        "type": "sitemap",
+        "lastDownloaded": "2026-11-05T17:01:40.905Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "329",
+            "indexed": "0"
+          },
+          {
+            "type": "image",
+            "submitted": "140",
+            "indexed": "0"
+          }
+        ]
+      },
+      {
+        "path": "https://gptbot.uz/ru/blog/feed.xml",
+        "lastSubmitted": "2026-10-09T02:43:57.925Z",
+        "isPending": false,
+        "isSitemapsIndex": false,
+        "type": "rssFeed",
+        "lastDownloaded": "2026-11-05T23:31:28.871Z",
+        "warnings": "0",
+        "errors": "0",
+        "contents": [
+          {
+            "type": "web",
+            "submitted": "51",
+            "indexed": "0"
+          }
+        ]
+      }
+    ]
+  }
+}
