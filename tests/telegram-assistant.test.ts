@@ -679,7 +679,7 @@ test('Javob asks the free chain only: its head, and never a paid id put in the f
   await handleUpdate(deps(db), text(40, 40));
   // A paid model configured as the free primary is dropped, not billed.
   await handleUpdate(deps(db, { OPENROUTER_MODEL_FREE: 'google/gemma-4-26b-a4b-it' }), text(41, 41));
-  assert.deepEqual(rec.models, ['nvidia/nemotron-3-super-120b-a12b:free', 'dots-studio/dots-3-note-preview:free']);
+  assert.deepEqual(rec.models, ['dots-studio/dots-3-note-preview:free', 'google/gemma-4-31b-it:free']);
 });
 
 test('direct/copied text → reply too (no menu)', async () => {
@@ -1398,9 +1398,11 @@ test('Tahlil fixed boundary and harmful-use refusal bypass the reply LLM', async
 
 const HOUR = 3_600_000;
 const ORG = 'gptbot-consumer';
-const FREE = ['nvidia/nemotron-3-super-120b-a12b:free', 'dots-studio/dots-3-note-preview:free', 'google/gemma-4-31b-it:free'];
+// A deliberately three-model fixture preserves the health-filter vs attempt-cap
+// regression even when the production fallback chain has fewer live models.
+const FREE = ['fixture/first:free', 'fixture/second:free', 'fixture/third:free'];
 /** The bot with D1 bound, as in production: model health, spend and alerts are read and written. */
-const withDb = (db: any, over: any = {}) => deps(db, { GPTBOT_DRAFTS_DB: db, ...over });
+const withDb = (db: any, over: any = {}) => deps(db, { GPTBOT_DRAFTS_DB: db, OPENROUTER_MODEL_FREE: FREE[0], OPENROUTER_MODEL_FREE_FALLBACKS: FREE.slice(1).join(','), ...over });
 const cool = (db: any, ...models: string[]) => {
   for (const model of models) db._t.health.push({ org_id: ORG, model, blocked_until: Date.now() + HOUR, code: 'model_unavailable' });
 };
@@ -1549,7 +1551,7 @@ test('Javob walks the free tier chain: the paid primary only under the shared da
 test('the webhook records each update outcome: done, failed:<code>, failed:exception; a replay changes nothing', async () => {
   const db = makeD1();
   cool(db, ...FREE);
-  const env = { ...baseEnv, TELEGRAM_ASSISTANT_WEBHOOK_SECRET: 'expected-secret', GPTBOT_DRAFTS_DB: db };
+  const env = { ...baseEnv, TELEGRAM_ASSISTANT_WEBHOOK_SECRET: 'expected-secret', GPTBOT_DRAFTS_DB: db, OPENROUTER_MODEL_FREE: FREE[0], OPENROUTER_MODEL_FREE_FALLBACKS: FREE.slice(1).join(',') };
   const rec: Rec = { tg: [], ai: 0 }; installFetch(rec);
   const tasks: Promise<unknown>[] = [];
   const post = async (update: unknown) => {

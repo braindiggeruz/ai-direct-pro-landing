@@ -1,3 +1,15 @@
+# Current handoff — SEO and chat reliability repair · 06.11.2026
+
+Validated candidate on `seo/uz-query-recovery-20261106`; guarded release is the next step. The owner authorized autonomous implementation and deployment necessary to repair SEO and chat availability. Current detailed record: `reports/seo-chat-recovery-20261106/RELEASE.md`; state block `seo_chat_recovery_20261106` supersedes old release-status paragraphs below.
+
+- Z.AI already works in production; direct and complete fresh-session SSE checks passed. The retired NVIDIA OpenRouter fallback has zero endpoints. Remove it from runtime/default/AEO lists; keep Z.AI first and the existing dots/Gemma fallbacks. No paid-chain or budget changes.
+- Four Uzbek content sources change. New immutable SEO revision preserves all metadata, URLs, nine other protected HTML pages and all 651 assets. The final production rebuild must pass the reversible generator in CHECK=1 mode against `F:/Claude/seo-audit-20261106/implementation/before-dist`.
+- Click remains blocked by Merchant API -12 before receipt submission. User explicitly deferred Click. No fiscal/checkout/DB/webhook change or repeated receipt submission.
+- Build with `npm run build:production`; use `DR_ROOT=F:/Claude/gptbot-snippets-translator-20261024` and the established `F:/Claude/gptbot-tools/deploy_runner.py check|deploy`. Never use the runner's stale default checkout or raw Pages deploy. Verify the deployed runtime config and final SSE response, not upload alone.
+- Preserve unrelated untracked `docs/seo/research/2026-10-28-new-pages-growth/`. Do not reset/clean. Older historical entries follow unchanged; their stale 'not deployed' labels do not describe this candidate.
+
+---
+
 # HANDOFF — AI tool pages wave B: English tenses tutor, practice tests pilot, niche ad playbooks · 25.10.2026
 
 ## 1. Состояние

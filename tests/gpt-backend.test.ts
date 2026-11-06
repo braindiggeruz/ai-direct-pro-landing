@@ -25,7 +25,8 @@ test('loadConfig: Railway var names + aliases + free model default', () => {
   assert.equal(cfg.supabase.url, 'https://x.supabase.co');
   assert.equal(cfg.supabase.secretKey, 'secret');
   assert.equal(cfg.supabase.publishableKey, 'pub');
-  assert.equal(cfg.openrouter.modelFree, 'nvidia/nemotron-3-super-120b-a12b:free');
+  assert.equal(cfg.openrouter.modelFree, 'dots-studio/dots-3-note-preview:free');
+  assert.deepEqual(cfg.openrouter.modelFreeFallbacks, ['google/gemma-4-31b-it:free']);
   assert.equal(cfg.nodeEnv, 'production');
 });
 

@@ -24,7 +24,7 @@ import { onRequestPost as chat } from '../functions/api/gpt/chat';
 type Fixture = Awaited<ReturnType<typeof billingFixture>>;
 type Row = Record<string, unknown>;
 
-const FREE = 'nvidia/nemotron-3-super-120b-a12b:free';
+const FREE = 'dots-studio/dots-3-note-preview:free';
 const encoder = new TextEncoder();
 const data = (event: unknown) => `data: ${JSON.stringify(event)}\n\n`;
 const delta = (content: string) => data({ choices: [{ delta: { content } }] });
@@ -399,10 +399,10 @@ test('failed turns are recorded with their outcome and attempts, never charged',
   const body = (await (await chat(f.ctx(request({ stream: true })))).json()) as Row;
   await drain(f);
   assert.equal(body.code, 'provider_error');
-  // Three chain models, three attempts, then a released upstream_error.
+  // Both current free-chain models fail, then a released upstream_error.
   assert.deepEqual(
     rows(f).map((r) => [r.status, r.outcome, r.charged, r.model, r.attempts]),
-    [['released', 'upstream_error', 0, null, 3]],
+    [['released', 'upstream_error', 0, null, 2]],
   );
   // Nothing configured to answer: no_model without a single attempt.
   const g = await billingFixture();

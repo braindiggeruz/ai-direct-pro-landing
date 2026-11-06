@@ -523,7 +523,7 @@ test("GPT_CLICK_AUTOFISCAL=false restores the immediate submit; a receipt Click 
 test("the first live payment's read-only check in CLICK-FISCAL-RU.md runs on the schema and tells who printed the receipt", async (t) => {
   const doc = readFileSync(new URL("../docs/paid-chat/CLICK-FISCAL-RU.md", import.meta.url), "utf8");
   const section = doc.slice(doc.indexOf("## Проверка на первой живой оплате"));
-  const sql = /```sql\n([\s\S]+?)```/u.exec(section)![1].trim();
+  const sql = /```sql\r?\n([\s\S]+?)```/u.exec(section)![1].trim();
   // One SELECT, nothing that writes; no order or payment number in its answer.
   assert.match(sql, /^SELECT /u);
   assert.equal(sql.split(";").filter((part) => part.trim()).length, 1);

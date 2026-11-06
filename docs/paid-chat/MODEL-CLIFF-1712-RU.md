@@ -82,7 +82,7 @@ node --import tsx --test tests/gpt-zai-provider.test.ts tests/runtime-config.tes
 
 Вручную: в обоих местах `"ZAI_PREPAID_MODELS":"glm-5.3-flash"` → `"ZAI_PREPAID_MODELS":""` и `ZAI_PREPAID_MODELS = "glm-5.3-flash"` → `ZAI_PREPAID_MODELS = ""`; в тесте 16 — ожидание `ZAI_PREPAID_MODELS: ''`, `zaiPrepaidModels` `[]`, цепочка с ключом = `modelChain`. Другой выключатель того же — `GPT_MODEL_PROVIDER = "openrouter"` в обоих местах (`ZAI-RU.md`); он тоже рабочий, но тогда меняются и другие ожидания теста 16. Обратно: вернуть `glm-5.3-flash` в список, деплой.
 
-Известно заранее: тест «1 default config…» в `tests/gpt-zai-provider.test.ts` падает и без патча (проба на 3 ответа требует соли `GPT_HASH_SALT`, которой в тесте нет); это не связано с патчем.
+С 06.11.2026 фикстура теста «1 default config…» в `tests/gpt-zai-provider.test.ts` содержит отдельную тестовую соль `GPT_HASH_SALT` и подписанную trial-cookie. Ранее известное падение до вызова провайдера исправлено; проверки JSON/SSE и маршрутизации сохранены.
 
 ### 4.2. Патч 2 — запасная модель Studio: `patches/2026-12-17-studio-fallback-on.patch`
 

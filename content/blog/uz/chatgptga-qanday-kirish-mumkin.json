@@ -70,7 +70,7 @@
         },
         {
           "anchor": "uzbek",
-          "label": "O‘zbek tilida ishlatish"
+          "label": "Mustaqil AI-chat"
         }
       ]
     },
@@ -270,32 +270,7 @@
     {
       "type": "h2",
       "id": "uzbek",
-      "text": "ChatGPTga kirgandan keyin o‘zbek tilida qanday ishlatish kerak?"
-    },
-    {
-      "type": "p",
-      "text": "ChatGPT menyusini o‘zbek tiliga o‘tkazib bo‘lmaydi: 04.10.2026 holatiga interfeys tillari orasida o‘zbek tili yo‘q. Savolni esa o‘zbek tilida yozish mumkin — ChatGPT tilni odatda so‘rovdan tushunadi. Javob o‘zbek tilida kerak bo‘lsa, topshiriq boshida «O‘zbek tilida, lotin yozuvida javob ber» deb yozing. Natijani yaxshilash uchun vazifa, auditoriya, format, hajm va cheklovni qo‘shing."
-    },
-    {
-      "type": "table",
-      "headers": [
-        "Vazifa",
-        "Tayyor so‘rov"
-      ],
-      "rows": [
-        [
-          "Matn yozish",
-          "O‘zbek tilida, lotin yozuvida 700 belgilik post yoz, ohang sodda bo‘lsin."
-        ],
-        [
-          "Tarjima",
-          "Ruscha matnni tabiiy o‘zbekchaga tarjima qil, yangi fakt qo‘shma."
-        ],
-        [
-          "Biznes",
-          "Mijoz savoliga 3 xil javob varianti yoz: qisqa, do‘stona, professional."
-        ]
-      ]
+      "text": "Mustaqil AI-chat va qo‘llanmalar"
     },
     {
       "type": "linkp",
@@ -375,8 +350,8 @@
       "a": "Hisob emaili va spam papkasini tekshiring. Kod eskirgan bo‘lsa, yangisini so‘rang va eng so‘nggi kodni ishlating. OpenAI ma’lumotiga ko‘ra, kodli rasmiy xat noreply@tm.openai.com yoki otp@tm1.openai.com manzilidan keladi; spamga tushmasligi uchun noreply@openai.com manzilini ham ishonchli manzillar ro‘yxatiga qo‘shing. Baribir kelmasa, VPN va reklama bloklovchi kengaytmani o‘chirib, boshqa tarmoqqa ulanib qayta urinib ko‘ring. Kodni faqat rasmiy tasdiqlash oynasiga kiriting."
     },
     {
-      "q": "ChatGPT o‘zbek tilida ishlaydimi?",
-      "a": "Ha. So‘rovni o‘zbek tilida yozing va kerak bo‘lsa «O‘zbek tilida, lotin yozuvida javob ber» deb aniqlashtiring. Menyuni esa o‘zbek tiliga o‘tkazib bo‘lmaydi (04.10.2026 holatiga interfeys tillari orasida yo‘q)."
+      "q": "GPTBot.uz’da OpenAI parolini kiritish kerakmi?",
+      "a": "Yo‘q. GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI hisobingizga ulanmaydi. Rasmiy ChatGPT hisobiga kirish uchun chatgpt.com manzilidan foydalaning; OpenAI parolini boshqa saytlarga kiritmang."
     },
     {
       "q": "GPTBot.uz rasmiy ChatGPTmi?",
@@ -451,7 +426,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-10-23",
+  "dateModified": "2026-11-06",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -511,6 +486,6 @@
       "note": "Ikki bosqichli himoya ChatGPT sozlamalarida: Settings → Security and login (04.10.2026 holatiga)."
     }
   ],
-  "updatedAt": "2026-10-23",
+  "updatedAt": "2026-11-06",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

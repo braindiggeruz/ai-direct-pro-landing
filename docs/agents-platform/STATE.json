@@ -1,4 +1,24 @@
 {
+  "seo_chat_recovery_20261106": {
+    "status": "validated_candidate_pending_guarded_release",
+    "owner_authorized": "Autonomous SEO repair plus chat provider incident repair, 2026-11-06; Click deferred by owner.",
+    "branch": "seo/uz-query-recovery-20261106",
+    "predecessor_production_commit": "720937883d3752a6ed3dcb9bc1f03a2f01f86fb8",
+    "report": "reports/seo-chat-recovery-20261106/RELEASE.md",
+    "seo_revision": "docs/seo/evidence/2026-11-06-uz-query-recovery/reviewed-protected-pages.json",
+    "changes": [
+      "narrow Uzbek login article language intent and clarify three donor links",
+      "remove unavailable Nvidia fallback; retain Z.AI, dots and Gemma"
+    ],
+    "preserved": [
+      "all chat HTML/JS/CSS",
+      "nine other protected pages",
+      "paid chain and budget limits",
+      "checkout, fiscal runtime, DB and webhooks"
+    ],
+    "click": "Merchant API -12 persists for 3 queued receipts; SELECT/GET only; owner deferred repair.",
+    "next": "Guarded release, production configuration readback and synthetic SSE check; then measure the six-query GSC cohort after recrawl."
+  },
   "click_fiscal_incident_20261008": {
     "status": "CODE_DEPLOYED_VERIFIED_MERCHANT_ACCESS_BLOCKED",
     "evidence": "reports/click-fiscal-incident-20261008/INCIDENT.md",
@@ -1577,10 +1597,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "AI tools wave A deployed 25.10 (deployment 8d4c8b4e from 99920cdc, see seo_ai_tools_wave_a_20261025); wave B committed on seo/chat-snippets-translator-20261024, not deployed: practice-quiz widget (practice_quiz_widget_20261025), tests pilot, English tenses and niche playbooks with registries and protected revision 2026-10-25-ai-tools-b (see seo_ai_tools_wave_b_20261025)",
-  "stage_status": "complete",
+  "current_stage": "SEO query intent recovery and unavailable chat fallback repair; validated November 6 candidate. See seo_chat_recovery_20261106.",
+  "stage_status": "validated_candidate_pending_guarded_release",
   "last_completed_stage": "AI tools wave B integration commit: English tenses, tests pilot, niche ad playbooks, registries and protected revision 2026-10-25-ai-tools-b (see seo_ai_tools_wave_b_20261025, practice_quiz_widget_20261025)",
-  "next_stage": "Guarded release of AI tools wave B on owner command (build:production, deploy_runner.py check|deploy, live readback of the 13 new URLs and /, IndexNow, URL Inspection, deployment record); recommended first: a native Uzbek read of the tenses pages and playbooks and a subject-teacher read of the 120 pilot questions",
+  "next_stage": "Guarded release of the November 6 SEO/chat repair, full artifact proof, live configuration readback and fresh-session SSE check; then observe the six-query GSC cohort after recrawl. Click repair is deferred by the owner.",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1913,7 +1933,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-10-25T18:30:00.000Z",
+  "updated_at": "2026-11-06T07:31:57.946841+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [

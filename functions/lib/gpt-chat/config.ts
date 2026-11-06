@@ -145,14 +145,13 @@ export function resolveConfig(env: Env): GptChatConfig {
     // fallbacks, and every hourly cooldown expiry spent a visitor's attempt on
     // it again.
     //
-    // Chains from 2026-09-30, read from https://openrouter.ai/api/v1/models and
-    // /api/v1/models/{id}/endpoints that day:
-    //   free  1. nvidia/nemotron-3-super-120b-a12b:free ... fastest responder;
-    //            the R1 production probe (2026-10-01) got 200 with 0 reasoning
-    //            tokens and ~0.6 s to first token in Uzbek and Russian.
-    //         2. dots-studio/dots-3-note-preview:free ... second vendor, 512k
+    // Free chain refreshed 2026-11-06: nemotron-3-super-120b-a12b:free
+    // has zero endpoints and raised an hourly catalogue alert. Keep the two
+    // previously evaluated fallbacks, both still served at $0, rather than
+    // adding an untested third model. Z.ai remains the web chat's first model.
+    //   free  1. dots-studio/dots-3-note-preview:free ... 512k
     //            context, weakest Uzbek, answered every probe.
-    //         3. google/gemma-4-31b-it:free ... one provider (Google AI Studio).
+    //         2. google/gemma-4-31b-it:free ... one provider (Google AI Studio).
     //            It answered upstream 429 on 2026-09-04 and again to every call
     //            of the R1 probe, so it left the head of the chain; it returns
     //            there by config alone (OPENROUTER_MODEL_FREE) once a probe shows
@@ -165,10 +164,10 @@ export function resolveConfig(env: Env): GptChatConfig {
     //         3. google/gemma-4-31b-it:free ... so a paid turn still gets an
     //            answer when the OpenRouter credits run out (a 402 on a paid
     //            model skips to ':free', openrouter-chat.ts).
-    // The free chain has three distinct vendors, so one vendor going down
-    // cannot empty it; the paid chain's two gemma ids are served by different
-    // hosts (third-party providers vs Google AI Studio). The gemma pair,
-    // nemotron and dots answer without reasoning
+    // The free chain has two distinct vendors; with the Z.ai head the web
+    // chat has three candidates. The paid chain's two gemma ids use different
+    // hosts (third-party providers vs Google AI Studio). The gemma pair
+    // and dots answer without reasoning
     // (functions/platform/ai/model-policy.ts).
     // Rejected on evidence, not taste (2026-09-04): thinkingmachines/inkling*:free
     // answer 403 ("only available on agentic harnesses") to a website;
@@ -176,10 +175,10 @@ export function resolveConfig(env: Env): GptChatConfig {
     // minutes; poolside/* and cohere/north-mini-code are coding agents;
     // inclusionai/ling-3.0-flash-fin is finance-tuned; liquid/lfm-2.5-2.6b is
     // 2.6B with mandatory reasoning.
-    freeModel: env.OPENROUTER_MODEL_FREE || 'nvidia/nemotron-3-super-120b-a12b:free',
+    freeModel: env.OPENROUTER_MODEL_FREE || 'dots-studio/dots-3-note-preview:free',
     freeFallbacks: list(env.OPENROUTER_MODEL_FREE_FALLBACKS).length
       ? list(env.OPENROUTER_MODEL_FREE_FALLBACKS)
-      : ['dots-studio/dots-3-note-preview:free', 'google/gemma-4-31b-it:free'],
+      : ['google/gemma-4-31b-it:free'],
     // Every paid request also enforces the provider price cap (max_price).
     paidModel: env.OPENROUTER_MODEL_PAID || 'google/gemma-4-26b-a4b-it',
     paidFallbacks: list(env.OPENROUTER_MODEL_PAID_FALLBACKS).length

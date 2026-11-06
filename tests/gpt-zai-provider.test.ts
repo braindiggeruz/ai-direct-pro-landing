@@ -35,6 +35,7 @@ import { onRequestPost as chat } from '../functions/api/gpt/chat';
 import { runAssistant } from '../functions/lib/telegram/service';
 import { RUNTIME_CONFIG_KEYS, hydrateRuntimeConfig } from '../functions/lib/runtime-config';
 import { billingFixture } from './helpers/gpt-billing-fixture';
+import { claimTrialIdentity } from '../functions/lib/gpt-chat/trial-identity';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const secret = () => randomBytes(24).toString('hex');
@@ -205,19 +206,22 @@ test('1 default config: webChatChain is modelChain and no request ever reaches a
   const env = hydrateRuntimeConfig({
     GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify({ ...packedRuntimeConfig(), GPT_MODEL_PROVIDER: 'openrouter' }),
     GPTBOT_DRAFTS_DB: db,
+    GPT_HASH_SALT: secret(),
     OPENROUTER_API_KEY: secret(),
     ZAI_API_KEY: secret(),
   } as Env & { GPTBOT_RUNTIME_CONFIG_JSON: string });
   const cfg = resolveConfig(env);
   assert.equal(cfg.modelProvider, 'openrouter');
+  const trial = await claimTrialIdentity(new Request('https://gpt.test/api/gpt/account'), cfg);
+  const trialCookie = trial.cookie!.split(';')[0];
   let streaming = false;
   const { seen, counts } = route(t, { openrouter: (b, i, n) => (streaming ? orSse() : orJson())(b, i, n) });
 
-  const json = await (await endpoint(env, { message: 'Salom', locale: 'uz' }).run()).json() as { ok: boolean; modelUsed: string };
+  const json = await (await endpoint(env, { message: 'Salom', locale: 'uz' }, trialCookie).run()).json() as { ok: boolean; modelUsed: string };
   assert.equal(json.ok, true);
   assert.equal(json.modelUsed, modelChain(cfg, 'free')[0]);
   streaming = true;
-  const call = endpoint(env, { message: 'Salom', locale: 'uz', stream: true });
+  const call = endpoint(env, { message: 'Salom', locale: 'uz', stream: true }, trialCookie);
   const wire = await (await call.run()).text();
   await drain(call.background);
   assert.match(wire, /"type":"done"/);

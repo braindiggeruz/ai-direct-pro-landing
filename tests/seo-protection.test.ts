@@ -759,6 +759,69 @@ test('the current revision documents every contract change against its predecess
   }
 });
 
+test('November query recovery changes only the login body while preserving nine raw pages and every asset', () => {
+  const file = 'docs/seo/evidence/2026-11-06-uz-query-recovery/reviewed-protected-pages.json';
+  const predecessor = 'docs/seo/evidence/2026-10-26-rs1b/reviewed-protected-pages.json';
+  type RecoveryRevision = Revision & {
+    frozenProtectedPages: string[];
+    pages: Array<{ pathname: string; contract: Record<string, unknown>; bodyText: string; htmlSha256: string }>;
+    reviewedChanges: Array<{ pathname: string; fields: string[]; change: { body: Array<{ before: string; after: string }> } }>;
+    exactHtmlSwaps: Record<string, Array<{ before: string; after: string }>>;
+    changedUnprotectedPages: Array<{ pathname: string; addedLinks: string[] }>;
+    artifactProof: { comparedFiles: number; identicalFiles: number; frozenAssetFiles: number; changed: Array<{ file: string; beforeSha256: string; afterSha256: string }> };
+    measurement: string;
+  };
+  const current = readRevision(file) as RecoveryRevision;
+  const previous = readRevision(predecessor) as RecoveryRevision;
+  const login = '/uz/blog/chatgptga-qanday-kirish-mumkin/';
+  assert.equal(current.previousRevision, predecessor);
+  assert.deepEqual(current.reviewedChanges.map((change) => [change.pathname, change.fields]), [[login, ['bodyTextSha256']]]);
+  assert.deepEqual(current.frozenProtectedPages, PROTECTED_PATHS.filter((pathname) => pathname !== login));
+  for (const page of current.pages) {
+    const before = previous.pages.find((row) => row.pathname === page.pathname)!;
+    for (const key of ['title', 'h1', 'description', 'robots', 'googlebot', 'canonical', 'hreflang', 'internalLinks']) {
+      assert.deepEqual(page.contract[key], before.contract[key], `${page.pathname}: ${key} stayed frozen`);
+    }
+    if (page.pathname === login) continue;
+    assert.equal(page.htmlSha256, before.htmlSha256, `${page.pathname}: raw HTML stayed frozen`);
+    assert.equal(page.bodyText, before.bodyText, page.pathname);
+  }
+  const guide = current.pages.find((page) => page.pathname === login)!;
+  const beforeGuide = previous.pages.find((page) => page.pathname === login)!;
+  assert.match(guide.bodyText, /rasmiy ChatGPT uchun chatgpt\.com saytini oching/i);
+  assert.match(guide.bodyText, /GPTBot\.uz’da OpenAI parolini kiritish kerakmi\?/);
+  assert.match(guide.bodyText, /OpenAI parolini boshqa saytlarga kiritmang/);
+  assert.match(guide.bodyText, /Mustaqil AI-chat va qo‘llanmalar/);
+  assert.doesNotMatch(guide.bodyText, /700 belgilik post yoz|ChatGPTga kirgandan keyin o‘zbek tilida qanday ishlatish kerak\?/);
+  let replay = guide.bodyText;
+  for (const step of current.reviewedChanges[0].change.body) {
+    assert.equal(replay.split(step.after).length, 2, 'each recorded text swap is unambiguous');
+    replay = replay.replace(step.after, () => step.before);
+  }
+  assert.equal(replay, beforeGuide.bodyText, 'exactly the reviewed body changes reconstruct the predecessor');
+  assert.equal(current.exactHtmlSwaps[login].length, 7, 'section, visible/JSON-LD FAQ, and three truthful date surfaces; TOC source is not rendered');
+  assert.deepEqual(current.changedUnprotectedPages.map((row) => row.pathname), [
+    '/uz/blog/chat-gpt-uzbek-biznes-uchun/', '/uz/blog/chatgpt-talabalar-uchun/', '/uz/gpt-chat-qollanma/',
+  ]);
+  const proof = current.artifactProof;
+  assert.ok(proof.comparedFiles > 1000, 'whole artifact compared');
+  assert.ok(proof.frozenAssetFiles > 100, 'all assets included in the freeze proof');
+  assert.equal(proof.identicalFiles + proof.changed.length, proof.comparedFiles);
+  const changed = proof.changed.map((row) => row.file);
+  assert.deepEqual(changed, [...changed].sort(), 'deterministic exact artifact change list');
+  assert.ok(changed.includes('uz/blog/chatgptga-qanday-kirish-mumkin/index.html'));
+  for (const row of proof.changed) {
+    assert.match(row.beforeSha256, /^[a-f0-9]{64}$/);
+    assert.match(row.afterSha256, /^[a-f0-9]{64}$/);
+    assert.notEqual(row.beforeSha256, row.afterSha256);
+    assert.doesNotMatch(row.file, /\.(?:js|css|woff2?|png|webp|svg|ico|jpe?g)$/);
+  }
+  for (const pathname of current.frozenProtectedPages) {
+    assert.ok(!changed.includes(`${pathname.slice(1)}index.html`), `${pathname}: excluded from changed artifacts`);
+  }
+  assert.match(current.measurement, /No ranking or traffic guarantee/);
+});
+
 test('the paid-chat revision (WP-12) changes body text only, and the text says what it should', () => {
   const current = readRevision(PAID_CHAT);
   const previous = readRevision(GSC_DRIVEN);

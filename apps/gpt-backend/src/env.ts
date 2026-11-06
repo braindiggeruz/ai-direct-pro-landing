@@ -48,10 +48,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): BackendConfig 
     },
     openrouter: {
       apiKey: env.OPENROUTER_API_KEY || undefined,
-      modelFree: env.OPENROUTER_MODEL_FREE || 'nvidia/nemotron-3-super-120b-a12b:free',
+      modelFree: env.OPENROUTER_MODEL_FREE || 'dots-studio/dots-3-note-preview:free',
       modelFreeFallbacks: list(env.OPENROUTER_MODEL_FREE_FALLBACKS).length
         ? list(env.OPENROUTER_MODEL_FREE_FALLBACKS)
-        : ['qwen/qwen3-235b-a22b-2507:free', 'deepseek/deepseek-chat-v3-0324:free'],
+        : ['google/gemma-4-31b-it:free'],
       modelPaid: env.OPENROUTER_MODEL_PAID || 'mistralai/mistral-small-3.2-24b-instruct',
       modelPaidFallbacks: list(env.OPENROUTER_MODEL_PAID_FALLBACKS).length
         ? list(env.OPENROUTER_MODEL_PAID_FALLBACKS)

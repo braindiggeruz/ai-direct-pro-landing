@@ -241,7 +241,18 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // proves that only /ru/blog/ (its «Недавно обновлённые» list) changes outside
 // the ten and that every other file but the feeds, sitemaps, Markdown twins and
 // llms-full is byte-identical.
-export const BASELINE = 'docs/seo/evidence/2026-10-26-rs1b/reviewed-protected-pages.json';
+// The 2026-11-06-uz-query-recovery revision follows the owner's repair order
+// after the November 6 GSC audit. Only the login guide changes bodyTextSha256:
+// its competing language lesson becomes concise navigation, its FAQ explains
+// password safety, and its genuine editorial update is dated November 6.
+// All metadata and internal-link sets remain stable. The other nine protected
+// pages, including both chats, the download guide and homepage, are raw-byte
+// identical. Three unprotected donor paragraphs clarify chat versus login.
+// The generator reverses every reviewed HTML change and reconstructs all seven
+// derived outputs exactly; 1,029 of 1,040 artifact files and all 651 assets stay
+// byte-identical. Old revisions remain immutable. Actual release/recrawl starts
+// a new measurement marker; this revision makes no ranking guarantee.
+export const BASELINE = 'docs/seo/evidence/2026-11-06-uz-query-recovery/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
