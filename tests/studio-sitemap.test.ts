@@ -140,12 +140,15 @@ test('generate-sitemap: drafts change nothing, published pages are only added, a
   assert.equal(withoutStudio(current.updates, studioUrls), bare.updates);
   assert.deepEqual(blocksOf(current.sitemap).filter(b => studioUrls.includes(b.url)).map(b => b.url).sort(), published.sort());
 
-  // Every studio record published on 2026-10-22 (and nothing else changed).
+  // Publish at the fixture's latest authored date. A hardcoded historical
+  // date eventually falls outside the recent-changes window as content grows.
+  const releaseDate = homeLastmod(bare.sitemap);
+  assert.ok(releaseDate);
   const released = copyContent(t);
   for (const page of studio) {
     const file = path.join(released, page.file);
     const data = JSON.parse(fs.readFileSync(file, 'utf8')) as Record<string, unknown>;
-    fs.writeFileSync(file, JSON.stringify({ ...data, status: 'published', updatedAt: '2026-10-22' }, null, 2));
+    fs.writeFileSync(file, JSON.stringify({ ...data, status: 'published', updatedAt: releaseDate }, null, 2));
   }
   const after = runSitemap(released);
   assert.equal(withoutStudio(after.sitemap, studioUrls), bare.sitemap, 'publishing adds the studio entries and changes nothing else');
@@ -163,7 +166,7 @@ test('generate-sitemap: drafts change nothing, published pages are only added, a
     } else {
       assert.doesNotMatch(block, /<xhtml:link/, url);
     }
-    assert.match(block, /<lastmod>2026-10-22<\/lastmod>/, url);
+    assert.ok(block.includes(`<lastmod>${releaseDate}</lastmod>`), url);
     assert.doesNotMatch(block, /<image:image>/, url);
   }
   assert.ok(added.some(({ url }) => studioAlternates(releasedPages.find(p => p.url === url) as StudioPageRecord, releasedPages) !== null), 'the deck pair is paired');

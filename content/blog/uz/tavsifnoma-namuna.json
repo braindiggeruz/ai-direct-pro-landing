@@ -33,6 +33,39 @@
     },
     {
       "type": "h2",
+      "id": "word-pdf-namuna",
+      "text": "Amaliyotchi talaba uchun DOCX va PDF namuna"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi namuna amaliyotchi talaba haqidagi tavsifnoma qoralamasini tuzish uchun mo‘ljallangan. Unda ism, sana va faoliyat tavsifi o‘rniga to‘ldiriladigan maydonlar bor. DOCX fayli tahrirlanadi, PDF esa ko‘rish va chop etish uchun. Bu rasmiy tasdiqlangan shakl emas: yakuniy matnni imzolovchi rahbar tekshirishi kerak. Fayllar bepul, AI paket va ro‘yxatdan o‘tish talab qilinmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/growth-20261106/amaliyotchi-tavsifnoma.docx",
+          "anchor": "Tavsifnoma namunasini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/growth-20261106/amaliyotchi-tavsifnoma.pdf",
+          "anchor": "Chop etish uchun PDF namuna"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Talaba, tashkilot va muddat haqidagi ma’lumotlarni yuklab olingan faylda to‘ldiring; ularni AI chatga kiritmang.",
+        "Faqat amaliyot rahbari kuzatgan vazifalar, ishlar va natijalarni yozing. Namunadagi bo‘sh maydon o‘rniga dalilsiz maqtov qo‘shmang.",
+        "Matnni tashkilot talabiga moslang, barcha qavslarni almashtiring va imzolovchiga tekshirtiring."
+      ]
+    },
+    {
+      "type": "h2",
       "id": "nima",
       "text": "Tavsifnoma nima va qachon so‘raladi"
     },
@@ -386,7 +419,7 @@
   "breadcrumbLabel": "Tavsifnoma namunasi",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-24",
-  "dateModified": "2026-10-24",
+  "dateModified": "2026-11-06",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -401,6 +434,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Tavsifnomada bu siz aytmagan fazilat yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-24T00:00:00.000Z",
+  "updatedAt": "2026-11-06T00:00:00.000Z",
   "createdAt": "2026-10-24T00:00:00.000Z"
 }

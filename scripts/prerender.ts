@@ -44,6 +44,7 @@ import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import { renderHeroTrustChip } from './hero-trust';
 import { pageModifiedDate } from './content-dates';
 import { chatRoleAttributes } from './translator-page';
+import { isConverterFirstPage, isToolFirstPage, renderToolFirst } from './tool-first';
 import { assertToolPage, chatToolHead, renderToolWidgets, starterFrame, toolJsonLd, toolWidgetScripts, widgetScriptsFrom, type WidgetScripts } from './tool-widgets';
 import { asPreviewPage, previewDraftUrls } from './preview-drafts';
 import {
@@ -487,6 +488,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
 // — the long-form material lives on the dedicated guide page.
 function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const uz = page.locale === 'uz';
+  const firstTool = renderToolFirst(page);
   // The no-JavaScript line names a contact that needs no JavaScript: the
   // studio Telegram (owner order of 26.10.2026: visitors write, not call),
   // the phone only while it is public, otherwise the e-mail.
@@ -539,12 +541,12 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const tiles = '<li class="gpt-task"></li>'.repeat(4);
   // The GPTBot.uz mark (src/gpt-chat/components/BrandMark.tsx), drawn, not written.
   const mark = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6.5 5h11A2.5 2.5 0 0 1 20 7.5v6a2.5 2.5 0 0 1-2.5 2.5H12l-4.5 3.5V16h-1A2.5 2.5 0 0 1 4 13.5v-6A2.5 2.5 0 0 1 6.5 5z"/><circle cx="9.5" cy="10.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="14.5" cy="10.5" r="1.2" fill="currentColor" stroke="none"/></svg>';
-  return `<main id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
+  return `${firstTool ? `<main id="tool-main">${firstTool}\n<section` : '<main'} id="main" aria-label="${escapeHtml(appLabel)}" class="relative" style="height:100vh;height:100dvh">
   <!-- ym-hide-content: Webvisor is on for counter 111312750, and everything the
        chat renders inside this element is either what the visitor typed or what
        the model answered. The mount point carries the class so the masking
        survives React replacing its children. -->
-  <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" data-h1="${escapeHtml(page.h1)}"${chatRoleAttributes(page)} class="h-full ym-hide-content">
+  <div id="gpt-chat-root" data-locale="${uz ? 'uz' : 'ru'}" data-api-base="" data-h1="${firstTool ? '' : escapeHtml(page.h1)}"${chatRoleAttributes(page)} class="h-full ym-hide-content">
     <div class="gpt-premium gpt-app gpt-shell" data-state="empty" style="color-scheme:dark">
       <div class="gpt-shell-aside" aria-hidden="true"></div>
       <div class="gpt-main">
@@ -555,7 +557,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
               <div class="gpt-empty">
                 <div class="gpt-hello">
                   <span class="gpt-brand-mark gpt-hello-mark" aria-hidden="true">${mark}</span>
-                  <h1 data-testid="page-h1" class="gpt-kicker">${escapeText(page.h1)}</h1>
+                  ${firstTool ? '' : `<h1 data-testid="page-h1" class="gpt-kicker">${escapeText(page.h1)}</h1>`}
                   <noscript><p class="gpt-meta">${escapeText(noscript)}</p></noscript>
                   <p class="gpt-greet gpt-shell-greet" aria-hidden="true"></p>
                   <span class="gpt-meta"><span class="gpt-shell-bar gpt-shell-meta" aria-hidden="true"></span></span>
@@ -577,11 +579,11 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
       </div>
     </div>
   </div>
-</main>
+${firstTool ? '</section>\n</main>' : '</main>'}
 
 <section id="seo-summary" data-testid="seo-summary" class="border-t border-white/[0.06]">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-    ${renderToolWidgets(page)}${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
+    ${isConverterFirstPage(page) ? '' : renderToolWidgets(page)}${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
     <div class="prose-invert">
       ${renderBlocks(page.bodyBlocks || [])}
     </div>
@@ -1095,7 +1097,7 @@ ${ANALYTICS_HEAD}
 ${METRIKA_HEAD}
 </head>
 <body class="${marketVariant ? 'market-page' : 'bg-bg-base text-white'} antialiased ${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta && !marketVariant ? 'pb-24 lg:pb-0' : ''}">
-<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-lg focus:border focus:border-black">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
+<a href="${isToolFirstPage(page) ? '#tool-first' : '#main'}" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-lg focus:border focus:border-black">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 <noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 ${METRIKA_NOSCRIPT}
 ${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : renderLandingHeader(page, global, altRu, altUz)}

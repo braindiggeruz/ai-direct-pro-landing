@@ -70,6 +70,13 @@ https://ai-direct-pro-landing.pages.dev/*
 https://:version.ai-direct-pro-landing.pages.dev/*
   X-Robots-Tag: noindex
 
+# Keep supporting sample files out of search; their HTML pages remain indexable.
+/downloads/growth-20261106/*
+  X-Robots-Tag: noindex
+
+/studio-examples/*
+  X-Robots-Tag: noindex
+
 # Bormi Admin (owner control center): the shell's headers are NOT here.
 # `_headers` merges matching blocks instead of letting the specific one win, so
 # a /admin/* block would be appended to the global one above and produce a

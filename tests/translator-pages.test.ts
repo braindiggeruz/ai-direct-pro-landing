@@ -272,9 +272,9 @@ test('the template adds the role, the pair and the converter only to a page with
   assert.doesNotMatch(renderUzTranslitBlock(uz).replace(/<style>[\s\S]*?<\/style>/, ''), /[A-Za-z]'[A-Za-z]|&#39;/);
 
   const prerender = read('scripts/prerender.ts');
-  assert.match(prerender, /data-h1="\$\{escapeHtml\(page\.h1\)\}"\$\{chatRoleAttributes\(page\)\} class="h-full ym-hide-content"/);
+  assert.match(prerender, /data-h1="\$\{firstTool \? '' : escapeHtml\(page\.h1\)\}"\$\{chatRoleAttributes\(page\)\} class="h-full ym-hide-content"/);
   // The converter is the translator pages' widget (Page.widgets ['uz-translit'], scripts/tool-widgets.ts).
-  assert.match(prerender, /\$\{renderToolWidgets\(page\)\}\$\{updatedIso \?/);
+  assert.match(prerender, /\$\{isConverterFirstPage\(page\) \? '' : renderToolWidgets\(page\)\}\$\{updatedIso \?/);
   assert.match(prerender, /const widgetScripts = widgetScriptsFrom\(manifest\);/);
   assert.match(read('scripts/tool-widgets.ts'), /'uz-translit': 'translit'/);
   assert.match(prerender, /\$\{toolWidgetScripts\(page, widgetScripts\)\}/);

@@ -18,6 +18,7 @@ import type {
   Redirect,
 } from './types';
 import { HOME_HREFLANG } from './site-config';
+import { CONTENT_DOWNLOAD_URLS } from './content-downloads';
 
 /**
  * Routes the app serves that have no file under content/pages/**.
@@ -142,6 +143,7 @@ export function buildKnownUrls(pages: Page[], ctx: AuditContext = {}): Set<strin
     ...pages.map((p) => p.url),
     ...(ctx.blog || []).map((b) => b.url),
     ...(ctx.extraUrls ?? STATIC_ROUTES),
+    ...CONTENT_DOWNLOAD_URLS,
   ]);
 }
 

@@ -1,4 +1,24 @@
 {
+  "seo_growth_pilot_20261106": {
+    "status": "validated_release_candidate",
+    "owner_authorized": "Autonomous implementation of the approved growth roadmap, 2026-11-06.",
+    "branch": "seo/uz-query-recovery-20261106",
+    "source_baseline_commit": "335727f0",
+    "predecessor_production_commit": "6531d35bf0d401e33587eea2d4c959c3e9793a1f",
+    "report": "reports/seo-growth-20261106/RELEASE.md",
+    "changes": [
+      "two tool-first converters",
+      "two translation task forms with explicit review/send",
+      "two Studio galleries with actual PPTX samples",
+      "three downloadable DOCX/PDF article packs"
+    ],
+    "protected": "329 URL and metadata contracts; ten protected HTML pages and shared chat/Studio assets unchanged",
+    "validation": "296 scoped integration tests; web/Functions/Studio typecheck; scoped lint; mobile runtime, native Word/PowerPoint evidence",
+    "analytics": "translit_converted transport accepted; GA4 report access403; revenue reconciliation not completed",
+    "next": "Guarded production release and strict live acceptance, then observe post-recrawl cohort; no immediate snippet experiments.",
+    "click": "Owner-deferred; untouched",
+    "unrelated_untracked_preserved": "docs/seo/research/2026-10-28-new-pages-growth/"
+  },
   "seo_chat_recovery_20261106": {
     "status": "deployed_verified",
     "owner_authorized": "Autonomous SEO repair plus chat provider incident repair, 2026-11-06; Click deferred by owner.",

@@ -229,6 +229,14 @@ headers.push('https://:version.ai-direct-pro-landing.pages.dev/*');
 headers.push('  X-Robots-Tag: noindex');
 headers.push('');
 
+// Download examples support their HTML landing pages; they are not separate
+// search destinations. Do not disallow crawling: crawlers must read noindex.
+for (const prefix of ['/downloads/growth-20261106/*', '/studio-examples/*']) {
+  headers.push(prefix);
+  headers.push('  X-Robots-Tag: noindex');
+  headers.push('');
+}
+
 headers.push('# ─── Admin SPA — never cache the shell ───');
 headers.push('# `must-revalidate` + `no-store` guarantees that every reload');
 headers.push('# of /admin-tools/* fetches a fresh index.html, so a deploy is');

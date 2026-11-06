@@ -1,3 +1,43 @@
+# Current handoff — growth pilot · 06.11.2026
+
+## 1. State
+Validated release candidate on `seo/uz-query-recovery-20261106`; not yet deployed at this checkpoint. This section and STATE `seo_growth_pilot_20261106` supersede the historical status below. Owner approved autonomous implementation of the growth roadmap.
+
+## 2. Delivered
+Four tool-first pages, two Studio galleries, three articles with six DOCX/PDF downloads. See `reports/seo-growth-20261106/RELEASE.md` for exact behavior and URLs.
+
+## 3. Source baseline
+Source `335727f0`; verified predecessor production `6531d35bf0d401e33587eea2d4c959c3e9793a1f`. Preserve the earlier same-day SEO/chat repair.
+
+## 4. Architecture
+Existing converter, chat prefill bridge and PPTX exporter reused. No backend, billing, database, webhook or provider change. Gallery CSS stays inline/scoped to avoid modifying the shared chat CSS graph.
+
+## 5. SEO protection
+329 sitemap URLs and all title/H1/description/canonical/hreflang/robots values unchanged; ten protected HTML files byte-identical. Shared chat/Studio assets unchanged. Downloads noindex; HTML indexable.
+
+## 6. Verification
+296 integration tests pass; web/Functions/Studio typechecks and scoped lint pass. Mobile converter copy, translator prepare-without-send, sample PPTX download, gallery and article layout checked. Three DOCX opened in Word; two PPTX opened/exported in PowerPoint. Evidence in the release report and `qa/`.
+
+## 7. Analytics boundary
+Existing converter event reached GA transport204 without text/PII. GA4 service account reporting is403; report receipt, purchase/order matching and revenue remain unverified. Do not relabel clicks/sample downloads as product results.
+
+## 8. Outstanding roadmap
+Native language/teacher review, five-topic live generation acceptance, documented client cases and mature search impact remain separate work. Keep protected snippets stable until a full post-recrawl observation window. Existing seasonal starters were retained.
+
+## 9. Release command
+`npm run build:production`, then set `DR_ROOT=F:/Claude/gptbot-snippets-translator-20261024` and use `python F:/Claude/gptbot-tools/deploy_runner.py check|deploy`. The default runner checkout is stale; raw deployment is forbidden.
+
+## 10. Acceptance and rollback
+Run `F:/Claude/seo-growth-20261106/implementation/verify-growth-live.py --live --expected-commit <SHA>` after deployment. Compare exact manifest/assets/protected HTML and the fixed Cloudflare transform only. Rollback by targeted revert plus guarded release after checking current ancestry.
+
+## 11. Preserved work
+Do not add or erase untracked `docs/seo/research/2026-10-28-new-pages-growth/`. No reset/clean/force-push. Click is explicitly owner-deferred.
+
+## 12. Next
+Finish guarded release/live readback and record actual deployment receipts; then measure the pilot. No traffic/revenue multiplier is claimed from local validation.
+
+---
+
 # Current handoff — SEO and chat reliability repair · 06.11.2026
 
 DEPLOYED and verified on `seo/uz-query-recovery-20261106`: commit `6531d35bf0d401e33587eea2d4c959c3e9793a1f`, deployment `07d8e4e8-b6c2-423b-b3ee-8eb5ecc09d48`, 2026-11-06T07:38:37.735684Z. Eighteen live artifact checks and a fresh-session complete Z.AI SSE response passed. The owner authorized autonomous implementation and deployment necessary to repair SEO and chat availability. Current detailed record: `reports/seo-chat-recovery-20261106/RELEASE.md`; state block `seo_chat_recovery_20261106` supersedes old release-status paragraphs below.

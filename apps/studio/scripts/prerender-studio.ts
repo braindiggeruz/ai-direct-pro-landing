@@ -37,6 +37,7 @@ import type { ViteManifest } from '../../../scripts/vite-manifest';
 import type { GlobalSEO } from '../../../src/shared/types';
 import { studioTelegramUrl } from '../../../src/shared/studio-contact';
 import { readStudioPages, STUDIO_URL, type StudioPageRecord } from '../shared/published-urls';
+import { exampleAssetPaths } from './studio-examples';
 import {
   MIN_WORDS_OUTSIDE_ISLAND,
   countWords,
@@ -257,6 +258,11 @@ export function prerenderStudio(root: string = ROOT, dist: string = path.join(ro
     for (const page of published) {
       const ogImage = String(page.data.ogImage);
       if (!fs.existsSync(path.join(dist, ogImage.slice(1)))) throw new Error(`${page.url}: its og image ${ogImage} is not in dist (apps/studio/public).`);
+      if (page.data.examples !== undefined) {
+        for (const asset of exampleAssetPaths()) {
+          if (!fs.existsSync(path.join(dist, asset.slice(1)))) throw new Error(`${page.url}: example asset ${asset} is not in dist (public/studio-examples).`);
+        }
+      }
       const html = renderStudioPage(page, { site, pages, siteStyles, assets });
       const count = countWords(textOutsideIsland(html));
       if (count < MIN_WORDS_OUTSIDE_ISLAND) {

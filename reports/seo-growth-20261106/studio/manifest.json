@@ -1,0 +1,20 @@
+{
+  "kind": "curated-examples",
+  "renderer": "Studio buildDeck",
+  "examples": [
+    {
+      "id": "uz-oquv-reja-v1",
+      "locale": "uz",
+      "slides": 6,
+      "bytes": 85315,
+      "sha256": "9dc96184c48e988443458d5bc11b8b770bf20777ae3046eb6654c6d233185529"
+    },
+    {
+      "id": "ru-korotkoe-vystuplenie-v1",
+      "locale": "ru",
+      "slides": 6,
+      "bytes": 85703,
+      "sha256": "ff864ab1f3c05f0b07d5b67dd50a2d9c6145b10ac3707e65941cbbd0c91e0eec"
+    }
+  ]
+}

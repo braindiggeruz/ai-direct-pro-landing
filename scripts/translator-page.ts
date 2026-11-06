@@ -126,16 +126,27 @@ const STYLE = `<style>
 </style>`;
 
 /** The converter block, under the chat on a page with a role that lists the 'uz-translit' widget. */
-export function renderUzTranslitBlock(page: Page): string {
+export function renderUzTranslitBlock(page: Page, options: { first?: boolean } = {}): string {
   if (!pageChatRole(page) || !page.widgets?.includes('uz-translit')) return '';
   const t = COPY[page.locale === 'uz' ? 'uz' : 'ru'];
   // A translator page translates the result; every other page checks its spelling.
   const ai = pageChatRole(page) === 'translator' ? t.ai.translate : t.ai.check;
+  const first = options.first === true;
+  const intro = first
+    ? page.locale === 'uz'
+      ? 'Bepul va limitsiz. Matn brauzerda qayta ishlanadi. O‘zbekcha matnning tili emas, yozuvi o‘zgaradi.'
+      : 'Бесплатно и без лимита. Текст обрабатывается в браузере. Меняется алфавит узбекского текста, а не язык.'
+    : t.intro;
+  const sent = first
+    ? page.locale === 'uz'
+      ? 'So‘rov AI-chat maydonida: tekshirib, yuboring. Bunday savol chatning sinov javobini yoki AI paketni sarflaydi.'
+      : 'Просьба в поле AI-чата: проверьте и отправьте. Такой вопрос расходует пробный ответ чата или AI-пакет.'
+    : t.ai.sent;
   const data = (name: string, value: string) => ` data-msg-${name}="${escapeHtml(value)}"`;
-  return `<section id="${UZ_TRANSLIT_ANCHOR}" data-uz-translit aria-labelledby="uzt-heading"${data('done', t.done)}${data('empty', t.empty)}${data('russian', t.russian)}${data('foreign', t.foreign)}${data('copied', t.copied)}${data('copy-failed', t.copyFailed)}${data('ai-prompt', ai.prompt)}${data('ai-sent', t.ai.sent)}${data('ai-wait', t.ai.wait)}${data('ai-long', t.ai.long)}>
+  return `<section id="${UZ_TRANSLIT_ANCHOR}" data-uz-translit class="ym-hide-content" aria-labelledby="${first ? 'tool-first-title' : 'uzt-heading'}"${data('done', t.done)}${data('empty', t.empty)}${data('russian', t.russian)}${data('foreign', t.foreign)}${data('copied', t.copied)}${data('copy-failed', t.copyFailed)}${data('ai-prompt', ai.prompt)}${data('ai-sent', sent)}${data('ai-wait', t.ai.wait)}${data('ai-long', t.ai.long)}>
 ${STYLE}
-      <h2 id="uzt-heading">${escapeHtml(t.heading)}</h2>
-      <p>${escapeHtml(t.intro)}</p>
+      ${first ? '' : `<h2 id="uzt-heading">${escapeHtml(t.heading)}</h2>`}
+      <p>${escapeHtml(intro)}</p>
       <label for="uzt-in">${escapeHtml(t.input)}</label>
       <textarea id="uzt-in" rows="5" maxlength="20000" spellcheck="false" autocomplete="off" placeholder="Тошкент шаҳри / Toshkent shahri"></textarea>
       <div class="uzt-actions" role="group" aria-label="${escapeHtml(t.actions)}">

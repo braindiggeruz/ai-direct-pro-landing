@@ -19,6 +19,7 @@ import path from 'node:path';
 import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 
 import { gptChatNavLinks } from '../scripts/gpt-chat-nav';
+import { isToolFirstPage } from '../scripts/tool-first';
 import { ENTRIES, entryScript, readViteManifest, type ViteManifest } from '../scripts/vite-manifest';
 import type { Page } from '../src/shared/types';
 
@@ -168,7 +169,7 @@ test('every prerendered chat page loads the built chat entry', { skip: (!manifes
 // shows it as the resting screen's heading.
 const decode = (s: string) => s.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
-test('the gpt-chat H1 stands in the chat’s first screen, once, and the chat receives the same text', { skip: built.length === 0 && 'no dist/ build present' }, () => {
+test('the page H1 appears once: early tool heading on opt-in pages, chat heading everywhere else', { skip: built.length === 0 && 'no dist/ build present' }, () => {
   for (const { file, page, url } of built) {
     const html = fs.readFileSync(file, 'utf8');
     const h1s = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
@@ -176,9 +177,15 @@ test('the gpt-chat H1 stands in the chat’s first screen, once, and the chat re
     assert.equal(decode(h1s[0][1].trim()), page.h1, `${url}: the H1 is the page H1`);
     const root = html.indexOf('id="gpt-chat-root"');
     const summary = html.indexOf('data-testid="seo-summary"');
-    assert.ok(root > 0 && h1s[0].index! > root && h1s[0].index! < summary, `${url}: the H1 is inside #gpt-chat-root, above the summary`);
     const dataH1 = html.match(/id="gpt-chat-root"[^>]*\sdata-h1="([^"]*)"/)?.[1];
-    assert.equal(decode(dataH1 ?? ''), page.h1, `${url}: data-h1 carries the H1 to the chat`);
+    if (isToolFirstPage(page)) {
+      assert.ok(root > 0 && h1s[0].index! < root, `${url}: the single H1 precedes the chat, with the tool`);
+      assert.match(html, /<h1 id="tool-first-title"/);
+      assert.equal(dataH1, '', `${url}: the chat must not render a duplicate H1`);
+    } else {
+      assert.ok(root > 0 && h1s[0].index! > root && h1s[0].index! < summary, `${url}: the H1 is inside #gpt-chat-root, above the summary`);
+      assert.equal(decode(dataH1 ?? ''), page.h1, `${url}: data-h1 carries the H1 to the chat`);
+    }
   }
 });
 

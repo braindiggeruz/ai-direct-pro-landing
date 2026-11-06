@@ -57,6 +57,7 @@ import { publicPlans } from '../../../functions/lib/studio/checkout';
 import { TERMS_PLAN } from '../../../functions/lib/studio/plans';
 import { renderForm } from '../src/tools/presentation/static';
 import { studioAlternates, type StudioLocale, type StudioPageRecord } from '../shared/published-urls';
+import { exampleProblems, renderExamples, type StudioExamples } from './studio-examples';
 
 /** Visible words outside the island, at least (§11.3). */
 export const MIN_WORDS_OUTSIDE_ISLAND = 400;
@@ -108,6 +109,7 @@ export interface StudioPageContent {
   ogImage: string;
   ogImageAlt: string;
   lead: string;
+  examples?: StudioExamples;
   sections: StudioSection[];
   faqTitle: string;
   faq: Array<{ q: string; a: string }>;
@@ -120,7 +122,7 @@ export interface StudioPageContent {
 const KEYS = new Set([
   'status', 'locale', 'url', 'tool', 'toolName', 'title', 'h1', 'description', 'honesty', 'primaryKeyword',
   'secondaryKeywords', 'hreflangRu', 'hreflangUz', 'tariffsVisible', 'ogImage', 'ogImageAlt', 'lead', 'sections',
-  'faqTitle', 'faq', 'links', 'business', 'createdAt', 'updatedAt',
+  'faqTitle', 'faq', 'links', 'business', 'createdAt', 'updatedAt', 'examples',
 ]);
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
@@ -217,6 +219,8 @@ export function studioPageProblems(page: StudioPageRecord): string[] {
   if (!Array.isArray(faq) || faq.length < FAQ_COUNT.min || faq.length > FAQ_COUNT.max) problems.push(`faq: ${FAQ_COUNT.min}–${FAQ_COUNT.max} questions`);
   else if (!faq.every((item) => isText(item?.q) && isText(item?.a))) problems.push('faq: every entry needs q and a');
   problems.push(...linkProblems('links', data.links), ...linkProblems('business', data.business));
+  problems.push(...exampleProblems(data.examples));
+  if (data.examples !== undefined && data.tool !== 'presentation') problems.push('examples are only supported on presentation pages');
 
   const strings = recordStrings(data);
   for (const word of FORBIDDEN_WORDS) {
@@ -457,7 +461,7 @@ ${languageSwitch}
 <div id="studio-root"${content.tool === 'tariffs' ? encodeTariffsRoot(tariffPlans(), tariffTerms(content.locale)) : ` data-tool="${content.tool}"`} class="st:mt-5">${island}</div>
 ${content.tariffsVisible && content.tool !== 'tariffs' ? `<p class="st:mt-5 st:text-sm st:text-studio-muted"><a href="/uz/tariflar/" class="${LINK} ${TAP}">${content.locale === 'uz' ? 'Studio tariflari: Kunlik — 5 900 so‘m, Oylik — 39 900 so‘m' : 'Тарифы Studio: Kunlik — 5 900 сум, Oylik — 39 900 сум'}</a></p>` : ''}
 <p class="st:mt-10 st:text-base st:leading-relaxed st:text-studio-text">${escapeHtml(content.lead)}</p>
-${content.sections.map(sectionHtml).join('\n')}
+${content.examples ? renderExamples(content.examples) + '\n' : ''}${content.sections.map(sectionHtml).join('\n')}
 <section id="faq" aria-labelledby="faq-title" class="st:mt-12">
 <h2 id="faq-title" class="st:text-xl st:font-semibold st:leading-snug st:text-studio-text st:sm:text-2xl">${escapeHtml(content.faqTitle)}</h2>
 ${content.faq.map((item) => `<div class="st:mt-4 st:rounded-2xl st:border st:border-studio-line st:bg-studio-surface st:p-4"><h3 class="st:text-lg st:font-semibold st:text-studio-text">${escapeHtml(item.q)}</h3><p class="st:mt-2 st:text-base st:leading-relaxed st:text-studio-muted">${escapeHtml(item.a)}</p></div>`).join('\n')}

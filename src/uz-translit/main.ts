@@ -10,6 +10,7 @@
 // bridge (src/shared/chat-prefill.ts) and never sends it.
 import { normalizeLatin, scriptNotes, toCyrillic, toLatin, type ScriptNote } from '../shared/uz-translit';
 import type { ChatPrefillDetail, ChatPrefillEventName } from '../shared/chat-prefill';
+import { prepareTranslation } from './translation-prompt';
 
 type Action = 'latin' | 'cyrillic' | 'normalize' | 'copy' | 'ai';
 
@@ -116,6 +117,42 @@ function bind(root: HTMLElement): void {
 
 function start(): void {
   document.querySelectorAll<HTMLElement>('[data-uz-translit]').forEach(bind);
+  document.querySelectorAll<HTMLElement>('[data-translation-task]').forEach(bindTranslationTask);
+}
+
+/** Page-specific task controls; the visitor must review and send in the chat. */
+function bindTranslationTask(root: HTMLElement): void {
+  const text = root.querySelector<HTMLTextAreaElement>('#translation-source');
+  const direction = root.querySelector<HTMLSelectElement>('#translation-direction');
+  const script = root.querySelector<HTMLSelectElement>('#translation-script');
+  const style = root.querySelector<HTMLSelectElement>('#translation-style');
+  const prepare = root.querySelector<HTMLButtonElement>('[data-translation-prepare]');
+  const sample = root.querySelector<HTMLButtonElement>('[data-translation-sample]');
+  const status = root.querySelector<HTMLElement>('[data-translation-status]');
+  if (!text || !direction || !script || !style || !prepare || !sample || !status) return;
+  const locale = document.documentElement.lang.startsWith('uz') ? 'uz' : 'ru';
+  const updateDirection = () => { script.disabled = direction.value === 'uz-ru'; };
+  direction.addEventListener('change', updateDirection);
+  updateDirection();
+  sample.addEventListener('click', () => {
+    text.value = direction.value === 'uz-ru'
+      ? 'Salom! Uchrashuv 12-noyabr kuni soat 15:30 da bo‘ladi. Iltimos, ishtirokingizni tasdiqlang. Narxi — 250 000 so‘m.'
+      : 'Здравствуйте! Встреча состоится 12 ноября в 15:30. Пожалуйста, подтвердите участие. Стоимость — 250 000 сум.';
+    status.textContent = '';
+    text.focus();
+  });
+  prepare.addEventListener('click', () => {
+    const task = prepareTranslation({ text: text.value, direction: direction.value, script: script.value, style: style.value }, locale);
+    if (!task.ok) {
+      status.textContent = root.dataset[`msg${task.reason[0].toUpperCase()}${task.reason.slice(1)}`] || '';
+      text.focus();
+      return;
+    }
+    if (!askChat(task.prompt)) { status.textContent = root.dataset.msgWait || ''; return; }
+    status.textContent = root.dataset.msgPrepared || '';
+    showChat();
+  });
+  prepare.disabled = false;
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);

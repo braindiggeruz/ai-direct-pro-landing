@@ -41,6 +41,7 @@ import { GUIDE_NEW_TEXT, GUIDE_TOOL_LINK, R_ST1, applyRelease, readFrom } from '
 import { publishedStudioUrls, readStudioPages, type StudioPageRecord } from '../apps/studio/shared/published-urls';
 import { renderPhotoForm } from '../apps/studio/src/tools/photo/static';
 import { renderForm } from '../apps/studio/src/tools/presentation/static';
+import { exampleAssetPaths } from '../apps/studio/scripts/studio-examples';
 import { declaredKeywords, readDocs } from './helpers/studio-content';
 
 type Cleanup = { after: (fn: () => void) => void };
@@ -87,6 +88,10 @@ function fixture(t: Cleanup, manifest?: ViteManifest, files?: Record<string, str
   write(root, 'content/studio/pages/.gitkeep', '');
   write(dist, 'index.html', '<head><link rel="stylesheet" href="/assets/index-site.css"></head>');
   write(dist, 'assets/index-site.css', 'body{margin:0}');
+  // Published presentation records include real, public file examples.
+  for (const file of fs.readdirSync(path.join(REPO, 'public/studio-examples'))) {
+    write(dist, `studio-examples/${file}`, fs.readFileSync(path.join(REPO, 'public/studio-examples', file)));
+  }
   write(dist, 'sitemap.xml', sitemap(['/']));
   write(dist, 'assets/studio/og-taqdimot-v1.png', fs.readFileSync(path.join(REPO, 'apps/studio/public/og-taqdimot-v1.png')));
   write(dist, 'assets/studio/og-prezentatsiya-v1.png', fs.readFileSync(path.join(REPO, 'apps/studio/public/og-prezentatsiya-v1.png')));
@@ -476,6 +481,7 @@ test('page: no link to /ru/ (a 301 to /); home is /uz/ or /; every internal link
     ...blog.filter(a => a.status === 'published').map(a => a.url),
     ...STATIC_ROUTES,
     ...records().map(p => p.url),
+    ...exampleAssetPaths().filter(href => fs.existsSync(path.join(REPO, 'public', href.slice(1)))),
   ]);
   for (const [locale, home] of [['uz', '/uz/'], ['ru', '/']] as const) {
     const html = rendered(locale);

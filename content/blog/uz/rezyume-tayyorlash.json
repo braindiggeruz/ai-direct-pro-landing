@@ -39,6 +39,39 @@
     },
     {
       "type": "h2",
+      "id": "word-pdf-namuna",
+      "text": "Rezyume uchun DOCX va PDF namuna"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi statik namuna rezyume tuzilmasini to‘ldirish uchun tayyorlangan. DOCX faylini Word yoki LibreOffice’da tahrirlashingiz, PDF nusxasini esa ko‘rishingiz va chop etishingiz mumkin. Fayllarni yuklab olish uchun ro‘yxatdan o‘tish yoki AI paket kerak emas. Bu chat yaratgan individual rezyume emas: kvadrat qavslar ichidagi joylarni o‘zingiz to‘ldirasiz."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/growth-20261106/rezyume.docx",
+          "anchor": "Rezyume namunasini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/growth-20261106/rezyume.pdf",
+          "anchor": "Chop etish uchun PDF namuna"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Fayldagi qavslarni haqiqiy ma’lumotlaringiz bilan faqat o‘z qurilmangizda almashtiring; telefon va e-mailni AI chatga yubormang.",
+        "Ish tajribangiz bo‘lmasa, o‘quv loyihasi yoki amaliyotdagi haqiqiy vazifalaringizni yozing. Mavjud bo‘lmagan tajriba, raqam yoki sertifikatni qo‘shmang.",
+        "Yuborishdan oldin qolgan qavslarni, imlo va aloqa ma’lumotlarini tekshiring; fayl nomini lavozim va ismingizga moslang."
+      ]
+    },
+    {
+      "type": "h2",
       "id": "farqi",
       "text": "Rezyume, CV va obyektivka: qaysi biri qachon kerak"
     },
@@ -437,7 +470,7 @@
   "breadcrumbLabel": "Rezyume tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-10-08",
+  "dateModified": "2026-11-06",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -452,6 +485,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rezyumeda bu siz aytmagan tajriba, raqam yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-08",
+  "updatedAt": "2026-11-06",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

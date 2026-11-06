@@ -11,9 +11,19 @@ import type { Page, GlobalSEO, Redirect, BlogArticle } from '../src/shared/types
 import { buildCockpit, buildKnownUrls, STATIC_ROUTES } from '../src/shared/audit';
 import { evaluateDemandGate, type DemandPolicy } from '../src/shared/demand-gate';
 import { publishedStudioUrls } from '../apps/studio/shared/published-urls';
+import { CONTENT_DOWNLOAD_URLS } from '../src/shared/content-downloads';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
+
+// The link graph knows authored downloads only while the actual artifact is
+// present. Missing files must fail the build, not silently pass as a page.
+for (const url of CONTENT_DOWNLOAD_URLS) {
+  const file = path.join(ROOT, 'public', url.slice(1));
+  if (!fs.existsSync(file) || !fs.statSync(file).isFile() || fs.statSync(file).size === 0) {
+    throw new Error(`Missing authored content download: ${url}`);
+  }
+}
 
 const globalSeo: GlobalSEO = JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, 'global', 'site.json'), 'utf-8'));
 const files = fg.sync('pages/**/*.json', { cwd: CONTENT_DIR, absolute: true });

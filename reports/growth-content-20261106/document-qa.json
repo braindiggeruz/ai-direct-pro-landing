@@ -1,0 +1,156 @@
+{
+  "status": "PASS",
+  "templates": [
+    {
+      "slug": "rezyume",
+      "checks": [
+        {
+          "name": "DOCX archive CRC",
+          "pass": true
+        },
+        {
+          "name": "DOCX author is GPTBot.uz",
+          "pass": true
+        },
+        {
+          "name": "No computer paths or personal author",
+          "pass": true
+        },
+        {
+          "name": "DOCX has editable body, placeholders and Uzbek glyphs",
+          "pass": true
+        },
+        {
+          "name": "No external document relationships",
+          "pass": true
+        },
+        {
+          "name": "PDF one printable page",
+          "pass": true
+        },
+        {
+          "name": "PDF title and all sections extract",
+          "pass": true
+        },
+        {
+          "name": "PDF no replacement glyph",
+          "pass": true
+        },
+        {
+          "name": "PDF author",
+          "pass": true
+        },
+        {
+          "name": "Unicode TTF fonts embedded",
+          "pass": true
+        }
+      ],
+      "sha256": {
+        "rezyume.docx": "fd63f5ffacfbb90962df07ed38e499a43bc9ce7e215516304dc804e477150301",
+        "rezyume.pdf": "7b3b9e6111540f8975435467e0a223f8a3b8890662fa258bc6e6842156c41c48"
+      },
+      "pages": 1
+    },
+    {
+      "slug": "hamkorga-sorov-xati",
+      "checks": [
+        {
+          "name": "DOCX archive CRC",
+          "pass": true
+        },
+        {
+          "name": "DOCX author is GPTBot.uz",
+          "pass": true
+        },
+        {
+          "name": "No computer paths or personal author",
+          "pass": true
+        },
+        {
+          "name": "DOCX has editable body, placeholders and Uzbek glyphs",
+          "pass": true
+        },
+        {
+          "name": "No external document relationships",
+          "pass": true
+        },
+        {
+          "name": "PDF one printable page",
+          "pass": true
+        },
+        {
+          "name": "PDF title and all sections extract",
+          "pass": true
+        },
+        {
+          "name": "PDF no replacement glyph",
+          "pass": true
+        },
+        {
+          "name": "PDF author",
+          "pass": true
+        },
+        {
+          "name": "Unicode TTF fonts embedded",
+          "pass": true
+        }
+      ],
+      "sha256": {
+        "hamkorga-sorov-xati.docx": "839989eb8d9dd497bddaba3b17a133e9f67bb1bde953ddc24458c74bd097571f",
+        "hamkorga-sorov-xati.pdf": "8c58b3bd1bef70713c412422ee8c80148277b506cff308654ed2ae37fec63919"
+      },
+      "pages": 1
+    },
+    {
+      "slug": "amaliyotchi-tavsifnoma",
+      "checks": [
+        {
+          "name": "DOCX archive CRC",
+          "pass": true
+        },
+        {
+          "name": "DOCX author is GPTBot.uz",
+          "pass": true
+        },
+        {
+          "name": "No computer paths or personal author",
+          "pass": true
+        },
+        {
+          "name": "DOCX has editable body, placeholders and Uzbek glyphs",
+          "pass": true
+        },
+        {
+          "name": "No external document relationships",
+          "pass": true
+        },
+        {
+          "name": "PDF one printable page",
+          "pass": true
+        },
+        {
+          "name": "PDF title and all sections extract",
+          "pass": true
+        },
+        {
+          "name": "PDF no replacement glyph",
+          "pass": true
+        },
+        {
+          "name": "PDF author",
+          "pass": true
+        },
+        {
+          "name": "Unicode TTF fonts embedded",
+          "pass": true
+        }
+      ],
+      "sha256": {
+        "amaliyotchi-tavsifnoma.docx": "36fc67834bfc060f94c598015ab123e73c7d46f2a2955652229844f7145f7365",
+        "amaliyotchi-tavsifnoma.pdf": "c7f2b3d64d1eaacbd5ea2870656c10b704d776541c194bd8f10a48384f2db8e9"
+      },
+      "pages": 1
+    }
+  ],
+  "failed": []
+}

@@ -70,7 +70,10 @@ test('wiring: the root Tailwind never scans apps/, so no studio file can add a c
   const config = read('tailwind.config.js');
   const globs = [...(config.match(/content:\s*\[([^\]]*)\]/)?.[1] ?? '').matchAll(/'([^']+)'/g)].map(m => m[1]);
   assert.ok(globs.length > 0);
-  for (const glob of globs) assert.ok(glob === './index.html' || /^\.\/(src|scripts)\//.test(glob), glob);
+  for (const glob of globs) {
+    const target = glob.replace(/^!/, ''); // Negative globs exclude data from the same permitted roots.
+    assert.ok(target === './index.html' || /^\.\/(src|scripts)\//.test(target), glob);
+  }
 });
 
 test('wiring: pinned versions, pptxgenjs at runtime, playwright-core not installed twice', () => {

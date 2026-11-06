@@ -1,0 +1,84 @@
+﻿[
+    {
+        "id":  "uz-oquv-reja-v1",
+        "sourcePptxSha256":  "9dc96184c48e988443458d5bc11b8b770bf20777ae3046eb6654c6d233185529",
+        "openedInPowerPoint":  true,
+        "slides":  6,
+        "previewRenderer":  "Microsoft PowerPoint",
+        "width":  960,
+        "height":  540,
+        "previews":  [
+                         {
+                             "file":  "uz-oquv-reja-v1-1.png",
+                             "slide":  1,
+                             "sha256":  "bbd674019a56f054eff3560fe37b6afb2bfa4dbbf034e6af06c87ef58db5f34a"
+                         },
+                         {
+                             "file":  "uz-oquv-reja-v1-2.png",
+                             "slide":  2,
+                             "sha256":  "43bd3ac95ac5bd2ba8e7a3dbdada09433f50fd999749e0acd8f55850e28a42d2"
+                         },
+                         {
+                             "file":  "uz-oquv-reja-v1-3.png",
+                             "slide":  3,
+                             "sha256":  "015920ae99968d96da81d8b9d129cdd82d05879f207cdb18e5943fb0804ee0ad"
+                         },
+                         {
+                             "file":  "uz-oquv-reja-v1-4.png",
+                             "slide":  4,
+                             "sha256":  "dc9020f730c042dc91d474a1bc5cf2ebe3d800469291ed18905b9fbf98fcb571"
+                         },
+                         {
+                             "file":  "uz-oquv-reja-v1-5.png",
+                             "slide":  5,
+                             "sha256":  "2d7288a090500cbfcf12405d56f30797a8c30ceb8c34587f44bd60d3bec83806"
+                         },
+                         {
+                             "file":  "uz-oquv-reja-v1-6.png",
+                             "slide":  6,
+                             "sha256":  "1be4ac5ad2e8cfd2d421e951485d46d9f3579e654164d852bbf8adf80acf45a8"
+                         }
+                     ]
+    },
+    {
+        "id":  "ru-korotkoe-vystuplenie-v1",
+        "sourcePptxSha256":  "ff864ab1f3c05f0b07d5b67dd50a2d9c6145b10ac3707e65941cbbd0c91e0eec",
+        "openedInPowerPoint":  true,
+        "slides":  6,
+        "previewRenderer":  "Microsoft PowerPoint",
+        "width":  960,
+        "height":  540,
+        "previews":  [
+                         {
+                             "file":  "ru-korotkoe-vystuplenie-v1-1.png",
+                             "slide":  1,
+                             "sha256":  "4f8800e657b7062d6aff1ad65c949918b994fec2df720a320e2fa48e0fec6c8e"
+                         },
+                         {
+                             "file":  "ru-korotkoe-vystuplenie-v1-2.png",
+                             "slide":  2,
+                             "sha256":  "661716bd7e6f518a5df09cdd1f96a21bf92e550f63ee195b4152f4f2b08c5c4a"
+                         },
+                         {
+                             "file":  "ru-korotkoe-vystuplenie-v1-3.png",
+                             "slide":  3,
+                             "sha256":  "445ba6fba61a056a3a03e03a65506c4d7775eb4b1e8b7fc42bea55440e21cc4e"
+                         },
+                         {
+                             "file":  "ru-korotkoe-vystuplenie-v1-4.png",
+                             "slide":  4,
+                             "sha256":  "6ea95e69acd924083767d00e717f591f1f73246315aabc403427a3e709a25159"
+                         },
+                         {
+                             "file":  "ru-korotkoe-vystuplenie-v1-5.png",
+                             "slide":  5,
+                             "sha256":  "c9821ecf085fc84397cc6ef5f33696ca884165ea041409f92cf5d138a06dba67"
+                         },
+                         {
+                             "file":  "ru-korotkoe-vystuplenie-v1-6.png",
+                             "slide":  6,
+                             "sha256":  "81d185c53d15ee78a7c9247bb32d3538e06137cc0603d4af13e9f8ce43d61d23"
+                         }
+                     ]
+    }
+]

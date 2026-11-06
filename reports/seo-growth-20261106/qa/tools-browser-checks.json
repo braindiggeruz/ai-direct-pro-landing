@@ -1,0 +1,30 @@
+{
+  "converter375": {
+    "copyBottom": 653.34375,
+    "h1": 1,
+    "h1Top": 76,
+    "height": 812,
+    "inputTop": 289.34375,
+    "outputBottom": 597.34375,
+    "overflow": false,
+    "width": 375
+  },
+  "converterCopyOk": true,
+  "desktopToolChecks": [
+    {
+      "route": "/uz/kirill-lotin/",
+      "h1": 1,
+      "inputTop": 258.84375,
+      "overflow": false,
+      "width": 1365
+    },
+    {
+      "route": "/ru/russko-uzbekskiy-perevodchik/",
+      "h1": 1,
+      "inputTop": 343.03125,
+      "overflow": false,
+      "width": 1365
+    }
+  ],
+  "uzDirectionDisabled": true
+}

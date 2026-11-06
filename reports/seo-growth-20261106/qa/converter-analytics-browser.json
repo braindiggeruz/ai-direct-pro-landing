@@ -1,0 +1,20 @@
+{
+  "viewport": {
+    "width": 375,
+    "height": 812
+  },
+  "beforeInputTop": 1121.875,
+  "syntheticInput": "Ўзбекистон: 12 та китоб.",
+  "output": "O‘zbekiston: 12 ta kitob.",
+  "eventReceivedHttp": 204,
+  "requests": [
+    {
+      "event": "translit_converted",
+      "parameterNames": [
+        "ep.route",
+        "ep.lang"
+      ],
+      "hasSyntheticText": false
+    }
+  ]
+}

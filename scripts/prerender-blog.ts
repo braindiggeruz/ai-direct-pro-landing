@@ -38,6 +38,7 @@ import {
 import { STUDIO_CONTACT_ATTR } from '../src/shared/studio-contact';
 import { SITE_CHAT_NAV, headerChatLink } from '../src/shared/site-chat-nav';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
+import { CONTENT_DOWNLOAD_URLS } from '../src/shared/content-downloads';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -49,6 +50,7 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
 const DIST_DIR = path.join(ROOT, 'dist');
 const PUBLIC_DIR = path.join(ROOT, 'public');
+const CONTENT_DOWNLOADS: ReadonlySet<string> = new Set(CONTENT_DOWNLOAD_URLS);
 
 // Read intrinsic dimensions of a local PNG/JPEG without external deps.
 // Returns null for remote-only assets so we never emit wrong dimensions.
@@ -201,7 +203,10 @@ function renderBlock(b: BodyBlock): string {
         // The studio Telegram (linked where the phone stood until 26.10.2026):
         // the marker the head click handlers count and the site's Telegram rel.
         const _rel = isStudioTelegramHref(l.target) ? ` ${STUDIO_CONTACT_ATTR} rel="nofollow noopener noreferrer" target="_blank"` : _ext ? ' rel="noopener noreferrer" target="_blank"' : '';
-        const a = `<a href="${escapeHtml(l.target)}"${_rel}${_lang} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
+        // Only authored, registered same-origin files are download actions.
+        // Ordinary links (including unregistered .docx/.pdf URLs) stay intact.
+        const _download = CONTENT_DOWNLOADS.has(l.target) ? ' download' : '';
+        const a = `<a href="${escapeHtml(l.target)}"${_rel}${_lang}${_download} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
         html = html.split(`{${l.token}}`).join(a);
       }
       return `<p${blockLang(b)} class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;

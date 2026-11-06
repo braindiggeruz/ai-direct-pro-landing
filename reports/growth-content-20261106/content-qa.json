@@ -1,0 +1,392 @@
+{
+  "status": "PASS",
+  "baseline": "335727f0",
+  "checks": 96,
+  "failed": [],
+  "details": [
+    {
+      "name": "rezyume-tayyorlash: unchanged status",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged locale",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged slug",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged url",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged title",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged description",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged h1",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged topicCluster",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged targetMoneyPage",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged keywords",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged intro",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged faq",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged cta",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged internalLinks",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged ogTitle",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged ogDescription",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged ogImage",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged canonical",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged hreflangUz",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged robotsIndex",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged robotsFollow",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged audience",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged breadcrumbLabel",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged author",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged datePublished",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged schemaTypes",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged sources",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: unchanged createdAt",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: existing body preserved",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: /downloads/growth-20261106/rezyume.docx",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: /downloads/growth-20261106/rezyume.pdf",
+      "pass": true
+    },
+    {
+      "name": "rezyume-tayyorlash: real update dates",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged status",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged locale",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged slug",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged url",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged title",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged description",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged h1",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged topicCluster",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged targetMoneyPage",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged keywords",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged intro",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged faq",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged cta",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged internalLinks",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged ogTitle",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged ogDescription",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged ogImage",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged canonical",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged hreflangUz",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged robotsIndex",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged robotsFollow",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged audience",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged breadcrumbLabel",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged author",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged datePublished",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged schemaTypes",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged sources",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: unchanged createdAt",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: existing body preserved",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: /downloads/growth-20261106/hamkorga-sorov-xati.docx",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: /downloads/growth-20261106/hamkorga-sorov-xati.pdf",
+      "pass": true
+    },
+    {
+      "name": "rasmiy-xat-yozish: real update dates",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged status",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged locale",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged slug",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged url",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged title",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged description",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged h1",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged topicCluster",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged targetMoneyPage",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged keywords",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged intro",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged faq",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged cta",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged internalLinks",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged ogTitle",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged ogDescription",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged ogImage",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged canonical",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged hreflangUz",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged robotsIndex",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged robotsFollow",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged audience",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged breadcrumbLabel",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged author",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged datePublished",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged schemaTypes",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged sources",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: unchanged createdAt",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: existing body preserved",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: /downloads/growth-20261106/amaliyotchi-tavsifnoma.docx",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: /downloads/growth-20261106/amaliyotchi-tavsifnoma.pdf",
+      "pass": true
+    },
+    {
+      "name": "tavsifnoma-namuna: real update dates",
+      "pass": true
+    }
+  ]
+}

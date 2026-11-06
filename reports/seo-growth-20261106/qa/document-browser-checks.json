@@ -1,0 +1,47 @@
+[
+  {
+    "downloads": [
+      {
+        "href": "/downloads/growth-20261106/rezyume.docx",
+        "name": "Rezyume namunasini DOCX formatida yuklab olish"
+      },
+      {
+        "href": "/downloads/growth-20261106/rezyume.pdf",
+        "name": "Chop etish uchun PDF namuna"
+      }
+    ],
+    "h1": 1,
+    "overflow": false,
+    "url": "http://127.0.0.1:8766/uz/blog/rezyume-tayyorlash/"
+  },
+  {
+    "downloads": [
+      {
+        "href": "/downloads/growth-20261106/hamkorga-sorov-xati.docx",
+        "name": "So‘rov xati namunasini DOCX formatida yuklab olish"
+      },
+      {
+        "href": "/downloads/growth-20261106/hamkorga-sorov-xati.pdf",
+        "name": "Chop etish uchun PDF namuna"
+      }
+    ],
+    "h1": 1,
+    "overflow": false,
+    "url": "http://127.0.0.1:8766/uz/blog/rasmiy-xat-yozish/"
+  },
+  {
+    "downloads": [
+      {
+        "href": "/downloads/growth-20261106/amaliyotchi-tavsifnoma.docx",
+        "name": "Tavsifnoma namunasini DOCX formatida yuklab olish"
+      },
+      {
+        "href": "/downloads/growth-20261106/amaliyotchi-tavsifnoma.pdf",
+        "name": "Chop etish uchun PDF namuna"
+      }
+    ],
+    "h1": 1,
+    "overflow": false,
+    "url": "http://127.0.0.1:8766/uz/blog/tavsifnoma-namuna/"
+  }
+]

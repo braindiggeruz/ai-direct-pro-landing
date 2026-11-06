@@ -25,6 +25,33 @@
   "ogImage": "/assets/studio/og-taqdimot-v1.png",
   "ogImageAlt": "GPTBot.uz: mavzudan tayyor .pptx taqdimot",
   "lead": "Slayd AI bilan taqdimot qoralamasini tayyorlang va PowerPoint (.pptx) faylini yuklab oling. Bepul namuna — kuniga 1 ta, 6 slaydgacha. To‘liq taqdimot — pullik tarifda: 12 slaydgacha, 8 rasmgacha va ma’ruzachi izohlari. Kunlik — 5 900 so‘m; Oylik — 39 900 so‘m. Natijani tekshiring va o‘zingiz tahrirlang.",
+  "examples": {
+    "heading": ".pptx namunasini ko‘ring va yuklab oling",
+    "intro": "Ikki namuna orqali bezak, matn hajmi va fayl qurilmangizda ochilishini tekshiring. Namunalarni bepul yuklab olish mumkin. Bu kunlik taqdimot yaratish imkoniyatini sarflamaydi.",
+    "note": "Bular mijozlarning ishlari emas, oldindan tayyorlangan namunaviy matnlar. Fayldagi matnni tahrirlash mumkin. Siz yaratgan taqdimot mavzuga bog‘liq bo‘ladi: faktlarni tekshiring va o‘z tuzatishlaringizni kiriting.",
+    "cards": [
+      {
+        "id": "uz-oquv-reja-v1",
+        "title": "Haftalik o‘quv reja",
+        "description": "Maqsad, jadval, mashqlar va natijani tekshirish. Muqova, to‘rtta mazmunli slayd va AI haqidagi eslatma: jami 6 slayd. Fayl 100 KB dan kichik.",
+        "language": "O‘zbekcha · tahrirlanadigan PowerPoint",
+        "downloadLabel": ".pptx namunasini yuklab olish",
+        "previewLabel": "O‘quv reja namunasining muqovasini ochish",
+        "previewAlt": "O‘zbekcha taqdimot namunasi, slayd",
+        "detailsLabel": "Qolgan 5 ta slaydni ko‘rish"
+      },
+      {
+        "id": "ru-korotkoe-vystuplenie-v1",
+        "title": "Qisqa taqdimotga tayyorgarlik",
+        "description": "Asosiy fikrdan slaydlarni tekshirishgacha. Ruscha namuna: jami 6 slayd, fayl 100 KB dan kichik.",
+        "language": "Ruscha · tahrirlanadigan PowerPoint",
+        "downloadLabel": ".pptx namunasini yuklab olish",
+        "previewLabel": "Qisqa taqdimot namunasining muqovasini ochish",
+        "previewAlt": "Ruscha taqdimot namunasi, slayd",
+        "detailsLabel": "Qolgan 5 ta slaydni ko‘rish"
+      }
+    ]
+  },
   "sections": [
     {
       "id": "qanday-ishlaydi",
@@ -137,5 +164,5 @@
     ]
   },
   "createdAt": "2026-10-06",
-  "updatedAt": "2026-10-07"
+  "updatedAt": "2026-11-06"
 }

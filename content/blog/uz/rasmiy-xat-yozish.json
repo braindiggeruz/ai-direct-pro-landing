@@ -34,6 +34,39 @@
     },
     {
       "type": "h2",
+      "id": "word-pdf-namuna",
+      "text": "Hamkorga so‘rov xati: DOCX va PDF namuna"
+    },
+    {
+      "type": "p",
+      "text": "Mahsulot yoki xizmat haqida ma’lumot so‘rash uchun oddiy, tahrirlanadigan namuna tayyorladik. DOCX faylini Word yoki LibreOffice’da to‘ldirish, PDF nusxasini esa ko‘rish va chop etish mumkin. Bu tasdiqlangan rasmiy blanka ham, chat yaratgan individual hujjat ham emas. Namuna bepul yuklab olinadi; AI paket yoki ro‘yxatdan o‘tish talab qilinmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/growth-20261106/hamkorga-sorov-xati.docx",
+          "anchor": "So‘rov xati namunasini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/growth-20261106/hamkorga-sorov-xati.pdf",
+          "anchor": "Chop etish uchun PDF namuna"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mahsulot yoki xizmat nomi, miqdori va kerakli xususiyatlarini aniq yozing; mos kelmagan bandlarni o‘chiring.",
+        "Javob muddati va aloqa kanalini o‘zingiz belgilang. Rekvizitlar va xodimlarning ma’lumotlarini chatda emas, yuklab olingan faylda kiriting.",
+        "Yuborishdan oldin matnni tashkilotingiz tartibiga moslang va vakolatli shaxsga tekshirtiring."
+      ]
+    },
+    {
+      "type": "h2",
       "id": "nima",
       "text": "Rasmiy xat nima va qachon kerak bo‘ladi"
     },
@@ -398,7 +431,7 @@
   "breadcrumbLabel": "Rasmiy xat yozish",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-24",
-  "dateModified": "2026-10-24",
+  "dateModified": "2026-11-06",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -413,6 +446,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rasmiy xatda bu noto‘g‘ri sana, summa, shartnoma bandi yoki qonun moddasi ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf. Manba sayt qo‘llanmalari uchun 2026-10-05 kuni tekshirilgan."
     }
   ],
-  "updatedAt": "2026-10-24T00:00:00.000Z",
+  "updatedAt": "2026-11-06T00:00:00.000Z",
   "createdAt": "2026-10-24T00:00:00.000Z"
 }
