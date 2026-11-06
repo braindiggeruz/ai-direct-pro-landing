@@ -1,7 +1,7 @@
 # Current handoff — growth pilot · 06.11.2026
 
 ## 1. State
-Validated release candidate on `seo/uz-query-recovery-20261106`; not yet deployed at this checkpoint. This section and STATE `seo_growth_pilot_20261106` supersede the historical status below. Owner approved autonomous implementation of the growth roadmap.
+DEPLOYED AND VERIFIED on `seo/uz-query-recovery-20261106`: production commit `3518a5d57cca33d666e8d8b31340e947b9f5a424`, preview `d8996a5b`, approximately 10:03 UTC. All 48 live paths and exact manifest pass. This section and STATE `seo_growth_pilot_20261106` supersede the historical status below. Owner approved autonomous implementation of the growth roadmap.
 
 ## 2. Delivered
 Four tool-first pages, two Studio galleries, three articles with six DOCX/PDF downloads. See `reports/seo-growth-20261106/RELEASE.md` for exact behavior and URLs.
@@ -34,7 +34,7 @@ Run `F:/Claude/seo-growth-20261106/implementation/verify-growth-live.py --live -
 Do not add or erase untracked `docs/seo/research/2026-10-28-new-pages-growth/`. No reset/clean/force-push. Click is explicitly owner-deferred.
 
 ## 12. Next
-Finish guarded release/live readback and record actual deployment receipts; then measure the pilot. No traffic/revenue multiplier is claimed from local validation.
+Guarded release, live readback and four Google discovery submissions are complete. Measure the pilot after recrawl; keep protected snippets stable. DOCX browser-save completion remains unverified in IAB although public bytes/native Word pass. No traffic/revenue multiplier is claimed.
 
 ---
 

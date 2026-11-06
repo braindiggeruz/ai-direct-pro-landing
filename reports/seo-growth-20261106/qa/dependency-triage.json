@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-06",
+  "scope": "Read-only Studio dependency audit; no install/fix/dependency edits",
+  "auditCommand": "npm.cmd --prefix apps/studio audit --json",
+  "auditStatus": "Completed from npm registry; exit 1 reflects vulnerabilities",
+  "metadata": {
+    "high": 3,
+    "critical": 0,
+    "totalVulnerablePackages": 3
+  },
+  "introducedByThisRelease": false,
+  "unchangedComparedTo": "335727f0",
+  "unchangedDependencyFiles": [
+    "apps/studio/package.json",
+    "apps/studio/package-lock.json",
+    "package-lock.json"
+  ],
+  "findings": [
+    {
+      "package": "image-size",
+      "installedVersion": "1.2.1",
+      "classification": "production transitive dependency of pptxgenjs",
+      "severity": "high",
+      "advisories": [
+        {
+          "id": "GHSA-5p2g-fcmc-qvqq",
+          "url": "https://github.com/advisories/GHSA-5p2g-fcmc-qvqq",
+          "title": "JXL and HEIF parsers infinite-loop denial of service",
+          "affectedRange": ">=1.2.0 <=2.0.2"
+        },
+        {
+          "id": "GHSA-w3rx-r6r6-pgpr",
+          "url": "https://github.com/advisories/GHSA-w3rx-r6r6-pgpr",
+          "title": "ICNS parser infinite-loop denial of service",
+          "affectedRange": ">=0.6.3 <=2.0.2"
+        }
+      ],
+      "reachability": "pptxgenjs package browser map sets image-size:false. Existing Studio PPTX is dynamically generated in the browser; addPicture declares JPEG and explicit dimensions. No pptxgenjs/image-size imports found in functions/. This static release does not add arbitrary image parsing. Node build tooling dependency risk remains for future untrusted-image handling."
+    },
+    {
+      "package": "pptxgenjs",
+      "installedVersion": "4.0.1",
+      "classification": "production direct dependency",
+      "severity": "high",
+      "advisoriesInheritedFrom": [
+        "image-size"
+      ],
+      "separateUnderlyingVulnerability": false,
+      "npmProposedFix": "4.0.0, flagged major by audit; do not apply blindly"
+    },
+    {
+      "package": "vite",
+      "installedVersion": "8.2.0",
+      "classification": "development direct dependency",
+      "severity": "high",
+      "advisories": [
+        {
+          "id": "GHSA-698v-4r3x-3vcv",
+          "severity": "moderate",
+          "title": "launch-editor Windows percent escaping"
+        },
+        {
+          "id": "GHSA-r825-w8mm-5pxw",
+          "severity": "moderate",
+          "title": "launch-editor editor CLI flag interpretation"
+        },
+        {
+          "id": "GHSA-587h-7wmj-h5pm",
+          "severity": "high",
+          "title": "launch-editor Windows existence-check bypass"
+        },
+        {
+          "id": "GHSA-9jrq-w75r-8gcw",
+          "severity": "low",
+          "title": "Cross-origin script execution through custom middleware"
+        },
+        {
+          "id": "GHSA-rq7h-c2jc-7f22",
+          "severity": "moderate",
+          "title": "Outside server.fs.allow file access on non-Windows"
+        },
+        {
+          "id": "GHSA-vfpm-58rq-9qcg",
+          "severity": "moderate",
+          "title": "First four outside-server.fs bytes exposed via vite-wasm-instance"
+        }
+      ],
+      "reachability": "Build/dev server dependency; Vite server/editor endpoints are not part of the deployed static Cloudflare Pages payload. Risk remains for exposed local development servers.",
+      "npmProposedFix": "8.3.6"
+    }
+  ],
+  "sourceEvidence": [
+    "apps/studio/package.json:11-25",
+    "apps/studio/package-lock.json:775",
+    "apps/studio/node_modules/pptxgenjs/package.json:30-35",
+    "apps/studio/src/pptx/build.ts:85-88",
+    "apps/studio/src/pptx/build.ts:124-135",
+    "No pptxgenjs/image-size references returned under functions/",
+    "git diff 335727f0 -- dependency files returned empty"
+  ],
+  "releaseDecision": "NO VERIFIED BLOCKER for this static growth release. Existing vulnerable dependency graph is unchanged; no new arbitrary-image parser or Vite server exposure is introduced.",
+  "limitations": "Not a claim that dependencies or application are vulnerability-free. No exploit test and no full dependency reachability audit. Preserve as separate maintenance work with compatibility tests and bundle review; no npm fix run."
+}

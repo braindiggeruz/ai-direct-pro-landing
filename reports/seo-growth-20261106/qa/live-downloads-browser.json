@@ -1,0 +1,37 @@
+{
+  "gallery": {
+    "expanded": true,
+    "h1": 1,
+    "images": [
+      {
+        "loaded": true,
+        "width": 960
+      },
+      {
+        "loaded": true,
+        "width": 960
+      },
+      {
+        "loaded": true,
+        "width": 960
+      },
+      {
+        "loaded": true,
+        "width": 960
+      },
+      {
+        "loaded": true,
+        "width": 960
+      },
+      {
+        "loaded": true,
+        "width": 960
+      }
+    ],
+    "overflow": false,
+    "url": "https://gptbot.uz/uz/taqdimot-ai/"
+  },
+  "pdfDownload": "C:\\Users\\Borinio\\Downloads\\rezyume (1).pdf",
+  "pptxDownload": "C:\\Users\\Borinio\\Downloads\\uz-oquv-reja-v1 (1).pptx",
+  "docxDownload": "IAB download event absent on local and HTTPS; exact live bytes/MIME/noindex passed, native Word source verified"
+}

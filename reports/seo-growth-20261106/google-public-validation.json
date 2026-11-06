@@ -1,0 +1,186 @@
+{
+  "checkedAt": "2026-11-06T10:14:01.887222+00:00",
+  "commit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
+  "artifactSha256": "4bfdfdf377c62ecbb2910b8ca9f9d02bb0dcc7d20d223f683a39cd4ed522a85a",
+  "mainCanonicalUrls": 329,
+  "allMainUrlsLocalIndexable": true,
+  "noindexHelperAssetsExcluded": true,
+  "publicXml": [
+    {
+      "url": "https://gptbot.uz/sitemap.xml",
+      "checkedAt": "2026-11-06T10:13:56.079908+00:00",
+      "httpStatus": 200,
+      "rootTag": "{http://www.sitemaps.org/schemas/sitemap/0.9}urlset",
+      "contentType": "application/xml; charset=utf-8",
+      "bytes": 114328,
+      "sha256": "77fca641e7cccb2083361301708e7dfc383216bf350e8698bc69a03bc04fbbd0",
+      "matchesStampedDist": true,
+      "urlCount": 329,
+      "changedUrlsPresent": {
+        "https://gptbot.uz/uz/kirill-lotin/": true,
+        "https://gptbot.uz/ru/kirillica-v-latinicu/": true,
+        "https://gptbot.uz/uz/rus-ozbek-tarjimon/": true,
+        "https://gptbot.uz/ru/russko-uzbekskiy-perevodchik/": true,
+        "https://gptbot.uz/uz/taqdimot-ai/": true,
+        "https://gptbot.uz/ru/prezentatsiya-ai/": true,
+        "https://gptbot.uz/uz/blog/rezyume-tayyorlash/": true,
+        "https://gptbot.uz/uz/blog/rasmiy-xat-yozish/": true,
+        "https://gptbot.uz/uz/blog/tavsifnoma-namuna/": true
+      },
+      "requiredCoveragePassed": true
+    },
+    {
+      "url": "https://gptbot.uz/sitemap-updates.xml",
+      "checkedAt": "2026-11-06T10:13:56.368910+00:00",
+      "httpStatus": 200,
+      "rootTag": "{http://www.sitemaps.org/schemas/sitemap/0.9}urlset",
+      "contentType": "application/xml; charset=utf-8",
+      "bytes": 19915,
+      "sha256": "3ce5011ba22adb8fa2e692d3eac7d120d3e0f81cdeb875c677c4138ac09c72c2",
+      "matchesStampedDist": true,
+      "urlCount": 68,
+      "changedUrlsPresent": {
+        "https://gptbot.uz/uz/kirill-lotin/": true,
+        "https://gptbot.uz/ru/kirillica-v-latinicu/": true,
+        "https://gptbot.uz/uz/rus-ozbek-tarjimon/": true,
+        "https://gptbot.uz/ru/russko-uzbekskiy-perevodchik/": true,
+        "https://gptbot.uz/uz/taqdimot-ai/": true,
+        "https://gptbot.uz/ru/prezentatsiya-ai/": true,
+        "https://gptbot.uz/uz/blog/rezyume-tayyorlash/": true,
+        "https://gptbot.uz/uz/blog/rasmiy-xat-yozish/": true,
+        "https://gptbot.uz/uz/blog/tavsifnoma-namuna/": true
+      },
+      "requiredCoveragePassed": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/feed.xml",
+      "checkedAt": "2026-11-06T10:13:56.670913+00:00",
+      "httpStatus": 200,
+      "rootTag": "rss",
+      "contentType": "application/rss+xml; charset=utf-8",
+      "bytes": 28902,
+      "sha256": "5bdaea09841878b43aae8b0b4839a57c534598e0989ee82d12ca40944177d0a3",
+      "matchesStampedDist": true,
+      "urlCount": 50,
+      "changedUrlsPresent": {
+        "https://gptbot.uz/uz/kirill-lotin/": false,
+        "https://gptbot.uz/ru/kirillica-v-latinicu/": false,
+        "https://gptbot.uz/uz/rus-ozbek-tarjimon/": false,
+        "https://gptbot.uz/ru/russko-uzbekskiy-perevodchik/": false,
+        "https://gptbot.uz/uz/taqdimot-ai/": false,
+        "https://gptbot.uz/ru/prezentatsiya-ai/": false,
+        "https://gptbot.uz/uz/blog/rezyume-tayyorlash/": true,
+        "https://gptbot.uz/uz/blog/rasmiy-xat-yozish/": true,
+        "https://gptbot.uz/uz/blog/tavsifnoma-namuna/": true
+      },
+      "requiredCoveragePassed": true
+    },
+    {
+      "url": "https://gptbot.uz/updates/atom.xml",
+      "checkedAt": "2026-11-06T10:13:57.035914+00:00",
+      "httpStatus": 200,
+      "rootTag": "{http://www.w3.org/2005/Atom}feed",
+      "contentType": "application/atom+xml; charset=utf-8",
+      "bytes": 129020,
+      "sha256": "92ddc3c6bad90c8911b8bcfd9a0b8437acb92558b7e5304ed3b361477f6c066e",
+      "matchesStampedDist": true,
+      "urlCount": 200,
+      "changedUrlsPresent": {
+        "https://gptbot.uz/uz/kirill-lotin/": true,
+        "https://gptbot.uz/ru/kirillica-v-latinicu/": true,
+        "https://gptbot.uz/uz/rus-ozbek-tarjimon/": true,
+        "https://gptbot.uz/ru/russko-uzbekskiy-perevodchik/": true,
+        "https://gptbot.uz/uz/taqdimot-ai/": false,
+        "https://gptbot.uz/ru/prezentatsiya-ai/": false,
+        "https://gptbot.uz/uz/blog/rezyume-tayyorlash/": true,
+        "https://gptbot.uz/uz/blog/rasmiy-xat-yozish/": true,
+        "https://gptbot.uz/uz/blog/tavsifnoma-namuna/": true
+      },
+      "requiredCoveragePassed": true
+    }
+  ],
+  "changedHtml": [
+    {
+      "url": "https://gptbot.uz/uz/kirill-lotin/",
+      "checkedAt": "2026-11-06T10:13:57.718232+00:00",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "exactReviewedBuild": true,
+      "sha256": "915931576f905853593b7251bfb9f160642f5af047b2dad24144e20776704c07"
+    },
+    {
+      "url": "https://gptbot.uz/ru/kirillica-v-latinicu/",
+      "checkedAt": "2026-11-06T10:13:58.084605+00:00",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "exactReviewedBuild": true,
+      "sha256": "1a10b8a526ac141d9e00bdf0d08bf84091ee83b59d9313ac9893c43d74658064"
+    },
+    {
+      "url": "https://gptbot.uz/uz/rus-ozbek-tarjimon/",
+      "checkedAt": "2026-11-06T10:13:58.410606+00:00",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "exactReviewedBuild": true,
+      "sha256": "a0783585d751c1d4a0890a4fca3e15f282726d91498b9f79a3aaa2412523bcf3"
+    },
+    {
+      "url": "https://gptbot.uz/ru/russko-uzbekskiy-perevodchik/",
+      "checkedAt": "2026-11-06T10:13:58.770252+00:00",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "exactReviewedBuild": true,
+      "sha256": "2cc7c1ea5d903bd01b944314b19080104cb71b5d0500f66f37346d85a8c416c4"
+    },
+    {
+      "url": "https://gptbot.uz/uz/taqdimot-ai/",
+      "checkedAt": "2026-11-06T10:13:59.089224+00:00",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "exactReviewedBuild": true,
+      "sha256": "b8ad18fee774a302a5a1ec576926aa1e3067c064caeccb5f5c18bb82f6ebcadb"
+    },
+    {
+      "url": "https://gptbot.uz/ru/prezentatsiya-ai/",
+      "checkedAt": "2026-11-06T10:13:59.409219+00:00",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "exactReviewedBuild": true,
+      "sha256": "59c6da754a1eabe589dc2d1051aa9e1e3b34af2069dd10137f60bdab96d89ef9"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+      "checkedAt": "2026-11-06T10:13:59.781216+00:00",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "exactReviewedBuild": true,
+      "sha256": "de11ac3a69f3fdd8f76b9c3c6b5a216a24a03f2c5f072603d704ef7b5a77799d"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/rasmiy-xat-yozish/",
+      "checkedAt": "2026-11-06T10:14:00.165217+00:00",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "exactReviewedBuild": true,
+      "sha256": "5bab10c32ec2219f94510ac0e1e51656d2582f18badc87e277864a046b5f1f70"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/tavsifnoma-namuna/",
+      "checkedAt": "2026-11-06T10:14:00.528215+00:00",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "exactReviewedBuild": true,
+      "sha256": "1c22a0c2d56e72240bb9d4bf504af3415e742d6c3869786927e31750c4bc9eb9"
+    }
+  ],
+  "note": "Studio appears in both sitemaps; the existing Atom generator covers regular pages/articles only. No dates or XML were changed."
+}

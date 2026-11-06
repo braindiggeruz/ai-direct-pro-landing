@@ -1,0 +1,57 @@
+{
+  "readAt": "2026-11-06T10:14:05.458219+00:00",
+  "commit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
+  "surfaces": [
+    {
+      "url": "https://gptbot.uz/sitemap.xml",
+      "submissionAccepted": true,
+      "previousLastSubmitted": "2026-11-06T07:49:56.070Z",
+      "newLastSubmitted": "2026-11-06T10:07:10.399Z",
+      "timestampAdvanced": true,
+      "timestampMatchesAttempt": true,
+      "isPending": false,
+      "errors": "0",
+      "warnings": "0"
+    },
+    {
+      "url": "https://gptbot.uz/sitemap-updates.xml",
+      "submissionAccepted": true,
+      "previousLastSubmitted": "2026-11-06T07:49:56.270Z",
+      "newLastSubmitted": "2026-11-06T10:14:04.620Z",
+      "timestampAdvanced": true,
+      "timestampMatchesAttempt": true,
+      "isPending": true,
+      "errors": "0",
+      "warnings": "0"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/feed.xml",
+      "submissionAccepted": true,
+      "previousLastSubmitted": "2026-11-06T07:49:56.454Z",
+      "newLastSubmitted": "2026-11-06T10:14:04.831Z",
+      "timestampAdvanced": true,
+      "timestampMatchesAttempt": true,
+      "isPending": true,
+      "errors": "0",
+      "warnings": "0"
+    },
+    {
+      "url": "https://gptbot.uz/updates/atom.xml",
+      "submissionAccepted": true,
+      "previousLastSubmitted": "2026-11-06T07:49:56.682Z",
+      "newLastSubmitted": "2026-11-06T10:14:05.159Z",
+      "timestampAdvanced": true,
+      "timestampMatchesAttempt": true,
+      "isPending": true,
+      "errors": "0",
+      "warnings": "0"
+    }
+  ],
+  "acceptedCount": 4,
+  "recordedHttp204Count": 3,
+  "readbackReconciledCount": 1,
+  "readbackNoErrors": true,
+  "hasWarnings": false,
+  "ok": true,
+  "meaning": "Sitemap/feed submission acceptance only. Not a crawl request, new indexing proof or ranking improvement."
+}

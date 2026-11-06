@@ -1,6 +1,6 @@
 {
   "seo_growth_pilot_20261106": {
-    "status": "validated_release_candidate",
+    "status": "deployed_verified",
     "owner_authorized": "Autonomous implementation of the approved growth roadmap, 2026-11-06.",
     "branch": "seo/uz-query-recovery-20261106",
     "source_baseline_commit": "335727f0",
@@ -15,9 +15,28 @@
     "protected": "329 URL and metadata contracts; ten protected HTML pages and shared chat/Studio assets unchanged",
     "validation": "296 scoped integration tests; web/Functions/Studio typecheck; scoped lint; mobile runtime, native Word/PowerPoint evidence",
     "analytics": "translit_converted transport accepted; GA4 report access403; revenue reconciliation not completed",
-    "next": "Guarded production release and strict live acceptance, then observe post-recrawl cohort; no immediate snippet experiments.",
+    "next": "Measure the released tool cohort after recrawl; language/product QA and GA4 reporting access next. Keep protected snippets stable.",
     "click": "Owner-deferred; untouched",
-    "unrelated_untracked_preserved": "docs/seo/research/2026-10-28-new-pages-growth/"
+    "unrelated_untracked_preserved": "docs/seo/research/2026-10-28-new-pages-growth/",
+    "production_commit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
+    "deployment_preview": "https://d8996a5b.ai-direct-pro-landing.pages.dev",
+    "deployed_at_approx": "2026-11-06T10:03:34Z",
+    "live_checks": {
+      "paths": 48,
+      "exact_manifest": true,
+      "protected_html_unchanged": 10,
+      "sample_assets_verified": 20,
+      "mobile_conversion_copy_prefill": true,
+      "pptx_and_pdf_browser_downloads": true,
+      "docx_browser_save": "UNVERIFIED IAB event; bytes/MIME/native Word valid"
+    },
+    "google_discovery": {
+      "accepted_count": 4,
+      "readback_ok": true,
+      "first_response_reconciled_without_resubmit": true,
+      "report": "reports/seo-growth-20261106/google-readback-summary.json",
+      "post_release_recrawl_confirmed": false
+    }
   },
   "seo_chat_recovery_20261106": {
     "status": "deployed_verified",
@@ -1639,10 +1658,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "November 6 SEO intent and chat fallback repair deployed and verified; see seo_chat_recovery_20261106.",
+  "current_stage": "November 6 growth pilot deployed and verified; earlier SEO/chat repair preserved. See seo_growth_pilot_20261106.",
   "stage_status": "deployed_verified",
   "last_completed_stage": "November 6 guarded production release 6531d35b and live acceptance checks.",
-  "next_stage": "Compare GSC lastCrawlTime with deployment and observe the six-query Uzbek recovery cohort; keep chat metadata stable. Click remains owner-deferred.",
+  "next_stage": "Observe post-recrawl SEO repair and the nine-page growth pilot; obtain native-language/product QA and GA4 reporting access before the next experiment. Keep protected snippets stable; Click remains owner-deferred.",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1912,7 +1931,7 @@
   },
   "next_stage_note": "Still open from 2026-10-23: measure completed equal final GSC windows and qualified-lead outcomes for that release (OpenSEO for GSC; GSC Wizard subscription inactive). The translator branch is merged (1a773ee2); wave 1 is committed on seo/chat-snippets-translator-20261024 on top of it. Nothing pushed; wave 1 not deployed (production is still d54d5b61, deployment d0264730).",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "b5ad3d935a3ecfdcdfef0bb11811710e68658bb3",
+  "last_commit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",

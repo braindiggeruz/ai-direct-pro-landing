@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-11-06T09:58:48Z",
+  "mode": "local-only",
+  "ok": true,
+  "edgeSelfTest": {
+    "exactPositive": true,
+    "mutationsRejected": 6,
+    "invalidInputsRejected": 3,
+    "beaconBytes": 367,
+    "beaconSha256": "29dc31a0c12d7d4cb83c2582b95c0b2ea3ac80dc4d4476f39093a4337705ad5a"
+  },
+  "expectedCommit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
+  "localPreflight": {
+    "ok": true,
+    "computedArtifactSha256": "4bfdfdf377c62ecbb2910b8ca9f9d02bb0dcc7d20d223f683a39cd4ed522a85a",
+    "fileCount": 1060,
+    "probeCount": 10,
+    "protectedUnchanged": 10,
+    "coverage": {
+      "changedHtml": 9,
+      "protectedHtml": 10,
+      "derivedHtml": 3,
+      "sampleAssets": 20,
+      "resources": 5,
+      "newJs": 1
+    },
+    "baselineInventorySha256": "9cc45c60cd72ed06dac4847fcb26dd0155242e1d1385e8692646bed1dd47a672",
+    "revisionSha256": "552034339500d73fb3f600d8c99ff41e9ab6c9af036c19a38905ba0042da16a7"
+  }
+}

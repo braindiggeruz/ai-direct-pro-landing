@@ -1,0 +1,72 @@
+{
+  "commit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
+  "property": "sc-domain:gptbot.uz",
+  "startedAt": "2026-11-06T10:07:09.732544+00:00",
+  "helperSourceSha256": "cf0a1a395fd1e06d91939493ec5e252f0ce3f20bbbb57dfb5d85a79c23ee86f4",
+  "attempts": [
+    {
+      "url": "https://gptbot.uz/sitemap.xml",
+      "startedAt": "2026-11-06T10:07:09.733546+00:00",
+      "previousLastSubmitted": "2026-11-06T07:49:56.070Z",
+      "accepted": true,
+      "state": "accepted_reconciled_readback",
+      "completedAt": "2026-11-06T10:07:10.480053+00:00",
+      "error": {
+        "type": "TypeError",
+        "httpStatus": null,
+        "message": "External operation failed; credential-bearing details were not logged."
+      },
+      "reconciliation": {
+        "readAt": "2026-11-06T10:14:03.920222+00:00",
+        "lastSubmitted": "2026-11-06T10:07:10.399Z",
+        "previousLastSubmitted": "2026-11-06T07:49:56.070Z",
+        "matchesOriginalAttemptWindow": true,
+        "method": "GSC sitemap lastSubmitted readback",
+        "httpStatusRecovered": false
+      }
+    },
+    {
+      "url": "https://gptbot.uz/sitemap-updates.xml",
+      "startedAt": "2026-11-06T10:14:03.978222+00:00",
+      "previousLastSubmitted": "2026-11-06T07:49:56.270Z",
+      "accepted": true,
+      "state": "response_received",
+      "httpStatus": 204,
+      "completedAt": "2026-11-06T10:14:04.672219+00:00",
+      "emptyResult": true
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/feed.xml",
+      "startedAt": "2026-11-06T10:14:04.673218+00:00",
+      "previousLastSubmitted": "2026-11-06T07:49:56.454Z",
+      "accepted": true,
+      "state": "response_received",
+      "httpStatus": 204,
+      "completedAt": "2026-11-06T10:14:04.903219+00:00",
+      "emptyResult": true
+    },
+    {
+      "url": "https://gptbot.uz/updates/atom.xml",
+      "startedAt": "2026-11-06T10:14:04.904220+00:00",
+      "previousLastSubmitted": "2026-11-06T07:49:56.682Z",
+      "accepted": true,
+      "state": "response_received",
+      "httpStatus": 204,
+      "completedAt": "2026-11-06T10:14:05.265216+00:00",
+      "emptyResult": true
+    }
+  ],
+  "resumes": [
+    {
+      "startedAt": "2026-11-06T10:14:03.920222+00:00",
+      "reconciledUrls": [
+        "https://gptbot.uz/sitemap.xml"
+      ],
+      "unattemptedUrls": [
+        "https://gptbot.uz/sitemap-updates.xml",
+        "https://gptbot.uz/uz/blog/feed.xml",
+        "https://gptbot.uz/updates/atom.xml"
+      ]
+    }
+  ]
+}

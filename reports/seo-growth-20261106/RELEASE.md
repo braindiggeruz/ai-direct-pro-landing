@@ -1,6 +1,6 @@
 # Growth pilot — 6 November 2026
 
-Status: locally verified release candidate; deployment receipts are added only after live acceptance.
+Status: DEPLOYED AND VERIFIED. Production commit `3518a5d57cca33d666e8d8b31340e947b9f5a424`; deployment preview `https://d8996a5b.ai-direct-pro-landing.pages.dev`; guarded release completed at approximately 2026-11-06 10:03 UTC. Public acceptance: 48/48 paths plus the exact release manifest.
 
 Owner authorized autonomous implementation of the 6 November growth roadmap. This is the first product/SEO pilot, not completion of the measurement-dependent 90-day plan. Source branch: `seo/uz-query-recovery-20261106`; predecessor production commit: `6531d35bf0d401e33587eea2d4c959c3e9793a1f`.
 
@@ -48,3 +48,20 @@ Original approved roadmap and backlog: `F:/Claude/seo-growth-20261106/ROADMAP.md
 Build only with `npm run build:production`, then `DR_ROOT=F:/Claude/gptbot-snippets-translator-20261024` and `python F:/Claude/gptbot-tools/deploy_runner.py check|deploy`. No raw Pages upload, no force-push. Verify manifest, exact allowed edge transformations, protected pages, new files/MIME/noindex and live browser behavior before calling the release complete.
 
 If a regression occurs, use a targeted revert of this pilot and the same guarded build/release workflow after verifying current production ancestry. Do not reset the repository or overwrite another agent's release. Preserve the existing untracked `docs/seo/research/2026-10-28-new-pages-growth/`.
+
+
+## Production acceptance completed
+
+The guarded deploy checked predecessor ancestry and retained existing product features. Strict live verification passed all 48 paths: nine changed pages, ten protected pages, three derived pages, twenty sample files, five discovery resources and the new converter entry. Exact manifest and full dist hash match; only the pre-reviewed literal Cloudflare email-marker removal/Insights insertion is permitted. Negative controls reject unrelated HTML changes.
+
+On actual HTTPS production, mobile converter conversion and clipboard readback pass, translation direction/script/tone prefill is acknowledged without automatic sending, all six expanded UZ gallery previews load, and both the PPTX sample and PDF template download to the browser's local Downloads folder.
+
+DOCX limitation: the IAB download-event API did not confirm browser saving on either localhost or HTTPS. All three public DOCX URLs nevertheless return the exact verified bytes with the correct MIME and noindex header, and those bytes open in native Word. Browser DOCX save completion remains UNVERIFIED; no unsupported claim of cross-browser download acceptance is made.
+
+Final follow-up renderer checks passed 40 tests (overlap with the earlier 296-test run; counts are not summed as unique tests). Additional live evidence and the native Office proof are in `qa/`.
+
+Google: all four existing sitemap/feed submissions were accepted and confirmed by fresh lastSubmitted readback. The first request succeeded remotely but its local response callback used the wrong arity; it was reconciled from Google's timestamp within the recorded attempt window and was NOT resent. The remaining three were submitted once with the corrected callback. See the exact receipts rather than assuming four recorded HTTP responses. The existing WebSub deployment notifier also received204 for the changed Uzbek RSS and Atom feeds. This is discovery acceptance, not a completed Google recrawl/indexing or evidence of higher rankings.
+
+Dependency audit: three pre-existing high package findings were triaged, not hidden. `image-size`/`pptxgenjs` parser risk is excluded from the current browser mapping and has no server import in this release; Vite findings concern development endpoints. Dependencies and deployed shared bundles are unchanged. A separately tested dependency upgrade remains security maintenance; no blind audit-fix or unsupported all-secure claim.
+
+Next product cycle: measure the released tool cohort; obtain native-language review and GA4 reporting access; then validate five live Studio generations and a source-backed B2B case. Preserve the earlier SEO repair during its post-recrawl observation window. No automatic monitor or outreach was created.
