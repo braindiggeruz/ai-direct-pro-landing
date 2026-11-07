@@ -62,8 +62,9 @@ const declaredVars = (): Map<string, string> => {
 // Telegram account, so approved campaigns must not go out on their own.
 // Preparing and approving campaigns stays available; sending does not.
 const LEAD_RADAR_VARS: Record<string, string> = {
-  LEAD_RADAR_ADMISSION_ENABLED: 'true',
-  LEAD_RADAR_PROCESSING_ENABLED: 'true',
+  // Temporary release pause while 0080–0083 are applied and verified.
+  LEAD_RADAR_ADMISSION_ENABLED: 'false',
+  LEAD_RADAR_PROCESSING_ENABLED: 'false',
   LEAD_RADAR_CONTACT_ENABLED: 'true',
   LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED: 'true',
   LEAD_RADAR_TELEGRAM_TRANSPORT_MODE: 'local_bridge',
