@@ -744,15 +744,26 @@ async function shippedWorkerCampaignRun(overrides: Record<string, string> = {}):
   }
 }
 
-test('the shipped Worker config neither dispatches nor sends an approved running campaign', async () => {
+test('the shipped remote Worker requires scoped credentials; legacy sending still obeys its switch', async () => {
   const shipped = await shippedWorkerCampaignRun();
   assert.deepEqual(shipped.enqueued, []);
   assert.equal(shipped.providerCalls, 0);
   assert.equal(shipped.recipientStatus, 'pending');
 
-  // The same config with only autosend flipped does send, so it is that switch,
-  // not a missing binding, tenant or limit, that holds the campaign back.
-  const flipped = await shippedWorkerCampaignRun({ LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true' });
+  // This fixture has legacy Bridge credentials only. A configured TG Sender
+  // must never silently fall back to them; the complete remote path is covered
+  // by lead-radar-outreach-worker.test.ts. Preserve the legacy pause control.
+  const paused = await shippedWorkerCampaignRun({
+    LEAD_RADAR_TELEGRAM_TRANSPORT_MODE: 'local_bridge',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'false',
+  });
+  assert.deepEqual(paused.enqueued, []);
+  assert.equal(paused.providerCalls, 0);
+  assert.equal(paused.recipientStatus, 'pending');
+  const flipped = await shippedWorkerCampaignRun({
+    LEAD_RADAR_TELEGRAM_TRANSPORT_MODE: 'local_bridge',
+    LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
+  });
   assert.equal(flipped.enqueued.length, 1);
   assert.equal(flipped.providerCalls, 1);
   assert.equal(flipped.recipientStatus, 'sent');
