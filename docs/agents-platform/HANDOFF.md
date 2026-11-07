@@ -1,3 +1,43 @@
+# Current handoff — SEO implementation · 07.11.2026
+
+## 1. State
+Validated candidate on `codex/seo-growth-20261107`. Owner authorized autonomous implementation. Final production build, guarded deploy and live checks are the next operation; no public release claimed yet. Current evidence: `reports/seo-growth-20261107/`.
+
+## 2. Delivered
+Remove the empty GTM loader from four template locations; retain direct GA4/Meta/Yandex. Correct six existing content sources, add three useful contextual links, and unify two offer publisher schema nodes with the current global publisher.
+
+## 3. Source baseline
+Source `421ac0dfb5f07c6ddf568cb77362f204faac8cc2`; live predecessor `3518a5d57cca33d666e8d8b31340e947b9f5a424`. Immutable predecessor dist at sibling `gptbot-seo-evidence-20261107/before-dist`.
+
+## 4. Architecture
+Existing templates and content models reused. No changes to algorithms, payment, webhook, DB, API behavior or shared product UI assets. Direct analytics queue, delays, SPA events and privacy guards retained.
+
+## 5. SEO protection
+No title, H1, URL, canonical or hreflang edits. Existing ten-page protection baseline retained. GTM removal changes raw HTML, so do not claim byte-identical protected HTML. Full artifact comparison checks 329 metadata contracts and JS/CSS after Studio builds.
+
+## 6. Verification
+485 targeted tests pass, zero skips after build:fast. Independent analytics and content/schema reviews pass. Complete final typechecks, scoped lint, SEO audit/protection/budget checks and full artifact comparison before deploying; retain exact results in the release report.
+
+## 7. Analytics boundary
+Before browser trace proves two same-ID gtag library loads, the second initiated by the empty GTM. This is not evidence of duplicate logical events. After release verify one library plus successful GA transport; reporting and payment reconciliation are separate.
+
+## 8. Content and legal boundary
+Current alphabet 26 letters plus Sh/Ch/Ng; tutuq separate. Future April 2027 law not applied. Slayd guide distinguishes text reply and presentation mode. No invented case, new quota, pricing or outcome promise. Publisher schema uses existing approved global facts; visible offers and seller requisites remain exact.
+
+## 9. Release command
+Set `DR_ROOT=F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/gptbot-seo-implementation-20261107`; run `npm run build:production`, then `python F:/Claude/gptbot-tools/deploy_runner.py check|deploy`. Runner default checkout is stale. Studio dependencies in this worktree are owned, not a shared junction.
+
+## 10. Acceptance and rollback
+Require fresh production ancestry, matching deployed commit/manifest, content/schema and browser checks, protected contracts, one GA loader and accepted transport. Rollback only by scoped revert and guarded release after checking current production ancestry.
+
+## 11. Preserved work
+Original checkout and its unrelated untracked research are untouched. No destructive Git, push, credential output, real lead submissions or human outreach. Click remains owner-deferred.
+
+## 12. Next
+Complete release and truthful live readback; submit changed pages through existing discovery mechanisms. Compare completed search windows after recrawl. Field CWV uses a rolling window; no immediate ranking or traffic multiplier is claimed.
+
+---
+
 # Current handoff — growth pilot · 06.11.2026
 
 ## 1. State

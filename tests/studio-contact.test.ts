@@ -303,7 +303,7 @@ test('the contact card offers the Telegram first and the e-mail; the phone only 
   assert.ok(contactCardHtml({ url: PROTECTED_PATHS[0], locale: 'uz', label: 'x' }).includes(`href="${OWNER}"`));
 });
 
-test('the approved offer edition renders the card, footer and Organization as approved: phone and e-mail, no Telegram', () => {
+test('the approved offer edition keeps its visible card and footer contacts: phone and e-mail, no Telegram', () => {
   const offers = PAGES.filter(({ page }) => isOffer(page)).map(({ page }) => page);
   assert.deepEqual(offers.map((page) => page.url).sort(), ['/ru/oferta/', '/uz/oferta/']);
   for (const page of offers) {
@@ -314,14 +314,11 @@ test('the approved offer edition renders the card, footer and Organization as ap
     assert.ok(card.includes(page.locale === 'uz' ? 'Qo‘ng‘iroq qiling yoki yozing' : 'Позвоните или напишите'), page.url);
     assert.doesNotMatch(card, /t\.me|data-contact/, page.url);
   }
-  const org = buildOrganizationLd(site as unknown as GlobalSEO, OFFER_EDITION_CONTACT);
-  assert.equal(org.telephone, STUDIO_PHONE);
-  assert.deepEqual(org.contactPoint, { '@type': 'ContactPoint', contactType: 'sales', telephone: STUDIO_PHONE, email: STUDIO_EMAIL, availableLanguage: ['Russian', 'Uzbek'] });
 });
 
-test('the studio address: site.json everywhere, the approved offer edition keeps the address it was published with', () => {
+test('the studio address: the offer keeps its historical visible footer while publisher metadata uses site.json', () => {
   // Owner answer of 26.10.2026: the studio is at «Kichik Xalqa Yo‘li 57», the
-  // address of the Google Business card. The offer edition stays byte for byte.
+  // address of the Google Business card. The offer's visible text stays byte for byte.
   const global = site as unknown as GlobalSEO;
   assert.equal(global.address, 'Kichik Xalqa Yo‘li 57, Toshkent, Uzbekistan');
   assert.equal(pageNap({}, global), global);
@@ -330,11 +327,11 @@ test('the studio address: site.json everywhere, the approved offer edition keeps
   for (const page of offers) {
     const nap = pageNap(page, global);
     assert.equal(nap.address, OFFER_EDITION_NAP.address, page.url);
-    const org = buildOrganizationLd(nap, OFFER_EDITION_CONTACT);
-    assert.deepEqual(org.address, { '@type': 'PostalAddress', streetAddress: 'Yahyo Gulyamov ko‘chasi 35', addressLocality: 'Toshkent', addressCountry: 'UZ' }, page.url);
-    assert.deepEqual(org.geo, { '@type': 'GeoCoordinates', latitude: 41.334, longitude: 69.286 }, page.url);
+    assert.equal(nap.streetAddress, 'Yahyo Gulyamov ko‘chasi 35', page.url);
+    assert.deepEqual(nap.geo, { latitude: 41.334, longitude: 69.286 }, page.url);
   }
   const org = buildOrganizationLd(global);
+  assert.deepEqual(org.address, { '@type': 'PostalAddress', streetAddress: 'Kichik Xalqa Yo‘li 57', addressLocality: 'Toshkent', addressCountry: 'UZ' });
   assert.deepEqual(org.geo, { '@type': 'GeoCoordinates', latitude: 41.3364, longitude: 69.2723 });
 });
 
@@ -530,10 +527,10 @@ test('built site: every page with a contact surface links the studio Telegram wi
   assert.ok(pages > 250, `only ${pages} pages with a contact surface`);
 });
 
-test('built site: JSON-LD carries no telephone outside the offers; Organization and Boss Digital point to the Telegram', { skip: !built && 'no dist/ build present' }, () => {
+test('built site: JSON-LD carries no telephone; Organization including offers and Boss Digital point to the Telegram', { skip: !built && 'no dist/ build present' }, () => {
   let organizations = 0;
   for (const file of listFiles('dist', /\.html$/)) {
-    if (OFFERS.has(file) || MARKET.has(file)) continue;
+    if (MARKET.has(file)) continue;
     for (const [, json] of read(file).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
       assert.ok(!json.includes('"telephone"'), file);
       const graph = (JSON.parse(json)['@graph'] ?? [JSON.parse(json)]) as Array<Record<string, unknown>>;

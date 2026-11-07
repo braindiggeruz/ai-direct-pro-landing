@@ -17,11 +17,11 @@
     "prezentatsiya tayyorlash ai",
     "slayd tayyorlash sun’iy intellekt"
   ],
-  "intro": "Slayd tayyorlashning eng ko‘p vaqt oladigan qismi — reja va har bir slayd uchun qisqa matn. GPTBot.uz chati shu qismni tezlashtiradi, lekin faylni yig‘ish va bezash, faktlarni tekshirish — sizning ishingiz. Quyida 5 qadam, slaydlar soni, 6×6 qoidasi, ma’ruza matni, tayyor so‘rovlar va chiqishdan oldin tekshiruv ro‘yxati.",
+  "intro": "Slayd tayyorlashning eng ko‘p vaqt oladigan qismi — reja va har bir slayd uchun qisqa matn. GPTBot.uz chatining matnli javobi shu qismni tezlashtiradi. Bu qo‘llanmada faylni o‘zingiz yig‘ish va bezash, faktlarni tekshirish tartibini ko‘ramiz: 5 qadam, slaydlar soni, 6×6 qoidasi, ma’ruza matni, tayyor so‘rovlar va chiqishdan oldin tekshiruv ro‘yxati.",
   "body": [
     {
       "type": "linkp",
-      "text": "Qisqa javob: slayd (prezentatsiya, taqdimot) 5 qadamda tayyorlanadi — mavzu, reja, slayd matni, ma’ruza matni va bezash. GPTBot.uz AI chati reja va matnni o‘zbek tilida yozadi, fayl yaratmaydi. Tayyor .pptx qoralamasi kerak bo‘lsa — {tool} sahifasi: mavzuni yozasiz, 6 slaydgacha fayl bepul yig‘iladi, keyin uni PowerPoint, Google Slides yoki Canva’da tekshirib, o‘zingiz to‘ldirasiz.",
+      "text": "Qisqa javob: slayd (prezentatsiya, taqdimot) 5 qadamda tayyorlanadi — mavzu, reja, slayd matni, ma’ruza matni va bezash. GPTBot.uz AI chatining oddiy matnli javobida reja va matnni o‘zbek tilida olasiz. PPTX qoralamasi uchun chatdagi alohida taqdimot rejimini yoki {tool} sahifasini oching. Ushbu qo‘llanmada reja va slayd matnini o‘zingiz tayyorlash, faylni PowerPoint, Google Slides yoki Canva’da yig‘ish hamda tekshirish tartibi ko‘rsatilgan.",
       "links": [
         {
           "token": "tool",
@@ -75,14 +75,14 @@
           "Qaysi rasm, sxema yoki grafik mos kelishini yozib beradi"
         ],
         [
-          ".pptx yoki PDF fayl",
-          "Yo‘q",
-          "Chat fayl yaratmaydi; tayyor .pptx qoralamasi — Taqdimot AI sahifasida"
+          "PPTX fayl",
+          "Alohida taqdimot rejimida",
+          "Oddiy matnli javob reja va matn beradi. Chatdagi taqdimot rejimi yoki Taqdimot AI esa PPTX qoralamasini yaratadi; tayyor faylni ochib tekshiring"
         ],
         [
           "Dizayn va fon",
-          "Yo‘q",
-          "Dasturdagi tayyor shablondan foydalaning"
+          "Tanlangan usulga bog‘liq",
+          "Qo‘lda yig‘ishda dasturdagi shablonni tanlang. Taqdimot rejimida yaratilgan qoralamaning ko‘rinishini ham tekshiring"
         ],
         [
           "Faktlarni tekshirish",
@@ -93,7 +93,7 @@
     },
     {
       "type": "p",
-      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Chat faqat matn yozadi; bepul limit — jami 3 ta sinov javobi. Shuning uchun so‘rovlarni oldindan rejalashtiring: birinchi xabarda mavzu, kim oldida gapirishingiz va chiqish vaqtini birdaniga yozsangiz, 10 slaydli ish uchun 4–5 ta xabar yetadi — reja, 1–5-slaydlar matni, 6–10-slaydlar matni va ma’ruza matni (kerak bo‘lsa, ikki qismda). Chat avval savol bersa, javobingiz yana bitta xabar bo‘ladi. Uch sinov javobidan keyingi matnli suhbat uchun AI paketi kerak; taqdimot fayli uchun Studio paketi alohida."
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI mahsuloti emas. Reja va matn uchun oddiy matnli suhbatdan, PPTX qoralamasi uchun alohida taqdimot rejimidan foydalaning. Birinchi so‘rovda mavzu, tinglovchilar, chiqish vaqti va o‘qituvchi talabini yozing; keyin javobni kerakli joylarda aniqlashtiring. Matnli chat va taqdimot rejimining limitlari hamda paketlari alohida: amaldagi shartlar tegishli oynada ko‘rsatiladi."
     },
     {
       "type": "figure",
@@ -104,7 +104,7 @@
       "width": 1200,
       "height": 630,
       "loading": "lazy",
-      "caption": "«AI-chatni ochish» tugmasi GPTBot.uz chatini shu tayyor so‘rov bilan ochadi: uni tahrirlab, o‘zingiz yuborasiz. Chat reja va matn yozadi; tayyor .pptx qoralamasi — Taqdimot AI sahifasida."
+      "caption": "«AI-chatni ochish» tugmasi GPTBot.uz chatini shu tayyor so‘rov bilan ochadi: uni tahrirlab, o‘zingiz yuborasiz. Oddiy matnli javobda reja va matn olasiz; PPTX qoralamasi chatdagi alohida taqdimot rejimida yoki Taqdimot AI sahifasida yaratiladi."
     },
     {
       "type": "h2",
@@ -190,6 +190,22 @@
       "text": "AI’dan ma’ruza matnini alohida so‘rang: «Har bir slayd uchun 3–5 gapdan iborat, 1 daqiqalik ma’ruza matnini sodda tilda yoz». Keyin uni ovoz chiqarib o‘qing va o‘zingizga xos so‘zlar bilan qayta yozing: o‘qituvchi savol berganda aynan shu tayyorgarlik yordam beradi."
     },
     {
+      "type": "p",
+      "text": "Tahririy namuna — «Suvni tejash». Quyidagi bitta slayd va ma’ruzachi eslatmasi matnni qanday ajratishni ko‘rsatadi; bu tayyor tadqiqot yoki tekshirilgan statistik ma’lumot emas. Slayd sarlavhasi: «Suvni tejashni kundalik odatdan boshlang». Slaydga yoziladigan bandlar:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Keraksiz oqayotgan jo‘mrakni yoping.",
+        "Suv sizishini sezsangiz, kattalarga ayting.",
+        "Idish yuvishda suvni behuda oqizmang."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ma’ruzachi eslatmasi namunasi: «Suvni tejash uchun kundalik odatlarimizga e’tibor beraylik. Masalan, suvdan foydalanmayotganda jo‘mrakni yopishimiz mumkin. Suv sizayotganini ko‘rsak, uni tuzatish uchun kattalarga aytamiz. Siz uyda yoki maktabda yana qanday odatni o‘zgartirishni taklif qilasiz?» Bu gaplar slaydga to‘liq ko‘chirilmaydi: ularni Notes maydoniga yozib, chiqishdan oldin ovoz chiqarib mashq qiling."
+    },
+    {
       "type": "h2",
       "id": "sorovlar",
       "text": "Tayyor so‘rov namunalari: maktab, talaba va ish taqdimoti"
@@ -254,7 +270,7 @@
     },
     {
       "type": "p",
-      "text": "Matn tayyor bo‘lgach, uni dasturga ko‘chirasiz. Dizaynni GPTBot.uz chatidan kutmang: dasturdagi tayyor shablondan foydalaning, so‘ng matnni slaydma-slayd joylang."
+      "text": "Taqdimotni qo‘lda yig‘ayotgan bo‘lsangiz, tayyor matnni PowerPoint, Google Slides yoki Canva’ga ko‘chiring: shablon tanlang va matnni slaydma-slayd joylang. Alohida taqdimot rejimidan PPTX qoralamasini olgan bo‘lsangiz, faylni ochib, matn, rasmlar va slaydlar joylashuvini tekshiring. Har ikki usulda ham faktlar va topshiriq talablariga moslikni o‘zingiz tekshirasiz."
     },
     {
       "type": "table",
@@ -350,7 +366,7 @@
     },
     {
       "q": "GPTBot.uz chati tayyor .pptx fayl beradimi?",
-      "a": "Chatning o‘zi fayl bermaydi: u reja, slayd matni va ma’ruza matnini yozadi. Tayyor .pptx qoralamasi — Taqdimot AI sahifasida: mavzuni yozasiz, kuniga 1 ta taqdimot (6 slaydgacha, 2 tagacha rasm bilan) bepul. Faylni PowerPoint, Google Slides yoki Canva’da ochib, faktlarni tekshiring va o‘zingiz to‘ldiring."
+      "a": "Oddiy matnli javobda reja, slayd matni va ma’ruza matnini olasiz. PPTX fayl yaratish uchun chatdagi alohida taqdimot rejimini yoki Taqdimot AI sahifasini oching. Taqdimot limitlari va paketlari matnli chatnikidan alohida, amaldagi shartlar shu rejimda ko‘rsatiladi. Yuklab olingan qoralamani PowerPoint, Google Slides yoki Canva’da ochib, faktlar va ko‘rinishini tekshiring."
     },
     {
       "q": "Bir slaydda qancha matn bo‘lishi kerak?",
@@ -422,7 +438,7 @@
   "breadcrumbLabel": "Slayd tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-10-08",
+  "dateModified": "2026-11-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -477,6 +493,6 @@
       "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu har qanday til modeliga, jumladan GPTBot.uz chatiga ham tegishli umumiy xavf; 2026-10-04 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-08T00:00:00.000Z",
+  "updatedAt": "2026-11-07T00:00:00.000Z",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

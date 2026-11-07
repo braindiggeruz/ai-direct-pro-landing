@@ -1,0 +1,87 @@
+{
+  "captured_at": "2026-11-07T02:08:15.903132+00:00",
+  "baseline_commit": "421ac0dfb5f07c6ddf568cb77362f204faac8cc2",
+  "scope": "Local source snapshot before independent organization-schema integration. LF-normalized comparisons. No production measurement or duplicate-event conclusion.",
+  "templates": [
+    {
+      "file": "index.html",
+      "before_sha256_lf": "842fec29700fe815ab20e5db720eca17932e52abc69e790cdcc9b361296fb801",
+      "after_sha256_lf": "f0f595cb894dd2ccad95759bb08ca0f91ac62534f432d3132144d17aa8756030",
+      "only_gtm_and_its_comments_removed": true,
+      "removed_loader_count": 1,
+      "removed_noscript_count": 1,
+      "retained_ga4_templates": 1,
+      "unchanged_inline_scripts": {
+        "ga": "95737c8537f321dd44e9c9e680a16432bb803983ca97131f6d14de7debfbbc7a",
+        "meta": "45432edb7adff8b6752c06bc43b18103c0ac75f3aa806bf3a2f86c7c4ecd965f",
+        "ym": "0a0a788a20975004f006710ce10f27525f04b0b378aa6901cbe4169853150a32"
+      }
+    },
+    {
+      "file": "scripts/prerender.ts",
+      "before_sha256_lf": "7e2d6f4fcf1c83dd2cde7c53addcde298bda1a12efed05ca9b46bf78fb8d217d",
+      "after_sha256_lf": "e1a9c5cdbdf0cfffe3ec426f8ef0cf4736e0199395833edbcd9f1d8c8018ac75",
+      "only_gtm_and_its_comments_removed": true,
+      "removed_loader_count": 1,
+      "removed_noscript_count": 1,
+      "retained_ga4_templates": 1
+    },
+    {
+      "file": "scripts/prerender-blog.ts",
+      "before_sha256_lf": "ec9d633cea2e24bb1bc35c03c9de7fedfe93065897626d302dee97ffc5dc7e1b",
+      "after_sha256_lf": "220b1ca720decb0296835cbb8cf37cd7c50d2f9f926a160de5b73138d2c49b9c",
+      "only_gtm_and_its_comments_removed": true,
+      "removed_loader_count": 2,
+      "removed_noscript_count": 2,
+      "retained_ga4_templates": 2
+    }
+  ],
+  "shared_snippets": {
+    "scripts/analytics-snippet.ts": {
+      "unchanged": true,
+      "sha256_lf": "d2979e9db8ac48780a11aeefc9e398f4d7491df81277bdb078cb3a58aed01fad"
+    },
+    "scripts/analytics-metrika.ts": {
+      "unchanged": true,
+      "sha256_lf": "6123fc28c0819f724a9b8a6f7c6579647b7abaa3995b3bce1edbf7d7cef85aa1"
+    },
+    "scripts/attribution-snippet.ts": {
+      "unchanged": true,
+      "sha256_lf": "e97f4b0a8804669855c4a04220f4954fe5af08f5c2f574a0611b6c18fc2c9789"
+    }
+  },
+  "runtime_regressions": [
+    "existing dataLayer retained",
+    "GA4 config G-V87YFL96C7 queued synchronously",
+    "initial SEO event queued before library",
+    "load +1000ms and snippet +3000ms idle scheduling",
+    "requestIdleCallback timeout 3000ms; fallback 200ms",
+    "interaction delay 600ms",
+    "one gtag.js insertion across triggers",
+    "SPA pushState/replaceState/popstate page_view queue",
+    "localhost and admin/API suppression"
+  ],
+  "validation": {
+    "targeted_files": [
+      "tests/seo-analytics-privacy.test.ts",
+      "tests/yandex-metrika.test.ts",
+      "tests/cta-analytics.test.ts",
+      "tests/ga4-attribution-boundary.test.ts",
+      "tests/lead-capture-templates.test.ts"
+    ],
+    "initial_run": {
+      "pass": 160,
+      "fail": 1,
+      "skipped": 5,
+      "failure": "new source assertion omitted existing interaction 600ms delay; runtime tests passed"
+    },
+    "corrected_test_rerun": {
+      "file": "tests/seo-analytics-privacy.test.ts",
+      "pass": 34,
+      "fail": 0,
+      "skipped": 0
+    },
+    "skip_reason": "Five built-page lead-template assertions require dist; build is coordinated by root.",
+    "build_deploy": "not run by this worker"
+  }
+}

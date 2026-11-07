@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
+import vm from 'node:vm';
 
 import { ANALYTICS_HEAD } from '../scripts/analytics-snippet';
 import { STUDIO_CONTACT_ATTR } from '../src/shared/studio-contact';
@@ -186,12 +187,14 @@ test('every inline analytics block refuses loopback hosts', () => {
       }
     }
   }
-  assert.ok(checked >= 5, `expected at least 5 guarded analytics blocks, checked ${checked}`);
+  // Direct GA4 has two copies; the homepage also carries the Meta Pixel.
+  // Prerender templates interpolate the shared GA4 block rather than inlining it.
+  assert.equal(checked, 3, `expected two GA4 blocks and the homepage Pixel, checked ${checked}`);
 });
 
 test('the host guard is a loopback denylist, not a single-host allowlist', () => {
   // An allowlist would silently switch production analytics off the day the
-  // domain changes. Metrika deliberately uses one; GA/Pixel/GTM must not.
+  // domain changes. Metrika deliberately uses one; GA/Pixel must not.
   const sources = [
     ANALYTICS_HEAD,
     fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8'),
@@ -333,38 +336,164 @@ test('a visitor who never interacts is still measured within ten seconds', () =>
 });
 
 test('every copy of the Google tag loaders is bounded the same way', () => {
-  // The block is inlined by hand in four places: the SPA shell, both prerender
-  // scripts, and scripts/analytics-snippet.ts above. On 2026-08-26 they had
-  // drifted - index.html said 32 000 ms for gtag and 30 000 for GTM, and both
-  // prerender scripts still said 30 000 for GTM on every SEO landing, which is
-  // precisely where the organic traffic lands. Nothing pointed the copies at
-  // each other, so this does.
-  //
-  // The Meta pixel is deliberately outside this: it is marketing, not
-  // measurement, and loading it late costs nothing that this file is about.
-  const sources = ['index.html', 'scripts/prerender.ts', 'scripts/prerender-blog.ts'];
-  let blocksChecked = 0;
-
-  for (const source of sources) {
-    const text = fs.readFileSync(path.join(process.cwd(), source), 'utf8');
-    for (const tag of ['gtm', 'ga']) {
-      const opener = `<script data-tag="${tag}">`;
-      for (let at = text.indexOf(opener); at !== -1; at = text.indexOf(opener, at + 1)) {
-        const block = text.slice(at, text.indexOf('</script>', at));
-        const delays = passiveDelays(block);
-        if (delays.length === 0) continue;
-        blocksChecked += 1;
-        for (const ms of delays) {
-          assert.ok(
-            ms <= MAX_PASSIVE_DELAY_MS,
-            `${source} defers the ${tag} tag ${ms} ms for a visitor who never interacts`,
-          );
-        }
-      }
-    }
+  // The empty GTM container is gone. Both direct GA4 copies retain the same
+  // passive bounds; both prerender scripts import the shared copy.
+  for (const [source, block] of [
+    ['index.html', indexHtmlAnalyticsBlock()],
+    ['scripts/analytics-snippet.ts', ANALYTICS_HEAD],
+  ]) {
+    assert.deepEqual(passiveDelays(block), [600, 1000, 1000, 3000], `${source} changed the interaction or passive GA4 bounds`);
   }
-
-  // A typo in a filename or a renamed data-tag would otherwise make this test
-  // pass by checking nothing at all.
-  assert.ok(blocksChecked >= 4, `only ${blocksChecked} loader blocks were found to check`);
 });
+
+test('all public templates retain direct GA4 without the empty GTM container', () => {
+  for (const [source, documents] of [
+    ['index.html', 1], ['scripts/prerender.ts', 1], ['scripts/prerender-blog.ts', 2],
+  ] as const) {
+    const text = fs.readFileSync(path.join(process.cwd(), source), 'utf8');
+    assert.doesNotMatch(text, /data-tag="gtm"|GTM-NLR4WFX8|googletagmanager\.com\/(?:gtm\.js|ns\.html)/, source);
+    const gaCopies = source === 'index.html'
+      ? (text.match(/<script data-tag="ga">/g) ?? []).length
+      : (text.match(/\$\{ANALYTICS_HEAD\}/g) ?? []).length;
+    assert.equal(gaCopies, documents, `${source} must provide GA4 once per document`);
+    if (source !== 'index.html') assert.match(text, /import \{ ANALYTICS_HEAD \} from '\.\/analytics-snippet'/);
+  }
+});
+
+type Callback = () => void;
+
+function gaHarness(script: string, options: { readyState?: string; idle?: boolean; hostname?: string; pathname?: string } = {}) {
+  let now = 0;
+  const timers: { at: number; callback: Callback }[] = [];
+  const idle: { callback: Callback; timeout: number }[] = [];
+  const scripts: { src?: string; async?: boolean }[] = [];
+  const listeners = new Map<string, Set<Callback>>();
+  const existing = { event: 'existing_event' };
+  const queue: unknown[] = [existing];
+  const location = { hostname: options.hostname ?? 'gptbot.uz', pathname: options.pathname ?? '/ru/telegram-bot/' };
+  const schedule = (callback: Callback, delay: number) => timers.push({ at: now + delay, callback });
+  const listen = (type: string, callback: Callback) => {
+    if (!listeners.has(type)) listeners.set(type, new Set());
+    listeners.get(type)!.add(callback);
+  };
+  const history = {
+    pushState(_state: unknown, _unused: string, url: string) { location.pathname = url; return 'push-result'; },
+    replaceState(_state: unknown, _unused: string, url: string) { location.pathname = url; return 'replace-result'; },
+  };
+  const context: Record<string, unknown> = {
+    location, history, dataLayer: queue, setTimeout: schedule,
+    addEventListener: listen,
+    removeEventListener: (type: string, callback: Callback) => listeners.get(type)?.delete(callback),
+    document: {
+      readyState: options.readyState ?? 'complete', title: 'Test page',
+      head: { appendChild: (script: { src?: string; async?: boolean }) => scripts.push(script) },
+      createElement: () => ({}), querySelectorAll: () => [], addEventListener: listen,
+    },
+  };
+  context.window = context;
+  if (options.idle !== false) {
+    context.requestIdleCallback = (callback: Callback, settings: { timeout: number }) => idle.push({ callback, timeout: settings.timeout });
+  }
+  vm.runInNewContext(script, context);
+  return {
+    context, queue, existing, location, history, scripts, idle,
+    events: () => queue.slice(1).map(entry => Array.from(entry as ArrayLike<unknown>)).filter(entry => entry[0] === 'event'),
+    fire: (type: string) => [...(listeners.get(type) ?? [])].forEach(callback => callback()),
+    flushIdle: () => idle.splice(0).forEach(({ callback }) => callback()),
+    advance: (ms: number) => {
+      const end = now + ms;
+      while (true) {
+        timers.sort((a, b) => a.at - b.at);
+        if (!timers[0] || timers[0].at > end) break;
+        const timer = timers.shift()!;
+        now = timer.at;
+        timer.callback();
+      }
+      now = end;
+    },
+  };
+}
+
+const sharedGaScript = inlineAnalyticsBlocks(ANALYTICS_HEAD).find(({ tag }) => tag === 'ga')!.body;
+for (const [label, script] of [['homepage', indexHtmlAnalyticsBlock()], ['prerender', sharedGaScript]]) {
+  test(`${label}: GA4 queues its config and initial landing event before the library loads`, () => {
+    const h = gaHarness(script);
+    assert.equal(h.context.dataLayer, h.queue, 'preserve the existing shared queue');
+    assert.equal(h.queue[0], h.existing);
+    const calls = h.queue.slice(1).map(entry => Array.from(entry as ArrayLike<unknown>));
+    assert.deepEqual(calls.map(call => call[0]), ['js', 'config', 'event']);
+    assert.deepEqual(calls[1], ['config', 'G-V87YFL96C7']);
+    assert.equal(calls[2][1], 'seo_landing_view');
+    assert.equal(h.scripts.length, 0);
+  });
+
+  test(`${label}: load and passive fallbacks retain 1000/3000 ms scheduling and load GA4 only once`, () => {
+    const h = gaHarness(script, { readyState: 'loading' });
+    h.advance(100);
+    h.fire('load');
+    h.advance(999);
+    assert.equal(h.idle.length, 0);
+    h.advance(1);
+    assert.deepEqual(h.idle.map(item => item.timeout), [3000]);
+    h.flushIdle();
+    assert.equal(h.scripts.length, 1);
+    assert.equal(h.scripts[0].src, 'https://www.googletagmanager.com/gtag/js?id=G-V87YFL96C7');
+    assert.equal(h.scripts[0].async, true);
+    h.advance(1900);
+    h.flushIdle();
+    h.fire('pointerdown');
+    h.advance(600);
+    h.flushIdle();
+    assert.equal(h.scripts.length, 1, 'later interaction and fallback must not insert another library');
+
+    const slowPage = gaHarness(script, { readyState: 'loading', idle: false });
+    slowPage.advance(2999);
+    assert.equal(slowPage.scripts.length, 0);
+    slowPage.advance(200);
+    assert.equal(slowPage.scripts.length, 0, 'fallback retains its 200 ms scheduling delay');
+    slowPage.advance(1);
+    assert.equal(slowPage.scripts.length, 1, 'GA4 loads even when the load event never arrives');
+  });
+
+  test(`${label}: an interaction retains its 600 ms delay before the GA4 idle request`, () => {
+    const h = gaHarness(script, { readyState: 'loading' });
+    h.fire('scroll');
+    h.advance(599);
+    assert.equal(h.idle.length, 0);
+    h.advance(1);
+    assert.equal(h.idle.length, 1);
+    h.flushIdle();
+    assert.equal(h.scripts.length, 1);
+  });
+
+  test(`${label}: SPA navigation queues one page_view per changed path`, () => {
+    const h = gaHarness(script);
+    assert.equal(h.history.pushState({}, '', '/uz/telegram-bot/'), 'push-result');
+    assert.equal(h.events().filter(event => event[1] === 'page_view').length, 0);
+    h.advance(0);
+    h.history.replaceState({}, '', '/uz/telegram-bot/');
+    h.advance(0);
+    assert.equal(h.history.replaceState({}, '', '/uz/ai-bot/'), 'replace-result');
+    h.advance(0);
+    h.location.pathname = '/ru/telegram-bot/';
+    h.fire('popstate');
+    h.fire('popstate');
+    const views = h.events().filter(event => event[1] === 'page_view');
+    assert.deepEqual(views.map(event => (event[2] as { page_path: string }).page_path), [
+      '/uz/telegram-bot/', '/uz/ai-bot/', '/ru/telegram-bot/',
+    ]);
+    assert.equal(h.scripts.length, 0, 'SPA events queue before the library arrives');
+  });
+
+  test(`${label}: local and admin traffic neither queues nor loads GA4`, () => {
+    for (const options of [{ hostname: 'localhost' }, { hostname: '127.0.0.1' }, { pathname: '/admin-tools/' }, { pathname: '/api/test' }]) {
+      const h = gaHarness(script, options);
+      h.fire('load');
+      h.fire('scroll');
+      h.advance(10_000);
+      h.flushIdle();
+      assert.deepEqual(h.queue, [h.existing]);
+      assert.equal(h.scripts.length, 0);
+    }
+  });
+}

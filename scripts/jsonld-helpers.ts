@@ -37,9 +37,10 @@ const LANGUAGE_NAMES: Record<string, string> = { ru: 'Russian', uz: 'Uzbek', en:
 
 /**
  * The Organization node. `contact` names the public channels: by default the
- * ones content/global/site.json publishes (`phonePublic`, `studioTelegram`);
- * the approved offer edition passes its own (scripts/contact-card.ts
- * OFFER_EDITION_CONTACT) so its page stays byte for byte as approved.
+ * ones content/global/site.json publishes (`phonePublic`, `studioTelegram`).
+ * Every page, including an archived offer edition, uses the current global
+ * publisher identity. Historical document contacts remain in visible markup
+ * (2026-11-07 decision: docs/seo/implementation/2026-11-07-growth/publisher-schema.md).
  */
 export function buildOrganizationLd(
   global: GlobalSEO,
@@ -99,7 +100,7 @@ export function buildOrganizationLd(
   // point's url, and telephone only while the phone is public. Owner order of
   // 26.10.2026: visitors write, they do not call, so neither the point nor the
   // Organization carries a telephone and the point is 'customer support'.
-  // The frozen offer edition keeps its phone-only 'sales' point as approved.
+  // Historical offer contacts belong to the document, not this shared #org.
   const langCodes = global.availableLanguage && global.availableLanguage.length > 0 ? global.availableLanguage : ['ru', 'uz'];
   const email = global.email?.trim();
   const telephone = contact.phone && global.phone ? global.phone : '';

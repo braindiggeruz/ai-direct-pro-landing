@@ -427,7 +427,6 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publ
 <html lang="${lang}">
 <head>
 <meta charset="UTF-8" />
-<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,1000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,1000)});}setTimeout(idleLoad,3000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
 <title>${escapeText(a.title)}</title>
@@ -474,7 +473,6 @@ ${METRIKA_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased${showsStickyCta(a) ? ' pb-24 lg:pb-0' : ''}">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${lang === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
-<noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 ${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
@@ -601,7 +599,6 @@ function renderBlogIndex(articles: BlogArticle[], locale: 'ru' | 'uz', global: G
 <html lang="${locale}">
 <head>
 <meta charset="UTF-8" />
-<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,1000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,1000)});}setTimeout(idleLoad,3000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#05070D" />
 <title>${escapeText(t.blogIndexTitle)}</title>
@@ -645,7 +642,6 @@ ${METRIKA_HEAD}
 </head>
 <body class="bg-bg-base text-white antialiased">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
-<noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 ${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">

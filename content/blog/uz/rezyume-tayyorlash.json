@@ -221,6 +221,17 @@
     },
     {
       "type": "linkp",
+      "text": "Amaliyotdagi ishlaringiz haqida rahbarning bahosi so‘ralsa, {tavsifnoma}dan foydalaning. Rezyumeda tajribangizni o‘zingiz bayon qilasiz; tavsifnomada esa amaliyot rahbari kuzatgan ishlar va natijalarni tasdiqlaydi. Qoralamani imzolovchi rahbar tekshirishi kerak.",
+      "links": [
+        {
+          "token": "tavsifnoma",
+          "target": "/uz/blog/tavsifnoma-namuna/",
+          "anchor": "amaliyotchi talaba uchun tavsifnoma namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "O‘qish davridagi boshqa topshiriqlar uchun ham alohida qo‘llanmalar bor: {slayd}, {referat} hamda {insho}.",
       "links": [
         {
@@ -470,7 +481,7 @@
   "breadcrumbLabel": "Rezyume tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-11-06",
+  "dateModified": "2026-11-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -485,6 +496,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rezyumeda bu siz aytmagan tajriba, raqam yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-11-06",
+  "updatedAt": "2026-11-07",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

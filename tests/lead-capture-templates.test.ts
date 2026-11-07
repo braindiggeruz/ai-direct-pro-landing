@@ -244,7 +244,7 @@ test('every public template carries the first-touch block exactly once per docum
   for (const [file, documents] of [['scripts/prerender.ts', 1], ['scripts/prerender-blog.ts', 2]] as const) {
     const source = read(file);
     assert.equal((source.match(/\$\{FIRST_TOUCH_SCRIPT\}/g) ?? []).length, documents, file);
-    assert.equal((source.match(/<script data-tag="gtm">/g) ?? []).length, documents, file);
+    assert.equal((source.match(/\$\{ANALYTICS_HEAD\}/g) ?? []).length, documents, file);
   }
 });
 

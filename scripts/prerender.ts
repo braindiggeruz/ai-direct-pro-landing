@@ -390,7 +390,7 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   // WebSite in its schemaTypes — they are the entity backbone and the rest of
   // the graph references them via @id. We never duplicate or shorten them.
   if (types.has('Organization')) {
-    graph.push(buildOrganizationLd(pageNap(page, global), pageContact(page)));
+    graph.push(buildOrganizationLd(global));
     // Named expert Person rides along with the Organization node — E-E-A-T
     // anchor referenced by Article.author on blog pages.
     const authorPerson = buildAuthorPersonLd(global);
@@ -1040,7 +1040,6 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
 <html lang="${page.locale === 'uz' ? 'uz' : 'ru'}">
 <head>
 <meta charset="UTF-8" />
-<script data-tag="gtm">(function(w,d,s,l,i){var h=w.location.hostname||'';if(h==='localhost'||h==='127.0.0.1'||h==='::1'||h==='[::1]'||h==='0.0.0.0'||h.slice(-6)==='.local')return;w[l]=w[l]||[];var started=false;function loadGTM(){if(started)return;started=true;w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}function idleLoad(){if('requestIdleCallback' in w){w.requestIdleCallback(loadGTM,{timeout:3000});}else{setTimeout(loadGTM,200);}}var evs=['scroll','pointerdown','keydown','touchstart','mousemove'];function onInt(){evs.forEach(function(e){w.removeEventListener(e,onInt)});idleLoad();}evs.forEach(function(e){w.addEventListener(e,onInt,{passive:true,once:true})});if(d.readyState==='complete'){setTimeout(idleLoad,1000);}else{w.addEventListener('load',function(){setTimeout(idleLoad,1000)});}setTimeout(idleLoad,3000);})(window,document,'script','dataLayer','GTM-NLR4WFX8');</script>
 ${page.pageType === 'gpt-chat'
   // The chat (UX plan REV-4): an Android keyboard shrinks the page as Telegram
   // does, so the header stays and the composer sits on the keyboard; the
@@ -1098,7 +1097,6 @@ ${METRIKA_HEAD}
 </head>
 <body class="${marketVariant ? 'market-page' : 'bg-bg-base text-white'} antialiased ${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta && !marketVariant ? 'pb-24 lg:pb-0' : ''}">
 <a href="${isToolFirstPage(page) ? '#tool-first' : '#main'}" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-lg focus:border focus:border-black">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
-<noscript data-tag="gtm"><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLR4WFX8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 ${METRIKA_NOSCRIPT}
 ${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : renderLandingHeader(page, global, altRu, altUz)}
 

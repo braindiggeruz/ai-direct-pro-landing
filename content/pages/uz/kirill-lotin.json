@@ -103,8 +103,15 @@
       "text": "O‘zbek lotin alifbosi va kirill yozuvi: jadval"
     },
     {
-      "type": "p",
-      "text": "O‘zbek tilining rasmiy alifbosi — lotin yozuvi: u 1993-yilda joriy etilgan, amaldagi tahriri 1995-yilda qabul qilingan. Unda 29 ta belgi bor: c va w dan tashqari 24 ta lotin harfi, O‘ va G‘ harflari, Sh va Ch harf birikmalari hamda tutuq belgisi — ’. O‘zbek kirill alifbosida 35 ta harf bor. E’tibor bering: h — bu ҳ, x esa — х."
+      "type": "linkp",
+      "text": "Lotin yozuviga asoslangan o‘zbek alifbosi 1993-yilda joriy etilgan. 2026-yil 7-noyabrda amalda bo‘lgan {source}ga ko‘ra, alifbo 26 ta harf va 3 ta harf birikmasidan iborat: Sh, Ch va Ng. Tutuq belgisi alohida belgi bo‘lib, shu harflar va harf birikmalari soniga kiritilmaydi. Quyidagi jadvalda u alifbodan keyin alohida ko‘rsatilgan. O‘zbek kirill alifbosida 35 ta harf bor. E’tibor bering: h — bu ҳ, x esa — х.",
+      "links": [
+        {
+          "token": "source",
+          "target": "https://www.lex.uz/docs/-112286",
+          "anchor": "alifbo haqidagi qonunning 1-moddasi"
+        }
+      ]
     },
     {
       "type": "table",
@@ -255,6 +262,11 @@
           "choy — чой"
         ],
         [
+          "Ng ng",
+          "Нг нг",
+          "tong — тонг"
+        ],
+        [
           "’",
           "Ъ ъ",
           "san’at — санъат"
@@ -283,7 +295,7 @@
     },
     {
       "type": "p",
-      "text": "O‘ va g‘ harflarida lotin harfidan keyin ochiluvchi yakka qo‘shtirnoqqa o‘xshash ‘ belgisi turadi: o‘g‘il, g‘isht, o‘qituvchi. Tutuq belgisi boshqa belgi — ’ bilan yoziladi va kirill yozuvidagi ъ o‘rnida harflar orasiga qo‘yiladi: san’at, ma’no, ta’lim. O‘ va g‘ harflarini tutuq belgisi bilan yozish xato: bu ikki belgining vazifasi har xil. Klaviaturada odatda oddiy apostrof ' teriladi — o‘giruvchi uni ham, boshqa o‘xshash belgilarni ham qabul qiladi va kerakli belgiga almashtiradi."
+      "text": "Ushbu o‘giruvchi o‘ va g‘ harflarida ‘ (U+2018) belgisini ishlatadi: o‘g‘il, g‘isht, o‘qituvchi. Tutuq uchun esa ’ (U+2019) ishlatiladi: san’at, ma’no, ta’lim. Bu o‘xshash belgilarni vosita ichida bir xil ko‘rinishga keltirish usuli; qonunda belgilangan umumiy Unicode talabi emas. O‘ va g‘ tarkibidagi belgi harfning bir qismi, tutuq esa alohida vazifa bajaradi. Oddiy apostrof ' yoki boshqa o‘xshash belgini kiritsangiz, «Apostroflarni tuzatish» tugmasi uni shu vositada qabul qilingan ko‘rinishga keltiradi. Hujjat tayyorlashda uni qabul qiladigan tashkilot talabini ham hisobga oling."
     },
     {
       "type": "p",
@@ -336,7 +348,7 @@
     {
       "type": "p",
       "lang": "uz-Cyrl",
-      "text": "Кирилл-лотин ўгирувчи: ўзбекча матнни кирилл ёзувидан лотинга ва лотиндан кириллга бепул ўгиради, o‘, g‘ ва ’ белгилари тўғри қўйилади. Лотин алифбосининг 29 белгидан иборат жадвали ва имло қоидалари шу саҳифада."
+      "text": "Кирилл-лотин ўгирувчи ўзбекча матнни кирилл ёзувидан лотинга ва лотиндан кириллга бепул ўгиради. Ушбу восита o‘, g‘ ва тутуқ белгиларини бир хил кўринишга келтиради. Амалдаги лотин алифбосининг 26 та ҳарфи ва 3 та ҳарф бирикмаси — Sh, Ch ва Ng — жадвалда кўрсатилган. Тутуқ белгиси алоҳида берилган."
     },
     {
       "type": "linkp",
@@ -413,11 +425,11 @@
     },
     {
       "q": "O‘zbek lotin alifbosida nechta harf bor?",
-      "a": "29 ta belgi: c va w dan tashqari 24 ta lotin harfi, O‘ va G‘ harflari, Sh va Ch birikmalari va tutuq belgisi ’. O‘zbek kirill alifbosida 35 ta harf bor."
+      "a": "2026-yil 7-noyabrda amalda bo‘lgan qonunning 1-moddasiga ko‘ra — 26 ta harf va 3 ta harf birikmasi: Sh, Ch va Ng. Tutuq belgisi alohida belgi bo‘lib, bu hisobga kirmaydi. O‘zbek kirill alifbosida 35 ta harf bor. Qonun havolasi alifbo jadvalidan oldin berilgan."
     },
     {
       "q": "O‘ va g‘ harflarida qaysi belgi qo‘yiladi?",
-      "a": "O‘ va g‘ da — ‘ belgisi, harflar orasidagi tutuq uchun — ’ belgisi. Klaviaturadan oddiy apostrof ' terish mumkin: «Apostroflarni tuzatish» tugmasi uni kerakli belgiga almashtiradi."
+      "a": "Ushbu vosita o‘ va g‘ uchun ‘ (U+2018), harflar orasidagi tutuq uchun ’ (U+2019) belgisini ishlatadi. Bu o‘giruvchining belgilarni bir xil ko‘rinishga keltirish qoidasi, qonundagi umumiy Unicode talabi emas. Oddiy apostrof ' terish mumkin: «Apostroflarni tuzatish» tugmasi uni shu qoidalarga ko‘ra almashtiradi."
     },
     {
       "q": "Ruscha matnni lotinga o‘girsa bo‘ladimi?",
@@ -499,5 +511,5 @@
     }
   ],
   "createdAt": "2026-10-25T00:00:00Z",
-  "updatedAt": "2026-11-06"
+  "updatedAt": "2026-11-07"
 }

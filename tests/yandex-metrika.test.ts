@@ -581,8 +581,9 @@ test('metrika: every prerendered template emits the tag and the noscript pixel',
     const noscripts = (script.match(/\$\{METRIKA_NOSCRIPT\}/g) ?? []).length;
     assert.ok(heads > 0, `${file} never emits the tag`);
     assert.equal(heads, noscripts, `${file} emits ${heads} tags and ${noscripts} noscript pixels`);
-    // One per HTML template, so the counts must match the GTM block's.
-    assert.equal(heads, (script.match(/<script data-tag="gtm">/g) ?? []).length, file);
+    // One per HTML template, alongside the retained direct GA4 block.
+    assert.equal(heads, (script.match(/\$\{ANALYTICS_HEAD\}/g) ?? []).length, file);
+    assert.equal(heads, file === 'scripts/prerender.ts' ? 1 : 2, file);
   }
 });
 

@@ -1,4 +1,25 @@
 {
+  "seo_growth_20261107": {
+    "status": "validated_candidate",
+    "owner_authorized": "Autonomous implementation of the GPTBot.uz SEO roadmap, 2026-11-07.",
+    "branch": "codex/seo-growth-20261107",
+    "source_baseline_commit": "421ac0dfb5f07c6ddf568cb77362f204faac8cc2",
+    "predecessor_production_commit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
+    "report": "reports/seo-growth-20261107/RELEASE.md",
+    "changes": [
+      "Remove proven empty GTM loader and second GA4 library load; retain direct GA4, Meta and Yandex",
+      "Correct six existing articles/pages and three contextual links; preserve titles, H1 and keyword ownership",
+      "Use the current shared publisher Organization on two offers; preserve visible legal document and seller facts"
+    ],
+    "validation": "485 targeted tests pass, no skips, with built artifacts and immutable predecessor comparisons. Final production build/guard/live QA pending.",
+    "protected": "Existing SEO protection baseline unchanged; verify all 329 metadata contracts and shared assets after the full build.",
+    "next": "Guarded production build, deployment, live/browser verification and search discovery; then measure after recrawl.",
+    "limitations": [
+      "No measured ranking or revenue uplift yet",
+      "No new business case claims or paid monitoring subscriptions",
+      "Click remains owner-deferred"
+    ]
+  },
   "seo_growth_pilot_20261106": {
     "status": "deployed_verified",
     "owner_authorized": "Autonomous implementation of the approved growth roadmap, 2026-11-06.",
@@ -1658,10 +1679,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "November 6 growth pilot deployed and verified; earlier SEO/chat repair preserved. See seo_growth_pilot_20261106.",
-  "stage_status": "deployed_verified",
+  "current_stage": "November 7 SEO implementation candidate; prior November 6 releases preserved. See seo_growth_20261107.",
+  "stage_status": "validated_candidate",
   "last_completed_stage": "November 6 guarded production release 6531d35b and live acceptance checks.",
-  "next_stage": "Observe post-recrawl SEO repair and the nine-page growth pilot; obtain native-language/product QA and GA4 reporting access before the next experiment. Keep protected snippets stable; Click remains owner-deferred.",
+  "next_stage": "Complete guarded release and live verification of the November 7 SEO candidate, then observe the fixed post-recrawl cohorts.",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",

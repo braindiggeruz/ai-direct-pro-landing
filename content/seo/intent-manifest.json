@@ -1975,7 +1975,7 @@
       },
       "informational": {
         "url": "/uz/kirill-lotin/",
-        "owns": "change the script of an Uzbek text — primary «kirill lotin» with «lotin krill», «lotin kirill», «krill lotin», «lotin alifbosi», «o‘zbek alifbosi» and the Cyrillic «лотин алифбоси»: the same converter in both directions with no model and no limit, a 29-row alphabet table with the o‘/g‘ and tutuq rules, and the AI teacher for spelling checks (trial replies); conversion is not translation, and it links the translator for that",
+        "owns": "change the script of an Uzbek text — primary «kirill lotin» with «lotin krill», «lotin kirill», «krill lotin», «lotin alifbosi», «o‘zbek alifbosi» and the Cyrillic «лотин алифбоси»: the same converter in both directions with no model and no limit, a table of 26 letters and 3 letter combinations (Sh, Ch, Ng) with tutuq shown separately and the tool's o‘/g‘ normalization explained, and the AI teacher for spelling checks (trial replies); conversion is not translation, and it links the translator for that",
         "mustNotTarget": [
           "rus o‘zbek tarjimon",
           "rus uzbek tarjimon",
@@ -2005,7 +2005,7 @@
       },
       "informational": {
         "url": "/ru/kirillica-v-latinicu/",
-        "owns": "change the script of an Uzbek text, for Russian-speaking searchers — primary «кириллица в латиницу», the reverse direction, «перевод с кириллицы на латиницу» and «узбекский алфавит латиница»: the converter, the 29-letter table and the rules for Ё/Ю/Я, Е, Ц and Ъ, with the AI teacher for spelling checks; it says that conversion is not translation and links the translator",
+        "owns": "change the script of an Uzbek text, for Russian-speaking searchers — primary «кириллица в латиницу», the reverse direction, «перевод с кириллицы на латиницу» and «узбекский алфавит латиница»: the converter, a table of 26 letters and 3 letter combinations (Sh, Ch, Ng) with tutuq shown separately, the tool's apostrophe normalization and the rules for Ё/Ю/Я, Е, Ц and Ъ, with the AI teacher for spelling checks; it says that conversion is not translation and links the translator",
         "mustNotTarget": [
           "переводчик с русского на узбекский",
           "перевод с русского на узбекский",

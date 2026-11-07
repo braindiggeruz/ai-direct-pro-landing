@@ -1,0 +1,131 @@
+{
+  "checkedAt": "2026-11-07T02:12:29.895Z",
+  "baseline": "421ac0dfb5f07c6ddf568cb77362f204faac8cc2",
+  "files": [
+    {
+      "file": "content/pages/ru/kirillica-v-latinicu.json",
+      "changedTopLevelKeys": [
+        "bodyBlocks",
+        "faq",
+        "updatedAt"
+      ],
+      "metadataAndSettingsUnchanged": true,
+      "metadataAndSettingsSha256": "f3d4687ea3f5ac694768e9e1269e1a11bf238b2abf6e8078b85862e8faed6206",
+      "headingsUnchanged": true,
+      "headingsSha256": "68ca378236836655ced1c506335eeb465cc221d80d1eb982fb29096c1a473887",
+      "dateBefore": "2026-11-06",
+      "dateAfter": "2026-11-07"
+    },
+    {
+      "file": "content/pages/uz/kirill-lotin.json",
+      "changedTopLevelKeys": [
+        "bodyBlocks",
+        "faq",
+        "updatedAt"
+      ],
+      "metadataAndSettingsUnchanged": true,
+      "metadataAndSettingsSha256": "b3d66cde7735843f0c04987d295d5b84a39f62ba3cf36255b58fed7e0db49405",
+      "headingsUnchanged": true,
+      "headingsSha256": "e269d7cfaa8d92308dee0e3b2ed1d244e2387c8a845a4eb29484414c30a91aed",
+      "dateBefore": "2026-11-06",
+      "dateAfter": "2026-11-07"
+    },
+    {
+      "file": "content/blog/uz/slayd-tayyorlash.json",
+      "changedTopLevelKeys": [
+        "intro",
+        "body",
+        "faq",
+        "dateModified",
+        "updatedAt"
+      ],
+      "metadataAndSettingsUnchanged": true,
+      "metadataAndSettingsSha256": "f4a00e277c284499629b88b6238351d21b0b250e772fc0f7bf908dd71a9f7e59",
+      "headingsUnchanged": true,
+      "headingsSha256": "ef1347b2ad885dc624ff658628fac97dce7a4dcd6f03a7d52a5c600957a19346",
+      "dateBefore": "2026-10-08",
+      "dateAfter": "2026-11-07"
+    },
+    {
+      "file": "content/blog/uz/rezyume-tayyorlash.json",
+      "changedTopLevelKeys": [
+        "body",
+        "dateModified",
+        "updatedAt"
+      ],
+      "metadataAndSettingsUnchanged": true,
+      "metadataAndSettingsSha256": "daacff09b109c2691da83d6eeff86bf4000bdad67a22b5383c847302aa25e037",
+      "headingsUnchanged": true,
+      "headingsSha256": "158c6125cacab00f06587dbaccad930a38d1e1f80bf040bd37b8349c091f6ed0",
+      "dateBefore": "2026-11-06",
+      "dateAfter": "2026-11-07"
+    },
+    {
+      "file": "content/blog/uz/tushuntirish-xati-va-ariza-yozish.json",
+      "changedTopLevelKeys": [
+        "body",
+        "dateModified",
+        "updatedAt"
+      ],
+      "metadataAndSettingsUnchanged": true,
+      "metadataAndSettingsSha256": "b1d8ac75773b537d08fdca70bbe9f03bb1afd6d32e0f074af93ae90bef92d217",
+      "headingsUnchanged": true,
+      "headingsSha256": "278843ccb7992072ab9fc3130b61c5b873b90418ba69961842cfcf517a70acb7",
+      "dateBefore": "2026-10-08",
+      "dateAfter": "2026-11-07"
+    },
+    {
+      "file": "content/blog/uz/tavsifnoma-namuna.json",
+      "changedTopLevelKeys": [
+        "body",
+        "dateModified",
+        "updatedAt"
+      ],
+      "metadataAndSettingsUnchanged": true,
+      "metadataAndSettingsSha256": "775c810c9a743e028790817c1711999a637acfe276224c352d87cc718d213c61",
+      "headingsUnchanged": true,
+      "headingsSha256": "e00391f100d3a060c697a0e61e44bfa43c087b77dcea1432fb3948d40e042ddc",
+      "dateBefore": "2026-11-06",
+      "dateAfter": "2026-11-07"
+    }
+  ],
+  "manifestChanges": [
+    {
+      "id": "C63-uz-tarjimon-vs-kirill-lotin",
+      "field": "informational.owns",
+      "before": "change the script of an Uzbek text — primary «kirill lotin» with «lotin krill», «lotin kirill», «krill lotin», «lotin alifbosi», «o‘zbek alifbosi» and the Cyrillic «лотин алифбоси»: the same converter in both directions with no model and no limit, a 29-row alphabet table with the o‘/g‘ and tutuq rules, and the AI teacher for spelling checks (trial replies); conversion is not translation, and it links the translator for that",
+      "after": "change the script of an Uzbek text — primary «kirill lotin» with «lotin krill», «lotin kirill», «krill lotin», «lotin alifbosi», «o‘zbek alifbosi» and the Cyrillic «лотин алифбоси»: the same converter in both directions with no model and no limit, a table of 26 letters and 3 letter combinations (Sh, Ch, Ng) with tutuq shown separately and the tool's o‘/g‘ normalization explained, and the AI teacher for spelling checks (trial replies); conversion is not translation, and it links the translator for that"
+    },
+    {
+      "id": "C64-ru-perevodchik-vs-kirillica-v-latinicu",
+      "field": "informational.owns",
+      "before": "change the script of an Uzbek text, for Russian-speaking searchers — primary «кириллица в латиницу», the reverse direction, «перевод с кириллицы на латиницу» and «узбекский алфавит латиница»: the converter, the 29-letter table and the rules for Ё/Ю/Я, Е, Ц and Ъ, with the AI teacher for spelling checks; it says that conversion is not translation and links the translator",
+      "after": "change the script of an Uzbek text, for Russian-speaking searchers — primary «кириллица в латиницу», the reverse direction, «перевод с кириллицы на латиницу» and «узбекский алфавит латиница»: the converter, a table of 26 letters and 3 letter combinations (Sh, Ch, Ng) with tutuq shown separately, the tool's apostrophe normalization and the rules for Ё/Ю/Я, Е, Ц and Ъ, with the AI teacher for spelling checks; it says that conversion is not translation and links the translator"
+    }
+  ],
+  "runtimePreserved": [
+    {
+      "file": "src/shared/uz-translit.ts",
+      "unchanged": true,
+      "sha256": "b6f5d97eefaf56d5071635058139c3d550e2c6c7bbd16bf413f6a3fa06ffb80c"
+    },
+    {
+      "file": "scripts/translator-page.ts",
+      "unchanged": true,
+      "sha256": "821e15a9b56d9217781445be84bbc2be4c1b39a07d2936a9fc91ae902337602a"
+    }
+  ],
+  "tests": {
+    "file": "tests/seo-content-corrections-20261107.test.ts",
+    "passed": 8,
+    "failed": 0
+  },
+  "contractExcludedFields": [
+    "intro",
+    "body",
+    "bodyBlocks",
+    "faq",
+    "updatedAt",
+    "dateModified"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-07",
+  "url": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
+  "method": "CUA CDP Network events on reload",
+  "productionCommit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
+  "gtmRequests": 1,
+  "ga4LibraryRequests": 2,
+  "ga4LibraryInitiators": [
+    "https://www.googletagmanager.com/gtm.js",
+    "https://gptbot.uz/uz/gpt-uzbek-tilida/"
+  ],
+  "ga4TransportHost": "analytics.google.com",
+  "ga4CollectStatuses": [
+    204,
+    204
+  ],
+  "initialPageViewObserved": true,
+  "browserConsoleErrors": 0,
+  "limitations": [
+    "Transport success is not GA4 report receipt or conversion qualification.",
+    "No duplicate logical page_view has been asserted."
+  ]
+}

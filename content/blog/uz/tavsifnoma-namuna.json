@@ -307,6 +307,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Tayyor o‘zbekcha matnning yozuvini almashtirish kerak bo‘lsa, {converter}dan foydalaning. Bu tarjima emas: til o‘zbekcha qoladi, faqat kirill va lotin yozuvi almashtiriladi. O‘girilgan matndagi ism va atamalarni asl hujjat bilan solishtiring, keyin imzolovchiga yakuniy variantni tekshirtiring.",
+      "links": [
+        {
+          "token": "converter",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchisi"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "mumkin-emas",
       "text": "Nimalar mumkin emas va AI nimani qila olmaydi"
@@ -419,7 +430,7 @@
   "breadcrumbLabel": "Tavsifnoma namunasi",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-24",
-  "dateModified": "2026-11-06",
+  "dateModified": "2026-11-07",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -434,6 +445,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Tavsifnomada bu siz aytmagan fazilat yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-11-06T00:00:00.000Z",
+  "updatedAt": "2026-11-07T00:00:00.000Z",
   "createdAt": "2026-10-24T00:00:00.000Z"
 }

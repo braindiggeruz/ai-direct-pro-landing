@@ -1,0 +1,203 @@
+{
+  "results": [
+    {
+      "suite": "seo-analytics-privacy",
+      "exit": 0,
+      "seconds": 0.5,
+      "tests": 34,
+      "pass": 34,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "yandex-metrika",
+      "exit": 0,
+      "seconds": 1.7,
+      "tests": 72,
+      "pass": 72,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "lead-capture-templates",
+      "exit": 0,
+      "seconds": 6.6,
+      "tests": 48,
+      "pass": 48,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "cta-analytics",
+      "exit": 0,
+      "seconds": 0.6,
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "ga4-attribution-boundary",
+      "exit": 0,
+      "seconds": 0.9,
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "publisher-schema",
+      "exit": 0,
+      "seconds": 1.6,
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "studio-contact",
+      "exit": 0,
+      "seconds": 10.5,
+      "tests": 32,
+      "pass": 32,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "legal-oferta",
+      "exit": 0,
+      "seconds": 1.3,
+      "tests": 21,
+      "pass": 21,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "seo-content-corrections-20261107",
+      "exit": 0,
+      "seconds": 0.5,
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "seo-intent-manifest",
+      "exit": 0,
+      "seconds": 0.9,
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "seo-anchor-intent",
+      "exit": 0,
+      "seconds": 1.1,
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "seo-cluster-quality",
+      "exit": 0,
+      "seconds": 1.8,
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "seo-link-graph",
+      "exit": 0,
+      "seconds": 2.2,
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "seo-page-integrity",
+      "exit": 0,
+      "seconds": 1.7,
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "seo-content-guards",
+      "exit": 0,
+      "seconds": 1.8,
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "tool-first",
+      "exit": 0,
+      "seconds": 0.7,
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "tool-pages",
+      "exit": 0,
+      "seconds": 3.5,
+      "tests": 21,
+      "pass": 21,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "uz-translit",
+      "exit": 0,
+      "seconds": 0.6,
+      "tests": 94,
+      "pass": 94,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "content-downloads",
+      "exit": 0,
+      "seconds": 0.9,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "seo-protection",
+      "exit": 0,
+      "seconds": 1.6,
+      "tests": 21,
+      "pass": 21,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "homepage-lists-frozen",
+      "exit": 0,
+      "seconds": 2.8,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "studio-prerender",
+      "exit": 0,
+      "seconds": 3.7,
+      "tests": 33,
+      "pass": 33,
+      "fail": 0,
+      "skipped": 0
+    }
+  ],
+  "complete": true
+}

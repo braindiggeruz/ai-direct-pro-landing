@@ -46,8 +46,10 @@ export const SITE_CONTACT: ContactSet = { phone: STUDIO_PHONE_PUBLIC, telegram: 
  * The channels of the approved offer edition (ai-paket-2026-10-v5, approved
  * 2026-10-07): it was published with the phone and the e-mail and no
  * Telegram, and its text sends the buyer to «the contacts at the end of the
- * page». A page with `termsVersion` keeps them, so the offer stays byte for
- * byte the approved document; a new contact there is a new edition.
+ * page». A page with `termsVersion` keeps these visible contacts, so the
+ * approved document is unchanged; a new visible contact is a new edition.
+ * The site's publisher #org uses the current global contacts separately
+ * (2026-11-07 decision: docs/seo/implementation/2026-11-07-growth/publisher-schema.md).
  */
 export const OFFER_EDITION_CONTACT: ContactSet = { phone: true, telegram: null };
 
@@ -58,12 +60,14 @@ export function pageContact(page: { termsVersion?: string }): ContactSet {
 
 /**
  * The studio address the approved offer edition was published with: its
- * footer line and its Organization node (street and coordinates). Owner
+ * visible footer line. Owner
  * answer of 26.10.2026: the studio sits at «Kichik Xalqa Yo‘li 57», as on the
  * Google Business card, and content/global/site.json says so for every other
- * page. The offer keeps this text byte for byte like its contact set; a new
- * address there is a new edition. The seller's registered address in the
- * offer's requisites is content/global/legal-entity.json, not this.
+ * page. The offer keeps this visible text byte for byte like its contact set;
+ * a new visible address is a new edition. The site's publisher #org uses the
+ * current global address separately (2026-11-07 decision linked above).
+ * The seller's registered address in the offer's requisites is
+ * content/global/legal-entity.json, not this historical studio address.
  */
 export const OFFER_EDITION_NAP = {
   address: 'Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan',
@@ -71,7 +75,7 @@ export const OFFER_EDITION_NAP = {
   geo: { latitude: 41.334, longitude: 69.286 },
 } as const;
 
-/** The site facts a page renders: the offer edition's address on a page with `termsVersion`, site.json elsewhere. */
+/** The visible footer address: the offer edition's on a page with `termsVersion`, site.json elsewhere. Not publisher metadata. */
 export function pageNap<G extends { address?: string; streetAddress?: string; geo?: { latitude: number; longitude: number } }>(
   page: { termsVersion?: string },
   global: G,
