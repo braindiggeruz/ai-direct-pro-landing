@@ -1,11 +1,14 @@
-# Lead Radar + TG Sender: release candidate, 2026-11-07
+# Lead Radar + TG Sender: production release, 2026-11-07 UTC
 
 ## Status and scope
 
-This document describes the local implementation in `feat/lead-outreach-20261107`.
-It is not evidence of a production deployment, an enabled sender, a delivered
-message, or a working production session. Production backup, migration,
-provisioning, guarded release and live acceptance are separate release steps.
+Runtime source `02a3613c7ccb85f8de52a6cbe4d3a22781607375` was released through the guarded Pages process to deployment `348f91de-c3e9-4eb3-8c97-4e6cd771252a`.
+Automation is `e0f0f0a4-6044-4804-b47c-5eac943f3d3c`; TG Sender is `53cd7232-c239-4d33-941f-2405fa1e12ab`, using transport source `ce82c0fd9dec222175749663b68a590550a628dd`.
+The real provider session was verified by getMe at 18:21 UTC. Live HTTP/runtime/binding/asset acceptance passed at 19:14 UTC. No customer messages, contact lookups or campaigns were created.
+
+Production database migration readback is `after_verified`, with zero foreign-key violations and preservation of 34,767 existing rows. Only the independent crawler heartbeat column `lead_radar_crawler_workers.last_seen_at` was excluded from concurrent business-data hash comparison; its original full hashes were retained. Two rejected attempts fully rolled back before the supported dependency guard was applied. Safe evidence: `F:/Claude/gptbot-tools/outreach-release/live-acceptance.json` and `d1-guarded-apply.json`.
+
+The explicit owner UI transition from the previous Bridge account, visual browser smoke and first owner-selected real-message/reply canary remain unverified. Chrome attachment failed; no alternate login or hidden account replacement was used. Configuration readiness is not proof of message delivery.
 
 The owner requested one workflow for finding companies and contacting a cold
 business audience. The implementation reuses the existing Lead Radar audience,
@@ -64,12 +67,11 @@ public contact as subscribed.
 - DNC, opt-out, ambiguity, quota and provider FLOOD_WAIT remain authoritative.
   There is no account rotation or bypass of provider restrictions.
 
-## Configuration: disabled by default
+## Production configuration and rollback gates
 
-The committed Pages and automation configuration preserves
-`LEAD_RADAR_TELEGRAM_TRANSPORT_MODE=local_bridge`, campaign autosend `false`,
-`LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED=false`,
-`LEAD_RADAR_OUTREACH_INBOX_ENABLED=false`, and an empty TG Sender origin.
+The committed Pages and automation configuration uses `LEAD_RADAR_TELEGRAM_TRANSPORT_MODE=tg_sender` and origin `https://tg-sender-v2.braindigger-uz.workers.dev`. Research, public inquiry, inbox and approved-campaign dispatch are enabled only for the existing owner allowlist. The provider public/inbox flags are enabled too. Original limits and all unrelated runtime settings are preserved. Account connection, exact audience/text approval, source evidence and every delivery guard remain mandatory; enablement did not start a campaign.
+
+For rollback, turn campaign autosend off first. Do not re-enable an old Bridge account or reverse the expanded basis CHECK constraints automatically. Keep pending opt-out custody, receipt records and permanent history even when feature flags are off.
 
 The remote path requires server-side `LEAD_RADAR_TG_SENDER_ORIGIN`,
 `LEAD_RADAR_TG_SENDER_TOKEN` and `LEAD_RADAR_TG_SENDER_BINDING_JSON`. The binding

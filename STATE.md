@@ -1,4 +1,16 @@
-# CURRENT — Lead Radar + TG Sender integration candidate, 2026-11-07
+# CURRENT — Lead Radar + TG Sender released, 2026-11-07 UTC
+
+Runtime source `02a3613c7ccb85f8de52a6cbe4d3a22781607375` is deployed to Pages `348f91de-c3e9-4eb3-8c97-4e6cd771252a`. Automation version `e0f0f0a4-6044-4804-b47c-5eac943f3d3c`; TG Sender version `53cd7232-c239-4d33-941f-2405fa1e12ab` uses transport source `ce82c0fd9dec222175749663b68a590550a628dd`. Both runtime configurations agree on owner-scoped TG Sender mode, research, reviewed public inquiry, inbox and approved-campaign dispatch. The original cron `*/15 * * * *` is restored.
+
+Migrations 0080–0083 and their ledger applied in one guarded batch. Readback: `after_verified`, business-column hashes preserved across 52 existing tables / 34,767 rows, zero foreign-key violations. The independent `lead_radar_crawler_workers.last_seen_at` heartbeat was the only declared hash exclusion; all its other columns, schema and row count were checked. Two earlier attempts rolled back completely because D1 disallows dynamic `pragma_foreign_key_list(s.name)`; 0081 now uses a tested conservative dependency guard compatible with D1.
+
+Live acceptance at 19:14 UTC: public pages/sitemap/robots and admin shell HTTP 200, deployed asset hashes match, admin/inbox anonymous requests 401, authenticated invalid inbox payload 400, TG Sender scoped readiness 200 and binding matches. Actual Telegram getMe verified the session at 18:21 UTC. No campaigns, effects or contact-history rows were created; no customer messages or contact lookups were sent during release.
+
+Remaining operator acceptance: the existing Bridge account has deliberately not been replaced through a hidden database operation. Use the explicit owner UI transition to TG Sender, then an owner-selected test recipient before the first real campaign. Browser visual/account-cutover smoke remains unverified because the Chrome control tool could not attach. This is not evidence of real message delivery or reply ingestion. See `docs/agents-platform/LEAD_RADAR_QUICKSTART_RU.md` and the release runbook. Safe release evidence is under `F:/Claude/gptbot-tools/outreach-release/`; never publish its private credential/backup directory.
+
+---
+
+# PREVIOUS — Lead Radar + TG Sender integration candidate, 2026-11-07
 
 Implementation is isolated on `feat/lead-outreach-20261107`. Search, public-business first-contact review, scoped TG Sender transport, durable receipt reconciliation, inbox and explicit legacy-account cutover are implemented. Final QA: 275 tests, three TypeScript checks, scoped ESLint. Production enablement is not yet recorded; no customer messages were sent. The prior checkpoints below are retained as history.
 
