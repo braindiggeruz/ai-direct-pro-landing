@@ -492,6 +492,29 @@ test('0081 refuses unknown downstream FK tables before any graph mutation', asyn
   assert.equal(db.value("SELECT COUNT(*) FROM sqlite_schema WHERE name LIKE '%0081_backup'"),0);
 });
 
+test('0081 rejects quoted and mixed-case unknown references to every rebuilt table', () => {
+  for(const table of REBUILT_TABLES) for(const quoted of [`"${table.toUpperCase()}"`,`[${table.toUpperCase()}]`,`\`${table.toUpperCase()}\``]) {
+    const db=database();
+    const keys=db.rows(`PRAGMA table_info(${table})`).filter((column)=>Number(column.pk)>0)
+      .sort((a,b)=>Number(a.pk)-Number(b.pk)).map((column)=>String(column.name));
+    assert.ok(keys.length>0);
+    const children=keys.map((_,index)=>`child_${index}`);
+    db.exec(`CREATE TABLE unexpected_quoted_child (${children.map((column)=>`${column} TEXT`).join(',')},
+      FOREIGN KEY(${children.join(',')}) REFERENCES ${quoted}(${keys.join(',')}))`);
+    assert.throws(()=>applyPublicMigration(db),/CHECK constraint/,`${table}: ${quoted}`);
+    assert.equal(db.value("SELECT COUNT(*) FROM sqlite_schema WHERE name LIKE '%0081_backup'"),0);
+    assert.equal(db.value(`SELECT COUNT(*) FROM d1_migrations WHERE name='${PUBLIC_MIGRATION}'`),0);
+  }
+});
+
+test('0081 conservatively blocks an external SQL mention without requiring a pragma traversal', () => {
+  const db=database();
+  db.exec("CREATE TABLE external_mention (value TEXT DEFAULT 'LEAD_RADAR_TG_CAMPAIGNS')");
+  assert.throws(()=>applyPublicMigration(db),/CHECK constraint/);
+  const sql=readFileSync(path.join(ROOT,'migrations',PUBLIC_MIGRATION),'utf8').replace(/--[^\n]*/gu,'');
+  assert.doesNotMatch(sql,/pragma_foreign_key_list\s*\(/iu);
+});
+
 test('new schema fingerprint and ledger must agree, and schema drift never passes', async () => {
   const db=database();applyPublicMigration(db);
   db.sqlite.prepare('DELETE FROM d1_migrations WHERE name=?').run(PUBLIC_MIGRATION);

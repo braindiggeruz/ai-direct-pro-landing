@@ -9,11 +9,28 @@ PRAGMA defer_foreign_keys = ON;
 
 CREATE TABLE lead_radar_public_inquiry_0081_guard (ok INTEGER NOT NULL CHECK (ok = 1));
 
--- Refuse an unknown downstream dependency rather than cascade-delete it.
+-- D1 rejects dynamic pragma_foreign_key_list(s.name) with SQLITE_AUTH.
+-- Conservatively reject every external table whose stored SQL mentions a graph
+-- name, including quoted/case-varied FK targets and even comments/default text.
+-- A real reference necessarily contains its full identifier; false positives
+-- stop for review rather than permitting a dependent row to cascade away.
 INSERT INTO lead_radar_public_inquiry_0081_guard (ok)
 SELECT CASE WHEN NOT EXISTS (
-  SELECT 1 FROM sqlite_schema s, pragma_foreign_key_list(s.name) f
-  WHERE s.type='table' AND f."table" IN ('lead_radar_tg_campaign_approvals','lead_radar_tg_contact_authorizations','lead_radar_tg_campaign_approval_media','lead_radar_tg_campaigns','lead_radar_audience_campaigns','lead_radar_tg_campaign_media','lead_radar_tg_campaign_operations','lead_radar_tg_campaign_recipients','lead_radar_tg_campaign_safety','lead_radar_tg_campaign_effects','lead_radar_tg_recipient_business_identities','lead_radar_tg_recipient_eligibility')
+  SELECT 1 FROM sqlite_schema s
+  WHERE s.type='table' AND (
+    instr(lower(s.sql),'lead_radar_tg_campaign_approvals')>0
+    OR instr(lower(s.sql),'lead_radar_tg_contact_authorizations')>0
+    OR instr(lower(s.sql),'lead_radar_tg_campaign_approval_media')>0
+    OR instr(lower(s.sql),'lead_radar_tg_campaigns')>0
+    OR instr(lower(s.sql),'lead_radar_audience_campaigns')>0
+    OR instr(lower(s.sql),'lead_radar_tg_campaign_media')>0
+    OR instr(lower(s.sql),'lead_radar_tg_campaign_operations')>0
+    OR instr(lower(s.sql),'lead_radar_tg_campaign_recipients')>0
+    OR instr(lower(s.sql),'lead_radar_tg_campaign_safety')>0
+    OR instr(lower(s.sql),'lead_radar_tg_campaign_effects')>0
+    OR instr(lower(s.sql),'lead_radar_tg_recipient_business_identities')>0
+    OR instr(lower(s.sql),'lead_radar_tg_recipient_eligibility')>0
+  )
     AND s.name NOT IN ('lead_radar_tg_campaign_approvals','lead_radar_tg_contact_authorizations','lead_radar_tg_campaign_approval_media','lead_radar_tg_campaigns','lead_radar_audience_campaigns','lead_radar_tg_campaign_media','lead_radar_tg_campaign_operations','lead_radar_tg_campaign_recipients','lead_radar_tg_campaign_safety','lead_radar_tg_campaign_effects','lead_radar_tg_recipient_business_identities','lead_radar_tg_recipient_eligibility')
 ) THEN 1 ELSE 0 END;
 
