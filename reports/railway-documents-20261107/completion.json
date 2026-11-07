@@ -1,0 +1,28 @@
+{
+  "status": "deployed_verified",
+  "scope": "Private RU/UZ proposal and presentation PDF worker with owner/Studio/chat UI",
+  "source_commit": "15f1878b45370a3cf5d1a05d7050b5a39e235a9b",
+  "previous_production_commit": "ee11957d872ea98f683bc23bbf33c715aed59a1b",
+  "pages_preview": "https://99c5dc7f.ai-direct-pro-landing.pages.dev",
+  "railway_project": "618c5ab9-a472-4d10-939a-185fb5c8044b",
+  "railway_service": "8cc4b01c-4b8f-4e50-b3ad-0cb14aa795e4",
+  "railway_deployment": "1a92ac43-5d2e-497d-b9a2-2751192c7886",
+  "production_readback": "414/414",
+  "canary": "RU/UZ first attempt ready; private PDFs read and visually checked; synthetic rows/objects removed",
+  "runbook": "docs/documents/RUNBOOK-RU.md",
+  "unchanged": "Chat routing/payment contracts/SEO metadata and content; other Railway projects",
+  "limits": {
+    "subjectPerDay": 3,
+    "globalPerDay": 20,
+    "retentionHours": 24,
+    "memoryGB": 1,
+    "vCPU": 1,
+    "replicas": 1
+  },
+  "limitations": [
+    "Text-only PDF",
+    "Manual owner-entered commercial terms",
+    "No automatic client sending or new subscription",
+    "Full monthly cost not yet measured"
+  ]
+}

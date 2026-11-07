@@ -1,0 +1,639 @@
+{
+  "checkedAt": "2026-11-07T16:09:14.821Z",
+  "sourceCommit": "15f1878b45370a3cf5d1a05d7050b5a39e235a9b",
+  "predecessor": {
+    "path": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/gptbot-seo-implementation-20261107/dist",
+    "stampVerified": true,
+    "commit": "ee11957d872ea98f683bc23bbf33c715aed59a1b",
+    "artifactSha256": "7f79ce186c7ac6a1abd7c1c15a04184fa51dda95aeeae0e31d576f77ef6d93d6",
+    "fileCount": 1060
+  },
+  "current": {
+    "path": "F:\\Claude\\gptbot-railway-documents-20261107\\dist",
+    "stampVerified": true,
+    "stamp": {
+      "schema": 1,
+      "commit": "15f1878b45370a3cf5d1a05d7050b5a39e235a9b",
+      "artifactSha256": "16afd36fb00c444478bce1f024e36dc2988258675804d23b1a987f3026e7c123",
+      "fileCount": 1063,
+      "features": [
+        "audience_directory",
+        "mobile_username_selection",
+        "bridge_pairing",
+        "sending_readiness",
+        "campaign_preflight",
+        "async_media_check",
+        "ai_chat_admin"
+      ],
+      "probes": [
+        {
+          "path": "assets/AdminRoot-B15yBmGQ.js",
+          "sha256": "28790913c15a2d9528a3b625723cccf18f1569e8b17b4f378e695a0dbc264bc9"
+        },
+        {
+          "path": "assets/api-dnzQQFSV.js",
+          "sha256": "18d14ddd8545d3836a8968fe366a0c517adb21a8186d24b399f7e682c29acdcf"
+        },
+        {
+          "path": "assets/AiChat-Bh4Ch7eW.js",
+          "sha256": "96493f6a59b7f135c8f9f0ddbec0bd46f11da36ba541d9cce5ad1b77670301ff"
+        },
+        {
+          "path": "index.html",
+          "sha256": "93690601b41e9ac7d39863876df7e23615324e4635287efbd85e883ea20b3cbc"
+        },
+        {
+          "path": "admin/index.html",
+          "sha256": "d78cad692a4eaac2ab7d70e7b63cb5c9c7c0cbeda6db71acb42eeb8032e936dc"
+        },
+        {
+          "path": "uz/internet-reklama-toshkent/index.html",
+          "sha256": "f1d98df731af95b65f8d8426af57b496293f4ed3188b1fac2c4433e8127e869e"
+        },
+        {
+          "path": "ru/internet-reklama-tashkent/index.html",
+          "sha256": "13724563181339f709db0abaa6008a57f015cf3cf1cdc1b677006407eba45c0e"
+        },
+        {
+          "path": "ru/prezentatsiya-ai/index.html",
+          "sha256": "9ba7ee79983d14dff325476f43a540038f82c7e07b5d0a681bbe532fd9ed7c7c"
+        },
+        {
+          "path": "uz/taqdimot-ai/index.html",
+          "sha256": "af27c203b42008ac44496941ea8123c2638136d27d160561bad8bc310b0274ca"
+        },
+        {
+          "path": "uz/tariflar/index.html",
+          "sha256": "de93101978228dcd0030eea329c0ba983275427d41f912ce27657b417768eef2"
+        }
+      ]
+    },
+    "measuredArtifactSha256": "16afd36fb00c444478bce1f024e36dc2988258675804d23b1a987f3026e7c123",
+    "fileCount": 1063
+  },
+  "pages": {
+    "before": 331,
+    "after": 331,
+    "compared": 331,
+    "missing": [],
+    "added": [],
+    "rawHtmlChanges": [
+      "boss-digital/index.html",
+      "index.html",
+      "ru/ai-bot-dlya-agentstva-nedvizhimosti/index.html",
+      "ru/ai-bot-dlya-avtosalona/index.html",
+      "ru/ai-bot-dlya-biznesa/index.html",
+      "ru/ai-bot-dlya-dostavki-edy/index.html",
+      "ru/ai-bot-dlya-fitnes-kluba/index.html",
+      "ru/ai-bot-dlya-horeca/index.html",
+      "ru/ai-bot-dlya-kliniki/index.html",
+      "ru/ai-bot-dlya-magazina/index.html",
+      "ru/ai-bot-dlya-nishi/index.html",
+      "ru/ai-bot-dlya-salona-krasoty/index.html",
+      "ru/ai-bot-dlya-sayta/index.html",
+      "ru/ai-bot-dlya-uchebnogo-tsentra/index.html",
+      "ru/ai-bot-dlya-yurista/index.html",
+      "ru/ai-bot-ili-menedzher/index.html",
+      "ru/ai-bot-s-crm-amocrm-bitrix24/index.html",
+      "ru/ai-chat-dlya-sayta-polzovatel-zayavki/index.html",
+      "ru/ai-chat-dlya-sayta/index.html",
+      "ru/ai-menedzher-dlya-instagram/index.html",
+      "ru/ai-prodavec/index.html",
+      "ru/avtomatizatsiya-prodazh/index.html",
+      "ru/avtomatizatsiya-zayavok/index.html",
+      "ru/avtor-boris-gerasimov/index.html",
+      "ru/blog/7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7/index.html",
+      "ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/index.html",
+      "ru/blog/agentstvo-ili-frilanser-uzbekistan/index.html",
+      "ru/blog/ai-agent-ili-chat-bot/index.html",
+      "ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/index.html",
+      "ru/blog/ai-bot-dlya-internet-magazina-zadachi/index.html",
+      "ru/blog/ai-bot-dlya-kliniki-zadachi/index.html",
+      "ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/index.html",
+      "ru/blog/ai-bot-dlya-salona-krasoty-zadachi/index.html",
+      "ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/index.html",
+      "ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/index.html",
+      "ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/index.html",
+      "ru/blog/ai-menedzher-dlya-instagram/index.html",
+      "ru/blog/ai-prodavec-i-otdel-prodazh/index.html",
+      "ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/index.html",
+      "ru/blog/audit-kartochki-kompanii-na-kartah/index.html",
+      "ru/blog/avtomatizatsiya-zayavok-instruktsiya/index.html",
+      "ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/index.html",
+      "ru/blog/biznes-teryaet-zayavki-nochyu/index.html",
+      "ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/index.html",
+      "ru/blog/bot-dlya-zayavok/index.html",
+      "ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/index.html",
+      "ru/blog/chat-bot-dlya-biznesa-v-samarkande/index.html",
+      "ru/blog/chat-bot-dlya-biznesa-v-tashkente-kak-vybrat-kanal/index.html",
+      "ru/blog/chat-bot-dlya-kliniki-s-filiakami/index.html",
+      "ru/blog/chat-bot-dlya-sayta/index.html",
+      "ru/blog/chat-gpt-na-russkom/index.html",
+      "ru/blog/chat-gpt-online/index.html",
+      "ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/index.html",
+      "ru/blog/chatgpt-i-claude-v-uzbekistane/index.html",
+      "ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/index.html",
+      "ru/blog/chto-takoe-ai-bot-dlya-biznesa/index.html",
+      "ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/index.html",
+      "ru/blog/chto-takoe-lid-v-marketinge/index.html",
+      "ru/blog/chto-takoe-marketing-kit/index.html",
+      "ru/blog/chto-takoe-seo-prodvizhenie/index.html",
+      "ru/blog/chto-takoe-smm-prodvizhenie/index.html",
+      "ru/blog/chto-vhodit-v-uslugi-smm-specialista/index.html",
+      "ru/blog/cpa-cpm-cpc-cpl-v-reklame/index.html",
+      "ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/index.html",
+      "ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/index.html",
+      "ru/blog/etapy-razrabotki-telegram-bota/index.html",
+      "ru/blog/golosovoy-chat-s-ii-dlya-biznesa/index.html",
+      "ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/index.html",
+      "ru/blog/google-maps-yandex-2gis-dlya-biznesa/index.html",
+      "ru/blog/gpt-bot-vs-chat-bot/index.html",
+      "ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/index.html",
+      "ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/index.html",
+      "ru/blog/hosting-dlya-telegram-bota/index.html",
+      "ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/index.html",
+      "ru/blog/index.html",
+      "ru/blog/instagram-direct-bot-kak-rabotaet/index.html",
+      "ru/blog/instagram-telegram-crm-odna-voronka-zayavok/index.html",
+      "ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/index.html",
+      "ru/blog/kak-oplatit-chatgpt-v-uzbekistane/index.html",
+      "ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/index.html",
+      "ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/index.html",
+      "ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/index.html",
+      "ru/blog/kak-provesti-audit-digital-marketinga/index.html",
+      "ru/blog/kak-sozdat-telegram-bota/index.html",
+      "ru/blog/kak-stat-prodavcom-na-uzum-market/index.html",
+      "ru/blog/kak-vybrat-ai-bota-dlya-biznesa/index.html",
+      "ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/index.html",
+      "ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/index.html",
+      "ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/index.html",
+      "ru/blog/keys-cake-city-platforma-kondirterskoy/index.html",
+      "ru/blog/keys-graver-studio-seo-sayt-b2b/index.html",
+      "ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/index.html",
+      "ru/blog/marketingovye-terminy-slovar/index.html",
+      "ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/index.html",
+      "ru/blog/okupaemost-chat-bota-dlya-biznesa/index.html",
+      "ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/index.html",
+      "ru/blog/plan-digital-marketinga-na-90-dney/index.html",
+      "ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/index.html",
+      "ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/index.html",
+      "ru/blog/pochemu-sayt-ne-prinosit-zayavki/index.html",
+      "ru/blog/podderzhka-telegram-bota-posle-zapuska/index.html",
+      "ru/blog/priem-oplaty-payme-click-v-telegram-bote/index.html",
+      "ru/blog/prodvizhenie-sayta-v-google-uzbekistan/index.html",
+      "ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/index.html",
+      "ru/blog/razrabotka-chat-bota/index.html",
+      "ru/blog/reklama-stomatologii-i-kliniki-tashkent/index.html",
+      "ru/blog/reklama-uchebnogo-tsentra-tashkent/index.html",
+      "ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/index.html",
+      "ru/blog/seo-audit-sayta-chek-list/index.html",
+      "ru/blog/seo-ili-google-ads-chto-vybrat/index.html",
+      "ru/blog/skolko-stoit-internet-magazin-tashkent-2026/index.html",
+      "ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/index.html",
+      "ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/index.html",
+      "ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/index.html",
+      "ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/index.html",
+      "ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/index.html",
+      "ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/index.html",
+      "ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/index.html",
+      "ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/index.html",
+      "ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/index.html",
+      "ru/blog/stoimost-digital-marketinga-v-tashkente/index.html",
+      "ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/index.html",
+      "ru/blog/stoimost-lokalnogo-seo-v-tashkente/index.html",
+      "ru/blog/stoimost-seo-prodvizheniya-v-tashkente/index.html",
+      "ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/index.html",
+      "ru/blog/stoimost-telegram-mini-app-v-uzbekistane/index.html",
+      "ru/blog/tehnicheskoe-zadanie-na-telegram-bota/index.html",
+      "ru/blog/telegram-ads-ili-posevy-v-kanalah/index.html",
+      "ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/index.html",
+      "ru/blog/telegram-bot-crm-ili-menedzher/index.html",
+      "ru/blog/telegram-bot-dlya-biznesa/index.html",
+      "ru/blog/telegram-bot-dlya-zapisi-klientov/index.html",
+      "ru/blog/telegram-bot-dlya-zayavok/index.html",
+      "ru/blog/telegram-bot-ili-mini-app/index.html",
+      "ru/blog/telegram-bot-na-python/index.html",
+      "ru/blog/telegram-bot-s-oplatoy-payme-click/index.html",
+      "ru/blog/telegram-mini-app-chto-eto/index.html",
+      "ru/blog/testirovanie-telegram-bota-pered-zapuskom/index.html",
+      "ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/index.html",
+      "ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/index.html",
+      "ru/blog/zakazat-telegram-bota/index.html",
+      "ru/chat-bot-dlya-biznesa/index.html",
+      "ru/chat-bot-po-uzbekistanu/index.html",
+      "ru/chat-bot-v-samarkande/index.html",
+      "ru/chto-takoe-gpt-i-kak-polzovatsya/index.html",
+      "ru/digital-marketing-tashkent/index.html",
+      "ru/digital-strategiya-dlya-biznesa/index.html",
+      "ru/gde-polzovatsya-gpt-besplatno/index.html",
+      "ru/generator-pozdravleniy/index.html",
+      "ru/gpt-bot-ili-obychnyy-chat-bot/index.html",
+      "ru/gpt-chat-guide/index.html",
+      "ru/gpt-chat/index.html",
+      "ru/gpt-dlya-biznesa-v-uzbekistane/index.html",
+      "ru/gpt-dlya-biznesa/index.html",
+      "ru/gpt-dlya-ucheby/index.html",
+      "ru/gpt-na-russkom/index.html",
+      "ru/gpt-v-marketinge-smm/index.html",
+      "ru/gpt-vs-chatgpt-sravnenie/index.html",
+      "ru/instagram-direct-bot/index.html",
+      "ru/internet-reklama-tashkent/index.html",
+      "ru/javob/index.html",
+      "ru/kak-sdelat-ai-bota-telegram-instagram/index.html",
+      "ru/kalkulyator-stoimosti-telegram-bota/index.html",
+      "ru/kalkulyator/index.html",
+      "ru/kirillica-v-latinicu/index.html",
+      "ru/komanda/index.html",
+      "ru/kontekstnaya-reklama-tashkent/index.html",
+      "ru/lokalnoe-seo-tashkent/index.html",
+      "ru/luchshie-razrabotchiki-chat-botov-tashkent/index.html",
+      "ru/market-doverie/index.html",
+      "ru/marketingovyi-audit-tashkent/index.html",
+      "ru/nepravilnye-glagoly/index.html",
+      "ru/o-kompanii/index.html",
+      "ru/oferta/index.html",
+      "ru/okupaemost-chat-bota/index.html",
+      "ru/otzyvy/index.html",
+      "ru/performance-marketing-tashkent/index.html",
+      "ru/pochemu-biznes-teryaet-zayavki/index.html",
+      "ru/politika-konfidentsialnosti/index.html",
+      "ru/prezentatsiya-ai/index.html",
+      "ru/promty-gpt-chatgpt-50-primerov/index.html",
+      "ru/razrabotka-saytov-tashkent/index.html",
+      "ru/razrabotka-telegram-bota-tashkent/index.html",
+      "ru/razrabotka-telegram-mini-app-tashkent/index.html",
+      "ru/russko-uzbekskiy-perevodchik/index.html",
+      "ru/sayt-dlya-zayavok/index.html",
+      "ru/sayt-s-ai-botom/index.html",
+      "ru/seo-prodvizhenie-saytov-tashkent/index.html",
+      "ru/smm-prodvizhenie-tashkent/index.html",
+      "ru/sotuvchi/index.html",
+      "ru/sozdanie-sayta-dlya-biznesa/index.html",
+      "ru/stoimost-chat-bota/index.html",
+      "ru/targetirovannaya-reklama-tashkent/index.html",
+      "ru/tarify-ai-chat/index.html",
+      "ru/telegram-ads-uzbekistan/index.html",
+      "ru/telegram-bot-dlya-biznesa/index.html",
+      "ru/vremena-angliyskogo-yazyka/index.html",
+      "ru/whatsapp-bot-dlya-biznesa/index.html",
+      "uz/ai-bot-yoki-menejer/index.html",
+      "uz/ai-sher-yozish/index.html",
+      "uz/ai-sotuvchi/index.html",
+      "uz/ai-tabrik-generatori/index.html",
+      "uz/amocrm-bitrix24-bilan-ai-bot/index.html",
+      "uz/arizalarni-avtomatlashtirish/index.html",
+      "uz/arizalarni-qabul-qiluvchi-bot/index.html",
+      "uz/avtosalon-uchun-ai-bot/index.html",
+      "uz/biz-haqimizda/index.html",
+      "uz/biznes-nega-arizalarni-yoqotadi/index.html",
+      "uz/biznes-uchun-ai-bot/index.html",
+      "uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/index.html",
+      "uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/index.html",
+      "uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/index.html",
+      "uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/index.html",
+      "uz/blog/ai-botni-biznes-uchun-qanday-tanlash/index.html",
+      "uz/blog/ai-chat-nima-va-qanday-turlari-bor/index.html",
+      "uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/index.html",
+      "uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/index.html",
+      "uz/blog/bepul-sayt-yaratish-yoki-buyurtma/index.html",
+      "uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/index.html",
+      "uz/blog/biznes-reja-tuzish/index.html",
+      "uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/index.html",
+      "uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/index.html",
+      "uz/blog/biznes-uchun-qanday-sayt-kerak/index.html",
+      "uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/index.html",
+      "uz/blog/chat-gpt-uzbek-biznes-uchun/index.html",
+      "uz/blog/chatgpt-claude-gemini-ozbekistonda/index.html",
+      "uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/index.html",
+      "uz/blog/chatgpt-talabalar-uchun/index.html",
+      "uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/index.html",
+      "uz/blog/chatgpt-uzbek-tilida-promptlar/index.html",
+      "uz/blog/chatgptga-qanday-kirish-mumkin/index.html",
+      "uz/blog/domen-va-hosting-qanday-tanlanadi/index.html",
+      "uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/index.html",
+      "uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/index.html",
+      "uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/index.html",
+      "uz/blog/index.html",
+      "uz/blog/insho-yozish-suniy-intellekt-bilan/index.html",
+      "uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/index.html",
+      "uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/index.html",
+      "uz/blog/internet-dokon-yaratish-narxi-toshkent/index.html",
+      "uz/blog/internet-reklama-narxi-ozbekiston-2026/index.html",
+      "uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/index.html",
+      "uz/blog/kontekst-reklama-narxi-toshkent-2026/index.html",
+      "uz/blog/kurs-ishi-yozish/index.html",
+      "uz/blog/marketing-nima/index.html",
+      "uz/blog/oquv-markazi-reklamasi/index.html",
+      "uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/index.html",
+      "uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/index.html",
+      "uz/blog/rasmiy-xat-yozish/index.html",
+      "uz/blog/referat-va-mustaqil-ish/index.html",
+      "uz/blog/reklama-byudjeti-qancha-bolishi-kerak/index.html",
+      "uz/blog/rezyume-tayyorlash/index.html",
+      "uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/index.html",
+      "uz/blog/samarqandda-biznes-uchun-chat-bot/index.html",
+      "uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/index.html",
+      "uz/blog/sayt-yaratish-narxi-nimaga-bogliq/index.html",
+      "uz/blog/sayt-yaratish-narxi-toshkent-2026/index.html",
+      "uz/blog/seo-xizmati-narxi-ozbekiston-2026/index.html",
+      "uz/blog/slayd-tayyorlash/index.html",
+      "uz/blog/smm-nima/index.html",
+      "uz/blog/smm-xizmati-narxi-ozbekiston-2026/index.html",
+      "uz/blog/stomatologiya-va-klinika-reklamasi/index.html",
+      "uz/blog/tabrik-yozish/index.html",
+      "uz/blog/target-reklama-nima/index.html",
+      "uz/blog/tavsifnoma-namuna/index.html",
+      "uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/index.html",
+      "uz/blog/telegram-bot-crm-yoki-menejer/index.html",
+      "uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/index.html",
+      "uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/index.html",
+      "uz/blog/tushuntirish-xati-va-ariza-yozish/index.html",
+      "uz/blog/uzum-marketda-sotuvchi-bolish/index.html",
+      "uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/index.html",
+      "uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/index.html",
+      "uz/boss-digital/index.html",
+      "uz/chat-bot-biznes-uchun/index.html",
+      "uz/chat-bot-narxi/index.html",
+      "uz/dokon-uchun-ai-bot/index.html",
+      "uz/fitnes-klub-uchun-ai-bot/index.html",
+      "uz/fizika-test/index.html",
+      "uz/gpt-bot-biznes-uchun/index.html",
+      "uz/gpt-bot-yoki-oddiy-chat-bot/index.html",
+      "uz/gpt-chat-qollanma/index.html",
+      "uz/gpt-telegram-instagram-ideya/index.html",
+      "uz/gpt-uzbek-tilida-ai-chat/index.html",
+      "uz/gpt-uzbek-tilida/index.html",
+      "uz/horeca-uchun-ai-bot/index.html",
+      "uz/index.html",
+      "uz/informatika-test/index.html",
+      "uz/ingliz-tili-zamonlari/index.html",
+      "uz/instagram-bot-biznes-uchun/index.html",
+      "uz/instagram-target-yoqish/index.html",
+      "uz/instagram-uchun-ai-menejer/index.html",
+      "uz/internet-reklama-toshkent/index.html",
+      "uz/jamoa/index.html",
+      "uz/javob/index.html",
+      "uz/kalkulyator/index.html",
+      "uz/kirill-lotin/index.html",
+      "uz/klinika-uchun-ai-bot/index.html",
+      "uz/kochmas-mulk-agentligi-uchun-ai-bot/index.html",
+      "uz/market-ishonch/index.html",
+      "uz/matematika-test/index.html",
+      "uz/maxfiylik-siyosati/index.html",
+      "uz/muallif-boris-gerasimov/index.html",
+      "uz/notogri-fellar/index.html",
+      "uz/oferta/index.html",
+      "uz/onlayn-testlar/index.html",
+      "uz/oquv-markazi-uchun-ai-bot/index.html",
+      "uz/ozbekiston-boylab-chat-bot/index.html",
+      "uz/past-simple/index.html",
+      "uz/present-continuous/index.html",
+      "uz/present-simple/index.html",
+      "uz/rus-ozbek-tarjimon/index.html",
+      "uz/salon-uchun-ai-bot/index.html",
+      "uz/samarqandda-chat-bot/index.html",
+      "uz/savdoni-avtomatlashtirish/index.html",
+      "uz/sayt-uchun-ai-bot/index.html",
+      "uz/sayt-yaratish/index.html",
+      "uz/seo-xizmati/index.html",
+      "uz/sharhlar/index.html",
+      "uz/smm-xizmatlari/index.html",
+      "uz/sotuvchi/index.html",
+      "uz/suniy-intellekt/index.html",
+      "uz/taqdimot-ai/index.html",
+      "uz/tariflar/index.html",
+      "uz/telegram-bot-biznes-uchun/index.html",
+      "uz/telegram-reklama/index.html",
+      "uz/whatsapp-bot-biznes-uchun/index.html",
+      "uz/yetkazib-berish-uchun-ai-bot/index.html",
+      "uz/yurist-uchun-ai-bot/index.html"
+    ],
+    "contractDifferences": []
+  },
+  "sitemap": {
+    "previousUrls": 329,
+    "currentUrls": 329,
+    "urlsUnchanged": true,
+    "missingHtml": []
+  },
+  "stableFiles": {
+    "checked": 44,
+    "changed": []
+  },
+  "protectedGate": {
+    "ok": true,
+    "pages": 10,
+    "baseline": "docs/seo/evidence/2026-11-06-uz-query-recovery/reviewed-protected-pages.json"
+  },
+  "bundle": {
+    "ok": true,
+    "report": {
+      "entry": "src/gpt-chat/main.tsx",
+      "start": {
+        "bytes": 109954,
+        "files": [
+          "assets/gpt-chat-DImWETvK.js",
+          "assets/preload-helper-BVgr1GO9.js",
+          "assets/rolldown-runtime-kjsH4l9N.js",
+          "assets/turnstile-DGTrsUyL.js",
+          "assets/vendor-DSTW_80r.js",
+          "assets/yandexMetrika-DEM7BaDp.js"
+        ]
+      },
+      "startCss": {
+        "bytes": 6764,
+        "files": [
+          "assets/gpt-chat-CNoiPl9O.css"
+        ]
+      },
+      "pageCss": {
+        "bytes": 26964,
+        "files": [
+          "assets/index-DbkCgwM0.css",
+          "assets/gpt-chat-CNoiPl9O.css"
+        ]
+      },
+      "parts": [
+        {
+          "name": "__vite-browser-external",
+          "bytes": 100,
+          "files": [
+            "assets/__vite-browser-external-BnHmDH7I.js"
+          ]
+        },
+        {
+          "name": "build",
+          "bytes": 3021,
+          "files": [
+            "assets/build-GBRo4Qzw.js",
+            "assets/studio-slides-Bkr96jQK.js"
+          ]
+        },
+        {
+          "name": "chat-account",
+          "bytes": 11331,
+          "files": [
+            "assets/chat-account-DHux45q6.js",
+            "assets/studio-contact-D9YmF4p7.js"
+          ]
+        },
+        {
+          "name": "chat-answer",
+          "bytes": 7574,
+          "files": [
+            "assets/chat-answer-Dro0R2Qh.js"
+          ]
+        },
+        {
+          "name": "chat-conversion",
+          "bytes": 3463,
+          "files": [
+            "assets/chat-conversion-CaIWo49n.js"
+          ],
+          "cssBytes": 874
+        },
+        {
+          "name": "chat-lead",
+          "bytes": 8411,
+          "files": [
+            "assets/AiTelegramCta-XSfyqZhC.js",
+            "assets/TurnstileChallenge-CZz7fA6f.js",
+            "assets/chat-lead-CYSfQxua.js",
+            "assets/lead-attribution-DmPMcd4F.js",
+            "assets/studio-contact-D9YmF4p7.js"
+          ]
+        },
+        {
+          "name": "chat-limit",
+          "bytes": 1014,
+          "files": [
+            "assets/AiTelegramCta-XSfyqZhC.js",
+            "assets/chat-limit-DLYLAWFB.js"
+          ]
+        },
+        {
+          "name": "chat-presentation",
+          "bytes": 23915,
+          "files": [
+            "assets/chat-presentation-IxwEoEk4.js",
+            "assets/studio-runtime-DVuGjhti.js"
+          ],
+          "cssBytes": 6128
+        },
+        {
+          "name": "chat-role",
+          "bytes": 2009,
+          "files": [
+            "assets/chat-role-BvnnB7pY.js"
+          ]
+        },
+        {
+          "name": "chat-tool",
+          "bytes": 941,
+          "files": [
+            "assets/chat-tool-DC6OQtHi.js"
+          ]
+        },
+        {
+          "name": "chat-tools",
+          "bytes": 6274,
+          "files": [
+            "assets/chat-tools-C1_bdpg2.js"
+          ]
+        },
+        {
+          "name": "chat-turnstile",
+          "bytes": 761,
+          "files": [
+            "assets/TurnstileChallenge-CZz7fA6f.js",
+            "assets/chat-turnstile-D6mGbcRV.js"
+          ]
+        },
+        {
+          "name": "Checkout",
+          "bytes": 9837,
+          "files": [
+            "assets/Checkout-CnHfWGLK.js",
+            "assets/studio-runtime-DVuGjhti.js",
+            "assets/texts-CAhLiqYI.js"
+          ]
+        },
+        {
+          "name": "DocumentExport",
+          "bytes": 4143,
+          "files": [
+            "assets/DocumentExport-DE13ipum.js"
+          ]
+        },
+        {
+          "name": "MyPack",
+          "bytes": 8855,
+          "files": [
+            "assets/MyPack-_mQLZHyu.js",
+            "assets/studio-runtime-DVuGjhti.js",
+            "assets/texts-CAhLiqYI.js"
+          ]
+        },
+        {
+          "name": "PayReturn",
+          "bytes": 9663,
+          "files": [
+            "assets/MyPack-_mQLZHyu.js",
+            "assets/PayReturn-V6gxs86F.js",
+            "assets/studio-runtime-DVuGjhti.js",
+            "assets/texts-CAhLiqYI.js"
+          ]
+        },
+        {
+          "name": "pptxgen.es",
+          "bytes": 112910,
+          "files": [
+            "assets/pptxgen.es-Br1QqE94.js"
+          ]
+        },
+        {
+          "name": "PresentationSheets",
+          "bytes": 8140,
+          "files": [
+            "assets/PresentationSheets-_az8cXEI.js",
+            "assets/studio-offer-BqGAjZFG.js",
+            "assets/studio-runtime-DVuGjhti.js",
+            "assets/studio-slides-Bkr96jQK.js"
+          ],
+          "cssBytes": 623
+        },
+        {
+          "name": "SlideCanvas",
+          "bytes": 4161,
+          "files": [
+            "assets/SlideCanvas-DwUYDVPk.js",
+            "assets/build-GBRo4Qzw.js",
+            "assets/studio-slides-Bkr96jQK.js"
+          ]
+        },
+        {
+          "name": "StudioOffer",
+          "bytes": 6637,
+          "files": [
+            "assets/StudioOffer-beTwsTys.js",
+            "assets/studio-offer-BqGAjZFG.js",
+            "assets/studio-runtime-DVuGjhti.js"
+          ],
+          "cssBytes": 623
+        },
+        {
+          "name": "StudioOfferExample",
+          "bytes": 5350,
+          "files": [
+            "assets/SlideCanvas-DwUYDVPk.js",
+            "assets/StudioOfferExample-D2g-XyeY.js",
+            "assets/build-GBRo4Qzw.js",
+            "assets/studio-slides-Bkr96jQK.js"
+          ]
+        }
+      ]
+    }
+  },
+  "ok": true,
+  "scope": "Built local artifact regression evidence; not a production deployment or Railway enablement check."
+}

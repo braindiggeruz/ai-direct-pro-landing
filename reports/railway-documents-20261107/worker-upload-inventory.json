@@ -1,0 +1,112 @@
+[
+  {
+    "path": "apps/document-worker/.dockerignore",
+    "sha256": "53f76d7a10634768aa44f3bf9d578a7c16c677f914fb13694c67c4678afbb3f2",
+    "bytes": 67
+  },
+  {
+    "path": "apps/document-worker/.env.example",
+    "sha256": "bc778d3de42c697d09295b767230bc24ae98b665d78e211b468a0d16e57f7017",
+    "bytes": 521
+  },
+  {
+    "path": "apps/document-worker/.gitignore",
+    "sha256": "8bc64df6b3f45d29ab4e9fe9f0866b2bb16f69fa70ddf1899aa6f5a4efe81e3d",
+    "bytes": 42
+  },
+  {
+    "path": "apps/document-worker/Dockerfile",
+    "sha256": "bfdfef3eac7ab66d0126033b5573225180c63d8ce2e4fb75134197ae1a984b50",
+    "bytes": 556
+  },
+  {
+    "path": "apps/document-worker/README.md",
+    "sha256": "28a50f2dac9032f4f583db9aca2490e6a10f9554f9d8cd5d1db08ebe183fbbc8",
+    "bytes": 8464
+  },
+  {
+    "path": "apps/document-worker/eslint.config.mjs",
+    "sha256": "f1e3db1c9fe5a067d2cbc4e915eddece23637af9dde3a57747d48ff64a7995a9",
+    "bytes": 255
+  },
+  {
+    "path": "apps/document-worker/fonts/manrope-2.woff2",
+    "sha256": "3c09135e88bbfcd848e99be137710afbb615a8d9a73c5c48e6cb0245a162af1d",
+    "bytes": 2588
+  },
+  {
+    "path": "apps/document-worker/fonts/manrope-3.woff2",
+    "sha256": "447c49583b1b735cc6f566151db1d24354cec41076c55dd98455cfbde9e806c1",
+    "bytes": 14352
+  },
+  {
+    "path": "apps/document-worker/fonts/manrope-6.woff2",
+    "sha256": "2f7335119075b2079f1d882530bbc18728461612bf90743203d73a74a48f4d9b",
+    "bytes": 15160
+  },
+  {
+    "path": "apps/document-worker/fonts/manrope-7.woff2",
+    "sha256": "8c2def024c1bf31aacf3624ae3c4d701269b4ec3dc765c04830839f0d36b2d9e",
+    "bytes": 24532
+  },
+  {
+    "path": "apps/document-worker/fonts/manrope-OFL.txt",
+    "sha256": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b",
+    "bytes": 4387
+  },
+  {
+    "path": "apps/document-worker/infrastructure-settings.json",
+    "sha256": "33afdc186857cd8149b026982d0da03d17abe9df390c15f76a3ec2d50e010233",
+    "bytes": 909
+  },
+  {
+    "path": "apps/document-worker/package-lock.json",
+    "sha256": "1d7b830468eecf85491fc85ef3642b22143ef25cac5440384129723d7127d4ea",
+    "bytes": 755
+  },
+  {
+    "path": "apps/document-worker/package.json",
+    "sha256": "c8c72516eaf825cd5b79cb913a48768223768b322cf491b02e36c05f6c167177",
+    "bytes": 304
+  },
+  {
+    "path": "apps/document-worker/src/client.mjs",
+    "sha256": "11a77477463afd2cbe1d591d387a7e16918c18a097505d9a3eb76080bb62eb07",
+    "bytes": 2732
+  },
+  {
+    "path": "apps/document-worker/src/config.mjs",
+    "sha256": "22e1efe4767467d92eefbac076b702304d0e94ab8b78173ff252068921521808",
+    "bytes": 1479
+  },
+  {
+    "path": "apps/document-worker/src/index.mjs",
+    "sha256": "7c9aed50f76b8055aea1215e7c09fc4f0ee98a3638cf727323fedcf93581faab",
+    "bytes": 1761
+  },
+  {
+    "path": "apps/document-worker/src/render-child.mjs",
+    "sha256": "4da105c75741c6febbe625359c15c191b00601c7aa1984a25342ecee003614f6",
+    "bytes": 500
+  },
+  {
+    "path": "apps/document-worker/src/renderer.mjs",
+    "sha256": "6d87d5ac31ee7139adb0cfe233165d31ee4f72fec953da3c3ccd2aaf140c92e0",
+    "bytes": 2242
+  },
+  {
+    "path": "apps/document-worker/src/schema.mjs",
+    "sha256": "bb18366c40fe6384b0a2d4a53646adcc6cc9c44f0e9b6decd72cf1064494a248",
+    "bytes": 2654
+  },
+  {
+    "path": "apps/document-worker/src/template.mjs",
+    "sha256": "f5185b977b253b55b72d4099050ad10be9d78e008f549ceacfc12e2e4a5c1ff3",
+    "bytes": 11139
+  },
+  {
+    "path": "apps/document-worker/src/worker.mjs",
+    "sha256": "2ae850baf8ae98251bdefd731fba59f6ec02a7a7fe742c1a084cbbbe9a4356ad",
+    "bytes": 6709
+  }
+]

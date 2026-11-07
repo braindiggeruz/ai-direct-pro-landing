@@ -1,0 +1,34 @@
+[
+  {
+    "locale": "ru",
+    "pages": 1,
+    "checks": [
+      "CANARY",
+      "синтетическая",
+      "кириллицы",
+      "Ёж"
+    ],
+    "missing": [],
+    "fonts": [
+      ""
+    ],
+    "screenshot": "reports\\railway-documents-20261107\\canary\\artifacts\\production-ru.png",
+    "ok": true
+  },
+  {
+    "locale": "uz",
+    "pages": 2,
+    "checks": [
+      "CANARY",
+      "O‘zbekcha",
+      "To‘lov",
+      "Natijani"
+    ],
+    "missing": [],
+    "fonts": [
+      ""
+    ],
+    "screenshot": "reports\\railway-documents-20261107\\canary\\artifacts\\production-uz.png",
+    "ok": true
+  }
+]

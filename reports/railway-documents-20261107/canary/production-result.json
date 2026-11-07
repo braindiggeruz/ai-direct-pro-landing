@@ -1,0 +1,64 @@
+{
+  "runId": "b336b2b10a2c4cb8a9b35e2317cce594",
+  "startedAt": "2026-11-07T16:17:55.479689+00:00",
+  "ok": true,
+  "scope": "Synthetic D1 insertion -> actual deployed worker -> actual private R2 PDF. Does not prove browser/owner authentication or payments.",
+  "jobs": [
+    {
+      "id": "doc_948809f9ec1e517ca303ac17b7608e22",
+      "locale": "ru",
+      "type": "proposal_pdf",
+      "status": "ready",
+      "attempts": 1,
+      "payloadHash": "1228de3e42d44e48d08f0448512a5a49bf528f20da07aec547a7db1f26de9265",
+      "pdfBytes": 84112,
+      "pdfSha256": "2665283744ae28f87c554ea850998d403f40208da054194b4400666fbf256ea6",
+      "artifactKey": "documents/doc_948809f9ec1e517ca303ac17b7608e22/c455cea4-fb20-47b7-9c8d-d72979fdf146.pdf",
+      "payloadScrubbed": true,
+      "pdfHeaderAndFooterValid": true,
+      "privateAuthenticatedR2Read": true,
+      "semanticOrVisualPdfCheck": "not_run_by_helper",
+      "localPdf": "F:\\Claude\\gptbot-railway-documents-20261107\\reports\\railway-documents-20261107\\canary\\artifacts\\ru-proposal_pdf-b336b2b10a2c4cb8a9b35e2317cce594.pdf"
+    },
+    {
+      "id": "doc_ea8926f06fe3504d8170a5094f8ba7b6",
+      "locale": "uz",
+      "type": "presentation_pdf",
+      "status": "ready",
+      "attempts": 1,
+      "payloadHash": "d0cbc8ae2190a4e9e198f853107b78384c6095e7e95cb630d7ae4ef02335273a",
+      "pdfBytes": 92485,
+      "pdfSha256": "a59debd42a507740877f432cb10d57f30e7bf08da70cb20aa6a27586d79b069f",
+      "artifactKey": "documents/doc_ea8926f06fe3504d8170a5094f8ba7b6/e104167f-e259-43f5-8bbd-86f1317347fe.pdf",
+      "payloadScrubbed": true,
+      "pdfHeaderAndFooterValid": true,
+      "privateAuthenticatedR2Read": true,
+      "semanticOrVisualPdfCheck": "not_run_by_helper",
+      "localPdf": "F:\\Claude\\gptbot-railway-documents-20261107\\reports\\railway-documents-20261107\\canary\\artifacts\\uz-presentation_pdf-b336b2b10a2c4cb8a9b35e2317cce594.pdf"
+    }
+  ],
+  "cleanup": {
+    "ok": true,
+    "jobs": [
+      {
+        "id": "doc_948809f9ec1e517ca303ac17b7608e22",
+        "deletedArtifacts": [
+          "documents/doc_948809f9ec1e517ca303ac17b7608e22/c455cea4-fb20-47b7-9c8d-d72979fdf146.pdf"
+        ],
+        "rowsRemaining": 0,
+        "artifactKeysRemaining": [],
+        "ok": true
+      },
+      {
+        "id": "doc_ea8926f06fe3504d8170a5094f8ba7b6",
+        "deletedArtifacts": [
+          "documents/doc_ea8926f06fe3504d8170a5094f8ba7b6/e104167f-e259-43f5-8bbd-86f1317347fe.pdf"
+        ],
+        "rowsRemaining": 0,
+        "artifactKeysRemaining": [],
+        "ok": true
+      }
+    ]
+  },
+  "finishedAt": "2026-11-07T16:18:35.375730+00:00"
+}

@@ -1,0 +1,264 @@
+{
+  "scenarios": [
+    {
+      "locale": "ru",
+      "width": 320,
+      "geometry": {
+        "width": 320,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "offerGeometry": {
+        "overflow": false,
+        "buttons": [
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375
+        ]
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98505,
+      "eventTypes": [
+        "studio_mode_entered",
+        "studio_upgrade_selected",
+        "studio_tool_started",
+        "studio_result_ready",
+        "studio_upgrade_viewed",
+        "studio_tariffs_viewed",
+        "studio_download_clicked"
+      ]
+    },
+    {
+      "locale": "ru",
+      "width": 360,
+      "geometry": {
+        "width": 360,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "offerGeometry": {
+        "overflow": false,
+        "buttons": [
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375
+        ]
+      },
+      "created": 2,
+      "checkouts": 1,
+      "bytes": 98505,
+      "eventTypes": [
+        "studio_mode_entered",
+        "studio_upgrade_selected",
+        "studio_tool_started",
+        "studio_result_ready",
+        "studio_upgrade_viewed",
+        "studio_tariffs_viewed",
+        "studio_download_clicked",
+        "studio_checkout_started",
+        "studio_checkout_result"
+      ]
+    },
+    {
+      "locale": "ru",
+      "width": 390,
+      "geometry": {
+        "width": 390,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "offerGeometry": {
+        "overflow": false,
+        "buttons": [
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375
+        ]
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98505,
+      "eventTypes": [
+        "studio_mode_entered",
+        "studio_upgrade_selected",
+        "studio_tool_started",
+        "studio_result_ready",
+        "studio_upgrade_viewed",
+        "studio_tariffs_viewed",
+        "studio_download_clicked"
+      ]
+    },
+    {
+      "locale": "ru",
+      "width": 1366,
+      "geometry": {
+        "width": 825,
+        "overflow": false,
+        "footerBottom": 900,
+        "height": 900
+      },
+      "offerGeometry": {
+        "overflow": false,
+        "buttons": [
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375
+        ]
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98505,
+      "eventTypes": [
+        "studio_mode_entered",
+        "studio_upgrade_selected",
+        "studio_tool_started",
+        "studio_result_ready",
+        "studio_upgrade_viewed",
+        "studio_tariffs_viewed",
+        "studio_download_clicked"
+      ]
+    },
+    {
+      "locale": "uz",
+      "width": 320,
+      "geometry": {
+        "width": 320,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "offerGeometry": {
+        "overflow": false,
+        "buttons": [
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375
+        ]
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98757,
+      "eventTypes": [
+        "studio_mode_entered",
+        "studio_upgrade_selected",
+        "studio_tool_started",
+        "studio_result_ready",
+        "studio_upgrade_viewed",
+        "studio_tariffs_viewed",
+        "studio_download_clicked"
+      ]
+    },
+    {
+      "locale": "uz",
+      "width": 360,
+      "geometry": {
+        "width": 360,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "offerGeometry": {
+        "overflow": false,
+        "buttons": [
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375
+        ]
+      },
+      "created": 2,
+      "checkouts": 1,
+      "bytes": 98757,
+      "eventTypes": [
+        "studio_mode_entered",
+        "studio_upgrade_selected",
+        "studio_tool_started",
+        "studio_result_ready",
+        "studio_upgrade_viewed",
+        "studio_tariffs_viewed",
+        "studio_download_clicked",
+        "studio_checkout_started",
+        "studio_checkout_result"
+      ]
+    },
+    {
+      "locale": "uz",
+      "width": 390,
+      "geometry": {
+        "width": 390,
+        "overflow": false,
+        "footerBottom": 740,
+        "height": 740
+      },
+      "offerGeometry": {
+        "overflow": false,
+        "buttons": [
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375
+        ]
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98757,
+      "eventTypes": [
+        "studio_mode_entered",
+        "studio_upgrade_selected",
+        "studio_tool_started",
+        "studio_result_ready",
+        "studio_upgrade_viewed",
+        "studio_tariffs_viewed",
+        "studio_download_clicked"
+      ]
+    },
+    {
+      "locale": "uz",
+      "width": 1366,
+      "geometry": {
+        "width": 825,
+        "overflow": false,
+        "footerBottom": 900,
+        "height": 900
+      },
+      "offerGeometry": {
+        "overflow": false,
+        "buttons": [
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375,
+          45.4375
+        ]
+      },
+      "created": 1,
+      "checkouts": 0,
+      "bytes": 98757,
+      "eventTypes": [
+        "studio_mode_entered",
+        "studio_upgrade_selected",
+        "studio_tool_started",
+        "studio_result_ready",
+        "studio_upgrade_viewed",
+        "studio_tariffs_viewed",
+        "studio_download_clicked"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+[
+  {
+    "locale": "ru",
+    "pages": 1,
+    "fonts": [
+      {
+        "type": "Type3",
+        "resource": "F4",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 10,
+        "glyphProgramBytes": 6980
+      },
+      {
+        "type": "Type3",
+        "resource": "F5",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 14,
+        "glyphProgramBytes": 9666
+      },
+      {
+        "type": "Type3",
+        "resource": "F6",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 5,
+        "glyphProgramBytes": 2584
+      },
+      {
+        "type": "Type3",
+        "resource": "F7",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 3,
+        "glyphProgramBytes": 2474
+      },
+      {
+        "type": "Type3",
+        "resource": "F8",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 8,
+        "glyphProgramBytes": 4164
+      },
+      {
+        "type": "Type3",
+        "resource": "F9",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 13,
+        "glyphProgramBytes": 10342
+      },
+      {
+        "type": "Type3",
+        "resource": "F10",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 10,
+        "glyphProgramBytes": 8951
+      },
+      {
+        "type": "Type3",
+        "resource": "F11",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 16,
+        "glyphProgramBytes": 19902
+      },
+      {
+        "type": "Type3",
+        "resource": "F12",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 35,
+        "glyphProgramBytes": 33526
+      },
+      {
+        "type": "Type3",
+        "resource": "F13",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 8,
+        "glyphProgramBytes": 4502
+      },
+      {
+        "type": "Type3",
+        "resource": "F14",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 2,
+        "glyphProgramBytes": 824
+      }
+    ],
+    "selfContainedGlyphs": true
+  },
+  {
+    "locale": "uz",
+    "pages": 2,
+    "fonts": [
+      {
+        "type": "Type3",
+        "resource": "F4",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 10,
+        "glyphProgramBytes": 6980
+      },
+      {
+        "type": "Type3",
+        "resource": "F5",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 13,
+        "glyphProgramBytes": 9069
+      },
+      {
+        "type": "Type3",
+        "resource": "F6",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 4,
+        "glyphProgramBytes": 3701
+      },
+      {
+        "type": "Type3",
+        "resource": "F7",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 20,
+        "glyphProgramBytes": 18389
+      },
+      {
+        "type": "Type3",
+        "resource": "F8",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 20,
+        "glyphProgramBytes": 17538
+      },
+      {
+        "type": "Type3",
+        "resource": "F9",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 10,
+        "glyphProgramBytes": 8951
+      },
+      {
+        "type": "Type3",
+        "resource": "F10",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 22,
+        "glyphProgramBytes": 19694
+      },
+      {
+        "type": "Type3",
+        "resource": "F11",
+        "fontProgramBytes": 0,
+        "embeddedGlyphPrograms": 37,
+        "glyphProgramBytes": 35482
+      }
+    ],
+    "selfContainedGlyphs": true
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "pages": 1,
+    "attempt": 1,
+    "nodeRssBytes": 79630336,
+    "durationMs": 1929,
+    "type": "proposal_pdf",
+    "level": "info",
+    "pdfBytes": 84112,
+    "message": "",
+    "renderNodeRssBytes": 132354048,
+    "event": "document_completed",
+    "timestamp": "2026-11-07T16:18:18.338588714Z"
+  },
+  {
+    "timestamp": "2026-11-07T16:18:18.769568282Z",
+    "message": "",
+    "renderNodeRssBytes": 133345280,
+    "durationMs": 1465,
+    "pdfBytes": 92485,
+    "event": "document_completed",
+    "nodeRssBytes": 80023552,
+    "pages": 2,
+    "attempt": 1,
+    "level": "info",
+    "type": "presentation_pdf"
+  }
+]

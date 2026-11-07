@@ -1,0 +1,58 @@
+{
+  "checks": [
+    {
+      "path": "/api/studio/documents",
+      "method": "GET",
+      "status": 401,
+      "expected": 401,
+      "noStore": true,
+      "noindex": true,
+      "cors": null,
+      "body": "{\"ok\":false,\"error\":\"identity_required\"}",
+      "ok": true
+    },
+    {
+      "path": "/api/admin/documents",
+      "method": "GET",
+      "status": 401,
+      "expected": 401,
+      "noStore": true,
+      "noindex": true,
+      "cors": null,
+      "body": "{\"error\":\"missing_token\",\"request_id\":\"req_9660282b098b4b2da862b3de17ec0588\"}",
+      "ok": true
+    },
+    {
+      "path": "/api/internal/documents/claim",
+      "method": "POST",
+      "status": 403,
+      "expected": 403,
+      "noStore": true,
+      "noindex": true,
+      "cors": null,
+      "body": "{\"ok\":false,\"error\":\"forbidden\"}",
+      "ok": true
+    },
+    {
+      "path": "/api/studio/documents",
+      "method": "OPTIONS",
+      "status": 403,
+      "expected": 403,
+      "noStore": true,
+      "noindex": true,
+      "cors": null,
+      "body": "",
+      "ok": true
+    }
+  ],
+  "maintenance": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "expired": 0,
+      "orphanObjectsDeleted": 0,
+      "cursor": null
+    }
+  },
+  "ok": true
+}

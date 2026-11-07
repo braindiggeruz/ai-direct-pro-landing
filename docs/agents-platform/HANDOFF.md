@@ -1,3 +1,19 @@
+# Current handoff — Railway documents · 07.11.2026
+
+DEPLOYED / VERIFIED: source `15f1878b`, Pages `99c5dc7f`, Railway worker `1a92ac43`. Previous SEO release `ee11957d` is preserved in ancestry. The owner explicitly authorized Railway integration and deployment.
+
+Owner: `/admin-tools/documents`; public Studio RU/UZ and embedded chat presentations have explicit cloud PDF export and history. This is structured-text PDF, not automatic customer proposal generation or client delivery. Chat/PPTX/payment behavior remains covered by regression tests.
+
+Private D1 document queue + separate R2 + one Railway replica. Shared worker secret installed only in platform secret stores; account API token is not a runtime dependency. Quotas: 3/user/day and 20/site/day, TTL 24h. No changes to other Railway projects or global spending limit.
+
+Evidence: `reports/railway-documents-20261107/`; runbook `docs/documents/RUNBOOK-RU.md`. 329 URL contracts and 10 protected pages preserved; 414 public comparisons PASS. Real production RU/UZ canary passed on the first attempt; PDF text, glyphs and visuals checked; test rows and artifacts deleted. New UI browser checks and 8 chat locale/viewport scenarios PASS. Costs not yet measured over a billing month.
+
+Current worktree `F:/Claude/gptbot-railway-documents-20261107`. Use the existing deploy_runner with explicit DR_ROOT and current production ancestry; never raw deploy. Runtime commits: 9a74b229 + 15f1878b. Future doc-only evidence commit does not replace the deployed source hash.
+
+Rollback: disable only DOCUMENT_JOBS_ENABLED in both runtime forms via a guarded release; preserve ledger/bucket, unrelated services, SEO, Click/OFD and Telegram webhook. Do not activate the legacy apps/gpt-backend gateway. No GitHub push performed.
+
+---
+
 # Current handoff — SEO release verified · 07.11.2026
 
 ## 1. State

@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "runId": "833d2d9c21e64042bab59a1caf20786a",
+  "orgId": "gptbot-documents",
+  "subject": "canary:railway-20261107",
+  "createdAt": 1794068098075,
+  "expiresAt": 1794154498075,
+  "jobs": [
+    {
+      "id": "doc_09cc26535434526cae5bc4733a640c38",
+      "locale": "ru",
+      "type": "proposal_pdf",
+      "idempotencyKey": "canary-20261107-833d2d9c21e64042bab59a1caf20786a-ru",
+      "canonicalCreateJson": "{\"type\":\"proposal_pdf\",\"payload\":{\"locale\":\"ru\",\"company\":\"CANARY — синтетическая компания\",\"objective\":\"Проверить формирование документа на русском языке. Это технический тест, не предложение клиенту.\",\"packageId\":\"custom\",\"scope\":[\"Проверка кириллицы: Ёж, съёмка, очередь.\",\"Проверка переноса текста и готового PDF.\"],\"budgetTerms\":\"Синтетический тест. Стоимость, сроки и коммерческие обязательства не устанавливаются.\"}}",
+      "payloadJson": "{\"locale\":\"ru\",\"company\":\"CANARY — синтетическая компания\",\"objective\":\"Проверить формирование документа на русском языке. Это технический тест, не предложение клиенту.\",\"packageId\":\"custom\",\"scope\":[\"Проверка кириллицы: Ёж, съёмка, очередь.\",\"Проверка переноса текста и готового PDF.\"],\"budgetTerms\":\"Синтетический тест. Стоимость, сроки и коммерческие обязательства не устанавливаются.\"}",
+      "payloadHash": "1228de3e42d44e48d08f0448512a5a49bf528f20da07aec547a7db1f26de9265",
+      "artifactPrefix": "documents/doc_09cc26535434526cae5bc4733a640c38/",
+      "insert": {
+        "sql": "INSERT OR IGNORE INTO document_jobs\n(id,org_id,subject,type,status,payload_json,payload_hash,idempotency_key,created_at,updated_at,expires_at)\nVALUES (?,?,?,?,'queued',?,?,?,?,?,?) RETURNING id",
+        "params": [
+          "doc_09cc26535434526cae5bc4733a640c38",
+          "gptbot-documents",
+          "canary:railway-20261107",
+          "proposal_pdf",
+          "{\"locale\":\"ru\",\"company\":\"CANARY — синтетическая компания\",\"objective\":\"Проверить формирование документа на русском языке. Это технический тест, не предложение клиенту.\",\"packageId\":\"custom\",\"scope\":[\"Проверка кириллицы: Ёж, съёмка, очередь.\",\"Проверка переноса текста и готового PDF.\"],\"budgetTerms\":\"Синтетический тест. Стоимость, сроки и коммерческие обязательства не устанавливаются.\"}",
+          "1228de3e42d44e48d08f0448512a5a49bf528f20da07aec547a7db1f26de9265",
+          "canary-20261107-833d2d9c21e64042bab59a1caf20786a-ru",
+          1794068098075,
+          1794068098075,
+          1794154498075
+        ]
+      },
+      "read": {
+        "sql": "SELECT id,type,status,attempts,artifact_key,artifact_bytes,error_code,created_at,updated_at,expires_at,lease_expires_at,payload_json FROM document_jobs WHERE org_id=? AND subject=? AND id=? AND idempotency_key=? AND payload_hash=?",
+        "params": [
+          "gptbot-documents",
+          "canary:railway-20261107",
+          "doc_09cc26535434526cae5bc4733a640c38",
+          "canary-20261107-833d2d9c21e64042bab59a1caf20786a-ru",
+          "1228de3e42d44e48d08f0448512a5a49bf528f20da07aec547a7db1f26de9265"
+        ]
+      },
+      "freeze": {
+        "sql": "UPDATE document_jobs SET status='cancelled',payload_json=NULL,\nlease_token=NULL,lease_expires_at=NULL,updated_at=?,expires_at=? WHERE org_id=? AND subject=? AND id=? AND idempotency_key=? AND payload_hash=? RETURNING id,artifact_key",
+        "paramsAfterActualNowTwice": [
+          "gptbot-documents",
+          "canary:railway-20261107",
+          "doc_09cc26535434526cae5bc4733a640c38",
+          "canary-20261107-833d2d9c21e64042bab59a1caf20786a-ru",
+          "1228de3e42d44e48d08f0448512a5a49bf528f20da07aec547a7db1f26de9265"
+        ]
+      },
+      "delete": {
+        "sql": "DELETE FROM document_jobs WHERE org_id=? AND subject=? AND id=? AND idempotency_key=? AND payload_hash=? AND status='cancelled' AND payload_json IS NULL RETURNING id",
+        "params": [
+          "gptbot-documents",
+          "canary:railway-20261107",
+          "doc_09cc26535434526cae5bc4733a640c38",
+          "canary-20261107-833d2d9c21e64042bab59a1caf20786a-ru",
+          "1228de3e42d44e48d08f0448512a5a49bf528f20da07aec547a7db1f26de9265"
+        ]
+      }
+    },
+    {
+      "id": "doc_31bcdf339b6057119223f7c4954178c2",
+      "locale": "uz",
+      "type": "presentation_pdf",
+      "idempotencyKey": "canary-20261107-833d2d9c21e64042bab59a1caf20786a-uz",
+      "canonicalCreateJson": "{\"type\":\"presentation_pdf\",\"payload\":{\"locale\":\"uz\",\"title\":\"CANARY — sun’iy taqdimot\",\"slides\":[{\"title\":\"O‘zbekcha tekshiruv\",\"bullets\":[\"Bu haqiqiy mijoz ma’lumoti emas.\",\"O‘, G‘, o‘quvchi va g‘oya belgilarini tekshirish.\"],\"notes\":\"To‘lov va pullik chat balansi ishlatilmaydi.\"},{\"title\":\"Natijani tekshirish\",\"bullets\":[\"Vazifa tayyor holatiga o‘tadi.\",\"PDF yopiq ombordan o‘qiladi va testdan keyin o‘chiriladi.\"]}]}}",
+      "payloadJson": "{\"locale\":\"uz\",\"title\":\"CANARY — sun’iy taqdimot\",\"slides\":[{\"title\":\"O‘zbekcha tekshiruv\",\"bullets\":[\"Bu haqiqiy mijoz ma’lumoti emas.\",\"O‘, G‘, o‘quvchi va g‘oya belgilarini tekshirish.\"],\"notes\":\"To‘lov va pullik chat balansi ishlatilmaydi.\"},{\"title\":\"Natijani tekshirish\",\"bullets\":[\"Vazifa tayyor holatiga o‘tadi.\",\"PDF yopiq ombordan o‘qiladi va testdan keyin o‘chiriladi.\"]}]}",
+      "payloadHash": "d0cbc8ae2190a4e9e198f853107b78384c6095e7e95cb630d7ae4ef02335273a",
+      "artifactPrefix": "documents/doc_31bcdf339b6057119223f7c4954178c2/",
+      "insert": {
+        "sql": "INSERT OR IGNORE INTO document_jobs\n(id,org_id,subject,type,status,payload_json,payload_hash,idempotency_key,created_at,updated_at,expires_at)\nVALUES (?,?,?,?,'queued',?,?,?,?,?,?) RETURNING id",
+        "params": [
+          "doc_31bcdf339b6057119223f7c4954178c2",
+          "gptbot-documents",
+          "canary:railway-20261107",
+          "presentation_pdf",
+          "{\"locale\":\"uz\",\"title\":\"CANARY — sun’iy taqdimot\",\"slides\":[{\"title\":\"O‘zbekcha tekshiruv\",\"bullets\":[\"Bu haqiqiy mijoz ma’lumoti emas.\",\"O‘, G‘, o‘quvchi va g‘oya belgilarini tekshirish.\"],\"notes\":\"To‘lov va pullik chat balansi ishlatilmaydi.\"},{\"title\":\"Natijani tekshirish\",\"bullets\":[\"Vazifa tayyor holatiga o‘tadi.\",\"PDF yopiq ombordan o‘qiladi va testdan keyin o‘chiriladi.\"]}]}",
+          "d0cbc8ae2190a4e9e198f853107b78384c6095e7e95cb630d7ae4ef02335273a",
+          "canary-20261107-833d2d9c21e64042bab59a1caf20786a-uz",
+          1794068098075,
+          1794068098075,
+          1794154498075
+        ]
+      },
+      "read": {
+        "sql": "SELECT id,type,status,attempts,artifact_key,artifact_bytes,error_code,created_at,updated_at,expires_at,lease_expires_at,payload_json FROM document_jobs WHERE org_id=? AND subject=? AND id=? AND idempotency_key=? AND payload_hash=?",
+        "params": [
+          "gptbot-documents",
+          "canary:railway-20261107",
+          "doc_31bcdf339b6057119223f7c4954178c2",
+          "canary-20261107-833d2d9c21e64042bab59a1caf20786a-uz",
+          "d0cbc8ae2190a4e9e198f853107b78384c6095e7e95cb630d7ae4ef02335273a"
+        ]
+      },
+      "freeze": {
+        "sql": "UPDATE document_jobs SET status='cancelled',payload_json=NULL,\nlease_token=NULL,lease_expires_at=NULL,updated_at=?,expires_at=? WHERE org_id=? AND subject=? AND id=? AND idempotency_key=? AND payload_hash=? RETURNING id,artifact_key",
+        "paramsAfterActualNowTwice": [
+          "gptbot-documents",
+          "canary:railway-20261107",
+          "doc_31bcdf339b6057119223f7c4954178c2",
+          "canary-20261107-833d2d9c21e64042bab59a1caf20786a-uz",
+          "d0cbc8ae2190a4e9e198f853107b78384c6095e7e95cb630d7ae4ef02335273a"
+        ]
+      },
+      "delete": {
+        "sql": "DELETE FROM document_jobs WHERE org_id=? AND subject=? AND id=? AND idempotency_key=? AND payload_hash=? AND status='cancelled' AND payload_json IS NULL RETURNING id",
+        "params": [
+          "gptbot-documents",
+          "canary:railway-20261107",
+          "doc_31bcdf339b6057119223f7c4954178c2",
+          "canary-20261107-833d2d9c21e64042bab59a1caf20786a-uz",
+          "d0cbc8ae2190a4e9e198f853107b78384c6095e7e95cb630d7ae4ef02335273a"
+        ]
+      }
+    }
+  ],
+  "scope": "Synthetic D1 insertion -> actual deployed worker -> actual private R2 PDF. Does not prove browser/owner authentication or payments."
+}

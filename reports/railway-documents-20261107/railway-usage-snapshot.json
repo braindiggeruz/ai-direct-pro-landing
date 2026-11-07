@@ -1,0 +1,12 @@
+{
+  "status": 200,
+  "body": {
+    "data": {
+      "workspace": {
+        "customer": {
+          "currentUsage": 0.05857455406382717
+        }
+      }
+    }
+  }
+}

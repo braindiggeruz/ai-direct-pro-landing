@@ -1,0 +1,31 @@
+{
+  "runId": "833d2d9c21e64042bab59a1caf20786a",
+  "startedAt": "2026-11-07T16:14:58.077999+00:00",
+  "ok": false,
+  "scope": "Synthetic D1 insertion -> actual deployed worker -> actual private R2 PDF. Does not prove browser/owner authentication or payments.",
+  "jobs": [],
+  "cleanup": {
+    "ok": false,
+    "jobs": [
+      {
+        "id": "doc_09cc26535434526cae5bc4733a640c38",
+        "deletedArtifacts": [],
+        "rowsRemaining": null,
+        "artifactKeysRemaining": null,
+        "ok": false,
+        "error": "canary_cleanup_failed"
+      },
+      {
+        "id": "doc_31bcdf339b6057119223f7c4954178c2",
+        "deletedArtifacts": [],
+        "rowsRemaining": null,
+        "artifactKeysRemaining": null,
+        "ok": false,
+        "error": "canary_cleanup_failed"
+      }
+    ]
+  },
+  "error": "canary_not_verified",
+  "failureStage": "insert_synthetic_jobs",
+  "finishedAt": "2026-11-07T16:14:59.489720+00:00"
+}
