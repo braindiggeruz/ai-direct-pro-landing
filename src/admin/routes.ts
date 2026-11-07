@@ -2,6 +2,7 @@ export const ADMIN_ROUTE_PATHS = {
   login: 'login',
   // Paid-chat plan WP-19: the owner's AI chat section (platform_owner only).
   aiChat: 'ai-chat',
+  documents: 'documents',
   pages: 'pages',
   pageNew: 'pages/new',
   pageEdit: 'pages/:locale/:slug',

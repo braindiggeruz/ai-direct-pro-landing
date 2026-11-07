@@ -1,0 +1,12 @@
+{
+  "name": "@gptbot/document-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/index.mjs",
+    "test": "node --test ../../tests/document-worker*.test.mjs"
+  },
+  "dependencies": { "playwright-core": "1.61.1" }
+}

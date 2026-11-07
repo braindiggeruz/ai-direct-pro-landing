@@ -38,6 +38,12 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
   // for its own origin only, no-store, CORP same-origin. In the catch-all
   // branch below it would reflect any Origin.
   const isStudioApi = url.pathname === '/api/studio' || url.pathname.startsWith('/api/studio/');
+  // Document payloads and PDFs are private. These exact route families never
+  // inherit the legacy catch-all's reflected CORS headers; worker routes are
+  // server-to-server and never grant browser CORS, even to this site's origin.
+  const documentRoots = ['/api/studio/documents', '/api/admin/documents', '/api/internal/documents'];
+  const isDocumentApi = documentRoots.some(root => url.pathname === root || url.pathname.startsWith(`${root}/`));
+  const isInternalDocumentApi = isDocumentApi && url.pathname.startsWith('/api/internal/');
 
   // GSC fix: strip ?lang= query-parameter variants.
   // Google was crawling /?lang=ru and /?lang=uz as separate URLs and marking
@@ -53,7 +59,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
   // paths (e.g. /ru/blog/...?lang=ru) that the Page Rules don't cover.
   // Redirect: /?lang=ru → /ru/  |  /?lang=uz → /uz/  |  other ?lang= → /
   const langParam = url.searchParams.get('lang');
-  if (langParam) {
+  if (langParam && !isDocumentApi) {
     // If already on a localized path (/ru/... or /uz/...), just strip the param.
     const alreadyLocalized =
       url.pathname.startsWith('/ru/') || url.pathname.startsWith('/uz/') ||
@@ -88,6 +94,21 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
     url.pathname === '/admin-tools/login/';
 
   if (request.method === 'OPTIONS') {
+    if (isDocumentApi) {
+      const origin = request.headers.get('Origin');
+      const headers = new Headers({
+        'Cache-Control': 'private, no-store', 'X-Robots-Tag': 'noindex, nofollow',
+        'Cross-Origin-Resource-Policy': 'same-origin', 'X-Content-Type-Options': 'nosniff',
+        'Alt-Svc': 'clear', Vary: 'Origin',
+      });
+      if (isInternalDocumentApi || origin !== url.origin) return new Response(null, { status: 403, headers });
+      headers.set('Access-Control-Allow-Origin', origin);
+      headers.set('Access-Control-Allow-Credentials', 'true');
+      headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Idempotency-Key');
+      headers.set('Access-Control-Max-Age', '600');
+      return new Response(null, { status: 204, headers });
+    }
     if (isLeadRadarApi) {
       const origin = request.headers.get('Origin');
       if (origin !== url.origin) {
@@ -165,7 +186,19 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, next }) => {
   }
   const res = await next();
   const headers = new Headers(res.headers);
-  if (isLeadRadarApi) {
+  if (isDocumentApi) {
+    for (const name of Array.from(headers.keys())) if (name.toLowerCase().startsWith('access-control-')) headers.delete(name);
+    const origin = request.headers.get('Origin');
+    if (!isInternalDocumentApi && origin === url.origin) {
+      headers.set('Access-Control-Allow-Origin', origin);
+      headers.set('Access-Control-Allow-Credentials', 'true');
+      headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Idempotency-Key');
+    }
+    headers.append('Vary', 'Origin');
+    headers.set('Cache-Control', 'private, no-store');
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+    headers.set('Cross-Origin-Resource-Policy', 'same-origin');
+  } else if (isLeadRadarApi) {
     const origin = request.headers.get('Origin');
     if (origin === url.origin) {
       headers.set('Access-Control-Allow-Origin', origin);

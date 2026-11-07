@@ -1,5 +1,5 @@
 /** @jsxRuntime automatic @jsxImportSource react */
-import type { ReactNode } from 'react';
+import { lazy, Suspense, useState, type ReactNode } from 'react';
 import type { StudioAudience } from '../../api';
 import type { IslandSlots } from '../../slots';
 import { Download } from './Download';
@@ -17,12 +17,14 @@ export interface FormProps extends PresentationSessionProps { readonly render?: 
 const FIELD =
   'st:w-full st:rounded-xl st:border st:border-studio-line st:bg-studio-bg st:px-3.5 st:py-3 st:text-base st:text-studio-text st:placeholder:text-studio-muted st:outline-none st:focus:border-studio-blue st:disabled:opacity-60';
 const LABEL = 'st:mb-1.5 st:block st:text-sm st:font-medium st:text-studio-text';
+const DocumentExport = lazy(() => import('./DocumentExport'));
 const BUTTON =
   'st:w-full st:rounded-xl st:bg-linear-to-br st:from-studio-blue st:to-studio-cyan st:px-4 st:py-3.5 st:text-base st:font-semibold st:text-studio-bg st:transition-opacity st:disabled:opacity-60 st:focus-visible:outline-2 st:focus-visible:outline-offset-2 st:focus-visible:outline-studio-cyan';
 
 
 export function Form(props: FormProps) {
   const session = usePresentationSession(props);
+  const [documentsOpen, setDocumentsOpen] = useState(false);
   if (props.render) return props.render(session);
   const { slots, locale } = props;
   const { texts, full, id, embedded, hydrated, topic, setTopic, audience, setAudience, slides, setSlides, shape, chooseShape, palette, setPalette,
@@ -161,6 +163,7 @@ export function Form(props: FormProps) {
           actions={
             <div className="st:space-y-3">
               <Download texts={texts} state={download} inApp={inApp} onDownload={() => void onDownload()} />
+              {hydrated && <Suspense fallback={null}><DocumentExport deck={result.deck} locale={locale} /></Suspense>}
               {hydrated && result.shape === 'free' && slots?.tariffs ? <div data-studio-slot="after_result">{slots.tariffs('after_result')}</div> : null}
               {canRegenerate ? (
                 <div className="st:space-y-1" data-studio-regenerate="">
@@ -180,6 +183,10 @@ export function Form(props: FormProps) {
         />
       ) : null}
       {hydrated && slots?.myPack ? <div data-studio-slot="my-pack">{slots.myPack()}</div> : null}
+      {hydrated && !result && <div className="st:mt-4">
+        <button type="button" className="st:min-h-11 st:rounded-xl st:border st:border-studio-line st:px-4 st:py-2 st:text-sm st:text-studio-text st:focus-visible:outline-2 st:focus-visible:outline-offset-2 st:focus-visible:outline-studio-cyan" aria-expanded={documentsOpen} onClick={() => setDocumentsOpen(open => !open)}>{locale === 'ru' ? 'Мои облачные PDF' : 'Bulutdagi PDFlarim'}</button>
+        {documentsOpen && <div className="st:mt-3"><Suspense fallback={null}><DocumentExport locale={locale} /></Suspense></div>}
+      </div>}
     </div>
   );
 }

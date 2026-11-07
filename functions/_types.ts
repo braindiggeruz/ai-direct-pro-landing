@@ -64,6 +64,12 @@ export interface Env extends FirecrawlEnvironment {
   // D1 database that stores incoming drafts pending human review.
   // See /app/migrations/0001_ai_drafts.sql for the schema.
   GPTBOT_DRAFTS_DB?: D1Database;
+  // Isolated document jobs: no access to the chat payment ledger.
+  DOCUMENT_ARTIFACTS?: R2Bucket;
+  DOCUMENT_WORKER_SECRET?: string;
+  DOCUMENT_JOBS_ENABLED?: string;
+  DOCUMENT_JOBS_DAILY_SUBJECT_LIMIT?: string;
+  DOCUMENT_JOBS_DAILY_GLOBAL_LIMIT?: string;
   // First-party automation producer. The separate Worker is the consumer;
   // messages contain job references only, never prompts, content or secrets.
   AUTOMATION_QUEUE?: Queue<unknown>;

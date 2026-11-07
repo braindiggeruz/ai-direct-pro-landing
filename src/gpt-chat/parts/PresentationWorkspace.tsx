@@ -11,6 +11,7 @@ import { billingRuntime } from '../../../apps/studio/src/billing/runtime';
 const PresentationSheets = lazy(() => import('./PresentationSheets').then(m => ({default:m.PresentationSheets})));
 const SlideCanvas = lazy(() => import('../../../apps/studio/src/embedded/SlideCanvas').then(m => ({default:m.SlideCanvas})));
 const StudioOffer = lazy(() => import('./StudioOffer').then(m => ({default:m.StudioOffer})));
+const DocumentExport = lazy(() => import('../../../apps/studio/src/tools/presentation/DocumentExport'));
 
 export interface WorkspaceProps {
   session: PresentationSession; artifactId: string; ownerKey: string; active: boolean;
@@ -79,6 +80,7 @@ export function PresentationWorkspace({ session: s, artifactId, ownerKey, active
         {s.status.kind === 'working' && <Progress texts={s.texts} step={s.status.step} startedAt={s.status.startedAt} steps={s.status.full ? FULL_PROGRESS_STEPS : undefined} note={s.status.full ? s.full.progressNote : undefined} detail={s.parts ? <PartsProgress done={s.parts.partsDone} total={s.parts.parts} label={s.full.parts}/> : undefined}/>}
         {active && s.config && !s.working && s.result?.shape !== 'full' && <Suspense fallback={null}><StudioOffer config={s.config} locale={s.locale} result={!!s.result} repeat={repeatProject} units={s.unitsLeft} onChoose={plan => openSheet('billing',plan)}/></Suspense>}
         <p className="gpt-workspace-note">{ru ? 'Сохраняется в этом браузере. Скачайте PPTX перед очисткой данных.' : 'Shu brauzerda saqlanadi. Ma’lumotlarni tozalashdan oldin PPTXni yuklab oling.'}</p>
+        {active && s.result && <Suspense fallback={null}><DocumentExport deck={s.result.deck} locale={s.locale}/></Suspense>}
       </div>
       <footer className="gpt-workspace-footer">
         {s.result ? <Download texts={s.texts} state={s.download} inApp={s.inApp} onDownload={() => void s.onDownload()}/> : <button type="button" className="gpt-workspace-primary" disabled={!s.hydrated || s.working || s.topic.trim().length < 3 || (s.fullChosen && s.unitsLeft === null)} onClick={() => needPurchase ? openSheet('billing') : void s.onSubmit()}>{s.working ? s.texts.submitBusy : needPurchase ? (ru ? 'Выбрать пакет презентаций' : 'Taqdimot paketini tanlash') : s.fullChosen ? s.full.submit : (ru ? 'Создать презентацию' : 'Taqdimot yaratish')}</button>}

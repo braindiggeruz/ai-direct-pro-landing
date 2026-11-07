@@ -1,0 +1,26 @@
+{
+  "description": "Non-secret deployment settings reference. Apply through Railway service API; not Railway Config-as-Code.",
+  "service": "document-worker",
+  "rootDirectory": "/apps/document-worker",
+  "builder": "RAILPACK",
+  "dockerfilePath": "Dockerfile",
+  "startCommand": "node src/index.mjs",
+  "healthcheckPath": "/healthz",
+  "healthcheckTimeout": 60,
+  "memoryGB": 1,
+  "vCPUs": 1,
+  "restartPolicyType": "ON_FAILURE",
+  "restartPolicyMaxRetries": 3,
+  "numReplicas": 1,
+  "volume": false,
+  "nonSecretVariables": {
+    "DOCUMENT_API_BASE_URL": "https://gptbot.uz",
+    "DOCUMENT_API_ALLOWED_HOSTS": "gptbot.uz,www.gptbot.uz",
+    "DOCUMENT_POLL_SECONDS": "20",
+    "DOCUMENT_JOB_TIMEOUT_SECONDS": "90",
+    "DOCUMENT_SHUTDOWN_SECONDS": "25",
+    "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": "45",
+    "RAILWAY_DEPLOYMENT_OVERLAP_SECONDS": "0"
+  },
+  "requiredSecretNames": ["DOCUMENT_WORKER_SECRET"]
+}

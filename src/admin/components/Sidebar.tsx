@@ -29,6 +29,7 @@ export function Sidebar({ onPublish, role, signalBadge }: { onPublish?: () => vo
       items: [
         { to: '/admin-tools/', label: t.nav.cockpit, icon: LayoutDashboard, end: true, testId: 'nav-cockpit' },
         { to: '/admin-tools/ai-chat', label: t.nav.ai_chat, icon: MessageSquare, testId: 'nav-ai-chat' },
+        ...((role === 'platform_owner' || role === 'admin') ? [{ to: '/admin-tools/documents', label: 'Документы', icon: FileText, testId: 'nav-documents' }] : []),
       ],
     },
     {

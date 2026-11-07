@@ -52,6 +52,7 @@ test('built RU/UZ workspace: document edits, PPTX, locale regression, reload, mo
         }
         if (url.origin !== origin) return route.abort();
         if (!url.pathname.startsWith('/api/')) return route.continue();
+        if (url.pathname === '/api/studio/documents' && route.request().method() === 'GET') return route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ ok: false, error: 'documents_unavailable' }) });
         if (url.pathname === '/api/gpt/account') return json({ ok: true, loginAvailable: false, mode: null, providers: [], user: null, terms: { ru: null, uz: null }, termsVersion: null, freeLimits: { daily: 15, hourly: 5 }, botHandoff: false });
         if (url.pathname === '/api/auth/config') return json({ turnstileRequired: false });
         if (url.pathname.endsWith('/event')) { if(url.pathname==='/api/studio/event') events.push(route.request().postDataJSON());return json({ ok: true }); }
