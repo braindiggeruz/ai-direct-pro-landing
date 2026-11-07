@@ -1,3 +1,9 @@
+# Release update — 07.11.2026
+
+SEO release `504d3bac271a04bc8104dad1e0710fba61ca934d` DEPLOYED AND VERIFIED, preview `8983beaa`. All411public checks match. 485targeted and59overlappingpostbuild checks pass; typechecks/lint/SEOguards pass. Browser proves onegtag andGA204. Google4surfaces204/readback; IndexNow8URLs202 (queued, indexing unconfirmed). Mobile firstPSI89/TBT250 versus74/1610before; field28dayCWVunchanged. Next: exact regionalMetrika `.com` CSP follow-up discovered byPSI; keepallotherprotection unchanged. This update supersedes candidate status below.
+
+---
+
 # Current handoff — SEO implementation · 07.11.2026
 
 ## 1. State

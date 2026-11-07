@@ -1,0 +1,186 @@
+{
+  "checkedAt": "2026-11-07T02:32:13.238172+00:00",
+  "commit": "504d3bac271a04bc8104dad1e0710fba61ca934d",
+  "manifest": {
+    "schema": 1,
+    "commit": "504d3bac271a04bc8104dad1e0710fba61ca934d",
+    "artifactSha256": "16f5107c78a33bf267580ab9670358d0c1efc387847a0c813024aed3d26f0d09",
+    "fileCount": 1060,
+    "features": [
+      "audience_directory",
+      "mobile_username_selection",
+      "bridge_pairing",
+      "sending_readiness",
+      "campaign_preflight",
+      "async_media_check",
+      "ai_chat_admin"
+    ],
+    "probes": [
+      {
+        "path": "assets/AdminRoot-DiTkCVrT.js",
+        "sha256": "4c7279b023f0ff9bd09649216b0b847a92f1fcb41774fab4be14859da6ca5676"
+      },
+      {
+        "path": "assets/ui-CH_3xdyd.js",
+        "sha256": "46ade24e188120908995aeee9a9be79dfc48885b09d685ff981ca317aec022ce"
+      },
+      {
+        "path": "assets/AiChat-7HsTMjJk.js",
+        "sha256": "18e9e3cb8cd6a07a5b536b27b0923000b8920ae07696ac2bd3b9e8d6f9da8a9e"
+      },
+      {
+        "path": "index.html",
+        "sha256": "331a8fc706e8fecf0aefdb29d9aac816a5dba50996f356b987d66fd3be5a3f97"
+      },
+      {
+        "path": "admin/index.html",
+        "sha256": "d78cad692a4eaac2ab7d70e7b63cb5c9c7c0cbeda6db71acb42eeb8032e936dc"
+      },
+      {
+        "path": "uz/internet-reklama-toshkent/index.html",
+        "sha256": "f6c66762582f7ae4858e3468cbed82f0e150b22ededeb407123a85c17cd1d529"
+      },
+      {
+        "path": "ru/internet-reklama-tashkent/index.html",
+        "sha256": "fd867fab337fd040cc43e8e8dcefa2ceb35df803b3047eb85388892ac97f0838"
+      },
+      {
+        "path": "ru/prezentatsiya-ai/index.html",
+        "sha256": "6ae379bd321febac7a00d3138c8e67b9b73391c6a4100807c1cde1c5945b4b58"
+      },
+      {
+        "path": "uz/taqdimot-ai/index.html",
+        "sha256": "c409d50174dbe97a5f961c0c7a33ac0a3f36dab888e1861acbef5508a2e78b30"
+      },
+      {
+        "path": "uz/tariflar/index.html",
+        "sha256": "e7d455503a2ebdbb3ad3d97a843a72b960c0865940513f7d5d77df1dd20140be"
+      }
+    ]
+  },
+  "manifestExactMatch": true,
+  "pages": [
+    {
+      "url": "https://gptbot.uz/uz/kirill-lotin/",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "sha256": "ddcbc12c513824b00e5edcd021b8d2e5938fe2eef64632700b8d5bb9a68eeb05"
+    },
+    {
+      "url": "https://gptbot.uz/ru/kirillica-v-latinicu/",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "sha256": "a54d6020d4bd0f8ff95b938acf8fc2648bb6c990324faf5d932caf83abe4f5d7"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "sha256": "92c7484e81fc7afae5bfbec21cf008f458d254b34d73839d5cfd9301a70baa84"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/tavsifnoma-namuna/",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "sha256": "8e9d94a031bbac4902dc546c80c1d1a06092edb8e91c5246a127dc9037cd9c07"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "sha256": "282a4e14c780bb2fd6965be419ee1b8999822388c28fbc368947b306acebb179"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "sha256": "5bac2f92357ebbb359b8bd60117a40ea5a00b060398cbd4f5d02b226c9898ad9"
+    },
+    {
+      "url": "https://gptbot.uz/ru/oferta/",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "sha256": "f7f5cfc28dfc382174fae643b912e9e0c0e9f57d386f8887587a7b1db5771358"
+    },
+    {
+      "url": "https://gptbot.uz/uz/oferta/",
+      "httpStatus": 200,
+      "selfCanonical": true,
+      "indexingAllowed": true,
+      "sha256": "37471fab3308f62ee21cb6ea8da3846851586d4a29795c8bc06c8fda37112a93"
+    }
+  ],
+  "surfaces": [
+    {
+      "url": "https://gptbot.uz/sitemap.xml",
+      "httpStatus": 200,
+      "sha256": "890d26a64df8df95a67252a1d4aab8df656e5327557d7e1a85090cf953ab26c2",
+      "matchesLocalArtifact": true,
+      "urlCount": 329,
+      "changedUrlsPresent": [
+        "https://gptbot.uz/uz/kirill-lotin/",
+        "https://gptbot.uz/ru/kirillica-v-latinicu/",
+        "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+        "https://gptbot.uz/uz/blog/tavsifnoma-namuna/",
+        "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+        "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+        "https://gptbot.uz/ru/oferta/",
+        "https://gptbot.uz/uz/oferta/"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/sitemap-updates.xml",
+      "httpStatus": 200,
+      "sha256": "9d35feb3e307dec11e56f9eb64f2da30cd27714e29b5e4288af0c53110593707",
+      "matchesLocalArtifact": true,
+      "urlCount": 57,
+      "changedUrlsPresent": [
+        "https://gptbot.uz/uz/kirill-lotin/",
+        "https://gptbot.uz/ru/kirillica-v-latinicu/",
+        "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+        "https://gptbot.uz/uz/blog/tavsifnoma-namuna/",
+        "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+        "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/feed.xml",
+      "httpStatus": 200,
+      "sha256": "df95dcae1b864d8338499383fa351b573485a5bc983b4d31a7c2d1f1dd40eafa",
+      "matchesLocalArtifact": true,
+      "urlCount": 50,
+      "changedUrlsPresent": [
+        "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+        "https://gptbot.uz/uz/blog/tavsifnoma-namuna/",
+        "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+        "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/"
+      ]
+    },
+    {
+      "url": "https://gptbot.uz/updates/atom.xml",
+      "httpStatus": 200,
+      "sha256": "2c652bb6706824db36bfb69500846a7e3255417ed1e05a8cde0ec0014220f778",
+      "matchesLocalArtifact": true,
+      "urlCount": 200,
+      "changedUrlsPresent": [
+        "https://gptbot.uz/uz/kirill-lotin/",
+        "https://gptbot.uz/ru/kirillica-v-latinicu/",
+        "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+        "https://gptbot.uz/uz/blog/tavsifnoma-namuna/",
+        "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+        "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+        "https://gptbot.uz/ru/oferta/",
+        "https://gptbot.uz/uz/oferta/"
+      ]
+    }
+  ],
+  "indexNowKeyFileVerified": true,
+  "feedCoverageNote": "Feeds are bounded existing surfaces; all eight URLs must be in the main sitemap."
+}

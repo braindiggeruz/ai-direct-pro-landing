@@ -1,0 +1,68 @@
+{
+  "startedAt": "2026-11-07T02:32:14.534016+00:00",
+  "commit": "504d3bac271a04bc8104dad1e0710fba61ca934d",
+  "property": "sc-domain:gptbot.uz",
+  "helperSourceSha256": "cf0a1a395fd1e06d91939493ec5e252f0ce3f20bbbb57dfb5d85a79c23ee86f4",
+  "urls": [
+    "https://gptbot.uz/uz/kirill-lotin/",
+    "https://gptbot.uz/ru/kirillica-v-latinicu/",
+    "https://gptbot.uz/uz/blog/slayd-tayyorlash/",
+    "https://gptbot.uz/uz/blog/tavsifnoma-namuna/",
+    "https://gptbot.uz/uz/blog/rezyume-tayyorlash/",
+    "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+    "https://gptbot.uz/ru/oferta/",
+    "https://gptbot.uz/uz/oferta/"
+  ],
+  "attempts": [
+    {
+      "provider": "google",
+      "url": "https://gptbot.uz/sitemap.xml",
+      "startedAt": "2026-11-07T02:32:14.862794+00:00",
+      "state": "accepted",
+      "previousLastSubmitted": "2026-11-06T10:07:10.399Z",
+      "httpStatus": 204,
+      "completedAt": "2026-11-07T02:32:15.596969+00:00"
+    },
+    {
+      "provider": "google",
+      "url": "https://gptbot.uz/sitemap-updates.xml",
+      "startedAt": "2026-11-07T02:32:15.893489+00:00",
+      "state": "accepted",
+      "previousLastSubmitted": "2026-11-06T10:14:04.620Z",
+      "httpStatus": 204,
+      "completedAt": "2026-11-07T02:32:16.081677+00:00"
+    },
+    {
+      "provider": "google",
+      "url": "https://gptbot.uz/uz/blog/feed.xml",
+      "startedAt": "2026-11-07T02:32:16.363765+00:00",
+      "state": "accepted",
+      "previousLastSubmitted": "2026-11-06T10:14:04.831Z",
+      "httpStatus": 204,
+      "completedAt": "2026-11-07T02:32:16.566389+00:00"
+    },
+    {
+      "provider": "google",
+      "url": "https://gptbot.uz/updates/atom.xml",
+      "startedAt": "2026-11-07T02:32:16.878566+00:00",
+      "state": "accepted",
+      "previousLastSubmitted": "2026-11-06T10:14:05.159Z",
+      "httpStatus": 204,
+      "completedAt": "2026-11-07T02:32:17.208122+00:00"
+    },
+    {
+      "provider": "indexnow",
+      "endpoint": "https://yandex.com/indexnow",
+      "urlCount": 8,
+      "startedAt": "2026-11-07T02:32:17.518688+00:00",
+      "state": "accepted",
+      "keyFileVerified": true,
+      "completedAt": "2026-11-07T02:32:18.059905+00:00",
+      "httpStatus": 202,
+      "keyValidationPending": true
+    }
+  ],
+  "indexingConfirmed": false,
+  "completedAt": "2026-11-07T02:32:18.362562+00:00",
+  "googleReadbackMatched": true
+}

@@ -1,0 +1,44 @@
+{
+  "readAt": "2026-11-07T02:32:18.331309+00:00",
+  "surfaces": [
+    {
+      "url": "https://gptbot.uz/sitemap.xml",
+      "http204Recorded": true,
+      "lastSubmitted": "2026-11-07T02:32:15.640Z",
+      "matchesAttemptWindow": true,
+      "isPending": false,
+      "errors": "0",
+      "warnings": "0"
+    },
+    {
+      "url": "https://gptbot.uz/sitemap-updates.xml",
+      "http204Recorded": true,
+      "lastSubmitted": "2026-11-07T02:32:16.117Z",
+      "matchesAttemptWindow": true,
+      "isPending": false,
+      "errors": "0",
+      "warnings": "0"
+    },
+    {
+      "url": "https://gptbot.uz/uz/blog/feed.xml",
+      "http204Recorded": true,
+      "lastSubmitted": "2026-11-07T02:32:16.580Z",
+      "matchesAttemptWindow": true,
+      "isPending": false,
+      "errors": "0",
+      "warnings": "0"
+    },
+    {
+      "url": "https://gptbot.uz/updates/atom.xml",
+      "http204Recorded": true,
+      "lastSubmitted": "2026-11-07T02:32:17.224Z",
+      "matchesAttemptWindow": true,
+      "isPending": true,
+      "errors": "0",
+      "warnings": "0"
+    }
+  ],
+  "allFourReadbackMatched": true,
+  "noReportedErrors": true,
+  "indexingConfirmed": false
+}

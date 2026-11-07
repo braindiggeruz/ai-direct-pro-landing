@@ -12,11 +12,14 @@
 # Security baseline added 2026-06-26 to fix missing HSTS / X-Frame-Options /
 # CSP / nosniff flagged by SEO audit (60 critical security findings).
 #
-# NOTE on CSP: the site loads GTM, GA, Meta Pixel, Yandex Metrika and inline
+# NOTE on CSP: the site loads GA, Meta Pixel, Yandex Metrika and inline
 # bootstrap scripts. The allowlist below is enforced and limited to the exact
-# observed services. Metrika contributes one host — mc.yandex.ru — to
-# script-src, connect-src and frame-src; the noscript pixel is covered by the
-# existing `img-src https:`.
+# observed services. Metrika uses mc.yandex.ru for scripts, connections and
+# frames. PSI on 2026-11-07 also observed HTTPS hits and the JSONP fallback at
+# mc.yandex.com/watch/111312750: allow that exact HTTPS origin in script-src and
+# connect-src only. Yandex documents the host in its CSP address list:
+# https://yandex.com/support/metrica/en/code/install-counter-csp
+# The noscript pixel remains covered by the existing `img-src https:`.
 #
 # connect-src carries that host twice, under both schemes. Webvisor is on for
 # counter 111312750 and it uploads over `wss://mc.yandex.ru/solid.ws`; a CSP
@@ -24,7 +27,8 @@
 # authorise the socket. Production consoles were logging "Connecting to
 # 'wss://mc.yandex.ru/solid.ws' violates the following Content Security Policy
 # directive" on every page, so the recordings the ym-hide-content masking was
-# written for were never actually being made. Still one host, still no wildcard.
+# written for were never actually being made. The .com fallback adds no frame
+# or WebSocket permission; no Yandex wildcard is allowed.
 
 /*
   Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400
@@ -34,7 +38,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
   Cross-Origin-Opener-Policy: same-origin
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru https://mc.yandex.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests
 
 # The `/*` Cache-Control above is the HTML policy and it stays scoped to HTML:
 # browsers always revalidate (max-age=0) and only the Cloudflare edge holds a

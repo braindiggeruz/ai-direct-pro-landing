@@ -1,0 +1,28 @@
+{
+  "target": "local complete production build",
+  "page": "/uz/kirill-lotin/",
+  "viewportRequests": [
+    {
+      "width": 390,
+      "height": 844,
+      "documentClientWidth": 375,
+      "documentScrollWidth": 375
+    },
+    {
+      "width": 375,
+      "height": 812,
+      "documentClientWidth": 360,
+      "documentScrollWidth": 360
+    }
+  ],
+  "input": "Ўзбекистон тонг санъат",
+  "actualOutput": "O‘zbekiston tong san’at",
+  "clipboardExact": true,
+  "minimumObservedButtonHeight": 44,
+  "consoleErrors": 0,
+  "notes": [
+    "Screenshot reviewed; no horizontal overflow or overlap in converter controls",
+    "Viewport dimensions include browser scrollbar; document width is reported explicitly",
+    "This checks the existing converter after content/template changes; algorithm unchanged"
+  ]
+}

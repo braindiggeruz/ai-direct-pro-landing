@@ -614,7 +614,7 @@ test('metrika: 404.html stays analytics-free, the same as GTM and the Pixel', as
 // ── CSP ──────────────────────────────────────────────────────────────────────
 
 for (const file of ['public/_headers', 'scripts/generate-robots.ts']) {
-  test(`metrika: ${file} allows mc.yandex.ru and nothing broader`, async () => {
+  test(`metrika: ${file} allows only the observed Yandex origins in each directive`, async () => {
     const text = await source(file);
     const csp = text.slice(text.indexOf('Content-Security-Policy:'));
     const policy = csp.slice(0, csp.indexOf('upgrade-insecure-requests'));
@@ -623,6 +623,13 @@ for (const file of ['public/_headers', 'scripts/generate-robots.ts']) {
       assert.ok(start > -1, `${directive} missing in ${file}`);
       const block = policy.slice(start, policy.indexOf(';', start));
       assert.ok(block.includes('https://mc.yandex.ru'), `${directive} does not allow mc.yandex.ru`);
+      const expectedOrigins = directive === 'connect-src'
+        ? ['https://mc.yandex.ru', 'https://mc.yandex.com', 'wss://mc.yandex.ru']
+        : directive === 'script-src'
+          ? ['https://mc.yandex.ru', 'https://mc.yandex.com']
+          : ['https://mc.yandex.ru'];
+      const yandexOrigins = block.split(/\s+/).filter(origin => /yandex|webvisor|yastatic/i.test(origin));
+      assert.deepEqual(yandexOrigins.sort(), expectedOrigins.sort(), `${directive} changed the reviewed Yandex allowlist`);
       if (directive === 'connect-src') {
         // Webvisor is on for this counter and uploads over a WebSocket. A CSP
         // source expression matches by scheme, so the https origin does not
@@ -637,8 +644,15 @@ for (const file of ['public/_headers', 'scripts/generate-robots.ts']) {
     }
     assert.ok(!policy.includes('yandex.*'), 'no wildcard yandex origin');
     assert.ok(!policy.includes('*.yandex'), 'no wildcard yandex origin');
+    for (const block of policy.split(';')) {
+      const [directive, ...origins] = block.trim().split(/\s+/);
+      if (directive !== 'script-src' && directive !== 'connect-src') {
+        assert.ok(!origins.some(origin => origin.includes('mc.yandex.com')), `${directive} unnecessarily allows the .com fallback`);
+      }
+    }
+    assert.ok(!policy.includes('wss://mc.yandex.com'), 'no unobserved .com WebSocket permission');
     // The inline block relies on the 'unsafe-inline' that was already there for
-    // GTM; Metrika must not have widened anything else.
+    // the site's bootstraps; Metrika must not have widened anything else.
     assert.ok(!policy.includes("default-src 'self' https:"), 'default-src was loosened');
   });
 }

@@ -1,0 +1,30 @@
+{
+  "release": "504d3bac271a04bc8104dad1e0710fba61ca934d",
+  "before": {
+    "url": "https://pagespeed.web.dev/analysis/https-gptbot-uz-uz-gpt-uzbek-tilida/hrd7swarak?form_factor=mobile",
+    "performance": 74,
+    "tbtMs": 1610,
+    "lcpSeconds": 1.1,
+    "longTasks": 11
+  },
+  "after": {
+    "url": "https://pagespeed.web.dev/analysis/https-gptbot-uz-uz-gpt-uzbek-tilida/hs6lja8vsh?form_factor=mobile",
+    "performance": 89,
+    "accessibility": 100,
+    "seo": 100,
+    "bestPractices": 92,
+    "tbtMs": 250,
+    "lcpSeconds": 3.1,
+    "fcpSeconds": 1.1,
+    "cls": 0.001,
+    "longTasks": 5
+  },
+  "field28days": {
+    "lcpSeconds": 2.9,
+    "inpMs": 426,
+    "cls": 0.05,
+    "pass": false
+  },
+  "limitation": "One lab run per state, LCP varies. Field measurements still describe the previous rolling window; no causal ranking uplift claimed.",
+  "followup": "PSI detected cross-region Metrika mc.yandex.com transport blocked by CSP. Exact same-vendor host repair underway."
+}

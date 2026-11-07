@@ -204,11 +204,13 @@ headers.push('  Permissions-Policy: geolocation=(), microphone=(), camera=(), pa
 headers.push('  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
 headers.push('  X-Frame-Options: SAMEORIGIN');
 headers.push('  Cross-Origin-Opener-Policy: same-origin');
-// Yandex Metrika (counter 111312750) adds exactly one host — mc.yandex.ru — to
-// script-src (tag.js), connect-src (hits + Webvisor uploads) and frame-src (the
-// counter's sync frame). img-src already allows https:, which covers the
-// noscript pixel. No wildcard, no *.yandex.*, and no new 'unsafe-inline': the
-// inline block is already covered by the existing one.
+// Yandex Metrika uses mc.yandex.ru for tag.js, hits, Webvisor and its sync frame.
+// PSI on 2026-11-07 also observed HTTPS hits and a JSONP script fallback at
+// mc.yandex.com/watch/111312750. Allow that exact HTTPS origin in connect-src
+// and script-src only; no .com frame or WebSocket permission is needed here.
+// Official host list: https://yandex.com/support/metrica/en/code/install-counter-csp
+// img-src already allows https: for the noscript pixel. No wildcard or new
+// 'unsafe-inline' is added.
 //
 // connect-src names that host under both schemes. Webvisor uploads over
 // `wss://mc.yandex.ru/solid.ws`, and a CSP source expression matches by scheme,
@@ -217,7 +219,7 @@ headers.push('  Cross-Origin-Opener-Policy: same-origin');
 // recordings that ym-hide-content and ym-disable-keys exist to protect were
 // never being captured at all. Adding the wss origin restores the behaviour the
 // counter was configured for without widening the policy to a new host.
-headers.push("  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests");
+headers.push("  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com https://static.cloudflareinsights.com https://mc.yandex.ru https://mc.yandex.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https: blob:; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://region1.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://mc.yandex.ru https://mc.yandex.com wss://mc.yandex.ru https://ov-1d104299d2a447049cdc73700c9309f7.ecs.us-west-2.on.aws https://*.run.app https://*.ecs.us-east-1.on.aws; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://challenges.cloudflare.com https://www.facebook.com https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://www.facebook.com; object-src 'none'; upgrade-insecure-requests");
 headers.push('');
 
 // Absolute host rules affect only this Pages alias and its preview versions.

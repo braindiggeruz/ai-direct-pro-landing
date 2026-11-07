@@ -1,0 +1,111 @@
+{
+  "baselineManifest": {
+    "schema": 1,
+    "commit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
+    "artifactSha256": "4bfdfdf377c62ecbb2910b8ca9f9d02bb0dcc7d20d223f683a39cd4ed522a85a",
+    "fileCount": 1060,
+    "features": [
+      "audience_directory",
+      "mobile_username_selection",
+      "bridge_pairing",
+      "sending_readiness",
+      "campaign_preflight",
+      "async_media_check",
+      "ai_chat_admin"
+    ],
+    "probes": [
+      {
+        "path": "assets/AdminRoot-DiTkCVrT.js",
+        "sha256": "4c7279b023f0ff9bd09649216b0b847a92f1fcb41774fab4be14859da6ca5676"
+      },
+      {
+        "path": "assets/ui-CH_3xdyd.js",
+        "sha256": "46ade24e188120908995aeee9a9be79dfc48885b09d685ff981ca317aec022ce"
+      },
+      {
+        "path": "assets/AiChat-7HsTMjJk.js",
+        "sha256": "18e9e3cb8cd6a07a5b536b27b0923000b8920ae07696ac2bd3b9e8d6f9da8a9e"
+      },
+      {
+        "path": "index.html",
+        "sha256": "d59ba54aea5e2b6b73a107e1375a65b8c65c792c2bb313ac8d623788a9373ec8"
+      },
+      {
+        "path": "admin/index.html",
+        "sha256": "d78cad692a4eaac2ab7d70e7b63cb5c9c7c0cbeda6db71acb42eeb8032e936dc"
+      },
+      {
+        "path": "uz/internet-reklama-toshkent/index.html",
+        "sha256": "c40466326b0a27b518d2dfb9659da5876777d3be9e65892e244f7a81a286b980"
+      },
+      {
+        "path": "ru/internet-reklama-tashkent/index.html",
+        "sha256": "442433ffafed0a1ab29854b96af8c8fa323ef59e4391459ae79ec4e494914c2a"
+      },
+      {
+        "path": "ru/prezentatsiya-ai/index.html",
+        "sha256": "6ae379bd321febac7a00d3138c8e67b9b73391c6a4100807c1cde1c5945b4b58"
+      },
+      {
+        "path": "uz/taqdimot-ai/index.html",
+        "sha256": "c409d50174dbe97a5f961c0c7a33ac0a3f36dab888e1861acbef5508a2e78b30"
+      },
+      {
+        "path": "uz/tariflar/index.html",
+        "sha256": "e7d455503a2ebdbb3ad3d97a843a72b960c0865940513f7d5d77df1dd20140be"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "check": "329 URLs unchanged",
+      "pass": true
+    },
+    {
+      "check": "all sitemap SEO metadata and H1 unchanged",
+      "pass": true
+    },
+    {
+      "check": "empty GTM absent from all sitemap HTML",
+      "pass": true
+    },
+    {
+      "check": "existing direct GA4 bootstraps retained",
+      "pass": true
+    },
+    {
+      "check": "shared JS CSS bytes and filenames unchanged",
+      "pass": true
+    },
+    {
+      "check": "two contextual tavsifnoma donors built",
+      "pass": true
+    },
+    {
+      "check": "converter Ng reference built",
+      "pass": true
+    },
+    {
+      "check": "no obsolete absolute chat file denial in slayd",
+      "pass": true
+    }
+  ],
+  "details": {
+    "all sitemap SEO metadata and H1 unchanged": [],
+    "empty GTM absent from all sitemap HTML": [],
+    "existing direct GA4 bootstraps retained": [],
+    "shared JS CSS bytes and filenames unchanged": {
+      "before": 75,
+      "after": 75,
+      "changed": [],
+      "added": [],
+      "removed": []
+    },
+    "two contextual tavsifnoma donors built": {
+      "https://gptbot.uz/uz/blog/rezyume-tayyorlash/": 1,
+      "https://gptbot.uz/uz/blog/tushuntirish-xati-va-ariza-yozish/": 1
+    }
+  },
+  "passed": 8,
+  "failed": 0
+}
