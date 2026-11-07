@@ -57,20 +57,21 @@ const declaredVars = (): Map<string, string> => {
 // rules, the daily limits and LEAD_RADAR_ALLOWED_ORGS below stay pinned, and an
 // empty allowlist remains a hard pause even with this boolean set to true.
 //
-// LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED moved the other way on
-// 2026-09-30 (paid-chat plan D12): the paired sender is a live personal
-// Telegram account, so approved campaigns must not go out on their own.
-// Preparing and approving campaigns stays available; sending does not.
+// 2026-11-07: the owner requested the integrated TG Sender workflow. Sending
+// is available only for the configured owner and the server-pinned transport.
+// An enabled feature is not an approved recipient/text or a connected account.
 const LEAD_RADAR_VARS: Record<string, string> = {
-  // Temporary release pause while 0080–0083 are applied and verified.
-  LEAD_RADAR_ADMISSION_ENABLED: 'false',
-  LEAD_RADAR_PROCESSING_ENABLED: 'false',
+  LEAD_RADAR_ADMISSION_ENABLED: 'true',
+  LEAD_RADAR_PROCESSING_ENABLED: 'true',
   LEAD_RADAR_CONTACT_ENABLED: 'true',
   LEAD_RADAR_TELEGRAM_DISCOVERY_ENABLED: 'true',
-  LEAD_RADAR_TELEGRAM_TRANSPORT_MODE: 'local_bridge',
+  LEAD_RADAR_TELEGRAM_TRANSPORT_MODE: 'tg_sender',
+  LEAD_RADAR_TG_SENDER_ORIGIN: 'https://tg-sender-v2.braindigger-uz.workers.dev',
+  LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED: 'true',
+  LEAD_RADAR_OUTREACH_INBOX_ENABLED: 'true',
   LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED: 'true',
   LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED: 'true',
-  LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'false',
+  LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED: 'true',
   LEAD_RADAR_PERSONAL_RETENTION_DAYS: '30',
   LEAD_RADAR_ALLOWED_ORGS: 'owner_8ee98dc3040f160b308166b0',
   LEAD_RADAR_MAX_DISPATCH_PER_TICK: '5',
@@ -102,7 +103,7 @@ test('every Lead Radar production var is declared on this branch too', () => {
 // actually sends campaigns (workers/automation-worker.ts). A switch flipped in
 // wrangler.toml alone makes the admin UI report "paused" while the Worker keeps
 // sending from the paired account.
-test('the automation Worker carries the same Lead Radar switches, with autosend off', () => {
+test('the automation Worker carries the same owner-scoped TG Sender switches', () => {
   const pages = declaredVars();
   const worker = automationWorkerVars();
   for (const [key, expected] of Object.entries(LEAD_RADAR_VARS)) {
@@ -111,10 +112,10 @@ test('the automation Worker carries the same Lead Radar switches, with autosend 
   for (const [key, value] of worker) {
     if (pages.has(key)) assert.equal(value, pages.get(key), `${key} differs between Pages and the Worker`);
   }
-  assert.equal(worker.get('LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED'), 'false');
+  assert.equal(worker.get('LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED'), 'true');
 });
 
-test('production Pages offers campaigns to the owner but reports autosend paused', () => {
+test('production Pages offers scoped TG Sender campaigns only with complete server configuration', () => {
   // Production reads the packed text var, not the table (see the note above
   // [vars] in wrangler.toml), so resolve the capabilities from that.
   const packed = /GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(config)?.[1];
@@ -126,11 +127,25 @@ test('production Pages offers campaigns to the owner but reports autosend paused
     LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY: Buffer.alloc(32, 7).toString('base64url'),
     LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN: Buffer.alloc(32, 9).toString('base64url'),
     LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE: { fetch: async () => new Response(null) } as unknown as Fetcher,
+    LEAD_RADAR_TG_SENDER_TOKEN: Buffer.alloc(32, 11).toString('base64url'),
+    LEAD_RADAR_TG_SENDER_BINDING_JSON: JSON.stringify({
+      org_id: LEAD_RADAR_VARS.LEAD_RADAR_ALLOWED_ORGS,
+      account_id: `lrtgua_${'a'.repeat(32)}`,
+      account_ref: `tgs_${'b'.repeat(32)}`,
+      sender_fingerprint: 'c'.repeat(64),
+    }),
   });
   const capabilities = resolveLeadRadarCapabilities(env, LEAD_RADAR_VARS.LEAD_RADAR_ALLOWED_ORGS);
   assert.equal(capabilities.telegramAccountEnabled, true);
   assert.equal(capabilities.campaignOutreachEnabled, true);
-  assert.equal(capabilities.campaignAutoSendEnabled, false);
+  assert.equal(capabilities.campaignAutoSendEnabled, true);
+  assert.equal(capabilities.publicBusinessInquiryEnabled, true);
+  assert.equal(capabilities.telegramTransportMode, 'tg_sender');
+  assert.equal(capabilities.telegramAccountReadiness.status, 'probe_required');
+  assert.equal(resolveLeadRadarCapabilities({ ...env, LEAD_RADAR_TG_SENDER_TOKEN: undefined },
+    LEAD_RADAR_VARS.LEAD_RADAR_ALLOWED_ORGS).campaignAutoSendEnabled, false);
+  assert.equal(resolveLeadRadarCapabilities({ ...env, LEAD_RADAR_ALLOWED_ORGS: '' },
+    LEAD_RADAR_VARS.LEAD_RADAR_ALLOWED_ORGS).campaignAutoSendEnabled, false);
 });
 
 test('the integrated release keeps campaign limits unchanged after outreach was enabled', () => {
