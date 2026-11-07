@@ -1,0 +1,23 @@
+{
+  "pass": true,
+  "files": 1061,
+  "onlyChanged": [
+    "_headers",
+    "gptbot-release.json"
+  ],
+  "policyChanges": {
+    "script-src": {
+      "added": [
+        "https://mc.yandex.com"
+      ],
+      "removed": []
+    },
+    "connect-src": {
+      "added": [
+        "https://mc.yandex.com"
+      ],
+      "removed": []
+    }
+  },
+  "allHtmlAndAssetsIdenticalToFirstRelease": true
+}

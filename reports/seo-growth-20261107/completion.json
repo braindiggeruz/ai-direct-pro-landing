@@ -1,0 +1,73 @@
+{
+  "productionCommit": "ee11957d872ea98f683bc23bbf33c715aed59a1b",
+  "preview": "https://9a47d283.ai-direct-pro-landing.pages.dev",
+  "mainReleaseCommit": "504d3bac271a04bc8104dad1e0710fba61ca934d",
+  "finalLabRuns": [
+    {
+      "commit": "ee11957d872ea98f683bc23bbf33c715aed59a1b",
+      "report": "https://pagespeed.web.dev/analysis/https-gptbot-uz-uz-gpt-uzbek-tilida/ul59mop8t1?form_factor=mobile",
+      "performance": 84,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "tbtMs": 650,
+      "lcpSeconds": 1.1,
+      "fcpSeconds": 1.1,
+      "cls": 0.001,
+      "longTasks": 7,
+      "fieldChanged": false,
+      "lighthouse": "13.6.0",
+      "chrome": "157.0.8103.38"
+    },
+    {
+      "commit": "ee11957d872ea98f683bc23bbf33c715aed59a1b",
+      "report": "https://pagespeed.web.dev/analysis/https-gptbot-uz-uz-gpt-uzbek-tilida/3jiau128bc?form_factor=mobile",
+      "performance": 77,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "tbtMs": 790,
+      "lcpSeconds": 2.7,
+      "fcpSeconds": 1.1,
+      "cls": 0.001,
+      "longTasks": 7,
+      "lighthouse": "13.6.0",
+      "chrome": "153.0.8010.36",
+      "note": "First final run used HeadlessChromium157.0.8103.38; runner versions differ, no precise controlled speedup claimed."
+    }
+  ],
+  "performanceRange": [
+    77,
+    84
+  ],
+  "tbtMsRange": [
+    650,
+    790
+  ],
+  "lcpSecondsRange": [
+    1.1,
+    2.7
+  ],
+  "beforeSingleRun": {
+    "performance": 74,
+    "tbtMs": 1610,
+    "lcpSeconds": 1.1
+  },
+  "field28DayCWV": "still failing; pre-release rolling data (LCP2.9s INP426ms CLS.05)",
+  "limits": [
+    "Only one before-run, two final runs; different HeadlessChromium versions. Not a controlled causal experiment.",
+    "Working target TBT<300ms not achieved consistently.",
+    "Field improvements, recrawl, indexing, rankings and revenue uplift not verified."
+  ],
+  "remainingCpuMsFromRun2": {
+    "own": 705,
+    "GA4": 434,
+    "Meta": 402,
+    "Metrika": 268
+  },
+  "liveChecks": {
+    "passed": 411,
+    "failed": 0
+  },
+  "searchDiscovery": "Four Google204+matchedreadback; IndexNow8URLs202/validationqueued; not proof of indexing."
+}

@@ -1,26 +1,27 @@
 {
   "seo_growth_20261107": {
-    "status": "deployed_verified_followup_in_progress",
+    "status": "deployed_verified",
     "owner_authorized": "Autonomous implementation of the GPTBot.uz SEO roadmap, 2026-11-07.",
     "branch": "codex/seo-growth-20261107",
     "source_baseline_commit": "421ac0dfb5f07c6ddf568cb77362f204faac8cc2",
     "predecessor_production_commit": "3518a5d57cca33d666e8d8b31340e947b9f5a424",
-    "report": "reports/seo-growth-20261107/RELEASE.md",
+    "report": "reports/seo-growth-20261107/RESULT_RU.md",
     "changes": [
       "Remove proven empty GTM loader and second GA4 library load; retain direct GA4, Meta and Yandex",
       "Correct six existing articles/pages and three contextual links; preserve titles, H1 and keyword ownership",
-      "Use the current shared publisher Organization on two offers; preserve visible legal document and seller facts"
+      "Use the current shared publisher Organization on two offers; preserve visible legal document and seller facts",
+      "Allow only the verified regional Metrika HTTPS fallback in script/connect CSP; other directives preserved."
     ],
     "validation": "485 targeted tests; 59 overlapping post-build checks; typechecks/lint/SEO guards PASS; 411 exact public checks; browser one gtag and GA204.",
     "protected": "Existing SEO protection baseline unchanged; verify all 329 metadata contracts and shared assets after the full build.",
-    "next": "Complete narrow regional Metrika CSP follow-up discovered in PSI, then measure after recrawl.",
+    "next": "Observe this fixed release cohort after confirmed recrawl; reconcile qualified leads and payments before the next content/measurement experiment.",
     "limitations": [
       "No measured ranking or revenue uplift yet",
       "No new business case claims or paid monitoring subscriptions",
       "Click remains owner-deferred"
     ],
-    "production_commit": "504d3bac271a04bc8104dad1e0710fba61ca934d",
-    "deployment_preview": "https://8983beaa.ai-direct-pro-landing.pages.dev",
+    "production_commit": "ee11957d872ea98f683bc23bbf33c715aed59a1b",
+    "deployment_preview": "https://9a47d283.ai-direct-pro-landing.pages.dev",
     "search_discovery": {
       "google_surfaces": 4,
       "google_http": 204,
@@ -28,6 +29,23 @@
       "indexnow_urls": 8,
       "indexnow_http": 202,
       "indexing_confirmed": false
+    },
+    "main_release_commit": "504d3bac271a04bc8104dad1e0710fba61ca934d",
+    "final_csp": "Only https://mc.yandex.com added to script/connect; verified at edge and PSI best practices100.",
+    "final_lab": {
+      "performance_range": [
+        77,
+        84
+      ],
+      "tbt_ms_range": [
+        650,
+        790
+      ],
+      "lcp_s_range": [
+        1.1,
+        2.7
+      ],
+      "field_cwv_pass": false
     }
   },
   "seo_growth_pilot_20261106": {
@@ -1689,10 +1707,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "November 7 SEO deployed; exact regional Metrika CSP follow-up in progress.",
-  "stage_status": "followup_in_progress",
+  "current_stage": "November 7 SEO and regional analytics repairs deployed and verified; see seo_growth_20261107.",
+  "stage_status": "deployed_verified",
   "last_completed_stage": "November 6 guarded production release 6531d35b and live acceptance checks.",
-  "next_stage": "Complete narrow regional Metrika CSP follow-up discovered in PSI, then measure after recrawl.",
+  "next_stage": "Observe this fixed release cohort after confirmed recrawl; reconcile qualified leads and payments before the next content/measurement experiment.",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -1962,7 +1980,7 @@
   },
   "next_stage_note": "Still open from 2026-10-23: measure completed equal final GSC windows and qualified-lead outcomes for that release (OpenSEO for GSC; GSC Wizard subscription inactive). The translator branch is merged (1a773ee2); wave 1 is committed on seo/chat-snippets-translator-20261024 on top of it. Nothing pushed; wave 1 not deployed (production is still d54d5b61, deployment d0264730).",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "504d3bac271a04bc8104dad1e0710fba61ca934d",
+  "last_commit": "ee11957d872ea98f683bc23bbf33c715aed59a1b",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",

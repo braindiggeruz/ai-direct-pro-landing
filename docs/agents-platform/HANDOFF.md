@@ -1,3 +1,43 @@
+# Current handoff — SEO release verified · 07.11.2026
+
+## 1. State
+DEPLOYED AND VERIFIED: `ee11957d872ea98f683bc23bbf33c715aed59a1b`, Cloudflare preview `9a47d283`. Main content/analytics release `504d3bac` is its ancestor. The following dated record supersedes candidate statuses below. Owner authorized autonomous SEO implementation.
+
+## 2. Delivered
+Six content pages corrected, three contextual links added, empty GTM removed, two publisher Organization nodes aligned with current global facts. A follow-up allows the verified regional Metrika HTTPS endpoint in script/connect CSP only.
+
+## 3. Baseline
+Source `421ac0df`; original production `3518a5d`. Immutable predecessor dist remains at sibling `gptbot-seo-evidence-20261107/before-dist`. Both releases used the existing guarded deployment runner; no push.
+
+## 4. Architecture
+Templates and models reused. No algorithm, payment, DB, webhook or API behavior changes. All shared JS/CSS bytes remain unchanged. No Yandex wildcard, frame or WebSocket expansion.
+
+## 5. SEO protection
+All 329 URL/metadata/H1 contracts and ten protected semantic contracts pass. Raw HTML changed through GTM removal; do not call it byte-identical to the original release. Final CSP follow-up changed only `_headers` and release manifest versus the first release.
+
+## 6. Validation
+485 targeted tests, 59 overlapping post-build checks, 72 Metrika tests, scoped lint and web/Functions typechecks pass. Full production builds and guards pass. Final public readback: 411/411 exact comparisons. Mobile conversion/copy/no-overflow verified.
+
+## 7. Analytics
+Browser first release: one gtag, no GTM, page_view/batched GA HTTP204, zero console errors. Final HTML/assets identical and final live CSP verified. Final PSI best practices100, no regional CSP error. Report receipt/qualified leads/payment reconciliation remains separate.
+
+## 8. Performance
+Final mobile PSI runs: 84/77 Performance, TBT650/790ms, LCP1.1/2.7s; accessibility/SEO/best-practices100. Baseline single run74/TBT1610ms. Different Chromium runners and small sample prevent a controlled speedup claim. TBT<300ms is not consistently achieved; field28-day CWV still fails. See completion.json and PSI report URLs.
+
+## 9. Discovery
+Four existing Google sitemap/feed submissions accepted204 with matched timestamps; IndexNow eight URLs202 pending validation/indexing. WebSub changed feeds204; final header-only release correctly skipped unchanged feeds. Do not resubmit the same batch automatically. Discovery helper is pinned to the content release504d, intentionally.
+
+## 10. Release and rollback
+Current checkout: `F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/gptbot-seo-implementation-20261107`. Set DR_ROOT explicitly; build:production and `F:/Claude/gptbot-tools/deploy_runner.py check|deploy`. Future rollback must use scoped revert after current ancestry check. Never raw deploy.
+
+## 11. Boundaries
+Original checkout/untracked research preserved. Visible offers, seller requisites, prices and termsVersion unchanged. No real lead messages, paid subscriptions or fabricated cases. Click remains owner-deferred. npm ci reported three high dependency advisories in unchanged locked dependencies; no force upgrade performed in this SEO release.
+
+## 12. Next
+Measure comparable complete windows after recrawl, keep protected snippets stable, reconcile qualified leads/payments and obtain real case evidence before scaling. Remaining CPU includes own runtime, GA4, Meta and Metrika; do not delete functional analytics merely to improve a lab score. No ranking/traffic/revenue multiplier is claimed.
+
+---
+
 # Release update — 07.11.2026
 
 SEO release `504d3bac271a04bc8104dad1e0710fba61ca934d` DEPLOYED AND VERIFIED, preview `8983beaa`. All411public checks match. 485targeted and59overlappingpostbuild checks pass; typechecks/lint/SEOguards pass. Browser proves onegtag andGA204. Google4surfaces204/readback; IndexNow8URLs202 (queued, indexing unconfirmed). Mobile firstPSI89/TBT250 versus74/1610before; field28dayCWVunchanged. Next: exact regionalMetrika `.com` CSP follow-up discovered byPSI; keepallotherprotection unchanged. This update supersedes candidate status below.

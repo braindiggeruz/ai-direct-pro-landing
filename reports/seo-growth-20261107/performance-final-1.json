@@ -1,0 +1,16 @@
+{
+  "commit": "ee11957d872ea98f683bc23bbf33c715aed59a1b",
+  "report": "https://pagespeed.web.dev/analysis/https-gptbot-uz-uz-gpt-uzbek-tilida/ul59mop8t1?form_factor=mobile",
+  "performance": 84,
+  "accessibility": 100,
+  "bestPractices": 100,
+  "seo": 100,
+  "tbtMs": 650,
+  "lcpSeconds": 1.1,
+  "fcpSeconds": 1.1,
+  "cls": 0.001,
+  "longTasks": 7,
+  "fieldChanged": false,
+  "lighthouse": "13.6.0",
+  "chrome": "157.0.8103.38"
+}

@@ -1,0 +1,16 @@
+{
+  "commit": "ee11957d872ea98f683bc23bbf33c715aed59a1b",
+  "report": "https://pagespeed.web.dev/analysis/https-gptbot-uz-uz-gpt-uzbek-tilida/3jiau128bc?form_factor=mobile",
+  "performance": 77,
+  "accessibility": 100,
+  "bestPractices": 100,
+  "seo": 100,
+  "tbtMs": 790,
+  "lcpSeconds": 2.7,
+  "fcpSeconds": 1.1,
+  "cls": 0.001,
+  "longTasks": 7,
+  "lighthouse": "13.6.0",
+  "chrome": "153.0.8010.36",
+  "note": "First final run used HeadlessChromium157.0.8103.38; runner versions differ, no precise controlled speedup claimed."
+}
