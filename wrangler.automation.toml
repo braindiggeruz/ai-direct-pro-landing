@@ -62,6 +62,9 @@ crons = ["*/15 * * * *"]
 # deliveries are ACKed without D1 access while its own processing flag is off;
 # their durable jobs are dispatched by cron only after an approved re-enable.
 [vars]
+LEAD_RADAR_TG_SENDER_ORIGIN = ""
+LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED = "false"
+LEAD_RADAR_OUTREACH_INBOX_ENABLED = "false"
 FIRST_PARTY_AUTOMATION_ENABLED = "true"
 # Lead Radar research is enabled only for the owner canary organization.
 # Privacy retention remains active at all times; contact is a separate
@@ -81,9 +84,9 @@ LEAD_RADAR_FIRECRAWL_DOMAIN_CREDITS = "14"
 # Personal-data switch. Enabled at the owner's decision (2026-09-01): this is
 # the operator's own B2B prospecting tool and the pause was blocking all
 # outreach. It unlocks `messageable`, contact actions and campaign sending.
-# It does NOT relax who may be messaged — the fail-closed ownership and
+# It does NOT relax who may be messaged вЂ” the fail-closed ownership and
 # endpoint-type rules below still decide that, and the daily limits still apply.
-# This MUST stay in sync with wrangler.toml (Pages) — the Worker reads its own
+# This MUST stay in sync with wrangler.toml (Pages) вЂ” the Worker reads its own
 # copy and a mismatch leaves contact actions disabled in the queue consumer
 # even when the admin UI shows them as on.
 LEAD_RADAR_CONTACT_ENABLED = "true"
@@ -103,7 +106,7 @@ LEAD_RADAR_MAX_DISPATCH_PER_TICK = "5"
 # Signal Radar. The scout runs HERE, not in Pages: a Pages request gets ~30 ms
 # of CPU on the Free plan, which cannot fetch and parse a Telegram preview.
 # These plain vars are replaced wholesale on every Worker deploy, so they must
-# stay in this file — editing only wrangler.toml leaves the Worker on the old
+# stay in this file вЂ” editing only wrangler.toml leaves the Worker on the old
 # value while Pages silently reads the new one.
 LEAD_RADAR_SIGNAL_ENABLED = "true"
 # off | discover | channels | join. `discover` never calls the Telegram API.
@@ -116,7 +119,7 @@ LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT = "30"
 LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS = "120"
 # AI chat maintenance (paid-chat plan D6): every cron tick POSTs
 # https://gptbot.uz/api/internal/gpt-billing-maintenance with the secret
-# GPT_BILLING_MAINTENANCE_SECRET — model and key check, silence watchdog, owner
+# GPT_BILLING_MAINTENANCE_SECRET вЂ” model and key check, silence watchdog, owner
 # alerts, retention, payment outbox. Skipped while this Worker has no such
 # secret; Pages needs the same value, otherwise it answers 403 and the Worker
 # logs gpt_billing_maintenance_failed.

@@ -1,6 +1,7 @@
 import { normalizeSchemaSql as normalizeSql } from './schema-sql';
 
 const MIGRATION = '0048_lead_radar_telegram_media_quota.sql';
+const PUBLIC_INQUIRY_MIGRATION = '0081_lead_radar_public_business_inquiry.sql';
 const RUNTIME_MIGRATIONS = [
   '0045_lead_radar_telegram_campaigns.sql',
   '0046_lead_radar_telegram_campaign_safety.sql',
@@ -14,8 +15,10 @@ const RUNTIME_MIGRATIONS = [
 // single Worker invocation stays below the D1 Free statement budget.
 export const TELEGRAM_CAMPAIGN_SCHEMA_FINGERPRINT =
   '1ee9958cf30efcbfe5e52a4a0024d60936d230dc346d8d654a311f48c074da73';
+export const TELEGRAM_PUBLIC_INQUIRY_SCHEMA_FINGERPRINT = '88ab2a9fb83833b1f5bae7c04e122235be229ce1aba5e48a61557f9ca6f3dd24';
 
 const runtimeVerifiedBindings = new WeakSet<D1Database>();
+const publicInquiryVerifiedBindings = new WeakSet<D1Database>();
 
 const TABLE_COLUMNS = {
   lead_radar_tg_user_accounts: [
@@ -334,24 +337,28 @@ export async function telegramCampaignSchemaFingerprint(db: D1Database): Promise
 }
 
 /** Four-query, fail-closed runtime contract for API, Queue and Cron paths. */
-export async function hasRuntimeTelegramCampaignSchema(db: D1Database): Promise<boolean> {
-  if (runtimeVerifiedBindings.has(db)) return true;
+export async function hasRuntimeTelegramCampaignSchema(db: D1Database, requirePublicInquiry = false): Promise<boolean> {
+  if (requirePublicInquiry ? publicInquiryVerifiedBindings.has(db) : runtimeVerifiedBindings.has(db)) return true;
   try {
     const [fingerprint, ledger, integrity, violations] = await Promise.all([
       telegramCampaignSchemaFingerprint(db),
       db.prepare(`SELECT name FROM d1_migrations
-        WHERE name IN (${RUNTIME_MIGRATIONS.map(sqlLiteral).join(',')}) ORDER BY name`)
+        WHERE name IN (${[...RUNTIME_MIGRATIONS, PUBLIC_INQUIRY_MIGRATION].map(sqlLiteral).join(',')}) ORDER BY name`)
         .all<{ name: string }>(),
       db.prepare(CAMPAIGN_QUICK_CHECK).all<{ quick_check: string }>(),
       db.prepare(CAMPAIGN_FOREIGN_KEY_CHECK).all<Record<string, unknown>>(),
     ]);
     const migrations = (ledger.results ?? []).map((row) => row.name).sort();
-    const expectedMigrations = [...RUNTIME_MIGRATIONS].sort();
-    const ready = fingerprint === TELEGRAM_CAMPAIGN_SCHEMA_FINGERPRINT
+    const publicSchema = fingerprint === TELEGRAM_PUBLIC_INQUIRY_SCHEMA_FINGERPRINT;
+    const expectedMigrations = [...RUNTIME_MIGRATIONS, ...(publicSchema ? [PUBLIC_INQUIRY_MIGRATION] : [])].sort();
+    const ready = (publicSchema || (!requirePublicInquiry && fingerprint === TELEGRAM_CAMPAIGN_SCHEMA_FINGERPRINT))
       && equal(migrations, expectedMigrations)
       && (integrity.results ?? []).map((row) => row.quick_check).join(',') === 'ok'
       && (violations.results ?? []).length === 0;
-    if (ready) runtimeVerifiedBindings.add(db);
+    if (ready) {
+      runtimeVerifiedBindings.add(db);
+      if (publicSchema) publicInquiryVerifiedBindings.add(db);
+    }
     return ready;
   } catch {
     return false;
@@ -436,6 +443,12 @@ export async function auditTelegramCampaignSchema(
       .bind(MIGRATION)
       .first<{ name: string }>();
     if (ledger?.name !== MIGRATION) issues.push('migration_ledger:0048');
+    const fingerprint = await telegramCampaignSchemaFingerprint(db);
+    const publicLedger = await db.prepare('SELECT name FROM d1_migrations WHERE name = ? LIMIT 1')
+      .bind(PUBLIC_INQUIRY_MIGRATION).first<{ name: string }>();
+    const expectedFingerprint = publicLedger?.name === PUBLIC_INQUIRY_MIGRATION
+      ? TELEGRAM_PUBLIC_INQUIRY_SCHEMA_FINGERPRINT : TELEGRAM_CAMPAIGN_SCHEMA_FINGERPRINT;
+    if (fingerprint !== expectedFingerprint) issues.push('schema_fingerprint');
     const integrity = await db.prepare(CAMPAIGN_QUICK_CHECK).all<{ quick_check: string }>();
     if ((integrity.results ?? []).map((row) => row.quick_check).join(',') !== 'ok') {
       issues.push('quick_check');

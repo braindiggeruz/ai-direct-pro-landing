@@ -1,3 +1,13 @@
+# CURRENT — Lead Radar + TG Sender integration candidate, 2026-11-07
+
+Implementation is isolated on `feat/lead-outreach-20261107`. Search, public-business first-contact review, scoped TG Sender transport, durable receipt reconciliation, inbox and explicit legacy-account cutover are implemented. Final QA: 275 tests, three TypeScript checks, scoped ESLint. Production enablement is not yet recorded; no customer messages were sent. The prior checkpoints below are retained as history.
+
+Release order: publish backward-compatible code with gates off; apply and verify migrations 0080–0083 after the successful restored-production-data rehearsal; provision scoped bindings; verify Telegram session explicitly; enable only the configured owner. Preserve history and unknown effects on rollback. See `docs/agents-platform/LEAD_RADAR_TG_SENDER_RELEASE_20261107.md`.
+
+Browser visual QA remains unverified because Computer Use stopped on Windows. Public chat CSS/SEO budgets remain mandatory; do not raise budgets to release.
+
+---
+
 # STATE — contact-first acquisition implementation, 2026-08-30
 
 ## CURRENT CHECKPOINT: manual search pulse (layer 3) deployed

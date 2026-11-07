@@ -1023,6 +1023,8 @@ function isLeadRadarSchemaRow(row: Record<string, unknown>): boolean {
     // must not invalidate the stable discovery/sender schema fingerprint.
     && !['lead_radar_firecrawl_requests', 'lead_radar_firecrawl_control', 'lead_radar_firecrawl_reports',
       'lead_radar_candidate_pools', 'lead_radar_contact_checks',
+      // These separately guarded extensions must not alter research reads.
+      'lead_radar_outreach_inbox', 'lead_radar_outreach_receipts', 'lead_radar_outreach_account_cutovers',
       'lead_radar_audiences', 'lead_radar_audience_campaigns', 'lead_radar_contact_enrichments',
       'lead_radar_crawler_workers', 'lead_radar_crawler_jobs', 'lead_radar_crawler_receipts',
       'lead_radar_crawler_hosts',

@@ -809,6 +809,16 @@ export const api = {
 
   // Evidence-first B2B company discovery. The server only exports values
   // carrying a source URL and never fabricates a missing company/contact.
+  leadRadarInbox: (cursor?: string) =>
+    request<import('../../shared/lead-radar-inbox').LeadRadarInboxPage>('GET',
+      `/api/admin/lead-radar/inbox?limit=20${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`),
+  leadRadarClassifyInbox: (id: string, classification: import('../../shared/lead-radar-inbox').LeadRadarInboxClassification) =>
+    request<{ok:true}>('PATCH','/api/admin/lead-radar/inbox',{id,classification}),
+  leadRadarConnectTgSender: (idempotencyKey: string, replaceAccountId?: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'POST','/api/admin/lead-radar/telegram-account/tg-sender/connect',replaceAccountId ? {replaceAccountId} : {},
+      {headers:{'Idempotency-Key':idempotencyKey}},
+    ),
   leadRadarOverview: () =>
     request<import('../../shared/lead-radar').LeadRadarOverview>('GET', '/api/admin/lead-radar'),
   leadRadarEnrichmentDiagnostics: (searchId: string) =>

@@ -2,7 +2,7 @@ import type { LeadRadarSearchInput } from '../../../src/shared/lead-radar';
 import { OpenStreetMapLeadSource } from './sources';
 import { mergeSourceYield, type SourceYieldMap } from './source-yield';
 import { TwoGisLeadSource, type TwoGisEnvironment } from './two-gis-source';
-import type { LeadRadarDiscoveryResult, LeadRadarGeocodeStore, LeadRadarSource, SourceCandidate } from './types';
+import { LeadRadarSourceError, type LeadRadarDiscoveryResult, type LeadRadarGeocodeStore, type LeadRadarSource, type SourceCandidate } from './types';
 import { normalizeCompanyKey } from './validation';
 
 /** Everything the optional catalog sources read from the environment. A missing
@@ -203,6 +203,7 @@ export function mergeCrossSourceCandidates(candidates: readonly SourceCandidate[
 export async function fanOutDiscovery(
   sources: readonly LeadRadarSource[],
   input: LeadRadarSearchInput,
+  options: { catalogOnly?: boolean } = {},
 ): Promise<{
   candidates: SourceCandidate[];
   warnings: string[];
@@ -211,12 +212,25 @@ export async function fanOutDiscovery(
   errors: unknown[];
   failures: number;
   yieldBySource: SourceYieldMap | undefined;
+  rawDiscoveredCount: number;
 }> {
-  const results = await Promise.allSettled(sources.map((source) => source.discover(input)));
+  const results = await Promise.allSettled(sources.map(async (source) => (
+    options.catalogOnly && source.discoverRaw ? source.discoverRaw(input) : source.discover(input)
+  )));
   const fulfilled = results.filter((result): result is PromiseFulfilledResult<LeadRadarDiscoveryResult> => result.status === 'fulfilled');
-  const errors = results.flatMap((result) => (result.status === 'rejected' ? [result.reason] : []));
-  const warnings = fulfilled.flatMap((result) => result.value.sourceWarnings);
-  const perSource = fulfilled.map((result) => result.value.candidates);
+  const errors = results.flatMap((result) => {
+    if (result.status === 'rejected') return [result.reason];
+    return options.catalogOnly && result.value.failureCode ? [new LeadRadarSourceError(result.value.failureCode)] : [];
+  });
+  const warnings = [
+    ...fulfilled.flatMap((result) => result.value.sourceWarnings),
+    // Only configured source IDs, never upstream messages/URLs/credentials.
+    ...results.flatMap((result, index) => (result.status === 'rejected' || (options.catalogOnly && result.value.failureCode))
+      ? [`discovery_source_unavailable:${/^[a-z0-9_-]{1,40}$/.test(sources[index]!.id) ? sources[index]!.id : 'unknown'}`]
+      : []),
+  ];
+  const available = fulfilled.filter((result) => !options.catalogOnly || !result.value.failureCode);
+  const perSource = available.map((result) => result.value.candidates);
   // Merging is a cross-catalog operation and only makes sense as one. With a
   // single source it could only ever remove rows: two businesses sharing a name
   // in one city, neither carrying an address or a coordinate, would collapse
@@ -234,5 +248,8 @@ export async function fanOutDiscovery(
     errors,
     failures: errors.length,
     yieldBySource: yieldMaps.length > 0 ? mergeSourceYield(...yieldMaps) : undefined,
+    rawDiscoveredCount: available.reduce((total, result) => (
+      total + (result.value.rawDiscoveredCount ?? result.value.candidates.length)
+    ), 0),
   };
 }

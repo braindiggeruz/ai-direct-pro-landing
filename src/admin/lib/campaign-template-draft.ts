@@ -26,7 +26,7 @@ export function readCampaignTemplateDraft(scope?: string): string | null {
 }
 
 // This remembers only the operator's chosen type, never evidence or approval.
-const BASIS_TYPES = ['documented_consent', 'inbound_request', 'existing_relationship', 'contractual_relationship'];
+const BASIS_TYPES = ['documented_consent', 'inbound_request', 'existing_relationship', 'contractual_relationship', 'public_business_inquiry'];
 export function saveCampaignBasisDraft(scope: string, basis: string): void {
   try {
     if (BASIS_TYPES.includes(basis)) sessionStorage.setItem(`${draftKey(scope)}:basis`, JSON.stringify({ basis, expiresAt: Date.now() + TEMPLATE_DRAFT_TTL_MS }));

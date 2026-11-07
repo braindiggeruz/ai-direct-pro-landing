@@ -269,6 +269,10 @@ export type LeadRadarTelegramAccountReadinessBlocker =
   | 'gateway_runtime_config_invalid'
   | 'gateway_internal_token_missing'
   | 'bridge_transport_mode_invalid'
+  | 'tg_sender_not_configured'
+  | 'tg_sender_unavailable'
+  | 'tg_sender_binding_mismatch'
+  | 'tg_sender_active_campaign'
   | 'bridge_not_paired'
   | 'bridge_offline'
   | 'bridge_revocation_pending';
@@ -296,6 +300,9 @@ export interface LeadRadarApiCapabilities {
   campaignOutreachEnabled?: boolean;
   /** Final provider-side send gate; campaign drafting can remain available while false. */
   campaignAutoSendEnabled?: boolean;
+  telegramTransportMode?: 'local_bridge' | 'tg_sender';
+  /** Reviewed first contact to a verified public corporate endpoint; not consent. */
+  publicBusinessInquiryEnabled?: boolean;
   /** Server-resolved per-account UTC-day campaign quota; safe to expose. */
   telegramCampaignDailyLimit?: number;
   /** Server-resolved minimum delay between account campaign sends. */
@@ -363,6 +370,14 @@ export interface LeadRadarOverview {
     telegram: number;
     replies: number;
     qualified: number;
+    /** Unique stored business keys; historical search observations remain in leads. */
+    uniqueCompanies?: number;
+    /** Companies with an observed public Telegram URL, not send-ready recipients. */
+    telegramReferences?: number;
+    /** Companies with a corporate contact snapshot; current proof and authorization are separate. */
+    corporateContacts?: number;
+    replyCompanies?: number;
+    qualifiedCompanies?: number;
   };
   sourceHealth: Array<{
     source: string;

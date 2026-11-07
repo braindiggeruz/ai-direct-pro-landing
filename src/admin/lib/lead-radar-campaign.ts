@@ -419,7 +419,8 @@ export type LeadRadarCampaignContactBasis =
   | 'documented_consent'
   | 'inbound_request'
   | 'existing_relationship'
-  | 'contractual_relationship';
+  | 'contractual_relationship'
+  | 'public_business_inquiry';
 
 export interface LeadRadarTelegramCampaignPrepareInput {
   accountId: string;
@@ -573,6 +574,9 @@ export function isValidCampaignRecipientAuthorization(
   if (!value || !contactBasis || value.basis !== contactBasis || value.reviewer !== 'owner_verified') return false;
   const verifiedAt = Date.parse(value.verifiedAt);
   const validUntil = Date.parse(value.expiresAt);
+  if(contactBasis === 'public_business_inquiry'
+    && (value.evidenceVersion !== 'public-business-inquiry-v1'
+      || validUntil - verifiedAt > 30 * 24 * 60 * 60_000)) return false;
   return typeof value.evidenceVersion === 'string'
     && value.evidenceVersion.length >= 1
     && value.evidenceVersion.length <= 64

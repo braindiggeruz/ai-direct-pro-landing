@@ -41,6 +41,8 @@ import type { AudienceScope } from '../../../../src/shared/lead-radar-audiences'
 import { checkCorporateTelegramContact } from '../../../platform/lead-radar/contact-resolution';
 import { contactResolutionForBrowser } from '../../../../src/shared/lead-radar-contact-resolution';
 import { evaluateTelegramCampaignSelection } from '../../../platform/lead-radar/telegram-campaign';
+import { configuredTgSender, tgSenderConfiguration, tgSenderMode } from '../../../platform/lead-radar/outreach-transport';
+import { connectOutreachAccount, probeOutreachAccount, resolveOutreachContact, OutreachAccountError } from '../../../platform/lead-radar/outreach-account';
 import {
   adoptTelegramAccountConnection,
   beginTelegramAccountPhoneConnection,
@@ -252,6 +254,7 @@ function configuredInterval(ctx: CampaignContext): number | null {
 }
 
 async function finishCampaignMediaCheck(ctx: CampaignContext, orgId: string, stored: TelegramCampaignUploadedMedia): Promise<Response> {
+  if (tgSenderMode(ctx.env)) return ownerError('telegram_campaign_media_invalid', ctx.requestId, 400);
   if (!ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA) return unavailable('telegram_campaign_media_storage_unavailable', ctx);
   const media = await new LeadRadarTelegramCampaignMediaStore(ctx.env.LEAD_RADAR_CAMPAIGN_MEDIA).read(orgId, { mediaId: stored.mediaId, mediaDigest: stored.mediaDigest });
   const validation = await checkTelegramCampaignMedia({
@@ -369,6 +372,11 @@ async function telegramAccountReadiness(
   if (local.blockers.length > 0) {
     return { readiness: local, routingKeyFingerprint: null };
   }
+  if (tgSenderMode(ctx.env)) {
+    const status = await configuredTgSender(ctx.env, orgId)?.readiness();
+    return {readiness: status?.ready ? {status: 'ready', blockers: []}
+      : {status: 'blocked', blockers: ['tg_sender_unavailable']}, routingKeyFingerprint: null};
+  }
   const gateway = await probeTelegramAccountGatewayConfiguration(
     ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
     ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
@@ -428,7 +436,7 @@ async function withCampaignDataKeyReadiness(
       : null;
   const blockers = [...readiness.blockers];
   if (identityBlocker) blockers.push(identityBlocker);
-  if (!identityBlocker && readiness.status !== 'blocked') {
+  if (!identityBlocker && readiness.status !== 'blocked' && !tgSenderMode(ctx.env)) {
     if (!routingKeyFingerprint) {
       blockers.push('gateway_unavailable');
     } else {
@@ -514,6 +522,14 @@ async function probeTelegramOperationalAccount(
   dataKey: string,
   account: TelegramAccountReadModel,
 ): Promise<TelegramOperationalAccountProbe> {
+  if (tgSenderMode(ctx.env)) {
+    try {
+      await probeOutreachAccount({env: ctx.env, db: ctx.db, orgId, dataKey, account});
+      return {readiness: OPERATIONALLY_READY, routeState: null};
+    } catch (error) {
+      return {readiness: blockedAccountReadiness(error instanceof OutreachAccountError ? error.code : 'tg_sender_unavailable'), routeState: null};
+    }
+  }
   if (account.status !== 'connected') {
     return {
       readiness: blockedAccountReadiness('gateway_account_session_missing'),
@@ -823,6 +839,22 @@ export async function handleTelegramCampaignGet(
 ): Promise<Response> {
   const ctx = rawContext as CampaignContext;
   try {
+    if (tgSenderMode(ctx.env) && parts[0] === 'telegram-account') {
+      if (parts.length !== 1) return ownerError('route_not_found', ctx.requestId, 404);
+      const schema = await campaignSchemaResponse(ctx);
+      if (schema) return schema;
+      const account = await getTelegramUserAccount(ctx.db, orgId);
+      const dataKey = campaignDataKey(ctx);
+      let readiness = (await telegramAccountReadiness(ctx, capabilities, orgId)).readiness;
+      let checkedAt: string | undefined;
+      if (dataKey) readiness = await withCampaignDataKeyReadiness(ctx, orgId, dataKey, readiness, null, false);
+      if (account && dataKey && readiness.status !== 'blocked') {
+        try { checkedAt = (await probeOutreachAccount({env: ctx.env, db: ctx.db, orgId, dataKey, account})).providerVerifiedAt ?? undefined; }
+        catch (error) { readiness = blockedAccountReadiness(error instanceof OutreachAccountError ? error.code : 'tg_sender_unavailable'); }
+      }
+      return ownerJson(account ? accountState(account, {readiness, reasonCode: readiness.blockers[0] ?? null, lastHealthAt: checkedAt})
+        : disconnectedAccount(dataKey ? 'disconnected' : 'unconfigured', readiness.blockers[0] ?? null, readiness), ctx.requestId);
+    }
     if (parts.length === 2
       && parts[0] === 'telegram-account'
       && parts[1] === 'bridge') {
@@ -1100,6 +1132,30 @@ export async function handleTelegramCampaignPost(
 ): Promise<Response> {
   const ctx = rawContext as CampaignContext;
   try {
+    if (tgSenderMode(ctx.env) && parts.join('/') === 'telegram-account/tg-sender/connect') {
+      if (!capabilities.telegramAccountEnabled) return ownerError('lead_radar_telegram_account_paused', ctx.requestId, 409);
+      const requestKey = idempotencyKey(ctx);
+      if (!requestKey) return requiredIdempotencyResponse(ctx);
+      const connectBody = await exactBodyVariants(ctx, [[], ['replaceAccountId']]);
+      if (!connectBody || ('replaceAccountId' in connectBody && (typeof connectBody.replaceAccountId !== 'string'
+        || !/^lrtgua_[a-f0-9]{32}$/u.test(connectBody.replaceAccountId)))) return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      const schema = await campaignSchemaResponse(ctx);
+      if (schema) return schema;
+      const dataKey = campaignDataKey(ctx);
+      if (!dataKey) return unavailable('telegram_campaign_not_configured', ctx);
+      try {
+        const account = await connectOutreachAccount({env: ctx.env, db: ctx.db, orgId, dataKey, idempotencyKey: requestKey,
+          replaceAccountId: connectBody.replaceAccountId as string | undefined});
+        return ownerJson(accountState(account, {readiness: OPERATIONALLY_READY}), ctx.requestId);
+      } catch (error) {
+        if (error instanceof OutreachAccountError) return ownerError(error.code, ctx.requestId,
+          ['tg_sender_binding_mismatch','tg_sender_active_campaign'].includes(error.code) ? 409 : 503);
+        throw error;
+      }
+    }
+    if (tgSenderMode(ctx.env) && parts[0] === 'telegram-account' && parts[1] !== 'resolve-contact') {
+      return ownerError('route_not_found', ctx.requestId, 404);
+    }
     if (parts.length === 2 && parts[0] === 'telegram-campaigns' && parts[1] === 'preflight') {
       const body = await exactBody(ctx, ['companyIds', 'contactBasis']);
       if (!body || !Array.isArray(body.companyIds) || body.companyIds.length < 1 || body.companyIds.length > 50
@@ -1150,7 +1206,8 @@ export async function handleTelegramCampaignPost(
       if (remainingToday === 0) blockers.push('daily_limit_exhausted');
       if (safety && safety.state !== 'ready' && !(safety.state === 'cooldown' && safety.blocked_until && safety.blocked_until <= now)) blockers.push(`account_safety_${safety.state}`);
       const selection = await evaluateTelegramCampaignSelection({ db: ctx.db, orgId, companyIds: body.companyIds,
-        dataKey, contactBasis: body.contactBasis ?? undefined, readOnly: true });
+        dataKey, contactBasis: body.contactBasis ?? undefined, readOnly: true,
+        publicBusinessInquiryEnabled: ctx.env.LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED === 'true' });
       return ownerJson({ selection, blockers: [...new Set(blockers)], checkedAt: now,
         limits: { dailyLimit, remainingToday, minimumIntervalSeconds: capabilities.telegramCampaignMinimumIntervalSeconds ?? 120,
           nextDispatchAt: row?.next_dispatch_at ?? null } }, ctx.requestId);
@@ -1169,9 +1226,15 @@ export async function handleTelegramCampaignPost(
       if (!account || account.status !== 'connected') return ownerError('telegram_campaign_account_state_conflict', ctx.requestId, 409);
       const binding = await getTelegramUserAccountGatewayBinding({ db: ctx.db, dataKey, orgId, accountId: account.id });
       if (!binding) return ownerError('telegram_campaign_account_state_conflict', ctx.requestId, 409);
+      if (tgSenderMode(ctx.env)) {
+        const configuration = tgSenderConfiguration(ctx.env, orgId);
+        if (!configuration || configuration.binding.account_id !== account.id || configuration.binding.account_ref !== binding.gatewayAccountRef) {
+          return ownerError('tg_sender_binding_mismatch', ctx.requestId, 409);
+        }
+      }
       const result = await checkCorporateTelegramContact({ db: ctx.db, orgId, searchId: body.searchId,
         companyId: body.companyId, candidateKey: body.candidateKey, accountId: account.id,
-        resolve: (target, operationId) => resolveTelegramContact({ service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+        resolve: (target, operationId) => tgSenderMode(ctx.env) ? resolveOutreachContact(ctx.env, orgId, target) : resolveTelegramContact({ service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
           internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN, orgId, gatewayAccountRef: binding.gatewayAccountRef, operationId, target }),
       });
       return ownerJson(contactResolutionForBrowser(result, ctx.request.headers.get('X-Lead-Radar-Contact-Protocol')), ctx.requestId);
@@ -1666,6 +1729,7 @@ export async function handleTelegramCampaignPost(
       const operationNow = new Date();
       const source = await resolveCampaignSource(ctx,orgId,body);
       const preparationInput = {
+        publicBusinessInquiryEnabled: ctx.env.LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED === 'true',
         db: ctx.db,
         dataKey,
         orgId,
@@ -1778,6 +1842,7 @@ export async function handleTelegramCampaignPost(
         return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
       }
       const authorized = await authorizeTelegramCampaignContact({
+        publicBusinessInquiryEnabled: ctx.env.LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED === 'true',
         db: ctx.db,
         dataKey,
         orgId,
@@ -1846,6 +1911,7 @@ export async function handleTelegramCampaignPost(
       }
       const source = await resolveCampaignSource(ctx,orgId,body);
       const created = await createApprovedTelegramCampaign({
+        publicBusinessInquiryEnabled: ctx.env.LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED === 'true',
         db: ctx.db,
         dataKey,
         orgId,
@@ -1934,6 +2000,8 @@ export async function handleTelegramCampaignPost(
         }
       }
       const transitioned = await transitionTelegramCampaign({
+        publicBusinessInquiryEnabled: ctx.env.LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED === 'true',
+        outreachInboxEnabled: ctx.env.LEAD_RADAR_OUTREACH_INBOX_ENABLED === 'true',
         db: ctx.db,
         dataKey,
         orgId,

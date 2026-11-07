@@ -1,5 +1,5 @@
 import type { LeadRadarSearchInput, LeadRadarSearchResult } from '../../../src/shared/lead-radar';
-import { fanOutDiscovery, mergeCrossSourceCandidates } from './discovery-sources';
+import { fanOutDiscovery } from './discovery-sources';
 import { LeadRadarBusyError, mergeWebsiteFactsIntoLead, sourceCandidateToStoredLead } from './service';
 import {
   enrichCompanyWebsiteDetailed,
@@ -7,7 +7,6 @@ import {
   type ExpectedCompanyWebsiteIdentity,
   type WebsiteFacts,
 } from './sources';
-import { mergeSourceYield, type SourceYieldMap } from './source-yield';
 import { LeadRadarStore } from './store';
 import type { WebsiteEnrichmentResult } from './firecrawl-enrichment';
 import type {
@@ -41,8 +40,8 @@ export interface LeadRadarQueueDependencies {
   resolveMissingWebsites?: boolean;
   enrichLead?: (website: string | null, expected: ExpectedCompanyWebsiteIdentity, job: LeadRadarJob) => Promise<WebsiteEnrichmentResult>;
   discover?: (input: LeadRadarSearchInput) => Promise<LeadRadarDiscoveryResult>;
-  /** Extra catalogs merged into the OSM result. Discovery keeps working — and
-   *  stays identical to today — when this is absent or empty. */
+  /** Configured catalogs (or legacy extras). OSM is added only when missing;
+   * catalog-only methods keep enrichment in its separately leased stage. */
   sources?: import('./types').LeadRadarSource[];
   enrichWebsite?: (website: string, expected: ExpectedCompanyWebsiteIdentity) => Promise<{
     facts: WebsiteFacts | null;
@@ -379,28 +378,28 @@ async function retryOrDeadLetter(
 }
 
 /**
- * OSM plus any extra catalogs, merged into one candidate list.
- *
- * OSM deliberately stays on `discoverRaw`: the queue runs website enrichment as
- * its own stage per lead, so crawling sites here would spend the same
- * subrequests twice. The extra catalogs only ever *add* rows and contacts —
- * when none are configured this is byte-for-byte the old behaviour.
+ * One catalog-only call per configured source. OSM is a fallback registry
+ * entry, not a prerequisite for the other catalogs. Each failure stays isolated
+ * and website enrichment runs later under its own durable job lease.
  */
 async function discoverWithSources(
   store: LeadRadarStore,
   input: LeadRadarSearchInput,
   sources: readonly LeadRadarSource[] | undefined,
 ): Promise<LeadRadarDiscoveryResult> {
-  const osm = await new OpenStreetMapLeadSource(store).discoverRaw(input);
-  if (!sources || sources.length === 0) return osm;
-  const extra = await fanOutDiscovery(sources, input);
+  const configured = new Map((sources ?? []).map((source) => [source.id, source]));
+  if (!configured.has('openstreetmap')) {
+    configured.set('openstreetmap', new OpenStreetMapLeadSource(store));
+  }
+  const discovery = await fanOutDiscovery([...configured.values()], input, { catalogOnly: true });
+  if (discovery.failures === configured.size) {
+    throw discovery.errors[0] ?? new Error('discovery_failed');
+  }
   return {
-    candidates: mergeCrossSourceCandidates([...osm.candidates, ...extra.candidates]),
-    sourceWarnings: [...osm.sourceWarnings, ...extra.warnings],
-    ...(osm.rawDiscoveredCount === undefined ? {} : { rawDiscoveredCount: osm.rawDiscoveredCount }),
-    ...(osm.sourceYield === undefined && extra.yieldBySource === undefined
-      ? {}
-      : { sourceYield: mergeSourceYield(...[osm.sourceYield, extra.yieldBySource].filter((map): map is SourceYieldMap => Boolean(map))) }),
+    candidates: discovery.candidates,
+    sourceWarnings: discovery.warnings,
+    rawDiscoveredCount: discovery.rawDiscoveredCount,
+    ...(discovery.yieldBySource ? { sourceYield: discovery.yieldBySource } : {}),
   };
 }
 

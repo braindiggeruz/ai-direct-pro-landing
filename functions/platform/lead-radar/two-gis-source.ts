@@ -367,17 +367,22 @@ export class TwoGisLeadSource implements LeadRadarSource {
   }
 
   async discover(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult> {
+    return this.discoverRaw(input);
+  }
+
+  /** Catalog fields only; company website crawling belongs to enrichment jobs. */
+  async discoverRaw(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult> {
     const key = this.apiKey;
     const yieldRecorder = new SourceYieldRecorder({ city: input.city, niche: input.niche });
     if (!key) {
       yieldRecorder.log({ plansRun: ['skipped'], reason: 'no_api_key' });
-      return { candidates: [], sourceWarnings: ['two_gis_not_configured'], sourceYield: yieldRecorder.snapshot() };
+      return { candidates: [], sourceWarnings: ['two_gis_not_configured'], failureCode: 'discovery_source_unavailable', sourceYield: yieldRecorder.snapshot() };
     }
 
     const bounds = staticCityBounds(input.city, input.country);
     if (!bounds) {
       yieldRecorder.log({ plansRun: ['skipped'], reason: 'city_unknown' });
-      return { candidates: [], sourceWarnings: ['two_gis_city_unknown'], sourceYield: yieldRecorder.snapshot() };
+      return { candidates: [], sourceWarnings: ['two_gis_city_unknown'], failureCode: 'city_not_found', sourceYield: yieldRecorder.snapshot() };
     }
 
     const circle = boundsToCircle(bounds);
@@ -414,6 +419,7 @@ export class TwoGisLeadSource implements LeadRadarSource {
             return {
               candidates: [],
               sourceWarnings: [`two_gis_http_${response.status}`],
+              failureCode: 'discovery_source_unavailable',
               sourceYield: yieldRecorder.snapshot(),
             };
           }
@@ -422,12 +428,14 @@ export class TwoGisLeadSource implements LeadRadarSource {
         }
         payload = await response.json();
       } catch (error) {
-        const reason = String(error).includes('abort') ? 'two_gis_timeout' : 'two_gis_unavailable';
+        const reason = /abort|timeout/i.test(String(error)) ? 'two_gis_timeout' : 'two_gis_unavailable';
         if (page === 1) {
           yieldRecorder.log({ plansRun: ['failed'], reason });
           // Fail soft. The OSM source runs alongside this one and must still be
           // able to complete the search.
-          return { candidates: [], sourceWarnings: [reason], sourceYield: yieldRecorder.snapshot() };
+          return { candidates: [], sourceWarnings: [reason],
+            failureCode: reason === 'two_gis_timeout' ? 'source_timeout' : 'discovery_source_unavailable',
+            sourceYield: yieldRecorder.snapshot() };
         }
         pageWarnings.push(`two_gis_page_${page}_${reason}`);
         break;
@@ -440,6 +448,7 @@ export class TwoGisLeadSource implements LeadRadarSource {
           return {
             candidates: [],
             sourceWarnings: ['two_gis_invalid_payload'],
+            failureCode: 'upstream_payload_invalid',
             sourceYield: yieldRecorder.snapshot(),
           };
         }
@@ -458,6 +467,7 @@ export class TwoGisLeadSource implements LeadRadarSource {
       return {
         candidates: [],
         sourceWarnings: [...pageWarnings, 'two_gis_no_results'],
+        failureCode: 'discovery_source_unavailable',
         sourceYield: yieldRecorder.snapshot(),
       };
     }

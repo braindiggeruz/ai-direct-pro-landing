@@ -146,6 +146,8 @@ export interface TelegramCampaignDispatchContextRow extends TelegramCampaignReci
   campaign_template_ciphertext: string;
   campaign_template_iv: string;
   campaign_content_digest: string;
+  campaign_selection_digest: string;
+  campaign_approval_id: string;
   campaign_contact_basis: TelegramCampaignContactBasis;
   campaign_operator_digest: string;
   campaign_attachment_id: string | null;
@@ -153,6 +155,9 @@ export interface TelegramCampaignDispatchContextRow extends TelegramCampaignReci
   min_interval_seconds: number;
   account_status: TelegramUserAccountStatus;
   gateway_account_ref: string | null;
+  gateway_account_ref_digest: string | null;
+  auth_request_digest: string;
+  data_key_fingerprint: string | null;
   company_telegram_contact_json: string;
   company_website: string | null;
   company_canonical_key: string;
@@ -249,7 +254,8 @@ export type TelegramCampaignContactBasis =
   | 'documented_consent'
   | 'inbound_request'
   | 'existing_relationship'
-  | 'contractual_relationship';
+  | 'contractual_relationship'
+  | 'public_business_inquiry';
 
 export const TELEGRAM_CAMPAIGN_EVIDENCE_VERSION = 'campaign-contact-eligibility-v1';
 
@@ -302,6 +308,12 @@ export class LeadRadarTelegramCampaignStore {
     keyFingerprint: string,
     now: string,
   ): Promise<TelegramCampaignDataKeyState> {
+    // Existing bindings are read-only: do not issue a no-op INSERT per claim
+    // and dispatch. The first-bind path below retains its atomic legacy guard.
+    const bound = await this.db.prepare('SELECT key_fingerprint FROM lead_radar_tg_data_key_state WHERE org_id=? LIMIT 1')
+      .bind(orgId).first<{key_fingerprint:string|null}>();
+    if (bound) return bound.key_fingerprint === null ? 'legacy_unbound'
+      : bound.key_fingerprint === keyFingerprint ? 'ready' : 'mismatch';
     await this.db.prepare(`INSERT INTO lead_radar_tg_data_key_state (
       org_id, key_fingerprint, established_at, created_at, updated_at
     ) SELECT ?, ?, ?, ?, ?
@@ -615,6 +627,19 @@ export class LeadRadarTelegramCampaignStore {
         ),
     ]) as D1WriteResult[];
     return changes(results[0]) === 1;
+  }
+
+  async getPendingAccountFinalization(orgId: string, accountId: string): Promise<{
+    gateway_account_ref: string; gateway_account_ref_digest: string; masked_label: string;
+    provider_connected_at: string; account_state_version: number;
+  } | null> {
+    return this.db.prepare(`SELECT finalization.gateway_account_ref, finalization.gateway_account_ref_digest,
+      finalization.masked_label, finalization.provider_connected_at, finalization.account_state_version
+      FROM lead_radar_tg_account_finalizations finalization
+      JOIN lead_radar_tg_user_accounts account ON account.org_id=finalization.org_id AND account.id=finalization.account_id
+      WHERE finalization.org_id=? AND finalization.account_id=? AND account.status='pending'
+        AND account.state_version=finalization.account_state_version LIMIT 1`)
+      .bind(orgId, accountId).first();
   }
 
   async stageAccountFinalization(orgId: string, input: {
@@ -1552,6 +1577,17 @@ export class LeadRadarTelegramCampaignStore {
       .first<TelegramCampaignApprovalRow>();
   }
 
+  async getCampaignTransportContext(orgId: string, campaignId: string): Promise<(Pick<TelegramCampaignRow,
+    'id' | 'org_id' | 'account_id' | 'contact_basis' | 'status' | 'state_version'> & {
+    gateway_account_ref: string | null; gateway_account_ref_digest: string | null;
+    auth_request_digest: string; account_status: string; data_key_fingerprint: string | null;
+  }) | null> {
+    return this.db.prepare(`SELECT c.*,a.gateway_account_ref,a.gateway_account_ref_digest,a.auth_request_digest,a.status AS account_status,
+      (SELECT key_fingerprint FROM lead_radar_tg_data_key_state WHERE org_id=c.org_id) AS data_key_fingerprint
+      FROM lead_radar_tg_campaigns c JOIN lead_radar_tg_user_accounts a ON a.org_id=c.org_id AND a.id=c.account_id
+      WHERE c.org_id=? AND c.id=? LIMIT 1`).bind(orgId,campaignId).first();
+  }
+
   async getCampaign(orgId: string, campaignId: string): Promise<TelegramCampaignRow | null> {
     return this.db.prepare(`${CAMPAIGN_SELECT}
       WHERE org_id = ? AND id = ? LIMIT 1`)
@@ -2088,6 +2124,8 @@ export class LeadRadarTelegramCampaignStore {
       campaign.template_ciphertext AS campaign_template_ciphertext,
       campaign.template_iv AS campaign_template_iv,
       campaign.content_digest AS campaign_content_digest,
+      campaign.selection_digest AS campaign_selection_digest,
+      campaign.approval_id AS campaign_approval_id,
       campaign.contact_basis AS campaign_contact_basis,
       campaign.operator_digest AS campaign_operator_digest,
       campaign_media.media_id AS campaign_attachment_id,
@@ -2095,6 +2133,9 @@ export class LeadRadarTelegramCampaignStore {
       campaign.min_interval_seconds,
       account.status AS account_status,
       account.gateway_account_ref,
+      account.gateway_account_ref_digest,
+      account.auth_request_digest,
+      (SELECT key_fingerprint FROM lead_radar_tg_data_key_state WHERE org_id=campaign.org_id) AS data_key_fingerprint,
       company.telegram_contact_json AS company_telegram_contact_json,
       company.website AS company_website,
       company.canonical_key AS company_canonical_key,

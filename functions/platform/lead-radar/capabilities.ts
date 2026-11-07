@@ -10,6 +10,7 @@ import { resolveLeadRadarTelegramCampaignPolicy } from '../../../src/shared/lead
 import { scoreLead } from './scoring';
 import { hasPrivateTelegramAccountService } from './telegram-account-service';
 import { isTelegramCampaignDataKeyValid } from './telegram-campaign';
+import { tgSenderConfiguration, tgSenderMode } from './outreach-transport';
 
 const PERSONAL_CONTACT_TTL_MS = 30 * 24 * 60 * 60_000;
 const MAX_FUTURE_CLOCK_SKEW_MS = 5 * 60_000;
@@ -29,6 +30,10 @@ type LeadRadarCapabilityEnv = Pick<Env,
   | 'LEAD_RADAR_TELEGRAM_CAMPAIGN_DAILY_LIMIT'
   | 'LEAD_RADAR_TELEGRAM_CAMPAIGN_MIN_INTERVAL_SECONDS'
   | 'LEAD_RADAR_ALLOWED_ORGS'
+  | 'LEAD_RADAR_TG_SENDER_ORIGIN'
+  | 'LEAD_RADAR_TG_SENDER_TOKEN'
+  | 'LEAD_RADAR_TG_SENDER_BINDING_JSON'
+  | 'LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED'
 >;
 
 // 32 random bytes encoded as unpadded base64url. Keep this byte-for-byte
@@ -72,6 +77,7 @@ export function resolveLeadRadarCapabilities(
   // the legacy per-lead Business-bot send path.
   const telegramAccountRequested = tenantAllowed
     && enabled(env.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED);
+  const remote = tgSenderMode(env);
   const telegramAccountReadinessBlockers = [
     ...(!tenantAllowed ? ['tenant_not_allowed' as const] : []),
     ...(tenantAllowed && !enabled(env.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED)
@@ -81,19 +87,21 @@ export function resolveLeadRadarCapabilities(
       && !isTelegramCampaignDataKeyValid(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY)
       ? ['campaign_data_key_missing' as const]
       : []),
-    ...(tenantAllowed
+    ...(tenantAllowed && !remote
       && !hasPrivateTelegramAccountService(env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE)
       ? ['gateway_binding_missing' as const]
       : []),
-    ...(tenantAllowed && env.LEAD_RADAR_TELEGRAM_TRANSPORT_MODE !== 'local_bridge'
+    ...(tenantAllowed && !remote && env.LEAD_RADAR_TELEGRAM_TRANSPORT_MODE !== 'local_bridge'
       ? ['bridge_transport_mode_invalid' as const]
       : []),
-    ...(tenantAllowed
+    ...(tenantAllowed && !remote
       && !INTERNAL_SERVICE_TOKEN_PATTERN.test(
         env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN ?? '',
       )
       ? ['gateway_internal_token_missing' as const]
       : []),
+    ...(tenantAllowed && remote && !tgSenderConfiguration(env, orgId)
+      ? ['tg_sender_not_configured' as const] : []),
   ];
   const telegramAccountEnabled = telegramAccountRequested
     && telegramAccountReadinessBlockers.length === 0;
@@ -120,6 +128,8 @@ export function resolveLeadRadarCapabilities(
     },
     campaignOutreachEnabled,
     campaignAutoSendEnabled,
+    telegramTransportMode: remote ? 'tg_sender' : 'local_bridge',
+    publicBusinessInquiryEnabled: campaignOutreachEnabled && enabled(env.LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED),
     telegramCampaignDailyLimit: campaignPolicy.dailyLimit,
     telegramCampaignMinimumIntervalSeconds: campaignPolicy.minimumIntervalSeconds,
     mode: contactEnabled || campaignOutreachEnabled

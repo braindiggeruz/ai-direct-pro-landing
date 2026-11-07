@@ -54,6 +54,10 @@ import {
 } from '../functions/platform/lead-radar/telegram-account-service';
 import { LeadRadarTelegramCampaignMediaStore } from '../functions/platform/lead-radar/telegram-campaign-media';
 import { LeadRadarTelegramCampaignStore } from '../functions/platform/lead-radar/telegram-campaign-store';
+import { configuredTgSender, tgSenderConfiguration, tgSenderMode } from '../functions/platform/lead-radar/outreach-transport';
+import { maintainOutreachInbox } from '../functions/platform/lead-radar/outreach-inbox';
+import { OutreachInboxStore } from '../functions/platform/lead-radar/outreach-inbox-store';
+import { createDurableOutreachSender, hasOutreachReceiptSchema, reconcileOutreachReceipts } from '../functions/platform/lead-radar/outreach-receipts';
 import {
   createSeoDraftAutomationHandler,
   enqueueScheduledSeoDraftGeneration,
@@ -117,10 +121,10 @@ function isTelegramCampaignAutosendEnabled(env: AutomationWorkerEnv): boolean {
   return env.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED === 'true'
     && env.LEAD_RADAR_TELEGRAM_CAMPAIGN_ENABLED === 'true'
     && env.LEAD_RADAR_TELEGRAM_CAMPAIGN_AUTOSEND_ENABLED === 'true'
-    && env.LEAD_RADAR_TELEGRAM_TRANSPORT_MODE === 'local_bridge'
+    && (tgSenderMode(env) ? Boolean(tgSenderConfiguration(env)) : env.LEAD_RADAR_TELEGRAM_TRANSPORT_MODE === 'local_bridge'
     && TELEGRAM_INTERNAL_SERVICE_TOKEN_PATTERN.test(
       env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN ?? '',
-    );
+    ));
 }
 
 function telegramCampaignDailyLimit(env: AutomationWorkerEnv): number | null {
@@ -567,6 +571,15 @@ export default {
             now: retentionNow,
             limit: 1,
           });
+          const receiptSender = configuredTgSender(env, orgId);
+          if (receiptSender && isTelegramCampaignDataKeyValid(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY)
+            && await hasOutreachReceiptSchema(env.GPTBOT_DRAFTS_DB)) {
+            await reconcileOutreachReceipts({db: env.GPTBOT_DRAFTS_DB, orgId,
+              dataKey: env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY.trim(), sender: receiptSender, now: retentionNow, limit: 1});
+          }
+          if (await new OutreachInboxStore(env.GPTBOT_DRAFTS_DB).hasSchema()) {
+            await maintainOutreachInbox({db: env.GPTBOT_DRAFTS_DB, orgId, now: retentionNow, limit: 1});
+          }
         }
         // Advance only after every bounded maintenance action succeeds. A
         // failed tenant is retried at the same cursor on the next cron tick.
@@ -582,7 +595,7 @@ export default {
             && isTelegramCampaignDataKeyValid(dataKey)
             && dailyLimit !== null
             && minimumIntervalSeconds !== null
-            && hasPrivateTelegramAccountService(env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE)) {
+            && (tgSenderMode(env) || hasPrivateTelegramAccountService(env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE))) {
             for (const orgId of campaignOrganizations) {
               await enqueueDueTelegramCampaignsForOrganization({
                 db: env.GPTBOT_DRAFTS_DB,
@@ -689,7 +702,7 @@ export default {
             || !isTelegramCampaignDataKeyValid(dataKey)
             || dailyLimit === null
             || minimumIntervalSeconds === null
-            || !hasPrivateTelegramAccountService(privateService)) {
+            || (!tgSenderMode(env) && !hasPrivateTelegramAccountService(privateService))) {
             message.ack();
             continue;
           }
@@ -704,19 +717,27 @@ export default {
             message.ack();
             continue;
           }
-          // Probe only an exact, allowlisted envelope, still before any D1
-          // schema lookup or recipient claim. This is configuration readiness,
-          // not a claim that a tenant Container/session can boot; the bounded
-          // send remains the first per-account operational probe.
-          const gatewayReadiness = await getTelegramAccountGatewayReadiness(
-            privateService,
-            env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
-          );
+          // Probe only an exact, allowlisted envelope before recipient claim.
+          // Remote status must include a recent verified Telegram session;
+          // configuration readiness alone does not permit a send.
+          const remoteSender = tgSenderMode(env) ? configuredTgSender(env, campaignEnvelope.org_id) : null;
+          if (tgSenderMode(env) && !await hasOutreachReceiptSchema(env.GPTBOT_DRAFTS_DB)) {
+            message.ack(); continue;
+          }
+          const remoteStatus = remoteSender ? await remoteSender.readiness() : null;
+          const remoteReady = remoteStatus?.ready === true && typeof remoteStatus.providerVerifiedAt === 'string';
+          const gatewayReadiness = tgSenderMode(env)
+            ? {status: remoteReady ? 'ready' : 'blocked', blockers: remoteReady ? [] : ['tg_sender_unavailable']}
+            : await getTelegramAccountGatewayReadiness(privateService, env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN);
           if (gatewayReadiness.status === 'blocked'
             || gatewayReadiness.blockers.length > 0) {
             message.ack();
             continue;
           }
+          const campaignSender = remoteSender ? createDurableOutreachSender({db: env.GPTBOT_DRAFTS_DB, sender: remoteSender}) : (privateService ? new PrivateTelegramCampaignSender(
+            privateService, env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
+          ) : null);
+          if (!campaignSender) { message.ack(); continue; }
           await assertLeadRadarRuntimeSchema(env.GPTBOT_DRAFTS_DB);
           if (!await hasTelegramCampaignSchema(env.GPTBOT_DRAFTS_DB)) {
             message.ack();
@@ -726,12 +747,13 @@ export default {
             db: env.GPTBOT_DRAFTS_DB,
             dataKey: dataKey.trim(),
             raw: campaignEnvelope,
-            sender: new PrivateTelegramCampaignSender(
-              privateService,
-              env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN,
-            ),
+            sender: campaignSender,
+            expectedTransportBinding: remoteSender ? tgSenderConfiguration(env,campaignEnvelope.org_id)?.binding : undefined,
             dailyLimit,
             minimumIntervalSeconds,
+            publicBusinessInquiryEnabled: env.LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED === 'true'
+              && (!tgSenderMode(env) || remoteStatus?.publicBusinessInquiry === true),
+            outreachInboxEnabled: env.LEAD_RADAR_OUTREACH_INBOX_ENABLED === 'true',
             mediaReader: env.LEAD_RADAR_CAMPAIGN_MEDIA
               ? new LeadRadarTelegramCampaignMediaStore(env.LEAD_RADAR_CAMPAIGN_MEDIA)
               : undefined,

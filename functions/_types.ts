@@ -123,6 +123,10 @@ export interface Env extends FirecrawlEnvironment {
   // gateway's own Env and must not be bound to Pages or the automation Worker.
   // Neither key may be reused by the Telegram Business bot plane above.
   LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY?: string;
+  // Separate default-off incoming reply bridge. The secret is never shared
+  // with the browser. Disabling ingress does not release pending opt-out gates.
+  LEAD_RADAR_OUTREACH_INBOX_ENABLED?: string;
+  LEAD_RADAR_OUTREACH_INBOX_TOKEN?: string;
   // Private image custody for Telegram account campaigns. The bucket must not
   // have a public domain; only opaque ids and digests are persisted in D1.
   LEAD_RADAR_CAMPAIGN_MEDIA?: R2Bucket;
@@ -131,6 +135,12 @@ export interface Env extends FirecrawlEnvironment {
   // only the gateway's separately authenticated public bridge routes.
   LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE?: Fetcher;
   LEAD_RADAR_TELEGRAM_TRANSPORT_MODE?: string;
+  // Server-only TG Sender transport; credentials and pinned identity are never
+  // accepted from request JSON. The local Bridge remains an independent mode.
+  LEAD_RADAR_TG_SENDER_ORIGIN?: string;
+  LEAD_RADAR_TG_SENDER_TOKEN?: string;
+  LEAD_RADAR_TG_SENDER_BINDING_JSON?: string;
+  LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED?: string;
   // Independent high-entropy bearer used only on private Service Binding
   // account/send calls. Never expose it to the browser or local Bridge.
   LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN?: string;

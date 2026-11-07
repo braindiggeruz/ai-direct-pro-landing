@@ -7,6 +7,8 @@ import { AUDIENCE_LIMIT,type AudienceDetail,type ContactDirectoryPage,type Conta
 import { recipientContactChoices, recipientContactSummary } from '../../../shared/lead-radar-recipient-contacts';
 import { ContactCandidates } from './ContactCandidates';
 import { audienceFailureMessage, sameAudienceSelection, saveAudienceWithRecovery, type AudienceSaveInput } from '../../lib/audience-save';
+import { ArrowRight, CheckCircle2, MessageSquareText, UsersRound } from 'lucide-react';
+import type { OutreachStep } from './OutreachWorkflow';
 
 const STATUS = {verified:'Подтверждён · нужно основание',review:'Нужна проверка',conflict:'Общий контакт разных компаний',contacted:'Уже писали / исход требует проверки',blocked:'Не связываться'};
 const NICHE_LABELS:Record<string,string> = {dentist:'Стоматологии',car_repair:'Автосервисы',hairdresser:'Парикмахерские',salon:'Салоны красоты'};
@@ -21,8 +23,11 @@ function errorCopy(error:unknown):string {
   if (code==='directory_scan_limit') return 'Каталог превысил лимит безопасной загрузки. Контакты не потеряны; массовый выбор остановлен без частичного сохранения.';
   return audienceFailureMessage(error);
 }
-type Props=Omit<TelegramAccountCampaignPanelProps,'searchId'|'audience'|'leads'|'initialSelectedLeadIds'> & {onOpenSearch:(id:string)=>void};
-export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) {
+type Props=Omit<TelegramAccountCampaignPanelProps,'searchId'|'audience'|'leads'|'initialSelectedLeadIds'> & {
+  onOpenSearch:(id:string)=>void;
+  onStepChange?:(step:OutreachStep)=>void;
+};
+export function TelegramContactDirectory({onOpenSearch,onStepChange,...campaignProps}:Props) {
   const [page,setPage]=useState<ContactDirectoryPage|null>(null);
   const [audiences,setAudiences]=useState<LeadRadarAudience[]>([]);
   const [detail,setDetail]=useState<AudienceDetail|null>(null);
@@ -40,6 +45,7 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
   const [listReload,setListReload]=useState(0);
   const [notice,setNotice]=useState<string|null>(null);
   const [composer,setComposer]=useState(false);
+  useEffect(() => { onStepChange?.(composer ? 'message' : 'audience'); }, [composer,onStepChange]);
   const [refreshPending,setRefreshPending]=useState(false);
   const [pendingSelection,setPendingSelection]=useState<string[]|null>(null);
   const pendingName=useRef<string|null>(null);
@@ -132,11 +138,12 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
     return [row.lead.id,...(row.memberIds ?? row.sources.map((source)=>source.companyId))].filter((id)=>selected.has(id));
   }
   async function toggle(row:ContactDirectoryRow):Promise<void> {
-    if(busy || !detail)return;
+    if(busy || mutation.current || pendingSelection!==null)return;
     const current=selectedInRow(row);
     const next=new Set(selected);
     if(current.length)current.forEach((id)=>next.delete(id));
     else {
+      if(['blocked','conflict','contacted'].includes(row.status) || !recipientContactChoices(row.lead).selectable)return;
       if(next.size>=AUDIENCE_LIMIT){setError(`В общей аудитории максимум ${AUDIENCE_LIMIT} контактов. Уточните фильтр или создайте другую аудиторию.`);return;}
       next.add(row.lead.id);
     }
@@ -168,10 +175,18 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
   }
   const rows=(page?.rows ?? []).filter((row)=>status==='all' || row.status===status);
   return <section className="space-y-5" aria-label="Общая база Telegram" data-testid="telegram-contact-directory">
-    <div className="rounded-2xl border border-brand-cyan/20 bg-[#091523] p-5 space-y-3">
-      <h2 className="text-xl font-semibold">Мобильные и Telegram — все ниши</h2>
-      <p className="text-sm text-white/80">Все компании с мобильным телефоном или публичным Telegram-username из сохранённых поисков. Стационарные номера, боты и известные личные профили исключены. Повторы объединены.</p>
-      <p className="text-sm text-white/65">Подтверждённый контакт ещё не означает разрешение на рассылку. Основание, актуальность, история и запреты проверяются сервером перед отправкой.</p>
+    <div className="flex flex-col gap-5 rounded-2xl border border-brand-cyan/20 bg-[#091523] p-5 lg:flex-row lg:items-center lg:justify-between">
+      <div className="max-w-3xl space-y-2">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-cyan">{composer ? 'Шаг 3 · сообщение и проверка' : 'Шаг 2 · ваша аудитория'}</p>
+        <h2 className="text-xl font-semibold">{composer ? 'Подготовьте первое обращение' : 'Компании, с которыми стоит связаться'}</h2>
+        <p className="text-sm leading-6 text-white/75">Мобильные и Telegram из всех сохранённых поисков, без повторов. Отметьте компании — аудитория сохранится автоматически. Затем подготовьте сообщение и проверьте готовность отправки.</p>
+        <p className="text-xs leading-5 text-white/65">Публичный контакт и разрешение на отправку учитываются отдельно. Стационарные номера, боты и известные личные профили исключены.</p>
+      </div>
+      <div className="flex shrink-0 flex-col gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-4" style={{minWidth:'min(14rem,100%)'}}>
+        <p className="flex items-center gap-2 text-sm text-white/75"><UsersRound size={16} aria-hidden="true" />В аудитории <strong className="ml-auto text-xl font-semibold text-white">{selected.size}</strong></p>
+        <Button disabled={busy || selected.size===0 || !detail || pendingSelection!==null || refreshPending} onClick={()=>setComposer(!composer)} className="min-h-12"><MessageSquareText size={16} aria-hidden="true" />{composer ? 'Вернуться к контактам' : 'К сообщению'}<ArrowRight size={16} aria-hidden="true" /></Button>
+        {selected.size===0 && <p className="text-xs leading-5 text-white/65">Выберите первую компанию в каталоге ниже.</p>}
+      </div>
     </div>
     {(directoryError || listError) && <div role="alert" className="rounded-xl border border-rose-300/30 p-4 text-rose-100 space-y-2">
       {directoryError && <p><strong>Каталог не обновился.</strong> {directoryError}</p>}
@@ -183,14 +198,14 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
     {pendingSelection && !busy && <div role="status" className="text-amber-100 space-y-2"><p>Ваш выбор ({pendingSelection.length}) ещё не подтверждён сервером и остаётся в этой вкладке.</p>
       <Button variant="secondary" onClick={()=>{if(pendingSave.current)void openAudience(pendingSave.current.id);}}>Сверить с сервером</Button>{' '}
       <Button variant="secondary" onClick={()=>void save(pendingSelection,pendingName.current ?? draftName)}>Повторить сохранение выбора</Button></div>}
-    {notice && <p role="status" className="text-sm text-brand-cyan">{notice}</p>}
+    {notice && <p role="status" className="flex items-start gap-2 rounded-xl border border-brand-cyan/20 bg-brand-cyan/[0.04] px-4 py-3 text-sm text-brand-cyan"><CheckCircle2 size={16} aria-hidden="true" className="mt-0.5 shrink-0" />{notice}</p>}
     <div className="rounded-2xl border border-white/10 p-5 space-y-4">
       <div className="flex flex-wrap gap-3 items-end">
-        <div className="min-w-64 flex-1"><Label htmlFor="audience-select">Сохранённая аудитория / её кампании</Label>
+        <div className="min-w-0 flex-1 basis-full sm:basis-auto sm:min-w-64"><Label htmlFor="audience-select">Сохранённая аудитория / её кампании</Label>
           <Select id="audience-select" value={detail?.audience.id ?? ''} disabled={busy || pendingSelection!==null} onChange={(event)=>{if(event.target.value)void openAudience(event.target.value);}}>
-            <option value="">Создайте аудиторию или нажмите «Выбрать все»</option>{audiences.map((item)=><option key={item.id} value={item.id}>{item.name} · {item.companyIds.length} контактов</option>)}
+            <option value="">Выберите компании в каталоге ниже</option>{audiences.map((item)=><option key={item.id} value={item.id}>{item.name} · {item.companyIds.length} контактов</option>)}
           </Select></div>
-        <Button variant="secondary" disabled={busy || pendingSelection!==null} onClick={()=>{setDetail(null);setComposer(false);setDraftName('Новая аудитория');createId.current=`aud_${crypto.randomUUID().replaceAll('-','')}`;}}>Новая аудитория</Button>
+        <Button variant="secondary" disabled={busy || pendingSelection!==null} onClick={()=>{setDetail(null);setComposer(false);setDraftName('Новая аудитория');createId.current=`aud_${crypto.randomUUID().replaceAll('-','')}`;const url=new URL(window.location.href);url.searchParams.delete('audience');window.history.replaceState(null,'',url);}}>Новая аудитория</Button>
         {detail && <Button variant="secondary" disabled={busy} onClick={()=>void openAudience(detail.audience.id)}>Обновить аудиторию</Button>}
       </div>
       <div className="flex flex-wrap gap-3 items-end">
@@ -200,7 +215,7 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
       {detail && <>
         <div className="flex flex-wrap gap-3 items-center"><strong>Выбрано {selected.size} контактов · версия {detail.audience.version}</strong>
           <Button variant="secondary" disabled={busy || selected.size===0} onClick={()=>void save([])}>Очистить выбор</Button>
-          <Button disabled={busy} onClick={()=>setComposer((value)=>!value)}>{composer?'Скрыть подготовку':'Открыть кампанию аудитории'}</Button>
+          <Button disabled={busy || selected.size===0 || pendingSelection!==null || refreshPending} onClick={()=>setComposer((value)=>!value)}>{composer?'Скрыть подготовку':'Открыть кампанию аудитории'}</Button>
         </div>
         <p className="text-sm text-white/80">Выбор сохраняется на сервере и не сбрасывается фильтрами. В одной кампании — до 50 проверенных адресатов; остальные остаются в аудитории. Выбор мобильного номера ещё не подтверждает Telegram.</p>
         <details><summary className="cursor-pointer py-2">Выбранные компании из всех страниц ({selected.size})</summary>
@@ -228,13 +243,13 @@ export function TelegramContactDirectory({onOpenSearch,...campaignProps}:Props) 
     </form>
     <div className="flex flex-wrap gap-3 justify-between items-end">
       <div><Label htmlFor="directory-status">Статус во всей базе</Label><Select id="directory-status" value={status} disabled={busy} onChange={(event)=>{setStatus(event.target.value);setFilters((value)=>({...value,offset:0}));}}><option value="all">Все статусы</option>{Object.entries(STATUS).map(([key,label])=><option key={key} value={key}>{label}</option>)}</Select></div>
-      <Button disabled={busy || loading} onClick={()=>void addFiltered()} aria-describedby="directory-bulk-help">{busy?'Сохраняем выбор…':'Выбрать все с мобильным или username'}</Button>
+      <Button disabled={busy || loading || pendingSelection!==null} onClick={()=>void addFiltered()} aria-describedby="directory-bulk-help">{busy?'Сохраняем выбор…':'Выбрать контакты по фильтру'}</Button>
     </div>
     <p id="directory-bulk-help" className="text-sm text-white/80">Одна кнопка выбирает контакты из всех страниц с учётом фильтров и создаёт аудиторию при необходимости. Запреты, конфликты и уже контактированные компании не выбираются. Telegram и основание для отправки проверяются отдельно. Платный сбор и отправка не запускаются.</p>
     <div className="overflow-x-auto rounded-2xl border border-white/10" aria-busy={loading}>
       <table className="w-full text-left text-sm"><caption className="sr-only">Контакты из всех ниш: выбор, мобильные номера, Telegram и причины ограничения</caption><thead><tr className="bg-white/5"><th scope="col" className="p-3">Выбор</th><th scope="col">Компания / ниша</th><th scope="col">Мобильный / username</th><th scope="col">Проверка / история</th><th scope="col">Источники</th></tr></thead>
       <tbody>{rows.map((row)=><tr key={row.key} className="border-t border-white/10 align-top"><td className="p-3"><label className="inline-flex min-h-11 min-w-11 items-center justify-center"><input type="checkbox" aria-label={`Выбрать ${row.lead.name}`} checked={selectedInRow(row).length>0}
-        className="h-6 w-6 accent-[#2fe6d1] focus-visible:ring-2 focus-visible:ring-brand-cyan" disabled={busy || loading || !detail || (!selectedInRow(row).length && (['blocked','conflict','contacted'].includes(row.status) || selected.size>=AUDIENCE_LIMIT))} onChange={()=>void toggle(row)} /></label></td>
+        className="h-6 w-6 accent-[#2fe6d1] focus-visible:ring-2 focus-visible:ring-brand-cyan" disabled={busy || loading || pendingSelection!==null || (!selectedInRow(row).length && (['blocked','conflict','contacted'].includes(row.status) || !recipientContactChoices(row.lead).selectable || selected.size>=AUDIENCE_LIMIT))} onChange={()=>void toggle(row)} /></label></td>
         <td className="p-3"><strong>{row.lead.name}</strong><p className="text-white/60">{NICHE_LABELS[row.lead.category] ?? row.lead.category} · {row.lead.city}</p></td>
         <td className="p-3 break-words">{row.status==='blocked'?'Скрыто: не связываться':recipientContactSummary(row.lead) || 'Нужна проверка источника'}</td>
         <td className="p-3"><span className={row.status==='verified'?'text-brand-cyan':'text-amber-100'}>{STATUS[row.status]}</span>

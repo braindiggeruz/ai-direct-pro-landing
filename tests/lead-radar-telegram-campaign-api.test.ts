@@ -151,6 +151,7 @@ function installLeadRadarLedger(db: SqliteD1): void {
     '0048_lead_radar_telegram_media_quota.sql',
     '0050_lead_radar_contact_discovery.sql',
     '0054_lead_radar_candidate_pool_resume.sql',
+    '0081_lead_radar_public_business_inquiry.sql',
   ]) {
     db.sqlite.prepare('INSERT OR IGNORE INTO d1_migrations(name) VALUES (?)').run(name);
   }

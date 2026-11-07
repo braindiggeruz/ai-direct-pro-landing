@@ -28,6 +28,8 @@ import { AUDIENCE_LIMIT } from '../../../shared/lead-radar-audiences';
 import { mobileOrUsernameLeadIds, recipientContactChoices, recipientContactSummary, verifiedTelegramContactChoices, verifiedTelegramContactSummary, verifiedTelegramLeadIds } from '../../../shared/lead-radar-recipient-contacts';
 import { api } from '../../lib/api';
 import { CampaignReadiness, type CampaignReadinessHandle } from './CampaignReadiness';
+import { PublicInquiryReview } from './PublicInquiryReview';
+import { TgSenderSwitchConfirmation } from './TgSenderSwitchConfirmation';
 import type { LeadRadarCampaignPreflight } from '../../lib/lead-radar-campaign';
 import { awaitTelegramPhoneChallenge } from '../../lib/lead-radar-telegram-auth';
 import {
@@ -86,6 +88,8 @@ export interface TelegramAccountCampaignPanelProps {
   initialTemplate: string;
   telegramAccountEnabled: boolean;
   telegramAccountReadiness?: LeadRadarTelegramAccountReadiness;
+  telegramTransportMode?: 'local_bridge' | 'tg_sender';
+  publicBusinessInquiryEnabled?: boolean;
   campaignOutreachEnabled: boolean;
   audienceSyncIssue?: string;
   campaignAutoSendEnabled: boolean;
@@ -98,7 +102,7 @@ const ACCOUNT_STATUS_COPY = {
   disconnected: { label: 'Не подключён', tone: 'neutral' as const, detail: 'Подключите выделенный аккаунт. Подключение само по себе не запускает кампанию.' },
   pending: { label: 'Подключение Telegram', tone: 'warning' as const, detail: 'Введите номер, затем код Telegram. Рассылка до завершения входа закрыта.' },
   connecting: { label: 'Подключение Telegram', tone: 'warning' as const, detail: 'Введите номер, затем код Telegram. Рассылка до завершения входа закрыта.' },
-  connected: { label: 'Подключён', tone: 'success' as const, detail: 'Аккаунт готов. Для отправки компьютер и локальный Bridge должны оставаться включёнными.' },
+  connected: { label: 'Подключён', tone: 'success' as const, detail: 'Подключение сохранено. Перед отправкой проверяются доступность Bridge и аккаунта; компьютер с Bridge должен оставаться включённым.' },
   restricted: { label: 'Ограничен Telegram', tone: 'danger' as const, detail: 'Новые отправки остановлены из-за ограничения аккаунта.' },
   reauth_required: { label: 'Нужно переподключение', tone: 'warning' as const, detail: 'Сессия больше не действует. Подключите аккаунт заново.' },
   revoked: { label: 'Доступ отозван', tone: 'danger' as const, detail: 'Telegram отозвал сессию. Кампании не запускаются.' },
@@ -126,6 +130,10 @@ const ACCOUNT_READINESS_REASON_COPY: Record<string, string> = {
   bridge_not_paired: 'Локальный Bridge ещё не привязан к Lead Radar. Запустите его и введите одноразовый код с этого экрана.',
   bridge_offline: 'Локальный Bridge не отвечает. Запустите программу на компьютере; ничего не отправлено.',
   bridge_revocation_pending: 'Bridge ещё подтверждает локальное удаление Telegram-сессии. Новое подключение и отправка закрыты до подтверждения.',
+  tg_sender_not_configured: 'TG Sender выбран, но серверное подключение ещё не настроено. После настройки обновите статус.',
+  tg_sender_unavailable: 'TG Sender не подтвердил готовность аккаунта. Обновите статус; новые отправки закрыты.',
+  tg_sender_binding_mismatch: 'Сохранён другой аккаунт или прежний Bridge. Нужен отдельный переход на TG Sender с проверкой активных кампаний. Текущее подключение автоматически не заменяется.',
+  tg_sender_active_campaign: 'Переход не выполнен: у прежнего аккаунта есть активная кампания или незавершённая отправка. Сначала завершите или остановите её и дождитесь подтверждения статуса.',
 };
 
 const CAMPAIGN_STATUS_COPY: Record<LeadRadarTelegramCampaignStatus, {
@@ -192,6 +200,7 @@ const CONTACT_BASIS_COPY: Record<LeadRadarCampaignContactBasis, string> = {
   inbound_request: 'Компания сама запросила контакт',
   existing_relationship: 'Существующие деловые отношения',
   contractual_relationship: 'Действующий договор',
+  public_business_inquiry: 'Первое обращение на публичный бизнес-контакт',
 };
 
 type CampaignMediaState = 'idle' | 'validating' | 'ready' | 'uploading' | 'checking' | 'uploaded' | 'removing' | 'error';
@@ -652,12 +661,15 @@ export function TelegramAccountCampaignPanel({
   initialTemplate,
   telegramAccountEnabled,
   telegramAccountReadiness,
+  telegramTransportMode = 'local_bridge',
+  publicBusinessInquiryEnabled = false,
   campaignOutreachEnabled,
   audienceSyncIssue,
   campaignAutoSendEnabled,
   telegramCampaignDailyLimit,
   telegramCampaignMinimumIntervalSeconds,
 }: TelegramAccountCampaignPanelProps) {
+  const remoteSender = telegramTransportMode === 'tg_sender';
   // UI lifetime key only; the API receives an explicit search OR audience scope.
   const searchId = sourceSearchId ?? audience?.audienceId ?? '';
   const audienceId = audience?.audienceId;
@@ -712,6 +724,8 @@ export function TelegramAccountCampaignPanel({
   const [bridgePairingClock, setBridgePairingClock] = useState(() => Date.now());
   const [bridgeRevokeConfirmation, setBridgeRevokeConfirmation] = useState(false);
   const [disconnectConfirmation, setDisconnectConfirmation] = useState(false);
+  const [senderSwitchAccountId,setSenderSwitchAccountId]=useState<string|null>(null);
+  const senderSwitchRequest=useRef<{accountId:string;key:string}|null>(null);
   const [selectedLeadIds, setSelectedLeadIds] = useState<Set<string>>(() => new Set(initialSelection.current));
   // Audit CP-3: the operator's draft must survive a page reload. The tab-scoped
   // draft helper keeps the last edited template; the per-search initialTemplate
@@ -732,6 +746,8 @@ export function TelegramAccountCampaignPanel({
   const [mediaError, setMediaError] = useState(false);
   const [imageDragActive, setImageDragActive] = useState(false);
   const [contactBasis, setContactBasis] = useState<LeadRadarCampaignContactBasis | ''>(() => readCampaignBasisDraft(searchId));
+  const [publicBatchReady,setPublicBatchReady]=useState(false);
+  const [publicReviewBusy,setPublicReviewBusy]=useState(false);
   const [authorizationLeadId, setAuthorizationLeadId] = useState('');
   const [evidenceReference, setEvidenceReference] = useState('');
   const [evidenceExpiresAt, setEvidenceExpiresAt] = useState('');
@@ -825,7 +841,7 @@ export function TelegramAccountCampaignPanel({
   }, [telegramAccountEnabled]);
 
   const loadBridgeDevice = useCallback(async (): Promise<LeadRadarTelegramBridgeDeviceState | null> => {
-    if (!telegramAccountEnabled) return null;
+    if (!telegramAccountEnabled || remoteSender) return null;
     try {
       const next = await api.leadRadarTelegramBridgeStatus();
       setBridgeDevice(next);
@@ -834,7 +850,7 @@ export function TelegramAccountCampaignPanel({
       setBridgePairingNotice(campaignErrorCopy(bridgeError));
       return null;
     }
-  }, [telegramAccountEnabled]);
+  }, [telegramAccountEnabled, remoteSender]);
 
   const recoverCampaign = useCallback(async (): Promise<LeadRadarTelegramCampaignReadModel | null> => {
     if (!telegramAccountEnabled) return null;
@@ -1111,7 +1127,7 @@ export function TelegramAccountCampaignPanel({
     mediaValidationSequence.current += 1;
     setImageFile(null);
     setImagePreviewUrl(null);
-    const restoredMedia = readCampaignMediaDraft(audienceId ?? searchId);
+    const restoredMedia = remoteSender ? null : readCampaignMediaDraft(audienceId ?? searchId);
     setUploadedMedia(restoredMedia);
     setMediaState(restoredMedia ? 'checking' : 'idle');
     mediaCheckStartedAt.current = Date.now();
@@ -1125,7 +1141,7 @@ export function TelegramAccountCampaignPanel({
     mediaUploadRequestKey.current = null;
     authorizationRequest.current = null;
     transitionRequestKeys.current = {};
-  }, [searchId, audienceId]);
+  }, [searchId, audienceId, remoteSender]);
 
   useEffect(() => {
     if (mediaState !== 'checking' || !uploadedMedia) return;
@@ -1254,24 +1270,28 @@ export function TelegramAccountCampaignPanel({
     .find((lead) => lead.id === authorizationLeadId) ?? null;
   const authorizationExpiryIso = localDateTimeToIso(evidenceExpiresAt);
   const authorizationNow = Date.now();
+  const publicInquiry = contactBasis === 'public_business_inquiry';
+  const authorizationMaxDays = publicInquiry ? 30 : 366;
   const campaignRecoveryReady = !telegramAccountEnabled
     || !campaignOutreachEnabled
     || (recoveredSearchId === searchId && !campaignRecovering && !campaignRecoveryIssue);
   const authorizationExpiresTime = Date.parse(authorizationExpiryIso ?? '');
   const evidenceReferenceReady = evidenceReference.trim().length >= 8
     && evidenceReference.trim().length <= 200
+    && (!publicInquiry || /^https:\/\/[^\s#@]+$/u.test(evidenceReference.trim()))
     && ![...evidenceReference].some((character) => {
       const code = character.charCodeAt(0);
       return code < 32 || code === 127;
     });
   const evidenceExpiryReady = Number.isFinite(authorizationExpiresTime)
     && authorizationExpiresTime > authorizationNow
-    && authorizationExpiresTime <= authorizationNow + 366 * 24 * 60 * 60_000;
+    && authorizationExpiresTime <= authorizationNow + authorizationMaxDays * 24 * 60 * 60_000;
   const authorizationFormReady = Boolean(
     campaignOutreachEnabled
     && !audienceSyncIssue
     && campaignRecoveryReady
     && contactBasis
+    && (!publicInquiry || publicBusinessInquiryEnabled)
     && authorizationLead
     && evidenceReferenceReady
     && evidenceExpiryReady
@@ -1279,7 +1299,7 @@ export function TelegramAccountCampaignPanel({
     && !authorizationBusy,
   );
   const authorizationMin = localDateTimeInputValue(new Date(authorizationNow + 5 * 60_000));
-  const authorizationMax = localDateTimeInputValue(new Date(authorizationNow + 366 * 24 * 60 * 60_000));
+  const authorizationMax = localDateTimeInputValue(new Date(authorizationNow + authorizationMaxDays * 24 * 60 * 60_000));
   const localSummary = useMemo(() => selectedLeads.reduce((summary, lead) => {
     const classification = classifyCampaignLeadLocally(lead).classification;
     summary[classification] += 1;
@@ -1364,9 +1384,9 @@ export function TelegramAccountCampaignPanel({
   }, [preparation, reviewRecipients]);
   const nonAutomaticReviewItems = reviewRecipients
     .filter((recipient) => recipient.classification !== 'automatic');
-  const hasImageAttachment = Boolean(imageFile || uploadedMedia);
+  const hasImageAttachment = !remoteSender && Boolean(imageFile || uploadedMedia);
   const messageLimit = campaignMessageLimit(hasImageAttachment);
-  const attachmentReference = mediaState === 'uploaded' && uploadedMedia
+  const attachmentReference = !remoteSender && mediaState === 'uploaded' && uploadedMedia
     ? { mediaId: uploadedMedia.mediaId, mediaDigest: uploadedMedia.mediaDigest }
     : null;
   const attachmentReady = !hasImageAttachment || Boolean(attachmentReference);
@@ -1392,6 +1412,7 @@ export function TelegramAccountCampaignPanel({
     ? renderCampaignPreview(template, composerPreviewCompany)
     : template;
   const templateReadyForSelected = isCampaignTemplateReady(template, hasImageAttachment)
+    && (!publicInquiry || (publicBusinessInquiryEnabled && publicBatchReady && !hasImageAttachment))
     && localPersonalizationFits;
   const previewComplete = Boolean(
     serverSummary
@@ -1750,6 +1771,21 @@ export function TelegramAccountCampaignPanel({
 
   async function connectAccount(): Promise<void> {
     if (!telegramAccountEnabled || accountBusy) return;
+    if(remoteSender) {
+      changeAccountBusy(true);setAccountNotice(null);revealSection(accountSectionRef);
+      const requestKey=connectRequestKey.current??`lead-radar-tg-sender-connect-${crypto.randomUUID()}`;
+      connectRequestKey.current=requestKey;
+      try {
+        const next=await api.leadRadarConnectTgSender(requestKey);
+        connectRequestKey.current=null;setAccount(next);setAccountClock(Date.now());
+        setAccountNotice(next.status==='connected'?'TG Sender подтвердил аккаунт. Сверьте отправителя перед запуском.':'TG Sender ещё не подтвердил готовность. Обновите статус.');
+      } catch(connectError) {
+        if(hasDefiniteHttpResponse(connectError))connectRequestKey.current=null;
+        const code=(connectError as {code?:string})?.code;
+        setAccountNotice(code && ACCOUNT_READINESS_REASON_COPY[code] ? ACCOUNT_READINESS_REASON_COPY[code] : campaignErrorCopy(connectError));
+      } finally {changeAccountBusy(false);}
+      return;
+    }
     changeAccountBusy(true);
     setConnectStarting(true);
     revealSection(accountSectionRef);
@@ -1784,6 +1820,33 @@ export function TelegramAccountCampaignPanel({
       setConnectStarting(false);
       changeAccountBusy(false);
     }
+  }
+
+  async function switchToTgSender():Promise<void> {
+    if(!telegramAccountEnabled||!remoteSender||accountBusy||accountLoading||!accountConnectionId
+      ||!effectiveAccountReadiness?.blockers.includes('tg_sender_binding_mismatch'))return;
+    if(senderSwitchAccountId!==accountConnectionId) {
+      setSenderSwitchAccountId(null);
+      setAccountNotice('Привязка аккаунта изменилась. Обновите статус и подтвердите переход для текущего аккаунта заново.');
+      return;
+    }
+    const target=senderSwitchAccountId;
+    const pending=senderSwitchRequest.current?.accountId===target?senderSwitchRequest.current
+      :{accountId:target,key:`lead-radar-tg-sender-switch-${crypto.randomUUID()}`};
+    senderSwitchRequest.current=pending;changeAccountBusy(true);setAccountNotice(null);
+    try {
+      const next=await api.leadRadarConnectTgSender(pending.key,pending.accountId);
+      setAccount(next);setAccountClock(Date.now());setAccountIdentityConfirmed(false);invalidatePreparation();
+      senderSwitchRequest.current=null;setSenderSwitchAccountId(null);
+      const verified=await loadAccount();
+      setAccountNotice(verified?.status==='connected'&&verified.readiness?.status==='ready'
+        ?'Переход завершён. История сохранена; сверьте нового отправителя TG Sender перед запуском.'
+        :'Сервер принял переход. Обновите статус и дождитесь подтверждения готовности TG Sender. Отправка не запускалась.');
+    } catch(error) {
+      const code=(error as {code?:string})?.code;
+      setAccountNotice(code&&ACCOUNT_READINESS_REASON_COPY[code]?ACCOUNT_READINESS_REASON_COPY[code]:campaignErrorCopy(error));
+      if(code==='tg_sender_binding_mismatch'){setSenderSwitchAccountId(null);senderSwitchRequest.current=null;}
+    } finally {changeAccountBusy(false);}
   }
 
   async function createBridgePairing(): Promise<void> {
@@ -1965,7 +2028,7 @@ export function TelegramAccountCampaignPanel({
 
   async function prepareCampaign(): Promise<void> {
     const accountId = accountConnectionId;
-    if (!campaignOutreachEnabled || audienceSyncIssue || !campaignRecoveryReady || operationBusy || campaign
+    if (!campaignOutreachEnabled || audienceSyncIssue || !campaignRecoveryReady || operationBusy || publicReviewBusy || campaign
       || preparationInFlight.current || selectedLeadIds.size === 0) return;
     preparationInFlight.current = true;
     preparationCancelled.current = false;
@@ -1980,6 +2043,11 @@ export function TelegramAccountCampaignPanel({
       if (!snapshot) {
         setOperationError(true);
         setOperationNotice('Подготовка не завершена. Посмотрите статус проверки контактов и повторите — прогресс сохранён.');
+        return;
+      }
+      if(publicInquiry && (!publicBatchReady || snapshot.selection.automatic!==selectedLeadIds.size)) {
+        setOperationError(true);
+        setOperationNotice('Для первого обращения должны быть подтверждены все выбранные компании. Проверьте источники и исключения: частичный набор автоматически не запускается.');
         return;
       }
       if (!connected || !accountId || !accountIdentityAvailable || account?.identityReviewRequired
@@ -2163,13 +2231,18 @@ export function TelegramAccountCampaignPanel({
   const campaignPauseUntil = campaign?.pausedUntil
     ?? (campaign?.status === 'paused' ? campaign.nextSendAt ?? null : null);
   const accountStatus = account?.status ?? null;
-  const authProgress = telegramAuthProgress(account);
+  const authProgress = remoteSender ? null : telegramAuthProgress(account);
   const pendingConnection = accountStatus === 'pending' || accountStatus === 'connecting';
   const awaitingTwoFactorPassword = (accountStatus === 'pending' || accountStatus === 'connecting')
     && account?.authState === 'awaiting_password';
   const awaitingPhone = pendingConnection && account?.authState === 'awaiting_phone';
   const awaitingCode = pendingConnection && account?.authState === 'awaiting_code';
-  const accountCopy = awaitingTwoFactorPassword
+  const accountCopy = remoteSender && accountStatus
+    ? {...ACCOUNT_STATUS_COPY[accountStatus],
+      ...(accountStatus==='unconfigured'?{label:'TG Sender не подключён',detail:'Проверьте серверное подключение TG Sender и обновите статус.'}:{}),
+      ...(accountStatus==='connected'?{detail:'TG Sender подтвердил сохранённый аккаунт. Перед запуском сервер повторно проверит его доступность.'}:{}),
+      ...(accountStatus==='pending'||accountStatus==='connecting'?{detail:'Подключение TG Sender ещё не подтверждено. Обновите статус.'}:{})}
+    : awaitingTwoFactorPassword
     ? {
       label: 'Нужен пароль 2FA',
       tone: 'warning' as const,
@@ -2222,6 +2295,8 @@ export function TelegramAccountCampaignPanel({
       ? 'Проверяем аккаунт…'
       : connected
         ? 'Открыть подключённый аккаунт'
+        : remoteSender && canRequestConnection
+          ? 'Подключить TG Sender'
         : pendingConnection
         ? awaitingTwoFactorPassword ? 'Ввести пароль 2FA'
             : awaitingCode ? 'Ввести код Telegram'
@@ -2242,7 +2317,7 @@ export function TelegramAccountCampaignPanel({
   const accountQuickStatus = authProgress ?? accountReadinessReason ?? (!telegramAccountEnabled
     ? 'Серверный контур пока выключен — кнопка станет активной после настройки.'
       : accountLoading && !account
-      ? 'Проверяем локальный Bridge и сессию Telegram.'
+      ? remoteSender ? 'Проверяем TG Sender и Telegram-аккаунт.' : 'Проверяем локальный Bridge и сессию Telegram.'
       : connected
         ? `Подключён ${accountIdentityLabel ?? 'выделенный аккаунт'}. Проверьте его карточку перед запуском.`
         : pendingConnection
@@ -2360,7 +2435,7 @@ export function TelegramAccountCampaignPanel({
       </div>
 
       <Card className="overflow-hidden border-brand-cyan/15 bg-[#08111f]/88 p-0">
-        <div className="border-b border-white/[0.07] bg-[linear-gradient(135deg,rgba(47,230,209,.08),rgba(34,158,217,.04))] p-5 sm:p-6">
+        <div className="border-b border-white/[0.07] p-5 sm:p-6" style={{backgroundImage:'linear-gradient(135deg,rgba(47,230,209,.08),rgba(34,158,217,.04))'}}>
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-2xl">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-cyan">Управляемая кампания</p>
@@ -2408,7 +2483,7 @@ export function TelegramAccountCampaignPanel({
             </div>
           )}
 
-          {telegramAccountEnabled && (
+          {telegramAccountEnabled && !remoteSender && (
             <div className="rounded-2xl border border-brand-cyan/20 bg-brand-cyan/[0.035] p-4" role="region" aria-label="Привязка локального Telegram Bridge">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
@@ -2469,12 +2544,12 @@ export function TelegramAccountCampaignPanel({
           )}
 
           {telegramAccountEnabled && (
-            <div id={accountSectionId} ref={accountSectionRef} tabIndex={-1} className="grid scroll-mt-28 gap-4 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan lg:grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)]">
+            <div id={accountSectionId} ref={accountSectionRef} tabIndex={-1} className={`grid scroll-mt-28 gap-4 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan ${remoteSender?'':'lg:grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)]'}`}>
               <div className="rounded-2xl border border-white/[0.08] bg-white/[0.018] p-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <h3 className="text-sm font-semibold text-white">Состояние аккаунта</h3>
-                    <p className="mt-1 text-xs leading-5 text-white/60">Telegram-сессия хранится только локально в защищённом хранилище Windows. Cloudflare и браузер её не получают.</p>
+                    <p className="mt-1 text-xs leading-5 text-white/60">{remoteSender?'Отправитель подключается через TG Sender. Сессия Telegram и ключи не передаются в браузер.':'Telegram-сессия хранится только локально в защищённом хранилище Windows. Cloudflare и браузер её не получают.'}</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <Button type="button" variant="secondary" disabled={accountLoading || accountBusy} onClick={() => { void loadAccount(); }} className="min-h-12">
@@ -2483,7 +2558,7 @@ export function TelegramAccountCampaignPanel({
                     {canRequestConnection && (
                       <Button type="button" disabled={accountBusy || accountLoading} aria-busy={accountBusy} onClick={() => { void connectAccount(); }} className="min-h-12">
                         {accountBusy ? <LoaderCircle size={16} className="motion-safe:animate-spin" aria-hidden="true" /> : <Phone size={16} aria-hidden="true" />}
-                        {accountBusy ? 'Подключаем…' : accountStatus === 'disconnected' || accountStatus === 'revoked' ? 'Подключить аккаунт' : 'Переподключить'}
+                        {accountBusy ? 'Подключаем…' : remoteSender ? 'Подключить TG Sender' : accountStatus === 'disconnected' || accountStatus === 'revoked' ? 'Подключить аккаунт' : 'Переподключить'}
                       </Button>
                     )}
                   </div>
@@ -2524,15 +2599,19 @@ export function TelegramAccountCampaignPanel({
                 {accountNotice && (
                   <p role="status" aria-live="polite" aria-atomic="true" className="mt-3 rounded-xl border border-amber-300/15 bg-amber-300/[0.04] p-3 text-xs leading-5 text-amber-50/80">{accountNotice}</p>
                 )}
+                {remoteSender&&accountConnectionId&&effectiveAccountReadiness?.blockers.includes('tg_sender_binding_mismatch')&&<TgSenderSwitchConfirmation
+                  open={senderSwitchAccountId===accountConnectionId} busy={accountBusy} disabled={accountLoading}
+                  onOpen={()=>{setSenderSwitchAccountId(accountConnectionId);if(senderSwitchRequest.current?.accountId!==accountConnectionId)senderSwitchRequest.current=null;}}
+                  onCancel={()=>setSenderSwitchAccountId(null)} onConfirm={()=>{void switchToTgSender();}} />}
                 {authProgress && (
                   <p role="status" aria-live="polite" className="mt-3 rounded-xl border border-brand-cyan/20 bg-brand-cyan/[0.04] p-3 text-sm leading-6 text-white/85">{authProgress}</p>
                 )}
-                {account && (Boolean(accountConnectionId) || account.status === 'pending' || account.status === 'connecting') && !disconnectConfirmation && (
+                {!remoteSender && account && (Boolean(accountConnectionId) || account.status === 'pending' || account.status === 'connecting') && !disconnectConfirmation && (
                   <button id={disconnectButtonId} type="button" disabled={accountBusy || accountLoading} onClick={() => setDisconnectConfirmation(true)} className="mt-3 inline-flex min-h-12 items-center gap-2 rounded-xl px-3 text-sm font-medium text-white/70 hover:bg-white/[0.04] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan disabled:opacity-50">
                     <Unplug size={16} aria-hidden="true" />{account.status === 'pending' || account.status === 'connecting' ? 'Отменить подключение' : 'Отключить аккаунт'}
                   </button>
                 )}
-                {disconnectConfirmation && (
+                {!remoteSender && disconnectConfirmation && (
                   <div ref={disconnectConfirmationRef} tabIndex={-1} role="group" aria-label="Подтверждение отключения Telegram-аккаунта" className="mt-3 rounded-xl border border-rose-300/18 bg-rose-400/[0.045] p-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">
                     <p className="text-sm leading-6 text-rose-50/85">{account?.status === 'pending' || account?.status === 'connecting' ? 'Код входа станет недействительным, незавершённое подключение будет отменено. Сообщения не отправлялись.' : 'Отключение немедленно блокирует новые отправки и просит локальный Bridge удалить Telegram-сессию.'}</p>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -2543,7 +2622,7 @@ export function TelegramAccountCampaignPanel({
                 )}
               </div>
 
-              <div className="grid min-h-44 place-items-center rounded-2xl border border-white/[0.08] bg-[#05070d]/55 p-4 text-center">
+              {!remoteSender && <div className="grid min-h-44 place-items-center rounded-2xl border border-white/[0.08] bg-[#05070d]/55 p-4 text-center">
                 {connectStarting || (pendingConnection && !qrExpired && (awaitingPhone || awaitingCode || account?.authState === 'starting')) ? (
                   <TelegramPhoneAuthForm
                     key={awaitingCode ? 'code' : 'phone'}
@@ -2621,7 +2700,7 @@ export function TelegramAccountCampaignPanel({
                     <p className="mt-3 text-xs leading-5 text-white/55">Нажмите «Подключить аккаунт», затем введите номер и код из Telegram.</p>
                   </div>
                 )}
-              </div>
+              </div>}
             </div>
           )}
 
@@ -2645,7 +2724,7 @@ export function TelegramAccountCampaignPanel({
                   </Button>
                   {readySelectionIds.length > 0 && (
                     <Button type="button" variant="secondary" disabled={bulkReadySelectDisabled} aria-describedby={bulkSelectionStatusId} onClick={selectAllReady} className="min-h-12">
-                      <ShieldCheck size={16} aria-hidden="true" />{allReadySelected ? `Подтверждённые Telegram выбраны (${readySelectionIds.length})` : `Только проверенные Bridge (${readySelectionIds.length})`}
+                  <ShieldCheck size={16} aria-hidden="true" />{allReadySelected ? `Подтверждённые Telegram выбраны (${readySelectionIds.length})` : `Только проверенные ${remoteSender?'TG Sender':'Bridge'} (${readySelectionIds.length})`}
                     </Button>
                   )}
                   <Button type="button" variant="ghost" disabled={bulkClearDisabled} aria-describedby={bulkSelectionStatusId} onClick={clearAllSelection} className="min-h-12">Снять весь выбор{selectedLeadIds.size > 0 ? ` (${selectedLeadIds.size})` : ''}</Button>
@@ -2714,7 +2793,7 @@ export function TelegramAccountCampaignPanel({
                 {templateIssue && <p id={`${composerHelpId}-error`} className="mt-2 text-sm leading-5 text-amber-100">{templateIssue}</p>}
               </div>
 
-              <div className="mt-4">
+              {!remoteSender && <div className="mt-4">
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <h4 className="text-sm font-semibold text-white">Изображение к сообщению</h4>
@@ -2836,7 +2915,8 @@ export function TelegramAccountCampaignPanel({
                     {mediaNotice}
                   </p>
                 )}
-              </div>
+              </div>}
+              {remoteSender && <p role="note" className="mt-4 rounded-xl border border-brand-cyan/15 bg-brand-cyan/[0.04] p-3 text-xs leading-5 text-white/70">В TG Sender доступна текстовая кампания. Изображения из прежних черновиков не прикрепляются. Начните с короткого личного обращения по делу.</p>}
 
               <div
                 className="mt-4 rounded-2xl border border-white/[0.09] bg-[#05070d]/55 p-3"
@@ -2861,7 +2941,7 @@ export function TelegramAccountCampaignPanel({
               </div>
 
               <div className="mt-4">
-                <Label htmlFor={`${composerHelpId}-basis`}>Тип документированного основания</Label>
+                <Label htmlFor={`${composerHelpId}-basis`}>Основание обращения</Label>
                 <Select
                   id={`${composerHelpId}-basis`}
                   value={contactBasis}
@@ -2869,6 +2949,7 @@ export function TelegramAccountCampaignPanel({
                   disabled={operationBusy || !campaignRecoveryReady || Boolean(campaign)}
                   onChange={(event) => {
                     setContactBasis(event.target.value as LeadRadarCampaignContactBasis | '');
+                    setPublicBatchReady(false);
                     saveCampaignBasisDraft(searchId, event.target.value);
                     setEvidenceAttested(false);
                     setAuthorizationNotice(null);
@@ -2880,12 +2961,19 @@ export function TelegramAccountCampaignPanel({
                   className="min-h-12"
                 >
                   <option value="">Укажите тип основания</option>
-                  {Object.entries(CONTACT_BASIS_COPY).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                  {Object.entries(CONTACT_BASIS_COPY).filter(([value])=>value!=='public_business_inquiry'||publicBusinessInquiryEnabled||publicInquiry).map(([value, label]) => <option key={value} value={value} disabled={value==='public_business_inquiry'&&!publicBusinessInquiryEnabled}>{label}</option>)}
                 </Select>
-                <p className="mt-2 text-xs leading-5 text-amber-50/80">Выбор пункта не создаёт разрешение. Для автоотправки сервер должен найти отдельную действующую запись основания по каждой компании. Публичный username или телефон не являются согласием.</p>
+                <p className="mt-2 text-xs leading-5 text-amber-50/80">{publicInquiry?'Первое деловое обращение на подтверждённый корпоративный контакт. Укажите страницу, где компания публикует этот контакт; проверка действует до 30 дней. Это не согласие на регулярную рассылку. Доступен только текст, повторное обращение и отписка проверяются сервером.':'Выбор пункта не создаёт разрешение. Для автоотправки сервер должен найти отдельную действующую запись основания по каждой компании. Публичный username или телефон не являются согласием.'}</p>
+                {publicInquiry&&!publicBusinessInquiryEnabled&&<p role="alert" className="mt-2 text-xs text-amber-100">Режим первого делового обращения сейчас выключен. Сохранённый выбор не даёт разрешения на запуск.</p>}
               </div>
 
-              {contactBasis && authorizationNeededCandidates.length > 0 && (
+              {publicInquiry&&<PublicInquiryReview leads={selectedLeads}
+                disabled={!publicBusinessInquiryEnabled||operationBusy||!campaignRecoveryReady||Boolean(campaign)}
+                onReadyChange={setPublicBatchReady}
+                onBusyChange={setPublicReviewBusy}
+                onAuthorized={(ids)=>{setAuthorizedLeadIds((current)=>new Set([...current,...ids]));invalidatePreparation();}} />}
+
+              {contactBasis && !publicInquiry && authorizationNeededCandidates.length > 0 && (
                 <details className="mt-4 rounded-xl border border-white/[0.09] bg-white/[0.018]">
                   <summary className="flex min-h-12 cursor-pointer items-center justify-between gap-3 px-3 text-sm font-medium text-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-cyan">
                     <span>Подтвердить основание для компании</span>
@@ -2933,10 +3021,10 @@ export function TelegramAccountCampaignPanel({
                           setAuthorizationError(false);
                           authorizationRequest.current = null;
                         }}
-                        placeholder="Например: CRM-заявка #…, договор #…"
+                        placeholder={publicInquiry?'https://company.uz/contacts':'Например: CRM-заявка #…, договор #…'}
                         className="min-h-12"
                       />
-                      <p id={`${composerHelpId}-evidence-help`} className="mt-2 text-xs leading-5 text-white/65">От 8 до 200 символов. Не вставляйте текст переписки или персональные данные: сервер сохранит только криптографический отпечаток ссылки.</p>
+                      <p id={`${composerHelpId}-evidence-help`} className="mt-2 text-xs leading-5 text-white/65">{publicInquiry?'Точный HTTPS-адрес из доказательств контакта (до 200 символов). Сервер сопоставит его с сохранённым источником компании.':'От 8 до 200 символов. Не вставляйте текст переписки или персональные данные: сервер сохранит только криптографический отпечаток ссылки.'}</p>
                     </div>
                     <div>
                       <Label htmlFor={`${composerHelpId}-evidence-expiry`}>Действует до</Label>
@@ -2958,7 +3046,7 @@ export function TelegramAccountCampaignPanel({
                         }}
                         className="min-h-12 [color-scheme:dark]"
                       />
-                      <p id={`${composerHelpId}-expiry-help`} className="mt-2 text-xs leading-5 text-white/65">Выберите реальный срок документа: в будущем, максимум 366 дней.</p>
+                      <p id={`${composerHelpId}-expiry-help`} className="mt-2 text-xs leading-5 text-white/65">{publicInquiry?'Срок проверки источника — в будущем, максимум 30 дней.':'Выберите реальный срок документа: в будущем, максимум 366 дней.'}</p>
                     </div>
                     <label className="flex min-h-12 cursor-pointer items-start gap-3 rounded-xl border border-white/[0.1] p-3 text-sm leading-6 text-white/80 hover:bg-white/[0.025]">
                       <input
@@ -2968,7 +3056,7 @@ export function TelegramAccountCampaignPanel({
                         onChange={(event) => setEvidenceAttested(event.target.checked)}
                         className="mt-0.5 h-5 w-5 shrink-0 accent-[#2fe6d1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan"
                       />
-                      <span><strong className="block text-white">Я сверил документ именно для «{authorizationLead?.name ?? 'компании'}»</strong>Он разрешает обращение по выбранному типу основания и относится к текущему корпоративному Telegram.</span>
+                      <span><strong className="block text-white">{publicInquiry?'Я проверил публичный бизнес-контакт':'Я сверил документ'} именно для «{authorizationLead?.name ?? 'компании'}»</strong>{publicInquiry?'Источник относится к этой компании и её текущему Telegram. Отправляю одно релевантное деловое обращение с возможностью отказаться от дальнейшего контакта.':'Он разрешает обращение по выбранному типу основания и относится к текущему корпоративному Telegram.'}</span>
                     </label>
                     <Button type="button" disabled={!authorizationFormReady} aria-busy={authorizationBusy} onClick={() => { void authorizeContact(); }} className="min-h-12 w-full">
                       {authorizationBusy ? <LoaderCircle size={17} className="motion-safe:animate-spin" aria-hidden="true" /> : <ShieldCheck size={17} aria-hidden="true" />}
@@ -2996,7 +3084,7 @@ export function TelegramAccountCampaignPanel({
               <Button
                 type="button"
                 size="lg"
-                disabled={!campaignOutreachEnabled || Boolean(audienceSyncIssue) || !campaignRecoveryReady || selectedLeadIds.size === 0 || mediaBusy || operationBusy || Boolean(campaign)}
+                disabled={!campaignOutreachEnabled || Boolean(audienceSyncIssue) || !campaignRecoveryReady || selectedLeadIds.size === 0 || mediaBusy || operationBusy || publicReviewBusy || Boolean(campaign)}
                 aria-busy={operationBusy && !preparation}
                 onClick={() => { void prepareCampaign(); }}
                 className="mt-4 min-h-12 w-full"

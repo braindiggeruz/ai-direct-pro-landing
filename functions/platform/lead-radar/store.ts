@@ -2439,6 +2439,16 @@ export class LeadRadarStore {
     const totals = await this.db.prepare(`SELECT
       (SELECT COUNT(*) FROM lead_radar_searches WHERE org_id = ?) AS searches,
       COUNT(*) AS leads,
+      COUNT(DISTINCT canonical_key) AS unique_companies,
+      COUNT(DISTINCT CASE WHEN telegram_url IS NOT NULL AND length(trim(telegram_url)) > 0
+        THEN canonical_key ELSE NULL END) AS telegram_references,
+      COUNT(DISTINCT CASE WHEN json_valid(telegram_contact_json)
+        AND json_extract(telegram_contact_json, '$.type') = 'business'
+        THEN canonical_key ELSE NULL END) AS corporate_contacts,
+      COUNT(DISTINCT CASE WHEN lifecycle IN ('replied','qualified','meeting','won')
+        THEN canonical_key ELSE NULL END) AS reply_companies,
+      COUNT(DISTINCT CASE WHEN lifecycle IN ('qualified','meeting','won')
+        THEN canonical_key ELSE NULL END) AS qualified_companies,
       SUM(CASE WHEN priority = 'P1' THEN 1 ELSE 0 END) AS p1,
       SUM(CASE WHEN json_valid(telegram_contact_json)
         AND json_extract(telegram_contact_json, '$.type') = 'human'
@@ -2472,6 +2482,11 @@ export class LeadRadarStore {
         telegram: Number(totals?.telegram ?? 0),
         replies: Number(totals?.replies ?? 0),
         qualified: Number(totals?.qualified ?? 0),
+        uniqueCompanies: Number(totals?.unique_companies ?? 0),
+        telegramReferences: Number(totals?.telegram_references ?? 0),
+        corporateContacts: Number(totals?.corporate_contacts ?? 0),
+        replyCompanies: Number(totals?.reply_companies ?? 0),
+        qualifiedCompanies: Number(totals?.qualified_companies ?? 0),
       },
       sourceHealth: [
         {

@@ -2,14 +2,12 @@ import { checkCorporateTelegramContact, nextTelegramContactCandidate } from './c
 import { getTelegramUserAccount, getTelegramUserAccountGatewayBinding, isTelegramCampaignDataKeyValid } from './telegram-campaign';
 import { resolveTelegramContact } from './telegram-account-service';
 import type { LeadRadarQueueDependencies } from './queue';
+import type { Env } from '../../_types';
+import { tgSenderConfiguration, tgSenderMode } from './outreach-transport';
+import { resolveOutreachContact } from './outreach-account';
 
-export function createContactResolutionQueueDependencies(env: {
-  LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED?: string;
-  LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY?: string;
-  LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN?: string;
-  LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE?: Fetcher;
-}, db: D1Database): LeadRadarQueueDependencies {
-  if (env.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED !== 'true' || !env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE
+export function createContactResolutionQueueDependencies(env: Partial<Env>, db: D1Database): LeadRadarQueueDependencies {
+  if (env.LEAD_RADAR_TELEGRAM_ACCOUNT_ENABLED !== 'true' || (!tgSenderMode(env) && !env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE)
     || !isTelegramCampaignDataKeyValid(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY)) return {};
   return { resolveLeadContacts: async (job, lead) => {
     if (!job.companyId || lead.suppressed || lead.lifecycle === 'do_not_contact') return { pending: false };
@@ -20,9 +18,15 @@ export function createContactResolutionQueueDependencies(env: {
     const binding = await getTelegramUserAccountGatewayBinding({ db, orgId: job.orgId, accountId: account.id,
       dataKey: env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY! });
     if (!binding) return { pending: true, reason:'waiting_for_binding', retryAfterSeconds:60 };
+    if (tgSenderMode(env)) {
+      const configuration = tgSenderConfiguration(env, job.orgId);
+      if (!configuration || configuration.binding.account_id !== account.id || configuration.binding.account_ref !== binding.gatewayAccountRef) {
+        return {pending: true, reason: 'tg_sender_binding_mismatch', retryAfterSeconds: 300};
+      }
+    }
       const result = await checkCorporateTelegramContact({ db, orgId: job.orgId, searchId: job.searchId,
         companyId: job.companyId, candidateKey: next.candidateKey, accountId: account.id,
-        resolve: (target, operationId) => resolveTelegramContact({ service: env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+        resolve: (target, operationId) => tgSenderMode(env) ? resolveOutreachContact(env as Env, job.orgId, target) : resolveTelegramContact({ service: env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
           internalServiceToken: env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN, orgId: job.orgId,
           gatewayAccountRef: binding.gatewayAccountRef, target, operationId }),
       });

@@ -787,6 +787,47 @@ test('store enforces tenant isolation on reads and lifecycle mutations', async (
   assert.equal((await store.getSearch('org-a', searchId))?.leads[0]?.lifecycle, 'qualified');
 });
 
+test('overview distinguishes unique businesses from repeated observations and keeps tenant isolation', async (t) => {
+  t.mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-11-07T10:00:00.000Z') });
+  const fixture = new SqliteD1();
+  const store = new LeadRadarStore(fixture.asD1());
+  const first = await store.createSearch('org-a', SEARCH_INPUT, '2026-08-24T10:00:00.000Z');
+  const second = await store.createSearch('org-a', SEARCH_INPUT, '2026-08-25T10:00:00.000Z');
+  const other = await store.createSearch('org-b', SEARCH_INPUT, '2026-08-25T10:00:00.000Z');
+  const makeLead = (key: string, suffix: string, business: boolean) => ({
+    canonicalKey: key, name: 'Audit Fixture Clinic', category: 'dentist', city: 'Tashkent', country: 'UZ',
+    address: null, website: `https://${suffix}.example`, phone: null, genericEmail: null,
+    telegramUrl: `https://t.me/fixture_${suffix}`,
+    telegramContact: business ? {
+      url: `https://t.me/fixture_${suffix}`, username: `fixture_${suffix}`,
+      type: 'business' as const, confidence: 0.9, reason: 'fixture', evidenceIds: [],
+      verifiedAt: '2026-08-24T10:00:00.000Z', messageable: false,
+    } : null,
+    decisionMakers: [], score: 40, confidence: 0.8, priority: 'P3' as const,
+    lifecycle: 'qualified' as const, suppressed: false, scoreComponents: [], signals: [], evidence: [],
+    discoveredAt: '2026-08-24T10:00:00.000Z', lastVerifiedAt: '2026-08-24T10:00:00.000Z',
+  });
+  await store.insertLead('org-a', first, makeLead('domain:alpha.example', 'alpha', true));
+  await store.insertLead('org-a', second, makeLead('domain:alpha.example', 'alpha', true));
+  await store.insertLead('org-a', second, {
+    ...makeLead('domain:beta.example', 'beta', false), lifecycle: 'new',
+  });
+  await store.insertLead('org-b', other, makeLead('domain:other.example', 'other', true));
+  const totals = (await store.listOverview('org-a')).totals;
+  assert.equal(totals.leads, 3);
+  assert.equal(totals.uniqueCompanies, 2);
+  assert.equal(totals.telegramReferences, 2);
+  assert.equal(totals.corporateContacts, 1);
+  assert.equal(totals.replyCompanies, 1);
+  assert.equal(totals.qualifiedCompanies, 1);
+  // A stale corporate snapshot must not become an approved human recipient.
+  assert.equal(totals.telegram, 0);
+  assert.equal((await store.listOverview('org-b')).totals.uniqueCompanies, 1);
+  const missing = (await store.listOverview('org-missing')).totals;
+  assert.equal(missing.uniqueCompanies, 0);
+  assert.equal(missing.corporateContacts, 0);
+});
+
 test('do-not-contact suppresses duplicate history and future inserts within one tenant', async () => {
   const fixture = new SqliteD1();
   const db = fixture.asD1();

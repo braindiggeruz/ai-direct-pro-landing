@@ -89,6 +89,9 @@ export interface LeadRadarDiscoveryResult {
   candidates: SourceCandidate[];
   sourceWarnings: string[];
   rawDiscoveredCount?: number;
+  /** A soft-failing adapter may return diagnostics without throwing. Durable
+   * discovery must still distinguish that outage from a successful empty page. */
+  failureCode?: 'city_not_found' | 'discovery_source_unavailable' | 'source_timeout' | 'upstream_payload_invalid';
   /** Per-source contact yield for this pass. Phase 0 telemetry — read-only. */
   sourceYield?: SourceYieldMap;
 }
@@ -182,4 +185,7 @@ export interface LeadRadarGeocodeStore {
 export interface LeadRadarSource {
   readonly id: string;
   discover(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult>;
+  /** Catalog-only discovery for durable jobs. Sources whose `discover` also
+   * crawls company sites must expose this to avoid enrichment before its lease. */
+  discoverRaw?(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult>;
 }

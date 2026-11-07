@@ -31,6 +31,7 @@ import {
   Target,
   UserRound,
   UserRoundCheck,
+  UsersRound,
 } from 'lucide-react';
 import { api } from '../lib/api';
 import { requestFailureHint } from '../lib/request-recovery';
@@ -38,6 +39,8 @@ import { Badge, Button, Input, Label, Select, Textarea } from '../components/ui'
 import { TelegramBusinessConnectionCard } from '../components/lead-radar/TelegramBusinessConnectionCard';
 import { TelegramAccountCampaignPanel } from '../components/lead-radar/TelegramAccountCampaignPanel';
 import { TelegramContactDirectory } from '../components/lead-radar/TelegramContactDirectory';
+import { OutreachWorkflow, type OutreachStep } from '../components/lead-radar/OutreachWorkflow';
+import { OutreachInbox } from '../components/lead-radar/OutreachInbox';
 import { OutreachExport } from '../components/lead-radar/OutreachExport';
 import { FirecrawlDiagnostics } from '../components/lead-radar/FirecrawlDiagnostics';
 import {
@@ -1053,8 +1056,8 @@ function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact,
   const companyType = corporateTelegram ? CONTACT_TYPE_COPY[corporateTelegram.type] : null;
 
   return (
-    <article className="min-w-0 overflow-hidden rounded-[1.75rem] border border-white/[0.09] bg-[#08111f]/90 shadow-[0_30px_100px_-55px_rgba(34,158,217,.65)]">
-      <div className="border-b border-white/[0.07] bg-[radial-gradient(circle_at_85%_0%,rgba(47,230,209,.12),transparent_35%)] p-5 sm:p-6">
+    <article className="min-w-0 overflow-hidden rounded-[1.75rem] border border-white/[0.09] bg-[#08111f]/90" style={{boxShadow:'0 30px 100px -55px rgba(34,158,217,.65)'}}>
+      <div className="border-b border-white/[0.07] p-5 sm:p-6" style={{backgroundImage:'radial-gradient(circle at 85% 0%,rgba(47,230,209,.12),transparent 35%)'}}>
         <button
           type="button"
           onClick={onBack}
@@ -1448,8 +1451,12 @@ function LeadDetail({ lead, offer, contactEnabled, onLifecycle, onReviewContact,
 }
 
 export default function LeadRadarPage() {
-  const [view,setView]=useState<'search'|'contacts'>(()=>new URLSearchParams(window.location.search).get('view')==='contacts'?'contacts':'search');
-  function changeView(next:'search'|'contacts') {
+  const [view,setView]=useState<'search'|'contacts'|'inbox'>(()=>{
+    const requested=new URLSearchParams(window.location.search).get('view');
+    return requested==='contacts'||requested==='inbox'?requested:'search';
+  });
+  const [contactStep, setContactStep] = useState<OutreachStep>('audience');
+  function changeView(next:'search'|'contacts'|'inbox') {
     setView(next);
     const url=new URL(window.location.href);url.searchParams.set('view',next);window.history.replaceState(null,'',url);
   }
@@ -1511,6 +1518,8 @@ export default function LeadRadarPage() {
     ?? capabilities.contactEnabled;
   const telegramAccountEnabled = capabilities.telegramAccountEnabled ?? false;
   const telegramAccountReadiness = capabilities.telegramAccountReadiness;
+  const telegramTransportMode = capabilities.telegramTransportMode ?? 'local_bridge';
+  const publicBusinessInquiryEnabled = capabilities.publicBusinessInquiryEnabled ?? false;
   const campaignOutreachEnabled = capabilities.campaignOutreachEnabled ?? false;
   const campaignAutoSendEnabled = capabilities.campaignAutoSendEnabled ?? false;
   const telegramCampaignDailyLimit = capabilities.telegramCampaignDailyLimit
@@ -2035,18 +2044,22 @@ export default function LeadRadarPage() {
     .filter((source) => source.source !== 'Открытые реестры')
     .map((source) => source.status) ?? [];
   const sourceBadge = overviewLoading
-    ? { label: 'Проверяем источники…', className: 'border-white/[0.1] bg-white/[0.035] text-white/60' }
+    ? { label: 'Загружаем историю источников…', className: 'border-white/[0.1] bg-white/[0.035] text-white/60' }
     : overviewError || sourceStatuses.length === 0
       ? { label: 'Статус источников неизвестен', className: 'border-white/[0.1] bg-white/[0.035] text-white/60' }
     : sourceStatuses.includes('blocked')
-      ? { label: 'Источники недоступны', className: 'border-rose-400/25 bg-rose-400/[0.08] text-rose-200' }
+      ? { label: 'Последний поиск: источник не ответил', className: 'border-rose-400/25 bg-rose-400/[0.08] text-rose-200' }
       : sourceStatuses.includes('limited')
-        ? { label: 'Источники работают частично', className: 'border-amber-300/25 bg-amber-300/[0.07] text-amber-100' }
+        ? { label: 'Последний поиск: частичные данные', className: 'border-amber-300/25 bg-amber-300/[0.07] text-amber-100' }
         : { label: 'Последний запуск получил данные', className: 'border-brand-cyan/25 bg-brand-cyan/[0.07] text-brand-cyan' };
+  const lastSourceObservation = (overview?.sourceHealth ?? [])
+    .map((source) => source.checkedAt)
+    .filter((value): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value)))
+    .sort((left, right) => Date.parse(right) - Date.parse(left))[0] ?? null;
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#05070d] text-white" data-testid="lead-radar-page">
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_78%_5%,rgba(34,158,217,.12),transparent_28%),radial-gradient(circle_at_18%_30%,rgba(110,59,255,.09),transparent_30%)]" />
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0" style={{backgroundImage:'radial-gradient(circle at 78% 5%,rgba(34,158,217,.12),transparent 28%),radial-gradient(circle at 18% 30%,rgba(110,59,255,.09),transparent 30%)'}} />
       <div className="relative mx-auto max-w-[1600px] space-y-6 p-4 sm:p-6 xl:p-8">
         <header className="flex flex-col gap-5 border-b border-white/[0.06] pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
@@ -2057,14 +2070,15 @@ export default function LeadRadarPage() {
               Lead Radar
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55 sm:text-base">
-              Ищет публичные записи о компаниях, связывает факты с источниками и собирает очередь для ручной проверки. Никаких выдуманных контактов и магических процентов.
+              Находите компании, проверяйте контакты и готовьте кампании в одном рабочем пространстве. У каждой компании — источник, история и понятный следующий шаг.
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-2 text-xs">
+          <div className="flex max-w-xl flex-wrap items-center gap-2 text-xs">
             <span className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-3 ${sourceBadge.className}`}>
               <Activity size={14} aria-hidden="true" />{sourceBadge.label}
             </span>
             <span className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.025] px-3 text-white/60"><ShieldCheck size={13} aria-hidden="true" />Факты со ссылкой на источник</span>
+            <p className="w-full text-[11px] leading-5 text-white/60">{lastSourceObservation ? <>Данные поиска: <time dateTime={lastSourceObservation}>{formatDate(lastSourceObservation)}</time>. </> : 'Дата последней проверки пока неизвестна. '}Текущая доступность уточняется при новом поиске.</p>
           </div>
         </header>
 
@@ -2114,10 +2128,8 @@ export default function LeadRadarPage() {
           </div>
         )}
 
-        <nav aria-label="Разделы Lead Radar" className="flex flex-wrap gap-3">
-          <Button variant={view==='search'?'primary':'secondary'} aria-current={view==='search'?'page':undefined} onClick={()=>changeView('search')}>Поиск компаний</Button>
-          <Button variant={view==='contacts'?'primary':'secondary'} aria-current={view==='contacts'?'page':undefined} onClick={()=>changeView('contacts')}>Все Telegram-контакты и кампании</Button>
-        </nav>
+        <OutreachWorkflow currentStep={view === 'contacts' ? contactStep : view}
+          onSearch={() => changeView('search')} onAudience={() => changeView('contacts')} onInbox={() => changeView('inbox')} />
 
         {handoff && (
           <div
@@ -2141,17 +2153,20 @@ export default function LeadRadarPage() {
             </Button>
           </div>
         )}
+        {view==='inbox' && <OutreachInbox />}
         {view==='contacts' && <TelegramContactDirectory
+          onStepChange={setContactStep}
           onOpenSearch={(id)=>{changeView('search');void openSearch(id);}}
           initialTemplate={campaignMessageTemplate(draftInput.offer)}
           telegramAccountEnabled={telegramAccountEnabled} telegramAccountReadiness={telegramAccountReadiness}
+          telegramTransportMode={telegramTransportMode} publicBusinessInquiryEnabled={publicBusinessInquiryEnabled}
           campaignOutreachEnabled={campaignOutreachEnabled} campaignAutoSendEnabled={campaignAutoSendEnabled}
           telegramCampaignDailyLimit={telegramCampaignDailyLimit} telegramCampaignMinimumIntervalSeconds={telegramCampaignMinimumIntervalSeconds}
         />}
         <div className={view==='search'?'grid gap-6 xl:grid-cols-[20rem_minmax(0,1fr)]':'hidden'}>
           <aside className="space-y-6">
             <section aria-labelledby="search-title" className="overflow-hidden rounded-[1.75rem] border border-white/[0.09] bg-[#08111f]/90 shadow-[0_30px_80px_-50px_rgba(34,158,217,.75)]">
-              <div className="border-b border-white/[0.07] bg-[linear-gradient(135deg,rgba(34,158,217,.11),rgba(47,230,209,.04))] p-5">
+              <div className="border-b border-white/[0.07] p-5" style={{backgroundImage:'linear-gradient(135deg,rgba(34,158,217,.11),rgba(47,230,209,.04))'}}>
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-cyan">Новый поиск</p>
@@ -2181,13 +2196,16 @@ export default function LeadRadarPage() {
                     <Select id="lead-radar-count" disabled={loading || !capabilities.admissionEnabled} value={draftInput.desiredCount} onChange={(event) => setDraftInput({ ...draftInput, desiredCount: Number(event.target.value) })} className="min-h-12">
                       {[10, 20, 30, 40, 50].map((count) => <option key={count} value={count}>{count}</option>)}
                     </Select>
-                    {draftInput.searchGoal === 'telegram_contacts' && <>
+                    {draftInput.searchGoal === 'telegram_contacts' && <details className="mt-3 rounded-xl border border-white/10 px-3">
+                      <summary className="min-h-11 cursor-pointer py-3 text-xs font-medium text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">Глубина поиска · до {draftInput.maxCandidates ?? 100} компаний</summary>
+                      <div className="pb-3">
                       <Label htmlFor="lead-radar-candidate-limit">Предел проверки компаний</Label>
                       <Select id="lead-radar-candidate-limit" disabled={loading || !capabilities.admissionEnabled} value={draftInput.maxCandidates ?? 100} onChange={(event) => setDraftInput({ ...draftInput, maxCandidates: Number(event.target.value) })} className="min-h-12">
                         {[50, 100, 150, 250].map((count) => <option key={count} value={count}>{count}</option>)}
                       </Select>
                       <p className="mt-2 text-xs leading-5 text-white/55">Если контактов мало, поиск продолжится по следующим компаниям. Telegram и разрешение на отправку проверяются отдельно.</p>
-                    </>}
+                      </div>
+                    </details>}
                   </div>
                 </div>
                 <div>
@@ -2243,7 +2261,17 @@ export default function LeadRadarPage() {
           </aside>
 
           <div className="min-w-0 space-y-6">
-            <section aria-label="Подключение Telegram Business" className="space-y-3">
+            <section aria-label="Подготовка исходящей кампании" className="flex flex-col gap-4 rounded-[1.5rem] border border-brand-cyan/20 p-5 sm:flex-row sm:items-center sm:justify-between" style={{background:'linear-gradient(120deg,rgba(34,158,217,.09),rgba(47,230,209,.025))'}}>
+              <div className="max-w-xl">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-cyan">Следующий шаг</p>
+                <h2 className="mt-2 text-lg font-semibold text-white">Соберите аудиторию для первого обращения</h2>
+                <p className="mt-2 text-sm leading-6 text-white/70">Все найденные контакты собраны в общей базе. Выберите компании, проверьте Telegram и подготовьте сообщение от подключённого аккаунта.</p>
+              </div>
+              <Button type="button" aria-label="Все Telegram-контакты и кампании" onClick={() => changeView('contacts')} className="min-h-12 shrink-0"><UsersRound size={17} aria-hidden="true" />Контакты и кампании<ArrowRight size={16} aria-hidden="true" /></Button>
+            </section>
+            <details className="rounded-[1.5rem] border border-white/[0.08] bg-white/[0.018] p-4">
+              <summary className="min-h-12 cursor-pointer rounded-lg py-2 text-sm font-medium text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">Входящие диалоги · Telegram Business<span className="mt-1 block text-xs font-normal leading-5 text-white/60">Отдельное подключение для ответов клиентам. Статус здесь не относится к аккаунту исходящей кампании.</span></summary>
+            <section aria-label="Подключение Telegram Business" className="mt-4 space-y-3">
                 {!individualOutreachEnabled ? (
                   <TelegramBusinessConnectionCard
                     status="paused"
@@ -2322,20 +2350,22 @@ export default function LeadRadarPage() {
                   </p>
                 )}
               </section>
+            </details>
 
             <section aria-labelledby="lifetime-metrics-title">
               <div className="mb-2 flex items-center justify-between gap-3">
                 <h2 id="lifetime-metrics-title" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50">За всё время</h2>
-                <span className="text-[11px] text-white/45">Не относится только к открытому запуску</span>
+                <span className="text-right text-[11px] leading-4 text-white/60">Все сохранённые поиски</span>
               </div>
               <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 2xl:grid-cols-6">
                 <Metric icon={Radar} label="Запусков" value={totalsUnknown ? '—' : totals.searches} />
-                <Metric icon={Building2} label="Компаний" value={totalsUnknown ? '—' : totals.leads} />
+                <Metric icon={Building2} label={overview?.totals.uniqueCompanies === undefined ? 'Записи компаний' : 'Уникальные компании'} value={totalsUnknown ? '—' : overview?.totals.uniqueCompanies ?? totals.leads} />
                 <Metric icon={Sparkles} label="P1-сигнал" value={totalsUnknown ? '—' : totals.p1} accent />
-                <Metric icon={MessageCircle} label="Telegram одобрен вручную" value={totalsUnknown ? '—' : totals.telegram} accent />
-                <Metric icon={UserRoundCheck} label="Ответили" value={totalsUnknown ? '—' : totals.replies} />
-                <Metric icon={Check} label="Квалифицированы" value={totalsUnknown ? '—' : totals.qualified} />
+                <Metric icon={MessageCircle} label="Корпоративные контакты" value={totalsUnknown ? '—' : overview?.totals.corporateContacts ?? '—'} accent />
+                <Metric icon={UserRoundCheck} label={overview?.totals.replyCompanies === undefined ? 'Ответили · записи' : 'Ответившие компании'} value={totalsUnknown ? '—' : overview?.totals.replyCompanies ?? totals.replies} />
+                <Metric icon={Check} label={overview?.totals.qualifiedCompanies === undefined ? 'Квалифицированы · записи' : 'Квалифицированные компании'} value={totalsUnknown ? '—' : overview?.totals.qualifiedCompanies ?? totals.qualified} />
               </div>
+              <p className="mt-3 text-xs leading-5 text-white/65">{totalsUnknown ? 'Загружаем сохранённую статистику.' : `Записей из поисков: ${totals.leads}. Личный Telegram одобрен вручную: ${totals.telegram}.`}{overview?.totals.telegramReferences !== undefined && ` Компаний с Telegram-ссылкой: ${overview.totals.telegramReferences}.`} Корпоративные контакты показаны по сохранённым проверкам; актуальность и основание проверяются перед отправкой.</p>
             </section>
 
             {!result && !loading && (
@@ -2344,8 +2374,9 @@ export default function LeadRadarPage() {
                   <div className="mx-auto grid h-20 w-20 place-items-center rounded-[1.5rem] border border-brand-cyan/20 bg-brand-cyan/[0.06] shadow-[0_0_70px_-25px_rgba(47,230,209,.8)]">
                     <Radar size={34} className="text-brand-cyan" aria-hidden="true" />
                   </div>
-                  <h2 className="mt-6 text-2xl font-semibold tracking-tight text-white">Не база контактов. Радар возможностей.</h2>
-                  <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/65">Введите нишу и город. Lead Radar соберёт публичные записи о компаниях, приложит источники и объяснит, почему запись попала в выдачу.</p>
+                  <h2 className="mt-6 text-2xl font-semibold tracking-tight text-white">Найдите свой следующий сегмент клиентов</h2>
+                  <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/70">Укажите нишу и город в форме. Радар найдёт компании, приложит источники и сохранит контакты для проверки. Если база уже собрана, откройте её без нового поиска.</p>
+                  <Button className="mt-5 min-h-12" variant="secondary" onClick={() => changeView('contacts')}>Открыть сохранённые контакты<ArrowRight size={16} aria-hidden="true" /></Button>
                   <div className="mt-7 grid gap-3 text-left sm:grid-cols-3">
                     {[['01', 'Находит'], ['02', 'Проверяет'], ['03', 'Приоритизирует']].map(([step, label]) => (
                       <div key={step} className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4"><div className="text-[10px] font-semibold tracking-[0.2em] text-brand-cyan">{step}</div><div className="mt-2 text-sm font-medium text-white/75">{label}</div></div>
@@ -2450,8 +2481,9 @@ export default function LeadRadarPage() {
                 </section>
 
                 {result.leads.length > 0 && (
-                  <section aria-label="Выгрузка контактов для рассылки" className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-                    <h3 className="text-sm font-semibold text-white">Выгрузить контакты</h3>
+                  <details className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
+                    <summary className="min-h-11 cursor-pointer py-2 text-sm font-semibold text-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">Выгрузить контакты в файл</summary>
+                  <section aria-label="Выгрузка контактов для рассылки">
                     <p className="mt-1 max-w-prose text-xs text-white/55">
                       Компании с телефоном или Telegram — без повторов и без отказавшихся от связи.
                       CSV для таблицы, vCard — чтобы импортировать сразу в телефонную книгу и писать в WhatsApp или Telegram.
@@ -2460,6 +2492,7 @@ export default function LeadRadarPage() {
                       <OutreachExport searchId={result.search.id} leads={result.leads} />
                     </div>
                   </section>
+                  </details>
                 )}
 
                 <CurrentSearchFunnel
@@ -2468,7 +2501,10 @@ export default function LeadRadarPage() {
                   pollingStopped={pollingStopped}
                 />
 
-                <FirecrawlDiagnostics key={`firecrawl-${result.search.id}`} searchId={result.search.id} companies={result.leads} />
+                <details className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
+                  <summary className="min-h-11 cursor-pointer py-2 text-sm font-medium text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">Источники и подробности сбора контактов</summary>
+                  <FirecrawlDiagnostics key={`firecrawl-${result.search.id}`} searchId={result.search.id} companies={result.leads} />
+                </details>
 
                 {view==='search' && <TelegramAccountCampaignPanel
                   key={result.search.id}
@@ -2478,6 +2514,8 @@ export default function LeadRadarPage() {
                   initialTemplate={campaignMessageTemplate(result.search.input.offer)}
                   telegramAccountEnabled={telegramAccountEnabled}
                   telegramAccountReadiness={telegramAccountReadiness}
+                  telegramTransportMode={telegramTransportMode}
+                  publicBusinessInquiryEnabled={publicBusinessInquiryEnabled}
                   campaignOutreachEnabled={campaignOutreachEnabled}
                   campaignAutoSendEnabled={campaignAutoSendEnabled}
                   telegramCampaignDailyLimit={telegramCampaignDailyLimit}

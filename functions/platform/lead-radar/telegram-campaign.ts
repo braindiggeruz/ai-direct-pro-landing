@@ -24,6 +24,9 @@ import {
   encryptTelegramCampaignSecret,
 } from './telegram-campaign-crypto';
 import { hasRuntimeTelegramCampaignSchema } from './telegram-campaign-schema';
+import { hasPendingOutreachOptOut } from './outreach-inbox-store';
+import { isTgSenderBinding, type TgSenderBinding } from './tg-sender-contract';
+import { PUBLIC_BUSINESS_INQUIRY_BASIS, PUBLIC_BUSINESS_INQUIRY_VERSION, PUBLIC_BUSINESS_INQUIRY_MAX_AGE_MS, publicBusinessEvidenceUrl, publicBusinessInquiryEvidenceUrls, type PublicBusinessInquiryProof } from './telegram-public-inquiry';
 import {
   LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_DAILY_LIMIT,
   LEAD_RADAR_TELEGRAM_CAMPAIGN_DEFAULT_MIN_INTERVAL_SECONDS,
@@ -62,6 +65,7 @@ const CONTACT_BASES = new Set<TelegramCampaignContactBasis>([
   'inbound_request',
   'existing_relationship',
   'contractual_relationship',
+  PUBLIC_BUSINESS_INQUIRY_BASIS,
 ]);
 
 export type TelegramCampaignErrorCode =
@@ -271,6 +275,13 @@ export interface TelegramCampaignSender {
     text: string;
     randomId: string;
     media: TelegramCampaignResolvedMedia | null;
+    /** Actual authorization revalidated by the domain immediately before dispatch. */
+    authorization?: {
+      basis: TelegramCampaignContactBasis;
+      reference: string;
+      expiresAt: string;
+      publicInquiry?: PublicBusinessInquiryProof;
+    };
   }): Promise<TelegramCampaignProviderResult>;
 }
 
@@ -649,7 +660,58 @@ function parseFrozenBusinessIdentityDigests(value: string): string[] | null {
   }
 }
 
+async function matchesExpectedTransport(input: {
+  dataKey:string; orgId:string; expectedTransportBinding?:TgSenderBinding;
+}, row: {account_id:string;gateway_account_ref?:string|null;gateway_account_ref_digest?:string|null;auth_request_digest?:string;account_status?:string;data_key_fingerprint?:string|null}): Promise<boolean> {
+  const expected=input.expectedTransportBinding;
+  if (!expected) return true;
+  if (!isTgSenderBinding(expected) || expected.org_id!==input.orgId || row.account_id!==expected.account_id
+    || row.account_status!=='connected' || row.gateway_account_ref!==expected.account_ref) return false;
+  const [gatewayDigest,authDigest,dataKeyDigest]=await Promise.all([
+    digest(input.dataKey,'campaign-gateway-account-ref',[input.orgId,expected.account_ref]),
+    digest(input.dataKey,'campaign-account-auth-request',[input.orgId,`tgs-${expected.sender_fingerprint}`]),
+    digest(input.dataKey,'campaign-data-key-fingerprint-v1',[input.orgId]),
+  ]);
+  return row.gateway_account_ref_digest===gatewayDigest && row.auth_request_digest===authDigest
+    && row.data_key_fingerprint===dataKeyDigest;
+}
+
+async function outreachAccountBlocked(input: {
+  db: D1Database; orgId: string; accountId: string; outreachInboxEnabled?: boolean;
+}): Promise<boolean> {
+  try {
+    // An installed durable opt-out barrier survives a later feature-flag disable.
+    return await hasPendingOutreachOptOut(input.db, input.orgId, input.accountId,
+      { schemaRequired: input.outreachInboxEnabled === true });
+  } catch { return true; } // Storage uncertainty is never permission to send.
+}
+
+async function requirePublicInquiryMode(input: {
+  db: D1Database; contactBasis?: TelegramCampaignContactBasis; publicBusinessInquiryEnabled?: boolean;
+}): Promise<void> {
+  if (input.contactBasis === PUBLIC_BUSINESS_INQUIRY_BASIS
+    && (input.publicBusinessInquiryEnabled !== true || !await hasRuntimeTelegramCampaignSchema(input.db, true))) {
+    fail('telegram_campaign_not_configured');
+  }
+}
+
+function campaignEvidenceVersion(basis: TelegramCampaignContactBasis): string {
+  return basis === PUBLIC_BUSINESS_INQUIRY_BASIS ? PUBLIC_BUSINESS_INQUIRY_VERSION : TELEGRAM_CAMPAIGN_EVIDENCE_VERSION;
+}
+
+async function publicInquiryEvidenceDigests(input: {
+  db: D1Database; orgId: string; dataKey: string; now: Date;
+  companies: readonly { companyId: string; website: string | null; contact: LeadRadarTelegramContact }[];
+}): Promise<Map<string, string[]>> {
+  const urls = await publicBusinessInquiryEvidenceUrls(input);
+  return new Map(await Promise.all([...urls].map(async ([companyId, values]) => [companyId,
+    await Promise.all(values.map((url) => digest(input.dataKey, 'campaign-evidence-reference', [input.orgId, url]))),
+  ] as const)));
+}
+
 async function evaluateSelectionInternal(input: {
+  /** Server-owned flag, never accepted from request JSON. Defaults to off. */
+  publicBusinessInquiryEnabled?: boolean;
   db: D1Database;
   orgId: string;
   companyIds: readonly string[];
@@ -659,6 +721,7 @@ async function evaluateSelectionInternal(input: {
   readOnly?: boolean;
   includeBridgeVerification?: boolean;
 }): Promise<InternalSelection> {
+  await requirePublicInquiryMode(input);
   const ids = selectedCompanyIds(input.companyIds);
   const store = new LeadRadarTelegramCampaignStore(input.db);
   if (input.dataKey && input.readOnly) {
@@ -740,6 +803,13 @@ async function evaluateSelectionInternal(input: {
       ),
     ])
     : [new Map<string, TelegramContactHistoryRow>(), new Map<string, TelegramContactAuthorizationRow>()];
+  const publicEvidence = input.contactBasis === PUBLIC_BUSINESS_INQUIRY_BASIS && input.dataKey
+    ? await publicInquiryEvidenceDigests({ db: input.db, orgId: input.orgId, dataKey: input.dataKey, now: input.now,
+      companies: rows.flatMap((company) => {
+        const contact = contactsById.get(company.id);
+        return contact ? [{ companyId: company.id, website: company.website, contact }] : [];
+      }),
+    }) : null;
   const items: TelegramCampaignSelectionItem[] = [];
   const verifiedRecipients: VerifiedRecipient[] = [];
   for (const companyId of ids) {
@@ -819,7 +889,9 @@ async function evaluateSelectionInternal(input: {
       continue;
     }
     const authorization = authorizationByCompanyId.get(companyId) ?? null;
-    if (!authorization) {
+    if (!authorization || (publicEvidence !== null
+      && (authorization.evidence_version !== PUBLIC_BUSINESS_INQUIRY_VERSION
+        || !publicEvidence.get(companyId)?.includes(authorization.evidence_reference_digest)))) {
       items.push({
         companyId,
         name: company.name,
@@ -871,6 +943,8 @@ async function evaluateSelectionInternal(input: {
 }
 
 export async function evaluateTelegramCampaignSelection(input: {
+  /** Server-owned flag, never accepted from request JSON. Defaults to off. */
+  publicBusinessInquiryEnabled?: boolean;
   db: D1Database;
   orgId: string;
   companyIds: readonly string[];
@@ -889,6 +963,7 @@ export async function evaluateTelegramCampaignSelection(input: {
     contactBasis: input.contactBasis,
     readOnly: input.readOnly,
     includeBridgeVerification: true,
+    publicBusinessInquiryEnabled: input.publicBusinessInquiryEnabled,
   });
   return publicSelection(result);
 }
@@ -916,6 +991,8 @@ function contactAuthorizationReadModel(
 }
 
 export async function authorizeTelegramCampaignContact(input: {
+  /** Server-owned flag, never accepted from request JSON. Defaults to off. */
+  publicBusinessInquiryEnabled?: boolean;
   db: D1Database;
   dataKey: string;
   orgId: string;
@@ -933,7 +1010,14 @@ export async function authorizeTelegramCampaignContact(input: {
     || !isTelegramCampaignContactBasis(input.contactBasis)) {
     fail('telegram_campaign_invalid_input');
   }
-  const evidenceReference = input.evidenceReference.trim();
+  await requirePublicInquiryMode(input);
+  let evidenceReference = input.evidenceReference.trim();
+  const evidenceVersion = campaignEvidenceVersion(input.contactBasis);
+  if (input.contactBasis === PUBLIC_BUSINESS_INQUIRY_BASIS) {
+    const url = publicBusinessEvidenceUrl(evidenceReference);
+    if (!url) fail('telegram_campaign_invalid_input');
+    evidenceReference = url;
+  }
   if (evidenceReference.length < 8
     || evidenceReference.length > 200
     || [...evidenceReference].some((character) => {
@@ -949,6 +1033,8 @@ export async function authorizeTelegramCampaignContact(input: {
     || expiresAt.toISOString() !== input.expiresAt) {
     fail('telegram_campaign_invalid_input');
   }
+  if (input.contactBasis === PUBLIC_BUSINESS_INQUIRY_BASIS
+    && expiresAt.getTime() > now.getTime() + PUBLIC_BUSINESS_INQUIRY_MAX_AGE_MS) fail('telegram_campaign_invalid_input');
   const store = new LeadRadarTelegramCampaignStore(input.db);
   await requireCampaignDataKeyIdentity(
     store,
@@ -976,6 +1062,11 @@ export async function authorizeTelegramCampaignContact(input: {
     now,
   });
   if (!verified) fail('telegram_campaign_eligibility_required');
+  if (input.contactBasis === PUBLIC_BUSINESS_INQUIRY_BASIS) {
+    const evidence = await publicBusinessInquiryEvidenceUrls({ db: input.db, orgId: input.orgId,
+      companies: [{ companyId: company.id, website: company.website, contact }], now });
+    if (!evidence.get(company.id)?.includes(evidenceReference)) fail('telegram_campaign_eligibility_required');
+  }
   const [
     endpointDigest,
     evidenceReferenceDigest,
@@ -997,7 +1088,7 @@ export async function authorizeTelegramCampaignContact(input: {
     input.contactBasis,
     evidenceReferenceDigest,
     reviewerDigest,
-    TELEGRAM_CAMPAIGN_EVIDENCE_VERSION,
+    evidenceVersion,
     expiresAt.toISOString(),
   ]);
   const existing = await store.getContactAuthorizationByIdempotency(
@@ -1019,7 +1110,7 @@ export async function authorizeTelegramCampaignContact(input: {
     reviewerDigest,
     idempotencyKeyDigest,
     requestFingerprint,
-    evidenceVersion: TELEGRAM_CAMPAIGN_EVIDENCE_VERSION,
+    evidenceVersion,
     verifiedAt: now.toISOString(),
     expiresAt: expiresAt.toISOString(),
     expectedContactJson: company.telegram_contact_json,
@@ -1139,13 +1230,16 @@ export async function createTelegramUserAccountPending(input: {
   dataKey: string;
   orgId: string;
   authRequestReference: string;
+  /** Server-configured pinned sender binding; never an owner request field. */
+  requestedAccountId?: string;
   idempotencyKey: string;
   maskedLabel?: string;
   now?: Date;
 }): Promise<{ account: TelegramAccountReadModel; replayed: boolean }> {
   assertOrgId(input.orgId);
   assertIdempotencyKey(input.idempotencyKey);
-  if (!GATEWAY_REF_PATTERN.test(input.authRequestReference)) {
+  if (!GATEWAY_REF_PATTERN.test(input.authRequestReference)
+    || (input.requestedAccountId !== undefined && !ACCOUNT_ID_PATTERN.test(input.requestedAccountId))) {
     fail('telegram_campaign_invalid_input');
   }
   const label = safeMaskedLabel(input.maskedLabel ?? 'Подключённый аккаунт');
@@ -1160,7 +1254,8 @@ export async function createTelegramUserAccountPending(input: {
   const [authRequestDigest, requestIdempotencyDigest, requestFingerprint] = await Promise.all([
     digest(input.dataKey, 'campaign-account-auth-request', [input.orgId, input.authRequestReference]),
     digest(input.dataKey, 'campaign-account-idempotency', [input.orgId, input.idempotencyKey]),
-    digest(input.dataKey, 'campaign-account-request', [input.orgId, input.authRequestReference, label]),
+    digest(input.dataKey, 'campaign-account-request', [input.orgId, input.authRequestReference, label,
+      ...(input.requestedAccountId === undefined ? [] : [input.requestedAccountId])]),
   ]);
   const existing = await store.findAccountByRequest(input.orgId, requestIdempotencyDigest);
   if (existing) {
@@ -1171,7 +1266,7 @@ export async function createTelegramUserAccountPending(input: {
   }
   const active = await store.getActiveAccount(input.orgId);
   if (active) fail('telegram_campaign_account_exists');
-  const accountId = entityId('lrtgua_');
+  const accountId = input.requestedAccountId ?? entityId('lrtgua_');
   const created = await store.createPendingAccount(input.orgId, {
     id: accountId,
     authRequestDigest,
@@ -1423,6 +1518,8 @@ export async function revokeTelegramUserAccount(input: {
 }
 
 export interface TelegramCampaignPrepareInput {
+  /** Server-owned flag, never accepted from request JSON. Defaults to off. */
+  publicBusinessInquiryEnabled?: boolean;
   db: D1Database;
   dataKey: string;
   orgId: string;
@@ -1454,6 +1551,7 @@ async function prepareTelegramCampaignInternal(
   }
   const template = boundedTemplate(input.template);
   const attachment = attachmentReference(input.attachment);
+  if (input.contactBasis === PUBLIC_BUSINESS_INQUIRY_BASIS && attachment) fail('telegram_campaign_invalid_input');
   const operatorId = assertOperator(input.operatorId);
   const minIntervalSeconds = intervalSeconds(input.minIntervalSeconds);
   if (!isTelegramCampaignContactBasis(input.contactBasis)) {
@@ -1469,6 +1567,7 @@ async function prepareTelegramCampaignInternal(
     dataKey: input.dataKey,
     contactBasis: input.contactBasis,
     includeBridgeVerification: true,
+    publicBusinessInquiryEnabled: input.publicBusinessInquiryEnabled,
   });
   if (selection.automatic === 0) fail('telegram_campaign_eligibility_required');
   if (attachment) {
@@ -1604,6 +1703,8 @@ export async function prepareTelegramCampaign(
 }
 
 export async function createApprovedTelegramCampaign(input: {
+  /** Server-owned flag, never accepted from request JSON. Defaults to off. */
+  publicBusinessInquiryEnabled?: boolean;
   db: D1Database;
   dataKey: string;
   orgId: string;
@@ -1641,6 +1742,7 @@ export async function createApprovedTelegramCampaign(input: {
   }
   const template = boundedTemplate(input.template);
   const attachment = attachmentReference(input.attachment);
+  if (input.contactBasis === PUBLIC_BUSINESS_INQUIRY_BASIS && attachment) fail('telegram_campaign_invalid_input');
   const operatorId = assertOperator(input.operatorId);
   const minIntervalSeconds = intervalSeconds(input.minIntervalSeconds);
   if (!isTelegramCampaignContactBasis(input.contactBasis)) {
@@ -1655,6 +1757,7 @@ export async function createApprovedTelegramCampaign(input: {
     dataKey: input.dataKey,
     contactBasis: input.contactBasis,
     includeBridgeVerification: true,
+    publicBusinessInquiryEnabled: input.publicBusinessInquiryEnabled,
   });
   if (selection.automatic === 0) fail('telegram_campaign_eligibility_required');
   if (attachment) {
@@ -1898,6 +2001,9 @@ export async function getTelegramCampaignRecovery(input: {
 }
 
 export interface TelegramCampaignTransitionInput {
+  outreachInboxEnabled?: boolean;
+  /** Server-owned flag, never accepted from request JSON. Defaults to off. */
+  publicBusinessInquiryEnabled?: boolean;
   db: D1Database;
   dataKey: string;
   orgId: string;
@@ -1927,6 +2033,12 @@ async function telegramCampaignTransitionContext(input: TelegramCampaignTransiti
     input.dataKey,
     now.toISOString(),
   );
+  if (input.action === 'start' || input.action === 'resume') {
+    const campaign = await store.getCampaign(input.orgId, input.campaignId);
+    if (!campaign) fail('telegram_campaign_campaign_not_found');
+    await requirePublicInquiryMode({ ...input, contactBasis: campaign.contact_basis });
+    if (await outreachAccountBlocked({ ...input, accountId: campaign.account_id })) fail('telegram_campaign_not_configured');
+  }
   const [operationDigest, operatorDigest, requestFingerprint] = await Promise.all([
     digest(input.dataKey, 'campaign-operation-idempotency', [input.orgId, input.idempotencyKey]),
     digest(input.dataKey, 'campaign-operator', [input.orgId, operatorId]),
@@ -2030,6 +2142,11 @@ export async function transitionTelegramCampaign(
 }
 
 export async function claimNextTelegramCampaignRecipient(input: {
+  /** Immutable server configuration attested by transport readiness. */
+  expectedTransportBinding?: TgSenderBinding;
+  outreachInboxEnabled?: boolean;
+  /** Server-owned flag, never accepted from request JSON. Defaults to off. */
+  publicBusinessInquiryEnabled?: boolean;
   db: D1Database;
   dataKey: string;
   orgId: string;
@@ -2040,12 +2157,22 @@ export async function claimNextTelegramCampaignRecipient(input: {
   if (!CAMPAIGN_ID_PATTERN.test(input.campaignId)) fail('telegram_campaign_invalid_input');
   const now = input.now ?? new Date();
   const store = new LeadRadarTelegramCampaignStore(input.db);
-  await requireCampaignDataKeyIdentity(
+  if (!input.expectedTransportBinding) await requireCampaignDataKeyIdentity(
     store,
     input.orgId,
     input.dataKey,
     now.toISOString(),
   );
+  const campaign = input.expectedTransportBinding
+    ? await store.getCampaignTransportContext(input.orgId,input.campaignId)
+    : await store.getCampaign(input.orgId, input.campaignId);
+  if (!campaign || !await matchesExpectedTransport(input,campaign)) return null;
+  await requirePublicInquiryMode({ ...input, contactBasis: campaign.contact_basis });
+  if (await outreachAccountBlocked({ ...input, accountId: campaign.account_id })) {
+    await store.pauseCampaignSystem(input.orgId, { campaignId: campaign.id, reason: 'provider_error',
+      errorCode: 'outreach_opt_out_pending', nextSendAt: now.toISOString(), now: now.toISOString() });
+    return null;
+  }
   const claimToken = `lrtg_claim_${randomBase64Url(24)}`;
   const claimDigest = await digest(
     input.dataKey,
@@ -2080,6 +2207,11 @@ function safeProviderErrorCode(value: string): string {
 }
 
 export async function dispatchClaimedTelegramCampaignRecipient(input: {
+  /** Immutable server configuration attested by transport readiness. */
+  expectedTransportBinding?: TgSenderBinding;
+  outreachInboxEnabled?: boolean;
+  /** Server-owned flag, never accepted from request JSON. Defaults to off. */
+  publicBusinessInquiryEnabled?: boolean;
   db: D1Database;
   dataKey: string;
   orgId: string;
@@ -2103,7 +2235,7 @@ export async function dispatchClaimedTelegramCampaignRecipient(input: {
   const campaignDailyLimit = dailyLimit(input.dailyLimit);
   const nowIso = now.toISOString();
   const store = new LeadRadarTelegramCampaignStore(input.db);
-  await requireCampaignDataKeyIdentity(store, input.orgId, input.dataKey, nowIso);
+  if (!input.expectedTransportBinding) await requireCampaignDataKeyIdentity(store, input.orgId, input.dataKey, nowIso);
   const claimDigest = await digest(input.dataKey, 'campaign-claim', [
     input.orgId,
     input.claim.campaignId,
@@ -2124,6 +2256,29 @@ export async function dispatchClaimedTelegramCampaignRecipient(input: {
     return { status, campaign: await campaignModel(store, input.orgId, campaign, now) };
   };
 
+  if (!await matchesExpectedTransport(input,context)) {
+    await store.releaseClaimBeforeDispatch(input.orgId, {campaignId:input.claim.campaignId,
+      recipientId:input.claim.recipientId,claimDigest,now:nowIso});
+    await store.pauseCampaignSystem(input.orgId,{campaignId:input.claim.campaignId,reason:'provider_error',
+      errorCode:'tg_sender_binding_mismatch',nextSendAt:nowIso,now:nowIso});
+    return finish('paused');
+  }
+  if (context.campaign_contact_basis === PUBLIC_BUSINESS_INQUIRY_BASIS
+    && (input.publicBusinessInquiryEnabled !== true || !await hasRuntimeTelegramCampaignSchema(input.db, true)
+      || context.campaign_attachment_id !== null)) {
+    await store.releaseClaimBeforeDispatch(input.orgId, { campaignId: input.claim.campaignId,
+      recipientId: input.claim.recipientId, claimDigest, now: nowIso });
+    await store.pauseCampaignSystem(input.orgId, { campaignId: input.claim.campaignId, reason: 'provider_error',
+      errorCode: 'public_inquiry_disabled_or_invalid', nextSendAt: nowIso, now: nowIso });
+    return finish('paused');
+  }
+  if (await outreachAccountBlocked({ ...input, accountId: context.account_id })) {
+    await store.releaseClaimBeforeDispatch(input.orgId, { campaignId: input.claim.campaignId,
+      recipientId: input.claim.recipientId, claimDigest, now: nowIso });
+    await store.pauseCampaignSystem(input.orgId, { campaignId: input.claim.campaignId, reason: 'provider_error',
+      errorCode: 'outreach_opt_out_pending', nextSendAt: nowIso, now: nowIso });
+    return finish('paused');
+  }
   if (context.company_suppressed === 1 || context.company_lifecycle === 'do_not_contact') {
     await store.markRecipientSkipped(input.orgId, {
       campaignId: input.claim.campaignId,
@@ -2213,12 +2368,18 @@ export async function dispatchClaimedTelegramCampaignRecipient(input: {
       now: nowIso,
     })
     : null;
+  const publicEvidence = context.campaign_contact_basis === PUBLIC_BUSINESS_INQUIRY_BASIS && currentContact
+    ? await publicInquiryEvidenceDigests({ db: input.db, orgId: input.orgId, dataKey: input.dataKey, now,
+      companies: [{ companyId: context.company_id, website: context.company_website, contact: currentContact }] })
+    : null;
   if (!verifiedLink
+    || (context.campaign_contact_basis === PUBLIC_BUSINESS_INQUIRY_BASIS
+      && !publicEvidence?.get(context.company_id)?.includes(context.eligibility_evidence_digest))
     || currentEndpointDigest !== context.endpoint_digest
     || currentContactFingerprint !== context.contact_fingerprint
     || businessIdentityStale
     || context.eligibility_contact_basis !== context.campaign_contact_basis
-    || context.eligibility_evidence_version !== TELEGRAM_CAMPAIGN_EVIDENCE_VERSION
+    || context.eligibility_evidence_version !== campaignEvidenceVersion(context.campaign_contact_basis)
     || context.eligibility_verified_at > nowIso
     || context.eligibility_expires_at <= nowIso
     || currentAuthorization?.id !== context.eligibility_authorization_id
@@ -2448,6 +2609,14 @@ export async function dispatchClaimedTelegramCampaignRecipient(input: {
     return finish('skipped_dnc');
   }
 
+  if (await outreachAccountBlocked({ ...input, accountId: context.account_id })) {
+    await store.cancelDispatchBeforeProvider(input.orgId, { campaignId: input.claim.campaignId,
+      recipientId: input.claim.recipientId, claimDigest, now: nowIso });
+    await store.pauseCampaignSystem(input.orgId, { campaignId: input.claim.campaignId, reason: 'provider_error',
+      errorCode: 'outreach_opt_out_pending', nextSendAt: nowIso, now: nowIso });
+    return finish('paused');
+  }
+
   let providerResult: TelegramCampaignProviderResult;
   try {
     providerResult = await input.sender.send({
@@ -2458,6 +2627,20 @@ export async function dispatchClaimedTelegramCampaignRecipient(input: {
       text,
       randomId: context.effect_id,
       media,
+      authorization: {
+        basis: currentAuthorization.contact_basis,
+        reference: currentAuthorization.id,
+        expiresAt: currentAuthorization.expires_at,
+        ...(currentAuthorization.contact_basis === PUBLIC_BUSINESS_INQUIRY_BASIS ? { publicInquiry: {
+          policyVersion: PUBLIC_BUSINESS_INQUIRY_VERSION,
+          sourceUrlDigest: currentAuthorization.evidence_reference_digest,
+          approvalId: context.campaign_approval_id,
+          selectionDigest: context.campaign_selection_digest,
+          contentDigest: context.campaign_content_digest,
+          recipientId: input.claim.recipientId,
+          firstContactOnly: true as const,
+        } } : {}),
+      },
     });
   } catch {
     providerResult = { kind: 'ambiguous' };
@@ -2644,6 +2827,11 @@ export async function enqueueDueTelegramCampaignsForOrganization(input: {
 }
 
 export async function consumeTelegramCampaignQueueMessage(input: {
+  /** Immutable server configuration attested by transport readiness. */
+  expectedTransportBinding?: TgSenderBinding;
+  outreachInboxEnabled?: boolean;
+  /** Server-owned flag, never accepted from request JSON. Defaults to off. */
+  publicBusinessInquiryEnabled?: boolean;
   db: D1Database;
   dataKey: string;
   raw: unknown;
@@ -2661,11 +2849,22 @@ export async function consumeTelegramCampaignQueueMessage(input: {
   const message = parseTelegramCampaignQueueMessage(input.raw);
   const now = input.now ?? new Date();
   const store = new LeadRadarTelegramCampaignStore(input.db);
-  const initial = await store.getCampaign(message.org_id, message.campaign_id);
+  const initial = input.expectedTransportBinding
+    ? await store.getCampaignTransportContext(message.org_id,message.campaign_id)
+    : await store.getCampaign(message.org_id, message.campaign_id);
   if (!initial
     || initial.state_version !== message.state_version
     || initial.status !== 'running') {
     return { disposition: 'stale', next: null, delaySeconds: 0 };
+  }
+  if (!await matchesExpectedTransport({...input,orgId:message.org_id},initial)) {
+    return {disposition:'idle',next:null,delaySeconds:0};
+  }
+  if (initial.contact_basis === PUBLIC_BUSINESS_INQUIRY_BASIS
+    && (input.publicBusinessInquiryEnabled !== true || !await hasRuntimeTelegramCampaignSchema(input.db, true))) {
+    await store.pauseCampaignSystem(message.org_id, { campaignId: initial.id, reason: 'provider_error',
+      errorCode: 'public_inquiry_disabled_or_invalid', nextSendAt: now.toISOString(), now: now.toISOString() });
+    return { disposition: 'idle', next: null, delaySeconds: 0 };
   }
   await store.recoverExpiredClaim(message.org_id, {
     campaignId: message.campaign_id,
@@ -2676,6 +2875,9 @@ export async function consumeTelegramCampaignQueueMessage(input: {
     dataKey: input.dataKey,
     orgId: message.org_id,
     campaignId: message.campaign_id,
+    expectedTransportBinding: input.expectedTransportBinding,
+    publicBusinessInquiryEnabled: input.publicBusinessInquiryEnabled,
+    outreachInboxEnabled: input.outreachInboxEnabled,
     now,
   });
   if (!claim) {
@@ -2698,6 +2900,9 @@ export async function consumeTelegramCampaignQueueMessage(input: {
     orgId: message.org_id,
     claim,
     sender: input.sender,
+    expectedTransportBinding: input.expectedTransportBinding,
+    outreachInboxEnabled: input.outreachInboxEnabled,
+    publicBusinessInquiryEnabled: input.publicBusinessInquiryEnabled,
     mediaReader: input.mediaReader,
     dailyLimit: input.dailyLimit,
     minimumIntervalSeconds: input.minimumIntervalSeconds,
