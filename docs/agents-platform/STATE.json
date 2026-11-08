@@ -3118,14 +3118,23 @@
   },
   "seoAiRoadmap20261108": {
     "date": "2026-11-08",
-    "status": "technical_pending_deploy",
+    "status": "deployed_verified_awaiting_recrawl",
     "scope": "SEO/AI roadmap only; all other platform states preserved",
     "ownerAuthorizedAutonomousImplementation": true,
     "sourceBaseline": "e6bafc4b32060dcdb6a04c4050589c18715ae221",
     "verifiedProductionBaseline": "02a3613c7ccb85f8de52a6cbe4d3a22781607375",
-    "implementationCommit": null,
-    "deploymentId": null,
-    "productionReadback": "pending",
+    "implementationCommit": "a52cc9420aafe582485921196af5317208f82878",
+    "deploymentId": "cf2b3d7c",
+    "productionReadback": {
+      "checkedAt": "2026-11-08T04:49:07Z",
+      "passed": 443,
+      "failed": 0,
+      "manifestExact": true,
+      "htmlPages": 329,
+      "markdownTwins": 28,
+      "scope": "HTML, current shared assets, Markdown, robots, sitemaps, feeds and llms files",
+      "htmlComparison": "Exact documented email_off removal and known beacon insertion"
+    },
     "report": "reports/seo-ai-roadmap-20261108/IMPLEMENTATION.md",
     "contentReport": "reports/seo-ai-roadmap-20261108/INTENT-AND-CONTENT.md",
     "artifactRoot": "C:/Users/Borinio/.codex/visualizations/2026/11/08/01a1b921-58ac-72f3-af9a-3684d2e788b4/gptbot-implementation-20261108",
@@ -3156,14 +3165,23 @@
       },
       "protectedRevision": "docs/seo/evidence/2026-11-08-seo-ai-roadmap/",
       "independentReview": "No P0/P1/P2 reported",
-      "finalIntegratedTests": { "passed": 165, "skippedConditionalLegacyOfferBaseline": 2, "total": 167 },
+      "finalIntegratedTests": {
+        "passed": 165,
+        "skippedConditionalLegacyOfferBaseline": 2,
+        "total": 167
+      },
       "webAndFunctionsTypechecks": "pass",
       "scopedLint13Files": "pass",
       "seoAudit": "pass",
       "candidateBrowserFunnel": "pass",
       "seoProtectionRetest": "21/21 pass; new predecessor hash normalizes line endings, old baseline unchanged",
-      "finalIndependentQa": "pending",
-      "mockFunnel": "Pass; no real leads/payments/inference"
+      "finalIndependentQa": "No P0/P1/P2; local mobile/no-JS 9/9",
+      "mockFunnel": "Pass; no real leads/payments/inference",
+      "productionMainAdminStudioBuilds": "pass",
+      "mobileNoJsScenarios": {
+        "passed": 9,
+        "total": 9
+      }
     },
     "externalPublications": {
       "profileCommit": "97849841de50c0376ca80a657639b22613fb3d7c",
@@ -3204,13 +3222,12 @@
       "wafChanges": false
     },
     "experiments": {
-      "loginUz": "Description-only; release/confirmed recrawl pending before 2-4-week observation",
+      "loginUz": "Description-only variant deployed and verified; confirmed recrawl pending before 2-4-week observation",
       "chatTitlesDescriptions": "Unchanged; R15 deferred until stable post-R08 data",
       "performance": "Diagnostics only; hero candidate rejected; no accepted speed patch or field improvement",
       "chat24TaskEvaluation": "Not run; input/cost/answer/scoring work remains"
     },
     "remaining": [
-      "Final release gates, commit, deployment and public verification",
       "R06 ownership/edit access",
       "R11 accepted performance candidate and field evidence",
       "R14 recrawl and sufficient observation",
@@ -3219,6 +3236,48 @@
       "R20 outcome data"
     ],
     "rollback": "Scoped revert after production ancestry check; existing guarded runner with explicit physical DR_ROOT; preserve Railway documents and TG Sender",
-    "businessOutcome": "Not established; no ranking/citation/traffic/revenue/acceptance improvement asserted"
+    "businessOutcome": "Not established; no ranking/citation/traffic/revenue/acceptance improvement asserted",
+    "deployedVerifiedAt": "2026-11-08T04:46:46Z",
+    "artifactSha256": "b5df41ddbe4ca1778658a59a8315a791ecc8b81ac3996c5e0fc0c48b6d8ef207",
+    "releaseReport": "reports/seo-ai-roadmap-20261108/RELEASE.md",
+    "previousArtifact": {
+      "commit": "02a3613c7ccb85f8de52a6cbe4d3a22781607375",
+      "sha256": "550f142fa8d94ff678da6f243b50abb12db27a0ff80455a773134146bad1aa9d",
+      "files": 1063,
+      "fullHashVerified": true
+    },
+    "discovery": {
+      "completedAt": "2026-11-08T04:50:07Z",
+      "google": {
+        "existingChangedSurfaces": 4,
+        "http204": 4,
+        "allLastSubmittedReadbacksMatched": true,
+        "reportedErrors": 0
+      },
+      "indexNow": {
+        "changedUrls": 18,
+        "httpStatus": 200,
+        "existingKeyReused": true
+      },
+      "webSub": {
+        "changedFeeds": 3,
+        "http204": 3,
+        "completedAt": "2026-11-08T04:46:46Z"
+      },
+      "journal": "search-discovery/a52cc9420aaf/submissions.json under artifactRoot",
+      "noAutomaticRetries": true,
+      "indexingConfirmed": false
+    },
+    "followupAutomation": {
+      "id": "gptbot-google",
+      "status": "ACTIVE",
+      "threadId": "01a1b921-58ac-72f3-af9a-3684d2e788b4",
+      "frequency": "Weekly Monday 12:00",
+      "timezone": "Asia/Karachi",
+      "endAt": "2026-12-21T07:00:00Z",
+      "readOnly": true,
+      "additionalPaidRunsAuthorized": false,
+      "repeatSubmissionsAuthorized": false
+    }
   }
 }

@@ -1,0 +1,3997 @@
+{
+  "checkedAt": "2026-11-08T04:49:07Z",
+  "manifestExact": true,
+  "commit": "a52cc9420aafe582485921196af5317208f82878",
+  "artifactSha256": "b5df41ddbe4ca1778658a59a8315a791ecc8b81ac3996c5e0fc0c48b6d8ef207",
+  "rows": [
+    {
+      "path": "/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "edb6bf8a0e244edca40cff3b32713bc9f2362d6320ded332b313362a360a307f",
+      "remoteSha256": "d70d764a23926a2cbae15da869680f1eaf7b477ab9b2afb7f04b8e0b9ee21bd7",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0b4de4fc819da42e59b2920cbd0f3a8f5ab3e5a36f7786fc2518745ac0e9ccee",
+      "remoteSha256": "8fd2c1a917eeba866fe66b61d144f0950b2c626c410b00d92ee34516c7ae4ae5",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ed5ffb22b5744459dfb2e87f693bc43e5625c9970569415050b03345c69cfa80",
+      "remoteSha256": "59fbf3ad6280f422c614adc0d6a594ab0b2b4dfaea34f24279fbf5da0b2b9302",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-agentstva-nedvizhimosti/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "04c52cc8d11e757865c18afb2fb9e97c89ff9f86ad2d45795866a8093ce9b809",
+      "remoteSha256": "0f0d51009f83ad46d1cef0cfad9b15996952e59521da23a7e2fe621ee0347483",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-avtosalona/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "76192132bb2f175e574a27c639028a7680864517dd5c14f05f1073b3b5fd5104",
+      "remoteSha256": "06c30220796214524219d68cc983377bd374d882b666c8df924abaa5cb5ebf07",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f18881288c3b1b2baefccb7cc4fa509029b885c0bf789d719dfd00296835f174",
+      "remoteSha256": "ef6a737ef2af326c296ab3a66bd481a5ef271544841d486753e1f223eb9a9054",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-dostavki-edy/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a89bfab5ca5cc26a9602e05c9426e3a656531abeb0c7e1829412e626290456bf",
+      "remoteSha256": "a232c26223a04eade2a540e78e4235d3e95a88a52da5a40365dc03ebff9ceba9",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-fitnes-kluba/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e77ecd61803df49eb9065c9fde3270b34b259f2e60b8274f0afd6f61a4ea4ed9",
+      "remoteSha256": "cf64aa59fd5b50ecd50306d7c1de75280cc363c938c74d52858c86b8f5af2aa1",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-horeca/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "237cb424494a4eec1fcd1acc0162df123174a0e135c4d78cd12137b15aa679e1",
+      "remoteSha256": "61239914aa44a4abc5192fa5bc2d2d23288ff6040315b0ddc697b0eb10dc70b5",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-kliniki/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5ad0140e5ad0cec0e3f175b0512ae3598ba1800165f3aa0d9a165abce5ff5679",
+      "remoteSha256": "af806446aa18b30ffceab300329dbbd733b7ccaa65ceb8ea343b0d7999981548",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-magazina/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0fe9ef06bc7e432f69874571f8ae3364554810b96209a5bb7240cbd5abee7869",
+      "remoteSha256": "3a9bef493c89b544095b889eae53db9bd767a8e1ba82404e8ead65403e8af16c",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-nishi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "16668c1b4e98d229c821a0bafe20fa49dc76b5db1db65c795b23b85540b49178",
+      "remoteSha256": "572d296b6a9c231b02ec402a92850971523cc3f091d80902975f4d2825367bd8",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-salona-krasoty/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d91a58649befa0d9353412453904f4821cae79c137937ada7eacfd77c7849c18",
+      "remoteSha256": "d77fc964efa1c670fcc8077d339a1750bf62ee1de1d1042240a0005ef7551cbd",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-sayta/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e5cd349b2103fbe5c48884c09f2538d174b4239f2acadcabf744de99c354430c",
+      "remoteSha256": "dbaa372502abd957e402943308d6ce2971507dd799720bca2f3ef545ed364320",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a447d4fc72ad432530388a05af8c1b68d06740ce36aa5c75c889f9884ecb7935",
+      "remoteSha256": "a1d86814c7be29db793c910fd4cd9490660e8d72a54f7c7e358c85ca4f94b35d",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-yurista/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0c5cc3bdf39579e69800946b7d40fa08cc2e1402cdd1558452a65de9552dc965",
+      "remoteSha256": "b3c68b3e2cf03a656fcc98d36396bcdb83ac07e65b0b05654b5912e8ead0b7d0",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-ili-menedzher/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ab8fca58e680f04ef3cea311849f6e1d0cbb9471bb625b05864ff6325b3bc57e",
+      "remoteSha256": "6ba014d317530e3215288a412ce769980410997401645be70359a0716737f2d7",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "de3e4cfd78fffef1f7d1eedef54784c4232e84f2e8001f02c62ffc8ab1ee487f",
+      "remoteSha256": "62b72404914fe31498e7556837849c6441795589da2b78f74a41f15ebd23f10f",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-chat-dlya-sayta-polzovatel-zayavki/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "eff9938f925035bce9e0abf5c5878054a0c55c10120cf95318bdd36865528691",
+      "remoteSha256": "b7aa84b782ad666174511d249edcd818714b0bdd95c209dff741dad0ed651e95",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-chat-dlya-sayta/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e63ccc2089b96567099216eb26ba9f9a129de177b834f073f642e3d1a5088e83",
+      "remoteSha256": "ce53a2e91c98246e249195911500ac999cbf71745f34321fa486759b1c352381",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-menedzher-dlya-instagram/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8a08294cfa974369024e90316c30d6f09f4d89ac0298e2ca34275f2952ce65d8",
+      "remoteSha256": "cb524aae214293d08a3dc17ed918ac87ecd42fe1c3123db9a06c8eccaf8b4bd1",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-prodavec/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "73ddd6e90103e0bab5a0194c5059dd96422e9c71e37b7567f96e1f4b62a3e88b",
+      "remoteSha256": "4944eb54c8c0e772416ee05658c94f57a271ab593fe68203cb213b9d263b32ea",
+      "ok": true
+    },
+    {
+      "path": "/ru/avtomatizatsiya-prodazh/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8bfeb1f30af9386934ff1838f4ec237cda1708030de16764df4a623ea71bce4b",
+      "remoteSha256": "21661a35e75bc357251b169ebd329b44c53952d325c667935670982cb1138f99",
+      "ok": true
+    },
+    {
+      "path": "/ru/avtomatizatsiya-zayavok/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c624298274825ec8fbd06a95ef42a5c7ff3d12ad5b08ff861357f59a45237a46",
+      "remoteSha256": "d6eb197f492bfa7b1b1235242152c95cd36c12104da85830ca80d848c5cc83bb",
+      "ok": true
+    },
+    {
+      "path": "/ru/avtor-boris-gerasimov/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9c54ba805c77c7a0c93d6ed947004f3cb4dfead6855e940628494bdbf33201ee",
+      "remoteSha256": "45a0783ea8aeed10a9b93057e1542d20a4b140dd4fc34e887cee549c3dc26654",
+      "ok": true
+    },
+    {
+      "path": "/boss-digital/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "952d73f712c62cfa133c755b7862c86fa5d69630a5b96322373e0ff4d101f70b",
+      "remoteSha256": "a5cc06410d3f313d831290e861edd1c51ab2c208ef717adea4e81f86afbb6507",
+      "ok": true
+    },
+    {
+      "path": "/ru/chat-bot-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ad2c98ae30b4df7288080bf6eedf9d54e4486f1009fc02da39bcf56e67b83c1a",
+      "remoteSha256": "8665308dbfeb6ce136c0aee5c14e899c5c9c803b82f6ac92057475ea46b6d7f6",
+      "ok": true
+    },
+    {
+      "path": "/ru/chat-bot-po-uzbekistanu/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3c53aae8ea6ced62b201a6c0c0fd28ca31b7b87812c11579bce86a1fbcb1f9ba",
+      "remoteSha256": "589ffec0db67794a75fbac4619914bb62886c952d5b845b3221b32d3400a0991",
+      "ok": true
+    },
+    {
+      "path": "/ru/chat-bot-v-samarkande/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "215c49c2f1bf695befe0a1d7e377f87b122e04864ea8e1999177fa8baacd3cc3",
+      "remoteSha256": "427e399439153ed4737c4061fd47a8cc7195f14503f019aad18a6f3288a0bd9f",
+      "ok": true
+    },
+    {
+      "path": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f02b80f66a242eaff235996ec9fc7ceb8ce2c6eaaea7062a89a0767598039041",
+      "remoteSha256": "b6ecaa5aa1a426034e5893cec6879c629879377c314f6c4e0d19b208c2856ba1",
+      "ok": true
+    },
+    {
+      "path": "/ru/digital-marketing-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7da2dc951a7f69b8f2ecd8b0fcf9f78b30995f5061db438848891672bec75374",
+      "remoteSha256": "4202fe8a8373762a8fba3b611541b99d0123fe04424e6f3f77969882d59baab3",
+      "ok": true
+    },
+    {
+      "path": "/ru/digital-strategiya-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b9fc60fe6751e8188e56205946bee16737a89a0da883386e56bb8b93c1dd8c12",
+      "remoteSha256": "941ae9995b050e491f45d57ea7a83876184caa8881fbf4d32740bbe188c006e4",
+      "ok": true
+    },
+    {
+      "path": "/ru/gde-polzovatsya-gpt-besplatno/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6747f7e67444d6781d649d051a25e247016100932d6780d05289072c284b3a52",
+      "remoteSha256": "1530c817a8c57f023afbcb66b33ec61383cda7fd9739ba5829fc38bcbed58190",
+      "ok": true
+    },
+    {
+      "path": "/ru/generator-pozdravleniy/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e7dee01b1aa23521ded43de454a0ca4968f76c570d62e72c7c663f513f5a0d28",
+      "remoteSha256": "2aad049922e9caf379bb2405ede98644b90fc52abfad92a47e60cb0af0436aab",
+      "ok": true
+    },
+    {
+      "path": "/ru/gpt-bot-ili-obychnyy-chat-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5226ba0d4dcff5c1fe223b116c48b40b83017ec2187543def3aee98c739516b3",
+      "remoteSha256": "8e234addf49fd7cad2555f9d7bc17981daf5333a5e8e39e152584c113ee8a647",
+      "ok": true
+    },
+    {
+      "path": "/ru/gpt-chat-guide/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3e50b063a4b1cb10024d24db33154a89cefa5ff811a2d40b051926f13d86f634",
+      "remoteSha256": "ad61d908aff504d20ae94a95a0234492b89f2a96fafe8c9fc24de2f9a8865322",
+      "ok": true
+    },
+    {
+      "path": "/ru/gpt-chat/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7458e40bec449b9d9327485d0f1e018419279d3044f21f23d14ef8484f170f25",
+      "remoteSha256": "8072d6fd5f377d39911e3bd21e9f23b3fe4794bde615f9517e3bf7dae67d8d4d",
+      "ok": true
+    },
+    {
+      "path": "/ru/gpt-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "02e094dfba707eaa3e1693a2118bc1bb15687c53815aef77597cd8686a08433b",
+      "remoteSha256": "8ad55a72c8b22698962c962b9a2a7643b441519bba267dd5a3e307d07b6b632c",
+      "ok": true
+    },
+    {
+      "path": "/ru/gpt-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7bac600da2f88923dfbad5db4d1817f114ff6f188677eca07a5012fec7cc71a9",
+      "remoteSha256": "9ad5cc7b98af30c39e9ca35da808d889898ad19ad5311e74a80aaf2f97c7b494",
+      "ok": true
+    },
+    {
+      "path": "/ru/gpt-dlya-ucheby/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1030153acf5801a346beed65a9f89998318a6a92388cf5559987f9dc351fc0d3",
+      "remoteSha256": "949aa93b2e597dc058d11120d817bfd8174aeae1d6acb0e068fb2fab2616dd8a",
+      "ok": true
+    },
+    {
+      "path": "/ru/gpt-na-russkom/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "42f77da6410a8e7f6250ed66f52fd94d12b75f77fce96ad300d5e7cd499c67ef",
+      "remoteSha256": "3251e09c89a973bd2d6488431ab1bad95c51101fde410f05a71698bf41269657",
+      "ok": true
+    },
+    {
+      "path": "/ru/gpt-v-marketinge-smm/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b7544c802b79ed9e39ee146277150ee4b8a68e84ad17f2609f689421c32ed23e",
+      "remoteSha256": "b2a96c3e4c42802cea53cbef2d227336b93ff23e0cc9249cb23f6cf10a8a39dd",
+      "ok": true
+    },
+    {
+      "path": "/ru/gpt-vs-chatgpt-sravnenie/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "93aad7593c5ffa34cedf4bc1c55832ba9ebe39ca56368f9cb9fa2557e4c9bf52",
+      "remoteSha256": "358ecc666b14d2c6c70c938edeaf6d7127b08376ecf96870c4accb7def4e5c40",
+      "ok": true
+    },
+    {
+      "path": "/ru/instagram-direct-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3db4a348bf6ab085883e68d18ba5c7d901f2eceb4468fc65ac0eb59a51d4290d",
+      "remoteSha256": "9a7ae95afa47b63c018385b9eb9c357345a2a9b5037a28024ecdd0b5a04137e5",
+      "ok": true
+    },
+    {
+      "path": "/ru/internet-reklama-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "79b2c6d28fed4ebdc9aaf2354abe823f0cc2a72ba9df7443aabdb5d91b6ab397",
+      "remoteSha256": "caa226c2c95e9068290cd9ef905b272d1e5c5bf6af313916404e1118abf94a73",
+      "ok": true
+    },
+    {
+      "path": "/ru/javob/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d6b9248ff577ef3f186c2dff25bd64937cedbbcf56ace5b9de6757b68eb8e913",
+      "remoteSha256": "a5ce31b654eff910427f7007ce8a974b73160e2c20c65efb8b3d9b0c0645eafe",
+      "ok": true
+    },
+    {
+      "path": "/ru/kak-sdelat-ai-bota-telegram-instagram/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1dac207e9f2932f9176b38a5c53d6b538434db63ef0de9f99a23e585af67b062",
+      "remoteSha256": "bdbadfe8b9eda8f4ebd05ffb4b9a87cce16d8293736fe1ce4220d43c766a4a88",
+      "ok": true
+    },
+    {
+      "path": "/ru/kalkulyator-stoimosti-telegram-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "023534cab61ce664ae7156965487202ab1472b97738f66a7ac8d54a639ce3f53",
+      "remoteSha256": "113687ef1673dc3ec4e50224bdbfcfbf78f78fee63ed8ba413dad151119be963",
+      "ok": true
+    },
+    {
+      "path": "/ru/kalkulyator/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9b3f320608959cfdafff5818ff31752e7da8b51a175d14211ed66613a9f60981",
+      "remoteSha256": "adcc3ff9616b0edf65c7a88537cab9509301385a45a047e05b38a2931bafd0a2",
+      "ok": true
+    },
+    {
+      "path": "/ru/kirillica-v-latinicu/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "88c4b563a937fd9aba09cdc9c1880d49c570564ca5cae56f1cba06c818b33776",
+      "remoteSha256": "cfa0a420a6bbb449abc69122ec0a38bd2a6f96c83cdca1c38c7461c2c91e0f01",
+      "ok": true
+    },
+    {
+      "path": "/ru/komanda/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "4f7ab92167e9c7d74ba78b31984ae6986d9505897733f2a83e7b6c7fd21c7ad7",
+      "remoteSha256": "e43ab21fe9bbf9a16c160124c4ac1d5684d6447cde09c26d9d55fe662048ae51",
+      "ok": true
+    },
+    {
+      "path": "/ru/kontekstnaya-reklama-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "896714c21f6d005be8d016baac5db9cf9a2915042ebbb97383a90aa02cbee95a",
+      "remoteSha256": "e3f024ec4e52456fa13ba66ada083658182d31820889df4d6bb1cbb33a47a566",
+      "ok": true
+    },
+    {
+      "path": "/ru/lokalnoe-seo-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b26f162da889196f892da53d4cd368a1b4e325e5a24e32d403b9b77394b3b4d0",
+      "remoteSha256": "6eabfd9bd0c465536a3491a1fa8a4c76a1a2c4fdd415a022e489300a29fd7ba0",
+      "ok": true
+    },
+    {
+      "path": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "47c67058754f16880e323aaaaa940230f8cbfb905993ca971f697dd252c6fb12",
+      "remoteSha256": "24b39413bc3b104c45903126f66c67f812ff122abc2bf38f12804212ec8eff0e",
+      "ok": true
+    },
+    {
+      "path": "/ru/market-doverie/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d9b29444ecad09a2e30758c670ed100e291dbe10e2b9fabf5f3ac53110daa962",
+      "remoteSha256": "09c194a71c8efe05a7f897c66ec61424af6f561fdb1ca8174c4ba408e31bd822",
+      "ok": true
+    },
+    {
+      "path": "/ru/marketingovyi-audit-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "bcd4a9f8986043c021f4405bd6aa95ae8e3a23a48cc2216487825ec066306c27",
+      "remoteSha256": "139b0c4e2c127cd8717e46bed3041fcf6093baa4b2145914ca2cc5e470e8f5c5",
+      "ok": true
+    },
+    {
+      "path": "/ru/nepravilnye-glagoly/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "18924dbc4bcec3715de540d7fd78a4b6a36c34087ac3128e194ed9f98ed1272a",
+      "remoteSha256": "c34bb24bc2a16ef0202cb367a0330b7cba64732f9a9e4e95c3380970ee98af9f",
+      "ok": true
+    },
+    {
+      "path": "/ru/o-kompanii/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3970d43123e70e0fad6e061c07f17bae5a67d1775761cb3a569abda758df6791",
+      "remoteSha256": "0744c31516b39626b53f251a0df688f2cc5c7c19dd59b989011fce74f9220744",
+      "ok": true
+    },
+    {
+      "path": "/ru/oferta/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6e6a8af7ff2bc7dba1aa78907ebd5a00675c472ddcf17bcb689cfa9de3d4bea1",
+      "remoteSha256": "a412d3ee32e161b8150e32d29e42c1028e4526d123469bca23fe0c9ad6740b1e",
+      "ok": true
+    },
+    {
+      "path": "/ru/okupaemost-chat-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "77640db34e8a67c97e4f87c1e37b114fd8ad579395c4effe5e500a5db2694cc0",
+      "remoteSha256": "9c7833f9a9fecb4fc193f7c4521206684178247b5a86106e41e7a9fdf27fba70",
+      "ok": true
+    },
+    {
+      "path": "/ru/otzyvy/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "00da080dd6f94bacf13ccad23a262f4b5fa60e46363aa36a83bc1706e2c0c236",
+      "remoteSha256": "0eb155b2b3e8f0d31a3fc64262a728f37fce7fd1f8b6393f595d52503f11c6a5",
+      "ok": true
+    },
+    {
+      "path": "/ru/performance-marketing-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ba5bad115b7ce0e25d76f396284ad079f8fab4ebf4479576077e576fe740d014",
+      "remoteSha256": "1d4b2e29eea09fcdd4062fb1d84bd08cb943806be9918a51b92ab0f6af9c89a8",
+      "ok": true
+    },
+    {
+      "path": "/ru/pochemu-biznes-teryaet-zayavki/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7cd940b1fbfea11201428515d3a653e5c9c816717c18a53a10e8bd3904850ab2",
+      "remoteSha256": "7454704a947d03c27e656f14ec641b4d87667ca5203f7102f3716dc97530a113",
+      "ok": true
+    },
+    {
+      "path": "/ru/politika-konfidentsialnosti/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5774932547426b332ce5f6dd6d64d0bbd5fe94832ac0cdafb1f446a07f9c946c",
+      "remoteSha256": "4e2ded3fb622aa20af7613f8ed4d6b2969ae0b784756f72e98cd76cfe586e56b",
+      "ok": true
+    },
+    {
+      "path": "/ru/promty-gpt-chatgpt-50-primerov/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5eda867be25a975bfc16fa001ff50801722f640b4c3a61ffac429887371b32cf",
+      "remoteSha256": "d5b7c5d74d659f229e48de412843ecd93cd4d9ffa392e5ac7b42bcc1b7b065ac",
+      "ok": true
+    },
+    {
+      "path": "/ru/razrabotka-saytov-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ae674433c836cfd58fc0bf419c19afde8b7c0534cd1a99b93a13fdc4192ad3ff",
+      "remoteSha256": "843b465d37366ddb5f79cd3f789c5229f9d30a5858125ebee9defb6f1e4efc24",
+      "ok": true
+    },
+    {
+      "path": "/ru/razrabotka-telegram-bota-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "97e6a0aed2598fb1eb2aa29e9ff744a00d2051290697381e48b0bb4ff9f2b876",
+      "remoteSha256": "d9f62e2368d03cb46f8f8bb8acdf92a693a16e463daba8a57c32c434f21160d5",
+      "ok": true
+    },
+    {
+      "path": "/ru/razrabotka-telegram-mini-app-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d2ac9250424fd490bd640bb2fdbb45c0cddfcd2e1498970107d16ee66dd72170",
+      "remoteSha256": "a7dc603927da624ef92073494cfc02ab87cf12ff5a7437eaa2dcbc8f70df3dd3",
+      "ok": true
+    },
+    {
+      "path": "/ru/russko-uzbekskiy-perevodchik/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5ab861703b414f0073074bfe93ae9bf8e4a24110df6e68c4f9fc880a0ef9cf1d",
+      "remoteSha256": "7f8a7f248866fd9ba26f0733a4e2b9287568504be187f343c72f7d8ba68977ab",
+      "ok": true
+    },
+    {
+      "path": "/ru/sayt-dlya-zayavok/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e1f1ec0ba209cb6461d0df97b0c3967400303c49d67463df66c58304483af172",
+      "remoteSha256": "3a5cab9dec0f01e93ecf02f75749f88541fdd565deed431e3e935bad11772538",
+      "ok": true
+    },
+    {
+      "path": "/ru/sayt-s-ai-botom/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "41213837829d1efe29a4dff9e0961d74e38e046be07d4aa77ac74157499c3913",
+      "remoteSha256": "125635780143986140d352144498d1ac905593045dfa4d423167b20406b9638b",
+      "ok": true
+    },
+    {
+      "path": "/ru/seo-prodvizhenie-saytov-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "32803db1e9b0c9dfbbc2797cfe41e125ac0c28fbe489cc97a6b4a43a01f557d4",
+      "remoteSha256": "f54382cae85b603db12aaa379a228a470d4e694548dfeb3bf53bf00a5513acf5",
+      "ok": true
+    },
+    {
+      "path": "/ru/smm-prodvizhenie-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d43a61d5ab8cbef8ba8795f077f8d49b10a7e3cd8225d72b3defb2bfd3aa7302",
+      "remoteSha256": "0d7de74d7eaf586d2a94e6bbafe76cb06e99300a7abaf337637fa68df317b94f",
+      "ok": true
+    },
+    {
+      "path": "/ru/sotuvchi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7e049d5fb91b9a0ef7e51e3a323f19d404136de096fc04a7b2258d2ba6ed394b",
+      "remoteSha256": "8fea3dd8dd367c921bf6f0bd023d825517708c648957c51b464559e59b708258",
+      "ok": true
+    },
+    {
+      "path": "/ru/sozdanie-sayta-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f7fe8a54fc5f650ca60465e45db74f5876becd6dabe3add98daad603f458b0a8",
+      "remoteSha256": "f9e4616e58011404a4cb525500edb0ff831b9787df162440c9c19e6f32dcc3fe",
+      "ok": true
+    },
+    {
+      "path": "/ru/stoimost-chat-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "525540fe10a08e1d2f519b2c22947d05429a0708ad2f6730d17570986dcd3271",
+      "remoteSha256": "10109dc14f22600aea4c7154dc77434a366adc4ebf5863bb8a17f4d183d75053",
+      "ok": true
+    },
+    {
+      "path": "/ru/targetirovannaya-reklama-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ec0b7bfb54da26b036c93ababf039a4972d307029cf00da8243b420188937955",
+      "remoteSha256": "cc6d4de628470a3aca27e33ece22b5a2112c423a84000726c49ae5977c6422b2",
+      "ok": true
+    },
+    {
+      "path": "/ru/tarify-ai-chat/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "034cee8c2a1914a5fb99f91f4ac2dac49ed8d966061124cef2a070451bf089a7",
+      "remoteSha256": "864ef5b077e72cbfae5ec25e27bc9be24289f4b7beec5d1c3808ecd1baafc074",
+      "ok": true
+    },
+    {
+      "path": "/ru/telegram-ads-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "4e161d1a021dc88fa26e113fb01560cbd7d2e929b4de09793c8b23ea62e0c02a",
+      "remoteSha256": "32ba332b33539da9c53fb0a349c0f99aa4ff153ec7e061b9e20e326df1327f21",
+      "ok": true
+    },
+    {
+      "path": "/ru/telegram-bot-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "60276891f444fb2dcc05465ce1206a60be20ffb583c789bbbe6ce85f3221ca95",
+      "remoteSha256": "33591d4e8975aa1b7826480552bdc099d9c4eda521f10fa5371ce211684cf5e3",
+      "ok": true
+    },
+    {
+      "path": "/ru/vremena-angliyskogo-yazyka/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "999315684e1776aa6f8b40537ee8df7b6d861568935c1f5ecf80fc2868c0c6c0",
+      "remoteSha256": "419082c63f236f15d0aeb056d95b7332db19326b2d1ab0db9e53769c67d702ef",
+      "ok": true
+    },
+    {
+      "path": "/ru/whatsapp-bot-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "51455b84d228495e4ca2136646bb57de14c16fd021fc82ac087929780a4d964e",
+      "remoteSha256": "39117f87e1cdf377ba5d658b0e4847cdf9024635d0537dd55d424208454d33e4",
+      "ok": true
+    },
+    {
+      "path": "/uz/ai-bot-yoki-menejer/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cb8b85cb2349bc8d456c80718663d041f99ced493020a3da474c65f0a90c22da",
+      "remoteSha256": "b7c1f5eb9c9bc6305b0a602fb8b4fb43cd20562d9bd5ccbafcb74766e3284e8a",
+      "ok": true
+    },
+    {
+      "path": "/uz/ai-sher-yozish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "28541c8f37495a8c332d7844321a1cf4c4c21acc89c7db656959e62b59758901",
+      "remoteSha256": "edab95a049f15a267c3ff5808fc4ebf6ff1521cb444cd80dd7f7c6421f139368",
+      "ok": true
+    },
+    {
+      "path": "/uz/ai-sotuvchi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3d26b3f2aa5368ea00a6a270888c3998f891ae8fd5024612167fa05e1aa57eb4",
+      "remoteSha256": "e240e4955faad416b466623c9726707533cb5175728fedf3e9d136be319dfb33",
+      "ok": true
+    },
+    {
+      "path": "/uz/ai-tabrik-generatori/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b072fec679acbcdb9a0c2412fc841c381677631f521e85bff130d3f7cd856b0d",
+      "remoteSha256": "b2995217ea085c6edffd99365fe47bae6d41fbcfde31abe2a020bc34ad264a50",
+      "ok": true
+    },
+    {
+      "path": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6091e038d4912cce502d52ca6363689ea754ee8c99795631fa9072848903eb25",
+      "remoteSha256": "d0878943b5ff81f210e278ccd1e42d0b54fe32b3c5d2550bc7a0e82f922f48c1",
+      "ok": true
+    },
+    {
+      "path": "/uz/arizalarni-avtomatlashtirish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6120249bc232904fcc0b62d28ae50233ba947349426a993f564655c3c6eca59f",
+      "remoteSha256": "0a9e52c78ac96cf1d3d10ad1dabd6c596d0aeca8c547ebc0dbc12e728b1c6914",
+      "ok": true
+    },
+    {
+      "path": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "66c63bdd3aad5828fa2aebe31099946839c1c269ef6887f8783d6a9e1c0f8807",
+      "remoteSha256": "06b514dd4d88f9dccf72a236dea7782b9ff5c054b74279ae11cda1acec186c71",
+      "ok": true
+    },
+    {
+      "path": "/uz/avtosalon-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b278dd0a5c3e8ad60fed2e6daa23aeb9d137efaaae373a13e424248eae449845",
+      "remoteSha256": "ff58f7673bfcd8f28d5273ac6df9a63c6e116a183320cb2af0a749913e7f0d77",
+      "ok": true
+    },
+    {
+      "path": "/uz/biz-haqimizda/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ecf0be5a390ce1dafbe2d6ec3072eb594b2707a7d15ac25cb8a8b043da9d8a34",
+      "remoteSha256": "6acd602b47606ab906f9588dd83940a8e8710b04079dd65bc4b29b554baf814d",
+      "ok": true
+    },
+    {
+      "path": "/uz/biznes-nega-arizalarni-yoqotadi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e31cc98f3b1adbdc7f04d646f5fcbc3ff345c246fea5b2c09709b7f619f9c245",
+      "remoteSha256": "55caee7ab65489878355d6b5d8a8414cbef15e490091b47677c6e23adebc5b4b",
+      "ok": true
+    },
+    {
+      "path": "/uz/biznes-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "396c1e8ec7f28a6401187a1e23a174775d29d4fd7578c628d4ba9bd2cf3a561c",
+      "remoteSha256": "8c052e588d4aa9276b7a09dbd8920ad5f0b88c4b5698ad14721c3b43f948bf32",
+      "ok": true
+    },
+    {
+      "path": "/uz/boss-digital/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b9dc5a591d441be9dd532d3e7ffc0c12dbff200c72921c7871f266738959185c",
+      "remoteSha256": "5029f1b83d2fa94f9490128096102e4a2ff1e246c88a7ecc2748f7fa08a8c521",
+      "ok": true
+    },
+    {
+      "path": "/uz/chat-bot-biznes-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "53d9251ec1867a80c9adf41bb3418499b840b5d05502aff06862633601e677bf",
+      "remoteSha256": "43e3cdae3e9c13a111611896f357f06005ecd6ee54ec1cbdfd6cc156add48083",
+      "ok": true
+    },
+    {
+      "path": "/uz/chat-bot-narxi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fcd388303d5692721c5c30782a8bcf5e4f9a059555ae60d9fe7a1fc87c7d680b",
+      "remoteSha256": "26cd1842448d049a324c528517b6f73263d82466ee08159083d0222479ea3e49",
+      "ok": true
+    },
+    {
+      "path": "/uz/dokon-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "df044d2495258e3e0748954ecc68c127205bcbb3c646cd36ddecd08d5330241a",
+      "remoteSha256": "93e62abd8bb053d2439a849db35334296eaba58d8990b2c557600074099f4ee8",
+      "ok": true
+    },
+    {
+      "path": "/uz/fitnes-klub-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "100ef8f822e6a48f9d703483713cb0e7dc086222852c63150a445c968b8949a7",
+      "remoteSha256": "2575a02d654c958884a61f9805e82c3e6f232d8608b3a8887101be6ed0ba08ca",
+      "ok": true
+    },
+    {
+      "path": "/uz/fizika-test/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a24f87676a8570316cac6e52f06a69761bcfed21614b7f75e7a1ec4551e8c14d",
+      "remoteSha256": "3d300ddcbe8d68c856a93047eece6b6db7e8cccebd837e2b36b4986eb277c486",
+      "ok": true
+    },
+    {
+      "path": "/uz/gpt-bot-biznes-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "70e00d0404fe9c1259d95f59182dac66b1b042985a30fe0d6e48f0591d0644ea",
+      "remoteSha256": "a2f18678ebbfef561c6b5e25cdc3abbc95287e8109ba0230e51ad30d72d4f519",
+      "ok": true
+    },
+    {
+      "path": "/uz/gpt-bot-yoki-oddiy-chat-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f77fb22076303360c7efba954e3e303f0fd238ea8fda52f056b11301603075fc",
+      "remoteSha256": "3e7c09fdb99f1ed829315fba3af9f29d61bebe3e6864ca4b83719b5b839d190b",
+      "ok": true
+    },
+    {
+      "path": "/uz/gpt-chat-qollanma/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b27c86c9be27b883346819d9efb860f192e2b55538283f6fbb99ddc9a1647676",
+      "remoteSha256": "405f5b716b38f3719de034043198faa24c1cdfd3c535873de4a621b221ec50a1",
+      "ok": true
+    },
+    {
+      "path": "/uz/gpt-telegram-instagram-ideya/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e07ba5bfa53d9fa12ccb5980fba9bdd5394174cc6b23994140c5a6aa6a83b6f5",
+      "remoteSha256": "2901e2d7882d00139fcbf56fee4cbe0393520c54b3e55556e4074512bab83727",
+      "ok": true
+    },
+    {
+      "path": "/uz/gpt-uzbek-tilida-ai-chat/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0cdcb094116dff15dc7ce238a18b1f68c9b8563fe80e5ba7cc18078d49f69d5a",
+      "remoteSha256": "49864d6924391e2ae4e4b78958b5ec064e393c91bd6275051e1903b9ddf44537",
+      "ok": true
+    },
+    {
+      "path": "/uz/gpt-uzbek-tilida/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cb4e6b4b2c65b53340dd7b09a6e32514c11c99010d31f192f56250f7d417a1c0",
+      "remoteSha256": "8e14027d1c8ab514e55eb8619918c84fb644446fd490b6e22d7fdb79736677bb",
+      "ok": true
+    },
+    {
+      "path": "/uz/horeca-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7d4f7a9f1f74862fd8d35313e00eac0e96da3566cfe9f1f31380433f7a211847",
+      "remoteSha256": "65fd6d8640c179ffef1adce33b5e00aeb6d65fab487d209e8c466dc5850898c3",
+      "ok": true
+    },
+    {
+      "path": "/uz/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a69a89063d5a88bee48c69f74e1dfc0b4de982828ba36a120285c5d7ec55fcfe",
+      "remoteSha256": "95c0b2f07eb8b66bc1c5cbdc0cb08f417870d455a60cabf329aa0102de4c614f",
+      "ok": true
+    },
+    {
+      "path": "/uz/informatika-test/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "48b260788928d04fa5de80e8b608c6707a7a96f3bcde57270ef5d0ff5c5f8f58",
+      "remoteSha256": "48fdec90dfa982d587bb7817b23d66a454cf38828d62193ecebea7b8d9778281",
+      "ok": true
+    },
+    {
+      "path": "/uz/ingliz-tili-zamonlari/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "2297be628bb3afa81ead881ce7d4c3e2131fb2a6f4701ab1b659254ad33cd4ff",
+      "remoteSha256": "9b42444400daddf93fdd70cb8e913b8e5c7f7ac7fc367f60104127a81df409ac",
+      "ok": true
+    },
+    {
+      "path": "/uz/instagram-bot-biznes-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9af502d7e14e48577e6738dfd3d56bed69478abfc74c25912602efdacaed131f",
+      "remoteSha256": "682c254250f70f2fab7de4f86a23aab519e2cef4e5e2d0780f2dcd78198ea33b",
+      "ok": true
+    },
+    {
+      "path": "/uz/instagram-target-yoqish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "dc0071a66733865292a21bb9a9fa26cf6aab1c38b0dea119b71d23296b578a84",
+      "remoteSha256": "3f79ac5b0768d58c1bd32c3f568beabd1f45172243bb8ce4c2bea0dc0d64e119",
+      "ok": true
+    },
+    {
+      "path": "/uz/instagram-uchun-ai-menejer/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fbfa90af0825fe0eb638665db2773ab6c6677eaa7cf71af4f8f2ed7bca23cae7",
+      "remoteSha256": "946cd515178149a1695a2c644cb1ca2e17f7f0a22c7b17704a729424aef4b48e",
+      "ok": true
+    },
+    {
+      "path": "/uz/internet-reklama-toshkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "deb4e7b7d3f0dc3707e25dbe27c390d4d777ccc0a038f7b0d3dd43f1de263d3b",
+      "remoteSha256": "2843ef1860209d84fec3db02a603d197f1c0677ca92092545b693c7bcb6213b3",
+      "ok": true
+    },
+    {
+      "path": "/uz/jamoa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "52347b2a6d10cfeb8f08fe65c646fec4971d53574cdaa29bdcc7fac2becded5f",
+      "remoteSha256": "758ff1b57342248e6b665c07375f0145bc44204e8223e28377eeb419c0d3b1c8",
+      "ok": true
+    },
+    {
+      "path": "/uz/javob/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d0e4580dd157a61daed10d460a6e1f40d3d27d3c65a04007a05cd01a26621dda",
+      "remoteSha256": "9bb1b099884a73dd99724441c0a55e822cf04261f854f39ec548640daaff387e",
+      "ok": true
+    },
+    {
+      "path": "/uz/kalkulyator/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f70dc0f0cb66bfcb33405f4025862276ea852dd3bdc59da58d53a316aa04f55b",
+      "remoteSha256": "cfb0c676bb0c446abfd0d7d2c71ffdcff85e3db18534620aee7b970f620bc337",
+      "ok": true
+    },
+    {
+      "path": "/uz/kirill-lotin/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "801a7da3bd517ed07a8fd67ae8067c66cb091ef8b79c6f2041238a668a43d5cc",
+      "remoteSha256": "227db1acb63ad572328b6e1ffb389f6fdbcf01fad987ab3b6b2c4f25c8a6be43",
+      "ok": true
+    },
+    {
+      "path": "/uz/klinika-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9127a4ba09479f4ac622b44d5e5d4d85c291d5e276bd147a25d7cdaea5c06ca5",
+      "remoteSha256": "cfd1518bb97075b74faa6ec431aef92c09872f8d7f9179cf2213cab1a202d160",
+      "ok": true
+    },
+    {
+      "path": "/uz/kochmas-mulk-agentligi-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e87a402b161343d4ee44b7446c59e2176abeaa1719c4efe21576c3f3760c59da",
+      "remoteSha256": "3b465f0877bb53080142282d6fcc4bf1abbdb1be051317b0a89c95f7a0337ebc",
+      "ok": true
+    },
+    {
+      "path": "/uz/market-ishonch/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "09aabb5cdc409eae833f5254441c5240ec16dd1ee2b6302c45233c213c4fd1a7",
+      "remoteSha256": "bbd874e3cd4ee7f105646e82dad4667e3bd0adb805ea3ccae90b87ad67259e9c",
+      "ok": true
+    },
+    {
+      "path": "/uz/matematika-test/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "17b9dcd795c6dc16040d16c1c43fed48bff1d0e2ec404cd937d5277303393543",
+      "remoteSha256": "09d99eda2fb97fa554edf6c024f64313c530f480d0baaa1756f3287925efc463",
+      "ok": true
+    },
+    {
+      "path": "/uz/maxfiylik-siyosati/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "832c5742ff7d81d929b5d310e94b2e6b853e78001198a6a36847d1e888b9fea4",
+      "remoteSha256": "b18e1cf1d91e53d016c8b16c4307af08cd118af72e01568f885763fb3f79f501",
+      "ok": true
+    },
+    {
+      "path": "/uz/muallif-boris-gerasimov/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e712ff8283eeb450fa318ccfaa9fb26f482c31e545dbe5a1184718be0d8c48d5",
+      "remoteSha256": "e4d7c032d6945c988399ec478f6ab3fff9ee61f2095561cd0341316e95b927dc",
+      "ok": true
+    },
+    {
+      "path": "/uz/notogri-fellar/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "468248a71fe20f14160c609aba4f6015741636c66cd501197407d2112b0ff7a7",
+      "remoteSha256": "9c5638eba900ba57c6a20113575e75fe54209d360b04535f71e64adb7cd11036",
+      "ok": true
+    },
+    {
+      "path": "/uz/oferta/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fa2a0fcd87ef9c701cf27e557a9f731c4f1e646590a64da35608f3cf9de102ef",
+      "remoteSha256": "3242c83ea2dcf26abd0f8c9996933453f986bcfb0bb9d60cab3ce4a44f1a4a55",
+      "ok": true
+    },
+    {
+      "path": "/uz/onlayn-testlar/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9c062542ff3879623efb1df38a0e29d1a1121c15607c2e4633b2a0ac30069ccb",
+      "remoteSha256": "ac7c7eaa9be2461a274c733a9b6c774618838a2518a785031ba28d4d4c48b640",
+      "ok": true
+    },
+    {
+      "path": "/uz/oquv-markazi-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7ba0378bb3dbb06da68e41963586fdf1a33ddf385b51e1f3965bf230e292b5a8",
+      "remoteSha256": "2b9142cff57f17d0337a475ab16303fb7f24748365c1ad46a007269777d5a6f4",
+      "ok": true
+    },
+    {
+      "path": "/uz/ozbekiston-boylab-chat-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "93131d8fdc0ac563e6ce7e6b4fb9889ad8972379f18d3bcadc7e2981cf407659",
+      "remoteSha256": "1ae6043ebf4f31f4146049d85cbb38d38c9a77295ad238239dc87dfc4b603aae",
+      "ok": true
+    },
+    {
+      "path": "/uz/past-simple/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "839f4cee0304a64c294d7c5878c71685d89875add0e48ca4432f8fbe3a5b5a2e",
+      "remoteSha256": "9380ec9619a9cdd678424836a5482c9916227cd149a854c2a005b05568929fcd",
+      "ok": true
+    },
+    {
+      "path": "/uz/present-continuous/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0cb8a14771ce2bcb42bd10c18f059e4ef5436d466de3f30b4c12d3286689bc68",
+      "remoteSha256": "ee35ec9aa4b6a6d1efc66cfbe9c864d9a10b6af15c83124857d7cfe5fc3b61b2",
+      "ok": true
+    },
+    {
+      "path": "/uz/present-simple/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cd6d098130add8f83feced2aa9e9e4e41ed00387f8228720c5423c9a955091c6",
+      "remoteSha256": "bd41ad5f0d4706cb00dc4de0da3ea6b27ce03a9eee4a9b8f7a0178304f7413d3",
+      "ok": true
+    },
+    {
+      "path": "/uz/rus-ozbek-tarjimon/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f265a5fdd2dc0187c2431effbb253d00cb47cecc7dd33355f5e39c7555509603",
+      "remoteSha256": "ea7c0d55b2ccdc475b13dab2b9218d0cf1a4d2f4e604de64b9ad6ed4614c9a48",
+      "ok": true
+    },
+    {
+      "path": "/uz/salon-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "2961430b49b56562d06764afb42a44f8b0e56492582587c16ac64f4334dcd099",
+      "remoteSha256": "6ff6e41028196010b1fc425829fb1c0df7d05e7d5089e2713f49cde150ee98c5",
+      "ok": true
+    },
+    {
+      "path": "/uz/samarqandda-chat-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "737146dae1c7ba0bc7121ae760fa7754b81352395ab3d4f7e16ec16136f6ae85",
+      "remoteSha256": "9c7582922a23f722d92afeae4d38828163aedb85368d3607bf6d37c6f836d4ec",
+      "ok": true
+    },
+    {
+      "path": "/uz/savdoni-avtomatlashtirish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6160c12da7c373e2c3bf2c9f1a856fd709912a5df295c2731cd2c0086acbd564",
+      "remoteSha256": "e42c764051522c2cd29302dc3c369236725343a2df785a69d553739b6f7ae685",
+      "ok": true
+    },
+    {
+      "path": "/uz/sayt-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5457d1849a43b58252136547b5a3490f09707c1b978a2752c1cff6f5cdfbadcb",
+      "remoteSha256": "be3eab9bb5ed168383b6646a6e28e825755a2d33b445b8b3a6381da0211efec8",
+      "ok": true
+    },
+    {
+      "path": "/uz/sayt-yaratish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "043c6c15dadd4ecb5253e116c9d8cbc054c88814ca8f745aea232a5548ab9d90",
+      "remoteSha256": "24860c9cfe728d09336eff1afd219591aa933c5697a09ce17c3e6ca164437363",
+      "ok": true
+    },
+    {
+      "path": "/uz/seo-xizmati/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c57be614c328e1a131fcc892ebeac8abe7293bc7f7a57b5464de76722ec7aa2d",
+      "remoteSha256": "1dca2ba9a550f723c2919b415489b879b9b52ed911946ab49bc29b129227e963",
+      "ok": true
+    },
+    {
+      "path": "/uz/sharhlar/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a2e6531de5d4ba888b66431ee8dc88cf5149d131b8229b84e87b5535a2334e9d",
+      "remoteSha256": "2066f47f0f9012c5a447763003888e39f723decfab9afe707794614a54dc1b91",
+      "ok": true
+    },
+    {
+      "path": "/uz/smm-xizmatlari/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e60faaa9bf9d14cd8e2e8b917160561c18df0dd488eda026bccb52047a7d80d3",
+      "remoteSha256": "b8fe6b42fd93cda05a1975aae1ee9baf3332379546b3c7f9dab1eb82ac21e571",
+      "ok": true
+    },
+    {
+      "path": "/uz/sotuvchi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7effb04db1d96a21c0da6afbe2a9206102adaff7c1ca6f5422eb83f69761762e",
+      "remoteSha256": "efbe9b13823f53719476b06fb001c80fdbd111bed3b543bffbf234d83194c7d2",
+      "ok": true
+    },
+    {
+      "path": "/uz/suniy-intellekt/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ced919505bd23b1bd67f8998f062a7eeca63e04111d19be6f63010b8542d2395",
+      "remoteSha256": "a054c316b5adae6b2e2126dfa2e3f4a6f448695fe1c7afaaf6f3f3659b1fbd16",
+      "ok": true
+    },
+    {
+      "path": "/uz/telegram-bot-biznes-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "91a3222c84128a1e2353c4ea9e7d808f86cdf6b675a079bfde2170a849dfba36",
+      "remoteSha256": "f9cf64efe7f9385a37a89fd61efda886e22fc3139b1b799156e468015944144a",
+      "ok": true
+    },
+    {
+      "path": "/uz/telegram-reklama/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ccdf57542190ce36e8015f328f3aae92b5f032c10bc78fdeca1cd8e3c3696fcb",
+      "remoteSha256": "ca44609d0056f8f2d3f4458f9ecd3d608e7ce79ae39307552476a6ba6b3df44e",
+      "ok": true
+    },
+    {
+      "path": "/uz/whatsapp-bot-biznes-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "4b9956a25f2474401663f9fe3ba98292aa1a347086beb40631f8c6c76dd75577",
+      "remoteSha256": "25a98da59d4294eb733224c4db14585853b393fb38062554276dc8d5bcbeefe2",
+      "ok": true
+    },
+    {
+      "path": "/uz/yetkazib-berish-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "718ea00282acb19446c796f1a3daa1cea10bb9982006deddc1bd6a771dc74cfb",
+      "remoteSha256": "ab9f69d442eaa8cf2da35f467a04039fc66ebd410895e2e9171d4371abcca729",
+      "ok": true
+    },
+    {
+      "path": "/uz/yurist-uchun-ai-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "965a21c493298af146b7d03395cb3d45de584da817412642321f314ebfb919dc",
+      "remoteSha256": "386c576750944469ddbdaf2b7029e9b7001b172a277fe33e78a2a5d9750fe608",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/7-stsenariev-ai-bota-dlya-klinik-v-instagram-skorost-otvetov-24-7/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b08737e379433f355d09bfce5b647c7e1973a2ab67c49613d350463448162225",
+      "remoteSha256": "d9819563877f7633d90236c8af665051b1262c66118075a15fdc6aa81937e2b4",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/agentstvo-ili-birzha-frilansa-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "4d21c2095f5faa255c7d90210086bb09e648425ffdaa12e13b894d6a697908f4",
+      "remoteSha256": "80adf1e537a21739eb59aa113f619d3c83a43f295ae1e435ee2f21f06f17e8af",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ae1159d2e86e3e0abfee22a90165c5fb761005f789da16a368077bbfde803089",
+      "remoteSha256": "0a9b6d7ce30d318632c3c4e6de6c087f08bb98bb6a14649c8af3657339822e3c",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-agent-ili-chat-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "07c29856828df92ef880b93d0219681f8ccd84ad96cfb7f9ba104c651a8f2b86",
+      "remoteSha256": "2633b8f66fd44e39fff977f5c834b95e80e6db85cb6a8d70271d29397d7e678e",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-bot-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "46e925545f4d106dd1ac84c4f2fe16c9784a51a8f923066ca70e6966c57b7b28",
+      "remoteSha256": "2c131429df60b66bda992e83ebe36eac22c263e2404f51ee2aeeda903cc58eda",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-bot-dlya-internet-magazina-zadachi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "925ed7bc1800af7390e2a6be9149ad380c20a0b1deeae3dcc4bb7c89991b76a7",
+      "remoteSha256": "ed075df02181b7b50df45eafecff8dd55d264ce3ecb1429d25fd67b0bc37379e",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-bot-dlya-kliniki-zadachi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7c14517ca1a210d68afc39242e90d46dba43c7d4fa334855b205dc494a8a2783",
+      "remoteSha256": "ea4483c6a20eda2bbc7bea15189ff34361c5a8243c371e20e5dbec030d7b9f12",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-bot-dlya-salona-krasoty-uzb-podklyuchenie-scenarii-ogranicheniya/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1d764428d078c958fd067202c1cfdaf5979ff74ceab2c1bc62247ece18062d6d",
+      "remoteSha256": "754dcfcc795968789783066baeb63378cac88c5b9bae24c4914cd0adb234e097",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-bot-dlya-salona-krasoty-zadachi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "748dbfdf2049911bc43c3893cdc538fe30b1f2b5015186b6e8efa5f778d7a566",
+      "remoteSha256": "c21160ce3a6740b90f0dc81784c4e92756ba61dedeb3b16cfbbf29eccabd0a26",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "427c9906ed320f8835890daec6b3f96d87df65389b68b67e7e6c1b5e6efb3f37",
+      "remoteSha256": "9cf37ba90a92b468ff2e3f05df0a381d0827325abb93ee4a1e127785b0153544",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-zadachi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "65c57660201b6a68c0f8bf0ad4989724b4e99ae9e81fcc36e9a1af6684e7af2d",
+      "remoteSha256": "2826319fd25aad6644c0dfad87fe1a136a778783e97692ee152180493f6b77cd",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-bot-uzbekskiy-yazyk-kak-rabotaet/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1ef1b7faebcad1aebf027892816988901793a74fc345a18211da1fe43a064fb4",
+      "remoteSha256": "55729d18baeebd160d7d9f9a4918cba74b160cd40d38db54de32a5c1c67e86c1",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-menedzher-dlya-instagram/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "55dcc3d4d0533a7c91e7eda747a7164e0361027a5062e0227d54286a856953ff",
+      "remoteSha256": "9b5973f0e55cb73dc3e08838b503e38dfec28babcf86d100807181ea5405df00",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ai-prodavec-i-otdel-prodazh/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0f32bace6606bdacf6867225a84b191a910632396a141c44969858612b71f05d",
+      "remoteSha256": "9a124858b399a59e13b5e40054078f58a28cc8641c609e32ece5b8afcaf1b2dc",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f916a8834e45061341c35a31435753419e07bb192c019d325e9c0ba28a99a561",
+      "remoteSha256": "26b639eaad4cc300b6c0f3fd53f541bf0d8d73244737a0d1f2706cdaf254824a",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/audit-kartochki-kompanii-na-kartah/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6cddc8b5fb2716d65ecdc265224a56616feb888a619b543c2f0c67e1e960922d",
+      "remoteSha256": "4b395ce5f8054a19b1ff464a40673bccd73d24535df262eb733d7d5ba77777e2",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/avtomatizatsiya-zayavok-instruktsiya/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5122cefa6c38aba738257aee0aff2b973e97a7843ffeffb3337c22e7061bcf89",
+      "remoteSha256": "dab42e3f00360d70d96295e0d5c57dfcbb2160538bb68be6ef6c3e89b02175f2",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/besplatnyy-chat-bot-chto-realno-besplatno/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b36119f13e999a0c4d0f2def12bb0036e5212ef669760565e3ee68b2ee845888",
+      "remoteSha256": "7367df1a9c7223667626a081303eafc9dd918a219a06b67397dcffd9bb001a86",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/biznes-teryaet-zayavki-nochyu/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0208f403589cdd2998d91dafda279bb95290d601108c5ff27103a2663cfd0076",
+      "remoteSha256": "9752703f9ff6f9a5bc7cb39c377e46529324399a8b3531dec6b643b737727e03",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/bot-dlya-otvetov-roditelyam-uchebnogo-centra/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c6ef9efdb8fac74c4f6a96d38a7ff6bf17f4a8c226891eb2e00efa2eb254c9eb",
+      "remoteSha256": "67ab8c32361dba8f021fdd3d6bde2a1ed302afbfda4dcd14c7f28abb764ab470",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/bot-dlya-zayavok/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "94a874bc98180afd95b05f2bc63de95e287f504c585d87fafc6d009d021dde72",
+      "remoteSha256": "d98665cbea510358eab1af40f553685fec1ff5b1af90ee930584d99a03f6be3b",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chat-bot-chto-eto-vidy-i-kak-vybrat/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fcd9cb96b7edaa1f9a06bbced3a55c748a6e2892b04c30f23c247fb625e64148",
+      "remoteSha256": "5a3ad53792d19cde5cbd9b37b00a3d1b031311bdf593a9218d6db70ae4538040",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chat-bot-dlya-biznesa-v-samarkande/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "88fd2c871e92e7016aa6b906d3424fa07811ccc778647ed2e5242137ed6af394",
+      "remoteSha256": "ad0728ba3a69dade196d97a3f977cf82cf74b8d313c67698ae939a41a7c27242",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chat-bot-dlya-biznesa-v-tashkente-kak-vybrat-kanal/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b481f4c9a714417caea0de410dff3262b2cca09ea5c6e99a3b8c6137656d768d",
+      "remoteSha256": "4c65fecaefbde73f7349b21259d97d3b401ebdd9946206787592b1b4310e957b",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chat-bot-dlya-kliniki-s-filiakami/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8491099f24e6a09a9454f6408b208a2f65389a55aa20814c9f764a544741f884",
+      "remoteSha256": "aea0b32043450effee57355a090f6b5b6a914ce8492f89dd9905100b8d038552",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chat-bot-dlya-sayta/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "771c982e442ecbf911a30e74209cfbe5381bea7eefd443c95557810f2df1e550",
+      "remoteSha256": "ec7d2ba77ea14483067c666b0effde67b38cf3d3e4b3ce9e3b36bc3686bca7e1",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chat-gpt-na-russkom/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6a59aa6a4a50e71470183248ff80ec6c4e8f6cf02d5463612a3358dc26e8cb48",
+      "remoteSha256": "882730fe6f2266cc584c892c56f2c37047cf1d062cee976311324c250faf4cf8",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chat-gpt-online/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8a4af095e18acddbdca19c11dbccd1fd46203a3868c5150fa3f27d6b0e36a9c1",
+      "remoteSha256": "74da69ec3ac401df4ec898826706772c23bbc79fd4febea60fb823fe7ee9ac51",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chat-s-ii-gde-poobshchatsya-s-iskusstvennym-intellektom/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c78f4ec96c0d40d01d98409855bfa4efc4c3ed7acb2fef964b078f80cdb95b90",
+      "remoteSha256": "60ef36dfb16612c33bcdd204f67f3822352a70ade173e0a805e1d02853a1d87c",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ca479dea64fe16841934d026ea735b09f41901326a4c85b7aace8b41c16c73ba",
+      "remoteSha256": "cc8c937d0b9dc1bb002e22c6c52b8078ab93299217fb8974690bc124937a188e",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chatgpt-ili-ai-bot-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8449272ede3e936cef74fbbf413c2afe8c92a94a565e5ce42b43c7c7f4e92c03",
+      "remoteSha256": "7c158db59fac8ad508ab5429db5b8ec92b1c522c6ba97b9194c50b641654d51f",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chto-takoe-ai-bot-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f3d3c32ca5fb99a4a6437757dfb88d58b52c4bed1844326505850352493549e2",
+      "remoteSha256": "01e2116d7be89e6ced891a9310faf61cae4430a20a73f34f1e0ee2a716f8352e",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chto-takoe-ai-menedzher-i-kak-on-rabotaet/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a1d62874d9087fbf14593f3e604d0edafa3c45cbbcc95844b6d01037a2070465",
+      "remoteSha256": "f6c84157491e0f502b4cf1195f6cb57c811d8259acfb1e17b45b42bbdf85a1b5",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chto-takoe-lid-v-marketinge/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "29523d7cbcf24f8a7b749a1b9bc3607d4a310f66870447177d93ec3922dc33de",
+      "remoteSha256": "df46c19a0c1ea7bae780822ff1267d81b59b487d2c450bb2e23451f65373adde",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chto-takoe-marketing-kit/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "44293c9e694b12ef4fd8f1d7d379b0a624663b1ac80837cfe9abf7b5412a32ee",
+      "remoteSha256": "16eaadfe848511ed5ffc886c1322661a3d577065327ef0363dda0a682f29d482",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chto-takoe-seo-prodvizhenie/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a961b2e84fddc99e8141bc3e1f6816c01417b61ba48076f1a61ec00058d700e4",
+      "remoteSha256": "6a350c9cb67fa957cdf7b27c4313d200436d5944a33f35cdd63c5bffe5a24574",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chto-takoe-smm-prodvizhenie/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "94b615a325bc1d42619b462c7c378b0bd8e16696022578735d47bd25bf4b45ce",
+      "remoteSha256": "6eac4f8696099beecfcd30a752eff30ee362a6cd52f519bb1c831b0948388925",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a08dfcb52bc9d1adb7c7cf79536809c64459f7cf12e2d9f8f8fbec8c0984dfb2",
+      "remoteSha256": "e6d56191aee536e821d3ab13ff673bc0e1ec2a06ff799bd89b70714d3079780f",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cecf88220adcb9945a19278d45149d132246df6358299a4d910e1ac54ff04f21",
+      "remoteSha256": "24e52b0615c344bcbfe258d2b5a499b82974d6bae7b47ffde8ff3f4f9f99e236",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/digital-strategiya-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "237053f634a2fa4fd41460427143f5c881181c2691ce6478fff0a72807ebb9d5",
+      "remoteSha256": "c56495365beba3e69fecf57e83a575d6c2e28fd6aec922f1126736efec2a6171",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7a83dc78a9c5e9b030c1ad3205e2c4ccb2e2be8a75af56d323f89ff183e347d8",
+      "remoteSha256": "3efb7d5d09d20d919787536c08948d409e83fb299e30327377cd29d292db6632",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/etapy-razrabotki-telegram-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8e6b97178d64f65088345255e6c27536efabd53963c96cb450afb7b23516e045",
+      "remoteSha256": "06abb53532b07a08ff5c49261aedd5bde9d39a7226c79b5498a770f973486af9",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/golosovoy-chat-s-ii-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cfa78950a92121e34aa194ce37a01a4e41f6cf66ce6b728d5021227513ddcff3",
+      "remoteSha256": "0c3785630450c96196628ee47e472e46e6a417031af1fcca3062fb4aaeaab067",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f32b76c937ff0adbfae4b3c04769eb1c56dfd80598c9d2a85d1e92bf29a278a5",
+      "remoteSha256": "c7b4a65536b4bd6b4d764b945131fc61063cae18ade4ae1fd771256c8089526f",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1f61f6679d52ab7023cc2c2a69c740fd628800e8dbb15a8958a97af6580b2b31",
+      "remoteSha256": "6a92db25912f523c8eda106e38f378fa55f3c3cd196b9bda8bc426d10c8260ea",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/gpt-bot-vs-chat-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d18d8045e73cd086128ef7accfda9e0c1ad3fb5e455a418278f55cebd89a6261",
+      "remoteSha256": "277400327e77e79e81e41aa3331613c575bed6db539bab8e5f0701cf0b9b10a1",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/gpt-chat-bot-na-russkom-i-uzbekskom-kak-rabotaet/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ddf88a50d0a12fb1cac85e7d475eee7fbfb84e3cda382502383e314d82263ba9",
+      "remoteSha256": "e139c9ed5af7db0cb08669e1bfacb46d2b888d5e02d966566762dff19f7e95f9",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/gptbot-botmother-sendpulse-sravnenie-dlya-uzbekistana/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6b45b025bd73d8ae77504c52a5d7e46a34e42b1e28de37907e5c6159678e2e70",
+      "remoteSha256": "e84f11d4ace05604df8ac2587cd25d6b361fefcb6ea8a08f304adb2cec59160e",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/hosting-dlya-telegram-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e398c1104a59f359b7dc1ffaa7027ac89a743cb658b02f83a95e7ef42e044463",
+      "remoteSha256": "aecd952ce9eccc073a3ac2329a914b5f8f14c7b11c2257010406f81d17bdeafa",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/ii-chat-na-russkom-chto-eto-i-kakie-byvayut/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "287828766b7c544048a9c58df835e788533862b718f4cb7e997375c84d9dc3cf",
+      "remoteSha256": "124e4090905eabcbd186891e5b6108f4c70aa83bb04ff04361bcb3303e23eb56",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/instagram-direct-bot-kak-rabotaet/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c4dd112ddfeffa5a18267eb0ff5d00cc1a8bfa1c9c1099c87e2f826cd445a28d",
+      "remoteSha256": "4a7a09e7a5ec9525f67151e52d4163ceccc0a2f465e86050cfc617c06f4fb41a",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "95b19ae3db900288492765c07f77e7d4635e140e450b4ba7a753e5d8e5d68919",
+      "remoteSha256": "766de1555a2438fd665392bb4fb210ee9e1c3a75ee507a84c65d637a360a04f5",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-ai-bot-pomogaet-ne-teryat-klientov-posle-reklamy/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f61f62885422c7e65e2d532a0b74ba0c5c9d4757c805ac6af35ed4f118ffd6ed",
+      "remoteSha256": "ab7bf2c45a006a37b9d871c8b49bd343ecb45ec107b55d7e3214d5dea9fcf192",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "aa20d2a2b0d5bd55de99fc67d5e589e13fb13ad201bf622cdf6ff8dc573bf40b",
+      "remoteSha256": "b372da7c95d668e5633cb4a555154253eb036f3e35c0ddf63b1cd52555ed52c8",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-podgotovit-biznes-k-zapusku-gpt-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "396b40fa30140f453d77771cc0fc70df50b0e26558e6e683d86b6f53816286a9",
+      "remoteSha256": "d5664fd042ed613ad08207a7382b5f958a27b63064d0362a2fe79d76de55e011",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-podklyuchit-chatgpt-k-telegram-botu/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c09ce1e0bb3e510aba2cdf6a382f0ce48b272823b682acc6db18a67274ec1397",
+      "remoteSha256": "4a4bda3668000e6baf74b29988afef8eba9146c0af8a8dd06aef080961b07023",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "36663c295f434d33ed52c677b4836b2ba97838c1a01558310dc0a513deb625d2",
+      "remoteSha256": "2215a8ac823b9e13668608b4554bad4f3a1cb30d7b218aae111525c1d4cd77e4",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-provesti-audit-digital-marketinga/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "da8a3e70ac781fa06d011f3b4f66a6c5269c9c17bce0002ea855a01f487f67ac",
+      "remoteSha256": "7174530b6390ec9e905d0181c9d3f72304a16b245947ab5de2ad028e840382af",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-sozdat-telegram-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "538a4d10348cfe679463dd9e4d536b885305db95c52524212ddd250f71cb42b3",
+      "remoteSha256": "525e4da6f24b8017606e57d310edea128a2871135a0be1dea8bc83671b70bf84",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-stat-prodavcom-na-uzum-market/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "de056e806e2bd89c3db3650c379d83000bcf0a0b8ca5a6a20cf01ef9bf858b29",
+      "remoteSha256": "2aff182dab082d07c0a92d689f65097e294f951f3a0e81782f91b806c8b5314d",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-vybrat-ai-bota-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b2848f493aabbcacb4a7bceee0383b5d89e55aded60be7b0b95f139ab5a24e5c",
+      "remoteSha256": "aa42860b61cf6471f7c26401a827618fbb4acb5db3335ecfaafe778ede7c8ed6",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5cd3773a51962da4bcc03b63726bfcb3cdfff9adc594f2b7c6b791d7ea63cd02",
+      "remoteSha256": "1597b08ced73187b4ab068217264e295e59894cedae3ce9f8fb6c6340efe1695",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-vybrat-razrabotchika-sayta-v-tashkente/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "46fc2cbf0949e4a0e18b2c3445ea0ab51c56ac2b3a47a25e5faedf45ea4f9b6f",
+      "remoteSha256": "101dcf767119ad1abc767a848770bd1ee4a0227d075705ad3c4f582bbed398c3",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kakoi-ai-bot-nuzhen-vashei-nishe-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f5df70db8fe973eff4226511190af7190f718cbbfc0158be2ec71f694222a56c",
+      "remoteSha256": "dcb69bda6eba7f991f30de297cb70a963f0800ac02b0809a2ebacac830b4ac16",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/keys-cake-city-platforma-kondirterskoy/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f48ea0840d7a2d2ecdf8933276425262cd769f2be9ba9194de045edcfa56d039",
+      "remoteSha256": "6673b717b2092f1e0704f2cf1e52a0250f9c301d7fb8e442467e987f1bac7075",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/keys-graver-studio-seo-sayt-b2b/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "dfbc3e7b2301e8f0902464b6248261759fdc286ea520595c7c7eb69a666b0cea",
+      "remoteSha256": "55dbf5d24868f8710ee6a9d7db664c766ebadfe206d2020879c800b92a5e7eec",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/lending-korporativnyy-sayt-ili-internet-magazin/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "03ec652f0014c569654cd792ce6efb068d7ec375928b8b4da94aaea366422c94",
+      "remoteSha256": "1bd982f5084ecaa46ea929c2b31aff4fc40d0245c375900001a085a316cc6a66",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/marketingovye-terminy-slovar/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e71e0718dd1408eda1e57817f25f1f912a24b6adbd86b4e54316d88a44e49f37",
+      "remoteSha256": "2da7434158f98c60f8a433e467a0ab717c5cc515add98378f7c38cbb61c85c0d",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/neyroseti-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "4a3db6d8dcc8fc4101aa3761656bed5cfeef51666af825e6d06c9968a9c26a35",
+      "remoteSha256": "7a94c7ddfc24d6478d6795d1e72a8de8d861fce7b6e246bed7494e245f95ca95",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/okupaemost-chat-bota-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "dd2fe322e466f8c852838442de557e4f5859178e86f6ba5599c0a1e16fd2243d",
+      "remoteSha256": "4f88bcc9f65d895f1f09649bbee99c7993ddf7a5bf63003a4b0372d5cb500df0",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/otvety-klientam-24-7-bez-rasshireniya-otdela/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d275357120515fb8103b4bc116b91b1a1261233e32c53f884d475415447e3d41",
+      "remoteSha256": "2c00231a8490e621cafb19166b6b9d622b8a0483535f047759e91dad526732a5",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/plan-digital-marketinga-na-90-dney/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "00f7d652568a5f8718f17b57eb70afaf1c580e25b0f2885e16b2066875e842cb",
+      "remoteSha256": "cb55943cab88ae9c0ed6e5a4c047955531b5a14821c18bdd161df2680178fa91",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/pochemu-biznes-teryaet-zayavki-iz-instagram-telegram/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e5f33e77b560ef617c7d9894ed75261e8414490f772635f8ad7f1c39d7180766",
+      "remoteSha256": "3583b6c519a8ab12850f308e0cab1ea001b214744005efe8572788328ea9b4ee",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b1c9d59690e5625bcce653990be8321b497ffeffffe2450ae9f3772cb14d7ef6",
+      "remoteSha256": "643f1a6ca974956899596c69cd9162bff1b597c1bd94b33b052fcd201503df84",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/pochemu-sayt-ne-prinosit-zayavki/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "35df29a32c6cf8c9b9c2e8722e2ff888ae30cb8aa2ad6f0560d15d018a19397c",
+      "remoteSha256": "bfb14127155b0af941e46f1815c7906df1c11687f504a9ea9ae4b0e51a18e6a8",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/podderzhka-telegram-bota-posle-zapuska/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c2ef672f353e129a181adc4d881fbee008762298a2446a842249161190601d05",
+      "remoteSha256": "69bb5328a03185f4845ebae5332b7653ba0fe44023298db872a0331a50546f0a",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/priem-oplaty-payme-click-v-telegram-bote/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3a01b54a28e7e360d0f3d8d622136a99f8bbfe9c8db1c7de0bb83f2d2303e719",
+      "remoteSha256": "10c5247521d2aa5bb5d1186f0d9a6c83ec6f349214a4eaac940639fcfcf0e057",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a50269e834f2827a83be49a07c03e3850b89148f10082fdf1fe6a04a46b903bb",
+      "remoteSha256": "fb2ac0abd6567b5921e8be0fc4dae50a10dabe62b41e8037102825c3abb245dc",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/prodvizhenie-sayta-v-yandekse-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7d549363577bf3f97901d74c230c654e4246cea62783f263248dcc05359ca24a",
+      "remoteSha256": "0d1193a3466fd74120ba4fb8e9d3f5af05d4518320836a3b04a923950fc01033",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/razrabotka-chat-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e87d7e107ad4c1182b124786b5d22c2c9a7274b2625d3cb97da6edd2fe7e6639",
+      "remoteSha256": "06a36981a0495aa113699a177b83f9420709149650f74dea204ca35c35f81259",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/reklama-stomatologii-i-kliniki-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9dcb56f27b706d21cf2d34cd7f639edc30d0564bc2eb78e24e4207d1becbd33c",
+      "remoteSha256": "92d3de8f9e2418048091253dabde5e6a985711641d052684a082b59ee6891a81",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5ad6d0e6c9f0fe89808fe3f34988ee3f1472198c8e17e98807307821410d440a",
+      "remoteSha256": "6f17e6b5de0c6da78dfb4a1255dfc15f46ef6841b677d23fea034a57ae793ebe",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "45ed8ec969b99a581d2156092dadfc5565c23a248385fbae67b8806d92ff6407",
+      "remoteSha256": "c18883ecfe708a193b81f51df13f81b6ffcc41cd6d38a38cff2b0f2cc6c0c459",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/seo-audit-sayta-chek-list/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "981f04849d61e33040153bf657bc6e0baa6f7d5b3744e414a038cd58d62a47c3",
+      "remoteSha256": "63d309e6668ae4ebc6de811d651e898f2952474745bda85f3e8b4756ebc2e49c",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/seo-ili-google-ads-chto-vybrat/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cbf423f166852b9f106201e893b6662fd4069caeec2309320578e20c2196aeaf",
+      "remoteSha256": "dc0d41893a47c622aea691bf3944f96d36b70abcb7f56050f8df6e16193f5177",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-internet-magazin-tashkent-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a6fc89b5d2ddf838bead78a8a9b9af5c2ec574bca455268abc042326ed6d81bb",
+      "remoteSha256": "62a952799126e86b2779537964748e8a98490946c15caf813cab673eb22c45e4",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b113de58410683229d4fd0b692f0891ba0ea747a034cce01a2e4d337c0b2c93f",
+      "remoteSha256": "c266dbdc5d0a2c73e4e516f01355a9cf9f70e0db93f6bbe273d93649031992e9",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7edabed9ba859148f766402ad31af5412681e3baf052d3bb74ea3a092fbd007c",
+      "remoteSha256": "f10ce99aabf238652f65ee68ca13fb044f49b51e66474e8a58717eb66018fd20",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-podderzhka-sayta-v-mesyac-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "73f9e2ddd34313121a2c2cc37afe14233ecfb94fa1b2e2315ef8ece873ee7527",
+      "remoteSha256": "709f942dc5d3fa6ca818eb41a1b826a3db95144c6e074aa8303866d85ce91ead",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-razrabotka-sayta-v-tashkente/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "07f08e934b11050a4c40674ed6418b0d7fd793b695f6b37fbd41d9eb3535d875",
+      "remoteSha256": "5379c0fa5e5994b225dd5108580f02b1a23c5c85604c69ea1c7c2cb6139ee47a",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c581c2b447cdf5596b4d0e8999662b88fa9ddf52f1f950d9c9ada52675a1246f",
+      "remoteSha256": "96e120a8bbdb759083aa4fa4bb9f44b587168d1579119ced59adbc17c00eea8a",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d491becf877ad4f4bf0fd28b7fbab3ed22a1252747cae4d40a75af9c31dbbbc7",
+      "remoteSha256": "b966f17e5bc9f7d282149753dac499f538a2e8b279c2450cb924acbffe136309",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "bec49d65c8ad13b5e67b587471b021bf127ab78f75b00782a42c185b56563acb",
+      "remoteSha256": "25a7c183fa69af2418b0112cd5dcc9a5a91d60c83f02550d4a4ab6ae194b3333",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-stoit-sozdat-sayt-tashkent-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "2a3f76be1a4d3e97522af4c15987314ef2709ddf00a6d8f398bd0df983cb449c",
+      "remoteSha256": "1ce06fa26096de3be829354c4849bdfea40d08039e5d3612c56ea9d6a7790231",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/skolko-zayavok-teryaet-biznes-bez-ai-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9da944f9080752b9b55aa32c0caf5d57308c092ef654b61549fcaf4cd44eaa9a",
+      "remoteSha256": "f76d537cc8cf496810f8e987f40630c3df8ace526a311bc79e5bd400a447649b",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/stoimost-digital-marketinga-v-tashkente/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0c613ae3a68447bed67e1c2249c7533f1aa93d5eb73b397eeb9cfc6265bcc3d4",
+      "remoteSha256": "8b474176d3d62a6df2a0d813e970a151bc92afe5408864c44578d53134cfdc78",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9ab619df15c53557631871dd86cdae1d90c456223c622c63fdb2ce3aed807cb8",
+      "remoteSha256": "ac863a9efdc1d4d6e918447681bd3e17000bc41013b51310edaf6f9ee3a538e8",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/stoimost-lokalnogo-seo-v-tashkente/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3d396a52c6a36150deac00abcf440f7c088b8e7104629a3c7863a479901c3af2",
+      "remoteSha256": "ddb0529b7bd58957b17090ffd8d96d1ce72ecb617c054e31fbacfd9a58060ba2",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/stoimost-seo-prodvizheniya-v-tashkente/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "baf11ede00d770c5e82af192f4b3f049c35c3138c558b9432ee7df18f01ba8ba",
+      "remoteSha256": "a50436c46102357b4b8f2b9ed6ed658e4ae456ec61fc8db2f8b708a64cc778c7",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/stoimost-telegram-bota-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7b6f9f3b914f8d0cfa55907684e8a6c926f740396a57610f7f77b4d784d42430",
+      "remoteSha256": "50ecc9b8c3136885aea4bbb2f75cea53363efb10aca7e9fcd4c3f7d8a542f125",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/stoimost-telegram-mini-app-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c6ddf0090530faa0c9d97ef327051cee4c22cf258e2dfa657f2d17b5b89c126d",
+      "remoteSha256": "6a39f028ae1b89998191ddb0b86c892d3a63ba6715ea0910a1e1fc403061f8b5",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/tehnicheskoe-zadanie-na-telegram-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fe045f28982c3d0863ffa0ff30702c70e7d818c644530229b0e6abccb9661d03",
+      "remoteSha256": "96e277eb4dacebcc4ef5439ad9a99029bd4f25e36b071799cadb3da66400ecf4",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7d38b2ce52236d30aa6978fb9ca9ed4dd5654b4f45906285f1dac063c45df573",
+      "remoteSha256": "ca4d7ea25d708688cf471e83cb4b28633fd7d3aa696919f8c1e7edb325e32d54",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1d1ed000921201673a649b67aa2049dc786b876aeca70e575395576929f19f65",
+      "remoteSha256": "43597ae3124e78fdd7343eacc5f7cd02d53c20092b9d948795102918b3e191ee",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-bot-crm-ili-menedzher/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "53c8b6b626357135c135d5afcd2e82be36ba20327798118891775251061f4707",
+      "remoteSha256": "80c61f3670430028211071de653e28dc40a288ee7afcf14a327177682584f69c",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-bot-dlya-biznesa/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c169530689ddb8f5721beb3b4b04cb5ec44b76162fbaf31a3589f3ed9bf268aa",
+      "remoteSha256": "bbe3ebd4ad8312697d4b562f7ed5d2c3df701a57c27d3fe3322f9ec0dd5c91e9",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-bot-dlya-zapisi-klientov/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "acb393aed7b6735de629361ecf3d4cbb3daa424d389304350d77900a6e288635",
+      "remoteSha256": "dc1fe60f74080f9abe3471abd435ba1e8e1368e859ce8801780b4e21941895c0",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-bot-dlya-zayavok/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5fa883949a4c73665502b145a0dae1dbb91fc381989ed20fa1ffbb0c67700988",
+      "remoteSha256": "ebab1e97a7db64b1753ab2ef6a594152fb6b6e38497e3e561136e1830dba2e42",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-bot-ili-mini-app/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "894d7a5eedae4ba8d672885a0dce02d0175375905216b7d4b3d81943597dde36",
+      "remoteSha256": "65b4ca14281e99bf421a6633e5984fbd258712dbc03fb1f4bb4de595eabdd12e",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-bot-na-python/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "61d4bfd5c05b62d843bf42e8e803cf741a23982a7d3debc81d1ecb00656bd6ec",
+      "remoteSha256": "6407fe61765d67e96def007256c53ebff9afc97d3b2685523aae578f307180f9",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-bot-s-oplatoy-payme-click/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "74a8b4431670b578b976a1c5bf85020c68cc2a0456af77c8203c95b47e593132",
+      "remoteSha256": "67ca8e6389295af9be35bce0df405c86e0022c6458417cec4541fc8d6308d968",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/telegram-mini-app-chto-eto/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "99be2a33238610fe6d53b3fbf6456e579051ac722db074381275f7cb2adef13c",
+      "remoteSha256": "a1fd6b352bc882e2383b7245671a70d72ee1a22ab4ef03e4805132463b0d50ed",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/testirovanie-telegram-bota-pered-zapuskom/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0d8ca6ad2a643562582f16da0f9c4519033e5b6b63c0caf826c3c4c10e2c3964",
+      "remoteSha256": "7818b4573c5113de0bdc87a560025252d4a23cacb2120723d78a65c0ca6911f9",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/tsena-ai-bota-dlya-b2c-biznesa-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5db217a77809e62367d9384889fb218d9685982df089d281d3a1b07884cb2db7",
+      "remoteSha256": "c42cfadb56a7aed0c785f008fbbcc1488318a5ca9ed8a0d6d86a32fa1371a2bf",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6c24d6198c4238266d7c4efe5987258f12ca96cdf005346029068cf729d98b84",
+      "remoteSha256": "fbbd7f8ac37ac56f09c15ed47b572a9d064c7b0c0eb333961d51bdd76014765d",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/zakazat-telegram-bota/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "22a004b746915f3e90162f80c15c150c9e2ab23e4d7a584cc0e3787d8ff2f1ec",
+      "remoteSha256": "3df5ae6cc6ea821348a51e5705d3499d4267fa4e3c6b4077c4c00abbd13002de",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "72bbe2c6c8545c9c79b358df5844221be971f0bbf9a7051722c2a4b167420e67",
+      "remoteSha256": "837a2224a6d96e457a56326d2fc8126b2e49f0ca1c9a79ecd82f3c54b5225f87",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/ai-bot-logistika-uchun-qadam-ba-qadam-yol-boshlovchi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "563da21912b0c4237f7e195213dc20076af549c6ddabfa3c9af358a48fd4db7f",
+      "remoteSha256": "0851d0b8106a44ff79875f3a4c293db0ec3dbe104c394793fc3115de71aa8684",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/ai-bot-narxlari-va-tariflari-b2c-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6a9a7ad8bba8f3cc18361cc6b30905d5b1e12ed0efa99781a4a752db77bc44f6",
+      "remoteSha256": "1e34cbfe613b7031c871306822c6917397fb40b94e91bb0009b98765cb3bbf82",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/ai-bot-okupaemost-roi-qanday-hisoblash/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8ca37ad8f334382b984c08d93f1f772f6054c281bd79097d05ba18e8867ffba0",
+      "remoteSha256": "1d00279291a90de761f181e725c1ac0cbc6c525a8d18401d24b6cddb32e25dcb",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ce855f988b239ff7f217e1b9855cda1e6587841fd8719f73be6d5490fd90d509",
+      "remoteSha256": "d44bb97991456da39b5739b10bf49cbdb5853278f25010c5f0d992ae78a37e92",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f69212a55faaccc4e2c6d6a8a6ba75a3c77af4d50c6623e240d1131b7a10267c",
+      "remoteSha256": "d42bc471e409ba06ca1b880fa8ee414b8d871b15243085f696282c4ad875e1ec",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/ai-menejer-nima-va-u-qanday-ishlaydi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "48164a6676bd9f904a9b9869472be2a13eca923c307db62015ada7fb0e974e16",
+      "remoteSha256": "8627911ab7dbc3ce33f31bd433e9e6523263d50531eb04d61fe53c2ae41f1711",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6225c7e172f06a4e8015bfe29c2540ba06f7f1488ea3c914b6f9319e553356a7",
+      "remoteSha256": "8b3ad6bd63f2f272848e91d477bf7a575f815e304cd35cb80f054209a3ecb588",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/bepul-sayt-yaratish-yoki-buyurtma/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "299137a42fab1559a68124622861bb8d1b6e9055c068e0a1f0ebd050da085769",
+      "remoteSha256": "93f8067f1fdf638ea4d62e3c6c17e9e8a11ce8f607540aa5a12dd50ade14e23e",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/biznes-instagram-telegramdan-kelgan-arizalarni-nega-yoqotadi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8a9e602cef58b1c0055dbdf0ed88150f1d07c900714019b588173fee4a32dff9",
+      "remoteSha256": "ddb98f406b5680376d4b4b774a8ba686c1f9c5320b3e69a3c385ea48e7a5b113",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/biznes-reja-tuzish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "62435eccab21b98edae214684a0faf616845c49144ce8bd3e03fd3c59a6c3b59",
+      "remoteSha256": "ce2768b6f0ce97419b0cd6c2fdb2799b9f79776d893a4c32a68533f4e8d5b759",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/biznes-sayti-koproq-ariza-olishi-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1ad06b22b53daa3494e7eb61d120afc1e59b3add5ed362f03ea91830ab39d6c1",
+      "remoteSha256": "3311cba60942094387666f657459445ed5f8a5961e33480b49317a971c7af445",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/biznes-uchun-ai-bot-nima-oddiy-tushuntirish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "bb116a6a1f2a764f65823c7cd38078aaa92bd3c21c29b602fc0e7135361caa3b",
+      "remoteSha256": "c8b010fcafb10dd466d61f67c32e387b583ed1b2415d427c33a6eb594b032918",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/biznes-uchun-qanday-sayt-kerak/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "93656dea4c75cfb6c61d32909e731d3631c3312d6de59cac720b4be8981c742d",
+      "remoteSha256": "618e1606471b952be1a363ffa52c2768fad895d12e04d98619e2f97143ab2cd2",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chat-bot-nima-turlari-va-qanday-tanlash/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9d1151d2da38d1792fe0bf57dd765a4cc800f484e7663aa53549905ffcb72a7d",
+      "remoteSha256": "a6838ad6b08601ac6c4064b37c0e05e8aa3c1021ce18871bf060a3c4aaa347c4",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e0b28439c08973ef362525094f9d4656d5d8fd61f27433427c02e1824023b1d5",
+      "remoteSha256": "8eab767e182ff43b05992998e8bad36a58f7cc0542406856b84c92f8c3cfc10d",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "577a19aae3915e2419fec92f1d03c11d5065071ce4b9eb1ba0f86c8698843bae",
+      "remoteSha256": "1a76ba85b13998e976702bd31fb51ba8db605d0eeab2cc7d4a093e989a23f367",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ef5bcd2fdff06d6e5692eb4867c97e1734bbae36c0ade191539350d98c777d32",
+      "remoteSha256": "ca7de61ba6a04bdcf50ff940a294c593fe3c920649971d736ec70b1fdc6daec5",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgpt-talabalar-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9c68d799931aa1145689f0991fa7b0d8436cad0a030a2270944b30444aae4730",
+      "remoteSha256": "ee76159cb04026f88c06d14202b53a7ef0b91e142e628b0c79bab4f7ef0e108f",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b5ca019b086205ed62ba8d1407335e0e61bc57bac7729d6a3574cf024d52a119",
+      "remoteSha256": "c69409991edc16170fc8d70214a607586402fe3aa269f5b768db173b33d04e1a",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "86ab1205c03f37cc63700af0e1cf1edbf3783cf3af2330d647956a6f7d071908",
+      "remoteSha256": "72e62df35902cd995b75ba44f086a154222f9cc2933bcdc657fb9813c7ce4178",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "87ada0de866f72a2c0065fc9c9d171ffcbd7d41efa6a054dee9a68e5cfeeabcb",
+      "remoteSha256": "6cdf237af98e13a7640644bc62d76fc58c3b19ae8f38e4130e53558d9eafe277",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/domen-va-hosting-qanday-tanlanadi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fab1f98eb69f40a777f2e2536cb129c0c83951c4db38f952e120a4bf4ea43e42",
+      "remoteSha256": "61d7a8e888d8f002726bb1d4f3d57e463c62e16cb878e1c8b96e74c7dacf0061",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/gpt-bot-va-oddiy-chat-bot-qaysi-birini-tanlash/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6918d5d0c44142f86d6c97f7b407b30d6b90cbede090b863ac7b2169f1856683",
+      "remoteSha256": "72508da0a2ae94db6b4476a1cfcfacb20eb5d6860b7fe001254ebf43ee6b18b2",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/gpt-botni-ishga-tushirishdan-oldin-biznesni-tayyorlash/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "2a3bef2d34e83367964609300e2466f33cfd3b29b53f617865a8cbe7ea2b56f6",
+      "remoteSha256": "405e53280388d279f32b9ed028988ebaa098629d5d3f453aac4d9f6289d73302",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/gptbot-botmother-sendpulse-taqqoslash-ozbekiston-uchun/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c0a783fc7618a563320784b999d33f986a4b591a424b8dd7421ab43bce240966",
+      "remoteSha256": "aff7a63f50c16e594f13f264c38ef8e66fb1855c639755c9ea712e6a5c05de85",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7bde67279e07e06520e20a62efa2bb24efe808ad1efa5739cfd2e1f224663f4c",
+      "remoteSha256": "8cf02dd9de71ca97499fd803582f066907ac2c14e120b510239cc0a8dd1d9420",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/instagram-direct-ai-bot-qanday-ishlaydi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3f9deaf1c5e80a6740f536a7f76e12844efc9af0ba8bfb59d4fe20432e2f2e1d",
+      "remoteSha256": "32d39f1511e318fee38b2d45c12bd228c6d1c6d0a652358ad42af615555668c7",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "294e6d6b29fead9ad2836d9839b2d2b32ddbcbf9e7bff8240f38e081e4bdde26",
+      "remoteSha256": "d511e45dd63f55f8d41c47a7a48953e0d9aa2525f6793c655ae4d413e28d9a93",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/internet-dokon-yaratish-narxi-toshkent/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e627b8de94e7a02b3ae026a1c5bcf14cecf7fbaa04b2fc8e506ceba36469f81c",
+      "remoteSha256": "f03ebb9b7d524975c1c5d161975e3c74814f15c941b4c42064577ce10549d39b",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6954cbc6a304ad3c5fda1207b5a55add58c808b4fd34f433ff6d941be977ae77",
+      "remoteSha256": "9183da7db42b46964c062e7f9842d3e4df49b2ed29c291f86c491dfa55e8c50d",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/klinika-uchun-ai-bot-stsenariylar-va-ishga-tushirish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e740bbe701a4be08c0cc8c12e8b30bfbb60f802def3f238471cc4fa8a04e8fcc",
+      "remoteSha256": "04f7bc41eb292930ea44f4d2cab08c7dbf483d1902a53dbfe6172258c14e64bb",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cedeed5567455c6e6b0193866546690f966c4b0c3ab7a451c2d254f53779f584",
+      "remoteSha256": "9cef93f76212e5f48259df7619d19c49b470013c4d02b2a00385500c36b37799",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/kurs-ishi-yozish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b76315ae5f598b3ad27bba390df06e94a8282cc6967a33217329eaf360fe382d",
+      "remoteSha256": "41d041e8b2ee9c21b947414c3656ba7e019f6632a6d4742c7078ceb271e75e2b",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/marketing-nima/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5a9b46682d1cf9727cbf32330d8da01e687ed3d552ee35e4ac7256b4dd792bed",
+      "remoteSha256": "2a2949279042eeecf2f099e1afd1377cd2550ccb55380471580a7804ffd2883d",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/oquv-markazi-reklamasi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "66fab8b86493effc8fb060d46283d18c0b844c9f56b811ddefa92ff6ede67380",
+      "remoteSha256": "84c9507cf81ec2eaf93d5bebbec76e74cc6801d04e7517b608975a29a165134f",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/oquv-markazi-uchun-ai-bot-ota-onalarga-javob/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "2d88c939dc4f1d43dbe316047e62c69b1eb9e0b808d510c90ac5b7eb890160d8",
+      "remoteSha256": "889806d689c960ca05254f5218ee77cd5a3b4b3e2e1f0067f3f44925349ce0ad",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/qaysi-ai-bot-qaysi-nishaga-mos-uzbekistonda/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d890a2c155c56a7687ab2b5d561b83430149b594c247a9cfa8e309da57379bd3",
+      "remoteSha256": "ef7a1de6816ad62d9b5fef5e30a5d793eedcde7d3f4a4c4173b78369d6b95566",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/rasmiy-xat-yozish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cf5e370d59a8a91c6c6554609f66ad42d8b2b668318e4b6ad616a345f18e4277",
+      "remoteSha256": "e0ac24b2b2b3efa67223a012d39b02fb49ae045c83509b7395df9080f6630b35",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/referat-va-mustaqil-ish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6f7813a22d6ffd0f7ec8bc12814eecf0385712353ef6fa436ff5bb36748b77dc",
+      "remoteSha256": "05c33ef1d1b80aa2e48288c5cc2db7056a5ad5ebc8b69a5fe9909b1547f9e730",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a2794b027378701b9381216e6e667c906bf91fbdfa91770340f59eb8839212e6",
+      "remoteSha256": "892de504c2c810000acad764d64ba1a4fb621ae9509a1e9dc4dcb45beca830c2",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/rezyume-tayyorlash/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "794200ed8bc22e5f5671b2c92bfab585bbeee0c74e4e75bac6c81fd971b78e47",
+      "remoteSha256": "a7cfff5c268021c15b67d76cd2827fdfab200248d3f68048f3a9e0c26ae8d9be",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/salon-uchun-ai-bot-yozilish-va-eslatmalar/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cf1b3a7827e472aeca8bf57e4f96b0240a9e227da98dde374903ad9bff5ad113",
+      "remoteSha256": "a1efc2a91e0b03677c273981a79c396033c849910c32ac9dc1a70eb070201839",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/samarqandda-biznes-uchun-chat-bot/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d32657a4c922f1be217d9656c054fb880046508370f4d5edf25f8dc903d38b16",
+      "remoteSha256": "9bb826ee5f761e2578e1bb79c0680ade9da89d2e75cfdeec31ee19382568d93a",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/sayt-buyurtma-qilishdan-oldin-nimalar-kerak/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3d7f65a684562da4f41569670f5ed84425dcd635c174963295162531d6930c1d",
+      "remoteSha256": "107f7dde6671c84f50eb644eea1f4015af16603e215067ef9e2c095c7f91837c",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/sayt-yaratish-narxi-nimaga-bogliq/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fb5caa7f1a3f865289e221e44aa754ad423102a8265fd92cd01741d32bba12ef",
+      "remoteSha256": "3fdfe3374e54fc0c38784a01a61d3602bf7b789a846bd8ff5f757bcb35c6eeb7",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/sayt-yaratish-narxi-toshkent-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e27e2e4d1e5c6657866d53b1b2eb79579bfbdf53a58fd67ff61d8257277b41a8",
+      "remoteSha256": "ef940e716dca153220337b0567ce57d0069957c9e581ef8ce27c7ac884a107ea",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/seo-xizmati-narxi-ozbekiston-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fa8a3dce796a3ee5ef36d8536268eeb1aa96217f27d9a1b67749a38b74e8c640",
+      "remoteSha256": "ff6a29b503135eef07adeffbec93ac63343f442ef4ff54b5c16643412fc969c1",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/slayd-tayyorlash/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "bd2b375b39a72372a8deda83fffb688253d8f2a82aa618b78d0d52ff0aaab882",
+      "remoteSha256": "3af1478d24dcd251e78d2b46abb08ab711af292c87a885838e4551d1937001a3",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/smm-nima/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "438b412ecaea4284ecb3307dda8c281af0068c8bd2cd9cba41b8c333d3884836",
+      "remoteSha256": "1aa3fbab7e1c9aba163188a4d8fae8e0e7491d109a9bcea88e342aa9195fccea",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f48efaffea2de9020efeba58a0812b456923fc7790c3dcf0f9354d6ebeb54eed",
+      "remoteSha256": "900e8469f7f2da242b198cb1bc32220e286998da2d717f74b31252b6c822e401",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/stomatologiya-va-klinika-reklamasi/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e935b3959108547cd6dbb5cacee7139368960cdbd4440ab929bdd4dddc412f37",
+      "remoteSha256": "28a52d7311d5f95ae003417df35ff4746ceab8871439db834b3864ab3c1780b3",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/tabrik-yozish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "12e3a1a916a91866229462b01e29f5bde57a7245ef3d9533d0c7f955372a36df",
+      "remoteSha256": "bd39f23951f0c42e3316ace9275470068177ff2d30d97778a3b49b630b46d564",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/target-reklama-nima/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c55609bee03e304ee1fb763d85e8840eb1e31372ec2f7549f82343e00acd11ae",
+      "remoteSha256": "cc3fb1150acab08b9b95e795bd9f3af97a55bcb51e9acd2b8217834ef48a04ab",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/tavsifnoma-namuna/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f8cc334683451348cdad2d1a10b0b2eebd58f60f79017ee1b9e149009de761c9",
+      "remoteSha256": "023881cc22f5018e072f1a25031550d417545f09e7a3e3039ed3f9e38616370f",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0463da142042fd18c7f760dfee62f407d999007a21995e12f799da660f5fe530",
+      "remoteSha256": "19de49128f661043f406b5312d770e697bab8b6b84a3c0a43192bd9bf55776ac",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/telegram-bot-crm-yoki-menejer/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5dd3da972024c93ad3aadd57a39de40ddc95fbc7fe7a494768eedc7ac78feb80",
+      "remoteSha256": "924a172f02a3a5bbf48d3de218f2f0467bbb7a230b6e6d8a2058d64308cd05b7",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "75ac891a6d40c9e3e5b8719ac4d4b4723c88e5fa2ea917c18cabe4ac9903afab",
+      "remoteSha256": "8ac5d50b8e1d19becb76a8fcdd0954527fbf8c0efac3018c536f91ac41f271cd",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/toshkentda-biznes-uchun-chat-bot-qaysi-kanal/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b7ceefc4a6c48e73a3caf82c213307c8bd1c6f287252392170fc93f618072653",
+      "remoteSha256": "4caffbe73c245fec10c60cdb089722b6e8e2401384fe7ea5c83c0c5083f6f9f0",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3e7f8e5100005e6e8828e8f9d33e043714fea9617adcadd0b8ee96bb5d263c52",
+      "remoteSha256": "75750e32df6b2d159aa8578378dadd9b915bb0f49f8446121a3da1286212cea3",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/uzum-marketda-sotuvchi-bolish/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e00974306413c20667bd1798b77462944bb6fc8c2d235c92d14616d19e76feca",
+      "remoteSha256": "478e9559291fd8f84e18cfc4fe85ebff8b2781305069a14bd036985ad10a7d46",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/veb-sayt-yaratish-ozbekistonda-narx-turlar-va-tanlash/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e4dd790e1fcb9c83a3343c6faf301b7a64f1d0ef7a80f1adaee243b69b2ccfe3",
+      "remoteSha256": "13f242beefbe72359669d83ece2791de81f562dd42b986dd68bfa4da726b2bd4",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/whatsapp-bot-biznes-uchun-ozbekistonda/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "cb0b5ed267f8dea1308592541579aa57cfceefd65abe60e10cbc4132592c41fd",
+      "remoteSha256": "d35c0d1f93da9d348f261a373724a760d6e6bb9ca46b083fe4ad74a0f35543e3",
+      "ok": true
+    },
+    {
+      "path": "/ru/prezentatsiya-ai/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ac193c03f33b4262b4d7eb19516e15f85c59457ecd6e3ddf47e3fd35ed91e310",
+      "remoteSha256": "c4346ea4a7b7d213faa4f58456839b0bb3bb6a8682e4a85e2f931a0b0967df2c",
+      "ok": true
+    },
+    {
+      "path": "/uz/taqdimot-ai/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "54561feee18e3a0c9f8bba509ab39728dbd7a4502b34ef91a98e861f21e2ec8c",
+      "remoteSha256": "af08972d486547470b4815bebc0dfd9bfa9f7202c365fd3ac6d35bbbafb8b37a",
+      "ok": true
+    },
+    {
+      "path": "/uz/tariflar/",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c402d6c398a3f13a44f1eb19703aabc8a67e9e76cb9d33c3104da4aea5ae3424",
+      "remoteSha256": "916790b0d78ff57cb2893dd031f30bf25410aa8029667ebaa5e6f9affdfdd2ad",
+      "ok": true
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "054abe1c9092501c5e12b4f57789063ec62716424a5580b1d8eb1f8ea33bad73",
+      "remoteSha256": "054abe1c9092501c5e12b4f57789063ec62716424a5580b1d8eb1f8ea33bad73",
+      "ok": true
+    },
+    {
+      "path": "/sitemap-updates.xml",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "32d5144fcc4eb927ca424e3bff74b9ca3356f60279cb2edac3869cda7d4fac3a",
+      "remoteSha256": "32d5144fcc4eb927ca424e3bff74b9ca3356f60279cb2edac3869cda7d4fac3a",
+      "ok": true
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f3fe700f61b3abde3c2caba0d279c7301c393186db39049c505ae936c541a8fa",
+      "remoteSha256": "f3fe700f61b3abde3c2caba0d279c7301c393186db39049c505ae936c541a8fa",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/feed.xml",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "68a23f77c89a80e88aecf9fc8af00e27fec72b1c95d94c20a04de4e33321523b",
+      "remoteSha256": "68a23f77c89a80e88aecf9fc8af00e27fec72b1c95d94c20a04de4e33321523b",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/feed.xml",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "88449b86e43d51adedad458129703907a5be34e5fcedf9386eda1a71c6dee128",
+      "remoteSha256": "88449b86e43d51adedad458129703907a5be34e5fcedf9386eda1a71c6dee128",
+      "ok": true
+    },
+    {
+      "path": "/updates/atom.xml",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7cdba42de13f851e01dfab62aba6dae7b43a051c4df47c671d319184c9c985be",
+      "remoteSha256": "7cdba42de13f851e01dfab62aba6dae7b43a051c4df47c671d319184c9c985be",
+      "ok": true
+    },
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fc2ff07a392fefb10b38c80d209fe71e8abc09daaceb96db80736d92b3fa2592",
+      "remoteSha256": "fc2ff07a392fefb10b38c80d209fe71e8abc09daaceb96db80736d92b3fa2592",
+      "ok": true
+    },
+    {
+      "path": "/llms-full.txt",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d51295b2fc859c9e40b227829fb422d1ae8afc3c2c6fbc4b7927d9766a0da58a",
+      "remoteSha256": "d51295b2fc859c9e40b227829fb422d1ae8afc3c2c6fbc4b7927d9766a0da58a",
+      "ok": true
+    },
+    {
+      "path": "/assets/AdminRoot-CkCw46f7.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "53feb97980ed3a2dd131df227138f7f51ce258b1bfd5ecffefc5744a343a8dad",
+      "remoteSha256": "53feb97980ed3a2dd131df227138f7f51ce258b1bfd5ecffefc5744a343a8dad",
+      "ok": true
+    },
+    {
+      "path": "/assets/AdminRoot-CvebJVFP.css",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5d2efab8c09ee14dda6142caa15e596a7b91f4d18148d43f5c44f7e60394e0c1",
+      "remoteSha256": "5d2efab8c09ee14dda6142caa15e596a7b91f4d18148d43f5c44f7e60394e0c1",
+      "ok": true
+    },
+    {
+      "path": "/assets/AiAutopilotTab-DenBpqtJ.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ca62d2748db9a6a707a9065145ec20131b550585bba4a9f64a9a5ce0c706cd8b",
+      "remoteSha256": "ca62d2748db9a6a707a9065145ec20131b550585bba4a9f64a9a5ce0c706cd8b",
+      "ok": true
+    },
+    {
+      "path": "/assets/AiChat-106vlChF.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a6e6679ba99b5b9d4eb31194b81e2a458802051c882594ac8a7b5c5dbdc046a3",
+      "remoteSha256": "a6e6679ba99b5b9d4eb31194b81e2a458802051c882594ac8a7b5c5dbdc046a3",
+      "ok": true
+    },
+    {
+      "path": "/assets/AiTelegramCta-XSfyqZhC.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6b11dfdfa06476fc739af8640d19b43cec09cbc2445d9ea23108b8ce1b4828ff",
+      "remoteSha256": "6b11dfdfa06476fc739af8640d19b43cec09cbc2445d9ea23108b8ce1b4828ff",
+      "ok": true
+    },
+    {
+      "path": "/assets/api-C9V61hFR.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c7d9dfbd42059c5da21fb9778f19c203790f2586949cffef365494487a99c120",
+      "remoteSha256": "c7d9dfbd42059c5da21fb9778f19c203790f2586949cffef365494487a99c120",
+      "ok": true
+    },
+    {
+      "path": "/assets/BlogTeaser-CejjcMS5.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c863508c8411a4e4002b484b73c3c9581a9eff18abb12b547bda7d08610c62b7",
+      "remoteSha256": "c863508c8411a4e4002b484b73c3c9581a9eff18abb12b547bda7d08610c62b7",
+      "ok": true
+    },
+    {
+      "path": "/assets/build-GBRo4Qzw.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ed64cab86b37e45936879d9ae7917741e862e3dfbb001c47f946e8bac6f961aa",
+      "remoteSha256": "ed64cab86b37e45936879d9ae7917741e862e3dfbb001c47f946e8bac6f961aa",
+      "ok": true
+    },
+    {
+      "path": "/assets/calculator-widget-il5s5T2C.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c977b0dd5e93484eff58bbf52714d430910f4703e2dd8848853d10f43926d95c",
+      "remoteSha256": "c977b0dd5e93484eff58bbf52714d430910f4703e2dd8848853d10f43926d95c",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-account-DHux45q6.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7eef1489c24cc391058718cf480669026339fc890a8510611ba45393871dfc20",
+      "remoteSha256": "7eef1489c24cc391058718cf480669026339fc890a8510611ba45393871dfc20",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-answer-Dro0R2Qh.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9cf701991568e1c2ab772f323439fb66bcbe73b00d49917b88267f558be13ec0",
+      "remoteSha256": "9cf701991568e1c2ab772f323439fb66bcbe73b00d49917b88267f558be13ec0",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-conversion-B79eenD4.css",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a2a4e6a93ae8b15d8302d5bfae4b5bf732ecbbeab61c66dcd666e86375f89f00",
+      "remoteSha256": "a2a4e6a93ae8b15d8302d5bfae4b5bf732ecbbeab61c66dcd666e86375f89f00",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-conversion-CaIWo49n.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "747664bb88400f854e47f0037818a2f8555f1aa39667f142c3da661d2ad9b472",
+      "remoteSha256": "747664bb88400f854e47f0037818a2f8555f1aa39667f142c3da661d2ad9b472",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-lead-CYSfQxua.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5105578fcfe4dec97db1767ef859f941f7d95fa05cee62ad9fd707ca1b83a1ba",
+      "remoteSha256": "5105578fcfe4dec97db1767ef859f941f7d95fa05cee62ad9fd707ca1b83a1ba",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-limit-DLYLAWFB.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "5c6d213b9c54d30dbb57783fac7f33914fa19bb24e410714b1ea805b5a82f0c5",
+      "remoteSha256": "5c6d213b9c54d30dbb57783fac7f33914fa19bb24e410714b1ea805b5a82f0c5",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-presentation-DCIYo2Zg.css",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c1b9e3db3d1c9d1b4d240a3547d049db2c9b943ff2307148a081e57fefe9e608",
+      "remoteSha256": "c1b9e3db3d1c9d1b4d240a3547d049db2c9b943ff2307148a081e57fefe9e608",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-presentation-IxwEoEk4.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "85bd0fc76b3241db0a4067cc90a981422707ddaa13bb1ab102338d1bde11986d",
+      "remoteSha256": "85bd0fc76b3241db0a4067cc90a981422707ddaa13bb1ab102338d1bde11986d",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-role-BvnnB7pY.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0706454f04c21db6c80188661afeaf894772180c287c34fcbda88818e69e20bd",
+      "remoteSha256": "0706454f04c21db6c80188661afeaf894772180c287c34fcbda88818e69e20bd",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-tool-DC6OQtHi.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8fc09493623534d2ac23e0931dca73c0d6676a3c5cc3c66a26de40bc8ce2cda8",
+      "remoteSha256": "8fc09493623534d2ac23e0931dca73c0d6676a3c5cc3c66a26de40bc8ce2cda8",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-tools-C1_bdpg2.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8d1b7bd36033f9134bad72d9fefb4ac2e68d705a709a4c703ac5cf9f4fdaca59",
+      "remoteSha256": "8d1b7bd36033f9134bad72d9fefb4ac2e68d705a709a4c703ac5cf9f4fdaca59",
+      "ok": true
+    },
+    {
+      "path": "/assets/chat-turnstile-D6mGbcRV.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1a86b0732a3eccf8bfba300904589218898e137436dac9f2bb6ae349ab9a3c46",
+      "remoteSha256": "1a86b0732a3eccf8bfba300904589218898e137436dac9f2bb6ae349ab9a3c46",
+      "ok": true
+    },
+    {
+      "path": "/assets/Checkout-CnHfWGLK.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "80445ed4b3510e35e461cea2e67b1e8edec99e9e989742711c582cb0949f442f",
+      "remoteSha256": "80445ed4b3510e35e461cea2e67b1e8edec99e9e989742711c582cb0949f442f",
+      "ok": true
+    },
+    {
+      "path": "/assets/cta-McC50xOP.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a8c6c4ce75916504e50d18baa2d461ced6d7d0868eec545bcb5b80a49e02d435",
+      "remoteSha256": "a8c6c4ce75916504e50d18baa2d461ced6d7d0868eec545bcb5b80a49e02d435",
+      "ok": true
+    },
+    {
+      "path": "/assets/DemoChat-Ce-W7vKk.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3f397bd83a1b68b99bac3ea26395166a948ed7b55dceee524aaff6350cd532cc",
+      "remoteSha256": "3f397bd83a1b68b99bac3ea26395166a948ed7b55dceee524aaff6350cd532cc",
+      "ok": true
+    },
+    {
+      "path": "/assets/DocumentExport-DE13ipum.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "396ddc683a473cd1453accf7e11c7f55ff8f1d72e7c2811b6ac5d732d6c39ee5",
+      "remoteSha256": "396ddc683a473cd1453accf7e11c7f55ff8f1d72e7c2811b6ac5d732d6c39ee5",
+      "ok": true
+    },
+    {
+      "path": "/assets/Documents-DupSm7jq.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d297cb3ee6805c846d9a75c47a7b98d1318bb0c5e056af04f34b5b643b62a782",
+      "remoteSha256": "d297cb3ee6805c846d9a75c47a7b98d1318bb0c5e056af04f34b5b643b62a782",
+      "ok": true
+    },
+    {
+      "path": "/assets/FAQ-DwkJ_zKv.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "bcdcf60c96698c4c8c47cc027493cc42c4c0c557543e7ebcd73020b737cce586",
+      "remoteSha256": "bcdcf60c96698c4c8c47cc027493cc42c4c0c557543e7ebcd73020b737cce586",
+      "ok": true
+    },
+    {
+      "path": "/assets/FinalCTA-isX_wkQ3.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e4e06a423932c25a0ba5494026e3a5af69d71ec83c36722759ee9e1e77808298",
+      "remoteSha256": "e4e06a423932c25a0ba5494026e3a5af69d71ec83c36722759ee9e1e77808298",
+      "ok": true
+    },
+    {
+      "path": "/assets/Footer-Cu6QoPgl.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ef992fe9d1287abcdfdf7a163e57f7534de0180d0c1deb6ebc42095da6fd3235",
+      "remoteSha256": "ef992fe9d1287abcdfdf7a163e57f7534de0180d0c1deb6ebc42095da6fd3235",
+      "ok": true
+    },
+    {
+      "path": "/assets/gpt-chat-CNoiPl9O.css",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ba579b2b9649e8343f0a5933a63150217bc32fc11150aaba6f076ca76e1ac204",
+      "remoteSha256": "ba579b2b9649e8343f0a5933a63150217bc32fc11150aaba6f076ca76e1ac204",
+      "ok": true
+    },
+    {
+      "path": "/assets/gpt-chat-DImWETvK.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "70b45d75182a8a557564823fa004b68751ba4b6cd622efc931b634bf0b22b94a",
+      "remoteSha256": "70b45d75182a8a557564823fa004b68751ba4b6cd622efc931b634bf0b22b94a",
+      "ok": true
+    },
+    {
+      "path": "/assets/index-DYZtETUs.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "05495062207dcd46701b90b2b87eabc8b93c5599118a61ed3e76852bdc948c2c",
+      "remoteSha256": "05495062207dcd46701b90b2b87eabc8b93c5599118a61ed3e76852bdc948c2c",
+      "ok": true
+    },
+    {
+      "path": "/assets/index-Hd8oCjGX.css",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "71b372bb00ba2f0cf99ef67c4b4a9d2b2252b352e31e268b8a730dec5809b3dd",
+      "remoteSha256": "71b372bb00ba2f0cf99ef67c4b4a9d2b2252b352e31e268b8a730dec5809b3dd",
+      "ok": true
+    },
+    {
+      "path": "/assets/irregular-verbs-ufapWNNt.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3f37a05a4fbc820bda1eec674936f83cf5e2c21e39f9ba0b06a19645529e2356",
+      "remoteSha256": "3f37a05a4fbc820bda1eec674936f83cf5e2c21e39f9ba0b06a19645529e2356",
+      "ok": true
+    },
+    {
+      "path": "/assets/lead-attribution-DmPMcd4F.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "2ead65b93b5ca19f5c128e5978df700e897657e2b791b0aa80254dfc2bbefb5d",
+      "remoteSha256": "2ead65b93b5ca19f5c128e5978df700e897657e2b791b0aa80254dfc2bbefb5d",
+      "ok": true
+    },
+    {
+      "path": "/assets/MyPack-_mQLZHyu.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "46a6eb20133b0d676c69847ee8d6413caba967ff5f61338160da11cc966e3edc",
+      "remoteSha256": "46a6eb20133b0d676c69847ee8d6413caba967ff5f61338160da11cc966e3edc",
+      "ok": true
+    },
+    {
+      "path": "/assets/Niches-D4GsXZip.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "89c7581eec583da4d6a60882e8d806d59a30b310500ddba9a9d2ab153622b652",
+      "remoteSha256": "89c7581eec583da4d6a60882e8d806d59a30b310500ddba9a9d2ab153622b652",
+      "ok": true
+    },
+    {
+      "path": "/assets/Offer-B1D3OBx9.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "05d03ec444a1daef0da1d889130792c97a7e80acfd51da65b449d096b1480f4a",
+      "remoteSha256": "05d03ec444a1daef0da1d889130792c97a7e80acfd51da65b449d096b1480f4a",
+      "ok": true
+    },
+    {
+      "path": "/assets/PayReturn-V6gxs86F.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7c649136a20622e989c51252593b8d3793bc4fed80c4cd4370869e310de67ed9",
+      "remoteSha256": "7c649136a20622e989c51252593b8d3793bc4fed80c4cd4370869e310de67ed9",
+      "ok": true
+    },
+    {
+      "path": "/assets/pptxgen.es-Br1QqE94.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "eb0ed999b4cdc6ac259519348fb7a4fa8c5fef9f1aff4d4d2dce4f98260c1176",
+      "remoteSha256": "eb0ed999b4cdc6ac259519348fb7a4fa8c5fef9f1aff4d4d2dce4f98260c1176",
+      "ok": true
+    },
+    {
+      "path": "/assets/practice-quiz-C_5SYOVQ.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c673ac16569f0d0af954f61d7c42a86635427766e8e9f258c2601e14e82430fe",
+      "remoteSha256": "c673ac16569f0d0af954f61d7c42a86635427766e8e9f258c2601e14e82430fe",
+      "ok": true
+    },
+    {
+      "path": "/assets/preload-helper-BVgr1GO9.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ba9582c195e21818d1ebd9e404e786f5837f56b153089ceebca83d6de515f155",
+      "remoteSha256": "ba9582c195e21818d1ebd9e404e786f5837f56b153089ceebca83d6de515f155",
+      "ok": true
+    },
+    {
+      "path": "/assets/PresentationSheets-_az8cXEI.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "2b9b7a73bb83ac8fa819f0989e4711d99fffd0a496812415530bad4e3fb02854",
+      "remoteSha256": "2b9b7a73bb83ac8fa819f0989e4711d99fffd0a496812415530bad4e3fb02854",
+      "ok": true
+    },
+    {
+      "path": "/assets/PromotionServices-2ANj0NCm.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e1944c67e01ed0e77b6aca009229aff196bfd36ea801634e0362bdbfb7a85c9e",
+      "remoteSha256": "e1944c67e01ed0e77b6aca009229aff196bfd36ea801634e0362bdbfb7a85c9e",
+      "ok": true
+    },
+    {
+      "path": "/assets/rolldown-runtime-kjsH4l9N.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "13043b02910ce5be4f0aa3d073ec858afb96f71c5344711d947d94f19ffe2ef7",
+      "remoteSha256": "13043b02910ce5be4f0aa3d073ec858afb96f71c5344711d947d94f19ffe2ef7",
+      "ok": true
+    },
+    {
+      "path": "/assets/serpHandoff-D-zWqJ-f.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c869f3741c3b3cbda4d8b005159f06fb1aeb2762d9f52a9fe2ce15efa8657445",
+      "remoteSha256": "c869f3741c3b3cbda4d8b005159f06fb1aeb2762d9f52a9fe2ce15efa8657445",
+      "ok": true
+    },
+    {
+      "path": "/assets/SerpIntelligenceTab-nPFtEC70.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "588fd13e27a9961b71c8eccfdfc40d6cb142fd51722e3a5b296c791f6ebee468",
+      "remoteSha256": "588fd13e27a9961b71c8eccfdfc40d6cb142fd51722e3a5b296c791f6ebee468",
+      "ok": true
+    },
+    {
+      "path": "/assets/SlideCanvas-DwUYDVPk.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "2b2a94234764772b3e5c74dc71869f2a7ec8cfbf88574d435462ce918aba347e",
+      "remoteSha256": "2b2a94234764772b3e5c74dc71869f2a7ec8cfbf88574d435462ce918aba347e",
+      "ok": true
+    },
+    {
+      "path": "/assets/Solution-C1XpcLmO.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "48394be0e7164598dfb40bcb022267cb0b431b76195a4367de7b7843de1966ab",
+      "remoteSha256": "48394be0e7164598dfb40bcb022267cb0b431b76195a4367de7b7843de1966ab",
+      "ok": true
+    },
+    {
+      "path": "/assets/SolutionsGrid-1RiH7wIb.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d051e7acc30810bafbc7005cfe70beb053059a6641c87dee4d00b57328f31dc3",
+      "remoteSha256": "d051e7acc30810bafbc7005cfe70beb053059a6641c87dee4d00b57328f31dc3",
+      "ok": true
+    },
+    {
+      "path": "/assets/StickyCTA-93eWOlGK.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "09705c50276383509491b5b2a1bfdb93cf525e336ef265c4ea828885bfc721e3",
+      "remoteSha256": "09705c50276383509491b5b2a1bfdb93cf525e336ef265c4ea828885bfc721e3",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio-contact-D9YmF4p7.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a209e6148afc7ac14f9e8701970dd103c8d16aefbeafa2f064551e1a051256f8",
+      "remoteSha256": "a209e6148afc7ac14f9e8701970dd103c8d16aefbeafa2f064551e1a051256f8",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio-offer-BqGAjZFG.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3a850aa04815eeef0037bf08e398b8a21d2cb8998f7635991fd5959c95a44586",
+      "remoteSha256": "3a850aa04815eeef0037bf08e398b8a21d2cb8998f7635991fd5959c95a44586",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio-offer-DLDYLigD.css",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1f3b2d63ba595dc80b0961cd830ac7f653bbad3181e6affb01137936f5015482",
+      "remoteSha256": "1f3b2d63ba595dc80b0961cd830ac7f653bbad3181e6affb01137936f5015482",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio-runtime-DVuGjhti.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "530c66511e1a04723cd1c4f208cef394d3a4d9adac9e010613edcdef0cefd07b",
+      "remoteSha256": "530c66511e1a04723cd1c4f208cef394d3a4d9adac9e010613edcdef0cefd07b",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio-slides-Bkr96jQK.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "c4ba2a67e8c14430f5995131342491f5c4944064988cdccc5b5356a93a906eb2",
+      "remoteSha256": "c4ba2a67e8c14430f5995131342491f5c4944064988cdccc5b5356a93a906eb2",
+      "ok": true
+    },
+    {
+      "path": "/assets/StudioOffer-beTwsTys.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "aa346188c4f835c12732a7660dfb07ff4e953cd824492df10125ab75a6544bf4",
+      "remoteSha256": "aa346188c4f835c12732a7660dfb07ff4e953cd824492df10125ab75a6544bf4",
+      "ok": true
+    },
+    {
+      "path": "/assets/StudioOfferExample-D2g-XyeY.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b123a7aee4fd4ad403f8dcf2a4fa8b1a65147b9247b2493210f25d3393ed32a4",
+      "remoteSha256": "b123a7aee4fd4ad403f8dcf2a4fa8b1a65147b9247b2493210f25d3393ed32a4",
+      "ok": true
+    },
+    {
+      "path": "/assets/telegram-cost-calculator-D-TEznRn.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "08bd3b3332d19674c140cf8b665d8dc477b7c0a7c8d9ceeafea1f002dfe0b6ec",
+      "remoteSha256": "08bd3b3332d19674c140cf8b665d8dc477b7c0a7c8d9ceeafea1f002dfe0b6ec",
+      "ok": true
+    },
+    {
+      "path": "/assets/texts-CAhLiqYI.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ce03a1f5e5b9c28eaa45991fa30a7c39088dbf33a07f713d8b5c620ca538ebc4",
+      "remoteSha256": "ce03a1f5e5b9c28eaa45991fa30a7c39088dbf33a07f713d8b5c620ca538ebc4",
+      "ok": true
+    },
+    {
+      "path": "/assets/turnstile-DGTrsUyL.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0014b0a6fafc826f6ad71bcbdf84fd0bf6d694a4278eabfc9e252f97f6e7954e",
+      "remoteSha256": "0014b0a6fafc826f6ad71bcbdf84fd0bf6d694a4278eabfc9e252f97f6e7954e",
+      "ok": true
+    },
+    {
+      "path": "/assets/TurnstileChallenge-CZz7fA6f.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "75f86cc48118a377df02d36abf42c4211d22a1ca14fee3f25b5ae296194885a3",
+      "remoteSha256": "75f86cc48118a377df02d36abf42c4211d22a1ca14fee3f25b5ae296194885a3",
+      "ok": true
+    },
+    {
+      "path": "/assets/uz-translit-BXtwYtO3.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e3f7690686ef20e6767789580935b8997d9eaee8663379a95c16d94beb259300",
+      "remoteSha256": "e3f7690686ef20e6767789580935b8997d9eaee8663379a95c16d94beb259300",
+      "ok": true
+    },
+    {
+      "path": "/assets/vendor-DSTW_80r.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "348db512ff99ef9a3b5023d82c38a28052340ec4cac3ad2307d8eb7edf5439c2",
+      "remoteSha256": "348db512ff99ef9a3b5023d82c38a28052340ec4cac3ad2307d8eb7edf5439c2",
+      "ok": true
+    },
+    {
+      "path": "/assets/yandexMetrika-DEM7BaDp.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "75a5e2ff34f918e473f1d3733421a9b167e9fdc02e2d4ee979cfb81b50df97c8",
+      "remoteSha256": "75a5e2ff34f918e473f1d3733421a9b167e9fdc02e2d4ee979cfb81b50df97c8",
+      "ok": true
+    },
+    {
+      "path": "/assets/__vite-browser-external-BnHmDH7I.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "078284234c34be40167b97dbc20b6b1b871d687a421ed3e882d2595c10d63a45",
+      "remoteSha256": "078284234c34be40167b97dbc20b6b1b871d687a421ed3e882d2595c10d63a45",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/build-BCjty5-N.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "4f43e6bd280fe64b7a028173663cd01a960c9d347dbf01126e1fd0c89aa75246",
+      "remoteSha256": "4f43e6bd280fe64b7a028173663cd01a960c9d347dbf01126e1fd0c89aa75246",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/DocumentExport-CyjLVaoj.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "eef3280fc7775f629227f1456bc652f193873a0744ff3799d483b69eca025903",
+      "remoteSha256": "eef3280fc7775f629227f1456bc652f193873a0744ff3799d483b69eca025903",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/Island-DmNzuRDr.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "061f1d649b5867f9c7801881941ae2afa79a2023c4a1d7429606a9358c16eaa0",
+      "remoteSha256": "061f1d649b5867f9c7801881941ae2afa79a2023c4a1d7429606a9358c16eaa0",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/MyPack-C0qq43Ef.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d9debaf13de9566b21c0d694c3e2ebe49bc1f234962080a860cabc40e88024f6",
+      "remoteSha256": "d9debaf13de9566b21c0d694c3e2ebe49bc1f234962080a860cabc40e88024f6",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/PayReturn-CWiyZq2A.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "78857406d0523f62b8c40c3453d6ecd6afd83774a34ca0ea5dfd516148ab9730",
+      "remoteSha256": "78857406d0523f62b8c40c3453d6ecd6afd83774a34ca0ea5dfd516148ab9730",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/pptxgen.es-DghHz8d8.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "641a7f62db51b5f8afdef6f05782652a22143833e9c60c6c1894d78f7c081c4b",
+      "remoteSha256": "641a7f62db51b5f8afdef6f05782652a22143833e9c60c6c1894d78f7c081c4b",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/rolldown-runtime-W7wSyTde.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "ba03c472dc22425d3172a1d58a7f5ffe871faaf8f2c94eb503882fa17fc78d48",
+      "remoteSha256": "ba03c472dc22425d3172a1d58a7f5ffe871faaf8f2c94eb503882fa17fc78d48",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/studio-BKtNcxKU.css",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "57e56fc2c9594393789339f06a28dddcdfaad909f64cee4aa10ca887a76022b8",
+      "remoteSha256": "57e56fc2c9594393789339f06a28dddcdfaad909f64cee4aa10ca887a76022b8",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/studio-dRbXx-To.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7acccdd90a2a9017a4fb74c2f38a29457aed5fc552583440f425407e6a2fa8bc",
+      "remoteSha256": "7acccdd90a2a9017a4fb74c2f38a29457aed5fc552583440f425407e6a2fa8bc",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/Tariffs-CcX1_Pi4.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3d53fea4c4816396c4f7aab70d3f06898946be221514945ecd6f67bfa5fc9639",
+      "remoteSha256": "3d53fea4c4816396c4f7aab70d3f06898946be221514945ecd6f67bfa5fc9639",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/texts-BJ_2FB62.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fc02e03decdddaccf6bbafa6a764f901bc2d3f1509f2d4063fe069938226b483",
+      "remoteSha256": "fc02e03decdddaccf6bbafa6a764f901bc2d3f1509f2d4063fe069938226b483",
+      "ok": true
+    },
+    {
+      "path": "/assets/studio/__vite-browser-external-QhCs1atf.js",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "bcea6aecc2b1cf159f1e9a94a5f3ee1c5fadfc1afce363ba72c1c8154ecca142",
+      "remoteSha256": "bcea6aecc2b1cf159f1e9a94a5f3ee1c5fadfc1afce363ba72c1c8154ecca142",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-dlya-biznesa/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "51584f3d92ad5236b8db90116311fd167c11c5de9ad6d24f8486687559bd0b86",
+      "remoteSha256": "51584f3d92ad5236b8db90116311fd167c11c5de9ad6d24f8486687559bd0b86",
+      "ok": true
+    },
+    {
+      "path": "/ru/ai-bot-s-crm-amocrm-bitrix24/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "8b32e9da03921a45d8dafdbaed3780a766dd73668c9c8dee86092c92d8fe2d0f",
+      "remoteSha256": "8b32e9da03921a45d8dafdbaed3780a766dd73668c9c8dee86092c92d8fe2d0f",
+      "ok": true
+    },
+    {
+      "path": "/ru/avtomatizatsiya-zayavok/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "0e05d55872b6e7eeaa255bbbc86b41648eb58f5aee08181358a58c7a90083a76",
+      "remoteSha256": "0e05d55872b6e7eeaa255bbbc86b41648eb58f5aee08181358a58c7a90083a76",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/chatgpt-i-claude-v-uzbekistane/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "f2a73019a8cc9113f344275992442dca090b55df5071ace0e79c6022b4a69f84",
+      "remoteSha256": "f2a73019a8cc9113f344275992442dca090b55df5071ace0e79c6022b4a69f84",
+      "ok": true
+    },
+    {
+      "path": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "13768b0c6bc51b381981195f3bd42afdd9ac408bae5a4869895f8a4527068a9f",
+      "remoteSha256": "13768b0c6bc51b381981195f3bd42afdd9ac408bae5a4869895f8a4527068a9f",
+      "ok": true
+    },
+    {
+      "path": "/ru/internet-reklama-tashkent/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "6e78e692763ca5c93ba8b72946aa304704f37661bca33bb3f04b2227ba09e381",
+      "remoteSha256": "6e78e692763ca5c93ba8b72946aa304704f37661bca33bb3f04b2227ba09e381",
+      "ok": true
+    },
+    {
+      "path": "/ru/razrabotka-saytov-tashkent/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "759c3267d6f90bdbb7f678ebdc2d1c1aa0e82e5f41f21ea2971d87373577dce6",
+      "remoteSha256": "759c3267d6f90bdbb7f678ebdc2d1c1aa0e82e5f41f21ea2971d87373577dce6",
+      "ok": true
+    },
+    {
+      "path": "/ru/razrabotka-telegram-bota-tashkent/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "02bc65265b0a9a61ff0fbf08beb7591c566dc099388761178d73bc42e69b7cd0",
+      "remoteSha256": "02bc65265b0a9a61ff0fbf08beb7591c566dc099388761178d73bc42e69b7cd0",
+      "ok": true
+    },
+    {
+      "path": "/ru/sayt-dlya-zayavok/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3b1b3ff8387ff89ffd58abff9f3493599d5ae5bca896bc99e617c4fe9db35f2a",
+      "remoteSha256": "3b1b3ff8387ff89ffd58abff9f3493599d5ae5bca896bc99e617c4fe9db35f2a",
+      "ok": true
+    },
+    {
+      "path": "/ru/sayt-s-ai-botom/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "794e34ece28bb5a99077422b6a6c75889a45221ae6e8327d96f17cf4740d752b",
+      "remoteSha256": "794e34ece28bb5a99077422b6a6c75889a45221ae6e8327d96f17cf4740d752b",
+      "ok": true
+    },
+    {
+      "path": "/ru/smm-prodvizhenie-tashkent/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "77eeae3f877c92200a956d7f0774ccfdd583244563d3b39a41e819280a056a7a",
+      "remoteSha256": "77eeae3f877c92200a956d7f0774ccfdd583244563d3b39a41e819280a056a7a",
+      "ok": true
+    },
+    {
+      "path": "/ru/sozdanie-sayta-dlya-biznesa/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "3180cdecf909c2cd6825a6ab4d05942bc2b20d4a57fb7f82b83140e7d8369820",
+      "remoteSha256": "3180cdecf909c2cd6825a6ab4d05942bc2b20d4a57fb7f82b83140e7d8369820",
+      "ok": true
+    },
+    {
+      "path": "/ru/targetirovannaya-reklama-tashkent/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1c1db56e29135649f232fa5dbc3b86c688801bccc568ee0a08a4490350af5a65",
+      "remoteSha256": "1c1db56e29135649f232fa5dbc3b86c688801bccc568ee0a08a4490350af5a65",
+      "ok": true
+    },
+    {
+      "path": "/ru/telegram-bot-dlya-biznesa/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "4ac02967ae8d2bfd4eeabf235a07f9857fce3661448d53d66264fb3d00528642",
+      "remoteSha256": "4ac02967ae8d2bfd4eeabf235a07f9857fce3661448d53d66264fb3d00528642",
+      "ok": true
+    },
+    {
+      "path": "/uz/biznes-uchun-ai-bot/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "24cdfabea4cfb8730a2b621d1d95aa5b99b97f94c625aeca3362b3737f5d043a",
+      "remoteSha256": "24cdfabea4cfb8730a2b621d1d95aa5b99b97f94c625aeca3362b3737f5d043a",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "fdbf0160daa93c6b258fcd8158efa3ff10d5c74ad450947171555fb1470c0f23",
+      "remoteSha256": "fdbf0160daa93c6b258fcd8158efa3ff10d5c74ad450947171555fb1470c0f23",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "bf4f9a719b7d4537737548e7f7f1c7d574c4d3d932fb2450282f5cae066d269f",
+      "remoteSha256": "bf4f9a719b7d4537737548e7f7f1c7d574c4d3d932fb2450282f5cae066d269f",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d2088b86fef644446b8d04fa072537dd6a164502872164159bd7e7011d1d1419",
+      "remoteSha256": "d2088b86fef644446b8d04fa072537dd6a164502872164159bd7e7011d1d1419",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgpt-uzbek-tilida-promptlar/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "d0511fd2390fe47bd99e9e358b3dd757057c2b4d30fbbeabd636fea3c33d1fae",
+      "remoteSha256": "d0511fd2390fe47bd99e9e358b3dd757057c2b4d30fbbeabd636fea3c33d1fae",
+      "ok": true
+    },
+    {
+      "path": "/uz/blog/chatgptga-qanday-kirish-mumkin/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "00e67eea192e9193ed4976e97c5451b1c6a3993aa49dd5f93c17901c7347e31c",
+      "remoteSha256": "00e67eea192e9193ed4976e97c5451b1c6a3993aa49dd5f93c17901c7347e31c",
+      "ok": true
+    },
+    {
+      "path": "/uz/gpt-uzbek-tilida/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "7976fe969570b1f206b939b9a2fbe586983e2a61726a54e0a112617df4b70672",
+      "remoteSha256": "7976fe969570b1f206b939b9a2fbe586983e2a61726a54e0a112617df4b70672",
+      "ok": true
+    },
+    {
+      "path": "/uz/instagram-target-yoqish/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "b206ecce36a086768cd1252880c3ccd38848e9ea2291aaf840993f29ea39b301",
+      "remoteSha256": "b206ecce36a086768cd1252880c3ccd38848e9ea2291aaf840993f29ea39b301",
+      "ok": true
+    },
+    {
+      "path": "/uz/internet-reklama-toshkent/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "799a48cf27883f0471ec107fdce99c24ca951fae04bb6043d382f3f4b0c16a85",
+      "remoteSha256": "799a48cf27883f0471ec107fdce99c24ca951fae04bb6043d382f3f4b0c16a85",
+      "ok": true
+    },
+    {
+      "path": "/uz/sayt-yaratish/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "9456bdc9d0563a1ea5e6d479163958f8a1496f52582014968de473852154c503",
+      "remoteSha256": "9456bdc9d0563a1ea5e6d479163958f8a1496f52582014968de473852154c503",
+      "ok": true
+    },
+    {
+      "path": "/uz/seo-xizmati/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "1749ff41dc40ffbdd1f6b6b0654aeca6ee5fcfabecadd160a24a239468cf5957",
+      "remoteSha256": "1749ff41dc40ffbdd1f6b6b0654aeca6ee5fcfabecadd160a24a239468cf5957",
+      "ok": true
+    },
+    {
+      "path": "/uz/smm-xizmatlari/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "e52a2377c05fb93a8db2fcca976ee1e42412b6f29c744cacd61c45b975645577",
+      "remoteSha256": "e52a2377c05fb93a8db2fcca976ee1e42412b6f29c744cacd61c45b975645577",
+      "ok": true
+    },
+    {
+      "path": "/uz/telegram-bot-biznes-uchun/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a8d1d8228fc55745ecccd86e0c1ec0d3b514079e6f2a88cc853496072fd0c3a7",
+      "remoteSha256": "a8d1d8228fc55745ecccd86e0c1ec0d3b514079e6f2a88cc853496072fd0c3a7",
+      "ok": true
+    },
+    {
+      "path": "/uz/telegram-reklama/index.html.md",
+      "status": 200,
+      "sameUrl": true,
+      "exactExpectedBytes": true,
+      "localSha256": "a414025399520a4531a961122f706cd8e5f871d8ac8841db6c42ced6740c5898",
+      "remoteSha256": "a414025399520a4531a961122f706cd8e5f871d8ac8841db6c42ced6740c5898",
+      "ok": true
+    }
+  ],
+  "passed": 443,
+  "failed": 0
+}
