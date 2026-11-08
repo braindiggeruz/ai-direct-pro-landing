@@ -56,6 +56,29 @@ export function serviceFromUtmJson(utmJson: string | null): string | null {
   }
 }
 
+/** Route from durable attribution so immediate delivery and retries agree.
+ * Only this page changes sender. The destination is server configuration,
+ * never a value supplied by the visitor; existing global notifications keep
+ * their original resolver and fallbacks.
+ */
+function leadNotificationEnv(env: BridgeEnv, row: PendingLeadRow, service: string | null): BridgeEnv {
+  if (
+    row.source !== 'page_form'
+    || row.page_url !== '/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/'
+    || service !== 'ai-bot'
+  ) return env;
+
+  return {
+    ...env,
+    GPT_NOTIFY_BOT_TOKEN: (env.GPT_CAMPAIGN_NOTIFY_BOT_TOKEN ?? '').trim(),
+    GPT_NOTIFY_CHAT_ID: (env.GPT_NOTIFY_CHAT_ID ?? '').trim(),
+    // An incomplete campaign pair must remain in the durable blocked queue,
+    // not silently switch sender or recipient through the global fallbacks.
+    TELEGRAM_ASSISTANT_BOT_TOKEN: undefined,
+    TELEGRAM_ADMIN_CHAT_ID: undefined,
+  };
+}
+
 function retryAt(now: Date, attemptCount: number): string {
   const seconds = Math.min(60 * 60, 30 * (2 ** Math.min(7, Math.max(0, attemptCount))));
   return new Date(now.getTime() + seconds * 1000).toISOString();
@@ -156,7 +179,7 @@ export async function deliverLeadOutboxItem(
     service: serviceFromUtmJson(row.utm_json),
     budget: normalizeLeadBudget(row.budget),
   };
-  const result = await sendOwnerAlert(env, buildLeadAlert(alert), delivery);
+  const result = await sendOwnerAlert(leadNotificationEnv(env, row, alert.service ?? null), buildLeadAlert(alert), delivery);
   if (result.status === 'sent') {
     await db.prepare(
       `UPDATE gpt_lead_outbox

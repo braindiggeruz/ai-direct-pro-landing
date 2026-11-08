@@ -41,11 +41,11 @@ test('campaign SSR provides one offline demo and one inert-until-bound real form
   assert.match(html, /Запрос на запись — ещё не бронь/);
   assert.match(html, /<noscript>/);
   assert.equal((html.match(/loading="eager"/g) || []).length, 1);
-  assert.match(html, /hero-640\.webp 640w/);
+  assert.match(html, /\/assets\/campaigns\/ai-routine\/dark\/hero-640\.webp 640w/);
 });
 
 test('campaign illustrations have real WebP payloads within a conservative mobile budget', () => {
-  const assets = path.join(root, 'public/assets/campaigns/ai-routine');
+  const assets = path.join(root, 'public/assets/campaigns/ai-routine/dark');
   const budgets: Record<string, number> = {
     'hero-640.webp': 60000, 'hero-1200.webp': 120000, 'hero-1600.webp': 180000,
     'c02-late-message-960.webp': 100000, 'c03-three-questions-960.webp': 100000,
@@ -62,11 +62,12 @@ test('campaign illustrations have real WebP payloads within a conservative mobil
 test('built campaign keeps canonical, social image and unique interactive entry points', { skip: !fs.existsSync(built) }, () => {
   const html = fs.readFileSync(built, 'utf8');
   assert.match(html, new RegExp(`<link rel="canonical" href="https://gptbot\\.uz${VIRAL_ARTICLE_URL}"`));
-  assert.match(html, /<meta property="og:image" content="https:\/\/gptbot\.uz\/assets\/campaigns\/ai-routine\/og\.webp"/);
+  assert.match(html, /<meta property="og:image" content="https:\/\/gptbot\.uz\/assets\/campaigns\/ai-routine\/dark\/og\.webp"/);
   for (const pattern of [/<h1\b/g, /id="lead-demo"/g, /id="lead-form"/g, /<form\b/g, /<script data-lead-form-script/g]) {
     assert.equal((html.match(pattern) || []).length, 1, String(pattern));
   }
-  assert.match(html, /href="\/assets\/campaigns\/ai-routine\/landing\.css"/);
+  assert.match(html, /href="\/assets\/campaigns\/ai-routine\/landing-dark\.css"/);
+  assert.doesNotMatch(html, /(?:src|href|content)="(?:https:\/\/gptbot\.uz)?\/assets\/campaigns\/ai-routine\/(?:hero-|c0[2-5]-|og\.webp|landing\.css)/, 'the published light assets remain immutable but are no longer used here');
   assert.match(html, /href="\/ru\/ai-bot-dlya-biznesa\/"/);
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
   assert.equal(new Set(ids).size, ids.length, 'duplicate IDs would break labels and anchor navigation');

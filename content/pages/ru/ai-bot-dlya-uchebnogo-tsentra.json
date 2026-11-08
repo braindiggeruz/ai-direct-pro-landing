@@ -295,6 +295,12 @@
       "anchor": "бот для ответов родителям",
       "locale": "ru",
       "type": "niche"
+    },
+    {
+      "target": "/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/",
+      "anchor": "Учебный пример: от вопроса о курсе до заявки",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

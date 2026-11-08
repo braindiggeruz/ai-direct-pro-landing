@@ -474,7 +474,7 @@ ${LLM_MARKDOWN_URLS.has(a.url)
 <link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
 ${cssLinks}
-${viral ? '<link rel="stylesheet" href="/assets/campaigns/ai-routine/landing.css" />' : ''}
+${viral ? '<link rel="stylesheet" href="/assets/campaigns/ai-routine/landing-dark.css" />' : ''}
 
 <script type="application/ld+json">${buildJsonLd(a, global)}</script>
 ${FIRST_TOUCH_SCRIPT}

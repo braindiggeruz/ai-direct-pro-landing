@@ -1,3 +1,13 @@
+# Current handoff — dark brand correction and campaign delivery · 08.11.2026
+
+**VALIDATED CANDIDATE, release pending.** Owner corrected the standalone light design and explicitly requested safe SEO linking and leads through @gptbotuz_bot. Dark palette/components now match existing GPTBot pages; dark original art and ten new creative PNGs are ready. Previous light assets remain immutable. Two incoming links and one service link added; all 330 indexation/metadata contracts preserved, 327 HTML documents unchanged, ten protected pages pass unchanged baseline.
+
+Campaign sender is isolated in durable lead-outbox routing by exact page/source/service. Only the new GPT_CAMPAIGN_NOTIFY_BOT_TOKEN binding was added; recipient reuses existing explicit GPT_NOTIFY_CHAT_ID. No shared-token replacement, webhook mutation, billing change or worker deployment. Bot identity verified and webhook unchanged after secret configuration. Pending: release and one marked synthetic lead with its own outbox receipt.
+
+50 SEO + 58 delivery + 4 campaign tests and 13 browser checks pass; web/Functions typechecks and lint pass. Scope, maintenance and rollback: [implementation](../../reports/viral-dark-20261108/IMPLEMENTATION.md). Artifact root: `C:/Users/Borinio/.codex/visualizations/2026/11/08/01a1b921-58ac-72f3-af9a-3684d2e788b4/gptbot-viral-dark-20261108`. This section supersedes the earlier light campaign design only; previous operational records are preserved below.
+
+---
+
 # Current handoff — viral campaign landing · 08.11.2026
 
 **DEPLOYED / VERIFIED.** Runtime `3fcdcd127009d67e475931c7f3369bd40f7f5011`, Pages `4e7035a0`; strict public readback **454/454 PASS**, including all 330 HTML URLs and the new campaign assets. Owner authorized creating and publishing `/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/` and five original creative concepts. This explicit scope supersedes the earlier SEO observation-only next stage for this landing only. Meta campaigns/budgets remain untouched.

@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-11-08T07:01:20.177Z",
+  "urls": 330,
+  "unchangedHtmlAndSeo": 327,
+  "changed": [
+    {
+      "url": "/ru/ai-bot-dlya-uchebnogo-tsentra/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "added": [
+        "/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/ai-bot-dlya-uchebnogo-tsentra-rukovodstvo/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "added": [
+        "/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "added": [
+        "/ru/ai-bot-dlya-uchebnogo-tsentra/"
+      ],
+      "removed": []
+    }
+  ],
+  "titlesDescriptionsH1CanonicalRobotsHreflang": "unchanged on all 330 URLs",
+  "protectedPages": 10
+}

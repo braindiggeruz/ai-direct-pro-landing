@@ -17,7 +17,7 @@
   "body": [
     {
       "type": "figure",
-      "src": "/assets/campaigns/ai-routine/hero-1200.webp",
+      "src": "/assets/campaigns/ai-routine/dark/hero-1200.webp",
       "alt": "Робот отложил план захвата мира и разбирает вопросы учебного центра",
       "width": 1200,
       "height": 800,
@@ -150,7 +150,8 @@
   "internalLinks": [
     { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для бизнеса: состав и ограничения", "locale": "ru", "type": "contextual" },
     { "target": "/ru/stoimost-chat-bota/", "anchor": "Стоимость разработки и регулярные расходы", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Telegram-бот и передача заявки менеджеру", "locale": "ru", "type": "contextual" }
+    { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "Telegram-бот и передача заявки менеджеру", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/ai-bot-dlya-uchebnogo-tsentra/", "anchor": "AI-бот для учебного центра: состав и внедрение", "locale": "ru", "type": "contextual" }
   ],
   "sources": [
     {
@@ -173,7 +174,7 @@
   "breadcrumbLabel": "ИИ и заявки",
   "ogTitle": "ИИ захватит мир? Сначала — заявки.",
   "ogDescription": "Мировое господство подождёт. История для владельцев учебных центров и учебный пример бота, который передаёт заявку администратору.",
-  "ogImage": "https://gptbot.uz/assets/campaigns/ai-routine/og.webp",
+  "ogImage": "https://gptbot.uz/assets/campaigns/ai-routine/dark/og.webp",
   "canonical": "https://gptbot.uz/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/",
   "robotsIndex": true,
   "robotsFollow": true,

@@ -5,7 +5,7 @@ import { renderLeadForm } from './lead-form';
 /** This campaign layout is deliberately limited to one authored article. */
 export const VIRAL_ARTICLE_URL = '/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/';
 export const isViralArticle = (url: string): boolean => url === VIRAL_ARTICLE_URL;
-const ASSETS = '/assets/campaigns/ai-routine';
+const ASSETS = '/assets/campaigns/ai-routine/dark';
 const escape = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export function renderViralArticle(a: BlogArticle, renderBlock: (block: BodyBlock) => string, authorMeta: string): string {
@@ -29,7 +29,7 @@ export function renderViralArticle(a: BlogArticle, renderBlock: (block: BodyBloc
       <p class="vr-eyebrow"><span class="vr-dot" aria-hidden="true"></span> Для владельцев учебных центров</p>
       <h1 id="viral-title" data-testid="article-h1">ИИ захватит мир?<br><span>Сначала — заявки.</span></h1>
       <p class="vr-intro">${escape(a.intro)}</p>
-      <div class="vr-actions"><a class="vr-button" href="#lead-demo">Посмотреть, как это работает <span aria-hidden="true">↗</span></a><a class="vr-text-link" href="#lead-form">Хочу бота для своего центра <span aria-hidden="true">→</span></a></div>
+      <div class="vr-actions"><a class="vr-button btn-primary" href="#lead-demo">Посмотреть, как это работает <span aria-hidden="true">↗</span></a><a class="vr-text-link" href="#lead-form">Хочу бота для своего центра <span aria-hidden="true">→</span></a></div>
       <p class="vr-caption">Пример без регистрации · AI-бот для бизнеса — от 1 990 000 сум</p>
     </div>
     <figure class="vr-hero-art">
@@ -44,7 +44,7 @@ export function renderViralArticle(a: BlogArticle, renderBlock: (block: BodyBloc
   </section>
   <section class="vr-demo-section" aria-labelledby="try-scenario"><div class="vr-section-heading"><div><p class="vr-eyebrow">Теперь ваша очередь</p><h2 id="try-scenario">Три выбора.<br>Одна понятная карточка.</h2></div><p>Пройдите путь клиента до обращения. Это учебный сценарий с готовыми ответами, без подключения AI-модели.</p></div>${renderLeadDemo('ru')}</section>
   <section class="vr-control" aria-labelledby="real-boundaries"><div><p class="vr-eyebrow">Автоматизация с границами</p><h2 id="real-boundaries">Рутина — боту.<br>Решения — вашей команде.</h2><img src="${ASSETS}/c05-one-scenario-960.webp" alt="Робот и человек вместе выбирают один рабочий сценарий" width="960" height="640" loading="lazy" decoding="async" /></div><div class="vr-prose">${body('real-boundaries')}</div></section>
-  <section class="vr-offer" aria-labelledby="one-scenario"><div class="vr-offer-title"><p class="vr-eyebrow">Ваш первый полезный бот</p><h2 id="one-scenario">Начнём с одной задачи.<br>И сделаем её понятной.</h2><p class="vr-price"><small>Разработка AI-бота</small>от 1 990 000 <span>сум</span></p><ul class="vr-offer-points"><li>Один канал: Telegram или Instagram</li><li>Ответы по согласованной базе знаний</li><li>Сбор контакта и сценарий обращения</li></ul><a class="vr-button" href="#lead-form">Разобрать мой сценарий <span aria-hidden="true">↗</span></a></div><div class="vr-prose">${body('one-scenario')}</div></section>
+  <section class="vr-offer" aria-labelledby="one-scenario"><div class="vr-offer-title"><p class="vr-eyebrow">Ваш первый полезный бот</p><h2 id="one-scenario">Начнём с одной задачи.<br>И сделаем её понятной.</h2><p class="vr-price"><small>Разработка AI-бота</small>от 1 990 000 <span>сум</span></p><ul class="vr-offer-points"><li>Один канал: Telegram или Instagram</li><li>Ответы по согласованной базе знаний</li><li>Сбор контакта и сценарий обращения</li></ul><a class="vr-button btn-primary" href="#lead-form">Разобрать мой сценарий <span aria-hidden="true">↗</span></a></div><div class="vr-prose">${body('one-scenario')}</div></section>
   <div class="vr-form-wrap"><div class="vr-form-intro"><p class="vr-eyebrow">Без «захвата» вашего бюджета</p><h2>Расскажите,<br> что повторяется<br> каждый день.</h2><p>Куда пишут ваши клиенты? О чём спрашивают? Кому передать заявку? С этого начнём разговор о первой версии.</p><span class="vr-form-note">Достаточно телефона или Telegram. Примеры переписок и контакты ваших клиентов не нужны.</span></div>${renderLeadForm(a)}</div>
   <div class="vr-author">${authorMeta}<p>История и изображения созданы для иллюстрации сценария. Состав настоящего проекта согласуем отдельно.</p></div>
   </article>`;

@@ -8,12 +8,15 @@ import { chromium } from 'playwright-core';
 
 const root = path.resolve(import.meta.dirname, '../..');
 const dist = path.resolve(process.env.GPTBOT_TEST_DIST || path.join(root, 'dist'));
-const out = path.resolve(process.env.GPTBOT_QA_OUT || path.join(root, 'reports/viral-landing-20261108/qa'));
+const out = path.resolve(process.env.GPTBOT_QA_OUT || path.join(root, 'reports/viral-landing-20261108/qa-dark'));
 const urlPath = '/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/';
 const htmlFile = path.join(dist, urlPath, 'index.html');
 assert.ok(fs.existsSync(htmlFile), 'Build the campaign page before running local QA.');
 fs.mkdirSync(out, { recursive: true });
-const report = { createdAt: new Date().toISOString(), scope: 'local built page; API mocks only; no external requests sent', htmlSha256: createHash('sha256').update(fs.readFileSync(htmlFile)).digest('hex'), cssSha256: createHash('sha256').update(fs.readFileSync(path.join(dist, 'assets/campaigns/ai-routine/landing.css'))).digest('hex'), checks: [], screenshots: [] };
+const html = fs.readFileSync(htmlFile, 'utf8');
+const campaignCss = html.match(/<link\b[^>]*href="(\/assets\/campaigns\/ai-routine\/landing[^"/]*\.css)"/)?.[1];
+assert.equal(campaignCss, '/assets/campaigns/ai-routine/landing-dark.css', 'QA requires the built dark campaign, not the prior light release.');
+const report = { createdAt: new Date().toISOString(), scope: 'local built dark page; API mocks only; no external requests sent', htmlSha256: createHash('sha256').update(html).digest('hex'), campaignCss, cssSha256: createHash('sha256').update(fs.readFileSync(path.join(dist, campaignCss))).digest('hex'), checks: [], screenshots: [] };
 const executablePath = [process.env.GPTBOT_TEST_BROWSER, 'C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', '/usr/bin/chromium'].find(p => p && fs.existsSync(p));
 assert.ok(executablePath, 'A local Chrome/Chromium browser is required.');
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.png': 'image/png', '.woff2': 'font/woff2', '.json': 'application/json' };
@@ -65,13 +68,64 @@ try {
   for (const [width, height] of [[320, 800], [390, 844], [1440, 1000]]) {
     const f = await fixture(width, height), { page } = f;
     try {
+      await check(`${width}px dark brand, readable hero and navigation`, async () => {
+        for (const selector of ['.vr-hero h1', '.vr-intro', '.vr-hero .vr-button', '[data-testid=header-cta]', '[data-testid=article-breadcrumb] a[href="/"]', '[data-testid=article-breadcrumb] a[href="/ru/blog/"]']) {
+          assert.equal(await page.locator(selector).isVisible(), true, selector);
+        }
+        if (width >= 640) for (const [testId, href] of [['header-blog', '/ru/blog/'], ['header-chat', '/ru/gpt-chat/']]) {
+          const link = page.getByTestId(testId);
+          assert.equal(await link.isVisible(), true, `${testId} stays available on desktop`);
+          assert.equal(await link.getAttribute('href'), href);
+        }
+        const appearance = await page.evaluate(() => {
+          const body = getComputedStyle(document.body);
+          const colors = value => [...value.matchAll(/rgba?\([^)]+\)/g)].map(m => m[0]);
+          const rgb = value => value.match(/[\d.]+/g)?.slice(0, 3).map(Number) || [];
+          const luminance = values => values.map(v => v / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4).reduce((sum, v, i) => sum + v * [.2126, .7152, .0722][i], 0);
+          const ratio = (a, b) => {
+            const background = rgb(b), foreground = rgb(a), alpha = Number(a.match(/[\d.]+/g)?.[3] ?? 1);
+            const x = luminance(foreground.map((v, i) => v * alpha + background[i] * (1 - alpha))), y = luminance(background);
+            return (Math.max(x, y) + .05) / (Math.min(x, y) + .05);
+          };
+          const base = body.backgroundColor;
+          const text = [...document.querySelectorAll('.vr-hero h1, .vr-hero h1 span, .vr-intro')].map(e => {
+            const s = getComputedStyle(e), stops = colors(s.backgroundImage);
+            const foreground = s.color === 'rgba(0, 0, 0, 0)' && s.backgroundClip === 'text' ? stops : [s.color];
+            return { text: e.textContent?.trim(), color: s.color, minimumContrast: Math.min(...foreground.map(c => ratio(c, base))), opacity: Number(s.opacity) };
+          });
+          const cta = selector => {
+            const e = document.querySelector(selector), s = getComputedStyle(e), rect = e.getBoundingClientRect();
+            const palette = [...new Set(colors(s.backgroundImage))];
+            return { gradient: s.backgroundImage, palette, minimumContrast: Math.min(...palette.map(c => ratio(s.color, c))), width: rect.width, height: rect.height, opacity: Number(s.opacity) };
+          };
+          const brandReference = document.createElement('span');
+          brandReference.className = 'bg-grad-cta'; brandReference.hidden = true;
+          document.body.appendChild(brandReference);
+          const brandPalette = [...new Set(colors(getComputedStyle(brandReference).backgroundImage))];
+          brandReference.remove();
+          return { background: rgb(base), text, brandPalette, heroCta: cta('.vr-hero .vr-button'), headerCta: cta('[data-testid=header-cta]') };
+        });
+        assert.deepEqual(appearance.background, [5, 7, 13], 'brand background is #05070D');
+        for (const text of appearance.text) { assert.ok(text.minimumContrast >= 4.5, JSON.stringify(text)); assert.equal(text.opacity, 1); }
+        for (const cta of [appearance.heroCta, appearance.headerCta]) {
+          assert.ok(cta.palette.length >= 2, 'primary actions visibly use a gradient');
+          assert.ok(cta.minimumContrast >= 4.5, JSON.stringify(cta));
+          assert.ok(cta.width >= 44 && cta.height >= 44, 'primary action remains a usable touch target');
+          assert.equal(cta.opacity, 1);
+        }
+        for (const cta of [appearance.heroCta, appearance.headerCta]) assert.deepEqual([...cta.palette].sort(), [...appearance.brandPalette].sort(), 'primary action uses the shared site brand palette');
+        await page.locator('.vr-hero .vr-button').scrollIntoViewIfNeeded();
+        assert.equal(await page.locator('.vr-hero .vr-button').evaluate(e => { const r = e.getBoundingClientRect(); return e.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)); }), true, 'hero action is not covered by another element');
+        await page.evaluate(() => scrollTo(0, 0));
+        return appearance;
+      });
       await check(`${width}px layout, metadata and anchors`, async () => {
         assert.equal(await page.locator('h1').count(), 1);
         assert.equal(await page.locator('#lead-demo').count(), 1);
         assert.equal(await page.locator('#lead-form').count(), 1);
         assert.equal(await page.locator('form').count(), 1);
         assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'), 'https://gptbot.uz' + urlPath);
-        assert.equal(await page.locator('meta[property="og:image"]').getAttribute('content'), 'https://gptbot.uz/assets/campaigns/ai-routine/og.webp');
+        assert.equal(await page.locator('meta[property="og:image"]').getAttribute('content'), 'https://gptbot.uz/assets/campaigns/ai-routine/dark/og.webp');
         const layout = await page.evaluate(() => ({ viewport: innerWidth, scroll: document.documentElement.scrollWidth, overflow: [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect(); return r.width && (r.right > innerWidth + 1 || r.left < -1); }).map(e => ({ tag: e.tagName, id: e.id, class: String(e.className).slice(0, 160), text: e.textContent?.trim().slice(0, 100), right: e.getBoundingClientRect().right })).slice(0, 20), unresolved: [...document.querySelectorAll('a[href^="#"]')].map(a => a.getAttribute('href')).filter(href => href.length > 1 && !document.getElementById(href.slice(1))) }));
         await page.screenshot({ path: path.join(out, `viewport-${width}.png`), fullPage: false });
         report.screenshots.push(`viewport-${width}.png`);

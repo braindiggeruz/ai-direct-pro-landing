@@ -3304,5 +3304,24 @@
       "passed": 454,
       "failed": 0
     }
+  },
+  "viralDark20261108": {
+    "status": "VALIDATED_CANDIDATE_PENDING_RELEASE",
+    "scope": "Owner-requested brand match, safe contextual links and isolated sender @gptbotuz_bot",
+    "baseProductionCommit": "3fcdcd127009d67e475931c7f3369bd40f7f5011",
+    "seoUrls": 330,
+    "unchangedHtmlAndSeo": 327,
+    "protectedPages": 10,
+    "tests": {
+      "seoLinks": 50,
+      "delivery": 58,
+      "campaign": 4,
+      "browser": 13
+    },
+    "botSecretName": "GPT_CAMPAIGN_NOTIFY_BOT_TOKEN",
+    "recipient": "Existing explicit GPT_NOTIFY_CHAT_ID; no fallback",
+    "webhookChanged": false,
+    "next": "Commit, guarded build/deploy, public readback and one clearly labelled delivery canary",
+    "evidence": "reports/viral-dark-20261108/IMPLEMENTATION.md"
   }
 }

@@ -3,7 +3,7 @@
 // owned elsewhere; declaring them here keeps the bridge type-safe today and
 // makes the eventual move into `Env` a copy-paste with no call-site changes.
 //
-// SECRETS — the owner sets these two by hand, they are never in wrangler.toml
+// SECRETS — the owner sets these by hand, they are never in wrangler.toml
 // (Cloudflare Pages → Settings → Environment variables → Production, type
 // "Secret"; a Pages deploy replaces plain-text vars but leaves secrets alone):
 //
@@ -15,6 +15,8 @@
 //   GPT_NOTIFY_CHAT_ID     Numeric Telegram chat id that RECEIVES them (the
 //                          owner's own chat with that bot, or a private group).
 //                          Falls back to the long-standing TELEGRAM_ADMIN_CHAT_ID.
+//   GPT_CAMPAIGN_NOTIFY_BOT_TOKEN  Sender for the explicitly routed campaign
+//                          page only. Requires GPT_NOTIFY_CHAT_ID; no fallback.
 //
 // Everything else below is public configuration and belongs in wrangler.toml.
 import type { Env } from '../../_types';
@@ -22,6 +24,8 @@ import type { Env } from '../../_types';
 export interface BridgeEnvExtras {
   /** Secret. Bot token used only to send the owner a lead alert. */
   GPT_NOTIFY_BOT_TOKEN?: string;
+  /** Secret. Campaign-only sender; uses the explicit GPT_NOTIFY_CHAT_ID recipient. */
+  GPT_CAMPAIGN_NOTIFY_BOT_TOKEN?: string;
   /** Secret. Chat id that receives lead alerts. */
   GPT_NOTIFY_CHAT_ID?: string;
   /**
