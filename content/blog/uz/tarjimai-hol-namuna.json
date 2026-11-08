@@ -1,0 +1,290 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "tarjimai-hol-namuna",
+  "url": "/uz/blog/tarjimai-hol-namuna/",
+  "title": "Tarjimai hol namuna: Word, PDF va yozish tartibi | GPTBot.uz",
+  "description": "Tarjimai holni qanday yozish: to‘ldirilgan shartli misol, bo‘sh Word va PDF namuna, yillar ketma-ketligi hamda yuborishdan oldingi tekshiruv.",
+  "h1": "Tarjimai hol namunasi: izchil matn va tahrirlanadigan blanka",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "tarjimai hol namuna",
+    "tarjimai hol qanday yoziladi",
+    "tarjimai hol word"
+  ],
+  "intro": "Tarjimai hol — inson o‘z ta’limi va faoliyatini vaqt ketma-ketligida bayon qiladigan matn. Bu sahifada birinchi shaxsda yozilgan o‘quv misoli, to‘ldiriladigan tuzilma va DOCX/PDF fayllar bor.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/pseo-20261108/tarjimai-hol-namuna.docx",
+          "anchor": "Word uchun DOCX namunasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/pseo-20261108/tarjimai-hol-namuna.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Namuna o‘qish yoki ish bilan bog‘liq qisqa tarjimai hol uchun. Qabul qiluvchi o‘z shaklini bergan bo‘lsa, undan foydalaning. Rezyumedagi kabi faqat vakansiyaga mos ko‘nikmalar ro‘yxatini tuzish o‘rniga, bu yerda davrlar o‘rtasidagi bog‘lanishni tushuntirasiz."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli. «Namunaviy nomzod A» haqiqiy shaxs emas; bu matn birovning tarjimai holi sifatida topshirilmaydi."
+    },
+    {
+      "type": "quote",
+      "text": "TARJIMAI HOL"
+    },
+    {
+      "type": "quote",
+      "text": "Men, Namunaviy nomzod A, 2022-yilda umumiy o‘rta ta’limni tugatdim. Shu yili axborot xizmatlari yo‘nalishidagi o‘quv dasturiga qabul qilindim."
+    },
+    {
+      "type": "quote",
+      "text": "2022–2025-yillarda matn bilan ishlash, elektron jadval va hujjatlarni tartiblash bo‘yicha fanlarni o‘rgandim. O‘quv loyihasida kichik kutubxonaning kitoblar ro‘yxatini jadvalga kiritish vazifasini bajardim."
+    },
+    {
+      "type": "quote",
+      "text": "2025-yil sentabrdan dekabrgacha to‘qima «O‘quv ofisi» loyihasida amaliyot o‘tadim. Kiruvchi xatlarning sanasi, mavzusi va mas’ulini qayd etdim; yakunlangan vazifalarni alohida ro‘yxatga ajratdim."
+    },
+    {
+      "type": "quote",
+      "text": "2026-yildan boshlab hujjatlarni rasmiylashtirish bo‘yicha mashqlarni mustaqil davom ettiryapman. Word’da matnni tuzish va Excel’da sodda ro‘yxat yuritish ko‘nikmalarim bor. Ish tajribam o‘quv loyihalari bilan cheklangan."
+    },
+    {
+      "type": "quote",
+      "text": "Tarjimai hol o‘quv dasturidagi amaliy mashg‘ulot uchun yozildi. Namunada tug‘ilgan sana va shaxsiy aloqa ma’lumoti ataylab keltirilmagan."
+    },
+    {
+      "type": "quote",
+      "text": "08.11.2026 · Namunaviy nomzod A · Haqiqiy imzo qo‘yilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-yoziladi",
+      "text": "Yillarni ro‘yxat emas, tushunarli ketma-ketlikka aylantiring"
+    },
+    {
+      "type": "p",
+      "text": "Avval qog‘ozda yoki alohida faylda uch ustun tuzing: davr, o‘qish yoki ish joyi, bajargan vazifa. Sanalarni hujjatlaringiz bilan solishtirgandan keyin shu jadvaldan matn yozing. O‘qish va ish bir vaqtda kechgan bo‘lsa, buni yashirmasdan izohlang."
+    },
+    {
+      "type": "p",
+      "text": "Har bir davrni uzun ta’riflash shart emas. Masalan, «o‘quv loyihasida kitoblar ro‘yxatini jadvalga kiritdim» jumlasi vazifani bildiradi; «barcha ishni a’lo bajardim» esa dalilsiz bahodir. Hozirgi holat va tarjimai holning taqdim etish maqsadi bilan yakunlang."
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Qabul qiluvchi talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi odam, sana va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Muallif"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Men, [Ism Familiya], [qabul qiluvchi so‘ragan bo‘lsa: tug‘ilgan yil va joy]da tug‘ilganman."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Ta’lim"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Yil]da [ta’lim muassasasi]ga o‘qishga kirib, [yil]da [yo‘nalish] bo‘yicha tamomlaganman.",
+        "[Hozirgi o‘qish, kurs yoki o‘quv loyihasi — mavjud bo‘lsa]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Faoliyat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Oy, yil]dan [oy, yil]gacha [tashkilot yoki loyiha]da [vazifa] bilan shug‘ullanganman.",
+        "Bu davrda [o‘zingiz bajargan aniq ish va ishlatgan vosita]ni o‘rgandim.",
+        "Hozir [amaldagi o‘qish yoki ish holati]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Qo‘shimcha ma’lumot"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Hujjat maqsadiga tegishli til, kurs yoki ko‘nikma; darajani oshirib ko‘rsatmang].",
+        "Tarjimai hol [qaysi tashkilotga va nima maqsadda] taqdim etish uchun yozildi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-5",
+      "text": "Yakun"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sana: [kun.oy.yil]",
+        "Muallif: [Ism Familiya] · Imzo: [o‘zingiz qo‘yasiz]"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘qishga kirish, bitirish va ish davrlari bir-biriga zid emasmi?",
+        "Birinchi shaxs uslubi saqlanganmi: «o‘qidim», «ishladim», «hozir shug‘ullanyapman»?",
+        "Tug‘ilgan sana yoki oilaviy ma’lumot faqat qabul qiluvchi so‘ragan darajada kiritilganmi?",
+        "Namunadagi Nomzod A va o‘ylab topilgan loyiha nomlari haqiqiy matningizdan olib tashlandimi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Yillar ketma-ketligini tekshiring. Qabul qiluvchi so‘ramagan pasport, JShShIR, qarindoshlar yoki sog‘liq ma’lumotini qo‘shmang. Shaxsiy ma’lumotni faqat o‘z qurilmangizdagi faylda to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {r0} · {r1}.",
+      "links": [
+        {
+          "token": "r0",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "Rezyume: vakansiyaga mos qisqa taqdimot"
+        },
+        {
+          "token": "r1",
+          "target": "/uz/blog/obyektivka-namuna/",
+          "anchor": "Obyektivka: ta’lim va faoliyat ma’lumotlari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tarjimai hol rezyumedan nimasi bilan farq qiladi?",
+      "a": "Tarjimai hol hayot, ta’lim va faoliyat yo‘lini ketma-ket matn bilan izohlaydi. Rezyume esa ma’lum ishga mos tajriba va ko‘nikmalarni qisqa bo‘limlarda tanlab beradi. Qaysi hujjat so‘ralganini oldindan aniqlang."
+    },
+    {
+      "q": "Qo‘lda yozish kerakmi yoki Word bo‘ladimi?",
+      "a": "Bu qabul qiluvchi talabiga bog‘liq. Bu yerdagi DOCX tahrirlash uchun; tashkilot qo‘lda yozilgan nusxani so‘rasa, tekshirilgan matnni o‘sha shaklda tayyorlang."
+    },
+    {
+      "q": "Ish tajribasi bo‘lmasa nima yoziladi?",
+      "a": "O‘qish, amaliy mashg‘ulot, ko‘ngilli ish yoki o‘quv loyihasidagi o‘zingiz bajargan vazifani yozing. O‘quv mashqini haqiqiy ish joyi sifatida ko‘rsatmang."
+    },
+    {
+      "q": "Oilam haqida ham yozishim kerakmi?",
+      "a": "Qabul qiluvchi nima so‘raganini tekshiring. Ushbu qisqa o‘quv namunasida qarindoshlar haqidagi ma’lumot yo‘q. Kerak bo‘lmagan shaxsiy ma’lumotni qo‘shmang; zarur maydonni faqat o‘z qurilmangizdagi faylda to‘ldiring."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Rezyume: vakansiyaga mos qisqa taqdimot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/obyektivka-namuna/",
+      "anchor": "Obyektivka: ta’lim va faoliyat ma’lumotlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Tarjimai hol namuna: Word, PDF va yozish tartibi | GPTBot.uz",
+  "ogDescription": "Tarjimai holni qanday yozish: to‘ldirilgan shartli misol, bo‘sh Word va PDF namuna, yillar ketma-ketligi hamda yuborishdan oldingi tekshiruv.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/tarjimai-hol-namuna/",
+  "hreflangUz": "/uz/blog/tarjimai-hol-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Tarjimai hol namuna",
+  "datePublished": "2026-11-08",
+  "dateModified": "2026-11-08",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "S. A. Karimov, Sh. M. Maxmatmurodov, O. N. Karimova — Nutq madaniyati va davlat tilida ish yuritish (NamDU kutubxonasi)",
+      "url": "https://namdu.uz/media/Books/pdf/2024/06/02/NamDU-ARM-3076-Nutq_madaniyati_va_davlat_tilida_ish_yuritish.pdf?raw=1",
+      "note": "Hujjat turlari va ish yuritish uslubi bo‘yicha o‘quv manbasi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
+    }
+  ],
+  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "createdAt": "2026-11-08T00:00:00.000Z"
+}

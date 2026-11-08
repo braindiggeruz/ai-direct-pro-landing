@@ -183,8 +183,12 @@ export function quizGradeName(locale: string, grade: number): string {
 }
 
 /** The practice-quiz block, under the chat, on a page that lists the widget with its set. */
-export function renderPracticeQuizBlock(page: Page, set: QuizSet): string {
-  const t = copyFor(page.locale);
+export function renderPracticeQuizBlock(page: Page, set: QuizSet, options: { chatPosition?: 'before' | 'after' } = {}): string {
+  const original = copyFor(page.locale);
+  const t = options.chatPosition === 'after' && page.locale === 'uz'
+    ? { ...original, aiNote: original.aiNote.replace('yuqoridagi chat', 'quyidagi AI-chat'),
+      messages: { ...original.messages, 'ai-sent': original.messages['ai-sent'].replace('yuqoridagi chat', 'quyidagi AI-chat') } }
+    : original;
   const grades = gradesOf(set.questions);
   const topics = topicsOf(set.questions);
   const option = (value: string, label: string) => `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`;

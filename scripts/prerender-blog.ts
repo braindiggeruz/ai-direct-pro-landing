@@ -41,6 +41,8 @@ import { STUDIO_CONTACT_ATTR } from '../src/shared/studio-contact';
 import { SITE_CHAT_NAV, headerChatLink } from '../src/shared/site-chat-nav';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import { CONTENT_DOWNLOAD_URLS } from '../src/shared/content-downloads';
+import { isPseoDocument, renderPseoDocument } from './pseo-documents';
+import { PSEO_STYLE_HREF } from './pseo-learning';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -473,7 +475,7 @@ ${LLM_MARKDOWN_URLS.has(a.url)
 <link rel="icon" type="image/webp" sizes="80x80" href="/assets/landing/logo-sq-80.webp" />
 <link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
-${cssLinks}
+${cssLinks}${isPseoDocument(a) ? `\n<link rel="stylesheet" href="${PSEO_STYLE_HREF}" />` : ''}
 ${viral ? '<link rel="stylesheet" href="/assets/campaigns/ai-routine/landing-dark.css" />' : ''}
 
 <script type="application/ld+json">${buildJsonLd(a, global)}</script>
@@ -481,7 +483,7 @@ ${FIRST_TOUCH_SCRIPT}
 ${ANALYTICS_HEAD}
 ${METRIKA_HEAD}
 </head>
-<body class="bg-bg-base text-white antialiased${viral ? ' vr-page' : ''}${showsStickyCta(a) ? ' pb-24 lg:pb-0' : ''}">
+<body class="bg-bg-base text-white antialiased${viral ? ' vr-page' : ''}${isPseoDocument(a) ? ' ps-document-page' : ''}${showsStickyCta(a) ? ' pb-24 lg:pb-0' : ''}">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${lang === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 ${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
@@ -508,7 +510,7 @@ ${METRIKA_NOSCRIPT}
 
   ${viral ? renderViralArticle(a, renderBlock, authorMeta) : `<article>
     <h1 data-testid="article-h1" class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">${escapeText(a.h1)}</h1>
-    ${authorMeta}
+    ${renderPseoDocument(a)}${authorMeta}
     <div class="prose-invert">
       ${(a.body || []).map((block, index) => renderBlock(block) + (index === chatEntryPosition(a.url, a.body || []) ? renderChatEntry(a.url) : '')).join('\n')}
     </div>

@@ -1,0 +1,293 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "bayonnoma-namuna",
+  "url": "/uz/blog/bayonnoma-namuna/",
+  "title": "Bayonnoma namuna: yig‘ilish uchun Word va PDF | GPTBot.uz",
+  "description": "Oddiy ishchi yig‘ilish bayonnomasi: to‘ldirilgan misol, tahrirlanadigan Word/PDF, kun tartibi, muhokama va aniq qarorlarni yozish ro‘yxati.",
+  "h1": "Yig‘ilish bayonnomasi namunasi: qaror, mas’ul va muddat",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "bayonnoma namunasi",
+    "bayonnoma namuna",
+    "yigilish bayonnomasi"
+  ],
+  "intro": "Bayonnoma yig‘ilishda ko‘rilgan masala va qabul qilingan qarorlarni qayd etadi. Quyidagi namuna kichik ishchi guruh yig‘ilishi uchun: muhokama, mas’ul, muddat va tekshiriladigan natija bir-biridan ajratilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/pseo-20261108/bayonnoma-namuna.docx",
+          "anchor": "Word uchun DOCX namunasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/pseo-20261108/bayonnoma-namuna.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu oddiy ishchi yig‘ilishning o‘quv namunasi. Ta’sischilar yig‘ilishi, sud majlisi, davlat organi yoki boshqa maxsus tartibdagi bayonnoma uchun tayyor huquqiy shakl sifatida ishlatilmaydi. Ishtirokchilar, tasdiqlash va ro‘yxatga olish tartibini tashkilotingizdan oling."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli. Ishchi guruh va qatnashchilar shartli belgilangan; haqiqiy yig‘ilish o‘tkazilgani da’vo qilinmaydi."
+    },
+    {
+      "type": "quote",
+      "text": "«O‘quv loyihasi» ishchi guruhi · BAYONNOMA № 3 · 06.11.2026 · Onlayn yig‘ilish"
+    },
+    {
+      "type": "quote",
+      "text": "Rais: loyiha koordinatori A. Kotib: guruh a’zosi B. Ishtirokchilar: A, B va C."
+    },
+    {
+      "type": "quote",
+      "text": "Kun tartibi: o‘quv materiallarining umumiy papkasini tartiblash va keyingi hafta vazifalarini belgilash."
+    },
+    {
+      "type": "quote",
+      "text": "Eshitildi: B materiallarning turli nomlar bilan saqlanayotgani va ayrim fayllarning ikki nusxasi borligini aytdi. Fayl nomida mavzu, sana va holatni ko‘rsatish taklif qilindi."
+    },
+    {
+      "type": "quote",
+      "text": "Muhokama: C eski nusxalarni birdan o‘chirmasdan, avval alohida arxivga ko‘chirishni taklif qildi. A tekshirilmagan materialni tayyor bo‘limiga qo‘ymaslik kerakligini bildirdi."
+    },
+    {
+      "type": "quote",
+      "text": "Qaror qilindi: 1. B 10-noyabrgacha mavjud fayllarning ro‘yxatini tuzadi. 2. C 11-noyabrgacha takror nusxalarni belgilaydi; o‘chirish to‘g‘risida alohida qaror qabul qilinadi. 3. A 12-noyabrda yakuniy ro‘yxatni tekshiradi. Natija — umumiy papkadagi tasdiqlangan ro‘yxat."
+    },
+    {
+      "type": "quote",
+      "text": "Ilova: fayl nomlash qoidalarining bir sahifalik qoralamasi. Rais A va kotib B uchun imzo joyi; namunada imzo qo‘yilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-yoziladi",
+      "text": "Muhokama bilan qarorni aralashtirmang"
+    },
+    {
+      "type": "p",
+      "text": "Yig‘ilish paytida kim nima taklif qilgani va yakunda nimalar kelishilganini ikki alohida ustunga yozing. «Eski fayllarni o‘chirish taklif qilindi» hali o‘chirishga ruxsat berilganini anglatmaydi. Quyidagi misolda avval nusxalarni belgilash, o‘chirish masalasini esa keyin hal qilish qayd etilgan."
+    },
+    {
+      "type": "p",
+      "text": "Qarorni harakat fe’li bilan boshlang: «ro‘yxat tuzadi», «tekshiradi», «taqdim etadi». «Ishni yaxshilash» kabi umumiy gap o‘rniga natijani qayerdan tekshirish mumkinligini yozing. Ikkinchi kun tartibi masalasi bo‘lsa, uning muhokamasi va qarorini ham alohida bering."
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Qabul qiluvchi talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi odam, sana va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Yig‘ilish ma’lumotlari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Tashkilot / ishchi guruh nomi] · Bayonnoma № [raqam]",
+        "Sana: [kun.oy.yil] · Joy yoki aloqa shakli: [joy / onlayn]",
+        "Rais: [lavozim, ism] · Kotib: [lavozim, ism]",
+        "Ishtirokchilar: [ro‘yxat yoki ilova nomi]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Kun tartibi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. [Ko‘riladigan aniq masala]",
+        "2. [Ikkinchi masala — bo‘lsa]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Eshitildi va muhokama qilindi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1-masala yuzasidan [ma’ruzachi] [asosiy fakt / taklif] haqida ma’lumot berdi.",
+        "Muhokamada [muhim fikr, taklif yoki e’tiroz] qayd etildi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Qaror qilindi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. [Bajarilishi lozim bo‘lgan tekshiriladigan ish].",
+        "Mas’ul: [ism / lavozim]. Muddat: [sana]. Natija: [qaysi hujjat yoki ish bilan tekshiriladi].",
+        "2. [Keyingi tekshiruv yoki ikkinchi qaror — zarur bo‘lsa]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-5",
+      "text": "Tasdiqlash"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ilovalar: [ro‘yxat, material nomi va hajmi]",
+        "Rais: [imzo, ism] · Kotib: [imzo, ism]"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kun tartibidagi har bir masala uchun muhokama va yakun qayd etilganmi?",
+        "Taklif, e’tiroz va qabul qilingan qaror bir-biridan ajratilganmi?",
+        "Har bir vazifaning mas’uli, muddati va natijasi tushunarlimi?",
+        "Qatnashmagan odam, bo‘lmagan ovoz berish yoki qo‘yilmagan imzo qo‘shilmaganmi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Muhokama taklifini qabul qilingan qaror sifatida yozmang. Ovoz berilgan bo‘lsa, faqat amaldagi natijani qayd eting. Bu oddiy ishchi yig‘ilish namunasi; korporativ yoki davlat tartib-taomili uchun tayyor shakl emas."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {r0} · {r1}.",
+      "links": [
+        {
+          "token": "r0",
+          "target": "/uz/blog/bildirishnoma-namuna/",
+          "anchor": "Rahbarga holatni bildirish"
+        },
+        {
+          "token": "r1",
+          "target": "/uz/blog/rasmiy-xat-yozish/",
+          "anchor": "Tashqi hamkorga rasmiy xat yozish"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bayonnomada barcha gaplarni so‘zma-so‘z yozish kerakmi?",
+      "a": "Ushbu qisqa ishchi namuna asosiy fikrlar va qarorlarni qayd etadi. Tashkilotingiz to‘liq bayon yoki boshqa maxsus shaklni talab qilsa, o‘sha tartibga amal qiling."
+    },
+    {
+      "q": "Qaror uchun muddat belgilanmasa nima yoziladi?",
+      "a": "O‘ylab sana qo‘ymang. Muddat kelishilmaganini qayd eting va uni kim, qachon aniqlashtirishini yig‘ilish ishtirokchilari bilan kelishing."
+    },
+    {
+      "q": "Bayonnomani kim imzolaydi?",
+      "a": "Oddiy namunada rais va kotib uchun joy bor. Haqiqiy yig‘ilishda imzolovchilar va tasdiqlash tartibi tashkilot talabiga mos bo‘lishi kerak; tayyor faylda imzo yo‘q."
+    },
+    {
+      "q": "Yig‘ilishdan keyin yozuvda xato topilsa nima qilinadi?",
+      "a": "Qaysi band xato ekanini rais, kotib yoki tegishli mas’ul bilan aniqlashtiring. Qarorni o‘zingizcha o‘zgartirmang; tuzatish va yangi nusxani tasdiqlash tartibini tashkilotingizdan oling."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/bildirishnoma-namuna/",
+      "anchor": "Rahbarga holatni bildirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/rasmiy-xat-yozish/",
+      "anchor": "Tashqi hamkorga rasmiy xat yozish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Bayonnoma namuna: yig‘ilish uchun Word va PDF | GPTBot.uz",
+  "ogDescription": "Oddiy ishchi yig‘ilish bayonnomasi: to‘ldirilgan misol, tahrirlanadigan Word/PDF, kun tartibi, muhokama va aniq qarorlarni yozish ro‘yxati.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/bayonnoma-namuna/",
+  "hreflangUz": "/uz/blog/bayonnoma-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Bayonnoma namuna",
+  "datePublished": "2026-11-08",
+  "dateModified": "2026-11-08",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "S. A. Karimov, Sh. M. Maxmatmurodov, O. N. Karimova — Nutq madaniyati va davlat tilida ish yuritish (NamDU kutubxonasi)",
+      "url": "https://namdu.uz/media/Books/pdf/2024/06/02/NamDU-ARM-3076-Nutq_madaniyati_va_davlat_tilida_ish_yuritish.pdf?raw=1",
+      "note": "Hujjat turlari va ish yuritish uslubi bo‘yicha o‘quv manbasi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
+    }
+  ],
+  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "createdAt": "2026-11-08T00:00:00.000Z"
+}

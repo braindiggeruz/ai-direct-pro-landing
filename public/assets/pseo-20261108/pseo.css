@@ -1,0 +1,53 @@
+.ps-learning,.ps-document{color:#e8eef6;overflow-wrap:anywhere}
+.ps-learning *,.ps-document *{box-sizing:border-box}
+.ps-learning{max-width:880px;margin:0 auto;padding:24px 20px 40px}
+.ps-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px;font-size:14px}
+.ps-nav a{display:inline-flex;align-items:center;min-height:44px;color:#a8bdcf;text-decoration:none}
+.ps-nav .ps-brand{font-size:19px;font-weight:750;color:#fff;letter-spacing:-.5px}
+.ps-learning a:hover,.ps-document a:hover{color:#fff}
+.ps-learning a:focus-visible,.ps-learning input:focus-visible,.ps-learning select:focus-visible,.ps-learning button:focus-visible,.ps-document a:focus-visible,.ps-scroll:focus-visible{outline:3px solid #67e8d8;outline-offset:4px}
+.ps-breadcrumb{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:#b7c5d4;margin:0 0 20px}
+.ps-breadcrumb a{color:#7dd3fc;text-decoration:underline;text-underline-offset:4px}
+.ps-eyebrow{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#6ee7da;margin:0 0 12px}
+.ps-learning h1{font-size:clamp(26px,4.2vw,42px);line-height:1.14;letter-spacing:-.025em;font-weight:750;margin:0 0 16px}
+.ps-intro{font-size:16px;line-height:1.65;color:#b7c5d4;max-width:720px;margin:0 0 20px}
+.ps-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:18px 0 28px}
+.ps-actions a,.ps-learning button[type=submit]{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:12px 18px;border-radius:14px;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer}
+.ps-primary{color:#04121c!important;background:linear-gradient(135deg,#229ed9,#2fe6d1);border:1px solid transparent}
+.ps-secondary{color:#b6f6ed;border:1px solid #2fe6d13d;background:#0c1828}
+.ps-learning h2,.ps-document h2{font-size:20px;line-height:1.3;font-weight:700;margin:0 0 12px}
+.ps-tool,.ps-document{border:1px solid #2fe6d135;border-radius:20px;background:linear-gradient(145deg,#0c1828,#08111f);padding:24px;margin:0 0 28px}
+.ps-tool p,.ps-document p{color:#b7c5d4;line-height:1.6;font-size:15px;margin:0 0 14px}
+.ps-tool label{display:block;font-size:14px;color:#e8eef6;font-weight:600;margin:0 0 7px}
+.ps-tool input,.ps-tool select{background:#050c17;border:1px solid #52657a;border-radius:12px;color:#f1f5f9;min-height:46px;padding:10px 12px;font:inherit;max-width:100%;width:100%}
+.ps-tool input[aria-invalid=true]{border-color:#fda4af}
+.ps-tool form{display:grid;gap:12px;margin-bottom:18px}
+.ps-tool button:disabled{opacity:.55;cursor:default}
+.ps-result{font-size:clamp(24px,5vw,32px)!important;font-weight:750;color:#7eeadd!important;line-height:1.2!important;letter-spacing:-.02em}
+.ps-tool output{display:block;font-size:26px;font-weight:750;color:#7eeadd;padding:12px 0}
+.ps-tool ol{padding-left:22px;color:#d2deeb;font-size:15px;line-height:1.8;margin:0 0 14px}
+.ps-selects{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.ps-scroll{max-width:100%;overflow-x:auto;border:1px solid #263d50;border-radius:12px;overscroll-behavior-inline:contain}
+.ps-grid{width:100%;min-width:460px;border-collapse:collapse;table-layout:fixed;text-align:center;font-variant-numeric:tabular-nums;font-size:14px}
+.ps-grid caption{text-align:left;padding:12px;color:#b7c5d4}
+.ps-grid th,.ps-grid td{padding:11px 3px;border:1px solid #1b3144;color:#d9e5f1}
+.ps-grid th{background:#13263a;color:#fff;font-weight:700}
+.ps-grid td[data-related]{background:#132d39}
+.ps-grid td[data-selected]{background:#2fe6d1;color:#04121c;font-weight:800;outline:2px solid #a5fff4;outline-offset:-2px}
+.ps-note{font-size:13px!important;color:#9bafc5!important}
+.ps-learning #practice-quiz{background:#08111f;border-color:#2fe6d130;border-radius:20px;margin-bottom:0}
+.ps-learning #practice-quiz [hidden]{display:none!important}
+.ps-learning #practice-quiz .pq-item{background:#0c1828;border-color:#24384b;border-radius:14px}
+.ps-learning #practice-quiz .pq-bar{background:#101e30;border-color:#24384b}
+.ps-learning #practice-quiz .pq-options button{background:#122238;border-color:#3a5069;border-radius:10px;padding:12px 14px}
+.ps-learning #practice-quiz .pq-options button[data-mark=right]{background:#123d2c;border-color:#9ef5c4}
+.ps-learning #practice-quiz .pq-options button[data-mark=wrong]{background:#40201c;border-color:#ffb4a8}
+.ps-learning #practice-quiz button[data-pq-ai]{background:#122c36;border-color:#4d8a91;color:#b8fff3}
+.ps-learning #practice-quiz summary{min-height:44px;display:flex;align-items:center}
+.ps-document{margin:0 0 32px}
+.ps-document .ps-actions{margin:18px 0 12px}
+.ps-document .ps-note{margin:0}
+.ps-document-page footer .flex{flex-wrap:wrap}
+.ps-preview{border-left:2px solid #2fe6d1;padding:8px 0 8px 16px;margin:16px 0;font-size:15px;color:#d2deeb;line-height:1.6}
+@media(max-width:480px){.ps-learning{padding:14px 16px 28px}.ps-nav{margin-bottom:18px;gap:8px}.ps-nav a{font-size:13px}.ps-tool,.ps-document{padding:18px 16px}.ps-learning h1{font-size:28px}.ps-intro{font-size:14px;line-height:1.5}.ps-actions{gap:9px;margin:16px 0 22px}.ps-actions a{font-size:13px;padding:10px 13px}.ps-learning #practice-quiz{padding:16px}.ps-learning #practice-quiz .pq-item{padding:14px}.ps-learning #practice-quiz>p{font-size:13px;line-height:1.45;margin-bottom:9px}}
+@media(prefers-reduced-motion:reduce){.ps-learning *,.ps-document *{scroll-behavior:auto!important}}

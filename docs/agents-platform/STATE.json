@@ -3342,5 +3342,31 @@
     "unchangedSeoContracts": 327,
     "unchangedHtmlExceptReviewedAssetUrls": 327,
     "browserQaRepeatedOnFinalBundle": true
+  },
+  "pseo20_20261108": {
+    "status": "VERIFIED_CANDIDATE",
+    "scope": "Owner-authorized 20 useful Uzbek resources with SEO-preserving integration",
+    "branch": "codex/pseo20-20261108",
+    "sourceBaselineCommit": "4928bb7f7fb47c492c580e3db63a9384913dc4af",
+    "last_commit": "4928bb7f7fb47c492c580e3db63a9384913dc4af",
+    "previousProductionCommit": "e85da915a070acc71b7d9b76b5a7a92b1ac08fe4",
+    "beforeUrls": 330,
+    "afterUrls": 350,
+    "existingMetadataPreserved": 330,
+    "existingCompleteContractsPreserved": 320,
+    "newDocumentGuides": 10,
+    "downloadFiles": 20,
+    "practicePages": 10,
+    "originalQuestions": 120,
+    "browserChecks": 74,
+    "documentChecks": 150,
+    "sourceTests": 185,
+    "evidence": "reports/pseo20-20261108/IMPLEMENTATION.md",
+    "next": "Guarded production build/deploy and exact live acceptance of this candidate",
+    "limits": [
+      "No measured ranking/indexing/citation growth",
+      "No bot/webhook/payment/database/API changes",
+      "Chat start109968bytes within110000 limit; do not add unrelated code"
+    ]
   }
 }

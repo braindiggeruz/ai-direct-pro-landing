@@ -1,0 +1,215 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/kimyo-masalalar/",
+  "slug": "kimyo-masalalar",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Bu kimyoviy hisoblashni m, M, n yoki massa ulushi orqali izohla. Birliklarni yoz, molyar massa berilmasa aniqlashtir. Masala: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir. Xato bo‘lsa, birinchi xato qadamni va sababini tushuntir. Xato bo‘lmasa, yechim to‘g‘ri ekanini ayt. Shart:\nMening yechimim:"
+    },
+    {
+      "label": "Shunga o‘xshash mashq",
+      "prompt": "Shu mavzuda bitta yangi original mashq tuz. Avval faqat shartni ber; javobni men urinib ko‘rganimdan keyin tushuntir. Mavzu: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-kimyo-masalalar",
+  "primaryKeyword": "kimyo masalalar",
+  "secondaryKeywords": [
+    "kimyo masalalari yechimi",
+    "molyar massa masalalari",
+    "massa ulushi masalalari"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Kimyo masalalar: 12 ta hisoblash va yechim",
+  "title": "Kimyo masalalar: 12 ta izohli yechim | GPTBot.uz",
+  "description": "Kimyo masalalari: molyar massa, mol, atomlar soni va eritmaning massa ulushi. 12 ta bepul mashq, berilgan qiymatlar va qadamma-qadam izohlar.",
+  "canonical": "https://gptbot.uz/uz/kimyo-masalalar/",
+  "hreflangUz": "/uz/kimyo-masalalar/",
+  "ogTitle": "Kimyo masalalar: 12 ta izohli yechim | GPTBot.uz",
+  "ogDescription": "Kimyo masalalari: molyar massa, mol, atomlar soni va eritmaning massa ulushi. 12 ta bepul mashq, berilgan qiymatlar va qadamma-qadam izohlar.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Kimyo masalalar",
+  "heroTitle": "Kimyo masalalar: 12 ta hisoblash va yechim",
+  "heroSubtitle": "Molyar massa, modda miqdori va massa ulushini bir-biridan ajrating. Mashqlarda kerakli yaxlitlangan molyar massalar shartning o‘zida beriladi.",
+  "ctaPrimaryLabel": "AI yordamchiga savol berish",
+  "ctaPrimaryHref": "#main",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Molyar massa, modda miqdori va massa ulushini bir-biridan ajrating. Mashqlarda kerakli yaxlitlangan molyar massalar shartning o‘zida beriladi."
+    },
+    {
+      "type": "h2",
+      "id": "kattaliklar",
+      "text": "Avval kattalik va birlikni aniqlang"
+    },
+    {
+      "type": "p",
+      "text": "Massa m grammda, molyar massa M g/mol da, modda miqdori n esa mol da ifodalanadi. Ular n = m / M va m = n × M orqali bog‘langan. Masalan, 36 g suv uchun M = 18 g/mol berilsa, n = 36 / 18 = 2 mol. Son 2 bo‘lishi ikki dona molekula degani emas: mol modda miqdori birligidir."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Topiladigan kattalik",
+        "Formula yoki usul",
+        "Ishlangan misol"
+      ],
+      "rows": [
+        [
+          "Molyar massa",
+          "Elementlarning molyar massalarini indekslarga ko‘paytirib qo‘shish",
+          "CO₂: 12 + 2 × 16 = 44 g/mol"
+        ],
+        [
+          "Modda miqdori",
+          "n = m / M",
+          "22 g CO₂: 22 / 44 = 0,5 mol"
+        ],
+        [
+          "Eritmadagi massa foizi",
+          "w = m(modda) / m(eritma) × 100 %",
+          "8 g shakar, 80 g eritma: 10 %"
+        ],
+        [
+          "Erituvchi massasi",
+          "m(eritma) − m(erigan modda)",
+          "80 − 8 = 72 g suv"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "eritma-massasi",
+      "text": "Eritma massasi — suv massasining o‘zi emas"
+    },
+    {
+      "type": "p",
+      "text": "20 g shakar va 180 g suv berilsa, eritma massasi 200 g bo‘ladi. Shakarning massa ulushi 20 / 200 × 100 = 10 %. 20 ni 180 ga bo‘lish shakar massasining suv massasiga nisbatini beradi, eritmadagi massa foizini emas. Suyultirishga oid nazariy masalada qo‘shimcha suv umumiy massani oshiradi, erigan modda massasi esa o‘zgarmaydi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ko‘rsatilgan yaxlitlangan molyar massalarni ishlating; jadvalning aniqroq qiymati bilan aralashtirmang.",
+        "5 % ni hisoblashda 0,05 ulushga aylantiring.",
+        "Indeks bitta elementga, formula oldidagi koeffitsiyent esa butun formulaga ta’sir qiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish-va-ai",
+      "text": "Javoblarni tekshirish va AI yordamchi"
+    },
+    {
+      "type": "p",
+      "text": "Variantni tanlang: natija va izoh shu sahifada ko‘rinadi. Qayta boshlash orqali yana mashq qilish mumkin. Savollar, javoblar va izohlar JavaScriptsiz ham o‘qiladi; interaktiv tekshiruv brauzerda ishlaydi va modelga so‘rov yubormaydi."
+    },
+    {
+      "type": "p",
+      "text": "«AI bilan tushuntirish» savolni chat maydoniga joylaydi, o‘zi yubormaydi. Matnni ko‘rib, o‘zingiz yuborasiz. GPTBot.uz mustaqil AI-servis: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Bu limit boshqa sahifalardagi chat bilan umumiy. Mashq testi esa bepul ishlashda davom etadi."
+    },
+    {
+      "type": "h2",
+      "id": "material-haqida",
+      "text": "Material qanday tayyorlangan"
+    },
+    {
+      "type": "p",
+      "text": "AI yordamida tuzilgan original mashqlar. Sonli javoblar va asosiy hisoblashlar alohida dasturiy tekshiruv bilan tekshirildi; qoidalar uchun manbalar quyida berilgan. Bu rasmiy DTM, milliy sertifikat, BSB yoki ChSB materiali emas. Natija rasmiy baho hisoblanmaydi. Savollardagi sonlar va vaziyatlar shu mashqlar uchun tanlangan. Xato haqida ceo@gptbot.uz manziliga yozishingiz mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Molyar massalarni qayerdan olish kerak?",
+      "a": "Ushbu 12 mashqda hisoblash uchun kerakli yaxlitlangan qiymatlar shartda berilgan. Boshqa masalada o‘qituvchi bergan jadval yoki ko‘rsatilgan manba qiymatidan foydalaning."
+    },
+    {
+      "q": "Massa ulushi bilan molyar konsentratsiya bir xilmi?",
+      "a": "Yo‘q. Massa ulushi erigan modda massasining butun eritma massasiga nisbatidir. Molyar konsentratsiya esa modda miqdorining eritma hajmiga nisbatidir; bu to‘plam massa ulushiga qaratilgan."
+    },
+    {
+      "q": "Mashqlar bepulmi?",
+      "a": "Ha. Tayyor savollar, javoblar va izohlar bepul. Interaktiv tekshiruv brauzerda bajariladi va AI javob limitini sarflamaydi."
+    },
+    {
+      "q": "AI tushuntirish bepul limitga kiradimi?",
+      "a": "Ha. Chatga o‘zingiz yuborgan savol sayt bo‘yicha umumiy 3 ta muvaffaqiyatli sinov javobidan yoki mavjud AI paketingizdan foydalanadi. Sinov javoblari har kuni yangilanmaydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/kimyo-test/",
+      "anchor": "Kimyoning asosiy tushunchalari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kalkulyator/",
+      "anchor": "Sonli hisoblarni tekshirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/fizika-masalalar/",
+      "anchor": "Fizikadan birlikli masalalar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "Mustaqil AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI paket narxi va shartlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "sources": [
+    {
+      "title": "OpenStax Chemistry 2e: formula mass and mole",
+      "url": "https://openstax.org/books/chemistry-2e/pages/3-1-formula-mass-and-the-mole-concept",
+      "note": "Molyar massa va modda miqdori orasidagi bog‘lanish."
+    },
+    {
+      "title": "OpenStax Chemistry 2e: solution concentrations",
+      "url": "https://openstax.org/books/chemistry-2e/pages/3-4-other-units-for-solution-concentrations",
+      "note": "Eritmadagi massa ulushi va massa foizi ta’rifi."
+    },
+    {
+      "title": "BIPM: The International System of Units (SI)",
+      "url": "https://www.bipm.org/en/publications/si-brochure",
+      "note": "O‘lchov birliklari, ularning belgilari va SI tizimi."
+    }
+  ],
+  "createdAt": "2026-11-08T00:00:00Z",
+  "updatedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-08"
+}

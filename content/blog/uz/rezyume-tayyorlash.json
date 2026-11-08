@@ -397,6 +397,27 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Alohida vazifa uchun amaliy materiallar: {pseo1}; {pseo2}; {pseo3}.",
+      "links": [
+        {
+          "token": "pseo1",
+          "target": "/uz/blog/tarjimai-hol-namuna/",
+          "anchor": "Tarjimai hol: xronologik namuna"
+        },
+        {
+          "token": "pseo2",
+          "target": "/uz/blog/obyektivka-namuna/",
+          "anchor": "Obyektivka: qisqa ma’lumotnoma"
+        },
+        {
+          "token": "pseo3",
+          "target": "/uz/blog/motivatsion-xat-namuna/",
+          "anchor": "O‘quv dasturiga motivatsion xat"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Rezyume matnini AI chatda tayyorlash",
       "href": "/uz/gpt-uzbek-tilida/"
@@ -465,6 +486,24 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/tarjimai-hol-namuna/",
+      "anchor": "Tarjimai hol: xronologik namuna",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/obyektivka-namuna/",
+      "anchor": "Obyektivka: qisqa ma’lumotnoma",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/motivatsion-xat-namuna/",
+      "anchor": "O‘quv dasturiga motivatsion xat",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Rezyume tayyorlash: tuzilma namunasi va AI bilan 5 qadam",
@@ -481,7 +520,7 @@
   "breadcrumbLabel": "Rezyume tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-11-07",
+  "dateModified": "2026-11-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -496,6 +535,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rezyumeda bu siz aytmagan tajriba, raqam yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-11-07",
+  "updatedAt": "2026-11-08T00:00:00.000Z",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

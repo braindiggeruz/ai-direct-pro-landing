@@ -343,6 +343,22 @@
       "text": "GPTBot.uz mustaqil AI-xizmat; OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. AI xato qilishi mumkin, shu sababli baholanadigan ish va muhim faktlar inson tekshiruvidan o‘tishi kerak."
     },
     {
+      "type": "linkp",
+      "text": "Alohida vazifa uchun amaliy materiallar: {pseo1}; {pseo2}.",
+      "links": [
+        {
+          "token": "pseo1",
+          "target": "/uz/blog/amaliyot-kundaligi-namuna/",
+          "anchor": "Amaliyot kundaligi: kunlik qaydlar"
+        },
+        {
+          "token": "pseo2",
+          "target": "/uz/blog/amaliyot-hisoboti-namuna/",
+          "anchor": "Amaliyot hisoboti: yakuniy tuzilma"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "O‘zbek tilida AI chatni sinab ko‘rish",
       "href": "/uz/gpt-uzbek-tilida/"
@@ -435,6 +451,18 @@
       "anchor": "Rezyume tayyorlash: namuna va maslahatlar",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/amaliyot-kundaligi-namuna/",
+      "anchor": "Amaliyot kundaligi: kunlik qaydlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/amaliyot-hisoboti-namuna/",
+      "anchor": "Amaliyot hisoboti: yakuniy tuzilma",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "ChatGPT talabalar uchun: halol va foydali 20 usul",
@@ -450,7 +478,7 @@
   },
   "author": "GPTBot Team",
   "datePublished": "2026-07-30",
-  "dateModified": "2026-10-07",
+  "dateModified": "2026-11-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -459,7 +487,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-30T00:00:00.000Z",
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-11-08T00:00:00.000Z",
   "sources": [
     {
       "title": "OpenAI Help Center — What is ChatGPT?",

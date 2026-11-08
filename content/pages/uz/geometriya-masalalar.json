@@ -1,0 +1,216 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/geometriya-masalalar/",
+  "slug": "geometriya-masalalar",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Bu geometriya masalasida shaklni so‘z bilan tasvirla, berilgan kattaliklarni va so‘ralganini ajrat. Formulani shartlari bilan tushuntir, birlikni tekshir. Masala: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir. Xato bo‘lsa, birinchi xato qadamni va sababini tushuntir. Xato bo‘lmasa, yechim to‘g‘ri ekanini ayt. Shart:\nMening yechimim:"
+    },
+    {
+      "label": "Shunga o‘xshash mashq",
+      "prompt": "Shu mavzuda bitta yangi original mashq tuz. Avval faqat shartni ber; javobni men urinib ko‘rganimdan keyin tushuntir. Mavzu: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-geometriya-masalalar",
+  "primaryKeyword": "geometriya masalalar",
+  "secondaryKeywords": [
+    "geometriya masalalari yechimi",
+    "yuza perimetr masalalari",
+    "geometriya formulalar misollar"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Geometriya masalalar: 12 ta izohli yechim",
+  "title": "Geometriya masalalar: 12 ta yechim | GPTBot.uz",
+  "description": "Geometriya masalalari: perimetr, yuza, burchak, aylana va hajm. 12 ta bepul mashq, formulalar va tekshirish uchun qadamma-qadam tushuntirish.",
+  "canonical": "https://gptbot.uz/uz/geometriya-masalalar/",
+  "hreflangUz": "/uz/geometriya-masalalar/",
+  "ogTitle": "Geometriya masalalar: 12 ta yechim | GPTBot.uz",
+  "ogDescription": "Geometriya masalalari: perimetr, yuza, burchak, aylana va hajm. 12 ta bepul mashq, formulalar va tekshirish uchun qadamma-qadam tushuntirish.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Geometriya masalalar",
+  "heroTitle": "Geometriya masalalar: 12 ta izohli yechim",
+  "heroSubtitle": "Qaysi shakl va qaysi kattalik so‘ralganini aniqlashdan boshlang. 12 ta masala perimetr, yuza, burchak, aylana uzunligi va hajmni farqlashga yordam beradi.",
+  "ctaPrimaryLabel": "AI yordamchiga savol berish",
+  "ctaPrimaryHref": "#main",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Qaysi shakl va qaysi kattalik so‘ralganini aniqlashdan boshlang. 12 ta masala perimetr, yuza, burchak, aylana uzunligi va hajmni farqlashga yordam beradi."
+    },
+    {
+      "type": "h2",
+      "id": "shakl-va-kattalik",
+      "text": "Shakl va so‘ralgan kattalikni ajrating"
+    },
+    {
+      "type": "p",
+      "text": "Bir xil to‘g‘ri to‘rtburchak uchun perimetr va yuza boshqa natija beradi. Tomonlari 10 sm va 6 sm bo‘lsa, perimetr 2 × (10 + 6) = 32 sm, yuza esa 10 × 6 = 60 sm². «Atrofini o‘rash» chegaraning uzunligini, «ichini qoplash» esa yuzani bildirishi mumkin. Shartni o‘qib, so‘ralgan kattalikni yozib oling."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Shakl va kattalik",
+        "Formula",
+        "Qo‘llash sharti"
+      ],
+      "rows": [
+        [
+          "To‘g‘ri to‘rtburchak yuzi",
+          "S = a × b",
+          "Yonma-yon tomonlar"
+        ],
+        [
+          "Uchburchak yuzi",
+          "S = a × h / 2",
+          "h aynan a asosga tushirilgan balandlik"
+        ],
+        [
+          "Aylana uzunligi",
+          "L = 2πr",
+          "r radius; diametr 2r"
+        ],
+        [
+          "To‘g‘ri burchakli uchburchak",
+          "c² = a² + b²",
+          "c gipotenuza, a va b katetlar"
+        ],
+        [
+          "To‘g‘ri burchakli jism hajmi",
+          "V = a × b × h",
+          "Uch o‘lcham bir xil uzunlik birligida"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "chizma",
+      "text": "Chizmasiz ham shartni to‘g‘ri tasavvur qilish"
+    },
+    {
+      "type": "p",
+      "text": "Uchburchakda «asosi 8 sm, balandligi 3 sm» deyilsa, balandlikni yon tomon deb qabul qilmang. Balandlik asos yotgan to‘g‘ri chiziqqa tik tushiriladi. Shunda S = 8 × 3 / 2 = 12 sm². Daftarda kichik chizma chizib, asos va balandlikni alohida belgilang; ko‘rinishdan kelib chiqib berilmagan uzunlikni taxmin qilmang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Radius va diametrni almashtirsangiz, aylana uzunligi ikki baravar xato chiqadi.",
+        "Pifagor teoremasi har qanday uchburchakka emas, to‘g‘ri burchakli uchburchakka qo‘llanadi.",
+        "Uzunlik sm, yuza sm², hajm sm³ bilan yoziladi.",
+        "π qiymatini shartdan oling; ushbu aylana mashqida π = 3,14 aniq berilgan."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish-va-ai",
+      "text": "Javoblarni tekshirish va AI yordamchi"
+    },
+    {
+      "type": "p",
+      "text": "Variantni tanlang: natija va izoh shu sahifada ko‘rinadi. Qayta boshlash orqali yana mashq qilish mumkin. Savollar, javoblar va izohlar JavaScriptsiz ham o‘qiladi; interaktiv tekshiruv brauzerda ishlaydi va modelga so‘rov yubormaydi."
+    },
+    {
+      "type": "p",
+      "text": "«AI bilan tushuntirish» savolni chat maydoniga joylaydi, o‘zi yubormaydi. Matnni ko‘rib, o‘zingiz yuborasiz. GPTBot.uz mustaqil AI-servis: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Bu limit boshqa sahifalardagi chat bilan umumiy. Mashq testi esa bepul ishlashda davom etadi."
+    },
+    {
+      "type": "h2",
+      "id": "material-haqida",
+      "text": "Material qanday tayyorlangan"
+    },
+    {
+      "type": "p",
+      "text": "AI yordamida tuzilgan original mashqlar. Sonli javoblar va asosiy hisoblashlar alohida dasturiy tekshiruv bilan tekshirildi; qoidalar uchun manbalar quyida berilgan. Bu rasmiy DTM, milliy sertifikat, BSB yoki ChSB materiali emas. Natija rasmiy baho hisoblanmaydi. Savollardagi sonlar va vaziyatlar shu mashqlar uchun tanlangan. Xato haqida ceo@gptbot.uz manziliga yozishingiz mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Yuza va perimetrni qanday farqlash mumkin?",
+      "a": "Perimetr shakl chegarasining uzunligi, yuza esa ichki maydondir. Tomonlari 3 sm va 2 sm to‘g‘ri to‘rtburchakda perimetr 10 sm, yuza 6 sm² bo‘ladi."
+    },
+    {
+      "q": "Bu masalalarni kalkulyatorsiz yechish mumkinmi?",
+      "a": "Ko‘pchiligini butun sonlar bilan qo‘lda hisoblash mumkin. Aylana uchun 3,14 bilan ko‘paytirishda kalkulyator yordam berishi mumkin, lekin avval to‘g‘ri formulani tanlash kerak."
+    },
+    {
+      "q": "Mashqlar bepulmi?",
+      "a": "Ha. Tayyor savollar, javoblar va izohlar bepul. Interaktiv tekshiruv brauzerda bajariladi va AI javob limitini sarflamaydi."
+    },
+    {
+      "q": "AI tushuntirish bepul limitga kiradimi?",
+      "a": "Ha. Chatga o‘zingiz yuborgan savol sayt bo‘yicha umumiy 3 ta muvaffaqiyatli sinov javobidan yoki mavjud AI paketingizdan foydalanadi. Sinov javoblari har kuni yangilanmaydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/matematika-test/",
+      "anchor": "Matematika bo‘yicha aralash test",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/fizika-masalalar/",
+      "anchor": "Yuza va hajm qatnashgan fizika masalalari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tenglama-yechish/",
+      "anchor": "Noma’lum uzunlik uchun tenglama",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "Mustaqil AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI paket narxi va shartlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "sources": [
+    {
+      "title": "OpenStax Prealgebra 2e: geometry applications",
+      "url": "https://openstax.org/books/prealgebra-2e/pages/9-5-solve-geometry-applications-circles-and-irregular-figures",
+      "note": "Aylana, radius, diametr va geometrik formulalarni qo‘llash uchun ma’lumotnoma."
+    },
+    {
+      "title": "BIPM: The International System of Units (SI)",
+      "url": "https://www.bipm.org/en/publications/si-brochure",
+      "note": "O‘lchov birliklari, ularning belgilari va SI tizimi."
+    }
+  ],
+  "createdAt": "2026-11-08T00:00:00Z",
+  "updatedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-08"
+}

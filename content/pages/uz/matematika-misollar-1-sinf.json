@@ -1,0 +1,205 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/matematika-misollar-1-sinf/",
+  "slug": "matematika-misollar-1-sinf",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Bu sodda misolni 1-sinf darajasida sanash va qalamlar tasviri bilan tushuntir. Avval bitta yo‘naltiruvchi savol ber. Misol: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir. Xato bo‘lsa, birinchi xato qadamni va sababini tushuntir. Xato bo‘lmasa, yechim to‘g‘ri ekanini ayt. Shart:\nMening yechimim:"
+    },
+    {
+      "label": "Shunga o‘xshash mashq",
+      "prompt": "Shu mavzuda bitta yangi original mashq tuz. Avval faqat shartni ber; javobni men urinib ko‘rganimdan keyin tushuntir. Mavzu: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-matematika-1-sinf",
+  "primaryKeyword": "matematika misollar 1 sinf",
+  "secondaryKeywords": [
+    "1-sinf matematika misollari",
+    "1 sinf qo‘shish ayirish",
+    "birinchi sinf matematika mashqlari"
+  ],
+  "searchIntent": "transactional",
+  "h1": "1-sinf matematika misollari: 12 ta mashq",
+  "title": "1-sinf matematika: 12 ta izohli misol | GPTBot.uz",
+  "description": "1-sinf uchun 12 ta matematika misoli: qo‘shish, ayirish, taqqoslash, o‘nlik va birlik. Har bir javobning izohi bor, mashqlar bepul ishlaydi.",
+  "canonical": "https://gptbot.uz/uz/matematika-misollar-1-sinf/",
+  "hreflangUz": "/uz/matematika-misollar-1-sinf/",
+  "ogTitle": "1-sinf matematika: 12 ta izohli misol | GPTBot.uz",
+  "ogDescription": "1-sinf uchun 12 ta matematika misoli: qo‘shish, ayirish, taqqoslash, o‘nlik va birlik. Har bir javobning izohi bor, mashqlar bepul ishlaydi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "1-sinf matematika misollari",
+  "heroTitle": "1-sinf matematika misollari: 12 ta mashq",
+  "heroSubtitle": "20 gacha sonlar, sodda qo‘shish va ayirish, taqqoslash hamda matnli masalalar. Har bir javobni tanlaganingizdan so‘ng tekshiruv va qisqa tushuntirish ochiladi.",
+  "ctaPrimaryLabel": "AI yordamchiga savol berish",
+  "ctaPrimaryHref": "#main",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "20 gacha sonlar, sodda qo‘shish va ayirish, taqqoslash hamda matnli masalalar. Har bir javobni tanlaganingizdan so‘ng tekshiruv va qisqa tushuntirish ochiladi."
+    },
+    {
+      "type": "h2",
+      "id": "kim-uchun",
+      "text": "Bu mashqlar kim uchun"
+    },
+    {
+      "type": "p",
+      "text": "Bu to‘plam sanashni o‘rganayotgan bolaga kattalar bilan yoki mustaqil mashq qilish uchun tuzilgan. Sonni ko‘rish, miqdorni sanash va amalni tanlash alohida ko‘nikmalardir. Masala matnini o‘qish qiyin bo‘lsa, katta kishi shartni ovoz chiqarib o‘qib bersin; javobni bolaning o‘zi tanlasin. Sinf nomi yo‘nalish beradi, lekin aniq maktab dasturi yoki darslikka moslikni bildirmaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ko‘nikma",
+        "Yangi namuna",
+        "Tekshirish usuli"
+      ],
+      "rows": [
+        [
+          "Qo‘shish",
+          "4 + 5 = 9",
+          "4 dan boshlab besh qadam oldinga sanash"
+        ],
+        [
+          "Ayirish",
+          "7 − 3 = 4",
+          "4 + 3 = 7 bilan qayta tekshirish"
+        ],
+        [
+          "Taqqoslash",
+          "11 > 9",
+          "11 soni sanoqda 9 dan keyin keladi"
+        ],
+        [
+          "Son tarkibi",
+          "16 = 10 + 6",
+          "Bir o‘nlik va olti birlik"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "rasmli-yechim",
+      "text": "Masalani rasm bilan yechamiz"
+    },
+    {
+      "type": "p",
+      "text": "«Stolda 4 ta qalam bor, yana 2 ta qo‘yildi» degan shart uchun avval to‘rtta chiziq, yoniga yana ikkita chiziq chizing. Hammasini sanang: 6. Amal yozuvi 4 + 2 = 6 bo‘ladi. «2 tasi olindi» deyilsa, ikkita chiziqni o‘chirib, qolganlarini sanash kerak. Bir xil sonlar turli voqeada boshqa amalni talab qilishi mumkin."
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Ko‘p» yoki «kam» so‘zining o‘zini ko‘rib amalni tanlamang; voqeani tushuning.",
+        "< va > belgilarining ochiq tomoni kattaroq son tomonga qaraydi.",
+        "Avval 4–6 ta misolni tushunib yeching; charchaganda tanaffus qiling."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish-va-ai",
+      "text": "Javoblarni tekshirish va AI yordamchi"
+    },
+    {
+      "type": "p",
+      "text": "Variantni tanlang: natija va izoh shu sahifada ko‘rinadi. Qayta boshlash orqali yana mashq qilish mumkin. Savollar, javoblar va izohlar JavaScriptsiz ham o‘qiladi; interaktiv tekshiruv brauzerda ishlaydi va modelga so‘rov yubormaydi."
+    },
+    {
+      "type": "p",
+      "text": "«AI bilan tushuntirish» savolni chat maydoniga joylaydi, o‘zi yubormaydi. Matnni ko‘rib, o‘zingiz yuborasiz. GPTBot.uz mustaqil AI-servis: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Bu limit boshqa sahifalardagi chat bilan umumiy. Mashq testi esa bepul ishlashda davom etadi."
+    },
+    {
+      "type": "h2",
+      "id": "material-haqida",
+      "text": "Material qanday tayyorlangan"
+    },
+    {
+      "type": "p",
+      "text": "AI yordamida tuzilgan original mashqlar. Sonli javoblar va asosiy hisoblashlar alohida dasturiy tekshiruv bilan tekshirildi; qoidalar uchun manbalar quyida berilgan. Bu rasmiy DTM, milliy sertifikat, BSB yoki ChSB materiali emas. Natija rasmiy baho hisoblanmaydi. Savollardagi sonlar va vaziyatlar shu mashqlar uchun tanlangan. Xato haqida ceo@gptbot.uz manziliga yozishingiz mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bu 1-sinf darsligidagi tayyor javoblarmi?",
+      "a": "Yo‘q. Bular shu sahifa uchun tuzilgan mustaqil mashqlar. Darslik nashri yoki maktab topshirig‘ining javoblari ko‘chirilmagan."
+    },
+    {
+      "q": "Bola xato qilsa nima qilish kerak?",
+      "a": "Natijani darhol yodlatish o‘rniga sonlarni qalam, kubik yoki chiziqlar bilan ko‘rsating. Keyin shunga o‘xshash boshqa misolni mustaqil yechishini so‘rang."
+    },
+    {
+      "q": "Mashqlar bepulmi?",
+      "a": "Ha. Tayyor savollar, javoblar va izohlar bepul. Interaktiv tekshiruv brauzerda bajariladi va AI javob limitini sarflamaydi."
+    },
+    {
+      "q": "AI tushuntirish bepul limitga kiradimi?",
+      "a": "Ha. Chatga o‘zingiz yuborgan savol sayt bo‘yicha umumiy 3 ta muvaffaqiyatli sinov javobidan yoki mavjud AI paketingizdan foydalanadi. Sinov javoblari har kuni yangilanmaydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/matematika-test/",
+      "anchor": "Yuqori bosqich: 5–9-sinf matematika testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/matematika-misollar-2-sinf/",
+      "anchor": "2-sinf misollariga o‘tish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/karra-jadvali/",
+      "anchor": "Ko‘paytirishni o‘rganish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Barcha onlayn testlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "Mustaqil AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI paket narxi va shartlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "sources": [
+    {
+      "title": "OpenStax Prealgebra 2e: whole numbers and arithmetic",
+      "url": "https://openstax.org/books/prealgebra-2e/pages/1-introduction",
+      "note": "Arifmetik amallar uchun ma’lumotnoma. Quyidagi mashqlar manbadan ko‘chirilmagan, alohida tuzilgan."
+    }
+  ],
+  "createdAt": "2026-11-08T00:00:00Z",
+  "updatedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-08"
+}

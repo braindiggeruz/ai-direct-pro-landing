@@ -1,0 +1,216 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/matematika-misollar-2-sinf/",
+  "slug": "matematika-misollar-2-sinf",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Bu 2-sinf darajasidagi masalani ikki xonali sonlarni o‘nlik va birliklarga ajratib tushuntir. Har qadamning ma’nosini yoz. Masala: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir. Xato bo‘lsa, birinchi xato qadamni va sababini tushuntir. Xato bo‘lmasa, yechim to‘g‘ri ekanini ayt. Shart:\nMening yechimim:"
+    },
+    {
+      "label": "Shunga o‘xshash mashq",
+      "prompt": "Shu mavzuda bitta yangi original mashq tuz. Avval faqat shartni ber; javobni men urinib ko‘rganimdan keyin tushuntir. Mavzu: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-matematika-2-sinf",
+  "primaryKeyword": "matematika misollar 2 sinf",
+  "secondaryKeywords": [
+    "2-sinf matematika misollari",
+    "ikki xonali sonlar mashqlari",
+    "2 sinf matnli masalalar"
+  ],
+  "searchIntent": "transactional",
+  "h1": "2-sinf matematika misollari: 12 ta mashq",
+  "title": "2-sinf matematika: 12 ta yechimli misol | GPTBot.uz",
+  "description": "2-sinf matematika misollari: ikki xonali sonlar, teng guruhlar, vaqt, uzunlik va perimetr. 12 ta bepul mashq, javob va qadamma-qadam izoh.",
+  "canonical": "https://gptbot.uz/uz/matematika-misollar-2-sinf/",
+  "hreflangUz": "/uz/matematika-misollar-2-sinf/",
+  "ogTitle": "2-sinf matematika: 12 ta yechimli misol | GPTBot.uz",
+  "ogDescription": "2-sinf matematika misollari: ikki xonali sonlar, teng guruhlar, vaqt, uzunlik va perimetr. 12 ta bepul mashq, javob va qadamma-qadam izoh.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "2-sinf matematika misollari",
+  "heroTitle": "2-sinf matematika misollari: 12 ta mashq",
+  "heroSubtitle": "100 ichida qo‘shish-ayirishdan teng guruhlar va ikki amalli masalalargacha. Hisoblashdan tashqari vaqt, uzunlik va perimetr birliklarini ham tekshiring.",
+  "ctaPrimaryLabel": "AI yordamchiga savol berish",
+  "ctaPrimaryHref": "#main",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "100 ichida qo‘shish-ayirishdan teng guruhlar va ikki amalli masalalargacha. Hisoblashdan tashqari vaqt, uzunlik va perimetr birliklarini ham tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "ikki-xonali",
+      "text": "Ikki xonali sonni qismlarga ajrating"
+    },
+    {
+      "type": "p",
+      "text": "47 + 28 misolida 28 ni 20 va 8 ga ajrating: 47 + 20 = 67, keyin 67 + 8 = 75. Ayirishda ham shu yo‘l yordam beradi: 83 − 27 = 83 − 20 − 7 = 56. Javobni teskari amal bilan tekshiring: 56 + 27 = 83. Bunday tushuntirish faqat natijani topishdan tashqari xonalar o‘rtasidagi o‘tishni anglashga yordam beradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Mavzu",
+        "Ishlangan namuna",
+        "E’tibor bering"
+      ],
+      "rows": [
+        [
+          "O‘nlikdan o‘tish",
+          "46 + 17 = 63",
+          "46 + 10 + 7"
+        ],
+        [
+          "Teng taqsimlash",
+          "18 ÷ 3 = 6",
+          "Uchta teng guruhga bo‘lish"
+        ],
+        [
+          "Vaqt",
+          "2 soat 5 minut = 125 minut",
+          "Har bir soatda 60 minut"
+        ],
+        [
+          "Perimetr",
+          "4 sm va 2 sm: P = 12 sm",
+          "To‘rtta tomonni qo‘shish"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ikki-amal",
+      "text": "Ikki amalli masalada tartib"
+    },
+    {
+      "type": "p",
+      "text": "Kutubxonada 25 ta ertak kitobi bor edi. Yana 14 tasi keldi, 8 tasi o‘quvchilarga berildi. Birinchi hodisa: 25 + 14 = 39. Ikkinchi hodisa: 39 − 8 = 31. Qisqa yozuv 25 + 14 − 8 = 31 bo‘ladi. Har bir natija nimani bildirayotganini aytib boring: kelganidan keyin 39 ta, berilganidan keyin 31 ta."
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘nlik va birliklarni chalkashtirmang: 47 va 74 boshqa sonlar.",
+        "Santimetr bilan detsimetrni bir birlikka keltiring.",
+        "Perimetr uzunlikdir: javob sm da, sm² da emas."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish-va-ai",
+      "text": "Javoblarni tekshirish va AI yordamchi"
+    },
+    {
+      "type": "p",
+      "text": "Variantni tanlang: natija va izoh shu sahifada ko‘rinadi. Qayta boshlash orqali yana mashq qilish mumkin. Savollar, javoblar va izohlar JavaScriptsiz ham o‘qiladi; interaktiv tekshiruv brauzerda ishlaydi va modelga so‘rov yubormaydi."
+    },
+    {
+      "type": "p",
+      "text": "«AI bilan tushuntirish» savolni chat maydoniga joylaydi, o‘zi yubormaydi. Matnni ko‘rib, o‘zingiz yuborasiz. GPTBot.uz mustaqil AI-servis: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Bu limit boshqa sahifalardagi chat bilan umumiy. Mashq testi esa bepul ishlashda davom etadi."
+    },
+    {
+      "type": "h2",
+      "id": "material-haqida",
+      "text": "Material qanday tayyorlangan"
+    },
+    {
+      "type": "p",
+      "text": "AI yordamida tuzilgan original mashqlar. Sonli javoblar va asosiy hisoblashlar alohida dasturiy tekshiruv bilan tekshirildi; qoidalar uchun manbalar quyida berilgan. Bu rasmiy DTM, milliy sertifikat, BSB yoki ChSB materiali emas. Natija rasmiy baho hisoblanmaydi. Savollardagi sonlar va vaziyatlar shu mashqlar uchun tanlangan. Xato haqida ceo@gptbot.uz manziliga yozishingiz mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bu misollar hamma 2-sinf dasturiga mosmi?",
+      "a": "Mavzular boshlang‘ich darajadagi mashqlar sifatida tanlangan. Maktab va darslikda ketma-ketlik farq qilishi mumkin; hali o‘tilmagan mavzuni kattalar bilan ko‘rib chiqing."
+    },
+    {
+      "q": "Birliklarni nega alohida yozish kerak?",
+      "a": "20 sonining o‘zi 20 minutmi yoki 20 santimetrmi, bildirmaydi. Shartdagi birlik va so‘ralgan natijaga qarab to‘g‘ri birlikni yozish yechimning bir qismidir."
+    },
+    {
+      "q": "Mashqlar bepulmi?",
+      "a": "Ha. Tayyor savollar, javoblar va izohlar bepul. Interaktiv tekshiruv brauzerda bajariladi va AI javob limitini sarflamaydi."
+    },
+    {
+      "q": "AI tushuntirish bepul limitga kiradimi?",
+      "a": "Ha. Chatga o‘zingiz yuborgan savol sayt bo‘yicha umumiy 3 ta muvaffaqiyatli sinov javobidan yoki mavjud AI paketingizdan foydalanadi. Sinov javoblari har kuni yangilanmaydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/matematika-test/",
+      "anchor": "Yuqori bosqich: 5–9-sinf matematika testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/matematika-misollar-1-sinf/",
+      "anchor": "1-sinf asoslarini takrorlash",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/karra-jadvali/",
+      "anchor": "Karra jadvali bilan mashq",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/matematika-misollar-3-sinf/",
+      "anchor": "3-sinf uchun murakkabroq misollar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "Mustaqil AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI paket narxi va shartlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "sources": [
+    {
+      "title": "OpenStax Prealgebra 2e: whole numbers and arithmetic",
+      "url": "https://openstax.org/books/prealgebra-2e/pages/1-introduction",
+      "note": "Arifmetik amallar uchun ma’lumotnoma. Quyidagi mashqlar manbadan ko‘chirilmagan, alohida tuzilgan."
+    },
+    {
+      "title": "BIPM: The International System of Units (SI)",
+      "url": "https://www.bipm.org/en/publications/si-brochure",
+      "note": "O‘lchov birliklari, ularning belgilari va SI tizimi."
+    }
+  ],
+  "createdAt": "2026-11-08T00:00:00Z",
+  "updatedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-08"
+}

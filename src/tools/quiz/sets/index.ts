@@ -13,7 +13,8 @@ import type { QuizSet } from '../set';
 import { uzFizika } from './uz-fizika';
 import { uzInformatika } from './uz-informatika';
 import { uzMatematika } from './uz-matematika';
+import { PSEO_QUIZ_SETS } from './pseo-20261108';
 
 // The tests pilot (2026-10-25): /uz/informatika-test/, /uz/fizika-test/,
 // /uz/matematika-test/, one set per page.
-export const QUIZ_SETS: readonly QuizSet[] = [uzInformatika, uzFizika, uzMatematika];
+export const QUIZ_SETS: readonly QuizSet[] = [uzInformatika, uzFizika, uzMatematika, ...PSEO_QUIZ_SETS];

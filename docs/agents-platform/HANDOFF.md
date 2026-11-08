@@ -1,3 +1,45 @@
+# Current handoff — pSEO20 candidate · 08.11.2026
+
+## 1. State
+Verified candidate on codex/pseo20-20261108, source baseline 4928bb7f7fb47c492c580e3db63a9384913dc4af; production remains e85da915 until the guarded release succeeds. Current explicit owner request authorizes these 20 resources and supersedes observation-only SEO scope for this cohort.
+
+## 2. Delivered
+Ten document guides / 20 DOCX/PDF files; ten practice pages / 120 original questions; multiplication and exact-equation tools; existing-parent links and intent ownership.
+
+## 3. Files
+See reports/pseo20-20261108/IMPLEMENTATION.md and exact src/shared/pseo20.ts registry. New content/datasets/renderers, scoped styles, quiz registration, parent links, tests and reviewed SEO baseline.
+
+## 4. Decisions
+A12 in intent-manifest: standalone original useful resources, preserved broad owners, nonofficial obyektivka scope. D-PSEO20-20261108 in DECISIONS.md.
+
+## 5. Excluded
+No paid research/subscription, Meta changes, backend/payment/bot/webhook/secret changes or speculative mass expansion.
+
+## 6. Validation
+74 browser, 150 document and 185 distinct regression checks pass after the documented stale-test correction; TypeScript/lint/SEO audit and full candidate compilation pass.330 old metadata contracts preserved;320 complete contracts unchanged. See external evidence and implementation report.
+
+## 7. Open issues
+No remaining content/engineering blocker. Production build stamp/deploy/readback still required. Indexing/ranking/citations not measured. Chat start109,968 B vs 110,000 B budget.
+
+## 8. Next task
+Publish this exact clean candidate through the guarded runner, then verify 350 HTML URLs, 20 downloads, public assets and 8 resource bindings.
+
+## 9. Acceptance
+Exact public manifest and artifact bytes, no broken new page, asset or download, preserved protected SEO and native binding and secret-name fingerprints.
+
+## 10. Start
+Read scoped STATE, git status/log; physical worktree F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/gptbot-pseo20-20261108. NODE_OPTIONS=--max-old-space-size=1400. npm run build:production; DR_ROOT this worktree; guarded deploy_runner.py check/deploy.
+
+## 11. Risks
+Preserve earlier Wrangler config-discovery guard and current bot routing. New review baseline predecessor is immutable. Do not replace other project state.
+
+## 12. Rollback
+Scoped revert on current ancestry, new guarded build; never restore an artifact with missing bindings or overwrite later work. Final runtime SHA and receipts will be recorded after deployment.
+
+Previous handoffs and unrelated operational context are preserved below.
+
+---
+
 # Current handoff — dark brand correction and campaign delivery · 08.11.2026
 
 **DEPLOYED / VERIFIED.** Runtime `e85da915a070acc71b7d9b76b5a7a92b1ac08fe4`, Pages `77085220`; strict public readback **464/464 PASS**. All eight native resources and packed runtime settings verified. One marked synthetic campaign lead reached `sent` on the first attempt through @gptbotuz_bot; webhook unchanged. The owner corrected the light design and requested SEO-safe linking plus this bot's delivery. Scope complete; Meta campaigns remain untouched.

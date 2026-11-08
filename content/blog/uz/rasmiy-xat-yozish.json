@@ -355,6 +355,32 @@
       "text": "AI chat tashkilotingiz ish yuritish tartibini, shartnoma shartlarini va hamkor bilan oldingi yozishmalarni bilmaydi. U huquqiy oqibatlarni baholamaydi, qonun moddalarini noto‘g‘ri keltirishi mumkin, xatni imzolamaydi va ro‘yxatga olmaydi. Qoralamani to‘liq o‘qing, faktlarni hujjatlar bilan solishtiring, kafolat yoki da’vo xatida pul va muddat masalasi jiddiy bo‘lsa, yakuniy matnni yurist yoki buxgalter bilan kelishing."
     },
     {
+      "type": "linkp",
+      "text": "Alohida vazifa uchun amaliy materiallar: {pseo1}; {pseo2}; {pseo3}; {pseo4}.",
+      "links": [
+        {
+          "token": "pseo1",
+          "target": "/uz/blog/bayonnoma-namuna/",
+          "anchor": "Yig‘ilish bayonnomasi namunasi"
+        },
+        {
+          "token": "pseo2",
+          "target": "/uz/blog/dalolatnoma-namuna/",
+          "anchor": "Topshirish-qabul qilish dalolatnomasi"
+        },
+        {
+          "token": "pseo3",
+          "target": "/uz/blog/bildirishnoma-namuna/",
+          "anchor": "Ichki bildirishnoma namunasi"
+        },
+        {
+          "token": "pseo4",
+          "target": "/uz/blog/javob-xati-namuna/",
+          "anchor": "Murojaatga javob xati namunasi"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Rasmiy xat qoralamasini AI chatda yozish",
       "href": "/uz/gpt-uzbek-tilida/"
@@ -415,6 +441,30 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/bayonnoma-namuna/",
+      "anchor": "Yig‘ilish bayonnomasi namunasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/dalolatnoma-namuna/",
+      "anchor": "Topshirish-qabul qilish dalolatnomasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/bildirishnoma-namuna/",
+      "anchor": "Ichki bildirishnoma namunasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/javob-xati-namuna/",
+      "anchor": "Murojaatga javob xati namunasi",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Rasmiy xat yozish: tuzilma va xizmat xati namunalari",
@@ -431,7 +481,7 @@
   "breadcrumbLabel": "Rasmiy xat yozish",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-24",
-  "dateModified": "2026-11-06",
+  "dateModified": "2026-11-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -446,6 +496,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Rasmiy xatda bu noto‘g‘ri sana, summa, shartnoma bandi yoki qonun moddasi ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf. Manba sayt qo‘llanmalari uchun 2026-10-05 kuni tekshirilgan."
     }
   ],
-  "updatedAt": "2026-11-06T00:00:00.000Z",
+  "updatedAt": "2026-11-08T00:00:00.000Z",
   "createdAt": "2026-10-24T00:00:00.000Z"
 }

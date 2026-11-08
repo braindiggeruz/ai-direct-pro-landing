@@ -1,0 +1,292 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "javob-xati-namuna",
+  "url": "/uz/blog/javob-xati-namuna/",
+  "title": "Javob xati namuna: so‘rovga javob, Word va PDF | GPTBot.uz",
+  "description": "Hamkor so‘roviga javob xati: savollar bo‘yicha to‘ldirilgan misol, Word/PDF blanka, kiruvchi xatga havola va noma’lum muddatni to‘g‘ri yozish.",
+  "h1": "So‘rovga javob xati: savollarga tartib bilan javob berish namunasi",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "javob xati namuna",
+    "sorovga javob xati",
+    "javob xati word"
+  ],
+  "intro": "Javob xati oldingi murojaatdagi savollarga qaytadi. Bu namunada hamkor beshta stol haqida ma’lumot so‘ragan: javob o‘lcham, material, narx va muddat masalalarini alohida ko‘rib chiqadi, yetishmagan ma’lumotni esa ochiq so‘raydi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/pseo-20261108/javob-xati-namuna.docx",
+          "anchor": "Word uchun DOCX namunasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/pseo-20261108/javob-xati-namuna.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu hamkorning axborot yoki narx so‘roviga oddiy javob namunasi. Fuqarolar murojaati, da’vo, sud hujjati yoki boshqa maxsus jarayondagi javob muddati uchun ko‘rsatma emas. Kiruvchi xatni va tegishli kelishuvlarni o‘qimasdan tayyor gapni ko‘chirmang."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli. «A guruhi» va «B ustaxonasi» shartli tomonlar; haqiqiy tijorat taklifi yoki majburiyat yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "«B ustaxonasi» · 06.11.2026 № 7 · «A guruhi» koordinatoriga"
+    },
+    {
+      "type": "quote",
+      "text": "03.11.2026 dagi 4-sonli xatingizga javoban"
+    },
+    {
+      "type": "quote",
+      "text": "Hurmatli hamkor! O‘quv xonasi uchun beshta stol tayyorlash haqidagi so‘rovingizni ko‘rib chiqdik. Quyidagi ma’lumotlarni taqdim etamiz."
+    },
+    {
+      "type": "quote",
+      "text": "1. O‘lcham bo‘yicha: dastlabki tavsifda har bir stolning eni va chuqurligi ko‘rsatilgan, lekin balandligi berilmagan. Iltimos, ushbu o‘lchamni aniqlashtiring."
+    },
+    {
+      "type": "quote",
+      "text": "2. Material bo‘yicha: och rangli qoplama varianti ko‘rib chiqilishi mumkin. Namunaning rangi yakuniy kelishuvdan oldin tasdiqlanishi kerak."
+    },
+    {
+      "type": "quote",
+      "text": "3. Narx va muddat bo‘yicha: barcha o‘lchamlar hamda material tasdiqlanmaguncha yakuniy narx va topshirish muddatini bildira olmaymiz. Aniqlashtirilgan tavsif kelgach, hisob-kitob tayyorlash vaqtini alohida kelishamiz."
+    },
+    {
+      "type": "quote",
+      "text": "Ilova: o‘lchamlarni to‘ldirish uchun o‘quv jadvali, 1 sahifa. Hurmat bilan, «B ustaxonasi» mas’uli. Haqiqiy imzo va aloqa ma’lumoti keltirilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-yoziladi",
+      "text": "Kiruvchi xatni javob uchun tekshiruv ro‘yxatiga aylantiring"
+    },
+    {
+      "type": "p",
+      "text": "Asl xatdagi har bir savolni alohida yozing va uning yoniga javob, dalil yoki aniqlashtirish ehtiyojini belgilang. Keyin xatni shu tartibda tuzing. Raqam va sana noto‘g‘ri bo‘lsa, mazmuni yaxshi xat ham boshqa murojaatga tegishlidek ko‘rinishi mumkin."
+    },
+    {
+      "type": "p",
+      "text": "Hali javob bera olmaydigan masalani jim qoldirmang. Qanday ma’lumot yetishmayotganini va uni kimdan kutayotganingizni ayting. «Aniqlashtirilgach kelishamiz» va «uch kunda yetkazamiz» boshqa-boshqa majburiyatdir; tasdiqlanmagan ikkinchi gapni ishlatmang."
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Qabul qiluvchi talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi odam, sana va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Xat rekvizitlari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Yuboruvchi tashkilot] · [sana] № [raqam — qo‘llansa]",
+        "[Qabul qiluvchi tashkilot / mas’ul shaxs]ga",
+        "[Sana]dagi [raqam]-sonli xatingizga javoban"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Murojaatga havola"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hurmatli [murojaat shakli]!",
+        "[Mavzu] bo‘yicha so‘rovingizni ko‘rib chiqib, quyidagilarni ma’lum qilamiz."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Savollar bo‘yicha javob"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. [Birinchi savol] bo‘yicha: [aniq javob yoki taqdim etilayotgan ma’lumot].",
+        "2. [Ikkinchi savol] bo‘yicha: [aniq javob].",
+        "[Hozir javob berib bo‘lmaydigan masala] bo‘yicha [nima yetishmayapti va qanday aniqlashtiriladi]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Keyingi qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Davom ettirish uchun kerakli harakat, kelishilgan bo‘lsa muddat va mas’ul].",
+        "Ilova: [fayl / hujjat nomi, sanasi va hajmi — mavjud bo‘lsa]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-5",
+      "text": "Yakun"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hurmat bilan, [lavozim, ism, imzo]",
+        "[Ishchi aloqa kanali — faqat ruxsat etilgan ma’lumot]"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kiruvchi xatning sanasi, raqami va oluvchisi to‘g‘rimi?",
+        "Har bir savolga javob yoki aniqlashtirish berilganmi?",
+        "Narx, muddat va rozilik tegishli mas’ul bilan tasdiqlanganmi?",
+        "Xatda sanalgan ilovalar mavjudmi va aynan oxirgi nusxami?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kiruvchi xatning sanasi va raqamini to‘g‘ri ko‘rsating. Har savolga javob bering yoki nima uchun aniqlashtirish kerakligini yozing. Tasdiqlanmagan narx, muddat yoki rozilikni va’da sifatida kiritmang."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {r0} · {r1}.",
+      "links": [
+        {
+          "token": "r0",
+          "target": "/uz/blog/rasmiy-xat-yozish/",
+          "anchor": "Dastlabki so‘rov va boshqa rasmiy xatlar"
+        },
+        {
+          "token": "r1",
+          "target": "/uz/blog/bayonnoma-namuna/",
+          "anchor": "Kelishilgan qarorni bayonnomada qayd etish"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Asl xatda raqam bo‘lmasa nima yoziladi?",
+      "a": "Mavzu, sana va yuborilgan kanal orqali qaysi murojaatga javob berayotganingizni aniq ko‘rsating. Bo‘lmagan ro‘yxat raqamini o‘ylab topmang."
+    },
+    {
+      "q": "Hamma savolga hozir javob bera olmasam-chi?",
+      "a": "Ma’lum qismini yozing, qolgan savol uchun nima yetishmayotganini ayting. Tekshirilmagan javob o‘rniga aniqlashtirishni so‘rang; javob sanasini faqat kelishilgan bo‘lsa belgilang."
+    },
+    {
+      "q": "Javob xatida rad etish mumkinmi?",
+      "a": "Oddiy ishchi yozishmada bajarib bo‘lmaydigan shartni qisqa va aniq tushuntirish mumkin. Nizo yoki maxsus huquqiy jarayon bo‘lsa, tegishli talablarni alohida tekshirish zarur; bu namuna bunday qarorni bermaydi."
+    },
+    {
+      "q": "Javobni oddiy e-mailda yuborish mumkinmi?",
+      "a": "Aloqa kanali tomonlar kelishuvi va tashkilot tartibiga bog‘liq. Oddiy yozishmada ham qaysi so‘rovga javob berilganini, ilovalarni va keyingi qadamni aniq ko‘rsating. Imzolangan yoki ro‘yxatga olingan hujjat so‘ralgan bo‘lsa, e-mail matni avtomatik ravishda uning o‘rnini bosmaydi."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/rasmiy-xat-yozish/",
+      "anchor": "Dastlabki so‘rov va boshqa rasmiy xatlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/bayonnoma-namuna/",
+      "anchor": "Kelishilgan qarorni bayonnomada qayd etish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Javob xati namuna: so‘rovga javob, Word va PDF | GPTBot.uz",
+  "ogDescription": "Hamkor so‘roviga javob xati: savollar bo‘yicha to‘ldirilgan misol, Word/PDF blanka, kiruvchi xatga havola va noma’lum muddatni to‘g‘ri yozish.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/javob-xati-namuna/",
+  "hreflangUz": "/uz/blog/javob-xati-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Javob xati namuna",
+  "datePublished": "2026-11-08",
+  "dateModified": "2026-11-08",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "S. A. Karimov, Sh. M. Maxmatmurodov, O. N. Karimova — Nutq madaniyati va davlat tilida ish yuritish (NamDU kutubxonasi)",
+      "url": "https://namdu.uz/media/Books/pdf/2024/06/02/NamDU-ARM-3076-Nutq_madaniyati_va_davlat_tilida_ish_yuritish.pdf?raw=1",
+      "note": "Hujjat turlari va ish yuritish uslubi bo‘yicha o‘quv manbasi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
+    }
+  ],
+  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "createdAt": "2026-11-08T00:00:00.000Z"
+}

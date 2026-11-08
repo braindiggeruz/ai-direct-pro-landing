@@ -1,0 +1,215 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/fizika-masalalar/",
+  "slug": "fizika-masalalar",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Bu fizika masalasini berilganlar, kerakli kattalik, formula, birliklar va tekshiruv tartibida tushuntir. Yetishmayotgan shart bo‘lsa o‘ylab topma, so‘ra. Masala: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir. Xato bo‘lsa, birinchi xato qadamni va sababini tushuntir. Xato bo‘lmasa, yechim to‘g‘ri ekanini ayt. Shart:\nMening yechimim:"
+    },
+    {
+      "label": "Shunga o‘xshash mashq",
+      "prompt": "Shu mavzuda bitta yangi original mashq tuz. Avval faqat shartni ber; javobni men urinib ko‘rganimdan keyin tushuntir. Mavzu: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-fizika-masalalar",
+  "primaryKeyword": "fizika masalalar",
+  "secondaryKeywords": [
+    "fizika masalalar yechimi",
+    "fizikadan masalalar",
+    "tezlik zichlik kuch masalalari"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Fizika masalalar: 12 ta hisoblash va yechim",
+  "title": "Fizika masalalar: 12 ta yechim va izoh | GPTBot.uz",
+  "description": "Fizika masalalari: yo‘l, tezlik, zichlik, kuch, ish, quvvat va bosim. 12 ta bepul mashq, formulalar, birliklar va qadamma-qadam yechimlar.",
+  "canonical": "https://gptbot.uz/uz/fizika-masalalar/",
+  "hreflangUz": "/uz/fizika-masalalar/",
+  "ogTitle": "Fizika masalalar: 12 ta yechim va izoh | GPTBot.uz",
+  "ogDescription": "Fizika masalalari: yo‘l, tezlik, zichlik, kuch, ish, quvvat va bosim. 12 ta bepul mashq, formulalar, birliklar va qadamma-qadam yechimlar.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Fizika masalalar",
+  "heroTitle": "Fizika masalalar: 12 ta hisoblash va yechim",
+  "heroSubtitle": "Shartdan kerakli kattaliklarni ajrating, birliklarni moslang va formulani tanlang. Har bir masalada hisoblash qadamlarini javob bilan solishtirish mumkin.",
+  "ctaPrimaryLabel": "AI yordamchiga savol berish",
+  "ctaPrimaryHref": "#main",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Shartdan kerakli kattaliklarni ajrating, birliklarni moslang va formulani tanlang. Har bir masalada hisoblash qadamlarini javob bilan solishtirish mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "yechish-tartibi",
+      "text": "Berilgan — topish kerak — formula — javob"
+    },
+    {
+      "type": "p",
+      "text": "Fizikadan masala yechishda sonlarni darhol ko‘paytirishdan oldin har birining ma’nosini yozing. Masalan, s = 240 m va t = 40 s bo‘lsa, topiladigan kattalik o‘rtacha yo‘l tezligi v. Formula v = s / t, hisoblash 240 / 40 = 6 m/s. Javobga birlikni qo‘shing va natija shartga mos kelishini tekshiring: 6 m/s tezlikda 40 s davomida 240 m yo‘l bosiladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Masala turi",
+        "Formula",
+        "Birlik yoki shart"
+      ],
+      "rows": [
+        [
+          "Tekis harakat",
+          "s = v × t",
+          "Tezlik o‘zgarmas; m, m/s, s"
+        ],
+        [
+          "Zichlik",
+          "ρ = m / V",
+          "g/sm³ yoki kg/m³ ni aralashtirmang"
+        ],
+        [
+          "Natijaviy kuch",
+          "F = m × a",
+          "kg × m/s² = N"
+        ],
+        [
+          "Mexanik ish",
+          "A = F × s",
+          "Kuch siljish yo‘nalishida bo‘lsa"
+        ],
+        [
+          "Quvvat va bosim",
+          "P = A / t; p = F / S",
+          "W va Pa — boshqa kattaliklar"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "birliklar",
+      "text": "Birliklarni aylantirishdagi xato"
+    },
+    {
+      "type": "p",
+      "text": "36 km/soatni m/s ga aylantirish uchun 36 × 1000 / 3600 = 10 m/s hisoblanadi. Faqat kilometrni metrga o‘tkazib, soatni sekundga almashtirmaslik natijani buzadi. Zichlik masalasida ham grammdagi massa va sm³ dagi hajm g/sm³ beradi; SI birligiga o‘tmoqchi bo‘lsangiz ikkala kattalikni mos ravishda aylantiring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Shartda berilgan g qiymatini ishlating; ushbu mashqlarda g kerak bo‘lsa alohida ko‘rsatilgan.",
+        "Massa kg, kuch N bilan ifodalanadi.",
+        "Masalada o‘rtacha tezlik, o‘zgarmas tezlik yoki natijaviy kuch so‘ralganini tekshiring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish-va-ai",
+      "text": "Javoblarni tekshirish va AI yordamchi"
+    },
+    {
+      "type": "p",
+      "text": "Variantni tanlang: natija va izoh shu sahifada ko‘rinadi. Qayta boshlash orqali yana mashq qilish mumkin. Savollar, javoblar va izohlar JavaScriptsiz ham o‘qiladi; interaktiv tekshiruv brauzerda ishlaydi va modelga so‘rov yubormaydi."
+    },
+    {
+      "type": "p",
+      "text": "«AI bilan tushuntirish» savolni chat maydoniga joylaydi, o‘zi yubormaydi. Matnni ko‘rib, o‘zingiz yuborasiz. GPTBot.uz mustaqil AI-servis: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Bu limit boshqa sahifalardagi chat bilan umumiy. Mashq testi esa bepul ishlashda davom etadi."
+    },
+    {
+      "type": "h2",
+      "id": "material-haqida",
+      "text": "Material qanday tayyorlangan"
+    },
+    {
+      "type": "p",
+      "text": "AI yordamida tuzilgan original mashqlar. Sonli javoblar va asosiy hisoblashlar alohida dasturiy tekshiruv bilan tekshirildi; qoidalar uchun manbalar quyida berilgan. Bu rasmiy DTM, milliy sertifikat, BSB yoki ChSB materiali emas. Natija rasmiy baho hisoblanmaydi. Savollardagi sonlar va vaziyatlar shu mashqlar uchun tanlangan. Xato haqida ceo@gptbot.uz manziliga yozishingiz mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bu sahifa fizika testidan nimasi bilan farq qiladi?",
+      "a": "Bu yerda har savolda sonli shart beriladi va formula bilan hisoblash talab etiladi. Umumiy fizika testi esa ko‘proq turli tushunchalarni aniqlash va takrorlashga xizmat qiladi."
+    },
+    {
+      "q": "Nega ba’zi masalalarda g = 10 olinadi?",
+      "a": "Hisoblashni sodda qilish uchun shartda yaxlitlangan qiymat aniq berilgan. Bu Yerning hamma nuqtasida erkin tushish tezlanishi aynan 10 ekanini anglatmaydi."
+    },
+    {
+      "q": "Mashqlar bepulmi?",
+      "a": "Ha. Tayyor savollar, javoblar va izohlar bepul. Interaktiv tekshiruv brauzerda bajariladi va AI javob limitini sarflamaydi."
+    },
+    {
+      "q": "AI tushuntirish bepul limitga kiradimi?",
+      "a": "Ha. Chatga o‘zingiz yuborgan savol sayt bo‘yicha umumiy 3 ta muvaffaqiyatli sinov javobidan yoki mavjud AI paketingizdan foydalanadi. Sinov javoblari har kuni yangilanmaydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/fizika-test/",
+      "anchor": "Fizika tushunchalari testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kalkulyator/",
+      "anchor": "Hisoblash uchun kalkulyator",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/geometriya-masalalar/",
+      "anchor": "Yuza va hajm masalalari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "Mustaqil AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI paket narxi va shartlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "sources": [
+    {
+      "title": "BIPM: The International System of Units (SI)",
+      "url": "https://www.bipm.org/en/publications/si-brochure",
+      "note": "O‘lchov birliklari, ularning belgilari va SI tizimi."
+    },
+    {
+      "title": "OpenStax College Physics 2e: Newton’s second law",
+      "url": "https://openstax.org/books/college-physics-2e/pages/4-3-newtons-second-law-of-motion-concept-of-a-system",
+      "note": "Massa, natijaviy kuch va tezlanish munosabati."
+    }
+  ],
+  "createdAt": "2026-11-08T00:00:00Z",
+  "updatedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-08"
+}

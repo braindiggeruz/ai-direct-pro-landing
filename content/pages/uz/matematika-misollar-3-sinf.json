@@ -1,0 +1,216 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/matematika-misollar-3-sinf/",
+  "slug": "matematika-misollar-3-sinf",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Bu boshlang‘ich matematika masalasi uchun qisqa reja tuz. Qavslar va amallar tartibini tushuntir, so‘ng natijani teskari amal bilan tekshir. Masala: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir. Xato bo‘lsa, birinchi xato qadamni va sababini tushuntir. Xato bo‘lmasa, yechim to‘g‘ri ekanini ayt. Shart:\nMening yechimim:"
+    },
+    {
+      "label": "Shunga o‘xshash mashq",
+      "prompt": "Shu mavzuda bitta yangi original mashq tuz. Avval faqat shartni ber; javobni men urinib ko‘rganimdan keyin tushuntir. Mavzu: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-matematika-3-sinf",
+  "primaryKeyword": "matematika misollar 3 sinf",
+  "secondaryKeywords": [
+    "3-sinf matematika misollari",
+    "uch xonali sonlar misollari",
+    "3 sinf masalalar yechimi"
+  ],
+  "searchIntent": "transactional",
+  "h1": "3-sinf matematika misollari: 12 ta mashq",
+  "title": "3-sinf matematika: 12 ta izohli mashq | GPTBot.uz",
+  "description": "3-sinf uchun 12 ta misol: uch xonali sonlar, ko‘paytirish, bo‘lish, ulush, yuza va amallar tartibi. Javoblar izohi bilan bepul mashq qiling.",
+  "canonical": "https://gptbot.uz/uz/matematika-misollar-3-sinf/",
+  "hreflangUz": "/uz/matematika-misollar-3-sinf/",
+  "ogTitle": "3-sinf matematika: 12 ta izohli mashq | GPTBot.uz",
+  "ogDescription": "3-sinf uchun 12 ta misol: uch xonali sonlar, ko‘paytirish, bo‘lish, ulush, yuza va amallar tartibi. Javoblar izohi bilan bepul mashq qiling.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "3-sinf matematika misollari",
+  "heroTitle": "3-sinf matematika misollari: 12 ta mashq",
+  "heroSubtitle": "Uch xonali sonlar, ko‘paytirish va bo‘lish, qavslar, ulushlar hamda yuzani hisoblash. Har bir masalada faqat javob emas, yechish yo‘li ham berilgan.",
+  "ctaPrimaryLabel": "AI yordamchiga savol berish",
+  "ctaPrimaryHref": "#main",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Uch xonali sonlar, ko‘paytirish va bo‘lish, qavslar, ulushlar hamda yuzani hisoblash. Har bir masalada faqat javob emas, yechish yo‘li ham berilgan."
+    },
+    {
+      "type": "h2",
+      "id": "xonalar",
+      "text": "Xonalar bo‘yicha hisoblash"
+    },
+    {
+      "type": "p",
+      "text": "314 + 258 ni 314 + 200 + 50 + 8 ko‘rinishida hisoblash mumkin: 514, 564, 572. 600 − 247 uchun esa 600 − 200 = 400, 400 − 40 = 360, 360 − 7 = 353. Yuzlik, o‘nlik va birliklarni alohida ko‘rish xatoni qaysi qadamda qilganingizni topishga yordam beradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ko‘nikma",
+        "Ishlangan namuna",
+        "Izoh"
+      ],
+      "rows": [
+        [
+          "Qavslar",
+          "(15 + 21) ÷ 4 = 9",
+          "Avval 36, keyin 4 ga bo‘lish"
+        ],
+        [
+          "Ulush",
+          "24 ning 2/3 qismi = 16",
+          "24 ÷ 3 × 2"
+        ],
+        [
+          "Yuza",
+          "6 sm × 5 sm = 30 sm²",
+          "Birliklarning ikkisi ham sm"
+        ],
+        [
+          "Bo‘lishni tekshirish",
+          "72 ÷ 6 = 12",
+          "12 × 6 = 72"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qisqa-reja",
+      "text": "Masala uchun qisqa reja"
+    },
+    {
+      "type": "p",
+      "text": "«4 ta to‘plamda 16 tadan kartochka, yana 7 ta alohida kartochka bor» masalasida avval teng guruhlarni hisoblang: 4 × 16 = 64. Keyin alohida kartochkalarni qo‘shing: 64 + 7 = 71. 4 × (16 + 7) yozish noto‘g‘ri: 7 ta kartochka har bir to‘plamga qo‘shilmagan. Qavs qo‘yish shartning ma’nosini o‘zgartiradi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Qavs ichidagi amalni birinchi bajaring; keyin ko‘paytirish va bo‘lish keladi.",
+        "Ulushda avval maxrajga bo‘lib, keyin suratga ko‘paytiring.",
+        "Yuza va perimetrni farqlang: biri sm², ikkinchisi sm da."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish-va-ai",
+      "text": "Javoblarni tekshirish va AI yordamchi"
+    },
+    {
+      "type": "p",
+      "text": "Variantni tanlang: natija va izoh shu sahifada ko‘rinadi. Qayta boshlash orqali yana mashq qilish mumkin. Savollar, javoblar va izohlar JavaScriptsiz ham o‘qiladi; interaktiv tekshiruv brauzerda ishlaydi va modelga so‘rov yubormaydi."
+    },
+    {
+      "type": "p",
+      "text": "«AI bilan tushuntirish» savolni chat maydoniga joylaydi, o‘zi yubormaydi. Matnni ko‘rib, o‘zingiz yuborasiz. GPTBot.uz mustaqil AI-servis: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Bu limit boshqa sahifalardagi chat bilan umumiy. Mashq testi esa bepul ishlashda davom etadi."
+    },
+    {
+      "type": "h2",
+      "id": "material-haqida",
+      "text": "Material qanday tayyorlangan"
+    },
+    {
+      "type": "p",
+      "text": "AI yordamida tuzilgan original mashqlar. Sonli javoblar va asosiy hisoblashlar alohida dasturiy tekshiruv bilan tekshirildi; qoidalar uchun manbalar quyida berilgan. Bu rasmiy DTM, milliy sertifikat, BSB yoki ChSB materiali emas. Natija rasmiy baho hisoblanmaydi. Savollardagi sonlar va vaziyatlar shu mashqlar uchun tanlangan. Xato haqida ceo@gptbot.uz manziliga yozishingiz mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "3-sinf misollarida qaysi mavzular bor?",
+      "a": "Uch xonali sonlar, jadval asosidagi ko‘paytirish va bo‘lish, qavsli ifoda, sodda ulush, massa, yuza va ikki amalli masala bor. Aniq darslikka muvofiqlik emas, mustaqil mashq maqsad qilingan."
+    },
+    {
+      "q": "Amallar tartibini qanday eslab qolaman?",
+      "a": "Avval qavs, keyin ko‘paytirish va bo‘lish, so‘ng qo‘shish va ayirish. Bir xil ustuvorlikdagi amallar odatda chapdan o‘ngga bajariladi."
+    },
+    {
+      "q": "Mashqlar bepulmi?",
+      "a": "Ha. Tayyor savollar, javoblar va izohlar bepul. Interaktiv tekshiruv brauzerda bajariladi va AI javob limitini sarflamaydi."
+    },
+    {
+      "q": "AI tushuntirish bepul limitga kiradimi?",
+      "a": "Ha. Chatga o‘zingiz yuborgan savol sayt bo‘yicha umumiy 3 ta muvaffaqiyatli sinov javobidan yoki mavjud AI paketingizdan foydalanadi. Sinov javoblari har kuni yangilanmaydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/matematika-test/",
+      "anchor": "Yuqori bosqich: 5–9-sinf matematika testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/matematika-misollar-2-sinf/",
+      "anchor": "2-sinf misollarini takrorlash",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tenglama-yechish/",
+      "anchor": "Chiziqli tenglamalarni tushunish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/geometriya-masalalar/",
+      "anchor": "Yuza va perimetr masalalari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "Mustaqil AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI paket narxi va shartlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "sources": [
+    {
+      "title": "OpenStax Prealgebra 2e: whole numbers and arithmetic",
+      "url": "https://openstax.org/books/prealgebra-2e/pages/1-introduction",
+      "note": "Arifmetik amallar uchun ma’lumotnoma. Quyidagi mashqlar manbadan ko‘chirilmagan, alohida tuzilgan."
+    },
+    {
+      "title": "BIPM: The International System of Units (SI)",
+      "url": "https://www.bipm.org/en/publications/si-brochure",
+      "note": "O‘lchov birliklari, ularning belgilari va SI tizimi."
+    }
+  ],
+  "createdAt": "2026-11-08T00:00:00Z",
+  "updatedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-08"
+}

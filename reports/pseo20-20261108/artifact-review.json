@@ -1,0 +1,179 @@
+{
+  "checkedAt": "2026-11-08T08:52:51.414Z",
+  "predecessorCommit": "e85da915a070acc71b7d9b76b5a7a92b1ac08fe4",
+  "beforeUrls": 330,
+  "afterUrls": 350,
+  "addedUrls": [
+    "/uz/blog/tarjimai-hol-namuna/",
+    "/uz/blog/bayonnoma-namuna/",
+    "/uz/blog/dalolatnoma-namuna/",
+    "/uz/blog/tavsiyanoma-namuna/",
+    "/uz/blog/amaliyot-kundaligi-namuna/",
+    "/uz/blog/amaliyot-hisoboti-namuna/",
+    "/uz/blog/obyektivka-namuna/",
+    "/uz/blog/bildirishnoma-namuna/",
+    "/uz/blog/javob-xati-namuna/",
+    "/uz/blog/motivatsion-xat-namuna/",
+    "/uz/karra-jadvali/",
+    "/uz/matematika-misollar-1-sinf/",
+    "/uz/matematika-misollar-2-sinf/",
+    "/uz/matematika-misollar-3-sinf/",
+    "/uz/tenglama-yechish/",
+    "/uz/biologiya-test/",
+    "/uz/kimyo-test/",
+    "/uz/fizika-masalalar/",
+    "/uz/kimyo-masalalar/",
+    "/uz/geometriya-masalalar/"
+  ],
+  "removedUrls": [],
+  "unchangedExistingContracts": 320,
+  "unchangedExistingMetadata": 330,
+  "changed": [
+    {
+      "url": "/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/biologiya-test/",
+        "/uz/blog/amaliyot-hisoboti-namuna/",
+        "/uz/blog/amaliyot-kundaligi-namuna/",
+        "/uz/blog/bayonnoma-namuna/",
+        "/uz/blog/bildirishnoma-namuna/",
+        "/uz/blog/dalolatnoma-namuna/",
+        "/uz/blog/javob-xati-namuna/",
+        "/uz/blog/motivatsion-xat-namuna/",
+        "/uz/blog/obyektivka-namuna/",
+        "/uz/blog/tarjimai-hol-namuna/",
+        "/uz/blog/tavsiyanoma-namuna/",
+        "/uz/fizika-masalalar/",
+        "/uz/geometriya-masalalar/",
+        "/uz/karra-jadvali/",
+        "/uz/kimyo-masalalar/",
+        "/uz/kimyo-test/",
+        "/uz/matematika-misollar-1-sinf/",
+        "/uz/matematika-misollar-2-sinf/",
+        "/uz/matematika-misollar-3-sinf/",
+        "/uz/tenglama-yechish/"
+      ]
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/blog/amaliyot-hisoboti-namuna/",
+        "/uz/blog/amaliyot-kundaligi-namuna/",
+        "/uz/blog/bayonnoma-namuna/",
+        "/uz/blog/bildirishnoma-namuna/",
+        "/uz/blog/dalolatnoma-namuna/",
+        "/uz/blog/javob-xati-namuna/",
+        "/uz/blog/motivatsion-xat-namuna/",
+        "/uz/blog/obyektivka-namuna/",
+        "/uz/blog/tarjimai-hol-namuna/",
+        "/uz/blog/tavsiyanoma-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/blog/chatgpt-talabalar-uchun/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/blog/amaliyot-hisoboti-namuna/",
+        "/uz/blog/amaliyot-kundaligi-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/blog/rasmiy-xat-yozish/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/blog/bayonnoma-namuna/",
+        "/uz/blog/bildirishnoma-namuna/",
+        "/uz/blog/dalolatnoma-namuna/",
+        "/uz/blog/javob-xati-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/blog/rezyume-tayyorlash/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/blog/motivatsion-xat-namuna/",
+        "/uz/blog/obyektivka-namuna/",
+        "/uz/blog/tarjimai-hol-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/blog/tavsifnoma-namuna/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/blog/tavsiyanoma-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/blog/javob-xati-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/fizika-test/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/fizika-masalalar/"
+      ]
+    },
+    {
+      "url": "/uz/matematika-test/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/geometriya-masalalar/",
+        "/uz/karra-jadvali/",
+        "/uz/matematika-misollar-1-sinf/",
+        "/uz/matematika-misollar-2-sinf/",
+        "/uz/matematika-misollar-3-sinf/",
+        "/uz/tenglama-yechish/"
+      ]
+    },
+    {
+      "url": "/uz/onlayn-testlar/",
+      "fields": [
+        "bodyTextSha256",
+        "internalLinks"
+      ],
+      "addedLinks": [
+        "/uz/biologiya-test/",
+        "/uz/kimyo-masalalar/",
+        "/uz/kimyo-test/"
+      ]
+    }
+  ],
+  "homepageReversal": true,
+  "protectedNonHomeUnchanged": 9,
+  "originalDownloadFiles": 20,
+  "originalExercises": 120,
+  "validJsonLdBlocks": 350
+}

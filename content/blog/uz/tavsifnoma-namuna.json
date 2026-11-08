@@ -351,6 +351,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Alohida vazifa uchun amaliy materiallar: {pseo1}.",
+      "links": [
+        {
+          "token": "pseo1",
+          "target": "/uz/blog/tavsiyanoma-namuna/",
+          "anchor": "Tavsiyanoma: nomzodni tavsiya qilish xati"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Tavsifnoma qoralamasini AI chatda yozish",
       "href": "/uz/gpt-uzbek-tilida/"
@@ -414,6 +425,12 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/tavsiyanoma-namuna/",
+      "anchor": "Tavsiyanoma: nomzodni tavsiya qilish xati",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Tavsifnoma namunasi: tuzilma va uchta shartli namuna",
@@ -430,7 +447,7 @@
   "breadcrumbLabel": "Tavsifnoma namunasi",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-24",
-  "dateModified": "2026-11-07",
+  "dateModified": "2026-11-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -445,6 +462,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Tavsifnomada bu siz aytmagan fazilat yoki yutuq ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-11-07T00:00:00.000Z",
+  "updatedAt": "2026-11-08T00:00:00.000Z",
   "createdAt": "2026-10-24T00:00:00.000Z"
 }

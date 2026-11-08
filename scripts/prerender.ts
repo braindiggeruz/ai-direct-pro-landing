@@ -46,6 +46,8 @@ import { pageModifiedDate } from './content-dates';
 import { buildChatApplicationLd, chatProductBlocks, isChatPricingUrl, isChatProductUrl } from './product-facts';
 import { chatRoleAttributes } from './translator-page';
 import { isConverterFirstPage, isToolFirstPage, renderToolFirst } from './tool-first';
+import { isPseoPracticePage, PSEO_STYLE_HREF } from './pseo-learning';
+import { isPseoDocument } from './pseo-documents';
 import { assertToolPage, chatToolHead, renderToolWidgets, starterFrame, toolJsonLd, toolWidgetScripts, widgetScriptsFrom, type WidgetScripts } from './tool-widgets';
 import { asPreviewPage, previewDraftUrls } from './preview-drafts';
 import {
@@ -367,7 +369,9 @@ function renderSources(page: Page): string {
 }
 
 function renderRelatedArticles(page: Page, articles: BlogArticle[]): string {
-  const related = articles.filter((a) => a.targetMoneyPage === page.url).slice(0, 3);
+  // The new document cohort is reached through its reviewed parent guides.
+  // Do not let alphabetical insertion displace existing chat recommendations.
+  const related = articles.filter((a) => a.targetMoneyPage === page.url && !isPseoDocument(a)).slice(0, 3);
   if (!related.length) return '';
   const badge = page.locale === 'uz' ? 'Maqola' : 'Статья';
   const items = related.map((a) => `
@@ -587,7 +591,7 @@ ${firstTool ? '</section>\n</main>' : '</main>'}
 
 <section id="seo-summary" data-testid="seo-summary" class="border-t border-white/[0.06]">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-    ${isConverterFirstPage(page) ? '' : renderToolWidgets(page)}${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
+    ${isConverterFirstPage(page) || isPseoPracticePage(page) ? '' : renderToolWidgets(page)}${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
     <div class="prose-invert">
       ${renderBlocks(chatProductBlocks(page.url, page.locale))}
       ${renderBlocks(page.bodyBlocks || [])}
@@ -1090,7 +1094,7 @@ ${LLM_MARKDOWN_URLS.has(page.url)
 <link rel="icon" type="${marketVariant ? 'image/svg+xml' : 'image/webp'}"${marketVariant ? '' : ' sizes="80x80"'} href="${marketVariant ? '/assets/market/favicon.svg' : '/assets/landing/logo-sq-80.webp'}" />
 ${marketVariant ? '' : `<link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />`}
-${cssLinks}
+${cssLinks}${isPseoPracticePage(page) ? `\n<link rel="stylesheet" href="${PSEO_STYLE_HREF}" />` : ''}
 ${page.pageType === 'gpt-chat' ? chatStyles.map((href) => `<link rel="stylesheet" href="${escapeHtml(href)}" />`).join('\n') : ''}
 ${page.pageType === 'gpt-chat' ? chatPreloads.map((href) => `<link rel="modulepreload" href="${escapeHtml(href)}" />`).join('\n') : ''}${chatToolHead(page, chatToolHref)}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}

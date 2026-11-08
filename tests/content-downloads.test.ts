@@ -4,13 +4,14 @@ import path from 'node:path';
 import test from 'node:test';
 import { buildKnownUrls } from '../src/shared/audit';
 import { CONTENT_DOWNLOAD_URLS } from '../src/shared/content-downloads';
+import { PSEO_DOCUMENT_SLUGS, PSEO_DOWNLOAD_URLS } from '../src/shared/pseo20';
 import { escapeHtml } from '../scripts/widgets/html';
 
 test('authored downloads exist, while unknown file links are not allowlisted', () => {
   const known = buildKnownUrls([]);
   for (const url of CONTENT_DOWNLOAD_URLS) {
     assert.equal(known.has(url), true);
-    assert.match(url, /^\/downloads\/growth-20261106\/[a-z-]+\.(docx|pdf)$/);
+    assert.match(url, /^\/downloads\/(?:growth-20261106|pseo-20261108)\/[a-z-]+\.(docx|pdf)$/);
     const file = path.join(process.cwd(), 'public', url.slice(1));
     assert.ok(fs.statSync(file).size > 100);
     const prefix = fs.readFileSync(file).subarray(0, 4).toString('latin1');
@@ -24,14 +25,14 @@ test('authored downloads exist, while unknown file links are not allowlisted', (
 test('download noindex rules are scoped and mirrored in generated policy', () => {
   const headers = fs.readFileSync('public/_headers', 'utf8').replace(/\r\n/g, '\n');
   const generator = fs.readFileSync('scripts/generate-robots.ts', 'utf8');
-  for (const prefix of ['/downloads/growth-20261106/*', '/studio-examples/*']) {
+  for (const prefix of ['/downloads/growth-20261106/*', '/downloads/pseo-20261108/*', '/studio-examples/*']) {
     assert.ok(headers.includes(`${prefix}\n  X-Robots-Tag: noindex`));
     assert.ok(generator.includes(`'${prefix}'`));
   }
   assert.ok(!headers.includes('https://gptbot.uz/*\n  X-Robots-Tag: noindex'));
 });
 
-test('blog linkp renderer downloads only the six exact registered files and preserves ordinary links', () => {
+test('blog linkp renderer downloads only the exact registered files and preserves ordinary links', () => {
   const source = fs.readFileSync('scripts/prerender-blog.ts', 'utf8').replace(/\r\n/g, '\n');
   const branch = source.match(/case 'linkp': \{([\s\S]*?)\n {4}}\n {4}case 'cta':/)?.[1];
   assert.ok(branch, 'exercise the real linkp rendering branch');
@@ -40,7 +41,9 @@ test('blog linkp renderer downloads only the six exact registered files and pres
     { text: '{file}', links: [{ token: 'file', target, anchor: 'Материал', lang }] },
     escapeHtml, escapeHtml, () => '', () => false, 'data-studio-contact', new Set(CONTENT_DOWNLOAD_URLS),
   ) as string;
-  assert.equal(CONTENT_DOWNLOAD_URLS.length, 6);
+  assert.equal(CONTENT_DOWNLOAD_URLS.length, 26);
+  assert.equal(CONTENT_DOWNLOAD_URLS.filter((url) => url.startsWith('/downloads/growth-20261106/')).length, 6);
+  assert.equal(PSEO_DOWNLOAD_URLS.length, 20);
   for (const url of CONTENT_DOWNLOAD_URLS) {
     assert.match(link(url), new RegExp(`<a href="${url.replace(/\./g, '\\.')}" download class=`));
     for (const other of [`${url}?download=1`, `${url}#preview`, `https://gptbot.uz${url}`, `https://other.example${url}`]) {
@@ -54,9 +57,9 @@ test('blog linkp renderer downloads only the six exact registered files and pres
   assert.equal(link('https://example.org/document.pdf'), '<p class="text-base text-white/80 leading-relaxed mb-4"><a href="https://example.org/document.pdf" rel="noopener noreferrer" target="_blank" class="text-brand-cyan hover:underline">Материал</a></p>');
 });
 
-test('built document articles expose all six registered files as browser downloads', () => {
+test('built document articles expose all original and new files as browser downloads', () => {
   const found = new Set<string>();
-  for (const slug of ['rezyume-tayyorlash', 'rasmiy-xat-yozish', 'tavsifnoma-namuna']) {
+  for (const slug of ['rezyume-tayyorlash', 'rasmiy-xat-yozish', 'tavsifnoma-namuna', ...PSEO_DOCUMENT_SLUGS]) {
     const html = fs.readFileSync(path.join('dist', 'uz', 'blog', slug, 'index.html'), 'utf8');
     for (const match of html.matchAll(/<a\b([^>]+)>/g)) {
       const attrs = match[1];

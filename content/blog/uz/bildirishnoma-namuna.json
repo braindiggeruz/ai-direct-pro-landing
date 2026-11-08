@@ -1,0 +1,304 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "bildirishnoma-namuna",
+  "url": "/uz/blog/bildirishnoma-namuna/",
+  "title": "Bildirishnoma namuna: rahbarga yozish, Word va PDF | GPTBot.uz",
+  "description": "Rahbarga ichki bildirishnoma namunasi: printer muammosi haqida to‘ldirilgan misol, Word/PDF blanka, fakt va taxminni ajratish bo‘yicha tekshiruv.",
+  "h1": "Rahbarga bildirishnoma: holat, ko‘rilgan chora va so‘rov",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "bildirishnoma namuna",
+    "bildirishnoma",
+    "rahbarga bildirishnoma"
+  ],
+  "intro": "Ichki bildirishnoma rahbarga muayyan holatni yetkazish va zarur qarorni so‘rash uchun yoziladi. Bu sahifadagi misol o‘quv xonasidagi printer muammosini tasvirlaydi: kuzatilgan fakt, ko‘rilgan chora va so‘rov alohida berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/pseo-20261108/bildirishnoma-namuna.docx",
+          "anchor": "Word uchun DOCX namunasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/pseo-20261108/bildirishnoma-namuna.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu rahbarga yoziladigan ichki xizmat hujjati. U sud, soliq, mehnat shartnomasi yoki boshqa maxsus tartibdagi xabarnoma va ogohlantirish shakli emas. O‘z holatingizga tegishli hujjat turini va tashkilotdagi topshirish tartibini tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: rahbar A va mas’ul B shartli; haqiqiy tashkilot yoki xodimga nisbatan da’vo yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "O‘quv loyihasi rahbari A ga · Xona mas’uli B dan · 06.11.2026"
+    },
+    {
+      "type": "quote",
+      "text": "BILDIRISHNOMA · O‘quv xonasidagi printerni tekshirtirish haqida"
+    },
+    {
+      "type": "quote",
+      "text": "6-noyabr kuni o‘quv materiallarini chiqarishda printer ketma-ket uch marta qog‘ozni tortmadi. Qurilma ekranida qog‘oz uzatish xabari paydo bo‘ldi. Nosozlik sababi mutaxassis tomonidan hali aniqlanmagan."
+    },
+    {
+      "type": "quote",
+      "text": "Qog‘oz yo‘riqnomaga mos joylanganini tekshirdim va qurilmadan foydalanishni vaqtincha to‘xtatdim. Mashq materiallarining elektron nusxasi guruhga berildi; bugungi dars uchun chop etish talab qilinmadi."
+    },
+    {
+      "type": "quote",
+      "text": "Sizdan texnik mutaxassisga tekshiruv topshirig‘i berishingizni so‘rayman. Keyingi mashg‘ulot 9-noyabrda bo‘lgani uchun ungacha tekshiruv vaqtini aniqlashtirishni taklif qilaman. Ta’mirlash narxi va muddati hozircha noma’lum."
+    },
+    {
+      "type": "quote",
+      "text": "Ilova: ekran xabarining shaxsiy ma’lumotsiz o‘quv tavsifi, 1 sahifa. Xona mas’uli B; haqiqiy imzo qo‘yilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-yoziladi",
+      "text": "Muammo, dalil va so‘ralayotgan qarorni ajrating"
+    },
+    {
+      "type": "p",
+      "text": "Birinchi gapda qachon, qayerda va nima kuzatilganini ayting. «Printer ketma-ket uch marta qog‘ozni tortmadi» — kuzatuv; «xodim buzib qo‘ygan» — tekshirilmasa ayblov. Sabab hali aniqlanmagan bo‘lsa, aynan shuni yozing."
+    },
+    {
+      "type": "p",
+      "text": "Keyin o‘zingiz ko‘rgan chorani va ishga ta’sirini ko‘rsating. So‘rovni aniq qarorga aylantiring: mutaxassisga tekshiruv topshirish, materialni aniqlashtirish yoki ish tartibini kelishish. Ta’mirlash narxi va muddatini vakolatsiz va’da qilmang; hozir nimani hal qilish kerakligini tushuntiring."
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Qabul qiluvchi talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi odam, sana va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Kimga va kimdan"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Tashkilot / bo‘lim] rahbari [ism]ga",
+        "[Muallifning lavozimi, ismi]dan · Sana: [kun.oy.yil]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Mavzu"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Qisqa va aniq holat: masalan, jihozdan foydalanishdagi muammo]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Aniqlangan holat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Sana, joy va kuzatilgan fakt. Taxmin bo‘lsa, uni fakt deb yozmang].",
+        "[Holatning vazifaga ta’siri va bor dalil: qayd, ro‘yxat, xizmat murojaati]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Ko‘rilgan chora va taklif"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hozirgacha [bajarilgan chora / tekshiruv] amalga oshirildi.",
+        "Sizdan [aniq qaror, topshiriq yoki ruxsat] berishingizni so‘rayman.",
+        "Taklif etilayotgan muddat yoki keyingi qadam: [asosli taklif]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-5",
+      "text": "Ilova va imzo"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ilova: [nom, hajm — bo‘lsa]",
+        "[Lavozim] · [ism, imzo]"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kuzatilgan sana, joy va holat aniqmi?",
+        "Taxmin, ayblov va tasdiqlangan fakt bir-biridan ajratilganmi?",
+        "Avval ko‘rilgan chora hamda ishga ta’siri ko‘rsatilganmi?",
+        "Rahbardan qaysi qaror yoki topshiriq so‘ralayotgani ravshanmi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu rahbarga yoziladigan ichki bildirishnoma namunasi. Sud, soliq yoki mehnat munosabatlaridagi maxsus ogohlantirish o‘rnida ishlatmang. Ayblov o‘rniga tekshiriladigan fakt va so‘rovni ajrating."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {r0} · {r1}.",
+      "links": [
+        {
+          "token": "r0",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "Tushuntirish xati va ariza namunalari"
+        },
+        {
+          "token": "r1",
+          "target": "/uz/blog/dalolatnoma-namuna/",
+          "anchor": "Jihoz holatini dalolatnomada qayd etish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Murojaat ichki rahbarga emas, tashqi hamkorga yuborilsa, {parent} orqali tegishli tuzilmani tanlang. Ichki bildirishnomadagi murojaat shaklini tekshirmasdan tashqi xatga ko‘chirmang.",
+      "links": [
+        {
+          "token": "parent",
+          "target": "/uz/blog/rasmiy-xat-yozish/",
+          "anchor": "rasmiy xat namunalari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bildirishnoma bilan arizaning farqi nima?",
+      "a": "Ushbu ichki bildirishnoma xizmat holatini ma’lum qilib, chora yoki qaror so‘raydi. Ariza esa ko‘pincha shaxsning o‘z talabi yoki iltimosini bildiradi. Tashkilotdagi hujjat nomlanishiga amal qiling."
+    },
+    {
+      "q": "Muammo sababini bilmasam nima yozaman?",
+      "a": "Kuzatgan belgilarni yozing va sabab hali aniqlanmaganini ko‘rsating. Gumonni aniqlangan fakt sifatida kiritmang; tekshiruv uchun zarur keyingi qadamni so‘rang."
+    },
+    {
+      "q": "Bu namuna ishdan bo‘shatish ogohlantirishiga mosmi?",
+      "a": "Yo‘q. Bu texnik holat bo‘yicha ichki bildirishnoma. Mehnat munosabatlaridagi maxsus ogohlantirishning tartibi va mazmuni alohida tekshirilishi kerak."
+    },
+    {
+      "q": "Bildirishnomaga qanday ilova berish mumkin?",
+      "a": "Holatni tekshirishga yordam beradigan mavjud qayd, ro‘yxat yoki ruxsat etilgan suratni nomlab ko‘rsating. Ilova haqiqatan biriktirilmagan bo‘lsa, uning borligini yozmang. Maxfiy va shaxsiy ma’lumotni keraksiz tarqatmang."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "anchor": "Tushuntirish xati va ariza namunalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/dalolatnoma-namuna/",
+      "anchor": "Jihoz holatini dalolatnomada qayd etish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/rasmiy-xat-yozish/",
+      "anchor": "rasmiy xat namunalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Bildirishnoma namuna: rahbarga yozish, Word va PDF | GPTBot.uz",
+  "ogDescription": "Rahbarga ichki bildirishnoma namunasi: printer muammosi haqida to‘ldirilgan misol, Word/PDF blanka, fakt va taxminni ajratish bo‘yicha tekshiruv.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/bildirishnoma-namuna/",
+  "hreflangUz": "/uz/blog/bildirishnoma-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Bildirishnoma namuna",
+  "datePublished": "2026-11-08",
+  "dateModified": "2026-11-08",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "S. A. Karimov, Sh. M. Maxmatmurodov, O. N. Karimova — Nutq madaniyati va davlat tilida ish yuritish (NamDU kutubxonasi)",
+      "url": "https://namdu.uz/media/Books/pdf/2024/06/02/NamDU-ARM-3076-Nutq_madaniyati_va_davlat_tilida_ish_yuritish.pdf?raw=1",
+      "note": "Hujjat turlari va ish yuritish uslubi bo‘yicha o‘quv manbasi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
+    }
+  ],
+  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "createdAt": "2026-11-08T00:00:00.000Z"
+}

@@ -1,0 +1,204 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/kimyo-test/",
+  "slug": "kimyo-test",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Bu kimyo tushunchasini atom va zaryadlar darajasida tushuntir. Ta’rifni, oddiy misolni va tez-tez adashiladigan holatni ajrat. Tajriba bo‘yicha ko‘rsatma kerak emas. Mavzu: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir. Xato bo‘lsa, birinchi xato qadamni va sababini tushuntir. Xato bo‘lmasa, yechim to‘g‘ri ekanini ayt. Shart:\nMening yechimim:"
+    },
+    {
+      "label": "Shunga o‘xshash mashq",
+      "prompt": "Shu mavzuda bitta yangi original mashq tuz. Avval faqat shartni ber; javobni men urinib ko‘rganimdan keyin tushuntir. Mavzu: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-kimyo",
+  "primaryKeyword": "kimyo test",
+  "secondaryKeywords": [
+    "kimyo test savollari",
+    "kimyo online test",
+    "atom tuzilishi test"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Kimyo test: 12 ta savol va javob izohi",
+  "title": "Kimyo test: 12 ta savol va tushuntirish | GPTBot.uz",
+  "description": "Kimyo test: atom, element, molekula, modda va ionlar haqida 12 ta original savol. Bepul tekshiruv va har bir javobga tushuntirish beriladi.",
+  "canonical": "https://gptbot.uz/uz/kimyo-test/",
+  "hreflangUz": "/uz/kimyo-test/",
+  "ogTitle": "Kimyo test: 12 ta savol va tushuntirish | GPTBot.uz",
+  "ogDescription": "Kimyo test: atom, element, molekula, modda va ionlar haqida 12 ta original savol. Bepul tekshiruv va har bir javobga tushuntirish beriladi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Kimyo test",
+  "heroTitle": "Kimyo test: 12 ta savol va javob izohi",
+  "heroSubtitle": "Atom raqami, kimyoviy belgilar, oddiy va murakkab moddalar hamda fizik o‘zgarishlarni ajrating. Bu to‘plam formulaga son qo‘yishdan ko‘ra tushunchani aniqlashga qaratilgan.",
+  "ctaPrimaryLabel": "AI yordamchiga savol berish",
+  "ctaPrimaryHref": "#main",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Atom raqami, kimyoviy belgilar, oddiy va murakkab moddalar hamda fizik o‘zgarishlarni ajrating. Bu to‘plam formulaga son qo‘yishdan ko‘ra tushunchani aniqlashga qaratilgan."
+    },
+    {
+      "type": "h2",
+      "id": "asosiy-tushunchalar",
+      "text": "Atom, element va modda bir xil tushuncha emas"
+    },
+    {
+      "type": "p",
+      "text": "Atom — elementning xossalarini belgilovchi tuzilma. Elementni protonlar soni ajratadi: shu son o‘zgarsa, boshqa element hosil bo‘ladi. Moddalar atomlar, molekulalar yoki ionlardan tashkil topadi. Masalan, O₂ faqat kislorod atomlaridan iborat oddiy modda; H₂O da esa ikki xil element atomlari bor. Qattiq NaCl ionli kristall panjaraga ega. Molekuladagi atomlar soni elementlar soni bilan bir xil bo‘lishi shart emas."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Yozuv yoki hodisa",
+        "To‘g‘ri talqin",
+        "Keng tarqalgan xato"
+      ],
+      "rows": [
+        [
+          "O₂",
+          "Bitta elementning ikki atomli molekulasi",
+          "Ikki xil element deb hisoblash"
+        ],
+        [
+          "H₂O",
+          "Ikki vodorod va bir kislorod atomi",
+          "Indeksni barcha elementga qo‘llash"
+        ],
+        [
+          "Na⁺",
+          "Bir musbat zaryadli natriy ioni",
+          "Proton yo‘qotgan deb o‘ylash"
+        ],
+        [
+          "Muzning erishi",
+          "Agregat holatning o‘zgarishi",
+          "Yangi modda paydo bo‘ldi deb hisoblash"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sabab-bilan",
+      "text": "Javobni sabab bilan tanlang"
+    },
+    {
+      "type": "p",
+      "text": "«Neytral atomda proton va elektronlar soni teng» degan javobni zaryadlar orqali tekshirish mumkin: proton +1, elektron −1 birlik zaryadga ega. Teng miqdorlarning yig‘indisi 0 bo‘ladi. Neytronlar zaryadsiz bo‘lgani uchun neytrallikni belgilamaydi. Shu usul bilan ta’rifning o‘zini takrorlamay, nega boshqa variant noto‘g‘ri ekanini tushuntiring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kimyoviy belgida katta va kichik harflarni saqlang: Na va NA bir xil yozuv emas.",
+        "Atom raqami protonlar soni, massa soni esa proton va neytronlar yig‘indisidir.",
+        "Bu sahifa nazariy mashq; laboratoriya tajribasini bajarish yo‘riqnomasi emas."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish-va-ai",
+      "text": "Javoblarni tekshirish va AI yordamchi"
+    },
+    {
+      "type": "p",
+      "text": "Variantni tanlang: natija va izoh shu sahifada ko‘rinadi. Qayta boshlash orqali yana mashq qilish mumkin. Savollar, javoblar va izohlar JavaScriptsiz ham o‘qiladi; interaktiv tekshiruv brauzerda ishlaydi va modelga so‘rov yubormaydi."
+    },
+    {
+      "type": "p",
+      "text": "«AI bilan tushuntirish» savolni chat maydoniga joylaydi, o‘zi yubormaydi. Matnni ko‘rib, o‘zingiz yuborasiz. GPTBot.uz mustaqil AI-servis: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Bu limit boshqa sahifalardagi chat bilan umumiy. Mashq testi esa bepul ishlashda davom etadi."
+    },
+    {
+      "type": "h2",
+      "id": "material-haqida",
+      "text": "Material qanday tayyorlangan"
+    },
+    {
+      "type": "p",
+      "text": "AI yordamida tuzilgan original mashqlar. Tushunchalar va javoblar kaliti quyidagi ilmiy-o‘quv manbalari bilan solishtirildi. Bu rasmiy DTM, milliy sertifikat, BSB yoki ChSB materiali emas. Natija rasmiy baho hisoblanmaydi. Savollardagi sonlar va vaziyatlar shu mashqlar uchun tanlangan. Xato haqida ceo@gptbot.uz manziliga yozishingiz mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Kimyo testi va kimyo masalalari orasida qanday farq bor?",
+      "a": "Bu sahifada atom, modda, formula va o‘zgarishlarni tushunish tekshiriladi. Kimyo masalalari sahifasida esa molyar massa, modda miqdori va massa ulushi sonlar bilan hisoblanadi."
+    },
+    {
+      "q": "Bitta savolda nechta to‘g‘ri javob bor?",
+      "a": "Har savolda to‘rtta variant va bitta to‘g‘ri javob bor. Izohni o‘qib, faqat kalitni emas, nima uchun shu variant mosligini tekshiring."
+    },
+    {
+      "q": "Mashqlar bepulmi?",
+      "a": "Ha. Tayyor savollar, javoblar va izohlar bepul. Interaktiv tekshiruv brauzerda bajariladi va AI javob limitini sarflamaydi."
+    },
+    {
+      "q": "AI tushuntirish bepul limitga kiradimi?",
+      "a": "Ha. Chatga o‘zingiz yuborgan savol sayt bo‘yicha umumiy 3 ta muvaffaqiyatli sinov javobidan yoki mavjud AI paketingizdan foydalanadi. Sinov javoblari har kuni yangilanmaydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/kimyo-masalalar/",
+      "anchor": "Kimyodan hisoblash masalalari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/biologiya-test/",
+      "anchor": "Biologiya asoslari testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Barcha onlayn testlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "Mustaqil AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI paket narxi va shartlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "sources": [
+    {
+      "title": "IUPAC: periodic table of elements",
+      "url": "https://iupac.org/what-we-do/periodic-table-of-elements/",
+      "note": "Elementlar belgisi, atom raqami va davriy jadval."
+    },
+    {
+      "title": "OpenStax Chemistry 2e: atomic structure",
+      "url": "https://openstax.org/books/chemistry-2e/pages/2-3-atomic-structure-and-symbolism",
+      "note": "Proton, elektron, neytron, izotop va ion tushunchalari."
+    }
+  ],
+  "createdAt": "2026-11-08T00:00:00Z",
+  "updatedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-08"
+}

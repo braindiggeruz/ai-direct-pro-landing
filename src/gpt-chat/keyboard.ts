@@ -9,7 +9,7 @@
 // and the limit card turn compact (chat design §4.3).
 //
 // iOS Safari does not resize the page under its keyboard: while it is open
-// the app (#main) takes the visible height and the page stays at its top, so
+// the app (#main) takes the visible height and stays at the viewport's top, so
 // the composer sits on the keyboard as it does on Android.
 //
 // The height is read unscaled (the visual viewport's height times its scale):
@@ -40,7 +40,8 @@ export function useKeyboardOpen(inputRef: RefObject<HTMLTextAreaElement | null>)
       if (!main || zoomed) return;
       if (now) {
         main.style.height = `${visible}px`;
-        window.scrollTo(0, 0);
+        // Tool-first pages place the chat below useful static material.
+        window.scrollTo(0, main.offsetTop);
       } else if (main.style.height !== height) main.style.height = height;
     };
     check();

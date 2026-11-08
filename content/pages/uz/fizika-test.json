@@ -383,6 +383,17 @@
     {
       "type": "p",
       "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang. Test javoblaringiz esa brauzerdan chiqmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Alohida vazifa uchun amaliy materiallar: {pseo1}.",
+      "links": [
+        {
+          "token": "pseo1",
+          "target": "/uz/fizika-masalalar/",
+          "anchor": "Fizika masalalari: formula, birlik va yechim"
+        }
+      ]
     }
   ],
   "faq": [
@@ -469,6 +480,12 @@
       "anchor": "Maxfiylik siyosati",
       "locale": "uz",
       "type": "footer"
+    },
+    {
+      "target": "/uz/fizika-masalalar/",
+      "anchor": "Fizika masalalari: formula, birlik va yechim",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -497,5 +514,5 @@
     }
   ],
   "createdAt": "2026-10-25T00:00:00Z",
-  "updatedAt": "2026-10-26"
+  "updatedAt": "2026-11-08T00:00:00.000Z"
 }

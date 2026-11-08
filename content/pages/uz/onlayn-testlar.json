@@ -296,6 +296,27 @@
     {
       "type": "p",
       "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    },
+    {
+      "type": "linkp",
+      "text": "Alohida vazifa uchun amaliy materiallar: {pseo1}; {pseo2}; {pseo3}.",
+      "links": [
+        {
+          "token": "pseo1",
+          "target": "/uz/biologiya-test/",
+          "anchor": "Biologiya: tushunchalarni tekshirish"
+        },
+        {
+          "token": "pseo2",
+          "target": "/uz/kimyo-test/",
+          "anchor": "Kimyo: tushuncha va belgilar testi"
+        },
+        {
+          "token": "pseo3",
+          "target": "/uz/kimyo-masalalar/",
+          "anchor": "Kimyo: hisoblash masalalari"
+        }
+      ]
     }
   ],
   "faq": [
@@ -384,6 +405,24 @@
       "anchor": "Maxfiylik siyosati",
       "locale": "uz",
       "type": "footer"
+    },
+    {
+      "target": "/uz/biologiya-test/",
+      "anchor": "Biologiya: tushunchalarni tekshirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kimyo-test/",
+      "anchor": "Kimyo: tushuncha va belgilar testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kimyo-masalalar/",
+      "anchor": "Kimyo: hisoblash masalalari",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -412,5 +451,5 @@
     }
   ],
   "createdAt": "2026-10-25T00:00:00Z",
-  "updatedAt": "2026-10-26"
+  "updatedAt": "2026-11-08T00:00:00.000Z"
 }

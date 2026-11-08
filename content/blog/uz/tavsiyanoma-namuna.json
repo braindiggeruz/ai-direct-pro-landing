@@ -1,0 +1,285 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "tavsiyanoma-namuna",
+  "url": "/uz/blog/tavsiyanoma-namuna/",
+  "title": "Tavsiyanoma namuna: dalilli tavsiya xati, Word/PDF | GPTBot.uz",
+  "description": "Tavsiyanoma uchun to‘ldirilgan o‘quv misoli va Word/PDF blanka. Tavsifnomadan farqi, kuzatilgan dalillar va imzolovchi tekshiradigan bandlar.",
+  "h1": "Tavsiyanoma namunasi: nomzodni dalil bilan tavsiya qilish",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "tavsiyanoma namuna",
+    "tavsiyanoma",
+    "tavsiya xati"
+  ],
+  "intro": "Tavsiyanoma nomzodni aniq dastur yoki vazifaga tavsiya qiladi. Kuchli matnda tavsiya beruvchi uni qayerdan bilishi, qaysi ishini kuzatgani va nega aynan shu yo‘nalishga mos deb hisoblashini aytadi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/pseo-20261108/tavsiyanoma-namuna.docx",
+          "anchor": "Word uchun DOCX namunasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/pseo-20261108/tavsiyanoma-namuna.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu misol boshlang‘ich o‘quv dasturiga tavsiya uchun yozilgan. Matnni tavsiya beruvchi tasdiqlaydi: nomzod o‘zi qoralama tayyorlasa ham, boshqa kishining fikri va imzosini roziligisiz qo‘sha olmaydi. Tavsifnoma esa ko‘proq o‘tgan faoliyatni tasvirlaydi."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli. Nomzod A, murabbiy B va dastur shartli; bu haqiqiy tavsiya xati emas."
+    },
+    {
+      "type": "quote",
+      "text": "«O‘quv loyiha ustaxonasi» dasturining tanlov guruhiga"
+    },
+    {
+      "type": "quote",
+      "text": "Men, murabbiy B, nomzod A bilan olti haftalik o‘quv loyihasida ishladim. Vazifam guruhning rejasini kuzatish va tayyor materiallarni tekshirishdan iborat bo‘ldi."
+    },
+    {
+      "type": "quote",
+      "text": "Nomzod A guruhning materiallar ro‘yxatini yuritdi. U bir xil fayllar qayta kiritilganini aniqlab, alohida tekshiruv ustunini taklif qildi. Bu o‘zgarishdan keyin guruh qaysi material ko‘rib chiqilganini ro‘yxatdan ko‘ra oldi."
+    },
+    {
+      "type": "quote",
+      "text": "U yakuniy taqdimotda bajargan ishini qisqa va tushunarli izohladi, savolga javobni bilmaganda taxmin qilish o‘rniga tekshirish zarurligini aytdi. Hozircha yirik loyihalarni mustaqil boshqarish tajribasi cheklangan; shu sababli unga murabbiy kuzatuvidagi amaliy dastur mos deb hisoblayman."
+    },
+    {
+      "type": "quote",
+      "text": "Kuzatgan ishlarim asosida nomzod A ni boshlang‘ich loyiha amaliyoti uchun tavsiya qilaman. Uning ma’lumotlarni tartiblash va fikr-mulohazani qabul qilish ko‘nikmalari ushbu dasturda foydali bo‘lishi mumkin."
+    },
+    {
+      "type": "quote",
+      "text": "08.11.2026 · Murabbiy B. O‘quv misolida haqiqiy aloqa va imzo keltirilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-yoziladi",
+      "text": "Maqtovni kuzatilgan ish bilan almashtiring"
+    },
+    {
+      "type": "p",
+      "text": "«Mas’uliyatli va iste’dodli» deyishdan oldin buni ko‘rsatadigan vaziyatni tanlang. Tavsiya beruvchi nimani bevosita ko‘rgan, nomzod nima qilgan va natijani qayerdan biladi? Misoldagi ro‘yxatga tekshiruv ustunini qo‘shish — aniq harakat; u katta biznes natijasi deb ko‘rsatilmagan."
+    },
+    {
+      "type": "p",
+      "text": "Tavsiyani kerakli imkoniyat bilan bog‘lang. Boshlang‘ich dasturga mos nomzodni tajribali loyiha rahbari sifatida tasvirlash shart emas. Tajriba chegarasini xolis yozish va qaysi sharoitda rivojlanishi mumkinligini aytish umumiy maqtovdan aniqroq bo‘ladi."
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Qabul qiluvchi talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi odam, sana va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Kimga va kimdan"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Qabul qiluvchi dastur / tashkilot] tanlov komissiyasiga",
+        "Tavsiya beruvchi: [lavozim, tashkilot, ism]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Nomzodni qayerdan bilaman"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Men [nomzod]ni [muddat] davomida [dars, loyiha yoki ish] orqali bilaman. [Qanday vazifada birga ishlagansiz]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Kuzatilgan dalillar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Nomzod bajargan aniq ish], uning hissasi [aniq harakat]dan iborat bo‘ldi.",
+        "[Ikkinchi kuzatuv: muammo, nomzodning harakati va tekshiriladigan natija].",
+        "[Rivojlantirish kerak bo‘lgan jihat — tegishli bo‘lsa, xolis ifodalang]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Aniq tavsiya"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Shu kuzatuvlar asosida [nomzod]ni [dastur / vazifa] uchun tavsiya qilaman. Uning [dalil bilan ko‘rsatilgan ko‘nikmasi] ushbu yo‘nalishga mos deb hisoblayman."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-5",
+      "text": "Yakun"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Qabul qiluvchi talab qilgan aloqa kanali — tavsiya beruvchining roziligi bilan]",
+        "Sana: [kun.oy.yil] · Tavsiya beruvchi: [ism, imzo]"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tavsiya beruvchi nomzodni bilgan davr va vaziyat to‘g‘rimi?",
+        "Har bir sifat kamida bitta kuzatilgan misol bilan bog‘langanmi?",
+        "Dastur yoki vazifa nomi aynan qabul qiluvchiga mosmi?",
+        "Yakuniy matn, aloqa kanali va imzo tavsiya beruvchi bilan kelishilganmi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Matn tavsiya beruvchining o‘z kuzatuviga tayanishi va u tomonidan ma’qullanishi kerak. Boshqa odam nomidan roziligisiz imzo, aloqa ma’lumoti yoki tavsiya yaratmang."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {r0} · {r1}.",
+      "links": [
+        {
+          "token": "r0",
+          "target": "/uz/blog/tavsifnoma-namuna/",
+          "anchor": "Tavsifnoma: o‘quvchi, talaba va xodim haqida"
+        },
+        {
+          "token": "r1",
+          "target": "/uz/blog/motivatsion-xat-namuna/",
+          "anchor": "Nomzodning o‘z motivatsion xati"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tavsiyanoma va tavsifnoma bir xilmi?",
+      "a": "Yo‘q. Tavsifnoma o‘qish yoki ish faoliyatini tasvirlaydi; tavsiyanoma esa kishini muayyan imkoniyatga tavsiya qilish sababini tushuntiradi. Qabul qiluvchi aynan qaysi hujjatni so‘raganini tekshiring."
+    },
+    {
+      "q": "Tavsiyanomani o‘zim yozsam bo‘ladimi?",
+      "a": "Faktlar ro‘yxati yoki qoralama tayyorlashingiz mumkin. Ammo tavsiya beruvchining nomidan yozilgan yakuniy matndan faqat u ko‘rib chiqib, rozilik berganidan keyin foydalaning; imzosini ko‘chirmang."
+    },
+    {
+      "q": "Tajriba kam bo‘lsa qanday dalil keltiriladi?",
+      "a": "O‘qituvchi yoki murabbiy ko‘rgan dars, o‘quv loyiha yoki amaliy vazifani keltiring. Katta mukofot yoki ish tajribasi yo‘qligini to‘qima ma’lumot bilan yopmang."
+    },
+    {
+      "q": "Tavsiya beruvchi mening barcha yutuqlarimni yozishi kerakmi?",
+      "a": "U bevosita biladigan va kerakli dasturga tegishli dalillarni tanlagani ma’qul. O‘zi kuzatmagan yoki tekshira olmaydigan yutuqni shaxsiy kuzatuvdek yozmasin; boshqa hujjatdagi fakt bo‘lsa, manbasini aniq ajratsin."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/tavsifnoma-namuna/",
+      "anchor": "Tavsifnoma: o‘quvchi, talaba va xodim haqida",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/motivatsion-xat-namuna/",
+      "anchor": "Nomzodning o‘z motivatsion xati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Tavsiyanoma namuna: dalilli tavsiya xati, Word/PDF | GPTBot.uz",
+  "ogDescription": "Tavsiyanoma uchun to‘ldirilgan o‘quv misoli va Word/PDF blanka. Tavsifnomadan farqi, kuzatilgan dalillar va imzolovchi tekshiradigan bandlar.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/tavsiyanoma-namuna/",
+  "hreflangUz": "/uz/blog/tavsiyanoma-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Tavsiyanoma namuna",
+  "datePublished": "2026-11-08",
+  "dateModified": "2026-11-08",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "S. A. Karimov, Sh. M. Maxmatmurodov, O. N. Karimova — Nutq madaniyati va davlat tilida ish yuritish (NamDU kutubxonasi)",
+      "url": "https://namdu.uz/media/Books/pdf/2024/06/02/NamDU-ARM-3076-Nutq_madaniyati_va_davlat_tilida_ish_yuritish.pdf?raw=1",
+      "note": "Hujjat turlari va ish yuritish uslubi bo‘yicha o‘quv manbasi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
+    }
+  ],
+  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "createdAt": "2026-11-08T00:00:00.000Z"
+}

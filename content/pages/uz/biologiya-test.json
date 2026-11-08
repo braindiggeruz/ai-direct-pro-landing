@@ -1,0 +1,219 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/biologiya-test/",
+  "slug": "biologiya-test",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Bu biologiya tushunchasini oddiy o‘zbek tilida tushuntir. Tuzilma va uning vazifasini ajrat, bitta boshqa tushuncha bilan farqini ko‘rsat. Mavzu: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir. Xato bo‘lsa, birinchi xato qadamni va sababini tushuntir. Xato bo‘lmasa, yechim to‘g‘ri ekanini ayt. Shart:\nMening yechimim:"
+    },
+    {
+      "label": "Shunga o‘xshash mashq",
+      "prompt": "Shu mavzuda bitta yangi original mashq tuz. Avval faqat shartni ber; javobni men urinib ko‘rganimdan keyin tushuntir. Mavzu: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-biologiya",
+  "primaryKeyword": "biologiya test",
+  "secondaryKeywords": [
+    "biologiya test savollari",
+    "biologiya online test",
+    "biologiya hujayra test"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Biologiya test: 12 ta savol, javob va izoh",
+  "title": "Biologiya test: 12 ta savol va izoh | GPTBot.uz",
+  "description": "Biologiya testi: hujayra, o‘simliklar, fotosintez va ekologiyadan 12 ta original savol. Javobni tanlang, izohni o‘qing, bepul qayta mashq qiling.",
+  "canonical": "https://gptbot.uz/uz/biologiya-test/",
+  "hreflangUz": "/uz/biologiya-test/",
+  "ogTitle": "Biologiya test: 12 ta savol va izoh | GPTBot.uz",
+  "ogDescription": "Biologiya testi: hujayra, o‘simliklar, fotosintez va ekologiyadan 12 ta original savol. Javobni tanlang, izohni o‘qing, bepul qayta mashq qiling.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Biologiya test",
+  "heroTitle": "Biologiya test: 12 ta savol, javob va izoh",
+  "heroSubtitle": "Hujayra tuzilishi, o‘simliklar faoliyati va oziq zanjiridagi asosiy tushunchalarni tekshiring. Har bir savolning javobi nima uchun to‘g‘ri ekani alohida tushuntiriladi.",
+  "ctaPrimaryLabel": "AI yordamchiga savol berish",
+  "ctaPrimaryHref": "#main",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Hujayra tuzilishi, o‘simliklar faoliyati va oziq zanjiridagi asosiy tushunchalarni tekshiring. Har bir savolning javobi nima uchun to‘g‘ri ekani alohida tushuntiriladi."
+    },
+    {
+      "type": "h2",
+      "id": "tuzilma-vazifa",
+      "text": "Tuzilma va vazifani birga o‘rganing"
+    },
+    {
+      "type": "p",
+      "text": "Biologiyada atamani yodlash yetarli emas: tuzilma nima vazifa bajarishini ham tushunish kerak. Masalan, ribosoma oqsil yig‘ilishida qatnashadi, plazmatik membrana moddalar almashinuvini boshqaradi, xloroplast esa o‘simlik hujayrasidagi fotosintez bilan bog‘liq. Savolga javob berayotganda «bu qayerda?» va «bu nima qiladi?» degan ikki savolni ajrating."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tushuncha",
+        "Asosiy vazifa yoki ma’no",
+        "Adashtirmang"
+      ],
+      "rows": [
+        [
+          "DNK",
+          "Irsiy axborotni saqlash",
+          "DNK — molekula; yadro esa uni saqlashi mumkin bo‘lgan hujayra tuzilmasi"
+        ],
+        [
+          "Ksilema",
+          "Suv va mineral ionlarni tashish",
+          "Floemaning organik moddalar tashishi bilan"
+        ],
+        [
+          "Changlanish",
+          "Changning urug‘chi tumshuqchasiga yetishi",
+          "Urug‘lanish bilan bir xil hodisa emas"
+        ],
+        [
+          "Produsent",
+          "Organik modda hosil qiluvchi organizm",
+          "Tayyor organik modda bilan oziqlanuvchi konsument bilan"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oziq-zanjiri",
+      "text": "Oziq zanjirini qanday tahlil qilish mumkin"
+    },
+    {
+      "type": "p",
+      "text": "Bug‘doy → chigirtka → qush misolida bug‘doy produsent, qolganlari konsument bo‘ladi. O‘q oziq modda va energiya o‘tadigan yo‘nalishni bildiradi. Parchalovchilar esa o‘lik qoldiqlarni qayta ishlashda qatnashadi. Bitta zanjir tabiatdagi barcha bog‘lanishlarni ko‘rsatmaydi: bir organizm bir necha tur bilan oziqlanish munosabatida bo‘lishi mumkin."
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Har doim», «faqat» kabi qat’iy so‘zlar bor javobni shartga solishtiring.",
+        "Fotosintez boshlang‘ich moddalarini uning mahsulotlari bilan aralashtirmang.",
+        "Turlar xilma-xilligi bilan bitta organizmning kattaligini farqlang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish-va-ai",
+      "text": "Javoblarni tekshirish va AI yordamchi"
+    },
+    {
+      "type": "p",
+      "text": "Variantni tanlang: natija va izoh shu sahifada ko‘rinadi. Qayta boshlash orqali yana mashq qilish mumkin. Savollar, javoblar va izohlar JavaScriptsiz ham o‘qiladi; interaktiv tekshiruv brauzerda ishlaydi va modelga so‘rov yubormaydi."
+    },
+    {
+      "type": "p",
+      "text": "«AI bilan tushuntirish» savolni chat maydoniga joylaydi, o‘zi yubormaydi. Matnni ko‘rib, o‘zingiz yuborasiz. GPTBot.uz mustaqil AI-servis: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Bu limit boshqa sahifalardagi chat bilan umumiy. Mashq testi esa bepul ishlashda davom etadi."
+    },
+    {
+      "type": "h2",
+      "id": "material-haqida",
+      "text": "Material qanday tayyorlangan"
+    },
+    {
+      "type": "p",
+      "text": "AI yordamida tuzilgan original mashqlar. Tushunchalar va javoblar kaliti quyidagi ilmiy-o‘quv manbalari bilan solishtirildi. Bu rasmiy DTM, milliy sertifikat, BSB yoki ChSB materiali emas. Natija rasmiy baho hisoblanmaydi. Savollardagi sonlar va vaziyatlar shu mashqlar uchun tanlangan. Xato haqida ceo@gptbot.uz manziliga yozishingiz mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bu biologiya DTM yoki milliy sertifikat testi hisoblanadimi?",
+      "a": "Yo‘q. Bu hujayra, botanika va ekologiya asoslarini takrorlash uchun tuzilgan 12 ta original mashq. Rasmiy imtihon topshiriqlari yoki ularning javoblari taqdim etilmaydi."
+    },
+    {
+      "q": "Natija bilimimni to‘liq baholaydimi?",
+      "a": "Yo‘q. 12 savol butun biologiya dasturini qamramaydi. Natijadan qaysi tushunchani qayta o‘rganish kerakligini ko‘rish uchun foydalaning."
+    },
+    {
+      "q": "Mashqlar bepulmi?",
+      "a": "Ha. Tayyor savollar, javoblar va izohlar bepul. Interaktiv tekshiruv brauzerda bajariladi va AI javob limitini sarflamaydi."
+    },
+    {
+      "q": "AI tushuntirish bepul limitga kiradimi?",
+      "a": "Ha. Chatga o‘zingiz yuborgan savol sayt bo‘yicha umumiy 3 ta muvaffaqiyatli sinov javobidan yoki mavjud AI paketingizdan foydalanadi. Sinov javoblari har kuni yangilanmaydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/kimyo-test/",
+      "anchor": "Kimyo tushunchalarini tekshirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/fizika-test/",
+      "anchor": "Fizika bo‘yicha umumiy test",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Fanlar bo‘yicha barcha testlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "Mustaqil AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI paket narxi va shartlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "sources": [
+    {
+      "title": "OpenStax Biology 2e: eukaryotic cells",
+      "url": "https://openstax.org/books/biology-2e/pages/4-3-eukaryotic-cells",
+      "note": "Hujayra membranasi va organoidlar vazifalari."
+    },
+    {
+      "title": "OpenStax Biology 2e: photosynthesis",
+      "url": "https://openstax.org/books/biology-2e/pages/8-1-overview-of-photosynthesis",
+      "note": "Fotosintezning boshlang‘ich moddalari va umumiy mazmuni."
+    },
+    {
+      "title": "OpenStax Biology 2e: plant transport",
+      "url": "https://openstax.org/books/biology-2e/pages/30-5-transport-of-water-and-solutes-in-plants",
+      "note": "Ildiz, ksilema va floemaning vazifalari."
+    },
+    {
+      "title": "OpenStax Biology 2e: pollination",
+      "url": "https://openstax.org/books/biology-2e/pages/32-2-pollination-and-fertilization",
+      "note": "Gulli o‘simliklarda changlanish va urug‘lanish farqi."
+    },
+    {
+      "title": "OpenStax Biology 2e: ecosystem energy flow",
+      "url": "https://openstax.org/books/biology-2e/pages/46-2-energy-flow-through-ecosystems",
+      "note": "Oziq zanjiri, produsent va konsumentlar."
+    }
+  ],
+  "createdAt": "2026-11-08T00:00:00Z",
+  "updatedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-08"
+}

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-10-26",
+  "updatedAt": "2026-11-08",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "commercialClusters": [
     {
@@ -2704,6 +2704,610 @@
       "evidence": "docs/seo/research/2026-10-25-ad-client-funnel/AD_CLIENT_FUNNEL.md §3 F4, §5 rows 9–10, §6 and §11; niche-playbooks.md / niche-playbooks.json; niche-playbooks-data/kw1_metrics_raw.json",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-25"
+    },
+    {
+      "id": "PSEO20-tarjimai-hol-namuna",
+      "commercial": {
+        "url": "/uz/blog/rezyume-tayyorlash/",
+        "owns": "Existing broader guide/tool: Rezyume tayyorlash: tuzilma, namuna va AI bilan tekshiruv. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "tarjimai hol namuna",
+          "tarjimai hol qanday yoziladi",
+          "tarjimai hol word"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/tarjimai-hol-namuna/",
+        "owns": "Tarjimai holni qanday yozish: to‘ldirilgan shartli misol, bo‘sh Word va PDF namuna, yillar ketma-ketligi hamda yuborishdan oldingi tekshiruv.",
+        "mustNotTarget": [
+          "rezyume tayyorlash",
+          "rezyume namuna",
+          "rezyume",
+          "rezyume shablon",
+          "resume tayyorlash",
+          "rezyume nima",
+          "rezyume tayyorlash bepul",
+          "cv tayyorlash",
+          "rezyume to‘ldirish",
+          "cv namuna"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-obyektivka-namuna",
+      "commercial": {
+        "url": "/uz/blog/rezyume-tayyorlash/",
+        "owns": "Existing broader guide/tool: Rezyume tayyorlash: tuzilma, namuna va AI bilan tekshiruv. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "obyektivka namuna",
+          "obyektivka",
+          "malumotnoma obyektivka word"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/obyektivka-namuna/",
+        "owns": "Obyektivka uchun soddalashtirilgan Word/PDF namuna: ta’lim, faoliyat ketma-ketligi va ko‘nikmalar. Qabul qiluvchi blankasi bilan solishtirish ro‘yxati.",
+        "mustNotTarget": [
+          "rezyume tayyorlash",
+          "rezyume namuna",
+          "rezyume",
+          "rezyume shablon",
+          "resume tayyorlash",
+          "rezyume nima",
+          "rezyume tayyorlash bepul",
+          "cv tayyorlash",
+          "rezyume to‘ldirish",
+          "cv namuna"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-motivatsion-xat-namuna",
+      "commercial": {
+        "url": "/uz/blog/rezyume-tayyorlash/",
+        "owns": "Existing broader guide/tool: Rezyume tayyorlash: tuzilma, namuna va AI bilan tekshiruv. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "motivatsion xat namuna",
+          "motivatsion xat",
+          "motivatsion xat qanday yoziladi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/motivatsion-xat-namuna/",
+        "owns": "O‘quv dasturiga motivatsion xat: to‘ldirilgan shartli misol, Word/PDF blanka, tajribani dalil bilan bog‘lash va yuborishdan oldingi tekshiruv.",
+        "mustNotTarget": [
+          "rezyume tayyorlash",
+          "rezyume namuna",
+          "rezyume",
+          "rezyume shablon",
+          "resume tayyorlash",
+          "rezyume nima",
+          "rezyume tayyorlash bepul",
+          "cv tayyorlash",
+          "rezyume to‘ldirish",
+          "cv namuna"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-bayonnoma-namuna",
+      "commercial": {
+        "url": "/uz/blog/rasmiy-xat-yozish/",
+        "owns": "Existing broader guide/tool: Rasmiy xat yozish: rekvizitlar, xat turlari va shartli namunalar. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "bayonnoma namunasi",
+          "bayonnoma namuna",
+          "yigilish bayonnomasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/bayonnoma-namuna/",
+        "owns": "Oddiy ishchi yig‘ilish bayonnomasi: to‘ldirilgan misol, tahrirlanadigan Word/PDF, kun tartibi, muhokama va aniq qarorlarni yozish ro‘yxati.",
+        "mustNotTarget": [
+          "rasmiy xat yozish",
+          "xat yozish",
+          "xizmat xati namuna",
+          "rasmiy xat namunasi",
+          "xat yozish namunasi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-dalolatnoma-namuna",
+      "commercial": {
+        "url": "/uz/blog/rasmiy-xat-yozish/",
+        "owns": "Existing broader guide/tool: Rasmiy xat yozish: rekvizitlar, xat turlari va shartli namunalar. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "dalolatnoma namuna",
+          "topshirish qabul qilish dalolatnomasi",
+          "dalolatnoma word"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/dalolatnoma-namuna/",
+        "owns": "Jihoz topshirish dalolatnomasi: komplekt, miqdor va holat yozilgan misol, tahrirlanadigan DOCX/PDF, nuqson va tekshirilmagan jihatlarni qayd etish.",
+        "mustNotTarget": [
+          "rasmiy xat yozish",
+          "xat yozish",
+          "xizmat xati namuna",
+          "rasmiy xat namunasi",
+          "xat yozish namunasi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-bildirishnoma-namuna",
+      "commercial": {
+        "url": "/uz/blog/rasmiy-xat-yozish/",
+        "owns": "Existing broader guide/tool: Rasmiy xat yozish: rekvizitlar, xat turlari va shartli namunalar. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "bildirishnoma namuna",
+          "bildirishnoma",
+          "rahbarga bildirishnoma"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/bildirishnoma-namuna/",
+        "owns": "Rahbarga ichki bildirishnoma namunasi: printer muammosi haqida to‘ldirilgan misol, Word/PDF blanka, fakt va taxminni ajratish bo‘yicha tekshiruv.",
+        "mustNotTarget": [
+          "rasmiy xat yozish",
+          "xat yozish",
+          "xizmat xati namuna",
+          "rasmiy xat namunasi",
+          "xat yozish namunasi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-javob-xati-namuna",
+      "commercial": {
+        "url": "/uz/blog/rasmiy-xat-yozish/",
+        "owns": "Existing broader guide/tool: Rasmiy xat yozish: rekvizitlar, xat turlari va shartli namunalar. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "javob xati namuna",
+          "sorovga javob xati",
+          "javob xati word"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/javob-xati-namuna/",
+        "owns": "Hamkor so‘roviga javob xati: savollar bo‘yicha to‘ldirilgan misol, Word/PDF blanka, kiruvchi xatga havola va noma’lum muddatni to‘g‘ri yozish.",
+        "mustNotTarget": [
+          "rasmiy xat yozish",
+          "xat yozish",
+          "xizmat xati namuna",
+          "rasmiy xat namunasi",
+          "xat yozish namunasi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-tavsiyanoma-namuna",
+      "commercial": {
+        "url": "/uz/blog/tavsifnoma-namuna/",
+        "owns": "Existing broader guide/tool: Tavsifnoma qanday yoziladi: tuzilma, shartli namunalar va AI bilan qoralama. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "tavsiyanoma namuna",
+          "tavsiyanoma",
+          "tavsiya xati"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/tavsiyanoma-namuna/",
+        "owns": "Tavsiyanoma uchun to‘ldirilgan o‘quv misoli va Word/PDF blanka. Tavsifnomadan farqi, kuzatilgan dalillar va imzolovchi tekshiradigan bandlar.",
+        "mustNotTarget": [
+          "tavsifnoma namuna",
+          "tavsifnoma namunasi",
+          "tavsifnoma",
+          "tavsifnoma yozish"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-amaliyot-kundaligi-namuna",
+      "commercial": {
+        "url": "/uz/blog/chatgpt-talabalar-uchun/",
+        "owns": "Existing broader guide/tool: ChatGPT talabalar uchun: o‘qishda foydalanishning 20 ta usuli. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "amaliyot kundaligi namuna",
+          "amaliyot kundaligi",
+          "amaliyot kundaligi qanday yoziladi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/amaliyot-kundaligi-namuna/",
+        "owns": "Amaliyot kundaligiga kunlik vazifa, bajarilgan ish va natijani yozish. Uch kunlik to‘qima misol, tahrirlanadigan Word/PDF va tekshiruv ro‘yxati.",
+        "mustNotTarget": [
+          "chatgpt talabalar uchun",
+          "chatgpt o‘qish uchun",
+          "ai student uzbek"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-amaliyot-hisoboti-namuna",
+      "commercial": {
+        "url": "/uz/blog/chatgpt-talabalar-uchun/",
+        "owns": "Existing broader guide/tool: ChatGPT talabalar uchun: o‘qishda foydalanishning 20 ta usuli. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "amaliyot hisoboti namuna",
+          "amaliyot hisoboti",
+          "amaliyot hisoboti reja"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/amaliyot-hisoboti-namuna/",
+        "owns": "Amaliyot hisoboti uchun kirish, asosiy qism va xulosa. Uch kunlik mashqdan yozilgan qisqa misol, Word/PDF tuzilma va ilovalarni tekshirish.",
+        "mustNotTarget": [
+          "chatgpt talabalar uchun",
+          "chatgpt o‘qish uchun",
+          "ai student uzbek"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-karra-jadvali",
+      "commercial": {
+        "url": "/uz/matematika-test/",
+        "owns": "Existing broader guide/tool: Matematika test: 40 ta mashq savoli va AI tushuntirish. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "karra jadvali",
+          "ko‘paytirish jadvali",
+          "karra jadvali mashqlari",
+          "karra jadvali 1 dan 10 gacha"
+        ]
+      },
+      "informational": {
+        "url": "/uz/karra-jadvali/",
+        "owns": "Karra jadvali: 1–10 ko‘paytirish jadvali va 12 ta bepul mashq. Javoblar, izohlar, bo‘lish bilan tekshirish va AI yordamida tushuntirish.",
+        "mustNotTarget": [
+          "matematika test",
+          "matematika testlar",
+          "matematika test savollari",
+          "matematika online test",
+          "matematika onlayn test",
+          "matematika test 5 sinf",
+          "matematika test 6 sinf",
+          "matematika test 9 sinf",
+          "matematika mashq testi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-matematika-misollar-1-sinf",
+      "commercial": {
+        "url": "/uz/matematika-test/",
+        "owns": "Existing broader guide/tool: Matematika test: 40 ta mashq savoli va AI tushuntirish. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "matematika misollar 1 sinf",
+          "1-sinf matematika misollari",
+          "1 sinf qo‘shish ayirish",
+          "birinchi sinf matematika mashqlari"
+        ]
+      },
+      "informational": {
+        "url": "/uz/matematika-misollar-1-sinf/",
+        "owns": "1-sinf uchun 12 ta matematika misoli: qo‘shish, ayirish, taqqoslash, o‘nlik va birlik. Har bir javobning izohi bor, mashqlar bepul ishlaydi.",
+        "mustNotTarget": [
+          "matematika test",
+          "matematika testlar",
+          "matematika test savollari",
+          "matematika online test",
+          "matematika onlayn test",
+          "matematika test 5 sinf",
+          "matematika test 6 sinf",
+          "matematika test 9 sinf",
+          "matematika mashq testi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-matematika-misollar-2-sinf",
+      "commercial": {
+        "url": "/uz/matematika-test/",
+        "owns": "Existing broader guide/tool: Matematika test: 40 ta mashq savoli va AI tushuntirish. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "matematika misollar 2 sinf",
+          "2-sinf matematika misollari",
+          "ikki xonali sonlar mashqlari",
+          "2 sinf matnli masalalar"
+        ]
+      },
+      "informational": {
+        "url": "/uz/matematika-misollar-2-sinf/",
+        "owns": "2-sinf matematika misollari: ikki xonali sonlar, teng guruhlar, vaqt, uzunlik va perimetr. 12 ta bepul mashq, javob va qadamma-qadam izoh.",
+        "mustNotTarget": [
+          "matematika test",
+          "matematika testlar",
+          "matematika test savollari",
+          "matematika online test",
+          "matematika onlayn test",
+          "matematika test 5 sinf",
+          "matematika test 6 sinf",
+          "matematika test 9 sinf",
+          "matematika mashq testi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-matematika-misollar-3-sinf",
+      "commercial": {
+        "url": "/uz/matematika-test/",
+        "owns": "Existing broader guide/tool: Matematika test: 40 ta mashq savoli va AI tushuntirish. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "matematika misollar 3 sinf",
+          "3-sinf matematika misollari",
+          "uch xonali sonlar misollari",
+          "3 sinf masalalar yechimi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/matematika-misollar-3-sinf/",
+        "owns": "3-sinf uchun 12 ta misol: uch xonali sonlar, ko‘paytirish, bo‘lish, ulush, yuza va amallar tartibi. Javoblar izohi bilan bepul mashq qiling.",
+        "mustNotTarget": [
+          "matematika test",
+          "matematika testlar",
+          "matematika test savollari",
+          "matematika online test",
+          "matematika onlayn test",
+          "matematika test 5 sinf",
+          "matematika test 6 sinf",
+          "matematika test 9 sinf",
+          "matematika mashq testi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-tenglama-yechish",
+      "commercial": {
+        "url": "/uz/matematika-test/",
+        "owns": "Existing broader guide/tool: Matematika test: 40 ta mashq savoli va AI tushuntirish. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "tenglama yechish",
+          "chiziqli tenglama yechish",
+          "tenglama yechish misollari",
+          "bir noma’lumli tenglama"
+        ]
+      },
+      "informational": {
+        "url": "/uz/tenglama-yechish/",
+        "owns": "Bir noma’lumli chiziqli tenglama yechish: qadamlar, o‘rniga qo‘yib tekshirish va 12 ta bepul mashq. Bitta, cheksiz yoki yo‘q yechim holatlari.",
+        "mustNotTarget": [
+          "matematika test",
+          "matematika testlar",
+          "matematika test savollari",
+          "matematika online test",
+          "matematika onlayn test",
+          "matematika test 5 sinf",
+          "matematika test 6 sinf",
+          "matematika test 9 sinf",
+          "matematika mashq testi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-geometriya-masalalar",
+      "commercial": {
+        "url": "/uz/matematika-test/",
+        "owns": "Existing broader guide/tool: Matematika test: 40 ta mashq savoli va AI tushuntirish. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "geometriya masalalar",
+          "geometriya masalalari yechimi",
+          "yuza perimetr masalalari",
+          "geometriya formulalar misollar"
+        ]
+      },
+      "informational": {
+        "url": "/uz/geometriya-masalalar/",
+        "owns": "Geometriya masalalari: perimetr, yuza, burchak, aylana va hajm. 12 ta bepul mashq, formulalar va tekshirish uchun qadamma-qadam tushuntirish.",
+        "mustNotTarget": [
+          "matematika test",
+          "matematika testlar",
+          "matematika test savollari",
+          "matematika online test",
+          "matematika onlayn test",
+          "matematika test 5 sinf",
+          "matematika test 6 sinf",
+          "matematika test 9 sinf",
+          "matematika mashq testi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-biologiya-test",
+      "commercial": {
+        "url": "/uz/onlayn-testlar/",
+        "owns": "Existing broader guide/tool: Onlayn testlar: fanlar bo‘yicha test savollari va AI test tuzuvchi. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "biologiya test",
+          "biologiya test savollari",
+          "biologiya online test",
+          "biologiya hujayra test"
+        ]
+      },
+      "informational": {
+        "url": "/uz/biologiya-test/",
+        "owns": "Biologiya testi: hujayra, o‘simliklar, fotosintez va ekologiyadan 12 ta original savol. Javobni tanlang, izohni o‘qing, bepul qayta mashq qiling.",
+        "mustNotTarget": [
+          "online test yechish",
+          "onlayn test yechish",
+          "onlayn testlar",
+          "online testlar",
+          "online test",
+          "testlar",
+          "test ishlash",
+          "test yechish",
+          "test savollari",
+          "test tuzish",
+          "ai test tuzish"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-kimyo-test",
+      "commercial": {
+        "url": "/uz/onlayn-testlar/",
+        "owns": "Existing broader guide/tool: Onlayn testlar: fanlar bo‘yicha test savollari va AI test tuzuvchi. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "kimyo test",
+          "kimyo test savollari",
+          "kimyo online test",
+          "atom tuzilishi test"
+        ]
+      },
+      "informational": {
+        "url": "/uz/kimyo-test/",
+        "owns": "Kimyo test: atom, element, molekula, modda va ionlar haqida 12 ta original savol. Bepul tekshiruv va har bir javobga tushuntirish beriladi.",
+        "mustNotTarget": [
+          "online test yechish",
+          "onlayn test yechish",
+          "onlayn testlar",
+          "online testlar",
+          "online test",
+          "testlar",
+          "test ishlash",
+          "test yechish",
+          "test savollari",
+          "test tuzish",
+          "ai test tuzish"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-kimyo-masalalar",
+      "commercial": {
+        "url": "/uz/onlayn-testlar/",
+        "owns": "Existing broader guide/tool: Onlayn testlar: fanlar bo‘yicha test savollari va AI test tuzuvchi. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "kimyo masalalar",
+          "kimyo masalalari yechimi",
+          "molyar massa masalalari",
+          "massa ulushi masalalari"
+        ]
+      },
+      "informational": {
+        "url": "/uz/kimyo-masalalar/",
+        "owns": "Kimyo masalalari: molyar massa, mol, atomlar soni va eritmaning massa ulushi. 12 ta bepul mashq, berilgan qiymatlar va qadamma-qadam izohlar.",
+        "mustNotTarget": [
+          "online test yechish",
+          "onlayn test yechish",
+          "onlayn testlar",
+          "online testlar",
+          "online test",
+          "testlar",
+          "test ishlash",
+          "test yechish",
+          "test savollari",
+          "test tuzish",
+          "ai test tuzish"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "PSEO20-fizika-masalalar",
+      "commercial": {
+        "url": "/uz/fizika-test/",
+        "owns": "Existing broader guide/tool: Fizika test: 40 ta mashq savoli va AI tushuntirish. Retain its current title, H1, declared keywords and useful examples. The legacy field name does not make this informational parent a commercial landing.",
+        "mustNotTarget": [
+          "fizika masalalar",
+          "fizika masalalar yechimi",
+          "fizikadan masalalar",
+          "tezlik zichlik kuch masalalari"
+        ]
+      },
+      "informational": {
+        "url": "/uz/fizika-masalalar/",
+        "owns": "Fizika masalalari: yo‘l, tezlik, zichlik, kuch, ish, quvvat va bosim. 12 ta bepul mashq, formulalar, birliklar va qadamma-qadam yechimlar.",
+        "mustNotTarget": [
+          "fizika test",
+          "fizika testlar",
+          "fizika testi",
+          "fizika test savollari",
+          "fizika onlayn test",
+          "fizika online test",
+          "fizika mashq testi"
+        ]
+      },
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-08",
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
     }
   ],
   "architectureDecisions": [
@@ -2865,6 +3469,35 @@
       ],
       "evidence": "docs/seo/research/2026-10-26-top3-roadmap/05-technical-and-links.md §2.1–2.2 (Т-05); ROADMAP_TOP3.md §2 (target map, row «chatgpt yuklab olish…») and §4 step 1.4",
       "note": "The Uzbek download guide and the Uzbek login guide are single-language pages and stay so: no hreflang pair with any RU page, today (they have none) or when a Russian download or login guide is published. Hreflang tells Google that two URLs are one document in two languages and to serve the member that matches the searcher's interface language; Google's interface in Uzbekistan defaults to Russian, and through the chat pair the RU chat takes part of the Uzbek chat's queries («chatgpt kirish» moves between 0 and 99 % to the RU chat by day; research 05 §2.2, the mechanism UNVERIFIED, the figures consistent with it). The download guide holds the site's only top-3 («chatgpt yuklab olish uzbek tilida», position 2.6, CTR 3.7 % on 26.10). A future RU guide is a standalone page joined to these guides by a plain cross-link, never by hreflangRu / hreflangUz / hreflangXDefault, a sitemap xhtml:link or a <link rel=\"alternate\" hreflang>. tests/seo-hreflang-guard.test.ts enforces it in content, in the sitemap and in the built HTML. Lifting it needs a new decision with measured evidence and an owner order."
+    },
+    {
+      "id": "A12-pseo20-useful-documents-and-practice-2026-11-08",
+      "decision": "ADD_20_DISTINCT_UZ_RESOURCES_WITH_EXISTING_PARENTS",
+      "decidedAt": "2026-11-08",
+      "pages": [
+        "/uz/blog/tarjimai-hol-namuna/",
+        "/uz/blog/obyektivka-namuna/",
+        "/uz/blog/motivatsion-xat-namuna/",
+        "/uz/blog/bayonnoma-namuna/",
+        "/uz/blog/dalolatnoma-namuna/",
+        "/uz/blog/bildirishnoma-namuna/",
+        "/uz/blog/javob-xati-namuna/",
+        "/uz/blog/tavsiyanoma-namuna/",
+        "/uz/blog/amaliyot-kundaligi-namuna/",
+        "/uz/blog/amaliyot-hisoboti-namuna/",
+        "/uz/karra-jadvali/",
+        "/uz/matematika-misollar-1-sinf/",
+        "/uz/matematika-misollar-2-sinf/",
+        "/uz/matematika-misollar-3-sinf/",
+        "/uz/tenglama-yechish/",
+        "/uz/geometriya-masalalar/",
+        "/uz/biologiya-test/",
+        "/uz/kimyo-test/",
+        "/uz/kimyo-masalalar/",
+        "/uz/fizika-masalalar/"
+      ],
+      "evidence": "reports/pseo20-20261108/CANDIDATES.md and CONTENT_REVIEW.md; explicit owner instruction to implement best 20 candidates",
+      "note": "C32 remains the CV/chat ownership rule. Its older official-form prerequisite for an obyektivka page is superseded for this exact, explicitly nonofficial educational sample: a filled illustrative example and editable blank DOCX/PDF with privacy guidance, never a universal official employment form. The CV guide keeps its section, FAQ and keywords. All ten document pages supply original downloads. Ten practice pages supply 120 original questions, worked examples and source-grounded explanations. Biology/chemistry concepts differ from calculation exercises; grade 1–3 differ from the existing grade 5–9 mathematics pilot. No new RU equivalents or x-default to unrelated pages; shared bot/payment/chat logic stays unchanged. Review new/parent query overlap after 4–6 weeks; do not scale automatically."
     }
   ]
 }

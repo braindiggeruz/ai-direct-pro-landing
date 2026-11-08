@@ -256,7 +256,10 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // chats, a shared homepage product overview, and the login description-only
 // experiment. Titles and all indexation contracts remain unchanged on the ten
 // leaders. The predecessor and preserved production artifact remain immutable.
-export const BASELINE = 'docs/seo/evidence/2026-11-08-viral-article/reviewed-protected-pages.json';
+// The pSEO20 revision adds exactly twenty reviewed Uzbek homepage entries.
+// Removing them restores the predecessor homepage contract; the other nine
+// protected pages and all 330 existing search metadata contracts are retained.
+export const BASELINE = 'docs/seo/evidence/2026-11-08-pseo20/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

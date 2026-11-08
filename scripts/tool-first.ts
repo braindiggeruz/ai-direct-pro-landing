@@ -5,6 +5,7 @@ import type { Page } from '../src/shared/types';
 import { renderUzTranslitBlock } from './translator-page';
 import { renderTranslationTask } from './translation-task';
 import { escapeHtml } from './widgets/html';
+import { isPseoPracticePage, renderPseoLearning } from './pseo-learning';
 
 const CONVERTERS = new Map([
   ['/uz/kirill-lotin/', 'uz'],
@@ -32,11 +33,12 @@ export function isTranslatorFirstPage(page: Page): boolean {
 }
 
 export function isToolFirstPage(page: Page): boolean {
-  return isConverterFirstPage(page) || isTranslatorFirstPage(page);
+  return isConverterFirstPage(page) || isTranslatorFirstPage(page) || isPseoPracticePage(page);
 }
 
 /** The page's single H1 and existing converter; an empty string elsewhere. */
 export function renderToolFirst(page: Page): string {
+  if (isPseoPracticePage(page)) return renderPseoLearning(page);
   if (!isToolFirstPage(page)) return '';
   const uz = page.locale === 'uz';
   const converter = isConverterFirstPage(page);

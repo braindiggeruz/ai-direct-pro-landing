@@ -78,6 +78,9 @@ https://:version.ai-direct-pro-landing.pages.dev/*
 /downloads/growth-20261106/*
   X-Robots-Tag: noindex
 
+/downloads/pseo-20261108/*
+  X-Robots-Tag: noindex
+
 /studio-examples/*
   X-Robots-Tag: noindex
 

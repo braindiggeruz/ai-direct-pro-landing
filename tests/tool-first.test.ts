@@ -5,13 +5,14 @@ import test from 'node:test';
 import type { Page } from '../src/shared/types';
 import { isConverterFirstPage, isToolFirstPage, isTranslatorFirstPage, renderToolFirst } from '../scripts/tool-first';
 import { renderUzTranslitBlock } from '../scripts/translator-page';
+import { PSEO_PRACTICE_PAGES } from '../src/shared/pseo20';
 
 const readPage = (locale: string, slug: string): Page => JSON.parse(fs.readFileSync(`content/pages/${locale}/${slug}.json`, 'utf8'));
 const pilots = [readPage('uz', 'kirill-lotin'), readPage('ru', 'kirillica-v-latinicu')];
 const translators = [readPage('uz', 'rus-ozbek-tarjimon'), readPage('ru', 'russko-uzbekskiy-perevodchik')];
 const read = (file: string) => fs.readFileSync(file, 'utf8');
 
-test('only the four existing converter/translator URLs opt in, with their exact locale, role and widget', () => {
+test('only reviewed converter/translator and ten practice URLs opt in with exact locale, role and widget', () => {
   const optedIn: string[] = [];
   for (const locale of ['ru', 'uz']) {
     for (const name of fs.readdirSync(`content/pages/${locale}`).filter((n) => n.endsWith('.json'))) {
@@ -20,7 +21,7 @@ test('only the four existing converter/translator URLs opt in, with their exact 
       else assert.equal(renderToolFirst(page), '', page.url);
     }
   }
-  assert.deepEqual(optedIn.sort(), [...pilots, ...translators].map((p) => p.url).sort());
+  assert.deepEqual(optedIn.sort(), [...pilots, ...translators].map((p) => p.url).concat(PSEO_PRACTICE_PAGES.map((p) => `/uz/${p.slug}/`)).sort());
   for (const page of pilots) {
     for (const changed of [
       { ...page, locale: page.locale === 'uz' ? 'ru' : 'uz' },

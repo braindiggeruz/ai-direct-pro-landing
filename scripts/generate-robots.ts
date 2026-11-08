@@ -233,7 +233,7 @@ headers.push('');
 
 // Download examples support their HTML landing pages; they are not separate
 // search destinations. Do not disallow crawling: crawlers must read noindex.
-for (const prefix of ['/downloads/growth-20261106/*', '/studio-examples/*']) {
+for (const prefix of ['/downloads/growth-20261106/*', '/downloads/pseo-20261108/*', '/studio-examples/*']) {
   headers.push(prefix);
   headers.push('  X-Robots-Tag: noindex');
   headers.push('');

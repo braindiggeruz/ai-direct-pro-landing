@@ -184,9 +184,9 @@ test('§5.3, chat UI §5.4: one row; the send button is muted when empty and foc
   const source = read('src/gpt-chat/components/AiChatInput.tsx');
   assert.match(source, /onClick=\{\(\) => \(empty \? inputRef\.current\?\.focus\(\) : onSend\(\)\)\}/);
   assert.match(source, /if \(value\) el\.style\.height = Math\.min\(el\.scrollHeight, 136\) \+ 'px';/);
-  // The example question only where it fits on one line (420px and up).
+  // The example only fits on one line at 420px+, outside an active presentation.
   assert.match(chat, /const \[wide\] = useState\(\(\) => !!window\.matchMedia\?\.\("\(min-width: 420px\)"\)\.matches\);/);
-  assert.match(chat, /placeholder=\{resting && wide \? t\.inputExample : undefined\}/);
+  assert.match(chat, /placeholder=\{!activePresentation && resting && wide \? t\.inputExample : undefined\}/);
   assert.match(css, /\.gpt-input-surface \{ align-items: flex-end; gap: 4px; min-height: 52px; padding: 3px 3px 3px 16px; border-radius: 26px;/);
   assert.match(css, /\.gpt-send-button \{ width: 44px; height: 44px; border-radius: 99px; background: var\(--surface-2\); color: var\(--text-2\);/);
   assert.match(css, /\.gpt-send-button\[data-state="ready"\]:not\(\[aria-disabled\]\) \{ background: var\(--accent\); color: var\(--accent-ink\); \}/);
@@ -405,7 +405,8 @@ test('REV-13 and §4.3: with the keyboard open (or 460px of height) the card is 
   const keyboard = read('src/gpt-chat/keyboard.ts');
   assert.match(keyboard, /document\.activeElement === inputRef\.current\s*&& window\.matchMedia\('\(pointer: coarse\)'\)\.matches && visible < tallest \* 0\.84/);
   // iOS: the app takes the visible height while the keyboard is open, and gives it back.
-  assert.match(keyboard, /main\.style\.height = `\$\{visible\}px`;\s*window\.scrollTo\(0, 0\);/);
+  assert.match(keyboard, /main\.style\.height = `\$\{visible\}px`;/);
+  assert.match(keyboard, /window\.scrollTo\(0, main\.offsetTop\);/);
   assert.match(keyboard, /if \(main\) main\.style\.height = height;/);
   // A pinch-zoom shrinks the visual viewport too: the height is read unscaled, and a zoomed page is left alone.
   assert.match(keyboard, /const scale = view\?\.scale \?\? 1;\s*const zoomed = scale > 1\.01;\s*const visible = view \? view\.height \* scale : window\.innerHeight;/);

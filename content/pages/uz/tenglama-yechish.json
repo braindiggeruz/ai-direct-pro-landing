@@ -1,0 +1,206 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/tenglama-yechish/",
+  "slug": "tenglama-yechish",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Mavzuni sodda tushuntir",
+      "prompt": "Bu bir noma’lumli chiziqli tenglamani tenglikning ikkala tomoniga bir xil amal qo‘llab tushuntir. Oxirida topilgan sonni boshlang‘ich tenglamaga qo‘yib tekshir. Tenglama: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Yechimimni tekshir. Xato bo‘lsa, birinchi xato qadamni va sababini tushuntir. Xato bo‘lmasa, yechim to‘g‘ri ekanini ayt. Shart:\nMening yechimim:"
+    },
+    {
+      "label": "Shunga o‘xshash mashq",
+      "prompt": "Shu mavzuda bitta yangi original mashq tuz. Avval faqat shartni ber; javobni men urinib ko‘rganimdan keyin tushuntir. Mavzu: "
+    }
+  ],
+  "widgets": [
+    "practice-quiz"
+  ],
+  "quizSet": "uz-tenglama",
+  "primaryKeyword": "tenglama yechish",
+  "secondaryKeywords": [
+    "chiziqli tenglama yechish",
+    "tenglama yechish misollari",
+    "bir noma’lumli tenglama"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Chiziqli tenglama yechish va 12 ta mashq",
+  "title": "Tenglama yechish: 12 ta izohli mashq | GPTBot.uz",
+  "description": "Bir noma’lumli chiziqli tenglama yechish: qadamlar, o‘rniga qo‘yib tekshirish va 12 ta bepul mashq. Bitta, cheksiz yoki yo‘q yechim holatlari.",
+  "canonical": "https://gptbot.uz/uz/tenglama-yechish/",
+  "hreflangUz": "/uz/tenglama-yechish/",
+  "ogTitle": "Tenglama yechish: 12 ta izohli mashq | GPTBot.uz",
+  "ogDescription": "Bir noma’lumli chiziqli tenglama yechish: qadamlar, o‘rniga qo‘yib tekshirish va 12 ta bepul mashq. Bitta, cheksiz yoki yo‘q yechim holatlari.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Chiziqli tenglama yechish va 12 ta mashq",
+  "heroTitle": "Chiziqli tenglama yechish va 12 ta mashq",
+  "heroSubtitle": "Bir noma’lumli chiziqli tenglamalarda tenglikni saqlashni mashq qiling. Oddiy tenglamadan ikki tomonda x qatnashadigan holatgacha, har bir javobning tekshiruvi bor.",
+  "ctaPrimaryLabel": "AI yordamchiga savol berish",
+  "ctaPrimaryHref": "#main",
+  "ctaSecondaryLabel": "Barcha onlayn testlar",
+  "ctaSecondaryHref": "/uz/onlayn-testlar/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Bir noma’lumli chiziqli tenglamalarda tenglikni saqlashni mashq qiling. Oddiy tenglamadan ikki tomonda x qatnashadigan holatgacha, har bir javobning tekshiruvi bor."
+    },
+    {
+      "type": "h2",
+      "id": "tenglik-qoidasi",
+      "text": "Tenglikning ikkala tomoniga bir xil amal"
+    },
+    {
+      "type": "p",
+      "text": "Tenglamada x ni ajratib olish uchun tenglikning ikkala tomoniga bir xil son qo‘shamiz yoki ayiramiz. Nol bo‘lmagan bir xil songa ko‘paytirish va bo‘lish ham tenglikni saqlaydi. «Boshqa tomonga o‘tkazish» yozuvi shu amallarning qisqa ifodasidir. Faqat bir tomonni o‘zgartirish yoki 0 ga bo‘lish mumkin emas."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tenglama",
+        "Qadamlar",
+        "Tekshiruv"
+      ],
+      "rows": [
+        [
+          "4x + 6 = 34",
+          "4x = 28; x = 7",
+          "4 × 7 + 6 = 34"
+        ],
+        [
+          "3(x − 2) = 15",
+          "x − 2 = 5; x = 7",
+          "3 × (7 − 2) = 15"
+        ],
+        [
+          "5x + 2 = 2x + 20",
+          "3x = 18; x = 6",
+          "32 = 32"
+        ],
+        [
+          "2x + 4 = 2x + 4",
+          "0 = 0",
+          "Har bir haqiqiy x mos"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "orniga-qoyish",
+      "text": "Yechimni o‘rniga qo‘yib tekshiring"
+    },
+    {
+      "type": "p",
+      "text": "Tenglamani soddalashtirib x = 6 topilgan bo‘lsa, uni boshlang‘ich ifodaning ikkala tomoniga qo‘ying. Masalan, 5x + 2 va 2x + 20 uchun natijalar 32 va 32. Faqat oxirgi soddalashtirilgan qatorni tekshirish boshlang‘ich qavs yoki ishora xatosini ko‘rsatmasligi mumkin. Shuning uchun tekshiruvni birinchi yozilgan tenglamada bajaring."
+    },
+    {
+      "type": "h2",
+      "id": "yechim-turlari",
+      "text": "Bitta yechim, cheksiz yechim yoki yechim yo‘q"
+    },
+    {
+      "type": "p",
+      "text": "ax + b = cx + d tenglama (a − c)x = d − b ga keltiriladi. a − c nol bo‘lmasa, bitta yechim bor. Ikkala tomon ham 0 bo‘lib qolsa, barcha haqiqiy sonlar yechimdir. 0 = 5 kabi noto‘g‘ri tenglik qolsa, yechim yo‘q. Bu sahifa chiziqli tenglamalarga qaratilgan; kvadrat tenglamalar, tenglamalar sistemasi va o‘zgaruvchi maxrajdagi ifodalar alohida mavzulardir."
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish-va-ai",
+      "text": "Javoblarni tekshirish va AI yordamchi"
+    },
+    {
+      "type": "p",
+      "text": "Variantni tanlang: natija va izoh shu sahifada ko‘rinadi. Qayta boshlash orqali yana mashq qilish mumkin. Savollar, javoblar va izohlar JavaScriptsiz ham o‘qiladi; interaktiv tekshiruv brauzerda ishlaydi va modelga so‘rov yubormaydi."
+    },
+    {
+      "type": "p",
+      "text": "«AI bilan tushuntirish» savolni chat maydoniga joylaydi, o‘zi yubormaydi. Matnni ko‘rib, o‘zingiz yuborasiz. GPTBot.uz mustaqil AI-servis: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Bu limit boshqa sahifalardagi chat bilan umumiy. Mashq testi esa bepul ishlashda davom etadi."
+    },
+    {
+      "type": "h2",
+      "id": "material-haqida",
+      "text": "Material qanday tayyorlangan"
+    },
+    {
+      "type": "p",
+      "text": "AI yordamida tuzilgan original mashqlar. Sonli javoblar va asosiy hisoblashlar alohida dasturiy tekshiruv bilan tekshirildi; qoidalar uchun manbalar quyida berilgan. Bu rasmiy DTM, milliy sertifikat, BSB yoki ChSB materiali emas. Natija rasmiy baho hisoblanmaydi. Savollardagi sonlar va vaziyatlar shu mashqlar uchun tanlangan. Xato haqida ceo@gptbot.uz manziliga yozishingiz mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tenglamani yechishda nega ishora o‘zgaradi?",
+      "a": "Hadni boshqa tomonga ko‘chirish aslida ikkala tomondan bir xil hadni ayirish yoki ikkala tomonga qo‘shishdir. Masalan, x + 4 = 9 da ikkala tomondan 4 ayirilsa x = 9 − 4 bo‘ladi."
+    },
+    {
+      "q": "0x = 0 va 0x = 5 bir xil holatmi?",
+      "a": "Yo‘q. 0x = 0 har bir haqiqiy x uchun rost. 0x = 5 esa hech bir x uchun rost emas. Ikkalasida ham 0 ga bo‘lishga urinish noto‘g‘ri."
+    },
+    {
+      "q": "Mashqlar bepulmi?",
+      "a": "Ha. Tayyor savollar, javoblar va izohlar bepul. Interaktiv tekshiruv brauzerda bajariladi va AI javob limitini sarflamaydi."
+    },
+    {
+      "q": "AI tushuntirish bepul limitga kiradimi?",
+      "a": "Ha. Chatga o‘zingiz yuborgan savol sayt bo‘yicha umumiy 3 ta muvaffaqiyatli sinov javobidan yoki mavjud AI paketingizdan foydalanadi. Sinov javoblari har kuni yangilanmaydi."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/matematika-test/",
+      "anchor": "Umumiy matematika testi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/matematika-misollar-3-sinf/",
+      "anchor": "Sodda tenglama va arifmetika",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kalkulyator/",
+      "anchor": "Amallarni kalkulyatorda tekshirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "Mustaqil AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI paket narxi va shartlari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "sources": [
+    {
+      "title": "OpenStax Elementary Algebra 2e: equality properties",
+      "url": "https://openstax.org/books/elementary-algebra-2e/pages/2-2-solve-equations-using-the-division-and-multiplication-properties-of-equality",
+      "note": "Tenglik xossalari va yechimni tekshirish uchun ma’lumotnoma."
+    }
+  ],
+  "createdAt": "2026-11-08T00:00:00Z",
+  "updatedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-08"
+}

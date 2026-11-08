@@ -402,6 +402,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Alohida vazifa uchun amaliy materiallar: {pseo1}.",
+      "links": [
+        {
+          "token": "pseo1",
+          "target": "/uz/blog/javob-xati-namuna/",
+          "anchor": "Arizaga javob yozish namunasi"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Tushuntirish xati qoralamasini AI chatda yozish",
       "href": "/uz/gpt-uzbek-tilida/"
@@ -458,6 +469,12 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/javob-xati-namuna/",
+      "anchor": "Arizaga javob yozish namunasi",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Tushuntirish xati va ariza: tuzilma va shartli namunalar",
@@ -474,7 +491,7 @@
   "breadcrumbLabel": "Tushuntirish xati va ariza",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-07",
-  "dateModified": "2026-11-07",
+  "dateModified": "2026-11-08",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -494,6 +511,6 @@
       "note": "Til modellari noto‘g‘ri sana va faktlar yozishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-11-07T00:00:00.000Z",
+  "updatedAt": "2026-11-08T00:00:00.000Z",
   "createdAt": "2026-10-07T00:00:00.000Z"
 }

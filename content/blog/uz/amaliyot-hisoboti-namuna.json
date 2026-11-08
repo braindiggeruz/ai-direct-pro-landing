@@ -1,0 +1,307 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "amaliyot-hisoboti-namuna",
+  "url": "/uz/blog/amaliyot-hisoboti-namuna/",
+  "title": "Amaliyot hisoboti namuna: reja va qisqa misol, Word/PDF | GPTBot.uz",
+  "description": "Amaliyot hisoboti uchun kirish, asosiy qism va xulosa. Uch kunlik mashqdan yozilgan qisqa misol, Word/PDF tuzilma va ilovalarni tekshirish.",
+  "h1": "Amaliyot hisoboti: tuzilma, qisqa namuna va ilovalar rejasi",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "amaliyot hisoboti namuna",
+    "amaliyot hisoboti",
+    "amaliyot hisoboti reja"
+  ],
+  "intro": "Amaliyot hisoboti bajarilgan ishning maqsadi, usuli va natijasini tushuntiradi. Quyida uch kunlik hujjat yuritish mashqidan tuzilgan qisqa misol bor: kundalikdagi vazifalar hisobot bo‘limlari va ilovalar bilan bog‘langan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/pseo-20261108/amaliyot-hisoboti-namuna.docx",
+          "anchor": "Word uchun DOCX namunasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/pseo-20261108/amaliyot-hisoboti-namuna.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu to‘liq semestr yoki bir oylik amaliyotning tayyor hisoboti emas. Titul varag‘i, mundarija, hajm, havola va himoya talablari kafedra yo‘riqnomasiga moslanadi. Namuna real amaliyotingiz o‘rniga topshirish uchun emas, o‘z materiallaringizni tartiblash uchun berilgan."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima qisqa o‘quv hisoboti. Shartli «O‘quv ofisi» loyihasidagi 02–04.11.2026 mashqlari; universitetning tayyor bitiruv yoki amaliyot hisoboti emas."
+    },
+    {
+      "type": "quote",
+      "text": "Kirish. Maqsad — hujjatning kirishidan javob qoralamasigacha bo‘lgan jarayonni tushunish. Uch vazifa belgilandi: jarayonni chizish, mashq xatlarini ro‘yxatlash va bitta javob qoralamasini tayyorlash."
+    },
+    {
+      "type": "quote",
+      "text": "1. Jarayon bilan tanishish. Rahbar ko‘rsatgan shaxsiy ma’lumotsiz o‘quv misollaridan foydalanib, kiruvchi xat → ro‘yxat → mas’ul → javob tartibini chizdim. Natija: Ilova 1 dagi sxema. Sxema haqiqiy tashkilotning ichki tartibi sifatida taqdim etilmaydi."
+    },
+    {
+      "type": "quote",
+      "text": "2. Ro‘yxat bilan ishlash. Beshta to‘qima xat uchun sana, mavzu va mas’ul ustunlari bo‘lgan jadval tuzdim. Tekshiruvda bir sana noto‘g‘ri kiritilganini topib tuzatdim. Natija: Ilova 2 dagi mashq jadvali. Bu vazifa ma’lumot kiritilgandan keyin uni asl yozuv bilan solishtirish zarurligini ko‘rsatdi."
+    },
+    {
+      "type": "quote",
+      "text": "3. Javob qoralamasi. Narx so‘roviga javob uchun kirish, ma’lumot va ilova qismlarini tuzdim. Noma’lum yetkazish muddati haqida va’da berilgan gapni rahbar fikridan keyin olib tashladim. Qoralama Ilova 3 sifatida saqlanadi."
+    },
+    {
+      "type": "quote",
+      "text": "Xulosa. Uchta o‘quv vazifasi bo‘yicha sxema, jadval va qoralama tayyorlandi. Mustaqil ravishda haqiqiy hujjatni tasdiqlash yoki jo‘natish bajarilmadi. Keyingi mashqda ro‘yxatdagi muddatlarni kuzatish usulini o‘rganish rejalashtirildi."
+    },
+    {
+      "type": "quote",
+      "text": "Manbalar va ilovalar: uch kunlik o‘quv kundaligi; Ilova 1 — jarayon sxemasi; Ilova 2 — mashq jadvali; Ilova 3 — javob qoralamasi. Bular namunaviy ro‘yxat: bu PDF ichida alohida ilovalar mavjud emas."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-yoziladi",
+      "text": "Hisobotni kundalik va dalillardan yig‘ing"
+    },
+    {
+      "type": "p",
+      "text": "Avval kundalikdagi ishlarni mavzularga ajrating. Har bir mavzu uchun «vazifa → men bajargan harakat → usul → natija → dalil» zanjirini yozing. Bir necha kun davom etgan bitta vazifani bitta bo‘limda tushuntirish mumkin; takror kunlik yozuvlarni ko‘paytirib hajm yasamang."
+    },
+    {
+      "type": "p",
+      "text": "Xulosada faqat asosiy qismda ko‘rsatilgan natijaga tayaning. O‘rganilgan ko‘nikma, cheklov va keyingi qadamni ajrating. Ilova matndagi natijani tekshirishga yordam berishi kerak: nomi, raqami va unga havola mos bo‘lsin. Maxfiy tashkilot hujjati o‘rniga ruxsat etilgan, shaxsiy ma’lumotsiz materialdan foydalaning."
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Qabul qiluvchi talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi odam, sana va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Titul ma’lumotlari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Ta’lim muassasasi, fakultet, yo‘nalish]",
+        "Talaba: [ism, kurs, guruh] · Rahbar: [lavozim, ism]",
+        "Amaliyot joyi: [nom] · Muddati: [sana] — [sana] · [Shahar, yil]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Kirish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Maqsad: [dasturdagi maqsadni o‘z ishingiz bilan bog‘lab yozing].",
+        "Vazifalar: [rejadagi 2–4 vazifa]. Manbalar: [kundalik, o‘zingiz tayyorlagan material, ruxsat etilgan hujjat]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Asosiy qism"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. [Vazifa nomi]. Nima qildim: [harakat]. Qanday bajardim: [usul / vosita]. Natija: [dalil va ilova havolasi].",
+        "2. [Keyingi vazifa va shu tartibdagi tahlil].",
+        "Qiyinchilik: [haqiqiy muammo]. Uni hal qilish yoki kelishish yo‘li: [harakat]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Xulosa"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Maqsadning qaysi qismi bajarildi va buni nima tasdiqlaydi].",
+        "[O‘rganilgan ko‘nikma, ochiq qolgan masala va keyingi qadam]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-5",
+      "text": "Manbalar va ilovalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Foydalanilgan manbalar: [faqat amalda ishlatilgan materiallar].",
+        "Ilova 1: [nom va matnda unga havola]. Ilova 2: [nom — bo‘lsa].",
+        "[Kafedra so‘ragan kundalik, tavsifnoma va tasdiqlarni alohida biriktiring]."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Maqsad va vazifalar amaliyot dasturiga mosmi?",
+        "Kundalikda bo‘lmagan ish hisobotga qo‘shilmaganmi?",
+        "Har bir «Ilova 1/2/3» havolasi haqiqatan biriktirilgan faylga olib boradimi?",
+        "Xulosa asosiy qismdagi dalildan kuchliroq natijani va’da qilmayaptimi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu qisqa hisobot tuzilmasi; hajm, titul, mundarija va himoya talablari kafedra yo‘riqnomasiga moslanadi. Begona tayyor hisobotni o‘zingizniki qilib topshirmang, kundalik va ilovalarga zid natija yozmang."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {r0} · {r1}.",
+      "links": [
+        {
+          "token": "r0",
+          "target": "/uz/blog/amaliyot-kundaligi-namuna/",
+          "anchor": "Amaliyot kundaligi: sana, ish va natija"
+        },
+        {
+          "token": "r1",
+          "target": "/uz/blog/tavsifnoma-namuna/",
+          "anchor": "Amaliyot yakunidagi tavsifnoma"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "O‘z hisobot rejangizni tushunarli qilish va matnni tekshirish usullari uchun {parent}ga qarang. Kafedraning AI vositalari bo‘yicha qoidasi va mustaqil ish talabi ustun; tayyor begona hisobotni o‘zingizniki qilib topshirmang.",
+      "links": [
+        {
+          "token": "parent",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/",
+          "anchor": "talabalar uchun ChatGPT va AI qo‘llanmasi"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Amaliyot hisoboti necha bet bo‘lishi kerak?",
+      "a": "Yagona umumiy son yo‘q: o‘z kafedrangiz yo‘riqnomasidagi hajm va formatga amal qiling. Bu sahifadagi qisqa misol talab etilgan to‘liq hisobot hajmini belgilamaydi."
+    },
+    {
+      "q": "PDF ichida ilovalar ham bormi?",
+      "a": "Yo‘q. Misolda ilovalar qanday nomlanishi va matnga bog‘lanishi ko‘rsatilgan, lekin alohida sxema, jadval va xat fayllari biriktirilmagan. O‘z haqiqiy materiallaringizni qo‘shing yoki mavjud bo‘lmagan ilova havolasini olib tashlang."
+    },
+    {
+      "q": "Kundalik matnini ko‘chirsam hisobot bo‘ladimi?",
+      "a": "Kundalik dalil manbasi bo‘la oladi, ammo hisobotda maqsad, bajarish usuli va natija tahlili kerak. Sanalar ro‘yxatini o‘zaro bog‘langan mavzularga aylantiring."
+    },
+    {
+      "q": "Tashkilotning ichki faylini ilovaga qo‘shish mumkinmi?",
+      "a": "Avval undan foydalanishga ruxsat va kafedra talabini aniqlang. Ruxsatsiz ichki hujjat, mijoz ma’lumoti yoki kirish rekvizitlarini joylamang. Mumkin bo‘lsa, shaxsiy ma’lumotsiz o‘quv sxemasi yoki o‘zingiz tayyorlagan umumlashtirilgan materialdan foydalaning."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/amaliyot-kundaligi-namuna/",
+      "anchor": "Amaliyot kundaligi: sana, ish va natija",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/tavsifnoma-namuna/",
+      "anchor": "Amaliyot yakunidagi tavsifnoma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "talabalar uchun ChatGPT va AI qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Amaliyot hisoboti namuna: reja va qisqa misol, Word/PDF | GPTBot.uz",
+  "ogDescription": "Amaliyot hisoboti uchun kirish, asosiy qism va xulosa. Uch kunlik mashqdan yozilgan qisqa misol, Word/PDF tuzilma va ilovalarni tekshirish.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/amaliyot-hisoboti-namuna/",
+  "hreflangUz": "/uz/blog/amaliyot-hisoboti-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Amaliyot hisoboti namuna",
+  "datePublished": "2026-11-08",
+  "dateModified": "2026-11-08",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "BuxDU — B. N. Rizayev, H. M. Kobilova: Malaka amaliyotini tashkil etish va o‘tkazish bo‘yicha metodik ko‘rsatma (2023)",
+      "url": "https://uniwork.buxdu.uz/resurs/12620_1_15180CD00B79CFF545029E3765E88CD4C69F0E4D.pdf",
+      "note": "Tarix yo‘nalishi uchun metodik qo‘llanma: amaliyot vazifalari, kundalik va hisobot o‘rtasidagi bog‘liqlik. Undagi yo‘nalishga xos talablar barcha talabalarga umumlashtirilmaydi; o‘z kafedrangiz yo‘riqnomasini tekshiring."
+    }
+  ],
+  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "createdAt": "2026-11-08T00:00:00.000Z"
+}

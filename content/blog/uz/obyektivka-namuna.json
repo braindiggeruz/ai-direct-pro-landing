@@ -1,0 +1,293 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "obyektivka-namuna",
+  "url": "/uz/blog/obyektivka-namuna/",
+  "title": "Obyektivka namuna: ma’lumotnoma, Word va PDF | GPTBot.uz",
+  "description": "Obyektivka uchun soddalashtirilgan Word/PDF namuna: ta’lim, faoliyat ketma-ketligi va ko‘nikmalar. Qabul qiluvchi blankasi bilan solishtirish ro‘yxati.",
+  "h1": "Obyektivka namunasi: ta’lim va faoliyat ma’lumotnomasi",
+  "topicCluster": "hujjat-va-xatlar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "obyektivka namuna",
+    "obyektivka",
+    "malumotnoma obyektivka word"
+  ],
+  "intro": "Obyektivka deb ataladigan ma’lumotnoma shaxsning ta’limi va faoliyati haqidagi faktlarni ixcham tartibda beradi. Quyidagi soddalashtirilgan blanka asosiy ma’lumotlarni yig‘ish uchun; u barcha tashkilotlar uchun yagona rasmiy shakl emas.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/pseo-20261108/obyektivka-namuna.docx",
+          "anchor": "Word uchun DOCX namunasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/pseo-20261108/obyektivka-namuna.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Qabul qiluvchi bergan obyektivka shakli bo‘lsa, avval o‘shani oching. Masalan, ayrim tanlov e’lonlari manzil va aloqa ma’lumotini alohida so‘raydi; bu barcha holatga bir xil talab degani emas. Bizning namunada pasport, JShShIR, to‘liq manzil, surat va qarindoshlar jadvali ataylab yo‘q."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli. Nomzod A va tashkilot nomlari shartli; shaxsni aniqlaydigan haqiqiy ma’lumot yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "MA’LUMOTNOMA — OBYEKTIVKA · Namunaviy nomzod A"
+    },
+    {
+      "type": "quote",
+      "text": "Joriy holati: hujjatlar bilan ishlash bo‘yicha o‘quv loyihasi ishtirokchisi."
+    },
+    {
+      "type": "quote",
+      "text": "Ta’lim: shartli «Amaliy ko‘nikmalar» o‘quv dasturi, hujjat yuritish yo‘nalishi; 2022–2025. Bu nom haqiqiy diplom yoki malaka sifatida ishlatilmaydi."
+    },
+    {
+      "type": "quote",
+      "text": "Faoliyati: 2022–2025 — o‘quv dasturida ta’lim olgan. 2025-yil sentabr–dekabr — to‘qima «O‘quv ofisi» loyihasida amaliyotchi. 2026-yildan — mustaqil mashqlar va o‘quv loyihalarida qatnashmoqda."
+    },
+    {
+      "type": "quote",
+      "text": "Ko‘nikmalar: matnni Word’da tartiblash, oddiy elektron jadval yuritish. Tillar: o‘zbek tilida yozma muloqot; rus tilida sodda ishchi yozishmalar. Til sertifikati ko‘rsatilmagan."
+    },
+    {
+      "type": "quote",
+      "text": "Tug‘ilgan sana, surat, pasport raqami, JShShIR va qarindoshlar haqidagi ma’lumot namuna doirasiga kiritilmagan. Qabul qiluvchi bunday maydonni so‘rasa, uning o‘z blankasi tekshiriladi."
+    },
+    {
+      "type": "quote",
+      "text": "Yangilangan sana: 08.11.2026. Haqiqiy shaxs tasdig‘i yoki imzosi yo‘q."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-yoziladi",
+      "text": "Ma’lumotlarni hujjatdagi nomlar bilan tekshiring"
+    },
+    {
+      "type": "p",
+      "text": "Ta’lim muassasasi, yo‘nalish va malaka nomini xotiradan erkin o‘zgartirmang. Diplom yoki tegishli ma’lumotdagi yozuv bilan solishtiring. O‘qish tugamagan bo‘lsa, tugallangan malaka deb ko‘rsatish o‘rniga amaldagi holatni yozing."
+    },
+    {
+      "type": "p",
+      "text": "Faoliyat satrlarida bir xil sana aniqligidan foydalaning: masalan, oy va yil. Ish bilan o‘qish bir paytga to‘g‘ri kelgan bo‘lsa, ikki davrni ham rost ko‘rsating. Obyektivka tarjimai holdagi uzun hikoya yoki rezyumedagi reklama iboralarini takrorlamasdan, tekshiriladigan ma’lumotni tartiblaydi."
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Qabul qiluvchi talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi odam, sana va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Asosiy ma’lumot"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ism va familiya: [ism]",
+        "Joriy lavozim yoki o‘qish holati: [holat]",
+        "[Qabul qiluvchi shaklida so‘ralgan boshqa maydonlar — faqat zarur bo‘lsa]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Ta’lim"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ta’lim muassasasi: [nom] · Yo‘nalish: [yo‘nalish]",
+        "O‘qish davri: [yil] — [yil] · Ma’lumoti / malakasi: [hujjatga mos nom]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Faoliyat ketma-ketligi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Oy, yil] — [oy, yil]: [tashkilot], [lavozim yoki o‘qish faoliyati].",
+        "[Keyingi davr]: [tashkilot], [lavozim].",
+        "[Tanaffus bo‘lsa, zarur izohni haqiqatga mos qisqa yozing]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Qo‘shimcha kasbiy ma’lumot"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tillar: [til va amaldagi daraja]",
+        "Tegishli kurs / sertifikat: [nom, sana — mavjud bo‘lsa]",
+        "[Aloqa kanali — faqat qabul qiluvchi so‘ragan bo‘lsa, mahalliy faylda to‘ldiring]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-5",
+      "text": "Tekshirish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ma’lumot yangilangan sana: [kun.oy.yil]",
+        "[Qabul qiluvchi talabiga ko‘ra muallif yoki mas’ul shaxs tasdig‘i]"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Qabul qiluvchi bergan maydonlar ro‘yxati bilan solishtirildimi?",
+        "Joriy lavozim yoki o‘qish holati va yangilangan sana to‘g‘rimi?",
+        "Ta’lim va ish davrlari hujjatlar bilan mosmi?",
+        "Qo‘shimcha shaxsiy maydonlar faqat zarur bo‘lsa, o‘z qurilmangizdagi nusxada to‘ldirildimi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu universal rasmiy obyektivka blankasi emas. Ish beruvchining shakli bo‘lsa, undan foydalaning. Pasport, JShShIR, to‘liq manzil va qarindoshlar jadvali bu soddalashtirilgan namunaga kiritilmagan."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {r0} · {r1}.",
+      "links": [
+        {
+          "token": "r0",
+          "target": "/uz/blog/tarjimai-hol-namuna/",
+          "anchor": "Tarjimai hol: faoliyatni ketma-ket bayon qilish"
+        },
+        {
+          "token": "r1",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "Rezyume: ishga topshirish uchun tuzilma"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Obyektivka rezyume o‘rnini bosadimi?",
+      "a": "Har doim emas. Rezyume aniq ishga mos ko‘nikmalarni tanlaydi, obyektivka esa qabul qiluvchi so‘ragan faktlarni ma’lumotnoma shaklida tartiblaydi. E’londa qaysi hujjat so‘ralgan bo‘lsa, o‘shani tayyorlang."
+    },
+    {
+      "q": "Surat va qarindoshlar jadvali shartmi?",
+      "a": "Ushbu soddalashtirilgan namunada ular yo‘q. Haqiqiy jarayonda qabul qiluvchining blankasi va ko‘rsatmasini tekshiring; barcha tashkilotlar uchun umumiy talab deb qabul qilmang."
+    },
+    {
+      "q": "Talaba obyektivkada lavozimga nima yozadi?",
+      "a": "Haqiqiy holatini: ta’lim muassasasi, yo‘nalish va o‘qish bosqichini yozishi mumkin. O‘qish yoki amaliy mashqni bo‘lmagan mehnat lavozimi sifatida ko‘rsatmang."
+    },
+    {
+      "q": "Faoliyatda tanaffus bo‘lsa uni yashirish kerakmi?",
+      "a": "Yo‘q. Sanalarni o‘zgartirib bo‘lmagan ish joyini qo‘shmang. Qabul qiluvchi izoh so‘rasa, davrni va haqiqiy holatni qisqa yozing; ortiqcha shaxsiy tafsilot kiritish shart emas."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/tarjimai-hol-namuna/",
+      "anchor": "Tarjimai hol: faoliyatni ketma-ket bayon qilish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Rezyume: ishga topshirish uchun tuzilma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Obyektivka namuna: ma’lumotnoma, Word va PDF | GPTBot.uz",
+  "ogDescription": "Obyektivka uchun soddalashtirilgan Word/PDF namuna: ta’lim, faoliyat ketma-ketligi va ko‘nikmalar. Qabul qiluvchi blankasi bilan solishtirish ro‘yxati.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/obyektivka-namuna/",
+  "hreflangUz": "/uz/blog/obyektivka-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Obyektivka namuna",
+  "datePublished": "2026-11-08",
+  "dateModified": "2026-11-08",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Maktabgacha va maktab ta’limi vazirligi — ta’lim darajasi yuqori bo‘lmagan maktablarga jalb etish uchun arizalar (03.06.2026)",
+      "url": "https://digital.gov.uz/oz/uzedu/news/view/172886",
+      "note": "Muayyan tanlov e’lonida ma’lumotnoma (obyektivka) va undagi aloqa ma’lumotlari so‘ralgan. Bu faqat shu jarayon misoli: har bir qabul qiluvchi o‘z maydonlari va hujjatlar ro‘yxatini belgilashi mumkin."
+    }
+  ],
+  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "createdAt": "2026-11-08T00:00:00.000Z"
+}
