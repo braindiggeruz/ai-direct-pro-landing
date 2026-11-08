@@ -1,3 +1,17 @@
+# Current handoff — viral campaign landing · 08.11.2026
+
+**VALIDATED CANDIDATE, pending guarded production release.** Owner authorized creating and publishing `/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/` and five original creative concepts. This explicit scope supersedes the earlier SEO observation-only next stage for this landing only. Meta campaigns/budgets remain untouched.
+
+Isolated checkout `F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/gptbot-viral-landing-20261108`, branch `codex/viral-landing-20261108`, based on `776511fb` (live ancestor `a52cc9420aafe582485921196af5317208f82878`). Exact one-article custom renderer, existing offline demo and real lead form, five lightweight original illustrations, honest one-channel AI offer from 1,990,000 UZS. No API, database, payment, webhook or chat behavior change.
+
+Validation: web TypeScript, scoped lint, three candidate builds, 64 lead/demo tests, 80 SEO tests, four campaign contracts and ten browser checks PASS. Widths 320/390/1440 have no overflow; axe zero violations. Mocked form errors/ACK/attribution/deduplication verified; no real lead sent. Sitemap 329→330, no removed URLs; 327 old contracts identical, homepage and RU blog listing gain exactly one entry. Ten protected pages pass the reviewed successor baseline.
+
+Deliverables and rollback: [implementation](../../reports/viral-landing-20261108/IMPLEMENTATION.md), [campaign copy](../../reports/viral-landing-20261108/COPY.md). External evidence/assets: `C:/Users/Borinio/.codex/visualizations/2026/11/08/01a1b921-58ac-72f3-af9a-3684d2e788b4/gptbot-viral-landing-20261108`. Ten PNGs plus editable originals, prompts, copy and UTM URLs packaged in two ZIPs. Next: stamped production build, existing guarded deploy runner, exact public readback. Do not claim live availability before that evidence.
+
+Previous handoffs and all unrelated operational context are preserved below.
+
+---
+
 # Current handoff — SEO / AI release verified · 08.11.2026
 
 **DEPLOYED / VERIFIED, AWAITING RECRAWL.** Source `a52cc9420aafe582485921196af5317208f82878`, Pages `cf2b3d7c`, verified 2026-11-08T04:46:46Z; artifact SHA256 `b5df41ddbe4ca1778658a59a8315a791ecc8b81ac3996c5e0fc0c48b6d8ef207`. Public readback passed 443/443 (all 329 pages, shared assets, 28 Markdown twins, sitemap/feed/llms surfaces). Main/admin/Studio production builds, web/Functions typechecks, 13-file scoped lint and SEO audit pass. Integrated tests: 165 passed, 2 conditional legacy-offer-baseline skips; product schema 88/88; mobile/no-JS QA 9/9; candidate mocked browser funnel passed. Independent review found no P0/P1/P2. Technical verification does not establish ranking, citation or business improvement.

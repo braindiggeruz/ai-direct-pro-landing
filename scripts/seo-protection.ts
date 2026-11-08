@@ -256,7 +256,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // chats, a shared homepage product overview, and the login description-only
 // experiment. Titles and all indexation contracts remain unchanged on the ten
 // leaders. The predecessor and preserved production artifact remain immutable.
-export const BASELINE = 'docs/seo/evidence/2026-11-08-seo-ai-roadmap/reviewed-protected-pages.json';
+export const BASELINE = 'docs/seo/evidence/2026-11-08-viral-article/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

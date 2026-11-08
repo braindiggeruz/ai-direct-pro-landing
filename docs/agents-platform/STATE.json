@@ -3279,5 +3279,22 @@
       "additionalPaidRunsAuthorized": false,
       "repeatSubmissionsAuthorized": false
     }
+  },
+  "viralLanding20261108": {
+    "status": "VALIDATED_CANDIDATE_PENDING_GUARDED_RELEASE",
+    "scope": "Owner-authorized viral landing and five advertising creative concepts; no Meta writes",
+    "url": "https://gptbot.uz/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/",
+    "predecessorProductionCommit": "a52cc9420aafe582485921196af5317208f82878",
+    "branch": "codex/viral-landing-20261108",
+    "tests": {
+      "leadRegression": 64,
+      "seoRegression": 80,
+      "campaignContracts": 4,
+      "browserChecks": 10,
+      "axeViolations": 0
+    },
+    "sitemapUrls": 330,
+    "next": "Commit, build stamped production artifact, guarded deploy and public readback",
+    "evidence": "reports/viral-landing-20261108/IMPLEMENTATION.md"
   }
 }

@@ -131,6 +131,11 @@ export const LEAD_FORM_PAGES: Readonly<Record<string, string>> = {
   '/uz/ai-bot-yoki-menejer/': 'ai-bot',
 };
 
+// Authored campaign articles opt in explicitly; ordinary blog articles stay informational.
+export const LEAD_FORM_ARTICLES: Readonly<Record<string, string>> = {
+  '/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/': 'ai-bot',
+};
+
 /** Pages that must never carry the form, whatever the allowlist says. */
 const EXCLUDED: ReadonlySet<string> = new Set<string>([
   '/', '/uz/', '/ru/kalkulyator-stoimosti-telegram-bota/',
@@ -152,7 +157,7 @@ interface LeadFormPage {
 
 /** The service slug when this page gets the form, otherwise null. */
 export function leadFormServiceFor(page: LeadFormPage): string | null {
-  const service = LEAD_FORM_PAGES[page.url];
+  const service = LEAD_FORM_PAGES[page.url] || LEAD_FORM_ARTICLES[page.url];
   if (!service || EXCLUDED.has(page.url)) return null;
   if (page.pageType === 'gpt-chat' || page.designVariant === 'warm-market-signals' || page.interactiveTool) return null;
   return service;

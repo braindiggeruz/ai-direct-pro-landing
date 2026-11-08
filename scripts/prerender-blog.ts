@@ -23,6 +23,8 @@ import type { BlogArticle, GlobalSEO, FaqItem, BodyBlock } from '../src/shared/t
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
+import { LEAD_FORM_SCRIPT } from './lead-form';
+import { isViralArticle, renderViralArticle } from './viral-article';
 import { withStudioTelegramPrefill } from './telegram-cta';
 import { withEmailOff } from './email-off';
 import {
@@ -365,11 +367,12 @@ function renderStickyCta(a: BlogArticle, contact?: ContactSet): string {
 }
 
 function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publishedArticleUrls: ReadonlySet<string>): string {
+  const viral = isViralArticle(a.url);
   const fullUrl = `${global.siteUrl}${a.url}`;
   const ogTitle = a.ogTitle || a.title;
   const ogDesc = a.ogDescription || a.description;
   const ogImg = a.ogImage || global.defaultOgImage;
-  const ogDims = getImageDims(ogImg);
+  const ogDims = viral ? { w: 1200, h: 630 } : getImageDims(ogImg);
   const lang = a.locale === 'uz' ? 'uz' : 'ru';
   const ogLocale = a.locale === 'uz' ? 'uz_UZ' : 'ru_RU';
   const t = L(a);
@@ -423,6 +426,12 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publ
   const xDefaultValid = xDefaultOverride === altRu || xDefaultOverride === altUz;
   const xDefaultHref = hasAlternatePair ? (xDefaultValid ? xDefaultOverride : hrefRu) : '';
 
+  const authorMeta = `    <div data-testid="article-meta" class="mb-10 rounded-2xl border border-white/10 bg-white/[0.025] px-4 py-3 text-sm text-white/60">
+      <span>${escapeHtml(t.author)}: <a href="${escapeHtml(authorProfileHref)}" rel="author" class="text-white/85 hover:text-brand-cyan">${escapeHtml((lang === 'uz' ? global.authorNameLatin : undefined) || global.authorName || a.author || (lang === 'uz' ? 'GPTBot.uz tahririyati' : 'Редакция GPTBot.uz'))}</a></span>
+      ${a.datePublished ? `<span class="mx-2" aria-hidden="true">·</span><span>${escapeHtml(t.published)} <time datetime="${escapeHtml(new Date(a.datePublished).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.datePublished).toISOString().slice(0, 10))}</time></span>` : ''}
+      ${(a.dateModified || a.updatedAt) ? `<span class="mx-2" aria-hidden="true">·</span><span data-testid="article-updated">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></span>` : ''}
+    </div>`;
+
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -465,13 +474,14 @@ ${LLM_MARKDOWN_URLS.has(a.url)
 <link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
 ${cssLinks}
+${viral ? '<link rel="stylesheet" href="/assets/campaigns/ai-routine/landing.css" />' : ''}
 
 <script type="application/ld+json">${buildJsonLd(a, global)}</script>
 ${FIRST_TOUCH_SCRIPT}
 ${ANALYTICS_HEAD}
 ${METRIKA_HEAD}
 </head>
-<body class="bg-bg-base text-white antialiased${showsStickyCta(a) ? ' pb-24 lg:pb-0' : ''}">
+<body class="bg-bg-base text-white antialiased${viral ? ' vr-page' : ''}${showsStickyCta(a) ? ' pb-24 lg:pb-0' : ''}">
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-bg-base focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:border focus:border-brand-cyan">${lang === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 ${METRIKA_NOSCRIPT}
 <header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
@@ -496,19 +506,15 @@ ${METRIKA_NOSCRIPT}
     <span class="text-white/70">${a.breadcrumbLabel ? escapeText(a.breadcrumbLabel) : `${escapeText(a.h1.slice(0, 50))}${a.h1.length > 50 ? '…' : ''}`}</span>
   </nav>
 
-  <article>
+  ${viral ? renderViralArticle(a, renderBlock, authorMeta) : `<article>
     <h1 data-testid="article-h1" class="font-display text-3xl sm:text-5xl text-white mb-6 leading-tight">${escapeText(a.h1)}</h1>
-    <div data-testid="article-meta" class="mb-10 rounded-2xl border border-white/10 bg-white/[0.025] px-4 py-3 text-sm text-white/60">
-      <span>${escapeHtml(t.author)}: <a href="${escapeHtml(authorProfileHref)}" rel="author" class="text-white/85 hover:text-brand-cyan">${escapeHtml((lang === 'uz' ? global.authorNameLatin : undefined) || global.authorName || a.author || (lang === 'uz' ? 'GPTBot.uz tahririyati' : 'Редакция GPTBot.uz'))}</a></span>
-      ${a.datePublished ? `<span class="mx-2" aria-hidden="true">·</span><span>${escapeHtml(t.published)} <time datetime="${escapeHtml(new Date(a.datePublished).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.datePublished).toISOString().slice(0, 10))}</time></span>` : ''}
-      ${(a.dateModified || a.updatedAt) ? `<span class="mx-2" aria-hidden="true">·</span><span data-testid="article-updated">${escapeHtml(t.updated)} <time datetime="${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}">${escapeHtml(new Date(a.dateModified || a.updatedAt!).toISOString().slice(0, 10))}</time></span>` : ''}
-    </div>
+    ${authorMeta}
     <div class="prose-invert">
       ${(a.body || []).map((block, index) => renderBlock(block) + (index === chatEntryPosition(a.url, a.body || []) ? renderChatEntry(a.url) : '')).join('\n')}
     </div>
-  </article>
+  </article>`}
 
-  ${endCta ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(endChatEntry ? chatEntryHref(endChatEntry) : endCta.href)}" ${endChatEntry ? `data-chat-entry="${endChatEntry.id}"` : ''}${endCta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(endChatEntry?.locale === 'ru' ? 'Открыть AI-чат на русском' : endCta.label)}</a></div>` : ''}${contactCard}
+  ${endCta && !viral ? `<div class="mt-12 mb-4"><a data-testid="article-cta-end" href="${escapeHtml(endChatEntry ? chatEntryHref(endChatEntry) : endCta.href)}" ${endChatEntry ? `data-chat-entry="${endChatEntry.id}"` : ''}${endCta.href.startsWith('http') ? ' rel="nofollow noopener noreferrer" target="_blank"' : ''} class="inline-flex items-center justify-center bg-grad-cta text-bg-base font-semibold px-8 py-4 rounded-full shadow-glow">${escapeHtml(endChatEntry?.locale === 'ru' ? 'Открыть AI-чат на русском' : endCta.label)}</a></div>` : ''}${contactCard}
   ${renderFaq(a.faq || [], a)}
   ${renderSources(a)}
   ${renderInternalLinks(a, publishedArticleUrls)}
@@ -529,6 +535,7 @@ ${METRIKA_NOSCRIPT}
 </footer>
 ${renderStickyCta(a)}
 ${articleHasChatEntry(a.url) ? CHAT_ENTRY_TRACKING : ''}
+${viral ? LEAD_FORM_SCRIPT : ''}
 </body>
 </html>
 `;
