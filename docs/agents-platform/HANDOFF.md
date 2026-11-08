@@ -1,7 +1,7 @@
-# Current handoff — pSEO20 candidate · 08.11.2026
+# Current handoff — pSEO20 production verified · 08.11.2026
 
 ## 1. State
-Verified candidate on codex/pseo20-20261108, source baseline 4928bb7f7fb47c492c580e3db63a9384913dc4af; production remains e85da915 until the guarded release succeeds. Current explicit owner request authorizes these 20 resources and supersedes observation-only SEO scope for this cohort.
+DEPLOYED AND VERIFIED. Runtime e49675252b1c4acdd1770f7b42fc5aa5a0c42630; Pages 15140984; artifact 5d6527b9738acb27ca4b5966320d5574fcec43d9004bd3a074db76c02b2f6965, 1,126 files. Explicit owner authorization covered this twenty-page cohort. Source, build and deployment evidence: reports/pseo20-20261108/RELEASE.md.
 
 ## 2. Delivered
 Ten document guides / 20 DOCX/PDF files; ten practice pages / 120 original questions; multiplication and exact-equation tools; existing-parent links and intent ownership.
@@ -19,22 +19,22 @@ No paid research/subscription, Meta changes, backend/payment/bot/webhook/secret 
 74 browser, 150 document and 185 distinct regression checks pass after the documented stale-test correction; TypeScript/lint/SEO audit and full candidate compilation pass.330 old metadata contracts preserved;320 complete contracts unchanged. See external evidence and implementation report.
 
 ## 7. Open issues
-No remaining content/engineering blocker. Production build stamp/deploy/readback still required. Indexing/ranking/citations not measured. Chat start109,968 B vs 110,000 B budget.
+No remaining content or engineering blocker. Production build, stamp, guarded deploy and public readback completed. One unchanged immutable CSS differs only in exact reviewed LF/CRLF representation; documented in RELEASE.md. Indexing/ranking/citations remain unmeasured. Chat start109,968 B vs 110,000 B budget.
 
 ## 8. Next task
-Publish this exact clean candidate through the guarded runner, then verify 350 HTML URLs, 20 downloads, public assets and 8 resource bindings.
+Observe this fixed cohort after confirmed recrawl. Google downloaded both refreshed sitemaps with zero errors; IndexNow accepted twenty URLs. No automatic page expansion or campaign changes.
 
 ## 9. Acceptance
-Exact public manifest and artifact bytes, no broken new page, asset or download, preserved protected SEO and native binding and secret-name fingerprints.
+Completed: exact manifest; 350 HTML pages and all20downloads match, 505 exact byte checks plus one reviewed predecessor CSS representation, 40 correct live headers and8nativebindings. Next observation: query→page distribution, indexation, useful tool/download activity and actual conversions; no growth claim from delivery alone.
 
 ## 10. Start
-Read scoped STATE, git status/log; physical worktree F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/gptbot-pseo20-20261108. NODE_OPTIONS=--max-old-space-size=1400. npm run build:production; DR_ROOT this worktree; guarded deploy_runner.py check/deploy.
+Read scoped STATE and RELEASE.md; inspect current git and live manifest before any further work. Physical worktree: F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/gptbot-pseo20-20261108. Existing read-only SEO monitoring may observe this cohort; do not republish or resubmit unchanged files.
 
 ## 11. Risks
 Preserve earlier Wrangler config-discovery guard and current bot routing. New review baseline predecessor is immutable. Do not replace other project state.
 
 ## 12. Rollback
-Scoped revert on current ancestry, new guarded build; never restore an artifact with missing bindings or overwrite later work. Final runtime SHA and receipts will be recorded after deployment.
+Scoped revert on current ancestry, new guarded build; never restore an artifact with missing bindings or overwrite later work. Runtime SHA and discovery/public receipts are recorded in RELEASE.md.
 
 Previous handoffs and unrelated operational context are preserved below.
 

@@ -1,0 +1,32 @@
+{
+  "submittedAt": "2026-11-08T09:11:09.642Z",
+  "endpoint": "https://api.indexnow.org/IndexNow",
+  "status": 200,
+  "mode": "pseo20-20261108",
+  "releaseCommit": "e49675252b1c4acdd1770f7b42fc5aa5a0c42630",
+  "reason": "Twenty original Uzbek document and practice pages, deployed and verified; discovery notification only",
+  "count": 20,
+  "urls": [
+    "https://gptbot.uz/uz/blog/tarjimai-hol-namuna/",
+    "https://gptbot.uz/uz/blog/bayonnoma-namuna/",
+    "https://gptbot.uz/uz/blog/dalolatnoma-namuna/",
+    "https://gptbot.uz/uz/blog/tavsiyanoma-namuna/",
+    "https://gptbot.uz/uz/blog/amaliyot-kundaligi-namuna/",
+    "https://gptbot.uz/uz/blog/amaliyot-hisoboti-namuna/",
+    "https://gptbot.uz/uz/blog/obyektivka-namuna/",
+    "https://gptbot.uz/uz/blog/bildirishnoma-namuna/",
+    "https://gptbot.uz/uz/blog/javob-xati-namuna/",
+    "https://gptbot.uz/uz/blog/motivatsion-xat-namuna/",
+    "https://gptbot.uz/uz/karra-jadvali/",
+    "https://gptbot.uz/uz/matematika-misollar-1-sinf/",
+    "https://gptbot.uz/uz/matematika-misollar-2-sinf/",
+    "https://gptbot.uz/uz/matematika-misollar-3-sinf/",
+    "https://gptbot.uz/uz/tenglama-yechish/",
+    "https://gptbot.uz/uz/biologiya-test/",
+    "https://gptbot.uz/uz/kimyo-test/",
+    "https://gptbot.uz/uz/fizika-masalalar/",
+    "https://gptbot.uz/uz/kimyo-masalalar/",
+    "https://gptbot.uz/uz/geometriya-masalalar/"
+  ],
+  "responseExcerpt": ""
+}

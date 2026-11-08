@@ -11,6 +11,14 @@ BEACON=(b'<script type="module" src="https://static.cloudflareinsights.com/beaco
         b'data-cf-beacon=\'{"version":"2024.11.0","token":"de00c6c17e3545f9b61017bf97fe75e7","r":1,"spa":2}\' crossorigin="anonymous"></script>\n')
 
 def digest(value): return hashlib.sha256(value).hexdigest()
+def retained_predecessor_css(path, local, remote):
+ # A fresh Windows checkout used CRLF for this immutable, otherwise unchanged
+ # asset. The live CDN retains the exact LF bytes of the predecessor and HEAD
+ # blob. Accept only this reviewed path/hash pair and byte-exact CRLF removal.
+ return (path=='/assets/campaigns/ai-routine/landing-dark.css'
+   and digest(local)=='b57152beb7de075997cd1e815fccb0168946bf035a56d02eb1d0a5247a99d8ed'
+   and digest(remote)=='c3076b85bbdf43db507e625c2458a9f325f03a03eb56ca891c691420c6c8701a'
+   and local.replace(b'\r\n',b'\n')==remote)
 def utc(): return time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
 def rel_path(path):
     if path == '/': return 'index.html'
@@ -30,7 +38,9 @@ def check(path):
   status,body,url=fetch(path)
   local=(ROOT/'dist'/rel_path(path)).read_bytes()
   expected=expected_edge_html(local) if path.endswith('/') else local
-  return {'path':path,'status':status,'sameUrl':url==ORIGIN+path,'exactExpectedBytes':body==expected,'localSha256':digest(local),'remoteSha256':digest(body),'ok':status==200 and url==ORIGIN+path and body==expected}
+  same=body==expected
+  retained=retained_predecessor_css(path,local,body)
+  return {'path':path,'status':status,'sameUrl':url==ORIGIN+path,'exactExpectedBytes':same,'retainedPredecessorCss':retained,'localSha256':digest(local),'remoteSha256':digest(body),'ok':status==200 and url==ORIGIN+path and (same or retained)}
  except Exception as e:return {'path':path,'ok':False,'error':type(e).__name__+': '+str(e)}
 p=argparse.ArgumentParser();p.add_argument('--expected-commit',required=True);p.add_argument('--live',action='store_true');args=p.parse_args()
 assert args.live,'Explicit --live required'
