@@ -21,3 +21,9 @@ The owner-supplied credential was entered through hidden process input and store
 - Web and Functions typechecks, scoped lint, SEO audit and protection pass. Final production build and public readback follow; see RELEASE.md for actual live state and the controlled real delivery test.
 
 The new delivery test is registered in npm test. No ranking/revenue effect is claimed. A Telegram API acceptance is delivery evidence, not evidence the owner read the message. Rollback is a scoped revert against latest production ancestry; preserve existing secrets and webhook.
+
+## Live delivery preflight finding and recovery
+
+The first production canary returned `503 store_unavailable` before storage/routing. D1 itself and its existing schema were healthy. Production lacked native D1/KV/R2/service bindings because Wrangler autodiscovery selected the parent Easy Breezy/wrangler.jsonc instead of this checkout's wrangler.toml. This was reproduced with Wrangler's configuration API: the foreign parent had compatibility date 2026-10-09 and no native bindings; explicit local configuration had the expected 2024-09-23 and all declared resources.
+
+Recovery makes the guarded Pages deployment explicitly pass the current repository's wrangler.toml. The parent project's file is preserved. A guarded redeployment must restore all authoritative bindings before the same idempotent canary is retried. No lead was stored during the failed preflight. Live results are recorded in RELEASE.md only after confirmation.

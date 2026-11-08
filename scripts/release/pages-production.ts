@@ -239,6 +239,15 @@ function describeLock(lockPath: string): string {
   return `${header}.${detail} If nothing is deploying, the previous run was killed and leaked it — remove the file, then redeploy.`;
 }
 
+/** Pin configuration to the same reviewed checkout as the artifact. Wrangler's
+ * upward JSON/JSONC discovery can otherwise shadow this checkout's TOML.
+ */
+export function pagesDeployArgs(root: string, commit: string): string[] {
+  return [path.join(root, 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
+    'pages', 'deploy', 'dist', '--config', path.join(root, 'wrangler.toml'),
+    '--project-name', PROJECT, '--branch', 'main', '--commit-hash', commit, '--commit-dirty=true'];
+}
+
 async function deploy(root: string, dist: string, release: PagesRelease): Promise<void> {
   // All git worktrees share this lock. It protects cooperating deployment
   // commands, not an unrelated raw Wrangler upload or an external CI system.
@@ -256,10 +265,8 @@ async function deploy(root: string, dist: string, release: PagesRelease): Promis
   }
   try {
     await checkProduction(root, dist);
-    const cli = path.join(root, 'node_modules', 'wrangler', 'bin', 'wrangler.js');
     const exitCode = await new Promise<number>((resolve, reject) => {
-      const child = spawn(process.execPath, [cli, 'pages', 'deploy', 'dist', '--project-name', PROJECT,
-        '--branch', 'main', '--commit-hash', release.commit, '--commit-dirty=true'],
+      const child = spawn(process.execPath, pagesDeployArgs(root, release.commit),
       { cwd: root, stdio: 'inherit', windowsHide: true });
       child.on('error', reject); child.on('exit', (code) => resolve(code ?? 1));
     });

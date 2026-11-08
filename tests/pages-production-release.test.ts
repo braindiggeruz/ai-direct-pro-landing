@@ -6,7 +6,7 @@ import path from 'node:path';
 import test from 'node:test';
 import {
   assertCleanRuntime, assertProductionLineage, inspectArtifact, REQUIRED_FEATURES, REQUIRED_RELEASES, runtimeFile,
-  verifyStampedArtifact,
+  verifyStampedArtifact, pagesDeployArgs,
 } from '../scripts/release/pages-production';
 
 const head = 'a'.repeat(40);
@@ -36,6 +36,38 @@ function fixture(t: { after: (fn: () => void) => void }): string {
   }
   return dist;
 }
+
+test('guarded deploy pins the reviewed TOML when a parent JSONC shadows automatic discovery', async (t) => {
+  const parent = fixture(t);
+  const root = path.join(parent, 'checkout');
+  fs.mkdirSync(root);
+  fs.writeFileSync(path.join(parent, 'wrangler.jsonc'), JSON.stringify({
+    name: 'unrelated-parent', pages_build_output_dir: 'dist', compatibility_date: '2026-10-09',
+  }));
+  fs.copyFileSync(new URL('../wrangler.toml', import.meta.url), path.join(root, 'wrangler.toml'));
+  const { unstable_readConfig } = await import('wrangler');
+  const options = { script: path.join(root, 'entry.ts'), env: 'production' };
+  const discovered = unstable_readConfig(options, { useRedirectIfAvailable: true });
+  assert.equal(discovered.configPath, path.join(parent, 'wrangler.jsonc'), 'reproduces the actual Wrangler precedence');
+  assert.deepEqual(discovered.d1_databases, []);
+
+  const args = pagesDeployArgs(root, head);
+  assert.equal(args.filter(arg => arg === '--config').length, 1);
+  const configPath = args[args.indexOf('--config') + 1];
+  assert.equal(configPath, path.join(root, 'wrangler.toml'));
+  const pinned = unstable_readConfig({ ...options, config: configPath }, { useRedirectIfAvailable: true });
+  assert.equal(pinned.configPath, configPath);
+  assert.equal(pinned.pages_build_output_dir, path.join(root, 'dist'));
+  assert.equal(pinned.compatibility_date, '2024-09-23');
+  assert.deepEqual(pinned.d1_databases.map(binding => binding.binding), ['GPTBOT_DRAFTS_DB']);
+  assert.deepEqual(pinned.kv_namespaces.map(binding => binding.binding), ['LOGIN_ATTEMPTS']);
+  assert.deepEqual(pinned.r2_buckets.map(binding => binding.binding), ['MARKET_MEDIA', 'LEAD_RADAR_CAMPAIGN_MEDIA', 'DOCUMENT_ARTIFACTS']);
+  assert.deepEqual(pinned.services.map(binding => binding.binding), ['LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE']);
+  assert.equal(pinned.ai?.binding, 'AI');
+  assert.deepEqual(pinned.queues.producers.map(binding => binding.binding), ['AUTOMATION_QUEUE']);
+  assert.ok(Object.hasOwn(pinned.vars, 'GPTBOT_RUNTIME_CONFIG_JSON'));
+  assert.ok(Object.hasOwn(pinned.vars, 'GPTBOT_RUNTIME_CONFIG'));
+});
 
 test('old admin build is rejected even with a valid public SEO site', (t) => {
   const dist = fixture(t);
