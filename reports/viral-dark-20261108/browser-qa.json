@@ -1,0 +1,282 @@
+{
+  "createdAt": "2026-11-08T07:35:54.383Z",
+  "scope": "local built dark page; API mocks only; no external requests sent",
+  "htmlSha256": "1e1d20ef08fdbc22d10603daa7361d8a66de09445b1b849a42f1d0ec43fd8c74",
+  "campaignCss": "/assets/campaigns/ai-routine/landing-dark.css",
+  "cssSha256": "c3076b85bbdf43db507e625c2458a9f325f03a03eb56ca891c691420c6c8701a",
+  "checks": [
+    {
+      "name": "320px dark brand, readable hero and navigation",
+      "status": "PASS",
+      "detail": {
+        "background": [
+          5,
+          7,
+          13
+        ],
+        "text": [
+          {
+            "text": "ИИ захватит мир?Сначала — заявки.",
+            "color": "rgb(230, 238, 247)",
+            "minimumContrast": 17.203650408276985,
+            "opacity": 1
+          },
+          {
+            "text": "Сначала — заявки.",
+            "color": "rgba(0, 0, 0, 0)",
+            "minimumContrast": 12.813699113926377,
+            "opacity": 1
+          },
+          {
+            "text": "История о восстании машин, которое началось с вопроса «Сколько стоит английский?». Посмотрите сценарий бота для учебного центра.",
+            "color": "rgb(185, 200, 217)",
+            "minimumContrast": 11.822227398161791,
+            "opacity": 1
+          }
+        ],
+        "brandPalette": [
+          "rgb(34, 158, 217)",
+          "rgb(47, 230, 209)"
+        ],
+        "heroCta": {
+          "gradient": "linear-gradient(135deg, rgb(34, 158, 217) 0%, rgb(47, 230, 209) 100%)",
+          "palette": [
+            "rgb(34, 158, 217)",
+            "rgb(47, 230, 209)"
+          ],
+          "minimumContrast": 6.361490022175813,
+          "width": 284,
+          "height": 52,
+          "opacity": 1
+        },
+        "headerCta": {
+          "gradient": "linear-gradient(135deg, rgb(34, 158, 217) 0%, rgb(47, 230, 209) 100%)",
+          "palette": [
+            "rgb(34, 158, 217)",
+            "rgb(47, 230, 209)"
+          ],
+          "minimumContrast": 6.675940574340045,
+          "width": 171.796875,
+          "height": 44,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "320px layout, metadata and anchors",
+      "status": "PASS",
+      "detail": {
+        "viewport": 320,
+        "scroll": 320,
+        "overflow": [],
+        "unresolved": []
+      }
+    },
+    {
+      "name": "320px three offline demo variants",
+      "status": "PASS",
+      "detail": {
+        "variants": 3,
+        "apiRequestsDuringDemo": 0
+      }
+    },
+    {
+      "name": "320px axe serious/critical",
+      "status": "PASS",
+      "detail": {
+        "violations": [],
+        "seriousCritical": 0
+      }
+    },
+    {
+      "name": "390px dark brand, readable hero and navigation",
+      "status": "PASS",
+      "detail": {
+        "background": [
+          5,
+          7,
+          13
+        ],
+        "text": [
+          {
+            "text": "ИИ захватит мир?Сначала — заявки.",
+            "color": "rgb(230, 238, 247)",
+            "minimumContrast": 17.203650408276985,
+            "opacity": 1
+          },
+          {
+            "text": "Сначала — заявки.",
+            "color": "rgba(0, 0, 0, 0)",
+            "minimumContrast": 12.813699113926377,
+            "opacity": 1
+          },
+          {
+            "text": "История о восстании машин, которое началось с вопроса «Сколько стоит английский?». Посмотрите сценарий бота для учебного центра.",
+            "color": "rgb(185, 200, 217)",
+            "minimumContrast": 11.822227398161791,
+            "opacity": 1
+          }
+        ],
+        "brandPalette": [
+          "rgb(34, 158, 217)",
+          "rgb(47, 230, 209)"
+        ],
+        "heroCta": {
+          "gradient": "linear-gradient(135deg, rgb(34, 158, 217) 0%, rgb(47, 230, 209) 100%)",
+          "palette": [
+            "rgb(34, 158, 217)",
+            "rgb(47, 230, 209)"
+          ],
+          "minimumContrast": 6.361490022175813,
+          "width": 354,
+          "height": 52,
+          "opacity": 1
+        },
+        "headerCta": {
+          "gradient": "linear-gradient(135deg, rgb(34, 158, 217) 0%, rgb(47, 230, 209) 100%)",
+          "palette": [
+            "rgb(34, 158, 217)",
+            "rgb(47, 230, 209)"
+          ],
+          "minimumContrast": 6.675940574340045,
+          "width": 171.796875,
+          "height": 44,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "390px layout, metadata and anchors",
+      "status": "PASS",
+      "detail": {
+        "viewport": 390,
+        "scroll": 390,
+        "overflow": [],
+        "unresolved": []
+      }
+    },
+    {
+      "name": "390px three offline demo variants",
+      "status": "PASS",
+      "detail": {
+        "variants": 3,
+        "apiRequestsDuringDemo": 0
+      }
+    },
+    {
+      "name": "390px axe serious/critical",
+      "status": "PASS",
+      "detail": {
+        "violations": [],
+        "seriousCritical": 0
+      }
+    },
+    {
+      "name": "form failure, strict acknowledgment, attribution and duplicate conversions",
+      "status": "PASS",
+      "detail": {
+        "mockedLeadRequests": 5,
+        "generateLeadEvents": 1,
+        "strictLiteralAcknowledgment": true,
+        "retriesReuseRequestId": true,
+        "noPiiInAnalytics": true
+      }
+    },
+    {
+      "name": "1440px dark brand, readable hero and navigation",
+      "status": "PASS",
+      "detail": {
+        "background": [
+          5,
+          7,
+          13
+        ],
+        "text": [
+          {
+            "text": "ИИ захватит мир?Сначала — заявки.",
+            "color": "rgb(230, 238, 247)",
+            "minimumContrast": 17.203650408276985,
+            "opacity": 1
+          },
+          {
+            "text": "Сначала — заявки.",
+            "color": "rgba(0, 0, 0, 0)",
+            "minimumContrast": 12.813699113926377,
+            "opacity": 1
+          },
+          {
+            "text": "История о восстании машин, которое началось с вопроса «Сколько стоит английский?». Посмотрите сценарий бота для учебного центра.",
+            "color": "rgb(185, 200, 217)",
+            "minimumContrast": 11.822227398161791,
+            "opacity": 1
+          }
+        ],
+        "brandPalette": [
+          "rgb(34, 158, 217)",
+          "rgb(47, 230, 209)"
+        ],
+        "heroCta": {
+          "gradient": "linear-gradient(135deg, rgb(34, 158, 217) 0%, rgb(47, 230, 209) 100%)",
+          "palette": [
+            "rgb(34, 158, 217)",
+            "rgb(47, 230, 209)"
+          ],
+          "minimumContrast": 6.361490022175813,
+          "width": 316.109375,
+          "height": 53,
+          "opacity": 1
+        },
+        "headerCta": {
+          "gradient": "linear-gradient(135deg, rgb(34, 158, 217) 0%, rgb(47, 230, 209) 100%)",
+          "palette": [
+            "rgb(34, 158, 217)",
+            "rgb(47, 230, 209)"
+          ],
+          "minimumContrast": 6.675940574340045,
+          "width": 204.421875,
+          "height": 44,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "1440px layout, metadata and anchors",
+      "status": "PASS",
+      "detail": {
+        "viewport": 1440,
+        "scroll": 1440,
+        "overflow": [],
+        "unresolved": []
+      }
+    },
+    {
+      "name": "1440px three offline demo variants",
+      "status": "PASS",
+      "detail": {
+        "variants": 3,
+        "apiRequestsDuringDemo": 0
+      }
+    },
+    {
+      "name": "1440px axe serious/critical",
+      "status": "PASS",
+      "detail": {
+        "violations": [],
+        "seriousCritical": 0
+      }
+    }
+  ],
+  "screenshots": [
+    "viewport-320.png",
+    "full-320.png",
+    "viewport-390.png",
+    "full-390.png",
+    "form-390.png",
+    "faq-390.png",
+    "related-390.png",
+    "faq-expanded-390.png",
+    "viewport-1440.png",
+    "full-1440.png"
+  ],
+  "status": "PASS"
+}

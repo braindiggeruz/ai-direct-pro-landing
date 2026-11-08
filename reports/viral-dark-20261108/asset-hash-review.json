@@ -1,0 +1,68 @@
+{
+  "checkedAt": "2026-11-08T07:39:22.045203+00:00",
+  "method": "Exact bytes; only named asset-reference substitutions. No whitespace, DOM, edge or newline normalization.",
+  "assetPairs": [
+    {
+      "old": "/assets/Offer-B1D3OBx9.js",
+      "new": "/assets/Offer-zBtatykG.js"
+    },
+    {
+      "old": "/assets/index-DYZtETUs.js",
+      "new": "/assets/index-Blg3MFC6.js"
+    },
+    {
+      "old": "/assets/index-Hd8oCjGX.css",
+      "new": "/assets/index-DDy5iZRU.css"
+    }
+  ],
+  "js": [
+    {
+      "old": "Offer-B1D3OBx9.js",
+      "new": "Offer-zBtatykG.js",
+      "oldSha256": "05d03ec444a1daef0da1d889130792c97a7e80acfd51da65b449d096b1480f4a",
+      "newSha256": "74d082e4f4fe4ced77650f1316f51fae892c9414f0436d65fe9f6d4a2455693b",
+      "exactInverseEqualsOld": true
+    },
+    {
+      "old": "index-DYZtETUs.js",
+      "new": "index-Blg3MFC6.js",
+      "oldSha256": "05495062207dcd46701b90b2b87eabc8b93c5599118a61ed3e76852bdc948c2c",
+      "newSha256": "6baced39cc50a9d0a3aad06d75cef354ddb81dbe754c5670f935b0e26b62de2d",
+      "exactInverseEqualsOld": true
+    }
+  ],
+  "html": [
+    {
+      "url": "/",
+      "currentSha256": "9d86344bd2236b27648b454e069215cdaf412fa0b2f43c4ee45979a339f66e9f",
+      "inverseSha256": "263ccc95160a21c7eb2ddcc8807a6e569ba43e967bb0aafc9c374023a5b1ddec",
+      "equalsBeforeContractHash": true
+    },
+    {
+      "url": "/ru/ai-bot-dlya-biznesa/",
+      "currentSha256": "2f1c5c8a6c336afeb21c7fe5a0368c558b827c001ddd5bdad7c9a2f7c2986667",
+      "inverseSha256": "f18881288c3b1b2baefccb7cc4fa509029b885c0bf789d719dfd00296835f174",
+      "equalsBeforeContractHash": true
+    },
+    {
+      "url": "/ru/seo-prodvizhenie-saytov-tashkent/",
+      "currentSha256": "68e06e5c787fbfd1da10ef9d6f382ad1e1d26f938d3836d622d2acf9147558a4",
+      "inverseSha256": "32803db1e9b0c9dfbbc2797cfe41e125ac0c28fbe489cc97a6b4a43a01f557d4",
+      "equalsBeforeContractHash": true
+    }
+  ],
+  "css": {
+    "oldSha256": "71b372bb00ba2f0cf99ef67c4b4a9d2b2252b352e31e268b8a730dec5809b3dd",
+    "newSha256": "7b2fb528678c562aec6dad3e6efcbdd47574cb5b3ea027587d8ca6068f88b645",
+    "soleAddition": ".contents{display:contents}",
+    "addedBytes": 27,
+    "campaignCssSha256": "c3076b85bbdf43db507e625c2458a9f325f03a03eb56ca891c691420c6c8701a"
+  },
+  "campaign": {
+    "previousQaRawSha256": "a042a425c30897e1af625a2c95e5b8b3271198de7d9ba225de6ae3062d65864d",
+    "finalRawSha256": "1e1d20ef08fdbc22d10603daa7361d8a66de09445b1b849a42f1d0ec43fd8c74",
+    "inverseSha256": "a042a425c30897e1af625a2c95e5b8b3271198de7d9ba225de6ae3062d65864d",
+    "soleHtmlChange": "Shared stylesheet href index-Hd8oCjGX.css -> index-DDy5iZRU.css",
+    "finalBrowserChecks": "13/13 PASS"
+  }
+}

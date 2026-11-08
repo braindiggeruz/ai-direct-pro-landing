@@ -1,0 +1,23 @@
+{
+  "requestId": "qa_viral_dark_4d96c669a3714f5f",
+  "leadId": "lead_7b3da592670c41eb9680c0b8",
+  "commit": "e85da915a070acc71b7d9b76b5a7a92b1ac08fe4",
+  "accepted": true,
+  "duplicate": false,
+  "checks": [
+    {
+      "status": "sending",
+      "attempt_count": 0,
+      "last_error_code": null,
+      "delivered_at": null
+    },
+    {
+      "status": "sent",
+      "attempt_count": 1,
+      "last_error_code": null,
+      "delivered_at": "2026-11-08T07:31:41.905Z"
+    }
+  ],
+  "telegramApiAccepted": true,
+  "checkedAt": "2026-11-08T07:31:45Z"
+}

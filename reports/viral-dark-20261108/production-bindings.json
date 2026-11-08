@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-11-08T07:31:22Z",
+  "status": "PASS",
+  "bindings": {
+    "d1_databases": [
+      "GPTBOT_DRAFTS_DB"
+    ],
+    "kv_namespaces": [
+      "LOGIN_ATTEMPTS"
+    ],
+    "r2_buckets": [
+      "DOCUMENT_ARTIFACTS",
+      "LEAD_RADAR_CAMPAIGN_MEDIA",
+      "MARKET_MEDIA"
+    ],
+    "services": [
+      "LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE"
+    ],
+    "ai_bindings": [
+      "AI"
+    ],
+    "queue_producers": [
+      "AUTOMATION_QUEUE"
+    ]
+  },
+  "resourceBindings": 8,
+  "compatibilityDate": "2024-09-23",
+  "notifySecretsPreserved": true,
+  "publicRuntimeConfigsMatchSource": true,
+  "secretBindingCount": 49,
+  "secretValuesRead": false
+}

@@ -1,7 +1,24 @@
 {
-  "checkedAt": "2026-11-08T07:01:20.177Z",
+  "checkedAt": "2026-11-08T07:38:38.531Z",
   "urls": 330,
-  "unchangedHtmlAndSeo": 327,
+  "unchangedSeoContracts": 327,
+  "unchangedHtmlExceptReviewedAssetUrls": 327,
+  "unchangedHtmlBytes": 0,
+  "sharedAssetUrlUpdates": 327,
+  "reviewedAssetUrls": [
+    {
+      "before": "/assets/index-Hd8oCjGX.css",
+      "after": "/assets/index-DDy5iZRU.css"
+    },
+    {
+      "before": "/assets/index-DYZtETUs.js",
+      "after": "/assets/index-Blg3MFC6.js"
+    },
+    {
+      "before": "/assets/Offer-B1D3OBx9.js",
+      "after": "/assets/Offer-zBtatykG.js"
+    }
+  ],
   "changed": [
     {
       "url": "/ru/ai-bot-dlya-uchebnogo-tsentra/",

@@ -3306,11 +3306,10 @@
     }
   },
   "viralDark20261108": {
-    "status": "DEPLOYED_STYLE_VERIFIED_DELIVERY_RECOVERY_IN_PROGRESS",
+    "status": "DEPLOYED_VERIFIED",
     "scope": "Owner-requested brand match, safe contextual links and isolated sender @gptbotuz_bot",
     "baseProductionCommit": "3fcdcd127009d67e475931c7f3369bd40f7f5011",
     "seoUrls": 330,
-    "unchangedHtmlAndSeo": 327,
     "protectedPages": 10,
     "tests": {
       "seoLinks": 50,
@@ -3321,14 +3320,27 @@
     "botSecretName": "GPT_CAMPAIGN_NOTIFY_BOT_TOKEN",
     "recipient": "Existing explicit GPT_NOTIFY_CHAT_ID; no fallback",
     "webhookChanged": false,
-    "next": "Guarded redeploy with verified local TOML-derived JSON discovery; verify restored bindings, retry same canary",
-    "evidence": "reports/viral-dark-20261108/IMPLEMENTATION.md",
-    "runtimeCommit": "dd13c13c5faa4452f66f0414741e809776271a59",
+    "next": "Hand off dark creatives to the separate Meta chat; observe real traffic and leads without changing campaigns",
+    "evidence": "reports/viral-dark-20261108/RELEASE.md",
+    "runtimeCommit": "e85da915a070acc71b7d9b76b5a7a92b1ac08fe4",
     "publicChecks": {
       "passed": 464,
       "failed": 0
     },
-    "deliveryFinding": "Parent wrangler.jsonc shadowed local wrangler.toml; production native bindings absent",
-    "releaseGuardTests": 18
+    "deliveryFinding": "RESOLVED: parent JSONC shadowed local TOML; guarded temporary local JSON restores source bindings",
+    "releaseGuardTests": 18,
+    "deployment": "77085220",
+    "artifactSha256": "a97d83bcec32d266eefe2122f8656f3441143f8bab1f28d4b210633d0d1878fd",
+    "verifiedAt": "2026-11-08T07:33:07Z",
+    "resourceBindingsVerified": 8,
+    "delivery": {
+      "status": "sent",
+      "attempts": 1,
+      "telegramApiAccepted": true,
+      "ownerReadVerified": false
+    },
+    "unchangedSeoContracts": 327,
+    "unchangedHtmlExceptReviewedAssetUrls": 327,
+    "browserQaRepeatedOnFinalBundle": true
   }
 }
