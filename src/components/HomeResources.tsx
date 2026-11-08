@@ -1,5 +1,6 @@
 import type { Lang } from '../i18n';
 import { track } from '../lib/cta';
+import { PRODUCT_OVERVIEW } from '../shared/product-overview';
 
 type Resource = { href: string; label: string };
 type ResourceGroup = { id: string; lang: Lang; title: string; links: Resource[] };
@@ -61,10 +62,17 @@ export default function HomeResources({ lang }: { lang: Lang }) {
             {isUz ? 'AI chatlar va amaliy qo‘llanmalar' : 'AI-чаты и практические руководства'}
           </h2>
           <p className="text-white/65 mt-4 text-base sm:text-lg">
-            {isUz
-              ? 'GPTBot.uz chatini oching yoki vazifangizga mos qo‘llanmani tanlang. Rasmiy ChatGPT bo‘yicha yo‘riqnomalar alohida berilgan.'
-              : 'Откройте чат GPTBot.uz или выберите руководство под свою задачу. Инструкции по официальному ChatGPT вынесены отдельно.'}
+            {PRODUCT_OVERVIEW[lang].text}
           </p>
+          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+            {PRODUCT_OVERVIEW[lang].links.map((link) => (
+              <a key={link.href} href={link.href} hrefLang={lang}
+                onClick={() => track('click_home_resource', { href: link.href, locale: lang })}
+                className="inline-flex min-h-11 items-center text-sm text-white/80 hover:text-brand-cyan underline underline-offset-4">
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-4 sm:gap-5">

@@ -32,7 +32,7 @@
     "chaji piti"
   ],
   "searchIntent": "transactional",
-  "h1": "O‘zbek tilida AI chat — ChatGPT’ga bepul muqobil",
+  "h1": "O‘zbek tilida AI chat — 3 ta bepul sinov javobi",
   "title": "ChatGPT uzbekcha muqobili — bepul kirish, ro‘yxatsiz chat",
   "description": "O‘zbekcha yozing: matn, reja va g‘oyalar brauzerda, ilovasiz. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
@@ -45,7 +45,7 @@
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "O‘zbek tilida AI chat",
-  "heroTitle": "O‘zbek tilida AI chat online",
+  "heroTitle": "O‘zbek tilida AI chat — 3 ta bepul sinov javobi",
   "heroSubtitle": "O‘zbek tilida AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "ctaPrimaryLabel": "AI-bot narxlari",
   "ctaPrimaryHref": "/uz/chat-bot-narxi/",
@@ -808,10 +808,14 @@
       "inLanguage": [
         "uz",
         "ru"
-      ]
+      ],
+      "@id": "https://gptbot.uz/#ai-chat",
+      "publisher": {
+        "@id": "https://gptbot.uz/#org"
+      }
     }
   ],
   "lastReviewedAt": "2026-10-23",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-10-23"
+  "updatedAt": "2026-11-08"
 }

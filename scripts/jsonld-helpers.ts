@@ -28,6 +28,7 @@
 
 import type { GlobalSEO } from '../src/shared/types';
 import { studioTelegramUrl } from '../src/shared/studio-contact';
+import { buildChatPaidOffer, isChatPricingUrl } from './product-facts';
 
 const TASHKENT_TIMEZONE = 'Asia/Tashkent';
 
@@ -288,11 +289,15 @@ export function buildServiceLd(input: {
     areaServed,
     serviceType: input.serviceType,
     availableLanguage: input.global.availableLanguage && input.global.availableLanguage.length > 0 ? input.global.availableLanguage : ['ru', 'uz'],
-    audience: { '@type': 'BusinessAudience', audienceType: 'Small and medium business in Uzbekistan' },
+    audience: isChatPricingUrl(input.url)
+      ? { '@type': 'Audience', audienceType: 'Russian and Uzbek AI chat users' }
+      : { '@type': 'BusinessAudience', audienceType: 'Small and medium business in Uzbekistan' },
     url: `${input.global.siteUrl}${input.url}`,
     inLanguage: input.locale || 'ru',
     ...(input.dateModified ? { dateModified: input.dateModified } : {}),
-    ...(input.offers ? { offers: input.offers } : {}),
+    ...(isChatPricingUrl(input.url)
+      ? { offers: buildChatPaidOffer(input.global.siteUrl, input.locale || 'ru') }
+      : input.offers ? { offers: input.offers } : {}),
     // A bot is available 24/7. Declared against the Service so AI engines can
     // answer "is it 24/7?" with a structured value. Services delivered by the
     // team (advertising, SEO, websites) follow the organisation's office hours

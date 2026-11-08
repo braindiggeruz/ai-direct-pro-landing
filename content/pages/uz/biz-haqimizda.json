@@ -12,19 +12,19 @@
   ],
   "searchIntent": "informational",
   "h1": "GPTBot.uz haqida",
-  "title": "GPTBot.uz haqida — Toshkentdagi AI-bot studiyasi",
-  "description": "GPTBot.uz — Toshkentdagi studiya, Ozbekiston biznesi uchun AI-botlar: Telegram, Instagram, WhatsApp, CRM integratsiyasi, rus va ozbek tilida qollab-quvvatlash.",
+  "title": "GPTBot.uz haqida — AI chat, Studio va biznes yechimlari",
+  "description": "GPTBot.uz — o‘zbek va rus tillaridagi mustaqil AI chat, taqdimotlar uchun Studio va Toshkentdagi biznes uchun sayt, bot hamda CRM yechimlari jamoasi.",
   "canonical": "https://gptbot.uz/uz/biz-haqimizda/",
   "hreflangRu": "/ru/o-kompanii/",
   "hreflangUz": "/uz/biz-haqimizda/",
-  "ogTitle": "GPTBot.uz haqida — Toshkentdagi AI-bot studiyasi",
-  "ogDescription": "GPTBot.uz — Toshkentdagi studiya, Ozbekiston biznesi uchun AI-botlar: Telegram, Instagram, WhatsApp, CRM integratsiyasi, rus va ozbek tilida qollab-quvvatlash.",
+  "ogTitle": "GPTBot.uz haqida — AI chat, Studio va biznes yechimlari",
+  "ogDescription": "GPTBot.uz — o‘zbek va rus tillaridagi mustaqil AI chat, taqdimotlar uchun Studio va Toshkentdagi biznes uchun sayt, bot hamda CRM yechimlari jamoasi.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Biz haqimizda",
   "heroTitle": "GPTBot.uz haqida",
-  "heroSubtitle": "Toshkentdagi studiya — Ozbekistondagi biznes uchun AI-botlarni joriy qiladi: birinchi xabardan CRM dagi bitimgacha.",
+  "heroSubtitle": "GPTBot.uz — o‘zbek va rus tillaridagi mustaqil AI chat, taqdimotlar uchun Studio va Toshkentdagi biznes uchun sayt, bot hamda CRM yechimlari jamoasi.",
   "ctaPrimaryLabel": "Biz bilan boglaning",
   "ctaPrimaryHref": "#contact",
   "ctaSecondaryLabel": "Nishalar boyicha korish",
@@ -32,7 +32,37 @@
   "bodyBlocks": [
     {
       "type": "p",
-      "text": "GPTBot.uz — bu Toshkentdagi studiya, u O‘zbekistonda biznes uchun AI/GPT botlarni rus va o‘zbek tilida joriy etadi."
+      "text": "GPTBot.uz — o‘zbek va rus tillaridagi mustaqil AI chat, taqdimotlar uchun Studio va O‘zbekistondagi biznes uchun raqamli yechimlar ishlab chiqadigan Toshkent jamoasi. GPTBot.uz OpenAI yoki ChatGPT mahsuloti emas."
+    },
+    {
+      "type": "h2",
+      "text": "Uchta alohida yo‘nalish"
+    },
+    {
+      "type": "linkp",
+      "text": "Matn, tarjima, tushuntirish va kundalik vazifalar uchun — {chat}; prezentatsiya va PPTX fayllari uchun — {studio}; sayt, bot va CRMni kompaniya jarayoniga moslashtirish uchun — {business}. AI paket va Studio alohida sotib olinadi; biznes loyihasi alohida kelishiladi. Amaldagi shartlar — {prices}.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "AI chat"
+        },
+        {
+          "token": "studio",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "Studio"
+        },
+        {
+          "token": "business",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "biznes uchun AI-bot"
+        },
+        {
+          "token": "prices",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI paket tariflarida"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -201,5 +231,5 @@
   ],
   "lastReviewedAt": "2026-07-26",
   "createdAt": "2026-06-26T00:00:00Z",
-  "updatedAt": "2026-07-26"
+  "updatedAt": "2026-11-08"
 }

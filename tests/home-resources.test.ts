@@ -49,7 +49,9 @@ test('both homepage languages render direct labelled links to priority chat, gui
     }
     const resources = html.slice(html.indexOf('<section id="home-resources"'));
     assert.ok(resources.includes('home-resources-heading'));
-    assert.equal(anchors(resources).length, 14, 'curated guide list, not the complete site directory');
+    assert.equal(anchors(resources).length, 17, 'three product routes and the existing curated guide list');
+    assert.ok(resources.includes('Studio'));
+    assert.ok(resources.includes('OpenAI'));
     assert.doesNotMatch(resources, /<details\b|<h1\b|<script\b|\bhidden\b|display\s*:\s*none|sr-only/);
     for (const link of anchors(resources)) {
       assert.match(link.attributes, new RegExp(`hrefLang="${link.href!.split('/')[1]}"`, 'i'));

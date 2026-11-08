@@ -252,7 +252,11 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // derived outputs exactly; 1,029 of 1,040 artifact files and all 651 assets stay
 // byte-identical. Old revisions remain immutable. Actual release/recrawl starts
 // a new measurement marker; this revision makes no ranking guarantee.
-export const BASELINE = 'docs/seo/evidence/2026-11-06-uz-query-recovery/reviewed-protected-pages.json';
+// The 2026-11-08 roadmap revision records reviewed product facts in the two
+// chats, a shared homepage product overview, and the login description-only
+// experiment. Titles and all indexation contracts remain unchanged on the ten
+// leaders. The predecessor and preserved production artifact remain immutable.
+export const BASELINE = 'docs/seo/evidence/2026-11-08-seo-ai-roadmap/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

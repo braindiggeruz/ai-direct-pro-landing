@@ -35,6 +35,32 @@
       "text": "Boris Gerasimov — Toshkentdagi GPTBot.uz yo‘nalishi asoschisi. U AI-botlar arxitekturasi, dialog mantiqi, arizalarni CRMga uzatish va sayt materiallarini tahririy tekshirish uchun javob beradi. Ushbu profil tavsiyalar ortida kim turgani va ular qanday tekshirilishini ochiq ko‘rsatadi."
     },
     {
+      "type": "linkp",
+      "text": "GPTBot.uz loyihasining mahsulotlari — {chat} va {studio}; biznes uchun botlar alohida ishlab chiqiladi. Borisning ochiq profili — {github}; loyiha va tahririyat haqida — {about}.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "AI chat"
+        },
+        {
+          "token": "studio",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "Studio"
+        },
+        {
+          "token": "github",
+          "target": "https://github.com/braindiggeruz",
+          "anchor": "GitHub · braindiggeruz"
+        },
+        {
+          "token": "about",
+          "target": "/uz/biz-haqimizda/",
+          "anchor": "biz haqimizda"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Mas’uliyat yo‘nalishlari"
     },
@@ -157,7 +183,7 @@
       "name": "Boris Gerasimov — GPTBot.uz asoschisi va muharriri",
       "inLanguage": "uz",
       "dateCreated": "2026-07-30T00:00:00+05:00",
-      "dateModified": "2026-09-30T00:00:00+05:00",
+      "dateModified": "2026-11-08T00:00:00+05:00",
       "mainEntity": {
         "@id": "https://gptbot.uz/#author"
       }
@@ -165,5 +191,5 @@
   ],
   "lastReviewedAt": "2026-09-30",
   "createdAt": "2026-07-30T00:00:00Z",
-  "updatedAt": "2026-09-30"
+  "updatedAt": "2026-11-08"
 }

@@ -47,6 +47,7 @@ import { METRIKA_HEAD, METRIKA_NOSCRIPT } from '../../../scripts/analytics-metri
 import { FIRST_TOUCH_SCRIPT } from '../../../scripts/attribution-snippet';
 import { withEmailOff } from '../../../scripts/email-off';
 import { buildBreadcrumbLd, buildOrganizationLd } from '../../../scripts/jsonld-helpers';
+import { buildChatApplicationLd } from '../../../scripts/product-facts';
 import { SITE_CHAT_NAV } from '../../../src/shared/site-chat-nav';
 import type { GlobalSEO } from '../../../src/shared/types';
 import { INAPP_HEAD_SCRIPT } from '../src/inapp';
@@ -364,6 +365,7 @@ export function studioJsonLd(content: StudioPageContent, global: GlobalSEO): str
       mainEntity: content.faq.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
     },
   ];
+  if (content.url === '/uz/tariflar/') graph.push(buildChatApplicationLd(global.siteUrl, content.locale));
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
 }
 

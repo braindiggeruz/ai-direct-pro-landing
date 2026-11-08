@@ -32,6 +32,7 @@ import {
   STUDIO_TELEGRAM_URL,
 } from '../src/shared/studio-contact';
 import { SITE_CHAT_NAV } from '../src/shared/site-chat-nav';
+import { PRODUCT_OVERVIEW } from '../src/shared/product-overview';
 import {
   buildOrganizationLd,
   buildWebSiteLd,
@@ -181,6 +182,12 @@ function buildSeoShell(global: GlobalSEO, pages: Page[], blog: BlogArticle[]): s
     <p><a href="#contact">${escapeText(RU.hero.cta)}</a></p>
 
     <p>${escapeText(RU.hero.chatLine.lead)} <a href="/uz/gpt-uzbek-tilida/" hreflang="uz" lang="uz">${escapeText(RU.hero.chatLine.uz)}</a>${escapeText(RU.hero.chatLine.between)}<a href="/ru/gpt-chat/">${escapeText(RU.hero.chatLine.ru)}</a></p>
+
+    <section aria-label="Продукты GPTBot.uz">
+      <h2>AI-чат, Studio и боты для бизнеса</h2>
+      <p>${escapeText(PRODUCT_OVERVIEW.ru.text)}</p>
+      <p>${PRODUCT_OVERVIEW.ru.links.map(link => `<a href="${escapeHtml(link.href)}" hreflang="ru">${escapeText(link.label)}</a>`).join(' · ')}</p>
+    </section>
 
     <section aria-label="Проблема">
       <h2>${escapeText(RU.pain.h)}</h2>

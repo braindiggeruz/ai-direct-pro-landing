@@ -264,7 +264,8 @@
         "Takroriy yuborish qoidasi tekshiriladi; bitta bosish qayta yuborilganda yangi ariza qanday ajratilishi kelishiladi.",
         "Tarmoq yoki tashqi servis xatosida yolg‘on muvaffaqiyat ko‘rsatilmaydi.",
         "Yozilish so‘rovi va menejer tasdig‘i alohida holatlar sifatida ko‘rinadi.",
-        "Ko‘rsatma, kirish huquqlari va qo‘llab-quvvatlash shartlari topshiriladi."
+        "Ko‘rsatma, kirish huquqlari va qo‘llab-quvvatlash shartlari topshiriladi.",
+        "Har bir sinov uchun kiritilgan ma’lumot, kutilgan natija va dalil — ariza yozuvi yoki xato holati — qayd etiladi. Shaxsiy ma’lumot o‘rniga test ma’lumotidan foydalaniladi."
       ]
     },
     {
@@ -393,9 +394,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-25",
+  "lastReviewedAt": "2026-11-08",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-11-08",
   "heroTrust": [
     "990 000 so‘mdan",
     "Start — bitta til",

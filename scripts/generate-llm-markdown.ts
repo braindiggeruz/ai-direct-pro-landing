@@ -28,6 +28,7 @@ import type { Page, BlogArticle, BodyBlock, FaqItem, InternalLink, SourceReferen
 import { SITE_URL } from '../src/shared/site-config';
 import { LLM_MARKDOWN_BLOG_URLS, LLM_MARKDOWN_SLUGS_RU, LLM_MARKDOWN_SLUGS_UZ } from './llm-pages';
 import { publishedRelatedLinks } from './blog-related-links';
+import { chatProductBlocks, refreshProductFactsManifest } from './product-facts';
 import {
   STUDIO_EMAIL,
   STUDIO_PHONE,
@@ -147,7 +148,7 @@ function finish(out: string[]): string {
 function pageToMarkdown(page: Page, locale: Locale): string {
   const out: string[] = [`# ${page.h1}`, ''];
   if (page.heroSubtitle) out.push(`> ${page.heroSubtitle.trim()}`, '');
-  for (const b of page.bodyBlocks || []) {
+  for (const b of [...chatProductBlocks(page.url, locale), ...(page.bodyBlocks || [])]) {
     const md = blockToMd(b);
     if (md) out.push(md);
   }
@@ -276,7 +277,8 @@ function main(): void {
   }
   console.log(`LLM Markdown twins: ${twins.length} written, ${missing} missing → dist/<url>index.html.md`);
 
-  const llms = fs.readFileSync(path.join(PUBLIC_DIR, 'llms.txt'), 'utf-8');
+  const llms = refreshProductFactsManifest(fs.readFileSync(path.join(PUBLIC_DIR, 'llms.txt'), 'utf-8'));
+  fs.writeFileSync(path.join(DIST_DIR, 'llms.txt'), llms, 'utf-8');
   const full = buildLlmsFull(fs.readFileSync(path.join(PUBLIC_DIR, 'llms-full.txt'), 'utf-8'), llms, twins);
   fs.writeFileSync(path.join(DIST_DIR, 'llms-full.txt'), full, 'utf-8');
   console.log(`llms-full.txt: ${Buffer.byteLength(full)} B = cluster notes + llms.txt (${Buffer.byteLength(lf(llms))} B) + ${twins.length} twin bodies → dist/llms-full.txt`);

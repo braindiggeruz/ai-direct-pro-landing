@@ -3115,5 +3115,110 @@
     "releaseEvidence": "reports/rs1b-20261026/RELEASE.md",
     "protectedRevision": "2026-10-26-rs1b",
     "note": "shipped early on owner order; the ≈05–07.11 read measures R-S1 + R-S1b together"
+  },
+  "seoAiRoadmap20261108": {
+    "date": "2026-11-08",
+    "status": "technical_pending_deploy",
+    "scope": "SEO/AI roadmap only; all other platform states preserved",
+    "ownerAuthorizedAutonomousImplementation": true,
+    "sourceBaseline": "e6bafc4b32060dcdb6a04c4050589c18715ae221",
+    "verifiedProductionBaseline": "02a3613c7ccb85f8de52a6cbe4d3a22781607375",
+    "implementationCommit": null,
+    "deploymentId": null,
+    "productionReadback": "pending",
+    "report": "reports/seo-ai-roadmap-20261108/IMPLEMENTATION.md",
+    "contentReport": "reports/seo-ai-roadmap-20261108/INTENT-AND-CONTENT.md",
+    "artifactRoot": "C:/Users/Borinio/.codex/visualizations/2026/11/08/01a1b921-58ac-72f3-af9a-3684d2e788b4/gptbot-implementation-20261108",
+    "productFacts": {
+      "reviewedAt": "2026-11-08",
+      "source": "scripts/product-facts.ts (build-only runtime imports)",
+      "trialAnswersLifetime": 3,
+      "packagePriceUzs": 20000,
+      "packageAnswers": 300,
+      "validity": "One UTC calendar month from confirmed payment, preserving UTC time and clamping at next UTC month end",
+      "dailyPackageChargedAnswersPerAccount": 50,
+      "dailyReset": "00:00 UTC / 05:00 Asia/Tashkent",
+      "activePackageIncludedFreeAllowance": "Separate under existing offer; not charged against 300",
+      "autoRenewal": false,
+      "purchaseAvailability": "Runtime-conditional",
+      "accountExpiryDisplay": "Date only",
+      "studio": "Separate: 5900 UZS / 24h / 1 presentation; 39900 UZS / month / 10 presentations",
+      "billingLogicChanged": false
+    },
+    "validation": {
+      "precommitMainAdminStudioBuilds": "pass",
+      "urlIdentitiesPreserved": 329,
+      "jsonLdPagesParsed": 329,
+      "declaredContractChangesReviewed": 18,
+      "productSchemaChecks": {
+        "passed": 88,
+        "total": 88
+      },
+      "protectedRevision": "docs/seo/evidence/2026-11-08-seo-ai-roadmap/",
+      "independentReview": "No P0/P1/P2 reported",
+      "finalIntegratedTests": { "passed": 165, "skippedConditionalLegacyOfferBaseline": 2, "total": 167 },
+      "webAndFunctionsTypechecks": "pass",
+      "scopedLint13Files": "pass",
+      "seoAudit": "pass",
+      "candidateBrowserFunnel": "pass",
+      "seoProtectionRetest": "21/21 pass; new predecessor hash normalizes line endings, old baseline unchanged",
+      "finalIndependentQa": "pending",
+      "mockFunnel": "Pass; no real leads/payments/inference"
+    },
+    "externalPublications": {
+      "profileCommit": "97849841de50c0376ca80a657639b22613fb3d7c",
+      "catalogCommit": "fb51305313a99447b5c53af6db28b136ca830dfb",
+      "readback": "Verified file matches; owned catalog not independent endorsement",
+      "glotrInite": "Unsent drafts; ownership/edit access unverified; browser URL-verification safety stop"
+    },
+    "aiSearchBaseline": {
+      "attempted": 108,
+      "answered": 107,
+      "failed": 1,
+      "failure": "Google B4 UZ UPSTREAM_UNAVAILABLE",
+      "neutral": {
+        "answered": 72,
+        "citedAnswers": 12
+      },
+      "branded": {
+        "answered": 35,
+        "citedAnswers": 35
+      },
+      "mentions": 45,
+      "citedAnswers": 47,
+      "scheduledTrackerEnabled": false,
+      "independence": "Not assumed; repeats may be cached",
+      "firstChatgptDailyResetError": "Archived answer error; current first-party source says three total"
+    },
+    "crawlerAccess": {
+      "checkedAt": "2026-11-08T04:24:07Z",
+      "lookbackHours": 24,
+      "verification": "Official provider IP ranges matched in memory",
+      "matchedAdaptiveAggregates": {
+        "oai": 26,
+        "perplexity": 30,
+        "googlebotIncludingImage": 127
+      },
+      "matchedStatuses": "200/301; no observed matched 403/429/5xx",
+      "limits": "Adaptive aggregates not exact raw logs; Free-plan botDetectionIds denied; no client IPs retained; not indexing/citation proof",
+      "wafChanges": false
+    },
+    "experiments": {
+      "loginUz": "Description-only; release/confirmed recrawl pending before 2-4-week observation",
+      "chatTitlesDescriptions": "Unchanged; R15 deferred until stable post-R08 data",
+      "performance": "Diagnostics only; hero candidate rejected; no accepted speed patch or field improvement",
+      "chat24TaskEvaluation": "Not run; input/cost/answer/scoring work remains"
+    },
+    "remaining": [
+      "Final release gates, commit, deployment and public verification",
+      "R06 ownership/edit access",
+      "R11 accepted performance candidate and field evidence",
+      "R14 recrawl and sufficient observation",
+      "R15 stable-baseline experiment",
+      "R18 actual chat evaluation",
+      "R20 outcome data"
+    ],
+    "rollback": "Scoped revert after production ancestry check; existing guarded runner with explicit physical DR_ROOT; preserve Railway documents and TG Sender",
+    "businessOutcome": "Not established; no ranking/citation/traffic/revenue/acceptance improvement asserted"
   }
 }

@@ -6,8 +6,8 @@
   "defaultOgImage": "https://gptbot.uz/assets/landing/og.jpg",
   "organizationName": "GPTBot.uz",
   "organizationLegalName": "GPTBot",
-  "organizationDescription": "GPTBot.uz — студия из Ташкента, которая запускает производственные AI/GPT-боты для малого и среднего бизнеса в Узбекистане. Каждый бот отвечает в Telegram, Instagram Direct и WhatsApp на русском и узбекском, собирает имя + телефон + потребность и передаёт квалифицированную заявку менеджеру через CRM или Telegram-уведомление.",
-  "organizationShortDescription": "AI-бот для бизнеса в Узбекистане: Telegram + Instagram Direct + WhatsApp, RU и Uzbek Latin, передача лида менеджеру.",
+  "organizationDescription": "GPTBot.uz — независимый AI-чат на русском и узбекском, Studio для создания презентаций и команда разработки из Ташкента. AI-пакет чата, тарифы Studio и внедрение ботов для бизнеса — отдельные продукты. Команда создаёт сайты, Telegram-ботов и интеграции с CRM для бизнеса в Узбекистане. GPTBot.uz не является продуктом OpenAI или ChatGPT.",
+  "organizationShortDescription": "Самостоятельный AI-чат RU/UZ, презентации Studio и разработка сайтов, ботов и CRM-интеграций для бизнеса в Узбекистане.",
   "knowsAbout": [
     "AI-бот для бизнеса",
     "GPT-бот для бизнеса",

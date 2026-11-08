@@ -43,6 +43,7 @@ import { LLM_MARKDOWN_URLS } from './llm-pages';
 import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import { renderHeroTrustChip } from './hero-trust';
 import { pageModifiedDate } from './content-dates';
+import { buildChatApplicationLd, chatProductBlocks, isChatPricingUrl, isChatProductUrl } from './product-facts';
 import { chatRoleAttributes } from './translator-page';
 import { isConverterFirstPage, isToolFirstPage, renderToolFirst } from './tool-first';
 import { assertToolPage, chatToolHead, renderToolWidgets, starterFrame, toolJsonLd, toolWidgetScripts, widgetScriptsFrom, type WidgetScripts } from './tool-widgets';
@@ -476,7 +477,10 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
   // /boss-digital/ that references the GPTBot org via department @id).
   // Emitted verbatim from the page JSON — data-driven, never invented here.
   if (Array.isArray(page.extraJsonLd) && page.extraJsonLd.length > 0) {
-    graph.push(...page.extraJsonLd);
+    graph.push(...page.extraJsonLd.filter((node) => !(isChatProductUrl(page.url) && node['@type'] === 'SoftwareApplication')));
+  }
+  if (isChatProductUrl(page.url) || isChatPricingUrl(page.url)) {
+    graph.push(buildChatApplicationLd(global.siteUrl, page.locale));
   }
 
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
@@ -585,6 +589,7 @@ ${firstTool ? '</section>\n</main>' : '</main>'}
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
     ${isConverterFirstPage(page) ? '' : renderToolWidgets(page)}${updatedIso ? `<p data-testid="page-updated" class="text-xs uppercase tracking-wider text-white/40 mb-4">${escapeHtml(uz ? 'Yangilangan' : 'Обновлено')}: <time datetime="${updatedIso}">${escapeHtml(updatedIso.split('-').reverse().join('.'))}</time></p>` : ''}
     <div class="prose-invert">
+      ${renderBlocks(chatProductBlocks(page.url, page.locale))}
       ${renderBlocks(page.bodyBlocks || [])}
     </div>
     ${renderFaq(page.faq || [], uz ? 'uz' : 'ru')}

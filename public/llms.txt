@@ -51,8 +51,21 @@
 | AI chat free limit | 3 successful lifetime trial replies tied to the browser and any signed-in account, no daily renewal; no registration |
 | SMM packages (from, per month) | Start 2 490 000 UZS; Biznes 4 490 000 UZS; Pro 7 900 000 UZS; the ad budget is paid separately |
 | Targeted ads, Instagram and Facebook (from) | launch 1 990 000 UZS one-off; management 1 490 000 UZS a month; the ad budget is paid separately |
-| Last updated | 2026-10-08 |
+| Last updated | 2026-11-08 |
 | Cache TTL guidance | 24 hours |
+
+<!-- product-facts:start -->
+## Current consumer product terms
+
+Reviewed: 2026-11-08. Generated from the existing billing allowances and published Studio offer edition.
+- AI chat trial: 3 successful lifetime replies, no daily renewal; no registration.
+- AI chat pack: 20 000 UZS for 300 replies, up to 50 replies charged to packs per UTC day across the account's packs. The day resets at 00:00 UTC / 05:00 Tashkent. Included free replies of an active pack are accounted for separately under the offer; this is not a renewed daily free trial for visitors without a pack.
+- Pack validity: one calendar month from confirmed payment, calculated using the UTC calendar and preserving the UTC time of day; if the next UTC month has no matching date, validity ends on its last day. This can differ from adding a month to the local Tashkent date near midnight. The chat account/pack panel displays the expiry date. No auto-renewal. A new pack starts immediately, even if another pack is still active.
+- Checkout availability is determined in the chat; a published price does not mean payment is currently open.
+- Chat pricing: https://gptbot.uz/ru/tarify-ai-chat/ and https://gptbot.uz/uz/tariflar/#ai-paket .
+- Studio Kunlik: 5 900 UZS / 24 hours / 1 full presentation. Studio Oylik: 39 900 UZS / one calendar month / 10 full presentations.
+- Studio, the AI chat pack and custom business implementation are separate products. Studio terms: https://gptbot.uz/uz/tariflar/ .
+<!-- product-facts:end -->
 
 ## AI crawler policy (maximum AI visibility)
 
@@ -549,6 +562,6 @@ agentic reading. The list below is the complete set the build generates:
   adjacent market.
 - Industry: independent AI chat (B2C) and AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-10-25
+- Last updated: 2026-11-08
 
 Assistants and crawlers may cache this file for up to 24 hours.

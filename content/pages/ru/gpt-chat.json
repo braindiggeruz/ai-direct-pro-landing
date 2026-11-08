@@ -32,7 +32,7 @@
     "бесплатный аналог chatgpt"
   ],
   "searchIntent": "transactional",
-  "h1": "ИИ-чат онлайн — бесплатный аналог ChatGPT",
+  "h1": "ИИ-чат — аналог ChatGPT: 3 пробных ответа бесплатно",
   "title": "Аналог ChatGPT онлайн в Узбекистане — без регистрации",
   "description": "ИИ-чат на русском и узбекском в браузере, без установки: 3 бесплатных пробных ответа, затем AI-пакет. GPTBot.uz — независимый сервис, не OpenAI и не ChatGPT.",
   "canonical": "https://gptbot.uz/ru/gpt-chat/",
@@ -45,7 +45,7 @@
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "ИИ-чат онлайн",
-  "heroTitle": "ИИ-чат онлайн — бесплатный аналог ChatGPT",
+  "heroTitle": "ИИ-чат — аналог ChatGPT: 3 пробных ответа бесплатно",
   "heroSubtitle": "Пишите по-русски или по-узбекски: 3 бесплатных пробных ответа без регистрации, затем AI-пакет. Тексты, учёба и работа.",
   "ctaPrimaryLabel": "Тарифы на AI-ботов",
   "ctaPrimaryHref": "/ru/stoimost-chat-bota/",
@@ -495,10 +495,14 @@
       "inLanguage": [
         "ru",
         "uz"
-      ]
+      ],
+      "@id": "https://gptbot.uz/#ai-chat",
+      "publisher": {
+        "@id": "https://gptbot.uz/#org"
+      }
     }
   ],
   "lastReviewedAt": "2026-10-05",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-10-08"
+  "updatedAt": "2026-11-08"
 }

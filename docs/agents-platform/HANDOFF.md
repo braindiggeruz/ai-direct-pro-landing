@@ -1,3 +1,21 @@
+# Current handoff — SEO / AI roadmap prepared · 08.11.2026
+
+**TECHNICAL_PENDING_DEPLOY.** Owner authorized autonomous implementation. Main/admin/Studio precommit builds, web/Functions typechecks, 13-file scoped lint and SEO audit pass; 329 URL identities preserved, JSON-LD parses on 329 URLs, 18 declared contract changes reviewed, product-schema checks 88/88. Integrated tests: 165 passed and 2 conditional legacy-offer-baseline skips; candidate browser funnel passed. The immutable Nov 8 SEO revision is recorded. Independent review found no P0/P1/P2; local mobile and no-JS QA passed 9/9 scenarios. Commit/deployment identity and public readback remain release-coordinator work. Do not interpret this section as a production-release or business-result claim.
+
+Source baseline `e6bafc4b32060dcdb6a04c4050589c18715ae221` follows verified live `02a3613c7ccb85f8de52a6cbe4d3a22781607375`; retain Railway documents / TG Sender ancestry. Physical checkout: `F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/gptbot-seo-ai-20261108`. Use the existing guarded runner with explicit physical `DR_ROOT` after final build and ancestry check. Scoped revert only; do not overwrite later unrelated releases with an old artifact.
+
+Prepared: shared runtime-derived product facts, truthful trial H1 and below-tool chat blocks, UTC pricing explanation, linked chat/offer/Organization schema, synchronized llms files, homepage/About/author clarity, five commercial-page improvements and Cake City evidence limits. Chat title/description unchanged. The UZ login article is a description-only experiment; its observation window begins after confirmed Google recrawl. No payment, database, webhook, legal-offer or tracking-loader changes.
+
+Facts: three lifetime trial answers; AI package 20,000 UZS / 300 package answers / one **UTC calendar month** from confirmed payment, clamped at UTC month end; up to 50 package-charged answers per account per UTC day (05:00 Tashkent reset), separate from the active-package included free allowance; no auto-renewal. The account displays the expiry date. Studio remains separate (5,900 UZS / 24h / one presentation; 39,900 UZS / month / ten).
+
+External GitHub profile `97849841` and owned catalog `fb513053` published and read back. Glotr/INITE corrections remain unsent drafts: ownership/edit access unverified; browser URL-verification safety stop prevented inspection. R11 has diagnostics but no accepted speed patch or field-CWV improvement. R15 awaits stable data; R18 actual 24-task chat evaluation was not run. R20 outcome evaluation remains pending.
+
+R03 search-answer baseline: 107/108 answers across three runs (one Google upstream failure); citations in 12/72 neutral and 35/35 answered branded prompts. Repeats may be cached; tracker remains disabled. R12 Cloudflare official-IP checks found successful OAI/Perplexity/Googlebot request aggregates, no observed matched 403/429/5xx; this is not indexing/citation proof. Full details: [implementation record](../../reports/seo-ai-roadmap-20261108/IMPLEMENTATION.md), [content/intent record](../../reports/seo-ai-roadmap-20261108/INTENT-AND-CONTENT.md). Evidence root: `C:/Users/Borinio/.codex/visualizations/2026/11/08/01a1b921-58ac-72f3-af9a-3684d2e788b4/gptbot-implementation-20261108`.
+
+This dated section supersedes older SEO candidate statuses only. Other platform handoffs and all prior operational evidence below are preserved.
+
+---
+
 # Current handoff — Railway documents · 07.11.2026
 
 DEPLOYED / VERIFIED: source `15f1878b`, Pages `99c5dc7f`, Railway worker `1a92ac43`. Previous SEO release `ee11957d` is preserved in ancestry. The owner explicitly authorized Railway integration and deployment.
