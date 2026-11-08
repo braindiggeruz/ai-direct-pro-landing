@@ -3281,7 +3281,7 @@
     }
   },
   "viralLanding20261108": {
-    "status": "VALIDATED_CANDIDATE_PENDING_GUARDED_RELEASE",
+    "status": "DEPLOYED_VERIFIED",
     "scope": "Owner-authorized viral landing and five advertising creative concepts; no Meta writes",
     "url": "https://gptbot.uz/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/",
     "predecessorProductionCommit": "a52cc9420aafe582485921196af5317208f82878",
@@ -3294,7 +3294,15 @@
       "axeViolations": 0
     },
     "sitemapUrls": 330,
-    "next": "Commit, build stamped production artifact, guarded deploy and public readback",
-    "evidence": "reports/viral-landing-20261108/IMPLEMENTATION.md"
+    "next": "Hand off the creative package to the separate Meta session; measure real campaign outcomes separately",
+    "evidence": "reports/viral-landing-20261108/RELEASE.md",
+    "runtimeCommit": "3fcdcd127009d67e475931c7f3369bd40f7f5011",
+    "deploymentId": "4e7035a0",
+    "artifactSha256": "bb068895159f5f4fe118c60c9c14c405edba21cd2f435f997aced8bcf0d07638",
+    "verifiedAt": "2026-11-08T06:41:48Z",
+    "publicChecks": {
+      "passed": 454,
+      "failed": 0
+    }
   }
 }
