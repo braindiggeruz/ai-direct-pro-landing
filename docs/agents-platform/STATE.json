@@ -3321,13 +3321,14 @@
     "botSecretName": "GPT_CAMPAIGN_NOTIFY_BOT_TOKEN",
     "recipient": "Existing explicit GPT_NOTIFY_CHAT_ID; no fallback",
     "webhookChanged": false,
-    "next": "Explicit-config guarded redeploy, verify restored bindings, retry same canary",
+    "next": "Guarded redeploy with verified local TOML-derived JSON discovery; verify restored bindings, retry same canary",
     "evidence": "reports/viral-dark-20261108/IMPLEMENTATION.md",
     "runtimeCommit": "dd13c13c5faa4452f66f0414741e809776271a59",
     "publicChecks": {
       "passed": 464,
       "failed": 0
     },
-    "deliveryFinding": "Parent wrangler.jsonc shadowed local wrangler.toml; production native bindings absent"
+    "deliveryFinding": "Parent wrangler.jsonc shadowed local wrangler.toml; production native bindings absent",
+    "releaseGuardTests": 18
   }
 }

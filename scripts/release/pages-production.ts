@@ -239,13 +239,42 @@ function describeLock(lockPath: string): string {
   return `${header}.${detail} If nothing is deploying, the previous run was killed and leaked it — remove the file, then redeploy.`;
 }
 
-/** Pin configuration to the same reviewed checkout as the artifact. Wrangler's
- * upward JSON/JSONC discovery can otherwise shadow this checkout's TOML.
- */
 export function pagesDeployArgs(root: string, commit: string): string[] {
   return [path.join(root, 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
-    'pages', 'deploy', 'dist', '--config', path.join(root, 'wrangler.toml'),
+    'pages', 'deploy', 'dist',
     '--project-name', PROJECT, '--branch', 'main', '--commit-hash', commit, '--commit-dirty=true'];
+}
+
+function removeOwnedDeploymentConfig(filename: string, contents: string): void {
+  const stat = fs.lstatSync(filename);
+  if (!stat.isFile() || stat.isSymbolicLink() || hash(fs.readFileSync(filename)) !== hash(contents)) {
+    throw new Error('Temporary Wrangler configuration changed; preserved for manual review.');
+  }
+  fs.unlinkSync(filename);
+}
+
+/** Pages rejects --config. Its normal discovery prefers any ancestor JSONC
+ * over a local TOML, so expose the reviewed TOML as a temporary standard JSON
+ * config under the existing deployment lock. Never overwrite another file.
+ */
+export async function withPagesDeploymentConfig<T>(root: string, action: () => Promise<T>): Promise<T> {
+  const { experimental_readRawConfig } = await import('wrangler');
+  const source = experimental_readRawConfig({ config: path.join(root, 'wrangler.toml') }).rawConfig;
+  const temporary = path.join(root, 'wrangler.json');
+  const contents = `${JSON.stringify(source, null, 2)}\n`;
+  fs.writeFileSync(temporary, contents, { flag: 'wx' });
+  try {
+    const resolved = experimental_readRawConfig(
+      { script: path.join(root, 'entry.ts') }, { useRedirectIfAvailable: true },
+    );
+    if (path.resolve(resolved.configPath ?? '') !== path.resolve(temporary)
+      || JSON.stringify(resolved.rawConfig) !== JSON.stringify(source)) {
+      throw new Error('Pages deployment configuration does not match the reviewed TOML.');
+    }
+    return await action();
+  } finally {
+    removeOwnedDeploymentConfig(temporary, contents);
+  }
 }
 
 async function deploy(root: string, dist: string, release: PagesRelease): Promise<void> {
@@ -265,11 +294,11 @@ async function deploy(root: string, dist: string, release: PagesRelease): Promis
   }
   try {
     await checkProduction(root, dist);
-    const exitCode = await new Promise<number>((resolve, reject) => {
+    const exitCode = await withPagesDeploymentConfig(root, () => new Promise<number>((resolve, reject) => {
       const child = spawn(process.execPath, pagesDeployArgs(root, release.commit),
       { cwd: root, stdio: 'inherit', windowsHide: true });
       child.on('error', reject); child.on('exit', (code) => resolve(code ?? 1));
-    });
+    }));
     if (exitCode !== 0) throw new Error(`Wrangler deployment failed (${exitCode}).`);
     if (await productionCommit() !== release.commit) throw new Error('Production changed during publication; investigate competing deployment.');
     // Read back the actual custom domain, not only Wrangler's upload result.

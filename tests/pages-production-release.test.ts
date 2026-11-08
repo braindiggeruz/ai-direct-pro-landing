@@ -6,7 +6,7 @@ import path from 'node:path';
 import test from 'node:test';
 import {
   assertCleanRuntime, assertProductionLineage, inspectArtifact, REQUIRED_FEATURES, REQUIRED_RELEASES, runtimeFile,
-  verifyStampedArtifact, pagesDeployArgs,
+  verifyStampedArtifact, pagesDeployArgs, withPagesDeploymentConfig,
 } from '../scripts/release/pages-production';
 
 const head = 'a'.repeat(40);
@@ -51,22 +51,60 @@ test('guarded deploy pins the reviewed TOML when a parent JSONC shadows automati
   assert.equal(discovered.configPath, path.join(parent, 'wrangler.jsonc'), 'reproduces the actual Wrangler precedence');
   assert.deepEqual(discovered.d1_databases, []);
 
-  const args = pagesDeployArgs(root, head);
-  assert.equal(args.filter(arg => arg === '--config').length, 1);
-  const configPath = args[args.indexOf('--config') + 1];
-  assert.equal(configPath, path.join(root, 'wrangler.toml'));
-  const pinned = unstable_readConfig({ ...options, config: configPath }, { useRedirectIfAvailable: true });
-  assert.equal(pinned.configPath, configPath);
-  assert.equal(pinned.pages_build_output_dir, path.join(root, 'dist'));
-  assert.equal(pinned.compatibility_date, '2024-09-23');
-  assert.deepEqual(pinned.d1_databases.map(binding => binding.binding), ['GPTBOT_DRAFTS_DB']);
-  assert.deepEqual(pinned.kv_namespaces.map(binding => binding.binding), ['LOGIN_ATTEMPTS']);
-  assert.deepEqual(pinned.r2_buckets.map(binding => binding.binding), ['MARKET_MEDIA', 'LEAD_RADAR_CAMPAIGN_MEDIA', 'DOCUMENT_ARTIFACTS']);
-  assert.deepEqual(pinned.services.map(binding => binding.binding), ['LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE']);
-  assert.equal(pinned.ai?.binding, 'AI');
-  assert.deepEqual(pinned.queues.producers.map(binding => binding.binding), ['AUTOMATION_QUEUE']);
-  assert.ok(Object.hasOwn(pinned.vars, 'GPTBOT_RUNTIME_CONFIG_JSON'));
-  assert.ok(Object.hasOwn(pinned.vars, 'GPTBOT_RUNTIME_CONFIG'));
+  await withPagesDeploymentConfig(root, async () => {
+    const args = pagesDeployArgs(root, head);
+    assert.ok(!args.includes('--config'), 'Pages CLI rejects this flag');
+    const pinned = unstable_readConfig(options, { useRedirectIfAvailable: true });
+    assert.equal(pinned.configPath, path.join(root, 'wrangler.json'));
+    assert.equal(pinned.pages_build_output_dir, path.join(root, 'dist'));
+    assert.equal(pinned.compatibility_date, '2024-09-23');
+    assert.deepEqual(pinned.d1_databases.map(binding => binding.binding), ['GPTBOT_DRAFTS_DB']);
+    assert.deepEqual(pinned.kv_namespaces.map(binding => binding.binding), ['LOGIN_ATTEMPTS']);
+    assert.deepEqual(pinned.r2_buckets.map(binding => binding.binding), ['MARKET_MEDIA', 'LEAD_RADAR_CAMPAIGN_MEDIA', 'DOCUMENT_ARTIFACTS']);
+    assert.deepEqual(pinned.services.map(binding => binding.binding), ['LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE']);
+    assert.equal(pinned.ai?.binding, 'AI');
+    assert.deepEqual(pinned.queues.producers.map(binding => binding.binding), ['AUTOMATION_QUEUE']);
+    assert.equal(Object.keys(pinned.vars).length, 3);
+    assert.ok(Object.hasOwn(pinned.vars, 'GPTBOT_RUNTIME_CONFIG_JSON'));
+    assert.ok(Object.hasOwn(pinned.vars, 'GPTBOT_RUNTIME_CONFIG'));
+
+    // Exercise the real Pages CLI handler, not merely its config reader. Stop
+    // before its first network operation; no API call or upload is possible.
+    const blocker = path.join(root, 'block-network.cjs');
+    fs.writeFileSync(blocker, `const stop = () => { process.stderr.write('OFFLINE_CLI_NETWORK_BLOCKED\\n'); process.exit(77); };
+require('node:net').Socket.prototype.connect = stop;
+require('node:tls').connect = stop;
+globalThis.fetch = stop;\n`);
+    fs.mkdirSync(path.join(root, 'dist'));
+    const cli = path.resolve(import.meta.dirname, '../node_modules/wrangler/bin/wrangler.js');
+    const result = spawnSync(process.execPath, ['--require', blocker, cli, ...args.slice(1)], {
+      cwd: root, encoding: 'utf8', windowsHide: true, timeout: 30_000,
+      env: { ...process.env, CI: 'true', CLOUDFLARE_API_TOKEN: 'offline_fixture',
+        CLOUDFLARE_ACCOUNT_ID: '0'.repeat(32), CLOUDFLARE_API_KEY: '', CLOUDFLARE_EMAIL: '',
+        WRANGLER_SEND_METRICS: 'false', WRANGLER_DISABLE_UPDATE_CHECK: 'true' },
+    });
+    assert.equal(result.status, 77, `${result.stdout}\n${result.stderr}`);
+    assert.match(result.stderr, /OFFLINE_CLI_NETWORK_BLOCKED/);
+    assert.doesNotMatch(result.stderr, /Pages does not support custom paths/);
+  });
+  assert.equal(fs.existsSync(path.join(root, 'wrangler.json')), false, 'generated config is removed after CLI completion');
+  assert.equal(fs.existsSync(path.join(parent, 'wrangler.jsonc')), true, 'parent file is untouched');
+});
+
+test('temporary Pages config never overwrites or deletes a pre-existing or changed file and cleans up failures', async (t) => {
+  const root = fixture(t);
+  fs.copyFileSync(new URL('../wrangler.toml', import.meta.url), path.join(root, 'wrangler.toml'));
+  const config = path.join(root, 'wrangler.json');
+  fs.writeFileSync(config, '{"owner":"existing"}\n');
+  await assert.rejects(withPagesDeploymentConfig(root, async () => assert.fail('must not run')), /EEXIST/);
+  assert.equal(fs.readFileSync(config, 'utf8'), '{"owner":"existing"}\n');
+  fs.unlinkSync(config);
+  await assert.rejects(withPagesDeploymentConfig(root, async () => { throw new Error('synthetic CLI failure'); }), /synthetic CLI failure/);
+  assert.equal(fs.existsSync(config), false);
+  await assert.rejects(withPagesDeploymentConfig(root, async () => {
+    fs.writeFileSync(config, '{"owner":"changed"}\n');
+  }), /changed; preserved/);
+  assert.equal(fs.readFileSync(config, 'utf8'), '{"owner":"changed"}\n');
 });
 
 test('old admin build is rejected even with a valid public SEO site', (t) => {
