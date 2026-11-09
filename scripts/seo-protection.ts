@@ -262,7 +262,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // Marketing cohort: exact reversal of ten new homepage list entries restores
 // the predecessor. All 350 existing metadata contracts and nine other protected
 // page contracts are retained; see reports/marketing-gap-20261109/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-09-marketing/reviewed-protected-pages.json';
+export const BASELINE = 'docs/seo/evidence/2026-11-09-marketing-final/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

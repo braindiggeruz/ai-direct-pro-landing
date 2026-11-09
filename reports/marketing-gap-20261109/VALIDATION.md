@@ -8,3 +8,5 @@
 - Public deployment and search-engine outcomes: pending; see RELEASE.md once actually observed.
 
 External detailed logs: ../evidence/marketing-release-20261109/. Source plan: PLAN.json.
+
+Final clean build refreshed the eight new blog-link labels on the homepage from finalized title metadata. The exact ten-entry reversal still restores the original homepage. A second immutable reviewed revision, 2026-11-09-marketing-final, records only this new-link wording change; all 21 protection tests pass.
