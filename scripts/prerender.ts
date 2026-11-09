@@ -48,6 +48,8 @@ import { chatRoleAttributes } from './translator-page';
 import { isConverterFirstPage, isToolFirstPage, renderToolFirst } from './tool-first';
 import { isPseoPracticePage, PSEO_STYLE_HREF } from './pseo-learning';
 import { isPseoDocument } from './pseo-documents';
+import { isMarketingTool, marketingToolStyle, marketingToolScript, renderMarketingTool } from './marketing-tools';
+import { CONTENT_DOWNLOAD_URLS } from '../src/shared/content-downloads';
 import { assertToolPage, chatToolHead, renderToolWidgets, starterFrame, toolJsonLd, toolWidgetScripts, widgetScriptsFrom, type WidgetScripts } from './tool-widgets';
 import { asPreviewPage, previewDraftUrls } from './preview-drafts';
 import {
@@ -242,7 +244,8 @@ function renderBlock(b: BodyBlock, headingIds: Map<string, number> = new Map()):
         // phone stood): the marker the head click handlers count and the
         // rel/target of every other studio Telegram link.
         const _rel = isStudioTelegram(l.target) ? ` ${STUDIO_CONTACT_ATTR} rel="nofollow noopener noreferrer" target="_blank"` : _ext ? ' rel="noopener noreferrer" target="_blank"' : '';
-        const a = `<a href="${escapeHtml(l.target)}"${_rel}${_lang} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
+        const _download = CONTENT_DOWNLOAD_URLS.some(url => url === l.target) ? ' download' : '';
+        const a = `<a href="${escapeHtml(l.target)}"${_rel}${_lang}${_download} class="text-brand-cyan hover:underline">${escapeText(l.anchor)}</a>`;
         html = html.split(`{${l.token}}`).join(a);
       }
       return `<p${blockLang(b)} class="text-base text-white/80 leading-relaxed mb-4">${html}</p>`;
@@ -1094,7 +1097,7 @@ ${LLM_MARKDOWN_URLS.has(page.url)
 <link rel="icon" type="${marketVariant ? 'image/svg+xml' : 'image/webp'}"${marketVariant ? '' : ' sizes="80x80"'} href="${marketVariant ? '/assets/market/favicon.svg' : '/assets/landing/logo-sq-80.webp'}" />
 ${marketVariant ? '' : `<link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />`}
-${cssLinks}${isPseoPracticePage(page) ? `\n<link rel="stylesheet" href="${PSEO_STYLE_HREF}" />` : ''}
+${cssLinks}${isPseoPracticePage(page) ? `\n<link rel="stylesheet" href="${PSEO_STYLE_HREF}" />` : ''}${isMarketingTool(page) ? '\n' + marketingToolStyle : ''}
 ${page.pageType === 'gpt-chat' ? chatStyles.map((href) => `<link rel="stylesheet" href="${escapeHtml(href)}" />`).join('\n') : ''}
 ${page.pageType === 'gpt-chat' ? chatPreloads.map((href) => `<link rel="modulepreload" href="${escapeHtml(href)}" />`).join('\n') : ''}${chatToolHead(page, chatToolHref)}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
@@ -1141,6 +1144,7 @@ ${marketVariant
 
   ${leadDemo}
   ${calculatorHtml}
+  ${renderMarketingTool(page)}
   ${renderGrowthTool(page)}
   <div class="${page.designVariant === 'digital-command-center' ? 'max-w-3xl mx-auto' : ''}">
     ${renderArticle(page.bodyBlocks || [], contentAnchor)}${renderRequisites(page)}
@@ -1186,6 +1190,7 @@ ${jsHref ? `<!-- The landing React bundle is intentionally not loaded on money p
 ${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}${toolWidgetScripts(page, widgetScripts)}
 ${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
 ${page.growthTool ? GROWTH_TOOL_SCRIPT : ''}
+${isMarketingTool(page) ? marketingToolScript : ''}
 ${hasCopyablePrompts ? PROMPT_COPY_SCRIPT : ''}${leadForm ? `\n${LEAD_FORM_SCRIPT}` : ''}
 ${marketVariant ? MARKET_FAQ_SCRIPT : ''}
 </body>

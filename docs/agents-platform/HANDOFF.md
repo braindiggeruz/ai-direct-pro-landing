@@ -1,3 +1,43 @@
+# Current handoff — marketing GAP implementation · 09.11.2026
+
+## 1. State
+VALIDATED, PENDING GUARDED RELEASE. Owner authorized all twenty candidates. Runtime predecessor verified live: e49675252b1c4acdd1770f7b42fc5aa5a0c42630.
+
+## 2. Delivered
+Ten new practical resources, ten improved owners, thirteen contextual-link parents, nine CSV worksheets and two local tools. See reports/marketing-gap-20261109/IMPLEMENTATION.md.
+
+## 3. Files
+PLAN.json and content-changes.json identify scope. Typed tool page, isolated static assets, existing prerender and exact download allowlist reused.
+
+## 4. Decisions
+A13 preserves existing commercial owners. New informational/tool resource registry; no new hreflang equivalence, redirect or price reassignment.
+
+## 5. Excluded
+No bot, payment, database, webhook, credential, advertising-account or subscription changes. No git push.
+
+## 6. Validation
+All 350 old metadata contracts preserved; 360 URLs. Homepage reversal proves only ten approved additions. 60 responsive checks plus six functional/no-JS checks; source tests and scoped lint/typecheck.
+
+## 7. Open issues
+UZ target remains Google Crawled-currently-not-indexed; no robots/canonical/fetch exclusion. Useful service improvements are implemented, but Google recovery requires recrawl and confirmation.
+
+## 8. Next task
+Finish full production build, guarded check/deploy, exact public readback, binding parity and discovery notifications. Save actual receipts in RELEASE.md.
+
+## 9. Release
+DR_ROOT must be this physical F: worktree. Use deploy_runner.py only. Preserve its local config discovery lock and rollback safeguards.
+
+## 10. Evidence
+External baseline and logs: ../evidence/marketing-release-20261109/. Immutable reviewed SEO revision: docs/seo/evidence/2026-11-09-marketing/.
+
+## 11. Cautions
+Small demand estimates are not traffic promises; no fabricated cases, fees or ratings. Do not expand automatically. Chat start budget remains protected.
+
+## 12. Previous handoff
+The prior production history is retained below.
+
+---
+
 # Current handoff — pSEO20 production verified · 08.11.2026
 
 ## 1. State

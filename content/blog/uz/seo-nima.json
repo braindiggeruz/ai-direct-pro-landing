@@ -1,0 +1,234 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "seo-nima",
+  "url": "/uz/blog/seo-nima/",
+  "title": "SEO nima: Google uchun saytni yaxshilash | GPTBot.uz",
+  "h1": "SEO nima? Saytni Google qidiruviga tayyorlash",
+  "description": "SEO nima, indekslash va reyting farqi: xizmat sahifasining oldin-keyin namunasi, 5 tekshiruvli jadval va Google Ads bilan taqqoslash.",
+  "intro": "SEO — saytning organik qidiruvda topilishi, tushunarli bo‘lishi va foydalanuvchi vazifasini bajarishi uchun qilinadigan ishlar. Google’ga reklama uchun pul to‘lash SEO emas. Texnik kirish, foydali mazmun va sayt ichidagi bog‘lanish birga ishlaydi; ularning hech biri birinchi o‘rinni kafolatlamaydi.",
+  "keywords": [
+    "seo nima"
+  ],
+  "topicCluster": "seo-uz",
+  "targetMoneyPage": "/uz/seo-xizmati/",
+  "body": [
+    {
+      "type": "h2",
+      "text": "Topish, indekslash va yuqori o‘rin — uchta alohida holat",
+      "id": "uch-bosqich"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Holat",
+        "Nimani bildiradi",
+        "Qanday tekshiriladi"
+      ],
+      "rows": [
+        [
+          "Topish va skanerlash",
+          "Robot URL’ni biladi va mazmunni olib ko‘radi",
+          "Sitemap, havolalar, server javobi"
+        ],
+        [
+          "Indekslash",
+          "Qidiruv tizimi sahifani indeksga kiritgan",
+          "Search Console’dagi URL Inspection"
+        ],
+        [
+          "Reyting",
+          "Sahifa ma’lum so‘rov bo‘yicha qayerda ko‘rinadi",
+          "So‘rov, mamlakat va qurilma bo‘yicha hisobot"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Sahifa ochilishi uning Google’da borligini anglatmaydi. Indeksga kirgani ham har bir so‘rovda ko‘rinishini anglatmaydi. Shuning uchun “saytim qidiruvda yo‘q” degan vazifani aniq URL va aniq so‘rov bilan boshlang. Xizmat nomini qidirayotgan odam bilan brend nomini biladigan odamning niyati farq qiladi."
+    },
+    {
+      "type": "h2",
+      "text": "Bitta xizmat sahifasi: oldin va keyin",
+      "id": "sahifa-misol"
+    },
+    {
+      "type": "p",
+      "text": "Tahririy misol: konditsioner ustasining sahifasida faqat “Eng yaxshi sifat, arzon narx, bizga qo‘ng‘iroq qiling” yozilgan. Mijoz qaysi ishlar bajarilishi, qaysi tumanga borilishi yoki narx qanday aniqlanishini bilmaydi. Quyidagi o‘zgarishlar yangi fakt to‘qimaydi: haqiqiy ma’lumotlarni ko‘rsatadigan tuzilma beradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Element",
+        "Oldin",
+        "Yaxshilangan yondashuv"
+      ],
+      "rows": [
+        [
+          "Sarlavha",
+          "Bosh sahifa",
+          "Toshkentda konditsioner tozalash — xizmat va buyurtma"
+        ],
+        [
+          "Mazmun",
+          "Faqat reklama iboralari",
+          "Tozalash tarkibi, mos qurilmalar, narxga ta’sir qiluvchi shartlar"
+        ],
+        [
+          "Dalil",
+          "Eng yaxshi deb yozish",
+          "O‘z ishidan ruxsatli fotosurat, ish tartibi va cheklovlar"
+        ],
+        [
+          "Amal",
+          "Ko‘rinmaydigan kontakt",
+          "Buyurtma tugmasi va ariza qabul bo‘lganini tekshirish"
+        ],
+        [
+          "Havola",
+          "Har joydan bosh sahifaga",
+          "Parvarish maqolasidan aynan tozalash xizmatiga havola"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Title va H1’ni kalit so‘zlar ro‘yxatiga aylantirmang. Title natijani tanlashga, H1 esa sahifa mavzusini tushunishga yordam beradi. Tavsifni sahifadagi haqiqiy taklifga moslang. Bir xizmat uchun bir-birini takrorlaydigan o‘nlab shahar sahifalarini ochish o‘rniga, xizmatning mavjud hududi va shartlarini aniq yozing."
+    },
+    {
+      "type": "h2",
+      "text": "SEO va Google Ads qachon kerak?",
+      "id": "seo-ads"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "SEO",
+        "Google Ads"
+      ],
+      "rows": [
+        [
+          "Ko‘rinish uchun to‘lov",
+          "Har bir organik klik uchun Google’ga to‘lanmaydi; ishning xarajati bor",
+          "Reklama joylashuvi uchun kampaniya byudjeti sarflanadi"
+        ],
+        [
+          "Boshlang‘ich vazifa",
+          "Mavjud sahifa va qidiruv talabini tekshirish",
+          "Taklif, reklama sahifasi va konversiyani tekshirish"
+        ],
+        [
+          "Nazorat",
+          "Indeks, so‘rovlar, organik murojaatlar",
+          "Sarf, so‘rovlar, reklama orqali murojaatlar"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Mustaqil reklama uchun {link}. Organik va pullik natijalar hisobotini aralashtirmang.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/google-reklama-sozlash/",
+          "anchor": "Google reklama sozlash yo‘riqnomasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bugun bajariladigan besh tekshiruv",
+      "id": "cheklist"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bir dona asosiy xizmat URL’ini tanlang. Telefonda ochib, taklif va kontakt ko‘rinishini tekshiring.",
+        "URL Inspection’da robots, indekslash va tanlangan canonical holatini ko‘ring. API natijasi Google’ning saqlangan holati bo‘lishi mumkin.",
+        "Mijozning xariddan oldingi uch savoliga aniq javob qo‘shing. Yo‘q faktlarni o‘ylab topmang.",
+        "Tegishli maqoladan xizmatga, xizmatdan esa foydali qo‘llanmaga oddiy HTML havola bering.",
+        "Murojaat yo‘lini test qiling. Hisobotda ko‘rsatish, klik va tasdiqlangan murojaatni alohida saqlang."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Natijani yozib borish uchun {link}. Tekshiruv sanasi va javobgarni kiriting.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/downloads/marketing-20261109/seo-birinchi-tekshiruv.csv",
+          "anchor": "SEO tekshiruv jadvalini yuklab oling"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qachon mutaxassis yordami kerak?",
+      "id": "mutaxassis"
+    },
+    {
+      "type": "p",
+      "text": "Ko‘p URL’li sayt, bir necha til, doimiy noindex yoki canonical muammosi bo‘lsa, avval sabablar xaritasi kerak. Eski ishlayotgan URL’larni ko‘r-ko‘rona almashtirmang. Har o‘zgarish oldidan holatni saqlab, keyin sahifa va qidiruv ma’lumotlarini taqqoslang."
+    },
+    {
+      "type": "linkp",
+      "text": "Saytingiz bo‘yicha texnik va mazmun rejasini {link} sahifasida ko‘rishingiz mumkin.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/seo-xizmati/",
+          "anchor": "SEO xizmati tarkibi va narxi"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "SEO bepulmi?",
+      "a": "Organik klik uchun alohida reklama to‘lovi yo‘q. Lekin tadqiqot, mazmun, dasturlash va tekshirish vaqt yoki pul talab qiladi."
+    },
+    {
+      "q": "Natija qachon ko‘rinadi?",
+      "a": "Yagona muddat yo‘q: avval sahifaning ochilishi va indeks holati, keyin so‘rovlar va murojaatlar tekshiriladi. Yuqori o‘rin kafolatlanmaydi."
+    },
+    {
+      "q": "Sitemap yuborsam yetarlimi?",
+      "a": "Sitemap URL’ni topishga yordam beradi. Foydali mazmun, ichki havolalar va indekslashga ruxsat ham kerak; yuborish indeksga kirish isboti emas."
+    }
+  ],
+  "cta": {
+    "label": "Vazifani muhokama qilish",
+    "href": "/uz/seo-xizmati/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/seo-xizmati/",
+      "anchor": "Xizmat tarkibi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "canonical": "https://gptbot.uz/uz/blog/seo-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Boris Gerasimov",
+  "datePublished": "2026-11-09",
+  "dateModified": "2026-11-09",
+  "createdAt": "2026-11-09T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Google Search Central — SEO Starter Guide",
+      "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+    }
+  ],
+  "hreflangUz": "/uz/blog/seo-nima/"
+}

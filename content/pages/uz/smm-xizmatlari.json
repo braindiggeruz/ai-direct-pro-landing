@@ -815,6 +815,28 @@
       "type": "cta",
       "text": "Sahifalaringizni ko‘rib chiqamiz va nimadan boshlash kerakligini aytamiz — maslahat bepul.",
       "href": "#lead-form"
+    },
+    {
+      "type": "linkp",
+      "text": "Materialga vazifa qo‘yish: {link}.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/kontent-nima/",
+          "anchor": "kontent nima va amaliy misollar"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Matn tayyorlash uchun {link}.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/kopirayting-nima/",
+          "anchor": "kopirayting brifi va matn misollari"
+        }
+      ]
     }
   ],
   "faq": [
@@ -972,9 +994,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-07",
+  "lastReviewedAt": "2026-11-09",
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
   "heroTrust": [
     "Oyiga 2 490 000 so‘mdan",
     "UZ + RU",

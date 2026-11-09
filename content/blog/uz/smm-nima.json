@@ -401,6 +401,28 @@
       "type": "cta",
       "text": "Sahifangizni ko‘rib chiqib, nimadan boshlash kerakligini aytamiz — maslahat bepul.",
       "href": "#contact"
+    },
+    {
+      "type": "linkp",
+      "text": "Material tanlash uchun {link} bilan tanishing.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/kontent-nima/",
+          "anchor": "kontent turlari va 12 misol"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Matnni aniqlashtirish uchun {link}dan foydalaning.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/kopirayting-nima/",
+          "anchor": "kopirayting misollari"
+        }
+      ]
     }
   ],
   "faq": [
@@ -495,7 +517,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-08-21",
-  "dateModified": "2026-10-07",
+  "dateModified": "2026-11-09",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -504,6 +526,6 @@
     "FAQPage"
   ],
   "createdAt": "2026-08-21T00:00:00Z",
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
   "hreflangRu": "/ru/blog/chto-takoe-smm-prodvizhenie/"
 }

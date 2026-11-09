@@ -1,0 +1,1980 @@
+{
+  "date": "2026-11-09",
+  "domain": "gptbot.uz",
+  "projectId": "7534113b-f748-4f98-ac39-9e3782d3d9e7",
+  "market": {
+    "locationCode": 2860,
+    "metricsLanguageCode": "ru",
+    "note": "Uzbek text queried verbatim using supported keyword metrics language ru. This is not a separate Uzbek-language audience estimate."
+  },
+  "gsc": {
+    "startDate": "2026-10-10",
+    "endDate": "2026-11-06",
+    "dataState": "final",
+    "type": "web",
+    "countryFilter": "uzb",
+    "allCountryQueryPageRows": 1963,
+    "uzQueryPageRows": 1357
+  },
+  "methods": {
+    "keywordSeeds": 10,
+    "keywordSuggestionsRows": 913,
+    "uniqueSuggestions": 896,
+    "metricKeywords": 169,
+    "serpQueries": 28,
+    "serpQueryMarketLanguageSettings": 30,
+    "device": "mobile",
+    "depth": 10,
+    "readsPerSetting": 3,
+    "urlInspections": 12,
+    "productionChanges": false,
+    "recurringTrackingEnabled": false
+  },
+  "credits": {
+    "balanceBefore": 12703,
+    "balanceAfter": 11255,
+    "observedBalanceChange": 1448,
+    "note": "Observed account balance change during research; individual calls did not return creditsCharged. Concurrent account usage cannot be excluded."
+  },
+  "pages": [
+    {
+      "rank": 1,
+      "id": "E01",
+      "path": "/uz/instagram-target-yoqish/",
+      "title": "Instagram target yoqish — восстановление индексации",
+      "cluster": "Таргет UZ",
+      "wave": "0",
+      "keyword": "target yoqish",
+      "action": "Сначала диагностировать исключение из индекса. Сохранить URL, canonical и hreflang; проверить отличие полезного коммерческого предложения от соседних обзоров. После адресного улучшения повторить URL Inspection.",
+      "asset": "Конкретный проверяемый пример настройки и приемки кампании с реальным перечнем результата; четко разделить услугу и самостоятельный запуск.",
+      "risk": "Исторические 27 показов не доказывают текущую индексацию. Сейчас Crawled - currently not indexed. Причина не установлена.",
+      "confidence": "Высокая уверенность в проблеме; срок восстановления неизвестен",
+      "status": "existing",
+      "url": "https://gptbot.uz/uz/instagram-target-yoqish/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/uz/instagram-target-yoqish/"
+        ],
+        "clicks": 0,
+        "impressions": 27,
+        "ctr": 0,
+        "position": 6.8
+      },
+      "index": {
+        "verdict": "NEUTRAL",
+        "coverageState": "Crawled - currently not indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-11-06T15:27:12Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/uz/instagram-target-yoqish/",
+        "userCanonical": "https://gptbot.uz/uz/instagram-target-yoqish/",
+        "referringUrls": [
+          "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+          "https://gptbot.uz/uz/informatika-test/",
+          "https://gptbot.uz/uz/matematika-test/",
+          "https://gptbot.uz/sitemap-updates.xml"
+        ],
+        "crawledAs": "MOBILE"
+      },
+      "metrics": {
+        "keyword": "target yoqish",
+        "search_volume": 260,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": 1.55,
+        "competition": 0.32,
+        "competition_level": "LOW",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 170
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 210
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 210
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 210
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 210
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 260
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 260
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 260
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 320
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 260
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 210
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 260
+          }
+        ]
+      }
+    },
+    {
+      "rank": 2,
+      "id": "E02",
+      "path": "/uz/blog/target-reklama-nima/",
+      "title": "Что такое таргет и чем занимается таргетолог",
+      "cluster": "Таргет UZ",
+      "wave": "1",
+      "keyword": "target nima",
+      "action": "Улучшить короткий ответ и примеры, раскрыть targetolog nima внутри существующего раздела, направить на действующую услугу после восстановления ее индексации.",
+      "asset": "Сравнение цели, аудитории, объявления и принятой заявки на одном иллюстративном примере.",
+      "risk": "Не создавать targetolog-nima: у страницы уже есть владелец targetolog kim и соответствующий H2.",
+      "confidence": "Средняя: есть локальные показы, но нет достаточной выборки кликов",
+      "status": "existing",
+      "url": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/uz/blog/target-reklama-nima/"
+        ],
+        "clicks": 0,
+        "impressions": 118,
+        "ctr": 0,
+        "position": 7.9
+      },
+      "index": {
+        "verdict": "PASS",
+        "coverageState": "Submitted and indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-11-06T09:27:54Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+        "userCanonical": "https://gptbot.uz/uz/blog/target-reklama-nima/",
+        "crawledAs": "MOBILE"
+      },
+      "metrics": {
+        "keyword": "target nima",
+        "search_volume": 320,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": 2.8,
+        "competition": 0.02,
+        "competition_level": "LOW",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 260
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 390
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 320
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 320
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 260
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 320
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 320
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 390
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 480
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 320
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 320
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 320
+          }
+        ]
+      }
+    },
+    {
+      "rank": 3,
+      "id": "E03",
+      "path": "/ru/targetirovannaya-reklama-tashkent/",
+      "title": "Таргетированная реклама в Ташкенте",
+      "cluster": "Таргет RU",
+      "wave": "1",
+      "keyword": "таргетированная реклама ташкент",
+      "action": "Усилить первый экран под запрос услуги: результат работ, актуальный собственный оффер, подтверждаемые примеры, понятная заявка; сохранить текущие ключи и URL.",
+      "asset": "Образец передачи результата: настройка, креативы, отчет, критерии качества лида.",
+      "risk": "Только 32 показа в UZ; средняя позиция не гарантирует стабильный топ. Null частотности не равен отсутствию спроса.",
+      "confidence": "Средняя",
+      "status": "existing",
+      "url": "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/"
+        ],
+        "clicks": 0,
+        "impressions": 32,
+        "ctr": 0,
+        "position": 5.7
+      },
+      "index": {
+        "verdict": "PASS",
+        "coverageState": "Submitted and indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-11-03T09:34:34Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+        "userCanonical": "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+        "sitemap": [
+          "https://gptbot.uz/sitemap-updates.xml",
+          "https://gptbot.uz/sitemap.xml",
+          "https://gptbot.uz/updates/atom.xml"
+        ],
+        "referringUrls": [
+          "https://gptbot.uz/uz/instagram-target-yoqish/",
+          "https://gptbot.uz/ru/digital-marketing-tashkent/"
+        ],
+        "crawledAs": "MOBILE"
+      },
+      "metrics": {
+        "keyword": "таргетированная реклама ташкент",
+        "search_volume": null,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": null,
+        "competition_level": null,
+        "monthly_searches": null
+      }
+    },
+    {
+      "rank": 4,
+      "id": "E04",
+      "path": "/ru/blog/chto-takoe-smm-prodvizhenie/",
+      "title": "Что такое SMM-продвижение",
+      "cluster": "SMM RU",
+      "wave": "1",
+      "keyword": "smm продвижение",
+      "action": "Уточнить информационный ответ и сниппет; показать на примере отличие SMM от таргета; цены кратко со ссылкой на текущего ценового владельца.",
+      "asset": "Таблица задач SMM, измеримого результата и роли заказчика.",
+      "risk": "Не расширять статью в третий полноценный прайс: в кластере уже есть страницы стоимости.",
+      "confidence": "Средняя",
+      "status": "existing",
+      "url": "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/"
+        ],
+        "clicks": 0,
+        "impressions": 68,
+        "ctr": 0,
+        "position": 10.2
+      },
+      "index": {
+        "verdict": "PASS",
+        "coverageState": "Submitted and indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-10-22T10:16:56Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/",
+        "userCanonical": "https://gptbot.uz/ru/blog/chto-takoe-smm-prodvizhenie/",
+        "sitemap": [
+          "https://gptbot.uz/ru/blog/feed.xml",
+          "https://gptbot.uz/sitemap-updates.xml",
+          "https://gptbot.uz/sitemap.xml",
+          "https://gptbot.uz/updates/atom.xml"
+        ],
+        "referringUrls": [
+          "https://gptbot.uz/ru/blog/marketingovye-terminy-slovar/",
+          "https://gptbot.uz/ru/blog/?q={search_term_string}"
+        ],
+        "crawledAs": "MOBILE"
+      },
+      "metrics": {
+        "keyword": "smm продвижение",
+        "search_volume": 10,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": 2.43,
+        "competition": 0.43,
+        "competition_level": "MEDIUM",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 10
+          }
+        ]
+      }
+    },
+    {
+      "rank": 5,
+      "id": "E05",
+      "path": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "title": "Telegram Ads: стоимость и запуск в Узбекистане",
+      "cluster": "Telegram Ads RU",
+      "wave": "1",
+      "keyword": "telegram ads узбекистан",
+      "action": "Сохранить успешный материал; проверить актуальность способов запуска и затрат, улучшить переход от сравнения вариантов к заявке.",
+      "asset": "Четкое разделение бюджета платформы, комиссии и работ; заполненный пример брифа.",
+      "risk": "Страница уже видна высоко: задача — дополнительные релевантные запросы и заявки, а не обещание скачка позиций. Только два локальных клика.",
+      "confidence": "Средняя",
+      "status": "existing",
+      "url": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/"
+        ],
+        "clicks": 2,
+        "impressions": 30,
+        "ctr": 0.0667,
+        "position": 2.6
+      },
+      "index": {
+        "verdict": "PASS",
+        "coverageState": "Submitted and indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-11-06T20:16:18Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+        "userCanonical": "https://gptbot.uz/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+        "sitemap": [
+          "https://gptbot.uz/ru/blog/feed.xml",
+          "https://gptbot.uz/sitemap-updates.xml",
+          "https://gptbot.uz/sitemap.xml",
+          "https://gptbot.uz/updates/atom.xml"
+        ],
+        "referringUrls": [
+          "https://gptbot.uz/ru/blog/",
+          "https://gptbot.uz/ru/telegram-ads-uzbekistan/"
+        ],
+        "crawledAs": "MOBILE"
+      },
+      "metrics": {
+        "keyword": "telegram ads узбекистан",
+        "search_volume": 40,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": 2.6,
+        "competition": 0.62,
+        "competition_level": "MEDIUM",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 40
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 50
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 50
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 70
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 20
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 40
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 90
+          }
+        ]
+      }
+    },
+    {
+      "rank": 6,
+      "id": "E06",
+      "path": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "title": "Стоимость SMM и ведения Instagram",
+      "cluster": "SMM RU",
+      "wave": "1",
+      "keyword": "ведение инстаграм цена",
+      "action": "Уточнить именно стоимость ведения Instagram и состав работ. Проверить query→page относительно страницы пакетов и услуги, затем точечно доработать один ответственный URL.",
+      "asset": "Понятная таблица собственного состава пакетов, включенного/исключенного и отдельного рекламного бюджета.",
+      "risk": "Четыре URL получают отдельные ценовые запросы; это пересечение, но вредная каннибализация еще не доказана. Не выполнять автоматическое слияние.",
+      "confidence": "Средняя",
+      "status": "existing",
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/"
+        ],
+        "clicks": 0,
+        "impressions": 26,
+        "ctr": 0,
+        "position": 10.4
+      },
+      "index": {
+        "verdict": "PASS",
+        "coverageState": "Submitted and indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-11-06T09:11:27Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+        "userCanonical": "https://gptbot.uz/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+        "sitemap": [
+          "https://gptbot.uz/ru/blog/feed.xml",
+          "https://gptbot.uz/sitemap.xml",
+          "https://gptbot.uz/updates/atom.xml"
+        ],
+        "referringUrls": [
+          "https://gptbot.uz/uz/blog/smm-xizmati-narxi-ozbekiston-2026/"
+        ],
+        "crawledAs": "MOBILE"
+      },
+      "metrics": {
+        "keyword": "ведение инстаграм цена",
+        "search_volume": 10,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": null,
+        "competition_level": null,
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 0
+          }
+        ]
+      }
+    },
+    {
+      "rank": 7,
+      "id": "E07",
+      "path": "/ru/seo-prodvizhenie-saytov-tashkent/",
+      "title": "SEO-продвижение сайтов: коммерческий владелец",
+      "cluster": "SEO RU",
+      "wave": "1",
+      "keyword": "продвижение сайта цена",
+      "action": "Приоритет — уже близкие к результату запросы цены/заказа, а не полная смена темы под seo ташкент. Улучшить соответствующие блоки оффера и проверяемое доказательство работы.",
+      "asset": "Образец результата аудита, этапы работ и измерения без обещаний топа.",
+      "risk": "Средняя по странице 33; по запросу продвижение сайта цена — 4.8 при 20 показах. Нельзя называть весь кластер быстрым.",
+      "confidence": "Средняя для узкого ценового сегмента; низкая для общего геозапроса",
+      "status": "existing",
+      "url": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/"
+        ],
+        "clicks": 0,
+        "impressions": 370,
+        "ctr": 0,
+        "position": 33
+      },
+      "index": {
+        "verdict": "PASS",
+        "coverageState": "Submitted and indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-11-01T12:56:07Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+        "userCanonical": "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+        "sitemap": [
+          "https://gptbot.uz/sitemap-updates.xml",
+          "https://gptbot.uz/sitemap.xml",
+          "https://gptbot.uz/updates/atom.xml"
+        ],
+        "referringUrls": [
+          "https://gptbot.uz/ru/ai-bot-dlya-salona-krasoty/",
+          "https://gptbot.uz/uz/seo-xizmati/",
+          "https://gptbot.uz/ru/blog/prodvizhenie-sayta-v-google-uzbekistan/"
+        ],
+        "crawledAs": "MOBILE"
+      },
+      "metrics": {
+        "keyword": "продвижение сайта цена",
+        "search_volume": 10,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": null,
+        "competition_level": null,
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 0
+          }
+        ]
+      }
+    },
+    {
+      "rank": 8,
+      "id": "E08",
+      "path": "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+      "title": "Из чего складывается стоимость SEO в Узбекистане",
+      "cluster": "SEO RU",
+      "wave": "2",
+      "keyword": "seo продвижение сайта цена",
+      "action": "Сохранить обзор факторов стоимости; согласовать границы со старой статьей стоимости в Ташкенте и коммерческой услугой на основе текущего intent manifest.",
+      "asset": "Пример сметы с явными исходными условиями, без выдачи собственного оффера за медиану рынка.",
+      "risk": "Есть еще /ru/blog/stoimost-seo-prodvizheniya-v-tashkente/. Не менять canonical и не редиректить по одной выборке.",
+      "confidence": "Средняя/низкая: 21 локальный показ",
+      "status": "existing",
+      "url": "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/"
+        ],
+        "clicks": 1,
+        "impressions": 21,
+        "ctr": 0.0476,
+        "position": 15.7
+      },
+      "index": {
+        "verdict": "PASS",
+        "coverageState": "Submitted and indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-11-03T15:16:59Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+        "userCanonical": "https://gptbot.uz/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+        "sitemap": [
+          "https://gptbot.uz/ru/blog/feed.xml",
+          "https://gptbot.uz/sitemap.xml",
+          "https://gptbot.uz/updates/atom.xml"
+        ],
+        "referringUrls": [
+          "https://gptbot.uz/ru/seo-prodvizhenie-saytov-tashkent/",
+          "https://gptbot.uz/uz/blog/seo-xizmati-narxi-ozbekiston-2026/"
+        ],
+        "crawledAs": "MOBILE"
+      },
+      "metrics": {
+        "keyword": "seo продвижение сайта цена",
+        "search_volume": 10,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": null,
+        "competition_level": null,
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 0
+          }
+        ]
+      }
+    },
+    {
+      "rank": 9,
+      "id": "E09",
+      "path": "/ru/smm-prodvizhenie-tashkent/",
+      "title": "SMM-услуги: состав работ и заказ",
+      "cluster": "SMM RU",
+      "wave": "2",
+      "keyword": "услуги smm",
+      "action": "Усилить услуги smm и продвижение под ключ, где уже есть близкие позиции; добавить проверяемый пример рабочего процесса и переход на цену.",
+      "asset": "Пример согласования публикации и отчета по бизнес-действиям, а не только охватам.",
+      "risk": "Сервисные запросы близки, но smm ташкент имеет позицию 71.8. Для геозапроса быстрый топ не подтвержден.",
+      "confidence": "Средняя для сервисного хвоста",
+      "status": "existing",
+      "url": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/"
+        ],
+        "clicks": 0,
+        "impressions": 112,
+        "ctr": 0,
+        "position": 23.9
+      },
+      "index": {
+        "verdict": "PASS",
+        "coverageState": "Submitted and indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-11-05T17:41:22Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+        "userCanonical": "https://gptbot.uz/ru/smm-prodvizhenie-tashkent/",
+        "sitemap": [
+          "https://gptbot.uz/sitemap.xml",
+          "https://gptbot.uz/updates/atom.xml"
+        ],
+        "referringUrls": [
+          "https://gptbot.uz/ru/blog/kak-stat-prodavcom-na-uzum-market/",
+          "https://gptbot.uz/uz/smm-xizmatlari/",
+          "https://gptbot.uz/sitemap.xml"
+        ],
+        "crawledAs": "MOBILE"
+      },
+      "metrics": null
+    },
+    {
+      "rank": 10,
+      "id": "E10",
+      "path": "/ru/kontekstnaya-reklama-tashkent/",
+      "title": "Контекстная реклама в Ташкенте",
+      "cluster": "Контекст RU",
+      "wave": "2",
+      "keyword": "контекстная реклама ташкент",
+      "action": "Развить работающего владельца услуги и поддержать инструментами UTM/минус-слов. Использовать существующий CPL-калькулятор; не создавать второй общий лендинг контекста.",
+      "asset": "Проверяемый пример структуры поиска, минус-слов, конверсии и принятой заявки.",
+      "risk": "85 показов и средняя 32.9 в UZ — коммерчески ценно, но это среднесрочная работа, не быстрый топ.",
+      "confidence": "Средняя коммерческая релевантность; низкая уверенность в быстром росте",
+      "status": "existing",
+      "url": "https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/",
+      "gscUz": {
+        "keys": [
+          "https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/"
+        ],
+        "clicks": 0,
+        "impressions": 85,
+        "ctr": 0,
+        "position": 32.9
+      },
+      "index": {
+        "verdict": "PASS",
+        "coverageState": "Submitted and indexed",
+        "robotsTxtState": "ALLOWED",
+        "indexingState": "INDEXING_ALLOWED",
+        "lastCrawlTime": "2026-11-02T03:56:08Z",
+        "pageFetchState": "SUCCESSFUL",
+        "googleCanonical": "https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/",
+        "userCanonical": "https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/",
+        "referringUrls": [
+          "https://gptbot.uz/ru/digital-marketing-tashkent/"
+        ],
+        "crawledAs": "MOBILE"
+      },
+      "metrics": {
+        "keyword": "контекстная реклама ташкент",
+        "search_volume": 30,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": 10.88,
+        "competition": 0.58,
+        "competition_level": "MEDIUM",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 50
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 50
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 40
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 30
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 20
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 30
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 50
+          }
+        ]
+      }
+    },
+    {
+      "rank": 11,
+      "id": "N01",
+      "path": "/uz/blog/seo-nima/",
+      "title": "SEO nima: как сайт находят в Google",
+      "cluster": "SEO UZ",
+      "wave": "1",
+      "keyword": "seo nima",
+      "parent": "/uz/seo-xizmati/",
+      "inlinks": [
+        "/uz/seo-xizmati/",
+        "/uz/blog/marketing-nima/"
+      ],
+      "asset": "Оригинальный разбор одной страницы до/после; схема обнаружение→индексация→ранжирование; чеклист владельца бизнеса.",
+      "gap": "Отдельного информационного владельца нет. Сейчас есть коммерческая услуга; Oqila, Webgo и другие конкуренты имеют объясняющие страницы.",
+      "serp": "Oqila встречается в 3/3 чтениях с лучшей позицией 1; Wikipedia, Webgo, Insanagency также 3/3. Спрос подтвержден, выдача занята.",
+      "risk": "Информационная статья не должна присваивать seo xizmati и цену. Сильный конкурент, легкий топ не доказан.",
+      "confidence": "Средняя для полезного нового материала; низкая для срока топа",
+      "metricScope": "Точный запрос",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/uz/blog/seo-nima/",
+      "metrics": {
+        "keyword": "seo nima",
+        "search_volume": 50,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": 0,
+        "competition_level": "LOW",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 50
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 70
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 40
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 70
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 70
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 50
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 50
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 70
+          }
+        ]
+      }
+    },
+    {
+      "rank": 12,
+      "id": "N02",
+      "path": "/uz/blog/kontent-nima/",
+      "title": "Kontent nima: виды и примеры для бизнеса",
+      "cluster": "SMM UZ",
+      "wave": "1",
+      "keyword": "kontent nima",
+      "parent": "/uz/smm-xizmatlari/",
+      "inlinks": [
+        "/uz/blog/smm-nima/",
+        "/uz/smm-xizmatlari/",
+        "/uz/gpt-telegram-instagram-ideya/"
+      ],
+      "asset": "12 оригинальных примеров контента: цель, формат, текст, действие читателя; отличия от рекламного объявления и контент-плана.",
+      "gap": "Определение встречается только косвенно; отдельной полезной страницы нет. В проверенных выдачах много словарных/академических и разноязычных результатов.",
+      "serp": "Два языка интерфейса (uz/ru) дают разный состав. ResearchGate/Leksika/MJDC в одной выборке; UZA/Til и иноязычные статьи в другой. Это неполное соответствие, а не доказательство отсутствия конкуренции.",
+      "risk": "390 — годовая оценка; последние три месяца 90–140, среднее 113.3. Часть спроса не коммерческая.",
+      "confidence": "Средняя; для скорости низкая/средняя",
+      "metricScope": "Точный запрос",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/uz/blog/kontent-nima/",
+      "metrics": {
+        "keyword": "kontent nima",
+        "search_volume": 390,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": 0,
+        "competition_level": "LOW",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 140
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 110
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 90
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 140
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 590
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 590
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 320
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 320
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 480
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 260
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 320
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 1000
+          }
+        ]
+      }
+    },
+    {
+      "rank": 13,
+      "id": "N03",
+      "path": "/uz/blog/maqsadli-auditoriya/",
+      "title": "Maqsadli auditoriya: заполнить портрет клиента",
+      "cluster": "SMM/таргет UZ",
+      "wave": "1",
+      "keyword": "maqsadli auditoriya",
+      "parent": "/uz/instagram-target-yoqish/",
+      "inlinks": [
+        "/uz/blog/marketing-nima/",
+        "/uz/blog/target-reklama-nima/",
+        "/uz/instagram-target-yoqish/"
+      ],
+      "asset": "Скачиваемая таблица сегментов + два заполненных примера + вопросы интервью с клиентами.",
+      "gap": "Тема упоминается в услугах, но отдельного практического руководства нет. Royal Marketing и Markdev уже отвечают на этот запрос.",
+      "serp": "В выдаче Markdev и Alldata видны в 2/3 чтениях; Royal в 1/3. У Royal в найденном тексте — этапы и пример персоны; наш дополнительный актив — проверяемая рабочая таблица.",
+      "risk": "Спрос небольшой, последние месяцы по 10. Смешанный учебный/деловой интент.",
+      "confidence": "Средняя по соответствию; низкая по объему",
+      "metricScope": "Точный запрос",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/uz/blog/maqsadli-auditoriya/",
+      "metrics": {
+        "keyword": "maqsadli auditoriya",
+        "search_volume": 30,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": 0,
+        "competition_level": "LOW",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 50
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 40
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 30
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 50
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 40
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 20
+          }
+        ]
+      }
+    },
+    {
+      "rank": 14,
+      "id": "N04",
+      "path": "/ru/utm-generator/",
+      "title": "Генератор UTM-меток для Meta, Google и Telegram",
+      "cluster": "Контекст/аналитика RU",
+      "wave": "1",
+      "keyword": "генератор utm меток",
+      "parent": "/ru/kontekstnaya-reklama-tashkent/",
+      "inlinks": [
+        "/ru/kontekstnaya-reklama-tashkent/",
+        "/ru/targetirovannaya-reklama-tashkent/",
+        "/ru/performance-marketing-tashkent/"
+      ],
+      "asset": "Рабочий генератор без регистрации: валидация URL, кодирование, проверка существующих меток, копирование и примеры каналов.",
+      "gap": "В статье UTM упоминаются, но инструмента нет. У конкурирующих сайтов в выдаче есть отдельные инструменты.",
+      "serp": "cpa.live, ToolRadarLab и Linkly видны в 2/3 чтениях. Выдача требует реального URL-builder, обычная статья не подходит.",
+      "risk": "10 по точному инструменту; utm метки 70 — более широкий спрос, не прибавлять к 10. Нельзя обещать атрибуцию одного только клика по ссылке t.me.",
+      "confidence": "Средняя по интенту; небольшой трафик",
+      "metricScope": "Точный инструментальный запрос; дополнительно utm метки 70",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/ru/utm-generator/",
+      "metrics": {
+        "keyword": "генератор utm меток",
+        "search_volume": 10,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": 0.01,
+        "competition_level": "LOW",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 10
+          }
+        ]
+      }
+    },
+    {
+      "rank": 15,
+      "id": "N05",
+      "path": "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/",
+      "title": "Контент-план учебного центра на месяц: таблица",
+      "cluster": "SMM RU",
+      "wave": "2",
+      "keyword": "контент план для учебного центра",
+      "parent": "/ru/smm-prodvizhenie-tashkent/",
+      "inlinks": [
+        "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+        "/ru/smm-prodvizhenie-tashkent/",
+        "/ru/gpt-v-marketinge-smm/"
+      ],
+      "asset": "Редактируемый календарь на 30 дней и 8–12 полноценных публикаций: сегмент, цель, тема, формат, материал, CTA и KPI.",
+      "gap": "Реклама учебного центра уже описана, но специализированного календаря нет. Общий демонстрационный план UZ SMM и AI-промты остаются у своих владельцев.",
+      "serp": "По узкому запросу встречаются общие шаблоны Pressfeed, Workspace, Weeek (2/3), что дает гипотезу лучшего соответствия специализированного календаря.",
+      "risk": "Только 10, месяцы 10/0/10. Не выдавать за большие объемы; отдельные страницы для 20 отраслей пока не обоснованы.",
+      "confidence": "Низкая/средняя, пилот на одной нише",
+      "metricScope": "Точный нишевой запрос",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/",
+      "metrics": {
+        "keyword": "контент план для учебного центра",
+        "search_volume": 10,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": 0,
+        "competition_level": "LOW",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 10
+          }
+        ]
+      }
+    },
+    {
+      "rank": 16,
+      "id": "N06",
+      "path": "/uz/blog/google-reklama-sozlash/",
+      "title": "Google reklama: самостоятельный запуск поиска",
+      "cluster": "Контекст UZ",
+      "wave": "2",
+      "keyword": "google reklama",
+      "parent": "/uz/internet-reklama-toshkent/",
+      "inlinks": [
+        "/uz/internet-reklama-toshkent/",
+        "/uz/blog/kontekst-reklama-narxi-toshkent-2026/"
+      ],
+      "asset": "Актуальные проверенные шаги и скриншоты, маленькая структура поисковой кампании, минус-слова, событие заявки и чеклист запуска.",
+      "gap": "Полноценного отдельного DIY-руководства нет; коммерческий хаб уже владеет google ads toshkent.",
+      "serp": "Tilda/Netpeak и Google присутствуют в выдаче наряду с объяснением reklama-google.uz. Есть инструктивная часть, но брендовая/навигационная тоже.",
+      "risk": "30 — широкий запрос, не измеренная частота точного заголовка. Google Ads nima и узкие UZ варианты null. Не создавать еще одну услугу с теми же ключами.",
+      "confidence": "Низкая/средняя; сначала пилот",
+      "metricScope": "Широкий тематический запрос, не частота DIY-модификатора",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/uz/blog/google-reklama-sozlash/",
+      "metrics": {
+        "keyword": "google reklama",
+        "search_volume": 30,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": 3.55,
+        "competition": 0.66,
+        "competition_level": "MEDIUM",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 40
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 40
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 30
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 30
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 40
+          }
+        ]
+      }
+    },
+    {
+      "rank": 17,
+      "id": "N07",
+      "path": "/uz/blog/kopirayting-nima/",
+      "title": "Kopirayting nima: как написать понятный рекламный текст",
+      "cluster": "SMM UZ",
+      "wave": "2",
+      "keyword": "kopirayting nima",
+      "parent": "/uz/smm-xizmatlari/",
+      "inlinks": [
+        "/uz/blog/smm-nima/",
+        "/uz/gpt-telegram-instagram-ideya/"
+      ],
+      "asset": "Три оригинальных разбора плохо→лучше, короткий бриф и редакторский чеклист. Из статьи переход в существующий AI-инструмент.",
+      "gap": "Нет самостоятельного владельца копирайтинга. Oqila и Yoqubov покрывают эту тему.",
+      "serp": "Выдачи hl=uz и hl=ru заметно различаются; во второй Wikipedia, Yoqubov, Oqila, Ustoz видны в 2/3. Нельзя считать выдачу пустой.",
+      "risk": "20, последние месяцы 10–20; часть читателей ищет профессию/обучение. reklama matni yozish остается у AI-инструмента.",
+      "confidence": "Средняя по контентному пробелу; низкая по скорости/лидам",
+      "metricScope": "Точный запрос",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/uz/blog/kopirayting-nima/",
+      "metrics": {
+        "keyword": "kopirayting nima",
+        "search_volume": 20,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": 0,
+        "competition_level": "LOW",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 30
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 20
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 20
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 20
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 20
+          }
+        ]
+      }
+    },
+    {
+      "rank": 18,
+      "id": "N08",
+      "path": "/ru/blog/minus-slova-google-ads/",
+      "title": "Минус-слова Google Ads: рабочая таблица и проверка",
+      "cluster": "Контекст RU",
+      "wave": "3",
+      "keyword": "минус слова google ads",
+      "parent": "/ru/kontekstnaya-reklama-tashkent/",
+      "inlinks": [
+        "/ru/kontekstnaya-reklama-tashkent/",
+        "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/"
+      ],
+      "asset": "Редактируемый стартовый список по категориям с примерами соответствия и ошибочной блокировки целевых запросов; не универсальный стоп-лист.",
+      "gap": "В услуге минус-слова перечислены, но готового практического ресурса нет.",
+      "serp": "Официальная справка Google 3/3, агентские инструкции и Sitechecker 2/3. Отличие должно быть в локальных RU/UZ примерах и рабочем файле.",
+      "risk": "Точный запрос оценен в 10, но последние три месяца — 0; общий минус слова имеет 10 устойчиво. Низкий спрос и сильная справка.",
+      "confidence": "Низкая; коммерчески полезный пилот",
+      "metricScope": "Точный запрос; месячная история слабая",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/ru/blog/minus-slova-google-ads/",
+      "metrics": {
+        "keyword": "минус слова google ads",
+        "search_volume": 10,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": null,
+        "competition_level": null,
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 10
+          }
+        ]
+      }
+    },
+    {
+      "rank": 19,
+      "id": "N09",
+      "path": "/ru/blog/semanticheskoe-yadro-ru-uz/",
+      "title": "Семантическое ядро RU/UZ: таблица запросов и страниц",
+      "cluster": "SEO RU/UZ",
+      "wave": "3",
+      "keyword": "семантическое ядро",
+      "parent": "/ru/seo-prodvizhenie-saytov-tashkent/",
+      "inlinks": [
+        "/ru/seo-prodvizhenie-saytov-tashkent/",
+        "/ru/blog/seo-audit-sayta-chek-list/",
+        "/uz/seo-xizmati/"
+      ],
+      "asset": "Реальный пример кластеризации RU/UZ: вариант написания, интент, регион, язык, URL-владелец, проверенная метрика и решение объединить/разделить.",
+      "gap": "Семантика упоминается в услуге, но самостоятельной таблицы процесса нет. Отличие — работа с двумя языками Узбекистана.",
+      "serp": "Yandex, Wikipedia, Kokoc, Netpeak и Topvisor устойчиво занимают общую тему. Локальный RU/UZ модификатор требует проверки после пилота.",
+      "risk": "10 по общей теме, частотность точного RU/UZ заголовка не измерена. Это развитие экспертности, не доказанный быстрый топ.",
+      "confidence": "Низкая для быстрого трафика",
+      "metricScope": "Общая тема, не подтвержденный RU/UZ модификатор",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/ru/blog/semanticheskoe-yadro-ru-uz/",
+      "metrics": {
+        "keyword": "семантическое ядро",
+        "search_volume": 10,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": 0.02,
+        "competition_level": "LOW",
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 20
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 10
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 10
+          }
+        ]
+      }
+    },
+    {
+      "rank": 20,
+      "id": "N10",
+      "path": "/ru/roas-kalkulyator/",
+      "title": "Калькулятор ROAS: доход с рекламы и порог окупаемости",
+      "cluster": "Реклама/аналитика RU",
+      "wave": "3",
+      "keyword": "калькулятор roas",
+      "parent": "/ru/performance-marketing-tashkent/",
+      "inlinks": [
+        "/ru/blog/marketingovye-terminy-slovar/",
+        "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+        "/ru/performance-marketing-tashkent/"
+      ],
+      "asset": "Калькулятор выручка/расход в × и процентах; для безубыточности отдельная маржа и явная формула. Три примера с сумами.",
+      "gap": "ROAS/ROMI уже определяются в словаре; отдельного рабочего калькулятора нет. CPL-калькулятор решает другую задачу.",
+      "serp": "По точному калькулятору выдаются работающие инструменты Tripledart/Turalrahim/PPC.land и другие (2/3). У широкого roas низкое согласие между чтениями.",
+      "risk": "10 по калькулятору, последние три месяца 0. 480 по roas и 320 по romi нельзя объявлять трафиком калькулятора или суммировать.",
+      "confidence": "Низкая для быстрого трафика; полезен для конверсии",
+      "metricScope": "Точный калькулятор; отдельный широкий head ROAS=480",
+      "status": "proposed_not_published",
+      "url": "https://gptbot.uz/ru/roas-kalkulyator/",
+      "metrics": {
+        "keyword": "калькулятор roas",
+        "search_volume": 10,
+        "keyword_difficulty": null,
+        "main_intent": null,
+        "cpc": null,
+        "competition": null,
+        "competition_level": null,
+        "monthly_searches": [
+          {
+            "year": 2026,
+            "month": 9,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 8,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 7,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 6,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 5,
+            "search_volume": 10
+          },
+          {
+            "year": 2026,
+            "month": 4,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 3,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 2,
+            "search_volume": 0
+          },
+          {
+            "year": 2026,
+            "month": 1,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 12,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 11,
+            "search_volume": 0
+          },
+          {
+            "year": 2025,
+            "month": 10,
+            "search_volume": 0
+          }
+        ]
+      }
+    }
+  ]
+}

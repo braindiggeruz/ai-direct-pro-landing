@@ -400,6 +400,17 @@
         "Kontakt, yuborilgan ariza, malakali lid va sotuv alohida o‘lchanadi.",
         "CPL va sotuvga ta’sir faqat loyiha ma’lumotlari bilan tasdiqlanadi."
       ]
+    },
+    {
+      "type": "linkp",
+      "text": "Mustaqil tayyorgarlik uchun {link}.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/google-reklama-sozlash/",
+          "anchor": "Google Search sozlash cheklisti"
+        }
+      ]
     }
   ],
   "faq": [
@@ -552,9 +563,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-07",
+  "lastReviewedAt": "2026-11-09",
   "createdAt": "2026-08-28",
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
   "sources": [
     {
       "title": "Meta Business Help — Minimum budgets",

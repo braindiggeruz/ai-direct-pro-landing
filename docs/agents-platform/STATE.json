@@ -3384,5 +3384,22 @@
     "sitemapDownloadedAt": "2026-11-08T09:10:44Z",
     "indexNowAcceptedUrls": 20,
     "verifiedAt": "2026-11-08T09:11:12Z"
+  },
+  "marketing_gap_20261109": {
+    "status": "VALIDATED_PENDING_RELEASE",
+    "branch": "codex/marketing-gap-20261109",
+    "previousProductionCommit": "e49675252b1c4acdd1770f7b42fc5aa5a0c42630",
+    "scope": "10 new resources, 10 strengthened owners, contextual links and visible-content schema",
+    "newUrls": 10,
+    "improvedOwners": 10,
+    "additionalLinkedParents": 13,
+    "downloads": 9,
+    "sitemapBefore": 350,
+    "sitemapAfter": 360,
+    "preservedExistingMetadata": 350,
+    "indexTarget": "/uz/instagram-target-yoqish/",
+    "indexStatusBefore": "Crawled - currently not indexed; technical exclusion not demonstrated",
+    "evidence": "reports/marketing-gap-20261109/IMPLEMENTATION.md",
+    "next": "Complete guarded release, public verification and discovery; do not claim indexing recovery without Google confirmation"
   }
 }

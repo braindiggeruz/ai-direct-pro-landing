@@ -1,0 +1,425 @@
+{
+  "checkedAt": "2026-11-09T03:49:59.686Z",
+  "predecessor": "e49675252b1c4acdd1770f7b42fc5aa5a0c42630",
+  "sitemapCount": 360,
+  "preservedMetadata": 350,
+  "newCoverage": [
+    {
+      "url": "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/",
+      "incoming": [
+        "/",
+        "/ru/blog/",
+        "/ru/gpt-v-marketinge-smm/",
+        "/ru/smm-prodvizhenie-tashkent/",
+        "/ru/blog/chto-takoe-smm-prodvizhenie/",
+        "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+        "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/"
+      ]
+    },
+    {
+      "url": "/ru/blog/minus-slova-google-ads/",
+      "incoming": [
+        "/",
+        "/ru/blog/",
+        "/ru/kontekstnaya-reklama-tashkent/",
+        "/uz/blog/google-reklama-sozlash/"
+      ]
+    },
+    {
+      "url": "/ru/blog/semanticheskoe-yadro-ru-uz/",
+      "incoming": [
+        "/",
+        "/ru/blog/",
+        "/ru/seo-prodvizhenie-saytov-tashkent/",
+        "/ru/blog/seo-audit-sayta-chek-list/",
+        "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/"
+      ]
+    },
+    {
+      "url": "/ru/roas-kalkulyator/",
+      "incoming": [
+        "/",
+        "/ru/performance-marketing-tashkent/",
+        "/ru/utm-generator/",
+        "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+        "/ru/blog/marketingovye-terminy-slovar/"
+      ]
+    },
+    {
+      "url": "/ru/utm-generator/",
+      "incoming": [
+        "/",
+        "/ru/kontekstnaya-reklama-tashkent/",
+        "/ru/performance-marketing-tashkent/",
+        "/ru/roas-kalkulyator/",
+        "/ru/targetirovannaya-reklama-tashkent/",
+        "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/",
+        "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+        "/uz/blog/google-reklama-sozlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/google-reklama-sozlash/",
+      "incoming": [
+        "/",
+        "/uz/blog/",
+        "/uz/internet-reklama-toshkent/",
+        "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+        "/uz/blog/seo-nima/"
+      ]
+    },
+    {
+      "url": "/uz/blog/kontent-nima/",
+      "incoming": [
+        "/",
+        "/uz/blog/",
+        "/uz/gpt-telegram-instagram-ideya/",
+        "/uz/smm-xizmatlari/",
+        "/uz/blog/smm-nima/"
+      ]
+    },
+    {
+      "url": "/uz/blog/kopirayting-nima/",
+      "incoming": [
+        "/",
+        "/uz/blog/",
+        "/uz/gpt-telegram-instagram-ideya/",
+        "/uz/smm-xizmatlari/",
+        "/uz/blog/kontent-nima/",
+        "/uz/blog/smm-nima/"
+      ]
+    },
+    {
+      "url": "/uz/blog/maqsadli-auditoriya/",
+      "incoming": [
+        "/",
+        "/uz/blog/",
+        "/uz/instagram-target-yoqish/",
+        "/uz/blog/marketing-nima/",
+        "/uz/blog/target-reklama-nima/"
+      ]
+    },
+    {
+      "url": "/uz/blog/seo-nima/",
+      "incoming": [
+        "/",
+        "/uz/blog/",
+        "/uz/seo-xizmati/",
+        "/ru/blog/semanticheskoe-yadro-ru-uz/",
+        "/uz/blog/marketing-nima/"
+      ]
+    }
+  ],
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/",
+        "/ru/blog/minus-slova-google-ads/",
+        "/ru/blog/semanticheskoe-yadro-ru-uz/",
+        "/ru/roas-kalkulyator/",
+        "/ru/utm-generator/",
+        "/uz/blog/google-reklama-sozlash/",
+        "/uz/blog/kontent-nima/",
+        "/uz/blog/kopirayting-nima/",
+        "/uz/blog/maqsadli-auditoriya/",
+        "/uz/blog/seo-nima/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/",
+        "/ru/blog/minus-slova-google-ads/",
+        "/ru/blog/semanticheskoe-yadro-ru-uz/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/uz/blog/google-reklama-sozlash/",
+        "/uz/blog/kontent-nima/",
+        "/uz/blog/kopirayting-nima/",
+        "/uz/blog/maqsadli-auditoriya/",
+        "/uz/blog/seo-nima/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/gpt-v-marketinge-smm/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/kontekstnaya-reklama-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/minus-slova-google-ads/",
+        "/ru/utm-generator/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/performance-marketing-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/roas-kalkulyator/",
+        "/ru/utm-generator/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/seo-prodvizhenie-saytov-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/semanticheskoe-yadro-ru-uz/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/smm-prodvizhenie-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/targetirovannaya-reklama-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/utm-generator/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/gpt-telegram-instagram-ideya/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/uz/blog/kontent-nima/",
+        "/uz/blog/kopirayting-nima/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/instagram-target-yoqish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/downloads/marketing-20261109/target-qabul-cheklist.csv",
+        "/uz/blog/maqsadli-auditoriya/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/internet-reklama-toshkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/uz/blog/google-reklama-sozlash/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/seo-xizmati/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/uz/blog/seo-nima/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/smm-xizmatlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/uz/blog/kontent-nima/",
+        "/uz/blog/kopirayting-nima/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/chto-takoe-smm-prodvizhenie/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/roas-kalkulyator/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/marketingovye-terminy-slovar/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/roas-kalkulyator/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/seo-audit-sayta-chek-list/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/semanticheskoe-yadro-ru-uz/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/semanticheskoe-yadro-ru-uz/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/ru/utm-generator/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/blog/kontekst-reklama-narxi-toshkent-2026/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/uz/blog/google-reklama-sozlash/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/blog/marketing-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/uz/blog/maqsadli-auditoriya/",
+        "/uz/blog/seo-nima/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/blog/smm-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/uz/blog/kontent-nima/",
+        "/uz/blog/kopirayting-nima/"
+      ],
+      "removed": []
+    },
+    {
+      "url": "/uz/blog/target-reklama-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "added": [
+        "/uz/blog/maqsadli-auditoriya/"
+      ],
+      "removed": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 360
+}

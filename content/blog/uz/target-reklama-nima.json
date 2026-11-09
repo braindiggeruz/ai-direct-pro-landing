@@ -17,8 +17,53 @@
     "targetolog kim",
     "таргет нима"
   ],
-  "intro": "Target reklama — e’lonni allaqachon tayyor bo‘lgan odamga emas, balki siz belgilagan xususiyatlarga mos keladigan auditoriyaga ko‘rsatish usuli. Kontekst reklama esa qidiruvdagi so‘rovga javob beradi. Farq shu: kontekst mavjud talabni ushlaydi, target esa talabni shakllantiradi. Quyida ikkalasi qanday tanlanadi, byudjet qanday rejalashtiriladi va qaysi ko‘rsatkichlar haqiqatan muhim.",
+  "intro": "Target reklama — belgilangan auditoriya va platforma signallari asosida e’lon ko‘rsatish usuli. U yangi qiziqish uyg‘otishi ham, taklifni allaqachon bilgan odamga eslatishi ham mumkin. Kontekst reklama esa ko‘pincha qidiruvdagi so‘rovga javob beradi. Quyida kanal tanlash, byudjet, targetolog vazifasi va arizani o‘lchashni ajratamiz.",
   "body": [
+    {
+      "type": "h2",
+      "text": "Bitta vazifa uch bosqichda",
+      "id": "amaliy-namuna"
+    },
+    {
+      "type": "p",
+      "text": "O‘quv markazi misoli: e’lon kechki darsga qiziqqan odamga taklifni ko‘rsatadi; sahifa yoki yozishma jadval va shartni tushuntiradi; administrator daraja va qulay vaqtni aniqlaydi. Ko‘rish, murojaat va yozilish alohida natijalardir. Targetolog reklama yo‘lini sozlaydi, lekin kurs mosligini va sotuvni markaz xodimi tasdiqlaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Natija",
+        "Mas’ul"
+      ],
+      "rows": [
+        [
+          "Taklifni tayyorlash",
+          "Haqiqiy shart va material",
+          "Biznes + marketing"
+        ],
+        [
+          "Reklamani sozlash",
+          "Maqsad, auditoriya, kreativ, o‘lchash",
+          "Targetolog"
+        ],
+        [
+          "Arizani qabul qilish",
+          "Moslik va keyingi qadam",
+          "Administrator"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshlang‘ich segmentni {link} yordamida aniqlang.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/maqsadli-auditoriya/",
+          "anchor": "maqsadli auditoriya jadvali"
+        }
+      ]
+    },
     {
       "type": "h2",
       "id": "ta-rif",
@@ -99,8 +144,8 @@
       "type": "list",
       "items": [
         "Avval mavjud mijozni tavsiflang: yoshi, hududi, qanday muammo bilan keladi.",
-        "Bitta kampaniyada bitta auditoriya segmenti — aralash segmentlarni solishtirib bo‘lmaydi.",
-        "Keng auditoriyadan boshlab toraytirmang: tor segmentdan boshlab kengaytiring.",
+        "Bir testda bitta asosiy farazni tekshiring; kichik byudjetni ortiqcha ko‘p segmentga bo‘lmang.",
+        "Auditoriya torligi o‘z-o‘zidan yaxshi natija bermaydi. Byudjet va tekshiriladigan gipotezaga mos qamrovni tanlab, ariza sifatini kuzating.",
         "O‘xshash (look-alike) auditoriyani faqat haqiqiy mijozlar bazasi bo‘lganda ishlating.",
         "Charchagan auditoriyani kuzating: bir xil kreativ uzoq ko‘rsatilsa, narx oshadi."
       ]
@@ -425,7 +470,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-10-07",
+  "dateModified": "2026-11-09",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -444,6 +489,6 @@
       "note": "Ko‘rsatishlar bo‘yicha kampaniya uchun minimal kunlik byudjet. 2026-09-19 da tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-07T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

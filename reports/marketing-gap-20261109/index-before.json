@@ -1,0 +1,41 @@
+{
+  "ok": true,
+  "siteUrl": "sc-domain:gptbot.uz",
+  "results": [
+    {
+      "url": "https://gptbot.uz/uz/instagram-target-yoqish/",
+      "result": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:gptbot.uz&id=jYyh9Mt80pumV5EeR7Qiww&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Crawled - currently not indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-11-06T15:27:12Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://gptbot.uz/uz/instagram-target-yoqish/",
+          "userCanonical": "https://gptbot.uz/uz/instagram-target-yoqish/",
+          "sitemap": [
+            "https://gptbot.uz/sitemap-updates.xml",
+            "https://gptbot.uz/sitemap.xml",
+            "https://gptbot.uz/updates/atom.xml"
+          ],
+          "referringUrls": [
+            "https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/",
+            "https://gptbot.uz/uz/informatika-test/",
+            "https://gptbot.uz/uz/matematika-test/",
+            "https://gptbot.uz/sitemap-updates.xml"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        }
+      }
+    }
+  ],
+  "meta": {
+    "projectId": "7534113b-f748-4f98-ac39-9e3782d3d9e7",
+    "url": "https://app.openseo.so/p/7534113b-f748-4f98-ac39-9e3782d3d9e7/settings/integrations"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "kopirayting-nima",
+  "url": "/uz/blog/kopirayting-nima/",
+  "title": "Kopirayting nima: 3 ta misol va brif | GPTBot.uz",
+  "h1": "Kopirayting nima? Matnni yaxshilashning 3 misoli",
+  "description": "Kopirayting vazifasi, uchta oldin-keyin matn, brif shabloni va tahririy cheklist. Faktlarni to‘qimasdan aniq reklama matni yozish.",
+  "intro": "Kopirayting — o‘quvchiga taklifni tushunish va keyingi qadamni tanlashga yordam beradigan matn yozish. U post, reklama, sahifa yoki xat uchun kerak bo‘lishi mumkin. Yaxshi matn faqat kuchli ibora emas: kimga, nima taklif qilinishi, qaysi shartlarda va nima qilish kerakligini aniq aytadi.",
+  "keywords": [
+    "kopirayting nima"
+  ],
+  "topicCluster": "smm-uz",
+  "targetMoneyPage": "/uz/smm-xizmatlari/",
+  "body": [
+    {
+      "type": "h2",
+      "text": "Kopirayter nima qiladi?",
+      "id": "vazifa"
+    },
+    {
+      "type": "p",
+      "text": "Kopirayter boshlang‘ich ma’lumotni yig‘adi, auditoriya savolini ajratadi, tuzilma va matn variantlarini tayyorlaydi. Muharrirlikda fakt, ortiqcha va’da, ohang va o‘qish qulayligi tekshiriladi. Faqat so‘z sonini ko‘paytirish yoki raqobatchining matnini sinonim bilan almashtirish vazifani bajarmaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ish",
+        "Natija",
+        "Qabul savoli"
+      ],
+      "rows": [
+        [
+          "Brif",
+          "Taklif, auditoriya, cheklov",
+          "Ma’lumot egasi tasdiqladimi?"
+        ],
+        [
+          "Qoralama",
+          "Bitta asosiy fikr va CTA",
+          "O‘quvchi nimani tushunadi?"
+        ],
+        [
+          "Tahrir",
+          "Aniq, tekshirilgan matn",
+          "Isbotsiz va’da qoldimi?"
+        ],
+        [
+          "Nashr tekshiruvi",
+          "Mos sahifa yoki post",
+          "Havola va forma ishlaydimi?"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Uchta oldin-keyin misol",
+      "id": "misollar"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi matnlar o‘quv namunalari. Haqiqiy brend nomi, narx yoki mijoz natijasi kiritilmagan. Ularni o‘z faktlaringizga moslashtirmasdan tayyor reklama sifatida yubormang."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Zaif matn",
+        "Aniqroq matn",
+        "Nima o‘zgardi"
+      ],
+      "rows": [
+        [
+          "O‘quv markazi",
+          "Eng zo‘r ingliz tili, natija kafolat! (Dalilsiz va’da asosli emas.)",
+          "Darajangizga mos ingliz tili guruhini tanlang. Jadval va o‘qish shartlarini bilish uchun yozing.",
+          "Isbotsiz ustunlik o‘rniga tekshiriladigan keyingi qadam"
+        ],
+        [
+          "Kafe",
+          "Mazali taomlar, barchaga yoqadi!",
+          "Tushlik tanlayapsizmi? Menyudagi taom tarkibi va bugungi mavjud variantlarni ko‘ring.",
+          "Barchaga yoqish va’dasi o‘rniga tanlov uchun ma’lumot"
+        ],
+        [
+          "B2B xizmat",
+          "Biznesingizni 10 baravar oshiramiz!",
+          "Murojaatlar qayerda yo‘qolayotganini tekshiramiz: forma, administratorga uzatish va qayta aloqa. Ish hajmini boshlang‘ich tekshiruvdan keyin kelishamiz.",
+          "Daromad kafolati emas, aniq bajariladigan ish"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Matn yozishdan oldingi brif",
+      "id": "brif"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kim o‘qiydi va qanday vaziyatda?",
+        "O‘quvchi hozir nimani biladi, nimani bilmaydi?",
+        "Taklif tarkibi va xarajat shartlari qanday?",
+        "Qaysi da’voga tasdiqlangan dalil bor?",
+        "Nima kirmaydi va kim uchun mos emas?",
+        "O‘qigandan keyingi bitta asosiy amal nima?"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Javoblarni {link} ichiga yozing. Savol javobsiz qolsa, matnda taxminni fakt qilib yozmang.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/downloads/marketing-20261109/kopirayting-brif.csv",
+          "anchor": "kopirayting brifi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bir matnni Telegram va Instagram’ga moslashtirish",
+      "id": "format"
+    },
+    {
+      "type": "p",
+      "text": "Telegram’da matnning o‘zi ko‘proq yukni olishi mumkin: birinchi jumla vazifani, keyingi qismlar shartni tushuntiradi. Instagram’da rasm yoki video asosiy dalilni ko‘rsatsa, matn uni takrorlamasdan kontekst va keyingi qadamni beradi. Barcha kanalda narx va taklif bir xil tasdiqlangan manbadan olinishi kerak."
+    },
+    {
+      "type": "p",
+      "text": "O‘zbekcha matnni so‘zma-so‘z ruscha tuzilmada qoldirmang. Xizmat atamasi, apostroflar va murojaat ohangini tekshiring. O‘qib berib ko‘rish uzun va chalkash jumlalarni topishga yordam beradi. Brendning tanish atamalarini esa sun’iy almashtirish shart emas."
+    },
+    {
+      "type": "h2",
+      "text": "AI bilan qoralama, odam bilan tekshirish",
+      "id": "ai"
+    },
+    {
+      "type": "p",
+      "text": "AI’ga faktlar va taqiqlangan va’dalarni bering: “Mana tasdiqlangan ma’lumotlar. Uchta qisqa variant yoz. Yetishmayotgan narx, muddat va natijani o‘ylab topma; savol sifatida belgilab qo‘y.” Shaxsiy mijoz ma’lumotlarini promptga kiritmang."
+    },
+    {
+      "type": "linkp",
+      "text": "Qoralama tayyorlash uchun {link}. Natijani nashrdan oldin brif va dalillar bilan solishtiring.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/gpt-telegram-instagram-ideya/",
+          "anchor": "reklama matni va post g‘oyalari vositasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Tayyor matnni tekshirish",
+      "id": "tahrir"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Birinchi ikki jumlada vazifa va taklif tushunarlimi?",
+        "Dalilsiz “eng yaxshi” yoki “kafolat” yozmang: bunday va’da asosli emas.",
+        "Narx yonida nima kirishi va alohida xarajatlar ko‘rsatilganmi?",
+        "Bitta asosiy CTA bormi va ishlaydimi?",
+        "Matn rasm, sahifa va administrator aytadigan shartlarga mosmi?"
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Kopirayting va kontent farqi nima?",
+      "a": "Kontent keng tushuncha: rasm, video, matn va vositalarni qamraydi. Kopirayting matn yaratish vazifasidir."
+    },
+    {
+      "q": "Qisqa matn doim yaxshimi?",
+      "a": "Yo‘q. Qaror uchun kerakli ma’lumot yetarli bo‘lishi kerak. Takror va bezakni qisqartiring, muhim shartni emas."
+    },
+    {
+      "q": "AI kopirayter o‘rnini to‘liq bosadimi?",
+      "a": "AI qoralama va variantlarga yordam beradi. Fakt, huquq, taklif shartlari va yakuniy nashr uchun inson tekshiruvi zarur."
+    }
+  ],
+  "cta": {
+    "label": "Vazifani muhokama qilish",
+    "href": "/uz/smm-xizmatlari/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "Xizmat tarkibi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "canonical": "https://gptbot.uz/uz/blog/kopirayting-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Boris Gerasimov",
+  "datePublished": "2026-11-09",
+  "dateModified": "2026-11-09",
+  "createdAt": "2026-11-09T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [],
+  "hreflangUz": "/uz/blog/kopirayting-nima/"
+}

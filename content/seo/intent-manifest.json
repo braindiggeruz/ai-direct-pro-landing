@@ -7,12 +7,31 @@
       "id": "telegram-leads-ru",
       "hub": "/ru/razrabotka-telegram-bota-tashkent/",
       "hubIntent": "commercial — commission custom Telegram bot development; enquiries and booking requests with human confirmation",
-      "hubKeywords": ["разработка телеграм ботов ташкент", "разработка Telegram-бота в Ташкенте"],
+      "hubKeywords": [
+        "разработка телеграм ботов ташкент",
+        "разработка Telegram-бота в Ташкенте"
+      ],
       "spokes": [
-        {"url": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/", "ownsIntent": "compare developers using disclosed criteria; GPTBot.uz is an interested provider, not an independent ranking", "primaryKeyword": "разработчики чат-ботов Ташкент"},
-        {"url": "/ru/stoimost-chat-bota/", "ownsIntent": "published starting prices, scope and separate running costs", "primaryKeyword": "стоимость чат-бота"},
-        {"url": "/ru/kalkulyator-stoimosti-telegram-bota/", "ownsIntent": "estimate a specific project configuration; not another static price landing", "primaryKeyword": "калькулятор стоимости Telegram-бота"},
-        {"url": "/ru/ai-bot-s-crm-amocrm-bitrix24/", "ownsIntent": "scope a bot-to-CRM integration and its acceptance; not a claim of a ready connector", "primaryKeyword": "AI-бот с CRM"}
+        {
+          "url": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+          "ownsIntent": "compare developers using disclosed criteria; GPTBot.uz is an interested provider, not an independent ranking",
+          "primaryKeyword": "разработчики чат-ботов Ташкент"
+        },
+        {
+          "url": "/ru/stoimost-chat-bota/",
+          "ownsIntent": "published starting prices, scope and separate running costs",
+          "primaryKeyword": "стоимость чат-бота"
+        },
+        {
+          "url": "/ru/kalkulyator-stoimosti-telegram-bota/",
+          "ownsIntent": "estimate a specific project configuration; not another static price landing",
+          "primaryKeyword": "калькулятор стоимости Telegram-бота"
+        },
+        {
+          "url": "/ru/ai-bot-s-crm-amocrm-bitrix24/",
+          "ownsIntent": "scope a bot-to-CRM integration and its acceptance; not a claim of a ready connector",
+          "primaryKeyword": "AI-бот с CRM"
+        }
       ],
       "evidence": "reports/commercial-seo-20261009/cluster-plan.md and RAW/overlap.json",
       "note": "2026-10-09 Uzbekistan mobile SERP: comparison organic #3 on one custom-development phrase, not a stable cluster rank. Keep comparison and ordering intents distinct; no redirect or forced reassignment based on one snapshot. Existing /ru/telegram-bot-dlya-biznesa/ remains the product/capability page (pair C8); Mini App keeps its own cluster. Links and an illustrative demo support the buyer journey without new generic pages."
@@ -21,11 +40,26 @@
       "id": "telegram-leads-uz",
       "hub": "/uz/telegram-bot-biznes-uchun/",
       "hubIntent": "commercial — order a Telegram bot for a business, not a programming tutorial",
-      "hubKeywords": ["telegram bot yaratish xizmati", "telegram bot buyurtma qilish"],
+      "hubKeywords": [
+        "telegram bot yaratish xizmati",
+        "telegram bot buyurtma qilish"
+      ],
       "spokes": [
-        {"url": "/uz/chat-bot-narxi/", "ownsIntent": "Telegram/chat bot price, package boundaries and running costs; keep the existing price owner", "primaryKeyword": "telegram bot yaratish narxi"},
-        {"url": "/uz/arizalarni-qabul-qiluvchi-bot/", "ownsIntent": "a specific enquiry intake and manager handoff scenario; a booking request is not a reserved slot", "primaryKeyword": "arizalarni qabul qiluvchi bot"},
-        {"url": "/uz/amocrm-bitrix24-bilan-ai-bot/", "ownsIntent": "bot-to-CRM integration requirements and acceptance", "primaryKeyword": "CRM bilan AI bot"}
+        {
+          "url": "/uz/chat-bot-narxi/",
+          "ownsIntent": "Telegram/chat bot price, package boundaries and running costs; keep the existing price owner",
+          "primaryKeyword": "telegram bot yaratish narxi"
+        },
+        {
+          "url": "/uz/arizalarni-qabul-qiluvchi-bot/",
+          "ownsIntent": "a specific enquiry intake and manager handoff scenario; a booking request is not a reserved slot",
+          "primaryKeyword": "arizalarni qabul qiluvchi bot"
+        },
+        {
+          "url": "/uz/amocrm-bitrix24-bilan-ai-bot/",
+          "ownsIntent": "bot-to-CRM integration requirements and acceptance",
+          "primaryKeyword": "CRM bilan AI bot"
+        }
       ],
       "evidence": "reports/commercial-seo-20261009/cluster-plan.md and RAW/overlap.json",
       "note": "Price and service queries share only 2 unique top-ten organic URLs in the observed SERP, so retain distinct existing pages. /uz/biznes-uchun-ai-bot/ owns broader AI-bot selection (C19); /uz/chat-bot-biznes-uchun/ describes business chatbot capabilities across channels; /uz/arizalarni-avtomatlashtirish/ owns the handling process. Similar topics do not prove cannibalization. No new price URL, mass redirect, hreflang reassignment or keyword-volume summation."
@@ -216,6 +250,11 @@
           "url": "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
           "ownsIntent": "what managing Instagram and SMM costs per month in Uzbekistan, read from the published packages",
           "primaryKeyword": "ведение инстаграм цена узбекистан"
+        },
+        {
+          "url": "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/",
+          "ownsIntent": "Редактируемый календарь на 30 дней и 8–12 полноценных публикаций: сегмент, цель, тема, формат, материал, CTA и KPI.",
+          "primaryKeyword": "контент план для учебного центра"
         }
       ],
       "evidence": "docs/seo/smm-cluster-20260804/ — SEMrush seed list reviewed 2026-08-04, live SERP review of the same day, Search Console over 2026-02-01..2026-08-01, and primary-source verification against the Uzbek Civil Code chapter 38 and the Advertising Law ZRU-776.",
@@ -292,6 +331,16 @@
           "url": "/uz/blog/smm-xizmati-narxi-ozbekiston-2026/",
           "ownsIntent": "what SMM costs and what each published package contains",
           "primaryKeyword": "smm xizmati narxi"
+        },
+        {
+          "url": "/uz/blog/kontent-nima/",
+          "ownsIntent": "12 оригинальных примеров контента: цель, формат, текст, действие читателя; отличия от рекламного объявления и контент-плана.",
+          "primaryKeyword": "kontent nima"
+        },
+        {
+          "url": "/uz/blog/kopirayting-nima/",
+          "ownsIntent": "Три оригинальных разбора плохо→лучше, короткий бриф и редакторский чеклист. Из статьи переход в существующий AI-инструмент.",
+          "primaryKeyword": "kopirayting nima"
         }
       ],
       "evidence": "Google Ads data for location 2860 pulled 2026-08-21: smm xizmatlari 110/mo at CPC 3.66 with competition 0.06, smm nima 720/mo with competition 0.03, smm mutaxassisi 30/mo. Keyword difficulty and search intent are unavailable for this market because Uzbekistan is served from Google Ads data. Live SERP for smm xizmatlari the same day: only five of the top twenty are agency service pages — OLX holds ranks 1 and 5, and directories, Wikipedia, YouTube and a follower-selling service take most of the rest.",
@@ -313,6 +362,11 @@
           "url": "/uz/blog/target-reklama-nima/",
           "ownsIntent": "understand what targeted social ads are before commissioning them",
           "primaryKeyword": "target nima"
+        },
+        {
+          "url": "/uz/blog/maqsadli-auditoriya/",
+          "ownsIntent": "Скачиваемая таблица сегментов + два заполненных примера + вопросы интервью с клиентами.",
+          "primaryKeyword": "maqsadli auditoriya"
         }
       ],
       "evidence": "gptbot.uz-audit/raw/smm-cluster-2026-10-06/: Google Ads location 2860 pulled 2026-10-06 (target yoqish 260/mo at competition 0.34, targetolog 170, instagram target 50 at CPC 2.79, targetolog kerak 40, target yoqish narxi 20; about 330 a month for the phrasing the page targets — target yoqish 260, instagram target 50, target yoqish narxi 20 — while the other 210, targetolog 170 (vacancies and courses) and targetolog kerak 40 (hiring), is recorded but not targeted); Search Console 2026-07-08..2026-10-05 shows /uz/blog/target-reklama-nima/ at 165 impressions, average position 6.8 and 0 clicks, a distinct Uzbek targeting intent with no commercial page behind it; the live SERP for target xizmati has no agency page in the top ten (OLX, birbir, Instagram) and target yoqish has an OLX service listing at 2.",
@@ -335,6 +389,11 @@
           "url": "/uz/blog/marketing-nima/",
           "ownsIntent": "understand marketing as a whole and which channel a small business should start with",
           "primaryKeyword": "marketing nima"
+        },
+        {
+          "url": "/uz/blog/seo-nima/",
+          "ownsIntent": "Оригинальный разбор одной страницы до/после; схема обнаружение→индексация→ранжирование; чеклист владельца бизнеса.",
+          "primaryKeyword": "seo nima"
         }
       ],
       "evidence": "Google Ads data for location 2860 pulled 2026-08-22: seo xizmati 40/mo at CPC 1.41 with competition 0.10; the plural seo xizmatlari returned no volume; marketing nima 880/mo with competition 0.01. Keyword difficulty and search intent stay unavailable for this market, so intent was read off the live SERP pulled the same day. The seo xizmati SERP is the cleanest commercial result set measured in this market: twenty organic results and not one SERP feature — no local pack, no AI Overview, no knowledge panel, no video — with every ranked result a service page from a small local studio (repid.uz, oqila.uz, innosoft.uz, web-sayt.uz, seo-first.uz, softmedia.uz, optimize.uz, vox.uz) and no authority domain among them. The marketing nima SERP is Wikipedia plus explainer pages from both direct competitors, royalmarketing.uz and oqila.uz, which is the same shape that justified smm nima.",
@@ -3498,6 +3557,96 @@
       ],
       "evidence": "reports/pseo20-20261108/CANDIDATES.md and CONTENT_REVIEW.md; explicit owner instruction to implement best 20 candidates",
       "note": "C32 remains the CV/chat ownership rule. Its older official-form prerequisite for an obyektivka page is superseded for this exact, explicitly nonofficial educational sample: a filled illustrative example and editable blank DOCX/PDF with privacy guidance, never a universal official employment form. The CV guide keeps its section, FAQ and keywords. All ten document pages supply original downloads. Ten practice pages supply 120 original questions, worked examples and source-grounded explanations. Biology/chemistry concepts differ from calculation exercises; grade 1–3 differ from the existing grade 5–9 mathematics pilot. No new RU equivalents or x-default to unrelated pages; shared bot/payment/chat logic stays unchanged. Review new/parent query overlap after 4–6 weeks; do not scale automatically."
+    },
+    {
+      "id": "A13-marketing-gap-20261109",
+      "decision": "Publish ten distinct practical resources and improve ten existing marketing owners",
+      "decidedAt": "2026-11-09",
+      "pages": [
+        "/uz/instagram-target-yoqish/",
+        "/uz/blog/target-reklama-nima/",
+        "/ru/targetirovannaya-reklama-tashkent/",
+        "/ru/blog/chto-takoe-smm-prodvizhenie/",
+        "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+        "/ru/blog/skolko-stoit-smm-i-vedenie-instagram-uzbekistan/",
+        "/ru/seo-prodvizhenie-saytov-tashkent/",
+        "/ru/blog/skolko-stoit-seo-prodvizhenie-uzbekistan-2026/",
+        "/ru/smm-prodvizhenie-tashkent/",
+        "/ru/kontekstnaya-reklama-tashkent/",
+        "/uz/blog/seo-nima/",
+        "/uz/blog/kontent-nima/",
+        "/uz/blog/maqsadli-auditoriya/",
+        "/ru/utm-generator/",
+        "/ru/blog/kontent-plan-dlya-uchebnogo-tsentra/",
+        "/uz/blog/google-reklama-sozlash/",
+        "/uz/blog/kopirayting-nima/",
+        "/ru/blog/minus-slova-google-ads/",
+        "/ru/blog/semanticheskoe-yadro-ru-uz/",
+        "/ru/roas-kalkulyator/"
+      ],
+      "evidence": "reports/marketing-gap-20261109/PLAN.json; explicit implementation request",
+      "note": "Ten new pages and ten existing owners improved. No URL migration, new equivalence hreflang, price owner reassignment or automatic merge. UZ target has no proven technical exclusion; improve deliverable clarity, re-inspect after recrawl. New tools are local, isolated from chat bundle. Small demand and unknown KD remain explicit in plan."
+    }
+  ],
+  "resourceClusters": [
+    {
+      "id": "marketing-tools-20261109",
+      "hub": "/ru/performance-marketing-tashkent/",
+      "hubIntent": "existing performance marketing service; retain commercial owner",
+      "hubKeywords": [],
+      "spokes": [
+        {
+          "url": "/ru/utm-generator/",
+          "ownsIntent": "generate a URL locally; not tracking installation",
+          "primaryKeyword": "генератор utm меток"
+        },
+        {
+          "url": "/ru/roas-kalkulyator/",
+          "ownsIntent": "calculate ROAS and margin threshold locally; not general marketing glossary",
+          "primaryKeyword": "калькулятор roas"
+        }
+      ],
+      "evidence": "reports/marketing-gap-20261109/PLAN.json",
+      "note": "Owner-authorized bounded pilot; search estimates are not a traffic forecast."
+    },
+    {
+      "id": "marketing-resource-n06",
+      "hub": "/uz/internet-reklama-toshkent/",
+      "hubIntent": "Preserve existing service ownership",
+      "spokes": [
+        {
+          "url": "/uz/blog/google-reklama-sozlash/",
+          "ownsIntent": "Актуальные проверенные шаги и скриншоты, маленькая структура поисковой кампании, минус-слова, событие заявки и чеклист запуска.",
+          "primaryKeyword": "google reklama"
+        }
+      ],
+      "evidence": "reports/marketing-gap-20261109/PLAN.json"
+    },
+    {
+      "id": "marketing-resource-n08",
+      "hub": "/ru/kontekstnaya-reklama-tashkent/",
+      "hubIntent": "Preserve existing service ownership",
+      "spokes": [
+        {
+          "url": "/ru/blog/minus-slova-google-ads/",
+          "ownsIntent": "Редактируемый стартовый список по категориям с примерами соответствия и ошибочной блокировки целевых запросов; не универсальный стоп-лист.",
+          "primaryKeyword": "минус слова google ads"
+        }
+      ],
+      "evidence": "reports/marketing-gap-20261109/PLAN.json"
+    },
+    {
+      "id": "marketing-resource-n09",
+      "hub": "/ru/seo-prodvizhenie-saytov-tashkent/",
+      "hubIntent": "Preserve existing service ownership",
+      "spokes": [
+        {
+          "url": "/ru/blog/semanticheskoe-yadro-ru-uz/",
+          "ownsIntent": "Реальный пример кластеризации RU/UZ: вариант написания, интент, регион, язык, URL-владелец, проверенная метрика и решение объединить/разделить.",
+          "primaryKeyword": "семантическое ядро"
+        }
+      ],
+      "evidence": "reports/marketing-gap-20261109/PLAN.json"
     }
   ]
 }

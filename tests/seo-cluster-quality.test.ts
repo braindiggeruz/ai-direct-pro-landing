@@ -11,6 +11,7 @@ import test from 'node:test';
 
 import { buildKnownUrls, collectOutgoingLinks, resolveRedirect, STATIC_ROUTES } from '../src/shared/audit';
 import type { BlogArticle, Page, Redirect } from '../src/shared/types';
+import { CONTENT_DOWNLOAD_URLS } from '../src/shared/content-downloads';
 import { publishedStudioUrls } from '../apps/studio/shared/published-urls';
 
 const ROOT = process.cwd();
@@ -125,6 +126,8 @@ test('cluster links stay inside their own locale', () => {
     for (const spoke of cluster.spokes) {
       for (const target of targetsOf(spoke.url)) {
         if (target === '/' || target === '/ru/blog/' || target === '/uz/blog/') continue;
+        // Registered worksheets are files, not alternative-language pages.
+        if (CONTENT_DOWNLOAD_URLS.some(url => url === target)) continue;
         assert.ok(
           target.startsWith(locale),
           `${cluster.id}: ${spoke.url} links across locales to ${target}`,

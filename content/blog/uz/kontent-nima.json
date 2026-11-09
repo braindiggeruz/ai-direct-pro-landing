@@ -1,0 +1,295 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "kontent-nima",
+  "url": "/uz/blog/kontent-nima/",
+  "title": "Kontent nima? 12 ta biznes misoli | GPTBot.uz",
+  "h1": "Kontent nima? Biznes uchun 12 ta amaliy misol",
+  "description": "Kontentning maqsadi, matn, video va rasm formatlari. 12 ta original biznes misoli, tahririy tekshiruv va yuklab olinadigan jadval.",
+  "intro": "Kontent — auditoriya ko‘radigan, o‘qiydigan yoki tinglaydigan mazmun: matn, rasm, video, audio va foydali interaktiv vosita. Biznesda uning vazifasi shunchaki profilni to‘ldirish emas: savolga javob berish, tanlovni yengillashtirish yoki keyingi qadamni tushuntirish.",
+  "keywords": [
+    "kontent nima"
+  ],
+  "topicCluster": "smm-uz",
+  "targetMoneyPage": "/uz/smm-xizmatlari/",
+  "body": [
+    {
+      "type": "h2",
+      "text": "Formatni emas, savolni birinchi tanlang",
+      "id": "maqsad"
+    },
+    {
+      "type": "p",
+      "text": "“Bugun nima joylaymiz?” o‘rniga “Mijoz nimani bilmayapti?” deb so‘rang. O‘quv markazi uchun darajani aniqlash, kafeda tarkib, ustada esa ish chegarasi muhim bo‘lishi mumkin. Bir savolga javob beradigan video ortiqcha shiorlardan foydaliroq. Format mazmunni ko‘rsatishga xizmat qiladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Format",
+        "Qachon mos",
+        "Tekshirish"
+      ],
+      "rows": [
+        [
+          "Matn",
+          "Shart, tushuntirish, qisqa ko‘rsatma",
+          "O‘qigan odam nima qilishi aniqmi?"
+        ],
+        [
+          "Rasm yoki karrusel",
+          "Farqlar, bosqichlar, ro‘yxat",
+          "Matn telefonda o‘qiladimi?"
+        ],
+        [
+          "Video",
+          "Harakat yoki jarayon",
+          "Ovozsiz ham asosiy fikr tushunarlimi?"
+        ],
+        [
+          "Jadval yoki vosita",
+          "Hisob, tanlov, rejalash",
+          "Natijadan darhol foydalanish mumkinmi?"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "12 ta g‘oya: vazifadan keyingi qadamgacha",
+      "id": "misollar"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi misollar tahririyat tomonidan tuzilgan. Ular mijoz natijasi emas. Nashrdan oldin o‘z narxingiz, shartlaringiz, ish vaqtingiz va rasmga bo‘lgan huquqni tekshiring."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Biznes",
+        "Maqsad",
+        "Format",
+        "Mazmun g‘oyasi",
+        "Keyingi qadam"
+      ],
+      "rows": [
+        [
+          "O‘quv markazi",
+          "Savolga javob",
+          "Karrusel",
+          "Daraja testi nima uchun kerak? 3 ta vazifa bilan tushuntiring.",
+          "Test tartibini so‘rash"
+        ],
+        [
+          "O‘quv markazi",
+          "Ishonch",
+          "Qisqa video",
+          "Bir mashqni o‘qituvchi qanday tahlil qilishini ko‘rsating.",
+          "Sinov darsi shartlarini o‘qish"
+        ],
+        [
+          "Kafe",
+          "Tanlov",
+          "Foto va matn",
+          "Bir porsiya tarkibi va allergen ma’lumotini aniqlashtiring.",
+          "Menyuni ochish"
+        ],
+        [
+          "Kafe",
+          "Qulaylik",
+          "Stories",
+          "Bugungi ish vaqti va olib ketish yo‘lini ko‘rsating.",
+          "Buyurtma yo‘lini tanlash"
+        ],
+        [
+          "Usta",
+          "Jarayon",
+          "Foto ketma-ketligi",
+          "Tozalashdan oldin nimalar yopib qo‘yilishini tushuntiring.",
+          "Mos xizmatni so‘rash"
+        ],
+        [
+          "Usta",
+          "Cheklov",
+          "Savol-javob",
+          "Masofadan narx aytish uchun kerakli suratlarni sanang.",
+          "Qurilma ma’lumotini yuborish"
+        ],
+        [
+          "Do‘kon",
+          "Taqqoslash",
+          "Jadval",
+          "Ikki o‘lchamning farqini haqiqiy o‘lchovlar bilan bering.",
+          "O‘lchamni tanlash"
+        ],
+        [
+          "Do‘kon",
+          "Xavotirni kamaytirish",
+          "Qo‘llanma",
+          "Amaldagi almashtirish shartlari qayerda ekanini ko‘rsating.",
+          "Shartlarni tekshirish"
+        ],
+        [
+          "B2B xizmat",
+          "Vazifani aniqlash",
+          "Cheklist",
+          "Taklif olish uchun kerakli 5 boshlang‘ich ma’lumot.",
+          "Brifni tayyorlash"
+        ],
+        [
+          "B2B xizmat",
+          "Dalil",
+          "Jarayon tahlili",
+          "Ruxsatli misolda vazifa, bajarilgan ish va cheklovni ajrating.",
+          "O‘xshash vazifani muhokama qilish"
+        ],
+        [
+          "Mahalliy xizmat",
+          "Yo‘l topish",
+          "Video",
+          "Kiraverish va mo‘ljalni keluvchining ko‘zi bilan ko‘rsating.",
+          "Manzilni saqlash"
+        ],
+        [
+          "Mahalliy xizmat",
+          "Muloqot",
+          "So‘rov",
+          "Eng ko‘p tushunarsiz bo‘layotgan shartni so‘rang.",
+          "Savol qoldirish"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "G‘oyalarni belgilang va moslashtiring: {link}.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/downloads/marketing-20261109/kontent-12-misol.csv",
+          "anchor": "12 misolli CSV jadval"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Kontent, reklama va kontent-reja farqi",
+      "id": "farq"
+    },
+    {
+      "type": "p",
+      "text": "Kontent — materialning o‘zi. Reklama — uni pullik tarqatish usullaridan biri. Kontent-reja esa qaysi material, kim uchun, qachon va kim tomonidan tayyorlanishini belgilaydi. Bir material ham organik post, ham reklama kreativi bo‘lishi mumkin, lekin reklamada va’da, manzil va o‘lchash alohida tekshiriladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Profil bilan tizimli ishlash haqida {link}.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/smm-nima/",
+          "anchor": "SMM nima ekanini o‘qing"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Bir g‘oyani uch formatga moslashtirish",
+      "id": "uch-format"
+    },
+    {
+      "type": "p",
+      "text": "Masalan, mijoz “Darsga tayyorlanish kerakmi?” deb so‘raydi. Matnda kerakli buyumlar ro‘yxati beriladi. Videoda o‘qituvchi birinchi topshiriqni ko‘rsatadi. Stories’da esa kelishdan oldin javob beriladigan savol beriladi. Uchalasida ham bir xil dalil ishlaydi; matnni shunchaki kesib ko‘chirish shart emas."
+    },
+    {
+      "type": "p",
+      "text": "Asosiy materialni saqlang: tasdiqlangan fakt, ruxsatli foto va yangilanish sanasi. Narx o‘zgarsa, unga bog‘langan post va sahifalarni ham tekshiring. Bu eski va yangi ma’lumotning bir-biriga zid bo‘lishini kamaytiradi."
+    },
+    {
+      "type": "h2",
+      "text": "Nashrdan oldingi tahririy tekshiruv",
+      "id": "tekshiruv"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta aniq auditoriya savoli bormi?",
+        "Fakt, misol va reklama va’dasi bir-biridan ajratilganmi?",
+        "Narx, jadval yoki natijani tasdiqlaydigan manba bormi?",
+        "Rasm va videodagi odamlar hamda materiallar uchun ruxsat tekshirilganmi?",
+        "Keyingi amal ishlaydimi va sahifadagi taklifga mosmi?",
+        "Materialni kim tasdiqlashi va kim javob berishi belgilanganmi?"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uchun {link}; AI bergan variantni fakt, ohang va shartlar bo‘yicha muharrir tekshiradi.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/gpt-telegram-instagram-ideya/",
+          "anchor": "Telegram va Instagram g‘oyalar vositasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Natijani qanday baholash kerak?",
+      "id": "natija"
+    },
+    {
+      "type": "p",
+      "text": "Ko‘rishlar mazmun tarqalganini, saqlashlar qayta foydalanish ehtimolini, murojaatlar esa qiziqishning keyingi bosqichini ko‘rsatadi. Bular sotuv bilan teng emas. Bir davr va bir xil maqsadga xizmat qiladigan materiallarni taqqoslang. Savol-javob postini faqat xarid soni bilan baholash uning tushuntirish vazifasini yashirishi mumkin."
+    },
+    {
+      "type": "linkp",
+      "text": "Matnni tahrirlash uchun {link}ni ko‘ring.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/kopirayting-nima/",
+          "anchor": "kopirayting bo‘yicha uch misol"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Har kuni post kerakmi?",
+      "a": "Majburiy universal son yo‘q. Material tayyorlash, tekshirish va kelgan savollarga javob berish imkoniyatiga mos jadval tanlang."
+    },
+    {
+      "q": "AI yozgan matn kontent bo‘ladimi?",
+      "a": "Ha, lekin muallif faktlar, huquqlar va foydalilik uchun javob beradi. AI xatosini tekshirmasdan nashr qilmang."
+    },
+    {
+      "q": "Kontent-reja qayerdan boshlanadi?",
+      "a": "Auditoriya savoli, biznes vazifasi va mavjud materiallardan. So‘ng format, muddat, mas’ul va tekshirish mezoni belgilanadi."
+    }
+  ],
+  "cta": {
+    "label": "Vazifani muhokama qilish",
+    "href": "/uz/smm-xizmatlari/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "Xizmat tarkibi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "canonical": "https://gptbot.uz/uz/blog/kontent-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Boris Gerasimov",
+  "datePublished": "2026-11-09",
+  "dateModified": "2026-11-09",
+  "createdAt": "2026-11-09T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [],
+  "hreflangUz": "/uz/blog/kontent-nima/"
+}

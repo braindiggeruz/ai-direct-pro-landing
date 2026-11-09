@@ -348,6 +348,28 @@
       "type": "cta",
       "text": "Разобрать рекламную воронку",
       "href": "#lead-form"
+    },
+    {
+      "type": "linkp",
+      "text": "Разметку внешних ссылок подготовит {link}.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/ru/utm-generator/",
+          "anchor": "UTM-генератор"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Выручку и расход сопоставит {link}; учитывайте маржу и прочие затраты.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/ru/roas-kalkulyator/",
+          "anchor": "калькулятор ROAS"
+        }
+      ]
     }
   ],
   "faq": [
@@ -446,7 +468,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-09-28",
+  "lastReviewedAt": "2026-11-09",
   "createdAt": "2026-07-30",
-  "updatedAt": "2026-09-28T00:00:00.000Z"
+  "updatedAt": "2026-11-09T00:00:00.000Z"
 }

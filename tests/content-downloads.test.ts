@@ -5,17 +5,19 @@ import test from 'node:test';
 import { buildKnownUrls } from '../src/shared/audit';
 import { CONTENT_DOWNLOAD_URLS } from '../src/shared/content-downloads';
 import { PSEO_DOCUMENT_SLUGS, PSEO_DOWNLOAD_URLS } from '../src/shared/pseo20';
+import { MARKETING_DOWNLOAD_URLS } from '../src/shared/marketing-downloads';
 import { escapeHtml } from '../scripts/widgets/html';
 
 test('authored downloads exist, while unknown file links are not allowlisted', () => {
   const known = buildKnownUrls([]);
   for (const url of CONTENT_DOWNLOAD_URLS) {
     assert.equal(known.has(url), true);
-    assert.match(url, /^\/downloads\/(?:growth-20261106|pseo-20261108)\/[a-z-]+\.(docx|pdf)$/);
+    assert.match(url, /^\/downloads\/(?:growth-20261106|pseo-20261108|marketing-20261109)\/[a-z0-9-]+\.(docx|pdf|csv)$/);
     const file = path.join(process.cwd(), 'public', url.slice(1));
     assert.ok(fs.statSync(file).size > 100);
     const prefix = fs.readFileSync(file).subarray(0, 4).toString('latin1');
-    assert.equal(prefix, url.endsWith('.pdf') ? '%PDF' : 'PK\x03\x04');
+    if (url.endsWith('.csv')) assert.ok(fs.readFileSync(file).subarray(0, 3).equals(Buffer.from([0xef, 0xbb, 0xbf])));
+    else assert.equal(prefix, url.endsWith('.pdf') ? '%PDF' : 'PK\x03\x04');
   }
   assert.equal(known.has('/downloads/growth-20261106/missing.pdf'), false);
   assert.equal(known.has('/downloads/other.docx'), false);
@@ -41,7 +43,7 @@ test('blog linkp renderer downloads only the exact registered files and preserve
     { text: '{file}', links: [{ token: 'file', target, anchor: 'Материал', lang }] },
     escapeHtml, escapeHtml, () => '', () => false, 'data-studio-contact', new Set(CONTENT_DOWNLOAD_URLS),
   ) as string;
-  assert.equal(CONTENT_DOWNLOAD_URLS.length, 26);
+  assert.equal(CONTENT_DOWNLOAD_URLS.length, 26 + MARKETING_DOWNLOAD_URLS.length);
   assert.equal(CONTENT_DOWNLOAD_URLS.filter((url) => url.startsWith('/downloads/growth-20261106/')).length, 6);
   assert.equal(PSEO_DOWNLOAD_URLS.length, 20);
   for (const url of CONTENT_DOWNLOAD_URLS) {
@@ -70,5 +72,5 @@ test('built document articles expose all original and new files as browser downl
       found.add(href);
     }
   }
-  assert.deepEqual([...found].sort(), [...CONTENT_DOWNLOAD_URLS].sort());
+  assert.deepEqual([...found].sort(), CONTENT_DOWNLOAD_URLS.filter(url => !url.startsWith('/downloads/marketing-20261109/')).sort());
 });

@@ -1,0 +1,9 @@
+.mk-tool{color:#e5edf7;background:#0d1522;border:1px solid #284054;border-radius:24px;padding:clamp(20px,4vw,40px);margin:32px 0 48px;color-scheme:dark}
+.mk-tool h2{font-size:clamp(22px,3vw,32px);font-weight:700;margin-bottom:12px}.mk-tool p{color:#b4c4d5;line-height:1.65;margin-bottom:16px}
+.mk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.mk-full{grid-column:1/-1}.mk-tool label{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
+.mk-tool input:not([type=checkbox]),.mk-tool textarea{box-sizing:border-box;width:100%;max-width:100%;background:#060c15;color:#f3f8ff;border:1px solid #527086;border-radius:12px;font:inherit;font-size:16px;padding:12px 14px}
+.mk-tool input:focus-visible,.mk-tool textarea:focus-visible,.mk-tool button:focus-visible{outline:3px solid #62c8ff;outline-offset:3px}.mk-tool textarea{min-height:120px;resize:vertical;overflow-wrap:anywhere}
+.mk-tool .mk-check{display:flex;gap:12px;align-items:flex-start;font-weight:400}.mk-check input{width:20px;height:20px;accent-color:#62c8ff;flex-shrink:0}
+.mk-actions{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}.mk-tool button{padding:12px 18px;border:1px solid #527086;border-radius:12px;min-height:44px;background:#172839;color:#e5edf7;font:inherit;font-weight:600;cursor:pointer}
+.mk-tool button[type=submit]{background:#62c8ff;color:#03101b;border-color:#62c8ff}.mk-tool button:disabled{opacity:.5;cursor:default}.mk-tool small{display:block;color:#b4c4d5;line-height:1.5;margin-top:6px}.mk-tool [role=status]{min-height:48px;margin-top:12px;color:#bde8ff}
+@media(max-width:560px){.mk-grid{grid-template-columns:1fr}.mk-tool{border-radius:18px}.mk-actions button{flex:1 1 auto}}

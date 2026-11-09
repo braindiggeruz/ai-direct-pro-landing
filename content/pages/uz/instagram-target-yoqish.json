@@ -36,6 +36,76 @@
   "ctaSecondaryHref": "#narx",
   "bodyBlocks": [
     {
+      "type": "h2",
+      "text": "Target ishga tushganda qo‘lingizda nima qoladi?",
+      "id": "qabul-mezonlari"
+    },
+    {
+      "type": "p",
+      "text": "Misol: Toshkentdagi ingliz tili markazi kechki guruhga murojaat yig‘moqchi. Quyidagi jadval — ishni qabul qilish namunasi; bu mijozimizning natijasi yoki ariza soni va’dasi emas. Avval dars vaqti, haqiqiy narx, bo‘sh joy va javob beruvchi administrator aniqlanadi. Shundan keyin reklama shu bitta vazifaga quriladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bosqich",
+        "Siz oladigan natija",
+        "Qanday tekshirasiz"
+      ],
+      "rows": [
+        [
+          "Taklif va til",
+          "Bitta kurs yoki xizmat, RU/UZ matnlar alohida tekshiriladi",
+          "Narx, jadval va manzil mijoz tomonidan tasdiqlangan"
+        ],
+        [
+          "Kampaniya",
+          "Maqsad, hudud, byudjet chegarasi va reklama manzili",
+          "Kabinet egasi mijoz; sarf limiti kelishilgan"
+        ],
+        [
+          "Kreativ",
+          "Turli g‘oya uchun alohida e’lon va aniq CTA",
+          "Har bir matn va rasm tasdiqlangan, yolg‘on va’da yo‘q"
+        ],
+        [
+          "Ariza yo‘li",
+          "Reklama → sahifa yoki Direct → mas’ul xodim",
+          "Test murojaati belgilangan joyga keladi, takrorlari ajratiladi"
+        ],
+        [
+          "Hisobot",
+          "Sarf, murojaatlar, mos murojaatlar, sotuv holati",
+          "Raqamlarning manbasi va hisoblash davri ko‘rsatiladi"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ishni tekshirish uchun {link}. Jadvalni o‘z mahsulotingiz va mas’ul xodimlaringizga moslang.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/downloads/marketing-20261109/target-qabul-cheklist.csv",
+          "anchor": "qabul cheklistini CSV formatida yuklab oling"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hisobotda klik va ariza bir narsa emas. Masalan, 20 ta murojaatdan 8 tasi kurs jadvaliga mos bo‘lsa, ikkala raqam alohida yoziladi. Bu shartli hisob misoli, kutiladigan natija emas. Sotuvni esa administrator tasdiqlaydi; reklama kabinetidagi konversiya o‘z-o‘zidan to‘lovni isbotlamaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Avval tushunchani bilmoqchi bo‘lsangiz, {link}. Bu sahifa esa sozlash xizmatining tarkibi, narxi va qabul qilishiga bag‘ishlangan.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/target-reklama-nima/",
+          "anchor": "target reklama nima ekanini o‘qing"
+        }
+      ]
+    },
+    {
       "type": "toc",
       "text": "Sahifa bo‘yicha",
       "links": [
@@ -517,6 +587,17 @@
       "type": "cta",
       "text": "Target bo‘yicha bepul hisob-kitob — ariza qoldiring",
       "href": "#lead-form"
+    },
+    {
+      "type": "linkp",
+      "text": "Brif uchun {link}ni to‘ldiring.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/maqsadli-auditoriya/",
+          "anchor": "auditoriya portreti shabloni"
+        }
+      ]
     }
   ],
   "faq": [
@@ -639,9 +720,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-25",
+  "lastReviewedAt": "2026-11-09",
   "createdAt": "2026-10-07T00:00:00Z",
-  "updatedAt": "2026-10-25T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
   "heroTrust": [
     "Ishga tushirish 1 990 000 so‘mdan",
     "Yuritish oyiga 1 490 000 so‘mdan",

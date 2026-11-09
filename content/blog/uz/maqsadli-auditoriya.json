@@ -1,0 +1,225 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "maqsadli-auditoriya",
+  "url": "/uz/blog/maqsadli-auditoriya/",
+  "title": "Maqsadli auditoriya: portret shabloni | GPTBot.uz",
+  "h1": "Maqsadli auditoriya: segment va portretni tuzish",
+  "description": "Maqsadli auditoriyani vazifa va xarid holatiga ko‘ra ajrating. Ikki to‘ldirilgan misol, suhbat savollari va bepul CSV shablon.",
+  "intro": "Maqsadli auditoriya — taklifingiz muayyan vazifasini hal qilishi mumkin bo‘lgan odamlar guruhi. “18–65 yosh, Toshkent” reklama sozlamasi bo‘lishi mumkin, lekin mijoz portreti emas. Foydali portret ehtiyoj, vaziyat, qaror sababi va ishonch uchun kerakli dalilni tushuntiradi.",
+  "keywords": [
+    "maqsadli auditoriya"
+  ],
+  "topicCluster": "target-uz",
+  "targetMoneyPage": "/uz/instagram-target-yoqish/",
+  "body": [
+    {
+      "type": "h2",
+      "text": "Segmentni yoshdan oldin vazifa bilan ajrating",
+      "id": "segment"
+    },
+    {
+      "type": "p",
+      "text": "Bitta ingliz tili kursiga imtihon uchun tayyorlanayotgan talaba va ish uchrashuvida gapirmoqchi bo‘lgan mutaxassis kelishi mumkin. Ular bir xil hududda yashasa ham, savollari va jadvali boshqa. Segment tanlash odam haqidagi taxminni haqiqat deb e’lon qilish emas: uni suhbat va murojaatlar bilan tekshirish kerak."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Zaif javob",
+        "Tekshirishga yaroqli javob"
+      ],
+      "rows": [
+        [
+          "Kim?",
+          "Hamma",
+          "Ishdan keyin darsga kelishi mumkin bo‘lgan yangi boshlovchi"
+        ],
+        [
+          "Nega hozir?",
+          "Til o‘rganmoqchi",
+          "Yangi ishida uchrashuvlarga tayyorlanmoqda"
+        ],
+        [
+          "Nima to‘sqinlik qiladi?",
+          "Pul",
+          "Jadval va darajasiga mos guruh borligini bilmaydi"
+        ],
+        [
+          "Qanday dalil kerak?",
+          "Yaxshi reklama",
+          "Dars vaqti, test tartibi, shartlar"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ikki to‘ldirilgan portret va bo‘sh shablon",
+      "id": "namuna"
+    },
+    {
+      "type": "p",
+      "text": "Bu o‘quv misollari, haqiqiy mijozlar bazasi emas. “Manba” ustuniga suhbat sanasi yoki umumlashtirilgan kuzatuvni yozing. Ism, telefon va shaxsiy yozishmalarni umumiy marketing jadvaliga ko‘chirmang."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Taklif",
+        "Vaziyat",
+        "Vazifa",
+        "Xavotir",
+        "Dalil",
+        "Manba",
+        "Holat"
+      ],
+      "rows": [
+        [
+          "Kechki ingliz tili",
+          "Ishdan keyin o‘qiydigan katta yoshli kishi",
+          "Ish uchrashuvida gapirish",
+          "Vaqt mos kelmaydi",
+          "Jadval va daraja testi tartibi",
+          "Suhbat + so‘rov",
+          "Gipoteza, tasdiqlash kerak"
+        ],
+        [
+          "Konditsioner tozalash",
+          "Kvartira egasi",
+          "Qurilmani parvarish qilish",
+          "Narx va uydagi tozalik",
+          "Ish tarkibi, narx shartlari, himoya jarayoni",
+          "Murojaatlar tahlili",
+          "Gipoteza, tasdiqlash kerak"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "O‘z segmentingizni qo‘shish uchun {link}.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/downloads/marketing-20261109/auditoriya-segmentlari.csv",
+          "anchor": "auditoriya jadvalini yuklab oling"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Suhbatda beriladigan savollar",
+      "id": "savollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bu xizmatni qidirishga nima sabab bo‘ldi?",
+        "Oxirgi marta shunga o‘xshash vazifani qanday hal qildingiz?",
+        "Tanlashda qaysi ma’lumot yetishmadi?",
+        "Qaysi variantni va nima sababdan rad etdingiz?",
+        "Buyurtma qilishdan oldin kim bilan maslahatlashasiz?",
+        "Siz uchun xizmat bajarilganini qanday natija ko‘rsatadi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "“Bizning yaxshi taklifimizni olarmidingiz?” kabi yo‘naltiruvchi savol javobni buzishi mumkin. Odamning oxirgi haqiqiy tajribasi haqida so‘rang. Bir nechta suhbat boshlang‘ich gipoteza beradi, butun bozorning statistik tasviri emas. Qarshi misollarni ham yozing."
+    },
+    {
+      "type": "h2",
+      "text": "Portretni reklama va sahifaga aylantirish",
+      "id": "amal"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Portretdagi kuzatuv",
+        "Reklamada",
+        "Sahifada"
+      ],
+      "rows": [
+        [
+          "Jadval muhim",
+          "Kechki dars haqida aniq g‘oya",
+          "Haqiqiy kun va soatlar"
+        ],
+        [
+          "Narx noaniq",
+          "Narx shartlarini bilish CTA’si",
+          "Nima kiradi va nima alohida"
+        ],
+        [
+          "Boshlang‘ich daraja",
+          "Moslikni aniqlash taklifi",
+          "Test yoki maslahatning tartibi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bir kichik byudjetni ko‘p mayda auditoriyaga bo‘lib yuborish tekshirishni qiyinlashtiradi. Avval bitta muhim gipoteza, mos kreativ va o‘lchanadigan murojaat yo‘lini tanlang. Tor auditoriya har doim yaxshiroq degan qoida yo‘q; platforma imkoniyati va amaldagi natija asosida qaror qiling."
+    },
+    {
+      "type": "linkp",
+      "text": "Sozlash va qabul qilish mezonlari {link} sahifasida.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "Instagram target yoqish xizmati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Portret qachon yangilanadi?",
+      "id": "yangilash"
+    },
+    {
+      "type": "p",
+      "text": "Murojaatlar boshqa savol bilan kela boshlasa, taklif yoki narx o‘zgarsa, yangi hudud ochilsa, gipotezani qayta tekshiring. Har oy faqat demografiyani ko‘chirish o‘rniga, administrator rad etilgan va mos kelgan murojaatlarning umumiy sabablarini yozsin. Maxfiy ma’lumot va sezgir xususiyatlarni reklama nishoniga aylantirmang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Auditoriya portreti va reklama auditoriyasi bir xilmi?",
+      "a": "Yo‘q. Portret ehtiyoj va vaziyatni tushuntiradi; reklama auditoriyasi esa platformadagi mavjud tanlash sozlamalaridir."
+    },
+    {
+      "q": "Mijozlar hali yo‘q bo‘lsa-chi?",
+      "a": "Gipotezani ochiq belgilang. Potensial foydalanuvchilar bilan suhbat, qidiruv savollari va kichik tekshiruvdan boshlang."
+    },
+    {
+      "q": "Bitta mahsulotga bir nechta portret kerakmi?",
+      "a": "Turli xarid vazifalari yoki qaror jarayonlari bo‘lsa kerak bo‘lishi mumkin. Faqat yosh farqi uchun alohida segment yaratish shart emas."
+    }
+  ],
+  "cta": {
+    "label": "Vazifani muhokama qilish",
+    "href": "/uz/instagram-target-yoqish/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/instagram-target-yoqish/",
+      "anchor": "Xizmat tarkibi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "canonical": "https://gptbot.uz/uz/blog/maqsadli-auditoriya/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Boris Gerasimov",
+  "datePublished": "2026-11-09",
+  "dateModified": "2026-11-09",
+  "createdAt": "2026-11-09T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [],
+  "hreflangUz": "/uz/blog/maqsadli-auditoriya/"
+}

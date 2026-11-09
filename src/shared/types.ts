@@ -4,7 +4,7 @@ import type { ChatStarter } from './chat-starters';
 
 export type Locale = 'ru' | 'uz';
 export type Status = 'draft' | 'published' | 'noindex';
-export type PageType = 'homepage' | 'money' | 'niche' | 'blog' | 'faq' | 'legal' | 'gpt-chat';
+export type PageType = 'homepage' | 'money' | 'niche' | 'blog' | 'faq' | 'legal' | 'gpt-chat' | 'tool';
 /**
  * The chat roles a gpt-chat page may open with (Page.chatRole): the roles of
  * src/gpt-chat/roles.ts that an AI tool page can start in. 'general' and

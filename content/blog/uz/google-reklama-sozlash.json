@@ -1,0 +1,240 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "google-reklama-sozlash",
+  "url": "/uz/blog/google-reklama-sozlash/",
+  "title": "Google reklama sozlash: Search qo‘llanmasi | GPTBot.uz",
+  "h1": "Google reklama sozlash: qidiruv kampaniyasi rejasi",
+  "description": "Google Search reklamasini boshlash uchun maqsad, kalit so‘z, hudud, e’lon va ariza tekshiruvi. Kichik kampaniya namunasi va CSV cheklist.",
+  "intro": "Google qidiruv reklamasi foydalanuvchining so‘roviga mos e’lon ko‘rsatadi. Ishni “reklamani yoqish”dan emas, taklif, mos sahifa va tasdiqlangan murojaatni o‘lchashdan boshlang. Quyidagi reja Search kampaniyasi uchun; Performance Max yoki video kampaniya yo‘riqnomasi emas.",
+  "keywords": [
+    "google reklama"
+  ],
+  "topicCluster": "internet-reklama",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "body": [
+    {
+      "type": "h2",
+      "text": "Hisob ochishdan oldin tayyorlanadigan narsalar",
+      "id": "tayyorgarlik"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Haqiqiy narx shartlari, xizmat hududi, aloqa va maxfiylik ma’lumoti bor sahifa.",
+        "Reklama hisobi egasi va to‘lov uchun mas’ul shaxs.",
+        "Test arizani tekshiradigan xodim va natijani qabul qilish mezoni.",
+        "Sarflash mumkin bo‘lgan byudjet, kuzatish davri va to‘xtatish sharti."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kabinetdagi yo‘l hisob holatiga qarab farqlanishi mumkin. Google’ning amaldagi yo‘riqnomasida yangi kampaniya yaratish, maqsad va Search turini tanlash, sozlamalar, guruhlar, e’lonlar va byudjet bosqichlari bor. Quyida tugma joylashuvidan ko‘ra har bosqichda tekshiriladigan qarorlar berilgan."
+    },
+    {
+      "type": "h2",
+      "text": "Kichik kampaniya namunasi",
+      "id": "tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Tahririy misol: Toshkentda konditsioner tozalash. Bu tayyor import yoki daromad va’dasi emas. Faqat amalda bajariladigan xizmatlar qo‘shiladi; tozalash va o‘rnatish uchun bir xil va’da yozilmaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Guruh",
+        "So‘rov g‘oyasi",
+        "Sahifa",
+        "E’lon g‘oyasi"
+      ],
+      "rows": [
+        [
+          "Tozalash UZ",
+          "konditsioner tozalash toshkent",
+          "Tozalash xizmati, UZ",
+          "Ish tarkibi va narx shartlarini bilish"
+        ],
+        [
+          "Tozalash RU",
+          "чистка кондиционера ташкент",
+          "Tozalash xizmati, RU",
+          "Уточнить состав работ и стоимость"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu kalit so‘zlar uchun hajm yoki CPC o‘lchanmagan. Ularni Planner va qidiruv natijasi bilan tekshiring. Til sozlamasi tarjima vazifasini bajarmaydi: e’lon va sahifaning matni o‘zi mos tilda bo‘lishi kerak."
+    },
+    {
+      "type": "h2",
+      "text": "Hudud, so‘rov va chiqarib tashlashlar",
+      "id": "nazorat"
+    },
+    {
+      "type": "p",
+      "text": "Mahalliy xizmatda geografik qamrovni ayniqsa tekshiring. Google’da joylashuvga qiziqish va shu joyda bo‘lish tanlovlari mavjud; biznes vazifasiga mosini tanlang. Xizmat hududi tashqarisidan kelgan murojaatlarni alohida ko‘ring."
+    },
+    {
+      "type": "p",
+      "text": "“Usta vakansiya” kabi so‘rov ish qidirayotgan odamdan kelishi mumkin. Lekin “bepul konsultatsiya”ni ko‘r-ko‘rona chiqarib tashlash ham to‘g‘ri emas: siz shunday maslahat berishingiz mumkin. Har bir minus-so‘z qarori taklifga bog‘liq."
+    },
+    {
+      "type": "linkp",
+      "text": "Turlari va ehtiyot choralarini rus tilidagi {link} tushuntiradi.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/ru/blog/minus-slova-google-ads/",
+          "anchor": "Google Ads minus-so‘zlar qo‘llanmasi",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Arizani o‘lchash va ishga tushirish cheklisti",
+      "id": "ishga-tushirish"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bosqich",
+        "Nima tayyorlanadi",
+        "Qabul mezoni"
+      ],
+      "rows": [
+        [
+          "1. Maqsad",
+          "Tasdiqlangan murojaat",
+          "Tugma bosilishi va haqiqiy ariza ajratilgan"
+        ],
+        [
+          "2. Hudud va til",
+          "Xizmat ko‘rsatiladigan joy va RU/UZ matn",
+          "Keraksiz hududlarga sarf tekshirilgan"
+        ],
+        [
+          "3. Guruh",
+          "Bitta xizmatga yaqin so‘rovlar",
+          "Har guruh mos sahifaga boradi"
+        ],
+        [
+          "4. E’lon",
+          "Haqiqiy taklif, shart, keyingi qadam",
+          "Matn va sahifa bir-biriga mos"
+        ],
+        [
+          "5. Byudjet",
+          "Kelishilgan limit va nazorat vaqti",
+          "To‘lov va sarf shartlari tekshirilgan"
+        ],
+        [
+          "6. Test",
+          "Telefon orqali to‘liq ariza",
+          "Qabul bo‘ldi, takror hisoblanmadi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Forma ochilishi, tugma bosilishi va muvaffaqiyatli yuborilgan ariza — uchta alohida hodisa. Texnik sinovda ariza qabul qilinishini va qayta yuborish takror natija bermasligini tekshiring. CRM’dagi sotuv bilan bog‘lash alohida sozlash va rozilik jarayonini talab qiladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Kabinetni tekshirish uchun {link}.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/downloads/marketing-20261109/google-search-start.csv",
+          "anchor": "Search ishga tushirish jadvali"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Sahifaga trafik manbasini yozish uchun {link}. Google Ads avtomatik belgilash va Analytics ulanishi bilan mosligini ham tekshiring.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/ru/utm-generator/",
+          "anchor": "UTM generator",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ishga tushgandan keyin nima qilinadi?",
+      "id": "keyin"
+    },
+    {
+      "type": "p",
+      "text": "Avval sarf, xatolar va murojaat yo‘li kuzatiladi. So‘ng haqiqiy so‘rovlar va ariza sifati asosida keraksiz yo‘nalishlar ajratiladi. Kichik namuna asosida bir kunda hamma matn va auditoriyani almashtirmang: qaysi o‘zgarish ta’sir qilganini bilmay qolasiz."
+    },
+    {
+      "type": "linkp",
+      "text": "Bajarish tarkibi va kanal tanlovi {link} sahifasida.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "internet reklama xizmati"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Google reklamasi SEO o‘rnini bosadimi?",
+      "a": "Yo‘q. Pullik kampaniya va organik qidiruvning ishlash va o‘lchash yo‘li boshqa. Bir xil foydali sahifa ikkalasiga xizmat qilishi mumkin."
+    },
+    {
+      "q": "Qancha byudjet yetadi?",
+      "a": "Universal summa yo‘q. So‘rov narxi, konversiya, taklif va test vazifasi bo‘yicha hisoblang. Xizmat haqi va platforma sarfini alohida ko‘rsating."
+    },
+    {
+      "q": "Ariza yo‘q, lekin klik bor — nima tekshiriladi?",
+      "a": "Mos so‘rov, hudud, sahifa tezligi va mazmuni, forma ishlashi hamda administrator javobi. Klikni avtomatik ravishda sifatli mijoz deb hisoblamang."
+    }
+  ],
+  "cta": {
+    "label": "Vazifani muhokama qilish",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "Xizmat tarkibi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "canonical": "https://gptbot.uz/uz/blog/google-reklama-sozlash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Boris Gerasimov",
+  "datePublished": "2026-11-09",
+  "dateModified": "2026-11-09",
+  "createdAt": "2026-11-09T00:00:00.000Z",
+  "updatedAt": "2026-11-09T00:00:00.000Z",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Google Ads — Create a Search campaign",
+      "url": "https://support.google.com/google-ads/answer/9510373"
+    },
+    {
+      "title": "Google Ads — Location options",
+      "url": "https://support.google.com/google-ads/answer/1722038"
+    }
+  ],
+  "hreflangUz": "/uz/blog/google-reklama-sozlash/"
+}

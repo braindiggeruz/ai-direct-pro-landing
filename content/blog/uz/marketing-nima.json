@@ -287,6 +287,28 @@
       "type": "cta",
       "text": "Qaysi kanal sizning biznesingizga mos kelishini birgalikda ko‘rib chiqamiz — maslahat bepul.",
       "href": "#contact"
+    },
+    {
+      "type": "linkp",
+      "text": "Organik qidiruvning vazifasi haqida {link} materialini o‘qing.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/seo-nima/",
+          "anchor": "SEO nima"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Taklifdan oldin segmentni aniqlash uchun {link} yordam beradi.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/maqsadli-auditoriya/",
+          "anchor": "maqsadli auditoriya jadvali"
+        }
+      ]
     }
   ],
   "faq": [
@@ -378,7 +400,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-08-22",
-  "dateModified": "2026-10-06",
+  "dateModified": "2026-11-09",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -387,5 +409,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-08-22T00:00:00Z",
-  "updatedAt": "2026-10-06T00:00:00.000Z"
+  "updatedAt": "2026-11-09T00:00:00.000Z"
 }

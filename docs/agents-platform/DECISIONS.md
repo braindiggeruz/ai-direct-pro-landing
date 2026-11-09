@@ -1433,3 +1433,7 @@ An AI tool page may list the widget `practice-quiz` with `Page.quizSet`, the id 
 ## D-PSEO20-20261108 — useful bounded Uzbek resource cohort
 
 Explicit owner instruction authorizes20 researched resources:10original editable document kits and10practice tools. Preserve all330existing URL/metadata owners, add contextual parent links and exact twenty sitemapentries. No frozen commercial-cluster expansion. A12 in content/seo/intent-manifest.json records why a nonofficial educational obyektivka kit differs from the older official-form prerequisite. Existing CV content remains. Layout opt-ins are exact; shared quiz and article templates are reused. A minimal mobilekeyboard fix scrolls to the actual chat top and is tested on both new and ordinary chat pages. No backend/billing/bot/webhook changes. Production acceptance and outcome monitoring remain distinct.
+
+
+## D-MARKETING-GAP-20261109
+Owner authorized ten new practical marketing resources and ten existing-page upgrades. Preserve all 350 SEO metadata contracts, current pricing/URL owners and bot/payment behavior. Tools have isolated browser-only code; worksheets are useful downloadable examples. Revise the protected homepage baseline only after exact reversal proof. Google indexing recovery remains an observed outcome, not a deployment claim. Evidence: reports/marketing-gap-20261109/IMPLEMENTATION.md.

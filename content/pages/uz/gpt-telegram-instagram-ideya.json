@@ -338,6 +338,28 @@
     {
       "type": "p",
       "text": "Chatga parol, karta raqami, pasport ma’lumotlari va mijozlarning shaxsiy ma’lumotlarini yubormang: so‘rov matni serverimizga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "linkp",
+      "text": "AI’ga aniq vazifa berish uchun {link}ni tayyorlang.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/kopirayting-nima/",
+          "anchor": "kopirayting brifi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Format tanlashga {link} yordam beradi.",
+      "links": [
+        {
+          "token": "link",
+          "target": "/uz/blog/kontent-nima/",
+          "anchor": "12 ta kontent misoli"
+        }
+      ]
     }
   ],
   "faq": [
@@ -452,7 +474,7 @@
       ]
     }
   ],
-  "lastReviewedAt": "2026-10-25",
+  "lastReviewedAt": "2026-11-09",
   "createdAt": "2026-07-12T00:00:00Z",
-  "updatedAt": "2026-10-26"
+  "updatedAt": "2026-11-09T00:00:00.000Z"
 }

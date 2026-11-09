@@ -96,7 +96,8 @@
     "websub:ping": "tsx scripts/websub-ping.ts",
     "test:studio-monetization": "node --import tsx --test --test-concurrency=1 tests/studio-monetization.test.ts tests/studio-analytics.test.ts tests/chat-presentation.test.ts tests/gpt-watchdog.test.ts tests/gpt-admin-ai-chat.test.ts",
     "test:studio-monetization:browser": "node --import tsx --test tests/chat-presentation-browser.test.ts",
-    "test:lead-radar-outreach": "node --import tsx --test --test-concurrency=1 tests/lead-radar-discovery-wiring.test.ts tests/lead-radar-tg-sender.test.ts tests/lead-radar-public-business-inquiry.test.ts tests/lead-radar-outreach-receipts.test.ts tests/lead-radar-outreach-inbox.test.ts tests/lead-radar-outreach-inbox-ui.test.ts tests/lead-radar-outreach-integration.test.ts tests/lead-radar-public-inquiry-review-ui.test.ts tests/lead-radar-outreach-worker.test.ts"
+    "test:lead-radar-outreach": "node --import tsx --test --test-concurrency=1 tests/lead-radar-discovery-wiring.test.ts tests/lead-radar-tg-sender.test.ts tests/lead-radar-public-business-inquiry.test.ts tests/lead-radar-outreach-receipts.test.ts tests/lead-radar-outreach-inbox.test.ts tests/lead-radar-outreach-inbox-ui.test.ts tests/lead-radar-outreach-integration.test.ts tests/lead-radar-public-inquiry-review-ui.test.ts tests/lead-radar-outreach-worker.test.ts",
+    "test:marketing": "node --import tsx --test tests/marketing-tools.test.mjs tests/marketing-cohort.test.ts"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",

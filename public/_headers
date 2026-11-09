@@ -81,6 +81,10 @@ https://:version.ai-direct-pro-landing.pages.dev/*
 /downloads/pseo-20261108/*
   X-Robots-Tag: noindex
 
+/downloads/marketing-20261109/*
+  X-Robots-Tag: noindex
+  Content-Type: text/csv; charset=utf-8
+
 /studio-examples/*
   X-Robots-Tag: noindex
 
