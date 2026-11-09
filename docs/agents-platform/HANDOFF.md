@@ -1,7 +1,7 @@
 # Current handoff — Lead Radar readiness · 09.11.2026
 
 ## 1. State
-Initial release deployed. Runtime cause reproduced in workerd: redirect:error is unsupported. Follow-up uses manual with rejection of all non-2xx; owner requested preparation, not dispatch.
+Runtime fix deployed and verified; owner UI successfully connected the configured sender (masked 2410), retaining history. Recipient source checks remain pending after OpenStreetMap 429. No messages sent.
 ## 2. Delivered
 Car-wash intent, private TG Sender service binding, explicit provider status refresh and truthful blocked sender UI.
 ## 3. Files
@@ -13,7 +13,7 @@ No actual company message, fabricated contact approval, schema change, bot webho
 ## 6. Validation
 53 targeted, 109 outreach and 47 release checks PASS; three typechecks, scoped lint and full production build PASS. Public readback is required before claiming production ready.
 ## 7. Open issues
-The currently stored account is a legacy Bridge; live transport and explicit owner transition must be verified after release. Discovered usernames alone are not verified corporate recipients.
+Cutover completed. 22 new car-wash cards have no websites/phones/Telegram; do not label them ready recipients. Existing 28-contact audience is preserved. Source verification must complete after its provider cooldown.
 ## 8. Next task
 Build, guarded Pages release, preserved-config automation release, authenticated sender readback and campaign preparation. Stop before sending.
 ## 9. Release

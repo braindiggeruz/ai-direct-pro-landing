@@ -1443,7 +1443,8 @@ export function TelegramAccountCampaignPanel({
     typeof preview.text === 'string' && preview.text.length <= messageLimit
   ));
   const reviewComplete = previewComplete && authorizationComplete && serverPreviewsFit;
-  const templateIssue = templateReadyForSelected
+  // Pending contact/source checks must not be presented as an invalid message.
+  const templateIssue = isCampaignTemplateReady(template, hasImageAttachment) && localPersonalizationFits
     ? null
     : template.trim().length === 0
       ? 'Введите текст сообщения.'
