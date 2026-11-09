@@ -28,6 +28,7 @@ export interface TgSenderClientOptions {
   enabled?: boolean;
   now?: () => number;
   timeoutMs?: number;
+  onReadinessFailure?: (stage: 'transport' | 'contract' | 'verification') => void;
 }
 function record(value: unknown): value is Record<string,unknown> { return Boolean(value && typeof value === 'object' && !Array.isArray(value)); }
 function exactKeys(value: Record<string,unknown>, required: string[], optional: string[] = []) {
@@ -83,8 +84,10 @@ export class TgSenderCampaignSender implements TelegramCampaignSender {
   async probeSession(): Promise<TgSenderReadiness> { return this.checkSession(true); }
   private async checkSession(probe:boolean): Promise<TgSenderReadiness> {
     if (!this.configured()) return {ready:false,reason:'tg_sender_not_configured',checkedAt:null,retryAfterSeconds:null,maskedLabel:null,publicBusinessInquiry:false,providerVerifiedAt:null};
+    let stage: 'transport' | 'contract' | 'verification' = 'transport';
     try {
       const value = await this.request(probe?'/session/probe':'/status',probe?'POST':'GET',probe?{schema:TG_SENDER_SCHEMA,binding:this.options.binding}:undefined);
+      stage = 'contract';
       if (!record(value) || !exactKeys(value,['schema','binding','ready','reason_code','checked_at','retry_after_seconds','masked_label','provider_verified_at','capabilities'])
         || value.schema !== TG_SENDER_SCHEMA || !sameTgSenderBinding(value.binding,this.options.binding)
         || typeof value.ready !== 'boolean' || typeof value.checked_at !== 'string'
@@ -96,10 +99,14 @@ export class TgSenderCampaignSender implements TelegramCampaignSender {
         || typeof value.masked_label !== 'string' || value.masked_label.length > 80 || !value.masked_label.length
         || !Number.isFinite(Date.parse(value.checked_at)) || this.now()-Date.parse(value.checked_at) > 60000 || Date.parse(value.checked_at)-this.now() > 5000
         || (value.ready ? value.reason_code !== null : typeof value.reason_code !== 'string' || !/^[a-z][a-z0-9_]{1,79}$/u.test(value.reason_code))) throw new Error('invalid_status');
+      stage = 'verification';
       if (value.provider_verified_at !== null && (typeof value.provider_verified_at !== 'string' || !Number.isFinite(Date.parse(value.provider_verified_at)) || this.now()-Date.parse(value.provider_verified_at)>86400000 || Date.parse(value.provider_verified_at)-this.now()>5000)) throw new Error('invalid_verification');
       if (value.retry_after_seconds !== null && (typeof value.retry_after_seconds !== 'number' || !Number.isSafeInteger(value.retry_after_seconds) || value.retry_after_seconds < 1 || value.retry_after_seconds > 2147483647)) throw new Error('invalid_wait');
       return {ready:value.ready,reason:value.reason_code as string|null,checkedAt:value.checked_at,retryAfterSeconds:value.retry_after_seconds as number|null,maskedLabel:value.masked_label as string,publicBusinessInquiry:value.capabilities.public_business_inquiry as boolean,providerVerifiedAt:value.provider_verified_at as string|null};
-    } catch { return {ready:false,reason:'tg_sender_unavailable',checkedAt:null,retryAfterSeconds:null,maskedLabel:null,publicBusinessInquiry:false,providerVerifiedAt:null}; }
+    } catch {
+      this.options.onReadinessFailure?.(stage);
+      return {ready:false,reason:'tg_sender_unavailable',checkedAt:null,retryAfterSeconds:null,maskedLabel:null,publicBusinessInquiry:false,providerVerifiedAt:null};
+    }
   }
 
   status(): Promise<TgSenderReadiness> { return this.readiness(); }

@@ -226,3 +226,53 @@ test('owner status remains truthful during a later sender outage and exposes no 
   assert.equal((response.body.readiness as {status:string}).status,'blocked');
   for(const secret of [TOKEN,KEY,REF,FINGERPRINT])assert.ok(!JSON.stringify(response.body).includes(secret));
 });
+
+test('same-account TG Sender uses only its private binding and retains the scoped bearer',async()=>{
+  const {binding,env,orgId}=await fixture();
+  env.LEAD_RADAR_TG_SENDER_ORIGIN='https://tg-sender-v2.braindigger-uz.workers.dev';
+  let boundCalls=0,publicCalls=0;
+  env.LEAD_RADAR_TG_SENDER_SERVICE={fetch:async(input:string,init:RequestInit)=>{
+    boundCalls++;
+    assert.equal(input,env.LEAD_RADAR_TG_SENDER_ORIGIN+TG_SENDER_PREFIX+'/status');
+    assert.equal(new Headers(init.headers).get('Authorization'),'Bearer '+TOKEN);
+    assert.equal(init.redirect,'error');
+    return Response.json(status(binding));
+  }} as unknown as Fetcher;
+  const fallback=async()=>{publicCalls++;throw new Error('public transport must not run');};
+  assert.equal((await configuredTgSender(env,orgId,fallback)!.readiness()).ready,true);
+  assert.equal(boundCalls,1);assert.equal(publicCalls,0);
+  env.LEAD_RADAR_TG_SENDER_ORIGIN='https://fixture-sender.up.railway.app';
+  assert.equal((await configuredTgSender(env,orgId,fallback)!.readiness()).ready,false);
+  assert.equal(boundCalls,1);assert.equal(publicCalls,0);
+});
+
+test('explicit owner refresh renews attestation without replacing accounts or creating campaigns',async(context)=>{
+  const {db,orgId,binding,env}=await fixture();
+  let verified=false;
+  const calls:string[]=[];
+  context.mock.method(globalThis,'fetch',async(input:RequestInfo|URL,init?:RequestInit)=>{
+    const url=String(input);calls.push(url);
+    if(url.endsWith('/session/probe')) {
+      assert.equal(init?.method,'POST');
+      assert.deepEqual(JSON.parse(String(init?.body)),{schema:TG_SENDER_SCHEMA,binding});
+      verified=true;
+    } else assert.ok(url.endsWith('/status'));
+    return Response.json(status(binding,{provider_verified_at:verified?new Date().toISOString():null}));
+  });
+  const token=await platformToken('platform_owner');
+  const path='/api/admin/lead-radar/telegram-account/tg-sender/probe';
+  const options={method:'POST',token,env,params:{path:'telegram-account/tg-sender/probe'},body:{},
+    headers:{'Idempotency-Key':'owner_refresh_fixture_0001',Origin:'https://gptbot.uz'}};
+  assert.equal((await callRoute(route.onRequestPost,db,path,{...options,headers:{}})).status,400);
+  assert.equal((await callRoute(route.onRequestPost,db,path,{...options,body:{replaceAccountId:ACCOUNT}})).status,400);
+  assert.equal((await callRoute(route.onRequestPost,db,path,{...options,token:await platformToken('support_readonly')})).status,403);
+  assert.equal(calls.length,0);
+  const response=await callRoute(route.onRequestPost,db,path,options);
+  assert.equal(response.status,200,JSON.stringify(response.body));
+  assert.equal(response.body.status,'disconnected');
+  assert.equal((response.body.readiness as {status:string}).status,'ready');
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_user_accounts WHERE org_id=?',orgId),0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaigns'),0);
+  assert.equal(db.value('SELECT COUNT(*) FROM lead_radar_tg_campaign_effects'),0);
+  for(const secret of [TOKEN,KEY,REF,FINGERPRINT])assert.ok(!JSON.stringify(response.body).includes(secret));
+});

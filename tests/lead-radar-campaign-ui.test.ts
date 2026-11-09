@@ -554,7 +554,9 @@ test('page and API encode split discovery capability and the exact campaign cont
   assert.match(component, /<fieldset disabled=\{operationBusy \|\| !campaignRecoveryReady \|\| Boolean\(campaign\)\}/);
   assert.doesNotMatch(component, /<fieldset disabled=\{!campaignEnabled/);
   assert.match(component, /Контур отправки ещё не активирован/);
-  assert.match(component, /const next = await api\.leadRadarTelegramAccount\(\)/);
+  assert.match(component, /const next = remoteSender && refreshProvider[\s\S]{0,180}api\.leadRadarTelegramAccount\(\)/);
+  assert.match(component, /leadRadarRefreshTgSender\(`lead-radar-session-probe-/);
+  assert.match(component, /onClick=\{\(\) => \{ void loadAccount\(true\); \}\}/);
   assert.match(component, /account\?\.qr\?\.authId/);
   assert.match(component, /leadRadarTelegramAccountConnectStatus\(authId\)/);
   assert.match(component, /refreshConnectionStatus[\s\S]{0,500}leadRadarTelegramAccountConnectStatus\(authId\)/);

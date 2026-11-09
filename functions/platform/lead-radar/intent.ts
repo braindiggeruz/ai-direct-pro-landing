@@ -5,6 +5,7 @@ export type LeadRadarIntentId =
   | 'real_estate'
   | 'education'
   | 'automotive'
+  | 'car_wash'
   | 'food_service'
   | 'fitness'
   | 'retail'
@@ -183,6 +184,14 @@ const INTENTS: IntentDefinition[] = [
       primary(eq('amenity', 'school')),
       related(eq('office', 'educational_institution')),
     ],
+  },
+  {
+    id: 'car_wash',
+    canonicalLabel: 'Автомойки',
+    aliases: ['Автомойка', 'автомойки', 'мойка автомобилей', 'мойки автомобилей', 'car wash', 'carwash', 'автомойка самообслуживания', 'avtomoyka', 'avtoyuvish', 'avto yuvish', 'mashina yuvish'],
+    distinctiveRoots: ['avtomoik', 'avtomoyk', 'carwash', 'avtoyuv'],
+    nameFallbackTokens: ['автомой', 'мойка', 'avtomoy', 'car wash', 'carwash', 'avto yuv', 'avtoyuv'],
+    osmFilters: [primary(eq('amenity', 'car_wash'))],
   },
   {
     id: 'automotive',

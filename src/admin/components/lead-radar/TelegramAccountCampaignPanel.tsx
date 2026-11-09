@@ -809,12 +809,14 @@ export function TelegramAccountCampaignPanel({
     setDecryptedQr(null);
   }, []);
 
-  const loadAccount = useCallback(async (): Promise<LeadRadarTelegramAccountState | null> => {
+  const loadAccount = useCallback(async (refreshProvider = false): Promise<LeadRadarTelegramAccountState | null> => {
     if (!telegramAccountEnabled) return null;
     const epoch = accountMutationEpoch.current;
     setAccountLoading(true);
     try {
-      const next = await api.leadRadarTelegramAccount();
+      const next = remoteSender && refreshProvider
+        ? await api.leadRadarRefreshTgSender(`lead-radar-session-probe-${crypto.randomUUID()}`)
+        : await api.leadRadarTelegramAccount();
       if (epoch !== accountMutationEpoch.current) return null;
       setAccountClock(Date.now());
       setAccount(next);
@@ -838,7 +840,7 @@ export function TelegramAccountCampaignPanel({
     } finally {
       setAccountLoading(false);
     }
-  }, [telegramAccountEnabled]);
+  }, [telegramAccountEnabled, remoteSender]);
 
   const loadBridgeDevice = useCallback(async (): Promise<LeadRadarTelegramBridgeDeviceState | null> => {
     if (!telegramAccountEnabled || remoteSender) return null;
@@ -2240,7 +2242,9 @@ export function TelegramAccountCampaignPanel({
   const accountCopy = remoteSender && accountStatus
     ? {...ACCOUNT_STATUS_COPY[accountStatus],
       ...(accountStatus==='unconfigured'?{label:'TG Sender не подключён',detail:'Проверьте серверное подключение TG Sender и обновите статус.'}:{}),
-      ...(accountStatus==='connected'?{detail:'TG Sender подтвердил сохранённый аккаунт. Перед запуском сервер повторно проверит его доступность.'}:{}),
+      ...(accountStatus==='connected' && accountReadinessBlocked
+        ? {label:'Нужна настройка',tone:'warning' as const,detail:'Привязка сохранена, но готовность отправителя не подтверждена. Обновите проверку Telegram ниже.'}
+        : accountStatus==='connected'?{detail:'TG Sender подтвердил сохранённый аккаунт. Перед запуском сервер повторно проверит его доступность.'}:{}),
       ...(accountStatus==='pending'||accountStatus==='connecting'?{detail:'Подключение TG Sender ещё не подтверждено. Обновите статус.'}:{})}
     : awaitingTwoFactorPassword
     ? {
@@ -2441,7 +2445,7 @@ export function TelegramAccountCampaignPanel({
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-cyan">Управляемая кампания</p>
               <h2 id={headingId} className="mt-1 text-xl font-semibold text-white">Отдельный Telegram-аккаунт</h2>
               <p className="mt-2 text-sm leading-6 text-white/65">
-                Выберите до 50 компаний и запустите одну кампанию. Сообщения обрабатываются последовательно; Pause и Stop доступны в любой момент. Во время рассылки компьютер и локальный Bridge должны быть включены.
+                Выберите до 50 компаний и запустите одну кампанию. Сообщения обрабатываются последовательно; Pause и Stop доступны в любой момент. {remoteSender ? 'Отправка работает через TG Sender на сервере; держать компьютер включённым не нужно.' : 'Во время рассылки компьютер и локальный Bridge должны быть включены.'}
               </p>
               <p className="mt-1 text-xs leading-5 text-white/55">
                 Серверный лимит: до {telegramCampaignDailyLimit} сообщений за UTC-сутки, интервал — не меньше {telegramCampaignMinimumIntervalSeconds} секунд.
@@ -2552,7 +2556,7 @@ export function TelegramAccountCampaignPanel({
                     <p className="mt-1 text-xs leading-5 text-white/60">{remoteSender?'Отправитель подключается через TG Sender. Сессия Telegram и ключи не передаются в браузер.':'Telegram-сессия хранится только локально в защищённом хранилище Windows. Cloudflare и браузер её не получают.'}</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <Button type="button" variant="secondary" disabled={accountLoading || accountBusy} onClick={() => { void loadAccount(); }} className="min-h-12">
+                    <Button type="button" variant="secondary" disabled={accountLoading || accountBusy} onClick={() => { void loadAccount(true); }} className="min-h-12">
                       <RefreshCw size={16} className={accountLoading ? 'motion-safe:animate-spin' : ''} aria-hidden="true" />Статус
                     </Button>
                     {canRequestConnection && (

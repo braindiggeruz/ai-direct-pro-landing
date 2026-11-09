@@ -57,6 +57,20 @@ test('dental meaning wins over a generic clinic while an unqualified clinic stay
   }, dental).tier, 'related');
 });
 
+test('car wash searches stay in their requested niche instead of selecting car dealers', () => {
+  for (const query of ['Автомойка', 'автомойки', 'мойка автомобилей', 'car wash', 'avtomoyka', 'avto yuvish']) {
+    const intent = resolveLeadRadarIntent(query);
+    assert.equal(intent.canonicalId, 'car_wash', query);
+    assert.equal(scoreLeadRadarOsmTags({amenity:'car_wash',name:'Clean Car'}, intent).tier, 'primary');
+    assert.equal(scoreLeadRadarOsmTags({shop:'car',name:'Auto Motors'}, intent).tier, 'none');
+    assert.equal(scoreLeadRadarOsmTags({shop:'car_repair',name:'Service'}, intent).tier, 'none');
+    const plan = buildLeadRadarQueryPlan({...SEARCH_INPUT,niche:query},[41.1,69.1,41.4,69.5]);
+    assert.match(plan.query,/\["amenity"="car_wash"\]/);
+    assert.doesNotMatch(plan.query,/\["shop"="car"\]/);
+  }
+  assert.equal(resolveLeadRadarIntent('Автосалон').canonicalId, 'automotive');
+});
+
 test('short or generic noise does not trigger a broad semantic category', () => {
   for (const query of ['и', 'для бизнеса', 'student center', 'обычный бизнес']) {
     const resolution = resolveLeadRadarIntent(query);

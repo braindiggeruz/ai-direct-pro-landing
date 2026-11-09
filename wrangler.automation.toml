@@ -35,6 +35,10 @@ bucket_name = "gptbot-lead-radar-campaign-media"
 binding = "LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE"
 service = "gptbot-lead-radar-telegram-account"
 
+[[services]]
+binding = "LEAD_RADAR_TG_SENDER_SERVICE"
+service = "tg-sender-v2"
+
 [[queues.producers]]
 binding = "AUTOMATION_QUEUE"
 queue = "gptbot-automation"

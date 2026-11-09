@@ -1132,6 +1132,21 @@ export async function handleTelegramCampaignPost(
 ): Promise<Response> {
   const ctx = rawContext as CampaignContext;
   try {
+    if (tgSenderMode(ctx.env) && parts.join('/') === 'telegram-account/tg-sender/probe') {
+      if (!capabilities.telegramAccountEnabled) return ownerError('lead_radar_telegram_account_paused', ctx.requestId, 409);
+      if (!idempotencyKey(ctx)) return requiredIdempotencyResponse(ctx);
+      if (!await exactBody(ctx, [])) return ownerError('telegram_campaign_invalid_input', ctx.requestId, 400);
+      const schema = await campaignSchemaResponse(ctx);
+      if (schema) return schema;
+      const dataKey = campaignDataKey(ctx);
+      if (!dataKey) return unavailable('telegram_campaign_not_configured', ctx);
+      const readiness = await withCampaignDataKeyReadiness(ctx, orgId, dataKey,
+        capabilities.telegramAccountReadiness ?? OPERATIONALLY_READY, null, false);
+      if (readiness.status === 'blocked') return readinessResponse(readiness, ctx);
+      const verified = await configuredTgSender(ctx.env, orgId)?.probeSession();
+      if (!verified?.ready || !verified.providerVerifiedAt) return unavailable('tg_sender_unavailable', ctx);
+      return handleTelegramCampaignGet(ctx, ['telegram-account'], orgId, capabilities);
+    }
     if (tgSenderMode(ctx.env) && parts.join('/') === 'telegram-account/tg-sender/connect') {
       if (!capabilities.telegramAccountEnabled) return ownerError('lead_radar_telegram_account_paused', ctx.requestId, 409);
       const requestKey = idempotencyKey(ctx);

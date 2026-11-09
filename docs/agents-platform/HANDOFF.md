@@ -1,3 +1,32 @@
+# Current handoff — Lead Radar readiness · 09.11.2026
+
+## 1. State
+Source validation followed by guarded release; owner requested preparation, not dispatch.
+## 2. Delivered
+Car-wash intent, private TG Sender service binding, explicit provider status refresh and truthful blocked sender UI.
+## 3. Files
+See reports/lead-radar-ready-20261109/IMPLEMENTATION.md and scoped commit diff.
+## 4. Decisions
+Preserve every previous account, search and campaign; only the existing explicit cutover may retire a legacy connection after its safety checks.
+## 5. Excluded
+No actual company message, fabricated contact approval, schema change, bot webhook, SEO or payment modification.
+## 6. Validation
+Targeted intent/account/UI/config tests; full outreach suite; frontend/functions/Lead Radar typechecks and scoped lint. Build and public readback required before claiming production ready.
+## 7. Open issues
+The currently stored account is a legacy Bridge; live transport and explicit owner transition must be verified after release. Discovered usernames alone are not verified corporate recipients.
+## 8. Next task
+Build, guarded Pages release, preserved-config automation release, authenticated sender readback and campaign preparation. Stop before sending.
+## 9. Release
+DR_ROOT=F:/Claude/gptbot-outreach-ready-20261109; deploy_runner.py check/deploy only. Separate automation release snapshots current settings and adds only its private sender binding.
+## 10. Evidence
+F:/Claude/gptbot-tools/lead-radar-help-20261109. Private files remain ACL restricted; do not publish secrets or contact details.
+## 11. Cautions
+Current production ancestry is 07685df5. Do not redeploy the older November 7 worktree. Keep daily/pacing limits, tenant and sender binding checks unchanged.
+## 12. Previous handoff
+Prior history follows unchanged.
+
+---
+
 # Current handoff — marketing GAP implementation · 09.11.2026
 
 ## 1. State

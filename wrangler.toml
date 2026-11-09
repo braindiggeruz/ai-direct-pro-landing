@@ -131,6 +131,10 @@ bucket_name = "gptbot-document-artifacts"
 binding = "LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE"
 service = "gptbot-lead-radar-telegram-account"
 
+[[services]]
+binding = "LEAD_RADAR_TG_SENDER_SERVICE"
+service = "tg-sender-v2"
+
 
 # Workers AI binding (Cloudflare Pages Functions).
 # Powers the direct-AI SEO Autopilot generator. The binding name "AI"

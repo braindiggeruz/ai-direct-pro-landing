@@ -819,6 +819,11 @@ export const api = {
       'POST','/api/admin/lead-radar/telegram-account/tg-sender/connect',replaceAccountId ? {replaceAccountId} : {},
       {headers:{'Idempotency-Key':idempotencyKey}},
     ),
+  leadRadarRefreshTgSender: (idempotencyKey: string) =>
+    request<import('./lead-radar-campaign').LeadRadarTelegramAccountState>(
+      'POST', '/api/admin/lead-radar/telegram-account/tg-sender/probe', {},
+      {headers: {'Idempotency-Key': idempotencyKey}},
+    ),
   leadRadarOverview: () =>
     request<import('../../shared/lead-radar').LeadRadarOverview>('GET', '/api/admin/lead-radar'),
   leadRadarEnrichmentDiagnostics: (searchId: string) =>

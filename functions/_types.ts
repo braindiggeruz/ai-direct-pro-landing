@@ -140,6 +140,8 @@ export interface Env extends FirecrawlEnvironment {
   LEAD_RADAR_TG_SENDER_ORIGIN?: string;
   LEAD_RADAR_TG_SENDER_TOKEN?: string;
   LEAD_RADAR_TG_SENDER_BINDING_JSON?: string;
+  // Same-account Worker transport; keeps the existing scoped bearer contract.
+  LEAD_RADAR_TG_SENDER_SERVICE?: Fetcher;
   LEAD_RADAR_PUBLIC_BUSINESS_INQUIRY_ENABLED?: string;
   // Independent high-entropy bearer used only on private Service Binding
   // account/send calls. Never expose it to the browser or local Bridge.

@@ -3,7 +3,7 @@ import { TgSenderCampaignSender } from './tg-sender-client';
 import { isTgSenderBinding, TG_SENDER_ORIGIN, TG_SENDER_PREFIX, type TgSenderBinding } from './tg-sender-contract';
 
 type TransportEnv = Pick<Env, 'LEAD_RADAR_TELEGRAM_TRANSPORT_MODE' | 'LEAD_RADAR_TG_SENDER_ORIGIN'
-  | 'LEAD_RADAR_TG_SENDER_TOKEN' | 'LEAD_RADAR_TG_SENDER_BINDING_JSON'>;
+  | 'LEAD_RADAR_TG_SENDER_TOKEN' | 'LEAD_RADAR_TG_SENDER_BINDING_JSON' | 'LEAD_RADAR_TG_SENDER_SERVICE'>;
 
 export function tgSenderMode(env: TransportEnv): boolean {
   return env.LEAD_RADAR_TELEGRAM_TRANSPORT_MODE === 'tg_sender';
@@ -32,12 +32,21 @@ export function configuredTgSender(env: TransportEnv, orgId: string, fetcher: ty
   if (!configuration) return null;
   return new TgSenderCampaignSender({
     token: configuration.token, binding: configuration.binding, enabled: true,
+    onReadinessFailure: stage => console.warn('lead_radar.tg_sender_readiness_failed', {stage}),
     service: {fetch: async (input, init) => {
       const url = new URL(input);
       if (url.origin !== TG_SENDER_ORIGIN || !url.pathname.startsWith(`${TG_SENDER_PREFIX}/`) || url.search || url.hash) {
         throw new Error('tg_sender_route_invalid');
       }
-      return fetcher(`${configuration.origin}${url.pathname}`, {...init, redirect: 'error'});
+      const target = `${configuration.origin}${url.pathname}`;
+      const options = {...init, redirect: 'error' as const};
+      if (env.LEAD_RADAR_TG_SENDER_SERVICE) {
+        if (configuration.origin !== 'https://tg-sender-v2.braindigger-uz.workers.dev') {
+          throw new Error('tg_sender_binding_origin_mismatch');
+        }
+        return env.LEAD_RADAR_TG_SENDER_SERVICE.fetch(target, options);
+      }
+      return fetcher(target, options);
     }},
   });
 }
