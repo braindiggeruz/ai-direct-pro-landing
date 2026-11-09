@@ -23,3 +23,6 @@ No D1 schema migration. SEO content, URLs, public assets, chat, payments, bot we
 
 ## Remaining owner workflow
 Verify the masked sender, review genuine corporate contact sources, prepare exact recipients and message, then let the owner perform the final send confirmation. Public-source contact review is not proof of consent. No real delivery is asserted by this release.
+
+## Confirmed runtime cause
+Cloudflare Workers does not implement Request.redirect=error. The original Node-only tests accepted this mode, while workerd threw before sending either public or private requests. Reproduced using the production compatibility date/flags. Both client and transport now use manual redirects; the existing non-2xx rejection still denies every redirect. A real Miniflare/workerd test covers a successful scoped session probe and a rejected 302. Official reference: https://developers.cloudflare.com/workers/runtime-apis/request/ .

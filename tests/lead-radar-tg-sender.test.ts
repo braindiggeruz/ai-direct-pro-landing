@@ -18,7 +18,7 @@ test('prepares canonical immutable cross-repository digest and only opaque execu
 });
 test('preflight accepts strict capabilities then dispatches once with runtime auth and idempotency key',async()=>{
  const calls:string[]=[];
- const api=client((path,init)=>{calls.push(path);assert.equal((init.headers as Record<string,string>).Authorization,'Bearer '+'t'.repeat(48));assert.equal(init.redirect,'error');
+ const api=client((path,init)=>{calls.push(path);assert.equal((init.headers as Record<string,string>).Authorization,'Bearer '+'t'.repeat(48));assert.equal(init.redirect,'manual');
   if(path.endsWith('/status'))return json(status());
   const body=JSON.parse(String(init.body));assert.equal((init.headers as Record<string,string>)['Idempotency-Key'],body.effect_id);
   const {schema,binding,effect_id,payload_sha256}=body;return json({schema,binding,effect_id,payload_sha256,state:'accepted',provider_message_id:'501'});

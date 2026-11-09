@@ -39,7 +39,7 @@ export function configuredTgSender(env: TransportEnv, orgId: string, fetcher: ty
         throw new Error('tg_sender_route_invalid');
       }
       const target = `${configuration.origin}${url.pathname}`;
-      const options = {...init, redirect: 'error' as const};
+      const options = {...init, redirect: 'manual' as const};
       if (env.LEAD_RADAR_TG_SENDER_SERVICE) {
         if (configuration.origin !== 'https://tg-sender-v2.braindigger-uz.workers.dev') {
           throw new Error('tg_sender_binding_origin_mismatch');

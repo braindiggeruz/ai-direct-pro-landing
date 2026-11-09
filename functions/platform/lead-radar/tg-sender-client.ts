@@ -61,9 +61,10 @@ export class TgSenderCampaignSender implements TelegramCampaignSender {
     const timeout = new Promise<never>((_resolve,reject) => { timer = setTimeout(() => { controller.abort(); reject(new Error('tg_sender_timeout')); },deadline); });
     const operation = async () => {
       const response = await this.options.service.fetch(`${TG_SENDER_ORIGIN}${TG_SENDER_PREFIX}${path}`,{
-        method, signal: controller.signal, redirect:'error', headers:{Authorization:`Bearer ${this.options.token}`,'Content-Type':'application/json; charset=utf-8',...headers},
+        method, signal: controller.signal, redirect:'manual', headers:{Authorization:`Bearer ${this.options.token}`,'Content-Type':'application/json; charset=utf-8',...headers},
         ...(body === undefined ? {} : {body:JSON.stringify(body)}),
       });
+      // Workers rejects redirect:error before sending. Manual plus this status gate rejects every 3xx.
       if (!response.ok || !response.body) throw new Error('tg_sender_unavailable');
       const reader = response.body.getReader();
       let length = 0;

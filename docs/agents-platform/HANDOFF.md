@@ -1,7 +1,7 @@
 # Current handoff — Lead Radar readiness · 09.11.2026
 
 ## 1. State
-Validated and pending guarded release; owner requested preparation, not dispatch.
+Initial release deployed. Runtime cause reproduced in workerd: redirect:error is unsupported. Follow-up uses manual with rejection of all non-2xx; owner requested preparation, not dispatch.
 ## 2. Delivered
 Car-wash intent, private TG Sender service binding, explicit provider status refresh and truthful blocked sender UI.
 ## 3. Files

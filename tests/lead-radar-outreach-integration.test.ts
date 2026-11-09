@@ -39,7 +39,7 @@ function mockSender(context:TestContext,binding:Record<string,string>,body?:()=>
     assert.equal(init?.method,probe?'POST':'GET');
     if(probe)assert.deepEqual(JSON.parse(String(init?.body)),{schema:TG_SENDER_SCHEMA,binding:requestBinding?.()??binding});
     assert.equal(new Headers(init?.headers).get('Authorization'),'Bearer '+TOKEN);
-    assert.equal(init?.redirect,'error');
+    assert.equal(init?.redirect,'manual');
     return Response.json(body?body():status(binding));
   });return calls;
 }
@@ -235,7 +235,7 @@ test('same-account TG Sender uses only its private binding and retains the scope
     boundCalls++;
     assert.equal(input,env.LEAD_RADAR_TG_SENDER_ORIGIN+TG_SENDER_PREFIX+'/status');
     assert.equal(new Headers(init.headers).get('Authorization'),'Bearer '+TOKEN);
-    assert.equal(init.redirect,'error');
+    assert.equal(init.redirect,'manual');
     return Response.json(status(binding));
   }} as unknown as Fetcher;
   const fallback=async()=>{publicCalls++;throw new Error('public transport must not run');};
