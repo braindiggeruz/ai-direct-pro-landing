@@ -61,7 +61,8 @@ test('guarded deploy pins the reviewed TOML when a parent JSONC shadows automati
     assert.deepEqual(pinned.d1_databases.map(binding => binding.binding), ['GPTBOT_DRAFTS_DB']);
     assert.deepEqual(pinned.kv_namespaces.map(binding => binding.binding), ['LOGIN_ATTEMPTS']);
     assert.deepEqual(pinned.r2_buckets.map(binding => binding.binding), ['MARKET_MEDIA', 'LEAD_RADAR_CAMPAIGN_MEDIA', 'DOCUMENT_ARTIFACTS']);
-    assert.deepEqual(pinned.services.map(binding => binding.binding), ['LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE']);
+    assert.deepEqual(pinned.services.map(binding => binding.binding), ['LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE', 'LEAD_RADAR_TG_SENDER_SERVICE']);
+    assert.equal(pinned.services.find(binding => binding.binding === 'LEAD_RADAR_TG_SENDER_SERVICE')?.service, 'tg-sender-v2');
     assert.equal(pinned.ai?.binding, 'AI');
     assert.deepEqual(pinned.queues.producers.map(binding => binding.binding), ['AUTOMATION_QUEUE']);
     assert.equal(Object.keys(pinned.vars).length, 3);

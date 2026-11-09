@@ -3403,7 +3403,7 @@
     "next": "Complete guarded release, public verification and discovery; do not claim indexing recovery without Google confirmation"
   },
   "lead_radar_ready_20261109": {
-    "status": "validation_then_guarded_release",
+    "status": "validated_pending_release",
     "owner_request": "Prepare Lead Radar/TG Sender for owner-operated outreach; no messages sent",
     "baseline_commit": "07685df5417c5ce6056b30e59b9d8457467b73a8",
     "scope": [
@@ -3413,6 +3413,7 @@
       "Truthful account readiness UI"
     ],
     "report": "reports/lead-radar-ready-20261109/IMPLEMENTATION.md",
-    "next": "Complete build/release and verify connected sender in owner UI; prepare campaign without sending"
+    "next": "Complete build/release and verify connected sender in owner UI; prepare campaign without sending",
+    "validation": "53 targeted + 109 outreach + 47 release checks pass; all three typechecks, scoped lint and full production build pass"
   }
 }

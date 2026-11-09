@@ -1,7 +1,7 @@
 # Current handoff — Lead Radar readiness · 09.11.2026
 
 ## 1. State
-Source validation followed by guarded release; owner requested preparation, not dispatch.
+Validated and pending guarded release; owner requested preparation, not dispatch.
 ## 2. Delivered
 Car-wash intent, private TG Sender service binding, explicit provider status refresh and truthful blocked sender UI.
 ## 3. Files
@@ -11,7 +11,7 @@ Preserve every previous account, search and campaign; only the existing explicit
 ## 5. Excluded
 No actual company message, fabricated contact approval, schema change, bot webhook, SEO or payment modification.
 ## 6. Validation
-Targeted intent/account/UI/config tests; full outreach suite; frontend/functions/Lead Radar typechecks and scoped lint. Build and public readback required before claiming production ready.
+53 targeted, 109 outreach and 47 release checks PASS; three typechecks, scoped lint and full production build PASS. Public readback is required before claiming production ready.
 ## 7. Open issues
 The currently stored account is a legacy Bridge; live transport and explicit owner transition must be verified after release. Discovered usernames alone are not verified corporate recipients.
 ## 8. Next task
