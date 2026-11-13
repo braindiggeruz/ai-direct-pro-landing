@@ -1,4 +1,14 @@
 {
+  "target_cro_20261113": {
+    "status": "validated_pending_guarded_release",
+    "owner_authorized": "In-place conversion redesign; preserve destination URL and advertising budget",
+    "route": "/uz/instagram-target-yoqish/",
+    "baseline_commit": "28dfc6339b4aba5fb7556957137bde3bd22de224",
+    "report": "reports/target-cro-20261113/IMPLEMENTATION.md",
+    "preserved": "Original SEO metadata/content, all other pages, existing lead acknowledgement/backend, Meta campaign and budget",
+    "next": "Full production build, guarded check/deploy, public and advertising readback; receipts in delivery folder",
+    "limitations": "One unrelated baseline calculator attribution source assertion remains stale; no measured conversion uplift yet"
+  },
   "railway_documents_20261107": {
     "status": "deployed_verified",
     "scope": "Private RU/UZ proposal and presentation PDF worker with owner/Studio/chat UI",

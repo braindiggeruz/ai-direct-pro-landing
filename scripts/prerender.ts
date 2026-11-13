@@ -17,6 +17,7 @@ import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
 import { renderLeadForm, renderLeadFormScript } from './lead-form';
 import { renderLeadDemo } from './lead-demo';
+import { isTargetLanding, renderTargetLanding, renderTargetSticky, TARGET_LANDING_STYLE } from './target-landing';
 import {
   CONTACT_ANCHOR,
   CONTACT_CTA_LABEL,
@@ -1044,7 +1045,9 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
   // contact: since the owner's order of 26.10.2026 «Написать в Telegram», the
   // phone only while it is public; the second is the page's lead form, if any.
   const showStickyCta = isCommercialPage || STICKY_BAR_EXTRA_URLS.has(page.url);
-  const stickyCtaHtml = showStickyCta
+  const stickyCtaHtml = isTargetLanding(page)
+    ? renderTargetSticky(pageContact(page).telegram || '')
+    : showStickyCta
     ? stickyContactBar(page.locale === 'uz' ? 'uz' : 'ru', { leadForm: Boolean(leadForm), contact: pageContact(page) })
     : '';
 
@@ -1098,6 +1101,7 @@ ${LLM_MARKDOWN_URLS.has(page.url)
 ${marketVariant ? '' : `<link rel="icon" type="image/png" sizes="96x96" href="/assets/landing/logo-sq-96.png" />
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />`}
 ${cssLinks}${isPseoPracticePage(page) ? `\n<link rel="stylesheet" href="${PSEO_STYLE_HREF}" />` : ''}${isMarketingTool(page) ? '\n' + marketingToolStyle : ''}
+${isTargetLanding(page) ? `<link rel="stylesheet" href="${TARGET_LANDING_STYLE}" />` : ''}
 ${page.pageType === 'gpt-chat' ? chatStyles.map((href) => `<link rel="stylesheet" href="${escapeHtml(href)}" />`).join('\n') : ''}
 ${page.pageType === 'gpt-chat' ? chatPreloads.map((href) => `<link rel="modulepreload" href="${escapeHtml(href)}" />`).join('\n') : ''}${chatToolHead(page, chatToolHref)}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
@@ -1107,7 +1111,7 @@ ${FIRST_TOUCH_SCRIPT}
 ${ANALYTICS_HEAD}
 ${METRIKA_HEAD}
 </head>
-<body class="${marketVariant ? 'market-page' : 'bg-bg-base text-white'} antialiased ${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta && !marketVariant ? 'pb-24 lg:pb-0' : ''}">
+<body class="${marketVariant ? 'market-page' : 'bg-bg-base text-white'} antialiased ${isTargetLanding(page) ? 'target-cro-page ' : ''}${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta && !marketVariant ? 'pb-24 lg:pb-0' : ''}">
 <a href="${isToolFirstPage(page) ? '#tool-first' : '#main'}" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-lg focus:border focus:border-black">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 ${METRIKA_NOSCRIPT}
 ${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : renderLandingHeader(page, global, altRu, altUz)}
@@ -1116,6 +1120,15 @@ ${marketVariant
   ? page.slug === 'sotuvchi' ? renderMarketLanding(page) : renderMarketTrust(page)
   : page.pageType === 'gpt-chat'
   ? renderGptChatMain(page, global)
+  : isTargetLanding(page)
+  ? renderTargetLanding(page, {
+    leadFormHtml,
+    articleHtml: renderArticle(page.bodyBlocks || [], contentAnchor) + renderRequisites(page),
+    faqHtml: renderFaq(page.faq || [], 'uz'),
+    sourcesHtml: renderSources(page),
+    relatedHtml: renderInternalLinks(page) + renderRelatedArticles(page, articles),
+    bylineHtml: `${modifiedIso ? `<p data-testid="page-updated" class="text-xs text-white/40 mb-4">${escapeHtml(modifiedLabel)} <time datetime="${modifiedIso}">${escapeHtml(modifiedIso)}</time></p>` : ''}${bylineHtml}`,
+  })
   : `<main id="main" class="${page.designVariant === 'digital-command-center' ? 'dc-shell' : 'max-w-3xl'} mx-auto px-4 sm:px-6 py-12 sm:py-20">
   <nav aria-label="Breadcrumb" class="text-sm text-white/50 mb-6">
     <a href="${page.locale === 'uz' ? '/uz/' : '/'}" class="hover:text-white">${escapeHtml(global.siteName)}</a>

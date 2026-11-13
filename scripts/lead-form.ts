@@ -165,10 +165,23 @@ const META_TARGET_BOOT = String.raw`
       fbq.push=fbq;fbq.loaded=true;fbq.version='2.0';fbq.queue=[];
     }
     var pixelId=${JSON.stringify(META_TARGET_PIXEL_ID)};
+    // Static-page anchors are CTA interactions, not another page view.
+    fbq.disablePushState=true;
     fbq('set','autoConfig',false,pixelId);
     fbq('init',pixelId);
-    function trackEvent(event){try{fbq('trackSingle',pixelId,event);}catch(e){}}
+    var standard={PageView:1,ViewContent:1,Lead:1},custom={LeadFormView:1,LeadFormStart:1,LeadCTAClick:1,TelegramContactClick:1},sent={};
+    function trackEvent(event,zone){
+      if(!Object.prototype.hasOwnProperty.call(standard,event)&&!Object.prototype.hasOwnProperty.call(custom,event))return;
+      zone=/^(hero|process|footer|sticky|form|fallback|page)$/.test(zone||'')?zone:'page';
+      var key=event+':'+(custom[event]?zone:'page');if(event!=='Lead'&&sent[key])return;
+      var params={service_slug:'target',page_path:'/uz/instagram-target-yoqish/',landing_variant:'target_cro_20261113'};
+      if(custom[event])params.cta_zone=zone;
+      if(event==='ViewContent'){params.content_name='Instagram target xizmati';params.content_category='Advertising service';}
+      try{fbq(custom[event]?'trackSingleCustom':'trackSingle',pixelId,event,params);sent[key]=true;}catch(e){}
+    }
     trackEvent('PageView');
+    function trackVisibleContent(){if(document.visibilityState!=='hidden'){trackEvent('ViewContent');document.removeEventListener('visibilitychange',trackVisibleContent);}}
+    if(document.visibilityState==='hidden')document.addEventListener('visibilitychange',trackVisibleContent);else trackVisibleContent();
     var sdkUrl='https://connect.facebook.net/en_US/fbevents.js';
     if(!document.querySelector('script[src="'+sdkUrl+'"]')){
       var sdk=document.createElement('script');sdk.async=true;sdk.src=sdkUrl;document.head.appendChild(sdk);
@@ -339,8 +352,15 @@ export function renderLeadForm(page: LeadFormPage): string {
   const service = leadFormServiceFor(page);
   if (!service) return '';
   const locale = page.locale === 'uz' ? 'uz' : 'ru';
-  const t = COPY[locale];
-  const budget = LEAD_BUDGET_FIELD[locale];
+  const targetCRO = page.url === META_TARGET_PATH && locale === 'uz';
+  const t = targetCRO ? {
+    ...COPY.uz,
+    heading: 'Biznesingiz uchun hisob-kitob oling',
+    intro: 'Telefon yoki Telegram manzilingizni qoldiring. Vazifangizni aniqlab, ish tarkibi va reklama sinovi uchun byudjetni muhokama qilamiz. Du–Sha 10:00–19:00.',
+    submit: 'Bepul hisob-kitob olish',
+    task: 'Biznesingiz va reklama maqsadi',
+  } : COPY[locale];
+  const budget = targetCRO ? { ...LEAD_BUDGET_FIELD.uz, label: 'Oylik reklama byudjeti (xizmat haqidan tashqari)' } : LEAD_BUDGET_FIELD[locale];
   const label = telegramServiceLabel(page.breadcrumbLabel || page.h1);
   const fallback = leadFormFallback(locale, label, page.url);
   return `<section id="lead-form" data-testid="page-lead-form" aria-labelledby="lead-form-heading" class="mt-16 scroll-mt-24 rounded-2xl border border-brand-cyan/20 bg-brand-cyan/[0.04] p-5 sm:p-8">
@@ -348,19 +368,21 @@ export function renderLeadForm(page: LeadFormPage): string {
       <h2 id="lead-form-heading" class="font-display text-2xl sm:text-3xl text-white mb-3">${escapeText(t.heading)}</h2>
       <p class="text-sm sm:text-base text-white/70 leading-relaxed mb-6">${escapeText(t.intro)}</p>
       <form data-lead-form method="post" data-service="${escapeAttr(service)}" data-locale="${locale}" data-label="${escapeAttr(label)}" data-fallback="${escapeAttr(fallback.href)}" data-fallback-text="${escapeAttr(fallback.text)}" class="grid gap-4 ym-disable-submit" novalidate>
+        ${targetCRO ? `<label class="grid gap-2 text-sm text-white/80"><span>${escapeText(t.contact)}</span><input name="contact" type="text" autocomplete="tel" required aria-required="true" maxlength="100" placeholder="${escapeAttr(t.placeholder)}" class="${INPUT_CLASS}" /></label>
+        <details class="target-form-details"><summary>Biznes haqida qo‘shimcha ma’lumot <span>(ixtiyoriy)</span></summary><div class="grid gap-4 mt-4">` : ''}
         <div class="grid gap-4 sm:grid-cols-2">
           <label class="grid gap-2 text-sm text-white/80">
             <span>${escapeText(t.name)} <span class="text-white/45">${escapeText(t.optional)}</span></span>
             <input name="name" type="text" autocomplete="name" maxlength="80" class="${INPUT_CLASS}" />
           </label>
-          <label class="grid gap-2 text-sm text-white/80">
+          ${!targetCRO ? `<label class="grid gap-2 text-sm text-white/80">
             <span>${escapeText(t.contact)}</span>
             <input name="contact" type="text" autocomplete="tel" required aria-required="true" maxlength="100" placeholder="${escapeAttr(t.placeholder)}" class="${INPUT_CLASS}" />
-          </label>
+          </label>` : ''}
         </div>
         <label class="grid gap-2 text-sm text-white/80">
           <span>${escapeText(t.task)} <span class="text-white/45">${escapeText(t.optional)}</span></span>
-          <textarea name="task" rows="3" maxlength="420" placeholder="${escapeAttr(taskPlaceholderFor(service, locale))}" class="${INPUT_CLASS}"></textarea>
+          <textarea name="task" rows="3" maxlength="420" placeholder="${escapeAttr(targetCRO ? 'Masalan: Toshkentdagi o‘quv markazimiz uchun yangi guruhga arizalar kerak.' : taskPlaceholderFor(service, locale))}" class="${INPUT_CLASS}"></textarea>
         </label>
         <label class="grid gap-2 text-sm text-white/80">
           <span>${escapeText(budget.label)} <span class="text-white/45">${escapeText(budget.optional)}</span></span>
@@ -369,6 +391,7 @@ export function renderLeadForm(page: LeadFormPage): string {
             <option value="${value}">${escapeText(LEAD_BUDGET_LABELS[locale][value])}</option>`).join('')}
           </select>
         </label>
+        ${targetCRO ? '</div></details>' : ''}
         <label class="flex min-h-[44px] cursor-pointer items-start gap-3 text-sm leading-relaxed text-white/70">
           <input name="consent" type="checkbox" required aria-required="true" class="mt-0.5 h-5 w-5 shrink-0 accent-[#2FE6D1]" />
           <span>${escapeText(t.consentBefore)}<a href="${PRIVACY_PAGE[locale]}" class="text-brand-cyan underline underline-offset-2 hover:no-underline">${escapeText(t.consentLink)}</a>${escapeText(t.consentAfter)}</span>
@@ -391,11 +414,12 @@ export function renderLeadForm(page: LeadFormPage): string {
 function leadFormScript(withMetaTargetPixel: boolean): string {
   return String.raw`<script data-lead-form-script>
 (function(){
-  var form=document.querySelector('[data-lead-form]');if(!form||!form.addEventListener)return;${withMetaTargetPixel ? META_TARGET_BOOT : ''}
+  var form=document.querySelector('[data-lead-form]');if(!form||!form.addEventListener)return;${withMetaTargetPixel ? "\n  if(form.__gptbotTargetFormBound)return;form.__gptbotTargetFormBound=true;" + META_TARGET_BOOT : ''}
   var COPY=${JSON.stringify(CLIENT_COPY)};
   var shouldTrackLead=${shouldTrackLead.toString()};
   var prepareLeadRequest=${prepareLeadRequest.toString()},postLeadJson=${postLeadJson.toString()};
   var uz=form.getAttribute('data-locale')==='uz',T=uz?COPY.uz:COPY.ru;
+  ${withMetaTargetPixel ? "T=Object.assign({},T,{success:'Arizangiz qabul qilindi. Ish vaqtida bog‘lanib, reklama vazifangiz va hisob-kitobni muhokama qilamiz: Du–Sha 10:00–19:00.'});" : ''}
   var service=form.getAttribute('data-service')||'',label=form.getAttribute('data-label')||'';
   var fbHref=form.getAttribute('data-fallback')||'',fbText=form.getAttribute('data-fallback-text')||'';
   var section=form.parentNode,status=section&&section.querySelector('[data-lead-form-status]');
@@ -462,6 +486,41 @@ function leadFormScript(withMetaTargetPixel: boolean): string {
     lockFields(false);
     if(button){button.disabled=false;button.removeAttribute('aria-busy');}
   }
+  ${withMetaTargetPixel ? `// Diagnostic events contain no form values and never count as leads.
+  var started=false,diagnosticSent={},metaDiagnostics={lead_form_view:'LeadFormView',lead_form_start:'LeadFormStart',lead_cta_click:'LeadCTAClick',telegram_contact_click:'TelegramContactClick'};
+  function targetEvent(name,zone){
+    if(!Object.prototype.hasOwnProperty.call(metaDiagnostics,name))return;
+    zone=/^(hero|process|footer|sticky|form|fallback|page)$/.test(zone||'')?zone:'page';
+    var key=name+':'+zone;if(diagnosticSent[key])return;diagnosticSent[key]=true;
+    track({event:name,service_slug:'target',page_path:'/uz/instagram-target-yoqish/',landing_variant:'target_cro_20261113',cta_zone:zone});
+    if(trackMetaTargetEvent)trackMetaTargetEvent(metaDiagnostics[name],zone);
+  }
+  form.addEventListener('input',function(){if(!started){started=true;targetEvent('lead_form_start','form');}});
+  if(typeof IntersectionObserver==='function'){
+    var formObserver=new IntersectionObserver(function(entries){if(entries.some(function(entry){return entry.isIntersecting;})){targetEvent('lead_form_view','form');formObserver.disconnect();}},{threshold:0.2});formObserver.observe(form);
+  }
+  document.addEventListener('click',function(event){
+    var anchor=event.target&&event.target.closest?event.target.closest('a'):null;if(!anchor)return;
+    var zone=anchor.closest('.target-sticky')?'sticky':anchor.closest('[data-lead-form-status]')?'fallback':anchor.getAttribute('data-cta-zone')||'page';
+    if(anchor.getAttribute('href')==='#lead-form')targetEvent('lead_cta_click',zone);
+    else if(anchor.getAttribute('data-contact')==='studio'){
+      try{var destination=new URL(anchor.href);if(destination.protocol==='https:'&&destination.hostname==='t.me')targetEvent('telegram_contact_click',zone);}catch(e){}
+    }
+  });` : ''}
+  ${withMetaTargetPixel ? `// A voluntary Telegram message can carry an ad reference, never contact values.
+  try{
+    var adReference=new URLSearchParams(window.location.search||'').get('ad_id');
+    if(adReference&&/^[0-9]{5,30}$/.test(adReference)){
+      document.querySelectorAll('a[data-contact="studio"]').forEach(function(anchor){
+        var href=new URL(anchor.href);if(href.hostname!=='t.me')return;
+        var text=href.searchParams.get('text')||'';
+        href.searchParams.set('text',text+'\\nManba: target_cro_20261113 / Meta '+adReference);anchor.href=href.toString();
+      });
+      var fallbackUrl=new URL(fbHref);if(fallbackUrl.hostname==='t.me'){
+        fallbackUrl.searchParams.set('text',(fallbackUrl.searchParams.get('text')||'')+'\\nManba: target_cro_20261113 / Meta '+adReference);fbHref=fallbackUrl.toString();
+      }
+    }
+  }catch(e){}` : ''}
   function success(result){
     // Contact dedupe acknowledges the earlier row, not the new task text.
     // Keep that text available to copy when clarifying via the direct contact.
@@ -475,7 +534,7 @@ function leadFormScript(withMetaTargetPixel: boolean): string {
     say(T.success,false);
     try{if(status)status.focus();}catch(e){}
     if(shouldTrackLead(result,attempt.requestId,window)){
-      track({event:'generate_lead',lead_source:'page_form',service_slug:service,page_path:window.location.pathname});
+      track({event:'generate_lead',lead_source:'page_form',service_slug:service,page_path:window.location.pathname${withMetaTargetPixel ? ",landing_variant:'target_cro_20261113'" : ''}});
       try{if(typeof window.ym==='function')window.ym(111312750,'reachGoal','lead_form_success');}catch(e){}${withMetaTargetPixel ? "\n      if(trackMetaTargetEvent)trackMetaTargetEvent('Lead');" : ''}
     }
   }
@@ -510,6 +569,9 @@ function leadFormScript(withMetaTargetPixel: boolean): string {
     say(T.sending,false);
     var ft=readFt();
     var body={consent:true,contactValue:contact,source:'page_form',service:service,intent:label,pageUrl:window.location.pathname,locale:uz?'uz':'ru',utm:utm(ft),attribution:attribution(ft)};
+    ${withMetaTargetPixel ? `// Existing utm_json accepts bounded source metadata; no new schema or first-touch rewrite.
+    body.utm.landing_variant='target_cro_20261113';
+    try{var currentTags=new URLSearchParams(window.location.search||'');['campaign_id','adset_id','ad_id'].forEach(function(key){var value=currentTags.get(key);if(value&&/^[0-9]{5,30}$/.test(value))body.utm[key]=value;});}catch(e){}` : ''}
     if(name)body.name=name.slice(0,80);
     if(task)body.intent=(label+' — '+task.slice(0,420)).slice(0,500);
     if(budgetEl&&budgetEl.value)body.budget=budgetEl.value;

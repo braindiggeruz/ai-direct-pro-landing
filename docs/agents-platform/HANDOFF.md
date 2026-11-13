@@ -1,3 +1,32 @@
+# Current handoff — target landing CRO · 13.11.2026
+
+## 1. State
+Local implementation validated; full production build and guarded deployment pending. Owner explicitly requested an in-place redesign with unchanged advertising URL and budget.
+## 2. Delivered
+Isolated static conversion layout, two generated illustrations, clear package, early compact form, source metadata and accepted-only conversion tracking.
+## 3. Files
+See reports/target-cro-20261113/IMPLEMENTATION.md and scoped commit diff.
+## 4. Decisions
+Keep `/uz/instagram-target-yoqish/`, title, H1, canonical, hreflang and original SEO article. No Meta write or ad restart.
+## 5. Excluded
+No backend, database, payment, bot, shared chat, automation or account changes.
+## 6. Validation
+TypeScript, scoped lint, target tests and responsive mocked-flow QA passed. Ten protected pages unchanged. One stale calculator source assertion reproduces on the predecessor; no calculator runtime change.
+## 7. Open issues
+Conversion uplift requires real post-release observation. Mocked form checks do not prove new CRM delivery.
+## 8. Next task
+Build production, guarded check/deploy, public asset/SEO/form QA with transports mocked, then read Meta destination and budget again.
+## 9. Release
+DR_ROOT=F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-cro-implementation-20261113/site; deploy_runner.py only. Live baseline source was 28dfc6339b4aba5fb7556957137bde3bd22de224.
+## 10. Evidence
+Parent delivery folder contains before/after snapshots, images/prompts, QA, build/deploy logs and final release receipt.
+## 11. Cautions
+Read current production ancestry before releasing. Keep image prompts and generated assets, avoid real test leads and external messages. No git push authorized or needed.
+## 12. Previous handoff
+Prior operational history remains below unchanged. The current owner request is scoped to the target landing, not unrelated platform stages.
+
+---
+
 # Current handoff — Lead Radar readiness · 09.11.2026
 
 ## 1. State

@@ -371,7 +371,7 @@ test('the SEO and sales-automation landings carry the form, and every call to ac
 
 // Review 2026-10-26: the shared task example is a bot brief; an SEO request
 // gets an SEO example. Only the 'seo' and 'local-seo' slugs change.
-test('SEO forms show an SEO task example; every other form keeps the shared one', () => {
+test('SEO and the scoped Uzbek target form show relevant task examples; others keep the shared one', () => {
   const seoExample = {
     ru: 'Например: сайт example.uz, нужны заявки из Google и Яндекса по Ташкенту',
     uz: 'Masalan: sayt example.uz, Google’dan Toshkent bo‘yicha arizalar kerak',
@@ -398,6 +398,10 @@ test('SEO forms show an SEO task example; every other form keeps the shared one'
     const page = PAGES.get(url);
     if (!page || !leadFormServiceFor(page)) continue;
     const locale = page.locale === 'uz' ? 'uz' : 'ru';
+    if (url === '/uz/instagram-target-yoqish/') {
+      assert.ok(renderLeadForm(page).includes('placeholder="Masalan: Toshkentdagi o‘quv markazimiz uchun yangi guruhga arizalar kerak."'));
+      continue;
+    }
     assert.ok(renderLeadForm(page).includes(`placeholder="${shared[locale]}"`), `${url}: the shared example changed`);
   }
 });
