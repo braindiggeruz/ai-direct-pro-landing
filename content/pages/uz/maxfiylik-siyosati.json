@@ -136,7 +136,8 @@
         "Z.ai (Singapur) — faqat chat uning modellariga o‘tkazilgan bo‘lsa; bu ham javob ostidagi model nomidan ko‘rinadi.",
         "Click, Payme va Uzum Bank — to‘lov, chek va pulni qaytarish uchun buyurtma ma’lumotlari.",
         "Telegram — bot orqali kirish, bot bilan yozishma va egasiga arizalar hamda to‘lovlar haqida xabarnomalar.",
-        "Google Analytics (Google), Yandex Metrika (Yandex) va bosh sahifadagi Meta pikseli — tashriflar bo‘yicha shaxssizlantirilgan statistika."
+        "Google Analytics (Google), Yandex Metrika (Yandex) va bosh sahifadagi Meta pikseli — tashriflar statistikasi.",
+        "Target reklama xizmatining o‘zbekcha sahifasida Meta pikseli reklama samaradorligini o‘lchash uchun brauzerning texnik ma’lumotlarini hamda sahifaga tashrif va ariza qabul qilingani haqidagi hodisalarni oladi. Ism, aloqa ma’lumotlari va ariza matni pikselga uzatilmaydi."
       ]
     },
     {

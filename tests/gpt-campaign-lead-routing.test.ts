@@ -10,6 +10,7 @@ import type { BridgeEnv } from '../functions/lib/gpt-chat/bridge-env';
 import { billingFixture } from './helpers/gpt-billing-fixture';
 
 const CAMPAIGN_PATH = '/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/';
+const TARGET_LANDING_PATH = '/uz/instagram-target-yoqish/';
 const DELIVERY = { budgetMs: 4_000, timeoutMs: 4_000, maxRetries: 0 };
 
 async function fixture() {
@@ -66,13 +67,16 @@ function network(t: TestContext, f: Fixture) {
   return { calls, logs, setFailed: (value: boolean) => { fail = value; } };
 }
 
-test('campaign form is durably accepted then uses its sender and explicit owner recipient exactly once', async (t) => {
+for (const route of [
+  { pageUrl: CAMPAIGN_PATH, service: 'ai-bot', locale: 'ru' },
+  { pageUrl: TARGET_LANDING_PATH, service: 'target', locale: 'uz' },
+]) test(`campaign form ${route.pageUrl} uses its sender and explicit owner recipient exactly once`, async (t) => {
   const f = await fixture();
   f.env.GPT_CAMPAIGN_NOTIFY_BOT_TOKEN = ` ${f.env.GPT_CAMPAIGN_NOTIFY_BOT_TOKEN} `;
   f.env.GPT_NOTIFY_CHAT_ID = ' 424242 ';
   const before = resolveOwnerNotify(f.env);
   const net = network(t, f);
-  const body = { consent: true, contactValue: '@offline_fixture', requestId: randomUUID(), source: 'page_form', service: 'ai-bot', pageUrl: CAMPAIGN_PATH, locale: 'ru' };
+  const body = { consent: true, contactValue: '@offline_fixture', requestId: randomUUID(), source: 'page_form', ...route };
   const submit = () => leadPost(f.ctx(new Request('https://gptbot.uz/api/gpt/lead', {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
   })) as never);
@@ -92,6 +96,7 @@ test('campaign form is durably accepted then uses its sender and explicit owner 
 test('other sources, services and stored URL variants keep the original sender', async (t) => {
   const f = await fixture();
   const net = network(t, f);
+  const targetAttribution = JSON.stringify({ attribution: { service: 'target' } });
   const variants: Partial<Attribution>[] = [
     { source: 'chat' }, { source: 'calculator' }, { source: null },
     { pageUrl: '/ru/ai-bot-dlya-biznesa/' }, { pageUrl: CAMPAIGN_PATH.slice(0, -1) },
@@ -100,6 +105,9 @@ test('other sources, services and stored URL variants keep the original sender',
     { pageUrl: `${CAMPAIGN_PATH}#lead` }, { pageUrl: null },
     { utmJson: JSON.stringify({ attribution: { service: 'crm' } }) },
     { utmJson: JSON.stringify({ service: 'ai-bot' }) }, { utmJson: '{invalid' }, { utmJson: null },
+    { pageUrl: TARGET_LANDING_PATH },
+    { pageUrl: TARGET_LANDING_PATH, source: 'chat', utmJson: targetAttribution },
+    { pageUrl: '/ru/targetirovannaya-reklama-tashkent/', utmJson: targetAttribution },
   ];
   for (const row of variants) {
     const id = pendingLead(f, row);

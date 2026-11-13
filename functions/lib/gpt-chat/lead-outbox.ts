@@ -57,16 +57,15 @@ export function serviceFromUtmJson(utmJson: string | null): string | null {
 }
 
 /** Route from durable attribution so immediate delivery and retries agree.
- * Only this page changes sender. The destination is server configuration,
+ * Only the explicitly matched campaign forms change sender. The destination is server configuration,
  * never a value supplied by the visitor; existing global notifications keep
  * their original resolver and fallbacks.
  */
 function leadNotificationEnv(env: BridgeEnv, row: PendingLeadRow, service: string | null): BridgeEnv {
-  if (
-    row.source !== 'page_form'
-    || row.page_url !== '/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/'
-    || service !== 'ai-bot'
-  ) return env;
+  if (row.source !== 'page_form') return env;
+  const aiArticle = row.page_url === '/ru/blog/ii-zahvatit-mir-nachnem-s-zayavok/' && service === 'ai-bot';
+  const targetLanding = row.page_url === '/uz/instagram-target-yoqish/' && service === 'target';
+  if (!aiArticle && !targetLanding) return env;
 
   return {
     ...env,

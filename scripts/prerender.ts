@@ -15,7 +15,7 @@ import type { Page, GlobalSEO, FaqItem, BodyBlock, SchemaType } from '../src/sha
 import { ANALYTICS_HEAD } from './analytics-snippet';
 import { METRIKA_HEAD, METRIKA_NOSCRIPT } from './analytics-metrika';
 import { FIRST_TOUCH_SCRIPT } from './attribution-snippet';
-import { LEAD_FORM_SCRIPT, renderLeadForm } from './lead-form';
+import { renderLeadForm, renderLeadFormScript } from './lead-form';
 import { renderLeadDemo } from './lead-demo';
 import {
   CONTACT_ANCHOR,
@@ -1191,7 +1191,7 @@ ${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatH
 ${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
 ${page.growthTool ? GROWTH_TOOL_SCRIPT : ''}
 ${isMarketingTool(page) ? marketingToolScript : ''}
-${hasCopyablePrompts ? PROMPT_COPY_SCRIPT : ''}${leadForm ? `\n${LEAD_FORM_SCRIPT}` : ''}
+${hasCopyablePrompts ? PROMPT_COPY_SCRIPT : ''}${leadForm ? `\n${renderLeadFormScript(page)}` : ''}
 ${marketVariant ? MARKET_FAQ_SCRIPT : ''}
 </body>
 </html>

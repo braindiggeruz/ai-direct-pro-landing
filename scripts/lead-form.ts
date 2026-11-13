@@ -143,6 +143,39 @@ const EXCLUDED: ReadonlySet<string> = new Set<string>([
   ...MEASUREMENT_HOLD_PATHS,
 ]);
 
+const META_TARGET_PATH = '/uz/instagram-target-yoqish/';
+const META_TARGET_PIXEL_ID = '1445931954174897';
+
+// This pixel belongs to the advertising service. Queue only explicit events for
+// this ID and disable automatic event configuration before initialization.
+const META_TARGET_BOOT = String.raw`
+  var trackMetaTargetEvent;
+  try{trackMetaTargetEvent=(function(){
+    if(window.location.origin!=='https://gptbot.uz'||window.location.pathname!==${JSON.stringify(META_TARGET_PATH)}||form.getAttribute('data-service')!=='target')return;
+    if(navigator.globalPrivacyControl===true||navigator.doNotTrack==='1')return;
+    if(window.__gptbotMetaTargetPixelStarted)return;
+    window.__gptbotMetaTargetPixelStarted=true;
+    var fbq=window.fbq;
+    if(!fbq){
+      fbq=window.fbq=function(){
+        if(fbq.callMethod)fbq.callMethod.apply(fbq,arguments);
+        else fbq.queue.push(arguments);
+      };
+      if(!window._fbq)window._fbq=fbq;
+      fbq.push=fbq;fbq.loaded=true;fbq.version='2.0';fbq.queue=[];
+    }
+    var pixelId=${JSON.stringify(META_TARGET_PIXEL_ID)};
+    fbq('set','autoConfig',false,pixelId);
+    fbq('init',pixelId);
+    function trackEvent(event){try{fbq('trackSingle',pixelId,event);}catch(e){}}
+    trackEvent('PageView');
+    var sdkUrl='https://connect.facebook.net/en_US/fbevents.js';
+    if(!document.querySelector('script[src="'+sdkUrl+'"]')){
+      var sdk=document.createElement('script');sdk.async=true;sdk.src=sdkUrl;document.head.appendChild(sdk);
+    }
+    return trackEvent;
+  })();}catch(e){}`;
+
 export const PRIVACY_PAGE = { ru: '/ru/politika-konfidentsialnosti/', uz: '/uz/maxfiylik-siyosati/' } as const;
 
 interface LeadFormPage {
@@ -355,9 +388,10 @@ export function renderLeadForm(page: LeadFormPage): string {
 // Success is only a literal { ok: true } from the endpoint; only then do
 // generate_lead (Google tag, with a dataLayer fallback) and the Metrika goal
 // lead_form_success fire.
-export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
+function leadFormScript(withMetaTargetPixel: boolean): string {
+  return String.raw`<script data-lead-form-script>
 (function(){
-  var form=document.querySelector('[data-lead-form]');if(!form||!form.addEventListener)return;
+  var form=document.querySelector('[data-lead-form]');if(!form||!form.addEventListener)return;${withMetaTargetPixel ? META_TARGET_BOOT : ''}
   var COPY=${JSON.stringify(CLIENT_COPY)};
   var shouldTrackLead=${shouldTrackLead.toString()};
   var prepareLeadRequest=${prepareLeadRequest.toString()},postLeadJson=${postLeadJson.toString()};
@@ -442,7 +476,7 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
     try{if(status)status.focus();}catch(e){}
     if(shouldTrackLead(result,attempt.requestId,window)){
       track({event:'generate_lead',lead_source:'page_form',service_slug:service,page_path:window.location.pathname});
-      try{if(typeof window.ym==='function')window.ym(111312750,'reachGoal','lead_form_success');}catch(e){}
+      try{if(typeof window.ym==='function')window.ym(111312750,'reachGoal','lead_form_success');}catch(e){}${withMetaTargetPixel ? "\n      if(trackMetaTargetEvent)trackMetaTargetEvent('Lead');" : ''}
     }
   }
   // Russian server messages that read well to a visitor. Anything else (a
@@ -491,3 +525,11 @@ export const LEAD_FORM_SCRIPT = String.raw`<script data-lead-form-script>
   if(button)button.disabled=false;
 })();
 </script>`;
+}
+
+export const LEAD_FORM_SCRIPT = leadFormScript(false);
+
+export function renderLeadFormScript(page: LeadFormPage): string {
+  if (page.url === META_TARGET_PATH && leadFormServiceFor(page) === 'target') return leadFormScript(true);
+  return LEAD_FORM_SCRIPT;
+}
