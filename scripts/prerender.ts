@@ -1137,6 +1137,11 @@ ${marketVariant
         </a>
         ${page.ctaSecondaryHref ? `<a href="${escapeHtml(page.ctaSecondaryHref)}" class="btn-secondary w-full sm:w-auto">${escapeText(page.ctaSecondaryLabel || '')}</a>` : ''}
       </div>
+      ${page.url === '/uz/instagram-target-yoqish/' ? `<aside data-testid="easy-breezy-case" aria-label="Easy Breezy reklama natijalari" class="mb-4 max-w-2xl rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/80">
+        <p class="font-semibold text-white">Easy Breezy · ventilyatsiya xizmatlari</p>
+        <p class="mt-2">Instagram reklamasiga <strong class="text-white">$81,50</strong> sarflandi. CRM’da <strong class="text-white">48 ta ariza</strong> qayd etildi.</p>
+        <p class="mt-2 text-xs text-white/60">Kampaniya 2026-yil 7-noyabrda boshlangan. Ma’lumot 13-noyabr tongi holatiga.</p>
+      </aside>` : ''}
       ${trustHtml}` : ''}
     </div>
     ${page.heroImage ? `<div class="mt-8 lg:mt-0"><img src="${escapeHtml(page.heroImage.src)}" alt="${escapeHtml(page.heroImage.alt)}" width="${page.heroImage.width}" height="${page.heroImage.height}" style="aspect-ratio:${page.heroImage.width}/${page.heroImage.height}" class="rounded-2xl border border-white/10 w-full h-auto" loading="eager" fetchpriority="high" decoding="async" /></div>` : ''}
