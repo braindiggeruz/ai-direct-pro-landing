@@ -136,6 +136,112 @@ test('partial text followed by an error remains an error with the partial answer
   assert.deepEqual(outcome, { mode: 'stream', ok: false, code: 'provider_error', gotText: true });
 });
 
+test('a settled answer ignores late tokens and terminal events without reading the broken transport again', async (t) => {
+  let reads = 0;
+  let cancels = 0;
+  let releases = 0;
+  t.mock.method(globalThis, 'fetch', async () => ({
+    headers: new Headers({ 'Content-Type': 'text/event-stream' }),
+    body: { getReader: () => ({
+      read: async () => {
+        if (reads++ > 0) throw new Error('transport teardown after completion');
+        return { done: false, value: new TextEncoder().encode(sse(
+          { type: 'delta', text: 'Completed answer' },
+          { type: 'done', remaining: 15, hourRemaining: 4, modelUsed: 'fixture-model', truncated: true, charged: false },
+          { type: 'delta', text: ' late text' },
+          { type: 'meta', sessionId: 'late-session', model: 'late-model' },
+          { type: 'done', remaining: 0, charged: true },
+          { type: 'error', code: 'provider_error' },
+        )) };
+      },
+      cancel: async () => { cancels++; throw new Error('connection already closed'); },
+      releaseLock: () => { releases++; },
+    }) },
+  }));
+  let answer = '';
+  const outcome = await sendChatStream('', params, {
+    onMeta: () => assert.fail('late metadata must be ignored'),
+    onDelta: text => { answer += text; },
+  }, new AbortController().signal);
+  assert.equal(answer, 'Completed answer');
+  assert.deepEqual(outcome, {
+    mode: 'stream', ok: true, remaining: 15, hourRemaining: 4, truncated: true, charged: false, modelUsed: 'fixture-model', gotText: true,
+  });
+  assert.equal(reads, 1);
+  assert.equal(cancels, 1);
+  assert.equal(releases, 1);
+});
+
+test('a terminal provider error retains its code and partial answer despite late data and transport failure', async (t) => {
+  let reads = 0;
+  let cancels = 0;
+  let releases = 0;
+  t.mock.method(globalThis, 'fetch', async () => ({
+    headers: new Headers({ 'Content-Type': 'text/event-stream' }),
+    body: { getReader: () => ({
+      read: async () => {
+        if (reads++ > 0) throw new Error('transport teardown after error');
+        return { done: false, value: new TextEncoder().encode(sse(
+          { type: 'delta', text: 'Partial answer' },
+          { type: 'error', code: 'model_unavailable' },
+          { type: 'delta', text: ' late text' }, { type: 'done', charged: true },
+        )) };
+      },
+      cancel: async () => { cancels++; },
+      releaseLock: () => { releases++; },
+    }) },
+  }));
+  let answer = '';
+  const outcome = await sendChatStream('', params, { onDelta: text => { answer += text; } }, new AbortController().signal);
+  assert.equal(answer, 'Partial answer');
+  assert.deepEqual(outcome, { mode: 'stream', ok: false, code: 'model_unavailable', gotText: true });
+  assert.equal(reads, 1);
+  assert.equal(cancels, 1);
+  assert.equal(releases, 1);
+});
+
+test('a completed answer releases its stream without waiting for stalled cancellation', { timeout: 1_000 }, async (t) => {
+  let cancels = 0;
+  const body = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode(sse(
+        { type: 'delta', text: 'Completed answer' }, { type: 'done', remaining: 3 },
+      )));
+      // Deliberately no EOF: a proxy can keep the connection open after done.
+    },
+    cancel() { cancels++; return new Promise<void>(() => {}); },
+  });
+  t.mock.method(globalThis, 'fetch', async () => new Response(body, { headers: { 'Content-Type': 'text/event-stream' } }));
+  const outcome = await sendChatStream('', params, { onDelta: () => {} }, new AbortController().signal);
+  assert.equal(outcome.mode, 'stream');
+  if (outcome.mode === 'stream') assert.equal(outcome.ok, true);
+  assert.equal(cancels, 1);
+  assert.equal(body.locked, false);
+});
+
+test('a transport failure before a terminal event remains a network error with partial text', async (t) => {
+  let reads = 0;
+  let cancels = 0;
+  let releases = 0;
+  t.mock.method(globalThis, 'fetch', async () => ({
+    headers: new Headers({ 'Content-Type': 'text/event-stream' }),
+    body: { getReader: () => ({
+      read: async () => {
+        if (reads++ > 0) throw new Error('transport broke before completion');
+        return { done: false, value: new TextEncoder().encode(sse({ type: 'delta', text: 'Partial answer' })) };
+      },
+      cancel: async () => { cancels++; },
+      releaseLock: () => { releases++; },
+    }) },
+  }));
+  let answer = '';
+  const outcome = await sendChatStream('', params, { onDelta: text => { answer += text; } }, new AbortController().signal);
+  assert.equal(answer, 'Partial answer');
+  assert.deepEqual(outcome, { mode: 'stream', ok: false, code: 'network', gotText: true });
+  assert.equal(cancels, 1);
+  assert.equal(releases, 1);
+});
+
 test('stopping after a delta preserves the explicit aborted outcome', async (t) => {
   const controller = new AbortController();
   let reads = 0;

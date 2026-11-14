@@ -1,3 +1,32 @@
+# Current handoff — chat terminal-stream errors · 14.11.2026
+
+## 1. State
+Scoped implementation on codex/chat-errors-20261114, based on exact live d1eca4a681d83e46202203a7b60b44746b5c57a9. Release remains subject to guarded production build and live verification; receipts are outside the repository.
+## 2. Delivered
+Client done/error and provider [DONE] terminate consumption. Late transport errors no longer replace completed answers. Cancellation cannot hold settlement open indefinitely.
+## 3. Files
+src/gpt-chat/api.ts; functions/api/gpt/chat.ts; their stream/truncation regression tests; reports/chat-errors-20261114/IMPLEMENTATION.md.
+## 4. Decisions
+No architecture change. Terminal events follow the existing SSE contract; finish reason alone remains nonterminal. Usage and settlement ordering are preserved.
+## 5. Excluded
+No model-policy, billing-rule, payment, bot, SEO, campaign, schema or database changes. No hidden analytics suppression.
+## 6. Validation
+Client20/20; backend/budget/Z.ai53/53; TypeScript web and Functions, scoped lint passed. Broader suite exposed two fixed-count model-policy failures reproduced on unchanged live source; initial missing-dist skip requires post-build SEO recheck. Exact final logs and build/bundle results are in the evidence directory.
+## 7. Known limits
+Screenshot reports30 GA4 users, but its exact event date/error-code breakdown was unavailable. Reservation counts cannot identify those users. No claim of zero errors or measured improvement.
+## 8. Next task
+Guarded production release and exact live readback of this fix, using deploy_runner.py only, with current production ancestry retained.
+## 9. Acceptance
+Reviewed source committed; production build and hard bundle/SEO gates pass; manifest/served asset match; complete production configuration hashes and secret names match the fresh before snapshot.
+## 10. Start commands
+Read git status/log and the scoped report. DR_ROOT must be the physical delivery/gptbot-chat-errors-20261114/site worktree. Run build:production, deploy_runner.py check, then deploy. Evidence: ../evidence.
+## 11. Risks
+Do not equate30 client_gone turns with30 GA4 users, change error tracking to hide failures, raise bundle budgets, overwrite newer production, or redeploy old CRM/bot code. Preserve all existing provider secrets and native bindings.
+## 12. Rollback
+Revert only this scoped commit on top of current production and use guarded release; no data rollback or schema migration. Previous handoff retained below.
+
+---
+
 # Current handoff — target landing CRO · 13.11.2026
 
 ## 1. State

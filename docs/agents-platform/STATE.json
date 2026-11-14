@@ -1,4 +1,14 @@
 {
+  "chat_errors_20261114": {
+    "status": "implementation_validated_pending_guarded_release",
+    "owner_authorized": "Investigate and fix GA4 ai_response_error anomaly",
+    "baseline_commit": "d1eca4a681d83e46202203a7b60b44746b5c57a9",
+    "scope": "Client and provider terminal stream completion; no policy or SEO changes",
+    "report": "reports/chat-errors-20261114/IMPLEMENTATION.md",
+    "next": "Commit, production build, guarded release and live artifact/configuration readback",
+    "evidence": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-errors-20261114/evidence",
+    "limitations": "The historical 30 GA4 users cannot be individually attributed; see baseline test exceptions in report"
+  },
   "target_cro_20261113": {
     "status": "validated_pending_guarded_release",
     "owner_authorized": "In-place conversion redesign; preserve destination URL and advertising budget",

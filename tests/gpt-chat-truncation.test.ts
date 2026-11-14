@@ -168,6 +168,107 @@ test('stream: an answer cut at the length limit is marked, not charged, and rema
   );
 });
 
+test('stream: upstream DONE remains answered after a late transport error, with usage preserved', async (t) => {
+  const f = await fixture();
+  let timer: ReturnType<typeof setTimeout>;
+  openrouter(t, () => new Response(new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(encoder.encode(
+        delta('Completed answer') +
+        data({ choices: [{ delta: {}, finish_reason: 'stop' }] }) +
+        data({ choices: [], usage: { prompt_tokens: 700, completion_tokens: 40, completion_tokens_details: { reasoning_tokens: 3 } } }) +
+        'data: [DONE]\n\n',
+      ));
+      timer = setTimeout(() => controller.error(new Error('transport failed after DONE')), 100);
+    },
+    cancel() { clearTimeout(timer); },
+  }), { headers: { 'Content-Type': 'text/event-stream' } }));
+  t.after(() => clearTimeout(timer));
+  const wire = await (await chat(f.ctx(request({ stream: true })))).text();
+  await drain(f);
+  const done = events(wire).at(-1)!;
+  assert.deepEqual([done.type, done.charged, done.remaining, done.hourRemaining], ['done', true, 14, 4]);
+  const [row] = rows(f);
+  assert.deepEqual(
+    [row.status, row.outcome, row.charged, row.finish_reason, row.tokens_in, row.tokens_out, row.reasoning_tokens],
+    ['done', 'answered', 1, 'stop', 700, 40, 3],
+  );
+  assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_health'), 0);
+});
+
+test('stream: OpenRouter and Z.ai terminal markers settle once without EOF or cancellation completing', { timeout: 5_000 }, async (t) => {
+  for (const provider of ['openrouter', 'zai']) for (const finish of ['stop', 'length']) {
+    const f = await fixture(provider === 'zai' ? {
+      ZAI_API_KEY: randomBytes(24).toString('hex'),
+      GPT_MODEL_PROVIDER: 'zai',
+      GPT_ZAI_EVAL_APPROVED: '2026-09-30',
+    } : {});
+    let cancels = 0;
+    let calls = 0;
+    t.mock.method(globalThis, 'fetch', async (input: RequestInfo | URL) => {
+      calls++;
+      assert.equal(new URL(input instanceof Request ? input.url : String(input)).host, provider === 'zai' ? 'api.z.ai' : 'openrouter.ai');
+      return new Response(new ReadableStream<Uint8Array>({
+        start(controller) {
+          controller.enqueue(encoder.encode(
+            delta('Completed answer') +
+            data({
+              choices: [{ delta: {}, finish_reason: finish }],
+              usage: { prompt_tokens: 700, completion_tokens: 40, completion_tokens_details: { reasoning_tokens: 3 } },
+            }) +
+            'data: [DONE]\n\n' +
+            // Bytes after the terminal marker cannot change text or settlement.
+            delta(' LATE TEXT') +
+            data({ choices: [{ finish_reason: 'length' }], usage: { prompt_tokens: 999, completion_tokens: 999 } }) +
+            'data: [DONE]\n\n',
+          ));
+          // Deliberately leave the transport open after the terminal marker.
+        },
+        cancel() { cancels++; return new Promise<void>(() => {}); },
+      }), { headers: { 'Content-Type': 'text/event-stream' } });
+    });
+    const wire = await (await chat(f.ctx(request({ stream: true })))).text();
+    await drain(f);
+    const received = events(wire);
+    const cut = finish === 'length';
+    const model = provider === 'zai' ? 'zai/glm-4.7-flash' : FREE;
+    assert.equal(received.filter((event) => event.type === 'done').length, 1);
+    assert.equal(received.filter((event) => event.type === 'delta').map((event) => event.text).join(''), 'Completed answer');
+    const done = received.at(-1)!;
+    assert.deepEqual(
+      [done.type, done.charged, done.truncated, done.remaining, done.hourRemaining, done.modelUsed],
+      ['done', !cut, cut, cut ? 15 : 14, cut ? 5 : 4, model],
+    );
+    assert.deepEqual(rows(f).map((row) => [
+      row.status, row.outcome, row.charged, row.finish_reason, row.tokens_in, row.tokens_out, row.reasoning_tokens, row.attempts,
+    ]), [[cut ? 'released' : 'done', cut ? 'truncated' : 'answered', cut ? 0 : 1, finish, 700, 40, provider === 'zai' ? null : 3, 1]]);
+    assert.equal(calls, 1, 'a completed turn must not fall back to another model');
+    assert.equal(cancels, 1);
+    assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_health'), 0);
+    assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_service_alerts'), 0);
+    t.mock.restoreAll();
+  }
+});
+
+test('stream: a transport failure before DONE remains an uncharged upstream error', async (t) => {
+  const f = await fixture();
+  let timer: ReturnType<typeof setTimeout>;
+  openrouter(t, () => new Response(new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(encoder.encode(delta('Partial answer')));
+      timer = setTimeout(() => controller.error(new Error('transport failed before DONE')), 100);
+    },
+    cancel() { clearTimeout(timer); },
+  }), { headers: { 'Content-Type': 'text/event-stream' } }));
+  t.after(() => clearTimeout(timer));
+  const wire = await (await chat(f.ctx(request({ stream: true })))).text();
+  await drain(f);
+  const last = events(wire).at(-1)!;
+  assert.deepEqual([last.type, last.code, last.remaining, last.hourRemaining], ['error', 'partial', 15, 5]);
+  assert.deepEqual(rows(f).map((row) => [row.status, row.outcome, row.charged]), [['released', 'upstream_error', 0]]);
+  assert.equal(f.db.value('SELECT COUNT(*) FROM gpt_model_health'), 1);
+});
+
 test('stream: a pack holder\'s answer cut at the limit is given back, to the free day or to the pack', async (t) => {
   const f = await fixture();
   const order = await f.store.createOrder(f.user, 'payme', 'test', crypto.randomUUID());

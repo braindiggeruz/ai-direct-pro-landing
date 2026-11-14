@@ -12,6 +12,10 @@ async function postJson<T>(url: string, body: unknown): Promise<T> {
   return (await res.json()) as T;
 }
 
+function chatHistory(history: ChatMessage[]) {
+  return history.filter((m) => !m.kind).map((m) => ({ role: m.role, content: m.content }));
+}
+
 export interface TurnstilePublicConfig {
   required: boolean;
   siteKey: string | null;
@@ -76,7 +80,7 @@ export async function sendChat(
       sessionId: params.sessionId,
       message: params.message,
       locale: params.locale,
-      history: params.history.filter((m) => !m.kind).map((m) => ({ role: m.role, content: m.content })),
+      history: chatHistory(params.history),
       turnstileToken: params.turnstileToken,
     });
   } catch {
@@ -139,6 +143,7 @@ export async function sendChatStream(
   signal: AbortSignal,
 ): Promise<StreamOutcome> {
   let gotText = false;
+  const failure = (code?: string): StreamOutcome => ({ mode: 'stream', ok: false, code: code || 'provider_error', gotText });
   let hasAnswerText = false;
   // Its own controller, so the watchdog can end the request and still tell
   // a stall (code network) from the visitor's Stop (aborted). Linked by an
@@ -149,6 +154,7 @@ export async function sendChatStream(
   else signal.addEventListener('abort', stop, { once: true });
   let stalled = false;
   let timer: ReturnType<typeof setTimeout> | undefined;
+  let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
   const watch = (ms = STREAM_SILENCE_MS) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -165,15 +171,14 @@ export async function sendChatStream(
         sessionId: params.sessionId,
         message: params.message,
         locale: params.locale,
-        history: params.history.filter(m => !m.kind).map((m) => ({ role: m.role, content: m.content })),
+        history: chatHistory(params.history),
         turnstileToken: params.turnstileToken,
         stream: true,
       }),
       signal: inner.signal,
     });
     watch();
-    const type = res.headers.get('Content-Type') || '';
-    if (!type.includes('text/event-stream')) {
+    if (!res.headers.get('Content-Type')?.includes('text/event-stream')) {
       const body = (await res.json()) as ChatApiResponse;
       return {
         mode: 'json',
@@ -182,12 +187,11 @@ export async function sendChatStream(
           : body,
       };
     }
-    if (!res.body) return { mode: 'stream', ok: false, code: 'network', gotText };
+    if (!res.body) return failure('network');
 
-    const reader = res.body.getReader();
+    reader = res.body.getReader();
     const decoder = new TextDecoder();
     let buffer = '';
-    let outcome: StreamOutcome = { mode: 'stream', ok: false, code: 'provider_error', gotText };
     for (;;) {
       const { done, value } = await reader.read();
       watch();
@@ -213,23 +217,31 @@ export async function sendChatStream(
           // Empty completions must not render blank replies or count as success.
           // An older server sends neither truncated nor charged: an answer
           // was charged unless the server says it was not.
-          else if (ev.type === 'done') outcome = hasAnswerText
+          // The server has settled this turn: do not wait for transport EOF
+          // or let late bytes/errors replace its authoritative result.
+          else if (ev.type === 'done') return hasAnswerText
             ? {
                 mode: 'stream', ok: true, remaining: ev.remaining, hourRemaining: answerCount(ev.hourRemaining),
                 truncated: ev.truncated === true, charged: ev.charged !== false, modelUsed: ev.modelUsed, gotText,
               }
-            : { mode: 'stream', ok: false, code: 'empty_response', gotText };
-          else if (ev.type === 'error') outcome = { mode: 'stream', ok: false, code: ev.code || 'provider_error', gotText };
+            : failure('empty_response');
+          else if (ev.type === 'error') return failure(ev.code);
         } catch { /* skip malformed line */ }
       }
     }
-    return { ...outcome, gotText };
+    return failure();
   } catch (e) {
     if (!stalled && (e as Error).name === 'AbortError') return { mode: 'stream', ok: false, aborted: true, gotText };
-    return { mode: 'stream', ok: false, code: 'network', gotText };
+    return failure('network');
   } finally {
     clearTimeout(timer);
     signal.removeEventListener('abort', stop);
+    if (reader) {
+      // Cancellation may reject or stall after the connection has broken.
+      // Cleanup must neither delay nor replace an already settled result.
+      try { void reader.cancel().catch(() => {}); } catch { /* best-effort */ }
+      try { reader.releaseLock(); } catch { /* best-effort */ }
+    }
   }
 }
 

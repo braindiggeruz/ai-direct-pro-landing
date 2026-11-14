@@ -501,7 +501,6 @@ export const onRequestPost: PagesFunction<Env> = async ({
                 upstreamCode = ev.error;
                 break read;
               }
-              if (ev.done) completed = true;
               if (ev.inputTokens !== undefined) inputTokens = ev.inputTokens;
               if (ev.outputTokens !== undefined) outputTokens = ev.outputTokens;
               if (ev.reasoningTokens !== undefined)
@@ -513,6 +512,12 @@ export const onRequestPost: PagesFunction<Env> = async ({
                   break read;
                 deliveredChars += ev.delta.length;
               }
+              // [DONE] is the provider's terminal marker, after usage and
+              // finish_reason. Transport teardown must not undo completion.
+              if (ev.done) {
+                completed = true;
+                break read;
+              }
             }
           }
       } catch {
@@ -521,7 +526,9 @@ export const onRequestPost: PagesFunction<Env> = async ({
         if (!request.signal.aborted) upstreamCode = "provider_error";
       } finally {
         start.abort();
-        await reader.cancel().catch(() => undefined);
+        // A stalled cancellation must not hold the settled turn or its reply.
+        try { void reader.cancel().catch(() => undefined); } catch { /* best-effort */ }
+        try { reader.releaseLock(); } catch { /* best-effort */ }
       }
       if (request.signal.aborted) clientGone = true;
       const { outcome, charged, cancelReason } = settleStreamedAnswer(
