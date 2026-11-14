@@ -56,6 +56,7 @@ import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { maintainUzum } from "../../lib/gpt-chat/uzum-maintenance";
 import { maintainStudio } from "../../lib/studio/maintenance";
 import { drainLeadOutbox } from "../../lib/gpt-chat/lead-outbox";
+import { drainSalesdeskOutbox, salesdeskOutboxHealth } from "../../lib/gpt-chat/salesdesk-outbox";
 import { resolveBridgeLimits, type BridgeEnv } from "../../lib/gpt-chat/bridge-env";
 
 // 19 s together, under the Worker's 20 s timeout: fiscal and uzum run beside
@@ -66,6 +67,7 @@ const STEP_BUDGET_MS = {
   fiscal: 8_000,
   uzum: 8_000,
   leadDelivery: 8_000,
+  salesdeskDelivery: 8_000,
   alerts: 4_500,
   maintenance: 2_500,
   rekey: 2_000,
@@ -163,11 +165,26 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
     waitUntil(delivery.catch(() => undefined));
     return delivery;
   });
+  // Independent durable CRM retry, using the existing authenticated 15-minute
+  // cron. One item/4-second transport cannot multiply the worker's wallclock.
+  const salesdeskRun = step("salesdeskDelivery", () => {
+    const delivery = drainSalesdeskOutbox(env, env.GPTBOT_DRAFTS_DB!, 1).then(async counts => {
+      const queue = await salesdeskOutboxHealth(env.GPTBOT_DRAFTS_DB!);
+      if (queue.failed) {
+        console.warn(JSON.stringify({ event: 'gpt_salesdesk_reconciliation_required', failed: queue.failed }));
+        throw new Error('crm_reconciliation_required');
+      }
+      return { ...counts, queue };
+    });
+    waitUntil(delivery.catch(() => undefined));
+    return delivery;
+  });
   const providers = await step("providers", () => checkBillingProviders(env));
   const watchdog = await step("watchdog", () => runWatchdog(env));
   const fiscal = await fiscalRun;
   const uzum = await uzumRun;
   const leadDelivery = await leadRun;
+  const salesdeskDelivery = await salesdeskRun;
   const alerts = await step("alerts", () => deliverServiceAlerts(env));
   const [maintenance, studio] = await Promise.all([
     step("maintenance", () => maintainBilling(env)),
@@ -185,6 +202,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       fiscal,
       uzum,
       leadDelivery,
+      salesdeskDelivery,
       alerts,
       ...maintenance,
       studio,

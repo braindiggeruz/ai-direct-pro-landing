@@ -183,7 +183,7 @@ test('a step timeout retains the raw completion task and does not release an in-
   const pending = tick(f);
   for (let i = 0; i < 100 && !completeWrite; i++) await new Promise((resolve) => setImmediate(resolve));
   assert.ok(completeWrite, 'provider replied but its durable completion write is delayed');
-  assert.equal(f.background.length, 1, 'the raw outbox completion was registered with waitUntil');
+  assert.equal(f.background.length, 2, 'independent Telegram and CRM completions are registered with waitUntil');
   t.mock.timers.tick(8_000);
   const response = await pending;
   const body = await response.json() as { leadDelivery: unknown; failed: string[] };

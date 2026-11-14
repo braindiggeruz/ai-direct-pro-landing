@@ -132,6 +132,23 @@ const DDL: string[] = [
     payload_json TEXT,
     created_at TEXT NOT NULL
   )`,
+  `CREATE TABLE IF NOT EXISTS gpt_salesdesk_outbox (
+    id TEXT PRIMARY KEY,
+    lead_id TEXT NOT NULL UNIQUE,
+    request_id TEXT NOT NULL UNIQUE,
+    payload_json TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    attempt_count INTEGER NOT NULL DEFAULT 0,
+    available_at TEXT NOT NULL,
+    lease_token TEXT,
+    lease_expires_at TEXT,
+    delivered_at TEXT,
+    crm_operation_id TEXT,
+    crm_lead_id TEXT,
+    last_error_code TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
   `CREATE TABLE IF NOT EXISTS payment_attempts (
     id TEXT PRIMARY KEY,
     user_id TEXT,
@@ -181,6 +198,7 @@ const DDL: string[] = [
   // without this index that read is a full scan of every lead ever captured.
   `CREATE INDEX IF NOT EXISTS idx_gpt_leads_contact ON gpt_leads (contact_value, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_lead_outbox_pending ON gpt_lead_outbox (status, available_at, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_salesdesk_outbox_due ON gpt_salesdesk_outbox (status, available_at, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_session ON gpt_handoffs (session_id, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_gpt_handoffs_expires ON gpt_handoffs (expires_at)`,
   ...CHAT_TIME_INDEXES,

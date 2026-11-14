@@ -14,6 +14,7 @@ import { resolveBridgeLimits, type BridgeEnv } from '../../lib/gpt-chat/bridge-e
 import { consumeRateLimit, pruneRateLimits, DAY_MS, HOUR_MS } from '../../lib/gpt-chat/rate-limit';
 import { deliverLeadOutboxItem, drainLeadOutbox } from '../../lib/gpt-chat/lead-outbox';
 import { checkTurnstile } from '../../lib/turnstile';
+import { isSalesdeskTargetLead, buildSalesdeskPayload, salesdeskOutboxStatement, deliverSalesdeskOutboxItem } from '../../lib/gpt-chat/salesdesk-outbox';
 
 type LeadBody = LeadInput & { locale?: string };
 
@@ -121,7 +122,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   const id = genId('lead');
   const outboxId = genId('lout');
   const sessionId = lead.sessionId ? lead.sessionId.slice(0, 64) : null;
+  const crmEligible = new URL(request.url).origin === 'https://gptbot.uz' && isSalesdeskTargetLead(lead);
+  // Older clients may omit the key. Persist one once for this accepted entity;
+  // modern clients retain their original key. No historical backfill here.
+  if (crmEligible && !lead.requestId) lead.requestId = genId('req');
   try {
+    const crmPayload = crmEligible ? buildSalesdeskPayload(lead, { leadId: id, requestId: lead.requestId!, acceptedAt: nowIso, locale }) : null;
     await db.batch([
       db.prepare(
         `INSERT INTO gpt_leads
@@ -150,6 +156,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
           (id, lead_id, locale, share_conversation, status, attempt_count, available_at, created_at, updated_at)
          VALUES (?, ?, ?, ?, 'pending', 0, ?, ?, ?)`,
       ).bind(outboxId, id, locale, lead.shareConversation ? 1 : 0, nowIso, nowIso, nowIso),
+      ...(crmPayload ? [salesdeskOutboxStatement(db, crmPayload)] : []),
     ]);
   } catch {
     // Concurrent retries can race between the read above and the UNIQUE write.
@@ -170,6 +177,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
       .then(() => undefined)
       .catch(() => { console.error('gpt-chat: durable lead delivery deferred'); }),
   );
+  if (crmEligible) waitUntil(deliverSalesdeskOutboxItem(env, db, 'crm_' + id)
+    .then(() => undefined).catch(() => { console.error('gpt-chat: CRM delivery deferred'); }));
   if (Math.random() < 0.02) waitUntil(pruneRateLimits(db, new Date(now.getTime() - 2 * DAY_MS)));
   return json({ ok: true, id, delivery: 'pending' });
 };

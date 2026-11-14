@@ -31,6 +31,8 @@ export interface Env extends FirecrawlEnvironment {
   // The HMAC secret is a Cloudflare secret_text binding; never place it in
   // wrangler.toml. Locale is public configuration and defaults to Russian.
   BUNZY_WEBHOOK_SECRET?: string;
+  /** Dedicated HMAC secret for the fixed Salesdesk website ingress; never public config. */
+  GPT_SALESDESK_INGRESS_SECRET?: string;
   BUNZY_DEFAULT_LOCALE?: string;
   GITHUB_TOKEN: string;
   GITHUB_OWNER: string;
