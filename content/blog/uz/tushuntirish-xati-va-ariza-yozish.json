@@ -14,7 +14,8 @@
     "tushuntirish xati yozish",
     "ariza yozish",
     "ariza namunasi",
-    "ariza yozish namunasi"
+    "ariza yozish namunasi",
+    "ariza namuna"
   ],
   "intro": "Tushuntirish xati — biror holat (kechikish, ishga yoki darsga kelmaslik, topshiriq bajarilmagani) sababini rahbarga yoki o‘qituvchiga yozma ravishda tushuntiradigan qisqa hujjat. Ariza esa biror narsani so‘rash uchun yoziladi: ishga qabul qilish, ta’til, o‘qish bilan bog‘liq masala yoki ma’lumotnoma. Quyida ikkalasining tuzilmasi, shartli namunalar, AI chat uchun tayyor so‘rovlar va topshirishdan oldingi tekshiruv ro‘yxati berilgan.",
   "body": [
@@ -31,6 +32,39 @@
           "target": "/uz/gpt-uzbek-tilida/",
           "anchor": "o‘zbek tilidagi AI chatda qoralama yozish"
         }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "word-pdf-namuna",
+      "text": "Tushuntirish xati uchun DOCX va PDF namuna"
+    },
+    {
+      "type": "p",
+      "text": "Tushuntirish xati uchun statik namuna tayyorladik: birinchi sahifada tahrirlanadigan blanka, ikkinchisida ishga kechikish haqidagi to‘ldirilgan shartli misol. DOCX faylini Word yoki LibreOffice’da to‘ldirish, PDF nusxasini esa ko‘rish va chop etish mumkin. Fayllar bepul; ro‘yxatdan o‘tish yoki AI paket talab qilinmaydi. Bu tasdiqlangan rasmiy shakl ham, chat yaratgan individual hujjat ham emas."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261116/tushuntirish-xati.docx",
+          "anchor": "Tushuntirish xati namunasini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261116/tushuntirish-xati.pdf",
+          "anchor": "Chop etish uchun PDF namuna"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Blankadagi kvadrat qavslarni faqat o‘z qurilmangizdagi faylda to‘ldiring; ism, lavozim va hujjat raqamlarini AI chatga yozmang.",
+        "Sana, vaqt va sababni qanday bo‘lgan bo‘lsa, shunday yozing. Ikkinchi sahifadagi misol — faqat tuzilma namunasi: undagi sababni o‘zingizniki sifatida qoldirmang.",
+        "Tashkilotingizning o‘z shakli bo‘lsa, o‘shandan foydalaning. Topshirishdan oldin qolgan qavslarni, sana va imzoni tekshiring; qo‘lda yozish talab qilinsa, matnni fayldan ko‘chirib yozing."
       ]
     },
     {
@@ -270,6 +304,40 @@
     },
     {
       "type": "h2",
+      "id": "ariza-fayllar",
+      "text": "Ariza namunalari to‘plami: ishga qabul, bo‘shash, ta’til va moddiy yordam"
+    },
+    {
+      "type": "p",
+      "text": "Eng ko‘p so‘raladigan to‘rtta ariza uchun statik to‘plam tayyorladik. Birinchi sahifada to‘ldiriladigan blankalar, ikkinchisida ta’til arizasining to‘ldirilgan shartli misoli bor. Fayllar bepul; bu tasdiqlangan rasmiy shakl ham, chat yaratgan hujjat ham emas."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261116/ariza-namunalari.docx",
+          "anchor": "Ariza namunalarini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261116/ariza-namunalari.pdf",
+          "anchor": "Chop etish uchun PDF to‘plam"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ishga qabul qilish: «Meni [sana]dan [bo‘lim] [lavozim] lavozimiga ishga qabul qilishingizni so‘rayman.» Ilovalar ro‘yxatini kadrlar bo‘limi aytadi.",
+        "Ishdan bo‘shash: «Meni [sana]dan o‘z xohishimga ko‘ra egallab turgan lavozimimdan ozod etishingizni so‘rayman.» Ogohlantirish muddati va tartibini kadrlar bo‘limidan aniqlang.",
+        "Ta’til: «Menga [yil] yil uchun yillik mehnat ta’tilining [necha] kalendar kunini [sana]dan boshlab berishingizni so‘rayman.»",
+        "Moddiy yordam: «Menga [sabab] munosabati bilan moddiy yordam ko‘rsatishingizni so‘rayman.» Tasdiqlovchi hujjatni ilova qiling."
+      ]
+    },
+    {
+      "type": "h2",
       "id": "qolda",
       "text": "Qo‘lda yoki kompyuterda: qaysi biri to‘g‘ri"
     },
@@ -403,12 +471,22 @@
     },
     {
       "type": "linkp",
-      "text": "Alohida vazifa uchun amaliy materiallar: {pseo1}.",
+      "text": "Alohida vazifa uchun amaliy materiallar: {pseo1}; {bildirgi}; {tilxat}.",
       "links": [
         {
           "token": "pseo1",
           "target": "/uz/blog/javob-xati-namuna/",
           "anchor": "Arizaga javob yozish namunasi"
+        },
+        {
+          "token": "bildirgi",
+          "target": "/uz/blog/bildirishnoma-namuna/",
+          "anchor": "Bildirgi (bildirishnoma) namunasi"
+        },
+        {
+          "token": "tilxat",
+          "target": "/uz/blog/tilxat-namuna/",
+          "anchor": "Tilxat namunasi: qarz va buyum olish"
         }
       ]
     },
@@ -437,7 +515,7 @@
     },
     {
       "q": "Chat .docx fayl beradimi?",
-      "a": "Yo‘q. GPTBot.uz AI chati faqat matn yozadi: .docx yoki PDF fayl bermaydi. Matnni Word yoki Google Docs’ga ko‘chirib, hujjatni o‘zingiz rasmiylashtirasiz yoki qo‘lda ko‘chirib yozasiz."
+      "a": "Yo‘q. GPTBot.uz AI chati faqat matn yozadi: .docx yoki PDF fayl bermaydi. Matnni Word yoki Google Docs’ga ko‘chirib, hujjatni o‘zingiz rasmiylashtirasiz yoki qo‘lda ko‘chirib yozasiz. Tayyor statik blankani esa shu sahifadagi «Tushuntirish xati uchun DOCX va PDF namuna» bo‘limidan yuklab olish mumkin: u chat yaratgan fayl emas."
     },
     {
       "q": "Bu yuridik maslahatmi?",
@@ -475,6 +553,12 @@
       "anchor": "Arizaga javob yozish namunasi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Tushuntirish xati va ariza: tuzilma va shartli namunalar",
@@ -491,7 +575,7 @@
   "breadcrumbLabel": "Tushuntirish xati va ariza",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-07",
-  "dateModified": "2026-11-08",
+  "dateModified": "2026-11-16",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -511,6 +595,6 @@
       "note": "Til modellari noto‘g‘ri sana va faktlar yozishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "updatedAt": "2026-11-16T00:00:00.000Z",
   "createdAt": "2026-10-07T00:00:00.000Z"
 }

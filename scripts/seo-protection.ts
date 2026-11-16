@@ -262,7 +262,12 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // Marketing cohort: exact reversal of ten new homepage list entries restores
 // the predecessor. All 350 existing metadata contracts and nine other protected
 // page contracts are retained; see reports/marketing-gap-20261109/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-09-marketing-final/reviewed-protected-pages.json';
+// The 2026-11-16 SEO growth revision (owner order of 16.11 after the blind-spot
+// audit) changes one page: the homepage lists gain ten newly published URLs
+// and three relabelled entries (bildirgi, insho, tabrik guides). Reverting
+// exactly these entries restores the predecessor; the other nine protected
+// pages keep their complete contract. See reports/seo-growth-20261116/review.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-16-seo-growth/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

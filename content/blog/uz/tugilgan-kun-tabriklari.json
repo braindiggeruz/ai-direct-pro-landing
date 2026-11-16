@@ -1,0 +1,468 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "tugilgan-kun-tabriklari",
+  "url": "/uz/blog/tugilgan-kun-tabriklari/",
+  "title": "Tug‘ilgan kun tabriklari: 57 ta tayyor tabrik va tilaklar",
+  "description": "Tug‘ilgan kun uchun 57 ta tayyor tabrik: onaga, otaga, aka-uka va opa-singilga, do‘stga, turmush o‘rtog‘iga, farzandga, ustoz va rahbarga. Kirill yozuvida ham.",
+  "h1": "Tug‘ilgan kun tabriklari: onaga, otaga, do‘stga va yaqinlarga tayyor matnlar",
+  "topicCluster": "matn-yozish",
+  "targetMoneyPage": "/uz/ai-tabrik-generatori/",
+  "keywords": [
+    "tug‘ilgan kun tabriklari",
+    "tugilgan kun tabriklari",
+    "туғилган кун табриклари",
+    "тугилган кун табриклари",
+    "tugilgan kun tilaklari",
+    "tugilgan kun muborak",
+    "tugilgan kuning bilan"
+  ],
+  "intro": "Tug‘ilgan kunda aytilgan iliq so‘z sovg‘adan ham uzoqroq esda qoladi. Bu sahifada adresatlar bo‘yicha tayyor matnlar — onaga, otaga, aka-uka va opa-singilga, do‘stga, turmush o‘rtog‘iga, farzandga, ustozga, hamkasb va rahbarga, buvi va boboga — hamda kirill yozuvidagi variantlar jamlangan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida tug‘ilgan kun uchun 57 ta tayyor tabrik bor — onaga, otaga, aka-uka va opa-singilga, do‘st va dugonaga, turmush o‘rtog‘iga, farzandga, ustozga, hamkasb va rahbarga, buvi va boboga, shuningdek kirill yozuvidagi 9 ta matn. Yoqqanini ko‘chirib oling, kvadrat qavsdagi joylarni to‘ldiring va o‘zingizdan bitta jumla qo‘shing: umumiy xotira yoki shu odamning fazilati. Matnlar shu sahifa uchun AI yordamida yozilgan."
+    },
+    {
+      "type": "linkp",
+      "text": "Faqat shu odamga atalgan matn kerak bo‘lsa, {gen}ga kimga va qanday ohangda yozish kerakligini ayting: bu GPTBot.uz AI chatining «Ijodkor» roli, ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi. Tabrik she’r shaklida kerak bo‘lsa — {sher}.",
+      "links": [
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "onaga",
+      "text": "Onaga tug‘ilgan kun tabriklari"
+    },
+    {
+      "type": "p",
+      "text": "Ota-onaga, kattalarga va ishxonada odatda «siz» deb, yaqin do‘st va kichiklarga «sen» deb murojaat qilinadi. Namunadagi murojaatni o‘zingizga moslang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Aziz onam, bugun sizga eng chiroyli so‘zlarni aytgim keladi, lekin ularning hammasi bitta gapga sig‘adi: siz borligingiz uchun rahmat. Tug‘ilgan kuningiz qutlug‘ bo‘lsin!",
+        "Onajon, bolaligimda ham, hozir ham biror gap bo‘lsa, birinchi bo‘lib sizga aytaman, chunki siz doim tinglaysiz va to‘g‘ri yo‘l ko‘rsatasiz. Tug‘ilgan kuningiz muborak, umringiz uzoq bo‘lsin!",
+        "Onajon, sizning duoyingiz bilan qancha qiyin kunlardan o‘tdim — buni endi tushunyapman. Tug‘ilgan kuningiz muborak bo‘lsin! Bizning baxtimizga doim sog‘ bo‘ling, nevaralaringizning to‘ylarini ko‘ring.",
+        "Mehribonim onam, bugun gullar ham, eng yaxshi tilaklar ham sizga. Siz biz uchun qilgan har bir yaxshilikni eslayman va qadrlayman. Tug‘ilgan kuningiz qutlug‘ bo‘lsin, yuzingizdan tabassum arimasin!",
+        "Qisqa xabar: Onajon, tug‘ilgan kuningiz bilan tabriklayman! Sizni juda yaxshi ko‘raman. Kechqurun albatta oldingizga boraman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "otaga",
+      "text": "Otaga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Otajon, siz menga hech qachon uzoq nasihat qilmagansiz — hammasini o‘z ishingiz bilan ko‘rsatgansiz. Shu saboqlaringiz uchun rahmat. Tug‘ilgan kuningiz qutlug‘ bo‘lsin, oilamiz boshida uzoq yillar sog‘-omon yuring!",
+        "Dadajon, tug‘ilgan kuningiz muborak bo‘lsin! Siz yonimizda ekansiz, o‘zimni doim xotirjam his qilaman. Sog‘lig‘ingiz mustahkam bo‘lsin, bizga hali ko‘p maslahatingiz kerak.",
+        "Otajon, yoshligimda aytgan gaplaringizning qadrini endi bilyapman. To‘g‘ri yo‘l ko‘rsatganingiz va doim ishonganingiz uchun rahmat. Tug‘ilgan kuningiz bilan tabriklayman, umringiz uzoq bo‘lsin!",
+        "Dada, tug‘ilgan kuningiz bilan tabriklayman! Bugun hamma tashvishni bir chetga qo‘yib, faqat dam oling — choyni men damlayman.",
+        "Qisqa xabar: Dadajon, tug‘ilgan kuningiz muborak! Sog‘-salomat bo‘ling. Kechqurun hammamiz oldingizga boramiz."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "aka-ukaga",
+      "text": "Akaga va ukaga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Akajon, tug‘ilgan kuningiz muborak! Bolaligimda meni himoya qilgan bo‘lsangiz, hozir maslahatingiz bilan qo‘llaysiz. Ishlaringiz yurishsin, oilangizda doim tinchlik bo‘lsin.",
+        "Aka, tug‘ilgan kuning bilan! Sendan o‘rganganlarim ko‘p: velosiped minishdan tortib, so‘zning ustidan chiqishgacha. Sog‘ bo‘l, omading kelsin!",
+        "Ukajon, tug‘ilgan kuning muborak! Ko‘z o‘ngimda ulg‘ayding, endi o‘zing katta ishlarni uddalayapsan — sen bilan faxrlanaman. Yangi yoshingda barcha rejalaring amalga oshsin!",
+        "Qisqa xabar: Uka, tug‘ilgan kuning bilan tabriklayman! Sog‘lik va omad senga hamroh bo‘lsin. Sovg‘a mendan, osh sendan!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "opa-singilga",
+      "text": "Opaga va singilga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Opajon, tug‘ilgan kuningiz muborak! Siz menga ham opa, ham eng yaqin sirdosh bo‘ldingiz. Baxtingiz to‘kis, uyingiz doim farovon bo‘lsin.",
+        "Opa, tug‘ilgan kuningiz bilan! Bolaligimizda kiyimlaringizni so‘roqsiz kiyib ketganim uchun uzr — didingiz hali ham zo‘r. Doim shunday go‘zal va quvnoq bo‘lib yuring!",
+        "Singiljonim, tug‘ilgan kuning muborak! Sen oilamizning quvonchisan. Orzularing katta — hammasiga yetishingga ishonaman. Doim yoningdaman.",
+        "Qisqa xabar: Singlim, tug‘ilgan kuning bilan! Baxtli bo‘l, hech qachon xafa bo‘lma. Seni yaxshi ko‘raman!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "dostga",
+      "text": "Do‘stga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Do‘stim, tug‘ilgan kuning bilan tabriklayman! Kerak paytda doim yonimda bo‘lding — yarim tunda ham, uy ko‘chganimda ham. Endi navbat menda: bugungi ziyofat mendan.",
+        "Do‘stim, tug‘ilgan kuning muborak! Maktab partasidan boshlangan do‘stligimiz shuncha yildan beri sinovlardan o‘tib kelyapti. Sog‘ bo‘l, ishlaring yurishsin, davralarimiz ko‘paysin!",
+        "[Ism], yana bir yoshga ulg‘ayding, lekin hazillaring o‘sha-o‘sha — o‘zgarmagani yaxshi! Tug‘ilgan kuning bilan, do‘stim. Omad doim sen tomonda bo‘lsin.",
+        "Qadrdonim, tug‘ilgan kuning qutlug‘ bo‘lsin! Yaxshi kunimda ham, og‘ir kunimda ham yonimda bo‘lganing uchun rahmat. Senga mustahkam sog‘lik va xotirjam hayot tilayman.",
+        "Qisqa xabar: Tug‘ilgan kuning muborak, [ism]! Yangi yoshingda kuching ko‘p, tashvishing kam bo‘lsin. Sovg‘ang mendan — uchrashganda beraman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "dugonaga",
+      "text": "Dugonaga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Jonajon dugonam, tug‘ilgan kuning muborak! Sen bilan sirlashish ham, birga jim o‘tirish ham yoqimli. Ko‘zlaringdagi shu nur hech qachon so‘nmasin.",
+        "Dugonajon, tug‘ilgan kuning muborak! Sen bilan bir piyola choy ustida soatlab gaplashish — eng yaxshi dam olish. Doim shunday samimiy va chiroyli bo‘lib yur!",
+        "Azizim [ism], tug‘ilgan kuning bilan tabriklayman! Kulging atrofdagilarning ham kayfiyatini ko‘taradi. Baxting to‘kis bo‘lsin, orzularing birma-bir ushalsin.",
+        "Qisqa xabar: Dugonam, tug‘ilgan kuning bilan! Bugun faqat sening kuning — dam ol, quvon. Uchrashganda nishonlaymiz!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "turmush-ortogiga",
+      "text": "Turmush o‘rtog‘iga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Azizim, tug‘ilgan kuningiz muborak! Siz bilan har bir kun xotirjam va ishonchli o‘tadi. Oilamiz uchun qilayotgan mehnatingizni qadrlayman. Doim sog‘ bo‘ling, yonimizda bo‘ling.",
+        "Umr yo‘ldoshim, tug‘ilgan kuningiz bilan tabriklayman! Birga kechirgan yillarimiz — mening eng katta boyligim. Bundan keyin ham barcha quvonchlarni birga baham ko‘raylik.",
+        "Qisqa xabar: Dadasi, tug‘ilgan kuningiz muborak! Bolalar bilan sizni kutyapmiz — bugun dasturxon sizning sharafingizga.",
+        "Azizam, tug‘ilgan kuning muborak! Uyimizning fayzi ham, mening tinchligim ham sen bilan. Sabring va mehring uchun rahmat. Doim sog‘ bo‘l, baxtimizga omon bo‘l.",
+        "Jonim, tug‘ilgan kuning bilan tabriklayman! Sen bilan tanishgan kunimni hayotimdagi eng omadli kun deb bilaman. Barcha orzularingni birga amalga oshiramiz.",
+        "Qisqa xabar: Onasi, tug‘ilgan kuning muborak! Bugun oshxonaga kirma — kechki ovqat ham, gullar ham mendan."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "farzandga",
+      "text": "Farzandga: o‘g‘il va qizga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘g‘lim, tug‘ilgan kuning muborak! Sen dunyoga kelgan kun biz uchun eng baxtli kun bo‘lgan. Halol, mehnatsevar va mard yigit bo‘lib ulg‘ayganingdan faxrlanamiz. Yo‘ling doim ochiq bo‘lsin!",
+        "Qizim, tug‘ilgan kuning qutlug‘ bo‘lsin! Sen uyimizning quvonchi va ko‘rkisan. Bilim ol, orzularingga intil — biz doim yoningdamiz. Baxtli bo‘l, oppoq qizim!",
+        "Shirintoyim, bugun sen [necha] yoshga to‘lding! Katta bo‘l, sog‘ bo‘l, doim kulib yur. Ota-onangning quvonchi bo‘lib o‘s!",
+        "Bolajonim, tug‘ilgan kuning bilan tabriklaymiz! Sen bilan har kunimiz mazmunli. Sog‘lom bo‘l, yaxshi do‘stlaring ko‘p bo‘lsin, o‘qishlaringda omad yor bo‘lsin. Seni juda yaxshi ko‘ramiz — onang va dadang.",
+        "Farzandim, bugun sen yana bir yoshga ulg‘ayding. O‘z yo‘lingni topganingni ko‘rib, ko‘nglimiz to‘q. Qayerda bo‘lsang ham, duoyimiz sen bilan. Tug‘ilgan kuning muborak bo‘lsin!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ustozga",
+      "text": "Ustozga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Aziz ustoz, tug‘ilgan kuningiz muborak! Darslaringizda bilim bilan birga o‘zimizga ishonishni ham o‘rgatdingiz. Sizga sog‘lik, sabr va minnatdor shogirdlar tilayman.",
+        "Hurmatli [ism va otasining ismi], tug‘ilgan kuningiz bilan chin qalbdan tabriklayman! [Fan] darslaringiz tufayli bu fanni yaxshi ko‘rib qoldim. Shogirdlaringizning yutuqlari sizga doim quvonch keltirsin.",
+        "Ustoz, tug‘ilgan kuningiz muborak! Bitiruvdan [necha] yil o‘tsa ham, maslahatlaringiz hali ham esimda. Sog‘-salomat bo‘ling, shogirdlaringiz sizni doim yaxshi so‘z bilan eslaydi.",
+        "Hurmatli ustoz, tug‘ilgan kuningiz muborak bo‘lsin! Bergan bilimingiz va sabringiz uchun butun guruhimiz nomidan rahmat aytamiz. Sizga sog‘lik, oilaviy baxt va iqtidorli shogirdlar tilaymiz. Hurmat bilan, [guruh yoki sinf nomi]."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "hamkasbga",
+      "text": "Hamkasbga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Ism], tug‘ilgan kuningiz muborak! Muddat yaqinlashganda ham hazil bilan kayfiyatimizni ko‘tarasiz — butun bo‘lim sizni shuning uchun yaxshi ko‘radi. Yangi yoshingizda ishlaringiz yurishib, orzularingiz ushalsin!",
+        "Qadrli [ism], tug‘ilgan kuningiz bilan tabriklaymiz! Tajribangizni hech kimdan ayamaysiz, yangi kelganlarga doim yordam berasiz. Sizga sog‘lik, ishda yangi yutuqlar va oilangizga tinchlik tilaymiz.",
+        "Guruh chati uchun: [Ism], tug‘ilgan kuningiz muborak! Jamoamizda borligingizdan xursandmiz. Bugungi tort sizning sharafingizga!",
+        "Qisqa xabar: [Ism], tug‘ilgan kuningiz muborak! Ishingizda omad, uyingizda tinchlik bo‘lsin. Bugun tort sizdan emas — bizdan!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "rahbarga",
+      "text": "Rahbarga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hurmatli [ism va otasining ismi], tug‘ilgan kuningiz bilan samimiy tabriklaymiz! Jamoaga ishonch bildirib, har birimizga o‘sish imkonini berganingiz uchun minnatdormiz. Sizga mustahkam sog‘lik, ezgu ishlaringizda zafar va oilangizga xotirjamlik tilaymiz. Hurmat bilan, [jamoa yoki bo‘lim nomi].",
+        "Hurmatli [ism va otasining ismi], tug‘ilgan kuningiz muborak bo‘lsin! Qiyin vaziyatlarda ham xotirjam qaror qabul qilishingiz biz uchun o‘rnak. Yangi yoshingiz sizga yangi muvaffaqiyatlar va quvonchli kunlar olib kelsin.",
+        "Hurmatli [ism va otasining ismi], tug‘ilgan kuningiz bilan chin dildan tabriklaymiz! Sizning talabchanligingiz va adolatingiz jamoamizni birlashtirib turadi. Sizga sog‘lik, kuch-g‘ayrat va barcha rejalaringizda muvaffaqiyat tilaymiz. Hurmat bilan, [bo‘lim nomi] jamoasi.",
+        "Qisqa xabar: [Ism va otasining ismi], tug‘ilgan kuningiz bilan tabriklayman! Sog‘lik, omad va xotirjamlik tilayman. Hurmat bilan, [ismingiz]."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Rahbarga tabrikda ortiqcha maqtov va shaxsiy hazildan qoching: murojaat, tabrik, minnatdorchilik va tilak — shu to‘rt qism yetarli."
+    },
+    {
+      "type": "h2",
+      "id": "buvi-boboga",
+      "text": "Buvi va boboga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Buvijon, tug‘ilgan kuningiz muborak bo‘lsin! Sizning ertaklaringiz va shirin patirlaringiz — bolaligimning eng iliq xotirasi. Doim sog‘ bo‘ling, duolaringiz bizga hamisha hamroh.",
+        "Mehribon buvim, bugun sizning kuningiz! Qo‘llaringiz dard ko‘rmasin, ko‘zlaringiz nurdan qolmasin. Chevaralaringizning to‘ylarini ko‘rish nasib etsin.",
+        "Bobojon, tug‘ilgan kuningiz qutlug‘ bo‘lsin! Hayot haqidagi hikoyalaringizni tinglab ulg‘aydik, mehnatni sevishni sizdan o‘rgandik. Sog‘-salomat bo‘ling, oilamizning to‘rida uzoq yillar o‘tiring.",
+        "Qisqa xabar: Bobojon, tug‘ilgan kuningiz muborak! Siz bor ekansiz, uyimiz fayzli. Dam olish kuni nevaralaringiz bilan boramiz."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yubiley",
+      "text": "Yubiley: 50, 60 va 70 yosh"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hurmatli [ism va otasining ismi], 50 yoshingiz muborak bo‘lsin! Yarim asrlik umringiz davomida oila, do‘stlar va hamkasblar hurmatini qozondingiz. Oldinda hali ko‘p yaxshi kunlar bor — ularni sog‘lik va xotirjamlik bilan qarshilang.",
+        "Dadajon, 60 yoshingiz qutlug‘ bo‘lsin! Shuncha yil davomida bizga suyanch bo‘ldingiz, endi navbat bizda: farzandlaringiz va nevaralaringiz doim xizmatingizda. Sog‘ bo‘ling, uzoq umr ko‘ring.",
+        "Buvijon, 70 yoshingiz muborak! Siz ko‘rgan-kechirganlaringiz bir kitob bo‘ladi. Shu kitobning eng yaxshi sahifalari hali oldinda bo‘lsin: sog‘lik, tinchlik va atrofingizda mehribon farzandlar."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kirill",
+      "text": "Kirill yozuvida tug‘ilgan kun tabriklari"
+    },
+    {
+      "type": "linkp",
+      "text": "Katta yoshdagilar tabrikni ko‘pincha kirill yozuvida o‘qishni afzal ko‘radi. Quyida yuqoridagi matnlarning ayrimlari va hammaga mos bitta qisqa tabrik kirill yozuvida berilgan; boshqa matnni {translit} bilan o‘zingiz o‘girishingiz mumkin.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kirill-matnlar",
+      "lang": "uz-Cyrl",
+      "text": "Кирилл ёзувида: туғилган кун табриклари"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Меҳрибоним онам, бугун гуллар ҳам, энг яхши тилаклар ҳам сизга. Сиз биз учун қилган ҳар бир яхшиликни эслайман ва қадрлайман. Туғилган кунингиз қутлуғ бўлсин, юзингиздан табассум аримасин!"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Дадажон, туғилган кунингиз муборак бўлсин! Сиз ёнимизда экансиз, ўзимни доим хотиржам ҳис қиламан. Соғлиғингиз мустаҳкам бўлсин, бизга ҳали кўп маслаҳатингиз керак."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Меҳрибон бувим, бугун сизнинг кунингиз! Қўлларингиз дард кўрмасин, кўзларингиз нурдан қолмасин. Чевараларингизнинг тўйларини кўриш насиб этсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Бобожон, туғилган кунингиз қутлуғ бўлсин! Ҳаёт ҳақидаги ҳикояларингизни тинглаб улғайдик, меҳнатни севишни сиздан ўргандик. Соғ-саломат бўлинг, оиламизнинг тўрида узоқ йиллар ўтиринг."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Акажон, туғилган кунингиз муборак! Болалигимда мени ҳимоя қилган бўлсангиз, ҳозир маслаҳатингиз билан қўллайсиз. Ишларингиз юришсин, оилангизда доим тинчлик бўлсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Опажон, туғилган кунингиз муборак! Сиз менга ҳам опа, ҳам энг яқин сирдош бўлдингиз. Бахтингиз тўкис, уйингиз доим фаровон бўлсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли устоз, туғилган кунингиз муборак бўлсин! Берган билимингиз ва сабрингиз учун бутун гуруҳимиз номидан раҳмат айтамиз. Сизга соғлик, оилавий бахт ва иқтидорли шогирдлар тилаймиз. Ҳурмат билан, [гуруҳ ёки синф номи]."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли [исм ва отасининг исми], туғилган кунингиз билан чин дилдан табриклаймиз! Сизнинг талабчанлигингиз ва адолатингиз жамоамизни бирлаштириб туради. Сизга соғлик, куч-ғайрат ва барча режаларингизда муваффақият тилаймиз. Ҳурмат билан, [бўлим номи] жамоаси."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Туғилган кунингиз муборак бўлсин! Сизга соғлик, бахт ва узоқ умр тилайман."
+    },
+    {
+      "type": "h2",
+      "id": "shaxsiy",
+      "text": "Tabrikni shaxsiy qilish: 3 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Murojaatni o‘zgartiring: odamga hayotda qanday murojaat qilsangiz, shunday yozing — «Onajon», «Akajon», «[Ism]».",
+        "Bitta aniq xotira yoki fazilat qo‘shing: birga o‘tkazgan kuningiz, u bergan maslahat, uning odati. Umumiy maqtovdan ko‘ra bitta aniq detal ko‘proq ta’sir qiladi.",
+        "Tilakni odamning hozirgi hayotiga moslang: talabaga — sessiyada omad, yosh ota-onaga — farzand kamoli, kattalarga — sog‘lik va xotirjamlik."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "Tabrikni AI yordamida yozdirish"
+    },
+    {
+      "type": "p",
+      "text": "AI chat yaqinlaringizni tanimaydi, shuning uchun so‘rovga to‘rt narsani yozing: kimga, qanday munosabat bilan, bitta umumiy xotira va ohang. Masalan: «Akamning 40 yoshiga tabrik yoz. U meni birinchi marta ishga joylagan. Hurmat bilan, sizlab, 4 gap. O‘zingdan xotira qo‘shma.» Model baribir to‘qima detal qo‘shib yuborishi mumkin — yuborishdan oldin matnni o‘qib chiqing. Chat faqat matn yozadi: otkritka, rasm yoki ovozli tabrik yasamaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Bunday so‘rovni {gen} sahifasida yuborish mumkin. Tabrik matni qanday tuzilishi va 8-mart uchun namunalar — {guide}da, Yangi yil uchun alohida to‘plam — {ny} sahifasida.",
+      "links": [
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish qo‘llanmasi"
+        },
+        {
+          "token": "ny",
+          "target": "/uz/blog/yangi-yil-tabriklari/",
+          "anchor": "Yangi yil tabriklari"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chatga boshqa odamning telefoni, manzili va oilaviy sirlarini yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ism to‘g‘ri yozilganmi, kvadrat qavsdagi barcha joylar to‘ldirilganmi?",
+        "Murojaat bir xilmi: matn boshida «siz» bo‘lsa, oxirigacha «siz» bo‘lsin.",
+        "Yosh va sana to‘g‘rimi? Yubiley tabrigida xato raqam ayniqsa ko‘zga tashlanadi.",
+        "Hazil o‘qiydigan odamni xafa qilmaydimi, ayniqsa guruh chatida?",
+        "Odam qaysi yozuvni afzal ko‘radi — lotin yoki kirill?"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "AI tabrik generatorini ochish",
+      "href": "/uz/ai-tabrik-generatori/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tug‘ilgan kun tabriklarini ko‘chirib olsa bo‘ladimi?",
+      "a": "Ha. Matnlar shu sahifa uchun yozilgan, ularni ko‘chirib, o‘zgartirib yuborishingiz mumkin. Kvadrat qavsdagi joylarni to‘ldiring va iloji bo‘lsa, o‘zingizdan bitta jumla qo‘shing — shunda tabrik sizniki bo‘ladi."
+    },
+    {
+      "q": "Tug‘ilgan kun bilan qisqa qilib qanday tabriklash mumkin?",
+      "a": "Ikki-uch gap yetadi: murojaat, tabrik va bitta tilak. Masalan: «[Ism], tug‘ilgan kuning muborak! Sog‘lik va omad senga hamroh bo‘lsin.» Har bir bo‘limda «Qisqa xabar» deb belgilangan tayyor variantlar bor."
+    },
+    {
+      "q": "Kattalarni tug‘ilgan kun bilan qanday tabriklash to‘g‘ri?",
+      "a": "Sizlab va hurmat bilan: «Onajon», «Dadajon», «Hurmatli [ism va otasining ismi]» kabi murojaatdan boshlang, minnatdorchilik bildiring va sog‘lik, uzoq umr tilang. Hazilni faqat odam uni yoqtirishiga ishonchingiz komil bo‘lsa qo‘shing."
+    },
+    {
+      "q": "Tabrikni kirill yozuvida yuborsa bo‘ladimi?",
+      "a": "Ha, ayniqsa katta yoshdagilar kirill yozuvini afzal ko‘rsa. Sahifaning pastki qismida kirill yozuvidagi to‘qqizta tabrik bor, boshqa matnni esa saytdagi kirill-lotin o‘giruvchi bilan o‘girish mumkin."
+    },
+    {
+      "q": "Tabrikni qachon yuborgan ma’qul?",
+      "a": "Yaqinlarga — ertalab, kun boshlanishida; hamkasb va rahbarga — ish vaqtida. Kechikib qolsangiz ham tabriklang: qisqa uzr va samimiy tilak e’tiborsizlikdan yaxshiroq."
+    },
+    {
+      "q": "Shaxsiy tabrikni AI yozib bera oladimi?",
+      "a": "Ha. AI tabrik generatoriga kimga va qanday ohangda yozish kerakligini, bitta umumiy xotirani aytsangiz, u matn tayyorlaydi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi. Matndagi har bir detal haqiqatga to‘g‘ri kelishini o‘zingiz tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "AI tabrik generatorini ochish",
+    "href": "/uz/ai-tabrik-generatori/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/yangi-yil-tabriklari/",
+      "anchor": "Yangi yil tabriklari 2027: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/ai-sher-yozish/",
+      "anchor": "AI she’r yozish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Tug‘ilgan kun tabriklari: 57 ta tayyor tabrik",
+  "ogDescription": "Onaga, otaga, aka-uka va opa-singilga, do‘stga, turmush o‘rtog‘iga, farzandga, ustozga, hamkasb va rahbarga tug‘ilgan kun tabriklari, kirill yozuvidagi matnlar va shaxsiy tabrik bo‘yicha maslahatlar.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/tugilgan-kun-tabriklari/",
+  "hreflangUz": "/uz/blog/tugilgan-kun-tabriklari/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "People in Uzbekistan writing birthday greetings"
+  },
+  "breadcrumbLabel": "Tug‘ilgan kun tabriklari",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-16",
+  "dateModified": "2026-11-16",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Tabrikda bu siz aytmagan xotira, sana yoki fazilat ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf. Manba sayt qo‘llanmalari uchun 2026-10-05 kuni tekshirilgan."
+    }
+  ],
+  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "createdAt": "2026-11-16T00:00:00.000Z"
+}

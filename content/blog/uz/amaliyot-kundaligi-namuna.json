@@ -4,14 +4,16 @@
   "slug": "amaliyot-kundaligi-namuna",
   "url": "/uz/blog/amaliyot-kundaligi-namuna/",
   "title": "Amaliyot kundaligi namuna: 3 kunlik misol, Word/PDF | GPTBot.uz",
-  "description": "Amaliyot kundaligiga kunlik vazifa, bajarilgan ish va natijani yozish. Uch kunlik to‘qima misol, tahrirlanadigan Word/PDF va tekshiruv ro‘yxati.",
+  "description": "Amaliyot kundaligiga kunlik vazifa, bajarilgan ish va natijani yozish. Ofis va pedagogik amaliyot misollari, sirtqi ta’lim uchun eslatma, Word/PDF.",
   "h1": "Amaliyot kundaligi: uch kunlik namuna va bo‘sh tuzilma",
   "topicCluster": "hujjat-va-xatlar",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
   "keywords": [
     "amaliyot kundaligi namuna",
     "amaliyot kundaligi",
-    "amaliyot kundaligi qanday yoziladi"
+    "amaliyot kundaligi qanday yoziladi",
+    "pedagogik amaliyot kundaligi",
+    "amaliyot kundaligi sirtqi"
   ],
   "intro": "Amaliyot kundaligi har ish kuni nima qilganingizni va qanday natija olganingizni qayd etadi. Bu yerda hujjatlar bilan ishlashga oid uch kunlik o‘quv misoli va o‘z amaliyotingiz uchun ko‘paytirib to‘ldiriladigan yozuv tuzilmasi berilgan.",
   "body": [
@@ -71,6 +73,63 @@
     {
       "type": "quote",
       "text": "Rahbar tasdig‘i: o‘quv misolida berilmagan. Haqiqiy kundalikdagi qaydni amaliyot rahbari o‘zi to‘ldiradi."
+    },
+    {
+      "type": "h2",
+      "id": "pedagogik-amaliyot",
+      "text": "Pedagogik amaliyot kundaligi: to‘ldirilgan misol"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: talaba A shartli maktabning 5-sinfida matematika fanidan pedagogik amaliyot o‘taydi; haqiqiy maktab, sinf yoki o‘qituvchiga aloqasi yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "Talaba A · Fan: matematika · Amaliyot joyi: shartli maktab, 5-sinf · Metodist B · 09–11.11.2026"
+    },
+    {
+      "type": "quote",
+      "text": "09.11.2026. Vazifa: sinf va dars jadvali bilan tanishish. Bajargan ishim: fan o‘qituvchisining 5-sinfdagi bir darsini kuzatdim va dars bosqichlarini vaqti bilan yozib oldim. Natija: bir darsning kuzatuv yozuvi. O‘rganganim: yangi mavzu ko‘rgazma bilan tushuntirilganda o‘quvchilar savoli ko‘paydi."
+    },
+    {
+      "type": "quote",
+      "text": "10.11.2026. Vazifa: dars rejasini tayyorlash. Bajargan ishim: «Oddiy kasrlarni taqqoslash» mavzusi bo‘yicha dars rejasi qoralamasini yozdim va fan o‘qituvchisiga ko‘rsatdim. Natija: bir sahifalik reja. O‘qituvchi tavsiyasi bilan mustahkamlash bosqichiga ikki misol qo‘shdim."
+    },
+    {
+      "type": "quote",
+      "text": "11.11.2026. Vazifa: darsning bir qismini o‘tkazish. Bajargan ishim: fan o‘qituvchisi nazoratida mustahkamlash bosqichini o‘tkazdim: 15 daqiqa, juftlikda 4 ta misol. Natija: o‘quvchilar ishini tekshirish varaqasi. Aniqlashtirishim kerak: vaqt taqsimoti — yakka mustaqil ishga vaqt yetmadi."
+    },
+    {
+      "type": "quote",
+      "text": "Metodist qaydi: o‘quv misolida berilmagan. Haqiqiy kundalikdagi qaydni metodist yoki fan o‘qituvchisi o‘zi yozadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Pedagogik amaliyotda kundalikka ko‘pincha kuzatilgan darslar, o‘zingiz o‘tgan darslar yoki dars qismlari va tarbiyaviy ishlar alohida yoziladi; aniq bo‘limlarni kafedra dasturi belgilaydi. Kuzatilgan dars uchun to‘liq tahlil kerak bo‘lsa, {dars} blankasidan foydalaning.",
+      "links": [
+        {
+          "token": "dars",
+          "target": "/uz/blog/dars-tahlili-namuna/",
+          "anchor": "dars tahlili namunasi"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "sirtqi",
+      "text": "Sirtqi ta’lim talabasi uchun kundalik"
+    },
+    {
+      "type": "p",
+      "text": "Sirtqi ta’limda amaliyot muddati, joyi va kundalik shaklini ta’lim muassasangiz belgilaydi. Yozish usuli o‘zgarmaydi: har bir amaliyot kuni uchun vazifa, o‘zingiz bajargan ish va natija alohida yoziladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Amaliyot ish joyingizda o‘tilsa, kundalikka amaliyot dasturiga tegishli vazifalarni yozing; qaysi ishlar hisobga olinishini amaliyot rahbaridan aniqlang.",
+        "Amaliyot kunlari ketma-ket bo‘lmasa, har bir yozuvga aniq sanani qo‘ying va o‘tilmagan kunlarni to‘ldirmang.",
+        "Rahbar qaydi va imzosi uchun joy qoldiring: uni amaliyot joyidagi rahbar yoki kafedra vakili to‘ldiradi."
+      ]
     },
     {
       "type": "h2",
@@ -215,11 +274,19 @@
     },
     {
       "q": "Namuna tibbiy yoki pedagogik amaliyotga tayyormi?",
-      "a": "Yo‘q. Bu hujjatlar bilan ishlashga oid umumiy o‘quv misoli. Yo‘nalishingizdagi xavfsizlik, kuzatuv, dars yoki klinik qayd maydonlarini kafedra bergan rasmiy shakldan oling."
+      "a": "Pedagogik amaliyot uchun sahifada alohida to‘ldirilgan misol bor, lekin u ham umumiy o‘quv namunasi. Tibbiy amaliyotdagi klinik qaydlar, xavfsizlik va boshqa maxsus maydonlarni, shuningdek pedagogik amaliyot kundaligining aniq bo‘limlarini kafedra bergan rasmiy shakldan oling."
     },
     {
       "q": "Dam olish yoki amaliyot o‘tilmagan kunga nima yoziladi?",
       "a": "Jadval va kafedra shakliga qarang. Amaliyot bo‘lmagan kunni bajarilgan ish bilan to‘ldirmang. Izoh talab qilinsa, haqiqiy holatni va rahbar bilan kelishilgan qaydni yozing."
+    },
+    {
+      "q": "Pedagogik amaliyot kundaligiga nimalar yoziladi?",
+      "a": "Kuzatilgan darslar, o‘zingiz o‘tgan darslar yoki dars qismlari, tarbiyaviy ishlar va metodist bilan muhokama natijalari — har biri sanasi, bajargan ishingiz va natijasi bilan. Aniq bo‘limlarni kafedra dasturi belgilaydi."
+    },
+    {
+      "q": "Sirtqi ta’lim talabasi kundalikni qanday to‘ldiradi?",
+      "a": "Yozish usuli o‘sha: har bir amaliyot kuni uchun vazifa, bajarilgan ish va natija. Muddat, joy va shaklni ta’lim muassasangiz belgilaydi; o‘tilmagan kunlar to‘ldirilmaydi."
     }
   ],
   "cta": {
@@ -261,10 +328,24 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/dars-tahlili-namuna/",
+      "anchor": "Dars tahlili namunasi: blanka va daftar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Amaliyot kundaligi namuna: 3 kunlik misol, Word/PDF | GPTBot.uz",
-  "ogDescription": "Amaliyot kundaligiga kunlik vazifa, bajarilgan ish va natijani yozish. Uch kunlik to‘qima misol, tahrirlanadigan Word/PDF va tekshiruv ro‘yxati.",
+  "ogDescription": "Amaliyot kundaligiga kunlik vazifa, bajarilgan ish va natijani yozish. Ofis va pedagogik amaliyot misollari, sirtqi ta’lim uchun eslatma, Word/PDF.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/amaliyot-kundaligi-namuna/",
   "hreflangUz": "/uz/blog/amaliyot-kundaligi-namuna/",
@@ -277,7 +358,7 @@
   },
   "breadcrumbLabel": "Amaliyot kundaligi namuna",
   "datePublished": "2026-11-08",
-  "dateModified": "2026-11-08",
+  "dateModified": "2026-11-16",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -292,6 +373,6 @@
       "note": "Tarix yo‘nalishi uchun metodik qo‘llanma: amaliyot vazifalari, kundalik va hisobot o‘rtasidagi bog‘liqlik. Undagi yo‘nalishga xos talablar barcha talabalarga umumlashtirilmaydi; o‘z kafedrangiz yo‘riqnomasini tekshiring."
     }
   ],
-  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "updatedAt": "2026-11-16T00:00:00.000Z",
   "createdAt": "2026-11-08T00:00:00.000Z"
 }

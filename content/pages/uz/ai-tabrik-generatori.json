@@ -42,7 +42,6 @@
     "tugilgan kunga tabrik",
     "tugilgan kun tabrik",
     "yangi yil tabrigi",
-    "янги йил табриклари",
     "yangi yilingiz bilan",
     "туғилган кунингиз билан",
     "8 mart tabriklari",
@@ -177,6 +176,22 @@
         "Kelin-kuyovga: Aziz [kelin va kuyovning ismlari], to‘yingiz muborak! Bugun ikki yurak bir oila bo‘ldi. Bir-biringizni tinglang, kichik narsalardan ham birga quvonishni unutmang. Uyingiz mehrga to‘lsin, oilangiz yildan yilga mustahkam bo‘lsin.",
         "Do‘stning to‘yiga (qisqa): Do‘stim, to‘ying muborak! Sen tanlagan inson bilan har kuning bayramdek o‘tsin. Yangi uyingizga birinchi mehmon bo‘lib borishga hozirdan tayyorman!",
         "Ustozlar kuniga: Hurmatli ustozimiz, 1-oktabr — O‘qituvchi va murabbiylar kuni bilan tabriklaymiz! Bilim berish bilan birga bizni yaxshi inson bo‘lishga o‘rgatganingiz uchun rahmat. Sizga sog‘lik, sabr-toqat va shogirdlaringiz yutuqlaridan quvonch tilaymiz."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Tayyor matnlar to‘plami kerak bo‘lsa, {tk} va {ny} sahifalariga qarang: har birida adresatlar bo‘yicha 50 dan ortiq matn va kirill yozuvidagi variantlar bor.",
+      "links": [
+        {
+          "token": "tk",
+          "target": "/uz/blog/tugilgan-kun-tabriklari/",
+          "anchor": "tug‘ilgan kun tabriklari"
+        },
+        {
+          "token": "ny",
+          "target": "/uz/blog/yangi-yil-tabriklari/",
+          "anchor": "Yangi yil tabriklari"
+        }
       ]
     },
     {
@@ -365,6 +380,18 @@
       "type": "contextual"
     },
     {
+      "target": "/uz/blog/tugilgan-kun-tabriklari/",
+      "anchor": "Tug‘ilgan kun tabriklari: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/yangi-yil-tabriklari/",
+      "anchor": "Yangi yil tabriklari 2027: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/ai-sher-yozish/",
       "anchor": "AI she’r yozish",
       "locale": "uz",
@@ -433,5 +460,5 @@
     }
   ],
   "createdAt": "2026-10-25T00:00:00Z",
-  "updatedAt": "2026-10-26"
+  "updatedAt": "2026-11-16"
 }

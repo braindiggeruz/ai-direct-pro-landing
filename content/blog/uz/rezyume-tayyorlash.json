@@ -504,6 +504,12 @@
       "anchor": "O‘quv dasturiga motivatsion xat",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Rezyume tayyorlash: tuzilma namunasi va AI bilan 5 qadam",

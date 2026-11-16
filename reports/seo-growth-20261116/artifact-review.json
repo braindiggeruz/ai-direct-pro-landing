@@ -1,0 +1,673 @@
+{
+  "checkedAt": "2026-11-16T16:50:27.340Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-09-marketing-final/reviewed-protected-pages.json",
+  "sitemapBefore": 360,
+  "sitemapAfter": 370,
+  "added": [
+    "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/",
+    "/uz/blog/dars-tahlili-namuna/",
+    "/uz/blog/esse-yozish-tartibi/",
+    "/uz/blog/hisobot-namuna/",
+    "/uz/blog/kafolat-xati-namuna/",
+    "/uz/blog/murakkab-reja-namuna/",
+    "/uz/blog/tilxat-namuna/",
+    "/uz/blog/tugilgan-kun-tabriklari/",
+    "/uz/blog/yangi-yil-tabriklari/",
+    "/uz/hujjat-namunalari/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+        "/ru/gde-polzovatsya-gpt-besplatno/",
+        "/ru/gpt-na-russkom/",
+        "/ru/gpt-vs-chatgpt-sravnenie/",
+        "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/"
+      ]
+    },
+    {
+      "url": "/uz/blog/dars-tahlili-namuna/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/hujjat-namunalari/",
+        "/uz/blog/amaliyot-kundaligi-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/blog/esse-yozish-tartibi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/onlayn-testlar/",
+        "/uz/suniy-intellekt/",
+        "/uz/blog/chatgpt-talabalar-uchun/",
+        "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+        "/uz/blog/murakkab-reja-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/blog/hisobot-namuna/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/hujjat-namunalari/",
+        "/uz/blog/bildirishnoma-namuna/",
+        "/uz/blog/dars-tahlili-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/blog/kafolat-xati-namuna/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/hujjat-namunalari/",
+        "/uz/blog/rasmiy-xat-yozish/"
+      ]
+    },
+    {
+      "url": "/uz/blog/murakkab-reja-namuna/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/onlayn-testlar/",
+        "/uz/suniy-intellekt/",
+        "/uz/blog/chatgpt-talabalar-uchun/",
+        "/uz/blog/esse-yozish-tartibi/",
+        "/uz/blog/insho-yozish-suniy-intellekt-bilan/"
+      ]
+    },
+    {
+      "url": "/uz/blog/tilxat-namuna/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/hujjat-namunalari/",
+        "/uz/blog/tushuntirish-xati-va-ariza-yozish/"
+      ]
+    },
+    {
+      "url": "/uz/blog/tugilgan-kun-tabriklari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-sher-yozish/",
+        "/uz/ai-tabrik-generatori/",
+        "/uz/blog/tabrik-yozish/",
+        "/uz/blog/yangi-yil-tabriklari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/yangi-yil-tabriklari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-sher-yozish/",
+        "/uz/ai-tabrik-generatori/",
+        "/uz/blog/tabrik-yozish/",
+        "/uz/blog/tugilgan-kun-tabriklari/"
+      ]
+    },
+    {
+      "url": "/uz/hujjat-namunalari/",
+      "incoming": [
+        "/uz/",
+        "/uz/onlayn-testlar/",
+        "/uz/blog/amaliyot-hisoboti-namuna/",
+        "/uz/blog/amaliyot-kundaligi-namuna/",
+        "/uz/blog/bayonnoma-namuna/",
+        "/uz/blog/bildirishnoma-namuna/",
+        "/uz/blog/dalolatnoma-namuna/",
+        "/uz/blog/dars-tahlili-namuna/",
+        "/uz/blog/hisobot-namuna/",
+        "/uz/blog/javob-xati-namuna/",
+        "/uz/blog/kafolat-xati-namuna/",
+        "/uz/blog/kurs-ishi-yozish/",
+        "/uz/blog/motivatsion-xat-namuna/",
+        "/uz/blog/obyektivka-namuna/",
+        "/uz/blog/rasmiy-xat-yozish/",
+        "/uz/blog/referat-va-mustaqil-ish/",
+        "/uz/blog/rezyume-tayyorlash/",
+        "/uz/blog/tarjimai-hol-namuna/",
+        "/uz/blog/tavsifnoma-namuna/",
+        "/uz/blog/tavsiyanoma-namuna/",
+        "/uz/blog/tilxat-namuna/",
+        "/uz/blog/tushuntirish-xati-va-ariza-yozish/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {
+    "/uz/blog/bildirishnoma-namuna/": "The everyday term «bildirgi» names the same internal memo: title, H1 and description now lead with it (OpenSEO 2026-11-16: «bildirgi» 5 400, «bildirgi namuna» 1 000; GSC already showed this URL for «bildirgi namuna pdf»).",
+    "/uz/blog/insho-yozish-suniy-intellekt-bilan/": "Esse and the complex-plan samples moved to pages of their own (C88–C91); the guide keeps «insho yozish».",
+    "/uz/blog/tabrik-yozish/": "The birthday and New Year collections moved to pages of their own (C92–C95); the guide keeps «tabrik yozish» and «tabriknoma».",
+    "/uz/blog/amaliyot-kundaligi-namuna/": "Description extended with the pedagogical-practice section added on 2026-11-16; title and H1 unchanged."
+  },
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/",
+        "/uz/blog/dars-tahlili-namuna/",
+        "/uz/blog/esse-yozish-tartibi/",
+        "/uz/blog/hisobot-namuna/",
+        "/uz/blog/kafolat-xati-namuna/",
+        "/uz/blog/murakkab-reja-namuna/",
+        "/uz/blog/tilxat-namuna/",
+        "/uz/blog/tugilgan-kun-tabriklari/",
+        "/uz/blog/yangi-yil-tabriklari/",
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/dars-tahlili-namuna/",
+        "/uz/blog/esse-yozish-tartibi/",
+        "/uz/blog/hisobot-namuna/",
+        "/uz/blog/kafolat-xati-namuna/",
+        "/uz/blog/murakkab-reja-namuna/",
+        "/uz/blog/tilxat-namuna/",
+        "/uz/blog/tugilgan-kun-tabriklari/",
+        "/uz/blog/yangi-yil-tabriklari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/chto-takoe-gpt-i-kak-polzovatsya/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/gde-polzovatsya-gpt-besplatno/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/gpt-na-russkom/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/gpt-vs-chatgpt-sravnenie/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/russko-uzbekskiy-perevodchik/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/ai-sher-yozish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/tugilgan-kun-tabriklari/",
+        "/uz/blog/yangi-yil-tabriklari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/ai-tabrik-generatori/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/tugilgan-kun-tabriklari/",
+        "/uz/blog/yangi-yil-tabriklari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/",
+        "/uz/kalkulyator/",
+        "/uz/kirill-lotin/",
+        "/uz/onlayn-testlar/",
+        "/uz/rus-ozbek-tarjimon/",
+        "/uz/taqdimot-ai/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/onlayn-testlar/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/esse-yozish-tartibi/",
+        "/uz/blog/murakkab-reja-namuna/",
+        "/uz/fizika-masalalar/",
+        "/uz/geometriya-masalalar/",
+        "/uz/hujjat-namunalari/",
+        "/uz/karra-jadvali/",
+        "/uz/matematika-misollar-1-sinf/",
+        "/uz/matematika-misollar-2-sinf/",
+        "/uz/matematika-misollar-3-sinf/",
+        "/uz/tenglama-yechish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/suniy-intellekt/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/esse-yozish-tartibi/",
+        "/uz/blog/murakkab-reja-namuna/"
+      ],
+      "removedLinks": [
+        "/uz/blog/insho-yozish-suniy-intellekt-bilan/"
+      ]
+    },
+    {
+      "url": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/amaliyot-hisoboti-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/amaliyot-kundaligi-namuna/",
+      "fields": [
+        "description",
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/dars-tahlili-namuna/",
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": [],
+      "before": {
+        "description": [
+          "Amaliyot kundaligiga kunlik vazifa, bajarilgan ish va natijani yozish. Uch kunlik to‘qima misol, tahrirlanadigan Word/PDF va tekshiruv ro‘yxati."
+        ]
+      },
+      "after": {
+        "description": [
+          "Amaliyot kundaligiga kunlik vazifa, bajarilgan ish va natijani yozish. Ofis va pedagogik amaliyot misollari, sirtqi ta’lim uchun eslatma, Word/PDF."
+        ]
+      }
+    },
+    {
+      "url": "/uz/blog/bayonnoma-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/bildirishnoma-namuna/",
+      "fields": [
+        "title",
+        "h1",
+        "description",
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/downloads/docs-20261116/bildirgi.docx",
+        "/downloads/docs-20261116/bildirgi.pdf",
+        "/uz/blog/hisobot-namuna/",
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": [],
+      "before": {
+        "title": [
+          "Bildirishnoma namuna: rahbarga yozish, Word va PDF | GPTBot.uz"
+        ],
+        "h1": [
+          "Rahbarga bildirishnoma: holat, ko‘rilgan chora va so‘rov"
+        ],
+        "description": [
+          "Rahbarga ichki bildirishnoma namunasi: printer muammosi haqida to‘ldirilgan misol, Word/PDF blanka, fakt va taxminni ajratish bo‘yicha tekshiruv."
+        ]
+      },
+      "after": {
+        "title": [
+          "Bildirgi (bildirishnoma) namuna: Word va PDF | GPTBot.uz"
+        ],
+        "h1": [
+          "Rahbarga bildirgi (bildirishnoma): holat, ko‘rilgan chora va so‘rov"
+        ],
+        "description": [
+          "Bildirgi (bildirishnoma) namunasi: rahbarga yoziladigan ikki to‘ldirilgan misol, rekvizitlar, Word/PDF blankalar, fakt va taxminni ajratish tekshiruvi."
+        ]
+      }
+    },
+    {
+      "url": "/uz/blog/chatgpt-talabalar-uchun/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/esse-yozish-tartibi/",
+        "/uz/blog/murakkab-reja-namuna/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/dalolatnoma-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "fields": [
+        "title",
+        "h1",
+        "description",
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/esse-yozish-tartibi/",
+        "/uz/blog/murakkab-reja-namuna/"
+      ],
+      "removedLinks": [],
+      "before": {
+        "title": [
+          "Insho va esse yozish: reja, namuna va tekshiruv"
+        ],
+        "h1": [
+          "Insho va esse yozish sun’iy intellekt bilan: reja, namuna va tekshiruv"
+        ],
+        "description": [
+          "Esse yozish tartibi: kirish, tezis, 2–3 dalil va xulosa. Insho rejasi, esse tuzilmasi namunasi, AI uchun tayyor so‘rovlar va tekshiruv ro‘yxati."
+        ]
+      },
+      "after": {
+        "title": [
+          "Insho yozish tartibi: bosqichlar, AI yordami va tekshiruv"
+        ],
+        "h1": [
+          "Insho yozish sun’iy intellekt bilan: tartib, so‘rovlar va tekshiruv"
+        ],
+        "description": [
+          "Insho yozish tartibi: mavzuni tushunish, reja, kirish, asosiy qism va xulosa. AI’dan halol foydalanish, tayyor so‘rovlar va topshirishdan oldingi tekshiruv."
+        ]
+      }
+    },
+    {
+      "url": "/uz/blog/javob-xati-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/kurs-ishi-yozish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/downloads/docs-20261116/kurs-ishi-titul-reja.docx",
+        "/downloads/docs-20261116/kurs-ishi-titul-reja.pdf",
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/motivatsion-xat-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/obyektivka-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/rasmiy-xat-yozish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/kafolat-xati-namuna/",
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/referat-va-mustaqil-ish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/downloads/docs-20261116/referat-titul-reja.docx",
+        "/downloads/docs-20261116/referat-titul-reja.pdf",
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/rezyume-tayyorlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/tabrik-yozish/",
+      "fields": [
+        "title",
+        "description",
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/tugilgan-kun-tabriklari/",
+        "/uz/blog/yangi-yil-tabriklari/"
+      ],
+      "removedLinks": [],
+      "before": {
+        "title": [
+          "Tug‘ilgan kun tabriklari va Yangi yil tabriklari: namunalar"
+        ],
+        "description": [
+          "Onaga, otaga, do‘stga, hamkasbga, rahbarga va ustozga 30 ta qisqa tabrik: tug‘ilgan kun, Yangi yil va 8-mart. AI chatda tabrikni shaxsiy qilish usuli."
+        ]
+      },
+      "after": {
+        "title": [
+          "Tabrik yozish: tabriknoma matni, tuzilma va namunalar"
+        ],
+        "description": [
+          "Tabrik va tabriknoma matni qanday yoziladi: murojaat, sabab, shaxsiy detal va tilak. Tug‘ilgan kun, Yangi yil va 8-mart uchun namunalar, AI’dan foydalanish."
+        ]
+      }
+    },
+    {
+      "url": "/uz/blog/tarjimai-hol-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/tavsifnoma-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/tavsiyanoma-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/downloads/docs-20261116/ariza-namunalari.docx",
+        "/downloads/docs-20261116/ariza-namunalari.pdf",
+        "/downloads/docs-20261116/tushuntirish-xati.docx",
+        "/downloads/docs-20261116/tushuntirish-xati.pdf",
+        "/uz/blog/bildirishnoma-namuna/",
+        "/uz/blog/tilxat-namuna/",
+        "/uz/hujjat-namunalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/",
+        "/uz/blog/dars-tahlili-namuna/",
+        "/uz/blog/esse-yozish-tartibi/",
+        "/uz/blog/hisobot-namuna/",
+        "/uz/blog/kafolat-xati-namuna/",
+        "/uz/blog/murakkab-reja-namuna/",
+        "/uz/blog/tilxat-namuna/",
+        "/uz/blog/tugilgan-kun-tabriklari/",
+        "/uz/blog/yangi-yil-tabriklari/",
+        "/uz/hujjat-namunalari/"
+      ],
+      "relabelled": [
+        {
+          "url": "/uz/blog/bildirishnoma-namuna/",
+          "before": "Bildirishnoma namuna: rahbarga yozish, Word va PDF | GPTBot.uz",
+          "after": "Bildirgi (bildirishnoma) namuna: Word va PDF | GPTBot.uz"
+        },
+        {
+          "url": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "before": "Insho va esse yozish: reja, namuna va tekshiruv",
+          "after": "Insho yozish tartibi: bosqichlar, AI yordami va tekshiruv"
+        },
+        {
+          "url": "/uz/blog/tabrik-yozish/",
+          "before": "Tug‘ilgan kun tabriklari va Yangi yil tabriklari: namunalar",
+          "after": "Tabrik yozish: tabriknoma matni, tuzilma va namunalar"
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 367
+}

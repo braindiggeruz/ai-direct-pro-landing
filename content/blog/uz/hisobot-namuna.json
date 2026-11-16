@@ -1,0 +1,444 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "hisobot-namuna",
+  "url": "/uz/blog/hisobot-namuna/",
+  "title": "Hisobot namuna: haftalik va oylik, Word/PDF | GPTBot.uz",
+  "description": "Ish hisoboti qanday yoziladi: bajarilgan ishlar jadvali, bajarilmagan vazifalar, keyingi davr rejasi. Haftalik hisobot misoli, oylik uchun bandlar, Word/PDF.",
+  "h1": "Hisobot namunasi: haftalik va oylik ish hisoboti qanday yoziladi",
+  "topicCluster": "hujjat-va-xatlar",
+  "keywords": [
+    "hisobot namuna",
+    "hisobot yozish",
+    "hisobot",
+    "hisobot yozish namuna",
+    "haftalik hisobot",
+    "oylik hisobot"
+  ],
+  "intro": "Hisobot — rejalashtirilgan ishlar qanday bajarilgani haqidagi yozma axborot. Bu sahifada haftalik va oylik ish hisoboti uchun blanka, bir haftalik to‘ldirilgan o‘quv misoli va oylik hisobotga qo‘shiladigan bandlar berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261116/hisobot.docx",
+          "anchor": "Word uchun DOCX blankasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261116/hisobot.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Tashkilotingizda hisobot shakli yoki elektron tizim bo‘lsa, o‘sha ustun. Bu sahifa xodimning ish hisobotiga bag‘ishlangan; talabaning amaliyot hisoboti uchun {amaliyot} alohida berilgan.",
+      "links": [
+        {
+          "token": "amaliyot",
+          "target": "/uz/blog/amaliyot-hisoboti-namuna/",
+          "anchor": "amaliyot hisoboti namunasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli: bir haftalik hisobot"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: bo‘lim boshlig‘i A va mutaxassis B shartli; haqiqiy tashkilot, mijoz yoki raqamlarga aloqasi yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "Savdo bo‘limi boshlig‘i A ga · Bo‘lim mutaxassisi B dan"
+    },
+    {
+      "type": "quote",
+      "text": "HISOBOT — 2026-yil 9–13-noyabr haftasi uchun"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "Vazifa",
+        "Reja",
+        "Natija",
+        "Izoh"
+      ],
+      "rows": [
+        [
+          "1",
+          "Mijozlar so‘rovlariga javob berish",
+          "Har bir so‘rovga 1 ish kunida",
+          "18 ta so‘rovdan 17 tasiga muddatida javob berildi",
+          "1 ta so‘rov ombor ma’lumoti kutilgani uchun 2 kunda yopildi"
+        ],
+        [
+          "2",
+          "Oktabr oyi hisobotiga ma’lumot yig‘ish",
+          "12 ta jadval",
+          "7 ta jadval olindi",
+          "Qolgan 5 tasi 18-noyabrda kutilmoqda"
+        ],
+        [
+          "3",
+          "Yangi narxlar ro‘yxatini tekshirish",
+          "1 ta ro‘yxat",
+          "Tekshirildi, 3 ta xato tuzatildi",
+          "Izoh yo‘q"
+        ]
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "Bajarilmagan ish: oktabr oyi hisoboti yakunlanmadi — 5 ta jadval kelmagan; yangi muddat rahbar bilan kelishiladi."
+    },
+    {
+      "type": "quote",
+      "text": "Keyingi hafta rejasi: 1) qolgan jadvallarni olish va tekshirish — 18–19-noyabr; 2) oktabr oyi hisobotini topshirish — 23-noyabrgacha; 3) so‘rovlarga javob muddatini saqlash."
+    },
+    {
+      "type": "quote",
+      "text": "13.11.2026 · B; haqiqiy imzo qo‘yilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "nima-yoziladi",
+      "text": "Hisobotda nimalar yoziladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kimga va kimdan: tashkilot yoki bo‘lim nomi, rahbar va hisobot beruvchi.",
+        "Hujjat nomi va davr: «Hisobot» so‘zi va qaysi hafta yoki oy uchun ekani.",
+        "Bajarilgan ishlar: vazifa, reja va haqiqiy natija — tekshirsa bo‘ladigan ko‘rinishda.",
+        "Bajarilmagan ishlar: sababi va yangi muddat.",
+        "Keyingi davr rejasi, sana va imzo."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hisobotlar oylik, choraklik va yillik bo‘lishi mumkin; hajmi bajarilgan ishlar ko‘lamiga bog‘liq. Ayrim hollarda hisobotni yuqori turuvchi rahbar tasdiqlaydi."
+    },
+    {
+      "type": "h2",
+      "id": "farqi",
+      "text": "Haftalik va oylik hisobot: farqi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Jihat",
+        "Haftalik",
+        "Oylik"
+      ],
+      "rows": [
+        [
+          "Maqsad",
+          "Joriy vazifalar holati",
+          "Oy natijalari va asosiy ko‘rsatkichlar"
+        ],
+        [
+          "Asosiy qism",
+          "Bajarilgan ishlar jadvali",
+          "Ko‘rsatkichlar: reja va haqiqat, izohlar bilan"
+        ],
+        [
+          "Qo‘shimcha",
+          "Keyingi hafta rejasi",
+          "Muammo va takliflar, keyingi oy rejasi"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Tashkilotingiz talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi sana, raqam va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Sarlavha qismi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Tashkilot yoki bo‘lim nomi]",
+        "[Rahbarning lavozimi, F.I.Sh.]ga · [lavozim, F.I.Sh.]dan",
+        "HISOBOT — [hafta yoki oy: sana] — [sana] davri uchun"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Bajarilgan ishlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Natijani tekshirsa bo‘ladigan ko‘rinishda yozing: hujjat, raqam yoki sana."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "Vazifa",
+        "Reja",
+        "Natija",
+        "Izoh"
+      ],
+      "rows": [
+        [
+          "1",
+          "[vazifa]",
+          "[rejadagi hajm yoki muddat]",
+          "[haqiqiy natija]",
+          "[izoh]"
+        ],
+        [
+          "2",
+          "[vazifa]",
+          "[rejadagi hajm yoki muddat]",
+          "[haqiqiy natija]",
+          "[izoh]"
+        ],
+        [
+          "3",
+          "[vazifa]",
+          "[rejadagi hajm yoki muddat]",
+          "[haqiqiy natija]",
+          "[izoh]"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Bajarilmagan ishlar va sabablari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Vazifa] — [sababi] — [yangi muddat yoki kerakli yordam]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Keyingi davr rejasi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1) [vazifa, muddat]; 2) [vazifa, muddat]; 3) [vazifa, muddat]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-5",
+      "text": "Oylik hisobot uchun qo‘shimcha"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Oy yakuni bo‘yicha asosiy ko‘rsatkichlar: [ko‘rsatkich — reja — haqiqat]",
+        "Muammo va takliflar: [qisqa va aniq]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-6",
+      "text": "Sana va imzo"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[kun.oy.yil] · [imzo] · [lavozim, F.I.Sh.]"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Natija o‘rniga jarayon: «mijozlar bilan ishladim» emas, «18 ta so‘rovdan 17 tasiga muddatida javob berildi».",
+        "Reja ko‘rsatilmagan: natijani nima bilan solishtirish noma’lum qoladi.",
+        "Bajarilmagan ishlar yozilmagan: ularni sababi va yangi muddati bilan ko‘rsating.",
+        "Tekshirilmagan raqamlar: har bir sonning manbasi bo‘lsin.",
+        "Keyingi davr rejasi yo‘q: hisobot o‘tgan davr bilan tugab qoladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Topshirishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Davr va hisobot beruvchi aniq ko‘rsatilganmi?",
+        "Har bir vazifa uchun reja va haqiqiy natija yozilganmi?",
+        "Raqam va sanalar o‘zingiz tekshirgan manbaga mosmi?",
+        "Bajarilmagan ishlarning sababi va yangi muddati bormi?",
+        "Keyingi davr rejasi, sana va imzo bormi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu tasdiqlangan rasmiy shakl emas. Tashkilotingizda hisobot shakli yoki elektron tizim bo‘lsa, o‘shandan foydalaning. Faqat haqiqatda bajarilgan ish va tekshirilgan raqamlarni yozing."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {bildirgi} · {bayonnoma}.",
+      "links": [
+        {
+          "token": "bildirgi",
+          "target": "/uz/blog/bildirishnoma-namuna/",
+          "anchor": "Bildirgi (bildirishnoma) namunasi"
+        },
+        {
+          "token": "bayonnoma",
+          "target": "/uz/blog/bayonnoma-namuna/",
+          "anchor": "Yig‘ilish bayonnomasi namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa hujjat kerak bo‘lsa, {hub} sahifasidan tanlang.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/hujjat-namunalari/",
+          "anchor": "barcha hujjat namunalari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Hisobot nima?",
+      "a": "Hisobot — rejalashtirilgan ishlar qanday bajarilgani haqidagi yozma axborot. Unda bajarilgan va bajarilmagan ishlar, natijalar hamda keyingi davr rejasi ko‘rsatiladi."
+    },
+    {
+      "q": "Haftalik hisobot qanday yoziladi?",
+      "a": "Kimga va kimdan ekanini, davrni yozing, so‘ng bajarilgan ishlarni jadvalda bering: vazifa, reja, natija va izoh. Oxirida bajarilmagan ishlar, keyingi hafta rejasi, sana va imzo bo‘ladi."
+    },
+    {
+      "q": "Oylik hisobot haftalikdan nimasi bilan farq qiladi?",
+      "a": "Oylik hisobotda alohida vazifalar emas, oy yakuni bo‘yicha asosiy ko‘rsatkichlar — reja va haqiqat — hamda muammo va takliflar beriladi."
+    },
+    {
+      "q": "Hisobot bilan amaliyot hisobotining farqi nima?",
+      "a": "Ish hisoboti xodimning ma’lum davrdagi vazifalari bo‘yicha rahbarga yoziladi. Amaliyot hisoboti esa talabaning amaliyot dasturi bo‘yicha yozadigan o‘quv ishi: unda kirish, asosiy qism va xulosa bo‘ladi."
+    },
+    {
+      "q": "Bajarilmagan ishni hisobotda ko‘rsatish kerakmi?",
+      "a": "Ha. Bajarilmagan ishni sababi va yangi muddati bilan yozing: bu rahbarga qaror qabul qilish uchun kerak bo‘ladi."
+    },
+    {
+      "q": "Hisobot namunasini Word yoki PDF formatida yuklab olsa bo‘ladimi?",
+      "a": "Ha. Sahifa boshida tahrirlanadigan DOCX blanka va chop etish uchun PDF bor; faylning ikkinchi sahifasida to‘ldirilgan o‘quv misoli berilgan. Fayllar bepul, ro‘yxatdan o‘tish talab qilinmaydi."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/amaliyot-hisoboti-namuna/",
+      "anchor": "Talabaning amaliyot hisoboti namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/bildirishnoma-namuna/",
+      "anchor": "Bildirgi (bildirishnoma) namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Hisobot namuna: haftalik va oylik, Word/PDF | GPTBot.uz",
+  "ogDescription": "Ish hisoboti qanday yoziladi: bajarilgan ishlar jadvali, bajarilmagan vazifalar, keyingi davr rejasi. Haftalik hisobot misoli, oylik uchun bandlar, Word/PDF.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/hisobot-namuna/",
+  "hreflangUz": "/uz/blog/hisobot-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Hisobot namuna",
+  "datePublished": "2026-11-16",
+  "dateModified": "2026-11-16",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "S. A. Karimov, Sh. M. Maxmatmurodov, O. N. Karimova — Nutq madaniyati va davlat tilida ish yuritish (NamDU kutubxonasi)",
+      "url": "https://namdu.uz/media/Books/pdf/2024/06/02/NamDU-ARM-3076-Nutq_madaniyati_va_davlat_tilida_ish_yuritish.pdf?raw=1",
+      "note": "Ish yuritish bo‘yicha o‘quv qo‘llanmasi; «Hisobot» bo‘limida hisobot turlari (oylik, choraklik, yillik) va tarkibiy qismlari berilgan. 2026-11-16 kuni tekshirildi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
+    }
+  ],
+  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "createdAt": "2026-11-16T00:00:00.000Z"
+}

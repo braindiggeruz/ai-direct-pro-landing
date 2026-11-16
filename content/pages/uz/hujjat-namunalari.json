@@ -1,0 +1,407 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/hujjat-namunalari/",
+  "slug": "hujjat-namunalari",
+  "pageType": "blog",
+  "primaryKeyword": "hujjat namunalari",
+  "secondaryKeywords": [
+    "hujjat namunasi",
+    "rasmiy hujjat namunalari",
+    "ish qog‘ozlari namunalari",
+    "word pdf blanka"
+  ],
+  "searchIntent": "informational",
+  "h1": "Hujjat namunalari: ish, o‘qish va xatlar uchun Word/PDF blankalar",
+  "title": "Hujjat namunalari: Word va PDF blankalar | GPTBot.uz",
+  "description": "O‘zbek tilidagi hujjat namunalari: ariza, tushuntirish xati, bildirgi, tilxat, hisobot, rezyume, dars tahlili va boshqalar. Bepul Word/PDF blankalar.",
+  "canonical": "https://gptbot.uz/uz/hujjat-namunalari/",
+  "hreflangUz": "/uz/hujjat-namunalari/",
+  "ogTitle": "Hujjat namunalari: Word va PDF blankalar | GPTBot.uz",
+  "ogDescription": "O‘zbek tilidagi hujjat namunalari: ariza, tushuntirish xati, bildirgi, tilxat, hisobot, rezyume, dars tahlili va boshqalar. Bepul Word/PDF blankalar.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Hujjat namunalari",
+  "heroSubtitle": "Ish joyi, o‘qish va tashkilotlar o‘rtasidagi yozishma uchun o‘zbek tilidagi namunalar: tahrirlanadigan Word, chop etiladigan PDF va to‘ldirilgan o‘quv misollari.",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Har bir sahifada tahrirlanadigan DOCX fayl, chop etish uchun PDF va to‘ldirilgan o‘quv misoli bor. Fayllar bepul; ro‘yxatdan o‘tish yoki AI paket talab qilinmaydi. Bular mustaqil o‘quv namunalari: tashkilotingiz yoki ta’lim muassasangiz o‘z shaklini bersa, o‘sha shakl ustun."
+    },
+    {
+      "type": "toc",
+      "text": "Sahifada",
+      "links": [
+        {
+          "anchor": "ish-joyi",
+          "label": "Ish joyidagi ichki hujjatlar"
+        },
+        {
+          "anchor": "xatlar",
+          "label": "Tashkilotlar o‘rtasidagi xatlar"
+        },
+        {
+          "anchor": "ishga-joylashish",
+          "label": "Ishga joylashish va shaxsiy hujjatlar"
+        },
+        {
+          "anchor": "oqish",
+          "label": "O‘qish, amaliyot va dars"
+        },
+        {
+          "anchor": "foydalanish",
+          "label": "Namunalardan qanday foydalanish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ish-joyi",
+      "text": "Ish joyidagi ichki hujjatlar"
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — rahbarga holatni ma’lum qilish va aniq qaror so‘rash; ikki to‘ldirilgan misol.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/bildirishnoma-namuna/",
+          "anchor": "Bildirgi (bildirishnoma) namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — kechikish yoki kelmaslik sababini izohlash; ishga qabul, bo‘shash, ta’til va moddiy yordam arizalari.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "Tushuntirish xati va ariza namunalari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — haftalik va oylik ish hisoboti: bajarilgan ishlar jadvali va keyingi davr rejasi.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/hisobot-namuna/",
+          "anchor": "Hisobot namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — kun tartibi, muhokama va qarorlarni qayd etish.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/bayonnoma-namuna/",
+          "anchor": "Yig‘ilish bayonnomasi namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — jihozni topshirish va qabul qilish: komplekt, miqdor va holat.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/dalolatnoma-namuna/",
+          "anchor": "Dalolatnoma namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — pul, buyum yoki hujjat olinganini tasdiqlash; kirill yozuvidagi variant bilan.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/tilxat-namuna/",
+          "anchor": "Tilxat namunasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatlar",
+      "text": "Tashkilotlar o‘rtasidagi xatlar"
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — rekvizitlar, so‘rov, da’vo va minnatdorchilik xatlari.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/rasmiy-xat-yozish/",
+          "anchor": "Rasmiy xat namunalari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — hamkor so‘roviga savollar bo‘yicha javob.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/javob-xati-namuna/",
+          "anchor": "Javob xati namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — to‘lov kafolati va ishga qabul qilish kafolati.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/kafolat-xati-namuna/",
+          "anchor": "Kafolat xati namunasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ishga-joylashish",
+      "text": "Ishga joylashish va shaxsiy hujjatlar"
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — ish beruvchiga yuboriladigan 1–2 sahifalik hujjat.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "Rezyume namunasi va tuzilmasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — hayot va faoliyat yillar ketma-ketligida.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/tarjimai-hol-namuna/",
+          "anchor": "Tarjimai hol namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — ta’lim va faoliyat haqida qisqa ma’lumot.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/obyektivka-namuna/",
+          "anchor": "Obyektivka namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — o‘quv dasturiga topshiriladigan xat.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/motivatsion-xat-namuna/",
+          "anchor": "Motivatsion xat namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — o‘quvchi, amaliyotchi talaba va xodim uchun.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/tavsifnoma-namuna/",
+          "anchor": "Tavsifnoma namunalari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — nomzodni tavsiya qilish xati.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/tavsiyanoma-namuna/",
+          "anchor": "Tavsiyanoma namunasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oqish",
+      "text": "O‘qish, amaliyot va dars"
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — tuzilma shabloni va shartli mavzudagi reja.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "Referat va mustaqil ish: titul varaq va reja"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — mundarija, kirish bandlari va adabiyotlar ro‘yxati.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/kurs-ishi-yozish/",
+          "anchor": "Kurs ishi: titul varaq va reja"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — kunlik yozuvlar; pedagogik amaliyot misoli bilan.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/amaliyot-kundaligi-namuna/",
+          "anchor": "Amaliyot kundaligi namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — kirish, asosiy qism va xulosa.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/amaliyot-hisoboti-namuna/",
+          "anchor": "Amaliyot hisoboti namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — kuzatuv blankasi, daftar sahifasi va to‘ldirilgan misol.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/dars-tahlili-namuna/",
+          "anchor": "Dars tahlili namunasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "foydalanish",
+      "text": "Namunalardan qanday foydalanish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kvadrat qavsdagi joylarni o‘z haqiqiy ma’lumotlaringiz bilan almashtiring; keraksiz bandlarni o‘chiring.",
+        "Tashkilotingiz yoki ta’lim muassasangiz o‘z shaklini bergan bo‘lsa, o‘sha shakldan foydalaning.",
+        "To‘ldirilgan misollardagi odamlar, sana va raqamlar to‘qima: ularni o‘zingizniki sifatida qoldirmang.",
+        "Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi faylda to‘ldiring; AI chatga yozmang.",
+        "Namunalar yuridik maslahat emas: nizoli yoki maxsus tartibli holatda mutaxassisga murojaat qiling."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Hujjat matnini kirill yoki lotin yozuviga o‘girish kerak bo‘lsa, {kirill}dan foydalaning.",
+      "links": [
+        {
+          "token": "kirill",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Hujjat namunalari bepulmi?",
+      "a": "Ha. Barcha DOCX va PDF fayllar bepul yuklab olinadi; ro‘yxatdan o‘tish yoki AI paket talab qilinmaydi."
+    },
+    {
+      "q": "Fayllar qaysi formatda?",
+      "a": "Har bir to‘plamda tahrirlanadigan DOCX (Word yoki LibreOffice uchun) va ko‘rish hamda chop etish uchun PDF bor. Ko‘p fayllarda birinchi sahifa — blanka, ikkinchisi — to‘ldirilgan o‘quv misoli."
+    },
+    {
+      "q": "Bu rasmiy blankalarmi?",
+      "a": "Yo‘q. Bular mustaqil o‘quv namunalari. Tashkilotingiz, ta’lim muassasangiz yoki davlat idorasi o‘z shaklini bersa, o‘sha shakl ustun. Sahifalar yuridik maslahat emas."
+    },
+    {
+      "q": "Namunadagi ism va raqamlarni ishlatsa bo‘ladimi?",
+      "a": "Yo‘q. To‘ldirilgan misollardagi odamlar, tashkilotlar, sana va raqamlar to‘qima. Kvadrat qavsdagi joylarni o‘z haqiqiy ma’lumotlaringiz bilan almashtiring."
+    },
+    {
+      "q": "AI chat hujjatni o‘zi tayyorlab beradimi?",
+      "a": "GPTBot.uz AI chati matn qoralamasini tuzish va tekshirishga yordam beradi: ro‘yxatsiz jami 3 ta bepul sinov javobi beriladi, ular yangilanmaydi, keyin AI paket kerak. Chat fayl, imzo yoki muhr bermaydi; shaxsiy ma’lumotlarni chatga yozmang."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "anchor": "Tushuntirish xati va ariza namunalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/bildirishnoma-namuna/",
+      "anchor": "Bildirgi (bildirishnoma) namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Rezyume namunasi va tuzilmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/tilxat-namuna/",
+      "anchor": "Tilxat namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/hisobot-namuna/",
+      "anchor": "Hisobot namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/dars-tahlili-namuna/",
+      "anchor": "Dars tahlili namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "createdAt": "2026-11-16T00:00:00.000Z",
+  "updatedAt": "2026-11-16T00:00:00.000Z"
+}

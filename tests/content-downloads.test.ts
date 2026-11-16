@@ -12,7 +12,7 @@ test('authored downloads exist, while unknown file links are not allowlisted', (
   const known = buildKnownUrls([]);
   for (const url of CONTENT_DOWNLOAD_URLS) {
     assert.equal(known.has(url), true);
-    assert.match(url, /^\/downloads\/(?:growth-20261106|pseo-20261108|marketing-20261109)\/[a-z0-9-]+\.(docx|pdf|csv)$/);
+    assert.match(url, /^\/downloads\/(?:growth-20261106|pseo-20261108|docs-20261116|marketing-20261109)\/[a-z0-9-]+\.(docx|pdf|csv)$/);
     const file = path.join(process.cwd(), 'public', url.slice(1));
     assert.ok(fs.statSync(file).size > 100);
     const prefix = fs.readFileSync(file).subarray(0, 4).toString('latin1');
@@ -27,7 +27,7 @@ test('authored downloads exist, while unknown file links are not allowlisted', (
 test('download noindex rules are scoped and mirrored in generated policy', () => {
   const headers = fs.readFileSync('public/_headers', 'utf8').replace(/\r\n/g, '\n');
   const generator = fs.readFileSync('scripts/generate-robots.ts', 'utf8');
-  for (const prefix of ['/downloads/growth-20261106/*', '/downloads/pseo-20261108/*', '/studio-examples/*']) {
+  for (const prefix of ['/downloads/growth-20261106/*', '/downloads/pseo-20261108/*', '/downloads/docs-20261116/*', '/studio-examples/*']) {
     assert.ok(headers.includes(`${prefix}\n  X-Robots-Tag: noindex`));
     assert.ok(generator.includes(`'${prefix}'`));
   }
@@ -43,9 +43,12 @@ test('blog linkp renderer downloads only the exact registered files and preserve
     { text: '{file}', links: [{ token: 'file', target, anchor: 'Материал', lang }] },
     escapeHtml, escapeHtml, () => '', () => false, 'data-studio-contact', new Set(CONTENT_DOWNLOAD_URLS),
   ) as string;
-  assert.equal(CONTENT_DOWNLOAD_URLS.length, 26 + MARKETING_DOWNLOAD_URLS.length);
+  assert.equal(CONTENT_DOWNLOAD_URLS.length, 44 + MARKETING_DOWNLOAD_URLS.length);
   assert.equal(CONTENT_DOWNLOAD_URLS.filter((url) => url.startsWith('/downloads/growth-20261106/')).length, 6);
   assert.equal(PSEO_DOWNLOAD_URLS.length, 20);
+  // 2026-11-16: nine kits (explanatory letter, course-paper and referat title page + plan, service memo,
+  // lesson analysis, receipt, work report, guarantee letter, applications).
+  assert.equal(CONTENT_DOWNLOAD_URLS.filter((url) => url.startsWith('/downloads/docs-20261116/')).length, 18);
   for (const url of CONTENT_DOWNLOAD_URLS) {
     assert.match(link(url), new RegExp(`<a href="${url.replace(/\./g, '\\.')}" download class=`));
     for (const other of [`${url}?download=1`, `${url}#preview`, `https://gptbot.uz${url}`, `https://other.example${url}`]) {
@@ -61,7 +64,7 @@ test('blog linkp renderer downloads only the exact registered files and preserve
 
 test('built document articles expose all original and new files as browser downloads', () => {
   const found = new Set<string>();
-  for (const slug of ['rezyume-tayyorlash', 'rasmiy-xat-yozish', 'tavsifnoma-namuna', ...PSEO_DOCUMENT_SLUGS]) {
+  for (const slug of ['rezyume-tayyorlash', 'rasmiy-xat-yozish', 'tavsifnoma-namuna', 'tushuntirish-xati-va-ariza-yozish', 'kurs-ishi-yozish', 'referat-va-mustaqil-ish', 'dars-tahlili-namuna', 'tilxat-namuna', 'hisobot-namuna', 'kafolat-xati-namuna', ...PSEO_DOCUMENT_SLUGS]) {
     const html = fs.readFileSync(path.join('dist', 'uz', 'blog', slug, 'index.html'), 'utf8');
     for (const match of html.matchAll(/<a\b([^>]+)>/g)) {
       const attrs = match[1];

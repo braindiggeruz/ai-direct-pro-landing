@@ -1,0 +1,353 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "kafolat-xati-namuna",
+  "url": "/uz/blog/kafolat-xati-namuna/",
+  "title": "Kafolat xati namunasi: to‘lov va ishga qabul | GPTBot.uz",
+  "description": "Kafolat xati qanday yoziladi: rekvizitlar, to‘lov kafolati va ishga qabul qilish kafolati uchun namunalar, to‘ldirilgan misol, Word/PDF blanka.",
+  "h1": "Kafolat xati namunasi: to‘lov kafolati va ishga qabul qilish kafolati",
+  "topicCluster": "hujjat-va-xatlar",
+  "keywords": [
+    "kafolat xati namuna",
+    "kafolat xati",
+    "kafolat xati namunasi",
+    "kafolat xati yozish",
+    "to‘lov kafolat xati"
+  ],
+  "intro": "Kafolat xati — tashkilot biror majburiyatni bajarishini yozma ravishda tasdiqlaydigan xizmat xati: masalan, to‘lovni belgilangan muddatda amalga oshirish yoki nomzodni ishga qabul qilish. Bu sahifada ikki turdagi blanka va to‘lov kafolati bo‘yicha to‘ldirilgan o‘quv misoli berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261116/kafolat-xati.docx",
+          "anchor": "Word uchun DOCX blankasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261116/kafolat-xati.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kafolat xati keyinchalik huquqiy ahamiyatga ega bo‘lishi mumkin. Faqat tashkilotingiz haqiqatan bajara oladigan majburiyatni yozing va matnni vakolatli shaxsga tekshirtiring. Bu sahifa yuridik maslahat emas."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli: to‘lov kafolati"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: «Namuna-1» va «Namuna-2» tashkilotlari, direktor A va B shartli; shartnoma raqami va summa o‘ylab topilgan."
+    },
+    {
+      "type": "quote",
+      "text": "Shartli «Namuna-1» tashkiloti · 16.11.2026 № 45"
+    },
+    {
+      "type": "quote",
+      "text": "Shartli «Namuna-2» tashkiloti direktori B ga"
+    },
+    {
+      "type": "quote",
+      "text": "To‘lov kafolati haqida"
+    },
+    {
+      "type": "quote",
+      "text": "«Namuna-1» tashkiloti 2026-yil 2-noyabrdagi 12-sonli shartnoma bo‘yicha 8 500 000 (sakkiz million besh yuz ming) so‘m miqdoridagi to‘lovni 2026-yil 30-noyabrgacha amalga oshirishni kafolatlaydi."
+    },
+    {
+      "type": "quote",
+      "text": "To‘lov shartnomada ko‘rsatilgan hisob raqamiga o‘tkaziladi."
+    },
+    {
+      "type": "quote",
+      "text": "Direktor A; haqiqiy imzo va muhr qo‘yilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "rekvizitlar",
+      "text": "Kafolat xati rekvizitlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi"
+      ],
+      "rows": [
+        [
+          "Blanka yoki rekvizitlar",
+          "Tashkilot nomi, manzili va aloqa ma’lumotlari"
+        ],
+        [
+          "Sana va raqam",
+          "Chiquvchi xat sanasi va raqami"
+        ],
+        [
+          "Adresat",
+          "Qabul qiluvchi tashkilot, rahbar lavozimi va F.I.Sh."
+        ],
+        [
+          "Mavzu",
+          "Masalan: «To‘lov kafolati haqida»"
+        ],
+        [
+          "Matn",
+          "Nima kafolatlanadi: majburiyat, summa yoki lavozim, muddat va asos"
+        ],
+        [
+          "Imzo",
+          "Rahbar imzosi; to‘lov kafolatida qabul qiluvchi so‘rasa — bosh buxgalter imzosi"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "turlari",
+      "text": "Kafolat xati turlari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "To‘lov kafolati: shartnoma bo‘yicha to‘lovni ko‘rsatilgan sanagacha amalga oshirish.",
+        "Ishga qabul qilish kafolati: nomzodni ko‘rsatilgan lavozimga qabul qilish; ko‘pincha ta’lim muassasasi yoki boshqa tashkilotga taqdim etish uchun so‘raladi.",
+        "Boshqa majburiyatlar: ishni muddatida bajarish yoki mahsulotni yetkazib berish — matn tuzilishi o‘sha."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Tashkilotingiz talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi sana, raqam va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Rekvizitlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Tashkilot nomi va rekvizitlari — blankada]",
+        "[kun.oy.yil] № [chiquvchi raqam]",
+        "[Qabul qiluvchi tashkilot] [rahbar lavozimi, F.I.Sh.]ga"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "To‘lov kafolati haqida xat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "To‘lov kafolati haqida",
+        "Hurmatli [Ism va otasining ismi]!",
+        "[Tashkilot nomi] [sana]dagi [raqam]-sonli shartnoma bo‘yicha [summa] miqdoridagi to‘lovni [sana]gacha amalga oshirishni kafolatlaydi.",
+        "To‘lov shartnomada ko‘rsatilgan hisob raqamiga o‘tkaziladi.",
+        "Hurmat bilan, [rahbar lavozimi] [imzo] [F.I.Sh.] · [bosh buxgalter imzosi — qabul qiluvchi so‘rasa]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Ishga qabul qilish kafolati haqida xat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ishga qabul qilish kafolati haqida",
+        "[Tashkilot nomi] [F.I.Sh.]ni [sana yoki shart: masalan, o‘qishni tugatgach] [bo‘lim] [lavozim] lavozimiga ishga qabul qilishni kafolatlaydi.",
+        "Xat [ta’lim muassasasi yoki boshqa tashkilot nomi]ga taqdim etish uchun berildi.",
+        "Hurmat bilan, [rahbar lavozimi] [imzo] [F.I.Sh.]"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Noaniq majburiyat: summa, muddat yoki lavozim ko‘rsatilmagan.",
+        "Asos yo‘q: to‘lov kafolatida shartnoma sanasi va raqamini yozing.",
+        "Bajarib bo‘lmaydigan va’da: faqat tashkilot haqiqatan bajara oladigan majburiyatni kiriting.",
+        "Vakolatsiz imzo: xatni tashkilot nomidan imzolash huquqi bor shaxs imzolaydi.",
+        "Sana va chiquvchi raqam yo‘q: xatni keyin topish va tasdiqlash qiyinlashadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Qabul qiluvchi tashkilot va rahbar to‘g‘ri ko‘rsatilganmi?",
+        "Majburiyat, summa yoki lavozim va muddat aniq yozilganmi?",
+        "Asos — shartnoma sanasi va raqami — to‘g‘rimi?",
+        "Xatni vakolatli shaxs imzolaydimi; qabul qiluvchi qo‘shimcha imzo so‘raganmi?",
+        "Sana va chiquvchi raqam qo‘yilganmi; nusxasi tashkilotda qoladimi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu tasdiqlangan rasmiy blanka ham, yuridik maslahat ham emas. Kafolat xati keyinchalik huquqiy ahamiyatga ega bo‘lishi mumkin: faqat tashkilotingiz haqiqatan bajara oladigan majburiyatni yozing va matnni vakolatli shaxsga tekshirtiring."
+    },
+    {
+      "type": "linkp",
+      "text": "Rasmiy xatning umumiy tuzilmasi, so‘rov va da’vo xatlari namunalari {parent} qo‘llanmasida berilgan.",
+      "links": [
+        {
+          "token": "parent",
+          "target": "/uz/blog/rasmiy-xat-yozish/",
+          "anchor": "rasmiy xat yozish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {javob} · {tavsiyanoma}.",
+      "links": [
+        {
+          "token": "javob",
+          "target": "/uz/blog/javob-xati-namuna/",
+          "anchor": "Hamkor so‘roviga javob xati namunasi"
+        },
+        {
+          "token": "tavsiyanoma",
+          "target": "/uz/blog/tavsiyanoma-namuna/",
+          "anchor": "Tavsiyanoma namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa hujjat kerak bo‘lsa, {hub} sahifasidan tanlang.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/hujjat-namunalari/",
+          "anchor": "barcha hujjat namunalari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Kafolat xati nima?",
+      "a": "Kafolat xati — tashkilot biror majburiyatni bajarishini yozma ravishda tasdiqlaydigan xizmat xati: masalan, to‘lovni muddatida amalga oshirish yoki nomzodni ishga qabul qilish."
+    },
+    {
+      "q": "Kafolat xatini kim imzolaydi?",
+      "a": "Tashkilot nomidan imzolash huquqi bor rahbar. To‘lov kafolatida ba’zi tashkilotlar bosh buxgalter imzosini ham so‘raydi — buni xatni qabul qiladigan tomondan oldindan aniqlang."
+    },
+    {
+      "q": "Kafolat xati yuridik kuchga egami?",
+      "a": "Bu sahifa yuridik maslahat bermaydi. Kafolat xati keyinchalik huquqiy ahamiyatga ega bo‘lishi mumkin, shuning uchun faqat bajara oladigan majburiyatni yozing va matnni yuristga yoki vakolatli shaxsga tekshirtiring."
+    },
+    {
+      "q": "To‘lov kafolat xatida nimalar ko‘rsatiladi?",
+      "a": "Shartnoma sanasi va raqami, to‘lov summasi, to‘lov muddati va to‘lov qayerga o‘tkazilishi. Xat tashkilot rekvizitlari, sana, chiquvchi raqam va rahbar imzosi bilan rasmiylashtiriladi."
+    },
+    {
+      "q": "Ishga qabul qilish haqidagi kafolat xati qayerga beriladi?",
+      "a": "Uni so‘ragan tashkilotga — ko‘pincha ta’lim muassasasiga. Xatda nomzod, lavozim va qabul qilish sanasi yoki sharti ko‘rsatiladi; aniq talabni xatni so‘ragan tashkilotdan aniqlang."
+    },
+    {
+      "q": "Kafolat xati namunasini Word yoki PDF formatida yuklab olsa bo‘ladimi?",
+      "a": "Ha. Sahifa boshida tahrirlanadigan DOCX blanka va chop etish uchun PDF bor; faylning ikkinchi sahifasida to‘ldirilgan o‘quv misoli berilgan. Fayllar bepul, ro‘yxatdan o‘tish talab qilinmaydi."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/rasmiy-xat-yozish/",
+      "anchor": "Rasmiy xat namunalari: tashkilotdan tashkilotga",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/javob-xati-namuna/",
+      "anchor": "Hamkor so‘roviga javob xati namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Kafolat xati namunasi: to‘lov va ishga qabul | GPTBot.uz",
+  "ogDescription": "Kafolat xati qanday yoziladi: rekvizitlar, to‘lov kafolati va ishga qabul qilish kafolati uchun namunalar, to‘ldirilgan misol, Word/PDF blanka.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/kafolat-xati-namuna/",
+  "hreflangUz": "/uz/blog/kafolat-xati-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Kafolat xati namuna",
+  "datePublished": "2026-11-16",
+  "dateModified": "2026-11-16",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "createdAt": "2026-11-16T00:00:00.000Z"
+}

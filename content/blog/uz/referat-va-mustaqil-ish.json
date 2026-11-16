@@ -39,6 +39,39 @@
     },
     {
       "type": "h2",
+      "id": "word-pdf-namuna",
+      "text": "Referat uchun DOCX va PDF shablon: titul varaq va reja"
+    },
+    {
+      "type": "p",
+      "text": "Referat va mustaqil ish uchun statik shablon tayyorladik: titul varaq, reja, kirish bandlari va mustaqil ish rejasi uchun to‘ldiriladigan maydonlar, ikkinchi sahifada esa shartli mavzudagi reja misoli. DOCX faylini Word yoki LibreOffice’da tahrirlash, PDF nusxasini esa ko‘rish va chop etish mumkin. Fayllar bepul; ro‘yxatdan o‘tish yoki AI paket talab qilinmaydi. Bu tayyor referat ham, chat yaratgan fayl ham emas: matnni manbalarni o‘qib, o‘zingiz yozasiz."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261116/referat-titul-reja.docx",
+          "anchor": "Referat shablonini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261116/referat-titul-reja.pdf",
+          "anchor": "Chop etish uchun PDF shablon"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Avval o‘qituvchi yoki uslubiy qo‘llanma talabini aniqlang: hajm, shrift, titul varaq ko‘rinishi va adabiyotlar formati muassasaga qarab farq qiladi.",
+        "Rejadagi bob va band nomlarini o‘z mavzungizga almashtiring; mustaqil ish bo‘lsa, avval «Mustaqil ish rejasi» qismini topshiriq matni asosida to‘ldiring.",
+        "Adabiyotlar ro‘yxatiga faqat o‘zingiz o‘qigan manbalarni yozing. Qo‘lda yozish talab qilinsa, shablondan faqat tuzilma sifatida foydalaning."
+      ]
+    },
+    {
+      "type": "h2",
       "id": "farqi",
       "text": "Referat, mustaqil ish va kurs ishi: farqi nimada"
     },
@@ -438,6 +471,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Referat va mustaqil ish: tuzilma namunasi va AI bilan reja",
@@ -454,7 +494,7 @@
   "breadcrumbLabel": "Referat va mustaqil ish",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-10-08",
+  "dateModified": "2026-11-16",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -474,6 +514,6 @@
       "note": "OpenAI o‘z tadqiqotida AI matnini aniqlovchi dasturlarni o‘quvchi haqida qaror chiqarish uchun yetarlicha ishonchli deb topmagan; o‘qituvchilar talabadan AI bilan yozishmani ko‘rsatishni va AI’dan foydalanganini qayd etishni so‘rashi mumkin; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-08",
+  "updatedAt": "2026-11-16",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-11-08",
+  "updatedAt": "2026-11-16",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "commercialClusters": [
     {
@@ -1079,7 +1079,7 @@
       },
       "informational": {
         "url": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
-        "owns": "how to write an insho or an esse with honest AI help — «insho yozish», «insho yozish tartibi», «esse yozish tartibi», «esse yozish», «insho rejasi», «esse mavzulari»: the difference between insho and esse, simple and complex plans, the esse order (introduction, thesis, 2–3 arguments, conclusion), a structure template, prompts, checklist",
+        "owns": "how to write an insho with honest AI help — «insho yozish», «insho yozish tartibi», «insho qanday yoziladi», «insho namuna»: the difference between insho and esse, the six steps, one sample plan, prompts and a checklist. Since 2026-11-16 the esse heads belong to /uz/blog/esse-yozish-tartibi/ (C88) and the plan heads to /uz/blog/murakkab-reja-namuna/ (C89); the guide keeps a short summary of each and links both",
         "mustNotTarget": [
           "chatgpt uzbekcha",
           "chatgpt uzbek tilida",
@@ -1095,7 +1095,7 @@
           "mustaqil ish"
         ]
       },
-      "gscNote": "GSC 28 days to 2026-10-03: 19 impressions, 0 clicks, position 6.4 (gsc/page_28d.json of the 2026-10-04 audit). Release R-S1 (2026-10-05) widens the same URL from insho to esse instead of opening a new one: the esse and insho SERPs share no URL or domain in their top ten, but the intent (how to write it) is the same. The referat keys and the referat section leave this article; they belong to /uz/blog/referat-va-mustaqil-ish/ (published in the school-pages release; its date is in docs/seo/CHANGE_LOG_2026-10.md), which is why they are in this informational mustNotTarget already. Read 28 days after the recrawl: if the article shows no esse queries, a separate esse URL becomes an owner decision for January 2027. Known leftover: the protected /uz/blog/chatgpt-uzbek-tilida-promptlar/ still links this article with the anchor «insho va referat yozish» (internalLinks); it is changed to «insho va esse yozish» in the January 2027 entity revision, which re-releases all 10 protected pages anyway, never in a release of its own. 2026-10-26: changed to «insho va esse yozish» inside the promptlar revision of R-S1b (backlog W2-01, released on the owner's decision of 2026-10-26 instead of ≈2026-11-08), which also links the ariza / tushuntirish xati guide from the library; not a release of its own, and the library still does not link the résumé guide (C36).",
+      "gscNote": "GSC 28 days to 2026-10-03: 19 impressions, 0 clicks, position 6.4 (gsc/page_28d.json of the 2026-10-04 audit). Release R-S1 (2026-10-05) widens the same URL from insho to esse instead of opening a new one: the esse and insho SERPs share no URL or domain in their top ten, but the intent (how to write it) is the same. The referat keys and the referat section leave this article; they belong to /uz/blog/referat-va-mustaqil-ish/ (published in the school-pages release; its date is in docs/seo/CHANGE_LOG_2026-10.md), which is why they are in this informational mustNotTarget already. Read 28 days after the recrawl: if the article shows no esse queries, a separate esse URL becomes an owner decision for January 2027. Known leftover: the protected /uz/blog/chatgpt-uzbek-tilida-promptlar/ still links this article with the anchor «insho va referat yozish» (internalLinks); it is changed to «insho va esse yozish» in the January 2027 entity revision, which re-releases all 10 protected pages anyway, never in a release of its own. 2026-10-26: changed to «insho va esse yozish» inside the promptlar revision of R-S1b (backlog W2-01, released on the owner's decision of 2026-10-26 instead of ≈2026-11-08), which also links the ariza / tushuntirish xati guide from the library; not a release of its own, and the library still does not link the résumé guide (C36). 2026-11-16: the split this note deferred to an owner decision in January 2027 is made now, on the owner’s order of 2026-11-16. In the 90 days to 2026-11-14 the guide had 168 impressions and 1 click: 99 impressions for «murakkab reja namuna» at position 7.8 and none for the esse heads, while Google Ads (location 2860, 2026-11-16) gives esse yozish tartibi 3 600/mo, esse 4 400, murakkab reja 4 400 and insho rejasi 2 400. The chat’s mustNotTarget list is unchanged; the protected prompt library still links the guide as «insho va esse yozish», which stays true: the guide explains the difference and links the esse page.",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-04"
     },
@@ -1679,14 +1679,14 @@
       },
       "informational": {
         "url": "/uz/blog/tabrik-yozish/",
-        "owns": "how to write a greeting and ready samples — «tug‘ilgan kun tabriklari» (and the measured apostrophe-less spelling), «tabriklar», «yangi yil tabriklari», «tabrik yozish» and the Cyrillic «табриклар»: 30 greetings written for the page (birthday by addressee, New Year, 8 March) with placeholders, a structure and tone table, and how to ask the chat to personalise one; says the chat writes text only (no card, image or voice greeting) and that other people's personal data stays out of the chat",
+        "owns": "how to write a greeting and a tabriknoma text — «tabrik yozish», «tabriklar», the Cyrillic «табриклар», «tabriknoma», «tabriknoma yozish», «tabriknoma matni»: the four-part structure, a tone table, a tabriknoma sample, 8 March samples, short birthday and New Year previews and how to ask the chat to personalise a greeting; says the chat writes text only (no card, image or voice greeting) and that other people’s personal data stays out of the chat. Since 2026-11-16 the plural collection heads «tug‘ilgan kun tabriklari» and «yangi yil tabriklari» belong to /uz/blog/tugilgan-kun-tabriklari/ (C92) and /uz/blog/yangi-yil-tabriklari/ (C93)",
         "mustNotTarget": [
           "chatgpt uzbekcha",
           "chatgpt uzbek tilida",
           "bepul ai chat"
         ]
       },
-      "gscNote": "New URL of wave 1b of the growth backlog (W2-05, owner order of 2026-10-24: live well before the December peak), no Search Console history. Demand (demand-policy rows of 2026-10-24): tugilgan kun tabriklari 1 300/mo (the U+2018 spelling has no Ads bucket), tabriklar 1 000/mo, yangi yil tabriklari 880/mo (December up to 9 900), табриклар 590/mo, tabrik yozish 20/mo. The SERP of 2026-10-24 (7aa3bce8) is greeting archives on weak domains. Read the New Year terms in December–January, not in a 21-day window from October.",
+      "gscNote": "New URL of wave 1b of the growth backlog (W2-05, owner order of 2026-10-24: live well before the December peak), no Search Console history. Demand (demand-policy rows of 2026-10-24): tugilgan kun tabriklari 1 300/mo (the U+2018 spelling has no Ads bucket), tabriklar 1 000/mo, yangi yil tabriklari 880/mo (December up to 9 900), табриклар 590/mo, tabrik yozish 20/mo. The SERP of 2026-10-24 (7aa3bce8) is greeting archives on weak domains. Read the New Year terms in December–January, not in a 21-day window from October. 2026-11-16: in the 90 days to 2026-11-14 the guide had 31 impressions and 0 clicks, none of them for the plural heads; on the owner’s order of 2026-11-16 the two heads move to dedicated collection pages before the December peak (C92, C93). The chat’s mustNotTarget list is unchanged.",
       "evidence": "docs/seo/research/2026-10-24-growth-audit/L3-demand-gaps.md L3-08; l3-data/kw1_table.txt and kw2_table.txt; backlog W2-05",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-24"
@@ -1768,14 +1768,14 @@
       },
       "informational": {
         "url": "/uz/ai-tabrik-generatori/",
-        "owns": "get a personal greeting from the AI chat in the writer role — primary «tug‘ilgan kun tabrigi» (measured spellings «tugilgan kun tabrigi» and the Cyrillic «туғилган кун табриги»), «tug‘ilgan kunga tabrik», «yangi yil tabrigi», the Cyrillic «янги йил табриклари» and the 8-mart, to‘y and ustoz greetings: six chips, 15 original samples, a Cyrillic block produced with the site's converter, and the free Cyrillic ↔ Latin converter; it links the chat",
+        "owns": "get a personal greeting from the AI chat in the writer role — primary «tug‘ilgan kun tabrigi» (measured spellings «tugilgan kun tabrigi» and the Cyrillic «туғилган кун табриги»), «tug‘ilgan kunga tabrik», «yangi yil tabrigi» and the 8-mart, to‘y and ustoz greetings: six chips, 15 original samples, a Cyrillic block produced with the site's converter, and the free Cyrillic ↔ Latin converter; it links the chat. Since 2026-11-16 the Cyrillic plural «янги йил табриклари» is not declared here: it belongs to the New Year collection /uz/blog/yangi-yil-tabriklari/ (C95)",
         "mustNotTarget": [
           "chatgpt uzbekcha",
           "chatgpt uzbek tilida",
           "bepul ai chat"
         ]
       },
-      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): туғилган кун табриги 9 900/mo, tugilgan kun tabrigi 6 600/mo, tugilgan kunga tabrik 4 400/mo, 8 март табриклари 1 900/mo, yangi yil tabrigi 1 600/mo, янги йил табриклари 1 300/mo. The birthday heads fell from October 2025 to September 2026 (9 900 → 6 600 and 6 600 → 5 400), a fall the research did not correct. Hreflang pair of /ru/generator-pozdravleniy/ (x-default the Uzbek page). Read the New Year and 8 March terms in December–March.",
+      "gscNote": "New URL of AI-tools wave A (owner order of 2026-10-25: every new page is an AI tool of GPTBot.uz — a result from the chat or a free in-browser tool, then the AI pack or the agency), no Search Console history. Demand (Google Ads, location 2860, measured 2026-10-25): туғилган кун табриги 9 900/mo, tugilgan kun tabrigi 6 600/mo, tugilgan kunga tabrik 4 400/mo, 8 март табриклари 1 900/mo, yangi yil tabrigi 1 600/mo, янги йил табриклари 1 300/mo. The birthday heads fell from October 2025 to September 2026 (9 900 → 6 600 and 6 600 → 5 400), a fall the research did not correct. Hreflang pair of /ru/generator-pozdravleniy/ (x-default the Uzbek page). Read the New Year and 8 March terms in December–March. 2026-11-16: «янги йил табриклари» (1 300/mo) left the generator’s secondaryKeywords for the New Year collection page (C95); the generator had no Search Console impressions in the 90 days to 2026-11-14.",
       "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №8 and §4 row 5; text-tools-data/tt_kw1_metrics.json",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-25"
@@ -1784,7 +1784,7 @@
       "id": "C55-uz-tabrik-guide-vs-ai-tabrik-generatori",
       "commercial": {
         "url": "/uz/blog/tabrik-yozish/",
-        "owns": "how to write a greeting and 30 ready samples — the plural collection heads «tug‘ilgan kun tabriklari», «tabriklar», «yangi yil tabriklari», «tabrik yozish» and the Cyrillic «табриклар» (C51); since 2026-10-25 one paragraph after its AI section links the generator and the poem tool; it declares none of the generator's keys",
+        "owns": "how to write a greeting and a tabriknoma text — «tabrik yozish», «tabriklar», the Cyrillic «табриклар» and «tabriknoma» (C51); it keeps short birthday and New Year previews and links the two collection pages (C92, C93), the generator and the poem tool; it declares none of the generator’s keys",
         "mustNotTarget": [
           "tug‘ilgan kun tabrigi",
           "tugilgan kun tabrigi",
@@ -1808,7 +1808,7 @@
           "табриклар"
         ]
       },
-      "gscNote": "No measured overlap yet: both URLs are new (2026-10-24 and 2026-10-25). Google Ads keeps the singular and the plural in separate buckets (tugilgan kun tabrigi 6 600 against tugilgan kun tabriklari 1 300; yangi yil tabrigi 1 600 against yangi yil tabriklari 880), and the research counted the guide's 11 keys out of the generator's cluster, so the pair records the split before Search Console can mix them. The Cyrillic «янги йил табриклари» (1 300/mo) is the generator's: the guide declares only the Latin plural and «табриклар». The pages link each other.",
+      "gscNote": "No measured overlap yet: both URLs are new (2026-10-24 and 2026-10-25). Google Ads keeps the singular and the plural in separate buckets (tugilgan kun tabrigi 6 600 against tugilgan kun tabriklari 1 300; yangi yil tabrigi 1 600 against yangi yil tabriklari 880), and the research counted the guide's 11 keys out of the generator's cluster, so the pair records the split before Search Console can mix them. The Cyrillic «янги йил табриклари» (1 300/mo) is the generator's: the guide declares only the Latin plural and «табриклар». The pages link each other. 2026-11-16: the plural collection heads moved from the guide to /uz/blog/tugilgan-kun-tabriklari/ and /uz/blog/yangi-yil-tabriklari/ (C92–C95); the generator’s fence against them stays as it is.",
       "evidence": "docs/seo/research/2026-10-25-clusters-to-add/CLUSTERS_TO_ADD.md §3.1 №8 («already exists: /uz/blog/tabrik-yozish/, its 11 keys are not counted»); demand-policy rows of 2026-10-24 and 2026-10-25",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-10-25"
@@ -2765,6 +2765,277 @@
       "decidedAt": "2026-10-25"
     },
     {
+      "id": "C88-uz-insho-guide-vs-esse-tartibi",
+      "commercial": {
+        "url": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+        "owns": "how to write an insho with honest AI help (C30). The legacy field name does not make this guide a commercial landing: it is the older, broader article; it keeps one table on how an insho differs from an esse and links the esse page",
+        "mustNotTarget": [
+          "esse yozish",
+          "esse yozish tartibi",
+          "esse yozish namuna",
+          "esse namunalari",
+          "esse namuna",
+          "esse mavzulari",
+          "esse qanday yoziladi",
+          "esse nima",
+          "esse yozish qoidalari"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/esse-yozish-tartibi/",
+        "owns": "how to write an esse — «esse yozish tartibi», «esse yozish», «esse yozish namuna», «esse namunalari», «esse mavzulari», «esse qanday yoziladi», «esse nima»: the structure table, seven steps, three full AI-assisted study samples with analysis, topics by grade, linking phrases, common mistakes and a checklist; it links the insho guide and the chat",
+        "mustNotTarget": [
+          "insho yozish",
+          "insho yozish tartibi",
+          "insho qanday yoziladi",
+          "insho namuna",
+          "insho yozish sun’iy intellekt",
+          "murakkab reja",
+          "murakkab reja namuna",
+          "insho rejasi",
+          "referat yozish",
+          "referat namuna"
+        ]
+      },
+      "gscNote": "New URL of 2026-11-16, no Search Console history. Demand (Google Ads, location 2860, 2026-11-16): esse yozish tartibi 3 600/mo, esse 4 400, esse yozish 2 900, esse yozish namuna 2 900, esse namunalari 1 600, esse mavzulari 1 000. The mobile SERP of 2026-11-16 for «esse yozish tartibi» is Instagram, foreign-language documents and two weak Uzbek education sites; gptbot.uz is absent. The insho guide declared these keys from 2026-10-05 and earned no impressions for them in the 90 days to 2026-11-14.",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/ (outside the repository): opportunities.csv, serp_notes.csv, keyword_volumes_all.csv — OpenSEO/DataForSEO Google Ads volumes and mobile SERP snapshots, location 2860, 2026-11-16; Search Console sc-domain:gptbot.uz, final data, 90 days to 2026-11-14",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-16"
+    },
+    {
+      "id": "C89-uz-insho-guide-vs-murakkab-reja",
+      "commercial": {
+        "url": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+        "owns": "how to write an insho with honest AI help (C30). The legacy field name does not make this guide a commercial landing; it keeps the definition of a simple and a complex plan with one sample and links the plan page",
+        "mustNotTarget": [
+          "murakkab reja",
+          "murakkab reja namuna",
+          "murakkab reja tuzish",
+          "insho rejasi",
+          "sodda reja",
+          "sodda reja namuna",
+          "murakkab rejali insho",
+          "murakkab reja qanday tuziladi",
+          "rejali insho"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/murakkab-reja-namuna/",
+        "owns": "ready insho plans — «murakkab reja», «murakkab reja namuna», «insho rejasi», «murakkab reja tuzish», «sodda reja»: how a simple and a complex plan differ, five steps, 14 AI-assisted sample plans by topic and how to adapt one; it links the insho guide and the chat",
+        "mustNotTarget": [
+          "insho yozish",
+          "insho yozish tartibi",
+          "insho qanday yoziladi",
+          "insho namuna",
+          "esse yozish",
+          "esse yozish tartibi",
+          "esse namunalari",
+          "esse mavzulari"
+        ]
+      },
+      "gscNote": "New URL of 2026-11-16. The insho guide already ranked for this intent without owning it well: 99 impressions and 1 click for «murakkab reja namuna» at position 7.8 and 17 impressions for «murakkab reja namunasi» in the 90 days to 2026-11-14, on a three-row table. Demand (Google Ads, location 2860, 2026-11-16): murakkab reja 4 400/mo, insho rejasi 2 400, murakkab reja tuzish 480, murakkab reja namuna 170. Mobile SERP of 2026-11-16: insho.uz, a Q&A page, scribd and off-topic results; gptbot.uz at position 7. Expect the guide’s impressions for the plan queries to move to this URL; read 28 days after its first crawl.",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/ (outside the repository): opportunities.csv, serp_notes.csv, keyword_volumes_all.csv — OpenSEO/DataForSEO Google Ads volumes and mobile SERP snapshots, location 2860, 2026-11-16; Search Console sc-domain:gptbot.uz, final data, 90 days to 2026-11-14",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-16"
+    },
+    {
+      "id": "C90-uz-chat-vs-esse-tartibi",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself — the product surface; it does not answer the esse how-to on the chat page (protected; unchanged by this pair)",
+        "mustNotTarget": [
+          "esse yozish tartibi",
+          "esse yozish",
+          "esse yozish namuna",
+          "esse namunalari",
+          "esse mavzulari",
+          "esse qanday yoziladi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/esse-yozish-tartibi/",
+        "owns": "how to write an esse (C88); it links the chat for checking a thesis or a draft and states the 3 lifetime trial replies",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "chatgpt uzbekcha bepul",
+          "chatgpt bepul kirish",
+          "chatgpt kirish uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "Records for the new esse page the same split C30 records for the insho guide: the chat page is the product, the article is the how-to. The chat page is not edited.",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/ (outside the repository): opportunities.csv, serp_notes.csv, keyword_volumes_all.csv — OpenSEO/DataForSEO Google Ads volumes and mobile SERP snapshots, location 2860, 2026-11-16; Search Console sc-domain:gptbot.uz, final data, 90 days to 2026-11-14",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-16"
+    },
+    {
+      "id": "C91-uz-chat-vs-murakkab-reja",
+      "commercial": {
+        "url": "/uz/gpt-uzbek-tilida/",
+        "owns": "use the Uzbek AI chat itself — the product surface; it does not publish ready insho plans (protected; unchanged by this pair)",
+        "mustNotTarget": [
+          "murakkab reja",
+          "murakkab reja namuna",
+          "insho rejasi",
+          "murakkab reja tuzish",
+          "sodda reja"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/murakkab-reja-namuna/",
+        "owns": "ready insho plans (C89); it links the chat for a draft plan on the reader’s own topic and states the 3 lifetime trial replies",
+        "mustNotTarget": [
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "chatgpt uzbekcha bepul",
+          "chatgpt bepul kirish",
+          "chatgpt kirish uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "The chat page was already fenced from «insho rejasi» by C30; this pair adds the «murakkab reja» family for the new plan page. The chat page is not edited.",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/ (outside the repository): opportunities.csv, serp_notes.csv, keyword_volumes_all.csv — OpenSEO/DataForSEO Google Ads volumes and mobile SERP snapshots, location 2860, 2026-11-16; Search Console sc-domain:gptbot.uz, final data, 90 days to 2026-11-14",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-16"
+    },
+    {
+      "id": "C92-uz-tabrik-guide-vs-tugilgan-kun-tabriklari",
+      "commercial": {
+        "url": "/uz/blog/tabrik-yozish/",
+        "owns": "how to write a greeting and a tabriknoma text (C51). The legacy field name does not make this guide a commercial landing; it keeps four birthday previews and links the collection",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabriklari",
+          "tugilgan kun tabriklari",
+          "туғилган кун табриклари",
+          "тугилган кун табриклари",
+          "tugilgan kun tilaklari",
+          "tugilgan kun muborak",
+          "tugilgan kuning bilan"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/tugilgan-kun-tabriklari/",
+        "owns": "ready birthday greetings — the plural collection head «tug‘ilgan kun tabriklari» (measured spelling «tugilgan kun tabriklari», Cyrillic «тугилган кун табриклари»): 57 AI-assisted texts by addressee with placeholders, nine in Cyrillic script, three steps to make one personal; it links the guide, the generator and the poem tool",
+        "mustNotTarget": [
+          "tabrik yozish",
+          "tabriklar",
+          "табриклар",
+          "tabriknoma",
+          "tabriknoma yozish",
+          "yangi yil tabriklari",
+          "8 mart tabriklari",
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of 2026-11-16. Demand (Google Ads, location 2860, 2026-11-16): tugilgan kun tabriklari 1 300/mo, тугилган кун табриклари 1 000, tugilgan kuning bilan 480, tugilgan kun muborak 390. The singular family (tugilgan kun tabrigi 6 600, туғилган кун табриги 8 100) stays with the generator (C54, C94). Mobile SERP of 2026-11-16 for the birthday greeting queries: Pinterest, ok.ru, video and one insho.uz page. Sixteen of the 57 texts moved here from the guide, which keeps four others as previews.",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/ (outside the repository): opportunities.csv, serp_notes.csv, keyword_volumes_all.csv — OpenSEO/DataForSEO Google Ads volumes and mobile SERP snapshots, location 2860, 2026-11-16; Search Console sc-domain:gptbot.uz, final data, 90 days to 2026-11-14",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-16"
+    },
+    {
+      "id": "C93-uz-tabrik-guide-vs-yangi-yil-tabriklari",
+      "commercial": {
+        "url": "/uz/blog/tabrik-yozish/",
+        "owns": "how to write a greeting and a tabriknoma text (C51). The legacy field name does not make this guide a commercial landing; it keeps three New Year previews and links the collection",
+        "mustNotTarget": [
+          "yangi yil tabriklari",
+          "yangi yil tabriklari 2027",
+          "янги йил табриклари",
+          "yangi yil tilaklari",
+          "yangi yil tabrik sozlari",
+          "янги йил билан табрик"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/yangi-yil-tabriklari/",
+        "owns": "ready New Year greetings — the plural collection head «yangi yil tabriklari» and the Cyrillic «янги йил табриклари»: 51 AI-assisted texts for 2027 by addressee with placeholders, nine in Cyrillic script, four tips; it links the guide, the generator and the poem tool",
+        "mustNotTarget": [
+          "tabrik yozish",
+          "tabriklar",
+          "табриклар",
+          "tabriknoma",
+          "tabriknoma yozish",
+          "tug‘ilgan kun tabriklari",
+          "tugilgan kun tabriklari",
+          "8 mart tabriklari",
+          "chatgpt uzbekcha",
+          "chatgpt uzbek tilida",
+          "bepul ai chat"
+        ]
+      },
+      "gscNote": "New URL of 2026-11-16, published before the December peak. Demand (Google Ads, location 2860, 2026-11-16, 12-month averages): yangi yil tabriklari 880/mo (December up to 9 900 in the 2026-10-24 measurement), янги йил табриклари 1 300, yangi yil tilaklari 210. Mobile SERP of 2026-11-16 for «yangi yil tabriklari»: eight organic results, Pinterest boards, YouTube and a stock-image site. Read the page in December–January, not in a 28-day window from November.",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/ (outside the repository): opportunities.csv, serp_notes.csv, keyword_volumes_all.csv — OpenSEO/DataForSEO Google Ads volumes and mobile SERP snapshots, location 2860, 2026-11-16; Search Console sc-domain:gptbot.uz, final data, 90 days to 2026-11-14",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-16"
+    },
+    {
+      "id": "C94-uz-ai-tabrik-generatori-vs-tugilgan-kun-tabriklari",
+      "commercial": {
+        "url": "/uz/ai-tabrik-generatori/",
+        "owns": "a personal greeting written now by the AI chat: the singular «tug‘ilgan kun tabrigi» family and «tug‘ilgan kunga tabrik» (C54, C55); it links the collection for ready texts",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabriklari",
+          "tugilgan kun tabriklari",
+          "туғилган кун табриклари",
+          "тугилган кун табриклари",
+          "tugilgan kun tilaklari"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/tugilgan-kun-tabriklari/",
+        "owns": "ready birthday greetings to copy (C92): the plural collection head; it links the generator for a text written for one person",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabrigi",
+          "tugilgan kun tabrigi",
+          "туғилган кун табриги",
+          "tug‘ilgan kunga tabrik",
+          "tugilgan kunga tabrik",
+          "tugilgan kun tabrik",
+          "туғилган кунингиз билан",
+          "ustozga tabrik",
+          "dugonamga tabrik",
+          "rahbarga tabrik",
+          "tabrik generatori",
+          "ai tabrik generatori"
+        ]
+      },
+      "gscNote": "The split C55 drew between the guide and the generator, now between the collection and the generator: Google Ads keeps the singular and the plural in separate buckets (tugilgan kun tabrigi 6 600 against tugilgan kun tabriklari 1 300), the generator answers «write one for me now», the collection answers «give me texts to choose from». No Search Console history for either URL on these queries.",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/ (outside the repository): opportunities.csv, serp_notes.csv, keyword_volumes_all.csv — OpenSEO/DataForSEO Google Ads volumes and mobile SERP snapshots, location 2860, 2026-11-16; Search Console sc-domain:gptbot.uz, final data, 90 days to 2026-11-14",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-16"
+    },
+    {
+      "id": "C95-uz-ai-tabrik-generatori-vs-yangi-yil-tabriklari",
+      "commercial": {
+        "url": "/uz/ai-tabrik-generatori/",
+        "owns": "a personal greeting written now by the AI chat: «yangi yil tabrigi» in the singular (C54); it links the collection for ready texts",
+        "mustNotTarget": [
+          "yangi yil tabriklari",
+          "yangi yil tabriklari 2027",
+          "янги йил табриклари",
+          "yangi yil tilaklari"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/yangi-yil-tabriklari/",
+        "owns": "ready New Year greetings to copy (C93), the Cyrillic plural «янги йил табриклари» included since 2026-11-16; it links the generator for a text written for one person",
+        "mustNotTarget": [
+          "yangi yil tabrigi",
+          "янги йил табриги",
+          "yangi yilingiz bilan",
+          "tabrik generatori",
+          "ai tabrik generatori"
+        ]
+      },
+      "gscNote": "Until 2026-11-16 the generator declared the Cyrillic plural «янги йил табриклари» (1 300/mo) because the guide declared only the Latin plural (C55). A plural query asks for a set of ready texts, which the collection gives in both scripts, so the key moves here and leaves the generator’s secondaryKeywords; the singular «yangi yil tabrigi» (1 600) and «янги йил табриги» (1 300) stay with the generator.",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/ (outside the repository): opportunities.csv, serp_notes.csv, keyword_volumes_all.csv — OpenSEO/DataForSEO Google Ads volumes and mobile SERP snapshots, location 2860, 2026-11-16; Search Console sc-domain:gptbot.uz, final data, 90 days to 2026-11-14",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-16"
+    },
+    {
       "id": "PSEO20-tarjimai-hol-namuna",
       "commercial": {
         "url": "/uz/blog/rezyume-tayyorlash/",
@@ -2922,12 +3193,16 @@
         "mustNotTarget": [
           "bildirishnoma namuna",
           "bildirishnoma",
-          "rahbarga bildirishnoma"
+          "rahbarga bildirishnoma",
+          "bildirgi namuna",
+          "bildirgi",
+          "bildirgi yozish",
+          "bildirgi qanday yoziladi"
         ]
       },
       "informational": {
         "url": "/uz/blog/bildirishnoma-namuna/",
-        "owns": "Rahbarga ichki bildirishnoma namunasi: printer muammosi haqida to‘ldirilgan misol, Word/PDF blanka, fakt va taxminni ajratish bo‘yicha tekshiruv.",
+        "owns": "Rahbarga ichki bildirgi (bildirishnoma) namunasi: the everyday term «bildirgi» and the textbook term «bildirishnoma» name the same internal memo. Two filled examples (printer fault, deadline extension), requisites, Word/PDF blanks. Since 2026-11-16 the page owns «bildirgi namuna», «bildirgi», «bildirgi yozish».",
         "mustNotTarget": [
           "rasmiy xat yozish",
           "xat yozish",
@@ -2939,7 +3214,7 @@
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-11-08",
       "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
-      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+      "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product. 2026-11-16: «bildirgi namuna pdf» already showed this URL (34 impressions, position 9.1, GSC final to 2026-11-14) although the word was absent; Ads volume «bildirgi namuna» 1 000, «bildirgi» 5 400 (OpenSEO, 2860, grouped)."
     },
     {
       "id": "PSEO20-javob-xati-namuna",
@@ -3367,6 +3642,127 @@
       "decidedAt": "2026-11-08",
       "evidence": "reports/pseo20-20261108/CANDIDATES.md; original files/questions and independent CONTENT_REVIEW.md",
       "gscNote": "New bounded cohort, no ranking claim. Historical exact and head demand are distinguished in CANDIDATES.md; assess query→URL distribution after recrawl. Each page has its own usable document or original exercises, no synonym/city Cartesian product."
+    },
+    {
+      "id": "C96-ru-chat-vs-kak-skachat-chatgpt",
+      "commercial": {
+        "url": "/ru/gpt-chat/",
+        "owns": "use the AI chat in Russian right now (C23–C27, C33, C38); the protected chat page does not answer «скачать chatgpt» or «chatgpt приложение» and does not link the guide",
+        "mustNotTarget": [
+          "скачать chatgpt",
+          "chatgpt скачать",
+          "скачать чат гпт",
+          "чат гпт скачать",
+          "chatgpt приложение",
+          "чат гпт приложение",
+          "chatgpt apk",
+          "chatgpt на компьютер"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/",
+        "owns": "find and install the official ChatGPT app from Uzbekistan, in Russian wording — «скачать chatgpt», «chatgpt приложение», «chatgpt на компьютер», «chatgpt apk»: the official store links, the signs of a fake APK and the browser route; it links the chat",
+        "mustNotTarget": [
+          "ии чат",
+          "ии чат онлайн",
+          "чат гпт онлайн",
+          "чат gpt онлайн",
+          "chatgpt онлайн",
+          "аналог chatgpt онлайн"
+        ]
+      },
+      "gscNote": "New URL, no Search Console history. GSC final, 2026-10-18..2026-11-14: Cyrillic queries with «скачать / программа / приложение» — 3 491 impressions; 2 089 of them on /ru/gpt-chat/ at CTR 0.77 %, 1 392 on the Uzbek download guide at CTR 4.31 %. The guide format, not the product page, answers the download task.",
+      "evidence": "delivery/gptbot-seo-blindspots-20261116/evidence/05-semantics/FINDINGS.md (F-16); AUDIT.md A-09; ROADMAP-90D.md BS-13",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-16"
+    },
+    {
+      "id": "C97-uz-download-guide-vs-ru-download-guide",
+      "commercial": {
+        "url": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+        "owns": "the Uzbek and Latin-script wording of the download task — «chatgpt yuklab olish …», «chatgpt uzbekcha skachat» and the mixed «chatgpt uzbekcha скачать»; protected and unchanged, no hreflang pair (A11)",
+        "mustNotTarget": [
+          "скачать chatgpt",
+          "chatgpt скачать",
+          "скачать чат гпт",
+          "чат гпт скачать",
+          "как скачать chatgpt в узбекистане"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/",
+        "owns": "the Russian wording of the same task; a standalone page joined to the Uzbek guide by a plain cross-link, never by hreflang (A11)",
+        "mustNotTarget": [
+          "chatgpt yuklab olish",
+          "chatgpt ilovasini yuklab olish",
+          "chatgpt yuklab olish uzbek tilida",
+          "chatgpt uzbekcha skachat",
+          "chatgpt skachat uzbek tilida",
+          "chatgpt uzbekcha скачать",
+          "chatgpt скачать uzbek tilida"
+        ]
+      },
+      "gscNote": "«chatgpt uzbekcha скачать»: 2 594 impressions in 28 days to 2026-11-14; Google already moves it to the Uzbek guide (position 4.9 against 5.8 for the RU chat). The Russian guide must not pull the Uzbek-worded queries back.",
+      "evidence": "delivery/gptbot-seo-blindspots-20261116/evidence/02-analytics/FINDINGS.md (section 5, group 3)",
+      "decision": "KEEP_DIFFERENT_INTENT",
+      "decidedAt": "2026-11-16"
+    },
+    {
+      "id": "DOCS20261116-hisobot-namuna",
+      "commercial": {
+        "url": "/uz/blog/amaliyot-hisoboti-namuna/",
+        "owns": "the student practice report (amaliyot hisoboti): introduction, body, conclusion; keeps its title, H1 and declared keywords",
+        "mustNotTarget": [
+          "hisobot namuna",
+          "hisobot yozish",
+          "hisobot",
+          "hisobot yozish namuna",
+          "haftalik hisobot",
+          "oylik hisobot"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/hisobot-namuna/",
+        "owns": "the weekly and monthly work report of an employee: table of completed work, open tasks, plan; DOCX/PDF blank and a filled example",
+        "mustNotTarget": [
+          "amaliyot hisoboti namuna",
+          "amaliyot hisoboti",
+          "amaliyot hisoboti reja"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-16",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/opportunities.csv and serp_notes.csv (OpenSEO, 2860, 2026-11-16)",
+      "gscNote": "New URL, no Search Console history. Ads volume (grouped): «hisobot namuna» 2 900, «hisobot yozish» 6 600. SERP snapshot 2026-11-16: off-topic results (spelling, accounting)."
+    },
+    {
+      "id": "DOCS20261116-kafolat-xati-namuna",
+      "commercial": {
+        "url": "/uz/blog/rasmiy-xat-yozish/",
+        "owns": "the general guide to a letter between organisations (C50); it links the guarantee-letter sample and declares no guarantee-letter key",
+        "mustNotTarget": [
+          "kafolat xati namuna",
+          "kafolat xati",
+          "kafolat xati namunasi",
+          "kafolat xati yozish",
+          "to‘lov kafolat xati"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/kafolat-xati-namuna/",
+        "owns": "the guarantee letter: payment guarantee and employment guarantee, requisites, a filled example, DOCX/PDF blank",
+        "mustNotTarget": [
+          "rasmiy xat yozish",
+          "xat yozish",
+          "xizmat xati namuna",
+          "rasmiy xat namunasi",
+          "xat yozish namunasi"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-16",
+      "evidence": "delivery/gptbot-seo-growth-20261116/research/opportunities.csv and serp_notes.csv (OpenSEO, 2860, 2026-11-16)",
+      "gscNote": "New URL, no Search Console history. Ads volume (grouped): «kafolat xati» 1 300, «kafolat xati namuna» 720. SERP snapshot 2026-11-16: irrelevant results."
     }
   ],
   "architectureDecisions": [

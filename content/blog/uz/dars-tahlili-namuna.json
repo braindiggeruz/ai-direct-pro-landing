@@ -1,0 +1,437 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "dars-tahlili-namuna",
+  "url": "/uz/blog/dars-tahlili-namuna/",
+  "title": "Dars tahlili namuna: blanka va daftar, Word/PDF | GPTBot.uz",
+  "description": "Dars tahlili namunasi: dars bosqichlari, o‘quvchilar faolligi, xulosa va tavsiyalar. To‘ldirilgan misol, dars tahlili daftari sahifasi, Word/PDF blanka.",
+  "h1": "Dars tahlili namunasi: kuzatuv blankasi, to‘ldirilgan misol va daftar sahifasi",
+  "topicCluster": "maktab-va-talabalar",
+  "keywords": [
+    "dars tahlili namuna",
+    "dars tahlili",
+    "dars tahlili daftari",
+    "dars tahlili namunasi",
+    "dars tahlili qanday yoziladi"
+  ],
+  "intro": "Dars tahlili — kuzatilgan darsning yozma tahlili: unda dars bosqichlari, qo‘llangan usullar, o‘quvchilar faolligi hamda xulosa va tavsiyalar qayd etiladi. Bu sahifada tahrirlanadigan blanka, 5-sinf matematika darsi misolida to‘ldirilgan o‘quv namunasi va dars tahlili daftari sahifasi berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261116/dars-tahlili.docx",
+          "anchor": "Word uchun DOCX blankasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261116/dars-tahlili.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Namuna direktor o‘rinbosari, metodbirlashma rahbari, o‘zaro dars kuzatayotgan o‘qituvchi va pedagogik amaliyotdagi talaba uchun mo‘ljallangan. Ta’lim muassasangiz yoki metodika xizmati bergan shakl bo‘lsa, o‘sha shakl ustun: bu mustaqil o‘quv namunasi, tasdiqlangan rasmiy blanka emas."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misoli: 5-sinf matematika darsi"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: o‘qituvchi A va tahlilchi B shartli; haqiqiy maktab, sinf yoki o‘qituvchiga aloqasi yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "12.11.2026 · 5-sinf · Matematika · O‘qituvchi A · Tahlilchi: direktor o‘rinbosari B"
+    },
+    {
+      "type": "quote",
+      "text": "Mavzu: Oddiy kasrlarni taqqoslash. Dars turi: yangi bilim berish. Tahlil maqsadi: yangi mavzuni tushuntirishda ko‘rgazmalilik va o‘quvchilar faolligini kuzatish."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bosqich",
+        "Vaqt",
+        "Kuzatilgan ish"
+      ],
+      "rows": [
+        [
+          "Tashkiliy qism",
+          "3 daq.",
+          "Davomat qayd etildi, dars maqsadi doskaga yozildi."
+        ],
+        [
+          "O‘tilgan mavzuni takrorlash",
+          "7 daq.",
+          "Og‘zaki savol-javob: 6 o‘quvchi javob berdi."
+        ],
+        [
+          "Yangi mavzu bayoni",
+          "15 daq.",
+          "Doskada 3 ta misol tushuntirildi; kasr doiralari ko‘rgazma sifatida ishlatildi."
+        ],
+        [
+          "Mustahkamlash",
+          "15 daq.",
+          "Juftlikda 4 ta misol yechildi; 2 o‘quvchi yechimni doskada ko‘rsatdi."
+        ],
+        [
+          "Yakun va uyga vazifa",
+          "5 daq.",
+          "Xulosa savoli berildi, uyga vazifa tushuntirildi."
+        ]
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "O‘quvchilar faolligi: 24 o‘quvchidan 15 nafari kamida bir marta javob berdi yoki doskada ishladi."
+    },
+    {
+      "type": "quote",
+      "text": "Yutuqlar: ko‘rgazmali vosita mavzuga mos tanlandi; bosqichlar vaqti rejaga yaqin taqsimlandi."
+    },
+    {
+      "type": "quote",
+      "text": "Tavsiyalar: 1) kam qatnashgan o‘quvchilarga alohida savol tayyorlash; 2) mustahkamlashda yakka mustaqil ishga 5 daqiqa ajratish; 3) baholash mezonini dars boshida aytish."
+    },
+    {
+      "type": "quote",
+      "text": "Tahlilchi B; haqiqiy imzo qo‘yilmagan. O‘qituvchining tanishuv belgisi o‘quv misolida berilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "nima-yoziladi",
+      "text": "Dars tahlilida nima yoziladi"
+    },
+    {
+      "type": "p",
+      "text": "Tahlil dars oldiga qo‘yilgan maqsadni kuzatilgan natija bilan solishtiradi. Shuning uchun avval nimani kuzatayotganingizni belgilang: masalan, yangi mavzuni tushuntirish usuli, o‘quvchilar faolligi yoki vaqt taqsimoti."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Umumiy ma’lumot: sana, sinf, fan, o‘qituvchi, mavzu, dars turi va maqsadi.",
+        "Dars bosqichlari: har birida nima qilingani va qancha vaqt ketgani.",
+        "Usul va vositalar: tushuntirish, ko‘rgazma, juftlik yoki guruh ishi, texnik vosita.",
+        "O‘quvchilar faolligi va baholash: kuzatuv bo‘yicha son yoki misol bilan.",
+        "Xulosa va tavsiyalar: kuchli jihatlar, yaxshilash kerak bo‘lgan jihatlar va aniq keyingi qadamlar."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "daftar",
+      "text": "Dars tahlili daftari qanday yuritiladi"
+    },
+    {
+      "type": "p",
+      "text": "Dars tahlili daftari — kuzatilgan darslar ro‘yxati: har bir dars bitta qator bo‘lib yoziladi, to‘liq tahlil esa alohida varaqda saqlanadi. Daftarni kim va qanday tartibda yuritishini ta’lim muassasangiz belgilaydi; amaliyotchi talabalar uchun talabni kafedra yoki amaliyot rahbari beradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "Sana",
+        "Sinf va fan",
+        "O‘qituvchi",
+        "Mavzu",
+        "Qisqa xulosa va tavsiya",
+        "Imzo"
+      ],
+      "rows": [
+        [
+          "1",
+          "[sana]",
+          "[sinf, fan]",
+          "[F.I.Sh.]",
+          "[mavzu]",
+          "[1–2 gap]",
+          "[imzo]"
+        ],
+        [
+          "2",
+          "[sana]",
+          "[sinf, fan]",
+          "[F.I.Sh.]",
+          "[mavzu]",
+          "[1–2 gap]",
+          "[imzo]"
+        ],
+        [
+          "3",
+          "[sana]",
+          "[sinf, fan]",
+          "[F.I.Sh.]",
+          "[mavzu]",
+          "[1–2 gap]",
+          "[imzo]"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Tashkilotingiz talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi sana, raqam va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Umumiy ma’lumot"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sana: [kun.oy.yil] · Sinf: [sinf] · Fan: [fan nomi]",
+        "O‘qituvchi: [F.I.Sh.] · Dars mavzusi: [mavzu]",
+        "Dars turi: [yangi bilim berish, mustahkamlash, takrorlash yoki boshqa]",
+        "Darsning maqsadi: [ta’limiy, tarbiyaviy va rivojlantiruvchi maqsad]",
+        "Tahlilchi: [lavozim, F.I.Sh.] · Tahlil maqsadi: [nima kuzatiladi]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Dars bosqichlari va vaqt"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Har bosqichda kim nima qilgani va qancha vaqt ketganini yozing."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bosqich",
+        "Vaqt",
+        "Kuzatilgan ish"
+      ],
+      "rows": [
+        [
+          "Tashkiliy qism",
+          "[daq.]",
+          "[davomat, darsga tayyorgarlik]"
+        ],
+        [
+          "O‘tilgan mavzuni takrorlash",
+          "[daq.]",
+          "[savol-javob, uy vazifasini tekshirish]"
+        ],
+        [
+          "Yangi mavzu bayoni",
+          "[daq.]",
+          "[tushuntirish usuli, misollar, ko‘rgazma]"
+        ],
+        [
+          "Mustahkamlash",
+          "[daq.]",
+          "[mashq, mustaqil yoki guruhli ish]"
+        ],
+        [
+          "Yakun va uyga vazifa",
+          "[daq.]",
+          "[xulosa, baholash, vazifa]"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Usullar va o‘quvchilar faolligi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Qo‘llangan usul va vositalar: [tushuntirish, ko‘rgazma, juftlikda ish, texnik vosita]",
+        "O‘quvchilar faolligi: [nechta o‘quvchi javob berdi yoki topshiriq bajardi — kuzatuv bo‘yicha]",
+        "Baholash: [qanday mezon bilan va nechta o‘quvchi baholandi]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Xulosa va tavsiyalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Yutuqlar: [kuzatilgan 2–3 ta kuchli jihat]",
+        "Yaxshilash kerak bo‘lgan jihatlar: [kuzatilgan fakt bilan]",
+        "Tavsiyalar: 1) [aniq harakat]; 2) [aniq harakat]; 3) [muddat yoki keyingi kuzatuv]",
+        "Tahlilchi: [imzo] · Tahlil xulosalari bilan tanishdim: [o‘qituvchi imzosi, sana]"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Umumiy baho: «dars yaxshi o‘tdi» o‘rniga kuzatilgan faktni yozing — kim nima qildi va qancha vaqt ketdi.",
+        "Faqat kamchilik yoki faqat maqtov: tahlilda ikkalasi ham bo‘ladi va har biri misol bilan asoslanadi.",
+        "O‘lchab bo‘lmaydigan tavsiya: «faollikni oshirish» o‘rniga aniq harakat va muddatni ko‘rsating.",
+        "Vaqt qayd etilmagan: bosqichlar davomiyligisiz dars tuzilishini baholab bo‘lmaydi.",
+        "Tahlil o‘qituvchi bilan muhokama qilinmagan: tanishuv belgisi va sanasi qolmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Topshirishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sana, sinf, fan, mavzu va o‘qituvchi to‘g‘ri yozilganmi?",
+        "Har bir bosqich uchun vaqt va kuzatilgan ish ko‘rsatilganmi?",
+        "Xulosadagi har bir fikr darsda kuzatilgan faktga tayanadimi?",
+        "Tavsiyalar aniq harakat ko‘rinishidami va muddati bormi?",
+        "O‘qituvchi tahlil bilan tanishdimi; tanishuv belgisi uchun joy bormi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu tasdiqlangan rasmiy shakl emas. Ta’lim muassasangiz yoki metodika xizmati bergan shakl bo‘lsa, o‘shandan foydalaning. Faqat darsda kuzatilgan faktlarni yozing va tavsiyalarni o‘qituvchi bilan muhokama qiling."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {kundalik} · {hisobot}.",
+      "links": [
+        {
+          "token": "kundalik",
+          "target": "/uz/blog/amaliyot-kundaligi-namuna/",
+          "anchor": "Pedagogik amaliyot kundaligi namunasi"
+        },
+        {
+          "token": "hisobot",
+          "target": "/uz/blog/hisobot-namuna/",
+          "anchor": "Haftalik va oylik ish hisoboti namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa hujjat kerak bo‘lsa, {hub} sahifasidan tanlang.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/hujjat-namunalari/",
+          "anchor": "barcha hujjat namunalari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Dars tahlili nima?",
+      "a": "Dars tahlili — kuzatilgan darsning yozma tahlili: dars bosqichlari, qo‘llangan usullar, o‘quvchilar faolligi va natijalar qayd etiladi hamda o‘qituvchiga aniq tavsiyalar beriladi."
+    },
+    {
+      "q": "Dars tahlilini kim yozadi?",
+      "a": "Odatda darsni kuzatgan shaxs: direktor o‘rinbosari, metodbirlashma rahbari, hamkasb o‘qituvchi yoki pedagogik amaliyotdagi talaba. Aniq tartibni ta’lim muassasangiz belgilaydi."
+    },
+    {
+      "q": "Dars tahlili daftari nima?",
+      "a": "Bu kuzatilgan darslar qayd etiladigan daftar: har bir dars uchun sana, sinf, fan, o‘qituvchi, mavzu va qisqa xulosa yoziladi. To‘liq tahlil alohida varaqda saqlanishi mumkin."
+    },
+    {
+      "q": "Dars tahlilida baho qo‘yiladimi?",
+      "a": "Bu ta’lim muassasangiz tartibiga bog‘liq. Namunada baho o‘rniga kuzatilgan faktlar, kuchli jihatlar va aniq tavsiyalar yoziladi; baholash mezoni talab qilinsa, uni muassasa shaklidan oling."
+    },
+    {
+      "q": "Dars tahlili namunasini Word yoki PDF formatida yuklab olsa bo‘ladimi?",
+      "a": "Ha. Sahifa boshida tahrirlanadigan DOCX blanka va chop etish uchun PDF bor: blanka, daftar sahifasi va to‘ldirilgan o‘quv misoli bitta faylda. Fayllar bepul, ro‘yxatdan o‘tish talab qilinmaydi."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/amaliyot-kundaligi-namuna/",
+      "anchor": "Pedagogik amaliyot kundaligi namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/hisobot-namuna/",
+      "anchor": "Haftalik va oylik ish hisoboti namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Dars tahlili namuna: blanka va daftar, Word/PDF | GPTBot.uz",
+  "ogDescription": "Dars tahlili namunasi: dars bosqichlari, o‘quvchilar faolligi, xulosa va tavsiyalar. To‘ldirilgan misol, dars tahlili daftari sahifasi, Word/PDF blanka.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/dars-tahlili-namuna/",
+  "hreflangUz": "/uz/blog/dars-tahlili-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "teacher"
+  },
+  "breadcrumbLabel": "Dars tahlili namuna",
+  "datePublished": "2026-11-16",
+  "dateModified": "2026-11-16",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "createdAt": "2026-11-16T00:00:00.000Z"
+}

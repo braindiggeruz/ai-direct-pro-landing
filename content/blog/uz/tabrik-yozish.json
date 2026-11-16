@@ -3,20 +3,22 @@
   "locale": "uz",
   "slug": "tabrik-yozish",
   "url": "/uz/blog/tabrik-yozish/",
-  "title": "Tug‘ilgan kun tabriklari va Yangi yil tabriklari: namunalar",
-  "description": "Onaga, otaga, do‘stga, hamkasbga, rahbarga va ustozga 30 ta qisqa tabrik: tug‘ilgan kun, Yangi yil va 8-mart. AI chatda tabrikni shaxsiy qilish usuli.",
+  "title": "Tabrik yozish: tabriknoma matni, tuzilma va namunalar",
+  "description": "Tabrik va tabriknoma matni qanday yoziladi: murojaat, sabab, shaxsiy detal va tilak. Tug‘ilgan kun, Yangi yil va 8-mart uchun namunalar, AI’dan foydalanish.",
   "h1": "Tabrik yozish: namunalar va AI bilan shaxsiy tabrik",
   "topicCluster": "matn-yozish",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
   "keywords": [
-    "tug‘ilgan kun tabriklari",
-    "tabriklar",
-    "yangi yil tabriklari",
     "tabrik yozish",
+    "tabriklar",
     "табриклар",
-    "tugilgan kun tabriklari"
+    "tabriknoma",
+    "tabriknoma yozish",
+    "tabriknoma matni",
+    "tabrik matni",
+    "tabrik sozlari"
   ],
-  "intro": "Tabrik qisqa bo‘lsa ham, uni o‘qigan odam matn aynan unga yozilganini sezishi kerak. Quyida tug‘ilgan kun, Yangi yil va 8-mart uchun shu sahifaga maxsus yozilgan 30 ta qisqa tabrik bor: onaga, otaga, do‘stga, hamkasbga, rahbarga va ustozga. Ulardan keyin o‘zingiz tabrik yozish tartibi va AI chatdan tabrikni shaxsiy qilib berishni qanday so‘rash kerakligi tushuntirilgan.",
+  "intro": "Tabrik qisqa bo‘lsa ham, uni o‘qigan odam matn aynan unga yozilganini sezishi kerak. Quyida tabrik va tabriknoma matni qanday tuzilishi, kimga qanday ohangda yozish va AI chatdan tabrikni shaxsiy qilib berishni qanday so‘rash tushuntirilgan; tug‘ilgan kun, Yangi yil va 8-mart uchun qisqa namunalar ham bor.",
   "body": [
     {
       "type": "p",
@@ -36,77 +38,30 @@
     {
       "type": "h2",
       "id": "tugilgan-kun",
-      "text": "Tug‘ilgan kun tabriklari: onaga, otaga, do‘stga va boshqalarga"
+      "text": "Tug‘ilgan kun uchun namunalar"
     },
     {
       "type": "p",
       "text": "Namunalarni ko‘chirib, ism va kvadrat qavsdagi joylarni o‘zgartiring. Yaqin do‘stga odatda «sen», ota-onaga, kattalarga va ishxonada «siz» deb murojaat qilinadi."
     },
     {
-      "type": "h3",
-      "id": "onaga",
-      "text": "Onaga"
-    },
-    {
       "type": "list",
       "items": [
-        "Onajon, tug‘ilgan kuningiz muborak bo‘lsin! Uyimizdagi iliqlik ham, dasturxonimizdagi baraka ham sizdan. Doim sog‘-salomat bo‘ling, kulgingiz xonadonimizdan arimasin.",
-        "Aziz onam, bugun sizga eng chiroyli so‘zlarni aytgim keladi, lekin ularning hammasi bitta gapga sig‘adi: siz borligingiz uchun rahmat. Tug‘ilgan kuningiz qutlug‘ bo‘lsin!",
-        "Onajon, bolaligimda ham, hozir ham biror gap bo‘lsa, birinchi bo‘lib sizga aytaman, chunki siz doim tinglaysiz va to‘g‘ri yo‘l ko‘rsatasiz. Tug‘ilgan kuningiz muborak, umringiz uzoq bo‘lsin!",
-        "Qisqa xabar: Onajon, tug‘ilgan kuningiz bilan tabriklayman! Sizni juda yaxshi ko‘raman. Kechqurun albatta oldingizga boraman."
+        "Onaga: Onajon, tug‘ilgan kuningiz muborak bo‘lsin! Uyimizdagi iliqlik ham, dasturxonimizdagi baraka ham sizdan. Doim sog‘-salomat bo‘ling, kulgingiz xonadonimizdan arimasin.",
+        "Otaga: Dadajon, tug‘ilgan kuningiz muborak! Mehnatsevarlikni va so‘zda turishni sizdan o‘rgandim. Sog‘lig‘ingiz mustahkam, ko‘nglingiz doim xotirjam bo‘lsin.",
+        "Do‘stga: [Ism], tug‘ilgan kuning muborak! Tanishganimizga [necha] yil bo‘ldi, lekin hali ham har uchrashuvimiz kulgi bilan tugaydi. Yangi yoshing omadli kelsin, orzularing birin-ketin ro‘yobga chiqsin!",
+        "Hamkasbga: Hurmatli [ism], tug‘ilgan kuningiz bilan chin dildan tabriklaymiz! Siz bilan ishlash oson va yoqimli: har qanday vazifaga xotirjam va puxta yondashasiz. Sizga sog‘lik, yangi marralar va oilaviy baxt tilaymiz. Hurmat bilan, [bo‘lim nomi] jamoasi."
       ]
     },
     {
-      "type": "h3",
-      "id": "otaga",
-      "text": "Otaga"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Dadajon, tug‘ilgan kuningiz muborak! Mehnatsevarlikni va so‘zda turishni sizdan o‘rgandim. Sog‘lig‘ingiz mustahkam, ko‘nglingiz doim xotirjam bo‘lsin.",
-        "Otajon, siz menga hech qachon uzoq nasihat qilmagansiz — hammasini o‘z ishingiz bilan ko‘rsatgansiz. Shu saboqlaringiz uchun rahmat. Tug‘ilgan kuningiz qutlug‘ bo‘lsin, oilamiz boshida uzoq yillar sog‘-omon yuring!",
-        "Dada, tug‘ilgan kuningiz bilan tabriklayman! Bugun hamma tashvishni bir chetga qo‘yib, faqat dam oling — choyni men damlayman."
-      ]
-    },
-    {
-      "type": "h3",
-      "id": "dostga",
-      "text": "Do‘stga"
-    },
-    {
-      "type": "list",
-      "items": [
-        "[Ism], tug‘ilgan kuning muborak! Tanishganimizga [necha] yil bo‘ldi, lekin hali ham har uchrashuvimiz kulgi bilan tugaydi. Yangi yoshing omadli kelsin, orzularing birin-ketin ro‘yobga chiqsin!",
-        "Do‘stim, tug‘ilgan kuning bilan tabriklayman! Kerak paytda doim yonimda bo‘lding — yarim tunda ham, uy ko‘chganimda ham. Endi navbat menda: bugungi ziyofat mendan.",
-        "Jonajon dugonam, tug‘ilgan kuning muborak! Sen bilan sirlashish ham, birga jim o‘tirish ham yoqimli. Ko‘zlaringdagi shu nur hech qachon so‘nmasin.",
-        "Qisqa xabar: Tug‘ilgan kuning muborak, [ism]! Yangi yoshingda kuching ko‘p, tashvishing kam bo‘lsin. Sovg‘ang mendan — uchrashganda beraman."
-      ]
-    },
-    {
-      "type": "h3",
-      "id": "hamkasbga",
-      "text": "Hamkasbga"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Hurmatli [ism], tug‘ilgan kuningiz bilan chin dildan tabriklaymiz! Siz bilan ishlash oson va yoqimli: har qanday vazifaga xotirjam va puxta yondashasiz. Sizga sog‘lik, yangi marralar va oilaviy baxt tilaymiz. Hurmat bilan, [bo‘lim nomi] jamoasi.",
-        "[Ism], tug‘ilgan kuningiz muborak! Muddat yaqinlashganda ham hazil bilan kayfiyatimizni ko‘tarasiz — butun bo‘lim sizni shuning uchun yaxshi ko‘radi. Yangi yoshingizda ishlaringiz yurishib, orzularingiz ushalsin!",
-        "Guruh chati uchun: [Ism], tug‘ilgan kuningiz muborak! Jamoamizda borligingizdan xursandmiz. Bugungi tort sizning sharafingizga!"
-      ]
-    },
-    {
-      "type": "h3",
-      "id": "rahbarga",
-      "text": "Rahbarga"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Hurmatli [ism va otasining ismi], tug‘ilgan kuningiz bilan samimiy tabriklaymiz! Jamoaga ishonch bildirib, har birimizga o‘sish imkonini berganingiz uchun minnatdormiz. Sizga mustahkam sog‘lik, ezgu ishlaringizda zafar va oilangizga xotirjamlik tilaymiz. Hurmat bilan, [jamoa yoki bo‘lim nomi].",
-        "Hurmatli [ism va otasining ismi], tug‘ilgan kuningiz muborak bo‘lsin! Qiyin vaziyatlarda ham xotirjam qaror qabul qilishingiz biz uchun o‘rnak. Yangi yoshingiz sizga yangi muvaffaqiyatlar va quvonchli kunlar olib kelsin.",
-        "Qisqa xabar: [Ism va otasining ismi], tug‘ilgan kuningiz bilan tabriklayman! Sog‘lik, omad va xotirjamlik tilayman. Hurmat bilan, [ismingiz]."
+      "type": "linkp",
+      "text": "Onaga, otaga, aka-uka va opa-singilga, do‘st va dugonaga, turmush o‘rtog‘iga, farzandga, ustoz, hamkasb va rahbarga, buvi va boboga yana 50 dan ortiq matn — {all} sahifasida; u yerda kirill yozuvidagi variantlar ham bor.",
+      "links": [
+        {
+          "token": "all",
+          "target": "/uz/blog/tugilgan-kun-tabriklari/",
+          "anchor": "barcha tug‘ilgan kun tabriklari"
+        }
       ]
     },
     {
@@ -118,19 +73,6 @@
           "target": "/uz/blog/rasmiy-xat-yozish/",
           "anchor": "rasmiy xat yozish"
         }
-      ]
-    },
-    {
-      "type": "h3",
-      "id": "ustozga",
-      "text": "Ustozga"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Aziz ustoz, tug‘ilgan kuningiz muborak! Darslaringizda bilim bilan birga o‘zimizga ishonishni ham o‘rgatdingiz. Sizga sog‘lik, sabr va minnatdor shogirdlar tilayman.",
-        "Hurmatli [ism va otasining ismi], tug‘ilgan kuningiz bilan chin qalbdan tabriklayman! [Fan] darslaringiz tufayli bu fanni yaxshi ko‘rib qoldim. Shogirdlaringizning yutuqlari sizga doim quvonch keltirsin.",
-        "Ustoz, tug‘ilgan kuningiz muborak! Bitiruvdan [necha] yil o‘tsa ham, maslahatlaringiz hali ham esimda. Sog‘-salomat bo‘ling, shogirdlaringiz sizni doim yaxshi so‘z bilan eslaydi."
       ]
     },
     {
@@ -147,7 +89,7 @@
     {
       "type": "h2",
       "id": "yangi-yil",
-      "text": "Yangi yil tabriklari: oila, do‘stlar, jamoa va mijozlar uchun"
+      "text": "Yangi yil uchun namunalar"
     },
     {
       "type": "p",
@@ -158,10 +100,18 @@
       "items": [
         "Oilaga: Azizlarim, Yangi yilingiz muborak! Kelayotgan yil xonadonimizga tinchlik, dasturxonimizga baraka, har birimizga sog‘lik olib kelsin. Yangi yilda ham bir-birimizga suyanib, ko‘proq birga bo‘laylik.",
         "Do‘stga: [Ism], Yangi yiling muborak! Bu yil rejalashtirgan, lekin ulgurmagan ishlarimiz ko‘p bo‘ldi — yangi yilda ularni birga bajaramiz. Omad senga yor bo‘lsin, do‘stim!",
-        "Hamkasblarga: Qadrli hamkasblar, kirib kelayotgan Yangi yil bilan tabriklayman! Bu yil birga ko‘p ishni uddaladik, hammangizga rahmat. Yangi yilda ishimiz unumli, oilalaringiz xotirjam bo‘lsin.",
-        "Mijozlarga: Hurmatli mijozlarimiz! [Tashkilot nomi] jamoasi sizni Yangi yil bilan tabriklaydi. Yil davomida bizni tanlaganingiz va ishonch bildirganingiz uchun minnatdormiz. Yangi yilda ishlaringiz rivojlanib, oilangiz baxtli bo‘lsin.",
-        "Ustozga: Hurmatli ustoz, Yangi yilingiz muborak! Shu yil davomida bergan bilimlaringiz va qo‘llab-quvvatlaganingiz uchun rahmat. Yangi yil sizga quvonchli kunlar va o‘zingiz uchun ko‘proq vaqt olib kelsin.",
-        "Qisqa xabar: Yangi yilingiz muborak! Kelasi yil siz uchun orzular ushaladigan yil bo‘lsin. Sog‘lik va omad tilayman!"
+        "Hamkasblarga: Qadrli hamkasblar, kirib kelayotgan Yangi yil bilan tabriklayman! Bu yil birga ko‘p ishni uddaladik, hammangizga rahmat. Yangi yilda ishimiz unumli, oilalaringiz xotirjam bo‘lsin."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ota-onaga, turmush o‘rtog‘iga, rahbar va ustozga, mijoz va hamkorlarga, bolalarga 50 dan ortiq matn va kirill yozuvidagi blok — {ny} sahifasida.",
+      "links": [
+        {
+          "token": "ny",
+          "target": "/uz/blog/yangi-yil-tabriklari/",
+          "anchor": "barcha Yangi yil tabriklari"
+        }
       ]
     },
     {
@@ -221,6 +171,15 @@
           "Hurmat bilan, ortiqcha maqtovsiz; 3–4 gap"
         ]
       ]
+    },
+    {
+      "type": "h3",
+      "id": "tabriknoma",
+      "text": "Tabriknoma matni"
+    },
+    {
+      "type": "p",
+      "text": "Tabriknoma — tantanali tabrik varaqasi yoki xati: yubiley, bayram yoki yutuq munosabati bilan topshiriladi. Matni o‘sha to‘rt qismdan iborat, faqat ohangi tantanaliroq: to‘liq murojaat, tabrik sababi, odamning xizmati yoki fazilati haqida bir-ikki jumla, tilak, oxirida esa kim nomidan ekani va sana. Namuna: «Hurmatli [ism va otasining ismi]! Sizni [sana yoki voqea] munosabati bilan chin dildan tabriklaymiz. Ko‘p yillik halol mehnatingiz va shogirdlarga ko‘rsatgan g‘amxo‘rligingiz uchun minnatdormiz. Sizga mustahkam sog‘lik, oilaviy baxt va uzoq umr tilaymiz. Hurmat bilan, [jamoa nomi]. [Sana].»"
     },
     {
       "type": "h2",
@@ -355,6 +314,10 @@
       "a": "Sizlab, hurmat bilan va qisqa: murojaat («Hurmatli [ism va otasining ismi]»), tabrik, minnatdorchilik va tilak. Ortiqcha maqtov va shaxsiy hazildan qoching. Jamoa nomidan yozilsa, oxirida «Hurmat bilan, [bo‘lim nomi] jamoasi» deb imzo qo‘yiladi."
     },
     {
+      "q": "Tabriknoma matni qanday yoziladi?",
+      "a": "Tabriknoma — tantanali tabrik varaqasi yoki xati. Matni to‘liq murojaatdan boshlanadi, keyin tabrik sababi, odamning xizmati yoki fazilati haqida bir-ikki jumla va tilak keladi; oxirida kim nomidan yozilgani va sana ko‘rsatiladi. Namuna matn shu sahifaning «Tabriknoma matni» bo‘limida berilgan."
+    },
+    {
       "q": "Yangi yil tabriklarini hammaga bir xil yuborsa bo‘ladimi?",
       "a": "Bo‘ladi, lekin bir xil matn ko‘pincha rasmiyatchilikdek qabul qilinadi. Kamida uch xil variant tayyorlang: oila, do‘stlar va ishxona uchun. Eng yaqin odamlarga esa ism bilan murojaat qilib, bitta shaxsiy jumla qo‘shing."
     },
@@ -384,6 +347,20 @@
       "priority": 1
     },
     {
+      "target": "/uz/blog/tugilgan-kun-tabriklari/",
+      "anchor": "Tug‘ilgan kun tabriklari: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/yangi-yil-tabriklari/",
+      "anchor": "Yangi yil tabriklari 2027: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
       "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
       "anchor": "Kundalik vazifalar uchun o‘zbekcha promptlar",
       "locale": "uz",
@@ -405,8 +382,8 @@
       "priority": 4
     }
   ],
-  "ogTitle": "Tabrik yozish: 30 ta namuna va AI bilan shaxsiy tabrik",
-  "ogDescription": "Tug‘ilgan kun, Yangi yil va 8-mart uchun 30 ta original qisqa tabrik, o‘zingiz tabrik yozish tartibi va AI chatdan shaxsiy tabrik so‘rash usuli.",
+  "ogTitle": "Tabrik yozish: tuzilma, namunalar va AI bilan shaxsiy tabrik",
+  "ogDescription": "Tabrik va tabriknoma matnining tuzilmasi, tug‘ilgan kun, Yangi yil va 8-mart uchun original namunalar hamda AI chatdan shaxsiy tabrik so‘rash usuli.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/tabrik-yozish/",
   "hreflangUz": "/uz/blog/tabrik-yozish/",
@@ -419,7 +396,7 @@
   "breadcrumbLabel": "Tabrik yozish",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-24",
-  "dateModified": "2026-10-24",
+  "dateModified": "2026-11-16",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -434,6 +411,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Tabrikda bu siz aytmagan xotira, sana yoki fazilat ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf. Manba sayt qo‘llanmalari uchun 2026-10-05 kuni tekshirilgan."
     }
   ],
-  "updatedAt": "2026-10-24T00:00:00.000Z",
+  "updatedAt": "2026-11-16T00:00:00.000Z",
   "createdAt": "2026-10-24T00:00:00.000Z"
 }

@@ -211,10 +211,11 @@
     },
     {
       "type": "linkp",
-      "text": "Подробное сопоставление терминов смотрите в материале {comparison}. Как сами ChatGPT и Claude работают для пользователей из Узбекистана, разобрано в статье {claude}.",
+      "text": "Подробное сопоставление терминов смотрите в материале {comparison}. Как сами ChatGPT и Claude работают для пользователей из Узбекистана, разобрано в статье {claude}. Где взять официальное приложение ChatGPT и как не установить подделку, рассказано в материале о том, {download}.",
       "links": [
         { "token": "comparison", "target": "/ru/gpt-vs-chatgpt-sravnenie/", "anchor": "GPT и ChatGPT: в чём разница" },
-        { "token": "claude", "target": "/ru/blog/chatgpt-i-claude-v-uzbekistane/", "anchor": "ChatGPT и Claude в Узбекистане" }
+        { "token": "claude", "target": "/ru/blog/chatgpt-i-claude-v-uzbekistane/", "anchor": "ChatGPT и Claude в Узбекистане" },
+        { "token": "download", "target": "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/", "anchor": "как скачать ChatGPT на телефон и компьютер" }
       ]
     },
     {
@@ -422,5 +423,5 @@
   ],
   "lastReviewedAt": "2026-10-03",
   "createdAt": "2026-07-12T00:00:00Z",
-  "updatedAt": "2026-10-03"
+  "updatedAt": "2026-11-16"
 }

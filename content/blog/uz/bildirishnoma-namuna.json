@@ -3,17 +3,21 @@
   "locale": "uz",
   "slug": "bildirishnoma-namuna",
   "url": "/uz/blog/bildirishnoma-namuna/",
-  "title": "Bildirishnoma namuna: rahbarga yozish, Word va PDF | GPTBot.uz",
-  "description": "Rahbarga ichki bildirishnoma namunasi: printer muammosi haqida to‘ldirilgan misol, Word/PDF blanka, fakt va taxminni ajratish bo‘yicha tekshiruv.",
-  "h1": "Rahbarga bildirishnoma: holat, ko‘rilgan chora va so‘rov",
+  "title": "Bildirgi (bildirishnoma) namuna: Word va PDF | GPTBot.uz",
+  "description": "Bildirgi (bildirishnoma) namunasi: rahbarga yoziladigan ikki to‘ldirilgan misol, rekvizitlar, Word/PDF blankalar, fakt va taxminni ajratish tekshiruvi.",
+  "h1": "Rahbarga bildirgi (bildirishnoma): holat, ko‘rilgan chora va so‘rov",
   "topicCluster": "hujjat-va-xatlar",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
   "keywords": [
+    "bildirgi namuna",
+    "bildirgi",
+    "bildirgi yozish",
+    "bildirgi qanday yoziladi",
     "bildirishnoma namuna",
     "bildirishnoma",
     "rahbarga bildirishnoma"
   ],
-  "intro": "Ichki bildirishnoma rahbarga muayyan holatni yetkazish va zarur qarorni so‘rash uchun yoziladi. Bu sahifadagi misol o‘quv xonasidagi printer muammosini tasvirlaydi: kuzatilgan fakt, ko‘rilgan chora va so‘rov alohida berilgan.",
+  "intro": "Bildirgi (ish yuritish qo‘llanmalarida — bildirishnoma) rahbarga muayyan holatni yetkazish va zarur qarorni so‘rash uchun yoziladi. Bu sahifada ikki to‘ldirilgan o‘quv misoli bor: o‘quv xonasidagi printer muammosi va hisobot muddatini uzaytirish so‘rovi. Har birida kuzatilgan fakt, ko‘rilgan chora va so‘rov alohida berilgan.",
   "body": [
     {
       "type": "p",
@@ -36,13 +40,33 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Ikkinchi to‘plam — «Bildirgi» sarlavhali blanka va muddatni uzaytirish haqidagi misol: {docx} · {pdf}.",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261116/bildirgi.docx",
+          "anchor": "Bildirgi blankasini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261116/bildirgi.pdf",
+          "anchor": "Bildirgi namunasi PDF"
+        }
+      ]
+    },
+    {
       "type": "p",
       "text": "Bu rahbarga yoziladigan ichki xizmat hujjati. U sud, soliq, mehnat shartnomasi yoki boshqa maxsus tartibdagi xabarnoma va ogohlantirish shakli emas. O‘z holatingizga tegishli hujjat turini va tashkilotdagi topshirish tartibini tekshiring."
     },
     {
+      "type": "p",
+      "text": "«Bildirgi» va «bildirishnoma» so‘zlari bir turdagi hujjatni — rahbarga yoziladigan xizmat axborotini bildirishi mumkin: ish yuritish bo‘yicha o‘quv qo‘llanmalarida «bildirishnoma (raport)» atamasi qo‘llanadi, amaliyotda esa «bildirgi» nomi ham uchraydi. Bildirishnoma so‘zi xabarnoma ma’nosida ham uchraydi, shuning uchun avval tashkilotingizda qaysi nom va shakl qabul qilinganini aniqlang."
+    },
+    {
       "type": "h2",
       "id": "toldirilgan-misol",
-      "text": "To‘ldirilgan o‘quv misoli"
+      "text": "Birinchi misol: jihoz nosozligi haqida bildirgi"
     },
     {
       "type": "quote",
@@ -74,6 +98,43 @@
     },
     {
       "type": "h2",
+      "id": "ikkinchi-misol",
+      "text": "Ikkinchi misol: hisobot muddatini uzaytirish so‘rovi"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: bo‘lim boshlig‘i A va mutaxassis B shartli; haqiqiy tashkilot yoki xodimga aloqasi yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "Bo‘lim boshlig‘i A ga · Bo‘lim mutaxassisi B dan · 16.11.2026"
+    },
+    {
+      "type": "quote",
+      "text": "BILDIRGI · Oylik hisobot muddatini uzaytirish haqida"
+    },
+    {
+      "type": "quote",
+      "text": "Oktabr oyi bo‘yicha hisobotni 2026-yil 20-noyabrgacha topshirish belgilangan. Hisobot uchun zarur bo‘lgan 12 ta ombor jadvalidan 16-noyabr holatiga ko‘ra 7 tasi olindi."
+    },
+    {
+      "type": "quote",
+      "text": "Ombor bo‘limi qolgan 5 ta jadvalni 18-noyabrda yuborishini ma’lum qildi. Ma’lumotlar kechikayotganining sababi menga rasman bildirilmagan."
+    },
+    {
+      "type": "quote",
+      "text": "Olingan 7 ta jadval bo‘yicha hisob-kitobni yakunladim va qolgan qismi uchun jadval shaklini tayyorlab qo‘ydim."
+    },
+    {
+      "type": "quote",
+      "text": "Sizdan hisobotni topshirish muddatini 2026-yil 23-noyabrgacha uzaytirishingizni so‘rayman. Ma’lumotlar 18-noyabrda kelsa, tekshirish va rasmiylashtirishga uch ish kuni yetadi."
+    },
+    {
+      "type": "quote",
+      "text": "Ilova: olingan jadvallar ro‘yxati, 1 varaq. Bo‘lim mutaxassisi B; haqiqiy imzo qo‘yilmagan."
+    },
+    {
+      "type": "h2",
       "id": "qanday-yoziladi",
       "text": "Muammo, dalil va so‘ralayotgan qarorni ajrating"
     },
@@ -84,6 +145,90 @@
     {
       "type": "p",
       "text": "Keyin o‘zingiz ko‘rgan chorani va ishga ta’sirini ko‘rsating. So‘rovni aniq qarorga aylantiring: mutaxassisga tekshiruv topshirish, materialni aniqlashtirish yoki ish tartibini kelishish. Ta’mirlash narxi va muddatini vakolatsiz va’da qilmang; hozir nimani hal qilish kerakligini tushuntiring."
+    },
+    {
+      "type": "h2",
+      "id": "rekvizitlar",
+      "text": "Bildirgi rekvizitlari: nima qayerda yoziladi"
+    },
+    {
+      "type": "p",
+      "text": "Tashkilotda o‘z shakli bo‘lmasa, bildirgi odatda quyidagi qismlardan iborat bo‘ladi. Jadvaldagi tartib — keng tarqalgan ko‘rinish, majburiy me’yor emas: tashkilotingiz boshqacha talab qilsa, o‘shanga amal qiling."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi",
+        "Qayerda turadi"
+      ],
+      "rows": [
+        [
+          "Kimga",
+          "Rahbarning lavozimi va F.I.Sh. — «… boshlig‘iga» yoki «… direktoriga» shaklida",
+          "Yuqori o‘ng burchakda"
+        ],
+        [
+          "Kimdan",
+          "Lavozimingiz va F.I.Sh. — «…dan» shaklida",
+          "«Kimga» qatoridan keyin, o‘ng tomonda"
+        ],
+        [
+          "Hujjat nomi",
+          "«Bildirgi» yoki «Bildirishnoma» — alohida qatorda",
+          "Sahifa o‘rtasida"
+        ],
+        [
+          "Mavzu (sarlavha)",
+          "Nima haqida ekani — bitta qisqa qator, masalan: «Hisobot muddatini uzaytirish haqida»; kerak bo‘lganda yoziladi",
+          "Hujjat nomi yonida: undan oldin yoki keyin — tashkilot tartibiga ko‘ra"
+        ],
+        [
+          "Matn",
+          "Holat (sana, joy, fakt), sababi yoki sabab noma’lumligi, ko‘rilgan chora va rahbardan so‘ralayotgan qaror",
+          "Mavzudan keyin"
+        ],
+        [
+          "Ilova",
+          "Biriktirilgan hujjat nomi va varaqlar soni — bo‘lsa",
+          "Matndan keyin"
+        ],
+        [
+          "Sana va imzo",
+          "Yozilgan sana, imzo va F.I.Sh.",
+          "Pastda"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "farqi",
+      "text": "Bildirgi, tushuntirish xati va ariza: farqi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Hujjat",
+        "Kim tashabbus qiladi",
+        "Nima uchun yoziladi"
+      ],
+      "rows": [
+        [
+          "Bildirgi (bildirishnoma)",
+          "Xodimning o‘zi",
+          "Xizmat masalasini rahbarga ma’lum qilish va aniq qaror so‘rash"
+        ],
+        [
+          "Tushuntirish xati",
+          "Odatda rahbar so‘raydi",
+          "Sodir bo‘lgan holat sababini yozma izohlash"
+        ],
+        [
+          "Ariza",
+          "Shaxsning o‘zi",
+          "Shaxsiy so‘rov: ta’til, ishga qabul qilish yoki ma’lumotnoma"
+        ]
+      ]
     },
     {
       "type": "h2",
@@ -185,7 +330,7 @@
     },
     {
       "type": "linkp",
-      "text": "Vazifangizga qarab: {r0} · {r1}.",
+      "text": "Vazifangizga qarab: {r0} · {r1} · {hisobot}.",
       "links": [
         {
           "token": "r0",
@@ -196,6 +341,11 @@
           "token": "r1",
           "target": "/uz/blog/dalolatnoma-namuna/",
           "anchor": "Jihoz holatini dalolatnomada qayd etish"
+        },
+        {
+          "token": "hisobot",
+          "target": "/uz/blog/hisobot-namuna/",
+          "anchor": "Haftalik va oylik ish hisoboti namunasi"
         }
       ]
     },
@@ -213,6 +363,14 @@
   ],
   "faq": [
     {
+      "q": "Bildirgi nima?",
+      "a": "Bildirgi — xodimning rahbarga xizmat yuzasidan yozma axboroti. Unda holat qisqa bayon qilinadi va odatda aniq so‘rov yoki taklif bilan yakunlanadi. Ish yuritish qo‘llanmalarida shu hujjat bildirishnoma (raport) deb ataladi."
+    },
+    {
+      "q": "Bildirgi bilan bildirishnomaning farqi nima?",
+      "a": "Ikkalasi ham rahbarga yoziladigan xizmat axborotini bildirishi mumkin: ish yuritish qo‘llanmalarida «bildirishnoma (raport)» atamasi qo‘llanadi, «bildirgi» esa shu hujjatning amaliyotda uchraydigan nomi. Bildirishnoma so‘zi xabarnoma ma’nosida ham uchraydi. Tashkilotingizdagi nomlanish va shaklga amal qiling."
+    },
+    {
       "q": "Bildirishnoma bilan arizaning farqi nima?",
       "a": "Ushbu ichki bildirishnoma xizmat holatini ma’lum qilib, chora yoki qaror so‘raydi. Ariza esa ko‘pincha shaxsning o‘z talabi yoki iltimosini bildiradi. Tashkilotdagi hujjat nomlanishiga amal qiling."
     },
@@ -227,6 +385,10 @@
     {
       "q": "Bildirishnomaga qanday ilova berish mumkin?",
       "a": "Holatni tekshirishga yordam beradigan mavjud qayd, ro‘yxat yoki ruxsat etilgan suratni nomlab ko‘rsating. Ilova haqiqatan biriktirilmagan bo‘lsa, uning borligini yozmang. Maxfiy va shaxsiy ma’lumotni keraksiz tarqatmang."
+    },
+    {
+      "q": "Bildirgi qo‘lda yoziladimi yoki kompyuterda?",
+      "a": "Yagona qoida yo‘q: ayrim tashkilotlar qo‘lda yozilgan nusxani, boshqalari bosma yoki elektron hujjat tizimi orqali yuborilgan nusxani qabul qiladi. Buni topshiradigan joyingizdan oldindan aniqlang."
     }
   ],
   "cta": {
@@ -268,10 +430,24 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/hisobot-namuna/",
+      "anchor": "Haftalik va oylik ish hisoboti namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
-  "ogTitle": "Bildirishnoma namuna: rahbarga yozish, Word va PDF | GPTBot.uz",
-  "ogDescription": "Rahbarga ichki bildirishnoma namunasi: printer muammosi haqida to‘ldirilgan misol, Word/PDF blanka, fakt va taxminni ajratish bo‘yicha tekshiruv.",
+  "ogTitle": "Bildirgi (bildirishnoma) namuna: Word va PDF | GPTBot.uz",
+  "ogDescription": "Bildirgi (bildirishnoma) namunasi: rahbarga yoziladigan ikki to‘ldirilgan misol, rekvizitlar, Word/PDF blankalar, fakt va taxminni ajratish tekshiruvi.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/bildirishnoma-namuna/",
   "hreflangUz": "/uz/blog/bildirishnoma-namuna/",
@@ -282,9 +458,9 @@
     "@type": "Audience",
     "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
   },
-  "breadcrumbLabel": "Bildirishnoma namuna",
+  "breadcrumbLabel": "Bildirgi (bildirishnoma) namuna",
   "datePublished": "2026-11-08",
-  "dateModified": "2026-11-08",
+  "dateModified": "2026-11-16",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -296,9 +472,9 @@
     {
       "title": "S. A. Karimov, Sh. M. Maxmatmurodov, O. N. Karimova — Nutq madaniyati va davlat tilida ish yuritish (NamDU kutubxonasi)",
       "url": "https://namdu.uz/media/Books/pdf/2024/06/02/NamDU-ARM-3076-Nutq_madaniyati_va_davlat_tilida_ish_yuritish.pdf?raw=1",
-      "note": "Hujjat turlari va ish yuritish uslubi bo‘yicha o‘quv manbasi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
+      "note": "Ish yuritish bo‘yicha o‘quv qo‘llanmasi; «Bildirishnoma» bo‘limida hujjatning ta’rifi, tuzilishi va zaruriy qismlari berilgan. Qo‘llanmada «bildirishnoma (raport)» atamasi qo‘llangan, «bildirgi» so‘zi uchramaydi. 2026-11-16 kuni tekshirildi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
     }
   ],
-  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "updatedAt": "2026-11-16T00:00:00.000Z",
   "createdAt": "2026-11-08T00:00:00.000Z"
 }

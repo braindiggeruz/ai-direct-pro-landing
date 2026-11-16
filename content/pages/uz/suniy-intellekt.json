@@ -433,12 +433,17 @@
     },
     {
       "type": "linkp",
-      "text": "Esse tuzilmasi va murakkab reja namunalari {insho} qo‘llanmasida, referatning titul varaqdan adabiyotlargacha bo‘lgan tuzilmasi {referat} qo‘llanmasida. Mavzuni slaydlarda taqdim etish kerak bo‘lsa, {slayd} qo‘llanmasidan foydalaning; mavzudan tayyor .pptx qoralamasini esa {taqdimot} sahifasida olish mumkin — kuniga 1 ta bepul namuna, 6 slaydgacha.",
+      "text": "Esse tuzilmasi va namunalari {esse} sahifasida, insho uchun tayyor rejalar {reja} sahifasida, referatning titul varaqdan adabiyotlargacha bo‘lgan tuzilmasi {referat} qo‘llanmasida. Mavzuni slaydlarda taqdim etish kerak bo‘lsa, {slayd} qo‘llanmasidan foydalaning; mavzudan tayyor .pptx qoralamasini esa {taqdimot} sahifasida olish mumkin — kuniga 1 ta bepul namuna, 6 slaydgacha.",
       "links": [
         {
-          "token": "insho",
-          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "token": "esse",
+          "target": "/uz/blog/esse-yozish-tartibi/",
           "anchor": "esse yozish tartibi"
+        },
+        {
+          "token": "reja",
+          "target": "/uz/blog/murakkab-reja-namuna/",
+          "anchor": "murakkab reja namunalari"
         },
         {
           "token": "referat",
@@ -672,5 +677,5 @@
   ],
   "lastReviewedAt": "2026-10-24",
   "createdAt": "2026-09-01T00:00:00.000Z",
-  "updatedAt": "2026-10-24T00:00:00.000Z"
+  "updatedAt": "2026-11-16T00:00:00.000Z"
 }

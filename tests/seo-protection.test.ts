@@ -215,7 +215,12 @@ test('the wave-1b revision changes only the homepage list: three new guides and 
   }
   // The three guide titles (from content/, as the shell prints them) and the hub's new H1 are the whole text change.
   const doc = (file: string) => JSON.parse(fs.readFileSync(path.join(REPO, file), 'utf8')) as BlogArticle & Page;
-  const titles = ['tavsifnoma-namuna', 'rasmiy-xat-yozish', 'tabrik-yozish'].map((slug) => doc(`content/blog/uz/${slug}.json`).title);
+  // The greetings guide was retitled on 2026-11-16, when its two collections moved to pages of their own;
+  // the wave-1b shell printed the title of its day, so that title is pinned here.
+  const titles = [
+    ...['tavsifnoma-namuna', 'rasmiy-xat-yozish'].map((slug) => doc(`content/blog/uz/${slug}.json`).title),
+    'Tug‘ilgan kun tabriklari va Yangi yil tabriklari: namunalar',
+  ];
   const hub = doc('content/pages/uz/telegram-bot-biznes-uchun.json');
   assert.equal(hub.h1, 'Telegram bot yaratish biznes uchun: arizalarni avtomatlashtirish');
   let text = home.bodyText;

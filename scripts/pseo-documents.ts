@@ -20,5 +20,6 @@ export function renderPseoDocument(article: BlogArticle): string {
     <p>${escapeHtml(item.subtitle)}</p>
     <div class="ps-actions"><a class="ps-primary" href="/downloads/pseo-20261108/${item.slug}.docx" download>Word · DOCX ↓</a><a class="ps-secondary" href="/downloads/pseo-20261108/${item.slug}.pdf" download>Ko‘rish uchun PDF ↓</a></div>
     <p class="ps-note">Bepul, ro‘yxatdan o‘tish shart emas. Fayldagi qavsli joylarni o‘zingizning qurilmangizda to‘ldiring. Maqolada namuna va tekshirish ro‘yxati bor.</p>
+    <p class="ps-note">Boshqa hujjat kerakmi? <a href="/uz/hujjat-namunalari/" class="text-brand-cyan underline">Barcha hujjat namunalari</a> sahifasidan tanlang.</p>
   </aside>`;
 }

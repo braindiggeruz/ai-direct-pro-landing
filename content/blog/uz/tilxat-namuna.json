@@ -1,0 +1,363 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "tilxat-namuna",
+  "url": "/uz/blog/tilxat-namuna/",
+  "title": "Tilxat namuna: qarz va buyum olish, Word/PDF | GPTBot.uz",
+  "description": "Tilxat qanday yoziladi: qarzga pul olish va buyum yoki hujjat olish uchun namunalar, zarur ma’lumotlar, kirill yozuvidagi variant, Word/PDF blanka.",
+  "h1": "Tilxat namunasi: pul, buyum yoki hujjat olinganini tasdiqlash",
+  "topicCluster": "hujjat-va-xatlar",
+  "keywords": [
+    "tilxat namuna",
+    "tilxat",
+    "tilxat yozish",
+    "tilxat namunasi",
+    "tilxat qanday yoziladi",
+    "тилхат намуна"
+  ],
+  "intro": "Tilxat — bir kishining boshqa kishidan yoki tashkilotdan pul, buyum yoki hujjat olganini tasdiqlaydigan yozma hujjat. Bu sahifada qarzga pul olish va buyum yoki hujjat olish uchun ikki blanka, to‘ldirilgan o‘quv misollari va kirill yozuvidagi variant berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka, undan keyin alohida to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotlarni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261116/tilxat.docx",
+          "anchor": "Word uchun DOCX blankasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261116/tilxat.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu o‘quv namunasi, yuridik maslahat emas. Katta summa, garov yoki nizoli holat bo‘lsa, notarius yoki yuristga murojaat qiling: tilxat notarius tomonidan tasdiqlanishi ham mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misollari: qarz va buyum olish"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: A, B va guvoh D shartli; haqiqiy shaxslar, summa yoki buyumga aloqasi yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "TILXAT · qarzga pul olish haqida"
+    },
+    {
+      "type": "quote",
+      "text": "Men, Toshkent shahrida yashovchi A, B dan 2 000 000 (ikki million) so‘m miqdoridagi pulni qarzga oldim."
+    },
+    {
+      "type": "quote",
+      "text": "Qarzni 2027-yil 16-fevral sanasigacha to‘liq qaytarish majburiyatini olaman."
+    },
+    {
+      "type": "quote",
+      "text": "Guvoh: D. 16.11.2026 · A (qarz oluvchi); haqiqiy imzolar qo‘yilmagan."
+    },
+    {
+      "type": "quote",
+      "text": "TILXAT · buyum olish haqida"
+    },
+    {
+      "type": "quote",
+      "text": "Men, o‘quv markazi administratori A, texnik mas’ul B dan 1 ta proyektor va 1 ta ulash kabelini oldim. Holati: ishlatilgan, ko‘rinadigan nuqsoni yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "Qaytarish muddati: 2026-yil 20-noyabr. 16.11.2026 · A (qabul qiluvchi); haqiqiy imzo qo‘yilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "nima-yoziladi",
+      "text": "Tilxatda nimalar yoziladi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi"
+      ],
+      "rows": [
+        [
+          "Hujjat nomi",
+          "«Tilxat» — alohida qatorda"
+        ],
+        [
+          "Kim oldi",
+          "Tilxat beruvchining lavozimi yoki yashash manzili, ism-familiyasi"
+        ],
+        [
+          "Kimdan",
+          "Pul, buyum yoki hujjatni bergan shaxs yoki tashkilot"
+        ],
+        [
+          "Nima olindi",
+          "Aniq nomi va miqdori; pul — raqam va so‘z bilan; texnik vosita bo‘lsa, holati"
+        ],
+        [
+          "Muddat",
+          "Qaytarish sanasi — qarz yoki vaqtincha olingan buyum bo‘lsa"
+        ],
+        [
+          "Guvohlar",
+          "Bo‘lsa, ism-familiyasi va imzosi"
+        ],
+        [
+          "Sana va imzo",
+          "Yozilgan sana, tilxat beruvchining imzosi va ism-familiyasi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tilxatga tuzatish kiritilmaydi: xato ketgan bo‘lsa, yangi varaqqa qaytadan yoziladi."
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Tashkilotingiz talabiga mos kelmaydigan bandni olib tashlang; tayyor misoldagi sana, raqam va voqealarni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Qarzga pul olish haqida tilxat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "TILXAT — alohida qatorda, sahifa o‘rtasida",
+        "Men, [F.I.Sh.], [yashash manzili], [F.I.Sh.]dan [summa raqam bilan] ([summa so‘z bilan]) so‘m miqdoridagi pulni qarzga oldim.",
+        "Qarzni [kun.oy.yil] sanasigacha to‘liq qaytarish majburiyatini olaman.",
+        "Shaxsni tasdiqlovchi hujjat: [turi va raqami — tomonlar shunday kelishgan bo‘lsa].",
+        "Guvohlar: [F.I.Sh. va imzo — bo‘lsa].",
+        "[kun.oy.yil] · [imzo] · [F.I.Sh.]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Buyum yoki hujjat olish haqida tilxat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Men, [lavozim, F.I.Sh.], [F.I.Sh. yoki tashkilot nomi]dan [buyum yoki hujjatning aniq nomi va miqdori] oldim.",
+        "Holati: [yangi, ishlatilgan yoki nuqsoni bor — texnik vosita bo‘lsa].",
+        "Qaytarish muddati: [kun.oy.yil — vaqtincha olingan bo‘lsa].",
+        "[kun.oy.yil] · [imzo] · [lavozim, F.I.Sh.]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kirill",
+      "lang": "uz-Cyrl",
+      "text": "Кирилл ёзувида: қарз тилхати намунаси"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "ТИЛХАТ"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Мен, [Ф.И.Ш.], [яшаш манзили], [Ф.И.Ш.]дан [сумма рақам билан] ([сумма сўз билан]) сўм миқдоридаги пулни қарзга олдим."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қарзни [кун.ой.йил] санасигача тўлиқ қайтариш мажбуриятини оламан."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "[кун.ой.йил] · [имзо] · [Ф.И.Ш.]"
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Summa faqat raqam bilan yozilgan: uni so‘z bilan ham yozing.",
+        "Tomonlar to‘liq ko‘rsatilmagan: «do‘stimdan oldim» emas, ism-familiya va kerak bo‘lsa manzil.",
+        "Qaytarish muddati yo‘q: qarz tilxatida aniq sanani ko‘rsating.",
+        "Buyumning holati yozilmagan: texnik vosita bo‘lsa, ko‘rinadigan nuqsonlarini qayd eting.",
+        "Tuzatish va o‘chirishlar: bunday varaqni bekor qilib, tilxatni qaytadan yozing."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Imzolashdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kim, kimdan va nima olgani aniq yozilganmi?",
+        "Summa raqam va so‘z bilan bir xilmi; buyumning nomi, miqdori va holati ko‘rsatilganmi?",
+        "Qaytarish sanasi bormi — qarz yoki vaqtincha olingan buyum bo‘lsa?",
+        "Guvohlar bo‘lsa, ular ko‘rsatilgan va imzo qo‘yganmi?",
+        "Matnda tuzatish yo‘qmi; sana va imzo bormi; nusxasi kimda qolishi kelishilganmi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu o‘quv namunasi, yuridik maslahat emas. Tilxatga tuzatish kiritilmaydi: xato ketsa, qaytadan yozing. Summani raqam va so‘z bilan ko‘rsating. Katta summa yoki nizoli holatda notarius yoki yuristga murojaat qiling."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. Faqat shaxsiy ma’lumotsiz qoralamani kiriting va «Yangi fakt qo‘shma, noaniq joylarni savol qilib ajrat» deb yozing. Chat tayyor faylni tasdiqlamaydi, imzolamaydi yoki tashkilotga yubormaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {dalolatnoma} · {ariza}.",
+      "links": [
+        {
+          "token": "dalolatnoma",
+          "target": "/uz/blog/dalolatnoma-namuna/",
+          "anchor": "Jihoz topshirish dalolatnomasi namunasi"
+        },
+        {
+          "token": "ariza",
+          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+          "anchor": "Tushuntirish xati va ariza namunalari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa hujjat kerak bo‘lsa, {hub} sahifasidan tanlang.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/hujjat-namunalari/",
+          "anchor": "barcha hujjat namunalari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tilxat nima?",
+      "a": "Tilxat — bir kishining boshqa kishidan yoki tashkilotdan pul, buyum yoki hujjat olganini tasdiqlaydigan yozma hujjat. Unda nima olingani aniq ko‘rsatiladi, oxirida sana va imzo qo‘yiladi."
+    },
+    {
+      "q": "Tilxatda nimalar ko‘rsatiladi?",
+      "a": "Hujjat nomi, tilxat beruvchining ism-familiyasi va lavozimi yoki manzili, kimdan olingani, pul yoki buyumning aniq nomi va miqdori, kerak bo‘lsa holati va qaytarish muddati, sana va imzo."
+    },
+    {
+      "q": "Tilxatga guvoh kerakmi?",
+      "a": "Guvohlar bo‘lsa, ular ham tilxatda ko‘rsatiladi: ism-familiyasi va imzosi bilan. Guvoh kerak-kerakmasligi tomonlarning kelishuviga va vaziyatga bog‘liq."
+    },
+    {
+      "q": "Tilxat notarius tomonidan tasdiqlanishi shartmi?",
+      "a": "Bu sahifa yuridik maslahat bermaydi. Tilxat notarius tomonidan tasdiqlanishi mumkin; katta summa yoki nizoli holatda notarius yoki yuristdan maslahat oling."
+    },
+    {
+      "q": "Tilxatda xato ketsa nima qilinadi?",
+      "a": "Tilxatga tuzatish kiritilmaydi. Xato ketgan varaqni bekor qilib, tilxatni qaytadan yozing."
+    },
+    {
+      "q": "Tilxat namunasini Word yoki PDF formatida yuklab olsa bo‘ladimi?",
+      "a": "Ha. Sahifa boshida tahrirlanadigan DOCX blanka va chop etish uchun PDF bor: ikki blanka, kirill yozuvidagi variant va to‘ldirilgan o‘quv misollari bitta faylda. Fayllar bepul, ro‘yxatdan o‘tish talab qilinmaydi."
+    }
+  ],
+  "cta": {
+    "label": "Qoralama matnini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/dalolatnoma-namuna/",
+      "anchor": "Jihoz topshirish dalolatnomasi namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "anchor": "Tushuntirish xati va ariza namunalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Tilxat namuna: qarz va buyum olish, Word/PDF | GPTBot.uz",
+  "ogDescription": "Tilxat qanday yoziladi: qarzga pul olish va buyum yoki hujjat olish uchun namunalar, zarur ma’lumotlar, kirill yozuvidagi variant, Word/PDF blanka.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/tilxat-namuna/",
+  "hreflangUz": "/uz/blog/tilxat-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbek tilida hujjat yozishni o‘rganayotgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Tilxat namuna",
+  "datePublished": "2026-11-16",
+  "dateModified": "2026-11-16",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "S. A. Karimov, Sh. M. Maxmatmurodov, O. N. Karimova — Nutq madaniyati va davlat tilida ish yuritish (NamDU kutubxonasi)",
+      "url": "https://namdu.uz/media/Books/pdf/2024/06/02/NamDU-ARM-3076-Nutq_madaniyati_va_davlat_tilida_ish_yuritish.pdf?raw=1",
+      "note": "Ish yuritish bo‘yicha o‘quv qo‘llanmasi; «Tilxat» bo‘limida hujjatning ta’rifi, yozilish tartibi, tuzatish kiritilmasligi, guvohlar va notarial tasdiq haqida aytilgan. 2026-11-16 kuni tekshirildi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
+    }
+  ],
+  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "createdAt": "2026-11-16T00:00:00.000Z"
+}

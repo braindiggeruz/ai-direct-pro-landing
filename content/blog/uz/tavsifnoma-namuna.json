@@ -431,6 +431,12 @@
       "anchor": "Tavsiyanoma: nomzodni tavsiya qilish xati",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "ogTitle": "Tavsifnoma namunasi: tuzilma va uchta shartli namuna",

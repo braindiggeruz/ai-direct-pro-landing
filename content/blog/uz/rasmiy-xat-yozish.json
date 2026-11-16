@@ -251,6 +251,17 @@
       "text": "To‘lov kafolatida ba’zi tashkilotlar rahbar bilan birga bosh buxgalter imzosini ham so‘raydi. Buni xatni qabul qiladigan tomondan oldindan aniqlang va faqat tashkilotingiz haqiqatan bajara oladigan majburiyatni yozing."
     },
     {
+      "type": "linkp",
+      "text": "To‘lov kafolati va ishga qabul qilish kafolati uchun alohida blanka va to‘ldirilgan misol {kafolat} sahifasida berilgan.",
+      "links": [
+        {
+          "token": "kafolat",
+          "target": "/uz/blog/kafolat-xati-namuna/",
+          "anchor": "kafolat xati namunasi"
+        }
+      ]
+    },
+    {
       "type": "h3",
       "text": "Da’vo xati namunasi"
     },
@@ -371,7 +382,7 @@
         {
           "token": "pseo3",
           "target": "/uz/blog/bildirishnoma-namuna/",
-          "anchor": "Ichki bildirishnoma namunasi"
+          "anchor": "Bildirgi (ichki bildirishnoma) namunasi"
         },
         {
           "token": "pseo4",
@@ -456,13 +467,19 @@
     },
     {
       "target": "/uz/blog/bildirishnoma-namuna/",
-      "anchor": "Ichki bildirishnoma namunasi",
+      "anchor": "Bildirgi (ichki bildirishnoma) namunasi",
       "locale": "uz",
       "type": "contextual"
     },
     {
       "target": "/uz/blog/javob-xati-namuna/",
       "anchor": "Murojaatga javob xati namunasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
       "locale": "uz",
       "type": "contextual"
     }

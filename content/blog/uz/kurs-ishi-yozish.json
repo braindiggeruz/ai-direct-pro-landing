@@ -34,6 +34,39 @@
     },
     {
       "type": "h2",
+      "id": "word-pdf-namuna",
+      "text": "Kurs ishi uchun DOCX va PDF shablon: titul varaq va reja"
+    },
+    {
+      "type": "p",
+      "text": "Kurs ishini boshlash uchun statik shablon tayyorladik: titul varaq, mundarija (reja), kirish bandlari va adabiyotlar ro‘yxati uchun to‘ldiriladigan maydonlar, ikkinchi sahifada esa shartli mavzudagi reja misoli. DOCX faylini Word yoki LibreOffice’da tahrirlash, PDF nusxasini esa ko‘rish va chop etish mumkin. Fayllar bepul; ro‘yxatdan o‘tish yoki AI paket talab qilinmaydi. Bu tayyor kurs ishi ham, chat yaratgan fayl ham emas: matnni o‘zingiz yozasiz."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261116/kurs-ishi-titul-reja.docx",
+          "anchor": "Kurs ishi shablonini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261116/kurs-ishi-titul-reja.pdf",
+          "anchor": "Chop etish uchun PDF shablon"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "Avval kafedraning uslubiy ko‘rsatmasini o‘qing: titul varaq ko‘rinishi, hajm, shrift va adabiyotlar formati undagi talabga moslanadi — shablondagi tartib majburiy me’yor emas.",
+        "Mavzu va rejani ilmiy rahbar bilan kelishing, so‘ng mundarijadagi bob va paragraf nomlarini o‘z mavzungizga almashtiring.",
+        "Adabiyotlar ro‘yxatiga faqat o‘zingiz o‘qigan va matnda ishlatgan manbalarni yozing; qolgan qavslarni topshirishdan oldin tekshiring."
+      ]
+    },
+    {
+      "type": "h2",
       "id": "farqi",
       "text": "Kurs ishi nima va u referatdan nimasi bilan farq qiladi"
     },
@@ -434,6 +467,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Kurs ishi: tuzilma namunasi va AI bilan reja",
@@ -450,7 +490,7 @@
   "breadcrumbLabel": "Kurs ishi",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-07",
-  "dateModified": "2026-10-08",
+  "dateModified": "2026-11-16",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -470,6 +510,6 @@
       "note": "OpenAI o‘z tadqiqotida AI matnini aniqlovchi dasturlarni o‘quvchi haqida qaror chiqarish uchun yetarlicha ishonchli deb topmagan; o‘qituvchilar talabadan AI bilan yozishmani ko‘rsatishni va AI’dan foydalanganini qayd etishni so‘rashi mumkin; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-10-08T00:00:00.000Z",
+  "updatedAt": "2026-11-16T00:00:00.000Z",
   "createdAt": "2026-10-07T00:00:00.000Z"
 }

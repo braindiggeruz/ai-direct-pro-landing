@@ -44,6 +44,42 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "O‘quvchi, talaba va ofis ishlari uchun vositalar ham shu saytda: {testlar} — fanlar bo‘yicha mashq testlari, {tarjimon} — izohli tarjima, {kirill} — kirill va lotin yozuvini o‘girish, {kalkulyator} — hisob-kitob, {taqdimot} — mavzudan .pptx taqdimot. Ariza, tilxat, hisobot va boshqa hujjatlar uchun — {hujjat}.",
+      "links": [
+        {
+          "token": "testlar",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar"
+        },
+        {
+          "token": "tarjimon",
+          "target": "/uz/rus-ozbek-tarjimon/",
+          "anchor": "ruscha-o‘zbekcha AI tarjimon"
+        },
+        {
+          "token": "kirill",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        },
+        {
+          "token": "kalkulyator",
+          "target": "/uz/kalkulyator/",
+          "anchor": "onlayn kalkulyator"
+        },
+        {
+          "token": "taqdimot",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "AI taqdimot yaratish"
+        },
+        {
+          "token": "hujjat",
+          "target": "/uz/hujjat-namunalari/",
+          "anchor": "Word/PDF hujjat namunalari"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Biznes uchun AI bot nima"
     },
@@ -422,6 +458,42 @@
       "anchor": "GPTBot.uz blogi",
       "locale": "uz",
       "type": "block"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/rus-ozbek-tarjimon/",
+      "anchor": "Ruscha-o‘zbekcha AI tarjimon",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kalkulyator/",
+      "anchor": "Onlayn kalkulyator",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/taqdimot-ai/",
+      "anchor": "AI taqdimot yaratish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Word/PDF hujjat namunalari",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
@@ -430,6 +502,6 @@
     "FAQPage"
   ],
   "lastReviewedAt": "2026-10-07",
-  "updatedAt": "2026-10-07",
+  "updatedAt": "2026-11-16",
   "createdAt": "2026-07-01"
 }

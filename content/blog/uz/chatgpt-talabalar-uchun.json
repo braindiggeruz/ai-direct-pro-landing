@@ -294,7 +294,7 @@
     },
     {
       "type": "linkp",
-      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor; mavzudan tayyor .pptx qoralamasini esa {taqdimot} kuniga 1 marta bepul yig‘ib beradi. Ishga yoki amaliyotga hujjat topshirayotgan bo‘lsangiz, {rezyume} tartibini o‘qing; ariza yoki tushuntirish xati kerak bo‘lsa — {ariza} qo‘llanmasiga qarang.",
+      "text": "O‘zbekcha o‘qish so‘rovlarini {chat}da sinang, ko‘proq shablonni {prompts}dan oling va servislarni {compare} orqali solishtiring. Taqdimot uchun {slayd}, yozma ish uchun {esse} bo‘yicha qo‘llanmalar ham bor; essening tartibi va to‘liq namunalari — {essetartib} sahifasida, insho uchun tayyor rejalar — {reja} sahifasida; mavzudan tayyor .pptx qoralamasini esa {taqdimot} kuniga 1 marta bepul yig‘ib beradi. Ishga yoki amaliyotga hujjat topshirayotgan bo‘lsangiz, {rezyume} tartibini o‘qing; ariza yoki tushuntirish xati kerak bo‘lsa — {ariza} qo‘llanmasiga qarang.",
       "links": [
         {
           "token": "chat",
@@ -335,6 +335,16 @@
           "token": "ariza",
           "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
           "anchor": "ariza va tushuntirish xati yozish"
+        },
+        {
+          "token": "essetartib",
+          "target": "/uz/blog/esse-yozish-tartibi/",
+          "anchor": "esse yozish tartibi"
+        },
+        {
+          "token": "reja",
+          "target": "/uz/blog/murakkab-reja-namuna/",
+          "anchor": "murakkab reja namunalari"
         }
       ]
     },
@@ -434,6 +444,18 @@
       "priority": 1
     },
     {
+      "target": "/uz/blog/esse-yozish-tartibi/",
+      "anchor": "esse yozish tartibi va namunalar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/murakkab-reja-namuna/",
+      "anchor": "murakkab reja namunalari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/blog/slayd-tayyorlash/",
       "anchor": "slayd tayyorlash: reja va matn",
       "locale": "uz",
@@ -478,7 +500,7 @@
   },
   "author": "GPTBot Team",
   "datePublished": "2026-07-30",
-  "dateModified": "2026-11-08",
+  "dateModified": "2026-11-16",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -487,7 +509,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-30T00:00:00.000Z",
-  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "updatedAt": "2026-11-16T00:00:00.000Z",
   "sources": [
     {
       "title": "OpenAI Help Center — What is ChatGPT?",

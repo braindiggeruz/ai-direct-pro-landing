@@ -1,3 +1,31 @@
+# Current handoff — SEO growth release · 16.11.2026
+
+## 1. State
+Branch claude/seo-growth-20261116, based on exact live da97b1f5772dff0a8f530d602874055ff01a54cc. Stage: SEO growth after the blind-spot audit. Not released yet: guarded production build and deploy_runner.py follow this commit. Working tree: clean after the commit.
+## 2. Delivered
+Ten new URLs (sitemap 360 → 370): four Uzbek document samples with DOCX/PDF (dars tahlili, tilxat, hisobot, kafolat xati), esse and murakkab-reja guides, New Year and birthday greeting collections, a Russian ChatGPT download guide, the /uz/hujjat-namunalari/ hub. Downloadable samples on three existing guides and a second example on the bildirgi/bildirishnoma sample. Consumer links from /uz/ and the tests hub. Lead forms: service-specific task examples, lead_form_view and lead_form_start on every form. Chat prompt: Cyrillic Uzbek on explicit request.
+## 3. Files
+content/blog/{ru,uz}/ and content/pages/{ru,uz}/ (10 new, 33 existing pages changed); content/seo/intent-manifest.json (101 → 113 pairs); public/downloads/docs-20261116/ (18 files) with scripts/docs-document-templates-20261116.py; src/shared/content-downloads.ts; public/_headers; public/llms.txt; scripts/generate-robots.ts, lead-form.ts, pseo-documents.ts, seo-protection.ts (BASELINE); functions/lib/gpt-chat/prompt.ts; tests/content-downloads, lead-capture-templates, seo-protection; docs/seo/CHANGE_LOG_2026-11.md; docs/seo/evidence/2026-11-16-seo-growth/; reports/seo-growth-20261116/.
+## 4. Decisions
+D-SEO-GROWTH-20261116 in DECISIONS.md: measured demand plus a usable artefact per new page; one URL per document type; head terms moved from aggregator guides to their own pages; cohort list fixed; protected leaders untouched.
+## 5. Excluded
+No edit to the ten protected pages except the homepage lists. No title/description change on the chats or the login guide (R14/R15 until 2026-12-21). No payment, bot, webhook, pixel, CSP, schema or chat-bundle change. No lastmod rewrite (54 of 58 understated pages were already recrawled). No /uz/tariflar/ restructure (links already target #ai-paket). No Gemini/Gamma guides, new tests, legal templates or rank-tracker run.
+## 6. Validation
+Release branch against untouched da97b1f5, one test file at a time (181 files: the npm test list plus five cohort suites): 2314 tests, 2276 pass, 31 fail, 7 skipped; predecessor 2297 / 2257 / 33 / 7. No new failing test name: all 31 failures reproduce on the predecessor (model policy, billing return-path, studio-contact, built-site offer checks and others); two Studio suites that could not load on the predecessor tree pass here. tsc -b: 0 errors. Functions typecheck: 0 errors. Scoped ESLint: clean. seo-audit: OK, blog score 98/100. seo-protection check: 10/10 against the new reviewed revision. seo-protection 21/21, homepage-lists-frozen 4/4, content-downloads 4/4, seo-intent-manifest 5/5, seo-anchor-intent 5/5, seo-link-graph 17/17, lead-capture-templates 48/48. reports/seo-growth-20261116/review.ts: sitemap 360 to 370, ten new URLs each with at least three contextual incoming links, 0 issues. Document generator --check: 135 PASS. Results: delivery/gptbot-seo-growth-20261116/verify/{baseline,after}.tsv.
+## 7. Known limits
+Uzbek texts were written without a native proofreader. Ads volumes are grouped and are not a forecast; week-old cohort pages are not in the top yet. Yandex gives about half of search sessions and has no webmaster data. The full npm test list is not green on the untouched predecessor either: compare with the recorded baseline, do not chase those failures here.
+## 8. Next task
+Guarded production release of this commit through deploy_runner.py with DR_ROOT set to this worktree, then live readback.
+## 9. Acceptance
+Ten new URLs return 200, are self-canonical, in the sitemap and indexable; 18 download files return 200 with X-Robots-Tag noindex; the ten protected pages equal the reviewed revision; live manifest commit equals the release commit; first indexing readback within 7 days.
+## 10. Start commands
+git status/log; docs/seo/CHANGE_LOG_2026-11.md; reports/seo-growth-20261116/artifact-review.json. Before any edit of a changed URL, read its lastCrawlTime and the baseline table in the change log.
+## 11. Risks
+Do not edit the chats, the download guide or the login guide before 2026-12-21. Do not create a second page for a document type that already has one. Do not raise bundle budgets. Do not resubmit sitemaps or request indexing in bulk. Keep the counts in titles (3, 14, 51, 57) equal to the content.
+## 12. Rollback
+Revert the release commit on top of current production and use the guarded release; restore BASELINE to docs/seo/evidence/2026-11-09-marketing-final/. No data or schema migration. New URLs then return 404; nothing redirects to them. Previous handoff retained below.
+
+---
 # Current handoff — chat terminal-stream errors · 14.11.2026
 
 ## 1. State

@@ -1,0 +1,542 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "esse-yozish-tartibi",
+  "url": "/uz/blog/esse-yozish-tartibi/",
+  "title": "Esse yozish tartibi: tuzilma, 3 ta namuna va mavzular",
+  "description": "Esse qanday yoziladi: kirish, tezis, 2–3 dalil va xulosa. Yetti qadamli tartib, 3 ta to‘liq esse namunasi, sinflar bo‘yicha mavzular va tekshiruv ro‘yxati.",
+  "h1": "Esse yozish tartibi: tuzilma, namunalar va mavzular",
+  "topicCluster": "maktab-va-talabalar",
+  "keywords": [
+    "esse yozish tartibi",
+    "esse yozish",
+    "esse yozish namuna",
+    "esse namunalari",
+    "esse mavzulari",
+    "esse qanday yoziladi",
+    "esse nima",
+    "esse yozish qoidalari",
+    "esse namuna"
+  ],
+  "intro": "Esse yozishda eng ko‘p qiynaladigan joy — nimadan boshlash va fikrni qanday tartibga solish. Bu sahifada essening tuzilmasi, yetti qadamli ish tartibi, uchta to‘liq o‘quv namunasi, sinflar bo‘yicha mavzular va topshirishdan oldingi tekshiruv ro‘yxati jamlangan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: esse — bitta savolga o‘z javobingizni (tezisni) aytib, uni 2–3 dalil bilan asoslaydigan qisqa yozma ish. Tartibi shunday: kirish → tezis → dalillar → xulosa; xohlasangiz, xulosadan oldin qarshi fikrga ham javob berasiz. Quyida har bir qism nima uchun kerakligi, yetti qadamli ish tartibi, uchta to‘liq o‘quv namunasi va mavzular ro‘yxati bor."
+    },
+    {
+      "type": "linkp",
+      "text": "Reja yoki tezisingizni tekshirib olmoqchi bo‘lsangiz, {chat}ga yozing: ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi. Matnning o‘zini esa o‘zingiz yozing — esse aynan sizning fikringizni ko‘rsatishi kerak.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "esse-nima",
+      "text": "Esse nima va u inshodan nimasi bilan farq qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Esse — muallifning shaxsiy nuqtai nazari aniq ko‘rinib turadigan, hajmi katta bo‘lmagan yozma ish. Unda hamma narsa haqida emas, bitta savol haqida yoziladi va shu savolga aniq javob beriladi. Insho esa mavzuni reja asosida kengroq ochadi: unda tasvir, hikoya va mulohaza aralash kelishi mumkin."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Esse",
+        "Insho"
+      ],
+      "rows": [
+        [
+          "Nimadan boshlanadi?",
+          "Savol va unga javobdan (tezisdan)",
+          "Mavzu va rejadan"
+        ],
+        [
+          "Asosiy qismda nima bo‘ladi?",
+          "Tezisni isbotlaydigan 2–3 dalil",
+          "Reja bandlari bo‘yicha fikr va tasvir"
+        ],
+        [
+          "Muallif fikri",
+          "Majburiy: butun matn shu fikr atrofida quriladi",
+          "Bo‘ladi, lekin mavzuni yoritish muhimroq"
+        ],
+        [
+          "Hajmi",
+          "Odatda qisqaroq; aniq hajmni topshiriq belgilaydi",
+          "Odatda kattaroq; hajmni o‘qituvchi belgilaydi"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Insho yozish tartibi alohida qo‘llanmada tushuntirilgan — {insho}; insho uchun tayyor rejalar esa {reja} sahifasida.",
+      "links": [
+        {
+          "token": "insho",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho yozish bo‘yicha qo‘llanma"
+        },
+        {
+          "token": "reja",
+          "target": "/uz/blog/murakkab-reja-namuna/",
+          "anchor": "murakkab reja namunalari"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tuzilma",
+      "text": "Esse tuzilmasi: kirish, tezis, dalillar, xulosa"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Taxminiy hajm",
+        "Vazifasi"
+      ],
+      "rows": [
+        [
+          "Kirish",
+          "2–3 gap",
+          "Mavzuni ochadi va savol qo‘yadi"
+        ],
+        [
+          "Tezis",
+          "1 gap",
+          "Savolga muallifning javobi; odatda kirishning oxirida turadi"
+        ],
+        [
+          "1-dalil",
+          "1 xatboshi",
+          "Tezisni misol yoki fakt bilan asoslaydi"
+        ],
+        [
+          "2-dalil",
+          "1 xatboshi",
+          "Tezisni boshqa tomondan asoslaydi"
+        ],
+        [
+          "Qarshi fikr (ixtiyoriy)",
+          "1 xatboshi",
+          "Boshqa qarashni ko‘rsatadi va unga javob beradi"
+        ],
+        [
+          "Xulosa",
+          "2–3 gap",
+          "Tezisni boshqa so‘zlar bilan qaytaradi va fikrni yakunlaydi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Eng muhim qoida: bitta xatboshi — bitta fikr. Xatboshini dalilning o‘zi bilan boshlang, keyin misol keltiring va oxirida bu misol tezisni qanday tasdiqlashini bir gap bilan ayting."
+    },
+    {
+      "type": "h2",
+      "id": "tartib",
+      "text": "Esse yozish tartibi: 7 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Topshiriqni diqqat bilan o‘qing: mavzu, hajm, muddat va baholash mezonlarini aniqlang.",
+        "2. Mavzuni savolga aylantiring: «Do‘stlik» emas, «Haqiqiy do‘stni qanday tanib olish mumkin?».",
+        "3. Savolga o‘z javobingizni bitta gap bilan yozing — bu sizning tezisingiz.",
+        "4. Tezisni tasdiqlaydigan 2–3 ta dalil toping: hayotiy misol, kuzatuv, o‘qigan kitobingiz yoki tekshirilgan fakt.",
+        "5. Qisqa reja tuzing: dalillar qaysi tartibda keladi, kirish va xulosada nima deysiz.",
+        "6. Qoralamani yozing. Avval asosiy qismni, keyin kirish va xulosani yozsangiz ham bo‘ladi.",
+        "7. Tahrir qiling: tezisga xizmat qilmaydigan gaplarni olib tashlang, takrorlarni kamaytiring, imlo va tinish belgilarini tekshiring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "namunalar",
+      "text": "Esse namunalari: 3 ta to‘liq o‘quv namunasi"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi matnlar shu sahifa uchun AI yordamida yozilgan o‘quv namunalari. Ularni ko‘chirib topshirmang: maqsad — tezis qayerda turishini, dalil qanday ochilishini va xulosa tezisga qanday qaytishini ko‘rish. Har bir namunadan keyin qisqa tahlil bor."
+    },
+    {
+      "type": "h3",
+      "id": "namuna-xato",
+      "text": "1-namuna. «Xato qilish — yomonmi?»"
+    },
+    {
+      "type": "p",
+      "text": "Bolaligimizdan «xato qilma» degan gapni ko‘p eshitamiz. Daftardagi qizil chiziq uyatdek, past baho esa jazodek tuyuladi. Uyda ham, maktabda ham xatosiz ish maqtaladi, adashgan bola esa ko‘pincha tanbeh eshitadi. Lekin xato rostdan ham faqat yomon narsami? Menimcha, xato — o‘rganishning ajralmas qismi: undan qo‘rqqan odam yangi ishga qo‘l urmaydi."
+    },
+    {
+      "type": "p",
+      "text": "Birinchidan, har qanday ko‘nikma xatolar orqali shakllanadi. Velosiped haydashni o‘rganayotgan bola bir necha marta yiqiladi, lekin aynan shu yiqilishlar unga muvozanatni saqlashni o‘rgatadi. Matematikada ham shunday: noto‘g‘ri yechilgan misolni tahlil qilgan o‘quvchi qoidani shunchaki yodlagan o‘quvchidan yaxshiroq tushunadi. Chet tilini o‘rganayotgan odam ham dastlab so‘zlarni noto‘g‘ri talaffuz qiladi — gapirishdan to‘xtamagani uchungina oxir-oqibat ravon gapiradi."
+    },
+    {
+      "type": "p",
+      "text": "Ikkinchidan, xatodan qo‘rqish odamni to‘xtatib qo‘yadi. Sinfda javobni bilsa ham, «adashsam, kulishadi» deb qo‘l ko‘tarmaydigan o‘quvchilar bor. Ular xato qilmaydi, ammo o‘z fikrini aytishni ham o‘rganmaydi. Yangi to‘garakka yozilmaslik, tanlovda qatnashmaslik ham ko‘pincha shu qo‘rquvdan. Demak, xatosizlik har doim ham yutuq emas."
+    },
+    {
+      "type": "p",
+      "text": "To‘g‘ri, ba’zi xatolarning bahosi qimmat: shifokor yoki haydovchining adashishi odamlarga zarar yetkazishi mumkin. Shuning uchun gap xatoni oqlashda emas, undan xulosa chiqarishda. Bir xatoni qayta-qayta takrorlash — bu endi tajriba emas, e’tiborsizlik."
+    },
+    {
+      "type": "p",
+      "text": "Xulosa qilib aytganda, xato qilish yomon emas — undan saboq olmaslik yomon. Muhimi — har bir xatodan keyin «nega bunday bo‘ldi?» deb so‘rash va keyingi safar boshqacha harakat qilish. Men endi daftarimdagi qizil belgilarga boshqacha qarayman: ular qayerda kuchsiz ekanimni ko‘rsatadigan yo‘l belgilaridir."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tezis birinchi xatboshining oxirida: «xato — o‘rganishning ajralmas qismi».",
+        "Dalillar: ko‘nikma xatolar orqali shakllanadi; xatodan qo‘rqish odamni to‘xtatib qo‘yadi.",
+        "Qarshi fikr: ba’zi xatolarning bahosi qimmat — muallif buni tan oladi va fikrini aniqlashtiradi.",
+        "Xulosa tezisni yangi so‘zlar bilan qaytaradi va shaxsiy kuzatuv bilan tugaydi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "namuna-tarmoq",
+      "text": "2-namuna. «Ijtimoiy tarmoqlar do‘stlikni mustahkamlaydimi?»"
+    },
+    {
+      "type": "p",
+      "text": "Bugun do‘stlarimiz bilan har kuni gaplashamiz: xabar yozamiz, rasm yuboramiz, bir-birimizning sahifamizga «layk» bosamiz. Bir qarashda, do‘stlik uchun bundan qulay zamon bo‘lmagandek. Ammo savol tug‘iladi: ijtimoiy tarmoqlar do‘stlikni chindan ham mustahkamlaydimi? Mening fikrimcha, tarmoqlar aloqani osonlashtiradi, lekin do‘stlikning o‘rnini bosa olmaydi: haqiqiy yaqinlik baribir jonli muloqotda tug‘iladi."
+    },
+    {
+      "type": "p",
+      "text": "Avvalo, tarmoqlarning foydasini inkor etib bo‘lmaydi. Boshqa shaharga ko‘chib ketgan sinfdoshim bilan aloqamiz aynan messenjer tufayli uzilmadi. Uzoqdagi do‘stning tug‘ilgan kunini unutmaslik, yangiliklaridan xabardor bo‘lish, qiyin kunida bir og‘iz iliq so‘z yozish — bularning barchasi endi bir necha soniyalik ish. Ba’zan aynan tarmoqdagi guruh eski sinfdoshlarni yillar o‘tib qayta yig‘ilishga undaydi."
+    },
+    {
+      "type": "p",
+      "text": "Biroq yozishma bilan uchrashuv bir xil emas. Ekrandagi «zo‘r!» degan so‘z ortida odamning haqiqiy kayfiyati ko‘rinmaydi. Do‘stim qiynalayotganini men uning xabaridan emas, uchrashganimizda ovozidan sezganman. Tabrikni ham shunchaki bosib qo‘yish oson, yonida bo‘lish esa mehnat talab qiladi. Yuzlab «do‘st»i bor odam ham yolg‘iz qolishi mumkin, chunki ro‘yxatdagi ism hali do‘st degani emas."
+    },
+    {
+      "type": "p",
+      "text": "Kimdir «hozir hamma band, uchrashishga vaqt yo‘q» deyishi mumkin. Lekin vaqt yetishmasligining bir sababi — aynan telefonning o‘zi: tasmani varaqlashga ketgan bir soat do‘st bilan choy ichishga bemalol yetardi. Vaqt masalasi ko‘pincha tanlov masalasidir."
+    },
+    {
+      "type": "p",
+      "text": "Demak, ijtimoiy tarmoq — do‘stlik uchun ko‘prik, lekin uyning o‘zi emas. Men undan aloqani saqlash uchun foydalanaman, ammo muhim gapni yuzma-yuz aytishni afzal ko‘raman. Shuning uchun telefonni vaqti-vaqti bilan chetga qo‘yib, do‘stga qo‘ng‘iroq qilish yoki uni ko‘rgani borish kerak. Do‘stlikni xabarlar soni emas, birga o‘tkazilgan vaqt mustahkamlaydi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tezis: «tarmoqlar aloqani osonlashtiradi, lekin do‘stlikning o‘rnini bosa olmaydi».",
+        "Birinchi dalil tarmoqlarning foydasini tan oladi — shuning uchun matn bir yoqlama chiqmaydi.",
+        "Ikkinchi dalil shaxsiy tajribaga tayanadi: muallif do‘stining holatini xabardan emas, ovozidan sezgan.",
+        "Xulosadagi «ko‘prik, lekin uyning o‘zi emas» o‘xshatishi tezisni esda qoladigan shaklga keltiradi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "namuna-kasb",
+      "text": "3-namuna. «Kasb tanlashda kimning so‘zi hal qiluvchi?»"
+    },
+    {
+      "type": "p",
+      "text": "Maktabni bitirayotgan har bir o‘quvchi bir savolga duch keladi: kim bo‘laman? Ota-onalar ko‘pincha «shifokor bo‘l», «huquqshunos bo‘l» deb maslahat beradi, do‘stlar boshqa narsani aytadi. Xo‘sh, kasb tanlashda kimning so‘zi hal qiluvchi bo‘lishi kerak? Men oxirgi qarorni insonning o‘zi qabul qilishi, kattalarning maslahati esa shu qarorni puxta qilishga xizmat qilishi kerak, deb hisoblayman."
+    },
+    {
+      "type": "p",
+      "text": "Birinchidan, kasb bilan odamning o‘zi yashaydi. Har kuni ertalab ishga boradigan ham, qiyin paytda sabr qiladigan ham — o‘zi. Qiziqishi yo‘q sohada odam tez charchaydi, sevgan ishida esa qiyinchilikni ham yengilroq ko‘taradi. Buni tanishlarim misolida ham ko‘rganman: ota-onasining xohishi bilan o‘qishga kirgan yigit ikkinchi kursda sohasini almashtirdi. Majburlab tanlangan kasbda yaxshi mutaxassis bo‘lish qiyin."
+    },
+    {
+      "type": "p",
+      "text": "Ikkinchidan, o‘zi tanlagan odam natija uchun javobgarlikni ham o‘zi oladi. «Meni majbur qilishgan» deb birovni ayblash oson, lekin bu hech narsani o‘zgartirmaydi. O‘z tanlovini himoya qilishi kerak bo‘lgan o‘quvchi esa sohani chuqurroq o‘rganadi: qaysi fanlar kerak, qayerda o‘qitiladi, keyin qayerda ishlash mumkin."
+    },
+    {
+      "type": "p",
+      "text": "Albatta, o‘n yetti yoshda hayot tajribasi kam bo‘ladi. Ota-ona kasbning qiyin tomonlarini va ish topish qanchalik oson yoki qiyinligini yaxshiroq biladi. Shuning uchun ularning fikrini tinglash shart: maslahat — buyruq emas, lekin unga quloq solmaslik ham to‘g‘ri emas. Eng yaxshi yo‘l — o‘z xohishini dalillar bilan tushuntirish va birga muhokama qilish."
+    },
+    {
+      "type": "p",
+      "text": "Xulosa shuki, kasb tanlashda hal qiluvchi so‘z insonning o‘ziniki, ammo bu so‘z kattalar maslahati va aniq ma’lumotga tayanishi kerak. Shunda tanlov injiqlik ham, majburiyat ham bo‘lmaydi — u ongli qarorga aylanadi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tezis murakkabroq: u ikkala tomonning rolini bir gapda belgilaydi.",
+        "Dalillar: kasb bilan odamning o‘zi yashaydi; o‘zi tanlagan odam javobgarlikni ham o‘zi oladi.",
+        "Qarshi fikr alohida xatboshida va unga javob bor: maslahatni tinglash shart, lekin qaror o‘ziniki.",
+        "Xulosa yangi dalil qo‘shmaydi, faqat fikrni jamlaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mavzular",
+      "text": "Esse mavzulari: sinf va daraja bo‘yicha"
+    },
+    {
+      "type": "p",
+      "text": "Mavzuni o‘zingiz tanlasangiz, o‘z fikringiz bor va hayotdan misol keltira oladigan savolni oling. Quyidagi ro‘yxat mashq uchun: har bir mavzu savol shaklida berilgan, chunki esse savolga javob beradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Daraja",
+        "Mavzular"
+      ],
+      "rows": [
+        [
+          "5–7-sinf",
+          "Uy vazifasi kerakmi? · Mening eng yaxshi do‘stim qanday inson? · Men nima uchun kitob o‘qiyman? · Eng yaxshi sovg‘a qanday bo‘ladi? · Uy hayvoni bolaga nimani o‘rgatadi?"
+        ],
+        [
+          "8–9-sinf",
+          "Telefon o‘quvchiga yordamchimi yoki to‘siq? · Maktab formasi kerakmi? · Xato qilish — yomonmi? · Yaxshi o‘qituvchi qanday bo‘ladi? · Sport hammaga majburiy bo‘lishi kerakmi?"
+        ],
+        [
+          "10–11-sinf va litsey",
+          "Kasb tanlashda kimning so‘zi hal qiluvchi? · Ijtimoiy tarmoqlar do‘stlikni mustahkamlaydimi? · Bilim muhimmi yoki diplom? · Muvaffaqiyat — iste’dodmi yoki mehnat? · Sun’iy intellekt o‘quvchiga yordamchimi yoki raqib?"
+        ],
+        [
+          "Talabalar",
+          "Masofaviy ta’lim an’anaviy darsning o‘rnini bosa oladimi? · Ishlab turib o‘qish: foydasi ko‘pmi yoki zarari? · Chet tilini bilish — zaruratmi yoki ustunlik? · Volontyorlik talabaga nima beradi? · Katta shahar yoki kichik shahar: qayerda o‘qish yaxshiroq?"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Imtihon yoki tanlovga tayyorlanayotgan bo‘lsangiz, mavzular va baholash mezonlarini uning tashkilotchisi e’lon qilgan rasmiy namunalardan oling: talablar har yili o‘zgarishi mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "iboralar",
+      "text": "Foydali bog‘lovchi iboralar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Maqsad",
+        "Iboralar"
+      ],
+      "rows": [
+        [
+          "Fikr bildirish",
+          "menimcha; mening fikrimcha; men … deb hisoblayman"
+        ],
+        [
+          "Dalil qo‘shish",
+          "birinchidan; ikkinchidan; bundan tashqari; shuningdek"
+        ],
+        [
+          "Misol keltirish",
+          "masalan; misol uchun; jumladan"
+        ],
+        [
+          "Qarshi fikrga o‘tish",
+          "biroq; ammo; shunga qaramay; boshqa tomondan"
+        ],
+        [
+          "Xulosa qilish",
+          "xulosa qilib aytganda; demak; shunday qilib"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tezis yo‘q yoki u mavzuning o‘zini takrorlaydi: «Do‘stlik haqida ko‘p gapirish mumkin» — bu tezis emas.",
+        "Dalil o‘rnida umumiy gaplar turadi: «hamma biladiki», «qadimdan ma’lumki».",
+        "Bitta xatboshida bir nechta fikr aralashib ketgan.",
+        "Kirish juda uzun: matnning uchdan biridan oshib ketadi.",
+        "Xulosada yangi dalil paydo bo‘ladi — u asosiy qismda bo‘lishi kerak edi.",
+        "Raqam va faktlar manbasiz keltirilgan yoki o‘ylab topilgan.",
+        "Matn internetdan yoki tayyor to‘plamdan ko‘chirilgan."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "AI yordamchidan halol foydalanish"
+    },
+    {
+      "type": "p",
+      "text": "Sun’iy intellekt esse yozishda uch joyda foydali: mavzuni savolga aylantirishda, tezis variantlarini solishtirishda va tayyor qoralamani tahrirlashda. U sizning o‘rningizga fikr yuritmaydi va xato qilishi mumkin: mavjud bo‘lmagan fakt, iqtibos yoki manbani ishonch bilan yozib berishi hech gap emas. Shuning uchun har bir faktni o‘zingiz tekshiring; o‘qituvchi yoki imtihon qoidalari AI’dan foydalanishga ruxsat beradimi — buni ham oldindan aniqlang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Mavzu: … Shu mavzuni esse uchun 3 xil bahsli savolga aylantir. Matn yozma.»",
+        "«Mening tezisim: … Unga qarshi eng kuchli 2 ta e’tirozni yoz, javobini o‘zim yozaman.»",
+        "«Quyidagi esseda tezis qayerda ekanini va qaysi xatboshi unga xizmat qilmasligini ko‘rsat. Matnni qayta yozma: …»"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Bu so‘rovlarni {chat}da sinab ko‘rish mumkin. GPTBot.uz — mustaqil servis, OpenAI yoki ChatGPT mahsuloti emas; limitlar va maxfiylik qoidalari {qollanma} sahifasida yozilgan.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "qollanma",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "chatdan foydalanish qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Topshirishdan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tezis bitta gap bilan aniq aytilganmi?",
+        "Har bir xatboshi aynan shu tezisni isbotlaydimi?",
+        "Har bir dalilda misol yoki fakt bormi?",
+        "Xulosa tezisga qaytadimi va yangi dalil qo‘shmaydimi?",
+        "Hajm va rasmiylashtirish talabga mosmi?",
+        "Imlo, tinish belgilari va takrorlar tekshirilganmi?",
+        "Matn o‘z so‘zlaringiz bilan yozilganmi?"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Shu mavzuda yana: {reja} — insho rejasini tuzish tartibi va 14 ta tayyor reja, {referat} — manbalar bilan ishlash, {students} — o‘qishda AI’dan foydalanishning boshqa usullari.",
+      "links": [
+        {
+          "token": "reja",
+          "target": "/uz/blog/murakkab-reja-namuna/",
+          "anchor": "murakkab reja namunalari"
+        },
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish"
+        },
+        {
+          "token": "students",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/",
+          "anchor": "talabalar uchun ChatGPT"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Esse rejasini AI chatda tekshirish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Esse nima?",
+      "a": "Esse — muallif bitta savolga o‘z javobini (tezisni) aytib, uni 2–3 dalil bilan asoslaydigan qisqa yozma ish. Unda shaxsiy nuqtai nazar aniq ko‘rinadi, uslubi insho yoki referatga qaraganda erkinroq."
+    },
+    {
+      "q": "Esse necha qismdan iborat?",
+      "a": "Uch asosiy qismdan: kirish (oxirida tezis), asosiy qism (2–3 dalil, har biri alohida xatboshida) va xulosa. Xohlasangiz, xulosadan oldin qarshi fikrni keltirib, unga javob berasiz."
+    },
+    {
+      "q": "Esse bilan insho o‘rtasidagi farq nima?",
+      "a": "Esse bitta savolga javob beradi va shu javobni isbotlaydi. Insho mavzuni reja asosida kengroq ochadi, unda tasvir va hikoya ham bo‘lishi mumkin. Aniq talabni har doim o‘qituvchi yoki topshiriq belgilaydi."
+    },
+    {
+      "q": "Esseda «men» deb yozsa bo‘ladimi?",
+      "a": "Ha. Esse shaxsiy nuqtai nazarga tayanadi, shuning uchun «menimcha», «men … deb hisoblayman» kabi iboralar o‘rinli. Agar o‘qituvchi yoki imtihon qoidasi boshqa uslubni talab qilsa, o‘sha talabga amal qiling."
+    },
+    {
+      "q": "Esse hajmi qancha bo‘lishi kerak?",
+      "a": "Aniq hajmni topshiriq belgilaydi, shuning uchun avval uni o‘qing. Mashq uchun 200–300 so‘z yetarli: kirish, ikki dalil va xulosa shu hajmga sig‘adi."
+    },
+    {
+      "q": "Esse namunasini ko‘chirib topshirsa bo‘ladimi?",
+      "a": "Yo‘q. Namuna tuzilmani ko‘rish uchun kerak. Ko‘chirilgan matn sizning fikringizni ko‘rsatmaydi, o‘qituvchi buni ko‘pincha sezadi, eng asosiysi — yozishni o‘rganishga yordam bermaydi."
+    },
+    {
+      "q": "Esse yozishda sun’iy intellektdan foydalansa bo‘ladimi?",
+      "a": "O‘qituvchi yoki imtihon qoidasi ruxsat bersa, AI’dan yordamchi sifatida foydalanish mumkin: mavzuni savolga aylantirish, tezis variantlarini solishtirish, qoralamani tahrirlash. Matnni o‘zingiz yozing va faktlarni tekshiring: til modellari xato qilishi mumkin."
+    }
+  ],
+  "cta": {
+    "label": "AI chatni o‘zbek tilida ochish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "o‘zbek tilidagi AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "anchor": "Insho yozish: tartib va AI yordami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/murakkab-reja-namuna/",
+      "anchor": "Murakkab reja namunalari: 14 ta mavzu",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "ChatGPT talabalar uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "Chat qo‘llanmasi: sinov limiti va maxfiylik",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Esse yozish tartibi: tuzilma, 3 ta namuna va mavzular",
+  "ogDescription": "Essening tuzilmasi, yetti qadamli ish tartibi, uchta to‘liq o‘quv namunasi tahlili bilan, sinflar bo‘yicha mavzular va tekshiruv ro‘yxati.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-talabalar-uchun-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/esse-yozish-tartibi/",
+  "hreflangUz": "/uz/blog/esse-yozish-tartibi/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Esse yozish tartibi",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-16",
+  "dateModified": "2026-11-16",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu har qanday til modeliga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf. Manba sayt qo‘llanmalari uchun 2026-10-04 kuni tekshirilgan; sahifadagi esse namunalari shu sahifa uchun AI yordamida yozilgan o‘quv namunalari."
+    }
+  ],
+  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "createdAt": "2026-11-16T00:00:00.000Z"
+}

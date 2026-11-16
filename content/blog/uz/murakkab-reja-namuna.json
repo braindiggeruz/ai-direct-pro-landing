@@ -1,0 +1,542 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "murakkab-reja-namuna",
+  "url": "/uz/blog/murakkab-reja-namuna/",
+  "title": "Murakkab reja namunasi: insho uchun 14 ta tayyor reja",
+  "description": "Sodda va murakkab reja farqi, insho rejasini tuzishning 5 qadami va 14 ta tayyor murakkab reja: Vatan, Ona, Kitob, Do‘stlik, Ustoz, Ona tili va boshqalar.",
+  "h1": "Murakkab reja namunasi: insho rejasi qanday tuziladi",
+  "topicCluster": "maktab-va-talabalar",
+  "keywords": [
+    "murakkab reja",
+    "murakkab reja namuna",
+    "insho rejasi",
+    "murakkab reja tuzish",
+    "sodda reja",
+    "sodda reja namuna",
+    "murakkab rejali insho",
+    "murakkab reja qanday tuziladi",
+    "rejali insho"
+  ],
+  "intro": "Insho yozishdan oldin reja tuzish ishning yarmini osonlashtiradi: nimadan boshlash, qaysi fikrni qayerda aytish va qanday yakunlash oldindan ma’lum bo‘ladi. Bu sahifada sodda va murakkab rejaning farqi, reja tuzish tartibi va 14 ta mavzu bo‘yicha tayyor murakkab reja namunalari bor.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: murakkab reja — asosiy qismi bir nechta katta fikrga, har bir katta fikr esa kichik bandlarga (a, b, d) bo‘lingan reja. Sodda rejada faqat asosiy fikrlar ketma-ket yoziladi. Quyida ikkalasining farqi, murakkab rejani tuzishning besh qadami va turli mavzulardagi 14 ta tayyor namuna bor — ularni o‘z inshoingizga moslab olishingiz mumkin."
+    },
+    {
+      "type": "linkp",
+      "text": "O‘z mavzuingizga reja kerak bo‘lsa, {chat}dan qoralama so‘rash mumkin: ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi. Rejani baribir o‘zingiz tekshirib, o‘z fikr va misollaringizga moslang.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "farqi",
+      "text": "Sodda reja va murakkab reja: farqi nimada"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Belgi",
+        "Sodda reja",
+        "Murakkab reja"
+      ],
+      "rows": [
+        [
+          "Tuzilishi",
+          "3–5 ta asosiy band",
+          "Asosiy bandlar va ularning kichik bandlari"
+        ],
+        [
+          "Qachon ishlatiladi",
+          "Kichik hajmli insho, quyi sinflar",
+          "Kattaroq insho, yuqori sinflar; o‘qituvchi talab qilganda"
+        ],
+        [
+          "Afzalligi",
+          "Tez tuziladi",
+          "Har bir xatboshida nima yozilishi oldindan ko‘rinadi"
+        ],
+        [
+          "Xavfi",
+          "Asosiy qism umumiy bo‘lib qolishi mumkin",
+          "Juda mayda bo‘lib, inshoga sig‘may qolishi mumkin"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bir mavzuning ikki xil rejasi. «Vatanim — faxrim» mavzusida sodda reja shunday bo‘ladi: 1. Kirish. 2. Vatan — aziz maskan. 3. Yurtimning boyligi. 4. Vatan oldidagi burchim. 5. Xulosa. Shu mavzuning murakkab rejasi quyidagi namunalar ichida birinchi bo‘lib berilgan."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-tuziladi",
+      "text": "Murakkab reja qanday tuziladi: 5 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Mavzudagi asosiy savolni aniqlang: nima haqida yozaman va o‘quvchiga qaysi fikrni yetkazaman?",
+        "2. Asosiy qism uchun 2–4 ta katta fikr tanlang — bular raqam bilan belgilanadigan bandlar.",
+        "3. Har bir katta fikrni 2–3 ta kichik bandga bo‘ling: sabab, misol yoki tafsilot.",
+        "4. Kirish va xulosa uchun bittadan qisqa fikr yozing.",
+        "5. Tekshiring: bandlar bir-birini takrorlamaydimi, mantiqiy tartibdami, hammasi mavzuga tegishlimi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Belgilash usuli maktabdan maktabga farq qiladi: kimdir uch asosiy qismni rim raqamlari (I, II, III), ichki bandlarni arab raqamlari va harflar bilan belgilaydi, kimdir faqat arab raqamlaridan foydalanadi. O‘qituvchingiz qaysi usulni talab qilsa, o‘shanga amal qiling. O‘zbek lotin alifbosida kichik bandlar odatda a), b), d), e) tartibida belgilanadi."
+    },
+    {
+      "type": "h2",
+      "id": "namunalar",
+      "text": "Murakkab reja namunalari: 14 ta mavzu"
+    },
+    {
+      "type": "p",
+      "text": "Rejalar shu sahifa uchun AI yordamida tuzilgan o‘quv namunalari. Ko‘chirishdan oldin o‘qituvchingiz qanday belgilashni talab qilishini aniqlang va har bir bandni o‘z misolingiz bilan ochib bera olishingizni tekshiring."
+    },
+    {
+      "type": "h3",
+      "id": "reja-vatan",
+      "text": "1. «Vatanim — faxrim»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Vatan — har bir inson uchun yagona va aziz maskan.",
+        "II. Asosiy qism.",
+        "1. Vatan nimadan boshlanadi: a) ota uy va mahalla; b) ona tili va urf-odatlar.",
+        "2. Yurtimning boyligi: a) tabiati va tarixiy shaharlari; b) mehnatkash va mehmondo‘st xalqi.",
+        "3. Vatan oldidagi burchim: a) yaxshi o‘qish va kasb egallash; b) tabiat va tarixiy yodgorliklarni asrash.",
+        "III. Xulosa. Vatanni sevish — uni so‘zda maqtash emas, unga foyda keltirishdir."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-ona",
+      "text": "2. «Ona — ulug‘ zot»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Dunyodagi eng birinchi va eng iliq so‘z — «ona».",
+        "II. Asosiy qism.",
+        "1. Ona mehri: a) beshik yonidagi uyqusiz tunlar; b) farzand uchun har kungi g‘amxo‘rlik.",
+        "2. Mening onam: a) kasbi va fazilatlari; b) menga o‘rgatgan eng muhim saboq.",
+        "3. Farzandning burchi: a) shirin so‘z va e’tibor; b) uy ishlarida yordam berish va yaxshi o‘qish.",
+        "III. Xulosa. Onani qadrlash uchun bayram kutish shart emas — har bir kun buning uchun imkoniyat."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-kitob",
+      "text": "3. «Kitob — bilim manbai»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Kitob — insoniyat tajribasi saqlanadigan xazina.",
+        "II. Asosiy qism.",
+        "1. Kitobning inson hayotidagi o‘rni: a) bilim va so‘z boyligini oshiradi; b) fikrlash va tasavvurni rivojlantiradi.",
+        "2. Mening sevimli kitobim: a) muallifi va mavzusi; b) undan olgan saboqlarim.",
+        "3. Kitob va zamonaviy texnologiyalar: a) elektron va audio kitoblar; b) telefon kitob o‘qishga to‘siq bo‘lmasligi uchun nima qilish kerak.",
+        "III. Xulosa. Kitob o‘qigan odam har bir sahifada o‘zi uchun yangi dunyo ochadi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-dostlik",
+      "text": "4. «Do‘stlik — bebaho boylik»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Inson do‘stsiz yashay olmaydi.",
+        "II. Asosiy qism.",
+        "1. Haqiqiy do‘st qanday bo‘ladi: a) sodiq va rostgo‘y; b) qiyin paytda yonida turadi.",
+        "2. Do‘stlik sinovlari: a) arazlashish va kechira bilish; b) hasad va raqobatdan ustun turish.",
+        "3. Mening do‘stim: a) qanday tanishganmiz; b) undan nimalarni o‘rgandim.",
+        "III. Xulosa. Do‘st orttirish oson, do‘stlikni asrash esa mehnat talab qiladi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-ustoz",
+      "text": "5. «Ustoz otangdan ulug‘»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Xalqimizda «Ustoz otangdan ulug‘» degan maqol bor.",
+        "II. Asosiy qism.",
+        "1. Ustozning mehnati: a) harf o‘rgatishdan kasb o‘rgatishgacha; b) har bir o‘quvchiga alohida e’tibor.",
+        "2. Mening birinchi o‘qituvchim: a) ilk dars xotiralari; b) undan o‘rgangan odatlarim.",
+        "3. Ustozga hurmat qanday ko‘rsatiladi: a) darsga tayyor kelish; b) olingan bilimni amalda qo‘llash.",
+        "III. Xulosa. Ustozning eng katta mukofoti — shogirdining yutug‘i."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-ona-tili",
+      "text": "6. «Ona tilim — g‘ururim»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Til — millatning ko‘zgusi.",
+        "II. Asosiy qism.",
+        "1. Ona tilining ahamiyati: a) fikrlash va muloqot vositasi; b) tarix va madaniyatni avloddan avlodga yetkazadi.",
+        "2. O‘zbek tilining boyligi: a) maqollar va iboralar; b) mumtoz va zamonaviy adabiyot.",
+        "3. Tilni asrash — har birimizning ishimiz: a) to‘g‘ri va chiroyli so‘zlash; b) savodli yozish va ko‘p o‘qish.",
+        "III. Xulosa. Ona tilini hurmat qilgan odam boshqa tillarni ham hurmat bilan o‘rganadi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-bahor",
+      "text": "7. «Bahor — yasharish fasli»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Uzoq qishdan keyin tabiat uyg‘onadi.",
+        "II. Asosiy qism.",
+        "1. Bahor manzarasi: a) gullagan daraxtlar va ko‘m-ko‘k dalalar; b) qushlar ovozi va iliq yomg‘ir.",
+        "2. Bahorgi yumushlar: a) dala va bog‘dagi ishlar; b) hashar va ko‘chat ekish.",
+        "3. Bahor bayramlari: a) Navro‘z an’analari va sumalak; b) bayramning oilani birlashtirishi.",
+        "III. Xulosa. Bahor insonga ham yangi kuch va yangi rejalar beradi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-kuz",
+      "text": "8. «Oltin kuz»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Kuz — hosil va saxovat fasli.",
+        "II. Asosiy qism.",
+        "1. Kuz tabiati: a) sarg‘aygan barglar va salqin havo; b) issiq o‘lkalarga uchayotgan qushlar.",
+        "2. Kuzgi mehnat: a) hosil yig‘im-terimi; b) qishga tayyorgarlik.",
+        "3. Kuz va maktab: a) yangi o‘quv yilining boshlanishi; b) do‘stlar bilan qayta uchrashuv.",
+        "III. Xulosa. Kuz bizga mehnatning mevasini ko‘rsatadi va borini qadrlashni o‘rgatadi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-mustaqillik",
+      "text": "9. «Mustaqillik — buyuk ne’mat»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. 1-sentabr — O‘zbekiston Mustaqilligi kuni.",
+        "II. Asosiy qism.",
+        "1. Mustaqillik nima degani: a) o‘z taqdirini o‘zi belgilash; b) davlat ramzlari — bayroq, gerb va madhiya.",
+        "2. Mustaqillik yillaridagi o‘zgarishlar: a) ta’lim va fan sohasidagi imkoniyatlar; b) shahar va qishloqlar qiyofasining yangilanishi.",
+        "3. Yoshlarning vazifasi: a) bilim olish va kasb egallash; b) yurt tinchligini qadrlash.",
+        "III. Xulosa. Mustaqillikni asrash — har bir avlodning burchi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-soglom",
+      "text": "10. «Sog‘lom turmush tarzi — baxt garovi»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. «Sog‘ tanda — sog‘lom aql» degan hikmat bor.",
+        "II. Asosiy qism.",
+        "1. Sog‘lom turmush tarzining asoslari: a) to‘g‘ri ovqatlanish; b) uyqu va kun tartibi.",
+        "2. Harakat — salomatlik manbai: a) ertalabki badantarbiya va sport; b) toza havoda sayr.",
+        "3. Zararli odatlardan saqlanish: a) telefon va kompyuter oldida uzoq o‘tirmaslik; b) chekish va boshqa zararli odatlarning oqibatlari.",
+        "III. Xulosa. Sog‘liq — bir kunlik ish emas, har kungi odatlar natijasi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-kasb",
+      "text": "11. «Men tanlagan kasb»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Har bir kasb o‘ziga xos va kerakli.",
+        "II. Asosiy qism.",
+        "1. Kasb tanlashimga nima sabab bo‘ldi: a) qiziqishlarim va sevimli fanlarim; b) menga o‘rnak bo‘lgan inson.",
+        "2. Bu kasb nimalarni talab qiladi: a) bilim va ko‘nikmalar; b) sabr, mas’uliyat va insoniy fazilatlar.",
+        "3. Maqsadim sari qadamlar: a) hozir nima qilyapman; b) qayerda o‘qimoqchiman.",
+        "III. Xulosa. Kasbning yomoni yo‘q — uni sevmasdan qilingan ish yomon."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-yangi-yil",
+      "text": "12. «Yangi yil — orzular bayrami»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Yangi yilni katta-yu kichik birdek intiqlik bilan kutadi.",
+        "II. Asosiy qism.",
+        "1. Bayramga tayyorgarlik: a) archa bezash va uyni yig‘ishtirish; b) yaqinlarga sovg‘a tayyorlash.",
+        "2. Bayram oqshomi: a) oilaviy dasturxon; b) Qorbobo, Qorqiz va tilaklar.",
+        "3. Yangi yil rejalari: a) o‘tgan yil sarhisobi; b) yangi yilga qo‘yilgan maqsadlar.",
+        "III. Xulosa. Yangi yil mo‘jizasi — yaqinlar bilan birga o‘tkazilgan vaqt."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-navoiy",
+      "text": "13. «Alisher Navoiy — g‘azal mulkining sultoni»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Alisher Navoiy — o‘zbek mumtoz adabiyotining buyuk namoyandasi.",
+        "II. Asosiy qism.",
+        "1. Hayoti va davri: a) Hirotda o‘tgan bolaligi va ilmga chanqoqligi; b) shoir va davlat arbobi sifatidagi faoliyati.",
+        "2. Ijodiy merosi: a) «Xamsa» — besh dostondan iborat asar; b) g‘azallari va ularda ulug‘langan insoniy fazilatlar.",
+        "3. Navoiy va bugungi kun: a) asarlaridagi hikmatlarning ahamiyati; b) men o‘qigan asar yoki baytdan olgan taassurotim.",
+        "III. Xulosa. Navoiy merosi — har bir avlod qaytadan o‘qiydigan xazina."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "reja-oila",
+      "text": "14. «Mening oilam»"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I. Kirish. Oila — insonning birinchi maktabi.",
+        "II. Asosiy qism.",
+        "1. Oilamiz a’zolari: a) ota-onam va ularning kasbi; b) aka-uka va opa-singillarim.",
+        "2. Oilamizdagi an’analar: a) birgalikdagi kechki ovqat va bayramlar; b) kattalarga hurmat, kichiklarga g‘amxo‘rlik.",
+        "3. Mening oiladagi o‘rnim: a) uy ishlaridagi vazifalarim; b) oilam oldidagi orzu va maqsadlarim.",
+        "III. Xulosa. Oila ahil bo‘lsa, har qanday qiyinchilik yengil o‘tadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "moslash",
+      "text": "Tayyor rejani o‘z mavzuingizga qanday moslash kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mavzudagi kalit so‘zni toping. «Kitob — bilim manbai» va «Mening sevimli kitobim» — ikki xil mavzu: birinchisida kitobning ahamiyati, ikkinchisida bitta aniq kitob asosiy o‘rinda turadi.",
+        "O‘zingiz misol keltira olmaydigan bandni olib tashlang yoki boshqasiga almashtiring.",
+        "Kichik bandlarni o‘z hayotingizdan olingan tafsilot bilan aniqlashtiring: «sevimli kitobim» o‘rniga kitobning nomini yozing.",
+        "Bandlar sonini insho hajmiga moslang: har bir kichik band matnda kamida ikki-uch gap bilan ochilishi kerak.",
+        "Kirish bilan xulosani bog‘lang: kirishda aytilgan fikr xulosada yakunlansin."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Masalan, «Kitob — bilim manbai» rejasini «Mening sevimli kitobim» mavzusiga moslash uchun ikkinchi bandni asosiy qilib olasiz: a) kitobni kim tavsiya qilgani va uni qachon o‘qiganingiz; b) eng yoqqan qahramon yoki voqea; d) kitob sizda nimani o‘zgartirgani. Birinchi va uchinchi bandlar qisqaradi yoki kirish bilan xulosaga qo‘shilib ketadi."
+    },
+    {
+      "type": "h2",
+      "id": "rejadan-inshoga",
+      "text": "Rejadan inshoga: har bir band — bitta xatboshi"
+    },
+    {
+      "type": "p",
+      "text": "Reja — inshoning skeleti. Kirish bandi 2–3 gapli kirishga aylanadi, har bir kichik band alohida xatboshi bo‘ladi, xulosa bandi esa asosiy fikrni jamlaydi. Yozib bo‘lgach, matnni reja bilan solishtiring: rejada bor, lekin matnda ochilmagan band qolmasin; matnda rejada yo‘q yangi mavzu ham paydo bo‘lmasin."
+    },
+    {
+      "type": "linkp",
+      "text": "Insho yozishning to‘liq tartibi — mavzuni tushunishdan tekshiruvgacha — {insho}da; esse yozmoqchi bo‘lsangiz, {esse} sahifasiga qarang.",
+      "links": [
+        {
+          "token": "insho",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho yozish qo‘llanmasi"
+        },
+        {
+          "token": "esse",
+          "target": "/uz/blog/esse-yozish-tartibi/",
+          "anchor": "esse yozish tartibi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Reja faqat «Kirish», «Asosiy qism», «Xulosa» degan so‘zlardan iborat — bu reja emas, uning qolipi.",
+        "Kichik bandlar o‘z katta bandiga bog‘lanmagan.",
+        "Bitta fikr ikki bandda takrorlanadi.",
+        "Reja juda uzun: belgilangan hajmdagi inshoga sig‘maydi.",
+        "Reja bilan matn mos kelmaydi: rejada bor band inshoda ochilmagan.",
+        "Bandlar savol shaklida ham, darak shaklida ham aralash yozilgan — bitta uslubni tanlang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "AI yordamida reja tuzish"
+    },
+    {
+      "type": "p",
+      "text": "AI chatdan reja so‘raganda mavzu, sinf va reja turini yozing, masalan: «“Do‘stlik” mavzusida 8-sinf uchun murakkab reja tuz: asosiy qismda 3 ta band, har birida 2 ta kichik band bo‘lsin. Matn yozma». Model taklif qilgan rejani tayyor deb qabul qilmang: bandlar bir-birini takrorlamasligini, mavzudan chetga chiqmasligini va o‘zingiz har biriga misol topa olishingizni tekshiring. Til modellari xato qilishi mumkin — ayniqsa sana, ism va asar nomlarida."
+    },
+    {
+      "type": "linkp",
+      "text": "Bunday so‘rovni {chat}da sinab ko‘rishingiz mumkin. GPTBot.uz — mustaqil servis, OpenAI yoki ChatGPT mahsuloti emas; limitlar va maxfiylik qoidalari {qollanma} sahifasida yozilgan.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "qollanma",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "chatdan foydalanish qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Topshirishdan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Reja mavzuga to‘liq mos keladimi?",
+        "Katta bandlar mantiqiy tartibda joylashganmi?",
+        "Har bir kichik band o‘z katta bandiga tegishlimi?",
+        "Takrorlanadigan bandlar yo‘qmi?",
+        "Har bir bandga fikr yoki misol topa olasizmi?",
+        "Belgilash usuli (raqam va harflar) o‘qituvchi talabiga mosmi?"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Rejani AI chatda tekshirish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Murakkab reja nima?",
+      "a": "Murakkab reja — asosiy qismi bir nechta katta bandga, har bir katta band esa kichik bandlarga bo‘lingan reja. U inshoning har bir xatboshida nima yozilishini oldindan ko‘rsatadi."
+    },
+    {
+      "q": "Sodda reja bilan murakkab rejaning farqi nimada?",
+      "a": "Sodda rejada 3–5 ta asosiy band ketma-ket yoziladi. Murakkab rejada asosiy qism bandlari yana kichik bandlarga — a), b), d) — bo‘linadi. Qaysi turi kerakligini o‘qituvchi aytadi."
+    },
+    {
+      "q": "Murakkab rejada nechta band bo‘lishi kerak?",
+      "a": "Qat’iy son yo‘q. Ko‘pincha asosiy qismda 2–4 ta katta band, har birida 2–3 ta kichik band bo‘ladi. Bandlar sonini insho hajmiga moslang: har bir kichik band matnda kamida ikki-uch gap bilan ochilishi kerak."
+    },
+    {
+      "q": "Reja inshoning qayerida yoziladi?",
+      "a": "Odatda mavzudan keyin, matndan oldin. Ba’zi o‘qituvchilar epigraf yoki boshqa tartibni ham talab qiladi, shuning uchun aniq talabni o‘qituvchingizdan so‘rang."
+    },
+    {
+      "q": "Tayyor rejadan foydalansa bo‘ladimi?",
+      "a": "Namuna sifatida — ha. Tayyor rejani o‘z mavzuingizga moslang: misol keltira olmaydigan bandni olib tashlang, kichik bandlarni o‘z hayotingizdan olingan tafsilotlar bilan aniqlashtiring."
+    },
+    {
+      "q": "Insho rejasini AI tuzib bera oladimi?",
+      "a": "AI chat reja qoralamasini taklif qila oladi, lekin uni tekshirish sizning ishingiz: bandlar takrorlanmasligi va mavzuga mos bo‘lishi kerak. GPTBot.uz chatida ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi."
+    },
+    {
+      "q": "Reja bilan insho matni mos kelishi shartmi?",
+      "a": "Ha. Rejadagi har bir band matnda ochilishi kerak, matnda esa rejada yo‘q yangi mavzu paydo bo‘lmasligi lozim. Yozib bo‘lgach, matnni reja bilan band-ma-band solishtiring."
+    }
+  ],
+  "cta": {
+    "label": "AI chatni o‘zbek tilida ochish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "o‘zbek tilidagi AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "anchor": "Insho yozish: tartib va AI yordami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/esse-yozish-tartibi/",
+      "anchor": "Esse yozish tartibi va namunalar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "ChatGPT talabalar uchun",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "Chat qo‘llanmasi: sinov limiti va maxfiylik",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Murakkab reja namunasi: insho uchun 14 ta tayyor reja",
+  "ogDescription": "Sodda va murakkab rejaning farqi, reja tuzish tartibi, 14 ta mavzu bo‘yicha tayyor murakkab reja va rejani o‘z mavzuingizga moslash usuli.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-talabalar-uchun-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/murakkab-reja-namuna/",
+  "hreflangUz": "/uz/blog/murakkab-reja-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Murakkab reja namunasi",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-16",
+  "dateModified": "2026-11-16",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu har qanday til modeliga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf. Manba sayt qo‘llanmalari uchun 2026-10-04 kuni tekshirilgan; sahifadagi reja namunalari shu sahifa uchun AI yordamida tuzilgan."
+    }
+  ],
+  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "createdAt": "2026-11-16T00:00:00.000Z"
+}

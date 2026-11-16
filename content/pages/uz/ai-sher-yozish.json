@@ -283,6 +283,22 @@
     },
     {
       "type": "linkp",
+      "text": "Tayyor nasriy tabriklar to‘plami kerakmi? {tk} va {ny} sahifalarida adresatlar bo‘yicha 50 dan ortiq matn va kirill yozuvidagi variantlar bor.",
+      "links": [
+        {
+          "token": "tk",
+          "target": "/uz/blog/tugilgan-kun-tabriklari/",
+          "anchor": "tug‘ilgan kun tabriklari"
+        },
+        {
+          "token": "ny",
+          "target": "/uz/blog/yangi-yil-tabriklari/",
+          "anchor": "Yangi yil tabriklari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Kompaniyangiz uchun bayram postlari, mijozlarga tabriklar va Telegram kanal matnlari kerakmi? Ularni {smm} doirasida jamoamiz rejalashtirib tayyorlaydi (oyiga 2 490 000 so‘mdan, reklama byudjeti alohida). Mijozlarga Telegram va Instagram’da javob beradigan bot kerak bo‘lsa — {bot} (1 990 000 so‘mdan). {call} yoki {mail}.",
       "links": [
         {
@@ -378,6 +394,18 @@
       "type": "contextual"
     },
     {
+      "target": "/uz/blog/tugilgan-kun-tabriklari/",
+      "anchor": "Tug‘ilgan kun tabriklari: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/yangi-yil-tabriklari/",
+      "anchor": "Yangi yil tabriklari 2027: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
       "target": "/uz/rus-ozbek-tarjimon/",
       "anchor": "Rus-o‘zbek tarjimon va kirill ↔ lotin konvertori",
       "locale": "uz",
@@ -434,5 +462,5 @@
     }
   ],
   "createdAt": "2026-10-25T00:00:00Z",
-  "updatedAt": "2026-10-26"
+  "updatedAt": "2026-11-16"
 }

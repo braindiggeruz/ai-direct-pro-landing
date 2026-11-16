@@ -139,7 +139,7 @@
     },
     {
       "type": "linkp",
-      "text": "Если выбираете, какой сервис открыть, пригодятся статья о том, {talk}, обзор {analogi}, материал о том, {iichat}, и разбор того, {free}. Возможности, лимиты и безопасность самого чата GPTBot.uz собраны в {guide}.",
+      "text": "Если выбираете, какой сервис открыть, пригодятся статья о том, {talk}, обзор {analogi}, материал о том, {iichat}, и разбор того, {free}. Если нужно именно приложение ChatGPT, пригодится {download}. Возможности, лимиты и безопасность самого чата GPTBot.uz собраны в {guide}.",
       "links": [
         {
           "token": "talk",
@@ -165,6 +165,11 @@
           "token": "guide",
           "target": "/ru/gpt-chat-guide/",
           "anchor": "гайде по AI-чату"
+        },
+        {
+          "token": "download",
+          "target": "/ru/blog/kak-skachat-chatgpt-v-uzbekistane/",
+          "anchor": "инструкция по установке приложения ChatGPT"
         }
       ]
     },
@@ -297,5 +302,5 @@
   ],
   "lastReviewedAt": "2026-10-23",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-10-23"
+  "updatedAt": "2026-11-16"
 }
