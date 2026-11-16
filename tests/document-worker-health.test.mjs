@@ -9,7 +9,7 @@ test('real HTTP process exposes bounded private-free liveness and no render endp
   await new Promise(resolve => reserve.listen(0, '127.0.0.1', resolve));
   const port = reserve.address().port;
   await new Promise(resolve => reserve.close(resolve));
-  const secret = 'test-health-secret-never-exposed-000000';
+  const secret = 'test-health-secret-never-exposed-000000-xxxxxxxx';
   const env = { PATH: process.env.PATH, SystemRoot: process.env.SystemRoot, PORT: String(port), DOCUMENT_API_BASE_URL: 'https://document-worker.invalid', DOCUMENT_API_ALLOWED_HOSTS: 'document-worker.invalid', DOCUMENT_WORKER_SECRET: secret };
   const child = spawn(process.execPath, [fileURLToPath(new URL('../apps/document-worker/src/index.mjs', import.meta.url))], { env, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });
   let logs = '';

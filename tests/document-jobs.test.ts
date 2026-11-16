@@ -14,7 +14,7 @@ import { mintIdentity } from '../functions/lib/studio/identity';
 
 const NOW = 1_799_000_000_000;
 const INPUT: DocumentCreate = { type: 'presentation_pdf', payload: { locale: 'ru', title: 'Документ', slides: [{ title: 'Слайд', bullets: ['Текст'] }] } };
-const SECRET = 'test-only-document-worker-secret-32-characters';
+const SECRET = 'test-only-document-worker-secret-32-characters-xxxxxxxx';
 const PDF = new TextEncoder().encode('%PDF-1.7\nfixture\n%%EOF');
 class Bucket {
   objects = new Map<string, { bytes: Uint8Array; uploaded: Date }>();

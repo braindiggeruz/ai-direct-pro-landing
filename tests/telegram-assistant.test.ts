@@ -636,7 +636,7 @@ function installFetch(rec: Rec) {
 
 const baseEnv = { OPENROUTER_API_KEY: 'test', TELEGRAM_ASSISTANT_BOT_TOKEN: 't', GPT_HASH_SALT: 's' } as any;
 /** A usable GPT_IDENTITY_SECRET (32+ characters) for /delete_me's carry-over. */
-const IDENTITY_SECRET = 'identity-secret-for-tests-0123456789';
+const IDENTITY_SECRET = 'identity-secret-for-tests-0123456789-xxxxxxxx';
 function deps(db: any, envOver: any = {}) {
   const env = { ...baseEnv, ...envOver };
   return { env, db, cfg: resolveTelegramConfig(env), tg: new TelegramClient('t') };

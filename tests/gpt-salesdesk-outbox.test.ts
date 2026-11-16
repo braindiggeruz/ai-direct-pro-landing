@@ -14,7 +14,7 @@ import { SqliteD1 } from './helpers/sqlite-d1';
 
 const ENDPOINT = 'https://gptbot-salesdesk.braindigger-uz.workers.dev/integrations/website/leads';
 const PATH = '/uz/instagram-target-yoqish/';
-const SECRET = 'offline-salesdesk-fixture-secret-with-32-plus-characters';
+const SECRET = 'offline-salesdesk-fixture-secret-with-32-plus-characters-xxxxxxxx';
 const NOW = new Date('2026-11-14T06:00:00.000Z');
 const META = {
   leadId: 'lead_offline_fixture',

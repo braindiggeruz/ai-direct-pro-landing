@@ -6,10 +6,10 @@ import { createDocumentHtml, escapeHtml } from '../apps/document-worker/src/temp
 import { createApiClient, ApiError } from '../apps/document-worker/src/client.mjs';
 import { createWorker, backoffMs } from '../apps/document-worker/src/worker.mjs';
 
-const secret = 'test-only-document-worker-secret-00000000';
+const secret = 'test-only-document-worker-secret-00000000-xxxxxxxx';
 const config = { ...readConfig({ DOCUMENT_API_BASE_URL: 'https://gptbot.uz', DOCUMENT_WORKER_SECRET: secret }), shutdownMs: 10 };
 const proposal = { locale: 'ru', packageId: 'custom', company: 'Тестовая компания', objective: 'Подготовить документ.', scope: ['Дизайн', 'Согласование'], budgetTerms: 'Стоимость согласуется отдельно.' };
-const job = () => ({ id: 'document_test_12345', type: 'proposal_pdf', payload: proposal, leaseToken: 'lease-test-only-0000000000000000', leaseExpiresAt: Date.now() + 120000, attempt: 1 });
+const job = () => ({ id: 'document_test_12345', type: 'proposal_pdf', payload: proposal, leaseToken: 'lease-test-only-0000000000000000-xxxxxxxx', leaseExpiresAt: Date.now() + 120000, attempt: 1 });
 const pdf = Buffer.from('%PDF-1.7\nfixture');
 
 test('config rejects non-HTTPS, credentials, redirects targets, paths, unlisted hosts and weak secrets', () => {
