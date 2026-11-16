@@ -35,6 +35,22 @@
       "websub": "feeds accepted",
       "indexNow": "24 URLs accepted (api.indexnow.org 200, yandex 202)",
       "evidence": "delivery/gptbot-seo-growth-20261116/release"
+    },
+    "mainSync": {
+      "pushedAtUtc": "2026-11-16T18:10Z",
+      "remote": "origin/main",
+      "fastForwardFrom": "7568f2735a221410d73827643da8179eec7ae5c3",
+      "historyRewritten": false,
+      "ownerAuthorized": "Owner order in chat, 2026-11-16: deploy the changes to main",
+      "localMainWorktree": "F:/Claude/gptbot-repo-clean-20260801 stays at fa21c270 with uncommitted entries; it was not touched",
+      "ci": "secret-scan green; Typecheck workflow gained the Studio dependency step; Silent catch audit and Lead Radar release gate fail on code that predates this release"
+    },
+    "discovery": {
+      "websub": "three feeds accepted at deploy, downloaded by Google 17:04-17:07 UTC",
+      "indexNow": "24 URLs accepted (api.indexnow.org 200, Yandex 202)",
+      "searchConsoleSitemaps": "sitemap.xml and sitemap-updates.xml resubmitted 18:10:58 UTC, downloaded within two seconds, errors 0",
+      "urlInspectionAt1815Utc": "7 of 10 new URLs Discovered - currently not indexed, 3 unknown",
+      "pending": "Request indexing in the Search Console interface needs the owner signed in to Google"
     }
   },
   "chat_errors_20261114": {
@@ -2076,7 +2092,8 @@
   "repository_sync": {
     "merge_commit": "8f42081598e37bdaa5a072ed7ec8be53a4dc0d38",
     "integrated_remote_head": "1a68a1291a4c432094ca1022b1e13d2f9ef69c13",
-    "note": "SEO-content-only remote commits integrated before R0.2 with a non-fast-forward merge. No local stage SHA was rewritten."
+    "note": "SEO-content-only remote commits integrated before R0.2 with a non-fast-forward merge. No local stage SHA was rewritten.",
+    "main_fast_forwarded_20261116": "origin/main moved from 7568f273 to the release lineage, no rewrite"
   },
   "incident": {
     "id": "R0.3 credential incident",
@@ -2129,7 +2146,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-11-16T17:13:53.994905+00:00",
+  "updated_at": "2026-11-16T18:16:36.524956+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
