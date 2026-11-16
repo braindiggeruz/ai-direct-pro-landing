@@ -390,7 +390,18 @@ test('SEO and the scoped Uzbek target form show relevant task examples; others k
   }
   assert.equal(taskPlaceholderFor('seo', 'uz'), seoExample.uz);
   assert.equal(taskPlaceholderFor('local-seo', 'ru'), seoExample.ru);
-  assert.deepEqual(Object.keys(TASK_PLACEHOLDER_BY_SERVICE).sort(), ['local-seo', 'seo']);
+  // Audit 2026-11-16 (BS-08): advertising, SMM, website and audit services got their own examples.
+  assert.deepEqual(Object.keys(TASK_PLACEHOLDER_BY_SERVICE).sort(), [
+    'boss-digital', 'digital-marketing', 'digital-strategiya', 'internet-reklama', 'kontekstnaya-reklama', 'local-seo',
+    'marketing-audit', 'performance-marketing', 'seo', 'smm', 'target', 'telegram-ads', 'website-development',
+  ]);
+  for (const example of Object.values(TASK_PLACEHOLDER_BY_SERVICE)) {
+    assert.ok(!/['ʻʼ]/.test(example.uz), example.uz);
+    assert.ok(example.ru.length <= 90 && example.uz.length <= 100, example.ru);
+  }
+  for (const service of ['ai-bot', 'chat-bot', 'telegram-bot', 'lead-bot', 'crm-integration', 'sales-automation']) {
+    assert.equal(taskPlaceholderFor(service, 'ru'), shared.ru, service);
+  }
   // The Uzbek example uses U+2019 after a brand name and U+2018 in o‘/g‘.
   assert.ok(!/['ʻʼ]/.test(seoExample.uz));
   for (const [url, service] of Object.entries(LEAD_FORM_PAGES)) {
@@ -402,7 +413,8 @@ test('SEO and the scoped Uzbek target form show relevant task examples; others k
       assert.ok(renderLeadForm(page).includes('placeholder="Masalan: Toshkentdagi o‘quv markazimiz uchun yangi guruhga arizalar kerak."'));
       continue;
     }
-    assert.ok(renderLeadForm(page).includes(`placeholder="${shared[locale]}"`), `${url}: the shared example changed`);
+    const expected = TASK_PLACEHOLDER_BY_SERVICE[service]?.[locale] ?? shared[locale];
+    assert.ok(renderLeadForm(page).includes(`placeholder="${expected}"`), `${url}: unexpected task example`);
   }
 });
 

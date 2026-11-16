@@ -189,6 +189,16 @@ const META_TARGET_BOOT = String.raw`
     return trackEvent;
   })();}catch(e){}`;
 
+// Every other form reports only that it was seen and that typing began:
+// no field values, one event of each kind per page view (audit BS-08).
+const GENERIC_FORM_DIAGNOSTICS = String.raw`// Diagnostic events contain no form values and never count as leads.
+  var formStarted=false;
+  function formEvent(name){track({event:name,lead_source:'page_form',service_slug:service,page_path:window.location.pathname});}
+  form.addEventListener('input',function(){if(!formStarted){formStarted=true;formEvent('lead_form_start');}});
+  if(typeof IntersectionObserver==='function'){
+    var formViewObserver=new IntersectionObserver(function(entries){if(entries.some(function(entry){return entry.isIntersecting;})){formEvent('lead_form_view');formViewObserver.disconnect();}},{threshold:0.2});formViewObserver.observe(form);
+  }`;
+
 export const PRIVACY_PAGE = { ru: '/ru/politika-konfidentsialnosti/', uz: '/uz/maxfiylik-siyosati/' } as const;
 
 interface LeadFormPage {
@@ -254,9 +264,47 @@ const SEO_TASK_PLACEHOLDER = {
   uz: 'Masalan: sayt example.uz, Google’dan Toshkent bo‘yicha arizalar kerak',
 } as const;
 
+// Audit 2026-11-16 (BS-08): advertising, SMM, website and audit landings also
+// showed the bot brief. Bot-like services keep the shared example.
+const TARGET_TASK_PLACEHOLDER = {
+  ru: 'Например: заявки из Instagram для учебного центра, бюджет и желаемый срок',
+  uz: 'Masalan: o‘quv markazi uchun Instagram’dan arizalar, byudjet va muddat',
+} as const;
+const SMM_TASK_PLACEHOLDER = {
+  ru: 'Например: вести Instagram салона — 12 публикаций в месяц и ответы в директе',
+  uz: 'Masalan: salon Instagram sahifasini yuritish — oyiga 12 ta post va direktga javoblar',
+} as const;
+const TELEGRAM_ADS_TASK_PLACEHOLDER = {
+  ru: 'Например: реклама Telegram-канала магазина на аудиторию Ташкента',
+  uz: 'Masalan: do‘kon Telegram kanali uchun Toshkent auditoriyasiga reklama',
+} as const;
+const ADS_TASK_PLACEHOLDER = {
+  ru: 'Например: заявки из Google Ads и Яндекс Директа на услуги клиники в Ташкенте',
+  uz: 'Masalan: klinika xizmatlari uchun Google Ads va Yandex Direct’dan arizalar',
+} as const;
+const WEBSITE_TASK_PLACEHOLDER = {
+  ru: 'Например: сайт клиники с записью на приём, на русском и узбекском',
+  uz: 'Masalan: klinika uchun qabulga yozilish imkoniyati bor sayt, rus va o‘zbek tillarida',
+} as const;
+const AUDIT_TASK_PLACEHOLDER = {
+  ru: 'Например: проверить рекламу, сайт и обработку заявок — где теряются клиенты',
+  uz: 'Masalan: reklama, sayt va arizalar bilan ishlashni tekshirish — mijozlar qayerda yo‘qolyapti',
+} as const;
+
 export const TASK_PLACEHOLDER_BY_SERVICE: Readonly<Record<string, { ru: string; uz: string }>> = {
   seo: SEO_TASK_PLACEHOLDER,
   'local-seo': SEO_TASK_PLACEHOLDER,
+  target: TARGET_TASK_PLACEHOLDER,
+  smm: SMM_TASK_PLACEHOLDER,
+  'telegram-ads': TELEGRAM_ADS_TASK_PLACEHOLDER,
+  'internet-reklama': ADS_TASK_PLACEHOLDER,
+  'kontekstnaya-reklama': ADS_TASK_PLACEHOLDER,
+  'performance-marketing': ADS_TASK_PLACEHOLDER,
+  'website-development': WEBSITE_TASK_PLACEHOLDER,
+  'marketing-audit': AUDIT_TASK_PLACEHOLDER,
+  'digital-strategiya': AUDIT_TASK_PLACEHOLDER,
+  'digital-marketing': AUDIT_TASK_PLACEHOLDER,
+  'boss-digital': AUDIT_TASK_PLACEHOLDER,
 };
 
 /** The task placeholder of a form: the service's own example, otherwise the shared one. */
@@ -486,6 +534,7 @@ function leadFormScript(withMetaTargetPixel: boolean): string {
     lockFields(false);
     if(button){button.disabled=false;button.removeAttribute('aria-busy');}
   }
+  ${withMetaTargetPixel ? '' : GENERIC_FORM_DIAGNOSTICS}
   ${withMetaTargetPixel ? `// Diagnostic events contain no form values and never count as leads.
   var started=false,diagnosticSent={},metaDiagnostics={lead_form_view:'LeadFormView',lead_form_start:'LeadFormStart',lead_cta_click:'LeadCTAClick',telegram_contact_click:'TelegramContactClick'};
   function targetEvent(name,zone){
