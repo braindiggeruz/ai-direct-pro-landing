@@ -53,6 +53,13 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
+      # The chat imports Studio lazily, so the root type build also compiles
+      # apps/studio and needs its pinned dependencies (pptxgenjs and others).
+      # scripts/ensure-studio-deps.ts installs the same set before a build;
+      # without it this job fails on apps/studio/src/pptx/build.ts.
+      - name: Studio dependencies
+        run: npm --prefix apps/studio ci
+
       - name: App + node
         run: npx tsc -b
 
