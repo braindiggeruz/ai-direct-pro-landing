@@ -1,4 +1,24 @@
 {
+  "chat_cro_release_c_20261117": {
+    "status": "committed_NOT_deployed_waits_for_owner",
+    "owner_authorized": "Owner in chat, 2026-11-17, after roadmap №2: \"Приступай и сделай всё что можешь сделать автономно чтобы улучшить сервис и увеличить количество оплат\". The message orders the work, not a deploy.",
+    "baseline_commit": "0b580698",
+    "production_before": "b16e73567872e7db6687e85ba971ad8013b94368",
+    "branch": "claude/chat-cro-20261117",
+    "commits": [
+      "3db791a8 feat(chat): at a wall only a pack lifts, the send button opens the pack window",
+      "ee786a9c feat(metrics): pace stored chat sessions per address; count why a Studio checkout made no order",
+      "9400ba48 test(measurement): wait for the Meta purchase instead of racing it"
+    ],
+    "scope": "Roadmap №2, the items that need no owner decision. (2.1) At a wall only a pack lifts (the trial spent, a pack ended) the send button opens the pack window instead of standing dead under a clock; the question stays in the field and in the one-hour draft, and the window quotes it above the pay buttons. (1.1) The pay step says the provider may name the seller as the legal entity. (4.5) The account view gains hadPack and the wall of an ended pack says \"AI-пакет закончился\", by the server's word, not by the newest order. (4.1) \"Сохранить через Telegram\" is a real secondary button. (0.4) trial_wall_seen counts who comes back to the trial's wall, and when. (0.3) Session creation is paced at 120 stored sessions per hashed address and hour, and `source` is stored only when it is a short label. (5.1) studio_checkout_refused counts why a started Studio checkout made no order, in nine classes.",
+    "notTouched": "Order creation, sums, granting, callbacks, receipts. Trial rules, limits, free-first. The offer and the privacy policies. wrangler.toml (so the 17.12 patches stay valid). Titles, descriptions and visible text of the protected pages and of the pages under observation until 2026-12-21. Bots and webhooks. Parked on purpose: a QR code on desktop, new starters for the main Uzbek chat, deep links, Telegram reminders, a 1-day pack.",
+    "roadmap": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/ROADMAP-2-RU.md",
+    "evidence": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-c",
+    "validation": "Before the gate: tsc -b, the functions typecheck and eslint on the changed files clean; chat bundle budgets pass without a raise (brotli: start 109 749 B of 110 000, chat-account 11 300 and chat-pay 7 447 of 12 000, chat-conversion 5 067, chat-presentation 23 902 of 24 000); 22 suites that the change touches or that read the account view fail only where they failed before (gpt-billing 1, gpt-live-readiness 1, gpt-account-ui 2, the same names); 25 adjacent suites the same, apart from one closed list this release extends and one race inside a test, both fixed; tests/gpt-once-pack.test.ts pins hadPack on real SQLite (a running pack, an ended one, an unpaid new invoice, a refund, another account, mode and organisation); tests/gpt-pay-browser.test.ts, 15 scenarios on the built site with offline fixtures only, passed three times in a row after one run in which the browser closed 73 seconds in, right after a build (not reproduced; Windows logged low virtual memory on this machine the same afternoon). The screens were looked at: F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/shots-c (wall-question-ru, ended-pack-uz, paid-save-ru). The release gate (production build, the gate's test files one by one, deploy_runner check) runs on the commit that carries this record, so its result is in release-c/final-gate.tsv and release-c/check.log, not in this text. No real payment and no order request to production.",
+    "limitations": "No real payment was made or tested by the session. The 7-day readout of release A and of the 3-day pack (due 2026-11-24) will be mixed with release C once it is deployed: the counters cannot tell the releases apart. The question at the wall is kept for one hour in this browser and is sent by the buyer's own tap. hadPack is read only when no pack runs; a refunded pack does not count. The session pace is a counter of stored sessions, not a refusal: past it the chat answers and keeps no turns for that session. tests/gpt-backend-security.test.ts cannot load in this worktree (the package fastify of apps/gpt-backend is not installed); it is outside the release gate and was failing the same way before. tests/measurement-funnel-browser.test.ts had a race between two analytics messages (seen once under load); its assertion now waits.",
+    "deploy": "NOT DEPLOYED. Production runs b16e7356. Any deploy from this branch tip ships release C, the 17.12 model patches included: deploy only on the owner's word for release C, or apply those patches on top of b16e7356 instead. origin/main stays at 0b580698 until then (the repository is public).",
+    "next": "The owner's word to deploy release C; then the guarded deploy, the live readback (ONCE_LIVE=1 only), this record set to live, and the push."
+  },
   "chat_once_pack_golive_20261117": {
     "status": "live_verified_click_and_payme",
     "owner_authorized": "Owner in chat, 2026-11-17: the pack (5 000 UZS, 30 answers, 3 days); \"Текст согласен\" on the offer text; on the sum with the providers: \"Включай, оплачу сразу\" (deploy first, the owner pays 5 000 with each provider right after)",
@@ -1978,10 +1998,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "The 3-day pack sells (GPT_PACK_ONCE live) under offer edition ai-paket-2026-11-v6 and is verified end to end by real payments with Click and with Payme. See chat_once_pack_golive_20261117.",
-  "stage_status": "live_verified_click_and_payme",
+  "current_stage": "Release C of the chat conversion work (roadmap №2, the autonomous part) is committed on claude/chat-cro-20261117 and is NOT deployed (its gate and release check ran on the commit that carries this record: see chat_cro_release_c_20261117.evidence): production runs b16e7356 (the 3-day pack, verified by real payments). See chat_cro_release_c_20261117.",
+  "stage_status": "release_c_ready_not_deployed_waits_for_owner",
   "last_completed_stage": "Go-live of the 3-day pack (5 000 UZS, 30 answers, 72 hours) on 2026-11-17, verified by the owner's payments with Click and with Payme: order, pack, notice and, for Payme, the fiscal receipt naming the service.",
-  "next_stage": "The open items of chat_cro_20261117 (Click receipts: Merchant User ID; the monthly pack payment to accept Release A) and the measurement of the 3-day pack's effect.",
+  "next_stage": "The owner's word to deploy release C. Until then deploy nothing from this branch tip. Then the open items of chat_cro_20261117 and the readout of 2026-11-24.",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -2315,7 +2335,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-11-17T09:52:40.158941+00:00",
+  "updated_at": "2026-11-17T11:46:21.044617+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
