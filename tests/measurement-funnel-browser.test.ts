@@ -125,7 +125,8 @@ test('measurement funnel: real answer, pending/paid checkout and acknowledged le
     payment = 'paid';
     await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await waitFor(() => ga('purchase').length === 1, 'server-confirmed live order becomes purchase');
-    assert.equal(meta('Purchase').length, 1);
+    // The two calls are made in one tick, but each reaches the test as its own message: wait for the second.
+    await waitFor(() => meta('Purchase').length === 1, 'and the same order reaches Meta once');
     const purchase = ga('purchase')[0].args[2] as Record<string, unknown>;
     assert.equal(purchase.transaction_id, ORDER); assert.equal(purchase.currency, 'UZS'); assert.equal(purchase.value, 20000);
     assert.equal((meta('Purchase')[0].args[3] as Record<string, unknown>).eventID, ORDER);
