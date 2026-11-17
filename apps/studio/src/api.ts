@@ -238,7 +238,8 @@ export type EventType =
   | 'studio_result_ready'
   | 'studio_tariffs_viewed'
   | 'studio_checkout_started'
-  | 'studio_checkout_result';
+  | 'studio_checkout_result'
+  | 'studio_checkout_refused';
 
 export interface EventBody {
   readonly id: string;

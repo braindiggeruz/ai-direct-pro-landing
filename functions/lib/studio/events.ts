@@ -19,6 +19,13 @@ export const STUDIO_UI_EVENTS = {
   /** The tariffs section was shown: under a result, or at the free limit. */
   studio_tariffs_viewed: ["after_result", "limit"],
   studio_checkout_started: ["kunlik", "oylik"],
+  /**
+   * A started checkout ended without an order: the class of the refusal, from
+   * the client's own outcome (apps/studio/src/billing/Checkout.tsx refusalClass). In
+   * 28 days eight starts made one order and nothing said why (chat CRO
+   * roadmap №2, 5.1).
+   */
+  studio_checkout_refused: ["identity", "turnstile", "network", "busy", "unavailable", "terms", "open_order", "draft", "other"],
   /** How the payment the browser waited for ended. */
   studio_checkout_result: ["paid", "pending", "cancelled"],
 } as const satisfies Record<string, readonly string[]>;
@@ -29,6 +36,7 @@ export type StudioEventType = keyof typeof STUDIO_UI_EVENTS;
 export const STUDIO_PAYMENT_EVENTS: ReadonlySet<StudioEventType> = new Set<StudioEventType>([
   "studio_checkout_started",
   "studio_checkout_result",
+  "studio_checkout_refused",
 ]);
 
 /** Events per address (hashed) and hour; past it the request is answered 204 and nothing is written. */

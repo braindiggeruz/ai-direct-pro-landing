@@ -174,6 +174,8 @@ test('server: every event the funnel sends is one the server accepts; one view i
   funnel.upgradeViewed(true);
   funnel.upgradeSelected('oylik');
   funnel.download('photo',0,'none');
+  // A checkout that made no order is counted from the checkout's own chunk (billing/Checkout.tsx), by class.
+  for (const kind of STUDIO_UI_EVENTS.studio_checkout_refused) sent.push({ id: randomId(), type: 'studio_checkout_refused', detail: kind, viewId: view });
   assert.ok(sent.length >= 10);
   const kinds = new Set<string>();
   for (const body of sent) {
@@ -243,4 +245,39 @@ test('ga4: the browser never sends purchase (GA4 purchase is the server\'s, week
     assert.doesNotMatch(withoutComments, /['"`]purchase['"`]/, `${file} names a purchase event`);
     assert.doesNotMatch(withoutComments, /gtag\(|\bym\(|dataLayer/, `${file} talks to analytics directly instead of through analytics.ts`);
   }
+});
+
+// --- a started checkout that made no order (chat CRO roadmap №2, 5.1) ---------------
+
+/** A code of billing/flow.ts or functions/api/studio/checkout.ts, and the class it is counted under. */
+const REFUSAL_CODES: ReadonlyArray<readonly [string, string]> = [
+  ['identity_required', 'identity'], ['identity_failed', 'identity'],
+  ['turnstile_required', 'turnstile'], ['turnstile_failed', 'turnstile'], ['turnstile_unavailable', 'turnstile'],
+  ['network', 'network'], ['timeout', 'network'],
+  ['studio_busy', 'busy'], ['rate_limited', 'busy'],
+  ['checkout_unavailable', 'unavailable'], ['provider_unavailable', 'unavailable'], ['studio_not_configured', 'unavailable'],
+  ['terms_changed', 'terms'], ['order_open', 'open_order'], ['draft', 'draft'],
+  ['invalid', 'other'], ['something_new', 'other'], ['', 'other'],
+];
+
+test('server: why a started checkout made no order is counted by class, from the checkout chunk, never as a raw code', async () => {
+  const { refusalClass } = await import('../apps/studio/src/billing/Checkout');
+  for (const [code, kind] of REFUSAL_CODES) assert.equal(refusalClass(code), kind, code || '(empty)');
+  // Every class the client can send is one the server accepts, and the server accepts no other.
+  assert.deepEqual([...new Set(REFUSAL_CODES.map(([, kind]) => kind))].sort(), [...STUDIO_UI_EVENTS.studio_checkout_refused].sort());
+  for (const detail of STUDIO_UI_EVENTS.studio_checkout_refused)
+    assert.ok(parseStudioEvent({ id: randomId(), type: 'studio_checkout_refused', detail, viewId: randomId() }), detail);
+  for (const detail of ['identity_required', 'studio_busy', 'Нет денег', ''])
+    assert.equal(parseStudioEvent({ id: randomId(), type: 'studio_checkout_refused', detail, viewId: randomId() }), null, detail || '(empty)');
+  // A step of a purchase: not written while payments are off.
+  const { STUDIO_PAYMENT_EVENTS } = await import('../functions/lib/studio/events');
+  assert.ok(STUDIO_PAYMENT_EVENTS.has('studio_checkout_refused'));
+  // The three ways a started checkout ends without an order, each counted once where it is decided.
+  const checkout = fs.readFileSync(path.join(ROOT, 'apps/studio/src/billing/Checkout.tsx'), 'utf8');
+  assert.match(checkout, /refused\(api, 'draft'\);\s*setStatus\(\{ kind: 'draft_failed' \}\);/);
+  assert.match(checkout, /refused\(api, 'order_open'\);\s*setStatus\(\{ kind: 'open', orderId: outcome\.orderId \}\);/);
+  assert.match(checkout, /refused\(api, outcome\.code\);\s*setStatus\(\{ kind: 'message', message: billingMessage\(outcome\.code\) \}\);/);
+  assert.equal(checkout.match(/refused\(api, /g)?.length, 3);
+  // The shared runtime stays as it was (chat-presentation's chunk is at its size cap): the funnel has no such step.
+  assert.doesNotMatch(fs.readFileSync(path.join(ROOT, 'apps/studio/src/analytics.ts'), 'utf8'), /checkout_refused|refusalClass/);
 });

@@ -83,3 +83,44 @@ test('missing storage is an explicit failure, never an empty-history success', a
   const created = await create(db);
   assert.equal((await history(null, created.body.sessionId, created.cookie)).status, 503);
 });
+
+test('a scanner cannot fill the session table: past the hour’s ceiling an address gets an unstored id, and `source` is a label or the default', async () => {
+  const { SESSIONS_PER_HOUR } = await import('../functions/api/gpt/session');
+  assert.equal(SESSIONS_PER_HOUR, 120, 'generous: a school or a carrier shares one address');
+  const db = new SqliteD1();
+  const post = (ip: string, body: unknown) => sessionPost({
+    request: new Request('https://gptbot.uz/api/gpt/session', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'CF-Connecting-IP': ip }, body: JSON.stringify(body),
+    }),
+    env: { GPTBOT_DRAFTS_DB: db.asD1(), ...SALTED },
+  } as never);
+  // What a scanner sends as `source` (11.11.2026) is never stored; a label is.
+  for (const source of ['$(nslookup -q=cname x.bxss.me||curl x)', '<ScRiPt>alert(1)</ScRiPt>', '../../../../etc/passwd', 'A'.repeat(60), 'Gpt Chat', '', 7, null])
+    assert.equal(((await (await post('198.51.100.7', { locale: 'uz', source })).json()) as { ok: boolean }).ok, true);
+  await post('198.51.100.7', { locale: 'uz', source: 'gpt_chat' });
+  await post('198.51.100.7', { locale: 'uz', source: 'article_cta' });
+  assert.deepEqual(
+    JSON.parse(String(db.value("SELECT json_group_array(source) FROM (SELECT DISTINCT source FROM gpt_sessions ORDER BY source)"))),
+    ['article_cta', 'gpt_chat'],
+  );
+  // The ceiling: every request is answered ok, but only SESSIONS_PER_HOUR rows are written for one address.
+  const before = Number(db.value('SELECT COUNT(*) FROM gpt_sessions'));
+  let stored = 0;
+  let unstored = 0;
+  let cookies = 0;
+  for (let i = 0; i < SESSIONS_PER_HOUR + 15; i += 1) {
+    const response = await post('203.0.113.200', { locale: 'ru' });
+    const body = (await response.json()) as { ok: boolean; sessionId: string; persisted: boolean };
+    assert.equal(response.status, 200);
+    assert.ok(body.ok && /^sess_/.test(body.sessionId), 'the chat still gets an id');
+    if (body.persisted) stored += 1; else unstored += 1;
+    if (response.headers.get('set-cookie')) cookies += 1;
+  }
+  assert.deepEqual([stored, unstored, cookies], [SESSIONS_PER_HOUR, 15, SESSIONS_PER_HOUR]);
+  assert.equal(Number(db.value('SELECT COUNT(*) FROM gpt_sessions')) - before, SESSIONS_PER_HOUR);
+  // Another address is not held back by it.
+  const other = (await (await post('203.0.113.201', { locale: 'ru' })).json()) as { persisted: boolean };
+  assert.equal(other.persisted, true);
+  // The counter keeps a hash, never the address.
+  assert.doesNotMatch(String(db.value("SELECT json_group_array(subject) FROM gpt_rate_limits WHERE action='gpt_session'")), /203\.0\.113/);
+});

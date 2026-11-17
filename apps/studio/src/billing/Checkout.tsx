@@ -14,12 +14,43 @@
  * Webvisor records none of it (ym-disable-submit, ym-hide-content).
  */
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
-import type { StudioLocale, StudioPlanOffer, StudioProvider, StudioPublicConfig } from '../api';
+import type { EventBody, StudioLocale, StudioPlanOffer, StudioProvider, StudioPublicConfig } from '../api';
 import { randomId } from '../analytics';
 import { turnstileToken, type StudioTurnstileAction } from '../identity';
 import { browserAttribution, rememberPack, sellingProviders, startCheckout, type CheckoutAction, type CheckoutOutcome } from './flow';
 import { billingRuntime, type BillingRuntime } from './runtime';
 import { BILLING_TEXTS, billingMessage, type BillingMessage } from './texts';
+
+/**
+ * The class of a checkout that made no order, from its code (flow.ts,
+ * functions/api/studio/checkout.ts): a closed list, so the counter never
+ * stores a code the server did not expect.
+ */
+export function refusalClass(code: string): 'identity' | 'turnstile' | 'network' | 'busy' | 'unavailable' | 'terms' | 'open_order' | 'draft' | 'other' {
+  if (code.startsWith('identity')) return 'identity';
+  if (code.startsWith('turnstile')) return 'turnstile';
+  if (code === 'network' || code === 'timeout') return 'network';
+  if (code === 'studio_busy' || code === 'rate_limited') return 'busy';
+  if (code === 'checkout_unavailable' || code === 'provider_unavailable' || code === 'studio_not_configured') return 'unavailable';
+  if (code === 'terms_changed') return 'terms';
+  if (code === 'order_open') return 'open_order';
+  if (code === 'draft') return 'draft';
+  return 'other';
+}
+
+/**
+ * Why a started checkout made no order, counted on the server by its class
+ * (functions/lib/studio/events.ts studio_checkout_refused; chat CRO roadmap
+ * №2, 5.1): never shown, and a lost event costs a count. Sent from this
+ * chunk, not through the funnel: the shared runtime is at its size cap.
+ */
+function refused(api: { event(body: EventBody): void }, code: string): void {
+  try {
+    api.event({ id: randomId(), type: 'studio_checkout_refused', detail: refusalClass(code), viewId: randomId() });
+  } catch {
+    /* The event is lost; the page goes on. */
+  }
+}
 
 export interface CheckoutProps {
   readonly locale: StudioLocale;
@@ -100,6 +131,7 @@ export function Checkout({ locale, plan, config, onClose, returnPath, beforeNavi
       } catch {
         if (!controller.signal.aborted) {
           run.current = null;
+          refused(api, 'draft');
           setStatus({ kind: 'draft_failed' });
         }
         return;
@@ -112,11 +144,14 @@ export function Checkout({ locale, plan, config, onClose, returnPath, beforeNavi
       return;
     }
     run.current = null;
+    // Why a started checkout made no order, by class (refusalClass above): counted, never shown.
     if (outcome.kind === 'open') {
+      refused(api, 'order_open');
       setStatus({ kind: 'open', orderId: outcome.orderId });
       return;
     }
     if (outcome.kind === 'error') {
+      refused(api, outcome.code);
       setStatus({ kind: 'message', message: billingMessage(outcome.code) });
       return;
     }
