@@ -21,7 +21,8 @@ import { hashIp, getClientIp } from '../../lib/gpt-chat/hash';
 import { fail, genId, json, readJsonLimited } from '../../lib/gpt-chat/http';
 import { consumeRateLimit, DAY_MS } from '../../lib/gpt-chat/rate-limit';
 import { checkTurnstile } from '../../lib/turnstile';
-import { webChatChain } from '../../lib/gpt-chat/model-provider';
+import { hasProviderKey, providerOf, webChatChain } from '../../lib/gpt-chat/model-provider';
+import { callZaiOnce } from '../../lib/gpt-chat/zai-chat';
 import { chatComplete, type AdmitAttempt, type ChatResult } from '../../lib/gpt-chat/openrouter-chat';
 import { FREE_PAID_BUDGET_ALERT, ModelSpendStore, freePaidBudget } from '../../lib/gpt-chat/model-spend-store';
 import { recordServiceAlert } from '../../lib/gpt-chat/billing-maintenance-store';
@@ -39,8 +40,17 @@ import { NatalStore, decideSlot } from '../../lib/natal/store';
 export const NATAL_FREE_PER_ADDRESS_DAY = 8;
 export const NATAL_FREE_GLOBAL_DAY = 1000;
 /** Output tokens a reading may take: Uzbek takes more tokens per word than Russian. */
-export const READING_MAX_TOKENS: Readonly<Record<ReadingKind, number>> = { natal: 2600, pair: 1900 };
-const READING_TIMEOUT_MS = 60_000;
+export const READING_MAX_TOKENS: Readonly<Record<ReadingKind, number>> = { natal: 1700, pair: 1300 };
+/**
+ * One reading is several times longer than a chat answer, so it does not walk
+ * the chat's chain: the chat gives Z.ai at most 15 s (ZAI_TIMEOUT_MS) and
+ * cools a model that times out for every visitor. The first live readings of
+ * 17.11.2026 timed out that way and paused the chat's own model for 30 s. A
+ * reading asks the free tier's Z.ai model directly, with its own limit, and a
+ * failure here cools nothing. Without a Z.ai head (after the prepaid bundle)
+ * it falls back to the chat's walk.
+ */
+const READING_TIMEOUT_MS = 50_000;
 
 export type Complete = (messages: ChatMessage[], maxTokens: number, admit: AdmitAttempt) => Promise<ChatResult>;
 
@@ -108,9 +118,18 @@ export async function handleReading(
   const maxTokens = READING_MAX_TOKENS[kind];
   const messages = readingMessages(kind, locale, facts);
   const spend = new ModelSpendStore(db, BILLING_ORG);
-  const call: Complete = complete ?? ((msgs, tokens, admit) =>
-    chatComplete(env, cfg, webChatChain(cfg, env, 'free'), msgs, tokens, READING_TIMEOUT_MS, request.signal, admit,
-      (code) => waitUntil(alertOperator(env, code))));
+  const chain = webChatChain(cfg, env, 'free');
+  const head = chain[0];
+  const call: Complete = complete ?? (async (msgs, tokens, admit) => {
+    if (head && providerOf(head) === 'zai' && hasProviderKey(env, 'zai')) {
+      if ((await admit(head)) !== 'ok') return { ok: false, errorCode: 'budget_exhausted' };
+      const result = await callZaiOnce(env, head, msgs, tokens, READING_TIMEOUT_MS, request.signal);
+      if (!result.ok) console.warn(JSON.stringify({ event: 'natal_model_failed', model: head, code: result.errorCode }));
+      return result;
+    }
+    return chatComplete(env, cfg, chain, msgs, tokens, READING_TIMEOUT_MS, request.signal, admit,
+      (code) => waitUntil(alertOperator(env, code)));
+  });
   const attempt = async (msgs: ChatMessage[]) => {
     const budget = freePaidBudget(spend, { ...cfg, maxOutputTokens: maxTokens }, msgs, () =>
       waitUntil(recordServiceAlert(env, FREE_PAID_BUDGET_ALERT).catch(() => console.warn('natal_budget_alert_failed'))));

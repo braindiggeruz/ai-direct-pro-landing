@@ -85,7 +85,7 @@ export function readingMessages(kind: ReadingKind, locale: NatalLocale, facts: r
     '5. Where a fact is marked uncertain, say that the birth time is not known, so this part is approximate.',
     kind === 'pair' ? '6. No compatibility score or percentage: describe where the two support each other and where they clash, and how to talk about it.' : '6. Do not judge the person; describe strengths and challenges with equal respect.',
     `7. Answer with JSON only, no other text: {"sections":[{"id":"…","facts":["…"],"text":"…"}]}. Section ids, in this order, each only if some listed fact belongs to it: ${SECTION_BRIEF[kind]}. Allowed ids: ${sections.join(', ')}.`,
-    '8. "facts" lists the ids (in square brackets below) that the section explains: at least one, all from the list. "text": two to five sentences, 60 to 700 characters.',
+    '8. "facts" lists the ids (in square brackets below) that the section explains: at least one, all from the list. "text": two to four sentences, 60 to 500 characters. Keep the whole answer short.',
   ].join('\n');
   const user = ['Facts:', ...facts.map((fact) => factLine(fact, locale, kind))].join('\n');
   return [{ role: 'system', content: system }, { role: 'user', content: user }];
