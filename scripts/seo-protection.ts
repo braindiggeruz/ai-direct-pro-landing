@@ -267,7 +267,10 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // and three relabelled entries (bildirgi, insho, tabrik guides). Reverting
 // exactly these entries restores the predecessor; the other nine protected
 // pages keep their complete contract. See reports/seo-growth-20261116/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-17-seo-waves/reviewed-protected-pages.json';
+// The natal chart release 1 (owner's order of 17.11.2026) changes one page:
+// the homepage lists gain the four natal pages. Reverting exactly these entries
+// restores the predecessor; see reports/natal-20261117/review.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-17-natal/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

@@ -366,6 +366,18 @@
       "anchor": "ChatGPT и Claude в Узбекистане",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/natalnaya-karta/",
+      "anchor": "Натальная карта: точный расчёт и AI-разбор",
+      "locale": "ru",
+      "type": "contextual"
+    },
+    {
+      "target": "/ru/sovmestimost-po-date-rozhdeniya/",
+      "anchor": "Совместимость по дате рождения",
+      "locale": "ru",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [

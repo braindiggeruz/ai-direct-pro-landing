@@ -1,0 +1,101 @@
+{
+  "checkedAt": "2026-11-17T14:43:55.055Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-17-seo-waves/reviewed-protected-pages.json",
+  "sitemapBefore": 422,
+  "sitemapAfter": 426,
+  "added": [
+    "/ru/natalnaya-karta/",
+    "/ru/sovmestimost-po-date-rozhdeniya/",
+    "/uz/burjlar-mosligi/",
+    "/uz/natal-karta/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/natalnaya-karta/",
+      "incoming": [
+        "/ru/gpt-chat-guide/",
+        "/ru/sovmestimost-po-date-rozhdeniya/"
+      ]
+    },
+    {
+      "url": "/ru/sovmestimost-po-date-rozhdeniya/",
+      "incoming": [
+        "/ru/gpt-chat-guide/",
+        "/ru/natalnaya-karta/"
+      ]
+    },
+    {
+      "url": "/uz/burjlar-mosligi/",
+      "incoming": [
+        "/uz/ai-xizmatlar/",
+        "/uz/natal-karta/"
+      ]
+    },
+    {
+      "url": "/uz/natal-karta/",
+      "incoming": [
+        "/uz/ai-xizmatlar/",
+        "/uz/burjlar-mosligi/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/natalnaya-karta/",
+        "/ru/sovmestimost-po-date-rozhdeniya/",
+        "/uz/burjlar-mosligi/",
+        "/uz/natal-karta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/gpt-chat-guide/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/natalnaya-karta/",
+        "/ru/sovmestimost-po-date-rozhdeniya/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/ai-xizmatlar/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/burjlar-mosligi/",
+        "/uz/natal-karta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/natalnaya-karta/",
+        "/ru/sovmestimost-po-date-rozhdeniya/",
+        "/uz/burjlar-mosligi/",
+        "/uz/natal-karta/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 423
+}

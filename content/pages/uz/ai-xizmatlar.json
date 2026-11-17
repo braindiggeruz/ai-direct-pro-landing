@@ -409,6 +409,18 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/natal-karta/",
+      "anchor": "Natal karta: aniq hisob va AI tahlil",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/burjlar-mosligi/",
+      "anchor": "Burjlar mosligi: ikki xarita boʻyicha",
+      "locale": "uz",
+      "type": "contextual"
     }
   ],
   "schemaTypes": [
