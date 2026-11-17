@@ -1,3 +1,31 @@
+# Current handoff — chat conversion release A · 17.11.2026
+
+## 1. State
+Branch claude/chat-cro-20261117, based on 39f39572 (production code 223a90a5). Production runs ac666d08 (deployed_and_verified, https://fb1ba443.ai-direct-pro-landing.pages.dev); live readback is in F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-a. Working tree: clean after the commit.
+## 2. Delivered
+AI tool pages open with their own question, one-tap starters, follow-ups and an answer rating. The pack window says «Открываем страницу Click…» from the tap, speaks with a retry where it used to stop in silence, and returns to the wait by itself when the browser never leaves. Back without a payment: one card with continue, another way, ask someone to pay and a Telegram message carrying the order reference. «Нет карты?» makes a payment link for someone else. Payme links never hold a slash. A repeating fiscal failure pages the owner once a day per cause.
+## 3. Files
+src/gpt-chat/account/{AccountDialog,CheckoutReturn,pay-part}.tsx; src/gpt-chat/parts/{pay-screens.tsx,pay.css,chat-pay.ts,chat-uzum.ts,chat-conversion.tsx,cro.tsx,cro.css}; src/gpt-chat/{role-ui.ts,trial-copy.ts,account-strings.ts,ui-events.ts}; src/shared/checkout-events.ts; functions/lib/gpt-chat/{payme-checkout,ui-event-store,alert-policy,billing-maintenance-store}.ts; tests/{gpt-pay-cro,gpt-pay-browser,gpt-payme-link,chat-cro-ui}.test.ts and the pins they moved.
+## 4. Decisions
+D-CHAT-CRO-20261117 in DECISIONS.md.
+## 5. Excluded
+Order creation, amounts, granting, callbacks and receipts were not changed. No trial or limit change. No owner notice for unpaid attempts and no contact capture (weighed, rejected). No edit to the protected pages' titles, descriptions or visible text. CHAT_RETURN_PATHS unchanged.
+## 6. Validation
+Guarded release ac666d08: production build 1,281 files; gate of 55 test files run one by one with no new failing test (ten files fail exactly as on the predecessor; names in release-a/gate-fail-names.txt); chat bundle budget pass (start 109,980 B of 110,000, chat-account 11,880 B of 12,000, chat-pay 5,260 B); tsc -b, functions typecheck and eslint on the changed files clean; tests/gpt-pay-browser.test.ts drives the production build in Chrome with offline fixtures (refusal and retry, a browser that never leaves, a tap during a read, the link for someone else, a return that does not blink); release check pass; live readback 23 of 23: manifest and artifact, ten protected pages equal to the reviewed revision, five chat pages and twenty assets served as built, the anonymous account view, and the deployed bundle in a browser on /ru/gpt-chat/ and /uz/kirill-lotin/ with the order and event endpoints answered locally (no order, no counted event).
+## 7. Known limits
+No real payment was made by the agent: the owner pays once from a phone. Start bundle headroom is 20 B and chat-account 120 B: free space before adding to either. Click receipts are still refused by Click (-12): see STATE chat_cro_20261117.clickReceipts. The Click secret key was pasted into the chat on 2026-11-17: reissue after receipts work.
+## 8. Next task
+Release B: the one-time pack (5 000 UZS, 30 answers, 3 days) behind the flag GPT_PACK_ONCE, by the plan in agents/single-pack-plan.json of the evidence folder. The offer edition changes only after the owner has read the text.
+## 9. Acceptance
+Live manifest commit equals the release commit; the ten protected pages equal the reviewed revision; the pack window shows the price of one answer and «Нет карты?»; a refused order says so with a retry; the owner's own payment from a phone ends with the pack on screen.
+## 10. Start commands
+git status/log; node --import tsx --test tests/gpt-pay-cro.test.ts; after a build: node --import tsx --test tests/gpt-pay-browser.test.ts.
+## 11. Risks
+Do not call pay() from an effect except the two guarded continuations of a tap (tests/chat-entry.test.ts). Do not store the watch of a shared link. Do not raise bundle budgets. Do not change the classic order of Payme pairs where the link already has no slash.
+## 12. Rollback
+Revert ac666d08, d63f4e30, ad04507d and 4646dd5e on top of current production and use the guarded release. No data or schema migration; the new event types stay as rows nobody reads. Previous handoff retained below.
+
+---
 # Current handoff — SEO waves release · 17.11.2026
 
 ## 1. State
