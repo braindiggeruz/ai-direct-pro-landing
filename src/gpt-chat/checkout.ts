@@ -30,7 +30,6 @@ export interface CheckoutWatch {
 export type CheckoutOutcome = 'paid' | 'cancelled' | 'pending';
 
 const CHECKOUT_KEY = 'gptchat_checkout';
-const REPORTED_KEY = 'gptchat_purchases';
 /** A trip to the payment page counts as "just paid" this long. */
 export const CHECKOUT_TTL_MS = 30 * 60_000;
 /** Ask every 3 s for the first 2 minutes, then every 15 s, for 10 minutes in all. */
@@ -38,8 +37,8 @@ export const CHECKOUT_FAST_MS = 3_000;
 export const CHECKOUT_FAST_FOR_MS = 120_000;
 export const CHECKOUT_SLOW_MS = 15_000;
 export const CHECKOUT_WATCH_MS = 600_000;
-/** Orders: pay_ (Click, Payme) or uzm_ (Uzum) and 32 hex (billing-store.ts). */
-const ORDER_ID = /^(pay|uzm)_[0-9a-f]{32}$/;
+/** Orders: pay_ (Click, Payme), pk_ (the 3-day pack) or uzm_ (Uzum) and 32 hex (billing-store.ts, packs.ts). */
+const ORDER_ID = /^(pay|pk|uzm)_[0-9a-f]{32}$/;
 const PROVIDERS: readonly string[] = ['click', 'uzum', 'payme'];
 const FLOWS: readonly string[] = ['redirect', 'code', 'test', 'status'];
 
@@ -80,33 +79,6 @@ export function pendingDelay(account: AccountView | null, watch: CheckoutWatch, 
   return Math.max(0, watch.at + CHECKOUT_WATCH_MS - now);
 }
 
-/** What the page reports once the watched payment ends (AiAccountPanel). */
-export interface CheckoutReport {
-  /** GA4 checkout_result. */
-  result: { provider: string; status: CheckoutOutcome; mode: string };
-  /** GA4 purchase: real money paid, the pack's price and size as the server states them. */
-  purchase: { transactionId: string; value: number; itemId: string; itemName: string; provider: string } | null;
-}
-
-export function checkoutReport(account: AccountView | null, watch: CheckoutWatch, outcome: CheckoutOutcome): CheckoutReport {
-  const mode = account?.mode || 'unavailable';
-  const provider = account?.payment?.provider ?? watch.provider ?? 'unknown';
-  const payment = account?.payment;
-  const pack = account?.pack;
-  return {
-    result: { provider, status: outcome, mode },
-    purchase: outcome === 'paid' && mode === 'live' && payment?.state === 'paid' && pack
-      ? {
-          transactionId: payment.id,
-          value: pack.priceUzs,
-          itemId: `ai_paket_${pack.messageLimit}`,
-          itemName: `AI paket ${pack.messageLimit}`,
-          provider,
-        }
-      : null,
-  };
-}
-
 function validWatch(value: unknown): value is CheckoutWatch {
   if (!value || typeof value !== 'object') return false;
   const watch = value as CheckoutWatch;
@@ -133,22 +105,5 @@ export function saveCheckout(watch: CheckoutWatch | null): void {
     else localStorage.removeItem(CHECKOUT_KEY);
   } catch {
     /* storage blocked: the page still watches until it is closed */
-  }
-}
-
-/**
- * True the first time this browser reports `transactionId` as a purchase:
- * GA4 counts a purchase once, whatever reloads and second tabs do.
- */
-export function firstReport(transactionId: string): boolean {
-  try {
-    const value: unknown = JSON.parse(localStorage.getItem(REPORTED_KEY) || '[]');
-    const reported = Array.isArray(value) ? value.filter((id): id is string => typeof id === 'string') : [];
-    if (reported.includes(transactionId)) return false;
-    localStorage.setItem(REPORTED_KEY, JSON.stringify([transactionId, ...reported].slice(0, 20)));
-    return true;
-  } catch {
-    // Unknown, and so not sent: a lost purchase event beats a doubled one.
-    return false;
   }
 }

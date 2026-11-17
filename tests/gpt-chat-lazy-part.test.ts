@@ -13,6 +13,7 @@ import { prerender } from 'react-dom/static';
 import { Dialog } from '../src/components/ui/dialog';
 
 import { LazyPart, PartFailed, PartLoading, accountPart, answerPart, leadPart, part, toolsPart, turnstilePart } from '../src/gpt-chat/lazy-part';
+import { loginPart } from '../src/gpt-chat/account/pay-part';
 import { AiChatMessageList } from '../src/gpt-chat/components/AiChatMessageList';
 import { MessageScroller, MessageScrollerProvider, MessageScrollerViewport } from '../src/components/ui/message-scroller';
 import { strings } from '../src/gpt-chat/i18n';
@@ -164,6 +165,8 @@ test('chat-account: the pack window says what it said before the split', async (
 
 test('chat-account: sign-in through the bot — the button, then the number, the link and the warning', async () => {
   const { AccountDialog } = await accountPart.load();
+  // The sign-in screen is its own part since the 3-day pack (account/pay-part.tsx): here, as it is once it was opened.
+  await loginPart.load();
   const deepLink = `https://t.me/gptbotuz_bot?start=login_${'ab'.repeat(16)}`;
   const store = new Map<string, string>();
   const scope = globalThis as unknown as { sessionStorage?: Pick<Storage, 'getItem' | 'setItem' | 'removeItem'> };

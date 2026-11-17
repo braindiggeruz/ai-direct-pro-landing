@@ -9,12 +9,10 @@ import { useAccount, type AccountCause } from "../use-account";
 import { accountPart, LazyPart, PartFailed, PartLoading } from "../lazy-part";
 import { preloadsAccountWindow } from "../preload";
 import type { AccountWindowMemory, CheckoutControls } from "../account/AccountDialog";
-import { track, trackMetaPackView, trackPurchase, EV } from "../analytics";
+import { track, trackMetaPackView, EV } from "../analytics";
 import { loadBotLogin } from "../bot-login";
 import { recordUiEvent, type PackFrom } from "../ui-events";
 import {
-  checkoutReport,
-  firstReport,
   loadCheckout,
   pendingDelay,
   saveCheckout,
@@ -33,6 +31,8 @@ export interface PackOpenRequest {
   pay?: PaymentProvider;
   /** Offer shown when the visitor pressed the provider button; never persisted. */
   offerKey?: string | null;
+  /** The tap chose the 3-day pack (the paywall's own row); absent: the monthly pack. */
+  sku?: "once";
 }
 
 /**
@@ -124,11 +124,10 @@ export function AiAccountPanel({
     if (!checkout) return;
     setOutcome(result);
     saveCheckout(null);
-    const report = checkoutReport(data, checkout, result);
-    track(EV.checkoutResult, { provider: report.result.provider, status: result, mode: report.result.mode, locale });
+    track(EV.checkoutResult, { provider: data?.payment?.provider ?? checkout.provider ?? "unknown", status: result, mode: data?.mode || "unavailable", locale });
     recordUiEvent(apiBase, "checkout_result", result);
-    // Revenue for real money only, once per order on this browser.
-    if (report.purchase && firstReport(report.purchase.transactionId)) trackPurchase(report.purchase);
+    // Revenue, for real money only and once per order on this browser: the window's part reports it (account/purchase-report.ts).
+    if (result === "paid") void accountPart.load().then((part) => part.reportPurchase(data, checkout)).catch(() => undefined);
   }, [apiBase, checkout, data, locale]);
   // The payment ended (paid, or cancelled); a wait that outlived the
   // schedule, counted from an answered view, is reported as pending and may
@@ -226,7 +225,7 @@ export function AiAccountPanel({
               memoryRef={windowMemory}
               loginFailed={loginFailed}
               checkout={checkoutControls}
-              autoPay={openRequest?.pay ? { seq: openRequest.seq, provider: openRequest.pay, offerKey: openRequest.offerKey ?? null } : null}
+              autoPay={openRequest?.pay ? { seq: openRequest.seq, provider: openRequest.pay, offerKey: openRequest.offerKey ?? null, sku: openRequest.sku } : null}
               onClose={close}
             />
           )}

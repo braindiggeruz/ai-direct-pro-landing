@@ -10,8 +10,9 @@ import { accountStrings } from '../src/gpt-chat/account-strings';
 import { preloadsAccountWindow, preloadsBusinessCard, type AccountWindowSignals } from '../src/gpt-chat/preload';
 import { isBotLoginUrl } from '../src/gpt-chat/handoff';
 import { attemptFromStart, validBotLoginAttempt } from '../src/gpt-chat/bot-login';
-import { CHECKOUT_TTL_MS, checkoutPollDelay, firstReport, loadCheckout, orderId, pendingDelay, saveCheckout, settledCheckout, type CheckoutWatch } from '../src/gpt-chat/checkout';
-import { GA4_PARAMS, initMetaChatPixel, trackMetaChatEngaged, trackMetaCheckout, trackMetaPackView, trackPurchase } from '../src/gpt-chat/analytics';
+import { CHECKOUT_TTL_MS, checkoutPollDelay, loadCheckout, orderId, pendingDelay, saveCheckout, settledCheckout, type CheckoutWatch } from '../src/gpt-chat/checkout';
+import { firstReport, trackMetaCheckout, trackPurchase } from '../src/gpt-chat/account/purchase-report';
+import { GA4_PARAMS, initMetaChatPixel, trackMetaChatEngaged, trackMetaPackView } from '../src/gpt-chat/analytics';
 import { PACK_FROM, recordUiEvent, type UiEventDetails } from '../src/gpt-chat/ui-events';
 import { parseUiEvent, UI_EVENTS } from '../functions/lib/gpt-chat/ui-event-store';
 import * as React from 'react';
@@ -593,7 +594,7 @@ test('Meta checkout starts only at a new live invoice and pixel queues before it
     value: 20000, currency: 'UZS', content_ids: ['ai_paket_300'], content_type: 'product',
   }, { eventID: `checkout_${ORDER}` }]]);
   const dialog = readFileSync(new URL('../src/gpt-chat/account/AccountDialog.tsx', import.meta.url), 'utf8');
-  assert.match(dialog, /if \(!resume && data\.mode === "live" && attemptId && data\.pack\)\s*trackMetaCheckout/);
+  assert.match(dialog, /if \(!resume && data\.mode === "live" && attemptId\)\s*m\?\.trackMetaCheckout\(\{ transactionId: attemptId, value: offer\.priceUzs, itemId: `ai_paket_\$\{offer\.messageLimit\}` \}\)/);
   const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   assert.ok(html.indexOf("fbq('init', '780400781706074')") < html.indexOf('function loadPixel()'));
 });

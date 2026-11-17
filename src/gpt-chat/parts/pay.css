@@ -20,3 +20,15 @@ a.gpt-primary[data-testid="ai-pay-share-telegram"]{margin:6px 0 0}
 .gpt-pay-unpaid-head{display:flex;align-items:center;justify-content:space-between}
 .gpt-pay-unpaid-close{min-width:44px;min-height:44px;font-size:20px;line-height:1;color:var(--text-2)}
 .gpt-pay-unpaid .gpt-pay-ref{font-size:13px;color:var(--text-3)}
+.gpt-pay-packs{display:flex;flex-direction:column;gap:10px}
+.gpt-pay-pack{padding:12px 14px 14px;border:1px solid var(--line-strong);border-radius:14px;background:var(--surface-2);text-align:left}
+.gpt-pay-pack-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.gpt-pay-pack-head strong{font-size:15px;line-height:22px;color:var(--text)}
+.gpt-pay-pack-head em{margin-left:8px;padding:1px 8px;border:1px solid var(--accent-line);border-radius:999px;font-style:normal;font-size:11px;font-weight:600;color:var(--accent-text);white-space:nowrap}
+.gpt-pay-pack-head b{font-size:18px;line-height:24px;color:var(--text);white-space:nowrap}
+.gpt-pay-pack p{margin:2px 0 10px;font-size:12px;line-height:1.5;color:var(--text-2)}
+.gpt-pay-pack-buttons{display:flex;align-items:center;gap:8px}
+.gpt-pay-pack-buttons>span{flex:none;font-size:13px;color:var(--text-2);white-space:nowrap}
+.gpt-pay-pack-buttons .gpt-primary{flex:1 1 0;min-width:0;min-height:48px;margin:0;white-space:nowrap}
+.gpt-pay-cheaper{min-height:44px;padding:8px 12px;border:1px solid var(--accent-line);border-radius:12px;background:transparent;color:var(--accent-text);font-size:14px;font-weight:600;cursor:pointer}
+.gpt-pay-cheaper:disabled{opacity:.5;cursor:default}

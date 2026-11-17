@@ -18,12 +18,12 @@ import {
   safeTermsLink,
 } from "../types";
 import type { AccountHandle } from "../use-account";
-import { PayIn, payPart, uzumPart } from "./pay-part";
+import { PayIn, loginPart, payPart, uzumPart } from "./pay-part";
+import { listed, offersOf, type PackSku } from "../pack-offers";
 import { loadBotLogin } from "../bot-login";
 import { orderId, type CheckoutOutcome, type CheckoutWatch } from "../checkout";
-import { track, trackMetaCheckout, EV } from "../analytics";
+import { track, EV } from "../analytics";
 import { recordUiEvent } from "../ui-events";
-import { BotLoginScreen } from "./BotLoginScreen";
 import { LazyPart } from "../lazy-part";
 import { AccessSummary, PackPanel, SupportLine } from "./PackPanel";
 
@@ -34,7 +34,8 @@ import { AccessSummary, PackPanel, SupportLine } from "./PackPanel";
  * invoice, and an invoice refused for changed terms stays refused.
  */
 export interface AccountWindowMemory {
-  requestKeys: Partial<Record<PaymentProvider, string>>;
+  /** One request key per provider and pack: the provider's name, with «:once» for the 3-day pack. */
+  requestKeys: Partial<Record<string, string>>;
   refusedForTerms: string | null;
   /** The Uzum Bank app code subscribe answered with, until the account view carries it. */
   paymentCode: string | null;
@@ -45,9 +46,9 @@ export interface AccountWindowMemory {
   /** Closing the frame invalidates continuations of requests already sent. */
   generation?: number;
   /** The payment this tap is making: chat-pay counts its steps (loaded beside the request) and speaks for it. */
-  trace?: { provider: PaymentProvider; ask: boolean; t0: number; loaded: Promise<Awaited<ReturnType<typeof payPart.load>> | null> } | null;
-  /** «Попросить оплатить»: the provider's link made for someone else, shown instead of leaving. */
-  shared?: { provider: PaymentProvider; url: string; at: number; id: string | null } | null;
+  trace?: { provider: PaymentProvider; ask: boolean; sku: PackSku; t0: number; loaded: Promise<Awaited<ReturnType<typeof payPart.load>> | null> } | null;
+  /** «Попросить оплатить»: the provider's link made for someone else, shown instead of leaving; with the pack and the sum it is for. */
+  shared?: { provider: PaymentProvider; url: string; at: number; id: string | null; sku: PackSku; priceUzs: number } | null;
 }
 
 /** The payment this browser waits for, as AiAccountPanel (start bundle) follows it. */
@@ -95,22 +96,28 @@ class RequestError extends Error {
  * caller's `notes` (a guest's). A <details>: the notes are in the page for a
  * reader who opens them and for a screen reader, without a line of state.
  */
-function PlanCard({ t, copy, pack, notes = [] }: { t: ChatStrings; copy: AccountStrings; pack: PackTerms; notes?: string[] }) {
+function PlanCard({ t, copy, pack, notes = [], bare = false }: {
+  t: ChatStrings; copy: AccountStrings; pack: PackTerms; notes?: string[];
+  /** Two packs on offer: their rows carry the prices, the card keeps only the notes. */
+  bare?: boolean;
+}) {
   return (
     <Card className="gpt-plan-card">
-      <CardHeader>
-        <Badge variant="outline">{t.premium.account}</Badge>
-        <CardTitle className="gpt-price">{copy.sum(groupDigits(pack.priceUzs))}</CardTitle>
-        <p className="gpt-plan-line">{t.premium.packLine(pack)}</p>
-      </CardHeader>
+      {!bare && (
+        <CardHeader>
+          <Badge variant="outline">{t.premium.account}</Badge>
+          <CardTitle className="gpt-price">{copy.sum(groupDigits(pack.priceUzs))}</CardTitle>
+          <p className="gpt-plan-line">{t.premium.packLine(pack)}</p>
+        </CardHeader>
+      )}
       <CardContent>
         <details className="gpt-plan-more">
           <summary><span>{copy.fine}</span> <span className="gpt-plan-more-link">{t.limitMore}</span></summary>
-          <ul className="gpt-plan-features">
+          {!bare && <ul className="gpt-plan-features">
             {copy.packFeatures(pack.months, pack.messageLimit, pack.dailyLimit).map((feature) => (
               <li key={feature}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span>{feature}</span></li>
             ))}
-          </ul>
+          </ul>}
           <p className="gpt-panel-note">{t.premium.manual}</p>
           <p className="gpt-panel-note" data-testid="ai-pack-no-refund">{copy.noRefund}</p>
           <p className="gpt-panel-note" data-testid="ai-pack-honesty">{copy.honesty}</p>
@@ -158,7 +165,7 @@ export function AccountDialog({
   loginFailed: boolean;
   checkout: CheckoutControls;
   /** The limit card's tap: pay with this provider as soon as the view allows (once per `seq`). */
-  autoPay?: { seq: number; provider: PaymentProvider; offerKey: string | null } | null;
+  autoPay?: { seq: number; provider: PaymentProvider; offerKey: string | null; sku?: "once" } | null;
   onClose: () => void;
 }) {
   const { data, error, loading, refresh } = account;
@@ -170,7 +177,7 @@ export function AccountDialog({
   const [leaving, setLeaving] = useState<PaymentProvider | null>(null);
   const redirecting = useRef(false);
   // The flow stopped before the provider's page: said, with a retry (chat-pay).
-  const [stall, setStall] = useState<{ provider: PaymentProvider; ask: boolean; kind: "stale" | "bad_url" | "failed" } | null>(null);
+  const [stall, setStall] = useState<{ provider: PaymentProvider; ask: boolean; sku: PackSku; kind: "stale" | "bad_url" | "failed" } | null>(null);
   const [consent, setConsent] = useState(false);
   // Sign-in through Telegram, opened on request: beside guest checkout, and
   // for a guest's pack, to keep it on any phone (IdentityStore.adoptGuest).
@@ -234,6 +241,8 @@ export function AccountDialog({
   const termsUrl = safeTermsLink(currentTerms);
   const billingAvailable = billingOpen(data);
   const pack = data?.pack;
+  // The packs on offer (pack-offers.ts): one, or the 3-day pack beside the monthly one.
+  const offers = offersOf(pack);
   const date = (at: number) => new Date(at).toLocaleDateString(locale === "uz" ? "uz-UZ" : "ru-RU");
   const post = async (path: string, body: unknown) => {
     const res = await fetch(`${apiBase}${path}`, {
@@ -290,7 +299,7 @@ export function AccountDialog({
         return;
       }
       // A payment says so, with a retry; any other action fails as before.
-      if (trace) setStall({ provider: trace.provider, ask: trace.ask, kind: "failed" });
+      if (trace) setStall({ provider: trace.provider, ask: trace.ask, sku: trace.sku, kind: "failed" });
       else account.fail();
       track(EV.accountActionFailed, { locale, code: "request_failed" });
     } finally {
@@ -299,11 +308,17 @@ export function AccountDialog({
       setBusy(false);
     }
   };
-  const pay = (provider: PaymentProvider, ask = false) =>
+  const pay = (provider: PaymentProvider, ask = false, sku: PackSku = "month") =>
     run(async () => {
-      const resume = resumeReady && data?.payment?.provider === provider;
-      if ((!checkoutReady && !resume) || !data || !offeredProviders(data).includes(provider)
-        || globalThis.navigator?.cookieEnabled === false) throw new Error();
+      // An open invoice is resumed only as what it is: this provider's, of this pack.
+      const openSku = data?.payment?.sku ?? "month";
+      const resume = resumeReady && data?.payment?.provider === provider && openSku === sku;
+      // The other pack while an invoice is open: the server closes one no
+      // provider has seen, and names the one that is held (pending_elsewhere).
+      const other = resumeReady && openSku !== sku;
+      const offer = offers.find((entry) => entry.sku === sku);
+      if ((!checkoutReady && !resume && !other) || !data || !offer || !offeredProviders(data).includes(provider)
+        || (sku === "once" && provider === "uzum") || globalThis.navigator?.cookieEnabled === false) throw new Error();
       const generation = memoryRef.current.generation ?? 0;
       // A guest has no account until subscribe makes one: that change is this order's own.
       const stillCurrent = () => generation === (memoryRef.current.generation ?? 0)
@@ -312,16 +327,17 @@ export function AccountDialog({
       // (fetched beside the request) counts the steps.
       const t0 = Date.now();
       const loaded = payPart.load().catch(() => null);
-      memoryRef.current.trace = { provider, ask, t0, loaded };
+      memoryRef.current.trace = { provider, ask, sku, t0, loaded };
       if (!ask) {
         memoryRef.current.shared = null;
         setLeaving(provider);
       }
       // Pressing the button is the acceptance (the offer, section 7): the
       // server records the edition and the time on the order, as before.
+      const key = sku === "once" ? `${provider}:once` : provider;
       if (data.payment && !["pending", "prepared"].includes(data.payment.state))
-        memoryRef.current.requestKeys[provider] = undefined;
-      memoryRef.current.requestKeys[provider] ??= crypto.randomUUID();
+        memoryRef.current.requestKeys[key] = undefined;
+      memoryRef.current.requestKeys[key] ??= crypto.randomUUID();
       const result = await post("/api/gpt/subscribe", {
         provider,
         locale,
@@ -329,14 +345,16 @@ export function AccountDialog({
         returnPath: location.pathname,
         acceptTerms: true,
         termsVersion: data.termsVersion,
-        requestId: memoryRef.current.requestKeys[provider],
+        requestId: memoryRef.current.requestKeys[key],
+        // The 3-day pack by name; the monthly pack is the request it always was.
+        ...(sku === "once" ? { sku } : {}),
       });
       const m = await loaded;
       m?.payEvent(apiBase, "checkout_created", provider, t0);
       // Stopping after the order exists is never silent: the step is counted and the window says so.
       const stop = (reason: "stale" | "bad_url" | "cookies") => {
         m?.payEvent(apiBase, "checkout_aborted", provider, t0, reason);
-        if (reason !== "cookies") setStall({ provider, ask, kind: reason });
+        if (reason !== "cookies") setStall({ provider, ask, sku, kind: reason });
       };
       // The order may already exist server-side. Closing or changing accounts
       // stops this continuation; it never silently cancels a provider invoice.
@@ -374,7 +392,7 @@ export function AccountDialog({
         }
         // Someone else pays: the same order and link, shown instead of leaving. The pack turns on here.
         if (ask) {
-          memoryRef.current.shared = { provider, url, at: Date.now(), id: attemptId };
+          memoryRef.current.shared = { provider, url, at: Date.now(), id: attemptId, sku, priceUzs: offer.priceUzs };
           setChoosing(false);
           checkout.start({ provider, flow: "status", at: Date.now(), attemptId, before: null });
           // Watched while this page lives, never stored: nobody left for a payment
@@ -385,8 +403,8 @@ export function AccountDialog({
           return;
         }
         started();
-        if (!resume && data.mode === "live" && attemptId && data.pack)
-          trackMetaCheckout({ transactionId: attemptId, value: data.pack.priceUzs, itemId: `ai_paket_${data.pack.messageLimit}` });
+        if (!resume && data.mode === "live" && attemptId)
+          m?.trackMetaCheckout({ transactionId: attemptId, value: offer.priceUzs, itemId: `ai_paket_${offer.messageLimit}` });
         redirecting.current = true;
         // The last step counted: fetch with keepalive, so it survives the navigation.
         m?.payEvent(apiBase, "checkout_redirect", provider, t0);
@@ -407,11 +425,11 @@ export function AccountDialog({
   // it every few seconds) is neither refused nor lost: it waits for that read
   // and pays only if the read shows the same account, order and offer the
   // visitor tapped on. Anything else changed the screen: the tap is dropped.
-  const [queued, setQueued] = useState<{ provider: PaymentProvider; ask: boolean; seen: string | null } | null>(null);
-  const payWhenRead = (provider: PaymentProvider, ask = false) => {
-    if (!loading || error || !data) return void pay(provider, ask);
+  const [queued, setQueued] = useState<{ provider: PaymentProvider; ask: boolean; sku: PackSku; seen: string | null } | null>(null);
+  const payWhenRead = (provider: PaymentProvider, ask = false, sku: PackSku = "month") => {
+    if (!loading || error || !data) return void pay(provider, ask, sku);
     if (!ask) setLeaving(provider);
-    setQueued({ provider, ask, seen: tapKey(data) });
+    setQueued({ provider, ask, sku, seen: tapKey(data) });
   };
   useEffect(() => {
     if (!queued || loading) return;
@@ -420,7 +438,7 @@ export function AccountDialog({
       setLeaving(null);
       return;
     }
-    void pay(queued.provider, queued.ask);
+    void pay(queued.provider, queued.ask, queued.sku);
     // It waits for the tap and for the end of the read; the rest is as that render has it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queued, loading]);
@@ -454,10 +472,21 @@ export function AccountDialog({
     memoryRef.current.autoPaid = autoPay.seq;
     if (!checkoutReady || busy || memoryRef.current.inFlight || !offered.includes(autoPay.provider)
       || !autoPay.offerKey || autoPay.offerKey !== checkoutOfferKey(data, locale)) return;
+    // The tap was on the 3-day pack's own row: that pack, or nothing (pay() refuses a pack the server does not offer).
+    if (autoPay.sku === "once") {
+      void pay(autoPay.provider, false, "once");
+      return;
+    }
     void pay(autoPay.provider);
   });
 
   const watch = checkout.watch;
+  // Back without a payment for the monthly pack: the 3-day pack in one tap, with the same provider (chat-pay draws the line).
+  const small = offers.find((offer) => offer.sku === "once");
+  const unpaidWith = data?.payment?.provider ?? watch?.provider;
+  const cheaper = small && (data?.payment?.sku ?? "month") === "month" && (unpaidWith === "click" || unpaidWith === "payme")
+    ? { offer: small, onPay: () => payWhenRead(unpaidWith, false, "once") }
+    : null;
   if (leaving)
     return (
       <>
@@ -469,7 +498,7 @@ export function AccountDialog({
     );
   // The message of a flow that stopped, above whatever screen follows.
   const gone = <p role="alert" className="gpt-error">{copy.failed}</p>;
-  const stalled = stall && <PayIn is="PayStall" failed={gone} locale={locale} {...stall} busy={busy || !!queued} onRetry={() => payWhenRead(stall.provider, stall.ask)} />;
+  const stalled = stall && <PayIn is="PayStall" failed={gone} locale={locale} {...stall} busy={busy || !!queued} onRetry={() => payWhenRead(stall.provider, stall.ask, stall.sku)} />;
   // Someone else pays (chat-pay): the link, until the pack is here.
   const shared = memoryRef.current.shared;
   if (shared && checkout.outcome === "paid") memoryRef.current.shared = null;
@@ -483,11 +512,11 @@ export function AccountDialog({
           locale={locale}
           {...shared}
           orderState={data?.payment?.id === shared.id ? data.payment.state : null}
-          priceUzs={pack?.priceUzs ?? 0}
+          priceUzs={shared.priceUzs}
           busy={busy || !!queued}
           onCheck={() => void refresh()}
-          onNew={() => { memoryRef.current.shared = null; payWhenRead(shared.provider, true); }}
-          onPayMyself={() => { memoryRef.current.shared = null; payWhenRead(shared.provider); }}
+          onNew={() => { memoryRef.current.shared = null; payWhenRead(shared.provider, true, shared.sku); }}
+          onPayMyself={() => { memoryRef.current.shared = null; payWhenRead(shared.provider, false, shared.sku); }}
           onBack={() => { memoryRef.current.shared = null; setChoosing(true); }}
         />
       </>
@@ -525,7 +554,8 @@ export function AccountDialog({
         locale={locale}
         apiBase={apiBase}
         busy={busy || !!queued}
-        onPay={payWhenRead}
+        onPay={(provider, ask) => payWhenRead(provider, ask, data?.payment?.sku ?? "month")}
+        cheaper={cheaper}
         watch={watch}
         outcome={checkout.outcome}
         data={data}
@@ -550,40 +580,59 @@ export function AccountDialog({
     && !cookiesBlocked && globalThis.navigator?.cookieEnabled !== false;
   const openPayment = data?.payment && ["pending", "prepared"].includes(data.payment.state) ? data.payment : null;
   const appFlow = (provider: PaymentProvider) => provider === "uzum" && data?.uzumFlow === "code";
+  // Two packs: a row each, the small one first for someone without a pack. With
+  // an invoice open the other pack can still be chosen (pay() says how).
+  const two = offers.length > 1;
+  const rows = listed(offers, !!data?.access);
+  const payable = startable || (two && resumable);
+  // The monthly pack's own buttons: the pay step of one pack, and what stands in while the rows load.
+  const buttons = (
+    <div className="gpt-payment-buttons">
+      {offered.map((provider) => (
+        <button
+          type="button"
+          key={provider}
+          className="gpt-primary"
+          data-provider={provider}
+          disabled={busy || !!queued || !startable}
+          onClick={() => payWhenRead(provider)}
+        >
+          {appFlow(provider) ? copy.payInApp : copy.payVia(PROVIDER_NAMES[provider])}
+          {!appFlow(provider) && <span aria-hidden="true">↗</span>}
+        </button>
+      ))}
+    </div>
+  );
   const payStep = billingAvailable && pack && (data?.user || guestPay) && (
     <>
       {data?.access ? (
         <>
           <p className="gpt-panel-note">
-            {copy.price(groupDigits(pack.priceUzs), pack.months, pack.messageLimit)}. {t.premium.manual}
+            {!two && `${copy.price(groupDigits(pack.priceUzs), pack.months, pack.messageLimit)}. `}{t.premium.manual}
           </p>
           <p className="gpt-panel-note" data-testid="ai-pack-no-refund">{copy.noRefund}</p>
           <p className="gpt-panel-note">{copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))}</p>
         </>
       ) : (
         // A guest saw the price card above the pay step already.
-        !guestPay && <PlanCard t={t} copy={copy} pack={pack} notes={[copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))]} />
+        !guestPay && <PlanCard t={t} copy={copy} pack={pack} bare={two} notes={[copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))]} />
       )}
       {/* One tap: the pay buttons, live at once, and under them that the press
           accepts the offer (acceptance by action, the offer's section 7). Both
           stay in sight at the bottom of the window (REV-9). */}
       <div className="gpt-sticky-action">
-        <div className="gpt-payment-buttons">
-          {offered.map((provider) => (
-            <button
-              type="button"
-              key={provider}
-              className="gpt-primary"
-              data-provider={provider}
-              disabled={busy || !!queued || !startable}
-              onClick={() => payWhenRead(provider)}
-            >
-              {appFlow(provider) ? copy.payInApp : copy.payVia(PROVIDER_NAMES[provider])}
-              {!appFlow(provider) && <span aria-hidden="true">↗</span>}
-            </button>
-          ))}
-        </div>
-        <PayIn is="PayExtras" locale={locale} pack={pack} providers={offered} busy={busy || !!queued || !startable} termsUrl={termsUrl} onAsk={(provider) => payWhenRead(provider, true)} />
+        {two ? (
+          <PayIn
+            is="PayPacks"
+            fallback={buttons}
+            locale={locale}
+            offers={rows}
+            providers={offered}
+            busy={busy || !!queued || !payable}
+            onPay={(provider, sku) => payWhenRead(provider, false, sku)}
+          />
+        ) : buttons}
+        <PayIn is="PayExtras" locale={locale} pack={pack} offers={rows} providers={offered} busy={busy || !!queued || !payable} termsUrl={termsUrl} onAsk={(provider, sku) => payWhenRead(provider, true, sku)} />
         {termsUrl && data?.termsVersion && (
           <p className="gpt-pay-accept">
             {t.premium.acceptByPay.before}
@@ -595,7 +644,7 @@ export function AccountDialog({
       {openPayment?.provider && (
         <div className="gpt-panel-note" data-testid="ai-pay-open">
           <p>{copy.resumeNote}</p>
-          <button type="button" className="gpt-primary" disabled={busy || !!queued || !resumable} onClick={() => { if (openPayment.provider) payWhenRead(openPayment.provider); }}>
+          <button type="button" className="gpt-primary" disabled={busy || !!queued || !resumable} onClick={() => { if (openPayment.provider) payWhenRead(openPayment.provider, false, openPayment.sku ?? "month"); }}>
             {copy.resume}
           </button>
           {openPayment.cancellable ? (
@@ -626,14 +675,18 @@ export function AccountDialog({
       {/* The bot first (no BotFather client needed); Telegram's OIDC
           when the server offers only that. */}
       {data?.loginMethods?.includes("bot") ? (
-        <BotLoginScreen
-          locale={locale}
-          apiBase={apiBase}
-          copy={copy}
-          consent={consent}
-          disabled={busy || error || loading}
-          onSignedIn={refresh}
-        />
+        <LazyPart part={loginPart} fallback={<p role="status" className="gpt-panel-note">{copy.checking}</p>} failed={gone}>
+          {({ BotLoginScreen }) => (
+            <BotLoginScreen
+              locale={locale}
+              apiBase={apiBase}
+              copy={copy}
+              consent={consent}
+              disabled={busy || error || loading}
+              onSignedIn={refresh}
+            />
+          )}
+        </LazyPart>
       ) : (
         <button
           type="button"
@@ -656,6 +709,7 @@ export function AccountDialog({
       )}
     </div>
   );
+  const plan = billingAvailable && pack && <PlanCard t={t} copy={copy} pack={pack} bare={two && guestPay} notes={guestPay ? [copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or)), copy.guestPayNote, copy.otherBrowser] : []} />;
   const paymentState = data?.payment
     ? ["pending", "prepared"].includes(data.payment.state)
       ? copy.pending
@@ -685,11 +739,13 @@ export function AccountDialog({
       {stalled}
       {data && !data.user && (
         <>
-          {/* A price only while the pack can really be bought (F6); a guest's notes fold into its card. */}
-          {billingAvailable && pack && <PlanCard t={t} copy={copy} pack={pack} notes={guestPay ? [copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or)), copy.guestPayNote, copy.otherBrowser] : []} />}
+          {/* A price only while the pack can really be bought (F6); a guest's notes fold into its card.
+              With two packs the rows carry the prices and come first: the card, notes only, follows them. */}
+          {!(two && guestPay) && plan}
           {guestPay ? (
             <>
               {payStep}
+              {two && plan}
               {data.loginAvailable && (signIn ? (
                 <>
                   <p className="gpt-panel-note">{copy.haveAccount}</p>

@@ -5,6 +5,7 @@ import type { ChatStrings } from "../i18n";
 import type { AccountStrings } from "../account-strings";
 import { CHECKOUT_FAST_FOR_MS, settledCheckout, type CheckoutOutcome, type CheckoutWatch } from "../checkout";
 import { PayHolderless, PayUnpaid } from "../parts/pay-screens";
+import type { PackOffer } from "../pack-offers";
 
 /** How often the screen re-reads the clock, to say "still waiting" after two minutes. */
 const CLOCK_MS = 5_000;
@@ -39,6 +40,7 @@ export function CheckoutReturn({
   apiBase,
   busy,
   onPay,
+  cheaper,
   watch,
   outcome,
   data,
@@ -59,6 +61,8 @@ export function CheckoutReturn({
   busy: boolean;
   /** Pay with this provider again (the same open order, or a new one when it closed), or make a link for someone else (`ask`). */
   onPay: (provider: PaymentProvider, ask?: boolean) => void;
+  /** The 3-day pack, offered where a monthly order was left unpaid; null when it is not on offer or the order is that pack. */
+  cheaper: { offer: PackOffer; onPay: () => void } | null;
   watch: CheckoutWatch;
   outcome: CheckoutOutcome | null;
   data: AccountView | null;
@@ -125,6 +129,7 @@ export function CheckoutReturn({
       onContinue={() => { if (provider) onPay(provider); }}
       onOther={closed ? onAgain : onChange}
       onAsk={provider === "click" || provider === "payme" ? () => onPay(provider, true) : null}
+      cheaper={cheaper}
       top={whole ? notices : null}
     >
       {whole && back(false)}

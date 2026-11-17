@@ -4,6 +4,8 @@ import type { ChatRolePreset } from '../../shared/types';
 import { EV, track } from '../analytics';
 import { recordUiEvent } from '../ui-events';
 import { EXIT_REASONS, paywallRole, trialCopy } from '../trial-copy';
+import { listed, offersOf, perAnswer } from '../pack-offers';
+import { packText } from '../pack-text';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import './conversion.css';
 
@@ -12,14 +14,16 @@ import './conversion.css';
  * conversation. The heading and its line speak to the page's task (Ш1: the
  * page's role, data-chat-role); the price, answers and period come from the
  * server's PackTerms. Every provider's button carries the sum, none is
- * preselected. «Paketim bor» opens the pack window (onPay without a provider),
+ * preselected. While the server offers the 3-day pack too (pack-offers.ts),
+ * each pack is a row with its own buttons, the small one first: one tap still
+ * pays, and the tap names its pack. «Paketim bor» opens the pack window (onPay without a provider),
  * where a bought pack is found. Closed without paying, the window leaves one
  * optional question in the thread, «Nega hozir emas?»: four answers from a
  * closed list, no text field, once per view, and it never holds the closing.
  */
 export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, apiBase, onPay }: {
   locale: Locale; owner: string; role?: ChatRolePreset; pack: PackTerms; providers: PaymentProvider[]; termsUrl: string | null;
-  apiBase: string; onPay: (provider?: PaymentProvider) => void;
+  apiBase: string; onPay: (provider?: PaymentProvider, sku?: 'once') => void;
 }) {
   const key = `gptchat_trial_offer_v1:${owner}`;
   const [open, setOpen] = useState(() => { try { return localStorage.getItem(key) !== 'seen'; } catch { return true; } });
@@ -28,6 +32,10 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
   const seen = useRef(false);
   const page = paywallRole(role);
   const c = trialCopy(locale, page, pack);
+  // Someone at the paywall holds no pack: the small one first.
+  const offers = listed(offersOf(pack), false);
+  const o = packText(locale);
+  const brand = (provider: PaymentProvider) => (provider === 'click' ? 'Click' : provider === 'payme' ? 'Payme' : 'Uzum Bank');
   useEffect(() => {
     if (!open || seen.current) return;
     seen.current = true;
@@ -63,8 +71,26 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
         <span className="gpt-trial-eyebrow">{c.eyebrow}</span>
         <DialogTitle>{c.title}</DialogTitle>
         <DialogDescription>{c.line}</DialogDescription>
-        <div className="gpt-trial-value"><strong>{c.pack}</strong><span>{c.facts}</span></div>
-        <div className="gpt-trial-pay">{providers.map(provider => <button type="button" key={provider} data-provider={provider} onClick={() => { setOpen(false); track(EV.packPromptClicked, { locale, surface: 'trial_exhausted', provider }); onPay(provider); }}>{c.pay(provider)} <span aria-hidden="true">↗</span></button>)}</div>
+        {offers.length > 1 ? (
+          <div className="gpt-trial-packs" data-testid="trial-packs">
+            {offers.map(offer => (
+              <div className="gpt-trial-pack" key={offer.sku} data-sku={offer.sku}>
+                <div className="gpt-trial-pack-head"><strong>{o.name(offer)}</strong><b>{o.sum(offer)}</b></div>
+                <span>{o.facts(offer)} · {o.per(perAnswer(offer))}</span>
+                <div className="gpt-trial-pay"><i aria-hidden="true">{o.via}</i>{providers.filter(provider => offer.sku === 'month' || provider !== 'uzum').map(provider => (
+                  <button type="button" key={provider} data-provider={provider} data-sku={offer.sku} aria-label={o.pay(offer, brand(provider))} onClick={() => {
+                    setOpen(false);
+                    track(EV.packPromptClicked, { locale, surface: 'trial_exhausted', provider });
+                    onPay(provider, offer.sku === 'once' ? 'once' : undefined);
+                  }}>{brand(provider)} <span aria-hidden="true">↗</span></button>
+                ))}</div>
+              </div>
+            ))}
+          </div>
+        ) : <>
+          <div className="gpt-trial-value"><strong>{c.pack}</strong><span>{c.facts}</span></div>
+          <div className="gpt-trial-pay">{providers.map(provider => <button type="button" key={provider} data-provider={provider} onClick={() => { setOpen(false); track(EV.packPromptClicked, { locale, surface: 'trial_exhausted', provider }); onPay(provider); }}>{c.pay(provider)} <span aria-hidden="true">↗</span></button>)}</div>
+        </>}
         <small>{c.fine} {termsUrl && <>{c.acceptBefore}<a href={termsUrl} target="_blank" rel="noopener noreferrer">{c.acceptLink}</a>.</>}</small>
         <div className="gpt-trial-links">
           <button type="button" className="gpt-trial-later" data-testid="trial-have-pack" onClick={() => { setOpen(false); track(EV.packPromptClicked, { locale, surface: 'trial_exhausted', from: 'have_pack' }); onPay(); }}>{c.havePack}</button>
@@ -91,6 +117,36 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
       </section>
     )}
   </>;
+}
+
+/**
+ * The 3-day pack on the limit card, above the monthly pack's own line and
+ * buttons (components/AiLimitPay.tsx, start bundle): the card is what a
+ * visitor sees after the paywall is closed, and on every return. Drawn only
+ * while the server offers the pack; one tap pays it, and the tap names it.
+ */
+export function LimitSmallPack({ locale, pack, providers, onPay }: {
+  locale: Locale; pack: PackTerms; providers: PaymentProvider[]; onPay: (provider: PaymentProvider) => void;
+}) {
+  const [month, small] = offersOf(pack);
+  if (!small) return null;
+  const o = packText(locale);
+  const brand = (provider: PaymentProvider) => (provider === 'click' ? 'Click' : 'Payme');
+  return (
+    <div className="gpt-limit-small" data-testid="limit-small-pack">
+      <p className="gpt-limit-pay-line"><strong>{o.sum(small)}</strong> · {o.facts(small)}</p>
+      <div className="gpt-limit-small-pay">
+        <i aria-hidden="true">{o.via}</i>
+        {providers.filter(provider => provider !== 'uzum').map(provider => (
+          <button type="button" className="gpt-primary" key={provider} data-testid="limit-pay-small" data-provider={provider} aria-label={o.pay(small, brand(provider))} onClick={() => {
+            track(EV.packPromptClicked, { locale, surface: 'limit_card', provider });
+            onPay(provider);
+          }}>{brand(provider)}<span aria-hidden="true">↗</span></button>
+        ))}
+      </div>
+      <p className="gpt-limit-or">{o.or(month)}</p>
+    </div>
+  );
 }
 
 /**

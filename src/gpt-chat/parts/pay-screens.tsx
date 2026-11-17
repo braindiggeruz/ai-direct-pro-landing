@@ -18,6 +18,8 @@ import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import type { Locale, PackTerms, PaymentProvider } from '../types';
 import { recordUiEvent } from '../ui-events';
 import { STUDIO_TELEGRAM_URL } from '../../shared/studio-contact';
+import { perAnswer, type PackOffer, type PackSku } from '../pack-offers';
+import { packText } from '../pack-text';
 import {
   ABORT_REASONS,
   type AbortReason,
@@ -206,11 +208,15 @@ export function PayStall({ locale, provider, kind, busy, onRetry }: {
  * of one answer (P6), and «Попросить оплатить» (P4): the first tap opens the
  * line that says creating the link accepts the offer, the second creates it.
  */
-export function PayExtras({ locale, pack, providers, busy, termsUrl, onAsk }: {
-  locale: Locale; pack: PackTerms; providers: readonly PaymentProvider[]; busy: boolean; termsUrl: string | null;
-  onAsk: (provider: PaymentProvider) => void;
+export function PayExtras({ locale, pack, offers, providers, busy, termsUrl, onAsk }: {
+  locale: Locale; pack: PackTerms;
+  /** The packs on offer, in the order of their rows; one: the window of one pack, as it always was. */
+  offers: PackOffer[];
+  providers: readonly PaymentProvider[]; busy: boolean; termsUrl: string | null;
+  onAsk: (provider: PaymentProvider, sku: PackSku) => void;
 }) {
   const s = TEXT[locale];
+  const two = offers.length > 1;
   const links = providers.filter((provider) => provider === 'click' || provider === 'payme');
   const [open, setOpen] = useState(() => {
     try { return sessionStorage.getItem(ASK_KEY) === '1'; } catch { return false; }
@@ -222,16 +228,16 @@ export function PayExtras({ locale, pack, providers, busy, termsUrl, onAsk }: {
   return (
     <div className="gpt-pay-extras" data-testid="ai-pay-extras">
       {links.length > 0 && links.length === providers.length && <p className="gpt-pay-next">{s.next(joinNames(locale, links))}</p>}
-      {per > 0 && <p className="gpt-pay-per" data-testid="ai-pay-per">{s.per(per)}</p>}
+      {per > 0 && !two && <p className="gpt-pay-per" data-testid="ai-pay-per">{s.per(per)}</p>}
       {links.length > 0 && (open ? (
         <div className="gpt-pay-ask" data-testid="ai-pay-ask-box">
           <p>{s.askHint}</p>
           <div className="gpt-pay-ask-buttons">
-            {links.map((provider) => (
-              <button type="button" className="gpt-text-button" key={provider} data-provider={provider} disabled={busy} onClick={() => onAsk(provider)}>
-                {s.askFor(NAMES[provider])}
+            {(two ? offers : offers.slice(0, 1)).flatMap((offer) => links.map((provider) => (
+              <button type="button" className="gpt-text-button" key={`${offer.sku}:${provider}`} data-provider={provider} data-sku={offer.sku} disabled={busy} onClick={() => onAsk(provider, offer.sku)}>
+                {two ? packText(locale).link(offer, NAMES[provider]) : s.askFor(NAMES[provider])}
               </button>
-            ))}
+            )))}
           </div>
           <p className="gpt-pay-ask-accept">
             {s.accept}
@@ -243,6 +249,52 @@ export function PayExtras({ locale, pack, providers, busy, termsUrl, onAsk }: {
         <button type="button" className="gpt-text-button gpt-pay-ask-open" data-testid="ai-pay-ask" disabled={busy} onClick={() => setOpen(true)}>
           {s.askLink}
         </button>
+      ))}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- two packs
+
+/**
+ * Two packs on offer (the 3-day pack beside the monthly one): a row each, with
+ * its sum, what it holds, the price of one answer and its own pay buttons, so
+ * one tap still pays. Nothing is preselected. Every number is the server's.
+ */
+export function PayPacks({ locale, offers, providers, busy, onPay }: {
+  locale: Locale; offers: PackOffer[]; providers: readonly PaymentProvider[]; busy: boolean;
+  onPay: (provider: PaymentProvider, sku: PackSku) => void;
+}) {
+  const s = packText(locale);
+  const best = Math.min(...offers.map(perAnswer));
+  return (
+    <div className="gpt-pay-packs" data-testid="ai-pay-packs">
+      {offers.map((offer) => (
+        <section className="gpt-pay-pack" key={offer.sku} data-sku={offer.sku} aria-label={`${s.name(offer)}: ${s.sum(offer)}`}>
+          <div className="gpt-pay-pack-head">
+            <strong>{s.name(offer)}{perAnswer(offer) === best && <em>{s.best}</em>}</strong>
+            <b>{s.sum(offer)}</b>
+          </div>
+          <p>{s.facts(offer)} · {s.per(perAnswer(offer))}</p>
+          <div className="gpt-pay-pack-buttons">
+            {/* The word the acceptance line names, once; then a button per provider. Uzum sells the monthly pack only. */}
+            <span aria-hidden="true">{s.via}</span>
+            {providers.filter((provider) => offer.sku === 'month' || provider !== 'uzum').map((provider) => (
+              <button
+                type="button"
+                className="gpt-primary"
+                key={provider}
+                data-provider={provider}
+                data-sku={offer.sku}
+                disabled={busy}
+                aria-label={s.pay(offer, NAMES[provider])}
+                onClick={() => onPay(provider, offer.sku)}
+              >
+                {NAMES[provider]}<span aria-hidden="true">↗</span>
+              </button>
+            ))}
+          </div>
+        </section>
       ))}
     </div>
   );
@@ -335,7 +387,7 @@ export function orderRef(id: string | null | undefined): string {
   return typeof id === 'string' ? id.slice(-6).toUpperCase() : '';
 }
 
-export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, provider, since, closed, busy, onContinue, onOther, onAsk }: {
+export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, provider, since, closed, busy, onContinue, onOther, onAsk, cheaper = null }: {
   /** The card is the window's whole screen: its title is the window's, `top` follows it and `children` close it. */
   heading: boolean; top?: ReactNode; children?: ReactNode;
   /** The order the client holds (account view or watch), or null. */
@@ -344,6 +396,8 @@ export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, pr
   /** The order is closed (cancelled or past its time): continuing makes a new one. */
   closed: boolean; busy: boolean;
   onContinue: () => void; onOther: () => void; onAsk: (() => void) | null;
+  /** The smaller pack, for a monthly order left unpaid: one tap with the same provider. */
+  cheaper?: { offer: PackOffer; onPay: () => void } | null;
 }) {
   const s = TEXT[locale];
   const ref = orderRef(orderId);
@@ -370,6 +424,11 @@ export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, pr
       <p>{closed ? s.unpaidClosed : s.unpaidOpen}</p>
       {ref && <p className="gpt-pay-ref" data-testid="ai-pay-ref">{s.invoice(ref)}</p>}
       {provider && <button type="button" className="gpt-primary" disabled={busy} onClick={onContinue}>{s.cont} · {NAMES[provider]}</button>}
+      {cheaper && provider && (
+        <button type="button" className="gpt-pay-cheaper" data-testid="ai-pay-cheaper" disabled={busy} onClick={cheaper.onPay}>
+          {packText(locale).cheaper(cheaper.offer)} · {NAMES[provider]}
+        </button>
+      )}
       <div className="gpt-pay-unpaid-more">
         <button type="button" className="gpt-text-button" disabled={busy} onClick={onOther}>{s.other}</button>
         {onAsk && <button type="button" className="gpt-text-button" disabled={busy} onClick={onAsk}>{s.ask}</button>}

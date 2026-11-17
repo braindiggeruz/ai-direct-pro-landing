@@ -126,8 +126,8 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const [accountRefresh, setAccountRefresh] = useState(0);
   const [accountOpen, setAccountOpen] = useState<PackOpenRequest | undefined>();
   // With a provider (the limit card's one tap) the window pays at once.
-  const openAccount = (from: PackFrom, pay?: PaymentProvider) => setAccountOpen((last) => ({
-    seq: (last?.seq ?? 0) + 1, from, pay, offerKey: pay ? payOffer?.offerKey : null,
+  const openAccount = (from: PackFrom, pay?: PaymentProvider, sku?: "once") => setAccountOpen((last) => ({
+    seq: (last?.seq ?? 0) + 1, from, pay, offerKey: pay ? payOffer?.offerKey : null, sku,
   }));
   const accountIdentityRef = useRef<string | null>(null);
   const establishedIdentityRef = useRef<string | null>(null);
@@ -1123,6 +1123,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             {/* One tap (07.10): the price and a button per provider; a tap
                 creates the order in the window's lazy part and leaves for
                 the provider's page. The window's own button without one. */}
+            {card.account && packTerms && !!packTerms.more && payOffer?.termsUrl && (
+              <LazyPart part={conversionPart}>
+                {({ LimitSmallPack }) => <LimitSmallPack locale={config.locale} pack={packTerms} providers={payOffer.providers} onPay={(provider) => openAccount("limit_card", provider, "once")} />}
+              </LazyPart>
+            )}
             {card.account && packTerms && payOffer && (
               <AiLimitPay
                 t={t}
@@ -1476,7 +1481,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 )}
                 {canShowOffer && packTerms && payOffer && limit?.reason === 'trial' && !accountOpen && (
                   <LazyPart part={conversionPart} fallback={null} failed={null}>
-                    {({TrialPaywall}) => <TrialPaywall key={ownerKey} owner={ownerKey} locale={config.locale} role={config.role} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} onPay={provider=>openAccount('limit_card',provider)}/>}
+                    {({TrialPaywall}) => <TrialPaywall key={ownerKey} owner={ownerKey} locale={config.locale} role={config.role} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} onPay={(provider,sku)=>openAccount('limit_card',provider,sku)}/>}
                   </LazyPart>
                 )}
                 {/* The free allowance running low, at the end of the thread: one

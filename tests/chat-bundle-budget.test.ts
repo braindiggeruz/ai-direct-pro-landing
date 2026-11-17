@@ -213,7 +213,7 @@ function startGraph(entry: string): Set<string> {
 
 const LAZY_ONLY = {
   'chat-account': [
-    'src/gpt-chat/account/AccountDialog.tsx', 'src/gpt-chat/account/BotLoginScreen.tsx',
+    'src/gpt-chat/account/AccountDialog.tsx',
     'src/gpt-chat/account/PackPanel.tsx', 'src/gpt-chat/account-strings.ts', 'src/components/ui/card.tsx',
   ],
   'chat-lead': [
@@ -264,6 +264,7 @@ test('nothing the start imports statically reaches a lazy part; each part reache
 const NESTED = {
   'chat-pay': ['src/gpt-chat/parts/pay-screens.tsx', 'src/gpt-chat/account/CheckoutReturn.tsx'],
   'chat-uzum': ['src/gpt-chat/account/UzumCodeScreen.tsx'],
+  'chat-login': ['src/gpt-chat/account/BotLoginScreen.tsx'],
 };
 
 test("the pack window's nested parts are reached only through account/pay-part.tsx", () => {

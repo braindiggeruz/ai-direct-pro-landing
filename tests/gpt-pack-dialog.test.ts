@@ -21,11 +21,12 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Dialog } from '../src/components/ui/dialog';
 
 import { accountPart } from '../src/gpt-chat/lazy-part';
-import { payPart, uzumPart } from '../src/gpt-chat/account/pay-part';
+import { loginPart, payPart, uzumPart } from '../src/gpt-chat/account/pay-part';
 import { TEXT as PAY_TEXT } from '../src/gpt-chat/parts/pay-screens';
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings, groupDigits } from '../src/gpt-chat/account-strings';
-import { checkoutReport, type CheckoutOutcome, type CheckoutWatch } from '../src/gpt-chat/checkout';
+import type { CheckoutOutcome, CheckoutWatch } from '../src/gpt-chat/checkout';
+import { checkoutReport } from '../src/gpt-chat/account/purchase-report';
 import { groupPaymentCode, UZUM_APP_SERVICE } from '../src/gpt-chat/account/UzumCodeScreen';
 import { PROVIDER_NAMES, type AccountWindowMemory } from '../src/gpt-chat/account/AccountDialog';
 import { GUEST_PROVIDERS } from '../functions/lib/gpt-chat/billing-config';
@@ -67,7 +68,7 @@ async function window(
 ): Promise<string> {
   const { AccountDialog } = await accountPart.load();
   // The window's nested parts are here, as they are once the window has been open a moment (account/pay-part.tsx).
-  await Promise.all([payPart.load(), uzumPart.load()]);
+  await Promise.all([payPart.load(), uzumPart.load(), loginPart.load()]);
   const account: AccountHandle = {
     data, error: false, loading: false, refresh: async () => {}, fail: () => {}, forget: () => {}, clearError: () => {}, ...options.handle,
   };
@@ -416,7 +417,12 @@ test('one report per ended payment: checkout_result always, a purchase for real 
   // The panel reports it once, from the start bundle, with the window open or not.
   const panel = read('src/gpt-chat/components/AiAccountPanel.tsx');
   assert.equal((panel.match(/track\(EV\.checkoutResult/g) ?? []).length, 1);
-  assert.match(panel, /if \(report\.purchase && firstReport\(report\.purchase\.transactionId\)\) trackPurchase\(report\.purchase\);/);
+  // The purchase itself is reported by the lazy part chat-pay (it runs once per payment), asked for through the window's part.
+  assert.match(panel, /if \(result === "paid"\) void accountPart\.load\(\)\.then\(\(part\) => part\.reportPurchase\(data, checkout\)\)\.catch\(\(\) => undefined\);/);
+  assert.match(read('src/gpt-chat/account/purchase-report.ts'), /const \{ purchase \} = checkoutReport\(account, watch, 'paid'\);\s*if \(purchase && firstReport\(purchase\.transactionId\)\) trackPurchase\(purchase\);/);
+  // A 3-day pack is reported for what it cost, not for the pack on offer.
+  assert.deepEqual(checkoutReport({ ...live, payment: { id: ORDER, state: 'paid', provider: 'payme', sku: 'once', priceUzs: 5000, messageLimit: 30 } }, watchOf(), 'paid').purchase,
+    { transactionId: ORDER, value: 5000, itemId: 'ai_paket_30', itemName: 'AI paket 30', provider: 'payme' });
   assert.match(panel, /recordUiEvent\(apiBase, "checkout_result", result\);/);
   // Each GA4 step of the funnel has its server count beside it.
   const sources = [panel, read('src/gpt-chat/account/AccountDialog.tsx'), read('src/gpt-chat/account/BotLoginScreen.tsx')].join('\n');
@@ -512,7 +518,7 @@ test('one tap (07.10): no offer box in the window, the acceptance line in both l
   assert.match(dialog, /acceptTerms: true,\s*termsVersion: data\.termsVersion,/);
   assert.doesNotMatch(dialog, /setTerms\(|!terms\b|\[terms, setTerms\]|checked=\{terms\}/, 'no consent state for the offer');
   // The sticky block holds the buttons and the line, so both stay in sight on a phone (REV-9).
-  assert.match(dialog, /<div className="gpt-sticky-action">\s*<div className="gpt-payment-buttons">/);
+  assert.match(dialog, /const buttons = \(\s*<div className="gpt-payment-buttons">[\s\S]*?<div className="gpt-sticky-action">\s*\{two \? \([\s\S]*?\) : buttons\}/);
   for (const locale of LOCALES) {
     // Every pay step, a guest's and a member's, with or without a pack: the line under the buttons.
     for (const view of [guest({ guestCheckout: true }), member(), withPack()]) {

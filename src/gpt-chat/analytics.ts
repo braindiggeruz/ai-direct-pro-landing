@@ -110,7 +110,8 @@ export function inApp(): string {
   }
 }
 
-function safePayload(data: Payload): Payload {
+/** Only the catalogue's flat parameters, with the route and the language. Exported for the purchase report (account/purchase-report.ts). */
+export function safePayload(data: Payload): Payload {
   const route = typeof location !== 'undefined' ? location.pathname : undefined;
   const lang = typeof document !== 'undefined' ? document.documentElement.lang?.slice(0, 2) : undefined;
   const clean: Payload = { route, lang };
@@ -141,62 +142,6 @@ export function track(event: ChatEvent, data: Payload = {}): void {
   }
 }
 
-/**
- * GA4's ecommerce `purchase` for a pack the server confirmed (plan WP-17,
- * map 03 §8.1). Not through track(): its `items` are a list, which the
- * catalogue's flat parameters drop. The order id is not personal data; the
- * caller sends each one once (checkout.ts firstReport).
- */
-export function trackPurchase(order: { transactionId: string; value: number; itemId: string; itemName: string; provider: string }): void {
-  try {
-    initMetaChatPixel();
-    const w = window as unknown as {
-      dataLayer?: Array<Record<string, unknown>>;
-      gtag?: (...args: unknown[]) => void;
-      fbq?: (...args: unknown[]) => void;
-    };
-    const ecommerce = {
-      transaction_id: order.transactionId,
-      value: order.value,
-      currency: 'UZS',
-      items: [{ item_id: order.itemId, item_name: order.itemName, price: order.value, quantity: 1 }],
-    };
-    const payload = safePayload({ provider: order.provider });
-    if (typeof w.gtag === 'function') w.gtag('event', EV.purchase, { ...payload, ...ecommerce });
-    else {
-      if (!w.dataLayer) w.dataLayer = [];
-      // GTM reads ecommerce from its own key; clear the previous one first.
-      w.dataLayer.push({ ecommerce: null });
-      w.dataLayer.push({ event: EV.purchase, ...payload, ecommerce });
-    }
-    // This is called only after the server confirms a live, paid order, and
-    // firstReport() has deduplicated that order in this browser.
-    if (typeof w.fbq === 'function') w.fbq('track', 'Purchase', {
-      value: order.value,
-      currency: 'UZS',
-      content_ids: [order.itemId],
-      content_type: 'product',
-    }, { eventID: order.transactionId });
-  } catch {
-    /* noop */
-  }
-}
-
-/** A new live provider invoice, not a resumed or merely opened payment panel. */
-export function trackMetaCheckout(order: { transactionId: string; value: number; itemId: string }): void {
-  try {
-    initMetaChatPixel();
-    const w = window as unknown as { fbq?: (...args: unknown[]) => void };
-    if (typeof w.fbq === 'function') w.fbq('track', 'InitiateCheckout', {
-      value: order.value,
-      currency: 'UZS',
-      content_ids: [order.itemId],
-      content_type: 'product',
-    }, { eventID: `checkout_${order.transactionId}` });
-  } catch {
-    /* noop */
-  }
-}
 
 export function trackOnce(event: ChatEvent, data: Payload = {}): void {
   const payload = safePayload(data);

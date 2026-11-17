@@ -46,6 +46,8 @@ export interface PackTerms {
   months: number;
   /** VAT included in the price; null until the fiscal settings are set. */
   vat?: { percent: number; includedTiyin: number } | null;
+  /** The packs offered beside this one (the 3-day pack, while the server sells it): read through pack-offers.ts offersOf. */
+  more?: unknown;
 }
 
 export interface AccountView {
@@ -91,7 +93,11 @@ export interface AccountView {
     firstRemaining?: number;
   } | null;
   /** The newest order; `cancellable`: open, and no provider has seen it yet. */
-  payment?: { id: string; state: string; provider?: PaymentProvider; cancellable?: boolean } | null;
+  payment?: {
+    id: string; state: string; provider?: PaymentProvider; cancellable?: boolean;
+    /** What this order buys, from its own row (functions/api/gpt/account.ts paymentView): absent from an older server. */
+    sku?: 'month' | 'once'; priceUzs?: number; messageLimit?: number;
+  } | null;
   receipts?: Array<{ kind: string; receipt_url: string }>;
 }
 

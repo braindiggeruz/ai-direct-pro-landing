@@ -11,7 +11,7 @@ import * as React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Dialog } from '../src/components/ui/dialog';
 import { accountPart } from '../src/gpt-chat/lazy-part';
-import { payPart, uzumPart } from '../src/gpt-chat/account/pay-part';
+import { loginPart, payPart, uzumPart } from '../src/gpt-chat/account/pay-part';
 import { accountStrings } from '../src/gpt-chat/account-strings';
 import { strings } from '../src/gpt-chat/i18n';
 import type { AccountWindowMemory } from '../src/gpt-chat/account/AccountDialog';
@@ -24,6 +24,7 @@ import {
 import { PAYMENT_TTL_MS } from '../functions/lib/gpt-chat/billing-config';
 import { parseUiEvent } from '../functions/lib/gpt-chat/ui-event-store';
 import { ABORT_REASONS } from '../src/shared/checkout-events';
+import { offersOf } from '../src/gpt-chat/pack-offers';
 import { STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
 
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
@@ -54,7 +55,7 @@ async function window(
   options: { watch?: CheckoutWatch | null; outcome?: CheckoutOutcome | null; memory?: Partial<AccountWindowMemory>; loading?: boolean } = {},
 ): Promise<string> {
   const { AccountDialog } = await accountPart.load();
-  await Promise.all([payPart.load(), uzumPart.load()]);
+  await Promise.all([payPart.load(), uzumPart.load(), loginPart.load()]);
   const account: AccountHandle = {
     data, error: false, loading: options.loading ?? false, refresh: async () => {}, fail: () => {}, forget: () => {}, clearError: () => {},
   };
@@ -152,7 +153,7 @@ test('P1: pay() counts its steps in order — created after subscribe, redirect 
   assert.match(pay, /const stop = \(reason: "stale" \| "bad_url" \| "cookies"\) => \{\s*m\?\.payEvent\(apiBase, "checkout_aborted", provider, t0, reason\);\s*if \(reason !== "cookies"\) setStall\(/);
   // A refusal (any code) is counted with its reason word, and a payment failure speaks with a retry instead of the generic error.
   assert.match(dialog, /m\.abortReason\(code\)/);
-  assert.match(dialog, /if \(trace\) setStall\(\{ provider: trace\.provider, ask: trace\.ask, kind: "failed" \}\);\s*else account\.fail\(\);/);
+  assert.match(dialog, /if \(trace\) setStall\(\{ provider: trace\.provider, ask: trace\.ask, sku: trace\.sku, kind: "failed" \}\);\s*else account\.fail\(\);/);
   // The payment never waits for the part: it is loaded beside the request and a failed load is only a missing count.
   assert.match(pay, /const loaded = payPart\.load\(\)\.catch\(\(\) => null\);/);
   // A guest's cookie rule is unchanged: Click is never opened before the cookie is confirmed (tests/gpt-pack-dialog.test.ts pins the probe).
@@ -187,7 +188,7 @@ test('P2: a flow that stopped says so, with a retry, in both languages; the retr
     assert.match(node(React.createElement(PayStall, { locale, provider: 'click', kind: 'stale', busy: true, onRetry: () => {} })), /disabled=""/, 'no second tap while one is running');
   }
   const dialog = read('src/gpt-chat/account/AccountDialog.tsx').replace(/\r\n/g, '\n');
-  assert.match(dialog, /onRetry=\{\(\) => payWhenRead\(stall\.provider, stall\.ask\)\}/);
+  assert.match(dialog, /onRetry=\{\(\) => payWhenRead\(stall\.provider, stall\.ask, stall\.sku\)\}/);
   // The stale-dialog check no longer fires for the guest account subscribe itself made.
   assert.match(dialog, /\(!data\.user \|\| latestAccount\.current\?\.user\?\.storageKey === data\.user\.storageKey\)/);
 });
@@ -196,7 +197,7 @@ test('P2: a flow that stopped says so, with a retry, in both languages; the retr
 
 test('P6: what happens next, and the price of one answer from the pack facts: «≈ 67 сум за ответ» / «≈ 67 so‘m — bitta javob»', () => {
   const extras = (locale: Locale, pack = PACK, providers: ('click' | 'payme' | 'uzum')[] = ['click', 'payme']) =>
-    node(React.createElement(PayExtras, { locale, pack, providers, busy: false, termsUrl: `https://gptbot.uz/${locale}/oferta/`, onAsk: () => {} }));
+    node(React.createElement(PayExtras, { locale, pack, offers: offersOf(pack), providers, busy: false, termsUrl: `https://gptbot.uz/${locale}/oferta/`, onAsk: () => {} }));
   const ru = extras('ru');
   const uz = extras('uz');
   assert.ok(has(ru, '≈ 67 сум за ответ') && has(uz, '≈ 67 so‘m — bitta javob'));
@@ -216,7 +217,7 @@ test('P6: what happens next, and the price of one answer from the pack facts: «
 // ------------------------------------------------------------------ P4
 
 test('P4: «Попросить оплатить» is a secondary action: one tap opens the line that says creating the link accepts the offer, the second creates it', () => {
-  const closed = node(React.createElement(PayExtras, { locale: 'ru', pack: PACK, providers: ['click', 'payme'], busy: false, termsUrl: 'https://gptbot.uz/ru/oferta/', onAsk: () => {} }));
+  const closed = node(React.createElement(PayExtras, { locale: 'ru', pack: PACK, offers: offersOf(PACK), providers: ['click', 'payme'], busy: false, termsUrl: 'https://gptbot.uz/ru/oferta/', onAsk: () => {} }));
   assert.match(closed, /data-testid="ai-pay-ask"[^>]*>Нет карты\? Попросить оплатить</, 'one quiet text link');
   assert.ok(!/gpt-primary/.test(closed), 'no third big button');
   assert.ok(!closed.includes('ai-pay-ask-box'), 'closed: nothing is created by looking');
@@ -226,7 +227,7 @@ test('P4: «Попросить оплатить» is a secondary action: one tap
   g.sessionStorage = { getItem: (key: string) => (key === ASK_KEY ? '1' : null), setItem: () => {}, removeItem: () => {} };
   try {
     for (const locale of LOCALES) {
-      const open = node(React.createElement(PayExtras, { locale, pack: PACK, providers: ['click', 'payme'], busy: false, termsUrl: `https://gptbot.uz/${locale}/oferta/`, onAsk: () => {} }));
+      const open = node(React.createElement(PayExtras, { locale, pack: PACK, offers: offersOf(PACK), providers: ['click', 'payme'], busy: false, termsUrl: `https://gptbot.uz/${locale}/oferta/`, onAsk: () => {} }));
       assert.ok(open.includes('ai-pay-ask-box'), `${locale}: opened by «нет карты» in the survey`);
       assert.deepEqual([...open.matchAll(/data-provider="(\w+)"/g)].map((m) => m[1]), ['click', 'payme']);
       assert.match(open, new RegExp(`href="https://gptbot\\.uz/${locale}/oferta/"`));
@@ -236,16 +237,16 @@ test('P4: «Попросить оплатить» is a secondary action: one tap
     g.sessionStorage = saved;
   }
   // Uzum has no link to send.
-  assert.doesNotMatch(node(React.createElement(PayExtras, { locale: 'ru', pack: PACK, providers: ['uzum'], busy: false, termsUrl: null, onAsk: () => {} })), /ai-pay-ask/);
+  assert.doesNotMatch(node(React.createElement(PayExtras, { locale: 'ru', pack: PACK, offers: offersOf(PACK), providers: ['uzum'], busy: false, termsUrl: null, onAsk: () => {} })), /ai-pay-ask/);
   // The same order and the same consent as the one-tap path: the same subscribe call; only the navigation differs.
   const pay = read('src/gpt-chat/account/AccountDialog.tsx').replace(/\r\n/g, '\n');
-  assert.match(pay, /onAsk=\{\(provider\) => payWhenRead\(provider, true\)\}/);
+  assert.match(pay, /onAsk=\{\(provider, sku\) => payWhenRead\(provider, true, sku\)\}/);
   const body = pay.slice(pay.indexOf('const pay = (provider'), pay.indexOf("// Close the account's own invoice"));
   assert.equal(body.split('post("/api/gpt/subscribe"').length, 2, 'one subscribe call for both paths');
   assert.match(body, /acceptTerms: true,\s*termsVersion: data\.termsVersion,/);
   const ask = body.slice(body.indexOf('if (ask) {'), body.indexOf('started();'));
   assert.doesNotMatch(ask, /location\.|started\(|trackMetaCheckout|checkout_redirect/, 'asking someone else navigates nowhere and starts no checkout of this browser');
-  assert.match(ask, /memoryRef\.current\.shared = \{ provider, url, at: Date\.now\(\), id: attemptId \};/);
+  assert.match(ask, /memoryRef\.current\.shared = \{ provider, url, at: Date\.now\(\), id: attemptId, sku, priceUzs: offer\.priceUzs \};/);
   // The existing watch and polling cover it: the same checkout.start, so the page asks the account on its schedule, on every focus and on every load.
   assert.match(ask, /checkout\.start\(\{ provider, flow: "status", at: Date\.now\(\), attemptId, before: null \}\);/);
 });
@@ -415,18 +416,23 @@ test('a tap while the account is being read waits for the read; it pays only on 
   const dialog = read('src/gpt-chat/account/AccountDialog.tsx').replace(/\r\n/g, '\n');
   // What a tap was made on: nothing but the account view's own fields.
   assert.match(dialog, /function tapKey\(view: AccountView \| null\): string \| null \{\s*return view && JSON\.stringify\(\[\s*view\.user\?\.storageKey \?\? null, view\.payment\?\.id \?\? null, view\.payment\?\.state \?\? null,\s*view\.mode, view\.termsVersion, view\.pack\?\.priceUzs \?\? null, view\.pack\?\.messageLimit \?\? null,\s*\]\);\s*\}/);
-  assert.match(dialog, /const payWhenRead = \(provider: PaymentProvider, ask = false\) => \{\s*if \(!loading \|\| error \|\| !data\) return void pay\(provider, ask\);\s*if \(!ask\) setLeaving\(provider\);\s*setQueued\(\{ provider, ask, seen: tapKey\(data\) \}\);\s*\};/);
-  assert.match(dialog, /if \(!queued \|\| loading\) return;\s*setQueued\(null\);\s*if \(memoryRef\.current\.inFlight \|\| error \|\| queued\.seen !== tapKey\(data\)\) \{\s*setLeaving\(null\);\s*return;\s*\}\s*void pay\(queued\.provider, queued\.ask\);/);
+  assert.match(dialog, /const payWhenRead = \(provider: PaymentProvider, ask = false, sku: PackSku = "month"\) => \{\s*if \(!loading \|\| error \|\| !data\) return void pay\(provider, ask, sku\);\s*if \(!ask\) setLeaving\(provider\);\s*setQueued\(\{ provider, ask, sku, seen: tapKey\(data\) \}\);\s*\};/);
+  assert.match(dialog, /if \(!queued \|\| loading\) return;\s*setQueued\(null\);\s*if \(memoryRef\.current\.inFlight \|\| error \|\| queued\.seen !== tapKey\(data\)\) \{\s*setLeaving\(null\);\s*return;\s*\}\s*void pay\(queued\.provider, queued\.ask, queued\.sku\);/);
   // pay() itself still starts only when no read is in flight: the queue is the only way past a read.
   assert.match(dialog, /const checkoutReady = startable && !loading;\s*const resumeReady = resumable && !loading;/);
-  assert.match(dialog, /const resume = resumeReady && data\?\.payment\?\.provider === provider;\s*if \(\(!checkoutReady && !resume\)/);
+  assert.match(dialog, /const resume = resumeReady && data\?\.payment\?\.provider === provider && openSku === sku;/);
+  assert.match(dialog, /const other = resumeReady && openSku !== sku;/);
+  assert.match(dialog, /if \(\(!checkoutReady && !resume && !other\) \|\| !data \|\| !offer \|\| !offeredProviders\(data\)\.includes\(provider\)\s*\|\| \(sku === "once" && provider === "uzum"\)/);
   // Every button that pays goes through it; the limit card's one tap keeps its own rule (blocked intents are consumed).
   const taps = [...dialog.matchAll(/void pay\(/g)].length;
-  assert.equal(taps, 3, 'pay() is called by payWhenRead (now, or after the read) and by the one-tap intent only');
+  assert.equal(taps, 4, 'pay() is called by payWhenRead (now, or after the read) and by the one-tap intent (the monthly pack, or the 3-day pack by name) only');
+  assert.match(dialog, /if \(autoPay\.sku === "once"\) \{\s*void pay\(autoPay\.provider, false, "once"\);\s*return;\s*\}/);
   assert.match(dialog, /void pay\(autoPay\.provider\);/);
   for (const use of [
-    'onRetry={() => payWhenRead(stall.provider, stall.ask)}', 'payWhenRead(shared.provider, true)', 'payWhenRead(shared.provider)',
-    'onPay={payWhenRead}', 'onClick={() => payWhenRead(provider)}', 'onAsk={(provider) => payWhenRead(provider, true)}', 'payWhenRead(openPayment.provider)',
+    'onRetry={() => payWhenRead(stall.provider, stall.ask, stall.sku)}', 'payWhenRead(shared.provider, true, shared.sku)', 'payWhenRead(shared.provider, false, shared.sku)',
+    'onPay={(provider, ask) => payWhenRead(provider, ask, data?.payment?.sku ?? "month")}', 'onClick={() => payWhenRead(provider)}',
+    'onAsk={(provider, sku) => payWhenRead(provider, true, sku)}', 'payWhenRead(openPayment.provider, false, openPayment.sku ?? "month")',
+    'onPay={(provider, sku) => payWhenRead(provider, false, sku)}', 'payWhenRead(unpaidWith, false, "once")',
   ]) assert.ok(dialog.includes(use), use);
   // The buttons stay live through a read (no blink every three seconds); a first read, with no view yet, still holds them.
   assert.match(dialog, /disabled=\{busy \|\| !!queued \|\| !startable\}/);
@@ -447,7 +453,7 @@ test('the pay buttons: held until the account answered once, live through a late
 
 test('a link made for someone else is watched while the page lives and never stored: a reload does not open the window', () => {
   const dialog = read('src/gpt-chat/account/AccountDialog.tsx').replace(/\r\n/g, '\n');
-  assert.match(dialog, /if \(ask\) \{\s*memoryRef\.current\.shared = \{ provider, url, at: Date\.now\(\), id: attemptId \};\s*setChoosing\(false\);\s*checkout\.start\(\{ provider, flow: "status", at: Date\.now\(\), attemptId, before: null \}\);(?:\s*\/\/[^\n]*)*\s*try \{ localStorage\.removeItem\("gptchat_checkout"\); \} catch \{[^}]*\}\s*return;\s*\}/);
+  assert.match(dialog, /if \(ask\) \{\s*memoryRef\.current\.shared = \{ provider, url, at: Date\.now\(\), id: attemptId, sku, priceUzs: offer\.priceUzs \};\s*setChoosing\(false\);\s*checkout\.start\(\{ provider, flow: "status", at: Date\.now\(\), attemptId, before: null \}\);(?:\s*\/\/[^\n]*)*\s*try \{ localStorage\.removeItem\("gptchat_checkout"\); \} catch \{[^}]*\}\s*return;\s*\}/);
   // The key is checkout.ts's own (the window removes it itself: an export would weigh on the start bundle).
   assert.match(read('src/gpt-chat/checkout.ts'), /const CHECKOUT_KEY = 'gptchat_checkout';/);
   assert.doesNotMatch(dialog, /\bsaveCheckout\b/);

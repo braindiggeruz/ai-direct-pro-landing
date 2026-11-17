@@ -10,8 +10,10 @@ import { LazyPart, part } from '../lazy-part';
 export const payPart = part(() => import('../parts/chat-pay'));
 /** The Uzum Bank app's code screen (Uzum is off in production): its own part, so it stays out of the window's. */
 export const uzumPart = part(() => import('../parts/chat-uzum'));
+/** Signing in through the Telegram bot: opened by few, so it is fetched when asked for. */
+export const loginPart = part(() => import('../parts/chat-login'));
 
-type Screens = Pick<Awaited<ReturnType<typeof payPart.load>>, 'PayStall' | 'PayShare' | 'PayExtras' | 'CheckoutReturn'>;
+type Screens = Pick<Awaited<ReturnType<typeof payPart.load>>, 'PayStall' | 'PayShare' | 'PayExtras' | 'PayPacks' | 'CheckoutReturn'>;
 
 export function PayIn<K extends keyof Screens>({ is, fallback = null, failed = fallback, ...props }:
   { is: K; fallback?: ReactNode; failed?: ReactNode } & ComponentProps<Screens[K]>) {

@@ -128,7 +128,7 @@ test('Ш7 and the role on the start bundle: a prop or two, the copy stays in the
   assert.match(chat, /!businessLine && !showOffer && \(!trial \|\| remaining === 1\) && \(/);
   assert.match(chat, /nearLimit=\{fewLeft\} trial=\{trial\}/);
   // The window learns the page's role; «Paketim bor» reuses onPay without a provider.
-  assert.match(chat, /<TrialPaywall key=\{ownerKey\} owner=\{ownerKey\} locale=\{config\.locale\} role=\{config\.role\}[^>]*onPay=\{provider=>openAccount\('limit_card',provider\)\}\/>/);
+  assert.match(chat, /<TrialPaywall key=\{ownerKey\} owner=\{ownerKey\} locale=\{config\.locale\} role=\{config\.role\}[^>]*onPay=\{\(provider,sku\)=>openAccount\('limit_card',provider,sku\)\}\/>/);
   // «Sinov javoblari: N/3» stays as it was.
   assert.match(chat, /text: config\.locale === 'ru' \? `Пробных ответов: \$\{remaining\} из 3` : `Sinov javoblari: \$\{remaining\}\/3`/);
   // trial-copy.ts is a value import of the lazy part only.
