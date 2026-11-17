@@ -151,6 +151,7 @@ export async function handleReading(
       return json({ ok: false, code: 'reading_unavailable' }, 502, headers);
     }
   }
+  if (reading.dropped.length) console.warn(JSON.stringify({ event: 'natal_sections_dropped', kind, dropped: reading.dropped }));
   try {
     await store.save({
       id: genId('nr'), identity: identity.key, kind, fingerprint, locale,

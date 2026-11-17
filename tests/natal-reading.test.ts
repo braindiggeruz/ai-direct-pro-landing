@@ -94,9 +94,25 @@ test('the answer is checked by construction: known sections, known facts, no dig
   assert.ok(checkReading('natal', '```json\n' + NATAL_OK(facts) + '\n```', facts).ok, 'a fenced answer is read');
 });
 
+test('a section that breaks a text rule is dropped, not the reading, while enough sections remain', () => {
+  const facts = ['1.sign.sun.leo', '1.sign.moon.cancer', '1.sign.mercury.leo', '1.sign.venus.virgo', '1.sign.mars.libra'];
+  const ids = ['core', 'mind', 'love', 'growth', 'advice'];
+  const answer = (badAt: number[]) => JSON.stringify({ sections: ids.map((id, i) => ({ id, facts: [facts[i]], text: badAt.includes(i) ? `${TEXT} Вас ждёт развод.` : TEXT })) });
+  const one = checkReading('natal', answer([2]), facts);
+  assert.ok(one.ok);
+  if (one.ok) {
+    assert.deepEqual(one.sections.map((s) => s.id), ['core', 'mind', 'growth', 'advice']);
+    assert.deepEqual(one.dropped, [{ id: 'love', reason: 'forbidden' }]);
+  }
+  assert.deepEqual(checkReading('natal', answer([1, 2, 3]), facts), { ok: false, reason: 'forbidden' }, 'two left of five is too few');
+  const unknown = JSON.stringify({ sections: ids.map((id, i) => ({ id, facts: [i === 0 ? '1.sign.pluto.leo' : facts[i]], text: TEXT })) });
+  assert.deepEqual(checkReading('natal', unknown, facts), { ok: false, reason: 'unknown_fact' }, 'a fact that was not sent still refuses the whole answer');
+});
+
 test('the word scan matches whole words only: ordinary Uzbek and Russian words pass, forecasts do not', () => {
   const facts = ['1.sign.sun.leo', '1.sign.moon.cancer'];
-  const with_ = (extra: string) => JSON.stringify({ sections: [{ id: 'core', facts: ['1.sign.sun.leo'], text: `${TEXT} ${extra}` }, { id: 'advice', facts: ['1.sign.moon.cancer'], text: TEXT }] });
+  const with_ = (extra: string) => JSON.stringify({ sections: [{ id: 'core', facts: ['1.sign.sun.leo'], text: `${TEXT} ${extra}` }, { id: 'love', facts: ['1.sign.moon.cancer'], text: TEXT }, { id: 'advice', facts: ['1.sign.moon.cancer'], text: TEXT }] });
+  // Three sections: one dropped leaves two, below the minimum, so a forbidden word refuses this answer.
   for (const ok of ['Bu yoʻlim emas, deysiz.', 'Ushbu boʻlimda.', 'Siz olim kabi qiziquvchansiz.', 'Yutuqlaringizni qadrlang.', 'Imtihonga tayyorgarlikda sabr kerak.', 'Это может быть болезненно, но полезно.', 'Вы выигрываете, когда слушаете.']) {
     assert.ok(checkReading('natal', with_(ok), facts).ok, ok);
   }

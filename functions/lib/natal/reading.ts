@@ -86,6 +86,8 @@ export function readingMessages(kind: ReadingKind, locale: NatalLocale, facts: r
     kind === 'pair' ? '6. No compatibility score or percentage: describe where the two support each other and where they clash, and how to talk about it.' : '6. Do not judge the person; describe strengths and challenges with equal respect.',
     `7. Answer with JSON only, no other text: {"sections":[{"id":"…","facts":["…"],"text":"…"}]}. Section ids, in this order, each only if some listed fact belongs to it: ${SECTION_BRIEF[kind]}. Allowed ids: ${sections.join(', ')}.`,
     '8. "facts" lists the ids (in square brackets below) that the section explains: at least one, all from the list. "text": two to four sentences, 60 to 500 characters. Keep the whole answer short.',
+    '9. Use the names of bodies, signs and aspects exactly as written in the facts. No English words, no transliterated jargon, no corrections of yourself inside the text: write each sentence once, cleanly.',
+    '10. Do not mention divorce, illness, death, pregnancy, money or exams at all, not even to say they will not happen.',
   ].join('\n');
   const user = ['Facts:', ...facts.map((fact) => factLine(fact, locale, kind))].join('\n');
   return [{ role: 'system', content: system }, { role: 'user', content: user }];
@@ -102,7 +104,10 @@ const FORBIDDEN: readonly RegExp[] = [
   whole('o[ʻ\'‘’`]lim\\p{L}*|vafot\\p{L}*|homilador\\p{L}*|kasallik\\p{L}*|tashxis\\p{L}*|ajrash\\p{L}*|lotereya\\p{L}*'),
 ];
 
-export type ReadingCheck = { ok: true; sections: ReadingSection[] } | { ok: false; reason: string };
+export type ReadingCheck = { ok: true; sections: ReadingSection[]; dropped: Array<{ id: string; reason: string }> } | { ok: false; reason: string };
+
+/** Sections a reading must keep after dropping the ones whose text breaks a rule. */
+export const MIN_SECTIONS: Readonly<Record<ReadingKind, number>> = { natal: 3, pair: 3 };
 
 /** The model's answer as sections, or why it cannot be shown. */
 export function checkReading(kind: ReadingKind, content: string | undefined, facts: readonly string[]): ReadingCheck {
@@ -122,18 +127,22 @@ export function checkReading(kind: ReadingKind, content: string | undefined, fac
   const known = new Set(facts);
   const seen = new Set<string>();
   const sections: ReadingSection[] = [];
+  const dropped: Array<{ id: string; reason: string }> = [];
   for (const item of list) {
     const section = item as { id?: unknown; facts?: unknown; text?: unknown };
+    // A broken structure (unknown section, unknown fact) refuses the whole answer: the model did not follow the facts.
     if (typeof section.id !== 'string' || !allowed.has(section.id) || seen.has(section.id)) return { ok: false, reason: 'bad_section' };
     if (!Array.isArray(section.facts) || section.facts.length === 0 || !section.facts.every((fact) => typeof fact === 'string' && known.has(fact))) return { ok: false, reason: 'unknown_fact' };
     if (typeof section.text !== 'string') return { ok: false, reason: 'bad_text' };
-    const text = section.text.trim().replace(/\s+/g, ' ');
-    if (text.length < 40 || text.length > 900) return { ok: false, reason: 'bad_length' };
-    if (FORBIDDEN.some((pattern) => pattern.test(text))) return { ok: false, reason: 'forbidden' };
     seen.add(section.id);
+    // A text that breaks a rule (length, a digit, a forbidden forecast) drops that section only: it is never shown.
+    const text = section.text.trim().replace(/\s+/g, ' ');
+    if (text.length < 40 || text.length > 900) { dropped.push({ id: section.id, reason: 'bad_length' }); continue; }
+    if (FORBIDDEN.some((pattern) => pattern.test(text))) { dropped.push({ id: section.id, reason: 'forbidden' }); continue; }
     sections.push({ id: section.id as SectionId, facts: [...new Set(section.facts as string[])], text });
   }
-  return { ok: true, sections };
+  if (sections.length < MIN_SECTIONS[kind]) return { ok: false, reason: dropped[0]?.reason ?? 'no_sections' };
+  return { ok: true, sections, dropped };
 }
 
 /** What the model is told when its first answer failed the check. */
