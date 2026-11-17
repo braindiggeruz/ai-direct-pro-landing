@@ -270,6 +270,11 @@ const getAccount: PagesFunction<BillingEnv> = async ({
           }
         : null,
       payment: latest ? paymentView(latest) : null,
+      // No pack runs, but the account held one: the chat's wall is then an
+      // ended pack's, not the trial's (chat CRO roadmap №2, 4.5). `payment` is
+      // the newest order, which stops being the paid one at the next unpaid
+      // invoice. A read that fails says nothing: the wall falls back to the trial's.
+      ...(!access && (await store.hadPack(user, context).catch(() => false)) ? { hadPack: true } : {}),
     });
   } catch {
     return fail("account_unavailable", "Try later", 503);

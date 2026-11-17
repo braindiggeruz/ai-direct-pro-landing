@@ -42,9 +42,12 @@ export type LimitEvent =
   /**
    * The account view arrived. `freeRemaining` is what the server itself
    * counted for a signed-in visitor without a pack (never a guest's cached
-   * number); `packRemaining` is the valid pack's answers left, if any.
+   * number); `packRemaining` is the valid pack's answers left, if any. `had`:
+   * no pack runs, but the account held one (the account view's hadPack,
+   * roadmap №2, 4.5): the wall is then the ended pack's ('monthly', as the
+   * server names a spent or ended pack), not the trial's.
    */
-  | { type: 'account'; freeRemaining: number | null; packRemaining: number | null; freeLimits: LimitCounts | null; now: number }
+  | { type: 'account'; freeRemaining: number | null; packRemaining: number | null; freeLimits: LimitCounts | null; now: number; had?: boolean }
   /** The server answered a turn without refusing it. */
   | { type: 'admitted' };
 
@@ -120,7 +123,7 @@ export function reduceLimit(state: LimitState | null, event: LimitEvent): LimitS
       // apart from the pack's answers.
       const pack = event.packRemaining !== null && event.packRemaining > 0;
       if (!pack && event.freeLimits?.lifetime === 3 && event.freeRemaining !== null) {
-        if (event.freeRemaining === 0) return { reason: 'trial', retryAt: null, since: event.now, limits: event.freeLimits };
+        if (event.freeRemaining === 0) return { reason: event.had ? 'monthly' : 'trial', retryAt: null, since: event.now, limits: event.freeLimits };
         // A confirmed lifetime allowance supersedes cached legacy free limits.
         // Keep IP/busy guards: this account read grants no new abuse allowance.
         if (state?.reason === 'trial' || state?.reason === 'hourly' || state?.reason === 'daily') return null;

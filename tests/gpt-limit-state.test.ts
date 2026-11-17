@@ -335,3 +335,47 @@ test('after a reload the card stands in the thread above the composer, which hol
   saveLimit({ reason: 'hourly', retryAt: now - 1, since: now - HOUR, limits: FREE });
   assert.ok(!render().includes('data-testid="ai-limit-card"'));
 });
+
+test('a pack that has ended: the wall is the pack’s, not the trial’s, and the card says the pack is over (roadmap №2, 4.5)', () => {
+  const TRIAL = { daily: 15, hourly: 5, lifetime: 3 };
+  const view = (had: boolean): LimitEvent => ({ type: 'account', freeRemaining: 0, packRemaining: null, freeLimits: TRIAL, now: NOW, had });
+  // Someone who never held a pack meets the trial's wall, as before.
+  assert.equal(reduceLimit(null, view(false))?.reason, 'trial');
+  assert.equal(reduceLimit(null, { type: 'account', freeRemaining: 0, packRemaining: null, freeLimits: TRIAL, now: NOW })?.reason, 'trial');
+  // The latest order is paid and no pack runs: 'monthly', the server's own name for a spent or ended pack.
+  const ended = reduceLimit(null, view(true));
+  assert.deepEqual(ended, { reason: 'monthly', retryAt: null, since: NOW, limits: TRIAL });
+  assert.equal(canSendNow(ended, NOW + 400 * 24 * HOUR), false, 'time does not lift it');
+  // A new pack lifts it, as it lifts the trial's wall.
+  assert.equal(reduceLimit(ended, { type: 'account', freeRemaining: null, packRemaining: 30, freeLimits: null, now: NOW + MIN }), null);
+  // Trial answers still left (bought from the header before spending them): no wall at all.
+  assert.equal(reduceLimit(null, { type: 'account', freeRemaining: 2, packRemaining: null, freeLimits: TRIAL, now: NOW, had: true }), null);
+  const pack = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null };
+  for (const locale of ['ru', 'uz'] as const) {
+    const card = limitCard(locale, ended!, { billingAvailable: true, paid: false, botHandoff: false, remaining: 0, pack }, NOW);
+    assert.equal(card.title, null);
+    assert.equal(card.body, locale === 'ru' ? 'AI-пакет закончился. Новый начнёт действовать сразу после оплаты.' : 'AI paket tugadi. Yangisi to‘lovdan so‘ng darhol ishga tushadi.');
+    assert.doesNotMatch(JSON.stringify(card), /пробн|sinov/i, 'nothing about a trial');
+    assert.equal(card.account, true, 'the card offers the packs');
+    assert.equal(card.cta, strings(locale).limitBuy(pack, true), '«a new pack»');
+  }
+  // The sentence is true of a pack whose answers ran out and of one whose term ran out: it names neither.
+  assert.doesNotMatch(strings('ru').premium.monthlyLimit, /Ответы этого/);
+  assert.doesNotMatch(strings('uz').premium.monthlyLimit, /javoblar tugadi/);
+  // The console tells the reducer: a paid latest order with no pack running.
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  assert.match(consoleSource, /had: account\.hadPack,/);
+});
+
+test('the send button at a wall that only a pack lifts opens the pack window; a limit that time lifts keeps its clock (roadmap №2, 2.1)', () => {
+  const consoleSource = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
+  // Only the two walls a pack lifts, and only while a pack can be bought.
+  assert.match(consoleSource, /const wall = \(limit\?\.reason === "trial" \|\| limit\?\.reason === "monthly"\) && canShowOffer;/);
+  assert.match(consoleSource, /const canShowOffer = !activePresentation && !paid && billingAvailable && !!packTerms && !!payOffer && !busy;/);
+  // The tap stores the question as a draft at once (the debounce may not have run) and opens the window; it sends nothing.
+  assert.match(consoleSource, /onSend=\{\(\) => \{ if \(wall\) \{ saveDraft\(input\); openAccount\("wall"\); \} else doSend\(input\); \}\}/);
+  assert.match(consoleSource, /disabled=\{activePresentation \? false : sendDisabled && !wall\}/);
+  assert.match(consoleSource, /limited=\{!activePresentation && limitBlocked && !wall\}/);
+  // No effect pays or opens the window by itself: the wall's way in is this one handler.
+  assert.equal(consoleSource.match(/openAccount\("wall"\)/g)?.length, 1);
+});

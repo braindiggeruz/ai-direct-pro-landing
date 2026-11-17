@@ -9,6 +9,11 @@ import { packText } from '../pack-text';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import './conversion.css';
 
+/** When this browser first saw the limit card of a spent trial (epoch ms, localStorage). */
+const WALL_KEY = 'gptchat_wall_first';
+/** The wall is counted once per page load, however often its card mounts. */
+let wallCounted = false;
+
 /**
  * Lazy, server-triggered once per owner. Closing never discards the
  * conversation. The heading and its line speak to the page's task (Ш1: the
@@ -128,6 +133,26 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
 export function LimitSmallPack({ locale, pack, providers, onPay }: {
   locale: Locale; pack: PackTerms; providers: PaymentProvider[]; onPay: (provider: PaymentProvider) => void;
 }) {
+  // Once per page view, a second after the card stands: how long ago this
+  // browser first met the trial's wall (roadmap №2, 0.4). The limit and the
+  // first meeting are read from storage by their keys: the console stores the
+  // limit in an effect that runs after this one, hence the wait. A closed list
+  // and the tab's random id, nothing about the visitor.
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      try {
+        if (wallCounted || (JSON.parse(sessionStorage.getItem('gptchat_limit') || 'null') as { reason?: unknown } | null)?.reason !== 'trial') return;
+        wallCounted = true;
+        const now = Date.now();
+        const first = Number(localStorage.getItem(WALL_KEY)) || 0;
+        if (!first) localStorage.setItem(WALL_KEY, String(now));
+        const days = (now - first) / 86_400_000;
+        recordUiEvent(document.getElementById('gpt-chat-root')?.dataset.apiBase ?? '', 'trial_wall_seen',
+          !first ? 'first' : days < 1 ? 'same_day' : days < 3 ? 'd1_2' : days < 8 ? 'd3_7' : 'd8_plus');
+      } catch { /* Storage is blocked: the view is not counted. */ }
+    }, 1_000);
+    return () => window.clearTimeout(timer);
+  }, []);
   const [month, small] = offersOf(pack);
   if (!small) return null;
   const o = packText(locale);

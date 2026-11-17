@@ -333,6 +333,20 @@ export class BillingStore {
     return rows.results || [];
   }
   /**
+   * Whether the account ever held a pack the Seller did not refund: a period
+   * of its own, running or over. The account view says so once no pack runs
+   * (account.ts hadPack), so the wall of an ended pack is told from the
+   * trial's whatever the newest order is, an unpaid new invoice included.
+   */
+  async hadPack(user: string, mode: BillingMode): Promise<boolean> {
+    return !!(await this.db
+      .prepare(
+        "SELECT 1 AS had FROM gpt_access_periods WHERE org_id=? AND user_id=? AND mode=? AND revoked_at IS NULL LIMIT 1",
+      )
+      .bind(this.org, user, mode)
+      .first());
+  }
+  /**
    * Newest order of any provider (Click/Payme and Uzum) for the account panel.
    * Ties break on provider and id: seq counts per table, so it says nothing
    * across the two (map 02, U13).

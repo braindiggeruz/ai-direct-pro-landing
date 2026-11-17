@@ -505,6 +505,54 @@ test("«ends soon»: the last day of a 3-day pack, the last three days of a mont
   assert.equal(await days(PACKS.month, month - 2 * DAY), true, "the last three days, as before");
 });
 
+test("an ended pack: no access, and the view says the account held one; an unpaid new invoice does not take that back, a refund does", async () => {
+  const now = Date.now();
+  const pay = async (f: Fixture, at: number) => {
+    const store = new BillingStore(f.binding, BILLING_ORG);
+    const order = await store.createOrder(f.user, "click", "test", randomUUID(), at, undefined, undefined, PACKS.once);
+    await store.transition(order.id, "prepared", "Prepare", { externalId: digits(), providerTime: at, now: at });
+    await store.transition(order.id, "paid", "Complete", { now: at });
+    return order.id;
+  };
+  // A pack that runs needs no word: the view has its access.
+  const running = await onceFixture();
+  assert.equal((await view(running)).hadPack, undefined, "never bought");
+  await pay(running, now - HOUR);
+  const held = await view(running);
+  assert.ok(held.access);
+  assert.equal(held.hadPack, undefined);
+
+  // Bought four days ago: the 72 hours are over. The newest order is the paid one, nothing runs.
+  const f = await onceFixture();
+  const paid = await pay(f, now - 4 * DAY);
+  const ended = await view(f);
+  assert.equal(ended.access, null);
+  assert.deepEqual({ id: ended.payment.id, state: ended.payment.state }, { id: paid, state: "paid" });
+  assert.equal(ended.hadPack, true);
+  assert.equal(typeof ended.remaining, "number", "the free tier applies again");
+
+  // A new invoice, left unpaid: the newest order is no longer the paid one, and the account still held a pack.
+  const again = await new BillingStore(f.binding, BILLING_ORG).createOrder(f.user, "click", "test", randomUUID(), now, undefined, undefined, PACKS.once);
+  const unpaid = await view(f);
+  assert.deepEqual({ id: unpaid.payment.id, state: unpaid.payment.state }, { id: again.id, state: "pending" });
+  assert.equal(unpaid.access, null);
+  assert.equal(unpaid.hadPack, true);
+
+  // The read is the account's own: not another account's, another mode's or another organisation's.
+  const store = new BillingStore(f.binding, BILLING_ORG);
+  assert.equal(await store.hadPack(f.user, "test"), true);
+  assert.equal(await store.hadPack(`${f.user}-other`, "test"), false);
+  assert.equal(await store.hadPack(f.user, "live"), false);
+  assert.equal(await new BillingStore(f.binding, "another-org").hadPack(f.user, "test"), false);
+
+  // A refund the Seller made revokes the period: the account held nothing.
+  f.db.exec(`UPDATE gpt_access_periods SET revoked_at=${now} WHERE order_id='${paid}'`);
+  assert.equal((await view(f)).hadPack, undefined);
+
+  // A read that fails takes nothing down: the view goes without the word.
+  assert.match(read("functions/api/gpt/account.ts"), /\.\.\.\(!access && \(await store\.hadPack\(user, context\)\.catch\(\(\) => false\)\) \? \{ hadPack: true \} : \{\}\),/);
+});
+
 // ------------------------------------------------------------------ the readers that must find it
 
 test("a guest's 3-day pack: bought without signing in, kept by Telegram with its order, and found by support under either number", async () => {

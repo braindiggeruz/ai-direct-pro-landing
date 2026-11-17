@@ -50,6 +50,8 @@ export const UI_EVENTS = {
     "login_failed",
     "login_resume",
     "pay_return",
+    // The send button pressed with the trial spent (chat CRO roadmap №2, 2.1): the question stays a draft.
+    "wall",
   ],
   login_started: ["bot", "oidc"],
   /** The pack offered in the thread or in the trial's window; trial_last is the card at one trial answer left (Ш7). */
@@ -63,6 +65,13 @@ export const UI_EVENTS = {
   trial_paywall_role: TRIAL_ROLES,
   /** «Nega hozir emas?» after the paywall closed without a payment: expensive, needed once, no card, later. */
   trial_exit_reason: ["price", "once", "no_card", "later"],
+  /**
+   * The limit card of a spent trial stood on a page view (once per view); the
+   * qualifier is how long ago this browser first met it: who comes back to
+   * the wall, and when (chat CRO roadmap №2, 0.4). A visitor at the wall
+   * sends no turn, so nothing else shows a return.
+   */
+  trial_wall_seen: ["first", "same_day", "d1_2", "d3_7", "d8_plus"],
   login_result: ["done", "rejected", "expired", "failed"],
   /** A checkout began with this provider: its page opened, its app code showed, or a test order. */
   checkout_started: ["click", "uzum", "payme"],
@@ -109,6 +118,7 @@ export const PACK_WINDOW_EVENTS: ReadonlySet<UiEventType> = new Set<UiEventType>
   // The trial's paywall shows only while a pack can be bought.
   "trial_paywall_role",
   "trial_exit_reason",
+  "trial_wall_seen",
 ]);
 
 export interface UiEvent {

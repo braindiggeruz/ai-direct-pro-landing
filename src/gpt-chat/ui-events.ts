@@ -17,7 +17,7 @@ type CheckoutTail<P extends string = CheckoutProvider> = `${P}.${CheckoutBucket}
 
 /** Which button opened the pack window: GA4's `from` of pack_viewed and the counter's qualifier. */
 export const PACK_FROM = [
-  'header', 'limit_card', 'low_limit', 'after_10', 'after_value', 'account_check', 'login_failed', 'login_resume', 'pay_return',
+  'header', 'limit_card', 'low_limit', 'after_10', 'after_value', 'account_check', 'login_failed', 'login_resume', 'pay_return', 'wall',
 ] as const;
 export type PackFrom = (typeof PACK_FROM)[number];
 
@@ -30,6 +30,8 @@ export interface UiEventDetails {
   trial_paywall_role: PaywallRole;
   /** «Nega hozir emas?» under the closed paywall: one answer from a closed list. */
   trial_exit_reason: ExitReason;
+  /** The spent trial's limit card stood on a page view: how long ago this browser first met it. */
+  trial_wall_seen: 'first' | 'same_day' | 'd1_2' | 'd3_7' | 'd8_plus';
   login_started: 'bot' | 'oidc';
   login_result: 'done' | 'rejected' | 'expired' | 'failed';
   checkout_started: 'click' | 'uzum' | 'payme';

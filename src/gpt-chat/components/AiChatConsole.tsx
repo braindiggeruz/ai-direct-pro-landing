@@ -267,6 +267,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
         packRemaining: account.access?.remaining ?? null,
         freeLimits: account.freeLimits ?? null,
         now: Date.now(),
+        had: account.hadPack,
       });
   }, [config.locale]);
 
@@ -376,6 +377,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const dayWarning = remaining >= 0 && remaining <= DAY_WARNING_AT;
   const controlsDisabled = busy || !accountReady;
   const canShowOffer = !activePresentation && !paid && billingAvailable && !!packTerms && !!payOffer && !busy;
+  // The trial is spent and a pack is on offer: the send button opens the pack
+  // window instead of standing dead under a clock. The question stays in the
+  // field and in the draft (storage.ts), where the window's part reads it.
+  // The same for a pack that has ended ('monthly').
+  const wall = (limit?.reason === "trial" || limit?.reason === "monthly") && canShowOffer;
   const [costNote, setCostNote] = useState(false);
   useEffect(() => {
     if (fewLeft && onceThisSession("gptchat_cost_note")) setCostNote(true);
@@ -1570,11 +1576,11 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               actions={(!empty || limitBlocked) && import.meta.env?.VITE_CHAT_PRESENTATIONS !== 'false' && <button type="button" className="gpt-header-button" data-chat-presentation-open="" aria-label={uz ? 'Taqdimot' : 'Презентация'} disabled={controlsDisabled} onClick={() => openPresentation(input)}><span aria-hidden="true">▤</span></button>}
               value={input}
               onChange={setInput}
-              onSend={() => doSend(input)}
+              onSend={() => { if (wall) { saveDraft(input); openAccount("wall"); } else doSend(input); }}
               onStop={onStop}
-              disabled={activePresentation ? false : sendDisabled}
+              disabled={activePresentation ? false : sendDisabled && !wall}
               busy={busy}
-              limited={!activePresentation && limitBlocked}
+              limited={!activePresentation && limitBlocked && !wall}
               maxChars={MAX_INPUT - maxRolePrefixLength(role)}
               t={t}
               inputRef={inputRef}

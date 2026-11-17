@@ -6,6 +6,7 @@
 // window's steps; the business line is counted for everyone.
 //
 // Run: node --import tsx --test tests/gpt-ui-events.test.ts
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { billingFixture } from "./helpers/gpt-billing-fixture";
@@ -310,4 +311,32 @@ test("P1: answer_rating is accepted as up|down_<role> and refused otherwise", as
     assert.equal((await send(fresh({ type: "answer_rating", detail }))).status, 400, detail);
   assert.deepEqual(rows().map((row) => `${row.type}/${row.detail}`).sort(), ["answer_rating/down_writer", "answer_rating/up_general"]);
   assert.doesNotMatch(JSON.stringify(rows()), /bad answer/);
+});
+
+test("roadmap №2: the send button at the wall and the wall seen again are closed-list steps of the pack window", async () => {
+  const { f, send, rows } = await counter();
+  void f;
+  // «wall»: the pack window opened by the send button with the trial (or a pack) spent.
+  assert.ok((UI_EVENTS.pack_viewed as readonly string[]).includes("wall"));
+  assert.equal((await send(fresh({ type: "pack_viewed", detail: "wall" }))).status, 200);
+  // How long ago this browser first met the wall: five buckets, nothing else.
+  assert.deepEqual([...UI_EVENTS.trial_wall_seen], ["first", "same_day", "d1_2", "d3_7", "d8_plus"]);
+  assert.ok(PACK_WINDOW_EVENTS.has("trial_wall_seen"), "counted only while a pack can be bought");
+  for (const detail of UI_EVENTS.trial_wall_seen) assert.equal((await send(fresh({ type: "trial_wall_seen", detail }))).status, 200, detail);
+  for (const broken of [
+    { type: "trial_wall_seen", detail: "d2" },
+    { type: "trial_wall_seen", detail: "2026-11-17" },
+    { type: "trial_wall_seen", detail: "" },
+    { type: "pack_viewed", detail: "send_button" },
+  ])
+    assert.equal((await send(fresh(broken))).status, 400, JSON.stringify(broken));
+  // A question typed at the wall is not a field of the event: only the four fields are stored.
+  assert.equal((await send(fresh({ type: "pack_viewed", detail: "wall", question: "Реферат про Арал" }))).status, 200);
+  assert.doesNotMatch(JSON.stringify(rows()), /Арал/);
+  // The client's part reads the limit and its own first meeting from storage, and waits for the console to store the limit.
+  const part = readFileSync(new URL("../src/gpt-chat/parts/chat-conversion.tsx", import.meta.url), "utf8");
+  assert.match(part, /const WALL_KEY = 'gptchat_wall_first';/);
+  assert.match(part, /sessionStorage\.getItem\('gptchat_limit'\)[\s\S]{0,120}reason !== 'trial'\) return;/);
+  assert.match(part, /!first \? 'first' : days < 1 \? 'same_day' : days < 3 \? 'd1_2' : days < 8 \? 'd3_7' : 'd8_plus'/);
+  assert.match(readFileSync(new URL("../src/gpt-chat/limit-state.ts", import.meta.url), "utf8"), /const STORAGE_KEY = 'gptchat_limit';/);
 });

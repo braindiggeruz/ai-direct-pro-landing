@@ -9,7 +9,10 @@
 //       (PayExtras opens it, PayShare shows it), and the return page that cannot
 //       see the order's holder (PayHolderless);
 //   P5  «Оплата не завершена»: one compact card with three ways on (PayUnpaid);
-//   P6  one line on what happens next and the price of one answer (PayExtras).
+//   P6  one line on what happens next and the price of one answer (PayExtras);
+//   P7  (roadmap №2, 17.11.2026) the question typed at the trial's wall, quoted
+//       above the pay buttons (WallQuestion), and the seller's legal name as a
+//       provider's page may show it (PayExtras).
 // Every number comes from the account view; the only one written here is the
 // order's life, PAYMENT_TTL_MS of functions/lib/gpt-chat/billing-config.ts
 // (tests/gpt-pay-cro.test.ts keeps the two equal).
@@ -18,6 +21,8 @@ import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import type { Locale, PackTerms, PaymentProvider } from '../types';
 import { recordUiEvent } from '../ui-events';
 import { STUDIO_TELEGRAM_URL } from '../../shared/studio-contact';
+// A named JSON import: the bundle keeps the seller's short name, not the requisites.
+import { shortName } from '../../../content/global/legal-entity.json';
 import { perAnswer, type PackOffer, type PackSku } from '../pack-offers';
 import { packText } from '../pack-text';
 import {
@@ -108,6 +113,9 @@ export const TEXT = {
     stallOpen: (name: string) => `Страница ${name} не открылась. Деньги не списаны, повтор не создаёт второй счёт.`,
     stallFailed: (name: string) => `Не получилось создать оплату через ${name}. Деньги не списаны. Попробуйте ещё раз.`,
     next: (names: string) => `Карту вводите на странице ${names}: к нам она не попадает.`,
+    seller: (name: string) => `Продавцом там может быть указано ${name} — это компания GPTBot.uz.`,
+    saved: 'Ваш вопрос сохранён на час: ',
+    savedThen: ' После оплаты вернитесь в чат и отправьте его.',
     per: (n: number) => `≈ ${n} сум за ответ`,
     ask: 'Попросить оплатить',
     askLink: 'Нет карты? Попросить оплатить',
@@ -147,6 +155,9 @@ export const TEXT = {
     stallOpen: (name: string) => `${name} sahifasi ochilmadi. Pul yechilmadi, takroriy urinish ikkinchi hisob yaratmaydi.`,
     stallFailed: (name: string) => `${name} orqali to‘lovni yaratib bo‘lmadi. Pul yechilmadi. Yana urinib ko‘ring.`,
     next: (names: string) => `Kartani ${names} sahifasida kiriting: u bizga kelmaydi.`,
+    seller: (name: string) => `U yerda sotuvchi ${name} deb ko‘rsatilishi mumkin — bu GPTBot.uz kompaniyasi.`,
+    saved: 'Savolingiz bir soatga saqlandi: ',
+    savedThen: ' To‘lovdan keyin chatga qaytib, uni yuboring.',
     per: (n: number) => `≈ ${n} so‘m — bitta javob`,
     ask: 'To‘lovni boshqadan so‘rash',
     askLink: 'Karta yo‘qmi? To‘lovni boshqadan so‘rash',
@@ -201,6 +212,41 @@ export function PayStall({ locale, provider, kind, busy, onRetry }: {
   );
 }
 
+// ---------------------------------------------------------------- P7: the question at the wall
+
+/**
+ * The question typed with the trial spent. The composer keeps what is typed as
+ * a draft for an hour (storage.ts) and the limit in sessionStorage
+ * (limit-state.ts); both are read here by their keys, not through an export
+ * the start bundle would have to carry. Empty unless the limit is the trial's
+ * or an ended pack's ('monthly'): the two walls whose send button opens this window.
+ */
+function wallQuestion(): string {
+  try {
+    const limit = JSON.parse(sessionStorage.getItem('gptchat_limit') || 'null') as { reason?: unknown } | null;
+    if (limit?.reason !== 'trial' && limit?.reason !== 'monthly') return '';
+    const draft = JSON.parse(localStorage.getItem('gptchat_draft') || 'null') as { text?: unknown; savedAt?: unknown } | null;
+    return typeof draft?.text === 'string' && typeof draft.savedAt === 'number' && Date.now() - draft.savedAt < 3_600_000 ? draft.text.trim() : '';
+  } catch {
+    return '';
+  }
+}
+
+/**
+ * Above the pay buttons: the visitor's own question and what happens to it. The
+ * window is masked in the session recording (ym-hide-content on the dialog),
+ * and the text goes nowhere: no event carries it.
+ */
+function WallQuestion({ locale }: { locale: Locale }) {
+  const [question] = useState(wallQuestion);
+  const s = TEXT[locale];
+  return question ? (
+    <p className="gpt-pay-question" data-testid="ai-pay-question">
+      {s.saved}«<span>{question.length > 90 ? `${question.slice(0, 90)}…` : question}</span>».{s.savedThen}
+    </p>
+  ) : null;
+}
+
 // ---------------------------------------------------------------- P6 + P4 entry
 
 /**
@@ -227,7 +273,10 @@ export function PayExtras({ locale, pack, offers, providers, busy, termsUrl, onA
   const per = pack.messageLimit > 0 ? Math.round(pack.priceUzs / pack.messageLimit) : 0;
   return (
     <div className="gpt-pay-extras" data-testid="ai-pay-extras">
-      {links.length > 0 && links.length === providers.length && <p className="gpt-pay-next">{s.next(joinNames(locale, links))}</p>}
+      {!two && <WallQuestion locale={locale} />}
+      {links.length > 0 && links.length === providers.length && (
+        <p className="gpt-pay-next">{s.next(joinNames(locale, links))} <span data-testid="ai-pay-seller">{s.seller(shortName[locale])}</span></p>
+      )}
       {per > 0 && !two && <p className="gpt-pay-per" data-testid="ai-pay-per">{s.per(per)}</p>}
       {links.length > 0 && (open ? (
         <div className="gpt-pay-ask" data-testid="ai-pay-ask-box">
@@ -269,6 +318,7 @@ export function PayPacks({ locale, offers, providers, busy, onPay }: {
   const best = Math.min(...offers.map(perAnswer));
   return (
     <div className="gpt-pay-packs" data-testid="ai-pay-packs">
+      <WallQuestion locale={locale} />
       {offers.map((offer) => (
         <section className="gpt-pay-pack" key={offer.sku} data-sku={offer.sku} aria-label={`${s.name(offer)}: ${s.sum(offer)}`}>
           <div className="gpt-pay-pack-head">

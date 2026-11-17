@@ -472,3 +472,55 @@ test('the return screen says «no payment» only from a read that ended while it
   // «Оплата не завершена» needs a read made here: a page out of the browser's cache remembers «pending».
   assert.match(screen, /if \(open && payment\?\.state === "pending" && reads > 0 && now - opened >= UNPAID_AFTER_MS\)/);
 });
+
+test('roadmap №2: the seller as a provider may name it, and the question typed at the wall, in the pay step', () => {
+  const entity = JSON.parse(read('content/global/legal-entity.json')) as { shortName: Record<Locale, string> };
+  const offers = offersOf({ ...PACK, more: [{ sku: 'once', priceUzs: 5000, messageLimit: 30, dailyLimit: 50, hours: 72 }] } as PackTerms);
+  for (const locale of LOCALES) {
+    const s = TEXT[locale];
+    // «may be named»: only Payme's receipt is confirmed to show the legal name.
+    assert.equal(s.seller(entity.shortName[locale]), locale === 'ru'
+      ? 'Продавцом там может быть указано ООО «FREEDOM IS HEAVEN» — это компания GPTBot.uz.'
+      : 'U yerda sotuvchi «FREEDOM IS HEAVEN» MChJ deb ko‘rsatilishi mumkin — bu GPTBot.uz kompaniyasi.');
+    for (const packs of [offers, offers.slice(0, 1)]) {
+      const page = node(React.createElement(PayExtras, { locale, pack: PACK, offers: packs, providers: ['click', 'payme'], busy: false, termsUrl: 'https://gptbot.uz/ru/oferta/', onAsk: () => {} }));
+      assert.ok(has(page, s.seller(entity.shortName[locale])), `${locale}: the seller line`);
+      assert.match(page, /data-testid="ai-pay-seller"/);
+      // On the server there is no storage: no question line, and nothing throws.
+      assert.doesNotMatch(page, /ai-pay-question/);
+    }
+    // The line says what is true: the question is kept for an hour, and sending it is the buyer's tap.
+    assert.equal(s.saved + '«…».' + s.savedThen, locale === 'ru'
+      ? 'Ваш вопрос сохранён на час: «…». После оплаты вернитесь в чат и отправьте его.'
+      : 'Savolingiz bir soatga saqlandi: «…». To‘lovdan keyin chatga qaytib, uni yuboring.');
+    assert.doesNotMatch(s.saved + s.savedThen, /сам|автомат|o‘zi keladi|avtomatik/i, 'no promise of an answer by itself');
+  }
+  const source = read('src/gpt-chat/parts/pay-screens.tsx');
+  // The requisites stay out of the bundle: the short name alone, by a named JSON import.
+  assert.match(source, /import \{ shortName \} from '\.\.\/\.\.\/\.\.\/content\/global\/legal-entity\.json';/);
+  // The question is read by the keys storage.ts and limit-state.ts write, for the draft's own hour, at the two walls whose send button opens the window.
+  assert.match(read('src/gpt-chat/storage.ts'), /const DRAFT_KEY = "gptchat_draft";/);
+  assert.match(read('src/gpt-chat/storage.ts'), /export const DRAFT_TTL_MS = 60 \* 60_000;/);
+  assert.match(source, /localStorage\.getItem\('gptchat_draft'\)/);
+  assert.match(source, /Date\.now\(\) - draft\.savedAt < 3_600_000/);
+  assert.match(source, /if \(limit\?\.reason !== 'trial' && limit\?\.reason !== 'monthly'\) return '';/);
+  // It is drawn above the rows of two packs and above the lines of one, never twice, cut at ninety characters, and no event carries it.
+  assert.match(source, /<div className="gpt-pay-packs" data-testid="ai-pay-packs">\s*<WallQuestion locale=\{locale\} \/>/);
+  assert.match(source, /\{!two && <WallQuestion locale=\{locale\} \/>\}/);
+  assert.match(source, /question\.length > 90 \? `\$\{question\.slice\(0, 90\)\}…` : question/);
+  const wall = source.slice(source.indexOf('function wallQuestion'), source.indexOf('// ---------------------------------------------------------------- P6 + P4 entry'));
+  assert.doesNotMatch(wall, /recordUiEvent|payEvent|fetch\(|track\(/, 'the question goes nowhere');
+  // The window is masked in the session recording.
+  assert.match(read('src/gpt-chat/components/AiAccountPanel.tsx'), /className="gpt-account-dialog ym-hide-content"/);
+});
+
+test('roadmap №2: «Сохранить через Telegram» on a guest’s pack is a button, and «Вернуться в чат» stays the main one', () => {
+  const css = read('src/gpt-chat/account/account.css');
+  assert.match(css, /\[data-testid="ai-pack-save"\] button \{[^}]*min-height: 44px;[^}]*border: 1px solid var\(--accent-line\);[^}]*text-decoration: none;/);
+  const screen = read('src/gpt-chat/account/CheckoutReturn.tsx');
+  // After a payment: the way back first, then the save block.
+  assert.ok(screen.indexOf('{back(true)}') < screen.indexOf('data-testid="ai-pack-save"'));
+  assert.match(screen, /<div className="gpt-panel-note" data-testid="ai-pack-save">\s*<p>\{copy\.saveLine\}<\/p>\s*<button type="button" className="gpt-text-button" onClick=\{onSave\}>\{copy\.saveButton\}<\/button>/);
+  // The line promises what signing in does, and no reminders (those need consent and a policy change).
+  for (const locale of LOCALES) assert.doesNotMatch(accountStrings(locale).saveLine, /напомн|eslat/i);
+});

@@ -58,3 +58,5 @@
 @media (max-width: 700px) {
  .gpt-account-dialog .gpt-sticky-action { bottom: calc(-20px - env(safe-area-inset-bottom)); margin: 12px -20px 0; padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); }
 }
+/* «Save through Telegram» on a guest's pack: a real secondary button, not a text link (chat CRO roadmap 2, 4.1). */
+[data-testid="ai-pack-save"] button { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 44px; margin-top: 6px; border: 1px solid var(--accent-line); border-radius: 12px; background: var(--accent-soft); font-weight: 600; text-decoration: none; }

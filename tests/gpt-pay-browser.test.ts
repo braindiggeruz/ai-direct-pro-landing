@@ -43,6 +43,12 @@ interface Fixture {
   trialLeft: number | null;
   /** The pack of the open order: what the last subscribe asked for. */
   sku: 'month' | 'once';
+  /** A signed-in visitor outside the trial whose free day is counted to the end: a limit that time lifts. */
+  dayOver: boolean;
+  /** A pack was held and has ended: no access, the view says hadPack, the trial long spent. */
+  ended: boolean;
+  /** The view offers a sign-in (loginAvailable): the paid screen then offers to keep the pack through Telegram. */
+  login: boolean;
   subscribes: Array<Record<string, unknown>>;
   events: Array<{ type: string; detail: string }>;
   /** Main-frame navigations to another origin, each cancelled as if the browser never left. */
@@ -53,7 +59,7 @@ interface Fixture {
 async function open(browser: Awaited<ReturnType<typeof chromium.launch>>, origin: string): Promise<{ ctx: BrowserContext; page: Page; f: Fixture }> {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 780 } });
   const page = await ctx.newPage();
-  const f: Fixture = { ordered: false, paid: false, accountDelay: 0, reading: 0, started: 0, refuse: 0, more: false, trialLeft: null, sku: 'month', subscribes: [], events: [], left: [], errors: [] };
+  const f: Fixture = { ordered: false, paid: false, accountDelay: 0, reading: 0, started: 0, refuse: 0, more: false, trialLeft: null, sku: 'month', dayOver: false, ended: false, login: false, subscribes: [], events: [], left: [], errors: [] };
   page.on('pageerror', (error) => f.errors.push(error.message));
   await ctx.route('**/*', async (route) => {
     const request = route.request();
@@ -74,13 +80,16 @@ async function open(browser: Awaited<ReturnType<typeof chromium.launch>>, origin
       if (f.accountDelay) await sleep(f.accountDelay);
       f.reading--;
       return json({
-        ok: true, mode: 'live', loginAvailable: false, guestCheckout: true, providers: ['click', 'payme'],
-        user: f.ordered ? { signedIn: true, storageKey: 'c'.repeat(64), guest: true } : null,
+        ok: true, mode: 'live', loginAvailable: f.login, guestCheckout: true, providers: ['click', 'payme'],
+        user: f.ordered ? { signedIn: true, storageKey: 'c'.repeat(64), guest: true } : f.dayOver ? { signedIn: true, storageKey: 'd'.repeat(64) } : null,
+        ...(f.dayOver ? { remaining: 0 } : {}),
         freeLimits: { daily: 15, hourly: 5, ...(f.trialLeft !== null ? { lifetime: 3 } : {}) }, terms: { ru: '/ru/oferta/', uz: '/uz/oferta/' }, termsVersion: 'fixture-current',
         ...(f.trialLeft !== null ? { trial: { limit: 3, used: 3 - f.trialLeft, remaining: f.trialLeft, available: f.trialLeft, resets: 'never' }, remaining: f.trialLeft } : {}),
         pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: null,
           ...(f.more ? { more: [{ sku: 'once', priceUzs: 5000, messageLimit: 30, dailyLimit: 50, hours: 72, vat: null }] } : {}) },
-        access: f.paid ? { order_id: ORDER, ends_at: Date.now() + 86_400_000, remaining: 300, message_limit: 300, dayRemaining: 50 } : null,
+        access: f.paid && !f.ended ? { order_id: ORDER, ends_at: Date.now() + 86_400_000, remaining: 300, message_limit: 300, dayRemaining: 50 } : null,
+        // The server's own word (functions/api/gpt/account.ts): no pack runs, but the account held one.
+        ...(f.ended ? { hadPack: true } : {}),
         payment: f.ordered ? {
           id: f.sku === 'once' ? SMALL_ORDER : ORDER, state: f.paid ? 'paid' : 'pending', provider: f.subscribes.at(-1)?.provider === 'payme' ? 'payme' : 'click', cancellable: !f.paid,
           sku: f.sku, priceUzs: f.sku === 'once' ? 5000 : 20000, messageLimit: f.sku === 'once' ? 30 : 300,
@@ -119,7 +128,7 @@ const ask = async (page: Page) => {
 };
 const narrow = async (page: Page, what: string) => assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${what}: no sideways scroll`);
 
-test('checkout in a browser: the tap, a browser that never leaves, a tap during a read, the link for someone else, a return that does not blink, two packs', { skip: !executablePath || !fs.existsSync(path.join(dist, 'ru/gpt-chat/index.html')), timeout: 420_000 }, async () => {
+test('checkout in a browser: the tap, a browser that never leaves, a tap during a read, the link for someone else, a return that does not blink, two packs, the send button at the wall', { skip: !executablePath || !fs.existsSync(path.join(dist, 'ru/gpt-chat/index.html')), timeout: 600_000 }, async () => {
   const server = createServer((req, res) => {
     const pathname = new URL(req.url ?? '/', 'http://local').pathname;
     const file = path.resolve(dist, '.' + pathname + (pathname.endsWith('/') ? 'index.html' : ''));
@@ -438,6 +447,176 @@ test('checkout in a browser: the tap, a browser that never leaves, a tap during 
       await month.click();
       await until('one tap pays the month', () => f.subscribes.length === 1 && f.left.length === 1, 15_000);
       assert.equal(f.subscribes[0].sku, undefined);
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+
+    // ---- 11. A question typed at the trial's wall (roadmap №2, 2.1): the send button opens the pack window with the
+    //          question quoted; nothing is ordered until a provider is tapped; paid, the question is still in the field.
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      f.trialLeft = 0;
+      await page.goto(`${origin}/ru/gpt-chat/`);
+      await page.locator('[data-testid="limit-small-pack"]').waitFor({ timeout: 20_000 });
+      const field = page.locator('.gpt-input-surface textarea');
+      const send = page.locator('.gpt-send-button');
+      // Empty, the button focuses the field and opens nothing (it says aria-disabled, so the tap is forced).
+      await send.click({ force: true });
+      await sleep(400);
+      assert.equal(await page.locator('[data-testid="ai-pay-packs"]').count(), 0, 'an empty field opens nothing');
+      const QUESTION = 'Напиши план реферата про Аральское море';
+      await field.fill(QUESTION);
+      assert.equal(await send.getAttribute('data-state'), 'ready', 'an arrow, not a clock');
+      assert.equal(await send.isDisabled(), false);
+      await send.click();
+      const quoted = page.locator('[data-testid="ai-pay-question"]');
+      await quoted.waitFor({ timeout: 20_000 });
+      assert.equal((await quoted.innerText()).replace(/\s+/g, ' ').trim(), `Ваш вопрос сохранён на час: «${QUESTION}». После оплаты вернитесь в чат и отправьте его.`);
+      assert.equal((await page.locator('[data-testid="ai-pay-seller"]').innerText()).trim(), 'Продавцом там может быть указано ООО «FREEDOM IS HEAVEN» — это компания GPTBot.uz.');
+      // Above the rows of the two packs, the small one first.
+      assert.ok(await quoted.evaluate((line) => !!(line.compareDocumentPosition(document.querySelector('.gpt-pay-pack')!) & Node.DOCUMENT_POSITION_FOLLOWING)), 'the question first');
+      await until('the window is counted as opened from the wall', () => f.events.some((event) => event.type === 'pack_viewed' && event.detail === 'wall'));
+      await until('the wall is counted as seen for the first time', () => f.events.some((event) => event.type === 'trial_wall_seen' && event.detail === 'first'));
+      assert.equal(f.subscribes.length, 0, 'the send button orders nothing');
+      assert.equal(f.left.length, 0);
+      assert.ok(!JSON.stringify(f.events).includes('Арал'), 'no event carries the question');
+      await narrow(page, 'the window with the question');
+      await shot(page, 'wall-question-ru');
+      const small = page.locator('.gpt-pay-pack[data-sku="once"] [data-provider="click"]');
+      await until('the row is live', async () => !(await small.isDisabled()));
+      await small.click();
+      await until('one tap pays the small pack', () => f.subscribes.length === 1 && f.left.length === 1, 15_000);
+      assert.deepEqual({ provider: f.subscribes[0].provider, sku: f.subscribes[0].sku }, { provider: 'click', sku: 'once' });
+      assert.ok(!JSON.stringify(f.subscribes).includes('Арал'), 'the order carries no question');
+      // Paid: the pack is active, the question is still in the field, and one tap sends it.
+      f.paid = true;
+      await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+      await page.locator('[data-testid="ai-pay-result"][data-result="paid"]').waitFor({ timeout: 20_000 });
+      await page.getByRole('button', { name: 'Вернуться в чат' }).click();
+      assert.equal(await field.inputValue(), QUESTION, 'the question waited');
+      await until('the send button is live again', async () => !(await send.isDisabled()), 15_000);
+      await send.click();
+      await page.getByText('Тестовый ответ.', { exact: true }).waitFor({ timeout: 20_000 });
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+
+    // ---- 11b. The same promise across a real trip: the page unloads for the provider's and comes back as a fresh
+    //           load at ?pay=return. The field holds the question, one tap sends it, and no second order is made.
+    //           The paid screen offers to keep the pack through Telegram with a real button (roadmap №2, 4.1).
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      f.trialLeft = 0;
+      await page.goto(`${origin}/ru/gpt-chat/`);
+      await page.locator('[data-testid="limit-small-pack"]').waitFor({ timeout: 20_000 });
+      const QUESTION = 'Составь список вопросов к экзамену по истории';
+      await page.locator('.gpt-input-surface textarea').fill(QUESTION);
+      await page.locator('.gpt-send-button').click();
+      await page.locator('[data-testid="ai-pay-question"]').waitFor({ timeout: 20_000 });
+      const small = page.locator('.gpt-pay-pack[data-sku="once"] [data-provider="payme"]');
+      await until('the row is live', async () => !(await small.isDisabled()));
+      await small.click();
+      await until('the browser is sent to Payme', () => f.subscribes.length === 1 && f.left.length === 1, 15_000);
+      assert.equal(f.left[0], LINKS.payme);
+      // The chat's page is gone: another document took its place, and the payment is made there.
+      await page.goto('about:blank');
+      f.paid = true;
+      f.login = true;
+      await page.goto(`${origin}/ru/gpt-chat/?pay=return`);
+      await page.locator('[data-testid="ai-pay-result"][data-result="paid"]').waitFor({ timeout: 20_000 });
+      const save = page.locator('[data-testid="ai-pack-save"] button');
+      await save.waitFor();
+      assert.equal((await save.innerText()).trim(), 'Сохранить через Telegram');
+      const box = await save.boundingBox();
+      assert.ok(box && box.height >= 44 && box.width >= 280, `a real button, not a text link: ${JSON.stringify(box)}`);
+      await narrow(page, 'the paid screen with the save button');
+      await shot(page, 'paid-save-ru');
+      await page.getByRole('button', { name: 'Вернуться в чат' }).click();
+      const field = page.locator('.gpt-input-surface textarea');
+      assert.equal(await field.inputValue(), QUESTION, 'the question came back with the page');
+      const send = page.locator('.gpt-send-button');
+      await until('the send button is live', async () => !(await send.isDisabled()) && (await send.getAttribute('data-state')) === 'ready', 15_000);
+      await send.click();
+      await page.getByText('Тестовый ответ.', { exact: true }).waitFor({ timeout: 20_000 });
+      await until('the sent question leaves the field', async () => (await field.inputValue()) === '');
+      assert.equal(await page.evaluate(() => localStorage.getItem('gptchat_draft')), null, 'and the draft with it');
+      assert.equal(f.subscribes.length, 1, 'no second order');
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+
+    // ---- 12. A limit that time lifts keeps its clock: the send button is off and opens nothing.
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      f.dayOver = true;
+      await page.goto(`${origin}/ru/gpt-chat/`);
+      const send = page.locator('.gpt-send-button');
+      await until('the day limit stands', async () => (await send.getAttribute('data-state')) === 'limit', 20_000);
+      await page.locator('.gpt-input-surface textarea').fill('Вопрос, который подождёт до завтра');
+      assert.equal(await send.getAttribute('data-state'), 'limit', 'a clock');
+      assert.equal(await send.isDisabled(), true);
+      await sleep(400);
+      assert.equal(await page.locator('[data-testid="ai-pay-packs"]').count(), 0);
+      assert.ok(!f.events.some((event) => event.type === 'pack_viewed' && event.detail === 'wall'));
+      assert.ok(!f.events.some((event) => event.type === 'trial_wall_seen'), 'not the trial’s wall');
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+
+    // ---- 13. A pack that has ended (roadmap №2, 4.5): the card says the pack is over, not that a trial is spent,
+    //          and the send button opens the window like at the trial's wall. The card goes by the server's word
+    //          (hadPack), so a new invoice left unpaid does not turn it back into the trial's.
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      f.trialLeft = 0;
+      f.ordered = true;
+      f.paid = true;
+      f.ended = true;
+      await page.goto(`${origin}/uz/gpt-uzbek-tilida/`);
+      await page.locator('[data-testid="limit-small-pack"]').waitFor({ timeout: 20_000 });
+      const text = (await page.locator('[data-testid="ai-console"]').innerText()).replace(/\s+/g, ' ');
+      assert.match(text, /AI paket tugadi\. Yangisi to‘lovdan so‘ng darhol ishga tushadi\./);
+      assert.doesNotMatch(text, /3 ta sinov javobi tugadi/);
+      await page.locator('.gpt-input-surface textarea').fill('Insho rejasini tuzib ber');
+      const send = page.locator('.gpt-send-button');
+      assert.equal(await send.getAttribute('data-state'), 'ready');
+      await send.click();
+      const quoted = page.locator('[data-testid="ai-pay-question"]');
+      await quoted.waitFor({ timeout: 20_000 });
+      assert.equal((await quoted.innerText()).replace(/\s+/g, ' ').trim(), 'Savolingiz bir soatga saqlandi: «Insho rejasini tuzib ber». To‘lovdan keyin chatga qaytib, uni yuboring.');
+      assert.equal(f.subscribes.length, 0);
+      // An ended pack is not the trial's wall: the return counter does not count it.
+      await sleep(1_500);
+      assert.ok(!f.events.some((event) => event.type === 'trial_wall_seen'));
+      await shot(page, 'ended-pack-uz');
+      // The ex-holder opened a new invoice and left it unpaid: the newest order is pending, not paid.
+      f.paid = false;
+      await page.reload();
+      const ENDED = /AI paket tugadi\. Yangisi to‘lovdan so‘ng darhol ishga tushadi\./;
+      await until('the ended pack’s card stands after an unpaid new invoice', async () => ENDED.test((await page.locator('[data-testid="ai-console"]').innerText()).replace(/\s+/g, ' ')), 20_000);
+      assert.doesNotMatch((await page.locator('[data-testid="ai-console"]').innerText()).replace(/\s+/g, ' '), /3 ta sinov javobi tugadi/);
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+
+    // ---- 14. The trial's wall met again: the first view is «first», a later one in the same browser «same_day».
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      f.trialLeft = 0;
+      await page.goto(`${origin}/ru/gpt-chat/`);
+      await until('the first meeting is counted', () => f.events.some((event) => event.type === 'trial_wall_seen' && event.detail === 'first'), 20_000);
+      await page.reload();
+      await until('the second view is a return', () => f.events.some((event) => event.type === 'trial_wall_seen' && event.detail === 'same_day'), 20_000);
+      // Eight days on (the stored first meeting moved back): the oldest bucket.
+      await page.evaluate(() => localStorage.setItem('gptchat_wall_first', String(Date.now() - 9 * 86_400_000)));
+      await page.reload();
+      await until('a visit nine days later', () => f.events.some((event) => event.type === 'trial_wall_seen' && event.detail === 'd8_plus'), 20_000);
+      assert.equal(f.events.filter((event) => event.type === 'trial_wall_seen').length, 3, 'once per page view');
       assert.deepEqual(f.errors, []);
       await ctx.close();
     }

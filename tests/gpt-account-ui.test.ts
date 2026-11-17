@@ -377,7 +377,7 @@ test('a pack is buyable only with a mode and a provider; every opening of its wi
   assert.match(panel, /onOpenChange=\{\(next\) => \{ if \(!next\) close\(\); \}\}/, 'the Dialog itself only closes');
   const chat = readFileSync(new URL('../src/gpt-chat/components/AiChatConsole.tsx', import.meta.url), 'utf8');
   const froms = [...new Set([...chat.matchAll(/openAccount\("(\w+)"(?:, provider)?\)/g)].map((m) => m[1]))].sort();
-  assert.deepEqual(froms, ['account_check', 'after_value', 'limit_card', 'low_limit']);
+  assert.deepEqual(froms, ['account_check', 'after_value', 'limit_card', 'low_limit', 'wall']);
   assert.doesNotMatch(chat, /setAccountOpen\(\(n\) => n \+ 1\)/);
 });
 

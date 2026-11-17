@@ -179,7 +179,7 @@ export function ru(n: number, one: string, few: string, many: string): string {
 const RU: ChatStrings = {
   premium: {
     contextTooLarge:'Сообщение слишком длинное для этого запроса. Сократите его или отправьте частями.',
-    answerReady:'Ответ готов.',monthlyLimit:'Ответы этого AI-пакета закончились. Новый пакет начнёт действовать сразу после оплаты.',
+    answerReady:'Ответ готов.',monthlyLimit:'AI-пакет закончился. Новый начнёт действовать сразу после оплаты.',
     welcome:'Есть вопрос?',account:'AI-пакет',buyPack:'Купить пакет',accountActive:'Мой пакет',
     close:'Закрыть',check:'Проверить статус',
     manual:'Без автосписаний: следующий пакет покупаете, только если он нужен.',activeLine:(n) => `AI-пакет · ответов осталось: ${n}`,activeShort:(n) => `Ещё ${n} ${ru(n, 'ответ', 'ответа', 'ответов')}`,
@@ -286,7 +286,7 @@ const RU: ChatStrings = {
 const UZ: ChatStrings = {
   premium: {
     contextTooLarge:'Bu so‘rov uchun matn juda uzun. Uni qisqartiring yoki bo‘lib yuboring.',
-    answerReady:'Javob tayyor.',monthlyLimit:'Bu AI paketdagi javoblar tugadi. Yangi paket to‘lovdan so‘ng darhol ishga tushadi.',
+    answerReady:'Javob tayyor.',monthlyLimit:'AI paket tugadi. Yangisi to‘lovdan so‘ng darhol ishga tushadi.',
     welcome:'Savolingiz bor?',account:'AI paket',buyPack:'Paket olish',accountActive:'Paketim',
     close:'Yopish',check:'Holatni tekshirish',
     manual:'Avtomatik to‘lov yo‘q: keyingi paketni faqat kerak bo‘lsa olasiz.',activeLine:(n) => `AI paket · ${n} ta javob qoldi`,activeShort:(n) => `${n} ta javob qoldi`,

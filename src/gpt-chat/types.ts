@@ -99,6 +99,8 @@ export interface AccountView {
     sku?: 'month' | 'once'; priceUzs?: number; messageLimit?: number;
   } | null;
   receipts?: Array<{ kind: string; receipt_url: string }>;
+  /** No pack runs now, but the account held one (functions/api/gpt/account.ts): the wall is an ended pack's. */
+  hadPack?: boolean;
 }
 
 export function isOpaqueStorageKey(value: unknown): value is string {
