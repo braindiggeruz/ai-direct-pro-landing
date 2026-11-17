@@ -314,6 +314,11 @@ export interface Env extends FirecrawlEnvironment {
   // before paying. Stays off until an offer edition that describes the guest
   // account is approved (docs/paid-chat/LOGIN-RU.md).
   GPT_GUEST_CHECKOUT?: string;
+  // Public. The 3-day pack (5 000 UZS, 30 answers; functions/lib/gpt-chat/
+  // packs.ts): "live" sells it to everyone, "test" only inside a rehearsal
+  // session, anything else (absent too) to nobody. Orders already made are
+  // finished by the callbacks whatever it says.
+  GPT_PACK_ONCE?: string;
   // Public. Sign-in on the site through the bot (functions/lib/gpt-chat/
   // bot-login-store.ts): "pick" (default; the bot offers three numbers, the
   // person presses the one the site shows) or "code" (the bot sends 6 digits

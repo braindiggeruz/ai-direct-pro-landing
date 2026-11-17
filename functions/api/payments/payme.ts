@@ -301,7 +301,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({
       if (method === "CheckPerformTransaction") {
         if (!["pending", "prepared"].includes(row.state) || row.expires_at <= now)
           return error(id, -31050, "order_id");
-        const detail = paymeReceiptDetail(env);
+        const detail = paymeReceiptDetail(env, row);
         // Without the fiscal codes Payme could not print the receipt: refuse
         // the payment as a dependency failure (liveReadiness names them). The
         // alert is urgent: every payment is refused until the codes are set.

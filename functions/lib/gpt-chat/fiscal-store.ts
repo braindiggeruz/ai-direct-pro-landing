@@ -103,6 +103,7 @@ import {
   uzumReceiptBody,
   type UzumFiscalCallOptions,
 } from "./uzum-fiscal";
+import { isOnceOrder, ONCE_ORDERS, packOfOrder } from "./packs";
 
 export const FISCAL_QUEUED = -1;
 export const FISCAL_PRINTED = 0;
@@ -193,9 +194,10 @@ export class FiscalStore {
   }
   clickOrder(id: string): Promise<ClickOrderFacts | null> {
     if (id.startsWith("stu_")) return this.db.prepare("SELECT id,state,mode,amount,provider_time,perform_time,plan,plan_version FROM studio_orders_v2 WHERE org_id=? AND id=? AND provider='click'").bind(this.org, id).first<ClickOrderFacts>();
+    // The 3-day pack's orders have their own table (migrations/0085, packs.ts): missed here, a paid order would never be printed.
     return this.db
       .prepare(
-        "SELECT id,state,mode,amount,provider_time,perform_time FROM gpt_payment_orders WHERE org_id=? AND id=? AND provider='click'",
+        `SELECT id,state,mode,amount,provider_time,perform_time FROM ${isOnceOrder(id) ? ONCE_ORDERS : "gpt_payment_orders"} WHERE org_id=? AND id=? AND provider='click'`,
       )
       .bind(this.org, id)
       .first<ClickOrderFacts>();
@@ -448,7 +450,7 @@ async function printClickReceipt(
   const sent = await submitItems(
     auth,
     payment,
-    [clickReceiptItem(params, tin, order.amount, studioPlan?.receiptName)],
+    [clickReceiptItem(params, tin, order.amount, studioPlan?.receiptName ?? (order.id.startsWith("stu_") ? undefined : packOfOrder(order.id).receiptName))],
     order.amount,
     options(),
   );

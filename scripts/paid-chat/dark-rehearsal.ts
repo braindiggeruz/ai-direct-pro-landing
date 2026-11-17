@@ -675,7 +675,7 @@ function leadAggregates(startedAt: number): LeadAggregate[] {
   const packSteps = [...PACK_WINDOW_EVENTS].map((type) => `'${type}'`).join(",");
   return [
     {
-      sql: "SELECT mode, provider, state, COUNT(*) AS n FROM gpt_payment_orders_all GROUP BY 1,2,3",
+      sql: "SELECT mode, provider, state, COUNT(*) AS n FROM gpt_payment_orders_all2 GROUP BY 1,2,3",
       expect: "no live row; the test rows are this rehearsal's (rows_by_mode)",
     },
     {
@@ -683,7 +683,7 @@ function leadAggregates(startedAt: number): LeadAggregate[] {
       expect: "none, unless the owner walked the screens in a rehearsal session: visitors cannot send these steps",
     },
     {
-      sql: `SELECT COUNT(*) AS n FROM gpt_billing_outbox o JOIN gpt_payment_orders_all p ON p.org_id=o.org_id AND p.id=o.order_id WHERE p.org_id='${BILLING_ORG}' AND p.mode='test' AND o.delivered_at IS NOT NULL`,
+      sql: `SELECT COUNT(*) AS n FROM gpt_billing_outbox o JOIN gpt_payment_orders_all2 p ON p.org_id=o.org_id AND p.id=o.order_id WHERE p.org_id='${BILLING_ORG}' AND p.mode='test' AND o.delivered_at IS NOT NULL`,
       expect: "0: a test order never reaches the owner's chat",
     },
   ];

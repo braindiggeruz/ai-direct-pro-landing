@@ -18,7 +18,7 @@ export const onRequestPost: PagesFunction<BillingEnv> = async ({ request, env })
     return fail("forbidden", "Forbidden", 403);
   const body = await readJsonLimited<{ order?: string }>(request, 512);
   const query = body.ok ? body.value?.order : undefined;
-  if (typeof query !== "string" || !/^(pay_[0-9a-f]{32}|\d{1,20})$/.test(query))
+  if (typeof query !== "string" || !/^((?:pay|pk)_[0-9a-f]{32}|\d{1,20})$/.test(query))
     return fail("invalid_request", "A pay_ number or a Click payment id required");
   const secret = env.GPT_IDENTITY_SECRET;
   if (!env.GPTBOT_DRAFTS_DB || !secret || secret.length < 32)

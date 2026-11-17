@@ -105,6 +105,8 @@ export const RUNTIME_CONFIG_KEYS = [
   // Guest checkout: Click without signing in, off unless exactly "true"
   // (billing-config.ts guestCheckout; docs/paid-chat/LOGIN-RU.md).
   'GPT_GUEST_CHECKOUT',
+  // The 3-day pack: "live", "test" (rehearsal sessions only) or off (packs.ts oncePackMode).
+  'GPT_PACK_ONCE',
   // Fiscal receipt parameters shared by Click and Uzum (fiscal-config.ts).
   'GPT_FISCAL_IKPU',
   'GPT_FISCAL_PACKAGE_CODE',

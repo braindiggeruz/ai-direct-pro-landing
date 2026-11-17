@@ -3,7 +3,6 @@ import {
   clickCredentials,
   guestCheckoutOn,
   guestProvider,
-  PRICE_TIYIN,
   providerMode,
   providerReady,
   termsUrl,
@@ -45,6 +44,7 @@ import { fiscalizeDue } from "../../lib/gpt-chat/fiscal-store";
 import { isRehearsalAccount, viewerMode } from "../../lib/gpt-chat/rehearsal";
 import { paymeCheckoutUrl } from "../../lib/gpt-chat/payme-checkout";
 import { chatReturnPath } from "../../lib/gpt-chat/return-path";
+import { offeredPacks, packBySku, PACKS } from "../../lib/gpt-chat/packs";
 
 /**
  * The chat page a payment page sends the visitor back to (CheckoutReturn,
@@ -55,14 +55,14 @@ function returnUrl(origin: string, locale: "ru" | "uz", page: unknown): string {
   return `${origin}${chatReturnPath(locale, page)}?pay=return`;
 }
 
-/** Click's payment page for a live order; providerReady() vouched for the ids. */
-function clickCheckoutUrl(env: BillingEnv, orderId: string, back: string): string {
+/** Click's payment page for a live order, for the order's own amount; providerReady() vouched for the ids. */
+function clickCheckoutUrl(env: BillingEnv, order: { id: string; amount: number }, back: string): string {
   const click = clickCredentials(env, "live")!;
   return `https://my.click.uz/services/pay/?${new URLSearchParams({
     service_id: click.serviceId,
     merchant_id: click.merchantId!,
-    amount: (PRICE_TIYIN / 100).toFixed(2),
-    transaction_param: orderId,
+    amount: (order.amount / 100).toFixed(2),
+    transaction_param: order.id,
     return_url: back,
   })}`;
 }
@@ -194,9 +194,14 @@ async function subscribe(
     termsVersion?: string;
     /** The page the checkout started from; only a listed chat page counts (return-path.ts). */
     returnPath?: unknown;
+    /** The pack (packs.ts): "month" or "once"; absent is the monthly pack, as every client before 17.11.2026 sends. */
+    sku?: unknown;
   }>(request, 2048);
   if (!body.ok || !body.value) return fail("bad_request", "Invalid request");
   const p = body.value;
+  // The pack comes from the closed list, never from a price or an amount the browser names.
+  const pack = p.sku === undefined ? PACKS.month : packBySku(p.sku);
+  if (!pack) return fail("bad_request", "Invalid request");
   if (
     (p.provider !== "payme" && p.provider !== "click" && p.provider !== "uzum") ||
     !/^[a-zA-Z0-9_-]{16,80}$/.test(p.requestId || "") ||
@@ -213,6 +218,10 @@ async function subscribe(
     !env.GPTBOT_DRAFTS_DB ||
     mode !== (await viewerMode(request, env))
   )
+    return fail("not_found", "Not found", 404);
+  // The 3-day pack only while GPT_PACK_ONCE offers it to this visitor, and with
+  // Click or Payme: like a provider that is off, anything else is a missing route.
+  if (pack.sku === "once" && (p.provider === "uzum" || !offeredPacks(env, mode).includes(pack)))
     return fail("not_found", "Not found", 404);
   const locale = p.locale === 'uz' ? 'uz' : 'ru';
   // Where the provider's page sends the buyer back: never a host, scheme or
@@ -245,8 +254,8 @@ async function subscribe(
       guest.cookie = authCookie("__Host-gpt_account", minted.token, GUEST_SESSION_MS / 1000);
     }
     // A guest pays with Click or Payme only: its pack moves to Telegram with
-    // the orders of gpt_payment_orders alone (IdentityStore.adoptGuest), and
-    // Uzum keeps its orders elsewhere.
+    // the orders of the two Click and Payme tables (IdentityStore.adoptGuest),
+    // and Uzum keeps its orders elsewhere.
     if (!guestProvider(p.provider) && isGuestAccount(user))
       return fail("login_required", "Login required", 401);
     // A synthetic rehearsal account never buys live (rehearsal.ts).
@@ -277,6 +286,8 @@ async function subscribe(
       p.requestId!,
       Date.now(),
       { version, url: terms, locale },
+      undefined,
+      pack,
     );
     if (
       (row.state !== "pending" && row.state !== "prepared") ||
@@ -296,6 +307,7 @@ async function subscribe(
         row.id,
         locale,
         back,
+        row.amount,
       );
       if (!checkoutUrl) throw new Error("payme_checkout");
       return json({ ok: true, mode: "checkout", checkoutUrl, attemptId: row.id });
@@ -315,7 +327,7 @@ async function subscribe(
     return json({
       ok: true,
       mode: "checkout",
-      checkoutUrl: clickCheckoutUrl(env, row.id, back),
+      checkoutUrl: clickCheckoutUrl(env, row, back),
       attemptId: row.id,
     });
   } catch (error) {
@@ -326,6 +338,9 @@ async function subscribe(
       });
     if (error instanceof Error && error.message === 'terms_changed')
       return fail('terms_changed', 'An existing invoice uses different terms; check its status first', 409);
+    // The request key already opened an order of the other pack: a new key starts this one.
+    if (error instanceof Error && error.message === 'pack_conflict')
+      return fail('pack_changed', 'This request belongs to an order of another pack', 409);
     return fail("checkout_unavailable", "Check status before retrying", 503);
   }
 }

@@ -468,7 +468,7 @@ test("an order paid between a decision and its write is never closed or refunded
     const first = randomUUID();
     await create(f, code, first);
     const confirming = (await store.external("test", first))!;
-    afterRead(f, "FROM gpt_payment_orders_all p", () =>
+    afterRead(f, "FROM gpt_payment_orders_all2 p", () =>
       store.billing.transition(confirming.id, "paid", "uzum_confirm"),
     );
     assert.equal((await create(f, code)).body.errorCode, "10008");
@@ -476,7 +476,7 @@ test("an order paid between a decision and its write is never closed or refunded
     // A Click invoice Click had not seen when the app payment read it, paid since.
     const click = new BillingStore(f.binding, BILLING_ORG);
     const unseen = await click.createOrder(f.user, "click", "test", randomUUID());
-    afterRead(f, "FROM gpt_payment_orders_all p", async () => {
+    afterRead(f, "FROM gpt_payment_orders_all2 p", async () => {
       await click.transition(unseen.id, "prepared", "Prepare", { externalId: String(randomBytes(4).readUInt32BE(0)) });
       await click.transition(unseen.id, "paid", "Complete");
     });

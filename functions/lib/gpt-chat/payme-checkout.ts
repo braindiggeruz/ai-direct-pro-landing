@@ -14,6 +14,7 @@
 // queue (fiscal-store.ts) never prints a Payme order.
 import { PRICE_TIYIN, type BillingEnv, type BillingMode, paymeMerchantId } from "./billing-config";
 import { fiscalParams, PACK_RECEIPT_NAME } from "./fiscal-config";
+import { packOfOrder } from "./packs";
 
 /** Payme's payment page per mode: the sandbox for test, checkout for live. */
 export const PAYME_CHECKOUT_BASE: Record<BillingMode, string> = {
@@ -58,13 +59,16 @@ export function paymeCheckoutUrl(
   orderId: string,
   locale: "ru" | "uz",
   back: string,
+  /** The order's own amount in tiyin (its row); the monthly pack's when the caller has only the id. */
+  amountTiyin: number = PRICE_TIYIN,
 ): string | null {
   const merchant = paymeMerchantId(env);
   if (!merchant || /[;\s]/.test(orderId) || /[;\s]/.test(back)) return null;
+  if (!Number.isSafeInteger(amountTiyin) || amountTiyin <= 0) return null;
   const pairs = [
     `m=${merchant}`,
     `ac.order_id=${orderId}`,
-    `a=${PRICE_TIYIN}`,
+    `a=${amountTiyin}`,
     `c=${back}`,
     `l=${locale}`,
     `ct=${PAYME_RETURN_DELAY_MS}`,
@@ -95,19 +99,27 @@ export interface PaymeReceiptDetail {
 }
 
 /**
- * The fiscal `detail` of the AI pack: one line whose price times count is the
- * order amount, or null while a fiscal setting is missing or invalid (the
- * caller answers -32400 then, and liveReadiness() names the setting).
+ * The fiscal `detail` of an order: one line, named after the pack the order
+ * bought (packs.ts, by its id), whose price times count is the order's own
+ * amount; or null while a fiscal setting is missing or invalid (the caller
+ * answers -32400 then, and liveReadiness() names the setting), or when the
+ * row's amount is not its pack's (never printed: the sums would not agree).
+ * Without an order it is the monthly pack's line, as liveReadiness reads it.
  */
-export function paymeReceiptDetail(env: BillingEnv): PaymeReceiptDetail | null {
+export function paymeReceiptDetail(
+  env: BillingEnv,
+  order?: { id: string; amount: number },
+): PaymeReceiptDetail | null {
   const fiscal = fiscalParams(env);
   if (!fiscal) return null;
+  const pack = order ? packOfOrder(order.id) : null;
+  if (order && order.amount !== pack!.amountTiyin) return null;
   return {
     receipt_type: 0,
     items: [
       {
-        title: PACK_RECEIPT_NAME,
-        price: PRICE_TIYIN,
+        title: pack ? pack.receiptName : PACK_RECEIPT_NAME,
+        price: order ? order.amount : PRICE_TIYIN,
         count: 1,
         code: fiscal.ikpu,
         package_code: fiscal.packageCode,

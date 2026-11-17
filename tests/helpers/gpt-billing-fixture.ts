@@ -50,6 +50,15 @@ export async function billingFixture() {
       "utf8",
     ),
   );
+  // migrations/0085 (the 3-day pack's order table and the view over the three
+  // order tables), applied the same way: the file itself must run on a
+  // database the runtime bootstrap has already touched.
+  db.exec(
+    readFileSync(
+      new URL("../../migrations/0085_gpt_once_pack.sql", import.meta.url),
+      "utf8",
+    ),
+  );
   const secret = () => randomBytes(32).toString("hex");
   const numeric = () => String(randomBytes(4).readUInt32BE(0));
   const env = {

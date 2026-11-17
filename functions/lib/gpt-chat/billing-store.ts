@@ -1,12 +1,9 @@
 import {
-  addCalendarMonth,
-  PAID_MESSAGES,
   PAYMENT_TTL_MS,
-  PLAN_ID,
-  PRICE_TIYIN,
   type BillingMode,
   type LocalProvider,
 } from "./billing-config";
+import { isOnceOrder, ONCE_ORDERS, ONCE_PREFIX, packEnd, packOfOrder, PACKS, type Pack } from "./packs";
 import { FISCAL_QUEUED, FISCAL_SKIPPED } from "./fiscal-store";
 import { isRehearsalAccount } from "./rehearsal";
 
@@ -30,6 +27,8 @@ export interface Order {
   cancel_time: number;
   reason: number | null;
   version: number;
+  /** A 3-day pack order's own column (gpt_payment_orders_v2); the pack of any order is read from its id (packs.ts). */
+  sku?: string;
 }
 export interface AccessPeriod {
   order_id: string;
@@ -64,9 +63,11 @@ export interface OrderConsent {
   acceptedAt?: number;
 }
 
-/** Closed set: SQL below names `this.table`, never caller-supplied text. */
-export type OrderTable = "gpt_payment_orders" | "gpt_uzum_orders";
+/** Closed set: SQL below names one of these, never caller-supplied text. */
+export type OrderTable = "gpt_payment_orders" | "gpt_uzum_orders" | typeof ONCE_ORDERS;
 export const UZUM_ORDERS: OrderTable = "gpt_uzum_orders";
+/** Every chat order of the three tables (migrations/0085; the 0065 view names two). */
+const ALL_ORDERS = "gpt_payment_orders_all2";
 
 // Answers spent in pack `p`, counted as TurnStore does: done, or in flight.
 // Binds now.
@@ -97,23 +98,43 @@ export class BillingStore {
       throw new Error("order_table");
     this.table = table;
   }
+  /**
+   * The table an order lives in. The Click and Payme store holds two: the
+   * 3-day pack's orders (pk_ ids, packs.ts) are in gpt_payment_orders_v2,
+   * every other one in gpt_payment_orders. Uzum has its own, and one.
+   */
+  private tableOf(id: string): OrderTable {
+    return this.table === UZUM_ORDERS ? UZUM_ORDERS : isOnceOrder(id) ? ONCE_ORDERS : "gpt_payment_orders";
+  }
+  /** The tables this store reads when it has no order id to go by. */
+  private get tables(): OrderTable[] {
+    return this.table === UZUM_ORDERS ? [UZUM_ORDERS] : ["gpt_payment_orders", ONCE_ORDERS];
+  }
   order(id: string): Promise<Order | null> {
     return this.db
-      .prepare(`SELECT * FROM ${this.table} WHERE org_id=? AND id=?`)
+      .prepare(`SELECT * FROM ${this.tableOf(id)} WHERE org_id=? AND id=?`)
       .bind(this.org, id)
       .first<Order>();
   }
-  external(
+  /**
+   * The order a provider's transaction belongs to, in either Click and Payme
+   * table: a transaction id is one order's, whichever pack it bought.
+   */
+  async external(
     provider: LocalProvider,
     mode: BillingMode,
     id: string,
   ): Promise<Order | null> {
-    return this.db
-      .prepare(
-        `SELECT * FROM ${this.table} WHERE org_id=? AND provider=? AND mode=? AND external_id=?`,
-      )
-      .bind(this.org, provider, mode, id)
-      .first<Order>();
+    for (const table of this.tables) {
+      const row = await this.db
+        .prepare(
+          `SELECT * FROM ${table} WHERE org_id=? AND provider=? AND mode=? AND external_id=?`,
+        )
+        .bind(this.org, provider, mode, id)
+        .first<Order>();
+      if (row) return row;
+    }
+    return null;
   }
   async createOrder(
     user: string,
@@ -123,6 +144,8 @@ export class BillingStore {
     now = Date.now(),
     consent?: OrderConsent,
     api?: "checkout" | "merchant",
+    /** What is bought (packs.ts): the sum, the table and the id prefix follow from it. */
+    pack: Pack = PACKS.month,
   ): Promise<Order> {
     // Uzum rows live in their own table (0065); the old table's CHECK rejects them.
     if (
@@ -130,12 +153,16 @@ export class BillingStore {
       (api && this.table !== UZUM_ORDERS)
     )
       throw new Error("provider_table");
+    // The 3-day pack is paid with Click or Payme (its table takes no other provider).
+    const once = pack.sku === "once";
+    if (once && this.table === UZUM_ORDERS) throw new Error("provider_table");
+    const table: OrderTable = once ? ONCE_ORDERS : this.table;
     // A synthetic rehearsal account buys in test only (rehearsal.ts).
     if (mode === "live" && isRehearsalAccount(user))
       throw new Error("rehearsal_live");
     const prior = await this.db
       .prepare(
-        `SELECT * FROM ${this.table} WHERE org_id=? AND user_id=? AND request_id=?`,
+        `SELECT * FROM ${table} WHERE org_id=? AND user_id=? AND request_id=?`,
       )
       .bind(this.org, user, requestId)
       .first<Order>();
@@ -145,9 +172,20 @@ export class BillingStore {
       if (consent) await this.assertConsent(prior.id, consent.version);
       return prior;
     }
+    // The other pack's table, for an account that pays with Click or Payme.
+    const sibling: OrderTable | null =
+      this.table === UZUM_ORDERS ? null : once ? "gpt_payment_orders" : ONCE_ORDERS;
+    if (sibling) {
+      // A request key is one order's: the same key cannot open the other pack.
+      const other = await this.db
+        .prepare(`SELECT id FROM ${sibling} WHERE org_id=? AND user_id=? AND request_id=?`)
+        .bind(this.org, user, requestId)
+        .first<{ id: string }>();
+      if (other) throw new Error("pack_conflict");
+    }
     const pending = await this.db
       .prepare(
-        `SELECT * FROM ${this.table} WHERE org_id=? AND user_id=? AND provider=? AND mode=? AND state IN ('pending','prepared')`,
+        `SELECT * FROM ${table} WHERE org_id=? AND user_id=? AND provider=? AND mode=? AND state IN ('pending','prepared')`,
       )
       .bind(this.org, user, provider, mode)
       .first<Order>();
@@ -162,11 +200,38 @@ export class BillingStore {
         reason: 4,
       });
     }
-    // Every provider's open invoices, through the 0065 view (U7). The INSERT
-    // repeats the check inside the batch, so two tabs opening two providers
-    // at once cannot both get an invoice.
+    // The visitor chose the other pack: an invoice of the first choice that no
+    // provider has seen yet (nobody can be paying it) is closed, silently, as
+    // an invoice the account closes itself is (invoice_superseded). One a
+    // provider holds stays, and the new order waits for it (U7).
+    if (sibling) {
+      const others = await this.db
+        .prepare(
+          `SELECT id,provider,state,external_id,expires_at FROM ${sibling} WHERE org_id=? AND user_id=? AND mode=? AND state IN ('pending','prepared')`,
+        )
+        .bind(this.org, user, mode)
+        .all<Pick<Order, "id" | "provider" | "state" | "external_id" | "expires_at">>();
+      for (const open of others.results || []) {
+        const expired = open.expires_at <= now;
+        const unseen = open.state === "pending" && !open.external_id;
+        if (!unseen && !expired) throw new PendingElsewhereError(open.id, open.provider);
+        try {
+          // Past its time: closed as this provider's own expired invoice is, above.
+          if (expired) await this.transition(open.id, "cancelled", "invoice_expired", { now, reason: 4 });
+          else await this.transition(open.id, "cancelled", "invoice_superseded", { now, from: ["pending"], unseen: true });
+        } catch (error) {
+          // A provider took it up in between: it is held now.
+          if (error instanceof Error && error.message === "state") throw new PendingElsewhereError(open.id, open.provider);
+          throw error;
+        }
+      }
+    }
+    // Every open invoice of the account but this provider's own of this pack
+    // (U7), through the view of the three tables: another provider's, and the
+    // other pack's. The INSERT repeats the check inside the batch, so two tabs
+    // opening two invoices at once cannot both get one.
     const openElsewhere =
-      "SELECT id,provider FROM gpt_payment_orders_all WHERE org_id=? AND user_id=? AND mode=? AND provider<>? AND state IN ('pending','prepared') AND expires_at>?";
+      `SELECT id,provider FROM ${ALL_ORDERS} WHERE org_id=? AND user_id=? AND mode=? AND NOT (provider=? AND substr(id,1,3)${once ? "=" : "<>"}'${ONCE_PREFIX}') AND state IN ('pending','prepared') AND expires_at>?`;
     const elsewhere = async () => {
       const open = await this.db
         .prepare(`${openElsewhere} ORDER BY created_at DESC,provider DESC,id DESC LIMIT 1`)
@@ -175,14 +240,14 @@ export class BillingStore {
       if (open) throw new PendingElsewhereError(open.id, open.provider);
     };
     await elsewhere();
-    // 'uzm_' + 32 hex = 36 chars, the Uzum Checkout orderNumber maximum.
-    const id = `${this.table === UZUM_ORDERS ? "uzm" : "pay"}_${crypto.randomUUID().replace(/-/g, "")}`;
+    // 'uzm_' + 32 hex = 36 chars, the Uzum Checkout orderNumber maximum; 'pk_' + 32 hex = 35.
+    const id = `${this.table === UZUM_ORDERS ? "uzm_" : once ? ONCE_PREFIX : "pay_"}${crypto.randomUUID().replace(/-/g, "")}`;
     const event = crypto.randomUUID();
     await this.db.batch([
       this.db
         .prepare(
-          `INSERT OR IGNORE INTO ${this.table}(org_id,id,user_id,provider,mode,request_id,amount,currency,state,created_at,expires_at${api ? ",api" : ""})
-        SELECT ?,?,?,?,?,?,?,'UZS','pending',?,?${api ? ",?" : ""} WHERE NOT EXISTS(${openElsewhere})`,
+          `INSERT OR IGNORE INTO ${table}(org_id,id,user_id,provider,mode,request_id,amount,currency,state,created_at,expires_at${api ? ",api" : ""}${once ? ",sku" : ""})
+        SELECT ?,?,?,?,?,?,?,'UZS','pending',?,?${api ? ",?" : ""}${once ? ",?" : ""} WHERE NOT EXISTS(${openElsewhere})`,
         )
         .bind(
           this.org,
@@ -191,10 +256,11 @@ export class BillingStore {
           provider,
           mode,
           requestId,
-          PRICE_TIYIN,
+          pack.amountTiyin,
           now,
           now + PAYMENT_TTL_MS,
           ...(api ? [api] : []),
+          ...(once ? [pack.sku] : []),
           this.org,
           user,
           mode,
@@ -204,16 +270,16 @@ export class BillingStore {
       this.db
         .prepare(
           `INSERT INTO gpt_payment_journal(org_id,id,order_id,actor,method,to_state,created_at)
-        SELECT org_id,?,id,'account','checkout','pending',? FROM ${this.table} WHERE org_id=? AND id=?`,
+        SELECT org_id,?,id,'account','checkout','pending',? FROM ${table} WHERE org_id=? AND id=?`,
         )
         .bind(event, now, this.org, id),
       ...(consent ? [this.db.prepare(`INSERT INTO gpt_payment_consents(org_id,order_id,user_id,version,url,locale,accepted_at)
-        SELECT org_id,id,user_id,?,?,?,? FROM ${this.table} WHERE org_id=? AND id=?`)
+        SELECT org_id,id,user_id,?,?,?,? FROM ${table} WHERE org_id=? AND id=?`)
         .bind(consent.version, consent.url, consent.locale, consent.acceptedAt ?? now, this.org, id)] : []),
     ]);
     const row = await this.db
       .prepare(
-        `SELECT * FROM ${this.table} WHERE org_id=? AND user_id=? AND provider=? AND mode=? AND (request_id=? OR state IN ('pending','prepared')) ORDER BY created_at DESC LIMIT 1`,
+        `SELECT * FROM ${table} WHERE org_id=? AND user_id=? AND provider=? AND mode=? AND (request_id=? OR state IN ('pending','prepared')) ORDER BY created_at DESC LIMIT 1`,
       )
       .bind(this.org, user, provider, mode, requestId)
       .first<Order>();
@@ -277,7 +343,7 @@ export class BillingStore {
   ): Promise<Order | null> {
     return this.db
       .prepare(
-        "SELECT * FROM gpt_payment_orders_all WHERE org_id=? AND user_id=? AND mode=? ORDER BY created_at DESC,provider DESC,id DESC LIMIT 1",
+        `SELECT * FROM ${ALL_ORDERS} WHERE org_id=? AND user_id=? AND mode=? ORDER BY created_at DESC,provider DESC,id DESC LIMIT 1`,
       )
       .bind(this.org, user, mode)
       .first<Order>();
@@ -293,9 +359,9 @@ export class BillingStore {
   /** Audit's conditional INSERT is the transaction guard. All effects depend
    * on its unguessable ID, never changes() across unrelated statements. D1
    * batch is atomic; a concurrent transition of the same order retries.
-   * A paid order opens its own pack at once: one calendar month from the
-   * payment, side by side with any pack still running (access() draws from
-   * the one that ends first). */
+   * A paid order opens its own pack at once: the pack it bought (packs.ts),
+   * for its term from the payment, side by side with any pack still running
+   * (access() draws from the one that ends first). */
   async transition(
     id: string,
     target: "prepared" | "paid" | "cancelled",
@@ -327,6 +393,8 @@ export class BillingStore {
     } = {},
   ): Promise<Order> {
     const now = options.now ?? Date.now();
+    const table = this.tableOf(id);
+    const pack = packOfOrder(id);
     if (options.docId !== undefined && this.table === UZUM_ORDERS) throw new Error("doc_id_unsupported");
     const docColumn = options.docId !== undefined ? ",provider_doc_id=COALESCE(provider_doc_id,?)" : "";
     for (let attempt = 0; attempt < 8; attempt++) {
@@ -361,7 +429,7 @@ export class BillingStore {
         !["pending", "prepared", "paid"].includes(row.state)
       )
         throw new Error("state");
-      const nextEnd = addCalendarMonth(now);
+      const nextEnd = packEnd(pack, now);
       const nextState =
         target === "cancelled" && row.state === "paid" ? "refunded" : target;
       const event = crypto.randomUUID();
@@ -370,7 +438,7 @@ export class BillingStore {
       const audit = this.db
         .prepare(
           `INSERT INTO gpt_payment_journal(org_id,id,order_id,actor,method,from_state,to_state,created_at)
-        SELECT org_id,?,id,?, ?,state,?,? FROM ${this.table} WHERE org_id=? AND id=? AND version=?${options.unseen ? " AND external_id IS NULL" : ""}`,
+        SELECT org_id,?,id,?, ?,state,?,? FROM ${table} WHERE org_id=? AND id=? AND version=?${options.unseen ? " AND external_id IS NULL" : ""}`,
         )
         .bind(
           event,
@@ -392,7 +460,7 @@ export class BillingStore {
         audit,
         this.db
           .prepare(
-            `UPDATE ${this.table} SET state=?,version=version+1,external_id=COALESCE(external_id,?)${docColumn},provider_time=COALESCE(provider_time,?),
+            `UPDATE ${table} SET state=?,version=version+1,external_id=COALESCE(external_id,?)${docColumn},provider_time=COALESCE(provider_time,?),
           expires_at=CASE WHEN ?='prepared' AND provider='payme' THEN ? ELSE expires_at END,
           create_time=CASE WHEN ?='prepared' THEN ? ELSE create_time END,
           perform_time=CASE WHEN ?='paid' THEN ? ELSE perform_time END,
@@ -434,7 +502,7 @@ export class BillingStore {
               row.mode,
               now,
               nextEnd,
-              PAID_MESSAGES,
+              pack.answers,
               this.org,
               event,
             ),
@@ -483,7 +551,7 @@ export class BillingStore {
               row.user_id,
               row.provider,
               row.external_id,
-              PLAN_ID,
+              pack.planId,
               new Date(nextEnd).toISOString(),
               new Date(now).toISOString(),
               new Date(now).toISOString(),
@@ -559,13 +627,20 @@ export class BillingStore {
     from: number,
     to: number,
   ): Promise<Order[]> {
-    const result = await this.db
-      .prepare(
-        `SELECT * FROM ${this.table} WHERE org_id=? AND provider=? AND mode=? AND provider_time>=? AND provider_time<=? AND create_time>0 ORDER BY provider_time,seq`,
-      )
-      .bind(this.org, provider, mode, from, to)
-      .all<Order>();
-    return result.results || [];
+    const rows: Order[] = [];
+    for (const table of this.tables) {
+      const result = await this.db
+        .prepare(
+          `SELECT * FROM ${table} WHERE org_id=? AND provider=? AND mode=? AND provider_time>=? AND provider_time<=? AND create_time>0 ORDER BY provider_time,seq`,
+        )
+        .bind(this.org, provider, mode, from, to)
+        .all<Order>();
+      rows.push(...(result.results || []));
+    }
+    // One list in the provider's own order of time; seq counts per table, so the id settles a tie.
+    return this.tables.length > 1
+      ? rows.sort((a, b) => Number(a.provider_time) - Number(b.provider_time) || a.seq - b.seq || (a.id < b.id ? -1 : 1))
+      : rows;
   }
   /**
    * The account closes its own open invoice that no provider has seen yet
@@ -581,7 +656,7 @@ export class BillingStore {
   ): Promise<"cancelled" | "in_progress" | "not_found"> {
     const row = await this.db
       .prepare(
-        "SELECT id,provider,state,external_id FROM gpt_payment_orders_all WHERE org_id=? AND id=? AND user_id=? AND mode=?",
+        `SELECT id,provider,state,external_id FROM ${ALL_ORDERS} WHERE org_id=? AND id=? AND user_id=? AND mode=?`,
       )
       .bind(this.org, id, user, mode)
       .first<Pick<Order, "id" | "provider" | "state" | "external_id">>();
@@ -674,7 +749,7 @@ export class BillingStore {
   async receipts(user: string, mode: BillingMode) {
     const rows = await this.db
       .prepare(
-        `SELECT r.kind,r.receipt_url FROM gpt_fiscal_receipts r JOIN gpt_payment_orders_all p ON p.id=r.order_id AND p.org_id=r.org_id
+        `SELECT r.kind,r.receipt_url FROM gpt_fiscal_receipts r JOIN ${ALL_ORDERS} p ON p.id=r.order_id AND p.org_id=r.org_id
       WHERE r.org_id=? AND p.user_id=? AND p.mode=? AND r.status_code=0 AND r.receipt_url IS NOT NULL ORDER BY r.updated_at DESC LIMIT 10`,
       )
       .bind(this.org, user, mode)

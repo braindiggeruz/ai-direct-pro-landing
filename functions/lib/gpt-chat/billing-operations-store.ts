@@ -22,7 +22,7 @@ export async function inspectBilling(env: BillingEnv, now = Date.now()) {
   const [queue, turns, models] = await Promise.all([
     db
       .prepare(
-        "SELECT COUNT(*) AS pending,MIN(o.created_at) AS oldest FROM gpt_billing_outbox o JOIN gpt_payment_orders_all p ON p.org_id=o.org_id AND p.id=o.order_id WHERE o.org_id=? AND o.delivered_at IS NULL AND p.mode='live'",
+        "SELECT COUNT(*) AS pending,MIN(o.created_at) AS oldest FROM gpt_billing_outbox o JOIN gpt_payment_orders_all2 p ON p.org_id=o.org_id AND p.id=o.order_id WHERE o.org_id=? AND o.delivered_at IS NULL AND p.mode='live'",
       )
       .bind(BILLING_ORG)
       .first<{ pending: number; oldest: number | null }>()

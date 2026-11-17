@@ -65,7 +65,9 @@ const OBJECTS = [
   "gpt_leads",
   "gpt_limit_hits",
   "gpt_ui_events",
-  "gpt_payment_orders_all",
+  "gpt_payment_orders_all2",
+  // The view names it (migrations/0065): without it the view cannot be read.
+  "gpt_uzum_orders",
   "gpt_access_periods",
   "gpt_fiscal_receipts",
   "gpt_model_health",
@@ -304,7 +306,7 @@ export class AiChatAdminStore {
             .bind(orgId),
         );
       }
-      if (has.has("gpt_payment_orders_all"))
+      if (has.has("gpt_payment_orders_all2") && has.has("gpt_uzum_orders"))
         // W9: live orders by the week they were created.
         add(
           "orders",
@@ -312,7 +314,7 @@ export class AiChatAdminStore {
             .prepare(
               `SELECT ${WEEK_OF_MS("created_at")} AS week, COUNT(*) AS created,
             SUM(perform_time>0) AS paid, SUM(state='refunded') AS refunded
-          FROM gpt_payment_orders_all WHERE org_id=? AND mode='live' AND created_at>=? GROUP BY week`,
+          FROM gpt_payment_orders_all2 WHERE org_id=? AND mode='live' AND created_at>=? GROUP BY week`,
             )
             .bind(orgId, since),
         );
@@ -570,7 +572,8 @@ export class AiChatAdminStore {
     try {
       const has = await this.objects();
       if (
-        !has.has("gpt_payment_orders_all") ||
+        !has.has("gpt_payment_orders_all2") ||
+        !has.has("gpt_uzum_orders") ||
         !has.has("gpt_access_periods") ||
         !has.has("gpt_fiscal_receipts") ||
         !has.has("gpt_turn_reservations")
@@ -604,7 +607,7 @@ export class AiChatAdminStore {
              AND (t.status='done' OR (t.status='reserved' AND t.expires_at>?))) AS used,
           f.status_code AS receipt_status, f.receipt_url AS receipt_url,
           r.status_code AS refund_status, r.receipt_url AS refund_url
-        FROM gpt_payment_orders_all o
+        FROM gpt_payment_orders_all2 o
         LEFT JOIN gpt_access_periods p ON p.org_id=o.org_id AND p.order_id=o.id
         LEFT JOIN gpt_fiscal_receipts f ON f.org_id=o.org_id AND f.order_id=o.id AND f.kind='PERFORM'
         LEFT JOIN gpt_fiscal_receipts r ON r.org_id=o.org_id AND r.order_id=o.id AND r.kind='CANCEL'

@@ -274,6 +274,11 @@ export const TELEMETRY_RETENTION_DAYS = 93;
  */
 export const BILLING_NOTICES_PER_HOUR = 30;
 
+/** A sum in tiyin as the owner reads it: «20 000», «5 000». */
+function sumUzs(tiyin: number): string {
+  return String(Math.round(Number(tiyin) / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
 /**
  * Retention sweeps and the payment outbox. Service alerts are delivered by
  * deliverServiceAlerts; only the outbox is gated on live billing (some
@@ -363,7 +368,7 @@ export async function maintainBilling(
     return { delivered: 0, configured: false };
   const rows = await db
     .prepare(
-      `SELECT o.id,o.order_id,o.event,p.provider,p.mode FROM gpt_billing_outbox o JOIN gpt_payment_orders_all p ON p.id=o.order_id AND p.org_id=o.org_id
+      `SELECT o.id,o.order_id,o.event,p.provider,p.mode,p.amount FROM gpt_billing_outbox o JOIN gpt_payment_orders_all2 p ON p.id=o.order_id AND p.org_id=o.org_id
     WHERE o.org_id=? AND p.mode='live' AND o.delivered_at IS NULL AND o.available_at<=? AND o.lease_until<=? ORDER BY o.event='paid' DESC,o.created_at LIMIT 3`,
     )
     .bind(BILLING_ORG, now, now)
@@ -373,6 +378,8 @@ export async function maintainBilling(
       event: string;
       provider: string;
       mode: string;
+      /** The order's own sum, in tiyin: the two packs cost differently (packs.ts). */
+      amount: number;
     }>();
   let delivered = 0;
   for (const row of rows.results || []) {
@@ -413,7 +420,7 @@ export async function maintainBilling(
       "sendMessage",
       {
         chat_id: chat,
-        text: `GPTBot.uz · AI paket: ${row.event}\n${row.provider} · 20 000 UZS\n${row.order_id}\nТекст разговора и данные Telegram-аккаунта не передаются.${guest}`,
+        text: `GPTBot.uz · AI paket: ${row.event}\n${row.provider} · ${sumUzs(row.amount)} UZS\n${row.order_id}\nТекст разговора и данные Telegram-аккаунта не передаются.${guest}`,
       },
       { timeoutMs: 4000, maxRetries: 0 },
     );

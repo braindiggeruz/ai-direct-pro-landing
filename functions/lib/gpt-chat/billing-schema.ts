@@ -156,6 +156,39 @@ export const UZUM_BILLING_DDL = [
     UNION ALL
     SELECT seq,org_id,id,user_id,provider,mode,request_id,amount,currency,state,external_id,provider_time,created_at,expires_at,create_time,perform_time,cancel_time,reason,version FROM gpt_uzum_orders`,
 ];
+// The 3-day pack's orders (migrations/0085, packs.ts). gpt_payment_orders takes
+// one sum only (its CHECK is fixed at 2 000 000 tiyin), so they live in a
+// sibling table with the same ledger columns, the Click payment number of
+// 0071 and the pack's sku. Its CHECKs pin the 3-day pack's sum and the pk_ id
+// the code routes by, and leave room for a later pack without a third table.
+// gpt_payment_orders_all2 is the read path across the three order tables; the
+// 0065 view, which names two, stays as it is for an earlier release's code.
+// Additive only: nothing existing is altered or dropped.
+const ORDER_VIEW_COLUMNS = "seq,org_id,id,user_id,provider,mode,request_id,amount,currency,state,external_id,provider_time,created_at,expires_at,create_time,perform_time,cancel_time,reason,version";
+export const ONCE_BILLING_DDL = [
+  `CREATE TABLE IF NOT EXISTS gpt_payment_orders_v2 (
+    seq INTEGER PRIMARY KEY AUTOINCREMENT, org_id TEXT NOT NULL, id TEXT NOT NULL UNIQUE CHECK(substr(id,1,3)='pk_'),
+    user_id TEXT NOT NULL, provider TEXT NOT NULL CHECK(provider IN ('click','payme')),
+    mode TEXT NOT NULL CHECK(mode IN ('test','live')), request_id TEXT NOT NULL,
+    sku TEXT NOT NULL,
+    amount INTEGER NOT NULL CHECK((sku='once' AND amount=500000) OR (sku<>'once' AND amount>0 AND amount<=100000000)),
+    currency TEXT NOT NULL CHECK(currency='UZS'),
+    state TEXT NOT NULL CHECK(state IN ('pending','prepared','paid','cancelled','refunded')),
+    external_id TEXT, provider_time INTEGER, created_at INTEGER NOT NULL, expires_at INTEGER NOT NULL,
+    create_time INTEGER NOT NULL DEFAULT 0, perform_time INTEGER NOT NULL DEFAULT 0,
+    cancel_time INTEGER NOT NULL DEFAULT 0, reason INTEGER, version INTEGER NOT NULL DEFAULT 0,
+    provider_doc_id TEXT,
+    UNIQUE(org_id,user_id,request_id), UNIQUE(org_id,provider,mode,external_id))`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_orders_v2_user ON gpt_payment_orders_v2(org_id,user_id,created_at)`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS idx_gpt_orders_v2_pending ON gpt_payment_orders_v2(org_id,user_id,provider,mode) WHERE state IN ('pending','prepared')`,
+  `CREATE INDEX IF NOT EXISTS idx_gpt_orders_v2_statement ON gpt_payment_orders_v2(org_id,provider,mode,provider_time)`,
+  `CREATE VIEW IF NOT EXISTS gpt_payment_orders_all2 AS
+    SELECT ${ORDER_VIEW_COLUMNS} FROM gpt_payment_orders
+    UNION ALL
+    SELECT ${ORDER_VIEW_COLUMNS} FROM gpt_uzum_orders
+    UNION ALL
+    SELECT ${ORDER_VIEW_COLUMNS} FROM gpt_payment_orders_v2`,
+];
 // Uzum, release R4 (migrations/0068, plan WP-15). Two columns of the 0065
 // table: confirm_requested_at (a Merchant API /confirm arrived: Uzum has
 // debited the payer, so /status finishes the payment instead of failing it)
@@ -205,8 +238,8 @@ function once(
 const billingBootstraps = new WeakMap<D1Database, Promise<void>>();
 const uzumBootstraps = new WeakMap<D1Database, Promise<void>>();
 /**
- * The 0064 ledger, the 0066 chat runtime, the 0068 paid-chat objects and
- * the 0071 Click payment number.
+ * The 0064 ledger, the 0066 chat runtime, the 0068 paid-chat objects, the
+ * 0071 Click payment number and the 0085 order table of the 3-day pack.
  * Every billing path runs it, the chat turn included. A release applies the
  * migrations first; this bootstrap then only confirms them.
  */
@@ -221,6 +254,10 @@ export function ensureBillingSchema(db: D1Database): Promise<void> {
     await addMissingColumns(db, "gpt_fiscal_receipts", FISCAL_RECEIPT_COLUMNS);
     await db.batch(PAID_CHAT_DDL.map((sql) => db.prepare(sql)));
     await addMissingColumns(db, "gpt_payment_orders", PAYMENT_ORDER_COLUMNS);
+    // 0085: the 3-day pack's order table and the view over the three tables.
+    // The view names gpt_uzum_orders, which migrations/0065 created: SQLite
+    // resolves a view's tables when it is read, not when it is made.
+    await db.batch(ONCE_BILLING_DDL.map((sql) => db.prepare(sql)));
   });
 }
 const paymeBootstraps = new WeakMap<D1Database, Promise<void>>();

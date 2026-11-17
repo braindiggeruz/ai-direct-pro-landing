@@ -33,6 +33,7 @@ import { consumeRateLimit, HOUR_MS } from "../../lib/gpt-chat/rate-limit";
 import { uzumApi, uzumCheckoutConfig } from "../../lib/gpt-chat/uzum-config";
 import { UzumStore } from "../../lib/gpt-chat/uzum-store";
 import { PaymentCodeStore } from "../../lib/gpt-chat/payment-code-store";
+import { offeredPacks, packOfOrder, packSpanMs, type Pack } from "../../lib/gpt-chat/packs";
 
 /**
  * The latest Uzum Checkout order is settled from Uzum's own answers when the
@@ -84,12 +85,32 @@ async function reconcileUzum(
  */
 function paymentView(order: Order, now = Date.now()) {
   const open = ["pending", "prepared"].includes(order.state) && order.expires_at >= now;
+  const pack = packOfOrder(order.id);
   return {
     id: order.id,
     state: ["pending", "prepared"].includes(order.state) && !open ? "cancelled" : order.state,
     provider: order.provider,
     createdAt: order.created_at,
     cancellable: open && order.state === "pending" && !order.external_id,
+    // What this order buys, from its own row and its pack (packs.ts): the
+    // window and the purchase report read these, not the pack on offer.
+    sku: pack.sku,
+    priceUzs: order.amount / 100,
+    messageLimit: pack.answers,
+  };
+}
+
+/** A pack as the window offers it: the price, the size, the term and the VAT inside the price. */
+function offerView(pack: Pack, fiscal: ReturnType<typeof fiscalParams>) {
+  return {
+    sku: pack.sku,
+    priceUzs: pack.amountTiyin / 100,
+    messageLimit: pack.answers,
+    dailyLimit: PACK_DAILY_LIMIT,
+    ...("hours" in pack.term ? { hours: pack.term.hours } : { months: pack.term.months }),
+    vat: fiscal
+      ? { percent: fiscal.vatPercent, includedTiyin: includedVat(pack.amountTiyin, fiscal.vatPercent) }
+      : null,
   };
 }
 
@@ -117,6 +138,11 @@ const getAccount: PagesFunction<BillingEnv> = async ({
   const fiscal = fiscalParams(env);
   // Sign-in exists to pay: offered only with a provider (as offeredLoginMethods).
   const logins = providers.length ? loginMethods(env) : [];
+  // The 3-day pack beside the monthly one, while GPT_PACK_ONCE offers it to
+  // this visitor and Click or Payme can take it (packs.ts): listed inside
+  // `pack` as `more`, so every card that shows the pack has it at hand.
+  // Absent otherwise: the window is then the one-pack window it always was.
+  const offers = providers.some((provider) => provider !== "uzum") ? offeredPacks(env, context) : [];
   const base = {
     ok: true,
     loginAvailable: logins.length > 0,
@@ -133,6 +159,7 @@ const getAccount: PagesFunction<BillingEnv> = async ({
       vat: fiscal
         ? { percent: fiscal.vatPercent, includedTiyin: includedVat(PRICE_TIYIN, fiscal.vatPercent) }
         : null,
+      ...(offers.length > 1 ? { more: offers.filter((pack) => pack.sku !== "month").map((pack) => offerView(pack, fiscal)) } : {}),
     },
     termsVersion: termsVersion(env),
     // Legacy L18 stays read-free. Lifetime trial requires its durable D1 count.
@@ -189,6 +216,10 @@ const getAccount: PagesFunction<BillingEnv> = async ({
     // paid through the latest end, and renewing is due only when that is near.
     const packs = access ? await store.usablePacks(user, context) : [];
     const paidThrough = packs.length ? Math.max(...packs.map((pack) => pack.ends_at)) : null;
+    // «Ends soon»: the last three days of a month, the last day of a 3-day
+    // pack (a third of the term of the pack that ends last, three days at most).
+    const lastPack = packs.find((pack) => pack.ends_at === paidThrough) ?? access;
+    const soonMs = lastPack ? Math.min(3 * 86400_000, packSpanMs(packOfOrder(lastPack.order_id)) / 3) : 3 * 86400_000;
     // Printed receipts (Click, Payme, Uzum): only a link on ofd.soliq.uz or
     // an Uzum host reaches the page.
     const receipts = (await store.receipts(user, context)).flatMap((receipt) => {
@@ -230,7 +261,7 @@ const getAccount: PagesFunction<BillingEnv> = async ({
             dayRemaining: Math.min(PACK_DAILY_LIMIT, (dayRemaining ?? remaining) + (freeRemaining ?? 0)),
             freeRemaining,
             freeHourRemaining,
-            renewSoon: (paidThrough ?? access.ends_at) - Date.now() < 3 * 86400_000,
+            renewSoon: (paidThrough ?? access.ends_at) - Date.now() < soonMs,
             packs: Math.max(1, packs.length),
             totalLimit: packs.reduce((sum, pack) => sum + pack.message_limit, 0) || access.message_limit,
             paidThrough: paidThrough ?? access.ends_at,

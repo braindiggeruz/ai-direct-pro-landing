@@ -1,6 +1,7 @@
 import { BillingStore } from "./billing-store";
 import { hashToken, sha256Hex } from "./hash";
 import { consumeRateLimit, HOUR_MS, type RateLimitResult } from "./rate-limit";
+import { ONCE_ORDERS } from "./packs";
 export function cookieValue(request: Request, name: string): string {
   return (
     (request.headers.get("cookie") || "")
@@ -146,16 +147,22 @@ export class IdentityStore {
       .bind(this.org, identityHash)
       .first<{ id: string }>();
     if (!account || account.id === guest) return;
-    const held = await this.db
-      .prepare(
-        `SELECT a.id,a.state,a.external_id,a.expires_at FROM gpt_payment_orders g JOIN gpt_payment_orders a
-        ON a.org_id=g.org_id AND a.user_id=? AND a.provider=g.provider AND a.mode=g.mode AND a.state IN ('pending','prepared')
-        WHERE g.org_id=? AND g.user_id=? AND g.state IN ('pending','prepared')`,
-      )
-      .bind(account.id, this.org, guest)
-      .all<{ id: string; state: "pending" | "prepared"; external_id: string | null; expires_at: number }>();
+    // Per order table (the monthly pack's and the 3-day pack's, packs.ts): each
+    // holds one open invoice per provider of an account.
+    const held: Array<{ id: string; state: "pending" | "prepared"; external_id: string | null; expires_at: number }> = [];
+    for (const table of ORDER_TABLES) {
+      const rows = await this.db
+        .prepare(
+          `SELECT a.id,a.state,a.external_id,a.expires_at FROM ${table} g JOIN ${table} a
+          ON a.org_id=g.org_id AND a.user_id=? AND a.provider=g.provider AND a.mode=g.mode AND a.state IN ('pending','prepared')
+          WHERE g.org_id=? AND g.user_id=? AND g.state IN ('pending','prepared')`,
+        )
+        .bind(account.id, this.org, guest)
+        .all<{ id: string; state: "pending" | "prepared"; external_id: string | null; expires_at: number }>();
+      held.push(...(rows.results || []));
+    }
     const billing = new BillingStore(this.db, this.org);
-    for (const invoice of held.results || []) {
+    for (const invoice of held) {
       const unseen = invoice.state === "pending" && !invoice.external_id;
       if (invoice.expires_at > now && !unseen) throw new Error("guest_not_moved");
       // Only from the state it was read in: one paid since throws "state".
@@ -166,7 +173,11 @@ export class IdentityStore {
         unseen,
       });
     }
-    const live = "SELECT 1 FROM gpt_payment_orders WHERE org_id=? AND user_id=? AND state IN ('pending','prepared','paid')";
+    // An open invoice or a paid order the guest still holds, in either table.
+    const live = ORDER_TABLES
+      .map((table) => `SELECT 1 FROM ${table} WHERE org_id=? AND user_id=? AND state IN ('pending','prepared','paid')`)
+      .join(" UNION ALL ");
+    const liveBinds = ORDER_TABLES.flatMap(() => [this.org, guest]);
     await this.db.batch([
       ...moveOrders(this.db, this.org, guest, account.id, null),
       this.db.prepare(`INSERT INTO gpt_trial_usage(org_id,identity_key,used,updated_at)
@@ -178,9 +189,9 @@ export class IdentityStore {
         .bind(account.id, this.org, guest),
       this.db
         .prepare(`DELETE FROM gpt_auth_sessions WHERE org_id=? AND user_id=? AND NOT EXISTS(${live})`)
-        .bind(this.org, guest, this.org, guest),
+        .bind(this.org, guest, ...liveBinds),
     ]);
-    if (await this.db.prepare(live).bind(this.org, guest).first()) throw new Error("guest_not_moved");
+    if (await this.db.prepare(live).bind(...liveBinds).first()) throw new Error("guest_not_moved");
   }
   async logout(request: Request) {
     await this.db
@@ -201,6 +212,8 @@ export class IdentityStore {
  * (adoptGuest); support moves a lost one with a restore link (guest-restore.ts).
  */
 export const GUEST_ACCOUNT_PREFIX = "acct_guest_";
+/** The order tables a guest pays into: Click and Payme, the monthly pack and the 3-day one (packs.ts). */
+const ORDER_TABLES = ["gpt_payment_orders", ONCE_ORDERS] as const;
 export const GUEST_SESSION_MS = 365 * 86400_000;
 export function isGuestAccount(user: string): boolean {
   return user.startsWith(GUEST_ACCOUNT_PREFIX);
@@ -241,13 +254,16 @@ export function moveOrders(
   const one = order ? " AND id=?" : "";
   const only = (sql: string, ...binds: unknown[]) =>
     db.prepare(sql + (order ? " AND order_id=?" : "")).bind(...binds, ...(order ? [order] : []));
-  const moved = "order_id IN (SELECT id FROM gpt_payment_orders WHERE org_id=? AND user_id=?)";
+  // The orders of both Click and Payme tables (the 3-day pack's are in the
+  // second, packs.ts): a pack follows its order wherever that lives.
+  const moved = `order_id IN (${ORDER_TABLES.map((table) => `SELECT id FROM ${table} WHERE org_id=? AND user_id=?`).join(" UNION ALL ")})`;
+  const holder = ORDER_TABLES.flatMap(() => [org, to]);
   return [
-    db
-      .prepare(`UPDATE OR IGNORE gpt_payment_orders SET user_id=?,version=version+1 WHERE org_id=? AND user_id=?${one}`)
-      .bind(to, org, from, ...(order ? [order] : [])),
-    only(`UPDATE gpt_access_periods SET user_id=? WHERE org_id=? AND user_id=? AND ${moved}`, to, org, from, org, to),
-    only(`UPDATE gpt_payment_consents SET user_id=? WHERE org_id=? AND user_id=? AND ${moved}`, to, org, from, org, to),
+    ...ORDER_TABLES.map((table) => db
+      .prepare(`UPDATE OR IGNORE ${table} SET user_id=?,version=version+1 WHERE org_id=? AND user_id=?${one}`)
+      .bind(to, org, from, ...(order ? [order] : []))),
+    only(`UPDATE gpt_access_periods SET user_id=? WHERE org_id=? AND user_id=? AND ${moved}`, to, org, from, ...holder),
+    only(`UPDATE gpt_payment_consents SET user_id=? WHERE org_id=? AND user_id=? AND ${moved}`, to, org, from, ...holder),
   ];
 }
 

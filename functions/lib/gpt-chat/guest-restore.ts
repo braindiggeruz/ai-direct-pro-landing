@@ -17,12 +17,13 @@
 // the same link no longer matches.
 import { BILLING_ORG } from "./billing-config";
 import { isGuestAccount } from "./identity-store";
+import { ONCE_ORDERS } from "./packs";
 
 /** Where a restore link points the buyer (the production site). */
 const SITE = "https://gptbot.uz";
 /** How long a restore link works, at most: support sends it at once. */
 export const RESTORE_LINK_MS = 48 * 3600_000;
-const TOKEN = /^v1\.(\d{13})\.(pay_[0-9a-f]{32})\.([0-9a-f]{64})$/;
+const TOKEN = /^v1\.(\d{13})\.((?:pay|pk)_[0-9a-f]{32})\.([0-9a-f]{64})$/;
 
 /** The paid Click or Payme order a link can restore: its holder and its running pack. */
 export interface RestorableOrder {
@@ -66,11 +67,13 @@ async function mac(secret: string, order: string, holder: string, expires: numbe
  * first.
  */
 export function findOrder(db: D1Database, query: string): Promise<RestorableOrder | null> {
-  const byId = /^pay_[0-9a-f]{32}$/.test(query);
+  const byId = /^(?:pay|pk)_[0-9a-f]{32}$/.test(query);
+  // Both Click and Payme tables: the monthly pack's orders and the 3-day pack's (pk_, packs.ts).
+  const columns = "org_id,id,provider,user_id,state,external_id,provider_doc_id,perform_time,created_at";
   return db
     .prepare(
       `SELECT o.id,o.provider,o.user_id,o.state,o.external_id,o.provider_doc_id,o.perform_time,p.ends_at,p.revoked_at,p.message_limit,c.locale
-      FROM gpt_payment_orders o
+      FROM (SELECT ${columns} FROM gpt_payment_orders UNION ALL SELECT ${columns} FROM ${ONCE_ORDERS}) o
       LEFT JOIN gpt_access_periods p ON p.org_id=o.org_id AND p.order_id=o.id
       LEFT JOIN gpt_payment_consents c ON c.org_id=o.org_id AND c.order_id=o.id
       WHERE o.org_id=? AND ${byId ? "o.provider IN ('click','payme') AND o.id=?" : "o.provider='click' AND (o.external_id=? OR o.provider_doc_id=?)"}

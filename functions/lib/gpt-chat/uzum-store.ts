@@ -196,7 +196,7 @@ export class UzumStore {
   async openInvoices(user: string, mode: BillingMode): Promise<OpenInvoice[]> {
     const rows = await this.db
       .prepare(
-        `SELECT p.id,p.provider,p.request_id,p.state,p.external_id,u.api,u.confirm_requested_at FROM gpt_payment_orders_all p
+        `SELECT p.id,p.provider,p.request_id,p.state,p.external_id,u.api,u.confirm_requested_at FROM gpt_payment_orders_all2 p
       LEFT JOIN gpt_uzum_orders u ON u.org_id=p.org_id AND u.id=p.id
       WHERE p.org_id=? AND p.user_id=? AND p.mode=? AND p.state IN ('pending','prepared') ORDER BY p.created_at,p.provider,p.id`,
       )

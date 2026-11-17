@@ -35,7 +35,7 @@ const HEADERS = {
   "X-Robots-Tag": "noindex, nofollow, noarchive",
   "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'",
 };
-const TOKEN = /^v1\.\d{13}\.pay_[0-9a-f]{32}\.[0-9a-f]{64}$/;
+const TOKEN = /^v1\.\d{13}\.(?:pay|pk)_[0-9a-f]{32}\.[0-9a-f]{64}$/;
 
 function page(body: string, status = 200): Response {
   return new Response(
