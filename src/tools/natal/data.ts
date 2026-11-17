@@ -58,7 +58,14 @@ export function zoneTable(zone: string): Promise<ZoneTable> {
 
 export interface BirthInput { year: number; month: number; day: number; hour: number; minute: number; timeKnown: boolean; place: Place; name: string; offsetChoice?: number }
 export interface SavedChart { id: string; input: BirthInput; savedAt: number }
-interface Saved { charts: SavedChart[]; readings: Record<string, unknown> }
+/** The last chart and the last pair built here: a reload opens the forms filled in with them. */
+export interface LastBuilt { natal?: BirthInput; pair?: [BirthInput, BirthInput] }
+interface Saved { charts: SavedChart[]; readings: Record<string, unknown>; last?: LastBuilt }
+
+function sameInput(a: BirthInput, b: BirthInput): boolean {
+  return a.year === b.year && a.month === b.month && a.day === b.day && a.hour === b.hour && a.minute === b.minute
+    && a.timeKnown === b.timeKnown && a.place.id === b.place.id;
+}
 
 const KEY = 'gptbot_natal_v1';
 function readSaved(): Saved {
@@ -77,15 +84,44 @@ export function savedCharts(): SavedChart[] {
 }
 export function saveChart(input: BirthInput): void {
   const saved = readSaved();
-  const same = (c: SavedChart) => c.input.year === input.year && c.input.month === input.month && c.input.day === input.day
-    && c.input.hour === input.hour && c.input.minute === input.minute && c.input.timeKnown === input.timeKnown && c.input.place.id === input.place.id;
-  saved.charts = [{ id: crypto.randomUUID(), input, savedAt: Date.now() }, ...saved.charts.filter((c) => !same(c))].slice(0, 20);
+  saved.charts = [{ id: crypto.randomUUID(), input, savedAt: Date.now() }, ...saved.charts.filter((c) => !sameInput(c.input, input))].slice(0, 20);
   writeSaved(saved);
 }
 export function removeChart(id: string): void {
   const saved = readSaved();
+  const gone = saved.charts.find((c) => c.id === id);
   saved.charts = saved.charts.filter((c) => c.id !== id);
+  // «Удалить» forgets the birth data everywhere in this browser, the forms' last values too.
+  try {
+    if (gone && saved.last?.natal && sameInput(saved.last.natal, gone.input)) delete saved.last.natal;
+    if (gone && saved.last?.pair && saved.last.pair.some((x) => sameInput(x, gone.input))) delete saved.last.pair;
+  } catch {
+    delete saved.last;
+  }
   writeSaved(saved);
+}
+/** Remembers what was just built, for the forms after a reload. */
+export function saveLast(first: BirthInput, second: BirthInput | null): void {
+  const saved = readSaved();
+  const last: LastBuilt = saved.last && typeof saved.last === 'object' ? saved.last : {};
+  if (second) last.pair = [first, second];
+  else last.natal = first;
+  saved.last = last;
+  writeSaved(saved);
+}
+/** The last chart and pair built here, only while those charts are still in «Мои карты». */
+export function lastBuilt(): LastBuilt {
+  try {
+    const saved = readSaved();
+    const last = saved.last ?? {};
+    const kept = (input: BirthInput | undefined): input is BirthInput => !!input && saved.charts.some((c) => sameInput(c.input, input));
+    return {
+      natal: kept(last.natal) ? last.natal : undefined,
+      pair: Array.isArray(last.pair) && kept(last.pair[0]) && kept(last.pair[1]) ? last.pair : undefined,
+    };
+  } catch {
+    return {};
+  }
 }
 export function cachedReading<T>(key: string): T | null {
   return (readSaved().readings[key] as T | undefined) ?? null;

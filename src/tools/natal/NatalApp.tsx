@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { BirthForm, EMPTY_FORM, formFromInput, placeLabel, readForm, type FormValue } from './BirthForm';
 import { Reading } from './Reading';
 import { Wheel } from './Wheel';
-import { removeChart, report, saveChart, savedCharts, zoneTable, type BirthInput, type SavedChart } from './data';
+import { lastBuilt, removeChart, report, saveChart, saveLast, savedCharts, zoneTable, type BirthInput, type SavedChart } from './data';
 import { buildChart, contactsBetween, type Chart, type Contact } from './engine/chart';
 import type { HouseSystem } from './engine/houses';
 import { localDay, offsetLabel, resolveLocal } from './engine/time';
@@ -60,7 +60,16 @@ const deg = (longitude: number) => {
 
 export default function NatalApp({ locale, mode }: { locale: NatalLocale; mode: 'natal' | 'pair' }) {
   const s = STRINGS[locale];
-  const [forms, setForms] = useState<[FormValue, FormValue]>([EMPTY_FORM, EMPTY_FORM]);
+  // A reload opens the forms with the last chart or pair built in this browser, so the reading is one tap away again.
+  const [forms, setForms] = useState<[FormValue, FormValue]>(() => {
+    try {
+      const last = lastBuilt();
+      if (mode === 'pair' && last.pair) return [formFromInput(last.pair[0], locale), formFromInput(last.pair[1], locale)];
+      const first = last.natal ?? last.pair?.[0];
+      if (first) return [formFromInput(first, locale), EMPTY_FORM];
+    } catch { /* nothing kept: empty forms */ }
+    return [EMPTY_FORM, EMPTY_FORM];
+  });
   const [pairOpen, setPairOpen] = useState(mode === 'pair');
   const [system, setSystem] = useState<HouseSystem>('placidus');
   const [result, setResult] = useState<{ first: Computed; second: Computed | null } | null>(null);
@@ -91,6 +100,7 @@ export default function NatalApp({ locale, mode }: { locale: NatalLocale; mode: 
       }
       saveChart(a.value.input);
       if (b) saveChart(b.input);
+      saveLast(a.value.input, b ? b.input : null);
       setSaved(savedCharts());
       setResult({ first: a.value, second: b });
       report(b ? 'natal_pair_built' : 'natal_chart_built');
@@ -116,7 +126,14 @@ export default function NatalApp({ locale, mode }: { locale: NatalLocale; mode: 
             {saved.map((c) => (
               <li key={c.id}>
                 <span>{c.input.name || placeLabel(c.input.place, locale)} · {String(c.input.day).padStart(2, '0')}.{String(c.input.month).padStart(2, '0')}.{c.input.year}{c.input.timeKnown ? ` ${String(c.input.hour).padStart(2, '0')}:${String(c.input.minute).padStart(2, '0')}` : ''}</span>
-                <button type="button" className="natal-link" onClick={() => setForms(([, b]) => [formFromInput(c.input, locale), b])}>{s.open}</button>
+                {pairOpen ? (
+                  <>
+                    <button type="button" className="natal-link" onClick={() => setForms(([, b]) => [formFromInput(c.input, locale), b])}>{`${s.open}: ${s.you}`}</button>
+                    <button type="button" className="natal-link" onClick={() => setForms(([a]) => [a, formFromInput(c.input, locale)])}>{`${s.open}: ${s.partner}`}</button>
+                  </>
+                ) : (
+                  <button type="button" className="natal-link" onClick={() => setForms(([, b]) => [formFromInput(c.input, locale), b])}>{s.open}</button>
+                )}
                 <button type="button" className="natal-link" onClick={() => { removeChart(c.id); setSaved(savedCharts()); }}>{s.remove}</button>
               </li>
             ))}

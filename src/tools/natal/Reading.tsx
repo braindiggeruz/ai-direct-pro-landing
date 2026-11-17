@@ -65,7 +65,8 @@ export function Reading({ kind, facts, cacheKey, locale, s }: { kind: ReadingKin
       {state.at === 'error' && (
         <div className="natal-reading-error">
           <p className="natal-note">{message(state.code)}</p>
-          {state.code !== 'next_paid' && state.code !== 'rate_limited' && <button type="button" className="natal-button natal-button--ghost" onClick={ask}>{s.readingRetry}</button>}
+          {/* A day limit ends at midnight UTC: the same tab can ask again without a reload. */}
+          {state.code !== 'next_paid' && <button type="button" className="natal-button natal-button--ghost" onClick={ask}>{s.readingRetry}</button>}
         </div>
       )}
       {state.at === 'done' && (

@@ -3,8 +3,9 @@
 // leaves the machine). What it checks: the form, the place search in Uzbek
 // and Russian spellings, the chart and «Как посчитано» with the historical
 // offset, the time-unknown mode, the pair with its contacts, the free first
-// readings and the honest answer for the next one, no sideways scroll, and
-// that no birth data is sent anywhere.
+// readings and the honest answer for the next one, the forms filled in again
+// after a reload, a retry after the day limit, no sideways scroll, and that no
+// birth data is sent anywhere.
 // Run (after a build): node --import tsx --test tests/natal-browser.test.ts
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -54,6 +55,7 @@ test('natal chart and compatibility in a browser: form, places, chart, offsets, 
     const errors: string[] = [];
     const sent: string[] = [];
     let served = 0;
+    let limitNext = false;
     page.on('pageerror', (error) => errors.push(error.message));
     await ctx.route('**/*', async (route) => {
       const request = route.request();
@@ -63,6 +65,10 @@ test('natal chart and compatibility in a browser: form, places, chart, offsets, 
         const body = request.postData() ?? '';
         sent.push(body);
         const parsed = JSON.parse(body) as { kind: string; facts: string[] };
+        if (limitNext) {
+          limitNext = false;
+          return route.fulfill({ status: 429, contentType: 'application/json', body: JSON.stringify({ ok: false, code: 'rate_limited', retryAfter: 60 }) });
+        }
         served += 1;
         // The first natal and the first pair are free; a third reading is the next, paid one.
         if (served > 2) return route.fulfill({ status: 402, contentType: 'application/json', body: JSON.stringify({ ok: false, code: 'next_paid' }) });
@@ -132,6 +138,39 @@ test('natal chart and compatibility in a browser: form, places, chart, offsets, 
     assert.doesNotMatch(await ru.locator('.natal').innerText(), /5 000/, 'no price before an offer names it');
     await narrow(ru, 'ru pair');
     await shot(ru, 'pair-ru-next');
+
+    // ---- 5. A reload keeps the data: the pair page opens with the last pair filled in, «Мои карты» can fill
+    // the partner's form, and after the day limit the same tab asks again without a reload.
+    const again = await ctx.newPage();
+    again.on('pageerror', (error) => errors.push(error.message));
+    await again.goto(`${origin}/ru/sovmestimost-po-date-rozhdeniya/`);
+    await again.locator('.natal-form').nth(1).waitFor({ timeout: 20_000 });
+    const dates = (i: number) => again.locator('.natal-form').nth(i).locator('.natal-date input')
+      .evaluateAll((els) => els.map((el) => (el as HTMLInputElement).value).join('.'));
+    assert.equal(await dates(0), '1.1.1990', 'your data after a reload');
+    assert.equal(await dates(1), '15.6.1992', 'the partner after a reload');
+    await again.locator('.natal-saved summary').click();
+    await again.locator('.natal-saved li', { hasText: '01.01.1990' }).getByRole('button', { name: 'Открыть: Партнёр' }).click();
+    assert.equal(await dates(1), '1.1.1990', 'a saved chart opens in the partner form');
+    await again.locator('.natal-saved li', { hasText: '15.06.1992' }).getByRole('button', { name: 'Открыть: Партнёр' }).click();
+    assert.equal(await dates(1), '15.6.1992');
+    limitNext = true;
+    served = 0;
+    await again.locator('.natal-actions .natal-button').first().click();
+    await again.locator('.natal-pair').waitFor({ timeout: 20_000 });
+    await again.getByRole('button', { name: 'Получить AI-разбор' }).click();
+    await again.getByText('Сегодня разборы с этого адреса закончились', { exact: false }).waitFor({ timeout: 15_000 });
+    await again.getByRole('button', { name: 'Повторить' }).click();
+    await again.locator('.natal-section').first().waitFor({ timeout: 15_000 });
+    await shot(again, 'pair-ru-after-limit');
+    const asked = sent.length;
+    await again.reload();
+    await again.locator('.natal-form').nth(1).waitFor({ timeout: 20_000 });
+    assert.equal(await dates(1), '15.6.1992', 'still filled in after a second reload');
+    await again.locator('.natal-actions .natal-button').first().click();
+    await again.locator('.natal-section').first().waitFor({ timeout: 15_000 });
+    assert.equal(sent.length, asked, 'the reading already received opens from this browser, no new request');
+    await narrow(again, 'ru pair after reload');
 
     assert.deepEqual(errors, []);
     await ctx.close();
