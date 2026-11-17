@@ -91,7 +91,7 @@ export function PackPanel({
       ) : (
         <p className="gpt-panel-note" data-testid="ai-pack-none">
           {copy.noPack}
-          {data.remaining !== undefined && ` ${copy.freeLeft(data.remaining)}`}
+          {data.remaining !== undefined && ` ${data.trial ? copy.trialLeft(data.remaining) : copy.freeLeft(data.remaining)}`}
         </p>
       )}
       {children}

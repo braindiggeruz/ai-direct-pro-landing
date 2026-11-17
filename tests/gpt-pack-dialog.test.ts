@@ -151,6 +151,25 @@ test('billing off: no price, no pay button, no sign-in, and the window says the 
   }
 });
 
+test('on the lifetime trial the window never says «today»: trial answers left, or used up (nothing comes back tomorrow)', async () => {
+  // functions/lib/gpt-chat/turn-store.ts allowance: with the trial on and no pack, `remaining` is the trial's own
+  // count, which never resets. «Бесплатно на сегодня осталось: 0» told such a visitor to come back tomorrow.
+  for (const locale of LOCALES) {
+    const copy = accountStrings(locale);
+    const onTrial = (left: number) => member({ remaining: left, freeLimits: { daily: 15, hourly: 5, lifetime: 3 }, trial: { limit: 3, used: 3 - left, remaining: left, available: left, resets: 'never' } });
+    const spent = await window(locale, onTrial(0));
+    assert.ok(has(spent, `${copy.noPack} ${copy.trialLeft(0)}`), locale);
+    assert.ok(!has(spent, copy.freeLeft(0)), `${locale}: no free day is promised`);
+    const some = await window(locale, onTrial(2));
+    assert.ok(has(some, `${copy.noPack} ${copy.trialLeft(2)}`), locale);
+    assert.ok(!has(some, copy.freeLeft(2)), locale);
+    assert.doesNotMatch(`${copy.trialLeft(0)} ${copy.trialLeft(2)}`, /сегодня|bugun/, locale);
+  }
+  assert.deepEqual([accountStrings('ru').trialLeft(0), accountStrings('ru').trialLeft(2)], ['Пробные ответы использованы.', 'Пробных ответов осталось: 2.']);
+  assert.deepEqual([accountStrings('uz').trialLeft(0), accountStrings('uz').trialLeft(2)], ['Sinov javoblari tugadi.', 'Sinov javoblaridan 2 ta qoldi.']);
+  assert.match(read('src/gpt-chat/account/PackPanel.tsx'), /data\.trial \? copy\.trialLeft\(data\.remaining\) : copy\.freeLeft\(data\.remaining\)/);
+});
+
 test('signed in without a pack: the free day left, the price, the offer, Click then Uzum, where card data goes', async () => {
   for (const locale of LOCALES) {
     const copy = accountStrings(locale);
