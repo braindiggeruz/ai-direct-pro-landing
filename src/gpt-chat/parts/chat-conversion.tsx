@@ -23,8 +23,8 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
 }) {
   const key = `gptchat_trial_offer_v1:${owner}`;
   const [open, setOpen] = useState(() => { try { return localStorage.getItem(key) !== 'seen'; } catch { return true; } });
-  // null: not asked; 'ask': shown under the closed window; 'done': answered; 'gone': closed. Asked at most once.
-  const [survey, setSurvey] = useState<'ask' | 'done' | 'gone' | null>(null);
+  // null: not asked; 'ask': shown under the closed window; 'done': answered; 'help': answered «Нет карты», with the way on that needs no card; 'gone': closed. Asked at most once.
+  const [survey, setSurvey] = useState<'ask' | 'done' | 'help' | 'gone' | null>(null);
   const seen = useRef(false);
   const page = paywallRole(role);
   const c = trialCopy(locale, page, pack);
@@ -50,7 +50,8 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
   };
   const answer = (reason: (typeof EXIT_REASONS)[number]) => {
     recordUiEvent(apiBase, 'trial_exit_reason', reason);
-    setSurvey('done');
+    // «Нет карты»: someone else can pay (the pack window's «Попросить оплатить»; it opens with that line open).
+    setSurvey(reason === 'no_card' && providers.some(provider => provider !== 'uzum') ? 'help' : 'done');
   };
   return <>
     <Dialog open={open} onOpenChange={value => { if (!value) close(); }}>
@@ -71,12 +72,21 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
         </div>
       </DialogContent>
     </Dialog>
-    {!open && (survey === 'ask' || survey === 'done') && (
+    {!open && (survey === 'ask' || survey === 'done' || survey === 'help') && (
       <section className="gpt-pack-prompt gpt-trial-survey" data-testid="trial-exit-survey" aria-label={c.survey.title}>
         {survey === 'ask' ? <>
           <button type="button" className="gpt-pack-prompt-close" aria-label={c.survey.close} onClick={() => setSurvey('gone')}>×</button>
           <strong>{c.survey.title}</strong>
           <div className="gpt-trial-reasons">{EXIT_REASONS.map(reason => <button type="button" key={reason} data-reason={reason} onClick={() => answer(reason)}>{c.survey.answers[reason]}</button>)}</div>
+        </> : survey === 'help' ? <>
+          <button type="button" className="gpt-pack-prompt-close" aria-label={c.survey.close} onClick={() => setSurvey('gone')}>×</button>
+          <p role="status">{c.survey.thanks}</p>
+          <div className="gpt-trial-reasons"><button type="button" data-testid="trial-ask-pay" onClick={() => {
+            try { sessionStorage.setItem('gptchat_ask', '1'); } catch { /* The window opens without the line open. */ }
+            setSurvey('gone');
+            track(EV.packPromptClicked, { locale, surface: 'trial_exhausted', from: 'ask_pay' });
+            onPay();
+          }}>{c.survey.askPay}</button></div>
         </> : <p role="status">{c.survey.thanks}</p>}
       </section>
     )}

@@ -213,8 +213,8 @@ function startGraph(entry: string): Set<string> {
 
 const LAZY_ONLY = {
   'chat-account': [
-    'src/gpt-chat/account/AccountDialog.tsx', 'src/gpt-chat/account/BotLoginScreen.tsx', 'src/gpt-chat/account/CheckoutReturn.tsx',
-    'src/gpt-chat/account/UzumCodeScreen.tsx', 'src/gpt-chat/account/PackPanel.tsx', 'src/gpt-chat/account-strings.ts', 'src/components/ui/card.tsx',
+    'src/gpt-chat/account/AccountDialog.tsx', 'src/gpt-chat/account/BotLoginScreen.tsx',
+    'src/gpt-chat/account/PackPanel.tsx', 'src/gpt-chat/account-strings.ts', 'src/components/ui/card.tsx',
   ],
   'chat-lead': [
     'src/gpt-chat/components/AiOfferCard.tsx', 'src/gpt-chat/components/AiBusinessLine.tsx', 'src/gpt-chat/components/AiLeadForm.tsx',
@@ -256,6 +256,30 @@ test('nothing the start imports statically reaches a lazy part; each part reache
   }
   const imports = [...read('src/gpt-chat/components/AiChatConsole.tsx').matchAll(/import\(/g)];
   assert.equal(imports.length, 0, 'the console imports no part itself');
+});
+
+// The pack window's own lazy parts (chat CRO 2026-11-17): fetched from inside the window through
+// account/pay-part.tsx, never from the start and never by the window's static imports, so each is
+// measured on its own (scripts/chat-bundle-budget.ts finds them through import()).
+const NESTED = {
+  'chat-pay': ['src/gpt-chat/parts/pay-screens.tsx', 'src/gpt-chat/account/CheckoutReturn.tsx'],
+  'chat-uzum': ['src/gpt-chat/account/UzumCodeScreen.tsx'],
+};
+
+test("the pack window's nested parts are reached only through account/pay-part.tsx", () => {
+  const start = startGraph(ENTRIES.chat);
+  const window = startGraph('src/gpt-chat/parts/chat-account.ts');
+  const wrapper = read('src/gpt-chat/account/pay-part.tsx');
+  for (const [name, files] of Object.entries(NESTED)) {
+    assert.match(wrapper, new RegExp(`part\\(\\(\\) => import\\('\\.\\./parts/${name}'\\)\\)`), name);
+    for (const file of files) {
+      assert.ok(!start.has(file), `${file} (${name}) is on the start bundle`);
+      assert.ok(!window.has(file), `${file} (${name}) is imported statically by the pack window`);
+      assert.ok(startGraph(`src/gpt-chat/parts/${name}.ts`).has(file), `${name} does not carry ${file}`);
+    }
+  }
+  // The payment's own steps never wait for them: pay() loads chat-pay beside the request and goes on without it.
+  assert.match(read('src/gpt-chat/account/AccountDialog.tsx'), /payPart\.load\(\)\.catch\(\(\) => null\)/);
 });
 
 test('the gate runs where a release is built: vite manifest, the guarded Pages release, release-preflight', () => {

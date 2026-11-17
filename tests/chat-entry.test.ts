@@ -144,6 +144,7 @@ test('account readiness never auto-starts checkout or login, and New Chat preser
   ];
   const effects: Record<string, number> = {};
   let explicitOneTapEffects = 0;
+  let waitedTapEffects = 0;
   for (const file of files) {
     const source = ts.createSourceFile(file, readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true, file.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
     effects[file] = 0;
@@ -154,7 +155,15 @@ test('account readiness never auto-starts checkout or login, and New Chat preser
         const inspect = (child: ts.Node) => {
           if (ts.isCallExpression(child)) {
             const called = child.expression.getText(source);
-            if (file === 'src/gpt-chat/account/AccountDialog.tsx' && called === 'pay') {
+            if (file === 'src/gpt-chat/account/AccountDialog.tsx' && called === 'pay' && child.getText(source) === 'pay(queued.provider, queued.ask)') {
+              // A tap on a pay button made while the account was being read
+              // (chat CRO 2026-11-17): the tap itself, once, after that read,
+              // and only on the account, order and offer it was made on.
+              assert.match(body, /if \(!queued \|\| loading\) return;\s*setQueued\(null\);/);
+              assert.ok(body.indexOf('setQueued(null);') < body.indexOf('pay(queued.provider, queued.ask)'), 'consumed before it pays');
+              assert.match(body, /if \(memoryRef\.current\.inFlight \|\| error \|\| queued\.seen !== tapKey\(data\)\) \{\s*setLeaving\(null\);\s*return;\s*\}/);
+              waitedTapEffects++;
+            } else if (file === 'src/gpt-chat/account/AccountDialog.tsx' && called === 'pay') {
               // Owner-approved one-tap continues an explicit user action after
               // loading the lazy window. Readiness alone must never pay.
               assert.equal(child.getText(source), 'pay(autoPay.provider)');
@@ -174,7 +183,11 @@ test('account readiness never auto-starts checkout or login, and New Chat preser
   }
   for (const file of files) assert.ok(effects[file] > 0, `${file}: account effects were actually inspected`);
   assert.equal(explicitOneTapEffects, 1, 'only the guarded continuation of an explicit tap may start checkout');
+  assert.equal(waitedTapEffects, 1, 'and the tap that waited for a read of the account');
   const window = readFileSync('src/gpt-chat/account/AccountDialog.tsx', 'utf8');
+  // What that effect continues is set in one place, the pay buttons' own handler: never by readiness.
+  assert.equal([...window.matchAll(/setQueued\(\{/g)].length, 1);
+  assert.match(window, /const payWhenRead = \(provider: PaymentProvider, ask = false\) => \{[^}]*setQueued\(\{ provider, ask, seen: tapKey\(data\) \}\);\s*\};/);
   assert.match(window, /canStartCheckout\(data, locale\)/);
   assert.match(window, /termsVersion: data\.termsVersion/);
   const console = readFileSync('src/gpt-chat/components/AiChatConsole.tsx', 'utf8');

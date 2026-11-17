@@ -113,9 +113,9 @@ test('the window: role copy, a sum on every button, Paketim bor, the survey once
   assert.match(close, /setOpen\(false\);\n\s*setSurvey\(\(state\) => state \?\? 'ask'\);/);
   assert.equal([...paywall.matchAll(/setSurvey\(\(state\) => state \?\? 'ask'\)/g)].length, 1);
   assert.match(paywall, /onOpenChange=\{value => \{ if \(!value\) close\(\); \}\}/);
-  assert.match(paywall, /\{!open && \(survey === 'ask' \|\| survey === 'done'\) && \(/, 'in the thread, under the closed window: it never holds the closing');
+  assert.match(paywall, /\{!open && \(survey === 'ask' \|\| survey === 'done' \|\| survey === 'help'\) && \(/, 'in the thread, under the closed window: it never holds the closing');
   assert.match(paywall, /EXIT_REASONS\.map\(reason => <button type="button" key=\{reason\} data-reason=\{reason\} onClick=\{\(\) => answer\(reason\)\}>/);
-  assert.match(paywall, /recordUiEvent\(apiBase, 'trial_exit_reason', reason\);\n\s*setSurvey\('done'\);/);
+  assert.match(paywall, /recordUiEvent\(apiBase, 'trial_exit_reason', reason\);(?:\r?\n\s*\/\/[^\n]*)?\n\s*setSurvey\(reason === 'no_card' && providers\.some\(provider => provider !== 'uzum'\) \? 'help' : 'done'\);/);
   assert.match(paywall, /aria-label=\{c\.survey\.close\} onClick=\{\(\) => setSurvey\('gone'\)\}/, 'closable without an answer');
   assert.doesNotMatch(paywall, /<textarea|<input/, 'no text field');
   assert.doesNotMatch(part, /\bfetch\(|sendBeacon/, 'counted through recordUiEvent only');

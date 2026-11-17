@@ -211,7 +211,9 @@ test('the header counts what runs out first: this hour or today, and 0 while the
   assert.match(consoleSource, /: usageLine\(remaining, hourShown, hourBlocked, t\);/);
   assert.match(consoleSource, /const srStatus = paid \? t\.premium\.activeLine\(remaining\) : usage\?\.text;/);
   assert.match(consoleSource, /\{srStatus && <span className="sr-only" role="status">\{srStatus\}<\/span>\}/);
-  assert.match(consoleSource, /<span className="gpt-header-sub" data-tone=\{sub\.tone\} aria-hidden="true">\s*\{sub\.short \? <><span className="gpt-sub-full">\{sub\.text\}<\/span><span className="gpt-sub-short">\{sub\.short\}<\/span><\/> : sub\.text\}\s*<\/span>/);
+  // Chat CRO 2026-11-17: the resting screen's own first lines say who we are, so the header's second line is there only when it has a fact (a count, a wait, a pack).
+  assert.match(consoleSource, /\{sub\.text && <span className="gpt-header-sub" data-tone=\{sub\.tone\} aria-hidden="true">\{sub\.text\}<\/span>\}/);
+  assert.match(consoleSource, /: !resting && usage\s*\? \{ text: usage\.short, tone: usage\.low \? "warn" : undefined \}\s*: \{\};/);
 });
 
 test('once the hourly limit lifts, the header says the day’s count, not the hour’s stale 0', () => {

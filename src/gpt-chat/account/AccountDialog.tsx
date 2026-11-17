@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import { DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import type { Locale, PackTerms, PaymentProvider } from "../types";
+import type { AccountView, Locale, PackTerms, PaymentProvider } from "../types";
 import type { ChatStrings } from "../i18n";
 import { accountStrings, groupDigits, type AccountStrings } from "../account-strings";
 import {
@@ -18,14 +18,14 @@ import {
   safeTermsLink,
 } from "../types";
 import type { AccountHandle } from "../use-account";
+import { PayIn, payPart, uzumPart } from "./pay-part";
 import { loadBotLogin } from "../bot-login";
 import { orderId, type CheckoutOutcome, type CheckoutWatch } from "../checkout";
 import { track, trackMetaCheckout, EV } from "../analytics";
 import { recordUiEvent } from "../ui-events";
 import { BotLoginScreen } from "./BotLoginScreen";
-import { CheckoutReturn } from "./CheckoutReturn";
-import { UzumCodeScreen } from "./UzumCodeScreen";
-import { PackPanel, SupportLine } from "./PackPanel";
+import { LazyPart } from "../lazy-part";
+import { AccessSummary, PackPanel, SupportLine } from "./PackPanel";
 
 /**
  * What the window must not forget when it closes and opens again: it unmounts
@@ -44,6 +44,10 @@ export interface AccountWindowMemory {
   inFlight?: boolean;
   /** Closing the frame invalidates continuations of requests already sent. */
   generation?: number;
+  /** The payment this tap is making: chat-pay counts its steps (loaded beside the request) and speaks for it. */
+  trace?: { provider: PaymentProvider; ask: boolean; t0: number; loaded: Promise<Awaited<ReturnType<typeof payPart.load>> | null> } | null;
+  /** «Попросить оплатить»: the provider's link made for someone else, shown instead of leaving. */
+  shared?: { provider: PaymentProvider; url: string; at: number; id: string | null } | null;
 }
 
 /** The payment this browser waits for, as AiAccountPanel (start bundle) follows it. */
@@ -59,6 +63,17 @@ export interface CheckoutControls {
 
 /** The providers' own names, in every language. */
 export const PROVIDER_NAMES: Record<PaymentProvider, string> = { click: "Click", uzum: "Uzum Bank", payme: "Payme" };
+
+/** This page still here this long after the browser was sent to the provider's page: it did not leave. */
+const STAYED_MS = 12_000;
+
+/** What a tap on a pay button was made on: the account, its open order, the offer and the price. */
+function tapKey(view: AccountView | null): string | null {
+  return view && JSON.stringify([
+    view.user?.storageKey ?? null, view.payment?.id ?? null, view.payment?.state ?? null,
+    view.mode, view.termsVersion, view.pack?.priceUzs ?? null, view.pack?.messageLimit ?? null,
+  ]);
+}
 
 /** A refused request, with the server's code. */
 class RequestError extends Error {
@@ -151,8 +166,11 @@ export function AccountDialog({
   latestAccount.current = data;
   const copy = accountStrings(locale);
   const [busy, setBusy] = useState(false);
-  // On the way to the payment page: nothing to check before the browser leaves.
-  const [leaving, setLeaving] = useState(false);
+  // From the tap to the payment page: nothing to check before the browser leaves.
+  const [leaving, setLeaving] = useState<PaymentProvider | null>(null);
+  const redirecting = useRef(false);
+  // The flow stopped before the provider's page: said, with a retry (chat-pay).
+  const [stall, setStall] = useState<{ provider: PaymentProvider; ask: boolean; kind: "stale" | "bad_url" | "failed" } | null>(null);
   const [consent, setConsent] = useState(false);
   // Sign-in through Telegram, opened on request: beside guest checkout, and
   // for a guest's pack, to keep it on any phone (IdentityStore.adoptGuest).
@@ -171,18 +189,48 @@ export function AccountDialog({
   const [choosing, setChoosing] = useState(false);
   const currentTerms = data?.terms[locale];
   useEffect(() => { setSignIn(loadBotLogin() !== null); }, [data?.user?.storageKey]);
+  // The payment's steps and messages (chat-pay) are fetched with the window, so a tap never waits for them.
+  useEffect(() => { payPart.preload(); }, []);
   // Back from the payment page out of the browser's page cache: the page is
   // as it was left, mid-way to the payment page; now it waits for the result.
   useEffect(() => {
     const shown = (event: PageTransitionEvent) => {
-      if (event.persisted) setLeaving(false);
+      if (event.persisted) {
+        redirecting.current = false;
+        setLeaving(null);
+      }
     };
     window.addEventListener("pageshow", shown);
     return () => window.removeEventListener("pageshow", shown);
   }, []);
+  // Sent to the provider's page, and this page is still here: in view again
+  // (an app took the link and the visitor came back), or twelve seconds on
+  // (the browser held the link). Back to the wait, which reads the order and
+  // has the ways on, instead of «Открываем…» for ever.
+  useEffect(() => {
+    if (!leaving) return;
+    let waited = 0;
+    const stay = () => {
+      if (!redirecting.current || document.visibilityState === "hidden") return;
+      redirecting.current = false;
+      setLeaving(null);
+    };
+    const timer = window.setInterval(() => {
+      if (redirecting.current && (waited += 1_000) >= STAYED_MS) stay();
+    }, 1_000);
+    document.addEventListener("visibilitychange", stay);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", stay);
+    };
+  }, [leaving]);
   const cookiesReady = !cookiesBlocked && globalThis.navigator?.cookieEnabled !== false;
-  const checkoutReady = !error && !loading && cookiesReady && canStartCheckout(data, locale);
-  const resumeReady = !error && !loading && cookiesReady && canResumeCheckout(data, locale) && termsChanged !== data?.payment?.id;
+  // What the last read of the account allows; a payment starts only once no
+  // read is in flight (`…Ready`), and a tap during one waits for it (payWhenRead).
+  const startable = !error && cookiesReady && canStartCheckout(data, locale);
+  const resumable = !error && cookiesReady && canResumeCheckout(data, locale) && termsChanged !== data?.payment?.id;
+  const checkoutReady = startable && !loading;
+  const resumeReady = resumable && !loading;
   const termsUrl = safeTermsLink(currentTerms);
   const billingAvailable = billingOpen(data);
   const pack = data?.pack;
@@ -209,12 +257,17 @@ export function AccountDialog({
     setBusy(true);
     setElsewhere(null);
     setHeld(false);
+    setStall(null);
+    memoryRef.current.trace = null;
     account.clearError();
     try {
       await action();
     } catch (cause) {
       if (generation !== (memoryRef.current.generation ?? 0)) return;
       const code = cause instanceof RequestError ? cause.code : "request_failed";
+      // Read again, not narrowed to the null it was reset to: the payment sets it.
+      const trace = (memoryRef as RefObject<AccountWindowMemory>).current.trace ?? null;
+      void trace?.loaded.then((m) => m?.payEvent(apiBase, "checkout_aborted", trace.provider, trace.t0, m.abortReason(code)));
       if (code === "terms_changed") {
         memoryRef.current.refusedForTerms = data?.payment?.id || "offer_changed";
         setTermsChanged(memoryRef.current.refusedForTerms);
@@ -236,21 +289,34 @@ export function AccountDialog({
         await refresh();
         return;
       }
-      account.fail();
+      // A payment says so, with a retry; any other action fails as before.
+      if (trace) setStall({ provider: trace.provider, ask: trace.ask, kind: "failed" });
+      else account.fail();
       track(EV.accountActionFailed, { locale, code: "request_failed" });
     } finally {
       memoryRef.current.inFlight = false;
+      if (!redirecting.current) setLeaving(null);
       setBusy(false);
     }
   };
-  const pay = (provider: PaymentProvider) =>
+  const pay = (provider: PaymentProvider, ask = false) =>
     run(async () => {
       const resume = resumeReady && data?.payment?.provider === provider;
       if ((!checkoutReady && !resume) || !data || !offeredProviders(data).includes(provider)
         || globalThis.navigator?.cookieEnabled === false) throw new Error();
       const generation = memoryRef.current.generation ?? 0;
+      // A guest has no account until subscribe makes one: that change is this order's own.
       const stillCurrent = () => generation === (memoryRef.current.generation ?? 0)
-        && latestAccount.current?.user?.storageKey === data.user?.storageKey;
+        && (!data.user || latestAccount.current?.user?.storageKey === data.user.storageKey);
+      // The tap: the window says at once that it is working, and chat-pay
+      // (fetched beside the request) counts the steps.
+      const t0 = Date.now();
+      const loaded = payPart.load().catch(() => null);
+      memoryRef.current.trace = { provider, ask, t0, loaded };
+      if (!ask) {
+        memoryRef.current.shared = null;
+        setLeaving(provider);
+      }
       // Pressing the button is the acceptance (the offer, section 7): the
       // server records the edition and the time on the order, as before.
       if (data.payment && !["pending", "prepared"].includes(data.payment.state))
@@ -265,9 +331,16 @@ export function AccountDialog({
         termsVersion: data.termsVersion,
         requestId: memoryRef.current.requestKeys[provider],
       });
+      const m = await loaded;
+      m?.payEvent(apiBase, "checkout_created", provider, t0);
+      // Stopping after the order exists is never silent: the step is counted and the window says so.
+      const stop = (reason: "stale" | "bad_url" | "cookies") => {
+        m?.payEvent(apiBase, "checkout_aborted", provider, t0, reason);
+        if (reason !== "cookies") setStall({ provider, ask, kind: reason });
+      };
       // The order may already exist server-side. Closing or changing accounts
       // stops this continuation; it never silently cancels a provider invoice.
-      if (!stillCurrent()) return;
+      if (!stillCurrent()) return stop("stale");
       const attemptId = orderId(result.attemptId);
       const started = () => {
         track(EV.checkoutStarted, { provider, resume, locale, mode: data.mode || "unavailable" });
@@ -276,24 +349,47 @@ export function AccountDialog({
       };
       if (result.mode === "checkout") {
         const url = allowedCheckoutUrl(result.checkoutUrl);
-        if (!url) throw new Error();
+        if (!url) return stop("bad_url");
         // A guest's pack is this browser's cookie: never leave for Click
         // unless the browser kept the one subscribe just set.
         if (!data.user) {
-          const probe = await fetch(`${apiBase}/api/gpt/account`, { cache: "no-store", signal: AbortSignal.timeout(15_000) });
-          if (!probe.ok) throw new Error();
-          const current = await probe.json();
-          if (!stillCurrent()) return;
+          const probing = Date.now();
+          let current: { user?: { guest?: unknown } | null; payment?: { id?: unknown } | null } | null;
+          try {
+            const probe = await fetch(`${apiBase}/api/gpt/account`, { cache: "no-store", signal: AbortSignal.timeout(15_000) });
+            if (!probe.ok) throw new Error();
+            current = await probe.json();
+          } catch {
+            m?.payEvent(apiBase, "checkout_probe_failed", provider, probing);
+            throw new RequestError("request_failed", null);
+          }
+          if (!stillCurrent()) return stop("stale");
           if (current?.user?.guest !== true || current?.payment?.id !== attemptId) {
+            m?.payEvent(apiBase, "checkout_probe_failed", provider, probing);
+            stop("cookies");
             setCookiesBlocked(true);
             await refresh();
             return;
           }
         }
+        // Someone else pays: the same order and link, shown instead of leaving. The pack turns on here.
+        if (ask) {
+          memoryRef.current.shared = { provider, url, at: Date.now(), id: attemptId };
+          setChoosing(false);
+          checkout.start({ provider, flow: "status", at: Date.now(), attemptId, before: null });
+          // Watched while this page lives, never stored: nobody left for a payment
+          // page, so a reload must not open the window to say «не завершена».
+          // (checkout.ts keeps the trip under this key; removed here, not through
+          // an export the start bundle would have to carry.)
+          try { localStorage.removeItem("gptchat_checkout"); } catch { /* storage blocked: nothing was stored */ }
+          return;
+        }
         started();
         if (!resume && data.mode === "live" && attemptId && data.pack)
           trackMetaCheckout({ transactionId: attemptId, value: data.pack.priceUzs, itemId: `ai_paket_${data.pack.messageLimit}` });
-        setLeaving(true);
+        redirecting.current = true;
+        // The last step counted: fetch with keepalive, so it survives the navigation.
+        m?.payEvent(apiBase, "checkout_redirect", provider, t0);
         checkout.start({ provider, flow: "redirect", at: Date.now(), attemptId, before: null });
         location.assign(url);
       } else if (result.mode === "code" && typeof result.paymentCode === "string" && PAYMENT_CODE.test(result.paymentCode)) {
@@ -307,6 +403,27 @@ export function AccountDialog({
         await refresh();
       } else await refresh();
     });
+  // A tap while the account view is being read again (a watched payment reads
+  // it every few seconds) is neither refused nor lost: it waits for that read
+  // and pays only if the read shows the same account, order and offer the
+  // visitor tapped on. Anything else changed the screen: the tap is dropped.
+  const [queued, setQueued] = useState<{ provider: PaymentProvider; ask: boolean; seen: string | null } | null>(null);
+  const payWhenRead = (provider: PaymentProvider, ask = false) => {
+    if (!loading || error || !data) return void pay(provider, ask);
+    if (!ask) setLeaving(provider);
+    setQueued({ provider, ask, seen: tapKey(data) });
+  };
+  useEffect(() => {
+    if (!queued || loading) return;
+    setQueued(null);
+    if (memoryRef.current.inFlight || error || queued.seen !== tapKey(data)) {
+      setLeaving(null);
+      return;
+    }
+    void pay(queued.provider, queued.ask);
+    // It waits for the tap and for the end of the read; the rest is as that render has it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queued, loading]);
   // Close the account's own invoice no provider has seen yet (BillingStore.cancelInvoice).
   const cancelInvoice = (order: string) =>
     run(async () => {
@@ -341,13 +458,38 @@ export function AccountDialog({
   });
 
   const watch = checkout.watch;
-  if (watch && leaving)
+  if (leaving)
     return (
       <>
         <DialogTitle>{copy.title}</DialogTitle>
         <DialogDescription asChild>
-          <p role="status" className="gpt-notice">{copy.payRedirecting}</p>
+          <p role="status" className="gpt-notice" data-testid="ai-pay-opening">{copy.payOpening(PROVIDER_NAMES[leaving])}</p>
         </DialogDescription>
+      </>
+    );
+  // The message of a flow that stopped, above whatever screen follows.
+  const gone = <p role="alert" className="gpt-error">{copy.failed}</p>;
+  const stalled = stall && <PayIn is="PayStall" failed={gone} locale={locale} {...stall} busy={busy || !!queued} onRetry={() => payWhenRead(stall.provider, stall.ask)} />;
+  // Someone else pays (chat-pay): the link, until the pack is here.
+  const shared = memoryRef.current.shared;
+  if (shared && checkout.outcome === "paid") memoryRef.current.shared = null;
+  else if (shared && watch && !choosing)
+    return (
+      <>
+        {stalled}
+        <PayIn
+          is="PayShare"
+          failed={gone}
+          locale={locale}
+          {...shared}
+          orderState={data?.payment?.id === shared.id ? data.payment.state : null}
+          priceUzs={pack?.priceUzs ?? 0}
+          busy={busy || !!queued}
+          onCheck={() => void refresh()}
+          onNew={() => { memoryRef.current.shared = null; payWhenRead(shared.provider, true); }}
+          onPayMyself={() => { memoryRef.current.shared = null; payWhenRead(shared.provider); }}
+          onBack={() => { memoryRef.current.shared = null; setChoosing(true); }}
+        />
       </>
     );
   const appCode = [data?.paymentCode, memoryRef.current.paymentCode].find(
@@ -355,29 +497,42 @@ export function AccountDialog({
   );
   if (watch?.flow === "code" && appCode && pack && !choosing && checkout.outcome !== "paid" && checkout.outcome !== "cancelled")
     return (
-      <UzumCodeScreen
-        t={t}
-        copy={copy}
-        code={appCode}
-        sum={groupDigits(pack.priceUzs)}
-        loading={loading}
-        onCheck={() => void refresh()}
-        onChange={() => setChoosing(true)}
-        onClose={onClose}
-      />
+      <LazyPart part={uzumPart} fallback={<DialogTitle>{copy.uzumCodeTitle}</DialogTitle>} failed={gone}>
+        {({ UzumCodeScreen }) => (
+          <UzumCodeScreen
+            t={t}
+            copy={copy}
+            code={appCode}
+            sum={groupDigits(pack.priceUzs)}
+            loading={loading}
+            onCheck={() => void refresh()}
+            onChange={() => setChoosing(true)}
+            onClose={onClose}
+          />
+        )}
+      </LazyPart>
     );
   // A payment that turned out paid is said even after "change the way to pay".
   if (watch && (!choosing || checkout.outcome === "paid"))
     return (
-      <CheckoutReturn
+      <>
+      {stalled}
+      <PayIn
+        is="CheckoutReturn"
+        fallback={<><DialogTitle>{copy.payChecking}</DialogTitle><p role="status" className="gpt-panel-note">{copy.payCheckingNote}</p><button type="button" className="gpt-text-button" onClick={onClose}>{copy.payBackToChat}</button></>}
         t={t}
         copy={copy}
+        locale={locale}
+        apiBase={apiBase}
+        busy={busy || !!queued}
+        onPay={payWhenRead}
         watch={watch}
         outcome={checkout.outcome}
         data={data}
         error={error}
         loading={loading}
-        date={date}
+        summary={data?.access && <AccessSummary copy={copy} access={data.access} pack={data.pack} date={date} />}
+        support={<SupportLine copy={copy} />}
         onCheck={() => void refresh()}
         onAgain={checkout.dismiss}
         onChange={() => setChoosing(true)}
@@ -387,6 +542,7 @@ export function AccountDialog({
         }}
         onClose={onClose}
       />
+      </>
     );
 
   // Without an account (guest checkout): subscribe makes this browser a guest.
@@ -419,14 +575,15 @@ export function AccountDialog({
               key={provider}
               className="gpt-primary"
               data-provider={provider}
-              disabled={busy || !checkoutReady}
-              onClick={() => void pay(provider)}
+              disabled={busy || !!queued || !startable}
+              onClick={() => payWhenRead(provider)}
             >
               {appFlow(provider) ? copy.payInApp : copy.payVia(PROVIDER_NAMES[provider])}
               {!appFlow(provider) && <span aria-hidden="true">↗</span>}
             </button>
           ))}
         </div>
+        <PayIn is="PayExtras" locale={locale} pack={pack} providers={offered} busy={busy || !!queued || !startable} termsUrl={termsUrl} onAsk={(provider) => payWhenRead(provider, true)} />
         {termsUrl && data?.termsVersion && (
           <p className="gpt-pay-accept">
             {t.premium.acceptByPay.before}
@@ -438,7 +595,7 @@ export function AccountDialog({
       {openPayment?.provider && (
         <div className="gpt-panel-note" data-testid="ai-pay-open">
           <p>{copy.resumeNote}</p>
-          <button type="button" className="gpt-primary" disabled={busy || !resumeReady} onClick={() => { if (openPayment.provider) void pay(openPayment.provider); }}>
+          <button type="button" className="gpt-primary" disabled={busy || !!queued || !resumable} onClick={() => { if (openPayment.provider) payWhenRead(openPayment.provider); }}>
             {copy.resume}
           </button>
           {openPayment.cancellable ? (
@@ -524,7 +681,8 @@ export function AccountDialog({
       {termsChanged && <p role="alert" className="gpt-notice">{copy.termsChanged}</p>}
       {elsewhere && <p role="alert" className="gpt-notice">{copy.payPendingElsewhere(PROVIDER_NAMES[elsewhere])}</p>}
       {held && <p role="alert" className="gpt-notice">{copy.cancelFailed}</p>}
-      {cookiesBlocked && !data?.user && <p role="alert" className="gpt-notice" data-testid="ai-pay-cookies">{copy.cookiesBlocked}</p>}
+      {cookiesBlocked && <p role="alert" className="gpt-notice" data-testid="ai-pay-cookies">{copy.cookiesBlocked}</p>}
+      {stalled}
       {data && !data.user && (
         <>
           {/* A price only while the pack can really be bought (F6); a guest's notes fold into its card. */}

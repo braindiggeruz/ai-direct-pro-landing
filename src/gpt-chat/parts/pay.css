@@ -1,0 +1,22 @@
+.gpt-pay-extras{margin:10px 0 0;text-align:center}
+.gpt-pay-next{margin:0 0 4px;font-size:12px;line-height:1.5;color:var(--text-2)}
+.gpt-pay-per{margin:0 0 2px;font-size:12px;line-height:1.5;color:var(--text-3)}
+.gpt-pay-ask-open{display:block;margin:0 auto}
+.gpt-pay-ask{margin:6px 0 0;font-size:12px;line-height:1.5;color:var(--text-2)}
+.gpt-pay-ask p{margin:0 0 4px}
+.gpt-pay-ask-accept{margin:2px 0 0;font-size:12px;line-height:1.6;color:var(--text-3)}
+.gpt-pay-ask-accept a{color:var(--accent-text);text-decoration:underline}
+.gpt-pay-ask-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:0 8px}
+.gpt-pay-stall{display:flex;flex-direction:column;gap:10px}
+.gpt-pay-stall p{margin:0}
+a.gpt-primary[data-testid="ai-pay-share-telegram"]{margin:6px 0 0}
+.gpt-pay-copy{display:block;margin:4px auto 0}
+.gpt-pay-link{box-sizing:border-box;width:100%;min-height:44px;margin:6px 0 0;padding:0 12px;border:1px solid var(--line-strong);border-radius:12px;background:var(--surface-2);color:var(--text-2);font-size:13px}
+.gpt-pay-unpaid{display:flex;flex-direction:column;gap:8px;margin:12px 0 0;padding:14px;border:1px solid var(--accent-line);border-radius:14px;background:var(--surface-2)}
+.gpt-pay-unpaid strong{font-size:16px;line-height:22px;color:var(--text)}
+.gpt-pay-unpaid p{margin:0;font-size:14px;line-height:21px;color:var(--text-2)}
+.gpt-pay-unpaid-more{display:flex;flex-wrap:wrap;justify-content:center;gap:0 4px}
+.gpt-pay-unpaid-more .gpt-text-button{min-height:44px;padding:6px 10px;font-size:13px}
+.gpt-pay-unpaid-head{display:flex;align-items:center;justify-content:space-between}
+.gpt-pay-unpaid-close{min-width:44px;min-height:44px;font-size:20px;line-height:1;color:var(--text-2)}
+.gpt-pay-unpaid .gpt-pay-ref{font-size:13px;color:var(--text-3)}

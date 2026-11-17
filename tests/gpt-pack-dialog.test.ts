@@ -21,6 +21,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Dialog } from '../src/components/ui/dialog';
 
 import { accountPart } from '../src/gpt-chat/lazy-part';
+import { payPart, uzumPart } from '../src/gpt-chat/account/pay-part';
+import { TEXT as PAY_TEXT } from '../src/gpt-chat/parts/pay-screens';
 import { strings } from '../src/gpt-chat/i18n';
 import { accountStrings, groupDigits } from '../src/gpt-chat/account-strings';
 import { checkoutReport, type CheckoutOutcome, type CheckoutWatch } from '../src/gpt-chat/checkout';
@@ -64,6 +66,8 @@ async function window(
   options: { watch?: CheckoutWatch | null; outcome?: CheckoutOutcome | null; memory?: Partial<AccountWindowMemory>; handle?: Partial<AccountHandle> } = {},
 ): Promise<string> {
   const { AccountDialog } = await accountPart.load();
+  // The window's nested parts are here, as they are once the window has been open a moment (account/pay-part.tsx).
+  await Promise.all([payPart.load(), uzumPart.load()]);
   const account: AccountHandle = {
     data, error: false, loading: false, refresh: async () => {}, fail: () => {}, forget: () => {}, clearError: () => {}, ...options.handle,
   };
@@ -340,7 +344,9 @@ test('back from paying: checking, then paid, still pending after two minutes, or
     // Cancelled: no pack, try again, where to ask.
     const cancelled = await window(locale, member({ payment: { id: ORDER, state: 'cancelled', provider: 'click' } }), { watch: watchOf() });
     assert.equal(result(cancelled), 'cancelled');
-    assert.ok(has(cancelled, copy.cancelled) && has(cancelled, copy.payAgain) && cancelled.includes('href="mailto:ceo@gptbot.uz"'));
+    // «Оплата не завершена» (chat CRO 2026-11-17, P5) took the place of the lone «try again»: continue, another way, ask someone.
+    assert.ok(has(cancelled, copy.cancelled) && has(cancelled, PAY_TEXT[locale].unpaidTitle) && has(cancelled, PAY_TEXT[locale].unpaidClosed) && cancelled.includes('href="mailto:ceo@gptbot.uz"'));
+    assert.ok(has(cancelled, PAY_TEXT[locale].cont) && has(cancelled, PAY_TEXT[locale].other) && has(cancelled, PAY_TEXT[locale].ask), locale);
     // Back with nothing stored (storage blocked): the newest order decides.
     assert.equal(result(await window(locale, withPack(), { watch: watchOf({ provider: null, attemptId: null }) })), 'paid');
   }
@@ -383,13 +389,15 @@ test('every link on every screen goes to an allowed place: Telegram only as the 
     /^mailto:ceo@gptbot\.uz$/,
     // The studio Telegram (owner order of 26.10.2026), bare, in the support line.
     /^https:\/\/t\.me\/XGame_changerx$/,
+    // The unpaid card's «Написать в Telegram» (chat CRO 2026-11-17): the same contact with a prefilled line and the order's short reference.
+    /^https:\/\/t\.me\/XGame_changerx\?text=[^&"]+$/,
     /^https:\/\/ofd\.soliq\.uz\//,
   ];
   const hrefs = pages.flatMap((page) => [...page.matchAll(/href="([^"]*)"/g)].map((m) => m[1].replace(/&amp;/g, '&')));
   assert.ok(hrefs.length > 20);
   for (const href of hrefs) assert.ok(allowed.some((rule) => rule.test(href)), href);
   for (const page of pages) {
-    assert.doesNotMatch(page, /t\.me\/(?!gptbotuz_bot|XGame_changerx")|javascript:|tel:/i);
+    assert.doesNotMatch(page, /t\.me\/(?!gptbotuz_bot|XGame_changerx(?:"|\?text=))|javascript:|tel:/i);
     // Every studio link carries the marker the head click handlers count.
     for (const tag of page.match(/<a [^>]*XGame_changerx[^>]*>/g) ?? []) assert.match(tag, /data-contact="studio"/, tag);
   }
@@ -533,7 +541,7 @@ test('guest checkout waits for a browser that keeps cookies, and a sign-in throu
   }
   // pay(): the guest cookie subscribe set is confirmed before the browser leaves for Click.
   assert.match(read('src/gpt-chat/account/AccountDialog.tsx'),
-    /if \(!data\.user\) \{[\s\S]*?const current = await probe\.json\(\);\s*if \(!stillCurrent\(\)\) return;\s*if \(current\?\.user\?\.guest !== true \|\| current\?\.payment\?\.id !== attemptId\) \{\s*setCookiesBlocked\(true\);/);
+    /if \(!data\.user\) \{[\s\S]*?current = await probe\.json\(\);[\s\S]*?if \(!stillCurrent\(\)\) return stop\("stale"\);\s*if \(current\?\.user\?\.guest !== true \|\| current\?\.payment\?\.id !== attemptId\) \{[\s\S]*?setCookiesBlocked\(true\);/);
   const kept = withPack({ user: { signedIn: true, storageKey: 'b'.repeat(64), guest: true } });
   for (const locale of LOCALES) assert.ok(!has(await window(locale, kept), accountStrings(locale).loginConsent), 'closed until asked');
   // The tab reloaded while Telegram was in front: the attempt is still in sessionStorage.

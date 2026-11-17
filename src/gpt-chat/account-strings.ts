@@ -74,7 +74,9 @@ export interface AccountStrings {
   /** Providers joined with `or`. */
   payNote: (providers: string) => string;
   or: string;
-  payRedirecting: string; payChecking: string; payCheckingNote: string;
+  /** The tap's own line, before the order exists and until the browser leaves: «Открываем страницу Click…». */
+  payOpening: (provider: string) => string;
+  payChecking: string; payCheckingNote: string;
   payPaid: string; payPendingLong: string; payBackToChat: string; payTestNoPage: string;
   /** After a cancelled payment: back to the pay buttons. */
   payAgain: string;
@@ -156,7 +158,7 @@ const RU: AccountStrings = {
   payInApp: 'Оплатить в приложении Uzum Bank',
   payNote: (providers) => `Данные карты к нам не попадают: оплата проходит на стороне ${providers}.`,
   or: ' или ',
-  payRedirecting: 'Переходим на страницу оплаты…',
+  payOpening: (provider) => `Открываем страницу ${provider}…`,
   payChecking: 'Проверяем оплату…',
   payCheckingNote: 'Обычно это занимает до минуты. Не платите повторно.',
   payPaid: 'Оплата получена. AI-пакет активен.',
@@ -258,7 +260,7 @@ const UZ: AccountStrings = {
   payInApp: 'Uzum Bank ilovasida to‘lash',
   payNote: (providers) => `Karta ma’lumotlari bizga kelmaydi: to‘lov ${providers} tomonida amalga oshiriladi.`,
   or: ' yoki ',
-  payRedirecting: 'To‘lov sahifasiga o‘tilmoqda…',
+  payOpening: (provider) => `${provider} sahifasi ochilmoqda…`,
   payChecking: 'To‘lov tekshirilmoqda…',
   payCheckingNote: 'Odatda bir daqiqagacha vaqt oladi. Qayta to‘lamang.',
   payPaid: 'To‘lov qabul qilindi. AI paket faollashdi.',

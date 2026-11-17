@@ -15,6 +15,7 @@ import { PACK_WINDOW_EVENTS, parseUiEvent, UI_EVENTS, UiEventStore, type UiEvent
 import { maintainBilling, TELEMETRY_RETENTION_DAYS } from "../functions/lib/gpt-chat/billing-maintenance-store";
 import { CHAT_ROLE_PRESETS } from "../src/shared/types";
 import { EXIT_REASONS } from "../src/gpt-chat/trial-copy";
+import { ABORT_REASONS, CHECKOUT_APPS, CHECKOUT_BUCKETS, CHECKOUT_OS, CHECKOUT_PROVIDERS, RETURN_OUTCOMES } from "../src/shared/checkout-events";
 
 const ORIGIN = "https://gpt.test";
 const ENDPOINT = `${ORIGIN}/api/gpt/event`;
@@ -98,9 +99,14 @@ test("a resent event counts once (AGENTS §4): the id is the browser's, per even
 test("every type with every qualifier of its closed list, and nothing outside them", async () => {
   const { send, rows } = await counter();
   let sent = 0;
+  // 60 events an hour per address: a new address every 50 requests. The
+  // checkout steps carry composite details (hundreds of them): the HTTP loop
+  // sends a spread of those and the parser test below walks every one.
   for (const [type, details] of Object.entries(UI_EVENTS))
-    for (const detail of details) {
-      assert.equal((await send(fresh({ type, detail }))).status, 200, `${type}/${detail}`);
+    for (const [index, detail] of details.entries()) {
+      if (details.length > 60 && index % 37 !== 0 && index !== details.length - 1) continue;
+      const ip = { "CF-Connecting-IP": `198.51.100.${1 + Math.floor(sent / 50)}` };
+      assert.equal((await send(fresh({ type, detail }), ip)).status, 200, `${type}/${detail}`);
       sent++;
     }
   assert.equal(rows().length, sent);
@@ -240,4 +246,68 @@ test("the steps are kept TELEMETRY_RETENTION_DAYS, as the privacy policy says, a
     f.db.rows<{ org_id: string; id: string }>("SELECT org_id,id FROM gpt_ui_events ORDER BY id").map((row) => `${row.org_id}/${row.id}`),
     [`${BILLING_ORG}/kept`, "org-b/other"],
   );
+});
+
+const CHECKOUT_STEPS = ["checkout_created", "checkout_probe_failed", "checkout_redirect"] as const;
+const tail = (provider: string, bucket: string, app: string, os: string) => `${provider}.${bucket}.${app}.${os}`;
+
+test("P1: the checkout steps between the tap and the provider's page are counted: closed provider, time bucket and client class", async () => {
+  const { send, rows } = await counter();
+  for (const type of [...CHECKOUT_STEPS, "checkout_aborted", "checkout_return_unpaid"] as const)
+    assert.ok(PACK_WINDOW_EVENTS.has(type), `${type} is a step of the pack window`);
+  assert.deepEqual([...CHECKOUT_BUCKETS], ["lt1", "s1_3", "s3_8", "gt8"]);
+  for (const type of CHECKOUT_STEPS) {
+    const step = fresh({ type, detail: tail("click", "s1_3", "telegram", "android") });
+    assert.equal((await send(step)).status, 200, type);
+    assert.equal((await send(step)).status, 200, `${type}: a resent step`);
+  }
+  assert.equal((await send(fresh({ type: "checkout_aborted", detail: `stale.${tail("payme", "lt1", "none", "ios")}` }))).status, 200);
+  assert.equal((await send(fresh({ type: "checkout_aborted", detail: `try_later.${tail("click", "gt8", "instagram", "desktop")}` }))).status, 200);
+  assert.equal((await send(fresh({ type: "checkout_return_unpaid", detail: `none.${tail("unknown", "gt8", "facebook", "ios")}` }))).status, 200);
+  assert.equal((await send(fresh({ type: "checkout_return_unpaid", detail: `cancelled.${tail("click", "gt8", "yandex", "android")}` }))).status, 200);
+  assert.equal(rows().length, 7);
+  assert.doesNotMatch(JSON.stringify(rows()), /pay_|Mozilla|Android 1|AppleWebKit/);
+});
+
+test("P1: every composite detail is a walk through the closed lists, and nothing else parses", () => {
+  const id = () => crypto.randomUUID();
+  const ok = (type: string, detail: string) => parseUiEvent({ id: id(), type, detail, view: null }) !== null;
+  let count = 0;
+  for (const provider of CHECKOUT_PROVIDERS)
+    for (const bucket of CHECKOUT_BUCKETS)
+      for (const app of CHECKOUT_APPS)
+        for (const os of CHECKOUT_OS) {
+          for (const type of CHECKOUT_STEPS) assert.ok(ok(type, tail(provider, bucket, app, os)), `${type} ${provider}.${bucket}.${app}.${os}`);
+          for (const reason of ABORT_REASONS) assert.ok(ok("checkout_aborted", `${reason}.${tail(provider, bucket, app, os)}`));
+          for (const outcome of RETURN_OUTCOMES) assert.ok(ok("checkout_return_unpaid", `${outcome}.${tail(provider, bucket, app, os)}`));
+          count++;
+        }
+  assert.equal(count, CHECKOUT_PROVIDERS.length * CHECKOUT_BUCKETS.length * CHECKOUT_APPS.length * CHECKOUT_OS.length);
+  assert.ok(ABORT_REASONS.includes("stale") && ABORT_REASONS.includes("bad_url") && ABORT_REASONS.includes("cookies"));
+  // Everything outside the lists: free text, a raw user agent, an order id, a segment too many or too few.
+  const good = tail("click", "lt1", "none", "android");
+  for (const detail of [
+    "", "click", "click.lt1", "click.lt1.none", `${good}.extra`, tail("stripe", "lt1", "none", "android"),
+    tail("click", "5s", "none", "android"), tail("click", "lt1", "whatsapp", "android"), tail("click", "lt1", "none", "windows"),
+    `Mozilla/5.0 (Linux; Android 14) Telegram`, `pay_${"a".repeat(32)}`, "click.lt1.none.android ", "CLICK.lt1.none.android",
+    "click.lt1.none.android\n", "__proto__.lt1.none.android",
+  ])
+    for (const type of CHECKOUT_STEPS) assert.equal(ok(type, detail), false, `${type} ${JSON.stringify(detail)}`);
+  assert.equal(ok("checkout_aborted", good), false, "an abort without its reason");
+  assert.equal(ok("checkout_aborted", `invented.${good}`), false);
+  assert.equal(ok("checkout_return_unpaid", `paid.${good}`), false, "a paid return is not an unpaid one");
+  assert.equal(ok("checkout_return_unpaid", good), false);
+  assert.equal(ok("checkout_created", "unknown.lt1.none.android"), false, "unknown is a provider of a return only");
+});
+
+test("P1: answer_rating is accepted as up|down_<role> and refused otherwise", async () => {
+  const { send, rows } = await counter();
+  assert.deepEqual([...UI_EVENTS.answer_rating].sort(), ["up", "down"].flatMap((v) => ["general", ...CHAT_ROLE_PRESETS].map((r) => `${v}_${r}`)).sort());
+  assert.equal(PACK_WINDOW_EVENTS.has("answer_rating"), false, "a rating needs no payment provider");
+  assert.equal((await send(fresh({ type: "answer_rating", detail: "up_general" }), { cookie: "" })).status, 200);
+  assert.equal((await send(fresh({ type: "answer_rating", detail: "down_writer", text: "bad answer about X" }))).status, 200);
+  for (const detail of ["up", "up_seller", "sideways_general", "up_general_x", "UP_general", "", "thanks"])
+    assert.equal((await send(fresh({ type: "answer_rating", detail }))).status, 400, detail);
+  assert.deepEqual(rows().map((row) => `${row.type}/${row.detail}`).sort(), ["answer_rating/down_writer", "answer_rating/up_general"]);
+  assert.doesNotMatch(JSON.stringify(rows()), /bad answer/);
 });

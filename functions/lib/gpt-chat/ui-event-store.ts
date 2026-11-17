@@ -13,6 +13,29 @@
 // chat session: a row cannot be tied to a person or a conversation. The id is
 // the browser's, fresh per event, so a request sent twice counts once.
 // gpt_ui_events comes from migrations/0068 (PAID_CHAT_DDL in billing-schema.ts).
+//
+// The checkout steps between the tap and the provider's page (chat CRO
+// 2026-11-17, P1) carry one qualifier too, built only from closed lists
+// (src/shared/checkout-events.ts): [reason.]provider.time.app.os, for example
+// click.s1_3.telegram.android. The time is a bucket, the app and the system a
+// class the browser computed: no user agent, order id or text is ever sent
+// or kept, and the table keeps its columns.
+
+import {
+  ABORT_REASONS,
+  CHECKOUT_APPS,
+  CHECKOUT_BUCKETS,
+  CHECKOUT_OS,
+  CHECKOUT_PROVIDERS,
+  RETURN_OUTCOMES,
+  cross,
+} from "../../../src/shared/checkout-events";
+
+/** provider.time.app.os, every walk through the lists. */
+const CHECKOUT_TAIL = cross(cross(cross(CHECKOUT_PROVIDERS, CHECKOUT_BUCKETS), CHECKOUT_APPS), CHECKOUT_OS);
+/** A return from the provider's page may not know which provider it was (storage blocked). */
+const RETURN_TAIL = cross(cross(cross([...CHECKOUT_PROVIDERS, "unknown"] as const, CHECKOUT_BUCKETS), CHECKOUT_APPS), CHECKOUT_OS);
+const TRIAL_ROLES = ["general", "translator", "teacher", "smm", "marketer", "business", "writer"] as const;
 
 /** Every event type and the qualifiers it may carry. */
 export const UI_EVENTS = {
@@ -37,7 +60,7 @@ export const UI_EVENTS = {
    * role (data-chat-role, CHAT_ROLE_PRESETS in src/shared/types.ts), or
    * general on the two main chats: which tool's visitors reach it.
    */
-  trial_paywall_role: ["general", "translator", "teacher", "smm", "marketer", "business", "writer"],
+  trial_paywall_role: TRIAL_ROLES,
   /** «Nega hozir emas?» after the paywall closed without a payment: expensive, needed once, no card, later. */
   trial_exit_reason: ["price", "once", "no_card", "later"],
   login_result: ["done", "rejected", "expired", "failed"],
@@ -45,6 +68,18 @@ export const UI_EVENTS = {
   checkout_started: ["click", "uzum", "payme"],
   /** How the payment the browser waited for ended: paid, still pending after the wait, or cancelled. */
   checkout_result: ["paid", "pending", "cancelled"],
+  /** The order exists: subscribe answered; the time is subscribe's. */
+  checkout_created: CHECKOUT_TAIL,
+  /** The browser did not keep the guest cookie (or could not tell); the time is the probe's. */
+  checkout_probe_failed: CHECKOUT_TAIL,
+  /** The checkout stopped before the provider's page: why, then provider.time.app.os; the time runs from the tap. */
+  checkout_aborted: cross(ABORT_REASONS, CHECKOUT_TAIL),
+  /** Immediately before the browser leaves for the provider's page; the time runs from the tap. */
+  checkout_redirect: CHECKOUT_TAIL,
+  /** Back from the provider's page with no payment (none) or with the order cancelled; the time is the trip's. */
+  checkout_return_unpaid: cross(RETURN_OUTCOMES, RETURN_TAIL),
+  /** An answer rated up or down on a page with this role (general on the main chats): the verdict and the role, no text. */
+  answer_rating: (["up", "down"] as const).flatMap((verdict) => TRIAL_ROLES.map((role) => `${verdict}_${role}` as const)),
   /** The chat's business line showed under an answer; the qualifier is the topic (business-intent.ts): smm and uzum follow a ready text. */
   b2b_line_shown: ["bot", "site", "ads", "crm", "smm", "uzum"],
   /** The visitor closed it. */
@@ -66,6 +101,11 @@ export const PACK_WINDOW_EVENTS: ReadonlySet<UiEventType> = new Set<UiEventType>
   "login_result",
   "checkout_started",
   "checkout_result",
+  "checkout_created",
+  "checkout_probe_failed",
+  "checkout_aborted",
+  "checkout_redirect",
+  "checkout_return_unpaid",
   // The trial's paywall shows only while a pack can be bought.
   "trial_paywall_role",
   "trial_exit_reason",

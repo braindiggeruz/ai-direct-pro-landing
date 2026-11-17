@@ -10,6 +10,10 @@
 // off) and counts the business line whatever billing does.
 import type { BusinessTopic } from './business-intent';
 import type { ExitReason, PaywallRole } from './trial-copy';
+import type { AbortReason, CheckoutBucket, CheckoutApp, CheckoutOs, CheckoutProvider, ReturnOutcome } from '../shared/checkout-events';
+
+/** provider.time.app.os: the checkout steps' qualifier (src/shared/checkout-events.ts), built in the lazy part chat-pay. */
+type CheckoutTail<P extends string = CheckoutProvider> = `${P}.${CheckoutBucket}.${CheckoutApp}.${CheckoutOs}`;
 
 /** Which button opened the pack window: GA4's `from` of pack_viewed and the counter's qualifier. */
 export const PACK_FROM = [
@@ -30,6 +34,12 @@ export interface UiEventDetails {
   login_result: 'done' | 'rejected' | 'expired' | 'failed';
   checkout_started: 'click' | 'uzum' | 'payme';
   checkout_result: 'paid' | 'pending' | 'cancelled';
+  /** The checkout steps between the tap and the provider's page (chat CRO 2026-11-17): closed lists only, no order, no text, no user agent. */
+  checkout_created: CheckoutTail;
+  checkout_probe_failed: CheckoutTail;
+  checkout_aborted: `${AbortReason}.${CheckoutTail}`;
+  checkout_redirect: CheckoutTail;
+  checkout_return_unpaid: `${ReturnOutcome}.${CheckoutTail<CheckoutProvider | 'unknown'>}`;
   b2b_line_shown: BusinessTopic;
   b2b_line_dismissed: BusinessTopic;
   /** An answer rated «helpful» (up) or «not helpful» (down) on a page with this role ('general' on the main chats): the verdict and the role, no text. */

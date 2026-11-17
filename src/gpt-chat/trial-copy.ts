@@ -74,7 +74,8 @@ export interface TrialCopy {
   /** Ш7: one trial answer left. */
   lastTitle: string;
   lastFacts: string;
-  survey: { title: string; answers: Record<ExitReason, string>; thanks: string; close: string };
+  /** `askPay`: after «Нет карты», the way on that needs none: someone else pays (the pack window's «Попросить оплатить»). */
+  survey: { title: string; answers: Record<ExitReason, string>; thanks: string; close: string; askPay: string };
 }
 
 export function sum(locale: Locale, priceUzs: number): string {
@@ -104,6 +105,7 @@ export function trialCopy(locale: Locale, role: PaywallRole, pack: PackTerms): T
       answers: { price: 'Дорого', once: 'Нужно было один раз', no_card: 'Нет карты', later: 'Позже' },
       thanks: 'Спасибо, ответ учтён.',
       close: 'Закрыть вопрос',
+      askPay: 'Попросить оплатить',
     },
   };
   return {
@@ -126,6 +128,7 @@ export function trialCopy(locale: Locale, role: PaywallRole, pack: PackTerms): T
       answers: { price: 'Qimmat', once: 'Faqat bir marta kerak edi', no_card: 'Karta yo‘q', later: 'Keyinroq' },
       thanks: 'Rahmat, javobingiz hisobga olindi.',
       close: 'Savolni yopish',
+      askPay: 'To‘lovni boshqadan so‘rash',
     },
   };
 }
