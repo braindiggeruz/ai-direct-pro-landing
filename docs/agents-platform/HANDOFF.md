@@ -1,3 +1,31 @@
+# Current handoff — the 3-day pack, dark release · 17.11.2026
+
+## 1. State
+Branch claude/chat-cro-20261117, based on 2f77f02d (production code before: ac666d08). Production runs fccff223 (deployed_and_verified, https://2c781880.ai-direct-pro-landing.pages.dev); live readback is in F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-b1. GPT_PACK_ONCE is "off": visitors see and can buy the monthly pack only. Working tree: clean after the commit.
+## 2. Delivered
+A second pack, 5 000 UZS for 30 answers and 72 hours, complete and switched off: the catalog, the order table and view (migration 0085, applied), links and receipt lines from the order, stacking, every reader of orders, and the client (two rows with their own Click and Payme buttons in the pack window, on the paywall and on the limit card; the smaller pack offered on an unpaid monthly order; a payment link per pack).
+## 3. Files
+functions/lib/gpt-chat/{packs,billing-store,billing-schema,payme-checkout,fiscal-store,fiscal-health-store,identity-store,guest-restore,billing-maintenance-store,admin-store}.ts; functions/api/gpt/{subscribe,account,restore}.ts; functions/api/payments/payme.ts; migrations/0085_gpt_once_pack.sql; wrangler.toml (GPT_PACK_ONCE); src/gpt-chat/{pack-offers,pack-text,checkout,analytics,types}.ts; src/gpt-chat/account/{AccountDialog,CheckoutReturn,pay-part,purchase-report}; src/gpt-chat/parts/{pay-screens,chat-conversion,chat-pay,chat-login,chat-account}; tests/{gpt-once-pack,gpt-two-packs,gpt-pay-browser}.test.ts.
+## 4. Decisions
+D-ONCE-PACK-20261117 in DECISIONS.md.
+## 5. Excluded
+The offer, the tariff pages, product facts, llms files and JSON-LD still describe one pack: they change in the go-live step, after the owner has read the text. No change to the monthly pack's request, table or receipt; to trial rules, limits or free-first; to Uzum; to the protected pages.
+## 6. Validation
+Guarded release fccff223: production build 1,284 files; gate of 79 test files run one by one with no new failing test (fifteen files fail exactly as on the predecessor; names in release-b1/gate-fail-names.txt); chat bundle budget pass (start 109,7 kB of 110, chat-account 11,3 kB of 12, no budget raised); tsc -b, functions typecheck and eslint on the changed files clean; tests/gpt-once-pack.test.ts (19, real SQLite, the migration file included), tests/gpt-two-packs.test.ts (10) and ten browser scenarios of tests/gpt-pay-browser.test.ts on the production build (offline fixtures, 390 and 360 px); migration 0085 applied to production D1 before the deploy (restore bookmark recorded, the view of three tables returns the same 82 orders as the old one, the new table is empty); release check pass; live readback 26/26: manifest and artifact, ten protected pages equal to the reviewed revision, chat pages and assets served as built, the account view names one pack, a request for the 3-day pack is a missing route and an unknown pack a bad request (both refused before any database write), and the deployed bundle in a browser with the order and event endpoints answered locally.
+## 7. Known limits
+No real payment was made. Start bundle headroom is about 300 B and chat-account about 700 B. The reversal tool takes pay_ orders only. Click receipts are refused by Click (-12) for every order. Free answers are spent before pack answers for both packs.
+## 8. Next task
+Go-live: (1) the owner approves F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/OFFER-DRAFT-RU.md; (2) the owner confirms 5 000.00 with Click and Payme; (3) publish offer edition ai-paket-2026-11-v6 in both languages with its ripple (GPT_BILLING_TERMS_VERSION and approval date, Studio TERMS_PLAN, the pinned tests), the tariff pages, product facts and llms files; (4) GPT_PACK_ONCE = "live" in the packed JSON and the table; (5) deploy; (6) the owner pays 5 000 with each provider. Steps in agents/single-pack-plan.json, 10 to 15.
+## 9. Acceptance
+While off: the account view has no pack.more, a subscribe with sku once answers 404, the monthly pack is sold as before. After go-live: a 5 000 order in gpt_payment_orders_v2 with a pk_ id, a pack of 30 answers ending 72 hours after the payment, the receipt line "AI paket 30 (xizmat, 3 kun)", the owner's notice "5 000 UZS".
+## 10. Start commands
+git status/log; node --import tsx --test tests/gpt-once-pack.test.ts; node --import tsx --test tests/gpt-two-packs.test.ts; after a build: tests/gpt-pay-browser.test.ts.
+## 11. Risks
+Do not set GPT_PACK_ONCE to live before the offer names the pack. Do not read a price from a request. Do not add a reader of orders that names gpt_payment_orders alone: use the store, or gpt_payment_orders_all2. Do not pass the pack through module state. Do not raise bundle budgets.
+## 12. Rollback
+Revert fccff223 and 20d367ff on top of current production and use the guarded release. The table and the view stay (additive, empty while the switch was off); the previous code reads neither. A pack already paid keeps working: turns read gpt_access_periods. Previous handoff retained below.
+
+---
 # Current handoff — chat conversion release A · 17.11.2026
 
 ## 1. State
