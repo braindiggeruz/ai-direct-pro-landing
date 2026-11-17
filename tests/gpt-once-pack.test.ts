@@ -128,13 +128,15 @@ test("GPT_PACK_ONCE: live sells to everyone, test only inside a rehearsal sessio
   assert.ok(BILLING_SETTINGS.has("GPT_PACK_ONCE"));
 });
 
-test("the committed configuration sells the 3-day pack to everyone: live in the packed config and in the table, under the offer edition that describes it", () => {
+test("the committed configuration: the 3-day pack sells to everyone (live) or is taken back (off), the same in the packed config and in the table, under the offer edition that describes it", () => {
   const toml = read("wrangler.toml");
   const packed = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(toml)![1]) as Record<string, string>;
-  assert.equal(packed.GPT_PACK_ONCE, "live");
-  assert.match(toml, /^GPT_PACK_ONCE = "live"$/m);
+  // "live" since offer edition v6. "off" is the rollback: the same value in both places, then a guarded deploy.
+  const flag = packed.GPT_PACK_ONCE;
+  assert.ok(flag === "live" || flag === "off", flag);
+  assert.deepEqual([...toml.matchAll(/^GPT_PACK_ONCE = "([^"]*)"\r?$/gm)].map((match) => match[1]), [flag], "the table says what the packed config says");
   assert.equal([...toml.matchAll(/^GPT_PACK_ONCE = /gm)].length, 1);
-  assert.deepEqual(offeredPacks({ GPT_PACK_ONCE: packed.GPT_PACK_ONCE }, "live"), [PACKS.month, PACKS.once]);
+  assert.deepEqual(offeredPacks({ GPT_PACK_ONCE: flag }, "live"), flag === "live" ? [PACKS.month, PACKS.once] : [PACKS.month]);
   // Both offers of that edition name the pack as its receipt does; the release gate refuses "live" otherwise
   // (scripts/release/live-gate.ts, tests/legal-oferta.test.ts).
   assert.equal(packed.GPT_BILLING_TERMS_VERSION, "ai-paket-2026-11-v6");

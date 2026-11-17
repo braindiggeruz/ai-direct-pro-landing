@@ -589,7 +589,8 @@ GPT_GUEST_CHECKOUT = "true"
 # refuses "live" under an offer that does not name the pack. The switch
 # only opens new sales: an order already made is finished by the callbacks
 # whatever it says, and a pack already paid runs to its end. Changing it is
-# this line AND the packed JSON above, then a deploy. A Pages variable of
+# this line AND the packed JSON above, then a deploy; the rollback is "off"
+# in both (the tests accept "live" and "off"). A Pages variable of
 # this name is refused by the deploy gate (scripts/release/live-gate.ts
 # BILLING_SETTINGS).
 GPT_PACK_ONCE = "live"

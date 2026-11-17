@@ -251,10 +251,11 @@ test('(v6) two packs: the offers describe the 3-day pack the code sells, and the
   assert.ok(text(offers.uz).includes('Ular paket javoblaridan olinmaydi.'));
   assert.doesNotMatch(text(offers.ru), /не списываются из 300 ответов/);
   assert.doesNotMatch(text(offers.uz), /paketdagi 300 ta javobdan olinmaydi/);
-  // The switch: live in both copies of the config, under the edition that describes the pack.
-  assert.equal(config.GPT_PACK_ONCE, 'live');
+  // The switch, the same in both copies of the config: "live" under this edition, or "off", its rollback
+  // (one value in two places and a deploy; a pack already paid runs to its end).
+  assert.ok(['live', 'off'].includes(config.GPT_PACK_ONCE), config.GPT_PACK_ONCE);
   assert.equal(nested.GPT_PACK_ONCE, config.GPT_PACK_ONCE);
-  assert.equal(oncePackMode(config), 'live');
+  assert.equal(oncePackMode(config), config.GPT_PACK_ONCE === 'live' ? 'live' : null);
 });
 
 test('(d) every number the offers state is the number the code and the deployed config sell', () => {
@@ -641,9 +642,9 @@ test('live gate: Payme in test never holds a deploy; Payme live needs its own se
 });
 
 test('live gate: the 3-day pack sells live only under offers that describe it', () => {
-  const live = liveFixture();
-  // The committed shape: GPT_PACK_ONCE "live", and both offers quote the pack's receipt name.
-  assert.equal(live.config.GPT_PACK_ONCE, 'live');
+  const fixture = liveFixture();
+  // The pack on sale (whatever the committed switch says) under the committed offers: both quote its receipt name.
+  const live = { ...fixture, config: { ...fixture.config, GPT_PACK_ONCE: 'live' } };
   assert.deepEqual(liveGate(live).issues, []);
   // An edition that knows one pack (v5 and the ones before it): refused, offer by offer.
   const onePack = <T,>(page: T) => JSON.parse(JSON.stringify(page).split(PACKS.once.receiptName).join('AI paket')) as T;
