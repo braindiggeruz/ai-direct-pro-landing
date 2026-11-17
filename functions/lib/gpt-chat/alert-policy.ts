@@ -135,6 +135,22 @@ export function alertRowId(code: string, now: number): string {
     : `${code}:${Math.floor(now / 3_600_000)}`;
 }
 
+/**
+ * Fiscal failures whose cause is the receipt queue (FiscalHealthStore): the
+ * rows are recorded as before, but the owner is paged once per distinct cause
+ * per FISCAL_PAGE_WINDOW_MS, with a counter of the held repeats
+ * (deliverServiceAlerts). payme_fiscal_failed is an event, not a queue state.
+ */
+export const FISCAL_PAGE_WINDOW_MS = 24 * 3_600_000;
+const PAGED_ONCE_PER_CAUSE: ReadonlySet<string> = new Set([
+  "click_fiscal_failed",
+  "uzum_fiscal_failed",
+  "studio_fiscal_failed",
+]);
+export function pagedOncePerCause(code: string): boolean {
+  return PAGED_ONCE_PER_CAUSE.has(code);
+}
+
 /** Owner-facing explanation. Fixed text only: no user text, key or provider message. */
 const ALERT_TEXT: Readonly<Record<string, string>> = {
   chat_no_key: "нет ключа провайдера моделей, чат не отвечает",
@@ -195,14 +211,17 @@ export interface UrgentLine {
   code: string;
   /** Rows claimed for this code: the hours (days for state alerts) it fired in. */
   count: number;
+  /** Repeats of the same cause held back since its last page (pagedOncePerCause). */
+  suppressed?: number;
 }
 
 /** One plain-text Telegram message for a batch of urgent codes. */
 export function renderAlertMessage(urgent: UrgentLine[], background: string[], fiscal: readonly string[] = []): string {
   const financial = (code:string) => /fiscal|receipt|^(?:click|uzum|payme|studio_click|studio_payme)_/.test(code);
-  const lines = urgent.map(({ code, count }) => {
+  const lines = urgent.map(({ code, count, suppressed }) => {
     const text = ALERT_TEXT[code];
-    return `• ${code}${count > 1 ? ` ×${count}` : ""}${text ? ` — ${text}` : ""}`;
+    const times = suppressed ? ` ×${count + suppressed} за сутки` : count > 1 ? ` ×${count}` : "";
+    return `• ${code}${times}${text ? ` — ${text}` : ""}`;
   });
   return [
     "GPTBot.uz AI-чат: срочно",

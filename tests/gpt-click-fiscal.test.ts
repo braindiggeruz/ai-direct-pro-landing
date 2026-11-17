@@ -37,6 +37,8 @@ import {
   fiscalizeDue,
 } from "../functions/lib/gpt-chat/fiscal-store";
 import { isUrgentAlert } from "../functions/lib/gpt-chat/alert-policy";
+import { deliverServiceAlerts, recordServiceAlert } from "../functions/lib/gpt-chat/billing-maintenance-store";
+import { ensureStudioPaidSchema } from "../functions/lib/studio/store";
 import { onRequestPost as clickRoute } from "../functions/api/payments/click";
 import { onRequestGet as account } from "../functions/api/gpt/account";
 import { onRequestPost as reversal } from "../functions/api/internal/gpt-click-reversal";
@@ -45,6 +47,7 @@ import { onRequestPost as maintenance } from "../functions/api/internal/gpt-bill
 const T0 = Date.UTC(2026, 9, 1, 9, 0);
 const MIN = 60_000;
 const HOUR = 60 * MIN;
+const DAY = 24 * HOUR;
 /** A payment at T0 may get our receipt line from here on (the default 10 minutes). */
 const DUE = T0 + 10 * MIN;
 /** A run's counters with nothing done. */
@@ -1021,4 +1024,94 @@ test("reversal of a printed payment reuses its payment id and says the sale rece
   assert.equal(unconfigured.status, 409);
   assert.equal(((await unconfigured.json()) as { code: string }).code, "click_merchant_not_configured");
   assert.equal(c.fake.calls.length, calls);
+});
+
+// Paging of a repeating fiscal failure (owner request 17.11.2026): the alert
+// rows and the queue retries stay as they are; only the Telegram page is held
+// to one per distinct cause per 24 hours, with a counter of the held repeats.
+/** Queued, failing Click receipts of paid live orders, all with `error`. */
+async function failingQueue(c: Awaited<ReturnType<typeof liveClick>>, count: number, error: string, at: number) {
+  const ids: string[] = [];
+  // The queue summary joins the studio orders, as the Click route's bootstrap makes them.
+  await ensureStudioPaidSchema(c.f.binding);
+  for (let n = 0; n < count; n++) {
+    const order = await c.paidAt(at - 25 * HOUR - n * MIN);
+    c.f.db.prepare("UPDATE gpt_fiscal_receipts SET last_error=?,attempts=7 WHERE org_id=? AND order_id=?")
+      .bind(error, BILLING_ORG, order.id).runSync();
+    ids.push(order.id);
+  }
+  return ids;
+}
+const urgentTexts = (c: Awaited<ReturnType<typeof liveClick>>) => c.fake.telegram.filter((text) => text.includes("срочно"));
+const alertRowCount = (c: Awaited<ReturnType<typeof liveClick>>) =>
+  Number(c.f.db.value("SELECT COUNT(*) FROM gpt_service_alerts WHERE code='click_fiscal_failed'"));
+
+test("a repeating click_fiscal_failed pages once per 24 h per cause, then says how many repeats it held", async (t) => {
+  const c = await liveClick(t);
+  t.mock.method(console, "warn", () => undefined);
+  const base = Math.floor(Date.now() / DAY) * DAY + 6 * HOUR;
+  await failingQueue(c, 1, "payment_id:click_-12", base);
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", base);
+  assert.deepEqual(await deliverServiceAlerts(c.f.env, base), { status: "sent", codes: ["click_fiscal_failed"] });
+  assert.equal(urgentTexts(c).length, 1);
+  assert.doesNotMatch(urgentTexts(c)[0], /×\d+ за сутки/);
+  // Five more hourly rows, same cause, same queue: held, not paged.
+  for (let hour = 1; hour <= 5; hour++) {
+    await recordServiceAlert(c.f.env, "click_fiscal_failed", base + hour * HOUR);
+    assert.deepEqual(await deliverServiceAlerts(c.f.env, base + hour * HOUR), { status: "idle", codes: [] }, `hour ${hour}`);
+  }
+  assert.equal(urgentTexts(c).length, 1);
+  // The rows themselves are untouched: six recorded, none deleted.
+  assert.equal(alertRowCount(c), 6);
+  // A day later the same cause pages again and counts what it held (5 held + this one).
+  const later = base + 24 * HOUR + MIN;
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", later);
+  assert.deepEqual(await deliverServiceAlerts(c.f.env, later), { status: "sent", codes: ["click_fiscal_failed"] });
+  assert.equal(urgentTexts(c).length, 2);
+  assert.match(urgentTexts(c)[1], /click_fiscal_failed ×6 за сутки/);
+});
+
+test("a different cause, a changed number of waiting receipts or a recovery pages at once", async (t) => {
+  const c = await liveClick(t);
+  t.mock.method(console, "warn", () => undefined);
+  const base = Math.floor(Date.now() / DAY) * DAY + 6 * HOUR;
+  const [first] = await failingQueue(c, 1, "payment_id:click_-12", base);
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", base);
+  assert.equal((await deliverServiceAlerts(c.f.env, base)).status, "sent");
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", base + HOUR);
+  assert.equal((await deliverServiceAlerts(c.f.env, base + HOUR)).status, "idle");
+  // Another cause on the same queue.
+  c.f.db.prepare("UPDATE gpt_fiscal_receipts SET last_error='submit:click_-5' WHERE org_id=? AND order_id=?").bind(BILLING_ORG, first).runSync();
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", base + 2 * HOUR);
+  assert.equal((await deliverServiceAlerts(c.f.env, base + 2 * HOUR)).status, "sent");
+  // The same cause, one more receipt waiting.
+  await failingQueue(c, 1, "submit:click_-5", base + 3 * HOUR);
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", base + 3 * HOUR);
+  assert.equal((await deliverServiceAlerts(c.f.env, base + 3 * HOUR)).status, "sent");
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", base + 4 * HOUR);
+  assert.equal((await deliverServiceAlerts(c.f.env, base + 4 * HOUR)).status, "idle");
+  // One of the two prints: the number waiting changes, which pages.
+  c.f.db.prepare("UPDATE gpt_fiscal_receipts SET status_code=0 WHERE org_id=? AND order_id=?").bind(BILLING_ORG, first).runSync();
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", base + 5 * HOUR);
+  assert.equal((await deliverServiceAlerts(c.f.env, base + 5 * HOUR)).status, "sent");
+  assert.equal(urgentTexts(c).length, 4);
+  assert.equal(alertRowCount(c), 6);
+});
+
+test("a held fiscal repeat never holds another urgent code in the same batch", async (t) => {
+  const c = await liveClick(t);
+  t.mock.method(console, "warn", () => undefined);
+  const base = Math.floor(Date.now() / DAY) * DAY + 6 * HOUR;
+  await failingQueue(c, 1, "payment_id:click_-12", base);
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", base);
+  assert.equal((await deliverServiceAlerts(c.f.env, base)).status, "sent");
+  await recordServiceAlert(c.f.env, "click_fiscal_failed", base + HOUR);
+  await recordServiceAlert(c.f.env, "chat_silence", base + HOUR);
+  assert.deepEqual(await deliverServiceAlerts(c.f.env, base + HOUR), { status: "sent", codes: ["chat_silence"] });
+  const text = urgentTexts(c)[1];
+  assert.match(text, /chat_silence/);
+  assert.doesNotMatch(text, /click_fiscal_failed/);
+  // Codes that are not a queue cause are never held.
+  await recordServiceAlert(c.f.env, "payme_fiscal_failed", base + 2 * HOUR);
+  assert.deepEqual(await deliverServiceAlerts(c.f.env, base + 2 * HOUR), { status: "sent", codes: ["payme_fiscal_failed"] });
 });

@@ -8,6 +8,8 @@ import {
 } from "./billing-config";
 import {
   alertRowId,
+  FISCAL_PAGE_WINDOW_MS,
+  pagedOncePerCause,
   renderAlertMessage,
   URGENT_ALERT_PATTERNS,
   type UrgentLine,
@@ -15,6 +17,7 @@ import {
 import { spendDay } from "./model-spend-store";
 import { resolveOwnerNotify } from "./notify";
 import { restoreNotice } from "./guest-restore";
+import { sha256Hex } from "./hash";
 import { consumeRateLimit, DAY_MS, HOUR_MS } from "./rate-limit";
 
 /**
@@ -56,6 +59,82 @@ export interface AlertDelivery {
   status: AlertDeliveryStatus;
   /** Urgent codes in the batch; codes only, never text or identifiers. */
   codes: string[];
+}
+
+/** gpt_billing_ops task of a fiscal code's last page: the cause is in the name, next_at ends its window. */
+const PAGE_TASK = "alert_page:";
+
+/**
+ * Among the fiscal codes of this batch, those whose cause was paged less than
+ * a day ago are held (same code and same waiting receipts: provider, product,
+ * last_error and how many wait). `rows` are their claimed rows, `codes` the
+ * codes. A new or changed cause, or an ended window, pages: `paged` is what to
+ * remember once the message is out, and the line carries how many repeats were
+ * held since the last page of the same cause. Never throws: unclear, it pages.
+ */
+async function holdRepeatedFiscal(
+  db: D1Database,
+  lines: UrgentLine[],
+  rows: { id: string; code: string }[],
+  now: number,
+): Promise<{ rows: string[]; codes: Set<string>; paged: Map<string, string> }> {
+  const held = { rows: [] as string[], codes: new Set<string>(), paged: new Map<string, string>() };
+  const fiscal = lines.filter((line) => pagedOncePerCause(line.code));
+  if (!fiscal.length) return held;
+  try {
+    const cause = await sha256Hex(
+      (await new FiscalHealthStore(db).pending(BILLING_ORG))
+        .map((r) => `${r.provider}/${r.product}/${r.error}/${r.queued}`)
+        .sort()
+        .join("|"),
+    );
+    for (const line of fiscal) {
+      const task = `${PAGE_TASK}${line.code}:${cause.slice(0, 32)}`;
+      const last = await db
+        .prepare("SELECT task,next_at FROM gpt_billing_ops WHERE org_id=? AND task GLOB ?")
+        .bind(BILLING_ORG, `${PAGE_TASK}${line.code}:*`)
+        .first<{ task: string; next_at: number }>();
+      if (last?.task === task && last.next_at > now) {
+        held.codes.add(line.code);
+        held.rows.push(...rows.filter((r) => r.code === line.code).map((r) => r.id));
+        continue;
+      }
+      held.paged.set(line.code, task);
+      if (last?.task === task) {
+        const since = await db
+          .prepare(
+            "SELECT COUNT(*) AS n FROM gpt_service_alerts WHERE org_id=? AND code=? AND created_at>? AND delivered_at IS NOT NULL",
+          )
+          .bind(BILLING_ORG, line.code, last.next_at - FISCAL_PAGE_WINDOW_MS)
+          .first<{ n: number }>();
+        line.suppressed = Number(since?.n ?? 0);
+      }
+    }
+  } catch {
+    held.rows = [];
+    held.codes.clear();
+    held.paged.clear();
+  }
+  return held;
+}
+
+/** The page went out: its cause is quiet for a day; an older cause of the same code is forgotten. */
+async function rememberFiscalPage(
+  db: D1Database,
+  paged: Map<string, string>,
+  now: number,
+): Promise<void> {
+  try {
+    for (const [code, task] of paged)
+      await db.batch([
+        db.prepare("DELETE FROM gpt_billing_ops WHERE org_id=? AND task GLOB ?").bind(BILLING_ORG, `${PAGE_TASK}${code}:*`),
+        db
+          .prepare("INSERT INTO gpt_billing_ops(org_id,task,next_at) VALUES(?,?,?)")
+          .bind(BILLING_ORG, task, now + FISCAL_PAGE_WINDOW_MS),
+      ]);
+  } catch {
+    /* an unremembered page only means the next repeat pages once more */
+  }
 }
 
 /**
@@ -103,6 +182,22 @@ export async function deliverServiceAlerts(
     const line = lines.find((l) => l.code === row.code);
     if (line) line.count++;
     else lines.push({ code: row.code, count: 1 });
+  }
+  // A fiscal failure repeats with every retry (6 h) while its cause stands: it
+  // pages once per cause per day. The rows stay recorded; held ones count as handled.
+  const held = await holdRepeatedFiscal(db, lines, rows, now);
+  if (held.rows.length) {
+    await db
+      .prepare(
+        `UPDATE gpt_service_alerts SET delivered_at=?,lease_until=0 WHERE org_id=? AND id IN (${held.rows.map(() => "?").join(",")})`,
+      )
+      .bind(now, BILLING_ORG, ...held.rows)
+      .run();
+    for (let i = lines.length - 1; i >= 0; i--)
+      if (held.codes.has(lines[i].code)) lines.splice(i, 1);
+    for (let i = rows.length - 1; i >= 0; i--)
+      if (held.rows.includes(rows[i].id)) rows.splice(i, 1);
+    if (!rows.length) return { status: "idle", codes: [] };
   }
   const codes = lines.map((l) => l.code);
   const ids = rows.map((r) => r.id);
@@ -161,6 +256,7 @@ export async function deliverServiceAlerts(
     )
     .bind(now, BILLING_ORG, ...ids)
     .run();
+  await rememberFiscalPage(db, held.paged, now);
   return { status: "sent", codes };
 }
 
