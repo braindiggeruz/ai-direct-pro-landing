@@ -276,7 +276,7 @@ const LONG_QUESTION = {
 };
 const GUEST = { ok: true, loginAvailable: false, mode: null, providers: [], user: null, terms: { ru: null, uz: null }, termsVersion: null, freeLimits: { daily: 15, hourly: 5 }, botHandoff: false };
 // Billing on (Click in test mode, a guest may buy): the header's pack button and the pack window.
-const BILLING = { ...GUEST, loginAvailable: true, mode: 'live', providers: ['click'], terms: { ru: 'https://gptbot.uz/ru/oferta/', uz: 'https://gptbot.uz/uz/oferta/' }, termsVersion: 'ai-paket-2026-10-v5', guestCheckout: true, pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1 } };
+const BILLING = { ...GUEST, loginAvailable: true, mode: 'live', providers: ['click'], terms: { ru: 'https://gptbot.uz/ru/oferta/', uz: 'https://gptbot.uz/uz/oferta/' }, termsVersion: 'ai-paket-2026-11-v6', guestCheckout: true, pack: { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1 } };
 const sse = (locale) => {
   const cut = mode === 'cut' || mode === 'slow-cut';
   const text = mode === 'short' ? SHORT[locale] : cut ? ANSWER[locale] : LONG[locale];

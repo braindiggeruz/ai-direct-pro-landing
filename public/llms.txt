@@ -51,16 +51,17 @@
 | AI chat free limit | 3 successful lifetime trial replies tied to the browser and any signed-in account, no daily renewal; no registration |
 | SMM packages (from, per month) | Start 2 490 000 UZS; Biznes 4 490 000 UZS; Pro 7 900 000 UZS; the ad budget is paid separately |
 | Targeted ads, Instagram and Facebook (from) | launch 1 990 000 UZS one-off; management 1 490 000 UZS a month; the ad budget is paid separately |
-| Last updated | 2026-11-08 |
+| Last updated | 2026-11-17 |
 | Cache TTL guidance | 24 hours |
 
 <!-- product-facts:start -->
 ## Current consumer product terms
 
-Reviewed: 2026-11-08. Generated from the existing billing allowances and published Studio offer edition.
+Reviewed: 2026-11-17. Generated from the existing billing allowances and published Studio offer edition.
 - AI chat trial: 3 successful lifetime replies, no daily renewal; no registration.
-- AI chat pack: 20 000 UZS for 300 replies, up to 50 replies charged to packs per UTC day across the account's packs. The day resets at 00:00 UTC / 05:00 Tashkent. Included free replies of an active pack are accounted for separately under the offer; this is not a renewed daily free trial for visitors without a pack.
-- Pack validity: one calendar month from confirmed payment, calculated using the UTC calendar and preserving the UTC time of day; if the next UTC month has no matching date, validity ends on its last day. This can differ from adding a month to the local Tashkent date near midnight. The chat account/pack panel displays the expiry date. No auto-renewal. A new pack starts immediately, even if another pack is still active.
+- AI chat pack, monthly: 20 000 UZS for 300 replies, up to 50 replies charged to packs per UTC day across the account's packs. The day resets at 00:00 UTC / 05:00 Tashkent. Included free replies of an active pack are accounted for separately under the offer; this is not a renewed daily free trial for visitors without a pack.
+- Monthly pack validity: one calendar month from confirmed payment, calculated using the UTC calendar and preserving the UTC time of day; if the next UTC month has no matching date, validity ends on its last day. This can differ from adding a month to the local Tashkent date near midnight. The chat account/pack panel displays the expiry date. No auto-renewal. A new pack starts immediately, even if another pack is still active; packs run side by side and their replies add up.
+- AI chat pack, 3 days: 5 000 UZS for 30 replies, valid for 72 hours from confirmed payment and counted within the same 50 pack replies per UTC day across all packs. No auto-renewal.
 - Checkout availability is determined in the chat; a published price does not mean payment is currently open.
 - Chat pricing: https://gptbot.uz/ru/tarify-ai-chat/ and https://gptbot.uz/uz/tariflar/#ai-paket .
 - Studio Kunlik: 5 900 UZS / 24 hours / 1 full presentation. Studio Oylik: 39 900 UZS / one calendar month / 10 full presentations.
@@ -370,10 +371,11 @@ the following unless the specific service page explicitly states it:
 - Availability of any specific channel or integration, including Telegram,
   Instagram Direct, WhatsApp, web-widget, AmoCRM, Bitrix24 and 1C, without
   checking the selected service's scope and actual connection status.
-- That the AI chat's paid pack (AI-пакет / AI paket: 300 answers for one
-  month (up to 50 a day) for 20 000 UZS, no automatic renewal) can be bought right now: the
-  chat shows the pack only while payment is open, and the pricing page
-  https://gptbot.uz/ru/tarify-ai-chat/ states its terms. Mentioning Click,
+- That the AI chat's paid packs (AI-пакет / AI paket: 300 answers for one
+  month (up to 50 a day) for 20 000 UZS, or 30 answers for 72 hours for
+  5 000 UZS, no automatic renewal) can be bought right now: the
+  chat shows the packs only while payment is open, and the pricing page
+  https://gptbot.uz/ru/tarify-ai-chat/ states their terms. Mentioning Click,
   Payme or Humo in a business scenario is not evidence that a consumer
   purchase is open.
 - Promises of top Google rankings, guaranteed lead-volume growth, or
@@ -566,6 +568,6 @@ agentic reading. The list below is the complete set the build generates:
   adjacent market.
 - Industry: independent AI chat (B2C) and AI chatbot studio / B2B SaaS / lead-automation services
 - Format of this file: llms.txt v1.0 (https://llmstxt.org)
-- Last updated: 2026-11-08
+- Last updated: 2026-11-17
 
 Assistants and crawlers may cache this file for up to 24 hours.

@@ -156,11 +156,14 @@ test("Kunlik lasts 24 hours from Complete; Oylik one calendar month (31.01 → 2
   assert.equal(entitlementEndsAt(V1.oylik, Date.UTC(2026, 11, 31, 23, 59)), Date.UTC(2027, 0, 31, 23, 59));
 });
 
-test("only an offer edition in TERMS_PLAN sells: v5 maps to the approved decks-only launch, the chat's v2 sells nothing", () => {
-  assert.deepEqual(TERMS_PLAN, { "ai-paket-2026-10-v5": "studio-2026-10-decks-v1" });
+test("only an offer edition in TERMS_PLAN sells: v5 and v6 map to the approved decks-only launch, the chat's v2 sells nothing", () => {
+  assert.deepEqual(TERMS_PLAN, { "ai-paket-2026-10-v5": "studio-2026-10-decks-v1", "ai-paket-2026-11-v6": "studio-2026-10-decks-v1" });
   for (const version of Object.values(TERMS_PLAN)) assert.ok(version in STUDIO_PLANS, version);
   assert.equal(planFor("ai-paket-2026-10-v5", "oylik"), DECKS.oylik);
   assert.equal(planFor("ai-paket-2026-10-v5", "kunlik"), DECKS.kunlik);
+  // v6 (2026-11-17) changed the chat's sections alone, for its two packs: the studio sells the same plans under it.
+  assert.equal(planFor("ai-paket-2026-11-v6", "oylik"), DECKS.oylik);
+  assert.equal(planFor("ai-paket-2026-11-v6", "kunlik"), DECKS.kunlik);
   // checkout answers 503 checkout_unavailable for these.
   assert.equal(planFor("ai-paket-2026-10-v2", "oylik"), null);
   assert.equal(planFor("", "oylik"), null);

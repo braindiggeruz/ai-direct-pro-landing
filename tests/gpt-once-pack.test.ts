@@ -128,13 +128,17 @@ test("GPT_PACK_ONCE: live sells to everyone, test only inside a rehearsal sessio
   assert.ok(BILLING_SETTINGS.has("GPT_PACK_ONCE"));
 });
 
-test("the committed configuration does not sell the 3-day pack: off in the packed config and in the table", () => {
+test("the committed configuration sells the 3-day pack to everyone: live in the packed config and in the table, under the offer edition that describes it", () => {
   const toml = read("wrangler.toml");
   const packed = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(toml)![1]) as Record<string, string>;
-  assert.equal(packed.GPT_PACK_ONCE, "off");
-  assert.match(toml, /^GPT_PACK_ONCE = "off"$/m);
+  assert.equal(packed.GPT_PACK_ONCE, "live");
+  assert.match(toml, /^GPT_PACK_ONCE = "live"$/m);
   assert.equal([...toml.matchAll(/^GPT_PACK_ONCE = /gm)].length, 1);
-  assert.deepEqual(offeredPacks({ GPT_PACK_ONCE: packed.GPT_PACK_ONCE }, "live"), [PACKS.month]);
+  assert.deepEqual(offeredPacks({ GPT_PACK_ONCE: packed.GPT_PACK_ONCE }, "live"), [PACKS.month, PACKS.once]);
+  // Both offers of that edition name the pack as its receipt does; the release gate refuses "live" otherwise
+  // (scripts/release/live-gate.ts, tests/legal-oferta.test.ts).
+  assert.equal(packed.GPT_BILLING_TERMS_VERSION, "ai-paket-2026-11-v6");
+  for (const locale of ["ru", "uz"]) assert.ok(read(`content/pages/${locale}/oferta.json`).includes(PACKS.once.receiptName), locale);
 });
 
 // ------------------------------------------------------------------ the table
@@ -179,7 +183,7 @@ test("migrations/0085: additive, the same objects the runtime bootstrap makes, a
 
 // ------------------------------------------------------------------ the switch at the routes
 
-test("off (the committed value, and an absent one): the 3-day pack is a missing route, the account view names one pack, the monthly order is what it was", async () => {
+test("off (the rollback value, and an absent one): the 3-day pack is a missing route, the account view names one pack, the monthly order is what it was", async () => {
   for (const flag of ["off", null, "true"]) {
     const f = await onceFixture(flag);
     const refused = await checkout(f, { provider: "click", sku: "once" });

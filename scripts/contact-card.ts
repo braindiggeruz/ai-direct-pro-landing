@@ -44,7 +44,8 @@ export const SITE_CONTACT: ContactSet = { phone: STUDIO_PHONE_PUBLIC, telegram: 
 
 /**
  * The channels of the approved offer edition (ai-paket-2026-10-v5, approved
- * 2026-10-07): it was published with the phone and the e-mail and no
+ * 2026-10-07; ai-paket-2026-11-v6 of 2026-11-17 added the chat's 3-day pack
+ * and kept them): it was published with the phone and the e-mail and no
  * Telegram, and its text sends the buyer to «the contacts at the end of the
  * page». A page with `termsVersion` keeps these visible contacts, so the
  * approved document is unchanged; a new visible contact is a new edition.

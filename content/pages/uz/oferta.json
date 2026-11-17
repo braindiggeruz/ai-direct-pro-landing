@@ -13,20 +13,20 @@
   "searchIntent": "informational",
   "h1": "AI paket uchun ommaviy oferta",
   "title": "AI paket sotib olish: ommaviy oferta | GPTBot.uz",
-  "description": "GPTBot.uz chatidagi AI paket shartlari: 20 000 so‘m, bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik yechib olishsiz. Click, Payme yoki Uzum Bank.",
+  "description": "GPTBot.uz AI paketlari: oylik — 20 000 so‘m, 300 ta javob; 3 kunlik — 5 000 so‘m, 30 ta javob. Kuniga 50 tagacha, avtomatik yechib olishsiz. To‘lov, chek.",
   "canonical": "https://gptbot.uz/uz/oferta/",
   "hreflangRu": "/ru/oferta/",
   "hreflangUz": "/uz/oferta/",
   "hreflangXDefault": "/uz/oferta/",
   "ogTitle": "AI paket sotib olish: ommaviy oferta | GPTBot.uz",
-  "ogDescription": "AI paket: 20 000 so‘m, bir kalendar oyga 300 ta javob, kuniga 50 tagacha, avtomatik yechib olishsiz. To‘lov, chek, pulni qaytarish shartlari va sotuvchi rekvizitlari.",
+  "ogDescription": "AI paketlar: oylik — 20 000 so‘m, 300 ta javob; 3 kunlik — 5 000 so‘m, 30 ta javob. Kuniga 50 tagacha, avtomatik yechib olishsiz. To‘lov, chek, pulni qaytarish shartlari va sotuvchi rekvizitlari.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Oferta",
   "heroSubtitle": "GPTBot.uz AI chatidagi AI paket qanday shartlarda sotiladi: narx, muddat, limitlar, to‘lov, chek va pulni qaytarish shartlari.",
-  "termsVersion": "ai-paket-2026-10-v5",
-  "legalReviewedAt": "2026-10-07",
+  "termsVersion": "ai-paket-2026-11-v6",
+  "legalReviewedAt": "2026-11-17",
   "requisites": "seller",
   "bodyBlocks": [
     {
@@ -42,7 +42,7 @@
       "items": [
         "AI chat — gptbot.uz sayti sahifalaridagi GPTBot.uz chati, unda savollarga AI modellar javob beradi.",
         "Javob — AI modelning AI chatda Xaridorning bitta savoliga yozgan xabari.",
-        "AI paket — AI chatda bepul limitdan tashqari javoblar olish huquqi, shartlari 3-bo‘limda. Chekda u «AI paket 300 (xizmat, 1 oy)» deb ataladi.",
+        "AI paket — AI chatda bepul limitdan tashqari javoblar olish huquqi, shartlari 3-bo‘limda. AI paket ikki xil: oylik va 3 kunlik. Chekda oylik paket «AI paket 300 (xizmat, 1 oy)», 3 kunlik paket «AI paket 30 (xizmat, 3 kun)» deb ataladi.",
         "Akkaunt — AI chatdagi hisob. Xaridor paketni kirmasdan to‘lashi mumkin: bu holda paket u to‘langan brauzerga bog‘lanadi (mehmon akkaunti). Telegram orqali kirgandan so‘ng paket Telegram akkauntiga o‘tkaziladi va kirilgan barcha qurilmalarda ishlaydi. Agar kirishdan oldin Xaridor brauzer ma’lumotlarini o‘chirgan yoki boshqa brauzer yoki qurilmaga o‘tgan bo‘lsa, Sotuvchi Xaridorning to‘lov ma’lumotlari (to‘lov raqami yoki chek) bilan qilgan murojaati asosida paketni qolgan muddatga tiklaydi."
       ]
     },
@@ -61,13 +61,14 @@
     {
       "type": "list",
       "items": [
-        "Narxi — 20 000 so‘m, shu jumladan QQS 12 % — 2 142,86 so‘m. To‘lov bir martalik.",
-        "Muddati — to‘lov paytidan boshlab bir kalendar oy: 15-oktabr soat 14:00 da to‘langan paket 15-noyabr soat 14:00 gacha amal qiladi. Keyingi oyda shu sana bo‘lmasa, muddat o‘sha oyning oxirgi kunida xuddi shu soatda tugaydi.",
-        "Paketga 300 tagacha javob kiradi. Paketdan bir sutkada 50 tadan ortiq javob yechilmaydi; sutka Toshkent vaqti bilan soat 05:00 da boshlanadi.",
+        "Ikki xil AI paket bor: oylik va 3 kunlik. Xaridor to‘lashdan oldin AI paket oynasida yoki chat limiti kartasida birini tanlaydi; tanlangan paketning narxi va hajmi to‘lov tugmasi yonida ko‘rsatiladi.",
+        "Oylik paket. Narxi — 20 000 so‘m, shu jumladan QQS 12 % — 2 142,86 so‘m. To‘lov bir marta olinadi. Muddati — to‘lov paytidan boshlab bir kalendar oy: 15-oktabr soat 14:00 da to‘langan paket 15-noyabr soat 14:00 gacha amal qiladi. Keyingi oyda shu sana bo‘lmasa, muddat o‘sha oyning oxirgi kunida xuddi shu soatda tugaydi. Paketga 300 tagacha javob kiradi.",
+        "3 kunlik paket. Narxi — 5 000 so‘m, shu jumladan QQS 12 % — 535,71 so‘m. To‘lov bir marta olinadi. Muddati — to‘lov tizimi to‘lovni tasdiqlagan paytdan boshlab 3 sutka (72 soat): 15-oktabr soat 14:00 da to‘langan paket 18-oktabr soat 14:00 gacha amal qiladi. Paketga 30 tagacha javob kiradi.",
+        "Barcha paketlardan birgalikda bir sutkada 50 tadan ortiq javob yechilmaydi; sutka Toshkent vaqti bilan soat 05:00 da boshlanadi.",
         "Bitta akkaunt uchun bir vaqtda 2 tadan ortiq javob tayyorlanmaydi.",
         "Avtomatik yechib olish yo‘q: paket o‘z-o‘zidan uzaytirilmaydi. Keyingi paketni Xaridor faqat kerak bo‘lsa sotib oladi.",
         "Muddat oxirigacha ishlatilmagan javoblar bekor bo‘ladi va keyingi paketga o‘tkazilmaydi.",
-        "Yangi paket, oldingisi tugamagan bo‘lsa ham, to‘lovdan so‘ng darhol amal qila boshlaydi. Javoblar avval muddati oldinroq tugaydigan paketdan yechiladi."
+        "Har qanday turdagi yangi paket, oldingisi tugamagan bo‘lsa ham, to‘lovdan so‘ng darhol amal qila boshlaydi: paketlar bir-birini almashtirmaydi va qisqartirmaydi, ularning javoblari qo‘shiladi, har birining muddati o‘z to‘lovidan boshlab hisoblanadi. Javoblar avval muddati oldinroq tugaydigan paketdan yechiladi."
       ]
     },
     {
@@ -89,7 +90,7 @@
     },
     {
       "type": "p",
-      "text": "AI paketsiz jami 3 ta sinov javobi beriladi. Ular yangi kun, yangi chat yoki til almashganda yangilanmaydi. Uch javobdan keyin davom etish uchun AI paketi kerak; paket tugashi yangi sinov bermaydi. Amaldagi AI paketining oldingi bepul javoblari saqlanadi: sutkasiga 15 tagacha va soatiga 5 tagacha, sutka Toshkent vaqti bilan 05:00 da boshlanadi. Ular paketdagi 300 ta javobdan olinmaydi. Amaldagi huquq va qoldiq chatda ko‘rsatiladi."
+      "text": "AI paketsiz jami 3 ta sinov javobi beriladi. Ular yangi kun, yangi chat yoki til almashganda yangilanmaydi. Uch javobdan keyin davom etish uchun AI paketi kerak; paket tugashi yangi sinov bermaydi. Amaldagi AI paketining oldingi bepul javoblari saqlanadi: sutkasiga 15 tagacha va soatiga 5 tagacha, sutka Toshkent vaqti bilan 05:00 da boshlanadi. Ular paket javoblaridan olinmaydi. Amaldagi huquq va qoldiq chatda ko‘rsatiladi."
     },
     {
       "type": "h2",
@@ -283,7 +284,7 @@
     "WebSite",
     "BreadcrumbList"
   ],
-  "lastReviewedAt": "2026-10-07",
+  "lastReviewedAt": "2026-11-17",
   "createdAt": "2026-10-03T00:00:00Z",
-  "updatedAt": "2026-10-08"
+  "updatedAt": "2026-11-17"
 }

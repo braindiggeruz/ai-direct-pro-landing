@@ -63,7 +63,7 @@ for (const locale of ['ru', 'uz']) {
     const visible = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
     assert.ok(visible.includes('Yahyo Gulyamov ko‘chasi 35'));
     assert.ok(visible.includes(`href="tel:${site.phone}"`));
-    assert.ok(visible.includes('data-terms-version="ai-paket-2026-10-v5"'));
+    assert.ok(visible.includes('data-terms-version="ai-paket-2026-11-v6"'));
     assert.ok(!visible.includes(site.studioTelegram));
   });
 

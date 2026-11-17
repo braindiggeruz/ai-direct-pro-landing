@@ -1,13 +1,14 @@
 // Build-time public facts. Import the existing billing allowances; never ship
 // this module in a browser bundle or infer checkout availability from a build.
 import { PAID_MESSAGES, PRICE_TIYIN } from '../functions/lib/gpt-chat/billing-config';
+import { PACKS } from '../functions/lib/gpt-chat/packs';
 import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 import { PACK_DAILY_LIMIT } from '../functions/lib/gpt-chat/turn-store';
 import { STUDIO_PLANS, TERMS_PLAN } from '../functions/lib/studio/plans';
 import publishedOffer from '../content/pages/ru/oferta.json';
 import type { BodyBlock, Locale } from '../src/shared/types';
 
-export const PRODUCT_FACTS_REVIEWED_AT = '2026-11-08';
+export const PRODUCT_FACTS_REVIEWED_AT = '2026-11-17';
 export const CHAT_PRODUCT_URLS = ['/ru/gpt-chat/', '/uz/gpt-uzbek-tilida/'] as const;
 export const isChatProductUrl = (url: string): boolean => CHAT_PRODUCT_URLS.some((path) => path === url);
 export const isChatPricingUrl = (url: string): boolean => url === '/ru/tarify-ai-chat/';
@@ -16,6 +17,10 @@ export const CHAT_FACTS = Object.freeze({
   replies: PAID_MESSAGES,
   dailyReplies: PACK_DAILY_LIMIT, // Replies charged to packs, not every free+paid answer.
   trialReplies: FREE_TRIAL_LIMIT,
+  // The 3-day pack (functions/lib/gpt-chat/packs.ts), sold beside the monthly one since offer edition ai-paket-2026-11-v6.
+  smallPriceUzs: PACKS.once.amountTiyin / 100,
+  smallReplies: PACKS.once.answers,
+  smallHours: 'hours' in PACKS.once.term ? PACKS.once.term.hours : 0,
 });
 // The currently published offer edition, not the inactive photo-enabled plan.
 const studioPlanVersion = TERMS_PLAN[publishedOffer.termsVersion];
@@ -101,8 +106,9 @@ export function productFactsManifest(): string {
     '',
     `Reviewed: ${PRODUCT_FACTS_REVIEWED_AT}. Generated from the existing billing allowances and published Studio offer edition.`,
     `- AI chat trial: ${f.trialReplies} successful lifetime replies, no daily renewal; no registration.`,
-    `- AI chat pack: ${amount(f.priceUzs)} UZS for ${f.replies} replies, up to ${f.dailyReplies} replies charged to packs per UTC day across the account's packs. The day resets at 00:00 UTC / 05:00 Tashkent. Included free replies of an active pack are accounted for separately under the offer; this is not a renewed daily free trial for visitors without a pack.`,
-    '- Pack validity: one calendar month from confirmed payment, calculated using the UTC calendar and preserving the UTC time of day; if the next UTC month has no matching date, validity ends on its last day. This can differ from adding a month to the local Tashkent date near midnight. The chat account/pack panel displays the expiry date. No auto-renewal. A new pack starts immediately, even if another pack is still active.',
+    `- AI chat pack, monthly: ${amount(f.priceUzs)} UZS for ${f.replies} replies, up to ${f.dailyReplies} replies charged to packs per UTC day across the account's packs. The day resets at 00:00 UTC / 05:00 Tashkent. Included free replies of an active pack are accounted for separately under the offer; this is not a renewed daily free trial for visitors without a pack.`,
+    '- Monthly pack validity: one calendar month from confirmed payment, calculated using the UTC calendar and preserving the UTC time of day; if the next UTC month has no matching date, validity ends on its last day. This can differ from adding a month to the local Tashkent date near midnight. The chat account/pack panel displays the expiry date. No auto-renewal. A new pack starts immediately, even if another pack is still active; packs run side by side and their replies add up.',
+    `- AI chat pack, 3 days: ${amount(f.smallPriceUzs)} UZS for ${f.smallReplies} replies, valid for ${f.smallHours} hours from confirmed payment and counted within the same ${f.dailyReplies} pack replies per UTC day across all packs. No auto-renewal.`,
     '- Checkout availability is determined in the chat; a published price does not mean payment is currently open.',
     '- Chat pricing: https://gptbot.uz/ru/tarify-ai-chat/ and https://gptbot.uz/uz/tariflar/#ai-paket .',
     `- Studio Kunlik: ${amount(STUDIO_FACTS.kunlik.amountTiyin / 100)} UZS / 24 hours / ${STUDIO_FACTS.kunlik.presentationFull} full presentation. Studio Oylik: ${amount(STUDIO_FACTS.oylik.amountTiyin / 100)} UZS / one calendar month / ${STUDIO_FACTS.oylik.presentationFull} full presentations.`,

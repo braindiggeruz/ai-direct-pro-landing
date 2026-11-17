@@ -3,6 +3,7 @@
 // config it describes, so a page cannot drift from the product:
 //   - the AI pack: PRICE_TIYIN / 100 sum, PAID_MESSAGES answers a month,
 //     PACK_DAILY_LIMIT a day (functions/lib/gpt-chat);
+//   - the 3-day pack (PACKS.once), on the two pricing pages alone;
 //   - the free chat: resolveConfig() over the packed runtime config;
 //   - the Telegram bot: resolveTelegramConfig() over the same config.
 // No page sells a «Plus», a «Day Pass» or a subscription. Since the owner's
@@ -13,6 +14,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 
 import { GUEST_PROVIDERS, PAID_MESSAGES, PRICE_TIYIN, PROVIDERS, guestCheckoutOn, providersInMode } from '../functions/lib/gpt-chat/billing-config';
+import { PACKS } from '../functions/lib/gpt-chat/packs';
 import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 import { PACK_DAILY_LIMIT } from '../functions/lib/gpt-chat/turn-store';
 import { resolveConfig } from '../functions/lib/gpt-chat/config';
@@ -99,9 +101,14 @@ function livePaymentNames(env: Env): string {
 /** 2 000 000 tiyin → "20 000", grouped the way the pages write sums. */
 const sum = (tiyin: number) => String(tiyin / 100).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 const PRICE = sum(PRICE_TIYIN);
+/** The 3-day pack (functions/lib/gpt-chat/packs.ts), and what one answer costs in each pack, as the pricing page rounds it. */
+const SMALL = sum(PACKS.once.amountTiyin);
+const PER_ANSWER = [PRICE_TIYIN / PAID_MESSAGES, PACKS.once.amountTiyin / PACKS.once.answers].map((tiyin) => String(Math.round(tiyin / 100)));
 
 test('the pack the pages describe is the pack the code sells', () => {
   assert.equal(PRICE, '20 000');
+  assert.equal(SMALL, '5 000');
+  assert.deepEqual(PER_ANSWER, ['67', '167']);
   assert.ok(['1 990 000', '1 490 000', '2 490 000'].every((amount) => SERVICE_PRICES.has(amount)), 'the service pages publish their starting prices');
   for (const file of CHAT_PAGES) {
     const doc = page(file);
@@ -115,7 +122,8 @@ test('the pack the pages describe is the pack the code sells', () => {
     // «100 000 so‘mlik misol» is an example in a sample prompt, not a price.
     for (const [, from, amount, dan] of text.matchAll(/(от )?(\d{1,3}(?: \d{3})*) (?:сум|so‘m(?!lik))(dan)?/g)) {
       if (from || dan) assert.ok(SERVICE_PRICES.has(amount), `${file}: ${amount} is no service page's price`);
-      else assert.ok(amount === PRICE || amount === '0', `${file}: ${amount}`);
+      // The 3-day pack and the price of one answer are stated on the pricing page alone.
+      else assert.ok(amount === PRICE || amount === '0' || (file === 'ru/tarify-ai-chat' && [SMALL, ...PER_ANSWER].includes(amount)), `${file}: ${amount}`);
     }
     for (const [, ru, uz] of text.matchAll(/(\d+) ответов на (?:один календарный )?месяц|bir (?:kalendar )?oyga (\d+) ta javob/g)) {
       assert.equal(Number(ru ?? uz), PAID_MESSAGES, file);
@@ -126,7 +134,12 @@ test('the pack the pages describe is the pack the code sells', () => {
     }
   }
   const all = JSON.stringify(tariffs);
-  assert.ok(all.includes(`${PAID_MESSAGES} ответов на месяц за ${PRICE} сум`));
+  assert.ok(all.includes(`AI-пакет на месяц: ${PAID_MESSAGES} ответов за ${PRICE} сум`));
+  // The 3-day pack beside it (PACKS.once): its size, term and price, and what one answer costs in each pack.
+  const hours = 'hours' in PACKS.once.term ? PACKS.once.term.hours : 0;
+  assert.ok(all.includes(`AI-пакет на 3 дня: ${PACKS.once.answers} ответов за ${SMALL} сум`));
+  assert.ok(all.includes(`${PACKS.once.answers} ответов на ${hours / 24} суток (${hours} часа)`));
+  assert.ok(all.includes(`Один ответ в пакете на месяц стоит около ${PER_ANSWER[0]} сум, в пакете на 3 дня — около ${PER_ANSWER[1]}.`));
   assert.ok(all.includes(`до ${PACK_DAILY_LIMIT} в день`));
   assert.match(all, /без автосписаний/);
   // The ways to pay are the providers the packed config runs live (Click and
@@ -139,7 +152,9 @@ test('the pack the pages describe is the pack the code sells', () => {
   for (const provider of live) assert.ok(GUEST_PROVIDERS.includes(provider), `${provider} cannot pay as a guest`);
   const table = tariffs.bodyBlocks.find((block) => block.type === 'table');
   const payRow = table?.rows?.find((row) => row[0] === 'Оплата');
-  assert.equal(payRow?.[2], `${pay} — можно без входа`, 'the table row names every live provider');
+  // One column for each pack since the 3-day pack sells, the cheaper one first: the same ways to pay in both.
+  assert.deepEqual(table?.headers, ['Что важно', 'Бесплатно', 'AI-пакет на 3 дня', 'AI-пакет на месяц', 'Для бизнеса']);
+  assert.deepEqual(payRow?.slice(2, 4), [`${pay} — можно без входа`, `${pay} — можно без входа`], 'the table row names every live provider');
   assert.ok(all.includes(`через ${pay} пакет можно оплатить и без входа`), 'the paragraph');
   assert.ok(all.includes(`через ${pay} (можно без входа).`), 'the summary');
   for (const provider of PROVIDERS) {
@@ -332,7 +347,7 @@ test('the Uzbek chat-tool pages send «AI paket shartlari» to the UZ hub, not t
   // Ш8 on every unprotected Uzbek page, the guides included: the UZ hub, never the Russian page.
   const uzPages = [...PAGES.values()].filter((doc) => doc.locale === 'uz' && !protectedPaths.has(doc.url));
   for (const doc of uzPages) assert.doesNotMatch(JSON.stringify(doc), /"\/ru\/tarify-ai-chat\/"/, doc.url);
-  // A body link or the primary button to the hub lands on «AI paket · 1 oy» or «Tashkilotlar uchun»
+  // A body link or the primary button to the hub lands on «AI paket: oylik va 3 kunlik» or «Tashkilotlar uchun»
   // (its title and H1 name Studio only); internalLinks keep the canonical URL for the link graph.
   const sections = new Set((JSON.parse(readFileSync('content/studio/pages/uz/tariflar.json', 'utf8')) as { sections: { id: string }[] }).sections.map((s) => s.id));
   for (const doc of uzPages) {
@@ -364,12 +379,14 @@ test('/uz/tariflar/ is the UZ hub of every tariff: numbers from the code, Studio
     return [...(section.paragraphs ?? []).map((p) => typeof p === 'string' ? p : p.text), ...(section.items ?? [])].join(' ');
   };
   assert.ok(text('tarif-0').includes(`Kunlik — ${kunlik} so‘m`) && text('tarif-0').includes(`Oylik — ${oylik} so‘m`), 'Studio as plans.ts sells it');
-  // AI paket · 1 oy, next to Studio.
+  // «AI paket: oylik va 3 kunlik», next to Studio.
   const ids = hub.sections.map((s) => s.id);
   assert.equal(ids.indexOf('ai-paket'), ids.indexOf('tarif-0') + 1);
   const pack = text('ai-paket');
   assert.ok(pack.includes(`AI paket — ${PRICE} so‘m: bir kalendar oyga ${PAID_MESSAGES} ta javob, kuniga ${PACK_DAILY_LIMIT} tagacha.`));
-  assert.ok(pack.includes('Muddati — to‘lov paytidan boshlab bir kalendar oy.'));
+  assert.equal(hub.sections.find((section) => section.id === 'ai-paket')!.h2, 'AI paket: oylik va 3 kunlik (AI chat uchun)');
+  assert.ok(pack.includes(`3 kunlik AI paket — ${SMALL} so‘m: 3 sutkaga (72 soat) ${PACKS.once.answers} ta javob.`));
+  assert.ok(pack.includes('Oylik AI paketning muddati — to‘lov paytidan boshlab bir kalendar oy, 3 kunlik AI paketniki — 3 sutka (72 soat).'));
   assert.ok(pack.includes('avtomatik to‘lov yo‘q'));
   assert.ok(pack.includes(`jami ${FREE_TRIAL_LIMIT} ta bepul sinov javobi bor, ular yangilanmaydi`));
   const env = deployedEnv();
@@ -390,11 +407,11 @@ test('/uz/tariflar/ is the UZ hub of every tariff: numbers from the code, Studio
   assert.match(orgs, /Pilot faqat kattalar uchun/);
   // Every sum on the hub is one of these (VAT lines «632,14 so‘m» aside).
   for (const [, amount] of JSON.stringify(hub).matchAll(/(?<![\d,])(\d{1,3}(?: \d{3})*) so‘m/g)) {
-    assert.ok([PRICE, kunlik, oylik, pair].includes(amount), `uz/tariflar: ${amount}`);
+    assert.ok([PRICE, SMALL, kunlik, oylik, pair].includes(amount), `uz/tariflar: ${amount}`);
   }
   assert.ok(hub.links.links.some((link) => link.target === '/ru/tarify-ai-chat/'), 'the Russian AI-chat tariffs are one click away');
   // The pack covers the AI chats, not the Studio pages; the button is named as the chat shows it before a purchase.
-  assert.ok(pack.includes('U saytdagi barcha AI chatlarda ishlaydi'));
+  assert.ok(pack.includes('Ular saytdagi barcha AI chatlarda ishlaydi'));
   assert.doesNotMatch(JSON.stringify(hub), /barcha AI sahifalarida/);
   assert.ok(pack.includes(`chat sarlavhasidagi «${strings('uz').premium.buyPack}» tugmasi`));
 });

@@ -19,7 +19,11 @@
 //     policies, as the Payme live switch and GPT_GUEST_CHECKOUT require;
 //   - edition ai-paket-2026-10-v5 (owner's order of 2026-10-07, one tap):
 //     the offer is accepted by pressing the pay button and paying, not by
-//     ticking a box; the text of sections 7 and 11 says so, the rest is v3.
+//     ticking a box; the text of sections 7 and 11 says so, the rest is v3;
+//   - edition ai-paket-2026-11-v6 (owner's approval of 2026-11-17): two packs,
+//     the month and the 3 days, each with its price, VAT, term and receipt
+//     name in sections 1, 3 and 5; the rest is v5. The 3-day pack sells
+//     (GPT_PACK_ONCE "live") only under an edition that describes it.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -29,6 +33,7 @@ import { PAID_MESSAGES, PRICE_TIYIN, termsUrl } from '../functions/lib/gpt-chat/
 import { TELEMETRY_RETENTION_DAYS } from '../functions/lib/gpt-chat/billing-maintenance-store';
 import { resolveConfig } from '../functions/lib/gpt-chat/config';
 import { includedVat, PACK_RECEIPT_NAME } from '../functions/lib/gpt-chat/fiscal-config';
+import { oncePackMode, packEnd, PACKS } from '../functions/lib/gpt-chat/packs';
 import { retentionDays } from '../functions/lib/gpt-chat/retention-store';
 import { MAX_CONCURRENT_TURNS, PACK_DAILY_LIMIT } from '../functions/lib/gpt-chat/turn-store';
 import { resolveTelegramConfig } from '../functions/lib/telegram/config';
@@ -102,10 +107,11 @@ test('(a) both offers are published, indexable legal pages with a reciprocal hre
 });
 
 test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING_TERMS_*', () => {
-  // ai-paket-2026-10-v5: acceptance by pressing the pay button (one tap). v3 added
-  // the guest account and Payme; v2 (WP-25) knew only the Telegram account, Click
-  // and Uzum Bank; v1, published with R4, still promised refunds.
-  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-10-v5');
+  // ai-paket-2026-11-v6: two packs, the month and the 3 days. v5 was acceptance by
+  // pressing the pay button (one tap); v3 added the guest account and Payme; v2
+  // (WP-25) knew only the Telegram account, Click and Uzum Bank; v1, published
+  // with R4, still promised refunds.
+  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-11-v6');
   assert.equal(nested.GPT_BILLING_TERMS_VERSION, config.GPT_BILLING_TERMS_VERSION);
   for (const locale of LOCALES) {
     assert.equal(offers[locale].termsVersion, config.GPT_BILLING_TERMS_VERSION, locale);
@@ -123,10 +129,10 @@ test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING
   assert.equal(nested.GPT_BILLING_TERMS_APPROVED_AT, approvedAt);
   for (const locale of LOCALES) assert.equal(offers[locale].legalReviewedAt ?? '', approvedAt, locale);
   assert.match(approvedAt, /^(\d{4}-\d{2}-\d{2})?$/);
-  // v3 and the policies of the same day are the owner's approval of 2026-10-07, given without
-  // a lawyer's review (docs/paid-chat/OFFER-RU.md); v2 was the owner's decision of 2026-10-03
-  // on the refund clause, after the lawyer approved v1 on 2026-10-01.
-  assert.equal(approvedAt, '2026-10-07');
+  // v6 is the owner's approval of 2026-11-17, given in chat without a lawyer's review, as v3
+  // to v5 and the policies were on 2026-10-07 (docs/paid-chat/OFFER-RU.md); v2 was the owner's
+  // decision of 2026-10-03 on the refund clause, after the lawyer approved v1 on 2026-10-01.
+  assert.equal(approvedAt, '2026-11-17');
   for (const doc of Object.values(policies)) assert.match(doc.legalReviewedAt ?? '', /^(\d{4}-\d{2}-\d{2})?$/, doc.url);
   for (const doc of Object.values(policies)) assert.equal(doc.legalReviewedAt, '2026-10-07', doc.url);
 });
@@ -205,9 +211,50 @@ test('(v4) acceptance by action: the offer is accepted by pressing the pay butto
   // The buttons the line speaks of start with that word, in both languages.
   assert.match(ru.payVia('Click'), /^Оплатить через Click$/);
   assert.match(uz.payVia('Click'), /^Click orqali to‘lash$/);
-  // v4 is the edition both offers state and the config sells; the studio's own offer must then take v5
-  // (TERMS_PLAN in functions/lib/studio/plans.ts maps the chat's v3 to the studio plan: CHANGE_LOG 07.10).
-  for (const locale of LOCALES) assert.equal(offers[locale].termsVersion, 'ai-paket-2026-10-v5', locale);
+  // v6 keeps this text. It is the edition both offers state and the config sells, and the studio sells
+  // under it too (TERMS_PLAN in functions/lib/studio/plans.ts maps v5 and v6 to the studio plan).
+  for (const locale of LOCALES) assert.equal(offers[locale].termsVersion, 'ai-paket-2026-11-v6', locale);
+});
+
+test('(v6) two packs: the offers describe the 3-day pack the code sells, and the config sells it under that edition', () => {
+  const { month, once } = PACKS;
+  assert.deepEqual([once.amountTiyin, once.answers, once.term, once.receiptName], [500_000, 30, { hours: 72 }, 'AI paket 30 (xizmat, 3 kun)']);
+  assert.equal(month.receiptName, PACK_RECEIPT_NAME);
+  // Section 1 names both kinds and both receipt lines.
+  assert.ok(text(offers.ru).includes(`AI-пакет бывает двух видов: на месяц и на 3 дня. В чеке пакет на месяц называется «${month.receiptName}», пакет на 3 дня — «${once.receiptName}».`));
+  assert.ok(text(offers.uz).includes(`AI paket ikki xil: oylik va 3 kunlik. Chekda oylik paket «${month.receiptName}», 3 kunlik paket «${once.receiptName}» deb ataladi.`));
+  // Section 3: the choice first, then one item for each pack, then the rules both share.
+  const section3 = (doc: Page) => {
+    const blocks = doc.bodyBlocks as { type: string; text?: string; items?: string[] }[];
+    const at = blocks.findIndex((block) => block.type === 'h2' && /^3\. /.test(block.text ?? ''));
+    assert.ok(at > 0 && blocks[at + 1].type === 'list', doc.url);
+    return blocks[at + 1].items!;
+  };
+  const ru = section3(offers.ru);
+  const uz = section3(offers.uz);
+  assert.ok(ru[0].startsWith('Есть два AI-пакета: на месяц и на 3 дня. Покупатель выбирает один из них в окне AI-пакета или в карточке лимита чата перед оплатой'));
+  assert.ok(uz[0].startsWith('Ikki xil AI paket bor: oylik va 3 kunlik. Xaridor to‘lashdan oldin AI paket oynasida yoki chat limiti kartasida birini tanlaydi'));
+  assert.ok(ru[1].startsWith('Пакет на месяц. ') && ru[2].startsWith('Пакет на 3 дня. '));
+  assert.ok(uz[1].startsWith('Oylik paket. ') && uz[2].startsWith('3 kunlik paket. '));
+  // 72 hours from the provider's confirmation, as packEnd() counts them, with the offers' own example
+  // (15 October 14:00 in Tashkent is 09:00 UTC).
+  assert.equal(packEnd(once, Date.UTC(2026, 9, 15, 9)), Date.UTC(2026, 9, 18, 9));
+  assert.ok(ru[2].includes('Срок — 3 суток (72 часа) с момента, когда платёжная система подтвердила оплату: пакет, оплаченный 15 октября в 14:00, действует до 18 октября 14:00.'));
+  assert.ok(uz[2].includes('to‘lov tizimi to‘lovni tasdiqlagan paytdan boshlab 3 sutka (72 soat): 15-oktabr soat 14:00 da to‘langan paket 18-oktabr soat 14:00 gacha amal qiladi.'));
+  // One day cap for all the packs; packs of either kind stack and neither shortens the other.
+  assert.ok(ru.some((item) => item.startsWith(`Из всех пакетов Покупателя вместе списывается не больше ${PACK_DAILY_LIMIT} ответов в сутки`)));
+  assert.ok(uz.some((item) => item.startsWith(`Barcha paketlardan birgalikda bir sutkada ${PACK_DAILY_LIMIT} tadan ortiq javob yechilmaydi`)));
+  assert.ok(ru.some((item) => item.includes('пакеты не заменяют и не сокращают друг друга, их ответы складываются, а срок каждого считается от его оплаты')));
+  assert.ok(uz.some((item) => item.includes('paketlar bir-birini almashtirmaydi va qisqartirmaydi, ularning javoblari qo‘shiladi, har birining muddati o‘z to‘lovidan boshlab hisoblanadi')));
+  // Section 5 no longer counts the included free answers against the monthly pack's size alone.
+  assert.ok(text(offers.ru).includes('Они не списываются из ответов пакета.'));
+  assert.ok(text(offers.uz).includes('Ular paket javoblaridan olinmaydi.'));
+  assert.doesNotMatch(text(offers.ru), /не списываются из 300 ответов/);
+  assert.doesNotMatch(text(offers.uz), /paketdagi 300 ta javobdan olinmaydi/);
+  // The switch: live in both copies of the config, under the edition that describes the pack.
+  assert.equal(config.GPT_PACK_ONCE, 'live');
+  assert.equal(nested.GPT_PACK_ONCE, config.GPT_PACK_ONCE);
+  assert.equal(oncePackMode(config), 'live');
 });
 
 test('(d) every number the offers state is the number the code and the deployed config sell', () => {
@@ -221,16 +268,26 @@ test('(d) every number the offers state is the number the code and the deployed 
   const uz = chatText(offers.uz);
   assert.ok(ru.includes(`Цена — ${price} сум, в том числе НДС ${vat} % — ${vatSum} сум`));
   assert.ok(uz.includes(`Narxi — ${price} so‘m, shu jumladan QQS ${vat} % — ${vatSum} so‘m`));
-  // The price and its VAT are the only sums: no refund amount or example any more (WP-25).
+  // The 3-day pack (PACKS.once) beside it since v6: its own price, VAT, size and term.
+  const small = sum(PACKS.once.amountTiyin);
+  const smallVat = sum(includedVat(PACKS.once.amountTiyin, vat));
+  assert.equal(small, '5 000');
+  assert.equal(smallVat, '535,71');
+  assert.ok(ru.includes(`Цена — ${small} сум, в том числе НДС ${vat} % — ${smallVat} сум`));
+  assert.ok(uz.includes(`Narxi — ${small} so‘m, shu jumladan QQS ${vat} % — ${smallVat} so‘m`));
+  // The two prices and their VAT are the only sums: no refund amount or example any more (WP-25).
   for (const [locale, body] of [['ru', ru], ['uz', uz]] as const) {
     for (const [, amount] of body.matchAll(/(\d{1,3}(?: \d{3})*(?:,\d{2})?) (?:сум|so‘m)/g)) {
-      assert.ok(amount === price || amount === vatSum, `${locale}: ${amount}`);
+      assert.ok([price, vatSum, small, smallVat].includes(amount), `${locale}: ${amount}`);
     }
-    // The pack is named as on the receipt.
+    // Each pack is named as on its receipt.
     assert.ok(body.includes(`«${PACK_RECEIPT_NAME}»`), locale);
+    assert.ok(body.includes(`«${PACKS.once.receiptName}»`), locale);
   }
   assert.ok(ru.includes(`до ${PAID_MESSAGES} ответов`));
   assert.ok(uz.includes(`${PAID_MESSAGES} tagacha javob`));
+  assert.ok(ru.includes(`до ${PACKS.once.answers} ответов`));
+  assert.ok(uz.includes(`${PACKS.once.answers} tagacha javob`));
   assert.ok(ru.includes(`не больше ${PACK_DAILY_LIMIT} ответов в сутки`));
   assert.ok(uz.includes(`bir sutkada ${PACK_DAILY_LIMIT} tadan ortiq javob yechilmaydi`));
   assert.ok(ru.includes(`не больше ${MAX_CONCURRENT_TURNS} ответов`));
@@ -375,7 +432,7 @@ test('the requisites block and the edition line render from the one source', () 
     assert.match(renderRequisites(policies[locale]), locale === 'ru' ? /Реквизиты оператора/ : /Operator rekvizitlari/);
     const edition = renderTermsEdition(offers[locale]);
     assert.ok(edition.includes(`data-terms-version="${config.GPT_BILLING_TERMS_VERSION}"`));
-    assert.ok(edition.includes('<time datetime="2026-10-07">07.10.2026</time>'));
+    assert.ok(edition.includes('<time datetime="2026-11-17">17.11.2026</time>'));
   }
   assert.equal(renderRequisites(page('ru/tarify-ai-chat')), '', 'only pages that ask for it');
   assert.equal(renderTermsEdition(policies.ru), '');
@@ -581,6 +638,25 @@ test('live gate: Payme in test never holds a deploy; Payme live needs its own se
   assert.deepEqual(liveGate({ ...live, config: { ...live.config, GPT_PAYMENT_PROVIDERS: 'click,uzum,payme', GPT_BILLING_MODE: 'live', GPT_BILLING_MODE_UZUM: 'off', GPT_BILLING_MODE_PAYME: '' } }).issues.filter((issue) => issue.startsWith('payme:')), ['payme: GPT_BILLING_MODE_PAYME']);
   assert.ok(BILLING_SETTINGS.has('GPT_BILLING_MODE_PAYME'));
   assert.ok(LIVE_SECRETS.includes('GPT_PAYME_KEY') && LIVE_SECRETS.includes('GPT_PAYME_MERCHANT_ID'));
+});
+
+test('live gate: the 3-day pack sells live only under offers that describe it', () => {
+  const live = liveFixture();
+  // The committed shape: GPT_PACK_ONCE "live", and both offers quote the pack's receipt name.
+  assert.equal(live.config.GPT_PACK_ONCE, 'live');
+  assert.deepEqual(liveGate(live).issues, []);
+  // An edition that knows one pack (v5 and the ones before it): refused, offer by offer.
+  const onePack = <T,>(page: T) => JSON.parse(JSON.stringify(page).split(PACKS.once.receiptName).join('AI paket')) as T;
+  const before = { ru: onePack(live.offers.ru), uz: onePack(live.offers.uz) };
+  assert.deepEqual(liveGate({ ...live, offers: before }).issues, [
+    '/ru/oferta/: does not describe the 3-day pack that GPT_PACK_ONCE sells',
+    '/uz/oferta/: does not describe the 3-day pack that GPT_PACK_ONCE sells',
+  ]);
+  // The switch taken back (the rollback), or open to rehearsal sessions alone, asks nothing of the offers.
+  for (const flag of ['off', 'test', '']) {
+    assert.deepEqual(liveGate({ ...live, offers: before, config: { ...live.config, GPT_PACK_ONCE: flag } }).issues, [], flag || 'absent');
+  }
+  assert.ok(BILLING_SETTINGS.has('GPT_PACK_ONCE'));
 });
 
 test('live gate: switching live off always ships, and no Pages variable may shadow a billing setting', () => {

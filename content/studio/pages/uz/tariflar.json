@@ -17,7 +17,7 @@
   "tariffsVisible": true,
   "ogImage": "/assets/studio/og-taqdimot-v1.png",
   "ogImageAlt": "GPTBot.uz: mavzudan tayyor .pptx taqdimot",
-  "lead": "To‘liq taqdimot uchun mos paketni tanlang. Oylik — bir kalendar oyga 10 ta taqdimot. Kunlik — 24 soatga 1 ta taqdimot. Bepul namunani ham sinab ko‘rishingiz mumkin. Sotuv holati to‘lov oynasida ko‘rsatiladi. AI chat uchun alohida AI paket bor: u quyida, «AI paket · 1 oy» bo‘limida.",
+  "lead": "To‘liq taqdimot uchun mos paketni tanlang. Oylik — bir kalendar oyga 10 ta taqdimot. Kunlik — 24 soatga 1 ta taqdimot. Bepul namunani ham sinab ko‘rishingiz mumkin. Sotuv holati to‘lov oynasida ko‘rsatiladi. AI chat uchun alohida AI paket bor: u quyida, «AI paket: oylik va 3 kunlik» bo‘limida.",
   "sections": [
     {
       "id": "tarif-0",
@@ -35,11 +35,11 @@
     },
     {
       "id": "ai-paket",
-      "h2": "AI paket · 1 oy: AI chat uchun",
+      "h2": "AI paket: oylik va 3 kunlik (AI chat uchun)",
       "paragraphs": [
-        "AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha. U saytdagi barcha AI chatlarda ishlaydi: o‘zbek tilidagi AI chat, rus-o‘zbek tarjimon, she’r va tabrik generatorlari, reklama matni, testlar va boshqa vositalar. Javoblar hamma sahifalar uchun umumiy.",
-        "Muddati — to‘lov paytidan boshlab bir kalendar oy. To‘lov bir martalik, avtomatik to‘lov yo‘q: paket o‘z-o‘zidan uzaytirilmaydi. Muddat oxirigacha ishlatilmagan javoblar bekor bo‘ladi. Ikkinchi paketni birinchisi tugashini kutmasdan olish mumkin: u ham darhol amal qila boshlaydi.",
-        "AI paketning muddati UTC taqvimi bo‘yicha hisoblanadi: keyingi oyda shu sana bo‘lmasa, muddat o‘sha oyning oxirgi kunidagi xuddi shu UTC vaqtida tugaydi. Bu Toshkent sanasiga bir oy qo‘shishdan farq qilishi mumkin: Toshkent vaqti bilan 1-iyul soat 02:00 dagi to‘lov UTC bo‘yicha 30-iyunga to‘g‘ri keladi; paket 31-iyul soat 02:00 da tugaydi. Tugash sanasi chatdagi paket bo‘limida ko‘rsatiladi. Akkauntdagi barcha paketlardan kuniga jami 50 tagacha javob sarflash mumkin; bu limit Toshkent vaqti bilan 05:00 da (00:00 UTC) yangilanadi. Amaldagi paketga kiritilgan bepul javoblar oferta bo‘yicha alohida hisoblanadi va paketdagi 300 ta javobdan ayrilmaydi.",
+        "AI paket ikki xil. Oylik AI paket — 20 000 so‘m: bir kalendar oyga 300 ta javob, kuniga 50 tagacha. 3 kunlik AI paket — 5 000 so‘m: 3 sutkaga (72 soat) 30 ta javob. Ular saytdagi barcha AI chatlarda ishlaydi: o‘zbek tilidagi AI chat, rus-o‘zbek tarjimon, she’r va tabrik generatorlari, reklama matni, testlar va boshqa vositalar. Javoblar hamma sahifalar uchun umumiy.",
+        "Oylik AI paketning muddati — to‘lov paytidan boshlab bir kalendar oy, 3 kunlik AI paketniki — 3 sutka (72 soat). To‘lov bir marta olinadi, avtomatik to‘lov yo‘q: paket o‘z-o‘zidan uzaytirilmaydi. Muddat oxirigacha ishlatilmagan javoblar bekor bo‘ladi. Ikkinchi paketni birinchisi tugashini kutmasdan olish mumkin: u ham darhol amal qila boshlaydi, javoblar qo‘shiladi, har birining muddati o‘z to‘lovidan boshlanadi.",
+        "Oylik AI paketning muddati UTC taqvimi bo‘yicha hisoblanadi: keyingi oyda shu sana bo‘lmasa, muddat o‘sha oyning oxirgi kunidagi xuddi shu UTC vaqtida tugaydi. Bu Toshkent sanasiga bir oy qo‘shishdan farq qilishi mumkin: Toshkent vaqti bilan 1-iyul soat 02:00 dagi to‘lov UTC bo‘yicha 30-iyunga to‘g‘ri keladi; paket 31-iyul soat 02:00 da tugaydi. Tugash sanasi chatdagi paket bo‘limida ko‘rsatiladi. Akkauntdagi barcha paketlardan kuniga jami 50 tagacha javob sarflash mumkin; bu limit Toshkent vaqti bilan 05:00 da (00:00 UTC) yangilanadi. Amaldagi paketga kiritilgan bepul javoblar oferta bo‘yicha alohida hisoblanadi va paket javoblaridan ayrilmaydi.",
         "Paket chatning o‘zida sotib olinadi: chat sarlavhasidagi «Paket olish» tugmasi yoki sinov javoblari tugaganda chiqadigan oyna orqali. To‘lov — Click yoki Payme, kirmasdan ham mumkin: bunda paket shu brauzerga bog‘lanadi, keyin uni Telegram akkauntiga saqlash mumkin. Tugma bo‘lmasa, to‘lov hozir mavjud emas.",
         {
           "text": "Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular yangilanmaydi. To‘langan paket uchun pul qaytarilmaydi: u to‘lovdan keyin darhol amal qila boshlaydi; xato bilan yechilgan pul qaytariladi. To‘liq shartlar — {oferta}da.",
@@ -136,7 +136,7 @@
     },
     {
       "q": "AI chat ham tarifga kiradimi?",
-      "a": "Yo‘q. Studio taqdimotlari va AI chat paketi alohida xizmatlar: AI paket — 20 000 so‘m, bir kalendar oyga 300 ta javob, u chatda sotib olinadi. Ikkalasi kerak bo‘lsa — ikki alohida xarid."
+      "a": "Yo‘q. Studio taqdimotlari va AI chat paketi alohida xizmatlar. AI paket chatda sotib olinadi: oylik — 20 000 so‘m, bir kalendar oyga 300 ta javob; 3 kunlik — 5 000 so‘m, 3 sutkaga 30 ta javob. Ikkalasi kerak bo‘lsa — ikki alohida xarid."
     },
     {
       "q": "Pulni qaytarish mumkinmi?",
@@ -178,5 +178,5 @@
     ]
   },
   "createdAt": "2026-10-07",
-  "updatedAt": "2026-11-08"
+  "updatedAt": "2026-11-17"
 }

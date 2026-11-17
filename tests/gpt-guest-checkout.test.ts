@@ -117,8 +117,8 @@ test("the committed config turns GPT_GUEST_CHECKOUT on (\"true\") in both copies
   const packed = committedRuntimeConfig(toml);
   assert.equal(packed.GPT_GUEST_CHECKOUT, "true");
   assert.match(toml, /^GPT_GUEST_CHECKOUT = "true"$/m);
-  // The offer edition of 2026-10-07 is the one that describes the guest account.
-  assert.equal(packed.GPT_BILLING_TERMS_VERSION, "ai-paket-2026-10-v5");
+  // The offer editions since 2026-10-07 describe the guest account; v6 (2026-11-17, two packs) keeps that text.
+  assert.equal(packed.GPT_BILLING_TERMS_VERSION, "ai-paket-2026-11-v6");
   assert.ok((RUNTIME_CONFIG_KEYS as readonly string[]).includes("GPT_GUEST_CHECKOUT"));
   const env = hydrateRuntimeConfig({ GPTBOT_RUNTIME_CONFIG_JSON: JSON.stringify(packed) }) as unknown as BillingEnv;
   assert.equal(env.GPT_GUEST_CHECKOUT, "true");

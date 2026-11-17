@@ -13,7 +13,7 @@
 // Telegram carries the studio-contact marker the analytics count.
 //
 // Legal exceptions, kept on purpose: the approved offer edition
-// (/ru/oferta/, /uz/oferta/, ai-paket-2026-10-v5) renders with the contacts it
+// (/ru/oferta/, /uz/oferta/; ai-paket-2026-11-v6 kept them) renders with the contacts it
 // was approved with (OFFER_EDITION_CONTACT), and the requisites block of the
 // offer and of the privacy policies keeps the phone as a requisite.
 import { test } from 'node:test';
@@ -307,7 +307,7 @@ test('the approved offer edition keeps its visible card and footer contacts: pho
   const offers = PAGES.filter(({ page }) => isOffer(page)).map(({ page }) => page);
   assert.deepEqual(offers.map((page) => page.url).sort(), ['/ru/oferta/', '/uz/oferta/']);
   for (const page of offers) {
-    assert.equal(page.termsVersion, 'ai-paket-2026-10-v5');
+    assert.equal(page.termsVersion, 'ai-paket-2026-11-v6');
     assert.deepEqual(pageContact(page), OFFER_EDITION_CONTACT);
     const card = renderContactCard(page);
     assert.ok(card.includes(`data-testid="contact-phone" href="tel:${STUDIO_PHONE}"`), page.url);
@@ -502,7 +502,7 @@ test('built site: no public page outside the legal exceptions names the phone or
 test('built site: the offers are the approved edition, with the phone and without the Telegram', { skip: !built && 'no dist/ build present' }, () => {
   for (const file of OFFERS) {
     const html = markup(read(file));
-    assert.ok(html.includes('data-terms-version="ai-paket-2026-10-v5"'), file);
+    assert.ok(html.includes('data-terms-version="ai-paket-2026-11-v6"'), file);
     assert.ok(html.includes(`href="tel:${STUDIO_PHONE}"`), file);
     assert.doesNotMatch(html, HANDLE, file);
   }

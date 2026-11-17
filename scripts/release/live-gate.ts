@@ -45,6 +45,7 @@ import {
 } from '../../functions/lib/gpt-chat/billing-config';
 import type { Locale, Page } from '../../src/shared/types';
 import { legalEntityIssues, type LegalEntity } from '../legal-entity';
+import { oncePackMode, PACKS } from '../../functions/lib/gpt-chat/packs';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const SITE = 'https://gptbot.uz';
@@ -198,6 +199,8 @@ export function liveGate(input: LiveGateInput): LiveGateReport {
     // The offer names the ways to pay ("Click, Payme или Uzum Bank" since
     // v3); an edition that names Payme comes before Payme sells live.
     if (providers.includes('payme') && !JSON.stringify(offer).includes('Payme')) issues.push(`${url}: does not name Payme as a way to pay`);
+    // The 3-day pack sells (GPT_PACK_ONCE "live") only under an edition that describes it: the offer quotes its receipt name.
+    if (oncePackMode(input.config) === 'live' && !JSON.stringify(offer).includes(PACKS.once.receiptName)) issues.push(`${url}: does not describe the 3-day pack that GPT_PACK_ONCE sells`);
     if (!version || offer.termsVersion !== version) issues.push(`${url}: termsVersion differs from GPT_BILLING_TERMS_VERSION`);
     if (offer.requisites !== 'seller') issues.push(`${url}: does not show the seller's requisites`);
     if (!pastDay(offer.legalReviewedAt, now)) issues.push(`${url}: legalReviewedAt (the lawyer's approval) is missing`);

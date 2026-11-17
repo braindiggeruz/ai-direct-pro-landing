@@ -78,6 +78,8 @@ test('published llms manifest is generated from billing facts with one reviewed 
   assert.equal(refreshProductFactsManifest(stale), source, 'the build repairs stale values in its managed block');
   assert.match(productFactsManifest(), /5 900 UZS \/ 24 hours \/ 1 full presentation/);
   assert.match(productFactsManifest(), /39 900 UZS \/ one calendar month \/ 10 full presentations/);
+  // The 3-day pack comes from the pack catalog (functions/lib/gpt-chat/packs.ts), beside the monthly one.
+  assert.match(productFactsManifest(), /AI chat pack, 3 days: 5 000 UZS for 30 replies, valid for 72 hours from confirmed payment/);
   const dates = [...source.matchAll(/Last updated(?: \||:)\s*(\d{4}-\d{2}-\d{2})/g)].map((m) => m[1]);
   assert.ok(dates.length >= 2);
   assert.ok(dates.every((date) => date === PRODUCT_FACTS_REVIEWED_AT));
