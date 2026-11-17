@@ -45,7 +45,8 @@ import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import { renderHeroTrustChip } from './hero-trust';
 import { pageModifiedDate } from './content-dates';
 import { buildChatApplicationLd, chatProductBlocks, isChatPricingUrl, isChatProductUrl } from './product-facts';
-import { chatRoleAttributes } from './translator-page';
+import { chatRoleAttributes, pageChatRole } from './translator-page';
+import { roleUi } from '../src/gpt-chat/role-ui';
 import { isConverterFirstPage, isToolFirstPage, renderToolFirst } from './tool-first';
 import { isPseoPracticePage, PSEO_STYLE_HREF } from './pseo-learning';
 import { isPseoDocument } from './pseo-documents';
@@ -498,6 +499,12 @@ function buildJsonLd(page: Page, global: GlobalSEO): string {
 // the entire first screen (sidebar + header + messages + composer). Indexable
 // content is a compact, VISIBLE summary <section> + mini footer BELOW the app
 // — the long-form material lives on the dedicated guide page.
+/** The frame's greeting on an AI tool page with its own question (src/gpt-chat/role-ui.ts): data-g, drawn by the stylesheet; '' elsewhere, so the two main chats' frame is unchanged. */
+function shellGreet(page: Page, uz: boolean): string {
+  const greet = roleUi(pageChatRole(page), uz ? 'uz' : 'ru')?.greet;
+  return greet ? ` data-g="${escapeHtml(greet)}"` : '';
+}
+
 function renderGptChatMain(page: Page, global: GlobalSEO): string {
   const uz = page.locale === 'uz';
   const firstTool = renderToolFirst(page);
@@ -571,7 +578,7 @@ function renderGptChatMain(page: Page, global: GlobalSEO): string {
                   <span class="gpt-brand-mark gpt-hello-mark" aria-hidden="true">${mark}</span>
                   ${firstTool ? '' : `<h1 data-testid="page-h1" class="gpt-kicker">${escapeText(page.h1)}</h1>`}
                   <noscript><p class="gpt-meta">${escapeText(noscript)}</p></noscript>
-                  <p class="gpt-greet gpt-shell-greet" aria-hidden="true"></p>
+                  <p class="gpt-greet gpt-shell-greet"${shellGreet(page, uz)} aria-hidden="true"></p>
                   <span class="gpt-meta"><span class="gpt-shell-bar gpt-shell-meta" aria-hidden="true"></span></span>
                   <span class="gpt-shell-bar gpt-shell-links" aria-hidden="true"></span>
                 </div>

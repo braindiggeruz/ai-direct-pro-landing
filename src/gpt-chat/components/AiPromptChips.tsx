@@ -17,8 +17,8 @@ const icons: Record<string, string> = {
 // An AI tool page brings its own chips (Page.chatStarters, up to six, ids
 // starter-N): no icons, its labels whole, one scrolling row on a phone and
 // centred rows from 640px (.gpt-starters: scripts/tool-widgets.ts
-// STARTERS_STYLE, in the head of a page with chips). They fill the composer
-// the same way; none of them is the presentation tile.
+// STARTERS_STYLE, in the head of a page with chips, 48px high). They send or
+// fill the composer the same way; none of them is the presentation tile.
 
 export function AiPromptChips({ chips, onPick, disabled, label, presentation, own }: {
   chips: PromptChip[]; onPick: (chip: PromptChip) => void; disabled?: boolean; label: string;
@@ -32,7 +32,7 @@ export function AiPromptChips({ chips, onPick, disabled, label, presentation, ow
         const tool = chip.id === 'plan' ? presentation : undefined;
         return (
         <li key={chip.id}>
-          {/* Fills the composer and never sends: a task is a start, not a message. */}
+          {/* A complete prompt sends on one tap, one that ends in a colon fills the composer (the console's onChipPick). */}
           <button type="button" disabled={tool ? tool.disabled : disabled} onClick={() => tool ? tool.onOpen() : onPick(chip)} className="gpt-task" data-chat-presentation-open={tool ? '' : undefined}>
             {!own && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={icons[chip.id]} /></svg>}
             <span>{tool ? tool.label : chip.label}</span>

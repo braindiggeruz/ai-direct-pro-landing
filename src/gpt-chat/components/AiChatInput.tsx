@@ -89,14 +89,15 @@ export function AiChatInput({ value, onChange, onSend, onStop, disabled, busy, l
         )}
       </div>
       {status && <p className="gpt-input-status" data-over={over || undefined} role="status">{status}</p>}
-      {/* Not OpenAI, and where the question goes, on every screen and with the
-          keyboard open (F8); the privacy policy says what is kept and who
-          receives it (plan WP-18). The brand is the header's and the
-          answer's now (chat design §5.3). */}
+      {/* Not OpenAI, no personal data, the privacy policy and where the
+          question goes (the foreign AI providers): said here once, on every
+          screen and with the keyboard open (F8; plan WP-18). The brand is the
+          header's and the answer's now (chat design §5.3). */}
       <p className="gpt-input-footnote">
         <span data-testid="ai-input-microcopy">
           {t.inputMicrocopy} · <a href={t.privacyHref} data-testid="ai-input-privacy">{t.privacyLink}</a>
         </span>
+        <span className="gpt-meta-note">{t.providerNote}</span>
       </p>
     </div>
   );

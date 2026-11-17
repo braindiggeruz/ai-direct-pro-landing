@@ -47,15 +47,11 @@ function mount() {
       <AiChatConsole config={next} />
     </StrictMode>,
   );
-  // An AI tool page (a role) brings its chips and the tools' bridge in the
-  // lazy part chat-tool. With chips the chat mounts once it is here (the frame
-  // shows them meanwhile), or with its own four if it fails; without, at once.
-  const tool = config.role ? toolPart.load().then((part) => part.toolPage(config, el)) : null;
-  if (tool && el.dataset.chatStarters) tool.then(render, () => render(config));
-  else {
-    tool?.catch(() => undefined);
-    render(config);
-  }
+  // An AI tool page (a role) brings its chips, its first-screen question and
+  // the tools' bridge in the lazy part chat-tool. The chat mounts once it is
+  // here (the frame says the same words meanwhile), or with the general ones if it fails.
+  if (config.role) toolPart.load().then((part) => part.toolPage(config, el)).then(render, () => render(config));
+  else render(config);
 }
 
 // The frame paints first, then the chat mounts, a frame later: on a slow

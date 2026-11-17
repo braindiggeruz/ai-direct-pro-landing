@@ -136,7 +136,7 @@ export function toolJsonLd(page: Page, pageUrl: string, quizSets: readonly QuizS
  * the chat's own sheet (premium.css, held to 30 000 B) and the pages without
  * chips do not carry it.
  */
-export const STARTERS_STYLE = '<style>.gpt-starters{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}.gpt-starters li{flex:none;max-width:100%}.gpt-starters .gpt-task{width:auto;padding:0 16px}@media (min-width:640px){.gpt-starters{flex-wrap:wrap;justify-content:center;overflow:visible}}</style>';
+export const STARTERS_STYLE = '<style>.gpt-starters{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}.gpt-starters li{flex:none;max-width:100%}.gpt-starters .gpt-task{width:auto;padding:0 18px;height:48px;font-size:15px}@media (min-width:640px){.gpt-starters{flex-wrap:wrap;justify-content:center;overflow:visible}}</style>';
 
 /**
  * What a page with chips adds to its head, after the chat's modulepreloads:

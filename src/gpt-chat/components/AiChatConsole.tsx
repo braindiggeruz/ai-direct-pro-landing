@@ -344,7 +344,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   // a quiet kicker above the greeting (chat design §5.2). Its text comes from
   // data-h1 on the mount point, so it is not in this bundle.
   const h1 = config.h1 || "";
-  const greetCut = t.premium.welcome.lastIndexOf(" ");
+  // An AI tool page asks its own question (config.roleUi, the lazy part chat-tool).
+  const welcome = config.roleUi?.greet ?? t.premium.welcome;
+  const greetCut = welcome.lastIndexOf(" ");
   const resting = empty && activeTool === "chat";
   // The example question in the empty field only where it fits on one line:
   // the field never grows on the first key (chat design §5.3).
@@ -851,13 +853,17 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
     abortRef.current?.abort();
   };
 
-  // Prompt chips always prefill the composer and focus — never auto-send.
+  // A chip whose prompt is complete sends on one tap; one that ends in a
+  // colon, or has a line to fill in, puts its text into the composer and
+  // waits for the details (a phone's first message is one tap, not a form).
   const onChipPick = (chip: PromptChip) => {
     if (busy || limitBlocked) return;
-    setInput(chip.insert);
     track(EV.promptChipClicked, { chip_id: chip.id, locale: config.locale });
+    if (!sendDisabled && !/:\s*$/m.test(chip.insert)) return void doSend(chip.insert);
+    setInput(chip.insert);
     focusInput();
   };
+
 
   function openPresentation(topic = '', artifactId: string = crypto.randomUUID()) {
     if (controlsDisabled) return;
@@ -1219,15 +1225,13 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
   const usage = paid ? null : trial && remaining >= 0
     ? { text: config.locale === 'ru' ? `Пробных ответов: ${remaining} из 3` : `Sinov javoblari: ${remaining}/3`, short: config.locale === 'ru' ? `Проба: ${remaining}/3` : `Sinov: ${remaining}/3`, low: remaining <= 1 }
     : usageLine(remaining, hourShown, hourBlocked, t);
-  const sub: { text: string; short?: string; tone?: string } = paid
+  const sub: { text?: string; tone?: string } = paid
     ? { text: t.premium.activeShort(remaining), tone: "pack" }
     : limitBlocked && card
       ? { text: card.header, tone: "warn" }
       : !resting && usage
         ? { text: usage.short, tone: usage.low ? "warn" : undefined }
-        : resting
-          ? { text: t.brandSub, short: t.brandSubShort }
-          : { text: t.brandSubShort };
+        : {};
   // What a screen reader hears of it, when it changes: the count, or a pack's answers left.
   const srStatus = paid ? t.premium.activeLine(remaining) : usage?.text;
 
@@ -1284,9 +1288,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             <BrandMark />
             <span className="gpt-brand-text">
               <span>{t.brand}</span>
-              <span className="gpt-header-sub" data-tone={sub.tone} aria-hidden="true">
-                {sub.short ? <><span className="gpt-sub-full">{sub.text}</span><span className="gpt-sub-short">{sub.short}</span></> : sub.text}
-              </span>
+              {sub.text && <span className="gpt-header-sub" data-tone={sub.tone} aria-hidden="true">{sub.text}</span>}
             </span>
             {/* The count (or a pack's answers) for a screen reader, said when it changes. */}
             {srStatus && <span className="sr-only" role="status">{srStatus}</span>}
@@ -1331,6 +1333,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
             openRequest={accountOpen}
             remaining={remaining}
             limited={limited}
+            trial={trial}
             onLeave={keepDraft}
           />
           <div id="gpt-presentation-header" />
@@ -1379,10 +1382,9 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                       it can be a little larger than the frame's painted in the
                       fallback font, and LCP would wait for the script (chat UI
                       §11 A14). */}
-                  <p className="gpt-greet">{greetCut > 0 ? <><span className="inline-block">{t.premium.welcome.slice(0, greetCut)}</span> <span className="inline-block">{t.premium.welcome.slice(greetCut + 1)}</span></> : t.premium.welcome}</p>
+                  <p className="gpt-greet">{greetCut > 0 ? <><span className="inline-block">{welcome.slice(0, greetCut)}</span> <span className="inline-block">{welcome.slice(greetCut + 1)}</span></> : welcome}</p>
                   <p className="gpt-meta">
                     <span>{paid ? t.premium.manual : t.emptyMeta(freeLimits)}</span>
-                    <span className="gpt-meta-note">{t.providerNote}</span>
                   </p>
                   <p className="gpt-empty-links">
                     <a href="#seo-summary" onClick={toSummary}>{t.aboutChat}</a>
@@ -1430,6 +1432,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 onEdit={onEdit}
                 onAsk={onAsk}
                 onVersion={onVersion}
+                onFollowUp={doSend}
               >
                 {/* The business line: under the first answer to a question about a
                     bot, a site, ads or a CRM, once per browser session (WP-20). */}
@@ -1552,6 +1555,12 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               </p>
             )}
             {entry && <div className="gpt-entry-context"><a href={chatEntryArticleHref(entry)}>{entry.locale === 'ru' ? '← Вернуться к статье' : '← Maqolaga qaytish'}</a><span>{entry.locale === 'ru' ? 'Измените вопрос и отправьте' : 'Savolni tahrirlab yuboring'}</span></div>}
+            {/* After the first answer: how many of the free answers are left, from the trial's own count. */}
+            {trial && !paid && !limit && (
+              <LazyPart part={answerPart}>
+                {({ TrialCounter }) => <TrialCounter left={remaining} locale={config.locale} />}
+              </LazyPart>
+            )}
             <AiChatInput
               actions={(!empty || limitBlocked) && import.meta.env?.VITE_CHAT_PRESENTATIONS !== 'false' && <button type="button" className="gpt-header-button" data-chat-presentation-open="" aria-label={uz ? 'Taqdimot' : 'Презентация'} disabled={controlsDisabled} onClick={() => openPresentation(input)}><span aria-hidden="true">▤</span></button>}
               value={input}
@@ -1565,7 +1574,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
               t={t}
               inputRef={inputRef}
               describedBy={limit ? LIMIT_CARD_ID : undefined}
-              placeholder={!activePresentation && resting && wide ? t.inputExample : undefined}
+              placeholder={!activePresentation && resting ? config.roleUi?.placeholder ?? (wide ? t.inputExample : undefined) : undefined}
             />
           </div>
         </div>

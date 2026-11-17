@@ -34,7 +34,7 @@ color: var(--text); color-scheme: dark;
 .gpt-brand-mark svg { width: 18px; }
 .gpt-header .gpt-brand-mark { display: none; }
 .gpt-brand-text { flex-direction: column; min-width: 0; font-size: 16px; line-height: 20px; font-weight: 600; letter-spacing: -.01em; }
-.gpt-header-sub, .gpt-shell-brand::after { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 12px; line-height: 16px; font-weight: 400; color: var(--text-3); }
+.gpt-header-sub { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 12px; line-height: 16px; font-weight: 400; color: var(--text-3); }
 .gpt-header-sub[data-tone="warn"] { color: var(--warn-text); }
 .gpt-header-sub[data-tone="pack"] { color: var(--accent-text); }
 .gpt-lang-short, .gpt-sub-short { display: none; }
@@ -42,7 +42,7 @@ color: var(--text); color-scheme: dark;
 @media (min-width: 1024px) {
 .gpt-menu-button, .gpt-brand-text > span:first-child, .gpt-shell-brand::before { display: none; }
 .gpt-header-brand { padding-left: 14px; }
-.gpt-header-sub, .gpt-shell-brand::after { font-size: 13px; line-height: 20px; }
+.gpt-header-sub { font-size: 13px; line-height: 20px; }
 }
 @media (max-width: 374px) {
 .gpt-lang-full { display: none; }
@@ -57,7 +57,7 @@ color: var(--text); color-scheme: dark;
 }
 .gpt-account-trigger { display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; padding: 0 12px; border-radius: 12px; background: none; border: 1px solid var(--line-strong); color: var(--text-2); font-size: 13px; font-weight: 600; white-space: nowrap; }
 .gpt-account-trigger svg { color: var(--accent-text); }
-.gpt-account-trigger[data-purchase="true"] { background: var(--accent); color: var(--accent-ink); border-color: transparent; font-weight: 700; }
+.gpt-account-trigger[data-purchase="true"]:not([data-quiet]) { background: var(--accent); color: var(--accent-ink); border-color: transparent; font-weight: 700; }
 .gpt-thread-scroll { flex: 1 1 0%; height: auto; min-height: 0; }
 .gpt-viewport { display: flex; flex-direction: column; height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable both-edges; }
 .gpt-viewport[data-pending-scroll] { visibility: hidden; }
@@ -89,8 +89,6 @@ color: var(--text); color-scheme: dark;
 @media (max-width: 339px) {
 .gpt-sub-full { display: none; }
 .gpt-sub-short { display: inline; }
-#gpt-chat-root[data-locale="uz"] .gpt-shell-brand::after { content: "OpenAI emas"; }
-#gpt-chat-root[data-locale="ru"] .gpt-shell-brand::after { content: "не OpenAI"; }
 .gpt-action-row .gpt-action-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 }
 @media (min-width: 768px) and (min-height: 600px) {
@@ -256,10 +254,9 @@ radial-gradient(farthest-side at 0 50%, #0009, #0000) left / 10px 100% no-repeat
 html:has(.gpt-premium) { overscroll-behavior-y: none; scroll-padding-bottom: 0; }
 .gpt-shell-aside { display: none; }
 .gpt-shell-brand::before { content: "GPTBot.uz"; }
-#gpt-chat-root[data-locale="uz"] .gpt-shell-brand::after { content: "mustaqil servis, OpenAI emas"; }
-#gpt-chat-root[data-locale="ru"] .gpt-shell-brand::after { content: "независимый сервис, не OpenAI"; }
 #gpt-chat-root[data-locale="uz"] .gpt-shell-greet::before { content: "Savolingiz bor?"; }
 #gpt-chat-root[data-locale="ru"] .gpt-shell-greet::before { content: "Есть вопрос?"; }
+#gpt-chat-root .gpt-shell-greet[data-g]::before { content: attr(data-g); }
 .gpt-shell-meta { width: 80%; height: 12px; margin: 4px auto; }
 .gpt-shell-links { width: 40%; height: 14px; margin: 14px auto 2px; }
 .gpt-shell-input { justify-content: flex-end; }

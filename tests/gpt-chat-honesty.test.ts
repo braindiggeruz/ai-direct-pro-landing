@@ -161,9 +161,12 @@ test('under the composer, on every screen: not OpenAI, no personal data, and the
   assert.ok(keyboard, 'the keyboard rule');
   assert.match(keyboard[1], /\.gpt-meta > :first-child/);
   assert.doesNotMatch(keyboard[1], /gpt-meta-note|gpt-meta,|gpt-input-footnote/);
-  // The resting screen renders it inside the terms.
+  // Chat CRO 2026-11-17: the providers' sentence stands once, under the composer beside the privacy link (the keyboard hides
+  // the terms' first line, never this one); the resting screen's terms no longer repeat it.
   const consoleSource = read('src/gpt-chat/components/AiChatConsole.tsx');
-  assert.match(consoleSource, /<p className="gpt-meta">\s*<span>\{paid \? t\.premium\.manual : t\.emptyMeta\(freeLimits\)\}<\/span>\s*<span className="gpt-meta-note">\{t\.providerNote\}<\/span>\s*<\/p>/);
+  assert.match(consoleSource, /<p className="gpt-meta">\s*<span>\{paid \? t\.premium\.manual : t\.emptyMeta\(freeLimits\)\}<\/span>\s*<\/p>/);
+  assert.doesNotMatch(consoleSource, /providerNote/);
+  assert.match(read('src/gpt-chat/components/AiChatInput.tsx'), /<\/span>\s*<span className="gpt-meta-note">\{t\.providerNote\}<\/span>\s*<\/p>/);
 });
 
 test('the resting screen states the server’s daily and hourly allowance, in agreement', () => {

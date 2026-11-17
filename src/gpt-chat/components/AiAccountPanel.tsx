@@ -55,6 +55,7 @@ export function AiAccountPanel({
   openRequest,
   remaining,
   limited,
+  trial,
   onLeave,
 }: {
   t: ChatStrings;
@@ -67,6 +68,8 @@ export function AiAccountPanel({
   remaining: number;
   /** The server refused a turn and the limit stands. */
   limited: boolean;
+  /** The lifetime trial of 3 answers is on: until two are used (`remaining` above 1) the button that sells the pack is an outline, not the accent (premium.css). */
+  trial?: boolean;
   /** The browser is about to leave for a payment page or the Uzum Bank app: keep what the chat must find again. */
   onLeave?: () => void;
 }) {
@@ -185,6 +188,7 @@ export function AiAccountPanel({
           type="button"
           className="gpt-account-trigger"
           data-purchase={!data?.access}
+          data-quiet={(trial && remaining > 1) || undefined}
           onClick={() => openPack("header")}
           data-testid="ai-account-trigger"
         >

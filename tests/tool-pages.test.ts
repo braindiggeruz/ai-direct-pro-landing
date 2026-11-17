@@ -402,8 +402,9 @@ test('the chat side: a lazy part on tool pages only, nothing on the start bundle
   assert.match(read('src/shared/types.ts'), /^import type \{ ChatStarter \} from '\.\/chat-starters';/m);
   assert.match(read('src/gpt-chat/lazy-part.tsx'), /export const toolPart = part\(\(\) => import\('\.\/parts\/chat-tool'\)\);/);
   const main = read('src/gpt-chat/main.tsx');
-  assert.match(main, /const tool = config\.role \? toolPart\.load\(\)\.then\(\(part\) => part\.toolPage\(config, el\)\) : null;/, 'only a page with a role loads the part');
-  assert.match(main, /if \(tool && el\.dataset\.chatStarters\) tool\.then\(render, \(\) => render\(config\)\);/, 'with chips the chat waits for them, or mounts with its own');
+  // Chat CRO 2026-11-17: the part also brings the role's first-screen question and example (role-ui.ts), so a page with a role
+  // waits for it (a few hundred bytes, preloaded on pages with chips) and mounts with the general wording if it fails.
+  assert.match(main, /if \(config\.role\) toolPart\.load\(\)\.then\(\(part\) => part\.toolPage\(config, el\)\)\.then\(render, \(\) => render\(config\)\);\s*else render\(config\);/, 'only a page with a role loads the part, and waits for it');
   const chat = read('src/gpt-chat/components/AiChatConsole.tsx');
   assert.match(chat, /chips=\{config\.starters \|\| t\.chips\}\s*own=\{!!config\.starters\}/);
   assert.match(read('src/gpt-chat/components/AiPromptChips.tsx'), /chips\.slice\(0, own \? 6 : 4\)/);

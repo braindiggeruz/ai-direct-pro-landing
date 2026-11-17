@@ -9,10 +9,13 @@
 //     never send, like the chat's own four;
 //   - the bridge from the tools under the chat (Page.widgets): a
 //     'gptbot:prefill' event (src/shared/chat-prefill.ts) puts its text into
-//     the composer and focuses it. Nothing is sent, nothing reaches analytics.
+//     the composer and focuses it. Nothing is sent, nothing reaches analytics;
+//   - the page's role lines (role-ui.ts): the first screen's question and the
+//     composer's example, in the role's words.
 import { chatStartersAttribute } from '../../shared/chat-starters';
 import { CHAT_PREFILL_EVENT, readChatPrefill, type ChatPrefillEvent } from '../../shared/chat-prefill';
 import type { PromptChip } from '../i18n';
+import { roleUi } from '../role-ui';
 import type { MountConfig } from '../types';
 
 /** The page's chips as the resting screen shows them (ids starter-1…6), or undefined. */
@@ -54,5 +57,6 @@ export function listenForPrefill(root: HTMLElement): () => void {
 export function toolPage(config: MountConfig, root: HTMLElement): MountConfig {
   listenForPrefill(root);
   const starters = pageChips(root.dataset.chatStarters);
-  return starters ? { ...config, starters } : config;
+  const ui = roleUi(config.role, config.locale);
+  return { ...config, ...(starters ? { starters } : {}), ...(ui ? { roleUi: ui } : {}) };
 }

@@ -32,6 +32,8 @@ export interface UiEventDetails {
   checkout_result: 'paid' | 'pending' | 'cancelled';
   b2b_line_shown: BusinessTopic;
   b2b_line_dismissed: BusinessTopic;
+  /** An answer rated «helpful» (up) or «not helpful» (down) on a page with this role ('general' on the main chats): the verdict and the role, no text. */
+  answer_rating: `${'up' | 'down'}_${PaywallRole}`;
 }
 
 const VIEW_KEY = 'gptchat_view';

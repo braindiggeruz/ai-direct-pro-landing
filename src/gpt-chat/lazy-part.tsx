@@ -72,10 +72,12 @@ class PartBoundary extends Component<{ failed: ReactNode; children: ReactNode },
  * it loads and `failed` if it cannot load (offline, or a release replaced its
  * file) or breaks: the chat around it keeps working either way.
  */
-export function LazyPart<M>({ part: source, fallback, failed, children }: {
+export function LazyPart<M>({ part: source, fallback = null, failed = null, children }: {
   part: Part<M>;
-  fallback: ReactNode;
-  failed: ReactNode;
+  /** Shown while it loads; nothing by default. */
+  fallback?: ReactNode;
+  /** Shown when it cannot load; nothing by default. */
+  failed?: ReactNode;
   children: (module: M) => ReactNode;
 }) {
   // Chosen once per mount: the tree keeps its shape (and the screen its state)

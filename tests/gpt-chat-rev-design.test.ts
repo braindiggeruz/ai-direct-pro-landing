@@ -66,16 +66,17 @@ test('§0 rule 1: the composer is in the app column, opaque and never fixed; the
   assert.match(read('package.json'), /"check:chat-layout": "node scripts\/chat-layout-check\.mjs"/);
 });
 
-test('§5.1: the header says GPTBot.uz and one fact under it: independent on the resting screen, the count in a chat, the wait in a limit', () => {
-  assert.equal(strings('uz').brandSub, 'mustaqil servis, OpenAI emas');
-  assert.equal(strings('ru').brandSub, 'независимый сервис, не OpenAI');
-  // Where the header has no room (a conversation before the count, under 340px): short, still honest.
-  assert.equal(strings('uz').brandSubShort, 'OpenAI emas');
-  assert.equal(strings('ru').brandSubShort, 'не OpenAI');
+test('§5.1: the header says GPTBot.uz and one fact under it: the count in a chat, the wait in a limit; «not OpenAI» is said once, under the composer', () => {
+  // Chat CRO 2026-11-17: the first screen said «not OpenAI» in the header and again under the composer.
+  // The header no longer repeats it (no brandSub, no brandSubShort); the line under the composer
+  // (inputMicrocopy, checked in gpt-chat-honesty) and the menu's disclaimer keep it.
+  assert.ok(!('brandSub' in strings('uz')) && !('brandSub' in strings('ru')) && !('brandSubShort' in strings('uz')) && !('brandSubShort' in strings('ru')));
+  assert.match(strings('uz').inputMicrocopy, /OpenAI mahsuloti emas/);
+  assert.match(strings('ru').inputMicrocopy, /Не продукт OpenAI/);
   assert.match(chat, /const state = limitBlocked \? "limit" : resting \? "empty" : "chat";/);
   assert.match(chat, /data-state=\{state\}\s*data-keyboard=\{keyboard \? "open" : undefined\}/);
-  assert.match(chat, /\? \{ text: t\.premium\.activeShort\(remaining\), tone: "pack" \}\s*: limitBlocked && card\s*\? \{ text: card\.header, tone: "warn" \}\s*: !resting && usage\s*\? \{ text: usage\.short, tone: usage\.low \? "warn" : undefined \}\s*: resting\s*\? \{ text: t\.brandSub, short: t\.brandSubShort \}\s*: \{ text: t\.brandSubShort \};/);
-  assert.match(chat, /<span className="gpt-header-sub" data-tone=\{sub\.tone\} aria-hidden="true">\s*\{sub\.short \? <><span className="gpt-sub-full">\{sub\.text\}<\/span><span className="gpt-sub-short">\{sub\.short\}<\/span><\/> : sub\.text\}\s*<\/span>/);
+  assert.match(chat, /\? \{ text: t\.premium\.activeShort\(remaining\), tone: "pack" \}\s*: limitBlocked && card\s*\? \{ text: card\.header, tone: "warn" \}\s*: !resting && usage\s*\? \{ text: usage\.short, tone: usage\.low \? "warn" : undefined \}\s*: \{\};/);
+  assert.match(chat, /\{sub\.text && <span className="gpt-header-sub" data-tone=\{sub\.tone\} aria-hidden="true">\{sub\.text\}<\/span>\}/);
   assert.match(css, /@media \(max-width: 339px\) \{(?:[^{}]*\{[^{}]*\})*?\s*\.gpt-sub-full \{ display: none; \}\s*\.gpt-sub-short \{ display: inline; \}/);
   // A screen reader hears the count, or a pack holder's answers left (the visual line is aria-hidden).
   assert.match(chat, /const srStatus = paid \? t\.premium\.activeLine\(remaining\) : usage\?\.text;/);
@@ -112,12 +113,16 @@ test('§5.2: the resting screen is one centred group (mark, the H1 as a kicker, 
   assert.ok(at('<p className="gpt-meta">') < at('<p className="gpt-empty-links">'));
   assert.ok(at('<p className="gpt-empty-links">') < at('<AiPromptChips'));
   assert.ok(rest.indexOf('</div>', at('<p className="gpt-empty-links">')) < at('<AiPromptChips'), 'the links row closes the group');
-  assert.match(rest, /<span>\{paid \? t\.premium\.manual : t\.emptyMeta\(freeLimits\)\}<\/span>\s*<span className="gpt-meta-note">\{t\.providerNote\}<\/span>/);
+  // The terms stand alone: the providers' sentence moved under the composer, beside the privacy link (chat CRO 2026-11-17).
+  assert.match(rest, /<p className="gpt-meta">\s*<span>\{paid \? t\.premium\.manual : t\.emptyMeta\(freeLimits\)\}<\/span>\s*<\/p>/);
+  assert.doesNotMatch(rest, /providerNote/);
   // One question, its two words two inline blocks (the frame's greeting stays the LCP, chat UI A14).
   assert.equal(strings('uz').premium.welcome, 'Savolingiz bor?');
   assert.equal(strings('ru').premium.welcome, 'Есть вопрос?');
   assert.ok(!('welcomeAccent' in strings('uz').premium) && !('welcomeAccent' in strings('ru').premium));
-  assert.match(rest, /<p className="gpt-greet">\{greetCut > 0 \? <><span className="inline-block">\{t\.premium\.welcome\.slice\(0, greetCut\)\}<\/span> <span className="inline-block">\{t\.premium\.welcome\.slice\(greetCut \+ 1\)\}<\/span><\/> : t\.premium\.welcome\}<\/p>/);
+  assert.match(rest, /<p className="gpt-greet">\{greetCut > 0 \? <><span className="inline-block">\{welcome\.slice\(0, greetCut\)\}<\/span> <span className="inline-block">\{welcome\.slice\(greetCut \+ 1\)\}<\/span><\/> : welcome\}<\/p>/);
+  // An AI tool page asks its own question (config.roleUi, role-ui.ts); the main chats keep the general one.
+  assert.match(chat, /const welcome = config\.roleUi\?\.greet \?\? t\.premium\.welcome;/);
   assert.deepEqual([strings('uz').providerNote, strings('ru').providerNote], ['Savollar xorijdagi AI-provayderlarga yuboriladi.', 'Вопросы идут зарубежным AI-провайдерам.']);
   // No tick before the centred terms; saved chats left the first screen for the menu (§5.14).
   assert.doesNotMatch(rest, /d=\{TICK\}|gpt-history|savedChats/);
@@ -162,7 +167,10 @@ test('§5.3: four one-line pills, maths first; 2×2 of equal width on a phone, o
   // One 44px pill, one line; the frame's outline is the same pill, so nothing moves when the chat mounts.
   assert.match(css, /\.gpt-task \{ justify-content: center; align-items: center; gap: 6px; width: 100%; height: 44px; padding: 0 12px 0 10px; border-radius: 999px;[^}]*white-space: nowrap;/);
   assert.doesNotMatch(css, /min-width: 720px|var\(--w,|min-height: 58px/);
-  assert.match(chat, /const onChipPick = \(chip: PromptChip\) => \{\s*if \(busy \|\| limitBlocked\) return;\s*setInput\(chip\.insert\);/);
+  // Chat CRO 2026-11-17: a chip whose prompt is complete sends on one tap; one that ends in a colon
+  // (or has a line to fill in) still only fills the composer. The chat's own four all end in «: ».
+  assert.match(chat, /const onChipPick = \(chip: PromptChip\) => \{\s*if \(busy \|\| limitBlocked\) return;\s*track\(EV\.promptChipClicked, \{ chip_id: chip\.id, locale: config\.locale \}\);\s*if \(!sendDisabled && !\/:\\s\*\$\/m\.test\(chip\.insert\)\) return void doSend\(chip\.insert\);\s*setInput\(chip\.insert\);/);
+  for (const locale of LOCALES) for (const chip of strings(locale).chips) assert.match(chip.insert, /:\s*$/, locale + '/' + chip.id + ': fills, never sends');
 });
 
 test('§5.3, chat UI §5.4: one row; the send button is muted when empty and focuses the field; a clock in a limit; the footnote on every screen', () => {
@@ -173,7 +181,7 @@ test('§5.3, chat UI §5.4: one row; the send button is muted when empty and foc
     assert.match(empty, /<button type="button" class="gpt-send-button" data-state="ready" aria-disabled="true" aria-label="[^"]+">/);
     assert.doesNotMatch(empty, /disabled=""/);
     // The footnote without the old brand prefix, the status line only when it says something.
-    assert.ok(empty.includes(`<p class="gpt-input-footnote"><span data-testid="ai-input-microcopy">${t.inputMicrocopy} · <a href="${t.privacyHref}" data-testid="ai-input-privacy">${t.privacyLink}</a></span></p>`), locale);
+    assert.ok(empty.includes(`<p class="gpt-input-footnote"><span data-testid="ai-input-microcopy">${t.inputMicrocopy} · <a href="${t.privacyHref}" data-testid="ai-input-privacy">${t.privacyLink}</a></span><span class="gpt-meta-note">${t.providerNote}</span></p>`), locale);
     assert.doesNotMatch(empty, /gpt-input-identity|gpt-key-hint|Enter ↵|gpt-input-status/);
     // A limit: off, a clock, described by the card.
     const limited = input({ value: 'Savol', disabled: true, limited: true, describedBy: 'ai-limit-card' }, locale);
@@ -186,7 +194,8 @@ test('§5.3, chat UI §5.4: one row; the send button is muted when empty and foc
   assert.match(source, /if \(value\) el\.style\.height = Math\.min\(el\.scrollHeight, 136\) \+ 'px';/);
   // The example only fits on one line at 420px+, outside an active presentation.
   assert.match(chat, /const \[wide\] = useState\(\(\) => !!window\.matchMedia\?\.\("\(min-width: 420px\)"\)\.matches\);/);
-  assert.match(chat, /placeholder=\{!activePresentation && resting && wide \? t\.inputExample : undefined\}/);
+  // An AI tool page shows its role's example on every width (role-ui.ts); the main chats keep the general one on a wide screen.
+  assert.match(chat, /placeholder=\{!activePresentation && resting \? config\.roleUi\?\.placeholder \?\? \(wide \? t\.inputExample : undefined\) : undefined\}/);
   assert.match(css, /\.gpt-input-surface \{ align-items: flex-end; gap: 4px; min-height: 52px; padding: 3px 3px 3px 16px; border-radius: 26px;/);
   assert.match(css, /\.gpt-send-button \{ width: 44px; height: 44px; border-radius: 99px; background: var\(--surface-2\); color: var\(--text-2\);/);
   assert.match(css, /\.gpt-send-button\[data-state="ready"\]:not\(\[aria-disabled\]\) \{ background: var\(--accent\); color: var\(--accent-ink\); \}/);
@@ -345,7 +354,7 @@ test('§5.5: a drawn formula says its linear form to a screen reader: (a)/(b), ^
 
 test('§5.6, chat UI §5.7: the model line and the row are the answer\'s foot; «⋯» opens the paid follow-ups under a caption that says what they cost', () => {
   const list = read('src/gpt-chat/components/AiChatMessageList.tsx');
-  assert.ok(list.indexOf('{t.answeredBy}: {modelLabel(m.model)}') < list.indexOf('<MessageActions'), 'model line first');
+  assert.ok(list.indexOf('{t.answeredBy}: {modelLabel(m.model)}') < list.indexOf('<MessageFoot'), 'model line first');
   // Until the part arrives (or if it cannot), the foot holds the model line alone.
   assert.match(list, /fallback=\{<div className="gpt-answer-foot">\{model\(m\)\}<\/div>\}/);
   assert.match(read('src/gpt-chat/components/AiAnswer.tsx'), /<div className="gpt-answer-foot">\s*\{model\}\s*<div className="gpt-action-row" ref=\{rowRef\}>/);
@@ -532,8 +541,7 @@ test('§5.13, chat UI §5.15: the prerendered frame is the resting screen\'s geo
   // The brand, its subtitle and the greeting are drawn by the stylesheet, with the copy's own words.
   for (const locale of LOCALES) {
     const t = strings(locale);
-    assert.ok(css.includes(`#gpt-chat-root[data-locale="${locale}"] .gpt-shell-brand::after { content: "${t.brandSub}"; }`), locale);
-    assert.ok(css.includes(`#gpt-chat-root[data-locale="${locale}"] .gpt-shell-brand::after { content: "${t.brandSubShort}"; }`), `${locale} under 340px`);
+    assert.doesNotMatch(css, /gpt-shell-brand::after/, 'the frame draws no subtitle: the first screen says «not OpenAI» once, under the composer');
     assert.ok(css.includes(`#gpt-chat-root[data-locale="${locale}"] .gpt-shell-greet::before { content: "${t.premium.welcome}"; }`), locale);
   }
   assert.doesNotMatch(css, /gpt-shell-greet::after|gpt-shell-greet \{ white-space/);

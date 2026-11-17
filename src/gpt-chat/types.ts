@@ -296,6 +296,8 @@ export interface MountConfig {
   altHref?: string;
   /** An AI tool page's chips (data-chat-starters, checked whole by the lazy part chat-tool): shown on the resting screen instead of the chat's own. */
   starters?: PromptChip[];
+  /** An AI tool page's own first-screen question and composer example (the lazy part chat-tool, role-ui.ts); absent: the general wording. */
+  roleUi?: { greet: string; placeholder: string };
 }
 
 export interface ChatApiResponse {

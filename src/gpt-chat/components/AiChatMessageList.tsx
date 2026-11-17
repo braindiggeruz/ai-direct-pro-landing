@@ -59,6 +59,7 @@ export function AiChatMessageList({
   onEdit,
   onAsk,
   onVersion,
+  onFollowUp,
   children,
   ownerKey = 'guest',
   onPresentationOpen,
@@ -82,6 +83,8 @@ export function AiChatMessageList({
   onAsk?: (action: AnswerAction, text: string, request: string, frame: Locale) => void;
   /** «‹ 1/2 ›»: show version `version` of the answer at `index` (REV-7). */
   onVersion?: (index: number, version: number) => void;
+  /** A follow-up chip under the last answer: send this text at once. */
+  onFollowUp?: (text: string) => void;
 }) {
   const lastAssistant = (() => {
     for (let i = messages.length - 1; i >= 0; i--)
@@ -227,8 +230,8 @@ export function AiChatMessageList({
                         gone for this page view: said once, under the last answer,
                         with the way back; the model line stays. */}
                     <LazyPart part={answerPart} fallback={<div className="gpt-answer-foot">{model(m)}</div>} failed={<><div className="gpt-answer-foot">{model(m)}</div>{i === lastAssistant && <PartFailed message={t.partFailed} reload={t.partReload} />}</>}>
-                      {({ MessageActions }) => (
-                        <MessageActions
+                      {({ MessageFoot }) => (
+                        <MessageFoot
                           model={model(m)}
                           content={m.content}
                           locale={locale}
@@ -241,6 +244,7 @@ export function AiChatMessageList({
                           onVersion={onVersion && ((v) => onVersion(i, v))}
                           onRetry={onRetry}
                           onAsk={onAsk}
+                          onFollowUp={onFollowUp}
                         />
                       )}
                     </LazyPart>

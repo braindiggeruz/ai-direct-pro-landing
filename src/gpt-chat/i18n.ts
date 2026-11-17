@@ -38,7 +38,7 @@ export interface ChatStrings {
     /** In place of «AI o‘ylayapti…» after 8 s without a first word. */
     slow: string;
     historyNote: string; savedChats: string;
-    answerReady: string; monthlyLimit: string; offer: string;
+    answerReady: string; monthlyLimit: string;
     contextTooLarge: string;
     /** The menu (☰): the text around the chatgpt.com link, for a visitor who
      *  searched for the official ChatGPT. Lead + link + tail read as one line. */
@@ -61,10 +61,6 @@ export interface ChatStrings {
    *  chat's header says «RU». */
   uzEntry?: { nav: string; page: string };
   brand: string;
-  /** Under the brand in the header while nothing else needs saying there: independent, not OpenAI. */
-  brandSub: string;
-  /** The same where the header has no room for it: a conversation before the server's count, a screen under 340px. */
-  brandSubShort: string;
   inputPlaceholder: string;
   /** The empty field's example on the resting screen (REV-2); the field's name stays inputPlaceholder. */
   inputExample: string;
@@ -72,7 +68,7 @@ export interface ChatStrings {
   aboutChat: string;
   /** Under the composer on every screen size: not OpenAI, and no personal data. */
   inputMicrocopy: string;
-  /** Under the terms on the resting screen, the keyboard open too: where questions go. */
+  /** Under the composer beside the privacy link, on every screen: where questions go. */
   providerNote: string;
   send: string;
   thinking: string;
@@ -183,7 +179,7 @@ export function ru(n: number, one: string, few: string, many: string): string {
 const RU: ChatStrings = {
   premium: {
     contextTooLarge:'Сообщение слишком длинное для этого запроса. Сократите его или отправьте частями.',
-    answerReady:'Ответ готов.',monthlyLimit:'Ответы этого AI-пакета закончились. Новый пакет начнёт действовать сразу после оплаты.',offer:'Пишете часто? AI-пакет: 300 ответов на месяц за 20 000 сум, без автосписаний.',
+    answerReady:'Ответ готов.',monthlyLimit:'Ответы этого AI-пакета закончились. Новый пакет начнёт действовать сразу после оплаты.',
     welcome:'Есть вопрос?',account:'AI-пакет',buyPack:'Купить пакет',accountActive:'Мой пакет',
     close:'Закрыть',check:'Проверить статус',
     manual:'Без автосписаний: следующий пакет покупаете, только если он нужен.',activeLine:(n) => `AI-пакет · ответов осталось: ${n}`,activeShort:(n) => `Ещё ${n} ${ru(n, 'ответ', 'ответа', 'ответов')}`,
@@ -198,8 +194,6 @@ const RU: ChatStrings = {
   },
   uzEntry: { nav: 'O‘zbekcha', page: 'O‘zbekcha sahifa →' },
   brand: 'GPTBot.uz',
-  brandSub: 'независимый сервис, не OpenAI',
-  brandSubShort: 'не OpenAI',
   inputPlaceholder: 'Напишите сообщение…',
   inputExample: 'Например: объясни задачу за 7 класс',
   aboutChat: 'Подробнее о чате ↓',
@@ -292,7 +286,7 @@ const RU: ChatStrings = {
 const UZ: ChatStrings = {
   premium: {
     contextTooLarge:'Bu so‘rov uchun matn juda uzun. Uni qisqartiring yoki bo‘lib yuboring.',
-    answerReady:'Javob tayyor.',monthlyLimit:'Bu AI paketdagi javoblar tugadi. Yangi paket to‘lovdan so‘ng darhol ishga tushadi.',offer:'Ko‘p yozasizmi? AI paket: bir oyga 300 ta javob — 20 000 so‘m, avtomatik to‘lovsiz.',
+    answerReady:'Javob tayyor.',monthlyLimit:'Bu AI paketdagi javoblar tugadi. Yangi paket to‘lovdan so‘ng darhol ishga tushadi.',
     welcome:'Savolingiz bor?',account:'AI paket',buyPack:'Paket olish',accountActive:'Paketim',
     close:'Yopish',check:'Holatni tekshirish',
     manual:'Avtomatik to‘lov yo‘q: keyingi paketni faqat kerak bo‘lsa olasiz.',activeLine:(n) => `AI paket · ${n} ta javob qoldi`,activeShort:(n) => `${n} ta javob qoldi`,
@@ -306,8 +300,6 @@ const UZ: ChatStrings = {
     acceptByPay:{ before: '«To‘lash» tugmasini bosib, ', link: 'ofertani', after: ' qabul qilasiz.' },
   },
   brand: 'GPTBot.uz',
-  brandSub: 'mustaqil servis, OpenAI emas',
-  brandSubShort: 'OpenAI emas',
   inputPlaceholder: 'Xabar yozing…',
   inputExample: 'Masalan: 7-sinf masalasini tushuntirib ber',
   aboutChat: 'Batafsil: chat haqida ↓',

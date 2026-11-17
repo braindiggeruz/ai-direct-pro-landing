@@ -1,0 +1,10 @@
+.gpt-feedback{margin-top:4px}
+.gpt-followups{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0;padding:0;list-style:none}
+.gpt-followup{min-height:44px;padding:0 16px;border:1px solid var(--line-strong);border-radius:999px;background:none;color:var(--text);font-size:14px;font-weight:500;white-space:nowrap}
+.gpt-followup:hover{background:var(--surface-2)}
+.gpt-followup:active{background:var(--accent-soft);border-color:var(--accent-line)}
+.gpt-rating,.gpt-rating-thanks{display:flex;flex-wrap:wrap;align-items:center;gap:0 4px;margin:0;min-height:44px;font-size:13px;color:var(--text-2)}
+.gpt-rating>span{margin-right:4px}
+.gpt-rating button{min-height:44px;padding:0 10px;border-radius:8px;background:none;color:var(--text-2);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.gpt-rating button:hover{color:var(--text)}
+.gpt-trial-counter{margin:0 0 6px;text-align:center;font-size:13px;line-height:18px;color:var(--text-2)}
