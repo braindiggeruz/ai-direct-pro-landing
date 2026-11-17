@@ -8,6 +8,8 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   globalIgnores([
     'dist',
+    // Astronomy Engine 2.1.19, copied byte for byte (src/tools/natal/vendor/README.md).
+    'src/tools/natal/vendor/**',
     '.wrangler/**',
     '.agents/**',
     '.claude/**',
