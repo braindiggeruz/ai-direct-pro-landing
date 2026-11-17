@@ -1,5 +1,8 @@
 # Current handoff — the 3-day pack sells · 17.11.2026
 
+## 0. First payment (added 17.11.2026, after the release)
+The owner paid 5 000 with Click from a phone at about 14:38 Tashkent. Read from production D1, aggregates only: one order in gpt_payment_orders_v2 (pk_…c522, live, 500000 tiyin, paid; journal checkout>pending Prepare>prepared Complete>paid, the shape of every paid monthly Click order), a pack of 30 answers for 72.00 hours, plan ai_paket_once, consent edition ai-paket-2026-11-v6, one notice delivered, and a receipt row with status -1 and no link, exactly as the four paid monthly Click orders (Click refuses receipts with -12 for every order). So Click accepts 5 000.00. Payme is not yet proven: no 3-day order was paid with it. Only the owner sees the service name on the provider's receipt and the text of the bot notice. Evidence: F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-b2/final/pay-watch-paid.json; reader: F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/tools/pay-watch.py.
+
 ## 1. State
 Branch claude/chat-cro-20261117, based on af3ebe58. Production runs b16e7356 (deployed_and_verified, https://a29d923f.ai-direct-pro-landing.pages.dev); live readback is in F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-b2. GPT_PACK_ONCE is "live": every visitor is offered two packs, under offer edition ai-paket-2026-11-v6. Working tree: clean after the commit.
 ## 2. Delivered

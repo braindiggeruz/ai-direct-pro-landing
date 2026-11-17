@@ -1,6 +1,6 @@
 {
   "chat_once_pack_golive_20261117": {
-    "status": "live_awaiting_owner_payment",
+    "status": "live_click_paid_payme_unproven",
     "owner_authorized": "Owner in chat, 2026-11-17: the pack (5 000 UZS, 30 answers, 3 days); \"Текст согласен\" on the offer text; on the sum with the providers: \"Включай, оплачу сразу\" (deploy first, the owner pays 5 000 with each provider right after)",
     "baseline_commit": "af3ebe58",
     "live_before": "fccff22391e5734f8e971bfb7a7c92876261bb89",
@@ -27,9 +27,9 @@
     "scope": "Offer edition v6 in both languages; the pricing pages (/ru/tarify-ai-chat/, /uz/tariflar/#ai-paket), the product facts block of llms.txt and its dates; GPT_PACK_ONCE \"live\"; the pinned tests and dev fixtures. Titles, H1, JSON-LD offers and the chat pages' product blocks are unchanged.",
     "notTouched": "The monthly pack. Trial rules and limits, free-first (R2), the daily cap. Uzum (off). The privacy policies (their review date stays 2026-10-07). Protected pages and the pages under observation until 2026-12-21.",
     "ownerSteps": [
-      "Pay 5 000 once with Click and once with Payme from a phone (the 3-day pack, first row of the pack window)",
-      "Tell the session: it then checks the order in gpt_payment_orders_v2 (pk_ id), the pack (30 answers, 72 hours), the receipt line and the notice \"5 000 UZS\"",
-      "If a provider refuses the sum: say so; the switch goes back to \"off\" (one deploy) until the provider allows it"
+      "Pay 5 000 once with Payme (the 3-day row of the pack window; for a holder it is the second row)",
+      "Confirm what only the owner sees: the service name on the provider's receipt (\"AI paket 30 (xizmat, 3 kun)\") and the bot notice \"5 000 UZS\"",
+      "If Payme refuses the sum: say what its page showed; the switch then goes back to \"off\" or Payme alone is taken off the 3-day row"
     ],
     "roadmap": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/ROADMAP-RU.md",
     "evidence": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-b2",
@@ -39,9 +39,25 @@
       "liveReadback": "30/30"
     },
     "validation": "Guarded release b16e7356: 74 test files, the same 26 failing tests as before the change by name and by reason (25 of the previous release gate plus one of a suite newly added to the gate, studio-config, already failing before); tsc -b and the functions typecheck clean; the offers checked word for word against the approved draft (sections 1, 3 and 5, both languages); the failing tests of every touched suite are the same by name and reason as before the change (F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-b2/baseline-digest.json against after-digest.json); new tests: the offers describe the pack the code sells (price 5 000, VAT 535,71, 72 hours with the offers' own example checked against packEnd) and the release gate refuses GPT_PACK_ONCE \"live\" under an offer that does not quote the pack's receipt name; release check pass; live readback 30/30: manifest and artifact, ten protected pages equal to the reviewed revision, chat pages and assets served as built, the account view names both packs under the new edition, the offers, the pricing pages and llms.txt name the 3-day pack, and the deployed bundle in a browser (two rows, a tap on each pack) with the order and event endpoints answered locally. No request for an order was sent to production.",
-    "limitations": "No real payment was made by the session: that Click (service 107654) and the Payme cash desk accept 5 000.00 is proven only by the owner's payment. The offer was approved by the owner without a lawyer. Free answers of a pack holder are spent before pack answers for both packs. The reversal tool takes pay_ orders only: a mistaken 5 000 charge is returned in the provider cabinet. Click receipts are still refused by Click (-12) for every order. tests/gpt-live-readiness.test.ts \"the committed configuration\" has failed since before 2026-11-16 (its fixture gets account_unavailable); the one-pack objects it pins further down are not reached and predate this release.",
-    "next": "The owner's two payments of 5 000, then the check of the order, the pack, the receipt and the notice.",
-    "cliffPatches": "docs/paid-chat/patches/2026-12-17-{zai-prepaid-off,studio-fallback-on}.patch rebuilt on top of b16e7356 with scripts/paid-chat/regen-cliff-patches.py (the studio one stopped applying with this release, the chat one earlier); they apply alone and together and change the same keys; the runbook's tests were not run on the patched tree; rebuild after any change of the packed config"
+    "limitations": "Click (service 107654) accepts 5 000.00: proven by the owner's payment of 2026-11-17. Payme is still unproven: no 3-day order was paid with it. The receipt name on the provider's side and the text of the bot notice are visible to the owner only. The offer was approved by the owner without a lawyer. Free answers of a pack holder are spent before pack answers for both packs. The reversal tool takes pay_ orders only: a mistaken 5 000 charge is returned in the provider cabinet. Click receipts are still refused by Click (-12) for every order. tests/gpt-live-readiness.test.ts \"the committed configuration\" has failed since before 2026-11-16 (its fixture gets account_unavailable); the one-pack objects it pins further down are not reached and predate this release.",
+    "next": "The owner's payment of 5 000 with Payme and his confirmation of the receipt name and the notice text; then the open items of chat_cro_20261117.",
+    "cliffPatches": "docs/paid-chat/patches/2026-12-17-{zai-prepaid-off,studio-fallback-on}.patch rebuilt on top of b16e7356 with scripts/paid-chat/regen-cliff-patches.py (the studio one stopped applying with this release, the chat one earlier); they apply alone and together and change the same keys; the runbook's tests were not run on the patched tree; rebuild after any change of the packed config",
+    "payments": {
+      "click": {
+        "status": "proven_by_a_real_payment",
+        "when": "2026-11-17, about 14:38 Tashkent (09:38 UTC), by the owner from a phone, as a guest",
+        "order": "gpt_payment_orders_v2, id pk_…c522, live, amount 500000 tiyin, state paid; journal checkout>pending Prepare>prepared Complete>paid (the same shape as the four paid monthly Click orders)",
+        "pack": "gpt_access_periods: 30 answers, 72.00 hours from the payment; plan ai_paket_once; consent edition ai-paket-2026-11-v6",
+        "notice": "one outbox event \"paid\", delivered",
+        "receipt": "gpt_fiscal_receipts row PERFORM with status -1 and no link, exactly as the four paid monthly Click orders: Click still refuses receipts (-12) for every order",
+        "window": "the owner's screenshot: \"AI-пакет активен\", 30 / 30, valid until 20.11.2026, \"Сегодня можно ещё 45 (до 50 в день)\" = 30 pack answers + the 15 free answers a pack holder has a day"
+      },
+      "payme": {
+        "status": "not_yet_paid",
+        "note": "no order of the 3-day pack with Payme exists; that the cash desk accepts 5 000.00 is still unproven"
+      }
+    },
+    "evidence_payment": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-b2/final/pay-watch-paid.json"
   },
   "chat_once_pack_20261117": {
     "status": "superseded_by_go_live",
@@ -1959,10 +1975,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "The 3-day pack sells (GPT_PACK_ONCE live) under offer edition ai-paket-2026-11-v6; see chat_once_pack_golive_20261117. Waiting for the owner's own payments of 5 000 with Click and Payme.",
-  "stage_status": "live_awaiting_owner_payment",
+  "current_stage": "The 3-day pack sells (GPT_PACK_ONCE live) under offer edition ai-paket-2026-11-v6; the first real payment (Click, 5 000) is verified end to end. Payme is not yet proven for this sum. See chat_once_pack_golive_20261117.",
+  "stage_status": "live_click_paid_payme_unproven",
   "last_completed_stage": "Go-live of the 3-day pack (5 000 UZS, 30 answers, 72 hours) on 2026-11-17: offer edition v6, pricing pages, llms facts, GPT_PACK_ONCE = live.",
-  "next_stage": "Check the owner's two payments of the 3-day pack: order, pack, receipt, notice. Then the open items of chat_cro_20261117.",
+  "next_stage": "Verify the owner's Payme payment of the 3-day pack (order, pack, notice). Then the open items of chat_cro_20261117.",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -2296,7 +2312,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-11-17T08:33:30.934300+00:00",
+  "updated_at": "2026-11-17T09:42:43.631006+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
