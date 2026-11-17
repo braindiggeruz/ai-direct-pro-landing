@@ -80,7 +80,8 @@ test('natal chart and compatibility in a browser: form, places, chart, offsets, 
     await page.locator('.natal-actions .natal-button').first().click();
     await page.locator('#natal-result').waitFor({ timeout: 20_000 });
     const big3 = await page.locator('.natal-big3').innerText();
-    assert.match(big3, /Saraton \(Qisqichbaqa\)/, 'the Sun in Cancer on 12 July');
+    // The traditional name and the everyday one, on two lines.
+    assert.match(big3, /Quyosh\s+Saraton\s+Qisqichbaqa/, 'the Sun in Cancer on 12 July');
     assert.equal(await page.locator('.natal-wheel').count(), 1);
     assert.ok(await page.locator('.natal-cusp').count() >= 12, 'houses are drawn when the time is known');
     await page.locator('.natal-how summary').click();
