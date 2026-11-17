@@ -1,0 +1,489 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "higgsfield-ai-nima",
+  "url": "/uz/blog/higgsfield-ai-nima/",
+  "title": "Higgsfield AI nima: bepul reja, video va promptlar | GPTBot.uz",
+  "description": "Higgsfield AI nima va rasmiy manzili qaysi: soxta saytni tanish belgilari, bepul reja shartlari, video yasash bosqichlari, 8 ta prompt va cheklovlar.",
+  "h1": "Higgsfield AI: bu qanday xizmat, rasmiy manzili va video yasash tartibi",
+  "topicCluster": "ai-xizmatlar",
+  "keywords": [
+    "higgsfield ai",
+    "higgsfield",
+    "higgs field",
+    "higsfield",
+    "higgsfield ai free"
+  ],
+  "intro": "Higgsfield AI — matn, rasm yoki namunaviy videodan qisqa AI video va rasm yaratadigan veb-platforma. Bitta oynada bir nechta model — Kling, Seedance, Veo, Wan va boshqalar — tanlab ishlatiladi. Rasmiy manzili higgsfield.ai; xizmat faqat brauzerda ishlaydi, rasmiy mobil ilovasi yo‘q. Quyidagi ma’lumotlar rasmiy saytdan 2026-yil 17-noyabrda tekshirildi.",
+  "body": [
+    {
+      "type": "quote",
+      "text": "Qisqasi: faqat higgsfield.ai manzili rasmiy; «Higgsfield» nomli ilova yoki boshqa domendagi sayt — nusxa. Bepul rejada oylik kredit yo‘q, natijada suv belgisi bo‘lishi mumkin. O‘zbekistonda ishlashi rasmiy sahifada tasdiqlanmagan."
+    },
+    {
+      "type": "linkp",
+      "text": "Rasmiy manzillar: xizmatning o‘zi — {site}; rasmiy platformalar ro‘yxati — {official}; foydalanish shartlari — {terms}.",
+      "links": [
+        {
+          "token": "site",
+          "target": "https://higgsfield.ai/",
+          "anchor": "higgsfield.ai"
+        },
+        {
+          "token": "official",
+          "target": "https://higgsfield.ai/creator-hub/help-center/getting-started/official-higgsfield-platforms",
+          "anchor": "yordam markazidagi maqola"
+        },
+        {
+          "token": "terms",
+          "target": "https://higgsfield.ai/terms-of-use-agreement",
+          "anchor": "Terms of Use"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "Higgsfield AI nima va nimalar qila oladi"
+    },
+    {
+      "type": "p",
+      "text": "Higgsfield o‘zini ijodiy ishlab chiqarish uchun generativ platforma deb ataydi. Uni San-Fransiskodagi Higgsfield Inc. kompaniyasi yuritadi. Saytda kompaniyaning o‘z vositalari — Cinema Studio, Soul, Genjutsu — va boshqa ishlab chiquvchilarning modellari bir joyga yig‘ilgan: bitta hisob bilan har xil modelni sinab ko‘rasiz."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Matndan video: sahnani so‘z bilan tasvirlaysiz.",
+        "Rasmdan video: yuklangan rasm harakatga keladi.",
+        "Namunaviy video: tayyor videodagi harakat boshqa personajga ko‘chiriladi.",
+        "Cinema Studio: kamera va obyektiv sozlamalari bilan, personajni saqlagan holda bir-biriga bog‘langan kadrlar.",
+        "Rasm yaratish: Soul, Nano Banana, FLUX, Seedream kabi modellar.",
+        "Tayyor effektlar («Apps»): masalan, fonni olib tashlash yoki rasmni reklama roligiga aylantirish."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy «AI video» sahifasida 17-noyabr holatiga quyidagi video modellari ko‘rsatilgan: Kling 3.0, Kling 2.6, Kling o1, Seedance 2.0, Wan 2.7, MiniMax H3 va Veo 3.1. Yordam markazi qisqa yo‘l-yo‘riq beradi: realistik harakat uchun Seedance, uzunroq yoki bir necha kadrli klip uchun Kling, birinchi va oxirgi kadrni aniq boshqarish uchun Wan. Qaysi model ochiqligi rejangizga bog‘liq; ro‘yxat tez yangilanadi."
+    },
+    {
+      "type": "h2",
+      "id": "rasmiy-sayt",
+      "text": "Rasmiy sayt qaysi va nusxa saytni qanday tanish mumkin"
+    },
+    {
+      "type": "p",
+      "text": "Qidiruvda «higgsfield» deb yozilganda rasmiy saytdan oldin o‘xshash nomli domenlar va ilovalar chiqishi mumkin. Rasmiy yordam markazida aniq yozilgan: yagona rasmiy platforma — higgsfield.ai veb-sayti. Nusxa va «oyna» saytlarni kompaniya chiqarmaydi; ular parol, shaxsiy ma’lumot va to‘lov ma’lumotini qanday ishlatishiga kompaniya javob bermaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Belgi",
+        "Rasmiy Higgsfield",
+        "Nusxa bo‘lishi mumkin"
+      ],
+      "rows": [
+        [
+          "Manzil",
+          "higgsfield.ai yoki uning bo‘limlari: open.higgsfield.ai, docs.higgsfield.ai",
+          "Harfi o‘zgargan yoki boshqa zonadagi o‘xshash domen"
+        ],
+        [
+          "Ilova",
+          "Mobil va kompyuter ilovasi yo‘q — sayt telefon brauzerida ochiladi",
+          "Do‘kondagi «Higgsfield» nomli har qanday ilova"
+        ],
+        [
+          "Kirish",
+          "Faqat higgsfield.ai sahifasida: Google, Apple, Microsoft yoki e-mail",
+          "Higgsfield parolini so‘raydigan boshqa sayt"
+        ],
+        [
+          "To‘lov",
+          "Faqat rasmiy saytning o‘zida",
+          "«Umrbod» reja, sotiladigan hisob, vositachi orqali obuna"
+        ],
+        [
+          "Bepul taklif",
+          "Bepul generatsiyalar faqat saytning o‘zida",
+          "Boshqa joydagi «bepul Higgsfield» va’dasi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Manzilni brauzerga o‘zingiz yozing va xatcho‘plarga saqlab qo‘ying. Rasmiy ijtimoiy sahifalar: X — @higgsfield, Instagram — @higgsfield.ai, YouTube — @HiggsfieldAI, Discord — discord.com/invite/higgsfield. Parolni nusxa saytga kiritib qo‘ygan bo‘lsangiz, uni darhol almashtiring va higgsfield.ai/contact sahifasi orqali yordam xizmatiga yozing."
+    },
+    {
+      "type": "h2",
+      "id": "ozbekistonda",
+      "text": "O‘zbekistonda ishlaydimi: nimasi tasdiqlangan"
+    },
+    {
+      "type": "p",
+      "text": "Higgsfield saytida qo‘llab-quvvatlanadigan mamlakatlar ro‘yxati e’lon qilinmagan. Foydalanish shartlarida (2026-yil 23-oktabr tahriri) kompaniya xizmat boshqa hududlarda mavjud yoki mos bo‘lishiga kafolat bermasligi yozilgan. Demak, O‘zbekistonda ishlashini rasmiy sahifa tasdiqlamaydi — buni o‘zingiz tekshirasiz:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "higgsfield.ai manzilini oching. Sahifa yuklansa, «Sign up» orqali hisob oching: Google, Apple, Microsoft yoki e-mail bilan. E-mail tanlansa, pochtaga 6 xonali kod keladi.",
+        "Bepul rejada bitta generatsiya qilib ko‘ring. Kredit narxi «Generate» tugmasining o‘zida ko‘rinadi.",
+        "Pullik rejaga o‘tishdan oldin to‘lov sahifasida yakuniy summani ko‘ring. Kartangizdan to‘lov o‘tishi kafolatlanmagan; pulni qaytarish shartlarini ham oldindan o‘qing.",
+        "Vositachidan «tayyor hisob» yoki arzon obuna sotib olmang: rasmiy maqolaga ko‘ra, bunday xaridlarni yordam xizmati faollashtirmaydi va pulini qaytarmaydi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Xizmat 18 yoshdan kattalar uchun. E-mail bilan ochilgan hisobda manzilni keyin o‘zgartirib bo‘lmaydi, shuning uchun doimiy pochtangizni kiriting."
+    },
+    {
+      "type": "h2",
+      "id": "bepul",
+      "text": "Bepul nima qilish mumkin: rasmiy sayt ma’lumoti"
+    },
+    {
+      "type": "p",
+      "text": "Har bir yangi hisob bepul rejadan boshlanadi. Yordam markazidagi maqolada (2026-yil 11-noyabrda yangilangan) bepul reja shunday ta’riflangan:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Bepul rejada"
+      ],
+      "rows": [
+        [
+          "Modellar",
+          "Cheklangan to‘plam; misol tariqasida Nano Banana Pro va FLUX.2 Pro rasm modellari aytilgan"
+        ],
+        [
+          "Kreditlar",
+          "Oylik yoki kunlik kredit berilmaydi, generatsiya esa kredit talab qiladi"
+        ],
+        [
+          "Navbat",
+          "Bir vaqtda bitta generatsiya"
+        ],
+        [
+          "Suv belgisi",
+          "Natijada ko‘rinadigan Higgsfield belgisi bo‘lishi mumkin"
+        ],
+        [
+          "Qo‘shimcha kredit",
+          "Kredit paketini faqat obunasi bor foydalanuvchi sotib oladi"
+        ],
+        [
+          "Yo‘q funksiyalar",
+          "Soul ID, Start & End Frame, Higgsfield Speak, UGC builder, Unlimited modellar"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Shu bilan birga, «AI video» sahifasida yangi hisobga ro‘yxatdan o‘tishda bir marta 10 ta bepul kredit berilishi yozilgan. Bu kredit qaysi modelga va necha soniyaga yetishini oldindan aytib bo‘lmaydi: narx model, sifat va davomiylikka bog‘liq. Bepul rejada video modeli ochiq yoki yopiqligini Pricing sahifasidagi «Free» ustunidan tekshiring."
+    },
+    {
+      "type": "p",
+      "text": "Bepul rejada yaratilgan fayldagi suv belgisi pullik rejaga o‘tgandan keyin ham o‘chmaydi: toza nusxa uchun qayta generatsiya qilinadi. Obuna narxlarini bu yerda yozmaymiz — ular o‘zgarib turadi va aksiyalarga bog‘liq; joriy narx faqat rasmiy Pricing sahifasida."
+    },
+    {
+      "type": "h2",
+      "id": "video-yasash",
+      "text": "Video qanday yasaladi: bosqichma-bosqich"
+    },
+    {
+      "type": "list",
+      "items": [
+        "higgsfield.ai saytiga kiring va yuqori menyudan «Video» bo‘limini tanlang.",
+        "Nimadan boshlashni tanlang: matn, rasm yoki namunaviy video.",
+        "Modelni tanlang yoki standart modelda qoling.",
+        "Promptni yozing. Model qo‘llab-quvvatlasa, namuna rasm yuklang.",
+        "Sozlamalarni belgilang: davomiylik, tomonlar nisbati (vertikal, kvadrat yoki keng) va sifat. Mavjud sozlamalar modelga qarab farq qiladi.",
+        "«Generate» tugmasidagi kredit narxini tekshirib, bosing. Rasm tezroq chiqadi, video bir necha daqiqa olishi mumkin.",
+        "Natija shu bo‘limda va «Assets» kutubxonasida saqlanadi. Yoqmasa, promptda bitta narsani o‘zgartirib, qayta yarating."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Yaxshi prompt qatlamlardan iborat: kim yoki nima, tashqi ko‘rinishi, muhit va uslub; video uchun kamera harakati va kayfiyat qo‘shiladi. Rasmni jonlantirayotganda personaj, joy va yorug‘lik rasmning o‘zida bor — promptda faqat harakat, kamera va tezlikni yozing. Uzun taqiqlar ro‘yxati o‘rniga kerakli natijani tasvirlang."
+    },
+    {
+      "type": "h2",
+      "id": "promptlar",
+      "text": "8 ta prompt namunasi"
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy qo‘llanma promptni ingliz tilida yozishni tavsiya qiladi: modellar asosan shu tilda o‘qitilgan. Quyidagi namunalarni nusxalab, tafsilotlarni o‘zingiznikiga almashtiring. Bular o‘quv namunalari — natija modelga qarab farq qiladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Prompt (ingliz tilida)"
+      ],
+      "rows": [
+        [
+          "Mahsulot reklamasi",
+          "Slow push-in on a ceramic teapot on a wooden table, steam rising, soft morning window light, shallow depth of field, calm mood."
+        ],
+        [
+          "Shahar manzarasi",
+          "Aerial drone shot gliding over an old city at sunrise, blue tiled domes, warm golden light, light haze, slow forward motion, cinematic."
+        ],
+        [
+          "Vertikal rolik (taom)",
+          "Vertical 9:16 close-up of fresh flatbread taken out of a clay oven, hands in frame, steam and sparks, handheld camera, warm tones."
+        ],
+        [
+          "O‘z suratingizni jonlantirish",
+          "The person in the photo slowly turns the head toward the camera and smiles, hair moves in a light breeze, camera stays still, soft daylight."
+        ],
+        [
+          "Tabiat",
+          "Wide shot of a mountain lake at dawn, mist over the water, a small boat drifting, slow pan from left to right, muted colors."
+        ],
+        [
+          "Multfilm uslubi",
+          "3D animated style, a small curious robot waters a plant on a windowsill, bright pastel colors, playful movement, camera slowly orbits."
+        ],
+        [
+          "Moda roligi",
+          "Fashion film look, a model in a long blue coat walks through an empty marble hall, low angle tracking shot, 35mm lens, soft reflections."
+        ],
+        [
+          "Dars uchun ko‘rgazmali video",
+          "Macro slow motion shot of a water drop falling into a glass of water, clean white background, sharp focus, studio lighting, no text."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Murakkab sahna uchun promptni kadrlar ro‘yxati qilib yozing: uslub va kayfiyat, kamera, yorug‘lik, harakat (ketma-ket), ovoz va har bir kadrning davomiyligi. Har safar faqat bitta narsani — yorug‘lik, obyektiv yoki kiyimni — o‘zgartirsangiz, qaysi so‘z nimaga ta’sir qilishini tez tushunasiz."
+    },
+    {
+      "type": "h2",
+      "id": "cheklovlar",
+      "text": "Cheklovlar va ehtiyot choralari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Yosh: xizmat 18 yoshdan (yoki mamlakatingizdagi balog‘at yoshidan) kattalar uchun.",
+        "Boshqa odamning yuzi va ovozi: shartlarga ko‘ra, birovning surati, videosi yoki ovozini faqat o‘sha odamning roziligi bilan yuklash mumkin. Do‘st, o‘qituvchi yoki taniqli shaxs suratidan «hazil» video yasash ham shu qoidaga kiradi.",
+        "Mualliflik huquqi: begona personaj, logotip va musiqa uchun javobgarlik foydalanuvchida.",
+        "Natija kimniki: shartlarga ko‘ra, kompaniya natijaga egalik da’vo qilmaydi va tijorat maqsadida ishlatishni cheklamaydi. Lekin natija noyob bo‘lmasligi mumkin, bepul rejadagi faylda esa suv belgisi bo‘lishi mumkin.",
+        "Ma’lumotlaringiz: shartlarga ko‘ra, yuklangan va yaratilgan kontent kompaniya modellarini o‘qitishda ishlatilishi mumkin; kontent yoki hisob o‘chirilsa, keyingi foydalanish to‘xtaydi. Shaxsiy va maxfiy suratlarni yuklamang.",
+        "AI belgisi: natijaga ko‘rinmas texnik belgi qo‘yilishi mumkin. Qonun talab qilgan joyda kontent AI yordamida yaratilganini aytish — foydalanuvchining vazifasi.",
+        "Kreditlar: obuna kreditlari keyingi oyga o‘tmaydi, kredit paketlari esa xariddan 90 kun o‘tgach amal qilmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ssenariy-chat",
+      "text": "Ssenariy va prompt matni uchun: GPTBot.uz chati"
+    },
+    {
+      "type": "linkp",
+      "text": "Yaxshi rolik aniq ssenariydan boshlanadi. Rolik g‘oyasi, kadrlar rejasi yoki inglizcha prompt qoralamasini {chat}da yozdirib olish mumkin. Bu mustaqil servis: Higgsfield, OpenAI yoki ChatGPT mahsuloti emas. U video yoki rasm yasamaydi — faqat matn beradi. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak — {tarif} tariflar sahifasida.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
+        {
+          "token": "tarif",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI paket shartlari"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Video ssenariysini AI chatda yozish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa xizmatlar bo‘yicha qo‘llanmalar {hub} sahifasida jamlangan. Google’ning video vositasi haqida — {flow}. Rolikka qo‘shiladigan e’lon matni uchun {matn} sahifasi bor.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/ai-xizmatlar/",
+          "anchor": "AI xizmatlar: qo‘llanmalar to‘plami"
+        },
+        {
+          "token": "flow",
+          "target": "/uz/blog/google-flow-veo-qollanma/",
+          "anchor": "Google Flow va Veo bo‘yicha qo‘llanma"
+        },
+        {
+          "token": "matn",
+          "target": "/uz/gpt-telegram-instagram-ideya/",
+          "anchor": "Telegram va Instagram uchun reklama matni yozish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat: Higgsfield bilan bog‘liq emas va uning hamkori emas. Ma’lumotlar rasmiy saytdan 2026-yil 17-noyabrda tekshirildi; modellar, kreditlar va shartlar tez o‘zgaradi. Bu sahifa yuridik maslahat emas."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Higgsfield AI bepulmi?",
+      "a": "Bepul reja bor: har bir yangi hisob shu rejadan boshlanadi. Unda modellar to‘plami cheklangan, oylik yoki kunlik kredit berilmaydi, bir vaqtda bitta generatsiya ishlaydi va natijada suv belgisi bo‘lishi mumkin. «AI video» sahifasida yangi hisobga bir marta 10 ta kredit berilishi yozilgan (2026-yil 17-noyabr holati)."
+    },
+    {
+      "q": "Higgsfield ilovasini telefonga yuklab olsa bo‘ladimi?",
+      "a": "Rasmiy yordam markaziga ko‘ra, Higgsfield mobil va kompyuter ilovasiga ega emas: xizmat telefon brauzerida higgsfield.ai manzilida ishlaydi. Do‘konlarda «Higgsfield» nomi bilan chiqqan ilovalar rasmiy mahsulot emas."
+    },
+    {
+      "q": "Higgsfield O‘zbekistonda ochiladimi?",
+      "a": "Rasmiy saytda mamlakatlar ro‘yxati yo‘q, foydalanish shartlarida esa xizmat boshqa hududlarda mavjud bo‘lishiga kafolat berilmagan. Shuning uchun aniq javob yo‘q: higgsfield.ai manzilini ochib, bepul rejada sinab ko‘ring. To‘lov qilishdan oldin shartlarni o‘qing."
+    },
+    {
+      "q": "Higgsfield’da qaysi video modellari bor?",
+      "a": "2026-yil 17-noyabr holatiga «AI video» sahifasida Kling 3.0, Kling 2.6, Kling o1, Seedance 2.0, Wan 2.7, MiniMax H3 va Veo 3.1 ko‘rsatilgan. Qaysi biri ochiqligi rejaga bog‘liq, ro‘yxat esa tez-tez yangilanadi."
+    },
+    {
+      "q": "Higgsfield yaratgan videoni reklamada ishlatsa bo‘ladimi?",
+      "a": "Foydalanish shartlari natijani tijorat maqsadida ishlatishni cheklamaydi. Ammo bepul rejadagi faylda suv belgisi bo‘lishi mumkin, begona surat, brend yoki musiqa uchun javobgarlik esa sizda qoladi. Jiddiy loyihada shartlarning to‘liq matnini o‘qing."
+    },
+    {
+      "q": "Do‘stimning suratidan video yasasam bo‘ladimi?",
+      "a": "Faqat uning roziligi bilan. Shartlarda birovning surati, videosi yoki ovozini ruxsatsiz yuklash taqiqlangan. Rozilik bo‘lsa ham, natijani uning ruxsatisiz tarqatmang."
+    },
+    {
+      "q": "Higgsfield uchun promptni o‘zbek tilida yozsa bo‘ladimi?",
+      "a": "Yozish mumkin, lekin rasmiy qo‘llanma ingliz tilini tavsiya qiladi: modellar asosan ingliz tilida o‘qitilgan va natija shu tilda barqarorroq chiqadi. G‘oyani o‘zbekcha yozib, keyin inglizchaga tarjima qilish qulay."
+    }
+  ],
+  "cta": {
+    "label": "Video ssenariysini AI chatda yozish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-xizmatlar/",
+      "anchor": "AI xizmatlar: qo‘llanmalar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/google-flow-veo-qollanma/",
+      "anchor": "Google Flow va Veo bo‘yicha qo‘llanma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: ssenariy va prompt matni",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-telegram-instagram-ideya/",
+      "anchor": "Telegram va Instagram uchun reklama matni yozish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/smm-nima/",
+      "anchor": "SMM nima: ijtimoiy tarmoqlarda marketing asoslari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Higgsfield AI nima: bepul reja, video va promptlar | GPTBot.uz",
+  "ogDescription": "Higgsfield AI nima va rasmiy manzili qaysi: soxta saytni tanish belgilari, bepul reja shartlari, video yasash bosqichlari, 8 ta prompt va cheklovlar.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/higgsfield-ai-nima/",
+  "hreflangUz": "/uz/blog/higgsfield-ai-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "AI yordamida video va rasm yaratmoqchi bo‘lgan O‘zbekistondagi foydalanuvchilar"
+  },
+  "breadcrumbLabel": "Higgsfield AI nima",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Higgsfield — rasmiy sayt",
+      "url": "https://higgsfield.ai/",
+      "note": "Platformaning o‘z ta’rifi, vositalar va rasmiy ijtimoiy sahifalar; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield Help Center — What are the official Higgsfield platforms?",
+      "url": "https://higgsfield.ai/creator-hub/help-center/getting-started/official-higgsfield-platforms",
+      "note": "Rasmiy domenlar va ijtimoiy sahifalar ro‘yxati; mobil va kompyuter ilovasi yo‘qligi; nusxa saytlar haqidagi ogohlantirish. 2026-yil 24-sentabrda yangilangan; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield Help Center — What does the Higgsfield free plan include?",
+      "url": "https://higgsfield.ai/creator-hub/help-center/plans/what-does-the-free-plan-include",
+      "note": "Bepul reja shartlari: cheklangan modellar, kreditsiz, bitta generatsiya, suv belgisi. 2026-yil 11-noyabrda yangilangan; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield — AI Video Generator",
+      "url": "https://higgsfield.ai/ai-video",
+      "note": "Video modellari ro‘yxati, video yasash bosqichlari va yangi hisobga bir marta 10 ta kredit berilishi haqidagi satr; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield Help Center — How do I create an account and sign in?",
+      "url": "https://higgsfield.ai/creator-hub/help-center/getting-started/create-an-account-and-sign-in",
+      "note": "Kirish usullari (Google, Apple, Microsoft, e-mail), 6 xonali kod, 18 yosh sharti; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield Help Center — How do I create my first generation?",
+      "url": "https://higgsfield.ai/creator-hub/help-center/getting-started/how-do-i-create-my-first-generation",
+      "note": "Birinchi generatsiya bosqichlari va natija saqlanadigan «Assets» bo‘limi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield Help Center — How do I write a good prompt?",
+      "url": "https://higgsfield.ai/creator-hub/help-center/getting-started/how-do-i-write-a-good-prompt",
+      "note": "Prompt tuzilishi va ingliz tilida yozish tavsiyasi; sahifamizdagi 8 ta prompt mustaqil yozilgan. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield Help Center — Which AI model should I use?",
+      "url": "https://higgsfield.ai/creator-hub/help-center/ai-models/which-ai-model-should-i-use",
+      "note": "Qaysi model qaysi vazifaga mosligi bo‘yicha qisqa tavsiyalar; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield Help Center — How do credits work?",
+      "url": "https://higgsfield.ai/creator-hub/help-center/credits/how-credits-work",
+      "note": "Kredit narxi «Generate» tugmasida ko‘rsatilishi, kreditlarning amal qilish muddati; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield Help Center — Why is there a watermark, and how do I remove it?",
+      "url": "https://higgsfield.ai/creator-hub/help-center/credits/watermark-and-how-to-remove",
+      "note": "Suv belgisi bepul rejadagi generatsiyalarga qo‘yilishi va qayta generatsiya talabi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield Help Center — Who owns my generations, and can I use them commercially?",
+      "url": "https://higgsfield.ai/creator-hub/help-center/account/who-owns-my-generations-and-can-i-use-them-commercially",
+      "note": "Natijaga egalik, tijorat maqsadida foydalanish va uchinchi shaxslar huquqi uchun javobgarlik; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Higgsfield — Terms of Use Agreement",
+      "url": "https://higgsfield.ai/terms-of-use-agreement",
+      "note": "2026-yil 23-oktabr tahriri: 18 yosh sharti, birovning qiyofasi va ovozi uchun rozilik talabi, kontentdan modellarni o‘qitishda foydalanish, hududiy kafolat yo‘qligi; 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

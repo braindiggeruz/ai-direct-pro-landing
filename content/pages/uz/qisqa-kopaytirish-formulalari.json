@@ -1,0 +1,494 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/qisqa-kopaytirish-formulalari/",
+  "slug": "qisqa-kopaytirish-formulalari",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "10 ta mashq: formulalar bo‘yicha",
+      "prompt": "Menga qisqa ko‘paytirish formulalari bo‘yicha 10 ta mashq ber: qavslarni ochish va ko‘paytuvchilarga ajratish aralash, osondan qiyinga. Javoblarni darhol ko‘rsatma: men yechaman, sen tekshirib, xatolarimni qadamma-qadam tushuntirasan."
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Qisqa ko‘paytirish formulasi bilan yechgan misolimni tekshir. Xato bo‘lsa, birinchi xato qadamni ko‘rsat va sababini tushuntir. Xato bo‘lmasa, yechim nega to‘g‘ri ekanini ayt.\nMisol: \nMening yechimim: "
+    },
+    {
+      "label": "Formulani isbotla",
+      "prompt": "(a + b)² = a² + 2ab + b² formulasini ikki yo‘l bilan tushuntir: qavslarni ko‘paytirib va tomoni a + b bo‘lgan kvadrat chizmasi orqali. Keyin (a − b)² formulasini o‘zim isbotlashim uchun yo‘l-yo‘riq ber, tayyor isbotni darhol yozma."
+    },
+    {
+      "label": "Qaysi formula kerak?",
+      "prompt": "Menga 8 ta ifoda ber: har birida qaysi qisqa ko‘paytirish formulasi ishlatilishini o‘zim aniqlayman. Avval faqat ifodalarni yoz. Men javob berganimdan keyin tekshir va xatolarimni tushuntir."
+    },
+    {
+      "label": "Ko‘paytuvchilarga ajratish",
+      "prompt": "Ko‘phadni qisqa ko‘paytirish formulalari yordamida ko‘paytuvchilarga ajratishni qadamma-qadam tushuntir: avval ifoda qaysi formulaga o‘xshashini qanday aniqlashni ko‘rsat. Ifoda: "
+    },
+    {
+      "label": "Tez hisoblash: 99² va 52 · 48",
+      "prompt": "Qisqa ko‘paytirish formulalari yordamida og‘zaki hisoblashni o‘rgat: 99², 103² va 52 · 48 misollarini tushuntir, keyin shunday 6 ta misol ber. Javoblarni men yozganimdan keyin tekshir."
+    }
+  ],
+  "primaryKeyword": "qisqa ko‘paytirish formulalari",
+  "secondaryKeywords": [
+    "qisqa kopaytirish formulalari",
+    "qisqa ko‘paytirish formulalari 7 sinf",
+    "qisqa kopaytirish formulalari 7 sinf",
+    "kvadratlar ayirmasi",
+    "yig‘indining kvadrati",
+    "yigindining kvadrati"
+  ],
+  "searchIntent": "informational",
+  "h1": "Qisqa ko‘paytirish formulalari: 7 ta formula, isboti va yechilgan misollar",
+  "title": "Qisqa ko‘paytirish formulalari: 7 formula, 20 misol va mashq",
+  "description": "Qisqa ko‘paytirish formulalari: 7 ta formula va isboti, 20 ta yechilgan misol, javobli 20 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/qisqa-kopaytirish-formulalari/",
+  "hreflangUz": "/uz/qisqa-kopaytirish-formulalari/",
+  "hreflangXDefault": "/uz/qisqa-kopaytirish-formulalari/",
+  "ogTitle": "Qisqa ko‘paytirish formulalari: 7 formula, 20 misol va mashq",
+  "ogDescription": "Qisqa ko‘paytirish formulalari: 7 ta formula va isboti, 20 ta yechilgan misol, javobli 20 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Qisqa ko‘paytirish formulalari",
+  "heroTitle": "Qisqa ko‘paytirish formulalari: 7 ta formula, isboti va yechilgan misollar",
+  "heroSubtitle": "Formulalar, misollar va mashqlar bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Qisqa ko‘paytirish formulalari — qavslarni tez ochish va ko‘phadni ko‘paytuvchilarga ajratish uchun ishlatiladigan yettita ayniyat. Eng ko‘p kerak bo‘ladigan uchtasi: (a + b)² = a² + 2ab + b², (a − b)² = a² − 2ab + b² va a² − b² = (a − b)(a + b). Bu sahifada yettita formulaning jadvali, har birining bir qatorli isboti, osondan qiyinga qarab yechilgan 20 ta misol, tipik xatolar va javoblari bilan 20 ta mashq bor. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi mashqlar tuzadi va yechimingizni tekshiradi."
+    },
+    {
+      "type": "p",
+      "text": "Formulalar, misollar va mashqlar har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "formulalar",
+      "text": "7 ta formula: jadval"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Formula nomi",
+        "Formula"
+      ],
+      "rows": [
+        [
+          "1. Yig‘indining kvadrati",
+          "(a + b)² = a² + 2ab + b²"
+        ],
+        [
+          "2. Ayirmaning kvadrati",
+          "(a − b)² = a² − 2ab + b²"
+        ],
+        [
+          "3. Kvadratlar ayirmasi",
+          "a² − b² = (a − b)(a + b)"
+        ],
+        [
+          "4. Yig‘indining kubi",
+          "(a + b)³ = a³ + 3a²b + 3ab² + b³"
+        ],
+        [
+          "5. Ayirmaning kubi",
+          "(a − b)³ = a³ − 3a²b + 3ab² − b³"
+        ],
+        [
+          "6. Kublar yig‘indisi",
+          "a³ + b³ = (a + b)(a² − ab + b²)"
+        ],
+        [
+          "7. Kublar ayirmasi",
+          "a³ − b³ = (a − b)(a² + ab + b²)"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Har bir formula ikki tomonga ishlaydi. Chapdan o‘ngga o‘qilsa, qavslar ochiladi; o‘ngdan chapga o‘qilsa, ko‘phad ko‘paytuvchilarga ajraladi. a va b o‘rnida son, harf yoki butun ifoda turishi mumkin: masalan, (3x + 5)² ifodasida a o‘rnida 3x, b o‘rnida 5 turibdi."
+    },
+    {
+      "type": "h2",
+      "id": "soz-bilan",
+      "text": "Formulalar so‘z bilan qanday aytiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Yig‘indining kvadrati: birinchi ifodaning kvadrati, ikkala ifoda ko‘paytmasining ikkilangani va ikkinchi ifodaning kvadrati qo‘shiladi.",
+        "Ayirmaning kvadrati: birinchi ifodaning kvadratidan ikkala ifoda ko‘paytmasining ikkilangani ayiriladi, keyin ikkinchi ifodaning kvadrati qo‘shiladi.",
+        "Kvadratlar ayirmasi: ikki ifodaning ayirmasi ularning yig‘indisiga ko‘paytiriladi.",
+        "Yig‘indining kubi: to‘rtta had qo‘shiladi — birinchi ifodaning kubi, birinchi ifoda kvadrati bilan ikkinchi ifoda ko‘paytmasining uchlangani, birinchi ifoda bilan ikkinchi ifoda kvadrati ko‘paytmasining uchlangani va ikkinchi ifodaning kubi.",
+        "Ayirmaning kubi: hadlar yig‘indining kubidagi kabi, faqat ishoralar navbatlashadi — ikkinchi va to‘rtinchi hadlar ayiriladi.",
+        "Kublar yig‘indisi: ikki ifodaning yig‘indisi ular ayirmasining to‘la bo‘lmagan kvadratiga ko‘paytiriladi.",
+        "Kublar ayirmasi: ikki ifodaning ayirmasi ular yig‘indisining to‘la bo‘lmagan kvadratiga ko‘paytiriladi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "To‘la bo‘lmagan kvadrat — o‘rtadagi hadi 2ab emas, ab bo‘lgan uchhad: a² − ab + b² yoki a² + ab + b²."
+    },
+    {
+      "type": "h2",
+      "id": "isbot",
+      "text": "Isbot: har bir formula uchun bir qator"
+    },
+    {
+      "type": "p",
+      "text": "Isbotlash uchun qavslarni hadma-had ko‘paytirish va o‘xshash hadlarni ixchamlash kifoya. Kub formulalarida bitta qavs ajratib olinadi va tayyor kvadrat formulasidan foydalaniladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. (a + b)² = (a + b)(a + b) = a² + ab + ba + b² = a² + 2ab + b².",
+        "2. (a − b)² = (a − b)(a − b) = a² − ab − ba + b² = a² − 2ab + b².",
+        "3. (a − b)(a + b) = a² + ab − ba − b² = a² − b².",
+        "4. (a + b)³ = (a + b)(a + b)² = (a + b)(a² + 2ab + b²) = a³ + 2a²b + ab² + a²b + 2ab² + b³ = a³ + 3a²b + 3ab² + b³.",
+        "5. (a − b)³ = (a − b)(a − b)² = (a − b)(a² − 2ab + b²) = a³ − 2a²b + ab² − a²b + 2ab² − b³ = a³ − 3a²b + 3ab² − b³.",
+        "6. (a + b)(a² − ab + b²) = a³ − a²b + ab² + a²b − ab² + b³ = a³ + b³.",
+        "7. (a − b)(a² + ab + b²) = a³ + a²b + ab² − a²b − ab² − b³ = a³ − b³."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "misollar",
+      "text": "20 ta yechilgan misol"
+    },
+    {
+      "type": "p",
+      "text": "Misollar osondan qiyinga qarab joylashgan. Har birida avval formula tanlanadi, keyin a va b o‘rniga ifodalar qo‘yiladi. Ko‘paytirish belgisi sifatida nuqta ishlatilgan: 2 · 3 = 6."
+    },
+    {
+      "type": "h3",
+      "id": "qavslarni-ochish",
+      "text": "Qavslarni ochish: 1–8-misollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. (x + 5)² = x² + 2 · x · 5 + 5² = x² + 10x + 25. Bu yig‘indining kvadrati: a o‘rnida x, b o‘rnida 5.",
+        "2. (y − 4)² = y² − 2 · y · 4 + 4² = y² − 8y + 16. Ayirmaning kvadratida o‘rtadagi had manfiy, oxirgi had musbat.",
+        "3. (3x + 2)² = (3x)² + 2 · 3x · 2 + 2² = 9x² + 12x + 4. Birinchi ifoda 3x, shuning uchun uning kvadrati 9x².",
+        "4. (2a − 5b)² = (2a)² − 2 · 2a · 5b + (5b)² = 4a² − 20ab + 25b².",
+        "5. (x − 7)(x + 7) = x² − 7² = x² − 49. Ayirma yig‘indiga ko‘paytirilsa, kvadratlar ayirmasi chiqadi.",
+        "6. (4m + 3n)(4m − 3n) = (4m)² − (3n)² = 16m² − 9n².",
+        "7. (x + 2)³ = x³ + 3 · x² · 2 + 3 · x · 2² + 2³ = x³ + 6x² + 12x + 8.",
+        "8. (2y − 1)³ = (2y)³ − 3 · (2y)² · 1 + 3 · 2y · 1² − 1³ = 8y³ − 12y² + 6y − 1."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kopaytuvchilarga-ajratish",
+      "text": "Ko‘paytuvchilarga ajratish: 9–14-misollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "9. x² − 36 = x² − 6² = (x − 6)(x + 6).",
+        "10. 25a² − 16b² = (5a)² − (4b)² = (5a − 4b)(5a + 4b).",
+        "11. x² + 14x + 49 = x² + 2 · x · 7 + 7² = (x + 7)². Tekshirish: o‘rtadagi had 2 · x · 7 = 14x bo‘lishi kerak.",
+        "12. 9y² − 30y + 25 = (3y)² − 2 · 3y · 5 + 5² = (3y − 5)².",
+        "13. x³ + 27 = x³ + 3³ = (x + 3)(x² − 3x + 9).",
+        "14. 8a³ − 125 = (2a)³ − 5³ = (2a − 5)(4a² + 10a + 25)."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "tez-hisoblash",
+      "text": "Tez hisoblash: 15–17-misollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "15. 103² = (100 + 3)² = 100² + 2 · 100 · 3 + 3² = 10 000 + 600 + 9 = 10 609.",
+        "16. 99² = (100 − 1)² = 100² − 2 · 100 · 1 + 1² = 10 000 − 200 + 1 = 9801.",
+        "17. 52 · 48 = (50 + 2)(50 − 2) = 50² − 2² = 2500 − 4 = 2496."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "murakkab-misollar",
+      "text": "Soddalashtirish, tenglama va ifoda qiymati: 18–20-misollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "18. Soddalashtiring: (x + 3)² − (x − 3)² = (x² + 6x + 9) − (x² − 6x + 9) = x² + 6x + 9 − x² + 6x − 9 = 12x.",
+        "19. Tenglama: (x + 4)² − x² = 40. Qavsni ochamiz: x² + 8x + 16 − x² = 40. O‘xshash hadlarni ixchamlaymiz: 8x + 16 = 40, bundan 8x = 24 va x = 3. Tekshirish: (3 + 4)² − 3² = 49 − 9 = 40.",
+        "20. a + b = 7 va ab = 10 bo‘lsa, a² + b² ni toping. Yig‘indining kvadratidan: a² + b² = (a + b)² − 2ab = 7² − 2 · 10 = 49 − 20 = 29."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "(a + b)² ≠ a² + b². Ikkilangan ko‘paytma 2ab tushib qolmasin. Sonlarda tekshiring: (2 + 3)² = 25, 2² + 3² = 13.",
+        "(a − b)² ≠ a² − 2ab − b². Oxirgi had har doim musbat: (a − b)² = a² − 2ab + b².",
+        "(3x)² ≠ 3x². Qavs ichidagi har bir ko‘paytuvchi darajaga ko‘tariladi: (3x)² = 9x².",
+        "a² + b² ≠ (a + b)(a − b). Kvadratlar yig‘indisi kvadratlar ayirmasi kabi ajralmaydi.",
+        "Kublar yig‘indisi va ayirmasida ikkinchi qavsning o‘rta hadi 2ab emas, ab bo‘ladi, ishorasi esa birinchi qavsdagiga qarama-qarshi: a³ + b³ = (a + b)(a² − ab + b²).",
+        "Ayirmaning kubida ishoralar navbatlashadi. Oxirgi had manfiy ekanini unutmang: (a − b)³ = a³ − 3a²b + 3ab² − b³.",
+        "Qavs oldida minus tursa, qavs ichidagi barcha ishoralar o‘zgaradi: −(x² − 6x + 9) = −x² + 6x − 9."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mashqlar",
+      "text": "20 ta mashq"
+    },
+    {
+      "type": "p",
+      "text": "Avval hammasini daftarda o‘zingiz yeching, keyin pastdagi javoblar bilan solishtiring. 1–8-mashqlarda qavslarni oching, 9–14-mashqlarda ko‘paytuvchilarga ajrating, 15–17-mashqlarda formuladan foydalanib hisoblang, 18–20-mashqlarda shartda aytilgan ishni bajaring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. (x + 6)²",
+        "2. (a − 9)²",
+        "3. (5x + 1)²",
+        "4. (3m − 4n)²",
+        "5. (y − 8)(y + 8)",
+        "6. (2a + 7b)(2a − 7b)",
+        "7. (x + 1)³",
+        "8. (a − 3)³",
+        "9. x² − 81",
+        "10. 49a² − 4b²",
+        "11. y² + 10y + 25",
+        "12. 4x² − 12x + 9",
+        "13. a³ + 8",
+        "14. 27x³ − 1",
+        "15. 102²",
+        "16. 98²",
+        "17. 61 · 59",
+        "18. Soddalashtiring: (x + 5)² − (x − 5)²",
+        "19. Tenglamani yeching: (x + 2)² − x² = 20",
+        "20. a − b = 3 va ab = 10 bo‘lsa, a² + b² ni toping."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar",
+      "text": "Javoblar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. x² + 12x + 36.",
+        "2. a² − 18a + 81.",
+        "3. 25x² + 10x + 1.",
+        "4. 9m² − 24mn + 16n².",
+        "5. y² − 64.",
+        "6. 4a² − 49b².",
+        "7. x³ + 3x² + 3x + 1.",
+        "8. a³ − 9a² + 27a − 27.",
+        "9. (x − 9)(x + 9).",
+        "10. (7a − 2b)(7a + 2b).",
+        "11. (y + 5)².",
+        "12. (2x − 3)².",
+        "13. (a + 2)(a² − 2a + 4).",
+        "14. (3x − 1)(9x² + 3x + 1).",
+        "15. 102² = (100 + 2)² = 10 000 + 400 + 4 = 10 404.",
+        "16. 98² = (100 − 2)² = 10 000 − 400 + 4 = 9604.",
+        "17. 61 · 59 = (60 + 1)(60 − 1) = 3600 − 1 = 3599.",
+        "18. 20x. Kvadratlar ayirmasi bilan: (x + 5 − x + 5)(x + 5 + x − 5) = 10 · 2x = 20x.",
+        "19. x = 4. Qavs ochilgach, 4x + 4 = 20 hosil bo‘ladi. Tekshirish: 6² − 4² = 36 − 16 = 20.",
+        "20. 29. Ayirmaning kvadratidan: a² + b² = (a − b)² + 2ab = 3² + 2 · 10 = 9 + 20 = 29."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Xato qilgan bo‘lsangiz, chat ustidagi «Yechimimni tekshir» tugmasini bosing va misol bilan yechimingizni yozing: AI birinchi xato qadamni tushuntiradi va shu formula bo‘yicha yangi mashq beradi."
+    },
+    {
+      "type": "h2",
+      "id": "ai-oqituvchi",
+      "text": "AI o‘qituvchi bilan mashq"
+    },
+    {
+      "type": "p",
+      "text": "Chat ustidagi tugmalarda tayyor so‘rovlar bor: formulalar bo‘yicha 10 ta mashq, yechimni tekshirish, formulani isbotlash, kerakli formulani tanlash, ko‘paytuvchilarga ajratish va tez hisoblash. Tugma so‘rovni faqat yozish maydoniga qo‘yadi; uni o‘zgartirishingiz mumkin, yuborishni esa o‘zingiz hal qilasiz. So‘rovga sinfingiz va mavzuni yozing, masalan: «7-sinf uchun kvadratlar ayirmasiga 8 ta misol ber»."
+    },
+    {
+      "type": "p",
+      "text": "AI uy vazifasini o‘rningizga bajarish uchun emas: avval o‘zingiz yeching, keyin tekshirishni so‘rang. Model ham adashishi mumkin, shuning uchun shubhali javobni shu sahifadagi jadval bilan solishtiring yoki a va b o‘rniga son qo‘yib tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "keyingi-qadam",
+      "text": "Keyingi qadam"
+    },
+    {
+      "type": "linkp",
+      "text": "Formulalar tenglama yechishda ham kerak bo‘ladi: ikki noma’lumli masalalar uchun {systems} sahifasiga, bitta noma’lumli tenglamalar uchun {linear} sahifasiga o‘ting. Formulalar yordamida og‘zaki hisoblashni {mental} sahifasida mashq qilish mumkin, boshqa fanlar bo‘yicha savollar esa {tests}da. Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "systems",
+          "target": "/uz/tenglamalar-sistemasi/",
+          "anchor": "tenglamalar sistemasi"
+        },
+        {
+          "token": "linear",
+          "target": "/uz/tenglama-yechish/",
+          "anchor": "chiziqli tenglamani qadamma-qadam yechish"
+        },
+        {
+          "token": "mental",
+          "target": "/uz/mental-arifmetika-misollar/",
+          "anchor": "tez hisoblash usullari va 100 ta misol"
+        },
+        {
+          "token": "tests",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar katalogi"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қисқа кўпайтириш формулалари: 7 та формула жадвали, исботи, ечилган 20 та мисол ва жавоблари билан 20 та машқ. Хато қилган мисолингизни AI ўқитувчи билан таҳлил қилинг."
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "bizga Telegram’da"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Qisqa ko‘paytirish formulalari nechta?",
+      "a": "Maktab kursida yettita asosiy formula o‘rganiladi: yig‘indining kvadrati, ayirmaning kvadrati, kvadratlar ayirmasi, yig‘indining kubi, ayirmaning kubi, kublar yig‘indisi va kublar ayirmasi. Odatda avval uchta kvadrat formulasi o‘tiladi, kub formulalari esa keyinroq qo‘shiladi."
+    },
+    {
+      "q": "Kvadratlar ayirmasi bilan ayirmaning kvadrati qanday farq qiladi?",
+      "a": "Kvadratlar ayirmasi — a² − b²: avval har bir ifoda kvadratga ko‘tariladi, keyin ayiriladi; u (a − b)(a + b) ko‘paytmaga teng. Ayirmaning kvadrati — (a − b)²: avval ayiriladi, keyin kvadratga ko‘tariladi; u a² − 2ab + b² ga teng. Masalan, 5 va 3 sonlari uchun kvadratlar ayirmasi 25 − 9 = 16, ayirmaning kvadrati esa 2² = 4."
+    },
+    {
+      "q": "a² + b² ni ko‘paytuvchilarga ajratsa bo‘ladimi?",
+      "a": "Maktab kursida — yo‘q: haqiqiy sonlarda kvadratlar yig‘indisi ikki qavs ko‘paytmasiga ajralmaydi. Uni ko‘pincha boshqa ko‘rinishda yozish foydali: a² + b² = (a + b)² − 2ab."
+    },
+    {
+      "q": "Formulalarni qanday tez yodlash mumkin?",
+      "a": "Yodlashdan oldin har birini o‘zingiz keltirib chiqaring: qavslarni ko‘paytirib, o‘xshash hadlarni ixchamlang. Keyin formulalarni juftlab o‘rganing: yig‘indi va ayirmaning kvadrati faqat o‘rtadagi ishora bilan farq qiladi, kublar yig‘indisi va ayirmasida ham ishoralar almashadi. Qoidani matn sifatida takrorlagandan ko‘ra har kuni 5–6 ta misol yechgan foydaliroq."
+    },
+    {
+      "q": "Bu formulalar qayerda ishlatiladi?",
+      "a": "Ko‘phadni ko‘paytuvchilarga ajratishda, algebraik kasrlarni qisqartirishda, tenglama va tengsizliklarni yechishda, ifodalarni soddalashtirishda hamda og‘zaki hisoblashda. Masalan, 99² yoki 52 · 48 ni ustun shaklida ko‘paytirmasdan topish mumkin."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Formulalar, misollar va mashqlar bepul. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tenglamalar-sistemasi/",
+      "anchor": "Tenglamalar sistemasini yechish usullari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tenglama-yechish/",
+      "anchor": "Chiziqli tenglamani qadamma-qadam yechish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/mental-arifmetika-misollar/",
+      "anchor": "Og‘zaki tez hisoblash usullari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/mendeleyev-jadvali/",
+      "anchor": "Mendeleyev davriy jadvali: 118 ta element",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: qisqa ko‘paytirish formulalari",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Qisqa ko‘paytirish formulalari jadvali, isboti, yechilgan misollar va javobli mashqlar, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: yangi mashq tuzadi va yechimni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul formulalar va mashqlar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Formulalar, misollar va mashqlar bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/qisqa-kopaytirish-formulalari/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

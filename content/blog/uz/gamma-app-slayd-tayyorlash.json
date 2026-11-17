@@ -1,0 +1,333 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "gamma-app-slayd-tayyorlash",
+  "url": "/uz/blog/gamma-app-slayd-tayyorlash/",
+  "title": "Gamma app: slayd tayyorlash qadamlari va eksport | GPTBot.uz",
+  "description": "Gamma app nima, qanday boshlanadi, o‘zbek tilida slayd qanday yaratiladi, PPTX va PDF’ga eksport, bepul tarif cheklovlari va topshirishdan oldingi 10 bandli ro‘yxat.",
+  "h1": "Gamma bilan o‘zbekcha taqdimot yaratish: qadamma-qadam qo‘llanma",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/taqdimot-ai/",
+  "keywords": [
+    "gamma app",
+    "gamma ai",
+    "gamma app prezentatsiya",
+    "gamma slayd tayyorlash",
+    "gamma app uzbek tilida",
+    "gamma slayd",
+    "gamma prezentatsiya"
+  ],
+  "intro": "Gamma — sun’iy intellekt yordamida taqdimot, hujjat va sayt yaratadigan xorijiy xizmat. Bu qo‘llanmada rasmiy manzil, ro‘yxatdan o‘tish, o‘zbek tilida slayd yaratish, tahrirlash, PPTX va PDF’ga eksport, bepul tarifdagi cheklovlar, tipik xatolar va topshirishdan oldingi 10 bandli ro‘yxat bor. Ma’lumotlar 2026-yil noyabr holatiga ko‘ra rasmiy saytlardan tekshirilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: Gamma’da mavzuni yozasiz, xizmat slaydlar (u «karta» deydi) qoralamasini yaratadi, siz uni tahrirlab, PPTX yoki PDF qilib yuklab olasiz. GPTBot.uz Gamma bilan bog‘liq emas: bu mustaqil xizmat haqida qo‘llanma. Xizmat shartlari, interfeys va limitlar o‘zgarib turadi, shuning uchun muhim qarordan oldin rasmiy sahifani qayta ko‘ring."
+    },
+    {
+      "type": "h2",
+      "id": "gamma-nima",
+      "text": "Gamma nima va rasmiy manzil qaysi"
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy sayt — gamma.app. Brauzer qidiruvida «gamma app» yozsangiz, ko‘pincha unga o‘xshash nom bilan boshqa saytlar, ilova katalogi va klonlar chiqadi. Ro‘yxatdan o‘tish va to‘lovni faqat gamma.app manzilida va rasmiy ilova do‘konida bajaring; uchinchi tomon saytlariga hisobingiz parolini kiritmang."
+    },
+    {
+      "type": "p",
+      "text": "Gamma oddiy slayd dasturidan farq qiladi: u bo‘sh varaq emas, tayyor tuzilma beradi. Natija PowerPoint’dagi kabi qat’iy slaydlar emas, balki karta ko‘rinishidagi sahifalar bo‘lib, uni keyin PPTX, PDF yoki PNG qilib chiqarish mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "royxatdan-otish",
+      "text": "Ro‘yxatdan o‘tish va birinchi kirish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Brauzerda gamma.app manzilini oching yoki rasmiy ilovani o‘rnating.",
+        "2. Ro‘yxatdan o‘tish tugmasini bosing va sahifada ko‘rsatilgan usullardan birini tanlang: odatda elektron pochta yoki Google hisobi.",
+        "3. Pochtangizga kelgan tasdiqlash xabarini oching, agar so‘ralsa.",
+        "4. Birinchi kirishda xizmat nima uchun foydalanishingizni so‘rashi mumkin: «ta’lim» yoki o‘xshash variantni tanlang.",
+        "5. Boshlang‘ich bepul kreditlar hisobingizda ko‘rinishini tekshiring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Gamma O‘zbekistondan ro‘yxatdan o‘tishga ruxsat berishi yoki bermasligi haqida rasmiy sahifada aniq va’da topilmadi. Ro‘yxatdan o‘tish hamma uchun ishlashiga kafolat yo‘q: avval o‘zingiz urinib ko‘ring. Pullik tarifni olishni rejalashtirsangiz, to‘lov usullari va narxni faqat gamma.app/pricing sahifasidan ko‘ring; bu yerda narx keltirilmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "ozbekcha-slayd",
+      "text": "O‘zbek tilida slayd yaratish: 6 qadam"
+    },
+    {
+      "type": "p",
+      "text": "Gamma dasturchilar hujjatida yaratiladigan matn tillari ro‘yxatida o‘zbek tili (kod uz) bor. Interfeys tili esa alohida: u asosan brauzer tiliga moslashadi va o‘zbekcha bo‘lmasligi mumkin. Ya’ni sayt tugmalari inglizcha, lekin slayd matnini o‘zbekcha yozdirish mumkin."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Bosh sahifada yangi taqdimot yaratish tugmasini bosing va «Presentation» (taqdimot) turini tanlang.",
+        "2. Yaratish usulini tanlang: mavzuni bir jumlada yozish (Generate) yoki tayyor matnni qo‘yish (Paste in text).",
+        "3. Mavzuni aniq yozing. Masalan: «8-sinf uchun «Suvni tejash» mavzusida 8 kartali taqdimot. Til: o‘zbek (lotin). Har kartada sarlavha va 3 ta qisqa band.»",
+        "4. Kartalar sonini, matn hajmini va tilni sozlamalardan tanlang. Tilni «Uzbek» deb qo‘ying; agar ro‘yxatda yo‘q bo‘lsa, so‘rovning o‘ziga «o‘zbek tilida yoz» deb yozing.",
+        "5. Avval reja (outline) chiqadi: sarlavhalarni o‘zingiz o‘zgartiring, keraksizini o‘chiring.",
+        "6. Dizayn (mavzu) tanlab, yaratishni bosing va chiqqan natijani o‘qing."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tayyor so‘rov namunasi: «Mavzu: Amir Temur davlatining boshqaruvi. 9-sinf. 10 karta: sarlavha, reja, 7 ta asosiy karta, xulosa. Til: o‘zbek, lotin yozuvi. Sana va ismlarni men darslikdan tekshiraman, shubhali joyni [tekshirish] deb belgila.»"
+    },
+    {
+      "type": "h2",
+      "id": "tahrirlash",
+      "text": "Natijani tahrirlash: nimani albatta o‘zgartirish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Matnni o‘qing. O‘zbekcha gaplarda ruscha yoki inglizcha qolipdan tarjima qilingan jumlalar, noto‘g‘ri tutuq belgisi (ma’lumot, she’r) hamda o‘ va g‘ harflarida xato uchraydi.",
+        "Sana, raqam, ism va iqtibosni darslikdan tekshiring. AI mavjud bo‘lmagan fakt yozishi mumkin.",
+        "Har kartada bitta fikr qoldiring; uzun qismni ikki kartaga bo‘ling.",
+        "Rasmlarni ko‘ring: mavzuga aloqasiz yoki yozuvli rasm bo‘lsa, almashtiring. Rasm manbasi va litsenziyasi sizning javobgarligingizda.",
+        "Shriftni bir xil qiling va kontrastni tekshiring: kichik matn fonda yo‘qolmasin.",
+        "Kerak bo‘lsa, so‘nggi kartaga manbalar ro‘yxatini qo‘shing."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "eksport",
+      "text": "PPTX va PDF’ga eksport qilish"
+    },
+    {
+      "type": "p",
+      "text": "Gamma yordam markaziga ko‘ra, tartib shunday: yuqori o‘ng burchakdagi «Share» → «Export» ni tanlang yoki uch nuqtali menyudan «Export»ni oching, so‘ng PDF, PNG yoki PowerPoint (PPTX) formatini belgilang. Ro‘yxatda «All cards» tanlanganini tekshiring, aks holda faqat joriy karta chiqishi mumkin. Telefon ilovasida ham «Share» → «Export» bor, u butun taqdimotni chiqaradi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Format",
+        "Qachon kerak",
+        "Nimaga e’tibor bering"
+      ],
+      "rows": [
+        [
+          "PPTX",
+          "PowerPoint’da yoki o‘qituvchi kompyuterida tahrirlash",
+          "Eksportda slayd andozasi (master) bo‘sh bo‘ladi; ba’zi gradient va xira fon effektlari boshqacha ko‘rinishi mumkin"
+        ],
+        [
+          "PDF",
+          "Chop etish va elektron pochta orqali yuborish",
+          "Tahrirlab bo‘lmaydi, to‘ldiriladigan shakl emas"
+        ],
+        [
+          "Google Slides",
+          "Brauzerda hamkorlikda ishlash",
+          "To‘g‘ridan-to‘g‘ri tugma bo‘lmasa, PPTX qilib yuklab, Google Slides’ga joylang; Google Slides joylangan shriftlarni hisobga olmaydi, matn boshqacha ko‘rinishi mumkin"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Eksport qilingan faylni albatta PowerPoint yoki Google Slides’da ochib chiqing: shrift, uzun sarlavha va jadvallar siljishi mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "bepul-tarif",
+      "text": "Bepul tarifdagi cheklovlar (2026-yil noyabr holatiga ko‘ra)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bepul tarifda PDF va PPTX eksportga «Made by Gamma» belgisi qo‘shiladi (Gamma yordam markazi maqolasi). Brauzerdan chop etishda (Ctrl+P) bu belgi qo‘shilmasligi ham o‘sha maqolada yozilgan.",
+        "Bepul tarifda bitta dastlabki yaratishga 50 000 gacha AI token ruxsat etiladi (Gamma yordam markazi, tokenlar maqolasi).",
+        "Yordam markazidagi boshqa maqolaga ko‘ra, bepul tarifda bir so‘rovdan chiqadigan kartalar soni cheklangan (10 karta tilga olingan), keyin kartalarni qo‘lda qo‘shish mumkin. Bu maqolani ochib tekshira olmadim, shuning uchun raqamni gamma.app/pricing sahifasidan tasdiqlang.",
+        "Kreditlar bepul tarifda har oy yangilanmasligi haqida ma’lumot bor; amaldagi qoidani rasmiy narx sahifasida ko‘ring."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Narxlar va paketlar bu yerda keltirilmaydi: ular o‘zgaradi va sizning mamlakatingizda to‘lov mumkinligi kafolatlanmaydi. Agar xorijiy xizmatga ro‘yxatdan o‘tish yoki to‘lash murakkab bo‘lsa, {tool} sahifasida o‘zbek tilida taqdimot qoralamasini yaratib ko‘rish mumkin. Uning shartlari tegishli oynada ko‘rsatiladi.",
+      "links": [
+        {
+          "token": "tool",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "Taqdimot AI"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tayyor natijani o‘qimay topshirish: xato fakt va g‘alati jumla o‘qituvchi e’tiborini birinchi tortadi.",
+        "Juda umumiy mavzu yozish: «Tarix» o‘rniga «Amir Temurning 1370–1405-yillardagi boshqaruvi, 9-sinf, 8 karta» deng.",
+        "Kartalar sonini aytmaslik: AI o‘zi tanlagan son o‘qituvchi talabiga mos kelmasligi mumkin.",
+        "Bepul tarifdagi «Made by Gamma» belgisini ko‘rmay qolish: agar topshiriq tozaligini talab qilsa, buni oldindan hisobga oling.",
+        "Eksport qilgandan keyin faylni ochib tekshirmaslik.",
+        "Rasm manbasini yozmaslik.",
+        "Shaxsiy ma’lumot (telefon, passport, sinf jurnali) kiritish: bunday matnni xorijiy xizmatga yubormang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Topshirishdan oldin 10 bandli tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Slaydlar soni o‘qituvchi talabiga mosmi?",
+        "2. Barcha matn o‘zbek tilida, imlo xatosiz va tutuq belgisi to‘g‘rimi?",
+        "3. Har bir sana, raqam va ism darslikdan tekshirilganmi?",
+        "4. Har kartada bitta fikr va 3–5 qisqa band bormi?",
+        "5. Shrift kamida 18 pt va fon bilan kontrast yetarlimi?",
+        "6. Rasmlar mavzuga mos va ularning manbasi ko‘rsatilganmi?",
+        "7. Oxirida manbalar kartasi bormi?",
+        "8. Fayl so‘ralgan formatda (PPTX yoki PDF) saqlanganmi?",
+        "9. Fayl boshqa qurilmada ochib ko‘rilganmi?",
+        "10. O‘qituvchi AI’dan foydalanishga ruxsat berganmi va uni aytishga tayyormisiz?"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Taqdimotni boshdan oxirigacha yig‘ish, 6×6 qoidasi va 10 slaydli tuzilma — {general} qo‘llanmasida. Tayyor fonlar kerak bo‘lsa, {fons} sahifasidan yuklab oling: ularni Gamma’dan eksport qilingan PPTX faylida ham, PowerPoint’da ham qo‘yish mumkin.",
+      "links": [
+        {
+          "token": "general",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "reja, matn va maktab shabloni bilan umumiy"
+        },
+        {
+          "token": "fons",
+          "target": "/uz/blog/slayd-uchun-fonlar/",
+          "anchor": "24 ta bepul fon"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Matnni AI bilan tekshirish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Gamma app nima?",
+      "a": "Gamma — sun’iy intellekt yordamida taqdimot, hujjat va sayt yaratadigan xizmat. Rasmiy manzili gamma.app. Mavzuni yozasiz, xizmat kartalar qoralamasini yaratadi, uni tahrirlab PDF, PNG yoki PPTX qilib chiqarasiz."
+    },
+    {
+      "q": "Gamma o‘zbek tilida ishlaydimi?",
+      "a": "Gamma dasturchilar hujjatida yaratiladigan matn tillari ro‘yxatida o‘zbek tili (uz) bor. Interfeys tili brauzerga moslashadi va o‘zbekcha bo‘lmasligi mumkin. Natijani doim o‘qib, tutuq belgisi va jumlalarni to‘g‘rilang."
+    },
+    {
+      "q": "Gamma bepulmi?",
+      "a": "Bepul tarif bor, lekin cheklangan: eksportga «Made by Gamma» belgisi qo‘shiladi va bitta yaratishga token chegarasi bor. Amaldagi shartlar va narxlar gamma.app/pricing sahifasida; ular o‘zgarishi mumkin."
+    },
+    {
+      "q": "Gamma taqdimotini PowerPoint yoki PDF’ga qanday o‘tkazish mumkin?",
+      "a": "«Share» → «Export» ni tanlang, PDF, PNG yoki PowerPoint (PPTX) formatini belgilang va «All cards» yoqilganini tekshiring. Google Slides uchun PPTX yuklab, uni Google Slides’ga joylang."
+    },
+    {
+      "q": "O‘zbekistondan Gamma’ga ro‘yxatdan o‘tish va to‘lash mumkinmi?",
+      "a": "Rasmiy sahifada bunga aniq va’da topilmadi. Ro‘yxatdan o‘tishni o‘zingiz sinab ko‘ring; pullik tarif uchun to‘lov usullarini rasmiy narx sahifasida tekshiring. Kafolat yo‘q."
+    },
+    {
+      "q": "Gamma’ga muqobil bormi?",
+      "a": "Ha. Masalan, GPTBot.uz’ning Taqdimot AI sahifasida o‘zbek tilida taqdimot qoralamasi yaratish mumkin. Qo‘lda yig‘ish uchun PowerPoint, Google Slides va Canva ham bor. Qaysi biri qulayligi topshiriq talabiga bog‘liq."
+    }
+  ],
+  "cta": {
+    "label": "Matnni AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/taqdimot-ai/",
+      "anchor": "Taqdimot AI: o‘zbekcha qoralama yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "Reja, matn va maktab shabloni bilan umumiy qo‘llanma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/slayd-uchun-fonlar/",
+      "anchor": "24 ta bepul slayd foni",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: matnni tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/suniy-intellekt/",
+      "anchor": "Sun’iy intellekt nima",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Gamma app: slayd tayyorlash qadamlari va eksport | GPTBot.uz",
+  "ogDescription": "Gamma app nima, qanday boshlanadi, o‘zbek tilida slayd qanday yaratiladi, PPTX va PDF’ga eksport, bepul tarif cheklovlari va 10 bandli ro‘yxat.",
+  "ogImage": "https://gptbot.uz/assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/gamma-app-slayd-tayyorlash/",
+  "hreflangUz": "/uz/blog/gamma-app-slayd-tayyorlash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Gamma app",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Gamma Help Center — How do I export my Gamma to PDF, PowerPoint or Google Slides",
+      "url": "https://help.gamma.app/en/articles/8022861-how-do-i-export-my-gamma-to-pdf-powerpoint-or-google-slides",
+      "note": "Share → Export, PDF/PNG/PPTX, «All cards», «Made by Gamma» belgisi bepul tarifda, brauzerdan chop etishda belgi qo‘shilmasligi, Google Slides uchun PPTX yo‘li, bo‘sh slayd andozasi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gamma Help Center — What are Gamma tokens and how do they work",
+      "url": "https://help.gamma.app/en/articles/11047156-what-are-gamma-tokens-and-how-do-they-work",
+      "note": "Bepul tarifda dastlabki yaratishga 50 000 gacha AI token; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gamma Developers — Output language accepted values",
+      "url": "https://developers.gamma.app/reference/output-language-accepted-values",
+      "note": "Yaratiladigan matn tillari ro‘yxatida Uzbek (uz) bor; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gamma — rasmiy sayt va narx sahifasi",
+      "url": "https://gamma.app/pricing",
+      "note": "Narxlar va bepul tarif shartlarini shu sahifada ko‘ring. Sahifa avtomatik so‘rovga 403 qaytardi, shuning uchun bepul tarifdagi kartalar soni va kreditlar haqidagi band yordam markazi qidiruv natijasiga asoslangan va tasdiqlashni talab qiladi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

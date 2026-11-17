@@ -1,0 +1,341 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "chatgpt-5-nima",
+  "url": "/uz/blog/chatgpt-5-nima/",
+  "title": "ChatGPT 5 nima: GPT-4, GPT-4o va GPT-5 farqi, 2026",
+  "description": "ChatGPT 5 nima, GPT-4 va GPT-4o bilan farqi, hozir ChatGPT’da qaysi modellar bor va bepul rejada nima beriladi: rasmiy sahifalar, 2026-yil noyabr holati.",
+  "h1": "ChatGPT versiyalari: GPT-4, GPT-4o, GPT-5 va hozirgi modellar",
+  "topicCluster": "ai-xizmatlar",
+  "keywords": [
+    "chatgpt 5",
+    "gpt 5",
+    "chat gpt 5",
+    "chatgpt 4",
+    "chat gpt 4",
+    "gpt 4o",
+    "chat gpt 4 online",
+    "чат гпт 5",
+    "чат гпт 4"
+  ],
+  "intro": "«ChatGPT 5» — OpenAI’ning GPT-5 modeli asosidagi ChatGPT versiyasi. U 2025-yil 7-avgustda chiqqan, keyin esa ChatGPT yana ikki avlodga — GPT-5.6 va GPT-6 ga — o‘tgan. Bu sahifa — yangilanib turadigan qo‘llanma: GPT-4, GPT-4o va GPT-5 nima ekanini, ular ChatGPT’da nima bo‘lganini va 2026-yil noyabr holatiga ko‘ra bepul rejada qaysi model ishlashini (GPT-6 Luna) tushuntiradi.",
+  "body": [
+    {
+      "type": "quote",
+      "text": "Qisqasi: GPT-4 va GPT-4o ChatGPT’dan chiqarib olingan, GPT-5 (2025-yil 7-avgust) esa o‘tgan avlod. OpenAI’ning rasmiy yangilanishlar sahifasiga ko‘ra, 2026-yil 17-noyabr holatida ChatGPT GPT-6 avlodida ishlaydi, bepul rejada — GPT-6 Luna. Ro‘yxat tez o‘zgaradi: ilovadagi model tanlagichi va yangilanishlar sahifasiga qarang."
+    },
+    {
+      "type": "h2",
+      "id": "versiyalar",
+      "text": "GPT-4, GPT-4o va GPT-5: nima farq qiladi"
+    },
+    {
+      "type": "p",
+      "text": "GPT — OpenAI’ning til modellari seriyasi. ChatGPT esa shu modellar ustida ishlaydigan suhbat ilovasi. Shuning uchun «ChatGPT 4» yoki «ChatGPT 5» deganda aslida ChatGPT’ning ichidagi model raqami nazarda tutiladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Model",
+        "Nima bo‘lgan",
+        "ChatGPT’dagi holati (2026-yil noyabr)"
+      ],
+      "rows": [
+        [
+          "GPT-4",
+          "2023-yilda chiqqan asosiy model; matn va murakkab savollarda o‘sha davrning yetakchisi",
+          "2025-yil 30-aprelda ChatGPT’dan olib tashlangan, o‘rniga GPT-4o berilgan"
+        ],
+        [
+          "GPT-4o",
+          "Matn, rasm va ovoz bilan ishlaydigan tezkor model",
+          "2026-yil 13-fevralda ChatGPT’dan chiqarilgan"
+        ],
+        [
+          "GPT-5",
+          "2025-yil 7-avgustda chiqqan model; ChatGPT’da bir nechta modelni avtomatik almashtiradigan yagona tizim sifatida berilgan",
+          "GPT-5 Instant va GPT-5 Thinking 2026-yil 13-fevralda chiqarilgan"
+        ],
+        [
+          "GPT-5.6 (Sol, Luna)",
+          "2026-yil avgustda chiqqan avlod: Luna 6-avgustdan bepul va Go rejalarida asosiy model bo‘lgan, Plus va Pro yangilangan Sol modelini olgan",
+          "Keyingi GPT-6 avlodi bilan almashtirilgan"
+        ],
+        [
+          "GPT-6 (Sol, Luna, Astra)",
+          "GPT-6 Astra 2026-yil 3-sentabrda tanishtirilgan; 7-oktabrda GPT-6 asosiy modelga aylangan",
+          "Plus, Pro, Business va Enterprise — GPT-6 Sol; bepul va Go — GPT-6 Luna; Pro rejasidagi chuqur fikrlash varianti — GPT-6 Astra"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Eslatma: model nomlari va chiqish sanalari OpenAI’ning rasmiy e’lonlari va yordam sahifalaridan olingan. OpenAI saytining bir qismi avtomatik so‘rovlarga yopiq, shuning uchun ayrim iboralar qidiruvdagi rasmiy sahifa parchalaridan tekshirildi."
+    },
+    {
+      "type": "h2",
+      "id": "nima-ozgardi",
+      "text": "GPT-5 bilan nima o‘zgargan"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bir nechta alohida modelni qo‘lda tanlash o‘rniga, ChatGPT oddiy savolga tez javob beruvchi, murakkab savolga ko‘proq «o‘ylaydigan» tizimni ishlata boshladi.",
+        "GPT-5 chiqishi bilan GPT-4o, GPT-4.1, o3 va o4-mini kabi modellar asosiy tanlovdan chiqdi. Foydalanuvchilar talabi bilan GPT-4o bir muddat qaytarilgan, keyin 2026-yil fevralda to‘liq olib tashlangan.",
+        "Keyingi avlodlarda (GPT-5.6, keyin GPT-6) OpenAI «Think» tugmasini qo‘shdi: murakkab savolda modelga ko‘proq vaqt berish mumkin.",
+        "Amalda siz uchun asosiy farq: javob aniqroq va uzoq topshiriqlarda barqarorroq. Lekin xato qilish xavfi yo‘qolgan emas — faktlarni baribir tekshirish kerak."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "hozirgi-modellar",
+      "text": "Hozir ChatGPT’da qaysi modellar bor"
+    },
+    {
+      "type": "p",
+      "text": "OpenAI’ning yangilanishlar sahifasiga ko‘ra (17.11.2026): 7-oktabrdan boshlab ChatGPT’da GPT-6 ishlaydi. Plus, Pro, Business va Enterprise rejalari GPT-6 Sol bilan, bepul va Go rejalari GPT-6 Luna bilan ishlaydi; Pro rejasidagi chuqur fikrlash varianti GPT-6 Astra’dan foydalanadi. GPT-6.1 Sol va GPT-6.1 Terra esa ChatGPT Work va Codex’da pullik rejalar uchun bosqichma-bosqich joriy etilmoqda, oddiy suhbat uchun emas. Ro‘yxat reja, mamlakat va ilova versiyasiga qarab farq qilishi mumkin."
+    },
+    {
+      "type": "p",
+      "text": "Model nomi ilovada ko‘rinadigan nomdan boshqacha bo‘lishi ham mumkin: dasturchilar hamjamiyatida bepul hisobda ilova bir nomni ko‘rsatgani, API esa boshqa modelni qaytargani haqida xabar berilgan. Qaysi model ishlayotganini ilovadagi model tanlagichidan va yordam sahifasidan tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "bepul",
+      "text": "Bepul rejada nimalar bor"
+    },
+    {
+      "type": "p",
+      "text": "OpenAI’ning yordam sahifasiga ko‘ra (2026-yil noyabr holati) bepul va Go rejalarida:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Asosiy model — GPT-6 Luna; kuchliroq GPT-6 Sol mos pullik rejalarda.",
+        "Kundalik matnli suhbatlar suiiste’molga qarshi himoya qoidalari doirasida cheklanmagan deb ko‘rsatilgan.",
+        "Murakkabroq savol uchun «Think» tugmasi bor: u modelga ko‘proq «o‘ylash» vaqtini beradi. 2026-yil avgustdagi yangilanishda cheklovsiz matnli suhbat (suiiste’molga qarshi qoidalar doirasida) va Think tugmasi bepul foydalanuvchilarga ochilgan.",
+        "Fayl yuklash, rasm yaratish, ovozli suhbat va ma’lumot tahlili uchun alohida limitlar saqlanib qolgan."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Narxlarni bu yerda yozmaymiz: ular o‘zgaradi va mamlakatga bog‘liq. O‘zbekistondan to‘lov va ro‘yxatdan o‘tish imkoniyatini kafolatlay olmaymiz — buni rasmiy saytda o‘zingiz tekshiring."
+    },
+    {
+      "type": "linkp",
+      "text": "Hisob ochish bo‘yicha alohida maqola bor: {login}. Telefon va kompyuterga o‘rnatish esa {download} qo‘llanmasida.",
+      "links": [
+        {
+          "token": "login",
+          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "anchor": "hisobga kirish tartibi"
+        },
+        {
+          "token": "download",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "ilovani yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qaysi-model",
+      "text": "Qaysi modelni tanlash kerak"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Nima qilish kerak"
+      ],
+      "rows": [
+        [
+          "Oddiy savol, tarjima, qisqa matn",
+          "Asosiy modelning o‘zi yetadi; tez javob beradi"
+        ],
+        [
+          "Masala yechish, uzun reja, murakkab tahlil",
+          "«Think» yoki chuqurlik sozlamasini yoqing, agar rejangizda bo‘lsa"
+        ],
+        [
+          "Fakt va sana",
+          "Qaysi model bo‘lishidan qat’i nazar, manbadan tekshiring"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Savolni qanday yozish va natijani qanday tekshirish {howto} qo‘llanmasida bor — u har qanday model uchun yaraydi.",
+      "links": [
+        {
+          "token": "howto",
+          "target": "/uz/blog/chatgptdan-qanday-foydalanish/",
+          "anchor": "ChatGPT’dan foydalanish bo‘yicha 10 qadamli"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "chat-gpt-5-kirill",
+      "text": "Чат гпт 5 нима",
+      "lang": "uz-Cyrl"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "«Чат ГПТ 5» — OpenAI компаниясининг ChatGPT дастуридаги GPT-5 моделига берилган ном. GPT-5 2025 йил 7 август куни чиққан, лекин у ўтган авлод. 2026 йил 17 ноябр ҳолатига кўра ChatGPT GPT-6 авлодида ишлайди, бепул режада GPT-6 Luna. Чат ГПТ 4 эса эски версия: у энди ChatGPT’да йўқ. Моделлар тез алмашади, шунинг учун дастурдаги танлагични ва OpenAI янгиланишлар саҳифасини текширинг."
+    },
+    {
+      "type": "h2",
+      "id": "ehtiyot",
+      "text": "Versiya raqamiga qanday qarash kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Yangi raqam har doim «yaxshiroq» degani emas: ayrim vazifada yengil model ham yetarli.",
+        "Reklama va nusxa saytlarda «ChatGPT 5 bepul, kirishsiz» degan va’dalarga ishonmang. Rasmiy manzil — chatgpt.com.",
+        "«GPT-4 online» deb taklif qilinadigan begona saytlar OpenAI’niki bo‘lmasligi mumkin; ularga parol va karta ma’lumotini kiritmang.",
+        "Model nomini sahifa matniga emas, ilovaning o‘ziga qarab tekshiring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "muqobil",
+      "text": "Mustaqil AI chatimiz haqida"
+    },
+    {
+      "type": "linkp",
+      "text": "GPTBot.uz — mustaqil AI chat: ChatGPT, OpenAI yoki GPT modellarining rasmiy vakili emas. U o‘zbek va rus tillarida matn bilan ishlaydi. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak — shartlari {tarif} sahifasida.",
+      "links": [
+        {
+          "token": "tarif",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "tariflar"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Savolni GPTBot.uz AI chatiga berish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    },
+    {
+      "type": "p",
+      "text": "Sahifa 2026-yil 17-noyabrda yozildi. Yangi model chiqqanda u qayta yangilanadi."
+    }
+  ],
+  "faq": [
+    {
+      "q": "ChatGPT 5 nima?",
+      "a": "Bu OpenAI’ning GPT-5 modeli asosida ishlagan ChatGPT. GPT-5 2025-yil 7-avgustda chiqqan, lekin hozir o‘tgan avlod: 2026-yil 17-noyabr holatiga ko‘ra ChatGPT GPT-6 modellarida ishlaydi."
+    },
+    {
+      "q": "ChatGPT 5 bepulmi?",
+      "a": "OpenAI bepul reja beradi, lekin unda eng kuchli model emas, GPT-6 Luna ishlaydi (2026-yil noyabr holati). Fayl, rasm va ovoz uchun limitlar bor. Narx va shartlarni rasmiy saytda tekshiring."
+    },
+    {
+      "q": "ChatGPT 4 hozir ishlaydimi?",
+      "a": "ChatGPT ilovasida GPT-4 2025-yil 30-aprelda olib tashlangan, GPT-4o esa 2026-yil 13-fevralda chiqarilgan. Dasturchilar uchun API’da modellar alohida qoidalar bilan ishlaydi."
+    },
+    {
+      "q": "GPT-4o va GPT-5 o‘rtasida qanday farq bor?",
+      "a": "GPT-4o — tezkor ko‘p formatli model. GPT-5 esa savol murakkabligiga qarab tezroq yoki chuqurroq javob beradigan tizim sifatida joriy etilgan. Hozir ikkalasi ham ChatGPT asosiy tanlovida yo‘q."
+    },
+    {
+      "q": "Qaysi model ishlayotganini qanday bilaman?",
+      "a": "Ilovadagi model tanlagichiga qarang va OpenAI’ning «Model Release Notes» sahifasini tekshiring. Ilova yorlig‘i va ichki model nomi ba’zan farq qilishi mumkin."
+    },
+    {
+      "q": "«Чат гпт 5» va «ChatGPT 5» bir narsami?",
+      "a": "Ha, bu bir xil xizmatning ikki yozilishi: kirill va lotin. Rasmiy nomi — ChatGPT, rasmiy manzili — chatgpt.com."
+    }
+  ],
+  "cta": {
+    "label": "Savolni GPTBot.uz AI chatiga berish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-xizmatlar/",
+      "anchor": "AI xizmatlar: qo‘llanmalar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chatgptdan-qanday-foydalanish/",
+      "anchor": "ChatGPT bilan ishlash: 10 qadam",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "anchor": "Hisobga kirish tartibi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "anchor": "Telefon va kompyuterga yuklab olish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "anchor": "ChatGPT, Claude va Gemini taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "ChatGPT 5 nima: GPT-4, GPT-4o va GPT-5 farqi, 2026",
+  "ogDescription": "ChatGPT 5 nima, GPT-4 va GPT-4o bilan farqi, hozir ChatGPT’da qaysi modellar bor va bepul rejada nima beriladi: rasmiy sahifalar, 2026-yil noyabr holati.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/chatgpt-5-nima/",
+  "hreflangUz": "/uz/blog/chatgpt-5-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "ChatGPT versiyalari va bepul imkoniyatlarini bilmoqchi bo‘lgan foydalanuvchilar"
+  },
+  "breadcrumbLabel": "ChatGPT versiyalari",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help — ChatGPT Release Notes",
+      "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+      "note": "2026-11-17 kuni brauzerda o‘qildi: 6-avgust — GPT-5.6 Luna bepul va Go rejalarida asosiy model; 3-sentabr — GPT-6 Astra; 7-oktabr — Plus, Pro, Business, Enterprise GPT-6 Sol, bepul va Go GPT-6 Luna, Pro rejasida GPT-6 Astra; 29-sentabr va 26-oktabr — GPT-6.1 Sol va Terra ChatGPT Work va Codex’da pullik rejalar uchun."
+    },
+    {
+      "title": "OpenAI — Introducing GPT-5",
+      "url": "https://openai.com/index/introducing-gpt-5/",
+      "note": "GPT-5 2025-yil 7-avgustda ChatGPT’da asosiy model bo‘lgan; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI — Retiring GPT-4o, GPT-4.1, GPT-4.1 mini, and OpenAI o4-mini in ChatGPT",
+      "url": "https://openai.com/index/retiring-gpt-4o-and-older-models/",
+      "note": "GPT-4o va boshqa eski modellar ChatGPT’dan 2026-yil 13-fevralda chiqarilgan; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help — Model Release Notes",
+      "url": "https://help.openai.com/en/articles/9624314-model-release-notes",
+      "note": "Modellar almashinuvi yozuvlari; GPT-4 ChatGPT’dan 2025-yil 30-aprelda olib tashlangani; 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

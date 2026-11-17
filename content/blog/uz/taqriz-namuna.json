@@ -1,0 +1,560 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "taqriz-namuna",
+  "url": "/uz/blog/taqriz-namuna/",
+  "title": "Taqriz namuna: dars ishlanma, maqola va BMIga | GPTBot.uz",
+  "description": "Taqriz qanday yoziladi: tuzilma, dars ishlanmasi, maqola, bitiruv malakaviy ishi va kitobga to‘rtta to‘ldirilgan misol, iboralar banki, Word/PDF blanka.",
+  "h1": "Taqriz namunalari: dars ishlanmasi, maqola, bitiruv ishi va kitobga",
+  "topicCluster": "hujjat-va-xatlar",
+  "keywords": [
+    "taqriz",
+    "taqriz namuna",
+    "taqriz yozish",
+    "dars ishlanmaga taqriz",
+    "maqolaga taqriz",
+    "bitiruv malakaviy ishga taqriz"
+  ],
+  "intro": "Taqriz — ilmiy, o‘quv yoki badiiy ishga mutaxassis bergan bahoning yozma bayoni: unda ishning yutuq va kamchiliklari xolis ko‘rsatiladi, oxirida aniq tavsiya beriladi. Bu sahifada taqriz tuzilmasi, dars ishlanmasi, maqola, bitiruv malakaviy ishi va kitobga yozilgan to‘rtta qisqa to‘ldirilgan misol hamda tayyor iboralar banki berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan blanka va savollar jadvali, undan keyin alohida sahifalarda to‘rtta to‘ldirilgan o‘quv misoli bor. PDF ko‘rish va chop etish uchun."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261117/taqriz.docx",
+          "anchor": "Word uchun DOCX blankasini yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261117/taqriz.pdf",
+          "anchor": "PDF namunasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Namuna metodbirlashma rahbari, o‘qituvchi, ilmiy rahbar, kafedra xodimi va taqriz yozishni o‘rganayotgan talaba uchun mo‘ljallangan. Nashriyot, jurnal tahririyati yoki kafedra o‘z shaklini bergan bo‘lsa, o‘sha shakl ustun: bu mustaqil o‘quv namunasi, tasdiqlangan rasmiy blanka emas."
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misollari: to‘rtta qisqa taqriz"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misollari: muallif A, taqrizchi B, «Namuna-1» korxonasi va barcha ishlar shartli; haqiqiy shaxslar, ishlar yoki nashrlarga aloqasi yo‘q."
+    },
+    {
+      "type": "h3",
+      "id": "misol-dars",
+      "text": "1-misol. Dars ishlanmasiga taqriz"
+    },
+    {
+      "type": "quote",
+      "text": "Shartli maktabning matematika o‘qituvchisi A ning 6-sinf uchun «Maxraji har xil kasrlarni qo‘shish» mavzusidagi dars ishlanmasiga TAQRIZ"
+    },
+    {
+      "type": "quote",
+      "text": "Dars ishlanmasi 45 daqiqalik yangi bilim berish darsiga mo‘ljallangan va besh bosqichdan iborat. Mavzu o‘quv dasturiga mos: kasrlar ustidagi amallar keyingi mavzular uchun tayanch bo‘ladi."
+    },
+    {
+      "type": "quote",
+      "text": "Yutuqlari: 1) dars maqsadi o‘lchanadigan natija ko‘rinishida yozilgan: «o‘quvchi maxraji har xil ikki kasrni qo‘sha oladi»; 2) har bir bosqich uchun vaqt ko‘rsatilgan; 3) mustahkamlash uchun uch darajadagi topshiriqlar berilgan."
+    },
+    {
+      "type": "quote",
+      "text": "Kamchilik va takliflar: 1) juftlikda ishlash bosqichida baholash mezoni yo‘q — uni qo‘shish kerak; 2) dars yakuniga 5 daqiqalik qisqa test kiritish foydali; 3) ko‘rgazma sifatida kasr doiralaridan foydalanish mumkin."
+    },
+    {
+      "type": "quote",
+      "text": "Xulosa: ishlanma metodik talablarga javob beradi. Takliflar hisobga olingach, uni dars jarayonida qo‘llashga va metodbirlashmada muhokama qilishga tavsiya etaman."
+    },
+    {
+      "type": "quote",
+      "text": "Taqrizchi: metodbirlashma rahbari B · 12.11.2026; haqiqiy imzo qo‘yilmagan."
+    },
+    {
+      "type": "h3",
+      "id": "misol-maqola",
+      "text": "2-misol. Maqolaga taqriz"
+    },
+    {
+      "type": "quote",
+      "text": "Shartli muallif A ning «Boshlang‘ich sinflarda ovoz chiqarib o‘qish mashqlarining ahamiyati» nomli maqolasiga TAQRIZ"
+    },
+    {
+      "type": "quote",
+      "text": "Maqola 6 betdan iborat: annotatsiya, kirish, asosiy qism, xulosa va adabiyotlar ro‘yxati (9 ta manba). Mavzu dolzarb: o‘qish ko‘nikmasi boshqa fanlarni o‘zlashtirishga ham ta’sir qiladi."
+    },
+    {
+      "type": "quote",
+      "text": "Yutuqlari: 1) muallif bitta sinfda 8 hafta davomida o‘tkazgan kuzatuvini tasvirlagan va natijani jadvalda bergan; 2) xulosalar keltirilgan ma’lumotlardan kelib chiqadi; 3) matn tushunarli tilda yozilgan."
+    },
+    {
+      "type": "quote",
+      "text": "Kamchilik va takliflar: 1) kuzatuv bitta sinfda o‘tkazilgani xulosada cheklov sifatida ko‘rsatilmagan; 2) 3-jadvalda o‘lchov birligi yozilmagan; 3) ikki manbaning nashr yili matnda va ro‘yxatda har xil."
+    },
+    {
+      "type": "quote",
+      "text": "Xulosa: ko‘rsatilgan kamchiliklar tuzatilgach, maqolani konferensiya to‘plamida nashr etishga tavsiya etaman."
+    },
+    {
+      "type": "quote",
+      "text": "Taqrizchi: kafedra dotsenti B · 12.11.2026; haqiqiy imzo qo‘yilmagan."
+    },
+    {
+      "type": "h3",
+      "id": "misol-bmi",
+      "text": "3-misol. Bitiruv malakaviy ishiga taqriz"
+    },
+    {
+      "type": "quote",
+      "text": "Shartli oliygoh talabasi A ning «Kichik korxonada mijozlar murojaatlarini hisobga olishni takomillashtirish» mavzusidagi bitiruv malakaviy ishiga TAQRIZ"
+    },
+    {
+      "type": "quote",
+      "text": "Ish kirish, ikki bob, xulosa, adabiyotlar ro‘yxati (32 ta manba) va 3 ta ilovadan iborat; hajmi 58 bet. Mavzu amaliy ahamiyatga ega: murojaatlar hisobi xizmat sifatini baholashga asos bo‘ladi."
+    },
+    {
+      "type": "quote",
+      "text": "Yutuqlari: 1) maqsad va vazifalar xulosadagi natijalarga mos; 2) ikkinchi bobda shartli korxonaning uch oylik ma’lumoti tahlil qilingan; 3) takliflar hisob-kitob bilan asoslangan; 4) ish belgilangan talablar bo‘yicha rasmiylashtirilgan."
+    },
+    {
+      "type": "quote",
+      "text": "Kamchilik va takliflar: 1) birinchi bobda so‘nggi besh yilda chiqqan manbalar kam; 2) 2.2-banddagi diagrammalarga izoh berilmagan; 3) takliflarni joriy etish xarajati hisoblanmagan."
+    },
+    {
+      "type": "quote",
+      "text": "Xulosa: ko‘rsatilgan kamchiliklar ishning umumiy qiymatini pasaytirmaydi. Ish bitiruv malakaviy ishlariga qo‘yiladigan talablarga javob beradi va himoyaga tavsiya etiladi."
+    },
+    {
+      "type": "quote",
+      "text": "Taqrizchi: shartli «Namuna-1» korxonasi bo‘lim boshlig‘i B · 12.11.2026; haqiqiy imzo va muhr qo‘yilmagan."
+    },
+    {
+      "type": "h3",
+      "id": "misol-kitob",
+      "text": "4-misol. Kitobga taqriz"
+    },
+    {
+      "type": "quote",
+      "text": "Shartli muallif A ning «5-sinf uchun matnli masalalar to‘plami» nomli o‘quv qo‘llanmasiga TAQRIZ"
+    },
+    {
+      "type": "quote",
+      "text": "Qo‘llanma 96 betdan iborat: 6 bo‘lim, 240 ta masala va javoblar. U 5-sinf matematika dasturidagi mavzular tartibida tuzilgan, darsda va uy vazifasida foydalanishga mo‘ljallangan."
+    },
+    {
+      "type": "quote",
+      "text": "Yutuqlari: 1) masalalar osondan murakkabga qarab joylashtirilgan; 2) har bo‘lim boshida yechim namunasi berilgan; 3) masala shartlari kundalik hayotga yaqin va tushunarli tilda yozilgan."
+    },
+    {
+      "type": "quote",
+      "text": "Kamchilik va takliflar: 1) 4-bo‘limdagi 7 ta masalaning javobi berilmagan; 2) ayrim chizmalar mayda, chop etilganda o‘qilishi qiyin; 3) har bo‘lim oxiriga o‘z-o‘zini tekshirish testini qo‘shish foydali bo‘ladi."
+    },
+    {
+      "type": "quote",
+      "text": "Xulosa: kamchiliklar tuzatilgach, qo‘llanmani nashrga va darsda qo‘shimcha material sifatida qo‘llashga tavsiya etaman."
+    },
+    {
+      "type": "quote",
+      "text": "Taqrizchi: oliy toifali matematika o‘qituvchisi B · 12.11.2026; haqiqiy imzo qo‘yilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "taqriz-yozish",
+      "text": "Taqriz yozish: bu qanday hujjat va uni kim yozadi"
+    },
+    {
+      "type": "p",
+      "text": "Ish yuritish bo‘yicha o‘quv qo‘llanmasida taqriz badiiy yoki ilmiy asarga tanqidiy nuqtai nazardan berilgan bahoning yozma bayoni deb ta’riflanadi. U oddiy maqoladan tortib dissertatsiya, darslik va monografiyagacha bo‘lgan ishlarga yoziladi. Taqrizda ishga atroflicha munosabat bildiriladi, ijobiy va salbiy tomonlari xolis ko‘rsatiladi hamda ishni nashrga yoki himoyaga tavsiya etish-etmaslik aniq aytiladi."
+    },
+    {
+      "type": "p",
+      "text": "Taqrizni ish muallifi emas, shu sohani biladigan boshqa mutaxassis yozadi va o‘z nomidan imzolaydi. Dars ishlanmasiga odatda metodbirlashma rahbari yoki tajribali o‘qituvchi, maqolaga soha mutaxassisi, bitiruv malakaviy ishiga kafedra tayinlagan taqrizchi, kitobga esa nashriyot yoki muassasa tanlagan mutaxassis taqriz beradi. Kim yozishi va nechta taqriz kerakligini taqriz so‘ragan tashkilot belgilaydi."
+    },
+    {
+      "type": "h2",
+      "id": "tuzilma",
+      "text": "Taqriz tuzilmasi: sarlavhadan imzogacha"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi"
+      ],
+      "rows": [
+        [
+          "Sarlavha",
+          "Kimning qaysi ishiga yozilayotgani: muallif, ish turi va nomi; alohida qatorda «Taqriz» so‘zi"
+        ],
+        [
+          "Kirish",
+          "Ishning hajmi va tuzilishi, kimga mo‘ljallangani, mavzuning dolzarbligi"
+        ],
+        [
+          "Mazmun tahlili",
+          "Qismlar bo‘yicha qisqa bayon; yutuqlar aniq misol, bet yoki bob bilan"
+        ],
+        [
+          "Kamchilik va takliflar",
+          "Nima yetishmasligi va uni qanday tuzatish mumkinligi — hurmat bilan va dalil bilan"
+        ],
+        [
+          "Xulosa",
+          "Umumiy baho va aniq tavsiya: nashrga, himoyaga yoki amaliyotda qo‘llashga"
+        ],
+        [
+          "Taqrizchi",
+          "Lavozimi, ilmiy darajasi yoki malaka toifasi, F.I.Sh., imzosi va sana"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "O‘quv qo‘llanmasiga ko‘ra, ilmiy ishga berilgan taqrizda imzoni taqrizchi ishlaydigan tashkilotning kadrlar bo‘limi tasdiqlaydi; ba’zan «Taqriz» so‘zi o‘rnida «Mulohazalar» deb ham yoziladi. Hajmga yagona talab yo‘q: qisqa ish uchun bir bet yetadi, aniq talabni taqriz so‘ragan tashkilotdan bilib oling."
+    },
+    {
+      "type": "h2",
+      "id": "ish-turlari",
+      "text": "Dars ishlanmasi, maqola, BMI va kitob: nimaga e’tibor beriladi"
+    },
+    {
+      "type": "p",
+      "text": "Jadvaldagi savollarga javob yozsangiz, taqrizning asosiy qismi tayyor bo‘ladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ish turi",
+        "Asosiy savollar"
+      ],
+      "rows": [
+        [
+          "Dars ishlanmasi",
+          "Maqsad o‘lchanadigan natija ko‘rinishidami? Bosqichlar va vaqt taqsimoti mantiqlimi? Usul va topshiriqlar sinf darajasiga mosmi? Baholash mezoni bormi?"
+        ],
+        [
+          "Maqola yoki tezis",
+          "Mavzu va maqsad aniqmi? Usul va dalillar tushunarli bayon qilinganmi? Xulosalar natijalardan kelib chiqadimi? Manbalar to‘g‘ri ko‘rsatilganmi?"
+        ],
+        [
+          "Bitiruv malakaviy ishi",
+          "Mavzu dolzarbmi? Ish mustaqil bajarilganmi? Maqsad va natijalar bir-biriga mosmi? Xulosa va takliflar asoslanganmi? Ish talab bo‘yicha rasmiylashtirilganmi?"
+        ],
+        [
+          "Kitob yoki o‘quv qo‘llanma",
+          "Mazmun o‘quv dasturiga mosmi? Mavzular izchil joylashganmi? Til o‘quvchi yoshiga mosmi? Mashq va javoblarda xato yo‘qmi?"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Mezonlar ba’zan rasmiy hujjatda sanab beriladi. Masalan, pedagoglarni qayta tayyorlash kurslari uchun 2025-yil 30-sentabrda tasdiqlangan tartibda rahbar bitiruv ishi haqidagi yozma xulosasini yetti mezon bo‘yicha bayon etadi: tayyorlanish sifati; mavzuning dolzarbligi, nazariy va amaliy ahamiyati; mustaqil bajarilgani; maqsad va natijalarning mosligi; rasmiylashtirilgani; pedagogik va axborot texnologiyalaridan foydalanilgani; xulosa va tavsiyalarning asoslangani. Oliygohlarda bitiruv malakaviy ishiga taqriz tartibini odatda kafedra yoki fakultetning o‘z hujjati belgilaydi."
+    },
+    {
+      "type": "h2",
+      "id": "bosh-tuzilma",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan tuzilma"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan blankada ham bor. Ishni o‘qib chiqib, avval yutuq va kamchiliklarni betlari bilan qoralamaga yozing, keyin maydonlarni to‘ldiring; tayyor misoldagi baho va raqamlarni o‘z taqrizingizga ko‘chirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Sarlavha qismi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Muallifning lavozimi yoki kursi, F.I.Sh.]ning «[ish nomi]» mavzusidagi [ish turi: dars ishlanmasi, maqola, bitiruv malakaviy ishi, o‘quv qo‘llanma]ga",
+        "TAQRIZ — alohida qatorda, sahifa o‘rtasida"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Kirish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ish haqida: [hajmi va tuzilishi — necha bet, nechta bob yoki bosqich; kimga mo‘ljallangani].",
+        "Mavzuning dolzarbligi: [mavzu nega muhim — 1–2 gap]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Mazmun tahlili"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mazmuni: [qismlar bo‘yicha qisqa bayon — nima yoritilgan].",
+        "Yutuqlari: 1) [aniq misol — bet, bob yoki bosqich bilan]; 2) [aniq misol]; 3) [aniq misol].",
+        "Kamchilik va takliflar: 1) [nima yetishmaydi va qanday tuzatish mumkin]; 2) [taklif]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-4",
+      "text": "Xulosa"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Umumiy baho: ko‘rsatilgan kamchiliklar [ishning qiymatini pasaytirmaydi yoki ishni qayta ko‘rib chiqishni talab qiladi].",
+        "Ish [qaysi talablarga] javob beradi va uni [nashrga, himoyaga yoki amaliyotda qo‘llashga] tavsiya etaman."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-5",
+      "text": "Taqrizchi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Taqrizchi: [lavozim, ilmiy daraja yoki malaka toifasi] [imzo] [F.I.Sh.] · [kun.oy.yil]",
+        "Imzo tasdig‘i: [taqriz so‘ragan tashkilot talab qilsa]."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "iboralar",
+      "text": "Iboralar banki: kirish, baho, kamchilik va xulosa uchun"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Tayyor iboralar"
+      ],
+      "rows": [
+        [
+          "Kirish",
+          "«Taqriz etilayotgan ish … betdan iborat bo‘lib, … qismlarni o‘z ichiga oladi». «Mavzu dolzarb, chunki …». «Ish … uchun mo‘ljallangan»."
+        ],
+        [
+          "Yutuqlar",
+          "«Muallif … masalasini izchil yoritgan». «… bobda keltirilgan misollar mavzuni ochib beradi». «Xulosalar keltirilgan ma’lumotlardan kelib chiqadi». «Ish tushunarli tilda yozilgan»."
+        ],
+        [
+          "Kamchilik va takliflar",
+          "«Shu bilan birga, ayrim kamchiliklar ham ko‘zga tashlanadi». «… betdagi jadvalga izoh berilmagan». «… masalasi e’tibordan chetda qolgan». «… ni qo‘shish maqsadga muvofiq»."
+        ],
+        [
+          "Xulosa",
+          "«Ko‘rsatilgan kamchiliklar ishning umumiy qiymatini pasaytirmaydi». «Ish … talablariga javob beradi». «Ishni nashrga (himoyaga) tavsiya etaman». «Kamchiliklar tuzatilgach, ishni qayta ko‘rib chiqish mumkin»."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Baho so‘zlarini dalilsiz qo‘llamang: «yuqori saviyada yozilgan» degan gapdan keyin albatta misol keltiring."
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Faqat maqtov: kamchilik va takliflar bo‘limi bo‘sh qolsa, taqriz xolis ko‘rinmaydi.",
+        "Umumiy gaplar: «ish yaxshi yozilgan» o‘rniga qaysi bob, bet yoki bosqich nimasi bilan yaxshi ekanini yozing.",
+        "Mazmunni qayta hikoya qilish: taqrizda bayon qisqa bo‘ladi, asosiy o‘rinni tahlil va baho egallaydi.",
+        "Muallifning shaxsini baholash: taqriz ishga beriladi, odamga emas.",
+        "Aniq tavsiya yo‘q: oxirida ish nimaga tavsiya etilishi yoki nima uchun qaytarilishi aytilmagan.",
+        "Taqrizchi ko‘rsatilmagan: lavozim, F.I.Sh., sana va imzo bo‘lmasa, hujjat qabul qilinmasligi mumkin.",
+        "O‘qilmagan ishga taqriz: boshqa taqrizdan ko‘chirilgan matn ishning haqiqiy mazmuniga mos kelmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Topshirishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ish nomi, turi va muallifi sarlavhada to‘g‘ri yozilganmi?",
+        "Har bir yutuq va kamchilik aniq misol, bet yoki bob bilan ko‘rsatilganmi?",
+        "Takliflar bajarsa bo‘ladigan ko‘rinishdami?",
+        "Xulosada aniq tavsiya bormi: nashrga, himoyaga, qo‘llashga yoki qayta ishlashga?",
+        "Taqrizchining lavozimi, F.I.Sh., imzosi va sana bormi; imzo tasdig‘i talab qilinadimi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu tasdiqlangan rasmiy shakl emas. Taqriz so‘ragan tashkilot — nashriyot, jurnal tahririyati, kafedra yoki metodika xizmati — o‘z shakli va mezonlarini bergan bo‘lsa, o‘shandan foydalaning. Taqrizni ishni to‘liq o‘qib chiqqan mutaxassis o‘z nomidan yozadi va imzolaydi; misollardagi baholarni o‘z ishingizga ko‘chirmang."
+    },
+    {
+      "type": "linkp",
+      "text": "Matn uslubini tekshirish uchun {chat}dan foydalanish mumkin. O‘zingiz yozgan qoralamani ism-familiyalarsiz kiriting va «Yangi fakt va baho qo‘shma, takror so‘zlar va noaniq joylarni ko‘rsat» deb yozing. Chatda ro‘yxatsiz 3 ta bepul sinov javobi bor: ular butun sayt uchun jami hisoblanadi va har kuni yangilanmaydi, keyin AI paket kerak. Chat ishni o‘qimagan: u taqrizni o‘rningizga yozmaydi va imzolamaydi. Fayllarni yuklab olish uchun chat kerak emas.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Vazifangizga qarab: {tezis} · {tahlil} · {tavsiyanoma}.",
+      "links": [
+        {
+          "token": "tezis",
+          "target": "/uz/blog/tezis-namuna/",
+          "anchor": "Konferensiya tezisi namunasi"
+        },
+        {
+          "token": "tahlil",
+          "target": "/uz/blog/dars-tahlili-namuna/",
+          "anchor": "Dars tahlili namunasi"
+        },
+        {
+          "token": "tavsiyanoma",
+          "target": "/uz/blog/tavsiyanoma-namuna/",
+          "anchor": "Tavsiyanoma namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa hujjat kerak bo‘lsa, {hub} sahifasidan tanlang.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/hujjat-namunalari/",
+          "anchor": "barcha hujjat namunalari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Taqriz nima?",
+      "a": "Taqriz — ilmiy, o‘quv yoki badiiy ishga mutaxassis bergan bahoning yozma bayoni. Unda ishning mazmuni qisqa tahlil qilinadi, yutuq va kamchiliklari xolis ko‘rsatiladi, oxirida ishni nashrga, himoyaga yoki amaliyotda qo‘llashga tavsiya etish-etmaslik aniq aytiladi."
+    },
+    {
+      "q": "Taqriz qanday yoziladi?",
+      "a": "Avval ishni to‘liq o‘qib chiqing va yutuq hamda kamchiliklarni betlari bilan belgilab oling. Keyin sarlavhada kimning qaysi ishiga yozilayotganini ko‘rsating, kirishda ishning hajmi, tuzilishi va mavzuning dolzarbligini, asosiy qismda mazmun tahlili, yutuqlar, kamchilik va takliflarni yozing. Oxirida aniq tavsiya, lavozimingiz, ism-familiyangiz, sana va imzo bo‘ladi."
+    },
+    {
+      "q": "Dars ishlanmasiga taqrizni kim yozadi?",
+      "a": "Odatda metodbirlashma rahbari, shu fan bo‘yicha tajribali o‘qituvchi yoki metodist. Ishlanma tanlov, attestatsiya yoki nashr uchun topshirilayotgan bo‘lsa, taqrizchiga qo‘yiladigan talabni hujjatlarni qabul qiladigan tashkilotdan aniqlang."
+    },
+    {
+      "q": "Taqrizda kamchilik yozish shartmi?",
+      "a": "Xolis taqrizda yutuqlar bilan birga kamchilik va takliflar ham bo‘ladi: faqat maqtovdan iborat matn ishonchli ko‘rinmaydi. Jiddiy kamchilik topilmasa, kichik takliflarni yozing va ular ishning umumiy qiymatini pasaytirmasligini ayting."
+    },
+    {
+      "q": "Bitiruv malakaviy ishiga taqriz necha betdan iborat bo‘ladi?",
+      "a": "Yagona talab yo‘q: hajm va shaklni kafedra yoki fakultet belgilaydi, ba’zan tayyor blanka beriladi. Odatda ishning tuzilishi, dolzarbligi, yutuq va kamchiliklari hamda himoyaga tavsiya sig‘adigan qisqa matn yetadi. Baho qo‘yish so‘ralsa, taqrizchi uni kafedra mezonlari bo‘yicha qo‘yadi."
+    },
+    {
+      "q": "O‘z ishimga taqrizni o‘zim yozsam bo‘ladimi?",
+      "a": "Yo‘q. Taqrizni ishni o‘qib chiqqan boshqa mutaxassis o‘z nomidan yozadi va imzolaydi. Muallif taqrizchiga ish matni, annotatsiya va talablarni berishi mumkin, lekin baho va xulosa taqrizchiniki bo‘lishi kerak."
+    },
+    {
+      "q": "Taqriz namunasini Word yoki PDF formatida yuklab olsa bo‘ladimi?",
+      "a": "Ha. Sahifa boshida tahrirlanadigan DOCX blanka va chop etish uchun PDF bor: blanka, savollar jadvali va to‘rtta to‘ldirilgan o‘quv misoli bitta faylda. Fayllar bepul, ro‘yxatdan o‘tish talab qilinmaydi."
+    }
+  ],
+  "cta": {
+    "label": "Taqriz qoralamasini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/tezis-namuna/",
+      "anchor": "Konferensiya tezisi: shablon va ikki misol",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/dars-tahlili-namuna/",
+      "anchor": "Dars tahlili namunasi: kuzatuv blankasi va misol",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/tavsiyanoma-namuna/",
+      "anchor": "Tavsiyanoma: nomzodni tavsiya qilish xati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: qoralama matnini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "AI chat qo‘llanmasi: limitlar va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "Taqriz namuna: dars ishlanma, maqola va BMIga | GPTBot.uz",
+  "ogDescription": "Taqriz qanday yoziladi: tuzilma, dars ishlanmasi, maqola, bitiruv malakaviy ishi va kitobga to‘rtta to‘ldirilgan misol, iboralar banki, Word/PDF blanka.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/taqriz-namuna/",
+  "hreflangUz": "/uz/blog/taqriz-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Taqriz yozadigan o‘qituvchilar, metodistlar, ilmiy rahbarlar va talabalar"
+  },
+  "breadcrumbLabel": "Taqriz namuna",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "S. A. Karimov, Sh. M. Maxmatmurodov, O. N. Karimova — Nutq madaniyati va davlat tilida ish yuritish (NamDU kutubxonasi)",
+      "url": "https://namdu.uz/media/Books/pdf/2024/06/02/NamDU-ARM-3076-Nutq_madaniyati_va_davlat_tilida_ish_yuritish.pdf?raw=1",
+      "note": "Ish yuritish bo‘yicha o‘quv qo‘llanmasi; «Taqriz» bo‘limida hujjatning ta’rifi, tarkibiy qismlari, «Mulohazalar» nomi va imzoni kadrlar bo‘limi tasdiqlashi haqida aytilgan, dissertatsiya avtoreferatiga yozilgan taqriz namunasi berilgan. 2026-11-17 kuni tekshirildi. Bu amaldagi majburiy blanka emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
+    },
+    {
+      "title": "Maktabgacha va maktab ta’limi vazirining 2025-yil 30-sentabrdagi 367-son buyrug‘i, 2-ilova — Qayta tayyorlash kursi bitiruvchilarining yakuniy davlat attestatsiyasini tashkil etish tartibi (avloniy.uz)",
+      "url": "https://avloniy.uz/uploads/opendata/783e126dbffc80f6ca105b8b73f652d4.pdf",
+      "note": "Tartibning 1-ilovasidagi «Bitiruv ishiga taqriz berish tartibi» bo‘limida rahbarning yozma xulosasi uchun yetti mezon sanab o‘tilgan; bitiruv ishi va unga berilgan taqrizlar ta’lim muassasasida uch yil saqlanishi yozilgan. Hujjat pedagoglarni qayta tayyorlash kurslariga tegishli; oliygohlardagi bitiruv malakaviy ishiga taqriz tartibi bu hujjatda belgilanmagan. 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

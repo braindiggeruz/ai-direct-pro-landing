@@ -1,0 +1,652 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/ekub-ekuk/",
+  "slug": "ekub-ekuk",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "EKUB va EKUKni qadamma-qadam top",
+      "prompt": "Quyidagi sonlarning EKUB va EKUK qiymatlarini tub ko‘paytuvchilarga ajratish usulida qadamma-qadam top, oxirida EKUB · EKUK = a · b formulasi bilan tekshir.\nSonlar: "
+    },
+    {
+      "label": "Evklid algoritmini o‘rgat",
+      "prompt": "Evklid algoritmini misolda tushuntir: ikkita sonning EKUB qiymatini qoldiqli bo‘lish orqali qadamma-qadam top. Keyin shunga o‘xshash 4 ta juftlik ber, o‘zim yechaman.\nBirinchi misol: "
+    },
+    {
+      "label": "Masalani yech: EKUB yoki EKUK?",
+      "prompt": "Quyidagi masalada EKUB kerakmi yoki EKUK ekanini sababi bilan ayt, keyin masalani qadamma-qadam yech.\nMasala: "
+    },
+    {
+      "label": "10 ta mashq: EKUB va EKUK",
+      "prompt": "Menga EKUB va EKUK bo‘yicha 10 ta mashq ber: osondan qiyinga, 3 tasi matnli masala. Javoblarni ko‘rsatma: men yozaman, sen tekshirib, xatolarimni tushuntirasan."
+    },
+    {
+      "label": "Kasrlarni EKUK bilan qo‘shish",
+      "prompt": "Kasrlarni umumiy maxrajga keltirib qo‘shishni EKUK yordamida qadamma-qadam tushuntir. Keyin 5 ta kasr qo‘shish misoli ber, men yechaman, sen tekshirasan."
+    },
+    {
+      "label": "Javobimni tekshir",
+      "prompt": "EKUB va EKUK bo‘yicha javobimni tekshir. Xato bo‘lsa, qaysi qadamda ekanini ayt va to‘g‘ri yechimni ko‘rsat.\nTopshiriq: \nMening javobim: "
+    }
+  ],
+  "primaryKeyword": "ekub ekuk",
+  "secondaryKeywords": [
+    "ekub va ekuk topish",
+    "eng katta umumiy bo‘luvchi",
+    "eng kichik umumiy karrali",
+    "ekub ekuk misollar",
+    "evklid algoritmi",
+    "ekub ekuk masalalar"
+  ],
+  "searchIntent": "informational",
+  "h1": "Eng katta umumiy bo‘luvchi va eng kichik umumiy karrali: qoidalar, masalalar",
+  "title": "EKUB va EKUK topish: 2 usul, 12 misol va 15 ta mashq",
+  "description": "EKUB va EKUK: eng katta umumiy bo‘luvchi va eng kichik umumiy karrali, ikki usul, 12 yechilgan misol, 15 mashq. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "canonical": "https://gptbot.uz/uz/ekub-ekuk/",
+  "hreflangUz": "/uz/ekub-ekuk/",
+  "hreflangXDefault": "/uz/ekub-ekuk/",
+  "ogTitle": "EKUB va EKUK topish: 2 usul, 12 misol va 15 ta mashq",
+  "ogDescription": "EKUB va EKUK: eng katta umumiy bo‘luvchi va eng kichik umumiy karrali, ikki usul, 12 yechilgan misol, 15 mashq. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "EKUB va EKUK",
+  "heroTitle": "Eng katta umumiy bo‘luvchi va eng kichik umumiy karrali: qoidalar, masalalar",
+  "heroSubtitle": "Jadvallar, qoidalar va mashqlar bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "EKUB — eng katta umumiy bo‘luvchi: berilgan sonlarning har birini qoldiqsiz bo‘la oladigan eng katta son. EKUK — eng kichik umumiy karrali: berilgan sonlarning hammasiga qoldiqsiz bo‘linadigan eng kichik son. Masalan, 12 va 18 uchun EKUB = 6, EKUK = 36. Bu sahifada ikkala tushuncha ta’rifi, har biri uchun ikki usul (tub ko‘paytuvchilarga ajratish va Evklid algoritmi), masalalarni ham o‘z ichiga olgan 12 ta yechilgan misol va javobli 15 ta mashq bor. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi mashqlar tuzadi va javobingizni tekshiradi."
+    },
+    {
+      "type": "p",
+      "text": "Jadvallar, qoidalar va mashqlar har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "qisqa-qoida",
+      "text": "Qisqa qoida: EKUB va EKUK qanday topiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sonlarni tub ko‘paytuvchilarga ajrating: 24 = 2³ · 3, 36 = 2² · 3².",
+        "EKUB: faqat umumiy tub ko‘paytuvchilarni oling, har birini eng kichik darajada: 2² · 3 = 12.",
+        "EKUK: barcha tub ko‘paytuvchilarni oling, har birini eng katta darajada: 2³ · 3² = 72.",
+        "Ikki son uchun: EKUB · EKUK = ikkala sonning ko‘paytmasi. Tekshiring: 12 · 72 = 864 = 24 · 36.",
+        "Sonlar o‘zaro tub (umumiy tub ko‘paytuvchisi yo‘q) bo‘lsa, EKUB = 1, EKUK = ko‘paytma: 35 va 48 uchun 1 va 1680.",
+        "EKUB masalalarda «eng ko‘p teng qismga bo‘lish» yoki «eng katta kvadrat» savollarida kerak. EKUK — «qachon yana birga bo‘lamiz» va umumiy maxraj masalalarida."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "jadval",
+      "text": "Namunaviy juftliklar jadvali"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Sonlar",
+        "Tub ko‘paytuvchilar",
+        "EKUB",
+        "EKUK"
+      ],
+      "rows": [
+        [
+          "8 va 12",
+          "2³ va 2² · 3",
+          "4",
+          "24"
+        ],
+        [
+          "12 va 18",
+          "2² · 3 va 2 · 3²",
+          "6",
+          "36"
+        ],
+        [
+          "15 va 20",
+          "3 · 5 va 2² · 5",
+          "5",
+          "60"
+        ],
+        [
+          "16 va 24",
+          "2^4 va 2³ · 3",
+          "8",
+          "48"
+        ],
+        [
+          "24 va 36",
+          "2³ · 3 va 2² · 3²",
+          "12",
+          "72"
+        ],
+        [
+          "28 va 42",
+          "2² · 7 va 2 · 3 · 7",
+          "14",
+          "84"
+        ],
+        [
+          "36 va 48",
+          "2² · 3² va 2^4 · 3",
+          "12",
+          "144"
+        ],
+        [
+          "45 va 75",
+          "3² · 5 va 3 · 5²",
+          "15",
+          "225"
+        ],
+        [
+          "35 va 48",
+          "5 · 7 va 2^4 · 3",
+          "1",
+          "1680"
+        ],
+        [
+          "60 va 90",
+          "2² · 3 · 5 va 2 · 3² · 5",
+          "30",
+          "180"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ta-rif",
+      "text": "Ta’riflar va bo‘luvchi-karrali farqi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bo‘luvchi — berilgan sonni qoldiqsiz bo‘la oladigan son. 12 ning bo‘luvchilari: 1, 2, 3, 4, 6, 12.",
+        "Karrali — berilgan songa qoldiqsiz bo‘linadigan son. 12 ning karralilari: 12, 24, 36, 48, 60, ...; ular cheksiz ko‘p.",
+        "Umumiy bo‘luvchi — ikkala sonning ham bo‘luvchisi. 12 va 18 uchun: 1, 2, 3, 6. Eng kattasi 6 — EKUB.",
+        "Umumiy karrali — ikkala sonning ham karralisi. 12 va 18 uchun: 36, 72, 108, ... Eng kichigi 36 — EKUK."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "EKUB har doim sonlarning eng kichigidan katta bo‘lmaydi, EKUK esa eng kattasidan kichik bo‘lmaydi. Agar kattaroq son kichigiga bo‘linsa, EKUB shu kichik son, EKUK esa kattasi bo‘ladi: 6 va 18 uchun EKUB = 6, EKUK = 18."
+    },
+    {
+      "type": "h2",
+      "id": "usullar",
+      "text": "Ikki usul: ajratish va Evklid algoritmi"
+    },
+    {
+      "type": "h3",
+      "text": "1-usul. Tub ko‘paytuvchilarga ajratish"
+    },
+    {
+      "type": "linkp",
+      "text": "Sonlar kichik bo‘lsa, eng qulay usul. Har bir sonni tub ko‘paytuvchilarga ajratamiz. EKUB uchun umumiy ko‘paytuvchilarni kichik darajada, EKUK uchun hamma ko‘paytuvchilarni katta darajada ko‘paytiramiz. Ajratishni mashq qilish uchun {primes} sahifasiga qarang.",
+      "links": [
+        {
+          "token": "primes",
+          "target": "/uz/tub-sonlar/",
+          "anchor": "tub sonlar jadvali va ajratish misollari"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "2-usul. Evklid algoritmi (EKUB uchun)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Katta sonni kichigiga bo‘lib, qoldiqni toping.",
+        "Kichik sonni qoldiqqa bo‘ling. Shunday davom eting.",
+        "Qoldiq 0 bo‘lgan qadamdagi bo‘luvchi — EKUB.",
+        "EKUK ni formuladan toping: EKUK = a · b ÷ EKUB."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Evklid usuli katta sonlarda qulay: ularni ko‘paytuvchilarga ajratish shart emas. Uch son uchun avval ikkitasining EKUB qiymatini, keyin uni uchinchi son bilan oling: EKUB(a, b, c) = EKUB(EKUB(a, b), c). EKUK uchun ham shunday."
+    },
+    {
+      "type": "h2",
+      "id": "misollar",
+      "text": "12 ta yechilgan misol"
+    },
+    {
+      "type": "h3",
+      "text": "1-misol. 12 va 18 uchun EKUB va EKUK (sanab chiqish)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "12 ning bo‘luvchilari: 1, 2, 3, 4, 6, 12. 18 ning bo‘luvchilari: 1, 2, 3, 6, 9, 18.",
+        "Umumiy bo‘luvchilar: 1, 2, 3, 6. Eng kattasi 6.",
+        "12 ning karralilari: 12, 24, 36, 48. 18 ning karralilari: 18, 36, 54.",
+        "Birinchi umumiy karrali — 36.",
+        "Tekshiruv: 6 · 36 = 216 = 12 · 18."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: EKUB = 6, EKUK = 36."
+    },
+    {
+      "type": "h3",
+      "text": "2-misol. 24 va 36 uchun EKUB va EKUK (ajratish usuli)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "24 = 2³ · 3, 36 = 2² · 3².",
+        "EKUB: umumiy ko‘paytuvchilar eng kichik darajada: 2² · 3 = 12.",
+        "EKUK: hamma ko‘paytuvchilar eng katta darajada: 2³ · 3² = 72.",
+        "Tekshiruv: 12 · 72 = 864 = 24 · 36 = 864."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: EKUB = 12, EKUK = 72."
+    },
+    {
+      "type": "h3",
+      "text": "3-misol. 48 va 60 uchun EKUB va EKUK (ajratish usuli)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "48 = 2^4 · 3, 60 = 2² · 3 · 5.",
+        "EKUB: umumiy ko‘paytuvchilar eng kichik darajada: 2² · 3 = 12.",
+        "EKUK: hamma ko‘paytuvchilar eng katta darajada: 2^4 · 3 · 5 = 240.",
+        "Tekshiruv: 12 · 240 = 2880 = 48 · 60 = 2880."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: EKUB = 12, EKUK = 240."
+    },
+    {
+      "type": "h3",
+      "text": "4-misol. 84 va 126 uchun EKUB va EKUK (ajratish usuli)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "84 = 2² · 3 · 7, 126 = 2 · 3² · 7.",
+        "EKUB: umumiy ko‘paytuvchilar eng kichik darajada: 2 · 3 · 7 = 42.",
+        "EKUK: hamma ko‘paytuvchilar eng katta darajada: 2² · 3² · 7 = 252.",
+        "Tekshiruv: 42 · 252 = 10584 = 84 · 126 = 10584."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: EKUB = 42, EKUK = 252."
+    },
+    {
+      "type": "h3",
+      "text": "5-misol. 252 va 105 uchun EKUB va EKUK (Evklid algoritmi)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ketma-ket bo‘lamiz: 252 = 2 · 105 + 42; 105 = 2 · 42 + 21; 42 = 2 · 21 + 0.",
+        "Qoldiq 0 bo‘lgan qadamdagi bo‘luvchi — 21. Demak EKUB = 21.",
+        "EKUK = 252 · 105 ÷ 21 = 26460 ÷ 21 = 1260."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: EKUB = 21, EKUK = 1260."
+    },
+    {
+      "type": "h3",
+      "text": "6-misol. 1071 va 462 uchun EKUB va EKUK (Evklid algoritmi)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ketma-ket bo‘lamiz: 1071 = 2 · 462 + 147; 462 = 3 · 147 + 21; 147 = 7 · 21 + 0.",
+        "Qoldiq 0 bo‘lgan qadamdagi bo‘luvchi — 21. Demak EKUB = 21.",
+        "EKUK = 1071 · 462 ÷ 21 = 494802 ÷ 21 = 23562."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: EKUB = 21, EKUK = 23562."
+    },
+    {
+      "type": "h3",
+      "text": "7-misol. 18, 24 va 30 uchun EKUB va EKUK (uchta son)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "18 = 2 · 3², 24 = 2³ · 3, 30 = 2 · 3 · 5.",
+        "EKUB: uchalasida bor ko‘paytuvchilar eng kichik darajada: 2 · 3 = 6.",
+        "EKUK: hamma ko‘paytuvchilar eng katta darajada: 2³ · 3² · 5 = 360.",
+        "Tekshiruv: 360 ni 18, 24 va 30 ga bo‘lamiz: 20, 15, 12 — qoldiqsiz bo‘linadi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: EKUB = 6, EKUK = 360."
+    },
+    {
+      "type": "h3",
+      "text": "8-misol. 35 va 48 o‘zaro tub sonlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "35 = 5 · 7, 48 = 2^4 · 3.",
+        "Umumiy tub ko‘paytuvchi yo‘q, shuning uchun EKUB = 1.",
+        "O‘zaro tub sonlarda EKUK = ko‘paytma: 35 · 48 = 1680."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: EKUB = 1, EKUK = 1680."
+    },
+    {
+      "type": "h3",
+      "text": "9-misol. Masala: 48 ta olma va 36 ta nok bir xil sovg‘a to‘plamlariga bo‘linadi. Eng ko‘pi bilan nechta to‘plam bo‘ladi?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Olma ham, nok ham qoldiqsiz bo‘linishi kerak, to‘plamlar soni esa eng katta bo‘lishi lozim. Bu — EKUB.",
+        "48 = 2⁴ · 3, 36 = 2² · 3². EKUB = 2² · 3 = 12.",
+        "Har bir to‘plamda: 48 ÷ 12 = 4 ta olma, 36 ÷ 12 = 3 ta nok.",
+        "Tekshiruv: 12 · 4 = 48, 12 · 3 = 36."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: 12 ta to‘plam: har birida 4 ta olma va 3 ta nok."
+    },
+    {
+      "type": "h3",
+      "text": "10-misol. Masala: ikki avtobus bir bekatdan soat 8:00 da birga chiqdi. Birinchisi har 12 daqiqada, ikkinchisi har 18 daqiqada qaytadi. Ular yana qachon birga bo‘ladi?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ular ikkala interval butun marta joylashadigan eng yaqin vaqtda uchrashadi. Bu — EKUK.",
+        "12 = 2² · 3, 18 = 2 · 3². EKUK = 2² · 3² = 36.",
+        "8:00 dan 36 daqiqa o‘tgach: 8:36.",
+        "Tekshiruv: 36 ÷ 12 = 3 marta, 36 ÷ 18 = 2 marta, butun son."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: soat 8:36 da."
+    },
+    {
+      "type": "h3",
+      "text": "11-misol. Masala: 84 sm × 60 sm to‘rtburchak polga kvadrat plitkalar yotqiziladi, plitka kesilmaydi. Plitka tomoni eng ko‘pi bilan necha sm va nechta plitka kerak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Plitka tomoni 84 ga ham, 60 ga ham bo‘linishi kerak, eng kattasi esa — EKUB.",
+        "84 = 2² · 3 · 7, 60 = 2² · 3 · 5. EKUB = 2² · 3 = 12.",
+        "Uzunlik bo‘yicha: 84 ÷ 12 = 7 ta, eni bo‘yicha: 60 ÷ 12 = 5 ta.",
+        "Plitkalar soni: 7 · 5 = 35."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: tomoni 12 sm, jami 35 ta plitka."
+    },
+    {
+      "type": "h3",
+      "text": "12-misol. Kasrlarni qo‘shish: 5/12 + 7/18"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Umumiy maxraj — maxrajlar uchun EKUK topamiz: 12 = 2² · 3, 18 = 2 · 3², EKUK = 36.",
+        "Qo‘shimcha ko‘paytuvchilar: 36 ÷ 12 = 3 va 36 ÷ 18 = 2.",
+        "5/12 = 15/36, 7/18 = 14/36.",
+        "15/36 + 14/36 = 29/36. 29 tub son, 36 ga bo‘linmaydi, kasr qisqarmaydi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: 29/36."
+    },
+    {
+      "type": "p",
+      "text": "EKUB kasrlarni qisqartirishda ham kerak: 42/56 ni qisqartirish uchun EKUB(42, 56) = 14 ni topamiz, so‘ng son va maxrajni 14 ga bo‘lamiz: 3/4."
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "EKUB va EKUK ni almashtirish. EKUB — bo‘luvchi, shuning uchun sonlardan katta bo‘lmaydi; EKUK — karrali, sonlardan kichik bo‘lmaydi.",
+        "EKUK ni topishda umumiy ko‘paytuvchini ikki marta olish: 24 va 36 da 2³ · 3² = 72, 2³ · 3 · 2² · 3² emas.",
+        "EKUB da eng katta darajani olish. EKUB uchun darajalarning kichigi olinadi: 24 va 36 uchun 2², 2³ emas.",
+        "Evklid algoritmida to‘xtashni bilmaslik: qoldiq 0 bo‘lganda to‘xtang va oxirgi bo‘luvchini oling, qoldiqni emas.",
+        "Masalada qaysi tushuncha kerakligini aniqlamaslik. «Teng qismga bo‘lish» — EKUB, «yana birga bo‘lish» yoki «umumiy maxraj» — EKUK.",
+        "Natijani tekshirmaslik: ikki son uchun EKUB · EKUK = a · b."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mashqlar",
+      "text": "15 ta mashq"
+    },
+    {
+      "type": "p",
+      "text": "1–12-mashqlarda EKUB va EKUK ni toping (ikkita yoki uchta son), 13–15-mashqlar — masalalar. Avval o‘zingiz yeching, keyin pastdagi javoblar bilan solishtiring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1) 8 va 12 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "2) 15 va 20 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "3) 18 va 27 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "4) 36 va 48 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "5) 45 va 75 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "6) 56 va 84 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "7) 72 va 108 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "8) 91 va 143 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "9) 221 va 323 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "10) 360 va 840 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "11) 12, 18 va 27 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "12) 20, 30 va 45 sonlarining EKUB va EKUK qiymatlarini toping.",
+        "13) Masala: 56 ta daftar va 42 ta qalam bir xil to‘plamlarga bo‘linadi. Eng ko‘pi bilan nechta to‘plam bo‘ladi va har birida nechtadan daftar va qalam bor?",
+        "14) Masala: uchta chiroq mos ravishda har 6, 8 va 12 soniyada yonadi. Ular bir vaqtda yonib turganda, yana qachon birga yonadi?",
+        "15) 7/15 − 3/20 ayirmasini EKUK yordamida hisoblang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "javoblar",
+      "text": "Mashqlar javoblari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1) EKUB = 4, EKUK = 24.",
+        "2) EKUB = 5, EKUK = 60.",
+        "3) EKUB = 9, EKUK = 54.",
+        "4) EKUB = 12, EKUK = 144.",
+        "5) EKUB = 15, EKUK = 225.",
+        "6) EKUB = 28, EKUK = 168.",
+        "7) EKUB = 36, EKUK = 216.",
+        "8) EKUB = 13, EKUK = 1001.",
+        "9) EKUB = 17, EKUK = 4199.",
+        "10) EKUB = 120, EKUK = 2520.",
+        "11) EKUB = 3, EKUK = 108.",
+        "12) EKUB = 5, EKUK = 180.",
+        "13) 14 ta to‘plam (EKUB(56, 42) = 14): har birida 4 ta daftar va 3 ta qalam.",
+        "14) 24 soniyadan keyin (EKUK(6, 8, 12) = 24).",
+        "15) Umumiy maxraj EKUK(15, 20) = 60. 7/15 = 28/60, 3/20 = 9/60. 28/60 − 9/60 = 19/60."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "EKUB va EKUK bilan ishlashda sonlarni tez ko‘paytirish ham yordam beradi: {mental} va {formulas}. Karralilarni topish uchun {table} kerak, tub ko‘paytuvchilarni topish uchun — {primes}. {tests}da boshqa fanlar bo‘yicha savollar bor. AI paket shartlari {tariffs} sahifasida. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "mental",
+          "target": "/uz/mental-arifmetika-misollar/",
+          "anchor": "og‘zaki hisoblash usullari"
+        },
+        {
+          "token": "formulas",
+          "target": "/uz/qisqa-kopaytirish-formulalari/",
+          "anchor": "qisqa ko‘paytirish formulalari"
+        },
+        {
+          "token": "table",
+          "target": "/uz/karra-jadvali/",
+          "anchor": "karra jadvali"
+        },
+        {
+          "token": "primes",
+          "target": "/uz/tub-sonlar/",
+          "anchor": "tub sonlar jadvali"
+        },
+        {
+          "token": "tests",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar katalogi"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "bizga Telegram’da"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "EKUB va EKUK nima?",
+      "a": "EKUB — eng katta umumiy bo‘luvchi: berilgan sonlarning har birini qoldiqsiz bo‘la oladigan eng katta son. EKUK — eng kichik umumiy karrali: berilgan sonlarning hammasiga qoldiqsiz bo‘linadigan eng kichik son. 12 va 18 uchun EKUB = 6, EKUK = 36."
+    },
+    {
+      "q": "EKUB va EKUK orasida qanday bog‘lanish bor?",
+      "a": "Ikki natural son uchun EKUB · EKUK = a · b. Masalan, 12 va 18: 6 · 36 = 216 = 12 · 18. Bu formula bilan EKUB topilgach, EKUK ni tez hisoblash mumkin. Uchta va undan ortiq son uchun bu formula to‘g‘ri kelmaydi."
+    },
+    {
+      "q": "Qaysi usul yaxshi: ajratishmi yoki Evklid algoritmi?",
+      "a": "Kichik sonlar uchun ajratish tushunarliroq. Katta sonlar yoki ko‘paytuvchilarga ajratish qiyin bo‘lgan sonlar uchun Evklid algoritmi tezroq. Ikkala usul bir xil natija beradi."
+    },
+    {
+      "q": "Masalada EKUB yoki EKUK kerakligini qanday bilaman?",
+      "a": "Narsalarni eng ko‘p teng guruhga bo‘lish, eng katta kvadrat yoki eng uzun teng bo‘lak so‘ralsa — EKUB. Takrorlanadigan hodisalar qachon yana mos tushishi yoki kasrlarning umumiy maxraji so‘ralsa — EKUK."
+    },
+    {
+      "q": "Sonlardan biri ikkinchisiga bo‘linsa-chi?",
+      "a": "Shunda EKUB kichik son, EKUK esa katta son bo‘ladi. Masalan, 6 va 18: 18 ÷ 6 = 3, EKUB = 6, EKUK = 18."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Jadvallar, qoidalar va mashqlar bepul. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/tub-sonlar/",
+      "anchor": "Tub sonlar jadvali va ajratish misollari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/mental-arifmetika-misollar/",
+      "anchor": "Og‘zaki hisoblash usullari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/karra-jadvali/",
+      "anchor": "Karra jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/qisqa-kopaytirish-formulalari/",
+      "anchor": "Qisqa ko‘paytirish formulalari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: EKUB va EKUK",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "EKUB va EKUK topish usullari, yechilgan misollar va javobli mashqlar, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: yangi mashq tuzadi va javobni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul qoidalar va mashqlar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Jadvallar, qoidalar va mashqlar bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/ekub-ekuk/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

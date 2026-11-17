@@ -1,0 +1,388 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "logo-yasash",
+  "url": "/uz/blog/logo-yasash/",
+  "title": "Logo yasash: 5 qadam va 12 ta AI so‘rov | GPTBot.uz",
+  "description": "Logo yasash 5 qadamda: g‘oya, rang va shrift, bepul vositalar, rasm yaratuvchi AI uchun 12 ta tayyor so‘rov, fayl formatlari, kichik biznes uchun tekshiruv ro‘yxati.",
+  "h1": "Logotip yaratish: o‘zingiz, bepul vositalar va sun’iy intellekt bilan",
+  "topicCluster": "biznes-va-marketing",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "logo yasash",
+    "logotip yasash",
+    "logo yaratish",
+    "logo yasash ai",
+    "logo yasash bepul",
+    "logo maker",
+    "logo generator"
+  ],
+  "intro": "Yaxshi logo murakkab bo‘lmaydi: oddiy shakl, ikki rang, o‘qiladigan nom. Bu qo‘llanmada logoni besh qadamda yasash, bepul vositalar, rasm yaratuvchi sun’iy intellekt uchun 12 ta tayyor so‘rov, fayl formatlari va o‘lchamlar, kichik biznes uchun tekshiruv ro‘yxati va nimalardan qochish kerakligi bor.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: avval biznes nima haqida ekanini bir gapda yozing, keyin 3–5 ta g‘oya chizing, bittasini tanlab, ikki rang va bitta shrift bilan tayyorlang, oq va to‘q fonda sinab, PNG va vektor fayl shaklida saqlang. Hamma qadamni telefonda ham bajarsa bo‘ladi."
+    },
+    {
+      "type": "h2",
+      "id": "5-qadam",
+      "text": "Logoni 5 qadamda yasash"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Nom va ma’no. Nomni va nimani bildirishini yozing: do‘kon, o‘quv markazi, kafe, shaxsiy brend. Bir gapda: «Biz kimmiz va kimga xizmat qilamiz».",
+        "2. G‘oya. Qog‘ozga 5 ta oddiy eskiz chizing: nomning bosh harfi, oddiy belgi (bargi, uy, kitob), harf va belgi birikmasi.",
+        "3. Rang va shrift. 1–2 ta asosiy rang va bitta aniq shrift tanlang. Rang ko‘p bo‘lsa, logo bosmada qimmat va chalkash chiqadi.",
+        "4. Yasash. Quyidagi vositalardan birida eskizni tayyorlang. Matnni siz yozing: nomdagi xatoni tekshirish ham sizning vazifangiz.",
+        "5. Sinov va saqlash. Logoni 3 ta o‘lchamda (katta, avatar, juda kichik), oq, qora va rangli fonda ko‘ring. O‘qilsa, PNG va vektor shaklida saqlang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bepul-vositalar",
+      "text": "Logo yasash uchun vositalar (2026-yil noyabr holatiga ko‘ra)"
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy saytlarning ayrim sahifalari avtomatik so‘rovga javob bermadi, shuning uchun quyida har bir xizmatda nimani o‘zingiz tekshirishingiz kerakligi ham yozilgan. Hech qaysi xizmatda to‘lov usuli yoki ro‘yxatdan o‘tish O‘zbekistondan ishlashiga kafolat bermaymiz: avval o‘zingiz sinab ko‘ring."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vosita",
+        "Nima uchun",
+        "O‘zingiz tekshiring"
+      ],
+      "rows": [
+        [
+          "Canva (canva.com)",
+          "Tayyor shablonlar va oddiy tahrir, telefonda ham ishlaydi",
+          "Logoni qaysi formatda va qaysi tarifda yuklab olish mumkinligi, shaffof fon bepulmi"
+        ],
+        [
+          "Looka (looka.com)",
+          "Nom va soha kiritilsa, AI logo variantlarini ko‘rsatadi",
+          "Dizaynni ko‘rish bepul bo‘lsa ham, fayllarni yuklab olish ko‘pincha pullik; shartlarni saytda ko‘ring"
+        ],
+        [
+          "Inkscape (inkscape.org)",
+          "Bepul ochiq vektor dastur (kompyuterda)",
+          "Faqat rasmiy saytdan yuklab oling; o‘rganish vaqt oladi"
+        ],
+        [
+          "PowerPoint yoki Google Slides",
+          "Oddiy shakl va matndan logo yig‘ish, so‘ng rasm sifatida saqlash",
+          "Natija vektor emas; katta bosma uchun yaramaydi"
+        ],
+        [
+          "Rasm yaratuvchi AI xizmatlari",
+          "Belgi g‘oyasi va eskiz uchun",
+          "Rasm ichidagi yozuv ko‘pincha xato chiqadi; xizmat shartlarida tijoriy foydalanish mumkinmi, shuni o‘qing"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tavsiya: g‘oyani AI bilan toping, lekin yakuniy logoni sodda shakllar bilan o‘zingiz yig‘ing va nomni qo‘lda yozing. Shunda xatosiz va sizga tegishli bo‘ladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Nom, shior va logo tavsifi uchun matn kerak bo‘lsa, {chat}dan foydalaning: u nom variantlarini va qisqa tavsifni o‘zbek tilida taklif qiladi. Natijani o‘zingiz tekshirasiz.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-sorovlar",
+      "text": "Rasm yaratuvchi AI uchun 12 ta tayyor so‘rov"
+    },
+    {
+      "type": "p",
+      "text": "So‘rovlardagi [qavs] ichidagi so‘zlarni o‘zingiznikiga almashtiring. Ko‘pchilik xizmatlar inglizcha so‘rovni yaxshiroq tushunadi, shuning uchun har bir so‘rovning inglizcha varianti ham berilgan. Rasmdagi yozuvni ishonib bo‘lmaydi: belgi (piktogramma) so‘rang, nomni keyin o‘zingiz qo‘shing."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "So‘rov (o‘zbekcha / inglizcha)"
+      ],
+      "rows": [
+        [
+          "1",
+          "«[Non do‘koni] uchun oddiy logo belgisi: bug‘doy boshog‘i, ikki rang, oq fon.» / Simple logo mark for a bakery: wheat ear, two colors, white background."
+        ],
+        [
+          "2",
+          "«O‘quv markazi uchun logo belgisi: ochiq kitob va quyosh, tekis shakllar, yozuvsiz.» / Logo mark for a learning center: open book and sun, flat shapes, no text."
+        ],
+        [
+          "3",
+          "«IT kompaniya uchun minimal logo: geometrik shakl, ko‘k va oq, vektor uslubida.» / Minimal logo for an IT company: geometric shape, blue and white, vector style."
+        ],
+        [
+          "4",
+          "«Kafe uchun yumaloq emblema: choynak va piyola, chiziqli uslub, bitta rang.» / Round emblem for a cafe: teapot and cup, line art, single color."
+        ],
+        [
+          "5",
+          "«Go‘zallik saloni uchun nafis logo belgisi: gul barglari, pushti va oltin.» / Elegant logo mark for a beauty salon: flower petals, pink and gold."
+        ],
+        [
+          "6",
+          "«Kiyim do‘koni uchun bosh harf asosidagi logo: [A] harfi, zamonaviy, qora va oq.» / Letter-based logo for a clothing store: letter [A], modern, black and white."
+        ],
+        [
+          "7",
+          "«Yetkazib berish xizmati uchun logo belgisi: yo‘l va strelka, tez harakat, to‘q yashil.» / Logo mark for a delivery service: road and arrow, fast motion, dark green."
+        ],
+        [
+          "8",
+          "«Maktab klubi uchun hazil logo: kulgichli robot, oddiy shakl, 3 ta rang.» / Playful logo for a school club: smiling robot, simple shapes, three colors."
+        ],
+        [
+          "9",
+          "«Bolalar markazi uchun mehribon belgi: qush va yulduz, pastel ranglar.» / Friendly mark for a kids center: bird and star, pastel colors."
+        ],
+        [
+          "10",
+          "«Bog‘dorchilik do‘koni uchun logo: nihol va barg, tabiiy yashil, ixcham.» / Logo for a garden shop: sprout and leaf, natural green, compact."
+        ],
+        [
+          "11",
+          "«Shaxsiy brend uchun monogramma: ikki harf [AB], ramka ichida, ikki rang.» / Personal brand monogram: two letters [AB], inside a frame, two colors."
+        ],
+        [
+          "12",
+          "«Mavjud logoning 4 ta oddiy varianti: bir rangli, oq fonda va qora fonda, yozuvsiz.» / Four simple variants of the existing logo: one-color, on white and black background, no text."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Natija yoqmasa, so‘rovni qisqartiring: «kamroq tafsilot, tekis shakl, 2 ta rang, soyasiz» deb qo‘shing. Chiqqan belgi mavjud mashhur brendga o‘xshab ketsa, uni ishlatmang."
+    },
+    {
+      "type": "h2",
+      "id": "formatlar",
+      "text": "Fayl formatlari va o‘lchamlar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Format",
+        "Qachon kerak",
+        "Izoh"
+      ],
+      "rows": [
+        [
+          "SVG yoki PDF (vektor)",
+          "Bosma, banner, tampa, vizitka",
+          "Sifat yo‘qotmasdan istalgan o‘lchamga kattalashadi. Asosiy fayl shu bo‘lsin"
+        ],
+        [
+          "PNG shaffof fon",
+          "Sayt, taqdimot, ijtimoiy tarmoq",
+          "Amaliy mo‘ljal: uzun tomoni kamida 2000 piksel"
+        ],
+        [
+          "PNG kvadrat avatar",
+          "Telegram, Instagram, Google xaritalar",
+          "Kvadrat 1000×1000 atrofida; platforma uni doira qilib qirqishi mumkin, belgi chetga yopishmasin"
+        ],
+        [
+          "JPG",
+          "Faqat oq fonli joylar",
+          "Shaffoflik yo‘q; logoning asosiy fayli bo‘lmasin"
+        ],
+        [
+          "Favicon (sayt belgisi)",
+          "Brauzer varag‘i",
+          "Juda kichik o‘lchamda o‘qilishi uchun faqat belgi yoki bosh harf ishlating"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Platformalar talab qiladigan aniq o‘lchamlar o‘zgarib turadi; yuklashdan oldin tegishli xizmatning yordam sahifasini ko‘ring."
+    },
+    {
+      "type": "h2",
+      "id": "kichik-biznes",
+      "text": "Kichik biznes uchun tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Logo kichik avatar o‘lchamida ham tanilyaptimi?",
+        "Oq, qora va rangli fonda yaxshi ko‘rinadimi?",
+        "Rang va shrift ko‘pi bilan 2 tadanmi?",
+        "Nomdagi harflar to‘g‘ri yozilgan (o‘, g‘ va tutuq belgisi)mi?",
+        "Vektor fayl (SVG yoki PDF) va shaffof PNG saqlanganmi?",
+        "Bir rangli (qora-oq) versiya bormi: muhr va pechat uchun?",
+        "Logo mashhur brendga o‘xshamasligi tekshirilganmi?",
+        "AI xizmatining shartlarida tijoriy foydalanishga ruxsat bormi?",
+        "Fayllar kamida ikki joyda (telefon va bulut yoki kompyuter) saqlanganmi?"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qilmang",
+      "text": "Nimalardan qochish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mashhur brend logosini nusxalash yoki «biroz o‘zgartirish». Bu savdo belgisi bilan bog‘liq muammo tug‘dirishi mumkin. Savdo belgisini ro‘yxatdan o‘tkazish va tekshirish masalasida O‘zbekiston Respublikasi Intellektual mulk agentligi yoki yurist bilan maslahatlashing.",
+        "Ko‘p rang, soya, gradient va mayda tafsilot: kichik o‘lchamda yo‘qoladi.",
+        "Rasm ichida AI yozgan nom: harflar xato chiqadi.",
+        "Internetdan topilgan tayyor belgini manbasini bilmay qo‘yish.",
+        "Moda uslubiga ortiqcha ergashish: logo yillar davomida xizmat qilishi kerak.",
+        "Faqat bitta fayl saqlash."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu sahifa yuridik maslahat emas. Savdo belgisi va mualliflik huquqi bo‘yicha qaror qabul qilishdan oldin mutaxassisga murojaat qiling."
+    },
+    {
+      "type": "linkp",
+      "text": "Logo tayyor bo‘lgach, biznesga kerak bo‘ladigan keyingi qadamlar: {reja}, {sayt} va {marketing}. Ijtimoiy tarmoq uchun {smm} xizmatlari sahifasini ham ko‘ring.",
+      "links": [
+        {
+          "token": "reja",
+          "target": "/uz/blog/biznes-reja-tuzish/",
+          "anchor": "biznes reja tuzish"
+        },
+        {
+          "token": "sayt",
+          "target": "/uz/sayt-yaratish/",
+          "anchor": "sayt yaratish"
+        },
+        {
+          "token": "marketing",
+          "target": "/uz/blog/marketing-nima/",
+          "anchor": "marketing asoslari"
+        },
+        {
+          "token": "smm",
+          "target": "/uz/smm-xizmatlari/",
+          "anchor": "SMM"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Nom va shior variantlarini AI bilan topish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Logoni o‘zim qanday yasayman?",
+      "a": "Besh qadamda: nom va ma’noni yozing, 3–5 ta eskiz chizing, ikki rang va bitta shrift tanlang, bepul vositada yig‘ing, so‘ng turli fon va o‘lchamda sinab, PNG hamda vektor shaklida saqlang."
+    },
+    {
+      "q": "Logo yasash bepulmi?",
+      "a": "Bepul usullar bor: PowerPoint yoki Google Slides’da oddiy shakldan yig‘ish, Inkscape. Ba’zi onlayn xizmatlarda dizaynni ko‘rish bepul bo‘lsa ham, yuklab olish yoki vektor fayl pullik bo‘lishi mumkin: shartlarni xizmat saytida tekshiring."
+    },
+    {
+      "q": "Telefonda logo yasash mumkinmi?",
+      "a": "Ha. Canva kabi brauzer yoki ilova orqali ishlaydigan xizmatlar va Google Slides ilovasi telefonda ham ishlaydi. Qaysi format bepul yuklanishi xizmat shartlariga bog‘liq."
+    },
+    {
+      "q": "AI yaratgan logodan tijoriy foydalansa bo‘ladimi?",
+      "a": "Bu xizmatning shartlariga bog‘liq. Foydalanishdan oldin tegishli xizmatning shartlarida tijoriy foydalanishga ruxsat borligini o‘qing. Huquqiy savol bo‘lsa, yuristga murojaat qiling."
+    },
+    {
+      "q": "Logo uchun qaysi fayl formati kerak?",
+      "a": "Asosiy fayl sifatida SVG yoki PDF (vektor), sayt va ijtimoiy tarmoq uchun shaffof fonli PNG. JPG faqat oq fonli joylarda qo‘llaniladi."
+    },
+    {
+      "q": "Logotip va logo bir narsami?",
+      "a": "Kundalik tilda ha. Aniqroq aytganda, logotip — asosan yozuv ko‘rinishidagi belgi, logo esa belgi, yozuv yoki ikkalasi birgalikda. Qidiruvda ikkala so‘z ham bir xil ma’noda ishlatiladi."
+    }
+  ],
+  "cta": {
+    "label": "Nom va shior variantlarini AI bilan topish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: nom va shior variantlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/biznes-reja-tuzish/",
+      "anchor": "Biznes reja tuzish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/sayt-yaratish/",
+      "anchor": "Biznes uchun sayt yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/marketing-nima/",
+      "anchor": "Marketing asoslari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/smm-xizmatlari/",
+      "anchor": "SMM xizmatlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Logo yasash: 5 qadam va 12 ta AI so‘rov | GPTBot.uz",
+  "ogDescription": "Logo yasash 5 qadamda: bepul vositalar, rasm yaratuvchi AI uchun 12 ta so‘rov, fayl formatlari va kichik biznes uchun tekshiruv ro‘yxati.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/logo-yasash/",
+  "hreflangUz": "/uz/blog/logo-yasash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Kichik biznes egalari, o‘quvchilar va shaxsiy brend yaratayotganlar"
+  },
+  "breadcrumbLabel": "Logo yasash",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Canva — logo yaratish sahifasi",
+      "url": "https://www.canva.com/create/logos/",
+      "note": "Sahifa avtomatik so‘rovga 403 qaytardi; Canva logo yaratish vositasini taklif qilishi qidiruv natijalaridan ma’lum. Yuklab olish formatlari va tarif shartlari tekshirilmadi: o‘quvchi saytda ko‘rishi kerak. 2026-11-17."
+    },
+    {
+      "title": "Looka — rasmiy sayt",
+      "url": "https://looka.com/",
+      "note": "Sahifa avtomatik so‘rovga 403 qaytardi; dizaynni ko‘rish bepul, yuklab olish pullik ekani haqidagi band qidiruv natijalariga asoslangan va tasdiqlashni talab qiladi. 2026-11-17."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

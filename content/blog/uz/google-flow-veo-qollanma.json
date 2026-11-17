@@ -1,0 +1,514 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "google-flow-veo-qollanma",
+  "url": "/uz/blog/google-flow-veo-qollanma/",
+  "title": "Google Flow va Veo 3: qo‘llanma, bepul kreditlar | GPTBot.uz",
+  "description": "Google Flow va Veo nima, rasmiy manzil, O‘zbekiston rasmiy ro‘yxatda bormi, obunasiz kuniga nechta kredit beriladi, video yasash bosqichlari, 8 ta prompt.",
+  "h1": "Google Flow va Veo: O‘zbekistonda kim foydalana oladi va video qanday yasaladi",
+  "topicCluster": "ai-xizmatlar",
+  "keywords": [
+    "google flow",
+    "flow google",
+    "veo 3",
+    "veo",
+    "flow ai",
+    "google flow ai",
+    "flow veo 3",
+    "flow ai video"
+  ],
+  "intro": "Google Flow — Google’ning brauzerda ishlaydigan AI videostudiyasi: matn yoki rasmdan qisqa video va rasm yaratadi. Veo — shu videolarni yaratadigan Google DeepMind modeli; joriy versiyasi Veo 3.1. Rasmiy manzil — flow.google.com. O‘zbekiston rasmiy mamlakatlar ro‘yxatida bor, obunasiz kuniga 50 ta kredit beriladi. Ma’lumotlar rasmiy sahifalardan 2026-yil 17-noyabrda tekshirildi.",
+  "body": [
+    {
+      "type": "quote",
+      "text": "Qisqasi: flow.google.com manziliga Google hisobi bilan kirasiz; yosh — 18 dan; O‘zbekiston ro‘yxatda bor. Flow’dagi asosiy video modeli hozir Omni Flash 1.2; Veo 3.1 Lite qoladi, Veo 3.1 Fast va Quality esa 2026-yil 5-dekabrda olib tashlanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Rasmiy manzillar: xizmatning o‘zi — {flow}; yordam markazi — {help}; mamlakatlar ro‘yxati — {countries}.",
+      "links": [
+        {
+          "token": "flow",
+          "target": "https://flow.google.com/",
+          "anchor": "flow.google.com"
+        },
+        {
+          "token": "help",
+          "target": "https://support.google.com/flow/?hl=en",
+          "anchor": "Google Flow Help"
+        },
+        {
+          "token": "countries",
+          "target": "https://support.google.com/flow/answer/16353544?hl=en",
+          "anchor": "Where you can use Google Flow"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "Google Flow va Veo: qaysi biri nima"
+    },
+    {
+      "type": "p",
+      "text": "Bu ikki nom ko‘pincha aralashtiriladi. Flow — ish joyi: loyiha ochasiz, prompt yozasiz, natijani tahrirlaysiz. Veo — o‘sha joyda ishlaydigan model, ya’ni videoni yaratadigan «dvigatel». Flow 2025-yil 20-mayda aynan Veo uchun mo‘ljallangan AI kino vositasi sifatida taqdim etilgan; qidiruvdagi «Veo 3» — o‘sha paytdagi model nomi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Nom",
+        "Bu nima",
+        "Hozirgi holati (17.11.2026)"
+      ],
+      "rows": [
+        [
+          "Google Flow",
+          "Video va rasm uchun AI studiya",
+          "flow.google.com (eski labs.google/fx/tools/flow manzili ham shu yerga olib boradi); kompyuter brauzeri va mobil ilova"
+        ],
+        [
+          "Veo",
+          "Google DeepMind video modeli; ovozni ham o‘zi yaratadi",
+          "Joriy versiya — Veo 3.1; Flow ichida Lite, Fast va Quality variantlari"
+        ],
+        [
+          "Omni Flash 1.2",
+          "Gemini Omni oilasidagi video modeli",
+          "Flow’dagi asosiy video modeli"
+        ],
+        [
+          "Nano Banana",
+          "Rasm modellari: Pro, 2.1 va 2 Lite",
+          "Flow’da rasm yaratadi va tahrirlaydi"
+        ],
+        [
+          "Gemini ilovasi",
+          "Google’ning AI chati",
+          "Rasmiy sahifaga ko‘ra, unda Veo o‘rnini Gemini Omni egallaydi; video uchun Google AI obunasi kerak"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kim-foydalanadi",
+      "text": "Kim va qayerda foydalana oladi"
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy «Where you can use Google Flow» sahifasida 150 dan ortiq mamlakat va hudud sanab o‘tilgan. O‘zbekiston ular orasida bor; Qozog‘iston, Qirg‘iziston, Tojikiston va Turkmaniston ham ro‘yxatda. Xizmat 18 yoshdan kattalarga ochiq, yosh Google hisobida tasdiqlanadi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hisob: oddiy Google hisobi yetarli, alohida ro‘yxatdan o‘tilmaydi.",
+        "Qurilma: Google kompyuterda Chromium asosidagi brauzerni — Chrome yoki Edge’ni tavsiya qiladi. Boshqa brauzer va telefonda ham ochilishi mumkin, lekin sayt ular uchun to‘liq moslanmagan. Alohida Google Flow mobil ilovasi ham bor.",
+        "Til: promptni ingliz tilida yozish tavsiya etiladi; boshqa tillarda natija sifati farq qilishi mumkin.",
+        "Funksiyalar: ayrim imkoniyatlar mamlakatga qarab farq qiladi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ro‘yxatda bo‘lish har bir hisobda hamma funksiya ochilishini anglatmaydi. Sahifa ochilmasa, avval rasmiy ro‘yxatni, keyin Google hisobingizdagi yosh va mamlakat sozlamalarini tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "bepul",
+      "text": "Nima bepul va obuna nima beradi"
+    },
+    {
+      "type": "p",
+      "text": "Flow’ni obunasiz sinab ko‘rish mumkin. Google yozishicha, obunasiz foydalanuvchi kuniga 50 ta Flow krediti oladi; ishlatilmagan kredit ertangi kunga o‘tmaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Nima",
+        "Obunasiz",
+        "Google AI Plus, Pro yoki Ultra bilan"
+      ],
+      "rows": [
+        [
+          "Kreditlar",
+          "Kuniga 50 ta",
+          "Kunlik 50 ta va har oy qo‘shimcha kreditlar"
+        ],
+        [
+          "Video uzunligi (Omni Flash 1.2)",
+          "3–10 soniya",
+          "3–15 soniya"
+        ],
+        [
+          "Videoni davom ettirish",
+          "Yo‘q",
+          "Bor (faqat veb-versiyada)"
+        ],
+        [
+          "Sifatni oshirish",
+          "Yo‘q",
+          "1080p gacha; 4K — faqat Ultra"
+        ],
+        [
+          "Rasm yaratish",
+          "Kredit sarflanmaydi; kunlik limit bor",
+          "Kunlik limit kattaroq"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kredit narxi obunasiz foydalanuvchi uchun shunday: Omni Flash 1.2 — 360p sifatda soniyasiga 1 kredit, 720p sifatda soniyasiga 3 kredit; Veo 3.1 Lite — 4, 6 yoki 8 soniyali 720p klip uchun 10 kredit. Demak, 50 kredit Veo 3.1 Lite’da 5 ta klipga yoki Omni Flash 1.2’da 720p sifatli jami 16 soniya videoga yetadi. Rasmlar uchun alohida kunlik limit bor: Nano Banana Pro — 20 ta, Nano Banana 2 modellari — birgalikda 400 ta."
+    },
+    {
+      "type": "p",
+      "text": "Kunlik kredit kunning birinchi generatsiyasidan boshlab hisoblanadi. Band soatlarda — taxminan UTC bo‘yicha 14:00–17:00, ya’ni Toshkent vaqti bilan 19:00–22:00 — obunasiz video yaratib bo‘lmasligi mumkin; rasm yaratish va Agent ishlayveradi. Qolgan kreditni yuqori o‘ng burchakdagi profil rasmingizni bosib ko‘rasiz."
+    },
+    {
+      "type": "p",
+      "text": "Obuna narxlarini bu yerda yozmaymiz: ular mamlakatga qarab farq qiladi va o‘zgarib turadi. Mahalliy kartadan to‘lov o‘tishi ham kafolatlanmagan — narx va to‘lov usulini Google’ning to‘lov sahifasida, pul to‘lashdan oldin tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "modellar",
+      "text": "Flow’dagi modellar: Veo 3.1 ga nima bo‘ldi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Model",
+        "Nima qila oladi",
+        "Holati"
+      ],
+      "rows": [
+        [
+          "Omni Flash 1.2",
+          "Matn, kadr va namunalardan video; videoni tahrirlash; tejamkor 360p rejimi",
+          "Asosiy model"
+        ],
+        [
+          "Veo 3.1 Lite",
+          "Matn va kadrlardan 4, 6 yoki 8 soniyali 720p video",
+          "Qoladi"
+        ],
+        [
+          "Veo 3.1 Fast",
+          "Matn, kadr va namunalardan video",
+          "2026-yil 5-dekabrda olib tashlanadi"
+        ],
+        [
+          "Veo 3.1 Quality",
+          "Matn va kadrlardan video; eng qimmat variant: 8 soniya — 100 kredit",
+          "2026-yil 5-dekabrda olib tashlanadi"
+        ],
+        [
+          "Omni Flash 1.1",
+          "Omni modelining oldingi versiyasi",
+          "2026-yil 5-dekabrda olib tashlanadi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Veo Extend funksiyasi 2026-yil 5-noyabrda o‘chirilgan: videoni davom ettirish endi obuna va Omni Flash 1.2 bilan ishlaydi. Google yangi loyihalar uchun Omni Flash 1.2 yoki Veo 3.1 Lite’ni tavsiya qiladi. «Veo 3» deb qidirayotgan bo‘lsangiz, Flow’da dekabrdan keyin ham qoladigan variant — Veo 3.1 Lite."
+    },
+    {
+      "type": "h2",
+      "id": "qadamlar",
+      "text": "Video yasash: bosqichma-bosqich"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kompyuterda Chrome yoki Edge brauzerida flow.google.com manzilini oching va Google hisobingiz bilan kiring.",
+        "Yangi loyiha oching yoki mavjudini tanlang.",
+        "Prompt oynasida sahnani tasvirlang: kim yoki nima, nima qilyapti, qayerda, yorug‘lik va uslub qanday.",
+        "Prompt oynasidagi model nomini bosing — standart holda u yerda rasm modeli turadi — va «Video» ni tanlang.",
+        "Xohlasangiz, «Frames» orqali boshlang‘ich va oxirgi kadrni yoki «Ingredients» orqali namuna rasm va videoni qo‘shing. Frames faqat veb-versiyada ishlaydi.",
+        "Tomonlar nisbati, natijalar soni, model va davomiylikni tanlang.",
+        "«Generate» ni bosing. Tayyor video loyihangizda saqlanadi.",
+        "Natija yoqmasa, promptda bitta narsani o‘zgartirib, qayta yarating."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Flow ichida Agent degan yordamchi ham bor (faqat kompyuterda). U g‘oya va kadrlar rejasini tuzishga, promptni yaxshilashga yordam beradi, bir nechta variantni birdan yaratadi. Agentga berilgan savollar kredit sarflamaydi, u yaratgan video esa sarflaydi; standart holda Agent kredit sarflanadigan amaldan oldin ruxsat so‘raydi."
+    },
+    {
+      "type": "h2",
+      "id": "promptlar",
+      "text": "8 ta prompt namunasi"
+    },
+    {
+      "type": "p",
+      "text": "Google promptda beshta narsani aniq yozishni maslahat beradi: obyekt, harakat, muhit, yorug‘lik va uslub. Namunalar ingliz tilida — rasmiy sahifa shu tilni tavsiya qiladi. Nusxalab, tafsilotlarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Prompt (ingliz tilida)"
+      ],
+      "rows": [
+        [
+          "Tabiat manzarasi",
+          "A wide shot of a desert road at sunset, a lone cyclist rides toward the horizon, long shadows, warm orange light, steady tracking shot, cinematic."
+        ],
+        [
+          "Mahsulot",
+          "Close-up of a glass bottle of pomegranate juice on a stone surface, water droplets on the glass, soft side light, slow rotation, dark clean background."
+        ],
+        [
+          "Vertikal qisqa video",
+          "Vertical 9:16 video, a barista pours milk into a coffee cup and makes latte art, top-down view, bright morning light, natural cafe sounds."
+        ],
+        [
+          "Rasmni jonlantirish (Frames)",
+          "Animate this image: clouds drift slowly, the river flows, a flock of birds crosses the sky, the camera stays locked, calm atmosphere."
+        ],
+        [
+          "Namuna bilan (Ingredients)",
+          "The character from the first reference walks along the street from the second reference, light rain, reflections on wet asphalt, medium shot, slow follow."
+        ],
+        [
+          "Ovozli sahna",
+          "A street musician plays a dutar in an old courtyard, people listen quietly, clear sound of the instrument, soft applause at the end, golden hour light."
+        ],
+        [
+          "Dars uchun animatsiya",
+          "Simple 2D animation of the water cycle: the sun heats the sea, vapor rises, clouds form, rain falls on the mountains, flat colors, smooth transitions, no text."
+        ],
+        [
+          "Kino uslubi",
+          "Black and white film style, an old craftsman repairs a clock in a small workshop, close-ups of hands and gears, shallow depth of field, slow dolly in, ticking sound."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Maslahat: avval arzon rejimda — 360p yoki Veo 3.1 Lite’da — sinab ko‘ring; prompt ishlagach, sifatliroq variantni yarating. Shunda kunlik kredit ko‘proq urinishga yetadi."
+    },
+    {
+      "type": "h2",
+      "id": "ehtiyot",
+      "text": "Cheklovlar va ehtiyot choralari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Odamlar: Flow taniqli shaxslar videosini yaratmaydi. Yuklangan videodagi odamlarning gapini o‘zgartirish va taniladigan voyaga yetmaganlar tushgan videoni tahrirlash ham qo‘llab-quvvatlanmaydi.",
+        "Boshqa odamning suratini uning roziligisiz ishlatmang. O‘z qiyofangiz ruxsatsiz ishlatilgan bo‘lsa, Google yordam markazida buning uchun shikoyat shakli bor.",
+        "AI belgisi: har bir natijaga ko‘rinmas SynthID belgisi qo‘yiladi. Ko‘rinadigan belgini profil menyusidagi «Visible watermarking» sozlamasi boshqaradi.",
+        "Maxfiylik: Google maxfiy ma’lumot kiritmaslikni so‘raydi — so‘rov va natijalarni maxsus o‘qitilgan xodimlar ko‘rishi mumkin. «Help improve Google Flow» sozlamasini o‘chirib qo‘yish mumkin.",
+        "Taqiqlangan kontent: zararli va noqonuniy kontent yaratish Google’ning generativ AI qoidalarida man etilgan.",
+        "O‘zgaruvchanlik: kredit narxlari va modellar ro‘yxati tez yangilanadi. Bu sahifadagi raqamlar — 2026-yil 17-noyabr holati."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ssenariy-chat",
+      "text": "Ssenariy va prompt matni uchun: mustaqil AI chat"
+    },
+    {
+      "type": "linkp",
+      "text": "Flow videoni yaratadi, lekin nimani ko‘rsatishni siz hal qilasiz. Rolik g‘oyasi, kadrlar rejasi yoki inglizcha prompt qoralamasini {chat}da yozdirib olish mumkin. Bu mustaqil servis: Google, OpenAI yoki ChatGPT mahsuloti emas. U video yoki rasm yasamaydi — faqat matn beradi. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak — {tarif} tariflar sahifasida.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
+        {
+          "token": "tarif",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI paket shartlari"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Rolik ssenariysini AI chatda yozish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa xizmatlar bo‘yicha qo‘llanmalar {hub} sahifasida jamlangan. Bir nechta video modelini bitta saytda sinash uchun {higgs}ni o‘qing; Google’ning AI chati haqida — {gemini}.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/ai-xizmatlar/",
+          "anchor": "AI xizmatlar: qo‘llanmalar to‘plami"
+        },
+        {
+          "token": "higgs",
+          "target": "/uz/blog/higgsfield-ai-nima/",
+          "anchor": "Higgsfield platformasi haqidagi sharh"
+        },
+        {
+          "token": "gemini",
+          "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+          "anchor": "Google Gemini bo‘yicha o‘zbekcha qo‘llanma"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat: Google, Flow yoki Veo bilan bog‘liq emas. Ma’lumotlar rasmiy sahifalardan 2026-yil 17-noyabrda tekshirildi; kreditlar, modellar va mamlakatlar ro‘yxati o‘zgarishi mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Google Flow bepulmi?",
+      "a": "Obunasiz sinab ko‘rish mumkin: Google yozishicha, kuniga 50 ta Flow krediti beriladi va ular ertangi kunga o‘tmaydi. Rasm yaratish kredit sarflamaydi, lekin kunlik limiti bor. Uzunroq video, davom ettirish va sifatni oshirish uchun Google AI obunasi kerak."
+    },
+    {
+      "q": "Veo 3 hozir ham ishlaydimi?",
+      "a": "Joriy versiya — Veo 3.1. Flow’da uning Lite, Fast va Quality variantlari bor, lekin Fast va Quality 2026-yil 5-dekabrda olib tashlanadi; Lite qoladi. Flow’dagi asosiy video modeli endi Omni Flash 1.2."
+    },
+    {
+      "q": "Google Flow O‘zbekistonda ochiladimi?",
+      "a": "Rasmiy mamlakatlar ro‘yxatida O‘zbekiston bor (2026-yil 17-noyabr holati). 18 yoshdan katta bo‘lish va yoshni Google hisobida tasdiqlash kerak. Ro‘yxat o‘zgarishi mumkin — sahifa ochilmasa, rasmiy ro‘yxatni tekshiring."
+    },
+    {
+      "q": "Flow telefonda ishlaydimi?",
+      "a": "Google Flow mobil ilovasi bor, sayt telefon brauzerida ham ochilishi mumkin. Lekin Google kompyuterdagi Chrome yoki Edge brauzerini tavsiya qiladi: Frames va Agent kabi ayrim imkoniyatlar faqat veb-versiyada ishlaydi."
+    },
+    {
+      "q": "Obunasiz bir kunda nechta video yasash mumkin?",
+      "a": "Bu modelga bog‘liq. 50 kredit Veo 3.1 Lite’da 5 ta klipga (har biri 10 kredit) yoki Omni Flash 1.2’da 720p sifatli jami 16 soniyaga yetadi; 360p rejimida 50 soniyagacha. Narxlar o‘zgarishi mumkin, joriy jadval Google Flow Help sahifasida."
+    },
+    {
+      "q": "Flow uchun promptni o‘zbek tilida yozsa bo‘ladimi?",
+      "a": "Google ingliz tilini tavsiya qiladi va boshqa tillarda natija sifati farq qilishi mumkinligini yozadi. G‘oyani o‘zbekcha o‘ylab, promptning o‘zini inglizcha yozgan ma’qul."
+    },
+    {
+      "q": "Flow yaratgan videoda suv belgisi bo‘ladimi?",
+      "a": "Har bir natijaga ko‘rinmas SynthID belgisi qo‘yiladi: u kontentni AI yaratganini aniqlash uchun kerak. Ko‘rinadigan belgini profil menyusidagi sozlama orqali yoqish yoki o‘chirish mumkin; ayrim mamlakatlarda u avtomatik qo‘yiladi."
+    }
+  ],
+  "cta": {
+    "label": "Rolik ssenariysini AI chatda yozish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-xizmatlar/",
+      "anchor": "AI xizmatlar: qo‘llanmalar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/higgsfield-ai-nima/",
+      "anchor": "Higgsfield platformasi haqidagi sharh",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+      "anchor": "Google Gemini bo‘yicha o‘zbekcha qo‘llanma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: rolik ssenariysi va prompt matni",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/notebooklm-qollanma/",
+      "anchor": "NotebookLM: fayllar bo‘yicha konspekt va audio sharh",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Google Flow va Veo 3: qo‘llanma, bepul kreditlar | GPTBot.uz",
+  "ogDescription": "Google Flow va Veo nima, rasmiy manzil, O‘zbekiston rasmiy ro‘yxatda bormi, obunasiz kuniga nechta kredit beriladi, video yasash bosqichlari, 8 ta prompt.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/google-flow-veo-qollanma/",
+  "hreflangUz": "/uz/blog/google-flow-veo-qollanma/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Google Flow va Veo yordamida video yaratmoqchi bo‘lgan O‘zbekistondagi foydalanuvchilar"
+  },
+  "breadcrumbLabel": "Google Flow va Veo",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Google Flow — rasmiy sayt",
+      "url": "https://flow.google.com/",
+      "note": "Rasmiy manzil; labs.google/fx/tools/flow va flow.google manzillari shu yerga yo‘naltiradi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Flow Help — Where you can use Google Flow",
+      "url": "https://support.google.com/flow/answer/16353544?hl=en",
+      "note": "150 dan ortiq mamlakat va hudud ro‘yxati: O‘zbekiston bor; 18 yosh sharti; odamlar bilan bog‘liq cheklovlar va ingliz tilidagi prompt tavsiyasi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Flow Help — Get started with Google Flow",
+      "url": "https://support.google.com/flow/answer/16353333?hl=en",
+      "note": "Talablar, tavsiya etilgan brauzer, mobil ilova, obunasiz 50 kunlik kredit, SynthID va ko‘rinadigan belgi sozlamasi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Flow Help — Manage your Google Flow credits",
+      "url": "https://support.google.com/flow/answer/16526234?hl=en&co=GENIE.Platform%3DDesktop",
+      "note": "Kunlik va oylik kreditlar, modellar bo‘yicha kredit narxlari, band soatlar, Veo modellarining olib tashlanish sanalari; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Flow Help — Learn about Google Flow models & supported features",
+      "url": "https://support.google.com/flow/answer/16352836?hl=en",
+      "note": "Omni Flash 1.2, Veo 3.1 Lite, Fast va Quality, Nano Banana modellari; obunasiz va obuna bilan video uzunligi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Flow Help — Create videos in Google Flow",
+      "url": "https://support.google.com/flow/answer/16353334?hl=en&co=GENIE.Platform%3DDesktop",
+      "note": "Video yaratish bosqichlari, Frames va Ingredients, sozlamalar; sahifamizdagi 8 ta prompt mustaqil yozilgan. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Flow Help — Create & edit images in Google Flow",
+      "url": "https://support.google.com/flow/answer/16729550?hl=en",
+      "note": "Rasm yaratish kredit sarflamasligi va kunlik limitlar; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Flow Help — Use the Google Flow Agent",
+      "url": "https://support.google.com/flow/answer/17093911?hl=en",
+      "note": "Agent imkoniyatlari, kredit sarfi va faqat kompyuterda ishlashi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Flow Help — Manage your data in Google Flow",
+      "url": "https://support.google.com/flow/answer/17025472?hl=en",
+      "note": "Ma’lumotlar qanday ishlatilishi, xodimlar ko‘rib chiqishi va maxfiy ma’lumot kiritmaslik tavsiyasi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google DeepMind — Veo",
+      "url": "https://deepmind.google/models/veo/",
+      "note": "Joriy versiya Veo 3.1, ovozni model o‘zi yaratishi, SynthID belgisi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini — Video generation (Gemini Omni)",
+      "url": "https://gemini.google/overview/video-generation/",
+      "note": "Gemini ilovasida Veo o‘rnini Gemini Omni egallashi va Google AI obunasi talabi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Blog — Introducing Flow: Google’s AI filmmaking tool designed for Veo",
+      "url": "https://blog.google/innovation-and-ai/products/google-flow-veo-ai-filmmaking-tool/",
+      "note": "Flow 2025-yil 20-mayda taqdim etilgani haqidagi rasmiy e’lon; 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

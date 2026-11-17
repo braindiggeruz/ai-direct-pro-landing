@@ -41,12 +41,12 @@
   "searchIntent": "informational",
   "h1": "Present Simple: qoidasi, formulasi, misollar va AI bilan mashq",
   "title": "Present Simple: qoidasi, formulasi, misollar va mashqlar",
-  "description": "Present Simple o‘zbek tilida: formula, -s/-es qoidasi, 10 ta misol va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "description": "Present Simple o‘zbek tilida: formula, -s/-es qoidasi, tarjimali 50 ta gap va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
   "canonical": "https://gptbot.uz/uz/present-simple/",
   "hreflangUz": "/uz/present-simple/",
   "hreflangXDefault": "/uz/present-simple/",
   "ogTitle": "Present Simple: qoidasi, formulasi, misollar va mashqlar",
-  "ogDescription": "Present Simple o‘zbek tilida: formula, -s/-es qoidasi, 10 ta misol va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogDescription": "Present Simple o‘zbek tilida: formula, -s/-es qoidasi, tarjimali 50 ta gap va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -60,7 +60,7 @@
   "bodyBlocks": [
     {
       "type": "linkp",
-      "text": "Present Simple — ingliz tilidagi hozirgi oddiy zamon. U odat va takrorlanadigan ishlar, doimiy holatlar, umumiy faktlar va jadval bo‘yicha bo‘ladigan ishlar haqida gapirganda ishlatiladi. Bu sahifada formula, -s/-es qo‘shimchasining yozilish qoidalari, vaqt belgilari, o‘zbekcha tarjimali 10 ta misol, tipik xatolar va javoblari bilan 10 ta mashq bor. Boshqa zamonlar bilan solishtirish uchun {hub}ga qarang. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi mashqlar tuzadi va gaplaringizni tekshiradi.",
+      "text": "Present Simple — ingliz tilidagi hozirgi oddiy zamon. U odat va takrorlanadigan ishlar, doimiy holatlar, umumiy faktlar va jadval bo‘yicha bo‘ladigan ishlar haqida gapirganda ishlatiladi. Bu sahifada formula, -s/-es qo‘shimchasining yozilish qoidalari, vaqt belgilari, o‘zbekcha tarjimali 10 ta misol, tarjimali 50 ta gap, tipik xatolar va javoblari bilan 10 ta mashq bor. Boshqa zamonlar bilan solishtirish uchun {hub}ga qarang. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi mashqlar tuzadi va gaplaringizni tekshiradi.",
       "links": [
         {
           "token": "hub",
@@ -235,6 +235,354 @@
           "He never drinks coffee in the evening.",
           "U kechqurun hech qachon qahva ichmaydi."
         ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "50-ta-gap",
+      "text": "Present Simple: 50 ta gap"
+    },
+    {
+      "type": "p",
+      "text": "Quyida Present Simple’da 50 ta tayyor gap bor: 20 ta darak, 15 ta inkor va 15 ta so‘roq gap, har biri o‘zbekcha tarjimasi bilan. Gaplarni o‘qing, tarjimasini yopib o‘zingiz o‘girib ko‘ring, keyin tekshiring. Har bir gapda ega, yordamchi fe’l (do, does) va asosiy fe’lning shakliga e’tibor bering."
+    },
+    {
+      "type": "h3",
+      "id": "darak-gaplar",
+      "text": "20 ta darak gap"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "Inglizcha",
+        "O‘zbekcha"
+      ],
+      "rows": [
+        [
+          "1",
+          "I wake up at six.",
+          "Men soat oltida uyg‘onaman."
+        ],
+        [
+          "2",
+          "You speak English well.",
+          "Siz inglizchani yaxshi gapirasiz."
+        ],
+        [
+          "3",
+          "He plays football after school.",
+          "U darsdan keyin futbol o‘ynaydi."
+        ],
+        [
+          "4",
+          "She reads a book every evening.",
+          "U har kecha kitob o‘qiydi."
+        ],
+        [
+          "5",
+          "It rains a lot in spring.",
+          "Bahorda ko‘p yomg‘ir yog‘adi."
+        ],
+        [
+          "6",
+          "We live in Samarkand.",
+          "Biz Samarqandda yashaymiz."
+        ],
+        [
+          "7",
+          "They study at school.",
+          "Ular maktabda o‘qiydi."
+        ],
+        [
+          "8",
+          "My mother cooks dinner at six.",
+          "Onam kechki ovqatni soat oltida pishiradi."
+        ],
+        [
+          "9",
+          "The bus stops near our house.",
+          "Avtobus uyimiz yonida to‘xtaydi."
+        ],
+        [
+          "10",
+          "My brother watches cartoons on Sundays.",
+          "Ukam yakshanba kunlari multfilm ko‘radi."
+        ],
+        [
+          "11",
+          "Our teacher explains the rules clearly.",
+          "O‘qituvchimiz qoidalarni tushunarli qilib tushuntiradi."
+        ],
+        [
+          "12",
+          "The children go to bed at nine.",
+          "Bolalar soat to‘qqizda uxlagani yotadi."
+        ],
+        [
+          "13",
+          "Ali always does his homework.",
+          "Ali uy vazifasini doim bajaradi."
+        ],
+        [
+          "14",
+          "Birds fly south in autumn.",
+          "Qushlar kuzda janubga uchadi."
+        ],
+        [
+          "15",
+          "She studies English every day.",
+          "U har kuni ingliz tilini o‘rganadi."
+        ],
+        [
+          "16",
+          "I usually walk to school.",
+          "Men odatda maktabga piyoda boraman."
+        ],
+        [
+          "17",
+          "The sun sets in the west.",
+          "Quyosh g‘arbda botadi."
+        ],
+        [
+          "18",
+          "My friends often visit me.",
+          "Do‘stlarim meni tez-tez ko‘rgani keladi."
+        ],
+        [
+          "19",
+          "He has two sisters.",
+          "Uning ikkita singlisi bor."
+        ],
+        [
+          "20",
+          "The shop closes at ten.",
+          "Do‘kon soat o‘nda yopiladi."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "inkor-gaplar",
+      "text": "15 ta inkor gap"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "Inglizcha",
+        "O‘zbekcha"
+      ],
+      "rows": [
+        [
+          "1",
+          "I don’t drink coffee.",
+          "Men qahva ichmayman."
+        ],
+        [
+          "2",
+          "You don’t know the answer.",
+          "Siz javobni bilmaysiz."
+        ],
+        [
+          "3",
+          "He doesn’t like fish.",
+          "U baliqni yoqtirmaydi."
+        ],
+        [
+          "4",
+          "She doesn’t work on Sundays.",
+          "U yakshanba kunlari ishlamaydi."
+        ],
+        [
+          "5",
+          "It doesn’t snow in July.",
+          "Iyul oyida qor yog‘maydi."
+        ],
+        [
+          "6",
+          "We don’t play chess at school.",
+          "Biz maktabda shaxmat o‘ynamaymiz."
+        ],
+        [
+          "7",
+          "They don’t live in Tashkent.",
+          "Ular Toshkentda yashamaydi."
+        ],
+        [
+          "8",
+          "My father doesn’t drive to work.",
+          "Dadam ishga mashinada bormaydi."
+        ],
+        [
+          "9",
+          "The shop doesn’t open on Mondays.",
+          "Do‘kon dushanba kunlari ochilmaydi."
+        ],
+        [
+          "10",
+          "Our teacher doesn’t give much homework.",
+          "O‘qituvchimiz ko‘p uy vazifasi bermaydi."
+        ],
+        [
+          "11",
+          "The children don’t eat sweets before dinner.",
+          "Bolalar kechki ovqatdan oldin shirinlik yemaydi."
+        ],
+        [
+          "12",
+          "I don’t go to the gym on Fridays.",
+          "Men juma kunlari sport zaliga bormayman."
+        ],
+        [
+          "13",
+          "My sister doesn’t speak German.",
+          "Singlim nemischa gapirmaydi."
+        ],
+        [
+          "14",
+          "These buses don’t stop here.",
+          "Bu avtobuslar bu yerda to‘xtamaydi."
+        ],
+        [
+          "15",
+          "He doesn’t understand this rule.",
+          "U bu qoidani tushunmaydi."
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "soroq-gaplar",
+      "text": "15 ta so‘roq gap"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "Inglizcha",
+        "O‘zbekcha"
+      ],
+      "rows": [
+        [
+          "1",
+          "Do you like tea?",
+          "Siz choyni yoqtirasizmi?"
+        ],
+        [
+          "2",
+          "Does he work in a bank?",
+          "U bankda ishlaydimi?"
+        ],
+        [
+          "3",
+          "Does she speak French?",
+          "U fransuzcha gapiradimi?"
+        ],
+        [
+          "4",
+          "Do they live near the park?",
+          "Ular bog‘ yonida yashaydimi?"
+        ],
+        [
+          "5",
+          "Does it rain a lot here?",
+          "Bu yerda ko‘p yomg‘ir yog‘adimi?"
+        ],
+        [
+          "6",
+          "Do we have a lesson today?",
+          "Bugun bizda dars bormi?"
+        ],
+        [
+          "7",
+          "Do you walk to school?",
+          "Siz maktabga piyoda borasizmi?"
+        ],
+        [
+          "8",
+          "Does your brother play chess?",
+          "Akangiz shaxmat o‘ynaydimi?"
+        ],
+        [
+          "9",
+          "Where do you live?",
+          "Siz qayerda yashaysiz?"
+        ],
+        [
+          "10",
+          "What time does the lesson start?",
+          "Dars soat nechada boshlanadi?"
+        ],
+        [
+          "11",
+          "Why does she study at night?",
+          "U nima uchun kechasi o‘qiydi?"
+        ],
+        [
+          "12",
+          "How often do they visit you?",
+          "Ular sizni qanchalik tez-tez ko‘rgani keladi?"
+        ],
+        [
+          "13",
+          "What does he do on Sundays?",
+          "U yakshanba kunlari nima qiladi?"
+        ],
+        [
+          "14",
+          "When does the train leave?",
+          "Poyezd qachon jo‘naydi?"
+        ],
+        [
+          "15",
+          "Do your parents work?",
+          "Ota-onangiz ishlaydimi?"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "ozingizni-tekshiring",
+      "text": "O‘zingizni tekshiring: 10 ta gap"
+    },
+    {
+      "type": "p",
+      "text": "Qavs ichidagi fe’lni Present Simple shaklida qo‘yib, gaplarni to‘ldiring. Javoblarini yopib ishlang, keyin pastdagi javoblar bilan solishtiring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. My uncle ___ (work) in a factory.",
+        "2. We ___ (not / have) a car.",
+        "3. ___ she ___ (speak) Russian?",
+        "4. The film ___ (start) at eight.",
+        "5. They ___ (play) tennis on Saturdays.",
+        "6. He ___ (not / like) hot weather.",
+        "7. ___ you ___ (know) his name?",
+        "8. My cat ___ (sleep) all day.",
+        "9. Our teacher ___ (teach) at this school.",
+        "10. Children ___ (not / drink) coffee."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "tekshirish-javoblari",
+      "text": "O‘zingizni tekshiring: javoblar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. works — my uncle = he, shuning uchun -s.",
+        "2. don’t have — we bilan inkor: don’t + V1.",
+        "3. Does … speak — she bilan so‘roq: Does + ega + V1.",
+        "4. starts — the film = it, shuning uchun -s.",
+        "5. play — they bilan fe’l o‘zgarmaydi.",
+        "6. doesn’t like — he bilan inkor: doesn’t + V1.",
+        "7. Do … know — you bilan so‘roq: Do + ega + V1.",
+        "8. sleeps — my cat = it, shuning uchun -s.",
+        "9. teaches — fe’l -ch bilan tugagani uchun -es qo‘shiladi.",
+        "10. don’t drink — children = they, inkor: don’t + V1."
       ]
     },
     {
@@ -484,5 +832,5 @@
     }
   ],
   "createdAt": "2026-10-25T00:00:00Z",
-  "updatedAt": "2026-10-25"
+  "updatedAt": "2026-11-17"
 }

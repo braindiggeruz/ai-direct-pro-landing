@@ -1,0 +1,476 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "sevgi-haqida-sherlar",
+  "url": "/uz/blog/sevgi-haqida-sherlar/",
+  "title": "Sevgi haqida she’rlar: 30 ta she’r va 20 ta sevgi so‘zi",
+  "description": "Sevgi haqida 30 ta original she’r: sevgilimga, sog‘inch va ayriliq haqida to‘rtliklar, ikki qatorli she’rlar hamda 20 ta qisqa sevgi so‘zi. Ko‘chirib oling.",
+  "h1": "Sevgi she’rlari: sevgi, sog‘inch va ayriliq haqida to‘rtliklar",
+  "topicCluster": "matn-yozish",
+  "targetMoneyPage": "/uz/ai-sher-yozish/",
+  "keywords": [
+    "sevgi haqida sherlar",
+    "sevgi sherlari",
+    "севги хакида шеърлар",
+    "soginch haqida sherlar",
+    "ayriliq haqida sherlar",
+    "sevgilimga sher",
+    "sevgilimga shirin sozlar",
+    "sevgi haqida statuslar",
+    "sevgi haqida manoli gaplar",
+    "sevgi sozlari"
+  ],
+  "intro": "Sevgi haqida she’r qidirgan odamga odatda ikki narsa kerak: his-tuyg‘usini aytadigan tayyor satrlar va ularni kimgadir yuborish imkoni. Bu sahifada sevgi, sog‘inch va ayriliq haqida 30 ta qisqa she’r hamda 20 ta sevgi so‘zi jamlangan — hammasi shu sahifa uchun yozilgan, ko‘chirib yuborish mumkin.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida sevgi haqida 30 ta original she’r bor — sevgi haqida 12 ta, sog‘inch haqida 8 ta, ayriliq haqida 4 ta va ikki qatorli 6 ta she’r, shuningdek 20 ta qisqa sevgi so‘zi. She’rlar shu sahifa uchun AI yordamida yozilgan va hech bir shoirning asaridan olinmagan. Satrlar « / » belgisi bilan ajratilgan: ko‘chirganda har bir satrni yangi qatordan yozing."
+    },
+    {
+      "type": "linkp",
+      "text": "Faqat shu odamga atalgan she’r kerak bo‘lsa, {sher} sahifasidagi chatga uning ismi va bitta xotirani yozing: bu GPTBot.uz AI chatining «Ijodkor» roli, ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi. Nasriy tabrik kerak bo‘lsa — {gen}.",
+      "links": [
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        },
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sevgi",
+      "text": "Sevgi haqida 12 ta she’r"
+    },
+    {
+      "type": "p",
+      "text": "Bu bo‘limdagi she’rlarni sevgan insoningizga xabar qilib yuborish yoki otkritkaga yozish mumkin. Avval sevgilimga atalgan yettita she’r, keyin sevgi va vafo haqidagi beshta she’r berilgan."
+    },
+    {
+      "type": "h3",
+      "id": "sevgilimga",
+      "text": "Sevgilimga she’r"
+    },
+    {
+      "type": "quote",
+      "text": "Ko‘zlaringda bahor kulsa, / Barcha g‘amim tarqab ketar. / Bir tabassum qilsang, yorim, / Umrim bo‘yi shu ham yetar."
+    },
+    {
+      "type": "quote",
+      "text": "Qo‘llaringni ushlasam, / Qish ham bahor bo‘ladi. / Yoningda bir zum tursam, / Ko‘nglim gulga to‘ladi."
+    },
+    {
+      "type": "quote",
+      "text": "Sen yonimda bo‘lgan chog‘da / Bir lahzadek o‘tar kun. / Sen yo‘g‘ingda, bilsang edi, / Yilday uzun bo‘lar tun."
+    },
+    {
+      "type": "quote",
+      "text": "Kulishingni sevaman, / Jim turishing ham yoqar. / Sen bor joyda, azizim, / Yuragimga nur oqar."
+    },
+    {
+      "type": "quote",
+      "text": "Chiroyli gap topolmayman, / Shoirmasman, sen bilasan. / Lekin har tong uyg‘onganda / Avval yodga sen kelasan."
+    },
+    {
+      "type": "quote",
+      "text": "Yomg‘ir yog‘sa, mayliga, / Soyabonim bitta, tor. / Yaqinroq kel, sig‘amiz — / Shunisi ham yaxshi, yor."
+    },
+    {
+      "type": "quote",
+      "text": "Tongda «xayrli tong» deb yozsang, / Kunim yaxshi boshlanadi. / Birgina shu so‘zing bilan / Butun ko‘nglim shodlanadi."
+    },
+    {
+      "type": "h3",
+      "id": "vafo",
+      "text": "Sevgi va vafo haqida"
+    },
+    {
+      "type": "quote",
+      "text": "Menga dunyo kerakmas: / Issiq uy, bir burda non. / Yonimda sen bo‘lsang bas — / Shu men uchun bir jahon."
+    },
+    {
+      "type": "quote",
+      "text": "Sevgi katta so‘z emas, / Sevgi — kichik ishlarda: / Sovuq kunda sharf o‘rash, / Kutib turish qishlarda. / Charchab kelsang, jimgina / Bir piyola choy tutish. / Arazlashgan kunni ham / Ertasiga unutish."
+    },
+    {
+      "type": "quote",
+      "text": "Uy — bu devor emasdir, / Uy — sen meni kutgan joy. / Birga bo‘lsak ikkimiz, / Kulba bo‘lar bir saroy."
+    },
+    {
+      "type": "quote",
+      "text": "Ming bir kitob o‘qidim, / Topolmadim kerak so‘z. / Hammasini bir zumda / Aytib qo‘ydi ikki ko‘z."
+    },
+    {
+      "type": "quote",
+      "text": "Yillar o‘tib, sochga oq tushsa hamki, / Qo‘lingni qo‘limdan qo‘yib yubormam. / Qarigan chog‘da ham senga aytaman: / Sensiz hech qayerga bir qadam bormam."
+    },
+    {
+      "type": "h2",
+      "id": "soginch",
+      "text": "Sog‘inch haqida she’rlar"
+    },
+    {
+      "type": "p",
+      "text": "Uzoqdagi yaqin insonga yuborish uchun sakkizta she’r: masofa, kutish, xat va tush haqida."
+    },
+    {
+      "type": "quote",
+      "text": "«Sog‘indim», — deb yozdim-u, / Yubormasdan o‘chirdim. / Aytilmagan shu so‘zni / Yuragimga ko‘chirdim."
+    },
+    {
+      "type": "quote",
+      "text": "Oramizda ming chaqirim, / Lekin bitta oy osmonda. / Sen ham unga boqqan paytda / Uchrashamiz o‘sha onda."
+    },
+    {
+      "type": "quote",
+      "text": "Ovozingni yozuvdan / Yuz martalab tingladim. / Sog‘inch nima ekanin / Sen ketganda angladim."
+    },
+    {
+      "type": "quote",
+      "text": "Kunlarni men sanayman, / Yo‘lingga ko‘z tikaman. / Qaytguningcha hovlimga / Sen sevgan gul ekaman."
+    },
+    {
+      "type": "quote",
+      "text": "Tushlarimga kirding kecha, / Avvalgidek kulib-kulib. / Uyg‘ondim-u, yonimda yo‘q — / Sog‘inch qoldi dilga to‘lib."
+    },
+    {
+      "type": "quote",
+      "text": "Sen u yoqda, men bu yoqda, / O‘rtada tog‘, o‘rtada yo‘l. / Sog‘inganda xat yozaman, / Xatim — senga cho‘zilgan qo‘l."
+    },
+    {
+      "type": "quote",
+      "text": "O‘rik yana gulladi, / Qaldirg‘ochlar ham qaytdi. / «U ham kelar, kutgin», — deb / Sekingina dil aytdi."
+    },
+    {
+      "type": "quote",
+      "text": "Sog‘inch — bu bo‘sh o‘rindiq, / Jiringlamas telefon. / Ketganingdan to shu kun / Shular menga yor hamon."
+    },
+    {
+      "type": "h2",
+      "id": "ayriliq",
+      "text": "Ayriliq haqida she’rlar"
+    },
+    {
+      "type": "p",
+      "text": "Ayriliq haqidagi to‘rtta she’r gina va ayblovsiz yozilgan: ularda xayrlashuv, xotira va minnatdorchilik bor."
+    },
+    {
+      "type": "quote",
+      "text": "Ayriliqning noni qattiq, / Ayriliqning choyi achchiq. / Shunday bo‘lsa ham, azizim, / Ketar bo‘lsang, yo‘ling ochiq."
+    },
+    {
+      "type": "quote",
+      "text": "Bir yo‘l edi yo‘limiz, / Chorrahada ayrildi. / Sen ketding-u, yuragim / Ortingga ko‘p qayrildi."
+    },
+    {
+      "type": "quote",
+      "text": "Birga o‘tgan kunlar uchun / Senga rahmat aytaman men. / Ayrilsak ham, yuragimda / Yaxshi bo‘lib qolasan sen."
+    },
+    {
+      "type": "quote",
+      "text": "Topishgandik bahorda, / Ayrilganda edi kuz. / Oramizda yongan o‘t / Asta-sekin bo‘ldi muz."
+    },
+    {
+      "type": "h2",
+      "id": "ikki-qator",
+      "text": "Ikki qatorli qisqa she’rlar: status uchun"
+    },
+    {
+      "type": "quote",
+      "text": "Osmonda yulduz ko‘p, oy yagona, / Dunyoda men uchun sen bir dona."
+    },
+    {
+      "type": "quote",
+      "text": "Sen kulsang — yuragim bahor, / Sen ketsang — ko‘nglimda g‘ubor."
+    },
+    {
+      "type": "quote",
+      "text": "Sevgi — ikki yurak, bir uy, / Ikki ovoz, lekin bir kuy."
+    },
+    {
+      "type": "quote",
+      "text": "Sog‘insam, osmonga boqaman, / Xayolan eshiging qoqaman."
+    },
+    {
+      "type": "quote",
+      "text": "Sen — kunduzim, sen — oqshomim, / Sen — tinchligim, sen — oromim."
+    },
+    {
+      "type": "quote",
+      "text": "«Unutdim», — deb yolg‘on so‘zlayman, / Olomonda seni ko‘zlayman."
+    },
+    {
+      "type": "h2",
+      "id": "sevgi-sozlari",
+      "text": "Sevgi so‘zlari: 20 ta qisqa jumla"
+    },
+    {
+      "type": "p",
+      "text": "She’r yuborishga hojat bo‘lmasa, bitta samimiy jumla ham yetadi. Birinchi o‘n ikkitasi sevgan insonga aytiladigan so‘zlar, qolgan sakkiztasi sevgi haqidagi qisqa fikrlar — status yoki otkritka uchun."
+    },
+    {
+      "type": "h3",
+      "id": "shirin-sozlar",
+      "text": "Sevgilimga shirin so‘zlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sen kulsang, kunim yaxshi o‘tadi.",
+        "Sening ovozing — mening eng sevimli qo‘shig‘im.",
+        "Qayerda bo‘lsam ham, ko‘nglim sen bilan.",
+        "Sen borsan — demak, hammasi yaxshi bo‘ladi.",
+        "Yoningda jim o‘tirish ham menga yoqadi.",
+        "Seni har kuni yana bir marta tanlayman.",
+        "Kuning qanday o‘tganini eshitmasam, uxlay olmayman.",
+        "Sen — mening eng yaxshi odatimsan.",
+        "Charchasang, yelkam doim yoningda.",
+        "Seni o‘ylasam, o‘z-o‘zimdan jilmayaman.",
+        "Sen bilan oddiy choy ham bayramdek.",
+        "Baxt nima, deb so‘rashsa, sening ismingni aytaman."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "manoli-gaplar",
+      "text": "Sevgi haqida ma’noli gaplar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sevgi katta so‘zlarda emas, kichik g‘amxo‘rliklarda bilinadi.",
+        "Sevgan odam charchasa ham qo‘ng‘iroq qiladi.",
+        "Sog‘inch — sevgining uzoqdan kelgan ovozi.",
+        "Chin sevgi baland gapirmaydi — yonida turadi.",
+        "Sevgi — har kuni «men shu yerdaman» deyish.",
+        "Yurak tanlaganini aql keyinroq tushunadi.",
+        "Sevgini topish oson, asrash — hunar.",
+        "Ayriliq sevgini o‘chirmaydi, qadrini bildiradi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kirill",
+      "text": "Kirill yozuvida: sevgi haqida she’rlar"
+    },
+    {
+      "type": "linkp",
+      "text": "Quyida yuqoridagi she’rlardan oltitasi kirill yozuvida takrorlangan: ular yangi she’r emas, o‘sha matnlarning kirillcha nusxasi. Qolganlarini {translit} bilan o‘zingiz o‘girishingiz mumkin.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kirill-sherlar",
+      "lang": "uz-Cyrl",
+      "text": "Севги ҳақида шеърлар: кирилл ёзувида"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Кўзларингда баҳор кулса, / Барча ғамим тарқаб кетар. / Бир табассум қилсанг, ёрим, / Умрим бўйи шу ҳам етар."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қўлларингни ушласам, / Қиш ҳам баҳор бўлади. / Ёнингда бир зум турсам, / Кўнглим гулга тўлади."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Чиройли гап тополмайман, / Шоирмасман, сен биласан. / Лекин ҳар тонг уйғонганда / Аввал ёдга сен келасан."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "«Соғиндим», — деб ёздим-у, / Юбормасдан ўчирдим. / Айтилмаган шу сўзни / Юрагимга кўчирдим."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Сен у ёқда, мен бу ёқда, / Ўртада тоғ, ўртада йўл. / Соғинганда хат ёзаман, / Хатим — сенга чўзилган қўл."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Айрилиқнинг нони қаттиқ, / Айрилиқнинг чойи аччиқ. / Шундай бўлса ҳам, азизим, / Кетар бўлсанг, йўлинг очиқ."
+    },
+    {
+      "type": "h2",
+      "id": "shaxsiy",
+      "text": "She’rni shaxsiy qilish: 3 usul"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Murojaat qo‘shing: she’rdan oldin «Azizim», «Jonim» yoki uning ismini alohida satrda yozing — vazn buzilmaydi, she’r esa aynan unga atalgani bilinadi.",
+        "Bitta satrni o‘zingizniki qiling: «o‘rik gulladi» o‘rniga o‘z hovlingizdagi daraxtni, «soyabon» o‘rniga birga o‘tgan voqeani yozing. Bo‘g‘inlar soni o‘zgarmasa, she’r ohangi saqlanadi.",
+        "Oxiriga oddiy gap qo‘shing: she’rdan keyin yozilgan «Seni sog‘indim, ertaga ko‘rishamiz» degan bir jumla ko‘pincha eng chiroyli satrdan ham kuchliroq ta’sir qiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "vazn",
+      "text": "To‘rtlik qanday tuzilgan: vazn va qofiya"
+    },
+    {
+      "type": "p",
+      "text": "Bu sahifadagi she’rlar barmoq vaznida yozilgan: bir she’rdagi satrlarda bo‘g‘inlar soni teng bo‘ladi yoki navbat bilan takrorlanadi. Bo‘g‘inni unlilar bo‘yicha sanash oson: «Ko‘z-la-ring-da ba-hor kul-sa» — 8 bo‘g‘in. Qofiya ikkinchi va to‘rtinchi satr oxirida keladi: «ketar — yetar», «so‘z — ko‘z», «yo‘l — qo‘l». Bitta so‘zni almashtirsangiz, shu ikki narsani tekshiring: bo‘g‘inlar soni va qofiya joyida qolsin."
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "O‘zingizga atab she’r yozdirish"
+    },
+    {
+      "type": "p",
+      "text": "AI chat sevgan insoningizni tanimaydi, shuning uchun so‘rovga uch narsani yozing: she’r kimga atalgani, bitta haqiqiy xotira va shakl. Masalan: «Rafiqamga 4 qatorlik she’r yoz. Biz kuzda, yomg‘irli kuni tanishganmiz. Har satrda 8 bo‘g‘in, 2- va 4-satrlar qofiyalansin.» Model vazn yoki qofiyada xato qilishi, siz aytmagan detalni qo‘shib yuborishi mumkin — yuborishdan oldin ovoz chiqarib o‘qib ko‘ring. Chat faqat matn yozadi: rasm, otkritka yoki qo‘shiq yasamaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Bunday so‘rovni {sher} sahifasida yuborish mumkin. Sevgan insoningizning tug‘ilgan kuniga nasriy tabrik kerak bo‘lsa, turmush o‘rtog‘iga atalgan matnlar ikki sahifada bor: {ayol} va {erkak}.",
+      "links": [
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        },
+        {
+          "token": "ayol",
+          "target": "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+          "anchor": "ayol kishiga tug‘ilgan kun tabrigi"
+        },
+        {
+          "token": "erkak",
+          "target": "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+          "anchor": "erkak kishiga tug‘ilgan kun tabrigi"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chatga boshqa odamning telefoni, manzili va oilaviy sirlarini yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "cta",
+      "text": "AI bilan she’r yozish",
+      "href": "/uz/ai-sher-yozish/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bu she’rlarni kim yozgan?",
+      "a": "Ular shu sahifa uchun AI yordamida yozilgan original matnlar: hech bir shoirning she’ridan yoki qo‘shiq matnidan olinmagan. Mashhur shoirlarning sevgi she’rlari kerak bo‘lsa, ularning kitoblariga yoki kutubxonaga murojaat qiling."
+    },
+    {
+      "q": "She’rlarni ko‘chirib, sevgan insonimga yuborsam bo‘ladimi?",
+      "a": "Ha, ular aynan shuning uchun yozilgan. Ko‘chirganda « / » belgilari o‘rniga har bir satrni yangi qatordan yozing va xohlasangiz, ism yoki o‘z so‘zingizni qo‘shing. Tanlov yoki nashrga yuborish uchun bu matnlar mos emas: u yerda odatda o‘zingiz yozgan asar talab qilinadi."
+    },
+    {
+      "q": "Sevgi she’rini qanday qilib o‘zimniki qilsam bo‘ladi?",
+      "a": "Murojaat va bitta shaxsiy detal qo‘shing: uning ismi, birga o‘tgan joy yoki faqat ikkingiz biladigan so‘z. Satrni o‘zgartirsangiz, bo‘g‘inlar sonini va ikkinchi hamda to‘rtinchi satrlardagi qofiyani saqlang — shunda she’r ohangi buzilmaydi."
+    },
+    {
+      "q": "Status uchun qaysi she’rlar mos keladi?",
+      "a": "Ikki qatorli oltita she’r va 20 ta sevgi so‘zi: ular qisqa, bitta ekranga sig‘adi va izohsiz ham tushunarli. To‘rtliklarni esa xabar yoki otkritka uchun ishlatgan qulay."
+    },
+    {
+      "q": "To‘rtlikda qofiya qayerda bo‘ladi?",
+      "a": "Ko‘pincha ikkinchi va to‘rtinchi satr oxirida: bu sahifadagi to‘rtliklarning hammasi shunday yozilgan, masalan «ketar — yetar» yoki «kun — tun». Ba’zan birinchi va uchinchi satrlar ham qofiyalanadi. Satrlardagi bo‘g‘inlar soni teng yoki navbat bilan takrorlangani uchun she’r ravon o‘qiladi."
+    },
+    {
+      "q": "Kirill yozuvida sevgi she’rlari bormi?",
+      "a": "Ha, sahifa oxirida oltita she’r kirill yozuvida takrorlangan. Qolgan she’r va jumlalarni saytdagi kirill-lotin o‘giruvchi bilan o‘girish mumkin."
+    },
+    {
+      "q": "Menga atab yangi she’r yozdirish mumkinmi?",
+      "a": "Ha. «AI she’r yozish» sahifasidagi chatga she’r kimga atalgani, bitta xotira va shaklni yozsangiz, u yangi she’r tayyorlaydi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi. Model vazn yoki qofiyada xato qilishi mumkin — yuborishdan oldin o‘qib chiqing."
+    }
+  ],
+  "cta": {
+    "label": "AI bilan she’r yozish",
+    "href": "/uz/ai-sher-yozish/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-sher-yozish/",
+      "anchor": "AI she’r yozish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/yangi-yil-sherlari/",
+      "anchor": "Yangi yil she’rlari: tayyor to‘plam",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/8-mart-sherlari/",
+      "anchor": "8-mart uchun she’rlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/hikmatli-sozlar/",
+      "anchor": "Hikmatli so‘zlar va ma’noli gaplar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Sevgi haqida she’rlar: 30 ta she’r va 20 ta sevgi so‘zi",
+  "ogDescription": "Sevgilimga, sog‘inch va ayriliq haqida original to‘rtliklar, ikki qatorli she’rlar va qisqa sevgi so‘zlari: ko‘chirib, sevgan insoningizga yuborish mumkin.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/sevgi-haqida-sherlar/",
+  "hreflangUz": "/uz/blog/sevgi-haqida-sherlar/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "People in Uzbekistan looking for short love poems and tender phrases to send"
+  },
+  "breadcrumbLabel": "Sevgi haqida she’rlar",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. She’rda bu siz aytmagan voqea, ism yoki sana ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf. Manba 2026-11-17 kuni tekshirilgan."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

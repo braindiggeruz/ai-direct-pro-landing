@@ -15,7 +15,8 @@
     "ariza yozish",
     "ariza namunasi",
     "ariza yozish namunasi",
-    "ariza namuna"
+    "ariza namuna",
+    "тушунтириш хати намуна"
   ],
   "intro": "Tushuntirish xati — biror holat (kechikish, ishga yoki darsga kelmaslik, topshiriq bajarilmagani) sababini rahbarga yoki o‘qituvchiga yozma ravishda tushuntiradigan qisqa hujjat. Ariza esa biror narsani so‘rash uchun yoziladi: ishga qabul qilish, ta’til, o‘qish bilan bog‘liq masala yoki ma’lumotnoma. Quyida ikkalasining tuzilmasi, shartli namunalar, AI chat uchun tayyor so‘rovlar va topshirishdan oldingi tekshiruv ro‘yxati berilgan.",
   "body": [
@@ -191,6 +192,27 @@
       "text": "Maktab o‘quvchisi uchun tushuntirish xatini ko‘pincha ota-ona yozadi yoki imzolaydi: buni sinf rahbaridan oldindan aniqlang. Kimning nomiga yozish va qanday hujjat ilova qilish kerakligini dekanat yoki maktab ma’muriyati aytadi."
     },
     {
+      "type": "h3",
+      "id": "kirill-namuna",
+      "lang": "uz-Cyrl",
+      "text": "Тушунтириш хати намуна: дарсга ва ишга кечикиш (кирилл ёзуви)"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қуйидаги икки намуна шартли. Исм, сана ва сабабни ўз ҳолатингизга мослаб ёзинг: сабаб ҳақиқатда қандай бўлган бўлса, шундай қолсин."
+    },
+    {
+      "type": "quote",
+      "lang": "uz-Cyrl",
+      "text": "Ўқувчи учун: 7-«Д» синф раҳбари [Ф.И.Ш.]га · 7-«Д» синф ўқувчиси [Ф.И.Ш.]дан · ТУШУНТИРИШ ХАТИ · Мен, [Ф.И.Ш.], 12 ноябрь куни биринчи дарсга 15 дақиқа кечикиб кирдим. Сабаби: уйдан чиққан автобус йўлда носоз бўлиб қолди. Ота-онам бундан хабардор. Бундан буён уйдан ўн дақиқа эрта чиқаман. · 12.11.2026 · [имзо] [Ф.И.Ш.]"
+    },
+    {
+      "type": "quote",
+      "lang": "uz-Cyrl",
+      "text": "Ходим учун: «Намуна» МЧЖ савдо бўлими бошлиғи [Ф.И.Ш.]га · савдо бўлими менежери [Ф.И.Ш.]дан · ТУШУНТИРИШ ХАТИ · Мен, [Ф.И.Ш.], 12 ноябрь куни ишга соат 9:00 ўрнига 9:40да, яъни 40 дақиқа кечикиб келдим. Сабаби: йўлда автобус носоз бўлиб қолди, бошқа транспортни кутишга тўғри келди. Кечиккан вақтимда бажарилмаган ишни шу куни тугатдим. Бундай ҳол такрорланмаслиги учун йўлга эртароқ чиқаман. · 13.11.2026 · [имзо] [Ф.И.Ш.]"
+    },
+    {
       "type": "h2",
       "id": "ariza",
       "text": "Ariza: tuzilma va turlari"
@@ -231,21 +253,21 @@
     },
     {
       "type": "linkp",
-      "text": "Muhim: ko‘p tashkilotlarda ariza shakli tayyor bo‘ladi — kadrlar bo‘limi, dekanat yoki qabulxona uni beradi. Davlat idoralari va xizmatlari uchun ularning rasmiy shakli va topshirish tartibi ustun. {arizaSource} sahifasi jismoniy va yuridik shaxslarga oid arizalar hamda iltimosnomalar namunalariga yo‘naltiradi. Kerakli shaklni o‘sha manbadan va hujjatni qabul qiluvchi tashkilotdan tekshiring; quyidagi shartli misollar rasmiy shakl o‘rnini bosmaydi.",
+      "text": "Muhim: ko‘p tashkilotlarda ariza shakli tayyor bo‘ladi — kadrlar bo‘limi, dekanat yoki qabulxona uni beradi. Davlat idoralari va xizmatlari uchun ularning rasmiy shakli va topshirish tartibi ustun. {arizasource} sahifasi jismoniy va yuridik shaxslarga oid arizalar hamda iltimosnomalar namunalariga yo‘naltiradi. Kerakli shaklni o‘sha manbadan va hujjatni qabul qiluvchi tashkilotdan tekshiring; quyidagi shartli misollar rasmiy shakl o‘rnini bosmaydi.",
       "links": [
         {
           "target": "https://gov.uz/oz/advice/600/document/2638",
           "anchor": "Gov.uz — Ariza namunalari",
-          "token": "arizaSource"
+          "token": "arizasource"
         }
       ]
     },
     {
       "type": "linkp",
-      "text": "Xat shaxs nomidan emas, tashkilot nomidan boshqa tashkilotga yozilsa — masalan, narx so‘rash, to‘lovni kafolatlash yoki shartnoma bo‘yicha e’tiroz bildirish uchun — bu ariza emas, rasmiy xizmat xati bo‘ladi. Uning rekvizitlari va shartli namunalari {rasmiyXat} qo‘llanmasida berilgan.",
+      "text": "Xat shaxs nomidan emas, tashkilot nomidan boshqa tashkilotga yozilsa — masalan, narx so‘rash, to‘lovni kafolatlash yoki shartnoma bo‘yicha e’tiroz bildirish uchun — bu ariza emas, rasmiy xizmat xati bo‘ladi. Uning rekvizitlari va shartli namunalari {rasmiyxat} qo‘llanmasida berilgan.",
       "links": [
         {
-          "token": "rasmiyXat",
+          "token": "rasmiyxat",
           "target": "/uz/blog/rasmiy-xat-yozish/",
           "anchor": "rasmiy xat yozish"
         }
@@ -575,7 +597,7 @@
   "breadcrumbLabel": "Tushuntirish xati va ariza",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-07",
-  "dateModified": "2026-11-16",
+  "dateModified": "2026-11-17",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -595,6 +617,6 @@
       "note": "Til modellari noto‘g‘ri sana va faktlar yozishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf; 2026-10-05 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z",
   "createdAt": "2026-10-07T00:00:00.000Z"
 }

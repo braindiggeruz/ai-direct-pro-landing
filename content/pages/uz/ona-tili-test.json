@@ -1,0 +1,881 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/ona-tili-test/",
+  "slug": "ona-tili-test",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "10 ta yangi test savoli",
+      "prompt": "Ona tilidan menga 10 ta yangi test savoli ber: har birida to‘rtta variant va bitta to‘g‘ri javob bo‘lsin, maktab grammatikasiga mos. Javoblarni darhol ko‘rsatma: men yozganimdan keyin tekshirib, xatolarimni tushuntirasan. Sinfim va mavzu: "
+    },
+    {
+      "label": "Xato javobimni tushuntir",
+      "prompt": "Test savoliga xato javob berdim. Qoidani oddiy so‘zlar bilan tushuntir, nega mening javobim noto‘g‘ri ekanini ko‘rsat va shu qoida bo‘yicha 3 ta o‘xshash savol ber.\nSavol va variantlar: \nMening javobim: "
+    },
+    {
+      "label": "Imlo bo‘yicha 10 ta savol",
+      "prompt": "Imlo qoidalari (tutuq belgisi, bosh harf, qo‘shib va chiziqcha bilan yozish, so‘z ko‘chirish) bo‘yicha menga 10 ta test savoli ber. Variantlar to‘rttadan, javoblar kaliti oxirida alohida bo‘lsin."
+    },
+    {
+      "label": "Qoidani qisqa eslat",
+      "prompt": "Quyidagi mavzu bo‘yicha qoidani 5–6 gapda va 3 ta misol bilan eslat, keyin shu mavzudan 5 ta test savoli ber. Javoblarni darhol ko‘rsatma.\nMavzu: "
+    },
+    {
+      "label": "Mavzu bo‘yicha test tuz",
+      "prompt": "Menga ona tilidan quyidagi mavzu bo‘yicha 8 ta savollik test tuz: osondan qiyinga, har birida to‘rtta variant. Savollar o‘zbek tili maktab dasturiga mos bo‘lsin. Mavzu va sinf: "
+    },
+    {
+      "label": "Natijamni tahlil qil",
+      "prompt": "Men testda quyidagi savollarda xato qildim. Qaysi mavzularni takrorlashim kerakligini aniqla va ularni qaysi tartibda o‘rganish yaxshiroq ekanini 3–4 qadamda yoz.\nXato qilgan savollar va mavzular: "
+    }
+  ],
+  "primaryKeyword": "ona tili testlar",
+  "secondaryKeywords": [
+    "ona tili test",
+    "ona tilidan testlar",
+    "ona tili test savollari",
+    "ona tili testlar 5 sinf",
+    "ona tili testlar 6 sinf",
+    "ona tili testlar 7 sinf",
+    "ona tili testlar 8 sinf",
+    "ona tili testlar 9 sinf"
+  ],
+  "searchIntent": "informational",
+  "h1": "Ona tili test savollari: 5–9-sinflar uchun javobli mashq testi",
+  "title": "Ona tili testlar: 80 ta savol, javoblar va PDF (5–9-sinf)",
+  "description": "Ona tili test: 5–9-sinf uchun 80 ta mashq savoli, to‘rtta variant, javoblar jadvali va izohlar, PDF yuklab olish. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "canonical": "https://gptbot.uz/uz/ona-tili-test/",
+  "hreflangUz": "/uz/ona-tili-test/",
+  "hreflangXDefault": "/uz/ona-tili-test/",
+  "ogTitle": "Ona tili testlar: 80 ta savol, javoblar va PDF (5–9-sinf)",
+  "ogDescription": "Ona tili test: 5–9-sinf uchun 80 ta mashq savoli, to‘rtta variant, javoblar jadvali va izohlar, PDF yuklab olish. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Ona tili testlar",
+  "heroTitle": "Ona tili testlar: 5–9-sinflar uchun 80 ta savol, javoblar va PDF",
+  "heroSubtitle": "Savollar, javoblar jadvali va PDF bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Ona tili testlar maktabda ham, uyda ham mashq uchun kerak: qaysi mavzu yaxshi o‘zlashtirilgan, qaysi biri takrorlashni talab qilishini test ko‘rsatadi. Bu sahifada 5–9-sinflar uchun ona tilidan 80 ta mashq savoli bor. Savollar beshta guruhga bo‘lingan: fonetika va imlo, leksikologiya, so‘z turkumlari, morfologiya, sintaksis va tinish belgilari. Har bir savolda to‘rtta variant va bitta to‘g‘ri javob bor, har guruhdan keyin esa javoblar jadvali va qisqa izohlar berilgan. Hammasini PDF qilib yuklab olib, chop etish mumkin. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u xatoingizni tushuntiradi va mavzu bo‘yicha yangi savollar tuzadi."
+    },
+    {
+      "type": "p",
+      "text": "Bular bizning o‘zimiz mashq uchun tuzgan savollar. Ular rasmiy imtihon, BSB, ChSB yoki DTM materiallari emas va ularning savollari bilan ustma-ust tushishi kafolatlanmaydi. Savollar amaldagi alifbo va imlo qoidalariga tayanadi; 2026-yil 17-noyabr holatiga ko‘ra tekshirilgan. O‘zingiz o‘qiyotgan darslik va o‘qituvchingiz talabi bilan farq bo‘lsa, ularga amal qiling."
+    },
+    {
+      "type": "p",
+      "text": "Savollar, javoblar jadvali va PDF har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-ishlash",
+      "text": "Testni qanday ishlash kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Javoblar jadvaliga qarashdan oldin guruhning barcha 16 ta savoliga javob bering. Javobingizni daftarga A, B, C yoki D harfi bilan yozing.",
+        "2. Har bir savolda faqat bitta javob to‘g‘ri. Shubhalansangiz, noto‘g‘ri variantlarni birin-ketin chiqarib tashlang.",
+        "3. Guruh tugagach, javoblar jadvaliga qarab tekshiring va xato qilgan savollaringiz raqamini yozib qo‘ying.",
+        "4. Izohni o‘qing: izoh qoidani qisqa eslatadi. Qoida tushunarsiz bo‘lsa, darslikka qarang yoki AI o‘qituvchidan so‘rang.",
+        "5. Bir-ikki kundan keyin faqat xato qilgan savollaringizni qayta ishlang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "pdf",
+      "text": "Testni PDF qilib yuklab olish"
+    },
+    {
+      "type": "linkp",
+      "text": "Barcha 80 ta savol A4 hajmidagi PDF faylda, javoblar kaliti esa uning oxirgi sahifasida. Chop etib, sinfda yoki uyda ishlash mumkin: {pdf}.",
+      "links": [
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261117/ona-tili-test.pdf",
+          "anchor": "ona tili testini PDF shaklida yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Faylda ism, sinf va sana uchun qator ham bor. Har bir javobning izohi esa faqat shu sahifada."
+    },
+    {
+      "type": "h2",
+      "id": "fonetika-va-imlo",
+      "text": "Fonetika va imlo: 1–16-savollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. O‘zbek adabiy tilida nechta unli tovush bor? A) 5 ta B) 6 ta C) 8 ta D) 10 ta",
+        "2. Qaysi qatorda faqat lablangan unlilar berilgan? A) u, o‘, o B) a, e, i C) i, u, o‘ D) a, o, e",
+        "3. Qaysi qatordagi undoshlarning barchasi jarangsiz? A) b, d, g, z B) m, n, l, r C) v, j, g‘, y D) p, t, k, s",
+        "4. «Maktabimiz» so‘zida nechta bo‘g‘in bor? A) 3 ta B) 4 ta C) 5 ta D) 6 ta",
+        "5. «Chang» so‘zida nechta tovush bor? A) 3 ta B) 4 ta C) 5 ta D) 6 ta",
+        "6. O‘zbek tilida so‘z urg‘usi, odatda, qaysi bo‘g‘inga tushadi? A) birinchi bo‘g‘inga B) ikkinchi bo‘g‘inga C) oxirgi bo‘g‘inga D) oxiridan oldingi bo‘g‘inga",
+        "7. Qaysi so‘zda tovushlar soni harflar sonidan kam? A) kitob B) qalam C) daftar D) sher",
+        "8. Qaysi so‘z xato yozilgan? A) ma’no B) e’lon C) sanat D) mo‘jiza",
+        "9. Qaysi so‘z to‘g‘ri yozilgan? A) xabar B) hursand C) xurmat D) xavo",
+        "10. «Sayla» fe’liga -v qo‘shimchasi qo‘shilsa, qaysi so‘z hosil bo‘ladi? A) saylav B) sayluv C) saylov D) sayliv",
+        "11. Qaysi so‘zga egalik qo‘shimchasi qo‘shilganda oxirgi undosh o‘zgarmaydi? A) yurak B) tilak C) tayoq D) ishtirok",
+        "12. Qaysi so‘zga egalik qo‘shimchasi qo‘shilganda ikkinchi bo‘g‘indagi unli tushib qoladi? A) kitob B) burun C) qalam D) daftar",
+        "13. Qaysi yuklama o‘zidan oldingi so‘zga qo‘shib yoziladi? A) -mi B) -ku C) -chi D) -da",
+        "14. Qaysi qatorda tartib son to‘g‘ri yozilgan? A) XXI-asr B) 9 sinf C) 5-chi qator D) 2026-yil",
+        "15. Qaysi qatorda bosh harf to‘g‘ri qo‘llangan? A) Mustaqillik Kuni B) Mustaqillik kuni C) mustaqillik kuni D) mustaqillik Kuni",
+        "16. Qaysi so‘z keyingi satrga to‘g‘ri ko‘chirilgan? A) a-badiy B) mudofa-a C) ma’-rifat D) ma’r-ifat"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar-1-16",
+      "text": "1–16-savollarning javoblari va izohlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "To‘g‘ri javob",
+        "Qisqa izoh"
+      ],
+      "rows": [
+        [
+          "1",
+          "B) 6 ta",
+          "Unli tovushlar oltita: i, e, a, u, o‘, o."
+        ],
+        [
+          "2",
+          "A) u, o‘, o",
+          "U, o‘, o lablar ishtirokida aytiladi; i, e, a — lablanmagan unlilar."
+        ],
+        [
+          "3",
+          "D) p, t, k, s",
+          "P, t, k, s — jarangsiz undoshlar; qolgan qatorlardagi undoshlar jarangli."
+        ],
+        [
+          "4",
+          "B) 4 ta",
+          "Mak-ta-bi-miz: so‘zda nechta unli bo‘lsa, shuncha bo‘g‘in bo‘ladi."
+        ],
+        [
+          "5",
+          "A) 3 ta",
+          "Ch, a, ng: ch va ng harf birikmalari bittadan tovushni bildiradi."
+        ],
+        [
+          "6",
+          "C) oxirgi bo‘g‘inga",
+          "Urg‘u, odatda, oxirgi bo‘g‘inga tushadi; qo‘shimcha qo‘shilsa, u ham so‘z oxiriga ko‘chadi."
+        ],
+        [
+          "7",
+          "D) sher",
+          "«Sher» so‘zi to‘rtta harfdan iborat, lekin sh harf birikmasi bitta tovushni bildiradi: sh, e, r — 3 ta tovush."
+        ],
+        [
+          "8",
+          "C) sanat",
+          "To‘g‘risi — san’at: tutuq belgisi undoshni keyingi unlidan ajratadi. «Mo‘jiza» tutuq belgisisiz yoziladi."
+        ],
+        [
+          "9",
+          "A) xabar",
+          "Xabar — to‘g‘ri; qolganlari xursand, hurmat, havo shaklida yoziladi."
+        ],
+        [
+          "10",
+          "C) saylov",
+          "A unlisi bilan tugagan fe’lga -v qo‘shilsa, a tovushi o ga aylanadi: sayla — saylov."
+        ],
+        [
+          "11",
+          "D) ishtirok",
+          "Ishtirok — ishtiroki; lekin yurak — yuragi, tilak — tilagi, tayoq — tayog‘i."
+        ],
+        [
+          "12",
+          "B) burun",
+          "Burun — burni; kitobi, qalami, daftari so‘zlarida unli tushmaydi."
+        ],
+        [
+          "13",
+          "A) -mi",
+          "-mi qo‘shib yoziladi: keldimi? -ku, -chi, -da yuklamalari chiziqcha bilan yoziladi: keldi-ku, sen-chi, yaxshi-da."
+        ],
+        [
+          "14",
+          "D) 2026-yil",
+          "Arab raqamidan keyin chiziqcha qo‘yiladi: 2026-yil, 9-sinf, 5-qator. Rim raqamidan keyin qo‘yilmaydi: XXI asr."
+        ],
+        [
+          "15",
+          "B) Mustaqillik kuni",
+          "Bayram nomida faqat birinchi so‘z bosh harf bilan yoziladi."
+        ],
+        [
+          "16",
+          "C) ma’-rifat",
+          "Ma’rifat so‘zi ma’-ri-fat bo‘g‘inlariga bo‘linadi. «A-badiy» va «mudofa-a» variantlarida bir harfli bo‘g‘in alohida qoldirilgan yoki ko‘chirilgan, bu mumkin emas; «ma’r-ifat» bo‘g‘in chegarasini buzadi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "leksikologiya",
+      "text": "Leksikologiya: 17–32-savollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "17. Aytilishi va yozilishi bir xil, ma’nosi har xil so‘zlar nima deb ataladi? A) ma’nodosh so‘zlar (sinonimlar) B) zid ma’noli so‘zlar (antonimlar) C) shakldosh so‘zlar (omonimlar) D) paronimlar",
+        "18. Qaysi qatorda ma’nodosh so‘zlar (sinonimlar) berilgan? A) baland — past B) kecha — bugun C) asr — asir D) botir — jasur",
+        "19. Qaysi juftlik zid ma’noli so‘zlardan (antonimlardan) iborat? A) saxiy — baxil B) go‘zal — chiroyli C) yurt — vatan D) tez — ildam",
+        "20. Qaysi so‘z shakldosh (omonim) so‘zga misol bo‘ladi? A) kitob B) yoz C) daraxt D) maktab",
+        "21. Qaysi juftlik paronimlardan iborat? A) ot — ism B) katta — ulkan C) tana — ta’na D) oq — qora",
+        "22. «Ko‘z» so‘zi qaysi birikmada o‘z ma’nosida qo‘llangan? A) buloqning ko‘zi B) uzukning ko‘zi C) ignaning ko‘zi D) bolaning ko‘zi",
+        "23. Qaysi birikmada «shirin» so‘zi ko‘chma ma’noda qo‘llangan? A) shirin olma B) shirin so‘z C) shirin choy D) shirin qovun",
+        "24. «Men Navoiyni sevib o‘qiyman» gapida ma’no ko‘chishining qaysi turi qo‘llangan? A) metonimiya B) metafora C) sinekdoxa D) vazifadoshlik",
+        "25. «Og‘zi qulog‘ida» iborasining ma’nosi qaysi javobda to‘g‘ri berilgan? A) juda xafa B) sergap C) juda xursand D) qulog‘i og‘ir",
+        "26. «Tarvuzi qo‘ltig‘idan tushdi» iborasi qaysi holatni bildiradi? A) hafsalasi pir bo‘ldi B) qattiq charchadi C) juda xursand bo‘ldi D) og‘ir yuk ko‘tardi",
+        "27. «Oq oltin» tasviriy ifodasi nimani bildiradi? A) tuzni B) qorni C) shakarni D) paxtani",
+        "28. Qaysi so‘z tarixiy so‘z hisoblanadi (u bildirgan lavozim hozir yo‘q)? A) o‘qituvchi B) mingboshi C) shifokor D) haydovchi",
+        "29. Adabiy tildagi «narvon» so‘zining ayrim shevalardagi muqobili qaysi? A) supa B) tokcha C) shoti D) ayvon",
+        "30. Qaysi qatorda faqat tilshunoslik atamalari berilgan? A) ildiz, poya, barg B) kasr, tenglama, burchak C) atom, molekula, modda D) ega, kesim, kelishik",
+        "31. Qaysi qatordagi so‘zlar o‘zbek tilining o‘z (turkiy) qatlamiga mansub? A) kitob, maktab, ilm B) tosh, suv, qo‘l C) daraxt, dasturxon, go‘sht D) telefon, stol, mashina",
+        "32. So‘zlarning ma’nosi tushuntirib beriladigan lug‘at qaysi? A) izohli lug‘at B) imlo lug‘ati C) orfoepik (talaffuz) lug‘ati D) ruscha-o‘zbekcha tarjima lug‘ati"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar-17-32",
+      "text": "17–32-savollarning javoblari va izohlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "To‘g‘ri javob",
+        "Qisqa izoh"
+      ],
+      "rows": [
+        [
+          "17",
+          "C) shakldosh so‘zlar (omonimlar)",
+          "Masalan: ot (hayvon), ot (ism), ot (otmoq fe’li)."
+        ],
+        [
+          "18",
+          "D) botir — jasur",
+          "Botir va jasur — ma’nosi yaqin so‘zlar. Baland — past zid ma’noli, asr — asir esa paronimlar."
+        ],
+        [
+          "19",
+          "A) saxiy — baxil",
+          "Saxiy va baxil qarama-qarshi ma’noli; qolgan juftliklar ma’nodosh so‘zlar."
+        ],
+        [
+          "20",
+          "B) yoz",
+          "Yoz — fasl nomi; yoz — «xat yoz» birikmasidagi fe’l."
+        ],
+        [
+          "21",
+          "C) tana — ta’na",
+          "Tana (gavda) va ta’na (gina, kinoya) — aytilishi o‘xshash, yozilishi va ma’nosi boshqa so‘zlar."
+        ],
+        [
+          "22",
+          "D) bolaning ko‘zi",
+          "Qolgan birikmalarda «ko‘z» o‘xshashlik asosida ko‘chma ma’noda qo‘llangan."
+        ],
+        [
+          "23",
+          "B) shirin so‘z",
+          "Shirin so‘z — yoqimli so‘z; qolgan birikmalarda «shirin» maza-ta’mni bildiradi."
+        ],
+        [
+          "24",
+          "A) metonimiya",
+          "Muallif nomi uning asarlari o‘rnida qo‘llangan: bu — metonimiya."
+        ],
+        [
+          "25",
+          "C) juda xursand",
+          "Og‘zi qulog‘ida — juda xursand, quvonchi yuzidan bilinib turibdi."
+        ],
+        [
+          "26",
+          "A) hafsalasi pir bo‘ldi",
+          "Ibora umidi puchga chiqib, ruhi tushgan kishiga nisbatan aytiladi."
+        ],
+        [
+          "27",
+          "D) paxtani",
+          "Oq oltin — paxta; qora oltin — neft."
+        ],
+        [
+          "28",
+          "B) mingboshi",
+          "Mingboshi — o‘tmishdagi amal nomi; bunday lavozim hozir yo‘q."
+        ],
+        [
+          "29",
+          "C) shoti",
+          "Shoti ayrim shevalarda narvon ma’nosida qo‘llanadi."
+        ],
+        [
+          "30",
+          "D) ega, kesim, kelishik",
+          "Ega, kesim, kelishik — tilshunoslik atamalari; qolganlari botanika, matematika va kimyoga oid."
+        ],
+        [
+          "31",
+          "B) tosh, suv, qo‘l",
+          "Kitob, maktab, ilm — arabcha; daraxt, dasturxon, go‘sht — forscha-tojikcha; telefon, stol, mashina — rus tili orqali kirgan so‘zlar."
+        ],
+        [
+          "32",
+          "A) izohli lug‘at",
+          "Izohli lug‘at so‘z ma’nolarini tushuntiradi; imlo lug‘ati yozilishini, orfoepik lug‘at talaffuzini ko‘rsatadi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "soz-turkumlari",
+      "text": "So‘z turkumlari: 33–48-savollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "33. Qaysi qatorda faqat mustaqil so‘z turkumlari berilgan? A) ot, ko‘makchi, son B) ot, sifat, fe’l C) bog‘lovchi, fe’l, ravish D) sifat, yuklama, son",
+        "34. Qaysi qatorda faqat atoqli otlar berilgan? A) shahar, daryo, bola B) Toshkent, poytaxt, ko‘cha C) Samarqand, Zarafshon, Alisher D) kitob, Navoiy, shoir",
+        "35. Qaysi sifat orttirma darajada? A) baland B) balandroq C) balandlik D) eng baland",
+        "36. «Uchala» so‘zi sonning qaysi ma’no turiga kiradi? A) jamlovchi son B) sanoq son C) chama son D) tartib son",
+        "37. Qaysi qatorda chama son berilgan? A) o‘nta B) o‘ninchi C) o‘ntacha D) o‘ntadan",
+        "38. «Hamma» so‘zi olmoshning qaysi turiga kiradi? A) kishilik olmoshi B) belgilash (jamlash) olmoshi C) ko‘rsatish olmoshi D) bo‘lishsizlik olmoshi",
+        "39. Qaysi qatorda gumon olmoshlari berilgan? A) kim, nima, qaysi B) hech kim, hech nima, hech qaysi C) men, sen, u D) kimdir, allanima, birov",
+        "40. Qaysi fe’l o‘timli (tushum kelishigidagi so‘zni boshqara oladi)? A) o‘qidi B) uxladi C) keldi D) yugurdi",
+        "41. «Olma» so‘zi qaysi gapda fe’l bo‘lib kelgan? A) Olma pishdi. B) Olma shirin ekan. C) Bu kitobni olma. D) Bog‘da olma ko‘p.",
+        "42. Qaysi qatorda payt ravishlari berilgan? A) tez, sekin, asta B) bugun, kecha, hozir C) pastda, yuqorida, ichkarida D) ko‘p, oz, sal",
+        "43. «Atayin» so‘zi ravishning qaysi ma’no turiga kiradi? A) payt ravishi B) o‘rin ravishi C) miqdor-daraja ravishi D) maqsad ravishi",
+        "44. Qaysi qatorda faqat ko‘makchilar berilgan? A) bilan, uchun, kabi B) va, ammo, lekin C) faqat, hatto, axir D) oh, voy, eh",
+        "45. Qaysi so‘z zidlov bog‘lovchisi hisoblanadi? A) va B) yoki C) lekin D) chunki",
+        "46. Qaysi gapda yuklama qatnashgan? A) Anvar va Lola keldi. B) Faqat Anvar keldi. C) Anvar ukasi bilan keldi. D) Anvar kecha keldi.",
+        "47. Qaysi qatorda faqat taqlid so‘zlar berilgan? A) taq-tuq, yalt-yult, g‘ir-g‘ir B) oh, voy, eh C) albatta, ehtimol, afsuski D) hatto, faqat, axir",
+        "48. Qaysi so‘z modal so‘z hisoblanadi? A) lekin B) bilan C) voy D) albatta"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar-33-48",
+      "text": "33–48-savollarning javoblari va izohlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "To‘g‘ri javob",
+        "Qisqa izoh"
+      ],
+      "rows": [
+        [
+          "33",
+          "B) ot, sifat, fe’l",
+          "Ko‘makchi, bog‘lovchi va yuklama — yordamchi so‘zlar."
+        ],
+        [
+          "34",
+          "C) Samarqand, Zarafshon, Alisher",
+          "Samarqand (shahar), Zarafshon (daryo), Alisher (kishi ismi) — atoqli otlar, ular bosh harf bilan yoziladi. Shahar, daryo, bola — turdosh otlar."
+        ],
+        [
+          "35",
+          "D) eng baland",
+          "Eng, juda, g‘oyat so‘zlari orttirma daraja hosil qiladi; «balandlik» esa ot."
+        ],
+        [
+          "36",
+          "A) jamlovchi son",
+          "Uchala, uchov, ikkovlon — jamlovchi sonlar."
+        ],
+        [
+          "37",
+          "C) o‘ntacha",
+          "O‘ntacha — taxminiy miqdor; o‘nta — dona son, o‘ninchi — tartib son, o‘ntadan — taqsim son."
+        ],
+        [
+          "38",
+          "B) belgilash (jamlash) olmoshi",
+          "Hamma, barcha, bari, har kim — belgilash (jamlash) olmoshlari."
+        ],
+        [
+          "39",
+          "D) kimdir, allanima, birov",
+          "Gumon olmoshlari noaniq shaxs yoki narsani bildiradi: kimdir, allanima, birov."
+        ],
+        [
+          "40",
+          "A) o‘qidi",
+          "Nimani o‘qidi? — kitobni. Uxladi, keldi, yugurdi fe’llari tushum kelishigidagi so‘zni boshqarmaydi."
+        ],
+        [
+          "41",
+          "C) Bu kitobni olma.",
+          "Bu gapda «olma» — «olmoq» fe’lining bo‘lishsiz buyruq shakli; qolgan gaplarda u meva nomi."
+        ],
+        [
+          "42",
+          "B) bugun, kecha, hozir",
+          "Bugun, kecha, hozir «qachon?» so‘rog‘iga javob beradi."
+        ],
+        [
+          "43",
+          "D) maqsad ravishi",
+          "Atayin, ataylab, jo‘rttaga — ish-harakatning maqsadini bildiradi."
+        ],
+        [
+          "44",
+          "A) bilan, uchun, kabi",
+          "Va, ammo, lekin — bog‘lovchilar; faqat, hatto, axir — yuklamalar; oh, voy, eh — undov so‘zlar."
+        ],
+        [
+          "45",
+          "C) lekin",
+          "Lekin, ammo, biroq — zidlov bog‘lovchilari; va — biriktiruv, yoki — ayiruv, chunki — ergashtiruvchi bog‘lovchi."
+        ],
+        [
+          "46",
+          "B) Faqat Anvar keldi.",
+          "Faqat — ayirish-chegaralash yuklamasi; va — bog‘lovchi, bilan — ko‘makchi, kecha — ravish."
+        ],
+        [
+          "47",
+          "A) taq-tuq, yalt-yult, g‘ir-g‘ir",
+          "Taq-tuq, g‘ir-g‘ir — tovushga, yalt-yult — holatga taqlid."
+        ],
+        [
+          "48",
+          "D) albatta",
+          "Albatta — ishonchni bildiruvchi modal so‘z; lekin — bog‘lovchi, bilan — ko‘makchi, voy — undov so‘z."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "morfologiya",
+      "text": "Morfologiya: 49–64-savollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "49. «Bog‘bonlarimizga» so‘zida nechta qo‘shimcha bor? A) 2 ta B) 3 ta C) 4 ta D) 5 ta",
+        "50. Qaysi so‘zda so‘z yasovchi qo‘shimcha bor? A) gulzor B) gullar C) gulni D) gulim",
+        "51. Qaysi qo‘shimcha otdan fe’l yasaydi? A) -chi B) -li C) -lar D) -la",
+        "52. Qaysi so‘z tuzilishiga ko‘ra qo‘shma so‘z? A) bog‘bon B) belbog‘ C) ota-ona D) bog‘lar",
+        "53. «Maktabdan» so‘zi qaysi kelishikda? A) jo‘nalish kelishigida B) o‘rin-payt kelishigida C) tushum kelishigida D) chiqish kelishigida",
+        "54. Qaysi gapda tushum kelishigi belgisiz qo‘llangan (qo‘shimchasi tushib qolgan)? A) Men kitobni o‘qidim. B) Men kitob o‘qidim. C) Men kitobdan o‘qidim. D) Men kitobga qaradim.",
+        "55. «Daftaring» so‘zidagi egalik qo‘shimchasi qaysi shaxs va sonni bildiradi? A) II shaxs birlik B) I shaxs birlik C) III shaxs birlik D) II shaxs ko‘plik",
+        "56. Qaysi gapda -lar qo‘shimchasi hurmat ma’nosini bildiradi? A) Bolalar hovlida o‘ynashyapti. B) Kitoblar javonda turibdi. C) Dadamlar ishdan keldilar. D) Qushlar janubga uchib ketdi.",
+        "57. Qaysi fe’l hozirgi zamon shaklida? A) yozdi B) yozgan edi C) yozyapti D) yozmoqchi",
+        "58. «Boramiz» fe’li qaysi shaxs va sonda? A) I shaxs birlik B) I shaxs ko‘plik C) II shaxs ko‘plik D) III shaxs ko‘plik",
+        "59. Qaysi fe’l shart maylida? A) o‘qisa B) o‘qisin C) o‘qidi D) o‘qiydi",
+        "60. «Yuvindi» fe’li qaysi nisbatda? A) aniq nisbatda B) majhul nisbatda C) orttirma nisbatda D) o‘zlik nisbatda",
+        "61. Qaysi fe’l orttirma nisbatda? A) o‘qidi B) o‘qitdi C) o‘qildi D) o‘qishdi",
+        "62. Qaysi so‘z ravishdosh? A) kulib B) kulgan C) kulish D) kuldi",
+        "63. Qaysi birikmada sifatdosh qatnashgan? A) o‘qib keldi B) o‘qish foydali C) kitob o‘qidi D) o‘qigan bola",
+        "64. Fe’llarning shaxs-son qo‘shimchalarini olib o‘zgarishi nima deb ataladi? A) turlanish B) yasalish C) tuslanish D) qiyoslash"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar-49-64",
+      "text": "49–64-savollarning javoblari va izohlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "To‘g‘ri javob",
+        "Qisqa izoh"
+      ],
+      "rows": [
+        [
+          "49",
+          "C) 4 ta",
+          "Bog‘ + -bon + -lar + -imiz + -ga: o‘zakka to‘rtta qo‘shimcha qo‘shilgan."
+        ],
+        [
+          "50",
+          "A) gulzor",
+          "-zor yangi so‘z yasaydi: gul — gulzor. -lar, -ni, -im qo‘shimchalari yangi so‘z yasamaydi."
+        ],
+        [
+          "51",
+          "D) -la",
+          "Ish — ishla, gul — gulla. -chi ot, -li sifat yasaydi; -lar — ko‘plik qo‘shimchasi."
+        ],
+        [
+          "52",
+          "B) belbog‘",
+          "Belbog‘: bel + bog‘. Bog‘bon — yasama so‘z, ota-ona — juft so‘z."
+        ],
+        [
+          "53",
+          "D) chiqish kelishigida",
+          "-dan — chiqish kelishigi qo‘shimchasi: qayerdan? — maktabdan."
+        ],
+        [
+          "54",
+          "B) Men kitob o‘qidim.",
+          "Nimani o‘qidim? — kitob(ni): -ni qo‘shimchasi tushib qolgan."
+        ],
+        [
+          "55",
+          "A) II shaxs birlik",
+          "-ing — II shaxs birlik qo‘shimchasi: sening daftaring."
+        ],
+        [
+          "56",
+          "C) Dadamlar ishdan keldilar.",
+          "«Dadamlar» bitta kishi haqida aytilgan: -lar bu yerda ko‘plikni emas, hurmatni bildiradi."
+        ],
+        [
+          "57",
+          "C) yozyapti",
+          "-yap — hozirgi zamon qo‘shimchasi. Yozdi, yozgan edi — o‘tgan zamon; yozmoqchi — kelasi zamonning maqsad shakli."
+        ],
+        [
+          "58",
+          "B) I shaxs ko‘plik",
+          "-miz — I shaxs ko‘plik qo‘shimchasi: biz boramiz."
+        ],
+        [
+          "59",
+          "A) o‘qisa",
+          "Shart mayli -sa qo‘shimchasi bilan yasaladi; o‘qisin — buyruq-istak mayli."
+        ],
+        [
+          "60",
+          "D) o‘zlik nisbatda",
+          "Yuv + -in + -di: harakat bajaruvchining o‘ziga qaratilgan — o‘zlik nisbat."
+        ],
+        [
+          "61",
+          "B) o‘qitdi",
+          "O‘qi + -t: o‘qitdi — orttirma nisbat; o‘qildi — majhul, o‘qishdi — birgalik nisbat."
+        ],
+        [
+          "62",
+          "A) kulib",
+          "Kulib — ravishdosh (-ib); kulgan — sifatdosh, kulish — harakat nomi."
+        ],
+        [
+          "63",
+          "D) o‘qigan bola",
+          "O‘qigan (qanday bola?) — sifatdosh; o‘qib — ravishdosh, o‘qish — harakat nomi."
+        ],
+        [
+          "64",
+          "C) tuslanish",
+          "Fe’llar tuslanadi: men bordim, sen bording. Otlar esa kelishiklar bilan turlanadi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sintaksis-va-tinish-belgilari",
+      "text": "Sintaksis va tinish belgilari: 65–80-savollar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "65. «Ukamning daftari» birikmasida so‘zlar qaysi usulda bog‘langan? A) boshqaruv B) bitishuv C) moslashuv D) teng bog‘lanish",
+        "66. Qaysi birikma bitishuv usulida bog‘langan? A) kitobni o‘qimoq B) shirin olma C) maktabga bormoq D) ukamning kitobi",
+        "67. «Kecha bog‘imizda birinchi gilos pishdi» gapida ega qaysi so‘z? A) kecha B) bog‘imizda C) pishdi D) gilos",
+        "68. «Men xatni yozdim» gapidagi «xatni» so‘zi qaysi gap bo‘lagi? A) to‘ldiruvchi B) ega C) aniqlovchi D) hol",
+        "69. «Lola chiroyli gul terdi» gapida aniqlovchi qaysi so‘z? A) Lola B) chiroyli C) gul D) terdi",
+        "70. «Biz ertaga sayohatga boramiz» gapidagi «ertaga» so‘zi qaysi gap bo‘lagi? A) to‘ldiruvchi B) aniqlovchi C) o‘rin holi D) payt holi",
+        "71. Qaysi gapda ega bilan kesim orasiga tire qo‘yilishi kerak? A) Kitob bilim manbai. B) Kitob javonda turibdi. C) Kitob juda qiziqarli ekan. D) Kitobni kecha o‘qidim.",
+        "72. Qaysi gap atov gap hisoblanadi? A) Kuz keldi. B) Kuzda yomg‘ir yog‘adi. C) Kuz. D) Kuzni yaxshi ko‘raman.",
+        "73. Qaysi gapda uyushiq bo‘laklar bor? A) Bozordan shirin olma oldik. B) Biz bozorga bordik. C) Bozordan olma, anor va uzum oldik. D) Bozor uyimizga yaqin.",
+        "74. Umumlashtiruvchi so‘z uyushiq bo‘laklardan oldin kelsa, undan keyin qaysi tinish belgisi qo‘yiladi? A) vergul B) ikki nuqta C) tire D) nuqtali vergul",
+        "75. Qaysi gapda undalma bor? A) Do‘stlar, kitob o‘qishni odat qiling. B) Do‘stlar kitob o‘qishdi. C) Do‘stlarim kitobni yaxshi ko‘radi. D) Do‘stlarimga kitob sovg‘a qildim.",
+        "76. Qaysi gapda kirish so‘z qatnashgan? A) Bugun yomg‘ir yog‘adi. B) Men bugun uyda qolaman. C) Yomg‘ir yog‘sa, uyda qolaman. D) Menimcha, bugun yomg‘ir yog‘adi.",
+        "77. Qaysi gap ergashgan qo‘shma gap? A) Yomg‘ir yog‘di va havo sovidi. B) Agar yomg‘ir yog‘sa, biz uyda qolamiz. C) Yomg‘ir yog‘di, havo sovidi. D) Yomg‘ir tindi.",
+        "78. Qaysi gap bog‘lovchisiz qo‘shma gap? A) Qo‘ng‘iroq chalindi va dars boshlandi. B) Qo‘ng‘iroq chalingach, dars boshlandi. C) Qo‘ng‘iroq chalindi. D) Qo‘ng‘iroq chalindi, dars boshlandi.",
+        "79. Qaysi gapda tinish belgilari to‘g‘ri qo‘yilgan? A) «Men ertaga kelaman» dedi, Anvar. B) Men ertaga kelaman — dedi Anvar. C) «Men ertaga kelaman», — dedi Anvar. D) «Men ertaga kelaman». Dedi Anvar.",
+        "80. Qaysi gap o‘zlashtirma gap? A) O‘qituvchi ertaga majlis bo‘lishini aytdi. B) O‘qituvchi aytdi: «Ertaga majlis bo‘ladi». C) «Ertaga majlis bo‘ladi», — dedi o‘qituvchi. D) Ertaga majlis bo‘ladi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar-65-80",
+      "text": "65–80-savollarning javoblari va izohlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "To‘g‘ri javob",
+        "Qisqa izoh"
+      ],
+      "rows": [
+        [
+          "65",
+          "C) moslashuv",
+          "Qaratqich kelishigidagi so‘z egalik qo‘shimchali so‘z bilan moslashuv usulida bog‘lanadi."
+        ],
+        [
+          "66",
+          "B) shirin olma",
+          "Shirin olma: so‘zlar qo‘shimchasiz, tartib va ohang orqali bog‘langan. Kitobni o‘qimoq, maktabga bormoq — boshqaruv."
+        ],
+        [
+          "67",
+          "D) gilos",
+          "Nima pishdi? — gilos."
+        ],
+        [
+          "68",
+          "A) to‘ldiruvchi",
+          "Nimani yozdim? — xatni: tushum kelishigidagi (vositasiz) to‘ldiruvchi."
+        ],
+        [
+          "69",
+          "B) chiroyli",
+          "Qanday gul? — chiroyli: sifatlovchi aniqlovchi."
+        ],
+        [
+          "70",
+          "D) payt holi",
+          "Qachon boramiz? — ertaga: payt holi."
+        ],
+        [
+          "71",
+          "A) Kitob bilim manbai.",
+          "Ega ham, kesim ham bosh kelishikdagi ot bilan ifodalangan, bog‘lama yo‘q: Kitob — bilim manbai."
+        ],
+        [
+          "72",
+          "C) Kuz.",
+          "Atov gap bitta bosh bo‘lakdan — bosh kelishikdagi otdan iborat bo‘lib, narsa yoki hodisaning mavjudligini bildiradi."
+        ],
+        [
+          "73",
+          "C) Bozordan olma, anor va uzum oldik.",
+          "Olma, anor va uzum — bir xil so‘roqqa javob beradigan uyushiq to‘ldiruvchilar."
+        ],
+        [
+          "74",
+          "B) ikki nuqta",
+          "Masalan: Bog‘da hamma meva pishgan: olma, anor, uzum."
+        ],
+        [
+          "75",
+          "A) Do‘stlar, kitob o‘qishni odat qiling.",
+          "«Do‘stlar» — nutq qaratilgan shaxslar; undalma vergul bilan ajratiladi."
+        ],
+        [
+          "76",
+          "D) Menimcha, bugun yomg‘ir yog‘adi.",
+          "Menimcha — fikr kimga tegishli ekanini bildiruvchi kirish so‘z; u vergul bilan ajratiladi."
+        ],
+        [
+          "77",
+          "B) Agar yomg‘ir yog‘sa, biz uyda qolamiz.",
+          "«Agar yomg‘ir yog‘sa» — shart ergash gap, «biz uyda qolamiz» — bosh gap."
+        ],
+        [
+          "78",
+          "D) Qo‘ng‘iroq chalindi, dars boshlandi.",
+          "Ikki sodda gap bog‘lovchisiz, faqat ohang yordamida bog‘langan."
+        ],
+        [
+          "79",
+          "C) «Men ertaga kelaman», — dedi Anvar.",
+          "Ko‘chirma gap qo‘shtirnoqqa olinadi; undan keyin vergul va tire qo‘yiladi, muallif gapi kichik harf bilan boshlanadi."
+        ],
+        [
+          "80",
+          "A) O‘qituvchi ertaga majlis bo‘lishini aytdi.",
+          "O‘zlashtirma gapda o‘zganing gapi mazmunan beriladi, qo‘shtirnoq qo‘yilmaydi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-oqituvchi",
+      "text": "AI o‘qituvchi bilan mashq"
+    },
+    {
+      "type": "p",
+      "text": "Chat ustidagi tugmalarda tayyor so‘rovlar bor: yangi mashq savollari, xato javobni tushuntirish, qoidani qisqa eslatish, imlo bo‘yicha savollar, mavzu bo‘yicha test tuzish va natijani tahlil qilish. Tugma so‘rovni faqat yozish maydoniga qo‘yadi; uni o‘zgartirishingiz mumkin, yuborishni esa o‘zingiz hal qilasiz. So‘rovga sinfingizni va mavzuni yozing, masalan: «7-sinf uchun ega va kesim mavzusida 8 ta test savoli ber»."
+    },
+    {
+      "type": "p",
+      "text": "AI uy vazifasini o‘rningizga bajarish uchun emas: avval o‘zingiz ishlang, keyin tekshirishni so‘rang. Model ham adashishi mumkin, ayniqsa imlo va tinish belgilarida: shubhali javobni shu sahifadagi izoh va darsligingiz bilan solishtiring."
+    },
+    {
+      "type": "h2",
+      "id": "keyingi-qadam",
+      "text": "Keyingi qadam"
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa fanlar bo‘yicha savollar kerak bo‘lsa, {tests} bilan tanishing. Gapni bo‘laklarga ajratishni mashq qilish uchun {syn} sahifasiga, o‘zingiz matn tuzishni o‘rganish uchun esa {matn} sahifasiga o‘ting. Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "tests",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar katalogi"
+        },
+        {
+          "token": "syn",
+          "target": "/uz/sintaktik-tahlil/",
+          "anchor": "gaplarni sintaktik tahlil qilish"
+        },
+        {
+          "token": "matn",
+          "target": "/uz/matn-tuzish/",
+          "anchor": "kichik matn tuzish"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Она тили тестлари: 5–9-синфлар учун 80 та машқ саволи, жавоблар жадвали ва изоҳлар, PDF шаклида юклаб олиш мумкин. Хато жавобингизни AI ўқитувчи билан таҳлил қилинг."
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "bizga Telegram’da"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bu savollar qayerdan olingan?",
+      "a": "Savollarni biz o‘zimiz mashq uchun tuzdik; ular boshqa saytlardan ko‘chirilmagan. Savollar maktab dasturidagi mavzularga tayanadi, lekin rasmiy imtihon materiali emas."
+    },
+    {
+      "q": "Bu testlar BSB, ChSB yoki DTM savollarimi?",
+      "a": "Yo‘q. Bu mashq savollari: ular rasmiy imtihon, BSB, ChSB yoki DTM materiallari emas va aynan shunday savollar tushishini bildirmaydi. Mavzuni takrorlash va o‘zingizni sinash uchun foydalaning."
+    },
+    {
+      "q": "Qaysi sinf uchun mos?",
+      "a": "Savollar 5–9-sinf dasturidagi mavzularni qamrab oladi: fonetika, leksikologiya, so‘z turkumlari, morfologiya va sintaksis. Pastki sinflar uchun birinchi guruhdagi savollar, yuqori sinflar uchun oxirgi ikki guruh qulayroq."
+    },
+    {
+      "q": "Javoblar kalitini qayerdan topaman?",
+      "a": "Har bir guruhdan keyin javoblar jadvali bor: savol raqami, to‘g‘ri javob va qisqa izoh. PDF faylda esa barcha 80 ta javob oxirgi sahifada, alohida varaqda berilgan."
+    },
+    {
+      "q": "Testni PDF qilib yuklab olsa bo‘ladimi?",
+      "a": "Ha, sahifadagi havola orqali A4 hajmidagi PDF faylni yuklab olib, chop etishingiz mumkin. Faylda 80 ta savol va oxirgi sahifada javoblar kaliti bor."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Savollar, javoblar jadvali va PDF bepul. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/sintaktik-tahlil/",
+      "anchor": "Gaplarni sintaktik tahlil qilish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/matn-tuzish/",
+      "anchor": "Kichik matn tuzish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: ona tili testlari",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Ona tilidan 80 ta mashq savoli, javoblar jadvali va PDF, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: xatoni tushuntiradi va yangi savollar tuzadi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul savollar va PDF, AI’ning 3 ta bepul sinov javobi",
+        "description": "Savollar, javoblar jadvali va PDF bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/ona-tili-test/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

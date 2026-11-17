@@ -1,0 +1,343 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "deepseek-ozbek-tilida",
+  "url": "/uz/blog/deepseek-ozbek-tilida/",
+  "title": "DeepSeek o‘zbek tilida: rasmiy sayt, ilova va maxfiylik",
+  "description": "DeepSeek nima, rasmiy manzili va ilovasi, o‘zbekcha ishlashi, nima bepul ekani, maxfiylik va xato xavfi, 8 ta tayyor so‘rov hamda «дипсик» haqida qisqa ma’lumot.",
+  "h1": "DeepSeek AI: nima, qayerdan ochiladi va qanday ehtiyot bo‘lish kerak",
+  "topicCluster": "ai-xizmatlar",
+  "keywords": [
+    "deepseek",
+    "deepseek ai",
+    "deepseek chat",
+    "deep seek",
+    "deepseek uzbek tilida",
+    "deepseek kirish",
+    "дипсик",
+    "дипсик чат"
+  ],
+  "intro": "DeepSeek — Xitoyda yaratilgan sun’iy intellekt yordamchisi: savolga javob beradi, matn yozadi, kod va masalalar bilan ishlaydi. Nomi «DeepSeek», «Deep Seek» yoki kirillda «дипсик» deb yoziladi, hammasi bitta xizmat. Rasmiy sayti — deepseek.com, chat esa chat.deepseek.com manzilida. Quyidagi ma’lumotlar rasmiy sahifalardan 2026-yil 17-noyabrda tekshirildi.",
+  "body": [
+    {
+      "type": "quote",
+      "text": "Qisqasi: DeepSeek’ni faqat rasmiy deepseek.com sahifasi orqali oching. O‘zbekcha savolga javob beradi, lekin xato qilishi mumkin. Maxfiylik siyosatiga ko‘ra, ma’lumotlar Xitoydagi serverlarda saqlanadi, shuning uchun shaxsiy va maxfiy ma’lumotni yozmang."
+    },
+    {
+      "type": "linkp",
+      "text": "Rasmiy manzillar: bosh sahifa — {site}; veb-chat — {chat}. Ilovani yuklab olish havolasi rasmiy saytning o‘zida: {app}.",
+      "links": [
+        {
+          "token": "site",
+          "target": "https://www.deepseek.com/",
+          "anchor": "deepseek.com"
+        },
+        {
+          "token": "chat",
+          "target": "https://chat.deepseek.com/",
+          "anchor": "chat.deepseek.com"
+        },
+        {
+          "token": "app",
+          "target": "https://www.deepseek.com/download/",
+          "anchor": "deepseek.com/download"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "DeepSeek nima"
+    },
+    {
+      "type": "p",
+      "text": "DeepSeek — shu nomli kompaniyaning AI chat xizmati va til modellari oilasi. Rasmiy saytda DeepSeek V4.1, V4, V3.2, V3.1, V3 va R1 modellari sanab o‘tilgan; R1 — «o‘ylab javob beruvchi» (reasoning) model. Chatdan tashqari, dasturchilar uchun API ham bor: u uchun alohida platforma sahifasi mavjud."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Rasmiy sahifalardagi holat (17.11.2026)"
+      ],
+      "rows": [
+        [
+          "Rasmiy sayt",
+          "deepseek.com"
+        ],
+        [
+          "Veb-chat",
+          "chat.deepseek.com"
+        ],
+        [
+          "Ilova",
+          "Yuklab olish sahifasi rasmiy saytda bor"
+        ],
+        [
+          "Sayt interfeysi tillari",
+          "Xitoy va ingliz tillari"
+        ],
+        [
+          "Modellar",
+          "V4.1, V4, V3.2, V3.1, V3, R1 (saytdagi ro‘yxat)"
+        ],
+        [
+          "API",
+          "Alohida platformada; narx sahifasi alohida"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kirish",
+      "text": "DeepSeek’ni qanday ochish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Brauzer manzil qatoriga deepseek.com yoki chat.deepseek.com deb o‘zingiz yozing. Reklama yoki «DeepSeek yuklab olish» deb nomlangan begona saytlar orqali kirmang.",
+        "Chatni ochganda hisob yaratish yoki kirish so‘ralishi mumkin. Parolni faqat rasmiy sahifada kiriting.",
+        "Telefon uchun ilovani rasmiy sayt orqali, so‘ng Google Play yoki App Store sahifasida ishlab chiquvchi nomini tekshirib o‘rnating. Nomi o‘xshash soxta ilovalar ko‘p.",
+        "Begona saytdan APK fayl o‘rnatmang: uning ichida nima borligini hech kim tekshirmagan."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "DeepSeek O‘zbekistonda ishlashini va hamma uchun ro‘yxatdan o‘tish imkoni borligini rasmiy sahifalardan tasdiqlay olmadik. Bu holat o‘zgarishi mumkin: sahifa ochilmasa yoki ro‘yxatdan o‘tishda xatolik chiqsa, rasmiy saytdagi ma’lumotni tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "ozbek-tili",
+      "text": "DeepSeek o‘zbekcha javob beradimi"
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy sayt interfeysi faqat xitoy va ingliz tillarida. Modellar qaysi tillarni qo‘llab-quvvatlashi saytda alohida ko‘rsatilmagan. Amalda o‘zbekcha savolni yozib ko‘rish mumkin, lekin o‘zbek tili bo‘yicha sifat kafolatlanmagan: ayrim javoblarda grammatik xato, noto‘g‘ri atama yoki ruscha va inglizcha so‘zlar aralashishi mumkin."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Savolni sodda va qisqa jumlalar bilan yozing.",
+        "Javob qaysi tilda bo‘lishini aniq ayting: «o‘zbek tilida, lotin yozuvida javob ber».",
+        "Muhim matnni (xat, ariza, reja) o‘qib chiqing va o‘zbek tilida tahrirlang.",
+        "Agar javob tushunarsiz bo‘lsa, savolni ingliz tilida takrorlang va natijani solishtiring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bepul",
+      "text": "Nima bepul va nimani tekshirish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy bosh sahifa chatning bepulligi yoki limitlari haqida aniq ma’lumot bermaydi; u faqat API narxlari sahifasiga havola beradi. Shuning uchun bu yerda «bepul» yoki «cheklovsiz» deb yozmaymiz. Chatdagi imkoniyatlar va limitlarni o‘zingiz hisobingizda ko‘rasiz, API narxini rasmiy platformada tekshirasiz."
+    },
+    {
+      "type": "h2",
+      "id": "ehtiyot",
+      "text": "Nimaga ehtiyot bo‘lish kerak: maxfiylik va aniqlik"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ma’lumot saqlanadigan joy. DeepSeek maxfiylik siyosatida to‘plangan ma’lumotlar Xitoy Xalq Respublikasidagi serverlarda saqlanishi yozilgan. Siyosat o‘zgarishi mumkin, uni rasmiy sahifada o‘zingiz o‘qing.",
+        "Maxfiy ma’lumot yozmang: parol, karta raqami, pasport, tibbiy hujjat, ish sirlari va boshqa odamlarning shaxsiy ma’lumotlari chatga tushmasligi kerak.",
+        "Javob xato bo‘lishi mumkin. Sana, raqam, formula, iqtibos va qonunlarni manbadan tekshiring. «O‘ylab javob beruvchi» model ham fakt to‘qishi mumkin.",
+        "Tayyor javobni o‘z ishingiz deb topshirmang. Maktab, universitet va ish joyida AI matni qabul qilinmasligi mumkin.",
+        "Ish joyingiz yoki o‘quv yurtingiz AI vositalarini cheklasa, qoidaga amal qiling."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sorovlar",
+      "text": "O‘qish va ish uchun 8 ta tayyor so‘rov"
+    },
+    {
+      "type": "p",
+      "text": "Kvadrat qavs ichidagi so‘zlarni o‘zingiznikiga almashtiring. Har bir so‘rovda javob tilini ayting va maxfiy ma’lumot qo‘shmang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Mavzu]ni 9-sinf o‘quvchisiga sodda o‘zbek tilida tushuntir. Oxirida meni uchta savol bilan tekshir.",
+        "Quyidagi matndan 7 banddan iborat konspekt tuz. Javobni o‘zbek tilida, lotin yozuvida ber: [matn].",
+        "Shu masalani bosqichma-bosqich yech va har qadamni izohla. Oxirgi javobni o‘zim tekshirishim uchun formulalarni alohida yoz: [masala].",
+        "Ingliz tilidagi shu matnni o‘zbekchaga tarjima qil. Atamalarning asl nusxasini qavs ichida qoldir: [matn].",
+        "«[Mavzu]» bo‘yicha referat rejasini tuz: kirish, uchta bob, xulosa. Tayyor matn yozma, faqat reja va har bir bobga bir jumlalik izoh ber.",
+        "Mijozga xushmuomala xat yoz: buyurtma ikki kunga kechikadi, uzr so‘raymiz. Aniq sana va chegirma va’da qilma.",
+        "Mana yig‘ilish qaydlari: [qaydlar]. Ulardan qarorlar, mas’ullar va muddatlar jadvalini tuz.",
+        "Python’da [vazifa] uchun oddiy kod yoz va har bir qatorni o‘zbek tilida izohla. Kodni ishga tushirishdan oldin o‘zim tekshiraman."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dipsik-kirill",
+      "text": "Дипсик нима",
+      "lang": "uz-Cyrl"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "«Дипсик» — DeepSeek сунъий интеллект ёрдамчисининг кирилл ёзувидаги номи. Расмий сайти — deepseek.com, чати эса chat.deepseek.com манзилида. Уни фақат расмий сайт орқали очинг. Маълумотлар Хитойдаги серверларда сақланиши махфийлик сиёсатида ёзилган, шунинг учун шахсий маълумот ёзманг. Жавобда хато бўлиши мумкин: сана ва рақамларни текширинг."
+    },
+    {
+      "type": "h2",
+      "id": "muqobil",
+      "text": "Mustaqil AI chatimiz haqida"
+    },
+    {
+      "type": "linkp",
+      "text": "GPTBot.uz — mustaqil AI chat: DeepSeek emas va uning kompaniyasi bilan bog‘liq emas. U o‘zbek va rus tillarida matn bilan ishlaydi: tushuntirish, reja, tarjima, qoralama. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak — shartlari {tarif} sahifasida. Hamma AI chatlarga bir xil qoida: javobni tekshiring va maxfiy ma’lumot yozmang.",
+      "links": [
+        {
+          "token": "tarif",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "tariflar"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Savolni GPTBot.uz AI chatiga berish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa xizmatlar bilan solishtirish uchun {compare} maqolasini o‘qing; alohida qo‘llanmalar: {gemini} va {claude}.",
+      "links": [
+        {
+          "token": "compare",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "ChatGPT, Claude va Gemini’ni solishtirgan"
+        },
+        {
+          "token": "gemini",
+          "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+          "anchor": "Gemini AI qo‘llanmasi"
+        },
+        {
+          "token": "claude",
+          "target": "/uz/blog/claude-ai-ozbekistonda/",
+          "anchor": "Claude AI qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Sahifadagi ma’lumotlar rasmiy manbalardan 2026-yil 17-noyabrda tekshirildi; modellar, limitlar va siyosat o‘zgarishi mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "DeepSeek nima?",
+      "a": "Bu Xitoy kompaniyasi DeepSeek yaratgan AI chat va til modellari oilasi. Savolga javob beradi, matn yozadi, kod va masalalar bilan ishlaydi. Rasmiy sayti — deepseek.com."
+    },
+    {
+      "q": "DeepSeek’ning rasmiy manzili qaysi?",
+      "a": "Bosh sahifa — deepseek.com, veb-chat — chat.deepseek.com, API platformasi — platform.deepseek.com. Boshqa saytlar va nomi o‘xshash ilovalardan ehtiyot bo‘ling."
+    },
+    {
+      "q": "DeepSeek o‘zbek tilida ishlaydimi?",
+      "a": "O‘zbekcha savol yozib ko‘rish mumkin, lekin rasmiy sayt o‘zbek tilini alohida qo‘llab-quvvatlashini e’lon qilmagan va interfeys faqat xitoy hamda ingliz tillarida. Javobdagi xatolarni tekshiring."
+    },
+    {
+      "q": "DeepSeek bepulmi?",
+      "a": "Rasmiy bosh sahifa chatning bepul ekanini aniq yozmaydi, faqat API narxlariga havola beradi. Imkoniyat va limitlarni hisobingizda va rasmiy sahifada tekshiring."
+    },
+    {
+      "q": "DeepSeek’ga yozganlarim qayerda saqlanadi?",
+      "a": "Maxfiylik siyosatiga ko‘ra, to‘plangan ma’lumotlar Xitoy Xalq Respublikasidagi serverlarda saqlanadi. Shuning uchun parol, karta, pasport va tibbiy ma’lumotlarni yozmang."
+    },
+    {
+      "q": "DeepSeek O‘zbekistonda ishlaydimi?",
+      "a": "Buni rasmiy sahifalardan tasdiqlay olmadik. Sayt va ilova ochilishini o‘zingiz tekshiring; ro‘yxatdan o‘tish hamma uchun ishlashiga kafolat yo‘q."
+    },
+    {
+      "q": "GPTBot.uz chati DeepSeek bilan bog‘liqmi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil AI chat. U o‘zbek va rus tillarida matn bilan ishlaydi. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak."
+    }
+  ],
+  "cta": {
+    "label": "Savolni GPTBot.uz AI chatiga berish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-xizmatlar/",
+      "anchor": "AI xizmatlar: qo‘llanmalar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: matnli savollar uchun",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+      "anchor": "Gemini AI: kirish, ilova va rasm",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/claude-ai-ozbekistonda/",
+      "anchor": "Claude AI: ro‘yxatdan o‘tish va bepul reja",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "anchor": "ChatGPT, Claude va Gemini taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/chatgptdan-qanday-foydalanish/",
+      "anchor": "AI yordamchidan foydalanish: 10 qadam",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "DeepSeek o‘zbek tilida: rasmiy sayt, ilova va maxfiylik",
+  "ogDescription": "DeepSeek nima, rasmiy manzili va ilovasi, o‘zbekcha ishlashi, nima bepul ekani, maxfiylik va xato xavfi, 8 ta tayyor so‘rov hamda «дипсик» haqida qisqa ma’lumot.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/deepseek-ozbek-tilida/",
+  "hreflangUz": "/uz/blog/deepseek-ozbek-tilida/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "DeepSeek’ni o‘qish va ishda sinab ko‘rmoqchi bo‘lgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "DeepSeek qo‘llanma",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "DeepSeek — rasmiy sayt",
+      "url": "https://www.deepseek.com/",
+      "note": "Veb-chat (chat.deepseek.com), ilovani yuklab olish sahifasi, API platformasi, modellar ro‘yxati (V4.1, V4, V3.2, V3.1, V3, R1), interfeys tillari (xitoy va ingliz); chatning bepulligi haqida aniq yozuv topilmadi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "DeepSeek Privacy Policy",
+      "url": "https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html",
+      "note": "Siyosatda to‘plangan ma’lumotlar Xitoy Xalq Respublikasidagi serverlarda saqlanishi yozilgan. Sahifa to‘g‘ridan-to‘g‘ri ochilmadi (403), mazmun qidiruv natijasi orqali 2026-11-17 kuni tekshirildi; 2025-02-14 sanali versiya ham mavjud."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

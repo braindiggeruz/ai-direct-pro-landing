@@ -1,0 +1,526 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "gemini-ai-ozbek-tilida",
+  "url": "/uz/blog/gemini-ai-ozbek-tilida/",
+  "title": "Gemini AI o‘zbek tilida: kirish, ilova va rasm | GPTBot.uz",
+  "description": "Gemini AI nima, rasmiy manzili va ilovasi, o‘zbek tilini sozlash, bepul va pullik imkoniyatlar, 10 ta tayyor so‘rov hamda rasm yasash uchun 10 ta prompt.",
+  "h1": "Google Gemini: o‘zbek tilida ishlatish, bepul imkoniyatlar va rasm yaratish",
+  "topicCluster": "ai-xizmatlar",
+  "keywords": [
+    "gemini ai",
+    "gemini",
+    "jemini",
+    "jemini ai",
+    "jeminay",
+    "google gemini",
+    "gemini app",
+    "gemini uzbek tilida",
+    "gemini rasm yasash",
+    "gemini student"
+  ],
+  "intro": "Gemini — Google’ning sun’iy intellekt yordamchisi: savolga javob beradi, matn yozadi, tarjima qiladi va rasm yaratadi. Nomini «Gemini», «Jemini» yoki «Jeminay» deb yozishadi — bularning hammasi bitta xizmat, rasmiy manzili gemini.google.com. Google’ning rasmiy ro‘yxatlarida o‘zbek tili ham, O‘zbekiston ham bor. Quyidagi ma’lumotlar rasmiy sahifalardan 2026-yil 17-noyabrda tekshirildi.",
+  "body": [
+    {
+      "type": "quote",
+      "text": "Qisqasi: gemini.google.com manziliga Google hisobi bilan kirasiz; o‘zbekcha yozsangiz, o‘zbekcha javob beradi; suhbat va rasm yaratish pullik rejasiz ham ishlaydi, lekin limit bilan."
+    },
+    {
+      "type": "linkp",
+      "text": "Rasmiy manzillar: veb-versiya — {web}; Android uchun — {android}; iPhone va iPad uchun — {ios}.",
+      "links": [
+        {
+          "token": "web",
+          "target": "https://gemini.google.com/",
+          "anchor": "gemini.google.com"
+        },
+        {
+          "token": "android",
+          "target": "https://play.google.com/store/apps/details?id=com.google.android.apps.bard",
+          "anchor": "Google Play’dagi «Google Gemini» ilovasi"
+        },
+        {
+          "token": "ios",
+          "target": "https://apps.apple.com/uz/app/google-gemini/id6477489729",
+          "anchor": "App Store’dagi «Google Gemini» ilovasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "Gemini nima va u nimalarni qila oladi"
+    },
+    {
+      "type": "p",
+      "text": "Gemini — Google’ning AI yordamchisi. Unga oddiy tilda savol berasiz, u esa mavzuni tushuntiradi, matn va xat tuzadi, tarjima qiladi, yuklangan fayl yoki suratni tahlil qiladi, rasm yaratadi. Ovozli suhbat uchun Gemini Live, manbalarni yig‘ib hisobot tuzish uchun Deep Research rejimi bor."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Rasmiy sahifalardagi holat (17.11.2026)"
+      ],
+      "rows": [
+        [
+          "Rasmiy manzil",
+          "gemini.google.com"
+        ],
+        [
+          "Kirish",
+          "Google hisobi bilan; shaxsiy hisobda 13 yoshdan yoki mamlakatda belgilangan yoshdan"
+        ],
+        [
+          "O‘zbekiston",
+          "Veb-versiya va mobil ilova mamlakatlari ro‘yxatida bor"
+        ],
+        [
+          "O‘zbek tili",
+          "Veb-versiya va ilova tillari ro‘yxatida bor"
+        ],
+        [
+          "Telefon",
+          "Android va iPhone uchun «Google Gemini» ilovasi"
+        ],
+        [
+          "Pullik rejasiz",
+          "Asosiy imkoniyatlar ochiq, limit bilan"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kirish",
+      "text": "Gemini’ga qanday kiriladi: sayt va ilova"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Brauzerning manzil qatoriga gemini.google.com deb o‘zingiz yozing. Reklama havolasi yoki «Gemini yuklab olish» deb nomlangan begona saytlar orqali kirmang.",
+        "Yuqori o‘ng burchakdagi «Sign in» tugmasini bosing va Google hisobingiz bilan kiring. Ayrim imkoniyatlar kirmasdan ham ishlaydi, lekin tarix saqlanmaydi.",
+        "Shaxsiy hisobda yosh chegarasi — 13 yosh yoki mamlakatingizda belgilangan yosh.",
+        "Telefonda Google Play yoki App Store’dan «Google Gemini» ilovasini o‘rnating va ishlab chiquvchi sifatida Google ko‘rsatilganini tekshiring. Android’da kamida 2 GB tezkor xotira va Android 9 kerak.",
+        "Begona saytdan APK fayl o‘rnatmang: uning ichida nima borligini hech kim tekshirmagan."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Google’ning rasmiy ro‘yxatlariga ko‘ra, veb-versiya 230 dan ortiq, mobil ilova 150 dan ortiq mamlakat va hududda ishlaydi. O‘zbekiston ikkala ro‘yxatda ham bor (2026-yil noyabr holatiga ko‘ra)."
+    },
+    {
+      "type": "linkp",
+      "text": "Ro‘yxatlar o‘zgarib turadi. Sahifa yoki ilova ochilmasa, avval {countries}ni tekshiring, keyin Google hisobingizdagi yosh sozlamasiga qarang.",
+      "links": [
+        {
+          "token": "countries",
+          "target": "https://support.google.com/gemini/answer/13575153?hl=en",
+          "anchor": "rasmiy mamlakatlar va tillar ro‘yxati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ozbek-tili",
+      "text": "Gemini o‘zbek tilida javob beradimi va til qanday sozlanadi"
+    },
+    {
+      "type": "p",
+      "text": "Ha. O‘zbek tili veb-versiya va mobil ilova tillari ro‘yxatida bor. Rasmiy yordam sahifasida yozilishicha, menyu qaysi tilda bo‘lishidan qat’i nazar, Gemini so‘rov yozilgan tilni tushunadi va shu tilda javob beradi. Demak, alohida sozlash shart emas: savolni o‘zbekcha yozing."
+    },
+    {
+      "type": "p",
+      "text": "Menyu va tugmalar tilini o‘zgartirmoqchi bo‘lsangiz:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kompyuterda: veb-versiya brauzer yoki qurilma tilidan foydalanadi. Brauzer sozlamalarida o‘zbek tilini birinchi o‘ringa qo‘ying.",
+        "Android’da: Gemini ilovasida Menyu → profil rasmi → Settings → Languages bo‘limida tilni tanlang.",
+        "iPhone’da: ilova telefonning asosiy tilidan foydalanadi. Sozlamalar → General → Language & Region bo‘limida kerakli tilni qo‘shib, asosiy til qilib belgilang."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ilova tillari ro‘yxatida o‘zbek tili yulduzcha bilan berilgan: «Hey Google» ovozli buyruqlari va ayrim amallar bu tilda ishlamaydi. Javob lotin yozuvida kerak bo‘lsa, so‘rov oxiriga «lotin yozuvida yoz» deb qo‘shing."
+    },
+    {
+      "type": "h2",
+      "id": "bepul-pullik",
+      "text": "Nima bepul, nima pullik"
+    },
+    {
+      "type": "p",
+      "text": "2026-yil noyabr holatiga ko‘ra Google to‘rtta darajani ko‘rsatadi: pullik rejasiz foydalanish hamda Google AI Plus, Google AI Pro va Google AI Ultra rejalari."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Imkoniyat",
+        "Pullik rejasiz",
+        "Pullik rejalarda"
+      ],
+      "rows": [
+        [
+          "Suhbat va matn",
+          "Bor, tezkor Flash-Lite modeli bilan",
+          "Kuchliroq modellar, rejaga qarab"
+        ],
+        [
+          "Rasm yaratish",
+          "Bor: Nano Banana 2, kunlik kvota bilan",
+          "Nano Banana Pro bilan qayta yaratish ham bor"
+        ],
+        [
+          "Deep Research, Gemini Live, Canvas",
+          "Bor",
+          "Bor"
+        ],
+        [
+          "Video yaratish",
+          "Yo‘q",
+          "Bor"
+        ],
+        [
+          "Limit",
+          "Standart",
+          "Plus — 2 baravar, Pro — 4 baravar ko‘p"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Limit aniq son bilan e’lon qilinmagan. U so‘rovning murakkabligi, tanlangan funksiya va suhbat uzunligiga bog‘liq; har 5 soatda yangilanadi, haftalik chegara ham bor."
+    },
+    {
+      "type": "p",
+      "text": "Narxlarni bu yerda yozmaymiz: ular mamlakat va vaqtga qarab o‘zgaradi. Google AI Plus va Pro rejalari mavjud mamlakatlar ro‘yxatida O‘zbekiston bor, lekin bu mahalliy kartadan to‘lov o‘tishini kafolatlamaydi. Narx va to‘lov usulini Google’ning to‘lov sahifasida o‘zingiz tekshiring."
+    },
+    {
+      "type": "h3",
+      "id": "talabalar",
+      "text": "Talabalar uchun bir yillik taklif"
+    },
+    {
+      "type": "p",
+      "text": "Google talabalarga Google AI Plus rejasini bir yil bepul berayotganini e’lon qilgan. Shartlari: 18 yoshdan katta bo‘lish, oliy ta’lim muassasasida o‘qish, talabalikni SheerID xizmati orqali tasdiqlash va Google Payments hisobida to‘lov usuli bo‘lishi. Taklifni 2026-yil 31-dekabrgacha qabul qilish kerak. Bir yildan keyin, bekor qilinmasa, obuna pullik bo‘lib davom etadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Shartlarda mamlakatlar sanab o‘tilmagan: OTM reja qo‘llab-quvvatlanadigan mamlakatda joylashgan bo‘lishi kerak, deyilgan. OTMingiz va kartangiz tekshiruvdan o‘tishini oldindan aytib bo‘lmaydi — buni {students}dagi arizaning o‘zi ko‘rsatadi.",
+      "links": [
+        {
+          "token": "students",
+          "target": "https://gemini.google/students/",
+          "anchor": "rasmiy talabalar sahifasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sorovlar",
+      "text": "O‘qish va ish uchun 10 ta tayyor so‘rov"
+    },
+    {
+      "type": "p",
+      "text": "So‘rov qancha aniq bo‘lsa, javob shuncha foydali chiqadi: vazifani, kim uchunligini va javob shaklini yozing. Kvadrat qavs ichidagi so‘zlarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Mavzu]ni 9-sinf o‘quvchisiga tushuntirgandek sodda tilda tushuntir. Oxirida meni uchta savol bilan tekshir.",
+        "Mana ma’ruza matni: [matn]. Undan 7 banddan iborat konspekt tuz, har bir bandga bitta misol qo‘sh.",
+        "«[Mavzu]» bo‘yicha referat uchun reja tuz: kirish, uchta bob va xulosa. Har bir bobda nimani yoritish kerakligini bir jumla bilan yoz.",
+        "Ingliz tilidagi shu matnni o‘zbek tiliga tarjima qil: [matn]. Atamalarning asl nusxasini qavs ichida qoldir.",
+        "Fizikadan shu masalani bosqichma-bosqich yech va har bir qadamni izohla: [masala]. Formulalarni alohida yoz — javobni o‘zim tekshiraman.",
+        "Imtihonga tayyorlanyapman. «[Mavzu]» bo‘yicha 10 ta test savoli tuz, javoblarini oxirida alohida ber.",
+        "Mijozga xushmuomala xat yoz: buyurtma ikki kunga kechikadi, uzr so‘raymiz. Aniq sana va chegirma va’da qilma.",
+        "Shu yig‘ilish qaydlaridan qisqa bayon tuz: qarorlar, mas’ullar va muddatlar jadval ko‘rinishida bo‘lsin. Qaydlar: [matn].",
+        "Excel uchun formula yoz: B ustunidagi summalarni A ustunidagi oylar bo‘yicha jamlasin. Formulani qadamma-qadam tushuntir.",
+        "Rezyumemdagi shu bandni aniqroq va qisqaroq qilib qayta yoz, yangi fakt qo‘shma: [matn]."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "rasm-yasash",
+      "text": "Gemini’da rasm yasash: tartib va 10 ta tayyor prompt"
+    },
+    {
+      "type": "p",
+      "text": "Rasmlarni Google’ning Nano Banana modellari yaratadi. Buning uchun hisobga kirgan bo‘lishingiz kerak. Rasm yaratish 13 yoshdan (yoki mamlakatda belgilangan yoshdan) ochiq, tayyor rasmni yoki o‘z suratingizni tahrirlash esa faqat 18 yoshdan."
+    },
+    {
+      "type": "list",
+      "items": [
+        "gemini.google.com saytini yoki Gemini ilovasini oching.",
+        "Chap yuqoridagi menyudan «Images» bo‘limini tanlang.",
+        "Tayyor shablonni tanlang yoki so‘rovni o‘zingiz yozing.",
+        "Natija yoqmasa, so‘rovni aniqlashtirib, qaytadan yarating.",
+        "Saqlash uchun kompyuterda rasm ustidagi «Download full size» tugmasini bosing, telefonda esa rasmni bosib turib, «Save» ni tanlang."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Google maslahati: so‘rovni «chiz» yoki «yarat» so‘zi bilan boshlang, uslubni ayting (fotorealistik, akvarel, ko‘mir qalam, multfilm) va tasvirni batafsil yozing — rasmda kim yoki nima bor, u nima qilyapti, fon qanday."
+    },
+    {
+      "type": "h3",
+      "id": "rasm-promptlar",
+      "text": "Rasm uchun 10 ta prompt"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tong payti Registon maydoni manzarasini chiz: quyosh endi chiqyapti, osmon pushti-zarg‘aldoq, akvarel uslubida.",
+        "Kitob o‘qiyotgan mushukning multfilm uslubidagi rasmini yarat: deraza oldi, tashqarida yomg‘ir, xonada iliq sariq chiroq.",
+        "Navro‘z dasturxoni tasvirini yarat: sumalak, ko‘k somsa va lolalar, yorqin bahor ranglari, fotorealistik uslubda.",
+        "Bolalar ertak kitobi uchun rasm chiz: tog‘ etagidagi kichkina uy, yonida oq qo‘zichoq, yumshoq pastel ranglar.",
+        "Kofe do‘koni uchun logotip g‘oyasini chiz: oddiy chiziqlar, jigarrang va krem ranglar, oq fon, yozuvsiz.",
+        "«Ona tili» fanidan taqdimot uchun muqova rasmi yarat: ochiq kitob, qalam va daftar, ko‘k-oq ranglar, tepada sarlavha uchun bo‘sh joy.",
+        "Kosmosdagi fazogir bolaning rasmini chiz: orqada Yer shari va yulduzlar, yorqin ranglar, multfilm uslubida.",
+        "Qishki tog‘ manzarasini yarat: qor bosgan archalar, yog‘och uy, mo‘ridan tutun chiqyapti, kechki moviy yorug‘lik, fotorealistik uslubda.",
+        "O‘quv markazi e’loni uchun fon rasmi yarat: stol, noutbuk va bir piyola choy, yorug‘ xona; o‘ng tomoni matn uchun bo‘sh qolsin.",
+        "Do‘stimning tug‘ilgan kuniga otkritka rasmi chiz: sharlar, tort va gullar, quvnoq ranglar, o‘rtada yozuv uchun bo‘sh joy."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Rasmda yozuv kerak bo‘lsa, matnni qo‘shtirnoq ichida aniq bering va natijadagi har bir harfni tekshiring. Boshqa odamning suratidan uning roziligisiz foydalanmang, mualliflik huquqi bilan himoyalangan qahramon va brendlarni so‘ramang: Google qoidalarni buzgan rasmlarni o‘chirishi mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "cheklovlar",
+      "text": "Cheklovlar va maxfiylik: nimalarga ehtiyot bo‘lish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Javob xato bo‘lishi mumkin. Sana, raqam, formula va iqtiboslarni manbadan tekshiring; AI yozgan matnni o‘z ishingiz deb topshirmang.",
+        "Maxfiy ma’lumot kiritmang. Google ogohlantiradi: suhbatlarning bir qismini maxsus xodimlar ko‘rib chiqadi. Parol, karta raqami, pasport ma’lumoti, tibbiy hujjat va ish sirlarini yozmang.",
+        "Suhbat tarixi Google hisobingizda saqlanadi va standart holda 18 oydan keyin o‘chiriladi. Bu muddatni sozlamalarda 3 yoki 36 oyga o‘zgartirish, tarixni qo‘lda o‘chirish mumkin.",
+        "Tarix o‘chirib qo‘yilgan bo‘lsa ham, yangi suhbatlar taxminan ikki oy saqlanadi. Xodimlar ko‘rib chiqqan suhbatlar esa uch yilgacha saqlanishi mumkin.",
+        "Vaqtinchalik suhbat (Temporary chat) AI modellarini o‘qitishda ishlatilmaydi, lekin u ham taxminan ikki oy saqlanadi.",
+        "Limit tugasa, yangilanishini kutishga to‘g‘ri keladi. Yangi mavzuni yangi suhbatda boshlang — shunda limit sekinroq sarflanadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "muqobil",
+      "text": "Gemini qo‘l ostida bo‘lmasa: mustaqil AI chatimiz"
+    },
+    {
+      "type": "linkp",
+      "text": "Google hisobiga kira olmagan yoki limit tugagan paytda matnli savolni {chat}ga berish mumkin. Bu mustaqil servis: Google yoki Gemini mahsuloti emas, Gemini hisobingizga kirishni tiklamaydi. U o‘zbek va rus tillarida matn bilan ishlaydi: tushuntirish, reja, tarjima. Rasm chizmaydi, lekin rasm uchun prompt matnini tuzib beradi. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak — shartlari {tarif} sahifasida.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
+        {
+          "token": "tarif",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "tariflar"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Savolni GPTBot.uz AI chatiga berish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    },
+    {
+      "type": "linkp",
+      "text": "Qaysi xizmat sizga mosligini bilmasangiz, {compare}ni o‘qing. Boshqa xizmatlar bo‘yicha alohida qo‘llanmalar ham bor: {claude} va {deepseek}.",
+      "links": [
+        {
+          "token": "compare",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "ChatGPT, Claude va Gemini’ni solishtirgan maqola"
+        },
+        {
+          "token": "claude",
+          "target": "/uz/blog/claude-ai-ozbekistonda/",
+          "anchor": "Claude AI qo‘llanmasi"
+        },
+        {
+          "token": "deepseek",
+          "target": "/uz/blog/deepseek-ozbek-tilida/",
+          "anchor": "DeepSeek qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat: Google yoki Gemini bilan bog‘liq emas. Sahifadagi ma’lumotlar rasmiy manbalardan 2026-yil 17-noyabrda tekshirildi; rejalar, limitlar va ro‘yxatlar o‘zgarishi mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Gemini bepulmi?",
+      "a": "Ha, pullik rejasiz ishlatish mumkin: suhbat, rasm yaratish, Deep Research va Gemini Live ochiq, lekin limit bilan. Limit har 5 soatda yangilanadi, haftalik chegara ham bor. Pullik Google AI rejalari limitni oshiradi va video yaratish kabi imkoniyatlarni qo‘shadi; narxni rasmiy sahifada tekshiring."
+    },
+    {
+      "q": "Gemini O‘zbekistonda ishlaydimi?",
+      "a": "Google’ning rasmiy ro‘yxatlarida O‘zbekiston bor: veb-versiya uchun ham, mobil ilova uchun ham (2026-yil 17-noyabr holati). Ro‘yxat o‘zgarishi mumkin, shuning uchun sahifa ochilmasa, rasmiy ro‘yxatni qayta tekshiring."
+    },
+    {
+      "q": "Gemini’dan foydalanish uchun nima kerak?",
+      "a": "Google hisobi hamda brauzer yoki ilova. Shaxsiy hisobda yosh chegarasi — 13 yosh yoki mamlakatda belgilangan yosh. Android ilovasi kamida 2 GB tezkor xotirali, Android 9 va undan yuqori versiyali qurilmada ishlaydi."
+    },
+    {
+      "q": "Gemini ilovasi menyusini o‘zbek tiliga o‘tkazsa bo‘ladimi?",
+      "a": "Ha, o‘zbek tili ilova tillari ro‘yxatida bor. Android’da: Menyu → profil rasmi → Settings → Languages. iPhone’da ilova telefonning asosiy tilidan, kompyuterda esa brauzer tilidan foydalanadi. Menyu qaysi tilda bo‘lsa ham, o‘zbekcha savolga o‘zbekcha javob beradi."
+    },
+    {
+      "q": "Gemini’da rasm yaratish pullikmi?",
+      "a": "Yo‘q, rasm yaratish pullik rejasiz ham ishlaydi: Nano Banana 2 modeli, kunlik kvota bilan. Nano Banana Pro bilan qayta yaratish va video yaratish pullik rejalarda. Tayyor rasmni tahrirlash faqat 18 yoshdan kattalarga ochiq."
+    },
+    {
+      "q": "Gemini’ga yozganlarimni kimdir o‘qiydimi?",
+      "a": "Google yozishicha, suhbatlarning bir qismini maxsus xodimlar ko‘rib chiqadi va bunday suhbatlar uch yilgacha saqlanishi mumkin. Shuning uchun maxfiy ma’lumot kiritmang. Tarixni saqlash va undan AI’ni o‘qitishda foydalanishni sozlamalarda o‘zingiz boshqarasiz."
+    },
+    {
+      "q": "GPTBot.uz chati Gemini bilan bog‘liqmi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil AI chat, Google mahsuloti emas. U o‘zbek va rus tillarida matn bilan ishlaydi, rasm chizmaydi. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak."
+    }
+  ],
+  "cta": {
+    "label": "Savolni GPTBot.uz AI chatiga berish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-xizmatlar/",
+      "anchor": "AI xizmatlar: qo‘llanmalar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: matnli savollar uchun",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/claude-ai-ozbekistonda/",
+      "anchor": "Claude AI: ro‘yxatdan o‘tish va bepul reja",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/deepseek-ozbek-tilida/",
+      "anchor": "DeepSeek: rasmiy sayt, ilova va maxfiylik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/notebooklm-qollanma/",
+      "anchor": "NotebookLM (Gemini Notebook) qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "anchor": "O‘zbekcha promptlar: 50 ta tayyor namuna",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "Gemini AI o‘zbek tilida: kirish, ilova va rasm | GPTBot.uz",
+  "ogDescription": "Gemini AI nima, rasmiy manzili va ilovasi, o‘zbek tilini sozlash, bepul va pullik imkoniyatlar, 10 ta tayyor so‘rov hamda rasm yasash uchun 10 ta prompt.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/gemini-ai-ozbek-tilida/",
+  "hreflangUz": "/uz/blog/gemini-ai-ozbek-tilida/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Gemini’dan o‘qish va ishda foydalanmoqchi bo‘lgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Gemini AI qo‘llanma",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Gemini Apps Help — Where you can use the Gemini web app",
+      "url": "https://support.google.com/gemini/answer/13575153?hl=en",
+      "note": "Veb-versiya 70 dan ortiq tilda va 230 dan ortiq mamlakat va hududda ishlaydi; tillar ro‘yxatida Uzbek, mamlakatlar ro‘yxatida Uzbekistan bor; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Apps Help — Gemini mobile app availability",
+      "url": "https://support.google.com/gemini/answer/14579026?hl=en&co=GENIE.Platform%3DAndroid",
+      "note": "Mobil ilova 150 dan ortiq mamlakatda; ro‘yxatda Uzbekistan va Uzbek* bor (yulduzcha: «Hey Google» buyruqlari va ayrim amallar ishlamaydi); Android 9 va 2 GB xotira talabi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Apps Help — What you need to sign in to Gemini Apps",
+      "url": "https://support.google.com/gemini/answer/13278668?hl=en",
+      "note": "Kirish tartibi, Google hisobi turlari, 13 yosh (yoki mamlakatdagi yosh) sharti, ayrim imkoniyatlar kirmasdan ham ishlashi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Apps Help — Change Gemini’s language",
+      "url": "https://support.google.com/gemini/answer/15984485?hl=en",
+      "note": "Menyu tilini kompyuter, Android va iPhone’da o‘zgartirish; Gemini istalgan qo‘llab-quvvatlanadigan tilda yozilgan so‘rovga shu tilda javob berishi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google — Gemini subscriptions (Google AI plans)",
+      "url": "https://gemini.google/subscriptions/",
+      "note": "Free, Google AI Plus, Pro va Ultra darajalari; pullik rejasiz nimalar kirishi. Narxlar sahifamizda keltirilmagan; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Apps Help — Gemini Apps limits & feature availability",
+      "url": "https://support.google.com/gemini/answer/16275805?hl=en",
+      "note": "Hisoblash hajmiga bog‘liq limitlar, 5 soatlik yangilanish va haftalik chegara, pullik rejasiz va pullik rejalardagi imkoniyatlar jadvali; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Apps Help — Generate & edit images with Gemini Apps",
+      "url": "https://support.google.com/gemini/answer/14286560?hl=en",
+      "note": "Nano Banana modellari, rasm yaratish bosqichlari, yosh shartlari (yaratish — 13, tahrirlash — 18 yoshdan), saqlash va so‘rov yozish bo‘yicha maslahatlar; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Apps Privacy Hub",
+      "url": "https://support.google.com/gemini/answer/13594961?hl=en",
+      "note": "Suhbatlarni xodimlar ko‘rib chiqishi, maxfiy ma’lumot kiritmaslik haqidagi ogohlantirish, 18 oylik standart saqlash muddati, taxminan ikki oy va uch yilgacha saqlash holatlari; sahifa 2026-11-16 da yangilangan, 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google — Gemini for Students",
+      "url": "https://gemini.google/students/",
+      "note": "Talabalar uchun bir yillik Google AI Plus taklifi: 18 yoshdan, 2026-yil 31-dekabrgacha, to‘lov usuli talab qilinadi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google One — talabalar uchun maxsus taklif shartlari",
+      "url": "https://one.google.com/offer/studentoffer8?g1_landing_page=0",
+      "note": "Taklif shartlari: 12 oy, SheerID orqali tasdiqlash, OTM reja qo‘llab-quvvatlanadigan mamlakatda bo‘lishi, muddat tugagach avtomatik to‘lov; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google One Help — Get a Google AI Plus membership",
+      "url": "https://support.google.com/googleone/answer/16548195?hl=en&co=GENIE.Platform%3DDesktop",
+      "note": "Google AI Plus mavjud mamlakatlar ro‘yxatida Uzbekistan bor; to‘lov usullari sanab o‘tilmagan; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Play — Google Gemini",
+      "url": "https://play.google.com/store/apps/details?id=com.google.android.apps.bard",
+      "note": "Android uchun rasmiy ilova, ishlab chiquvchi — Google LLC; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Apple App Store — Google Gemini",
+      "url": "https://apps.apple.com/uz/app/google-gemini/id6477489729",
+      "note": "iPhone va iPad uchun rasmiy ilova App Store’ning O‘zbekiston bo‘limida; ishlab chiquvchi — Google, tillar ro‘yxatida Uzbek bor; 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

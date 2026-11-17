@@ -34,9 +34,6 @@
   "primaryKeyword": "ona haqida she’rlar",
   "secondaryKeywords": [
     "ona haqida sherlar",
-    "yangi yil she’rlari",
-    "yangi yil sherlari",
-    "yangi yilga sher",
     "bolalar uchun she’rlar",
     "bolalar uchun sherlar",
     "qish haqida she’r",
@@ -53,13 +50,13 @@
   ],
   "searchIntent": "transactional",
   "h1": "AI she’r yozish: onaga, Yangi yilga, bolalar va do‘stlarga",
-  "title": "Ona haqida she’rlar va Yangi yil she’rlari — AI she’r yozish",
-  "description": "Onaga, ustozga, do‘stga, Yangi yil va qish haqida she’r: AI chat 4–8 qatorlik original she’r yozadi. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas.",
+  "title": "Ona haqida she’rlar — AI she’r yozish: ustoz, do‘st, bolalar",
+  "description": "Onaga, ustozga, do‘stga va qish haqida she’r: AI chat 4–8 qatorlik original she’r yozadi. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas.",
   "canonical": "https://gptbot.uz/uz/ai-sher-yozish/",
   "hreflangUz": "/uz/ai-sher-yozish/",
   "hreflangXDefault": "/uz/ai-sher-yozish/",
-  "ogTitle": "Ona haqida she’rlar va Yangi yil she’rlari — AI she’r yozish",
-  "ogDescription": "Onaga, ustozga, do‘stga, Yangi yil va qish haqida she’r: AI chat 4–8 qatorlik original she’r yozadi. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas.",
+  "ogTitle": "Ona haqida she’rlar — AI she’r yozish: ustoz, do‘st, bolalar",
+  "ogDescription": "Onaga, ustozga, do‘stga va qish haqida she’r: AI chat 4–8 qatorlik original she’r yozadi. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas.",
   "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
   "robotsIndex": true,
   "robotsFollow": true,
@@ -160,6 +157,17 @@
     {
       "type": "quote",
       "text": "Eski yil bilan xayrlashib, / Yangisiga cho‘zamiz qo‘l. / Kelgan yilda sizga, do‘stlar, / Sog‘lik, omad va yorug‘ yo‘l! (AI yordamida yozilgan namuna)"
+    },
+    {
+      "type": "linkp",
+      "text": "Ertalik uchun tayyor she’rlar kerakmi? {ny} sahifasida Yangi yil, Qorbobo, Qorqiz, archa va qish haqida bolalar uchun 40 ta she’r jamlangan.",
+      "links": [
+        {
+          "token": "ny",
+          "target": "/uz/blog/yangi-yil-sherlari/",
+          "anchor": "Yangi yil she’rlari to‘plami"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -462,5 +470,5 @@
     }
   ],
   "createdAt": "2026-10-25T00:00:00Z",
-  "updatedAt": "2026-11-16"
+  "updatedAt": "2026-11-17"
 }

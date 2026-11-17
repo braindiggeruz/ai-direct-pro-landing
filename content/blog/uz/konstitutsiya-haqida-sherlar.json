@@ -1,0 +1,485 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "konstitutsiya-haqida-sherlar",
+  "url": "/uz/blog/konstitutsiya-haqida-sherlar/",
+  "title": "Konstitutsiya haqida she’rlar: 30 ta she’r va 10 ta tabrik",
+  "description": "Konstitutsiya kuni uchun 30 ta original she’r: bog‘cha va maktabga, 4 va 8 qatorlik, huquq va burchlar haqida. 8-dekabrga 10 ta tabrik, kirillda 5 ta she’r.",
+  "h1": "Konstitutsiya kuniga she’rlar: bog‘cha va maktab uchun 30 ta she’r, 10 ta tabrik",
+  "topicCluster": "matn-yozish",
+  "targetMoneyPage": "/uz/ai-sher-yozish/",
+  "keywords": [
+    "konstitutsiya haqida sherlar",
+    "konstitutsiya haqida she’rlar",
+    "konstitutsiya haqida she’r",
+    "konstitutsiya kuni she’rlar",
+    "8 dekabr she’rlar",
+    "8 dekabr sherlar",
+    "konstitutsiya kuni tabrik",
+    "8 dekabr konstitutsiya kuni tabrik",
+    "конституция ҳақида шеърлар",
+    "конституция куни табрик"
+  ],
+  "intro": "Konstitutsiya kuni tadbiriga bolaga qisqa, tushunarli va oson yodlanadigan she’r kerak. Bu sahifada yoshga qarab guruhlangan original she’rlar, 8-dekabr uchun tayyor tabriklar va kirill yozuvidagi variantlar jamlangan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida Konstitutsiya kuni uchun 30 ta she’r bor: bog‘cha bolalariga 8 ta, boshlang‘ich sinflarga 8 ta, huquq va burchlar haqida 7 ta, 8 qatorlik 4 ta va maktab tadbiri uchun 3 ta. Ulardan keyin 8-dekabr uchun 10 ta qisqa tabrik va kirill yozuvidagi 5 ta she’r berilgan. She’rlar shu sahifa uchun AI yordamida yozilgan, hech bir shoirning asaridan olinmagan — tadbirda bemalol foydalaning."
+    },
+    {
+      "type": "linkp",
+      "text": "Aynan sizning sinfingiz, bog‘changiz yoki farzandingiz uchun yozilgan she’r kerak bo‘lsa, {sher} sahifasidagi chatga mavzu va yoshni yozing: bu GPTBot.uz AI chatining «Ijodkor» roli, ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bayram-haqida",
+      "text": "8-dekabr — Konstitutsiya kuni: qisqa ma’lumot"
+    },
+    {
+      "type": "p",
+      "text": "O‘zbekiston Respublikasining Konstitutsiyasi 1992-yil 8-dekabrda qabul qilingan. O‘sha kuni qabul qilingan qonun bilan bu sana umumxalq bayrami — Konstitutsiya kuni deb e’lon qilingan, 8-dekabr dam olish kuni hisoblanadi. Konstitutsiyaning yangi tahriri 2023-yil 30-aprelda umumxalq referendumida qabul qilingan. 2026-yilda Konstitutsiya qabul qilinganiga 34 yil to‘ladi, bayram seshanba kuniga to‘g‘ri keladi."
+    },
+    {
+      "type": "p",
+      "text": "She’rlardagi fikrlar Konstitutsiya matniga tayanadi (2026-yil noyabr holatiga ko‘ra): davlat ramzlari — bayroq, gerb va madhiya (5-modda), barcha fuqarolar qonun oldida teng (19-modda), har kim ta’lim olish huquqiga ega (50-modda), tarixiy va tabiiy merosni asrash, tabiatni avaylash va Vatanni himoya qilish — fuqarolarning burchi (61, 62 va 64-moddalar). She’rlarda «Bosh qomus» va «Bosh qonun» so‘zlari Konstitutsiyani anglatadi. Bayram dam olish kuni bo‘lgani uchun tadbir qaysi kuni o‘tishini maktab yoki bog‘changizdan aniqlang."
+    },
+    {
+      "type": "h2",
+      "id": "bogcha",
+      "text": "Bog‘cha bolalari uchun 4 qatorlik she’rlar"
+    },
+    {
+      "type": "p",
+      "text": "8 ta she’r. Har biri 4 qator, har satrda 7 bo‘g‘in: qisqa va oson yodlanadi. Bolaga she’rni ikki-uch marta ovoz chiqarib o‘qib bering, keyin birga takrorlang."
+    },
+    {
+      "type": "quote",
+      "text": "Bugun yurtda bayram bor, / Ko‘chalarda bayroqlar. / Konstitutsiya kuni / Quvonadi o‘rtoqlar."
+    },
+    {
+      "type": "quote",
+      "text": "Yurtimning bosh kitobi — / Konstitutsiya ekan. / Unda yozilgan: bizning / Uyimiz — ona Vatan."
+    },
+    {
+      "type": "quote",
+      "text": "Moviy, oq, yashil rangli / Bayrog‘imiz hilpirar. / Uni ko‘rgan har bola / «Vatanim!» deb jilmayar."
+    },
+    {
+      "type": "quote",
+      "text": "Osmonimiz tip-tiniq, / Quyosh kulib boqadi. / Tinch yurtda o‘ynab-kulish / Bolalarga yoqadi."
+    },
+    {
+      "type": "quote",
+      "text": "Qo‘limda bayroqcham bor, / Hilpiratib yuraman. / Bugun bayram, bilasiz, / Shuning uchun kulaman."
+    },
+    {
+      "type": "quote",
+      "text": "Sakkizinchi dekabrda / Yurtimda katta bayram. / Qomusimiz kunida / Bolalar shod-u xurram."
+    },
+    {
+      "type": "quote",
+      "text": "«Vatan nima?» — so‘rasam, / Onam aytdi: «Bolajon, / Uying, bog‘chang, ko‘changdir — / Hammasi O‘zbekiston!»"
+    },
+    {
+      "type": "quote",
+      "text": "Vatanimni sevaman, / Tinchligini saqlayman. / Katta bo‘lsam, yurtimning / Ishonchini oqlayman."
+    },
+    {
+      "type": "h2",
+      "id": "boshlangich-sinf",
+      "text": "Boshlang‘ich sinflar uchun she’rlar"
+    },
+    {
+      "type": "p",
+      "text": "8 ta she’r, 1–4-sinf o‘quvchilari uchun. Satrlar 7 yoki 8 bo‘g‘inli, mavzular — maktab, davlat ramzlari, oila va Vatan."
+    },
+    {
+      "type": "quote",
+      "text": "Men kichkina fuqaro, / Vatanim — O‘zbekiston. / Huquqimni asraydi / Konstitutsiya har on."
+    },
+    {
+      "type": "quote",
+      "text": "Konstitutsiya — bosh qonun, / Unda xalqning orzusi bor. / Har satrida — baxtli bugun, / Har so‘zida — obod diyor."
+    },
+    {
+      "type": "quote",
+      "text": "Maktabimga boraman, / Bilim olib qaytaman. / «O‘qish — mening huquqim», — / Deb faxr bilan aytaman."
+    },
+    {
+      "type": "quote",
+      "text": "Huquqim bor — o‘qiyman, / Burchim ham bor — bilaman: / A’lo o‘qib, yurtimga / Yaxshi farzand bo‘laman."
+    },
+    {
+      "type": "quote",
+      "text": "Bayroq, gerb va madhiya — / Davlatimiz ramzlari. / Ularda aks etgandir / Xalqimning orzulari."
+    },
+    {
+      "type": "quote",
+      "text": "Sakkizinchi dekabr kuni / Bayroqchalar ko‘taramiz. / Bosh qomusning bayramida / Vatan haqda she’r aytamiz."
+    },
+    {
+      "type": "quote",
+      "text": "Ota-onam — baxtim mening, / Ularni men ardoqlayman. / Katta bo‘lsam, g‘amxo‘r bo‘lib, / Mehrlarini men oqlayman."
+    },
+    {
+      "type": "quote",
+      "text": "Yurtim ozod, yurtim obod, / Har go‘shasi bog‘-u bo‘ston. / Qomusimiz qanot berdi — / Baland uchar O‘zbekiston."
+    },
+    {
+      "type": "h2",
+      "id": "huquq-va-burch",
+      "text": "Huquq va burchlar haqida she’rlar"
+    },
+    {
+      "type": "p",
+      "text": "7 ta to‘rtlik. Ularda Konstitutsiyadagi huquq va burchlar bolalar tilida aytilgan: o‘qish va erkin so‘zlash huquqi, qonun oldida tenglik, qoidaga rioya qilish, tabiat va merosni asrash, Vatanni himoya qilish."
+    },
+    {
+      "type": "quote",
+      "text": "Har bolaning huquqi bor: / O‘qish, o‘ynash, erkin kulish. / Har bolaning burchi ham bor: / A’lo o‘qish, halol bo‘lish."
+    },
+    {
+      "type": "quote",
+      "text": "Katta ham, kichkina ham / Qonun oldida tengdir. / Shuning uchun yurtimda / Har bolaga yo‘l kengdir."
+    },
+    {
+      "type": "quote",
+      "text": "Fikrim bo‘lsa, aytaman, / Qo‘rqmay savol beraman. / Erkin so‘zlash — huquqim, / Buni yaxshi bilaman."
+    },
+    {
+      "type": "quote",
+      "text": "Qizil yonsa — to‘xtayman, / Yashil yonsa — o‘taman. / Qoida — hammaga bir, / Buni yodda tutaman."
+    },
+    {
+      "type": "quote",
+      "text": "Hovlimizga nihol ekdim, / Har kun unga suv quyaman. / Tabiatni asrash — burchim, / Men ona yerni suyaman."
+    },
+    {
+      "type": "quote",
+      "text": "Registonning naqshlari, / Xivaning qal’alari — / Bobolardan merosdir, / Asraydi bolalari."
+    },
+    {
+      "type": "quote",
+      "text": "Vatanni himoya qilish — / Har fuqaroning burchidir. / Yurtini sevgan o‘g‘il-qiz / Elning tayanch-u kuchidir."
+    },
+    {
+      "type": "h2",
+      "id": "sakkiz-qator",
+      "text": "8 qatorlik she’rlar: 5–9-sinflar uchun"
+    },
+    {
+      "type": "p",
+      "text": "4 ta she’r, har satrda 8 bo‘g‘in. Sahnada yakka o‘qishga mos; kichikroq o‘quvchilar she’rni ikkiga bo‘lib, to‘rt satrdan aytishi mumkin."
+    },
+    {
+      "type": "quote",
+      "text": "To‘qson ikkinchi yil edi, / Sakkizinchi dekabr kuni / El quvonchi bilan keldi / Yurtimizning Bosh qonuni. / Unda mening huquqim bor, / Unda mening burchim ham bor. / Uni o‘qib borgan sari / Yurtga mehrim ortar ming bor."
+    },
+    {
+      "type": "quote",
+      "text": "Yurtimizda turli millat / Oiladek ahil yashar. / Tili boshqa, dili birdir, / Hammaga do‘stlik yarashar. / Konstitutsiya shunday der: / «Qonun oldida hamma teng». / Shu sababdan osmonimiz / Musaffodir, yo‘limiz keng."
+    },
+    {
+      "type": "quote",
+      "text": "Madhiyamiz yangraganda / O‘rnimizdan tik turamiz. / Qo‘limizni ko‘ksimizga / Qo‘yib, unga jo‘r bo‘lamiz. / Bayrog‘imiz ko‘tarilsa, / Ko‘zlarimiz chaqnab ketar. / Bu ramzlarni e’zozlashni / Bosh qomusimiz o‘rgatar."
+    },
+    {
+      "type": "quote",
+      "text": "Tong otadi. Tandirlardan / Issiq nonning hidi kelar. / Maktabiga bola shoshar, / Quyosh bizga boqib kular. / Shu oddiy, tinch tonglar uchun / Rahmat senga, ona diyor! / Tinchligingni asraydigan / Qonuning bor, xalqing ham bor."
+    },
+    {
+      "type": "h2",
+      "id": "tadbir",
+      "text": "Maktab tadbiri uchun: ochilish, jamoa va yakun"
+    },
+    {
+      "type": "p",
+      "text": "3 ta she’r. Birinchisi — boshlovchi uchun, ikkinchisini butun sinf jo‘r bo‘lib aytadi, uchinchisi tadbir yakunida o‘qiladi."
+    },
+    {
+      "type": "quote",
+      "text": "Xush kelibsiz, aziz mehmonlar, / Yurtimizda ulug‘ bir bayram. / Bosh qomusning shonli kunida / Davramizga hamma bo‘ldi jam. / She’r aytamiz, qo‘shiq kuylaymiz, / Vatan haqda so‘zlaymiz bugun. / Tadbirimiz boshlanar hozir, / Qarsak chaling bolalar uchun!"
+    },
+    {
+      "type": "quote",
+      "text": "Bir yurtimiz, bir bayrog‘imiz, / Bir Qomus-u bir maqsadimiz. / Ahil-inoq bo‘lib yashaymiz, / Biz — shu Vatan farzandlarimiz!"
+    },
+    {
+      "type": "quote",
+      "text": "Bayramimiz yakun topdi, / Ammo shodlik tugamasin. / Ona yurtim osmonining / Tinchligi hech buzilmasin!"
+    },
+    {
+      "type": "h2",
+      "id": "tabriklar",
+      "text": "Konstitutsiya kuni tabriklari: 10 ta qisqa matn"
+    },
+    {
+      "type": "p",
+      "text": "Ishxonada va kattalarga «siz» deb, do‘st va tengdoshlarga «sen» deb murojaat qilinadi. Yoqqan matnni ko‘chirib oling va kvadrat qavsdagi joylarni to‘ldiring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Konstitutsiya kuni muborak bo‘lsin! Yurtimiz tinch, osmonimiz musaffo, xonadoningiz fayzli bo‘lsin.",
+        "Hurmatli hamkasblar! Sizlarni 8-dekabr — Konstitutsiya kuni bilan tabriklayman. Barchangizga sog‘lik, ishlaringizga rivoj, oilangizga tinchlik tilayman.",
+        "Aziz ustozlar, Konstitutsiya kuni muborak! Bizga huquq va burchlarimizni o‘rgatayotganingiz uchun rahmat. Sog‘ bo‘ling, shogirdlaringiz yutug‘i sizni doim quvontirsin.",
+        "Aziz o‘quvchilar! Bosh qomusimiz bayrami muborak bo‘lsin. Yaxshi o‘qing, huquqingizni biling, burchingizni unutmang — yurt kelajagi sizning qo‘lingizda.",
+        "Qadrli ota-onalar! Sizlarni Konstitutsiya kuni bilan tabriklaymiz. Farzandlaringiz sog‘lom, bilimli va vatanparvar bo‘lib ulg‘aysin. Hurmat bilan, [sinf rahbari yoki maktab nomi].",
+        "Do‘stlar, bayram muborak! Bugun Konstitutsiya kuni. Hammamizga tinchlik, sog‘lik va yaxshi dam olish tilayman.",
+        "Hurmatli [ism va otasining ismi]! Sizni O‘zbekiston Respublikasi Konstitutsiyasi qabul qilingan kun bilan samimiy tabriklayman. Sizga mustahkam sog‘lik, ishlaringizda muvaffaqiyat, xonadoningizga tinchlik tilayman.",
+        "Tashkilot nomidan: Hurmatli mijozlar va hamkorlar! [Tashkilot nomi] jamoasi sizni Konstitutsiya kuni bilan tabriklaydi. Yurtimiz tinch, ishlaringiz barakali bo‘lsin.",
+        "Oila guruhi uchun: Azizlarim, bayramingiz bilan! Konstitutsiya kuni uyimizga tinchlik va shodlik olib kelsin. Bugun hammamiz bir dasturxon atrofida yig‘ilaylik.",
+        "Qisqa xabar: Konstitutsiya kuni muborak! Tinchlik, sog‘lik va omad tilayman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kirill",
+      "text": "Kirill yozuvida she’rlar"
+    },
+    {
+      "type": "linkp",
+      "text": "Katta yoshdagilar matnni ko‘pincha kirill yozuvida o‘qishni afzal ko‘radi. Quyida yuqoridagi she’rlardan beshtasi kirill yozuvida berilgan; boshqasini {translit} bilan o‘zingiz o‘girishingiz mumkin.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kirill-sherlar",
+      "lang": "uz-Cyrl",
+      "text": "Кирилл ёзувида: Конституция ҳақида шеърлар"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Бугун юртда байрам бор, / Кўчаларда байроқлар. / Конституция куни / Қувонади ўртоқлар."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "«Ватан нима?» — сўрасам, / Онам айтди: «Болажон, / Уйинг, боғчанг, кўчангдир — / Ҳаммаси Ўзбекистон!»"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Мактабимга бораман, / Билим олиб қайтаман. / «Ўқиш — менинг ҳуқуқим», — / Деб фахр билан айтаман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳар боланинг ҳуқуқи бор: / Ўқиш, ўйнаш, эркин кулиш. / Ҳар боланинг бурчи ҳам бор: / Аъло ўқиш, ҳалол бўлиш."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Байрамимиз якун топди, / Аммо шодлик тугамасин. / Она юртим осмонининг / Тинчлиги ҳеч бузилмасин!"
+    },
+    {
+      "type": "h2",
+      "id": "yodlash",
+      "text": "She’rni yodlash va ifodali aytish: 4 ta maslahat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "She’rni yoshga qarab tanlang: bog‘cha bolasiga 4 qator va 7 bo‘g‘inli satr yetarli, 8 qatorlik she’r yuqoriroq sinflarga qulay.",
+        "Avval ma’nosini tushuntiring: «qomus», «huquq», «burch» so‘zlarini hayotiy misol bilan ayting. Tushunilgan she’r tezroq yodlanadi.",
+        "Ikki satrdan yodlang: birinchi juftlikni takrorlang, keyin ikkinchisini qo‘shing. Kechqurun o‘rganilgan she’rni ertalab bir marta takrorlang.",
+        "Sahnada shoshmang: har satr oxirida qisqa nafas oling, oxirgi satrni sekinroq va aniqroq ayting."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "O‘z she’ringizni AI yordamida yozdirish"
+    },
+    {
+      "type": "p",
+      "text": "AI chat sinfingizni ham, farzandingizni ham tanimaydi, shuning uchun so‘rovga aniq yozing: she’rni kim aytadi, necha qator, satrda necha bo‘g‘in va qaysi mavzu. Masalan: «3-sinf o‘quvchisi uchun Konstitutsiya kuniga 4 qatorlik she’r yoz: har satrda 8 bo‘g‘in, 2- va 4-satrlar qofiyalansin, o‘qish huquqi haqida.» Model vazn yoki qofiyada xato qilishi mumkin — she’rni ovoz chiqarib o‘qing va zaif satrni qayta yozdiring. Konstitutsiya moddalari va sanalarni chatdan emas, Lex.uz saytidagi rasmiy matndan tekshiring."
+    },
+    {
+      "type": "linkp",
+      "text": "Bunday so‘rovni {sher} sahifasida yuborish mumkin, boshqa matnlar uchun {chat} bor. Bayramga nasriy tabrik kerak bo‘lsa — {gen}, tabrik qanday tuzilishi esa {guide}da tushuntirilgan.",
+      "links": [
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Qishki bayramlar uchun boshqa to‘plamlar: {ny} — Qorbobo, archa va qish haqida, {yanvar} esa Vatan himoyachilari kuni uchun.",
+      "links": [
+        {
+          "token": "ny",
+          "target": "/uz/blog/yangi-yil-sherlari/",
+          "anchor": "Yangi yil she’rlari"
+        },
+        {
+          "token": "yanvar",
+          "target": "/uz/blog/14-yanvar-tabriklari/",
+          "anchor": "14-yanvar tabriklari"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chatga bolalarning familiyasi, manzili va boshqa shaxsiy ma’lumotlarini yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "cta",
+      "text": "AI bilan yangi she’r yozdirish",
+      "href": "/uz/ai-sher-yozish/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Konstitutsiya kuni qachon nishonlanadi?",
+      "a": "Har yili 8-dekabrda. O‘zbekiston Respublikasining Konstitutsiyasi 1992-yil 8-dekabrda qabul qilingan va shu kun umumxalq bayrami — Konstitutsiya kuni deb e’lon qilingan. 8-dekabr dam olish kuni hisoblanadi."
+    },
+    {
+      "q": "Bog‘cha bolasiga qaysi she’r mos keladi?",
+      "a": "Birinchi guruhdagi 4 qatorlik she’rlar: har satrda 7 bo‘g‘in, so‘zlari sodda. Bayroq, bayram va Vatan haqidagi she’rlar oson yodlanadi. «Qomus» so‘zi qatnashgan she’rni tanlasangiz, avval uning ma’nosini tushuntiring."
+    },
+    {
+      "q": "Bu she’rlarni kim yozgan?",
+      "a": "She’rlar shu sahifa uchun AI yordamida yozilgan va hech bir shoirning asaridan olinmagan. Ularni bog‘cha va maktab tadbirida, devoriy gazetada yoki sinf chatida bemalol ishlatishingiz mumkin. She’rlar tanloviga yuborishdan oldin uning qoidalarini o‘qing: odatda faqat o‘zingiz yozgan asar qabul qilinadi."
+    },
+    {
+      "q": "8 qatorlik she’rni kichik sinf o‘quvchisi ayta oladimi?",
+      "a": "Ayta oladi, faqat yodlashga ko‘proq vaqt bering. Qulay yo‘li — she’rni ikkiga bo‘lish: birinchi to‘rt satrni bir o‘quvchi, qolganini ikkinchisi aytadi."
+    },
+    {
+      "q": "She’rni tez yodlashning oson yo‘li bormi?",
+      "a": "Avval she’rni ovoz chiqarib ikki-uch marta o‘qing va ma’nosini gapirib bering. Keyin ikki satrdan yodlang, satr oxiridagi qofiyadosh so‘zlarga e’tibor bering. Kechqurun o‘rganilgan she’rni ertalab bir marta takrorlang."
+    },
+    {
+      "q": "Kirill yozuvida she’rlar bormi?",
+      "a": "Ha, sahifaning pastki qismida beshta she’r kirill yozuvida berilgan. Boshqa she’rni kirillga o‘girish uchun saytdagi kirill-lotin o‘giruvchidan foydalanish mumkin."
+    },
+    {
+      "q": "Sinfimiz haqida yangi she’r yozdirsa bo‘ladimi?",
+      "a": "Ha. AI she’r yozish sahifasidagi chatga she’rni kim aytishi, necha qator va qaysi mavzu kerakligini yozsangiz, u yangi she’r tayyorlaydi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi. She’rdagi sana va faktlarni o‘zingiz tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "AI bilan yangi she’r yozdirish",
+    "href": "/uz/ai-sher-yozish/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-sher-yozish/",
+      "anchor": "AI she’r yozish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/yangi-yil-sherlari/",
+      "anchor": "Yangi yil she’rlari: Qorbobo, archa va qish haqida",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/14-yanvar-tabriklari/",
+      "anchor": "14-yanvar tabriklari va she’rlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Konstitutsiya haqida she’rlar: 30 ta she’r va 10 ta tabrik",
+  "ogDescription": "Konstitutsiya kuni uchun bolalarga 30 ta original she’r: bog‘cha, boshlang‘ich sinf va maktab tadbiriga, 4 va 8 qatorlik. 8-dekabr uchun 10 ta qisqa tabrik va kirill yozuvidagi 5 ta she’r.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/konstitutsiya-haqida-sherlar/",
+  "hreflangUz": "/uz/blog/konstitutsiya-haqida-sherlar/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Teachers, parents and pupils in Uzbekistan looking for Constitution Day poems"
+  },
+  "breadcrumbLabel": "Konstitutsiya haqida she’rlar",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "O‘zbekiston Respublikasining Konstitutsiyasi (yangi tahriri) — Lex.uz, Qonunchilik ma’lumotlari milliy bazasi",
+      "url": "https://lex.uz/docs/6445145",
+      "note": "Yangi tahrirdagi Konstitutsiya 2023-yil 30-aprelda umumxalq referendumida qabul qilingani hamda 5, 19, 50, 61, 62 va 64-moddalar matni shu yerdan tekshirilgan (2026-11-17)."
+    },
+    {
+      "title": "O‘zbekiston Respublikasining Konstitutsiyasi, 1992-yil 8-dekabr — Lex.uz",
+      "url": "https://lex.uz/docs/20596",
+      "note": "Konstitutsiya qabul qilingan va kuchga kirgan sana — 1992-yil 8-dekabr (2026-11-17 kuni tekshirilgan)."
+    },
+    {
+      "title": "«O‘zbekiston Respublikasining Konstitutsiyasi qabul qilingan kunni umumxalq bayrami deb e’lon qilish to‘g‘risida»gi Qonun, 1992-yil 8-dekabr, 724-XII-son — Lex.uz",
+      "url": "https://lex.uz/mact/-20740",
+      "note": "8-dekabr — O‘zbekiston Respublikasi Konstitutsiyasi kuni deb e’lon qilingan va dam olish kuni hisoblanadi (2026-11-17 kuni tekshirilgan)."
+    },
+    {
+      "title": "Dam olish vaqti — gov.uz",
+      "url": "https://gov.uz/oz/advice/554/document/2237",
+      "note": "Ishlanmaydigan bayram kunlari ro‘yxatida 8-dekabr — Konstitutsiya kuni bor (2026-11-17 kuni tekshirilgan)."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

@@ -1,0 +1,513 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "8-mart-tabriklari",
+  "url": "/uz/blog/8-mart-tabriklari/",
+  "title": "8-mart tabriklari: 40 ta tayyor tabrik, 20 tasi kirillda",
+  "description": "8-mart uchun 40 ta tayyor tabrik: onaga, turmush o‘rtog‘iga, opa-singilga, qizga, buviga, ustozga, hamkasb va dugonaga. 20 tasi kirillda: 8 март табриклари.",
+  "h1": "8-mart bilan tabriklar: yaqinlar, ustoz va hamkasblarga 40 ta matn",
+  "topicCluster": "matn-yozish",
+  "targetMoneyPage": "/uz/ai-tabrik-generatori/",
+  "keywords": [
+    "8 mart tabriklari",
+    "8 март табриклари",
+    "8 mart tabrik",
+    "8 март табриги",
+    "8 mart tabrigi",
+    "8 mart tabrik sozlari",
+    "8 март байрами билан табриклайман"
+  ],
+  "intro": "8-mart kuni hammaga bir xil «bayramingiz bilan» deb yozishdan ko‘ra, shu odamning o‘ziga atalgan ikki-uch og‘iz iliq so‘z ko‘proq quvontiradi. Bu sahifada onaga, turmush o‘rtog‘iga, opa va singilga, qizga, buviga, ustozga, hamkasblarga, sinfdosh va dugonaga, shuningdek jamoa nomidan aytiladigan tayyor tabriklar bor — lotin va kirill yozuvida.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida 8-mart uchun 40 ta tayyor tabrik bor — o‘nta guruhda to‘rttadan: onaga, turmush o‘rtog‘iga, opa va singilga, qizga, buviga, ustozga, hamkasblarga, sinfdosh va kursdoshga, dugona va do‘stga, jamoa nomidan. Shundan 20 tasi sahifa oxirida kirill yozuvida ham berilgan. Yoqqanini ko‘chirib oling, kvadrat qavsdagi joylarni to‘ldiring va o‘zingizdan bitta xotira qo‘shing — shunda tabrik sizniki bo‘ladi. Matnlar shu sahifa uchun AI yordamida yozilgan."
+    },
+    {
+      "type": "linkp",
+      "text": "Tabrik she’r shaklida kerak bo‘lsa — {sherlar}. Faqat shu odamga atalgan matn kerak bo‘lsa, {gen}ga kimga va qanday ohangda yozish kerakligini ayting: bu GPTBot.uz AI chatining «Ijodkor» roli, ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "sherlar",
+          "target": "/uz/blog/8-mart-sherlari/",
+          "anchor": "8-mart uchun she’rlar to‘plami"
+        },
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "onaga",
+      "text": "Onaga 8-mart tabriklari"
+    },
+    {
+      "type": "p",
+      "text": "Onaga, buviga, ustozga va ishxonada «siz» deb, singil, qiz va yaqin dugonaga «sen» deb murojaat qilinadi. Turmush o‘rtog‘iga kimdir «sen», kimdir «siz» deydi — namunalarda ikkala variant ham bor. Murojaatni o‘zingizga moslang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Onajon, bayramingiz muborak! Bugun oshxonaga kirmaysiz: choyni ham, ovqatni ham o‘zimiz tayyorlaymiz. Siz faqat dam oling va kulib o‘tiring — bizga shuning o‘zi bayram.",
+        "Onajon, 8-mart bilan tabriklayman! Ishdan charchab kelganimda bir piyola choyingiz va «ovqatlandingmi?» degan savolingiz hamma tashvishni unuttiradi. Doim sog‘ bo‘ling, baxtimizga uzoq yashang.",
+        "Onajon, bugun yoningizda bo‘lolmaganim uchun uzr. Gulni yetkazib berishadi, sog‘inchimni esa shu xat yetkazsin. Bayramingiz muborak, ta’tilda albatta boraman!",
+        "Qisqa xabar: Onajon, bayramingiz muborak! Sog‘ bo‘ling, hech qachon g‘am ko‘rmang. Sizni juda yaxshi ko‘raman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "turmush-ortogiga",
+      "text": "Turmush o‘rtog‘iga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Azizam, bayraming muborak! Uyimiz sen bilan uy bo‘ldi: tartib ham, iliqlik ham, bolalarning kulgisi ham sendan. Bugun hamma yumush menda, sen dam ol.",
+        "Jonim, 8-mart bilan tabriklayman! Shuncha yildan beri har kuni ertalab seni ko‘rib quvonaman. Sabring va mehring uchun rahmat, baxtimga sog‘ bo‘l.",
+        "Azizam, bayramingiz muborak bo‘lsin! Bolalarimizga mehribon ona, menga ishonchli yo‘ldosh bo‘lganingiz uchun minnatdorman. Orzularingiz ushalsin — men doim yoningizdaman.",
+        "Qisqa xabar: Azizam, 8-mart muborak! Sen borsan — uyimizda har kuni bahor. Kechqurun gul ham, shirinlik ham mendan."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "opa-singilga",
+      "text": "Opaga va singilga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Opajon, bayramingiz muborak! Bolaligimda darsimni siz qildirgansiz, hozir ham maslahat kerak bo‘lsa, birinchi bo‘lib sizga qo‘ng‘iroq qilaman. Oilangizda tinchlik, ko‘nglingizda xotirjamlik bo‘lsin.",
+        "Opajon, 8-mart bilan tabriklayman! Men uchun kiyimingizni ham, vaqtingizni ham ayamagansiz. Uyingizdan baraka arimasin, bolalaringizning rohatini ko‘ring.",
+        "Singiljon, bayraming muborak! Kechagina sochingni men o‘rib qo‘yardim, bugun esa o‘zing katta qiz bo‘lib qolding. O‘qishing ham, orzularing ham ko‘ngildagidek bo‘lsin.",
+        "Qisqa xabar: Singlim, 8-mart muborak! Doim shunday quvnoq va dadil bo‘l. Nima bo‘lsa ham, men yoningdaman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qizga",
+      "text": "Qizga: ota-onadan"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Qizim, bayraming muborak! Sen tug‘ilgan kundan beri uyimizdan kulgi arimaydi. Yaxshi o‘qi, o‘zingga ishon — biz doim yoningdamiz.",
+        "Shirin qizim, 8-mart muborak! Bugun sen ham bayram egasisan: ko‘ylaging yangi, sochingda lenta. Sog‘ bo‘l, kulib yur, dadang bilan onang seni juda yaxshi ko‘radi.",
+        "Qizim, bayraming muborak bo‘lsin! O‘z uying, o‘z tashvishing bo‘lsa ham, biz uchun hali ham o‘sha erka qizimizsan. Oilangda tinchlik, ishingda omad bo‘lsin. Tez-tez kelib tur.",
+        "Qisqa xabar: Qizim, 8-mart muborak! Baxtli bo‘l, sog‘ bo‘l, doim kulib yur. Sen bilan faxrlanamiz."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "buviga",
+      "text": "Buviga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Buvijon, bayramingiz muborak! Sizning ertaklaringiz bilan katta bo‘ldik, endi ularni o‘z bolalarimizga aytib beryapmiz. Sog‘ bo‘ling, nevara-chevaralaringiz davrasida yuring.",
+        "Buvijon, 8-mart bilan tabriklayman! Yozda siznikiga borganimizda yopgan patiringiz ta’mi hali ham og‘zimda. Oyog‘ingiz og‘rimasin, ko‘zingiz ravshan bo‘lsin. Dam olish kuni albatta boramiz.",
+        "Aziz buvijonim, bayramingiz muborak bo‘lsin! Sizning duolaringiz bizni har doim qo‘llab keladi. Uzoq yashang, to‘ylarimizning to‘rida o‘tiring.",
+        "Qisqa xabar: Buvijon, bayramingiz muborak! Sog‘ bo‘ling, bizga hali ko‘p yillar bosh bo‘ling. Nevaralaringiz sizni juda yaxshi ko‘radi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ustozga",
+      "text": "Ustozga va murabbiyga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hurmatli ustoz, 8-mart bayramingiz muborak! Qiyin mavzuni ham sodda qilib tushuntirasiz, shuning uchun darsingizni kutib o‘tiramiz. Sizga sog‘lik va bahordek yorug‘ kayfiyat tilaymiz. Hurmat bilan, [sinf] o‘quvchilari.",
+        "Hurmatli [ism va otasining ismi], bayramingiz muborak bo‘lsin! Farzandimiz maktabga xursand bo‘lib boradi — bu sizning mehnatingiz. Sizga sog‘lik, oilaviy baxt va kuch-quvvat tilaymiz. Hurmat bilan, [sinf] ota-onalari.",
+        "Ustoz, bayramingiz muborak! Maktabni bitirganimga ancha bo‘ldi, lekin «shoshma, avval o‘ylab ko‘r» degan gapingiz hali ham yodimda. Sog‘ bo‘ling, shogirdlaringiz sizni doim quvontirsin.",
+        "Qisqa xabar: Aziz ustoz, 8-mart muborak! Sizga sog‘lik, quvonch va tirishqoq o‘quvchilar tilayman. Hurmat bilan, [ismingiz]."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "hamkasblarga",
+      "text": "Hamkasb ayollarga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Qadrli hamkasblar, 8-mart bayramingiz muborak! Sizlar bilan ishxonamiz ham tartibli, ham fayzli. Bugun hisobotlar kutib tursin — choy va shirinlik bizdan.",
+        "[Ism] opa, bayramingiz muborak! Qaysi savol bilan borsam ham, ishingizni chetga surib yordam berasiz. Sizga sog‘lik, oilangizga tinchlik va ko‘proq dam olish kunlari tilayman.",
+        "[Ism], 8-mart bilan tabriklayman! Jamoamizga qo‘shilganingizdan beri ishimiz ham, kayfiyatimiz ham ancha yaxshilandi. Yangi yutuqlar va omad sizga yor bo‘lsin.",
+        "Guruh chati uchun: Qizlar, bayramingiz muborak! Doim sog‘, go‘zal va baxtli bo‘ling. Tushlikdan keyin tort bor — kechikmang!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sinfdoshga",
+      "text": "Sinfdosh va kursdosh qizlarga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Ism], bayraming muborak! Sinfda eng chiroyli yozadigan ham, daftarini so‘rasa beradigan ham sensan. O‘qishing a’lo, kayfiyating doim yaxshi bo‘lsin.",
+        "Sinfimiz qizlari, bayramingiz muborak! Sizlarsiz sinfimiz zerikarli bo‘lardi. Doim kulib yuring, nazorat ishlaridan «besh» oling. Hurmat bilan, sinfimiz o‘g‘il bolalari.",
+        "[Ism], 8-mart bilan! Sessiya paytida sening konspektlaring butun guruhni qutqaradi — buning uchun alohida rahmat. Orzularing ushalsin, o‘qishing oson kechsin.",
+        "Qisqa xabar: [Ism], 8-mart muborak! Baxtli bo‘l, doim shunday quvnoq yur. Sinfdoshing [ismingiz]."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "dugonaga",
+      "text": "Dugona va do‘stga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Dugonajon, bayraming muborak! Necha yildan beri quvonchimni ham, ko‘z yoshimni ham birinchi bo‘lib sen bilasan. Baxtli bo‘l, orzularing ushalsin. Kechqurun choyga chiqamizmi?",
+        "[Ism], 8-mart bilan! Sen bilan bir soat gaplashsam, bir haftalik charchog‘im chiqib ketadi. Doim shunday samimiy bo‘lib qol, ishlaring yurishsin.",
+        "[Ism], bayraming muborak! Sen eng ishonchli do‘stlarimdan birisan: gapning to‘g‘risini aytasan, qiyin kunda yordam berasan. Senga sog‘lik, baxt va omad tilayman.",
+        "Qisqa xabar: Dugonam, 8-mart muborak! Go‘zal bo‘l, baxtli bo‘l, hech narsadan xafa bo‘lma. Seni yaxshi ko‘raman!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "rasmiy",
+      "text": "Jamoa nomidan rasmiy tabrik"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Rahbar nomidan: Hurmatli hamkasblar! Sizlarni 8-mart — Xalqaro xotin-qizlar kuni bilan samimiy tabriklayman. Jamoamizning har bir yutug‘ida sizning mehnatingiz bor. Sizlarga sog‘lik, oilaviy baxt va ishlaringizda muvaffaqiyat tilayman. Hurmat bilan, [ism va lavozim].",
+        "Erkak hamkasblar nomidan: Hurmatli ayollarimiz! [Tashkilot nomi] erkaklar jamoasi sizlarni bahor bayrami bilan tabriklaydi. Bilimingiz, mas’uliyatingiz va sabringiz uchun minnatdormiz. Xonadoningizda tinchlik, ko‘nglingizda bahor bo‘lsin.",
+        "Mijoz yoki hamkorga: Hurmatli [ism va otasining ismi]! [Tashkilot nomi] jamoasi sizni 8-mart bayrami bilan tabriklaydi. Hamkorligimiz uchun minnatdormiz. Sizga sog‘lik, baxt va barcha rejalaringizda omad tilaymiz.",
+        "Ijtimoiy tarmoq uchun: Aziz onalar, opa-singillar, qadrli mijozlarimiz! 8-mart bayramingiz muborak bo‘lsin. Har bir kuningiz gul va tabassumga to‘la o‘tsin. Hurmat bilan, [tashkilot nomi]."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Blankada yuboriladigan rasmiy tabrik xatining umumiy tuzilmasi {rasmiy} qo‘llanmasida berilgan.",
+      "links": [
+        {
+          "token": "rasmiy",
+          "target": "/uz/blog/rasmiy-xat-yozish/",
+          "anchor": "rasmiy xat yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kirill",
+      "text": "Kirill yozuvida 8-mart tabriklari"
+    },
+    {
+      "type": "linkp",
+      "text": "Onalar, buvilar va katta yoshdagi ustozlar tabrikni ko‘pincha kirill yozuvida o‘qishni afzal ko‘radi. Quyida yuqoridagi matnlardan 20 tasi — har bir guruhdan ikkitadan — kirill yozuvida berilgan; boshqa matnni {translit} bilan o‘zingiz o‘girishingiz mumkin.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kirill-matnlar",
+      "lang": "uz-Cyrl",
+      "text": "Кирилл ёзувида: 8 март табриклари"
+    },
+    {
+      "type": "h3",
+      "lang": "uz-Cyrl",
+      "text": "Оила аъзоларига"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Онажон, байрамингиз муборак! Бугун ошхонага кирмайсиз: чойни ҳам, овқатни ҳам ўзимиз тайёрлаймиз. Сиз фақат дам олинг ва кулиб ўтиринг — бизга шунинг ўзи байрам."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Онажон, байрамингиз муборак! Соғ бўлинг, ҳеч қачон ғам кўрманг. Сизни жуда яхши кўраман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азизам, байраминг муборак! Уйимиз сен билан уй бўлди: тартиб ҳам, илиқлик ҳам, болаларнинг кулгиси ҳам сендан. Бугун ҳамма юмуш менда, сен дам ол."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азизам, байрамингиз муборак бўлсин! Болаларимизга меҳрибон она, менга ишончли йўлдош бўлганингиз учун миннатдорман. Орзуларингиз ушалсин — мен доим ёнингиздаман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Опажон, байрамингиз муборак! Болалигимда дарсимни сиз қилдиргансиз, ҳозир ҳам маслаҳат керак бўлса, биринчи бўлиб сизга қўнғироқ қиламан. Оилангизда тинчлик, кўнглингизда хотиржамлик бўлсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Сингилжон, байраминг муборак! Кечагина сочингни мен ўриб қўярдим, бугун эса ўзинг катта қиз бўлиб қолдинг. Ўқишинг ҳам, орзуларинг ҳам кўнгилдагидек бўлсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қизим, байраминг муборак! Сен туғилган кундан бери уйимиздан кулги аримайди. Яхши ўқи, ўзингга ишон — биз доим ёнингдамиз."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қизим, 8 март муборак! Бахтли бўл, соғ бўл, доим кулиб юр. Сен билан фахрланамиз."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Бувижон, байрамингиз муборак! Сизнинг эртакларингиз билан катта бўлдик, энди уларни ўз болаларимизга айтиб беряпмиз. Соғ бўлинг, невара-чевараларингиз даврасида юринг."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азиз бувижоним, байрамингиз муборак бўлсин! Сизнинг дуоларингиз бизни ҳар доим қўллаб келади. Узоқ яшанг, тўйларимизнинг тўрида ўтиринг."
+    },
+    {
+      "type": "h3",
+      "lang": "uz-Cyrl",
+      "text": "Устоз, ҳамкасб ва дўстларга"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли устоз, 8 март байрамингиз муборак! Қийин мавзуни ҳам содда қилиб тушунтирасиз, шунинг учун дарсингизни кутиб ўтирамиз. Сизга соғлик ва баҳордек ёруғ кайфият тилаймиз. Ҳурмат билан, [синф] ўқувчилари."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли [исм ва отасининг исми], байрамингиз муборак бўлсин! Фарзандимиз мактабга хурсанд бўлиб боради — бу сизнинг меҳнатингиз. Сизга соғлик, оилавий бахт ва куч-қувват тилаймиз. Ҳурмат билан, [синф] ота-оналари."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қадрли ҳамкасблар, 8 март байрамингиз муборак! Сизлар билан ишхонамиз ҳам тартибли, ҳам файзли. Бугун ҳисоботлар кутиб турсин — чой ва ширинлик биздан."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "[Исм] опа, байрамингиз муборак! Қайси савол билан борсам ҳам, ишингизни четга суриб ёрдам берасиз. Сизга соғлик, оилангизга тинчлик ва кўпроқ дам олиш кунлари тилайман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "[Исм], байраминг муборак! Синфда энг чиройли ёзадиган ҳам, дафтарини сўраса берадиган ҳам сенсан. Ўқишинг аъло, кайфиятинг доим яхши бўлсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Синфимиз қизлари, байрамингиз муборак! Сизларсиз синфимиз зерикарли бўларди. Доим кулиб юринг, назорат ишларидан «беш» олинг. Ҳурмат билан, синфимиз ўғил болалари."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Дугонажон, байраминг муборак! Неча йилдан бери қувончимни ҳам, кўз ёшимни ҳам биринчи бўлиб сен биласан. Бахтли бўл, орзуларинг ушалсин. Кечқурун чойга чиқамизми?"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Дугонам, 8 март муборак! Гўзал бўл, бахтли бўл, ҳеч нарсадан хафа бўлма. Сени яхши кўраман!"
+    },
+    {
+      "type": "h3",
+      "lang": "uz-Cyrl",
+      "text": "Жамоа номидан расмий табрик"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли ҳамкасблар! Сизларни 8 март — Халқаро хотин-қизлар куни билан самимий табриклайман. Жамоамизнинг ҳар бир ютуғида сизнинг меҳнатингиз бор. Сизларга соғлик, оилавий бахт ва ишларингизда муваффақият тилайман. Ҳурмат билан, [исм ва лавозим]."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли [исм ва отасининг исми]! [Ташкилот номи] жамоаси сизни 8 март байрами билан табриклайди. Ҳамкорлигимиз учун миннатдормиз. Сизга соғлик, бахт ва барча режаларингизда омад тилаймиз."
+    },
+    {
+      "type": "h2",
+      "id": "shaxsiy",
+      "text": "Tabrikni shaxsiy qilish: 3 ta maslahat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta aniq xotira qo‘shing: birga pishirilgan ovqat, bolalikdagi voqea, qiyin kunda aytilgan gap. Bir jumla yetadi.",
+        "Tilakni odamning hozirgi hayotiga moslang: abituriyent qizga — o‘qishga kirish, yosh onaga — ko‘proq dam olish, buviga — sog‘lik.",
+        "Hammaga bir xil matn yubormang: kamida oila, dugonalar va ishxona uchun alohida variant tanlang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "8-mart tabrigini AI yordamida yozdirish"
+    },
+    {
+      "type": "p",
+      "text": "AI chat yaqinlaringizni tanimaydi, shuning uchun so‘rovga to‘rt narsani yozing: kimga, qaysi bayram, bitta umumiy xotira va ohang. Masalan: «Opamga 8-mart uchun tabrik yoz. U bolaligimda meni har kuni maktabga yetaklab borgan. Iliq ohangda, sizlab, 3 gap. O‘zingdan xotira qo‘shma.» Model baribir to‘qima detal qo‘shib yuborishi mumkin — yuborishdan oldin matnni o‘qib chiqing. Chat faqat matn yozadi: otkritka, rasm yoki ovozli tabrik yasamaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Bunday so‘rovni {gen} sahifasida yuborish mumkin. Tabrik matni qanday tuzilishi {guide}da tushuntirilgan, tug‘ilgan kun uchun alohida to‘plam — {tk} sahifasida. Sinovdan keyingi AI paket shartlari {tariffs} sahifasida yozilgan.",
+      "links": [
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish qo‘llanmasi"
+        },
+        {
+          "token": "tk",
+          "target": "/uz/blog/tugilgan-kun-tabriklari/",
+          "anchor": "tug‘ilgan kun tabriklari"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chatga boshqa odamning telefoni, manzili va oilaviy sirlarini yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin: 5 ta tekshiruv"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ism va murojaat to‘g‘rimi, kvadrat qavsdagi barcha joylar to‘ldirilganmi?",
+        "«Sen» va «siz» aralashib ketmaganmi?",
+        "Xabar kimga ketyapti? Turmush o‘rtog‘ingizga atalgan matn ishxona chatiga tushib qolmasin.",
+        "Guruhga yuborilayotgan hazil hech kimni xafa qilmaydimi?",
+        "Odam qaysi yozuvni afzal ko‘radi — lotin yoki kirill?"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "8-mart tabrigini AI chatda yozdirish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "8-mart tabrigini qachon yuborgan ma’qul?",
+      "a": "Yaqinlarga — 8-mart kuni ertalab. Hamkasb, rahbar va ustozga — bayramdan oldingi oxirgi ish kunida: 8-mart O‘zbekistonda ishlanmaydigan bayram kuni. Kechikkan bo‘lsangiz ham tabriklang: qisqa uzr va samimiy tilak e’tiborsizlikdan yaxshiroq."
+    },
+    {
+      "q": "Ustozni 8-mart bilan qanday tabriklash to‘g‘ri?",
+      "a": "Sizlab va hurmat bilan: murojaat, tabrik, aniq bir narsa uchun minnatdorchilik va tilak. Butun sinf nomidan yozilsa, oxirida «Hurmat bilan, [sinf] o‘quvchilari» deb imzo qo‘ying. «Ustozga va murabbiyga» bo‘limida o‘quvchilar, ota-onalar va sobiq o‘quvchi nomidan namunalar bor."
+    },
+    {
+      "q": "Hamkasb ayollarni jamoa nomidan qanday tabriklash kerak?",
+      "a": "Bitta umumiy tabrik hammaga birdek atalgan bo‘lsin: tashqi ko‘rinish haqidagi maqtov o‘rniga ularning ishi va jamoaga qo‘shgan hissasi uchun rahmat ayting. Rasmiy variantlar «Jamoa nomidan rasmiy tabrik» bo‘limida, erkinroq matnlar «Hamkasb ayollarga» bo‘limida."
+    },
+    {
+      "q": "Kirill yozuvida 8-mart tabriklari bormi?",
+      "a": "Ha. Sahifaning pastki qismida kirill yozuvidagi 20 ta tabrik bor: har bir guruhdan ikkitadan. Boshqa matnni saytdagi kirill-lotin o‘giruvchi bilan o‘zingiz o‘girishingiz mumkin."
+    },
+    {
+      "q": "Bitta tabrikni hammaga yuborsa bo‘ladimi?",
+      "a": "Bo‘ladi, lekin bir xil matn darhol seziladi. Kamida uch xil variant tanlang — oila, dugonalar va ishxona uchun, eng yaqinlaringizga esa ism bilan murojaat qilib, bitta shaxsiy jumla qo‘shing."
+    },
+    {
+      "q": "Bu tabriklardan otkritka yoki ijtimoiy tarmoqda foydalansa bo‘ladimi?",
+      "a": "Ha. Matnlar shu sahifa uchun yozilgan: ularni ko‘chirib, o‘zgartirib, xabar, post yoki otkritka matni sifatida ishlatishingiz mumkin. Kvadrat qavsdagi joylarni to‘ldirishni unutmang."
+    },
+    {
+      "q": "Shaxsiy tabrikni AI yozib bera oladimi?",
+      "a": "Ha. AI tabrik generatoriga kimga, qaysi bayram uchun va qanday ohangda yozish kerakligini aytsangiz, u matn tayyorlaydi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi. Matndagi har bir detal haqiqatga to‘g‘ri kelishini o‘zingiz tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "8-mart tabrigini AI chatda yozdirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/tugilgan-kun-tabriklari/",
+      "anchor": "Tug‘ilgan kun tabriklari: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/rasmiy-xat-yozish/",
+      "anchor": "Rasmiy xat yozish: tuzilma va namunalar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz o‘zbekcha AI chati",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "8-mart tabriklari: 40 ta tayyor tabrik",
+  "ogDescription": "Onaga, turmush o‘rtog‘iga, opa va singilga, qizga, buviga, ustozga, hamkasblarga, sinfdosh va dugonaga 8-mart tabriklari, jamoa nomidan rasmiy matnlar va kirill yozuvidagi 20 ta tabrik.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/8-mart-tabriklari/",
+  "hreflangUz": "/uz/blog/8-mart-tabriklari/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "People in Uzbekistan writing 8 March greetings"
+  },
+  "breadcrumbLabel": "8-mart tabriklari",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Kambag‘allikni qisqartirish va bandlik vazirligi: ishlanmaydigan bayram kunlari ro‘yxati",
+      "url": "https://gov.uz/uz/bv/news/view/31663",
+      "note": "Vazirlik 2025-yil uchun e’lon qilgan ro‘yxatda «8-mart — Xotin-qizlar kuni» ishlanmaydigan bayram kunlari qatorida ko‘rsatilgan. Sahifa 2026-11-17 kuni tekshirilgan."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

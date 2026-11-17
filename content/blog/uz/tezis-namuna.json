@@ -1,0 +1,543 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "tezis-namuna",
+  "url": "/uz/blog/tezis-namuna/",
+  "title": "Tezis namuna: konferensiya uchun Word va PDF | GPTBot.uz",
+  "description": "Tezis nima va qanday yoziladi: konferensiya tezisi tuzilmasi, Word/PDF shablon, ikki to‘ldirilgan o‘quv misoli, rasmiylashtirish jadvali va tekshiruv ro‘yxati.",
+  "h1": "Konferensiya tezisi: nima bu, qanday yoziladi va tayyor shablon",
+  "topicCluster": "hujjat-va-xatlar",
+  "keywords": [
+    "tezis namuna",
+    "tezis namunasi",
+    "tezis yozish",
+    "tezis nima",
+    "konferensiya tezisi namuna",
+    "tezis yozish tartibi",
+    "тезис намуна"
+  ],
+  "intro": "Tezis — ilmiy yoki o‘quv ishingizning qisqa mazmuni: konferensiya to‘plamida bir-uch betda e’lon qilinadi. Bu sahifada tezis nima ekani, uning odatiy tuzilmasi, Word va PDF shabloni, ikki to‘ldirilgan o‘quv misoli va topshirishdan oldingi tekshiruv ro‘yxati berilgan. Har bir konferensiya o‘z talablarini o‘zi e’lon qiladi, shuning uchun avval axborot xatini o‘qing.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan shablon va rasmiylashtirish talablari jadvali bor, undan keyin ikki to‘ldirilgan o‘quv misoli keladi. PDF ko‘rish va chop etish uchun."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261117/tezis.docx",
+          "anchor": "Tezis shablonini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261117/tezis.pdf",
+          "anchor": "Tezis namunasini PDF formatida ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Muhim: bu mustaqil o‘quv namunasi, tasdiqlangan rasmiy shakl emas. Konferensiya tashkilotchilari tezisga o‘z talablarini qo‘yadi: hajm, shrift, hoshiya, til va adabiyotlar formati. Ular axborot xatida yoki konferensiya sahifasida e’lon qilinadi. Axborot xati bergan shakl bo‘lsa, faqat o‘sha shakldan foydalaning."
+    },
+    {
+      "type": "h2",
+      "id": "tezis-nima",
+      "text": "Tezis nima va u maqoladan nimasi bilan farq qiladi"
+    },
+    {
+      "type": "p",
+      "text": "Tezis — tadqiqotingizning eng muhim fikrlari, usuli va natijasi bayon etilgan qisqa matn. Odatda uni talaba, magistrant, o‘qituvchi yoki yuqori sinf o‘quvchisi ilmiy-amaliy konferensiyaga yuboradi. Qabul qilingan tezislar konferensiya to‘plamida bosiladi yoki elektron nashr qilinadi. Ishtirokchi uchun bu birinchi ilmiy nashr bo‘lishi mumkin."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Matn turi",
+        "Odatiy hajmi",
+        "Vazifasi"
+      ],
+      "rows": [
+        [
+          "Tezis",
+          "Ko‘pincha 1–3 bet; aniq hajm konferensiya talabida",
+          "Ishning maqsadi, usuli va asosiy natijasini qisqa ko‘rsatish"
+        ],
+        [
+          "Ilmiy maqola",
+          "Bir necha bet yoki undan ko‘p",
+          "To‘liq tadqiqot: sharh, usul, natijalar muhokamasi, uzun adabiyotlar ro‘yxati"
+        ],
+        [
+          "Annotatsiya",
+          "2–4 gap",
+          "Tezis yoki maqolaning bir paragraflik qisqa mazmuni"
+        ],
+        [
+          "Ma’ruza matni",
+          "Chiqish vaqtiga qarab",
+          "Konferensiyada og‘zaki aytiladigan matn; tezisdan alohida yoziladi"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tuzilma",
+      "text": "Tezis tuzilmasi: qaysi qismlar bo‘ladi"
+    },
+    {
+      "type": "p",
+      "text": "Tezisning yagona majburiy shakli yo‘q, lekin ko‘pchilik konferensiyalar bir xil mantiqni kutadi: avval muammo, keyin maqsad, usul, natija va xulosa. Quyidagi jadval shu tartibni ko‘rsatadi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Nima yoziladi",
+        "Necha gap"
+      ],
+      "rows": [
+        [
+          "Sarlavha va muallif",
+          "Qisqa va aniq nom; muallifning ismi, kursi yoki lavozimi, tashkilot, e-mail; talaba bo‘lsa ilmiy rahbar",
+          "Bir-uch qator"
+        ],
+        [
+          "Annotatsiya va kalit so‘zlar",
+          "Nima o‘rganildi, qanday usulda, asosiy natija; 5–7 kalit so‘z. Faqat anjuman so‘rasa yoziladi",
+          "2–4 gap"
+        ],
+        [
+          "Dolzarblik",
+          "Muammo nimada va nega hozir muhim",
+          "2–3 gap"
+        ],
+        [
+          "Maqsad",
+          "Ish nimani aniqlaydi yoki taklif qiladi",
+          "1 gap"
+        ],
+        [
+          "Material va usullar",
+          "Nima asosida o‘rganildi: kuzatuv, so‘rovnoma, tajriba yoki manbalar tahlili",
+          "2–4 gap"
+        ],
+        [
+          "Natijalar",
+          "Asosiy 2–3 natija; raqam bo‘lsa, qanday olingani bilan",
+          "3–5 gap"
+        ],
+        [
+          "Xulosa",
+          "Natijalardan kelib chiqadigan fikr va amaliy taklif",
+          "1–2 gap"
+        ],
+        [
+          "Adabiyotlar",
+          "Faqat o‘zingiz o‘qigan va matnda tayangan manbalar; format axborot xatidagi namunaga ko‘ra",
+          "Odatda 3–10 ta manba"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "talablar",
+      "text": "Konferensiya talablari: nimalarni axborot xatidan olasiz"
+    },
+    {
+      "type": "p",
+      "text": "O‘zbekistondagi oliygohlar, ilmiy markazlar va maktab anjumanlari tezisga o‘z qoidalarini qo‘yadi. Ular bir-biridan farq qiladi, shuning uchun quyidagi jadvalni o‘zingiz tanlagan konferensiyaning axborot xati bo‘yicha to‘ldiring. Ustundagi misollar keng tarqalgan variantlar, majburiy me’yor emas."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Talab",
+        "Odatda qanday uchraydi",
+        "Sizning konferensiyangizda"
+      ],
+      "rows": [
+        [
+          "Hajm",
+          "1–3 bet",
+          "[axborot xatidan yozing]"
+        ],
+        [
+          "Shrift va o‘lcham",
+          "Times New Roman, 12 yoki 14",
+          "[yozing]"
+        ],
+        [
+          "Qator oralig‘i",
+          "1,0 yoki 1,5",
+          "[yozing]"
+        ],
+        [
+          "Hoshiyalar",
+          "Odatda har tomondan 2 sm atrofida",
+          "[yuqori, past, chap, o‘ng — sm]"
+        ],
+        [
+          "Til",
+          "O‘zbek, rus yoki ingliz; ba’zida bir necha til",
+          "[yozing]"
+        ],
+        [
+          "Fayl",
+          "Word fayl (.doc yoki .docx); fayl nomi qoidasi bo‘lishi mumkin",
+          "[yozing]"
+        ],
+        [
+          "Muddat va manzil",
+          "Oxirgi qabul sanasi; e-mail yoki ro‘yxatdan o‘tish havolasi",
+          "[yozing]"
+        ],
+        [
+          "Asliylik va to‘lov",
+          "Antiplagiat tekshiruvi; ba’zi anjumanlarda tashkiliy badal",
+          "[bor-yo‘qligini aniqlang]"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Badal haqida: ba’zi konferensiyalar nashr uchun pul oladi, ba’zilari olmaydi. To‘lashdan oldin tashkilotchi kimligini, to‘plam qayerda va qanday nashr etilishini axborot xatidan tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "shablon",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan shablon"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi qavsli maydonlar yuklab olinadigan DOCX faylda ham bor. Keraksiz bandni o‘chiring; misollardagi raqam va natijalarni o‘zingiznikiday qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Sarlavha qismi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[TEZIS NOMI — BOSH HARFLARDA, QISQA VA ANIQ]",
+        "[Muallifning familiyasi va ismi], [ilmiy darajasi, lavozimi yoki kursi]",
+        "[Tashkilot: oliygoh yoki maktab, kafedra] · [shahar] · [e-mail]",
+        "Ilmiy rahbar: [lavozim, F.I.Sh. — talaba yoki o‘quvchi ishida]"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Annotatsiya va asosiy matn"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Annotatsiya: [2–4 gap: nima o‘rganildi, qanday usulda va asosiy natija]. Kalit so‘zlar: [5–7 ta so‘z yoki birikma]. Faqat anjuman so‘rasa.",
+        "Dolzarblik: [muammo nimada va nega hozir muhim — 2–3 gap].",
+        "Maqsad: [ish nimani aniqlaydi yoki taklif qiladi — bitta gap].",
+        "Material va usullar: [nima asosida va qanday o‘rganildi: kuzatuv, so‘rovnoma, tajriba yoki manbalar tahlili].",
+        "Natijalar: [asosiy 2–3 natija; raqam bo‘lsa — qanday olingani bilan].",
+        "Xulosa: [natijalardan kelib chiqadigan 1–2 xulosa va amaliy taklif]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Foydalanilgan adabiyotlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. [Familiya I.Sh.] [Kitob nomi]. — [Shahar]: [Nashriyot], [yil]. — [betlar soni] b.",
+        "2. [Familiya I.Sh.] [Maqola nomi] // [Jurnal nomi]. — [yil]. — № [son]. — [betlar].",
+        "Format axborot xatidagi namunaga ko‘ra o‘zgarishi mumkin."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan o‘quv misollari: pedagogika va ekologiya"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misollari: muallif A, ilmiy rahbar B, maktab, sinf va raqamlar shartli; haqiqiy kuzatuv yoki tajribaga aloqasi yo‘q. Ularni o‘z tezisingiz sifatida topshirmang."
+    },
+    {
+      "type": "h3",
+      "id": "misol-pedagogika",
+      "text": "1-misol. Pedagogika yo‘nalishi"
+    },
+    {
+      "type": "quote",
+      "text": "SINF KUTUBXONASI BURCHAGI O‘QUVCHILARNING KITOB O‘QISH ODATIGA TA’SIRI"
+    },
+    {
+      "type": "quote",
+      "text": "A, shartli pedagogika oliygohining 3-kurs talabasi · Ilmiy rahbar: katta o‘qituvchi B"
+    },
+    {
+      "type": "quote",
+      "text": "Annotatsiya: tezisda 4-sinfda tashkil etilgan sinf kutubxonasi burchagi bo‘yicha sakkiz haftalik kuzatuv natijalari berilgan. Kalit so‘zlar: kitobxonlik, sinf kutubxonasi, boshlang‘ich sinf, o‘qish kundaligi, kuzatuv."
+    },
+    {
+      "type": "quote",
+      "text": "Dolzarblik: boshlang‘ich sinfda shakllangan mustaqil o‘qish odati keyingi sinflardagi o‘qishga tayanch bo‘ladi, ammo darsdan tashqari o‘qish ko‘pincha nazoratsiz qoladi."
+    },
+    {
+      "type": "quote",
+      "text": "Maqsad: sinf kutubxonasi burchagi o‘quvchilarning haftalik mustaqil o‘qishiga qanday ta’sir qilishini kuzatish."
+    },
+    {
+      "type": "quote",
+      "text": "Material va usullar: shartli maktabning 4-sinfida (26 o‘quvchi) 8 hafta davomida kuzatuv o‘tkazildi. Sinfga 40 ta kitobdan iborat burchak qo‘yildi, har bir o‘quvchi o‘qish kundaligi yuritdi."
+    },
+    {
+      "type": "quote",
+      "text": "Natijalar: birinchi haftada 26 o‘quvchidan 9 nafari kamida bitta kitob oldi, sakkizinchi haftada — 19 nafari. Kundalik yuritgan o‘quvchilar o‘qigan kitobini og‘zaki so‘zlab berishda faolroq bo‘ldi."
+    },
+    {
+      "type": "quote",
+      "text": "Xulosa: sinfdagi qulay kitob burchagi va o‘qish kundaligi mustaqil o‘qishni ko‘paytirishi mumkin. Natija bitta sinfga tegishli: uni tekshirish uchun kuzatuvni boshqa sinflarda takrorlash kerak."
+    },
+    {
+      "type": "quote",
+      "text": "Adabiyotlar: o‘quv misolida ataylab berilmagan — o‘z tezisingizda faqat o‘zingiz o‘qigan manbalarni yozing."
+    },
+    {
+      "type": "h3",
+      "id": "misol-ekologiya",
+      "text": "2-misol. Ekologiya yo‘nalishi"
+    },
+    {
+      "type": "quote",
+      "text": "MAKTABDA QOG‘OZ CHIQINDISINI ALOHIDA YIG‘ISH: TO‘RT HAFTALIK TAJRIBA NATIJALARI"
+    },
+    {
+      "type": "quote",
+      "text": "A, shartli maktabning 10-sinf o‘quvchisi · Ilmiy rahbar: biologiya o‘qituvchisi B"
+    },
+    {
+      "type": "quote",
+      "text": "Annotatsiya: tezisda maktabning bir qavatida qog‘oz chiqindisi uchun alohida qutilar qo‘yilgan to‘rt haftalik tajriba tasvirlangan. Kalit so‘zlar: chiqindini saralash, qog‘oz, maktab, ekologik odat, tajriba."
+    },
+    {
+      "type": "quote",
+      "text": "Dolzarblik: maktabda har kuni ko‘p qog‘oz tashlanadi; uni alohida yig‘ish qog‘ozni qayta ishlashga topshirish imkonini beradi."
+    },
+    {
+      "type": "quote",
+      "text": "Maqsad: alohida quti va qisqa tushuntirish o‘quvchilarning qog‘ozni saralab tashlashiga ta’sir qilishini aniqlash."
+    },
+    {
+      "type": "quote",
+      "text": "Material va usullar: ikkinchi qavatdagi 6 ta sinf xonasiga qog‘oz uchun alohida quti qo‘yildi. Har juma kuni yig‘ilgan qog‘oz tarozida tortildi; ikkinchi haftadan boshlab sinf soatlarida 5 daqiqalik tushuntirish o‘tkazildi."
+    },
+    {
+      "type": "quote",
+      "text": "Natijalar: birinchi haftada 7 kg, to‘rtinchi haftada 12 kg qog‘oz alohida yig‘ildi. Umumiy qutilardagi qog‘oz chamalab qaraganda kamaydi, lekin u o‘lchanmadi."
+    },
+    {
+      "type": "quote",
+      "text": "Xulosa: alohida quti va qisqa tushuntirish birgalikda saralashni yaxshilashi mumkin. Aniqroq xulosa uchun umumiy qutilardagi qog‘ozni ham o‘lchash va tajribani butun maktabda o‘tkazish kerak."
+    },
+    {
+      "type": "quote",
+      "text": "Adabiyotlar: bu misolda ham ataylab berilmagan."
+    },
+    {
+      "type": "h2",
+      "id": "nega-yaxshi",
+      "text": "Misollarda nimaga e’tibor bering"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sarlavha ishning mazmunini aytadi: nimaning nimaga ta’siri o‘rganilgani darrov tushunarli.",
+        "Maqsad bitta gap: tezis ko‘p narsani va’da qilmaydi.",
+        "Natijalarda aniq raqam va ularning qanday olingani bor: 26 o‘quvchidan 9 nafari, 7 kg va 12 kg.",
+        "Xulosa natijadan oshib ketmaydi. Ikkala misolda ham cheklov ochiq aytilgan: natija bitta sinfga tegishli yoki umumiy qutilar o‘lchanmagan.",
+        "Adabiyotlar o‘quv misolida berilmagan, chunki u to‘qima. Haqiqiy tezisda bu qism bo‘sh qolmasligi kerak."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yozish-tartibi",
+      "text": "Tezisni qadam-baqadam yozish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Konferensiyani tanlang va axborot xatini to‘liq o‘qing. Muddat, hajm va mavzu yo‘nalishini yozib qo‘ying.",
+        "Mavzuni bitta savolga torayting: «nima nimaga ta’sir qiladi» yoki «qaysi usul yaxshiroq».",
+        "Avval natijalarni yozing, keyin ularga mos maqsad va xulosani. Bu tartib xulosa natijadan oshib ketishining oldini oladi.",
+        "Dolzarblikni 2–3 gapda yozing. Umumiy tarixga kirib ketmang: bir betda o‘rin yo‘q.",
+        "Shablonni DOCX faylga ko‘chiring va talablar jadvaliga mos shrift, oraliq va hoshiyani qo‘ying.",
+        "Adabiyotlarni axborot xatidagi namunaga ko‘ra rasmiylashtiring.",
+        "Ilmiy rahbaringizga ko‘rsating, fikrini hisobga oling va fayl nomini talabga ko‘ra yozib yuboring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Tezis yozishda ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Axborot xatini o‘qimaslik: hajm yoki shrift talabga to‘g‘ri kelmagani uchun tezis qabul qilinmasligi mumkin.",
+        "Boshqa sayt yoki maqoladan ko‘chirish. Ko‘p anjumanlar antiplagiat tekshiruvi o‘tkazadi; baribir tezis o‘zingizning ishingiz bo‘lishi kerak.",
+        "Natijasiz tezis: faqat «o‘rganildi», «tahlil qilindi» deb yozilgan, lekin nima chiqqani aytilmagan.",
+        "Isbotsiz katta xulosa: bitta sinf yoki bitta so‘rovnomadan butun mamlakat uchun xulosa chiqarish.",
+        "Raqamni o‘ylab topish. Aniq o‘lchamagan bo‘lsangiz, «chamalab» deb yozing yoki natijani yozmang.",
+        "Uzun kirish: dolzarblik yarim betdan oshsa, natijalarga joy qolmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tezis hajmi, shrifti, oralig‘i va hoshiyasi axborot xatiga mos keladimi?",
+        "Sarlavha, muallif, tashkilot, e-mail va ilmiy rahbar to‘g‘ri yozilganmi?",
+        "Maqsad, usul, natija va xulosa bir-biriga mos keladimi?",
+        "Har bir raqam o‘zingiz olgan natijamidi?",
+        "Adabiyotlar matnda tayangan manbalardan iboratmi va talab qilingan formatdami?",
+        "Fayl nomi, tili va yuborish manzili talabga mosmi? Muddatdan oldin yubordingizmi?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu tasdiqlangan rasmiy shakl emas. Tashkilotchilar bergan shablon bo‘lsa, o‘shandan foydalaning. Qabul qilinishi, nashr etilishi yoki baho olishingiz haqida namuna hech narsa va’da qilmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Tezisni tayyorlashda {chat} jumlalarni tekshirishga yordam berishi mumkin. Unga shaxsiy ma’lumot, hali e’lon qilinmagan natija yoki to‘liq ishingizni yozmang: savol xorijdagi AI-provayderlarga ham yuboriladi. Bitta jumlani kiriting va «Ma’noni o‘zgartirmasdan qisqartir» deb so‘rang. Natijani o‘zingiz tekshiring.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Konferensiyaga tayyorlanishdan oldin darsga yoki mustaqil o‘qishga referat yozish kerak bo‘lsa, {referat} sahifasiga qarang.",
+      "links": [
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish yozish tartibi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa hujjat kerak bo‘lsa, {hub} sahifasidan tanlang.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/hujjat-namunalari/",
+          "anchor": "barcha hujjat namunalari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tezis nima?",
+      "a": "Tezis — tadqiqot yoki o‘quv ishining asosiy fikri, usuli va natijasini qisqa bayon qiluvchi matn. Uni konferensiyaga yuboriladi va qabul qilinsa, to‘plamda e’lon qilinadi. Odatda hajmi 1–3 bet, lekin aniq talabni konferensiya o‘zi belgilaydi."
+    },
+    {
+      "q": "Tezis qanday yoziladi?",
+      "a": "Avval axborot xatidan hajm, shrift va muddatni oling. Keyin sarlavha va muallif ma’lumotini yozing, so‘ng dolzarblik, maqsad, material va usullar, natijalar va xulosa qismlarini ketma-ket to‘ldiring. Oxirida adabiyotlarni talab qilingan formatda ko‘rsating. Shablon va ikki misol shu sahifada."
+    },
+    {
+      "q": "Tezis hajmi qancha bo‘lishi kerak?",
+      "a": "Bitta qoida yo‘q. Ko‘p konferensiyalar 1–3 bet so‘raydi, ba’zilari undan kam yoki ko‘p. Raqamni axborot xatidan oling va hajmdan oshirmang: ba’zi tashkilotchilar uzun matnni qaytaradi."
+    },
+    {
+      "q": "Annotatsiya va kalit so‘zlar har doim kerakmi?",
+      "a": "Yo‘q, ularni faqat ba’zi konferensiyalar talab qiladi. Axborot xatida yozilgan bo‘lsa, 2–4 gaplik annotatsiya va 5–7 kalit so‘z qo‘shing. Yozilmagan bo‘lsa, ortiqcha qism qo‘shmang."
+    },
+    {
+      "q": "Tezisda adabiyotlar ro‘yxati bo‘ladimi?",
+      "a": "Ko‘pincha bo‘ladi, lekin qisqa: odatda bir necha manba. Faqat o‘zingiz o‘qigan va matnda tayangan manbalarni yozing. Format konferensiya talabiga ko‘ra o‘zgaradi. Sahifadagi shablonda kitob va maqola uchun ikki namuna bor."
+    },
+    {
+      "q": "Tezisni AI bilan yozsa bo‘ladimi?",
+      "a": "Ba’zi konferensiya va oliygohlar AI ishlatishga o‘z qoidasini qo‘yadi, shuning uchun avval talabni tekshiring. Natijani, raqamlarni va tadqiqotning o‘zini AI o‘ylab topa olmaydi: ular sizniki bo‘lishi kerak. AI faqat jumlani ravonlashtirish yoki qisqartirishga yordam beradi, natijani o‘zingiz tekshirasiz."
+    }
+  ],
+  "cta": {
+    "label": "Tezis jumlalarini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish yozish tartibi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/kurs-ishi-yozish/",
+      "anchor": "Kurs ishi yozish: reja va tuzilma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/esse-yozish-tartibi/",
+      "anchor": "Esse yozish tartibi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: jumla uslubini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Tezis namuna: konferensiya uchun Word va PDF | GPTBot.uz",
+  "ogDescription": "Tezis nima va qanday yoziladi: konferensiya tezisi tuzilmasi, Word/PDF shablon, ikki to‘ldirilgan o‘quv misoli, rasmiylashtirish jadvali va tekshiruv ro‘yxati.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/tezis-namuna/",
+  "hreflangUz": "/uz/blog/tezis-namuna/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Talabalar, magistrantlar, o‘qituvchilar va yuqori sinf o‘quvchilari: konferensiyada ishtirok etmoqchi bo‘lganlar"
+  },
+  "breadcrumbLabel": "Tezis namuna",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-11-16",
+  "updatedAt": "2026-11-17",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "commercialClusters": [
     {
@@ -3763,6 +3763,357 @@
       "decidedAt": "2026-11-16",
       "evidence": "delivery/gptbot-seo-growth-20261116/research/opportunities.csv and serp_notes.csv (OpenSEO, 2860, 2026-11-16)",
       "gscNote": "New URL, no Search Console history. Ads volume (grouped): «kafolat xati» 1 300, «kafolat xati namuna» 720. SERP snapshot 2026-11-16: irrelevant results."
+    },
+    {
+      "id": "W20261117-01-gemini-ai-ozbek-tilida",
+      "commercial": {
+        "url": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+        "owns": "the comparison of ChatGPT, Claude and Gemini for a reader in Uzbekistan",
+        "mustNotTarget": [
+          "gemini ai",
+          "gemini",
+          "jemini",
+          "jemini ai"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/gemini-ai-ozbek-tilida/",
+        "owns": "Gemini itself: what it is, the official address and app, Uzbek language, free plan, example requests, images",
+        "mustNotTarget": [
+          "claude in uzbekistan",
+          "chatgpt yoki gemini",
+          "claude uzbekistan",
+          "ai chat taqqoslash"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-02-claude-ai-ozbekistonda",
+      "commercial": {
+        "url": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+        "owns": "the comparison of ChatGPT, Claude and Gemini for a reader in Uzbekistan",
+        "mustNotTarget": [
+          "claude ai",
+          "claude",
+          "klod ai",
+          "claud ai"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/claude-ai-ozbekistonda/",
+        "owns": "Claude itself: what it is, official address and apps, supported countries, sign-up, free plan, example requests",
+        "mustNotTarget": [
+          "claude in uzbekistan",
+          "chatgpt yoki gemini",
+          "claude uzbekistan",
+          "ai chat taqqoslash"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-03-claude-ai-v-uzbekistane-kak-polzovatsya",
+      "commercial": {
+        "url": "/ru/blog/chatgpt-i-claude-v-uzbekistane/",
+        "owns": "the comparison of ChatGPT and Claude with access and payment (protected page, unchanged)",
+        "mustNotTarget": [
+          "клауд",
+          "клод",
+          "клауд аи",
+          "клод ии"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+        "owns": "Claude itself in Russian: what it is, sign-in, apps, how to use; no payment topic",
+        "mustNotTarget": [
+          "ChatGPT в Узбекистане",
+          "купить подписку Claude в Ташкенте",
+          "подписка ChatGPT Go",
+          "нейросети для бизнеса Узбекистан"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-04-yangi-yil-sherlari",
+      "commercial": {
+        "url": "/uz/ai-sher-yozish/",
+        "owns": "the AI poem generator and the query «ona haqida she’rlar»",
+        "mustNotTarget": [
+          "yangi yil sherlari",
+          "yangi yil sherlar",
+          "yangi yil she’rlari",
+          "yangi yil she’rlari bolalar uchun"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/yangi-yil-sherlari/",
+        "owns": "ready New Year, Qorbobo, Archa and winter poems for children",
+        "mustNotTarget": [
+          "ona haqida she’rlar",
+          "ona haqida sherlar",
+          "bolalar uchun she’rlar",
+          "bolalar uchun sherlar"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-05-8-mart-sherlari",
+      "commercial": {
+        "url": "/uz/ai-sher-yozish/",
+        "owns": "the AI poem generator and the query «ona haqida she’rlar»",
+        "mustNotTarget": [
+          "8 mart uchun sherlar",
+          "8 mart she’rlar",
+          "8 mart haqida sher",
+          "8 mart sherlar"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/8-mart-sherlari/",
+        "owns": "ready poems for 8 March: mother, grandmother, teacher, school events",
+        "mustNotTarget": [
+          "ona haqida she’rlar",
+          "ona haqida sherlar",
+          "bolalar uchun she’rlar",
+          "bolalar uchun sherlar"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-06-ayol-kishiga-tugilgan-kun-tabrigi",
+      "commercial": {
+        "url": "/uz/blog/tugilgan-kun-tabriklari/",
+        "owns": "the general birthday collection",
+        "mustNotTarget": [
+          "туғилган кун табриги аёл кишига",
+          "ayol kishiga tug‘ilgan kun tabrigi",
+          "ayol kishiga tugilgan kun tabrigi",
+          "ayollarga tabrik"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+        "owns": "birthday greetings to a woman, Latin and Cyrillic",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabriklari",
+          "tugilgan kun tabriklari",
+          "туғилган кун табриклари",
+          "тугилган кун табриклари"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-07-erkak-kishiga-tugilgan-kun-tabrigi",
+      "commercial": {
+        "url": "/uz/blog/tugilgan-kun-tabriklari/",
+        "owns": "the general birthday collection",
+        "mustNotTarget": [
+          "туғилган кун табриги эркак кишига",
+          "erkak kishiga tug‘ilgan kun tabrigi",
+          "erkak kishiga tugilgan kun tabrigi",
+          "табрик тугилган кунга эркак кишига"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+        "owns": "birthday greetings to a man, Latin and Cyrillic",
+        "mustNotTarget": [
+          "tug‘ilgan kun tabriklari",
+          "tugilgan kun tabriklari",
+          "туғилган кун табриклари",
+          "тугилган кун табриклари"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-08-psixologik-tavsifnoma-namuna",
+      "commercial": {
+        "url": "/uz/blog/tavsifnoma-namuna/",
+        "owns": "the general characteristic (tavsifnoma) samples",
+        "mustNotTarget": [
+          "psixologik tavsifnoma",
+          "psixologik tavsifnoma namuna",
+          "o‘quvchiga psixologik tavsifnoma",
+          "sinfga psixologik tavsifnoma"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/psixologik-tavsifnoma-namuna/",
+        "owns": "the psychological-pedagogical characteristic of a pupil and a class, DOCX/PDF",
+        "mustNotTarget": [
+          "tavsifnoma namuna",
+          "tavsifnoma namunasi",
+          "tavsifnoma",
+          "tavsifnoma yozish"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-09-cv-nima",
+      "commercial": {
+        "url": "/uz/blog/rezyume-tayyorlash/",
+        "owns": "rezyume: preparation and sample",
+        "mustNotTarget": [
+          "cv nima",
+          "cv yozish",
+          "cv va rezyume farqi",
+          "cv namunasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/cv-nima/",
+        "owns": "what a CV is, how it differs from a rezyume, a CV sample, Europass",
+        "mustNotTarget": [
+          "rezyume tayyorlash",
+          "rezyume namuna",
+          "rezyume",
+          "rezyume shablon"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-10-gamma-app-slayd-tayyorlash",
+      "commercial": {
+        "url": "/uz/blog/slayd-tayyorlash/",
+        "owns": "the general guide to making slides",
+        "mustNotTarget": [
+          "gamma app",
+          "gamma ai",
+          "gamma app prezentatsiya",
+          "gamma slayd tayyorlash"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/gamma-app-slayd-tayyorlash/",
+        "owns": "Gamma step by step: sign-up, slides in Uzbek, export, limits",
+        "mustNotTarget": [
+          "slayd tayyorlash",
+          "prezentatsiya tayyorlash",
+          "taqdimot tayyorlash",
+          "slayd tayyorlash telefonda"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-11-chatgptdan-qanday-foydalanish",
+      "commercial": {
+        "url": "/uz/gpt-chat-qollanma/",
+        "owns": "how the GPTBot chat itself works: features, limits, safety",
+        "mustNotTarget": [
+          "chatgpt dan foydalanish",
+          "chatgpt qanday ishlatiladi",
+          "chatgpt bilan ishlash",
+          "chatgpt ga savol berish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/chatgptdan-qanday-foydalanish/",
+        "owns": "how to work with ChatGPT in ten steps with example requests",
+        "mustNotTarget": [
+          "AI chatdan qanday foydalanish",
+          "ai chat imkoniyatlari",
+          "ai chat limitlari",
+          "ai chat xavfsizligi"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-12-matn-tuzish",
+      "commercial": {
+        "url": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+        "owns": "the essay (insho) guide",
+        "mustNotTarget": [
+          "matn tuzish",
+          "matn yaratish",
+          "kichik matn",
+          "kuz haqida matn"
+        ]
+      },
+      "informational": {
+        "url": "/uz/matn-tuzish/",
+        "owns": "short school texts (matn tuzish): method and ready texts by grade",
+        "mustNotTarget": [
+          "insho yozish",
+          "insho yozish tartibi",
+          "insho qanday yoziladi",
+          "insho namuna"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261117-13-tenglamalar-sistemasi",
+      "commercial": {
+        "url": "/uz/tenglama-yechish/",
+        "owns": "single linear equations and the solver",
+        "mustNotTarget": [
+          "tenglamalar sistemasi",
+          "tenglamalar sistemasini yechish",
+          "o‘rniga qo‘yish usuli",
+          "qo‘shish usuli"
+        ]
+      },
+      "informational": {
+        "url": "/uz/tenglamalar-sistemasi/",
+        "owns": "systems of two linear equations: substitution, addition, graphical idea",
+        "mustNotTarget": [
+          "tenglama yechish",
+          "chiziqli tenglama yechish",
+          "tenglama yechish misollari",
+          "bir noma’lumli tenglama"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-17",
+      "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
+      "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
     }
   ],
   "architectureDecisions": [

@@ -267,7 +267,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // and three relabelled entries (bildirgi, insho, tabrik guides). Reverting
 // exactly these entries restores the predecessor; the other nine protected
 // pages keep their complete contract. See reports/seo-growth-20261116/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-16-seo-growth/reviewed-protected-pages.json';
+export const BASELINE = 'docs/seo/evidence/2026-11-17-seo-waves/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

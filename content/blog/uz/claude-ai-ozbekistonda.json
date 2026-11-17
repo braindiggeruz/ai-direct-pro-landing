@@ -1,0 +1,470 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "claude-ai-ozbekistonda",
+  "url": "/uz/blog/claude-ai-ozbekistonda/",
+  "title": "Claude AI O‘zbekistonda: kirish va bepul reja | GPTBot.uz",
+  "description": "Claude AI nima, rasmiy sayti va ilovalari, O‘zbekiston rasmiy ro‘yxatda bormi, ro‘yxatdan o‘tish tartibi, bepul reja, limitlar va 10 ta tayyor so‘rov.",
+  "h1": "Claude AI: O‘zbekistonda ro‘yxatdan o‘tish, bepul reja va foydalanish tartibi",
+  "topicCluster": "ai-xizmatlar",
+  "keywords": [
+    "claude ai",
+    "claude",
+    "klod ai",
+    "claud ai",
+    "cloud ai",
+    "claude ai free",
+    "claude download",
+    "claude ai login",
+    "claude desktop"
+  ],
+  "intro": "Claude — Anthropic kompaniyasi yaratgan AI yordamchi: matn yozadi, uzun hujjatlarni tahlil qiladi, kod yozishda yordam beradi. Rasmiy manzili — claude.ai. Nomi «Klod» deb o‘qiladi, qidiruvda esa uni «claud ai» yoki «cloud ai» deb ham yozishadi — gap shu xizmat haqida. Anthropic’ning qo‘llab-quvvatlanadigan hududlar ro‘yxatida O‘zbekiston bor. Ma’lumotlar rasmiy sahifalardan 2026-yil 17-noyabrda tekshirildi.",
+  "body": [
+    {
+      "type": "quote",
+      "text": "Qisqasi: claude.ai saytiga Google hisobi yoki e-pochta orqali kirasiz; yangi hisob uchun SMS qabul qiladigan telefon raqami so‘raladi; O‘zbekiston rasmiy ro‘yxatda bor; bepul reja limit bilan ishlaydi; yosh chegarasi — 18."
+    },
+    {
+      "type": "linkp",
+      "text": "Rasmiy manzillar: suhbat — {web}; Windows va macOS uchun dastur — {desktop}; Android uchun — {android}; iPhone va iPad uchun — {ios}.",
+      "links": [
+        {
+          "token": "web",
+          "target": "https://claude.ai/",
+          "anchor": "claude.ai"
+        },
+        {
+          "token": "desktop",
+          "target": "https://claude.com/download",
+          "anchor": "claude.com/download sahifasi"
+        },
+        {
+          "token": "android",
+          "target": "https://play.google.com/store/apps/details?id=com.anthropic.claude",
+          "anchor": "Google Play’dagi «Claude by Anthropic» ilovasi"
+        },
+        {
+          "token": "ios",
+          "target": "https://apps.apple.com/uz/app/claude-by-anthropic/id6473753684",
+          "anchor": "App Store’dagi «Claude by Anthropic» ilovasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "Claude nima va uni kim yaratgan"
+    },
+    {
+      "type": "p",
+      "text": "Claude — Anthropic kompaniyasi ishlab chiqqan katta til modeli. Rasmiy yordam markazida u foydali, halol va zararsiz bo‘lishga o‘rgatilgan yordamchi deb ta’riflanadi. Savolni oddiy tilda yozasiz: kundalik maslahatdan tortib tahlil, ijodiy matn va kodgacha."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Rasmiy sahifalardagi holat (17.11.2026)"
+      ],
+      "rows": [
+        [
+          "Rasmiy manzil",
+          "claude.ai — suhbat; claude.com — rejalar va dasturlar"
+        ],
+        [
+          "Ishlab chiquvchi",
+          "Anthropic (ilova do‘konlarida — Anthropic PBC)"
+        ],
+        [
+          "O‘zbekiston",
+          "Qo‘llab-quvvatlanadigan hududlar ro‘yxatida bor"
+        ],
+        [
+          "Yosh chegarasi",
+          "18 yoshdan"
+        ],
+        [
+          "Qurilmalar",
+          "Brauzer, Windows, macOS, Android, iPhone va iPad"
+        ],
+        [
+          "Menyu tili",
+          "O‘zbek tili yo‘q; suhbat siz yozgan tilda boradi"
+        ],
+        [
+          "Bepul reja",
+          "Bor, limit bilan"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ozbekiston",
+      "text": "Claude O‘zbekistonda ishlaydimi: rasmiy ro‘yxat nima deydi"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic «Supported Regions Policy» nomli rasmiy hujjatida xizmatlari — Claude.ai, ilovalar va API — faqat ro‘yxatdagi mamlakat va hududlarda mavjudligini yozadi. Hujjatning 2026-yil 12-noyabrdan kuchga kirgan tahririda O‘zbekiston bor. Qozog‘iston, Qirg‘iziston, Tojikiston va Turkmaniston ham shu ro‘yxatda."
+    },
+    {
+      "type": "p",
+      "text": "Demak, xizmatdan O‘zbekistonda turib foydalanish rasman mumkin. Lekin ro‘yxatda bo‘lish har bir funksiya, SMS yoki to‘lov usuli hammada bir xil ishlashini kafolatlamaydi. Qoidaga ko‘ra, ro‘yxatda yo‘q hududda turib xizmatdan foydalanib bo‘lmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Ro‘yxat o‘zgarib turadi — hozirgi holatini {countries}da o‘zingiz ko‘ring.",
+      "links": [
+        {
+          "token": "countries",
+          "target": "https://www.anthropic.com/legal/supported-regions",
+          "anchor": "Anthropic’ning rasmiy ro‘yxati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "royxat",
+      "text": "Ro‘yxatdan o‘tish qanday kechadi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "claude.ai manzilini brauzerga o‘zingiz yozing yoki rasmiy ilovani oching.",
+        "«Continue with Google» tugmasi bilan Google hisobingiz orqali kiring yoki e-pochtangizni yozib, «Continue with email» ni bosing.",
+        "E-pochtani tanlagan bo‘lsangiz, «Secure link to log in to Claude.ai» mavzuli xat keladi — ichidagi havolani bosing. Xatni boshqa qurilmada ochsangiz, havola tasdiqlash kodini beradi.",
+        "Yangi hisobda telefon raqami so‘raladi: SMS orqali olti xonali kod keladi. Kodni kiritganingizdan keyin suhbat ochiladi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Telefon raqami bo‘yicha rasmiy cheklovlar bor. Bu bosqichni o‘tkazib yuborib bo‘lmaydi. Faqat qo‘llab-quvvatlanadigan hudud raqami qabul qilinadi; VoIP, ilova orqali olingan va statsionar raqamlar o‘tmaydi. Bitta raqam bilan ko‘pi bilan uchta hisob tasdiqlanadi, tasdiqlangan raqamni esa keyin o‘zgartirib bo‘lmaydi."
+    },
+    {
+      "type": "p",
+      "text": "Kod bir necha daqiqa kechikishi mumkin. Besh daqiqadan oshsa, «Try again» ni bosib, raqamni qayta kiriting. Xato chiqaversa, yordam markazi boshqa raqamdan foydalanishni maslahat beradi. SMS har doim yetib kelishini biz kafolatlay olmaymiz. Tayyor hisob sotib olmang va o‘z hisobingizni birovga bermang: bu foydalanish shartlarida taqiqlangan."
+    },
+    {
+      "type": "h2",
+      "id": "bepul-reja",
+      "text": "Bepul reja nimalarni beradi"
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy rejalar sahifasida (2026-yil noyabr holatiga ko‘ra) shaxsiy foydalanuvchilar uchun to‘rtta reja bor: Free, Pro, Max va Ultra. Bepul rejada quyidagilar ko‘rsatilgan:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "brauzerda, kompyuter dasturida va telefonda suhbat;",
+        "internetdan qidirish, fayl yaratish va kodni ishga tushirish;",
+        "suhbatlararo xotira va 5 tagacha loyiha (Projects);",
+        "Artifacts hamda Claude Design, Slides va Docs vositalari;",
+        "Sonnet va Haiku modellari."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Limit bor: u har besh soatda yangilanadi, haftalik chegara ham qo‘yilgan. Aniq son e’lon qilinmagan — limit qanchalik tez tugashi tanlangan model, suhbat uzunligi va fayl hajmiga bog‘liq. Qancha qolganini Settings → Usage bo‘limida ko‘rasiz. Limit tugasa, yangilanishini kutasiz."
+    },
+    {
+      "type": "p",
+      "text": "Pullik rejalar limitni oshiradi va Claude Code, Research kabi qo‘shimcha vositalarni ochadi. Narxlarni bu yerda yozmaymiz: ular o‘zgarib turadi. Rasmiy jadvalda to‘lov usuli sifatida bank kartasi ko‘rsatilgan, lekin mahalliy kartadan to‘lov o‘tishiga kafolat yo‘q — buni to‘lov sahifasida o‘zingiz tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "sorovlar",
+      "text": "Talaba va ofis xodimiga nimada qo‘l keladi: 10 ta tayyor so‘rov"
+    },
+    {
+      "type": "p",
+      "text": "Claude uzun matn bilan ishlashda qulay: hujjatni yuklaysiz yoki matnni qo‘yasiz, u qisqartiradi, tartibga soladi va savollarga javob beradi. Kvadrat qavs ichidagi joylarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "h3",
+      "id": "talabalar-uchun",
+      "text": "Talabalar uchun"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Shu maqolaning asosiy g‘oyalarini 6 bandda yoz, har biriga matndan bitta dalil keltir: [matn].",
+        "Kurs ishimning rejasini ko‘rib chiq: mantiqiy bo‘shliqlar va takrorlarni ko‘rsat, lekin matnni mening o‘rnimga yozma. Reja: [reja].",
+        "«[Mavzu]» bo‘yicha ikki qarama-qarshi fikrni jadvalda solishtir: asosiy da’vo, dalil va zaif tomoni.",
+        "Inglizcha shu abzatsni o‘zbek tiliga tarjima qil va qiyin atamalarni alohida izohla: [matn].",
+        "Python tilida yozgan shu kodimdagi xatoni top va nega xato ekanini sodda tilda tushuntir: [kod]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "ofis-uchun",
+      "text": "Ofis ishi uchun"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Shu yig‘ilish qaydlaridan bayon tuz: qarorlar, mas’ullar va muddatlarni alohida ro‘yxat qil. Qaydlar: [matn].",
+        "Hamkorga rasmiy xat qoralamasini yoz: uchrashuvni keyingi haftaga ko‘chirishni so‘raymiz. Ohangi hurmatli bo‘lsin, hajmi 6 jumladan oshmasin.",
+        "Mana oylik hisobot raqamlari: [raqamlar]. Uchta asosiy xulosani yoz va qaysi ko‘rsatkichni qayta tekshirish kerakligini ayt.",
+        "Shu uzun yo‘riqnomani yangi xodim uchun 10 qadamli qisqa qo‘llanmaga aylantir, o‘zingdan hech narsa qo‘shma: [matn].",
+        "Mijozning shikoyatiga xotirjam javob yoz. Faqat shu ma’lumotdan foydalan: [holat]. Tasdiqlanmagan narsani va’da qilma."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hujjatni yuklashdan oldin undagi shaxsiy ma’lumotlarni olib tashlang. Javobdagi raqam va sanalarni asl matn bilan solishtiring."
+    },
+    {
+      "type": "h2",
+      "id": "til",
+      "text": "Claude o‘zbek tilini tushunadimi"
+    },
+    {
+      "type": "p",
+      "text": "Menyu tillari orasida o‘zbek tili yo‘q: veb-versiya va kompyuter dasturi ingliz, fransuz, nemis, hind, indonez, italyan, yapon, koreys, portugal va ispan tillarida ishlaydi. Suhbat tili esa bunga bog‘liq emas — yordam markazida yozilishicha, Claude siz yozgan tilda javob beradi."
+    },
+    {
+      "type": "p",
+      "text": "Sifat haqida Anthropic ehtiyotkor gapiradi: Claude ingliz tilida eng ko‘p o‘qitilgan, boshqa keng tarqalgan tillarda yaxshi ishlaydi, kam tarqalgan tillarda esa imkoniyati cheklanganroq. O‘zbek tili rasmiy sinov jadvalida yo‘q, shuning uchun natijani o‘z vazifangizda sinab ko‘ring. Ikki maslahat: tilni aniq ayting («o‘zbek tilida, lotin yozuvida javob ber») va matnni o‘z yozuvida kiriting."
+    },
+    {
+      "type": "h2",
+      "id": "cheklovlar",
+      "text": "Cheklovlar va maxfiylik"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Yosh chegarasi — 18. Bu Anthropic’ning rasmiy talabi.",
+        "Javob xato bo‘lishi mumkin. Foydalanish shartlarida javoblar har doim ham aniq emasligi va ularni mustaqil tekshirish kerakligi yozilgan.",
+        "Bitta suhbatning sig‘imi cheklangan. Suhbat juda uzayib ketsa, yangisini boshlang va kerakli matnni qayta bering.",
+        "Suhbatlaringiz Claude’ni yaxshilashda ishlatilishi mumkin. Buni maxfiylik sozlamalarida o‘chirib qo‘yasiz; inkognito suhbatlar esa bunga kirmaydi.",
+        "Anthropic moliyaviy ma’lumot, tibbiy yozuv, parol va maxfiy hujjatlarni kiritishda ehtiyot bo‘lishni tavsiya qiladi.",
+        "O‘qish yoki ish joyingizning AI bo‘yicha qoidasini bilib oling; AI yozgan matnni o‘z ishingiz deb topshirmang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "muqobil",
+      "text": "Claude qo‘l ostida bo‘lmasa: mustaqil AI chatimiz"
+    },
+    {
+      "type": "linkp",
+      "text": "SMS kelmagan, limit tugagan yoki hisob ochishga hali ulgurmagan bo‘lsangiz, matnli savolni {chat}ga berish mumkin. Bu mustaqil servis: Anthropic yoki Claude mahsuloti emas, Claude hisobingizga kirishni tiklamaydi. U o‘zbek va rus tillarida matn bilan ishlaydi: tushuntirish, reja, tarjima, xat qoralamasi. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak — shartlari {tarif} sahifasida.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
+        {
+          "token": "tarif",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "tariflar"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Matnli savolni mustaqil AI chatga berish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    },
+    {
+      "type": "linkp",
+      "text": "Uch xizmatni yonma-yon ko‘rmoqchi bo‘lsangiz, {compare}ni oching. Alohida qo‘llanmalar ham bor: {gemini} va {deepseek}.",
+      "links": [
+        {
+          "token": "compare",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "ChatGPT, Claude va Gemini’ni solishtirgan maqola"
+        },
+        {
+          "token": "gemini",
+          "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+          "anchor": "Gemini AI qo‘llanmasi"
+        },
+        {
+          "token": "deepseek",
+          "target": "/uz/blog/deepseek-ozbek-tilida/",
+          "anchor": "DeepSeek qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat: Anthropic yoki Claude bilan bog‘liq emas. Sahifadagi ma’lumotlar rasmiy manbalardan 2026-yil 17-noyabrda tekshirildi; rejalar, limitlar va ro‘yxatlar o‘zgarishi mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Claude AI bepulmi?",
+      "a": "Ha, bepul reja bor: brauzer, kompyuter dasturi va telefonda suhbat, internetdan qidirish, fayl yaratish va Artifacts. Limit har besh soatda yangilanadi, haftalik chegara ham bor. Pullik Pro, Max va Ultra rejalari limitni oshiradi; narxni rasmiy sahifada tekshiring."
+    },
+    {
+      "q": "Claude’da telefon raqamisiz ro‘yxatdan o‘tsa bo‘ladimi?",
+      "a": "Yo‘q. Rasmiy yordam markaziga ko‘ra, yangi hisob uchun SMS qabul qiladigan telefon raqami shart va bu bosqichni o‘tkazib yuborib bo‘lmaydi. VoIP va statsionar raqamlar qabul qilinmaydi."
+    },
+    {
+      "q": "Claude uchun VPN kerakmi?",
+      "a": "O‘zbekiston Anthropic’ning rasmiy ro‘yxatida bor, shuning uchun VPN rasmiy talab emas (2026-yil 17-noyabr holati). Sayt ochilmasa, sabab internet tarmog‘ida yoki brauzerda bo‘lishi mumkin. Ro‘yxatda yo‘q hududda turib foydalanish esa qoidaga zid."
+    },
+    {
+      "q": "Claude ilovasini qayerdan yuklab olaman?",
+      "a": "Telefon uchun — Google Play yoki App Store’dan «Claude by Anthropic» ilovasi, ishlab chiquvchi — Anthropic PBC. Windows va macOS uchun dastur claude.com/download sahifasida. Begona saytdagi APK yoki «bepul Pro» va’da qilingan fayllarni o‘rnatmang."
+    },
+    {
+      "q": "Claude’dan necha yoshdan foydalanish mumkin?",
+      "a": "18 yoshdan. Bu Anthropic’ning rasmiy talabi; App Store’da ham ilova 18+ deb belgilangan."
+    },
+    {
+      "q": "Claude kod yozib bera oladimi?",
+      "a": "Ha, suhbatda kod yozish, xatoni topish va tushuntirishni so‘rash mumkin — bu bepul rejada ham bor. Alohida Claude Code vositasi esa, rasmiy jadvalga ko‘ra, faqat pullik rejalarda."
+    },
+    {
+      "q": "GPTBot.uz chati Claude’ning o‘zimi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil AI chat, Anthropic mahsuloti emas. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak."
+    }
+  ],
+  "cta": {
+    "label": "Matnli savolni mustaqil AI chatga berish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-xizmatlar/",
+      "anchor": "AI xizmatlar bo‘yicha barcha qo‘llanmalar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: o‘zbek va rus tillarida",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+      "anchor": "Gemini AI: o‘zbek tili, ilova va rasm yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/deepseek-ozbek-tilida/",
+      "anchor": "DeepSeek: rasmiy sayt, ilova va ehtiyot choralari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "Talabalar uchun AI: o‘qishda foydalanishning 20 usuli",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/rasmiy-xat-yozish/",
+      "anchor": "Rasmiy xat tuzilishi va shartli namunalar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "Claude AI O‘zbekistonda: kirish va bepul reja | GPTBot.uz",
+  "ogDescription": "Claude AI nima, rasmiy sayti va ilovalari, O‘zbekiston rasmiy ro‘yxatda bormi, ro‘yxatdan o‘tish tartibi, bepul reja, limitlar va 10 ta tayyor so‘rov.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/claude-ai-ozbekistonda/",
+  "hreflangUz": "/uz/blog/claude-ai-ozbekistonda/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Claude’dan o‘qish va ofis ishida foydalanmoqchi bo‘lgan talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "Claude AI qo‘llanma",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Anthropic — Supported Regions Policy",
+      "url": "https://www.anthropic.com/legal/supported-regions",
+      "note": "Claude.ai, ilovalar va API mavjud mamlakat va hududlar ro‘yxati; 2026-yil 12-noyabrdan kuchga kirgan tahrirda Uzbekistan bor; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude Help Center — Where can I access Claude?",
+      "url": "https://support.claude.com/en/articles/8461763-where-can-i-access-claude",
+      "note": "Yordam markazidagi mamlakatlar ro‘yxati: Uzbekistan, Kazakhstan, Kyrgyzstan, Tajikistan va Turkmenistan bor; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude Help Center — Get started with Claude",
+      "url": "https://support.claude.com/en/articles/8114491-get-started-with-claude",
+      "note": "Claude ta’rifi, claude.ai manzili va ilovalar, 18 yosh sharti, tillar haqidagi izoh, bepul rejadagi besh soatlik limit; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude Help Center — Log in to your Claude account",
+      "url": "https://support.claude.com/en/articles/13189465-log-in-to-your-claude-account",
+      "note": "Kirishning ikki yo‘li: «Continue with Google» va «Continue with email» (xatdagi havola); 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude Help Center — Verify your phone number",
+      "url": "https://support.claude.com/en/articles/8287232-verify-your-phone-number",
+      "note": "Telefon raqamini tasdiqlash shartligi, qabul qilinmaydigan raqam turlari, bitta raqamga uchta hisob chegarasi, kod kelmaganda nima qilish; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude — Plans & pricing",
+      "url": "https://claude.com/pricing",
+      "note": "Free, Pro, Max va Ultra rejalari, bepul rejaga nimalar kirishi va rejalarni solishtirish jadvali. Narxlar sahifamizda keltirilmagan; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude — Download",
+      "url": "https://claude.com/download",
+      "note": "Windows va macOS dasturlari, iPhone va Android ilovalariga havolalar; ilovalar barcha rejalarda, jumladan bepul rejada ham mavjud; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude Help Center — How do usage and length limits work?",
+      "url": "https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work",
+      "note": "Besh soatlik va haftalik limitlar, Settings → Usage bo‘limi, suhbat sig‘imi (kontekst oynasi); 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude Help Center — How to use Claude in your preferred language",
+      "url": "https://support.claude.com/en/articles/10769299-how-to-use-claude-in-your-preferred-language",
+      "note": "Veb-versiya va kompyuter dasturi menyusi tillari (o‘zbek tili yo‘q); Claude foydalanuvchi yozgan tilda javob berishi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude Platform Docs — Multilingual support",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/multilingual-support",
+      "note": "Tillar bo‘yicha sinov jadvali (o‘zbek tili yo‘q) va maslahatlar: tilni aniq aytish, matnni o‘z yozuvida kiritish; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Claude Help Center — Who can view my conversations?",
+      "url": "https://support.claude.com/en/articles/8325621-i-would-like-to-input-sensitive-data-into-my-chats-with-claude-who-can-view-my-conversations",
+      "note": "Suhbatlardan Claude’ni yaxshilashda foydalanish, maxfiylik sozlamalari, inkognito suhbatlar va sezgir ma’lumot bo‘yicha tavsiya; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Anthropic — Consumer Terms of Service",
+      "url": "https://www.anthropic.com/legal/consumer-terms",
+      "note": "Eng kichik yosh — 18, hisob ma’lumotlarini boshqalarga bermaslik, javoblar noaniq bo‘lishi mumkinligi haqidagi bandlar; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Google Play — Claude by Anthropic",
+      "url": "https://play.google.com/store/apps/details?id=com.anthropic.claude",
+      "note": "Android uchun rasmiy ilova, ishlab chiquvchi — Anthropic PBC; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Apple App Store — Claude by Anthropic",
+      "url": "https://apps.apple.com/uz/app/claude-by-anthropic/id6473753684",
+      "note": "iPhone va iPad uchun rasmiy ilova App Store’ning O‘zbekiston bo‘limida; ishlab chiquvchi — Anthropic PBC, yosh belgisi 18+; 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

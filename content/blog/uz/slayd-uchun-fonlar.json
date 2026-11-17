@@ -1,0 +1,434 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "slayd-uchun-fonlar",
+  "url": "/uz/blog/slayd-uchun-fonlar/",
+  "title": "Slayd uchun fon: 24 ta bepul fon, JPG va PPTX | GPTBot.uz",
+  "description": "Slayd uchun fon kerakmi? 24 ta original 16:9 fonni mavzu bo‘yicha yuklab oling, PowerPoint, Google Slides va telefonda o‘rnatishni, kontrast qoidalarini o‘qing.",
+  "h1": "Prezentatsiya uchun tayyor fonlar: maktab, tabiat, fan, biznes, bayram",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/taqdimot-ai/",
+  "keywords": [
+    "slayd uchun fon",
+    "slayd uchun fonlar",
+    "prezentatsiya uchun fon",
+    "slayd fon",
+    "taqdimot uchun fon",
+    "powerpoint shablon",
+    "фон для презентации"
+  ],
+  "intro": "Bu sahifada slayd uchun 24 ta tayyor fon bor: oltita mavzu, har birida to‘rttadan. Barchasi 16:9 (1920×1080) JPG, har biri alohida yuklab olinadi, hammasi bitta PPTX faylda ham beriladi. Ro‘yxatdan o‘tish talab qilinmaydi. Quyida fonni PowerPoint, Google Slides va telefonda qo‘yish, matn o‘qilishi uchun kontrast qoidalari ham bor.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fonlar GPTBot.uz uchun original chizilgan: fotosurat, logotip, shrift yoki yozuv yo‘q, faqat gradient, geometrik shakl va yengil naqsh. Har bir fonda sarlavha uchun tinch joy qoldirilgan. Rasm o‘lchami 1920×1080 piksel, har bir fayl 300 KB dan kichik, shuning uchun telefonda tez yuklanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Hammasini birdan olish uchun: {pptx}. Faylda 24 ta slayd bor, har birida bitta fon slayd foni sifatida o‘rnatilgan; kerakli slaydni nusxalab, o‘z taqdimotingizga ko‘chirasiz.",
+      "links": [
+        {
+          "token": "pptx",
+          "target": "/downloads/docs-20261117/slayd-fonlar-24.pptx",
+          "anchor": "24 ta fonli PPTX faylni yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "fonlar-royxati",
+      "text": "24 ta fon: mavzu bo‘yicha yuklab olish"
+    },
+    {
+      "type": "p",
+      "text": "Har bir havola yonida tavsiya etilgan matn rangi yozilgan. «To‘q matn» deganda fon och, «oq matn» deganda fon to‘q ekani ko‘zda tutiladi. Tanlashda mavzuga qarang, keyin sarlavhangiz fon ustida o‘qilishini tekshiring."
+    },
+    {
+      "type": "h3",
+      "id": "maktab",
+      "text": "Maktab mavzusidagi fonlar"
+    },
+    {
+      "type": "linkp",
+      "text": "1. {f01} (to‘q matn). 2. {f02} (oq matn): yashil doska, yog‘och ramka, o‘ng tomonda bo‘r bilan chizilgan shakllar va grafik. 3. {f03} (to‘q matn). 4. {f04} (to‘q matn).",
+      "links": [
+        {
+          "token": "f01",
+          "target": "/downloads/docs-20261117/slayd-fon-01.jpg",
+          "anchor": "Katak daftar fonini yuklab olish"
+        },
+        {
+          "token": "f02",
+          "target": "/downloads/docs-20261117/slayd-fon-02.jpg",
+          "anchor": "Yashil doska fonini yuklab olish"
+        },
+        {
+          "token": "f03",
+          "target": "/downloads/docs-20261117/slayd-fon-03.jpg",
+          "anchor": "Rangli shakllar fonini yuklab olish"
+        },
+        {
+          "token": "f04",
+          "target": "/downloads/docs-20261117/slayd-fon-04.jpg",
+          "anchor": "Chiziqli daftar fonini yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "tabiat",
+      "text": "Tabiat mavzusidagi fonlar"
+    },
+    {
+      "type": "linkp",
+      "text": "5. {f05} (to‘q matn). 6. {f06} (oq matn). 7. {f07} (to‘q matn). 8. {f08} (to‘q matn). Biologiya, geografiya va ekologiya ishlari uchun qulay.",
+      "links": [
+        {
+          "token": "f05",
+          "target": "/downloads/docs-20261117/slayd-fon-05.jpg",
+          "anchor": "Yashil adirlar fonini yuklab olish"
+        },
+        {
+          "token": "f06",
+          "target": "/downloads/docs-20261117/slayd-fon-06.jpg",
+          "anchor": "Tog‘da shom fonini yuklab olish"
+        },
+        {
+          "token": "f07",
+          "target": "/downloads/docs-20261117/slayd-fon-07.jpg",
+          "anchor": "Barglar fonini yuklab olish"
+        },
+        {
+          "token": "f08",
+          "target": "/downloads/docs-20261117/slayd-fon-08.jpg",
+          "anchor": "To‘lqinlar fonini yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "fan",
+      "text": "Fan mavzusidagi fonlar"
+    },
+    {
+      "type": "linkp",
+      "text": "9. {f09} (oq matn). 10. {f10} (oq matn). 11. {f11} (to‘q matn). 12. {f12} (oq matn). Fizika, kimyo, informatika va astronomiya uchun.",
+      "links": [
+        {
+          "token": "f09",
+          "target": "/downloads/docs-20261117/slayd-fon-09.jpg",
+          "anchor": "Molekulalar fonini yuklab olish"
+        },
+        {
+          "token": "f10",
+          "target": "/downloads/docs-20261117/slayd-fon-10.jpg",
+          "anchor": "Chizma fonini yuklab olish"
+        },
+        {
+          "token": "f11",
+          "target": "/downloads/docs-20261117/slayd-fon-11.jpg",
+          "anchor": "Atom fonini yuklab olish"
+        },
+        {
+          "token": "f12",
+          "target": "/downloads/docs-20261117/slayd-fon-12.jpg",
+          "anchor": "Koinot fonini yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "biznes",
+      "text": "Biznes mavzusidagi fonlar"
+    },
+    {
+      "type": "linkp",
+      "text": "13. {f13} (to‘q matn). 14. {f14} (oq matn): to‘q grafit fon, burchaklarda va diagonal oltin chiziqlar. 15. {f15} (to‘q matn). 16. {f16} (oq matn). Hisobot, startap va xizmat taqdimoti uchun.",
+      "links": [
+        {
+          "token": "f13",
+          "target": "/downloads/docs-20261117/slayd-fon-13.jpg",
+          "anchor": "Diagonal chiziqlar fonini yuklab olish"
+        },
+        {
+          "token": "f14",
+          "target": "/downloads/docs-20261117/slayd-fon-14.jpg",
+          "anchor": "Grafit va oltin fonini yuklab olish"
+        },
+        {
+          "token": "f15",
+          "target": "/downloads/docs-20261117/slayd-fon-15.jpg",
+          "anchor": "Ustunli diagramma fonini yuklab olish"
+        },
+        {
+          "token": "f16",
+          "target": "/downloads/docs-20261117/slayd-fon-16.jpg",
+          "anchor": "Ko‘k qatlamlar fonini yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "bayram",
+      "text": "Bayram mavzusidagi fonlar"
+    },
+    {
+      "type": "linkp",
+      "text": "17. {f17} (to‘q matn). 18. {f18} (oq matn). 19. {f19} (to‘q matn). 20. {f20} (to‘q matn). Tabrik, bayram tadbiri va sinf soati uchun.",
+      "links": [
+        {
+          "token": "f17",
+          "target": "/downloads/docs-20261117/slayd-fon-17.jpg",
+          "anchor": "Konfetti fonini yuklab olish"
+        },
+        {
+          "token": "f18",
+          "target": "/downloads/docs-20261117/slayd-fon-18.jpg",
+          "anchor": "Qish kechasi fonini yuklab olish"
+        },
+        {
+          "token": "f19",
+          "target": "/downloads/docs-20261117/slayd-fon-19.jpg",
+          "anchor": "Bahor lolalari fonini yuklab olish"
+        },
+        {
+          "token": "f20",
+          "target": "/downloads/docs-20261117/slayd-fon-20.jpg",
+          "anchor": "Bayroqchalar va sharlar fonini yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "minimal",
+      "text": "Minimal fonlar"
+    },
+    {
+      "type": "linkp",
+      "text": "21. {f21} (to‘q matn). 22. {f22} (to‘q matn). 23. {f23} (oq matn). 24. {f24} (to‘q matn). Matni ko‘p slaydlar va jadval uchun eng xavfsiz tanlov.",
+      "links": [
+        {
+          "token": "f21",
+          "target": "/downloads/docs-20261117/slayd-fon-21.jpg",
+          "anchor": "Oq fon va chiziqni yuklab olish"
+        },
+        {
+          "token": "f22",
+          "target": "/downloads/docs-20261117/slayd-fon-22.jpg",
+          "anchor": "Pastel gradient fonini yuklab olish"
+        },
+        {
+          "token": "f23",
+          "target": "/downloads/docs-20261117/slayd-fon-23.jpg",
+          "anchor": "To‘q minimal fonini yuklab olish"
+        },
+        {
+          "token": "f24",
+          "target": "/downloads/docs-20261117/slayd-fon-24.jpg",
+          "anchor": "Ikki rangli fonni yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "powerpoint",
+      "text": "Fonni PowerPoint’da qo‘yish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Slaydni oching va sichqonchaning o‘ng tugmasi bilan bo‘sh joyni bosing; «Format Background» (fonni formatlash) ni tanlang.",
+        "2. «Picture or texture fill» (rasm yoki tekstura bilan to‘ldirish) ni belgilang va «Insert» → «From a file» orqali yuklab olgan JPG faylni tanlang.",
+        "3. Barcha slaydlarda bir xil fon kerak bo‘lsa, «Apply to All» tugmasini bosing.",
+        "4. Fon ustidagi matn rangini shu sahifadagi tavsiyaga moslang."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Menyu nomlari PowerPoint versiyasiga qarab biroz farq qilishi mumkin. Tayyor 10 slaydli maktab shabloni umumiy qo‘llanmada: pastdagi havolaga qarang."
+    },
+    {
+      "type": "h2",
+      "id": "google-slides",
+      "text": "Fonni Google Slides’da qo‘yish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Slaydni oching, yuqoridagi «Slide» (slayd) menyusidan «Change background» (fonni o‘zgartirish) ni tanlang.",
+        "2. «Image» (rasm) tugmasi orqali «Choose image» → yuklab olgan JPG faylni tanlang.",
+        "3. «Done» ni bosing. Hamma slaydlarga qo‘llash uchun «Add to theme» (mavzuga qo‘shish) tugmasi bor.",
+        "4. Boshqa variant: «slayd uchun fon» faylini PPTX shaklda Google Drive’ga yuklab, Google Slides’da oching."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "telefonda",
+      "text": "Telefonda fon qo‘yish"
+    },
+    {
+      "type": "p",
+      "text": "Avval JPG faylni telefoningizga yuklab oling: u galereyaga yoki «Yuklamalar» papkasiga tushadi. Keyin Google Slides ilovasida (Android yoki iPhone) slaydni oching, uch nuqtali menyudan slayd sozlamalarini va fonni o‘zgartirish bandini toping, rasmni galereyadan tanlang. Ilova versiyasiga qarab bu band joyi farq qiladi. Agar topolmasangiz, rasmni slaydga oddiy rasm sifatida qo‘ying va butun slayd bo‘ylab cho‘zing: bu usul ham ishlaydi."
+    },
+    {
+      "type": "p",
+      "text": "Eng qulay yo‘l: 24 fonli PPTX faylni yuklab, ilovada oching va kerakli slaydni o‘z taqdimotingizga nusxalang."
+    },
+    {
+      "type": "h2",
+      "id": "kontrast",
+      "text": "Matn o‘qilishi uchun kontrast va soddalik qoidalari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Och fonda to‘q matn, to‘q fonda oq matn. Muhim ma’lumotni faqat rang bilan ajratmang.",
+        "Oddiy matn va fon orasidagi kontrast kamida 4,5:1 bo‘lsin (WCAG tavsiyasi). Bu sahifadagi fonlarning sarlavha zonasi shu talab bo‘yicha tekshirilgan: unda tavsiya etilgan matn rangi bilan kontrast 99 foiz piksel uchun kamida 4,5:1.",
+        "Shrift kamida 18 pt, Arial yoki Calibri kabi oddiy shrift.",
+        "Matnni fonning bo‘sh (tinch) qismiga joylang: naqsh va shakllar o‘ng tomonda yoki burchaklarda.",
+        "Rasmli fon ustiga uzun matn yozmang: ko‘p matnli slaydlarga minimal fonlardan birini qo‘ying.",
+        "Bitta taqdimotda 1–2 ta fon yetarli. Har slaydda boshqa fon qo‘yish diqqatni chalg‘itadi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kirill",
+      "lang": "uz-Cyrl",
+      "text": "Презентация учун фон: кирилл ёзувида қисқача"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Слайд ёки презентация учун фон керак бўлса, юқоридаги рўйхатдан мавзуни танланг ва JPG файлни юклаб олинг. Фонлар бепул, рўйхатдан ўтиш керак эмас. Матн ўқилиши учун очиқ фонда тўқ ранг, тўқ фонда оқ ранг ишлатинг."
+    },
+    {
+      "type": "linkp",
+      "text": "Taqdimotning o‘zini rejadan matngacha tayyorlash — {general} qo‘llanmasida. Agar tayyor qoralama kerak bo‘lsa, {tool} sahifasini oching, so‘ng fonni yuqoridagi usul bilan almashtiring. Gamma xizmatida taqdimot yaratish tartibi esa {gamma} maqolasida.",
+      "links": [
+        {
+          "token": "general",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "maktab shabloni va 10 slaydli tuzilma bilan"
+        },
+        {
+          "token": "tool",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "Taqdimot AI"
+        },
+        {
+          "token": "gamma",
+          "target": "/uz/blog/gamma-app-slayd-tayyorlash/",
+          "anchor": "Gamma app qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Taqdimot matnini AI bilan tayyorlash",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Slayd uchun fonni qayerdan bepul olish mumkin?",
+      "a": "Shu sahifadan: 24 ta original 16:9 fonni JPG shaklda alohida yoki bitta PPTX faylda yuklab olasiz. Ro‘yxatdan o‘tish talab qilinmaydi."
+    },
+    {
+      "q": "Fon o‘lchami qancha bo‘lishi kerak?",
+      "a": "Keng ekranli taqdimot uchun 16:9, ya’ni 1920×1080 piksel mos keladi. Bu sahifadagi fonlar shu o‘lchamda."
+    },
+    {
+      "q": "Fonni boshqa mualliflik huquqi bilan bog‘liq muammosiz ishlatsa bo‘ladimi?",
+      "a": "Bu sahifadagi fonlar GPTBot.uz uchun original chizilgan va fotosurat yoki logotip ichermaydi. Ularni o‘qish va ish taqdimotlarida ishlatishingiz mumkin. Internetdan olingan boshqa rasmlar uchun litsenziyani tekshiring."
+    },
+    {
+      "q": "Matn fonda o‘qilmasa nima qilish kerak?",
+      "a": "Matn rangini fonga qarama-qarshi qiling (och fonda to‘q, to‘q fonda oq), shriftni kattalashtiring yoki minimal fonlardan birini tanlang."
+    },
+    {
+      "q": "Fonni butun taqdimotga qanday qo‘yaman?",
+      "a": "PowerPoint’da «Format Background» oynasida «Apply to All», Google Slides’da fonni o‘zgartirish oynasida «Add to theme» bandidan foydalaning."
+    },
+    {
+      "q": "Telefonda fon qo‘yish mumkinmi?",
+      "a": "Ha. JPG faylni telefonga yuklab, Google Slides ilovasida slayd foni sifatida tanlang yoki rasmni slaydga cho‘zib qo‘ying. Eng oson yo‘l: PPTX fayldan kerakli slaydni nusxalash."
+    }
+  ],
+  "cta": {
+    "label": "Taqdimot matnini AI bilan tayyorlash",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "Maktab shabloni va 10 slaydli tuzilma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/taqdimot-ai/",
+      "anchor": "Taqdimot AI: tayyor qoralama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/gamma-app-slayd-tayyorlash/",
+      "anchor": "Gamma app qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: matn yozish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish tuzilmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Slayd uchun fon: 24 ta bepul fon, JPG va PPTX | GPTBot.uz",
+  "ogDescription": "24 ta original 16:9 slayd foni: maktab, tabiat, fan, biznes, bayram, minimal. JPG va PPTX, PowerPoint, Google Slides va telefonda o‘rnatish.",
+  "ogImage": "https://gptbot.uz/assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/slayd-uchun-fonlar/",
+  "hreflangUz": "/uz/blog/slayd-uchun-fonlar/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Slayd uchun fonlar",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Microsoft Support — Make your PowerPoint presentations accessible to people with disabilities",
+      "url": "https://support.microsoft.com/en-us/office/make-your-powerpoint-presentations-accessible-to-people-with-disabilities-6f7772b2-2f33-4bd2-8ca7-dae3b2b3ef25",
+      "note": "Shrift kamida 18 pt, Arial yoki Calibri kabi oddiy shrift, matn va fon o‘rtasida yetarli kontrast, ma’lumotni faqat rang bilan bermaslik; 2026-10-04 kuni tekshirilgan. PowerPoint va Google Slides’dagi fon menyularining nomlari tavsif sifatida berilgan va ilova versiyasiga qarab farq qilishi mumkin."
+    },
+    {
+      "title": "W3C — Understanding Success Criterion 1.4.3: Contrast (Minimum)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "note": "Oddiy matn uchun kamida 4,5:1 kontrast tavsiya qilinadi; sahifa ochib tekshirilmadi, qiymat WCAG standartidan ma’lum."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

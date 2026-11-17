@@ -11,7 +11,9 @@
   "keywords": [
     "bayonnoma namunasi",
     "bayonnoma namuna",
-    "yigilish bayonnomasi"
+    "yigilish bayonnomasi",
+    "pedagogik kengash bayonnomasi",
+    "pedagogik kengash bayonnomasi namuna"
   ],
   "intro": "Bayonnoma yig‘ilishda ko‘rilgan masala va qabul qilingan qarorlarni qayd etadi. Quyidagi namuna kichik ishchi guruh yig‘ilishi uchun: muhokama, mas’ul, muddat va tekshiriladigan natija bir-biridan ajratilgan.",
   "body": [
@@ -163,6 +165,83 @@
     },
     {
       "type": "h2",
+      "id": "pedagogik-kengash",
+      "text": "Pedagogik kengash bayonnomasi: 1-sonli to‘ldirilgan misol"
+    },
+    {
+      "type": "p",
+      "text": "Maktab pedagogik kengashi yig‘ilishining bayonnomasi oddiy ishchi yig‘ilish bayonnomasidan kengroq: unda rais va kotib, kengash a’zolari va qatnashganlar soni, har bir masala bo‘yicha «eshitildi», «so‘zga chiqdilar», «qaror qilindi» yozuvlari va ovoz berish natijasi bor. Quyida avgust yig‘ilishining 1-sonli bayonnomasi to‘liq berilgan. Ikkinchi sahifada tahrirlanadigan blanka ham bor."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261117/pedagogik-kengash-bayonnomasi.docx",
+          "anchor": "Pedagogik kengash bayonnomasi blankasini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261117/pedagogik-kengash-bayonnomasi.pdf",
+          "anchor": "Pedagogik kengash bayonnomasi namunasini PDF formatida ochish"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: maktab, raqamlar va qarorlar shartli; odamlar faqat lavozimi bilan ko‘rsatilgan. Haqiqiy yig‘ilish o‘tkazilgani da’vo qilinmaydi."
+    },
+    {
+      "type": "quote",
+      "text": "Shartli 00-sonli umumiy o‘rta ta’lim maktabi pedagogik kengashi yig‘ilishining 1-SONLI BAYONNOMASI · 27.08.2026 · maktab majlislar zali"
+    },
+    {
+      "type": "quote",
+      "text": "Rais: maktab direktori. Kotib: ona tili va adabiyot o‘qituvchisi. Kengash a’zolari: 36 nafar. Qatnashdi: 30 nafar (ro‘yxat ilova qilinadi) — yig‘ilish vakolatli. Taklif etilgan: ota-onalar qo‘mitasi raisi."
+    },
+    {
+      "type": "quote",
+      "text": "Kun tartibi: 1. 2025–2026 o‘quv yili yakunlari va 2026–2027 o‘quv yiliga tayyorgarlik. 2. Pedagogik kengashning 2026–2027 o‘quv yili ish rejasi. 3. To‘garaklar (darsdan tashqari mashg‘ulotlar) dasturlarini muhokama qilish va tasdiqlash."
+    },
+    {
+      "type": "quote",
+      "text": "1-masala. ESHITILDI: o‘quv ishlari bo‘yicha direktor o‘rinbosari o‘tgan o‘quv yili yakunlari va yangi o‘quv yiliga tayyorgarlik haqida axborot berdi. 24 ta sinf xonasidan 22 tasi tayyor, 2 tasida ta’mirlash davom etmoqda."
+    },
+    {
+      "type": "quote",
+      "text": "SO‘ZGA CHIQDILAR: matematika o‘qituvchisi 5–6-sinflar uchun matematikadan qo‘shimcha mashg‘ulot tashkil etishni taklif qildi. Ota-onalar qo‘mitasi raisi ta’mirlash qachon tugashini so‘radi."
+    },
+    {
+      "type": "quote",
+      "text": "QAROR QILINDI: 1.1. Axborot ma’lumot uchun qabul qilinsin. 1.2. Ikki sinf xonasining tayyorligi 31-avgust kuni qayta tekshirilsin. Mas’ul: maktab direktori. 1.3. 5–6-sinflar uchun matematikadan qo‘shimcha mashg‘ulotlar jadvali 5-sentabrgacha tuzilsin. Mas’ul: o‘quv ishlari bo‘yicha direktor o‘rinbosari. Ovoz berish: yoqlab — 30, qarshi — yo‘q, betaraf — yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "2-masala. ESHITILDI: maktab direktori pedagogik kengashning yillik ish rejasi loyihasini tanishtirdi: o‘quv yili davomida 5 ta navbatdagi yig‘ilish rejalashtirilgan. SO‘ZGA CHIQDILAR: ma’naviy-ma’rifiy ishlar bo‘yicha direktor o‘rinbosari o‘quvchilar davomati masalasini noyabr yig‘ilishining kun tartibiga qo‘shishni taklif qildi."
+    },
+    {
+      "type": "quote",
+      "text": "QAROR QILINDI: 2.1. Ish rejasi kiritilgan taklif bilan ma’qullansin va tasdiqlash uchun maktab direktoriga taqdim etilsin. Ovoz berish: yoqlab — 30, qarshi — yo‘q, betaraf — yo‘q."
+    },
+    {
+      "type": "quote",
+      "text": "3-masala. ESHITILDI: o‘quv ishlari bo‘yicha direktor o‘rinbosari 6 ta to‘garak dasturini tanishtirdi. SO‘ZGA CHIQDILAR: ingliz tili o‘qituvchisi to‘garak mashg‘ulotlari dars jadvaliga to‘g‘ri kelib qolmasligi kerakligini aytdi."
+    },
+    {
+      "type": "quote",
+      "text": "QAROR QILINDI: 3.1. 6 ta to‘garak dasturi tasdiqlansin. 3.2. To‘garaklar jadvali 5-sentabrgacha e’lon qilinsin. Mas’ul: o‘quv ishlari bo‘yicha direktor o‘rinbosari. Ovoz berish: yoqlab — 29, qarshi — yo‘q, betaraf — 1."
+    },
+    {
+      "type": "quote",
+      "text": "Ilova: qatnashganlar ro‘yxati, 1 varaq; ish rejasi loyihasi, 3 varaq. Pedagogik kengash raisi: imzo joyi. Pedagogik kengash kotibi: imzo joyi. Namunada imzo va muhr qo‘yilmagan."
+    },
+    {
+      "type": "p",
+      "text": "Bu tasdiqlangan rasmiy blanka emas. Maktabingizda pedagogik kengash nizomi yoki tayyor bayonnoma shakli bo‘lsa, o‘shandan foydalaning. Faqat yig‘ilishda haqiqatda aytilgan fikr va qabul qilingan qarorlarni yozing: qatnashmagan a’zoni, bo‘lmagan ovoz berishni yoki imzoni qo‘shmang. Har bir masala uchun uch qismni takrorlang: eshitildi, so‘zga chiqdilar, qaror qilindi; ovoz berish natijasi qarordan keyin turadi."
+    },
+    {
+      "type": "h2",
       "id": "tekshiruv",
       "text": "Yuborishdan oldin tekshiring"
     },
@@ -221,6 +300,14 @@
       "a": "Oddiy namunada rais va kotib uchun joy bor. Haqiqiy yig‘ilishda imzolovchilar va tasdiqlash tartibi tashkilot talabiga mos bo‘lishi kerak; tayyor faylda imzo yo‘q."
     },
     {
+      "q": "Pedagogik kengash bayonnomasida nimalar bo‘ladi?",
+      "a": "Maktab nomi va bayonnoma raqami, sana va joy, rais va kotib, kengash a’zolari hamda qatnashganlar soni, kun tartibi, har bir masala bo‘yicha «eshitildi», «so‘zga chiqdilar» va «qaror qilindi» yozuvlari, ovoz berish natijasi, ilova va imzolar. To‘ldirilgan 1-sonli misol va blanka shu sahifada. Maktabingizda tayyor shakl bo‘lsa, o‘shandan foydalaning."
+    },
+    {
+      "q": "Pedagogik kengash bayonnomasida ovoz berish natijasi yoziladimi?",
+      "a": "Qaror ovoz berish bilan qabul qilinsa, qarordan keyin «yoqlab, qarshi, betaraf» natijasi yoziladi. Yig‘ilishda ovoz berilmagan bo‘lsa, uni o‘ylab yozmang. Qaysi masala ovozga qo‘yilishi maktabingizdagi tartibga bog‘liq."
+    },
+    {
       "q": "Yig‘ilishdan keyin yozuvda xato topilsa nima qilinadi?",
       "a": "Qaysi band xato ekanini rais, kotib yoki tegishli mas’ul bilan aniqlashtiring. Qarorni o‘zingizcha o‘zgartirmang; tuzatish va yangi nusxani tasdiqlash tartibini tashkilotingizdan oling."
     }
@@ -273,7 +360,7 @@
   },
   "breadcrumbLabel": "Bayonnoma namuna",
   "datePublished": "2026-11-08",
-  "dateModified": "2026-11-08",
+  "dateModified": "2026-11-17",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -288,6 +375,6 @@
       "note": "Hujjat turlari va ish yuritish uslubi bo‘yicha o‘quv manbasi. Bu amaldagi majburiy blanka yoki huquqiy talablar ro‘yxati emas. Saytdagi to‘ldirilgan misollar mustaqil yozilgan."
     }
   ],
-  "updatedAt": "2026-11-08T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z",
   "createdAt": "2026-11-08T00:00:00.000Z"
 }

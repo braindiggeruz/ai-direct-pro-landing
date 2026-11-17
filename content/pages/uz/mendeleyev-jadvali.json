@@ -1,0 +1,1736 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/mendeleyev-jadvali/",
+  "slug": "mendeleyev-jadvali",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "10 ta «elementni toping» mashqi",
+      "prompt": "Menga davriy jadval bo‘yicha 10 ta «elementni toping» mashqini ber: har birida davr, guruh, tartib raqami yoki nisbiy atom massasi bo‘yicha belgilar bo‘lsin. Javoblarni darhol aytma: men javob beraman, sen tekshirib, xatolarimni tushuntirasan."
+    },
+    {
+      "label": "Elementni tartib raqami bo‘yicha top",
+      "prompt": "Davriy jadval bo‘yicha elementni topishni o‘rgat. Men tartib raqamini aytaman, sen elementning belgisi, nomi, davri, guruhi va nisbiy atom massasini ayt, so‘ng shunday 5 ta savol ber. Tartib raqami: "
+    },
+    {
+      "label": "Valentlikni guruhdan top",
+      "prompt": "Guruh raqami bo‘yicha yuqori valentlik, yuqori oksid va vodorodli birikma formulasini topishni misollar bilan tushuntir. Keyin menga 6 ta element ber: formulalarni o‘zim yozaman, sen tekshirasan. Element: "
+    },
+    {
+      "label": "Metall yoki metallmas?",
+      "prompt": "Menga 12 ta elementni ber: metall, metallmas yoki nodir gazligini o‘zim aniqlayman va nega shunday deganimni yozaman. Keyin javoblarimni jadvaldagi o‘rniga qarab tekshirib, xatolarimni tushuntir."
+    },
+    {
+      "label": "Yodlashga savol-javob",
+      "prompt": "Davriy jadvalning birinchi 20 ta elementini yodlashga yordam ber: belgi, nom va tartib raqami bo‘yicha aralash 10 ta savol ber. Bitta-bitta so‘ra, men javob bergandan keyin tekshir va keyingisiga o‘t."
+    },
+    {
+      "label": "Atom massasini yaxlitlash",
+      "prompt": "Masalalarda nisbiy atom massasi qanday yaxlitlanishini tushuntir: xlor 35,5 bo‘lishining sababi nima? Keyin menga molyar massa topish bo‘yicha 5 ta oddiy misol ber, javoblarni men yozganimdan keyin tekshir."
+    }
+  ],
+  "primaryKeyword": "mendeleyev jadvali",
+  "secondaryKeywords": [
+    "mendeleyev davriy jadvali",
+    "kimyoviy elementlar jadvali",
+    "kimyoviy elementlar davriy sistemasi",
+    "davriy jadval",
+    "davriy jadval o‘zbek tilida",
+    "mendeleyev jadvali pdf",
+    "kimyoviy elementlar nomlari"
+  ],
+  "searchIntent": "informational",
+  "h1": "Kimyoviy elementlar davriy jadvali o‘zbek tilida: nomlari va atom massalari",
+  "title": "Mendeleyev jadvali: 118 element, davr, guruh va PDF",
+  "description": "Mendeleyev jadvali: 118 element, nisbiy atom massalari, valentlik, 10 mashq va PDF. AI o‘qituvchi: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/mendeleyev-jadvali/",
+  "hreflangUz": "/uz/mendeleyev-jadvali/",
+  "hreflangXDefault": "/uz/mendeleyev-jadvali/",
+  "ogTitle": "Mendeleyev jadvali: 118 element, davr, guruh va PDF",
+  "ogDescription": "Mendeleyev jadvali: 118 element, nisbiy atom massalari, valentlik, 10 mashq va PDF. AI o‘qituvchi: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Mendeleyev jadvali",
+  "heroTitle": "Mendeleyev jadvali: 118 element, davr va guruh, PDF",
+  "heroSubtitle": "Jadval, mashqlar va PDF bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Mendeleyev jadvali — kimyoviy elementlar davriy jadvali: 118 elementning tartib raqami, belgisi, nomi va nisbiy atom massasi bitta tizimda. Bu sahifada jadval o‘zbek tilida berilgan: har bir davr alohida jadval bo‘lib, hammasi 118 ta element; jadvalni qanday o‘qish, metall va metallmaslarni ajratish, guruh raqamidan valentlikni topish, o‘nta «elementni toping» mashqi va yodlash usullari ham bor. Katta A4 jadvalni PDF qilib yuklab oling."
+    },
+    {
+      "type": "p",
+      "text": "Jadval, mashqlar va PDF bepul. Savol bo‘yicha AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-oqiladi",
+      "text": "Davriy jadvalni qanday o‘qish"
+    },
+    {
+      "type": "p",
+      "text": "Jadvalda to‘rtta asosiy tushuncha bor. Ularni bilsangiz, har qanday elementning o‘rnini va asosiy xossalarini topasiz."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tartib raqami — elementning jadvaldagi raqami. U atom yadrosidagi protonlar soniga teng. Masalan, temirning tartib raqami 26: yadroda 26 ta proton bor.",
+        "Davr — jadvalning gorizontal qatori. 7 ta davr bor: 1-davrda 2 ta, 2- va 3-davrlarda 8 tadan, 4- va 5-davrlarda 18 tadan, 6- va 7-davrlarda 32 tadan element.",
+        "Guruh — tik ustun. IUPAC jadvalida 1 dan 18 gacha raqamlanadi; maktab darsliklaridagi qisqa shaklda esa guruh rim raqami bilan yoziladi va A (bosh) yoki B (yonaki) guruhchaga bo‘linadi. Shu sahifada ikkalasi ham berilgan: masalan, «17 (VIIA)».",
+        "Nisbiy atom massasi — element atomining massasi uglerod-12 atomi massasining 1/12 qismiga nisbatan necha marta og‘irligini ko‘rsatadi. Birligi yo‘q. Barqaror izotopi yo‘q elementlarda massa kvadrat qavsda yoziladi: [97] — texnetsiy-97 izotopining massa soni."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Misol: temir (Fe). Tartib raqami 26, 4-davr, 8-guruh (VIIIB), nisbiy atom massasi 55,845. Tartib raqami bo‘yicha davrni ham aniqlash mumkin: 19 dan 36 gacha — 4-davr, 37 dan 54 gacha — 5-davr, 55 dan 86 gacha — 6-davr, 87 dan 118 gacha — 7-davr."
+    },
+    {
+      "type": "p",
+      "text": "Lantanoidlar (57–71) va aktinoidlar (89–103) 6- va 7-davrga tegishli. Jadval juda keng bo‘lib ketmasligi uchun ular PDF’da alohida ikki qatorda, ro‘yxatlarda esa o‘z davrida berilgan; guruh ustunida «lantanoid» yoki «aktinoid» deb yozilgan."
+    },
+    {
+      "type": "h2",
+      "id": "elementlar",
+      "text": "118 element: davrlar bo‘yicha jadvallar"
+    },
+    {
+      "type": "p",
+      "text": "Har bir qatorda tartib raqami, kimyoviy belgi, o‘zbekcha nom, lotincha nom, nisbiy atom massasi va guruh. Massalar uchta kasr xonagacha yaxlitlangan, verguldan keyin. Kvadrat qavsdagi son — eng uzoq yashaydigan izotopning massa soni. Lotincha nomlar maktab jadvallaridagi an’anaviy nomlar (kimyoviy belgi shulardan olingan: Fe — ferrum)."
+    },
+    {
+      "type": "h3",
+      "id": "davr-1",
+      "text": "1-davr: 2 ta element"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tartib raqami",
+        "Belgi",
+        "O‘zbekcha nomi",
+        "Lotincha nomi",
+        "Nisbiy atom massasi",
+        "Guruh"
+      ],
+      "rows": [
+        [
+          "1",
+          "H",
+          "Vodorod",
+          "Hydrogenium",
+          "1,008",
+          "1 (IA)"
+        ],
+        [
+          "2",
+          "He",
+          "Geliy",
+          "Helium",
+          "4,003",
+          "18 (VIIIA)"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "davr-2",
+      "text": "2-davr: 8 ta element"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tartib raqami",
+        "Belgi",
+        "O‘zbekcha nomi",
+        "Lotincha nomi",
+        "Nisbiy atom massasi",
+        "Guruh"
+      ],
+      "rows": [
+        [
+          "3",
+          "Li",
+          "Litiy",
+          "Lithium",
+          "6,94",
+          "1 (IA)"
+        ],
+        [
+          "4",
+          "Be",
+          "Berilliy",
+          "Beryllium",
+          "9,012",
+          "2 (IIA)"
+        ],
+        [
+          "5",
+          "B",
+          "Bor",
+          "Borum",
+          "10,81",
+          "13 (IIIA)"
+        ],
+        [
+          "6",
+          "C",
+          "Uglerod",
+          "Carboneum",
+          "12,011",
+          "14 (IVA)"
+        ],
+        [
+          "7",
+          "N",
+          "Azot",
+          "Nitrogenium",
+          "14,007",
+          "15 (VA)"
+        ],
+        [
+          "8",
+          "O",
+          "Kislorod",
+          "Oxygenium",
+          "15,999",
+          "16 (VIA)"
+        ],
+        [
+          "9",
+          "F",
+          "Ftor",
+          "Fluorum",
+          "18,998",
+          "17 (VIIA)"
+        ],
+        [
+          "10",
+          "Ne",
+          "Neon",
+          "Neon",
+          "20,180",
+          "18 (VIIIA)"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "davr-3",
+      "text": "3-davr: 8 ta element"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tartib raqami",
+        "Belgi",
+        "O‘zbekcha nomi",
+        "Lotincha nomi",
+        "Nisbiy atom massasi",
+        "Guruh"
+      ],
+      "rows": [
+        [
+          "11",
+          "Na",
+          "Natriy",
+          "Natrium",
+          "22,990",
+          "1 (IA)"
+        ],
+        [
+          "12",
+          "Mg",
+          "Magniy",
+          "Magnesium",
+          "24,305",
+          "2 (IIA)"
+        ],
+        [
+          "13",
+          "Al",
+          "Alyuminiy",
+          "Aluminium",
+          "26,982",
+          "13 (IIIA)"
+        ],
+        [
+          "14",
+          "Si",
+          "Kremniy",
+          "Silicium",
+          "28,085",
+          "14 (IVA)"
+        ],
+        [
+          "15",
+          "P",
+          "Fosfor",
+          "Phosphorus",
+          "30,974",
+          "15 (VA)"
+        ],
+        [
+          "16",
+          "S",
+          "Oltingugurt",
+          "Sulfur",
+          "32,06",
+          "16 (VIA)"
+        ],
+        [
+          "17",
+          "Cl",
+          "Xlor",
+          "Chlorum",
+          "35,45",
+          "17 (VIIA)"
+        ],
+        [
+          "18",
+          "Ar",
+          "Argon",
+          "Argon",
+          "39,95",
+          "18 (VIIIA)"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "davr-4",
+      "text": "4-davr: 18 ta element"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tartib raqami",
+        "Belgi",
+        "O‘zbekcha nomi",
+        "Lotincha nomi",
+        "Nisbiy atom massasi",
+        "Guruh"
+      ],
+      "rows": [
+        [
+          "19",
+          "K",
+          "Kaliy",
+          "Kalium",
+          "39,098",
+          "1 (IA)"
+        ],
+        [
+          "20",
+          "Ca",
+          "Kalsiy",
+          "Calcium",
+          "40,078",
+          "2 (IIA)"
+        ],
+        [
+          "21",
+          "Sc",
+          "Skandiy",
+          "Scandium",
+          "44,956",
+          "3 (IIIB)"
+        ],
+        [
+          "22",
+          "Ti",
+          "Titan",
+          "Titanium",
+          "47,867",
+          "4 (IVB)"
+        ],
+        [
+          "23",
+          "V",
+          "Vanadiy",
+          "Vanadium",
+          "50,942",
+          "5 (VB)"
+        ],
+        [
+          "24",
+          "Cr",
+          "Xrom",
+          "Chromium",
+          "51,996",
+          "6 (VIB)"
+        ],
+        [
+          "25",
+          "Mn",
+          "Marganes",
+          "Manganum",
+          "54,938",
+          "7 (VIIB)"
+        ],
+        [
+          "26",
+          "Fe",
+          "Temir",
+          "Ferrum",
+          "55,845",
+          "8 (VIIIB)"
+        ],
+        [
+          "27",
+          "Co",
+          "Kobalt",
+          "Cobaltum",
+          "58,933",
+          "9 (VIIIB)"
+        ],
+        [
+          "28",
+          "Ni",
+          "Nikel",
+          "Niccolum",
+          "58,693",
+          "10 (VIIIB)"
+        ],
+        [
+          "29",
+          "Cu",
+          "Mis",
+          "Cuprum",
+          "63,546",
+          "11 (IB)"
+        ],
+        [
+          "30",
+          "Zn",
+          "Rux",
+          "Zincum",
+          "65,38",
+          "12 (IIB)"
+        ],
+        [
+          "31",
+          "Ga",
+          "Galliy",
+          "Gallium",
+          "69,723",
+          "13 (IIIA)"
+        ],
+        [
+          "32",
+          "Ge",
+          "Germaniy",
+          "Germanium",
+          "72,630",
+          "14 (IVA)"
+        ],
+        [
+          "33",
+          "As",
+          "Mishyak (margimush)",
+          "Arsenicum",
+          "74,922",
+          "15 (VA)"
+        ],
+        [
+          "34",
+          "Se",
+          "Selen",
+          "Selenium",
+          "78,971",
+          "16 (VIA)"
+        ],
+        [
+          "35",
+          "Br",
+          "Brom",
+          "Bromum",
+          "79,904",
+          "17 (VIIA)"
+        ],
+        [
+          "36",
+          "Kr",
+          "Kripton",
+          "Krypton",
+          "83,798",
+          "18 (VIIIA)"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "davr-5",
+      "text": "5-davr: 18 ta element"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tartib raqami",
+        "Belgi",
+        "O‘zbekcha nomi",
+        "Lotincha nomi",
+        "Nisbiy atom massasi",
+        "Guruh"
+      ],
+      "rows": [
+        [
+          "37",
+          "Rb",
+          "Rubidiy",
+          "Rubidium",
+          "85,468",
+          "1 (IA)"
+        ],
+        [
+          "38",
+          "Sr",
+          "Stronsiy",
+          "Strontium",
+          "87,62",
+          "2 (IIA)"
+        ],
+        [
+          "39",
+          "Y",
+          "Ittriy",
+          "Yttrium",
+          "88,906",
+          "3 (IIIB)"
+        ],
+        [
+          "40",
+          "Zr",
+          "Sirkoniy",
+          "Zirconium",
+          "91,222",
+          "4 (IVB)"
+        ],
+        [
+          "41",
+          "Nb",
+          "Niobiy",
+          "Niobium",
+          "92,906",
+          "5 (VB)"
+        ],
+        [
+          "42",
+          "Mo",
+          "Molibden",
+          "Molybdaenum",
+          "95,95",
+          "6 (VIB)"
+        ],
+        [
+          "43",
+          "Tc",
+          "Texnetsiy",
+          "Technetium",
+          "[97]",
+          "7 (VIIB)"
+        ],
+        [
+          "44",
+          "Ru",
+          "Ruteniy",
+          "Ruthenium",
+          "101,07",
+          "8 (VIIIB)"
+        ],
+        [
+          "45",
+          "Rh",
+          "Rodiy",
+          "Rhodium",
+          "102,91",
+          "9 (VIIIB)"
+        ],
+        [
+          "46",
+          "Pd",
+          "Palladiy",
+          "Palladium",
+          "106,42",
+          "10 (VIIIB)"
+        ],
+        [
+          "47",
+          "Ag",
+          "Kumush",
+          "Argentum",
+          "107,87",
+          "11 (IB)"
+        ],
+        [
+          "48",
+          "Cd",
+          "Kadmiy",
+          "Cadmium",
+          "112,41",
+          "12 (IIB)"
+        ],
+        [
+          "49",
+          "In",
+          "Indiy",
+          "Indium",
+          "114,82",
+          "13 (IIIA)"
+        ],
+        [
+          "50",
+          "Sn",
+          "Qalay",
+          "Stannum",
+          "118,71",
+          "14 (IVA)"
+        ],
+        [
+          "51",
+          "Sb",
+          "Surma",
+          "Stibium",
+          "121,76",
+          "15 (VA)"
+        ],
+        [
+          "52",
+          "Te",
+          "Tellur",
+          "Tellurium",
+          "127,60",
+          "16 (VIA)"
+        ],
+        [
+          "53",
+          "I",
+          "Yod",
+          "Iodum",
+          "126,90",
+          "17 (VIIA)"
+        ],
+        [
+          "54",
+          "Xe",
+          "Ksenon",
+          "Xenon",
+          "131,29",
+          "18 (VIIIA)"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "davr-6",
+      "text": "6-davr: 32 ta element"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tartib raqami",
+        "Belgi",
+        "O‘zbekcha nomi",
+        "Lotincha nomi",
+        "Nisbiy atom massasi",
+        "Guruh"
+      ],
+      "rows": [
+        [
+          "55",
+          "Cs",
+          "Seziy",
+          "Caesium",
+          "132,91",
+          "1 (IA)"
+        ],
+        [
+          "56",
+          "Ba",
+          "Bariy",
+          "Barium",
+          "137,33",
+          "2 (IIA)"
+        ],
+        [
+          "57",
+          "La",
+          "Lantan",
+          "Lanthanum",
+          "138,91",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "58",
+          "Ce",
+          "Seriy",
+          "Cerium",
+          "140,12",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "59",
+          "Pr",
+          "Prazeodim",
+          "Praseodymium",
+          "140,91",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "60",
+          "Nd",
+          "Neodim",
+          "Neodymium",
+          "144,24",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "61",
+          "Pm",
+          "Prometiy",
+          "Promethium",
+          "[145]",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "62",
+          "Sm",
+          "Samariy",
+          "Samarium",
+          "150,36",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "63",
+          "Eu",
+          "Yevropiy",
+          "Europium",
+          "151,96",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "64",
+          "Gd",
+          "Gadoliniy",
+          "Gadolinium",
+          "157,25",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "65",
+          "Tb",
+          "Terbiy",
+          "Terbium",
+          "158,93",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "66",
+          "Dy",
+          "Disproziy",
+          "Dysprosium",
+          "162,50",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "67",
+          "Ho",
+          "Golmiy",
+          "Holmium",
+          "164,93",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "68",
+          "Er",
+          "Erbiy",
+          "Erbium",
+          "167,26",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "69",
+          "Tm",
+          "Tuliy",
+          "Thulium",
+          "168,93",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "70",
+          "Yb",
+          "Itterbiy",
+          "Ytterbium",
+          "173,05",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "71",
+          "Lu",
+          "Lyutetsiy",
+          "Lutetium",
+          "174,97",
+          "lantanoid (IIIB)"
+        ],
+        [
+          "72",
+          "Hf",
+          "Gafniy",
+          "Hafnium",
+          "178,49",
+          "4 (IVB)"
+        ],
+        [
+          "73",
+          "Ta",
+          "Tantal",
+          "Tantalum",
+          "180,95",
+          "5 (VB)"
+        ],
+        [
+          "74",
+          "W",
+          "Volfram",
+          "Wolframium",
+          "183,84",
+          "6 (VIB)"
+        ],
+        [
+          "75",
+          "Re",
+          "Reniy",
+          "Rhenium",
+          "186,21",
+          "7 (VIIB)"
+        ],
+        [
+          "76",
+          "Os",
+          "Osmiy",
+          "Osmium",
+          "190,23",
+          "8 (VIIIB)"
+        ],
+        [
+          "77",
+          "Ir",
+          "Iridiy",
+          "Iridium",
+          "192,22",
+          "9 (VIIIB)"
+        ],
+        [
+          "78",
+          "Pt",
+          "Platina",
+          "Platinum",
+          "195,08",
+          "10 (VIIIB)"
+        ],
+        [
+          "79",
+          "Au",
+          "Oltin",
+          "Aurum",
+          "196,97",
+          "11 (IB)"
+        ],
+        [
+          "80",
+          "Hg",
+          "Simob",
+          "Hydrargyrum",
+          "200,59",
+          "12 (IIB)"
+        ],
+        [
+          "81",
+          "Tl",
+          "Talliy",
+          "Thallium",
+          "204,38",
+          "13 (IIIA)"
+        ],
+        [
+          "82",
+          "Pb",
+          "Qo‘rg‘oshin",
+          "Plumbum",
+          "207,2",
+          "14 (IVA)"
+        ],
+        [
+          "83",
+          "Bi",
+          "Vismut",
+          "Bismuthum",
+          "208,98",
+          "15 (VA)"
+        ],
+        [
+          "84",
+          "Po",
+          "Poloniy",
+          "Polonium",
+          "[209]",
+          "16 (VIA)"
+        ],
+        [
+          "85",
+          "At",
+          "Astat",
+          "Astatum",
+          "[210]",
+          "17 (VIIA)"
+        ],
+        [
+          "86",
+          "Rn",
+          "Radon",
+          "Radon",
+          "[222]",
+          "18 (VIIIA)"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "davr-7",
+      "text": "7-davr: 32 ta element"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tartib raqami",
+        "Belgi",
+        "O‘zbekcha nomi",
+        "Lotincha nomi",
+        "Nisbiy atom massasi",
+        "Guruh"
+      ],
+      "rows": [
+        [
+          "87",
+          "Fr",
+          "Fransiy",
+          "Francium",
+          "[223]",
+          "1 (IA)"
+        ],
+        [
+          "88",
+          "Ra",
+          "Radiy",
+          "Radium",
+          "[226]",
+          "2 (IIA)"
+        ],
+        [
+          "89",
+          "Ac",
+          "Aktiniy",
+          "Actinium",
+          "[227]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "90",
+          "Th",
+          "Toriy",
+          "Thorium",
+          "232,04",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "91",
+          "Pa",
+          "Protaktiniy",
+          "Protactinium",
+          "231,04",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "92",
+          "U",
+          "Uran",
+          "Uranium",
+          "238,03",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "93",
+          "Np",
+          "Neptuniy",
+          "Neptunium",
+          "[237]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "94",
+          "Pu",
+          "Plutoniy",
+          "Plutonium",
+          "[244]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "95",
+          "Am",
+          "Ameritsiy",
+          "Americium",
+          "[243]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "96",
+          "Cm",
+          "Kyuriy",
+          "Curium",
+          "[247]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "97",
+          "Bk",
+          "Berkliy",
+          "Berkelium",
+          "[247]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "98",
+          "Cf",
+          "Kaliforniy",
+          "Californium",
+          "[251]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "99",
+          "Es",
+          "Eynshteyniy",
+          "Einsteinium",
+          "[252]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "100",
+          "Fm",
+          "Fermiy",
+          "Fermium",
+          "[257]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "101",
+          "Md",
+          "Mendeleviy",
+          "Mendelevium",
+          "[258]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "102",
+          "No",
+          "Nobeliy",
+          "Nobelium",
+          "[259]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "103",
+          "Lr",
+          "Lourensiy",
+          "Lawrencium",
+          "[262]",
+          "aktinoid (IIIB)"
+        ],
+        [
+          "104",
+          "Rf",
+          "Rezerfordiy",
+          "Rutherfordium",
+          "[267]",
+          "4 (IVB)"
+        ],
+        [
+          "105",
+          "Db",
+          "Dubniy",
+          "Dubnium",
+          "[268]",
+          "5 (VB)"
+        ],
+        [
+          "106",
+          "Sg",
+          "Siborgiy",
+          "Seaborgium",
+          "[269]",
+          "6 (VIB)"
+        ],
+        [
+          "107",
+          "Bh",
+          "Boriy",
+          "Bohrium",
+          "[270]",
+          "7 (VIIB)"
+        ],
+        [
+          "108",
+          "Hs",
+          "Xassiy",
+          "Hassium",
+          "[269]",
+          "8 (VIIIB)"
+        ],
+        [
+          "109",
+          "Mt",
+          "Meytneriy",
+          "Meitnerium",
+          "[277]",
+          "9 (VIIIB)"
+        ],
+        [
+          "110",
+          "Ds",
+          "Darmshtadtiy",
+          "Darmstadtium",
+          "[281]",
+          "10 (VIIIB)"
+        ],
+        [
+          "111",
+          "Rg",
+          "Rentgeniy",
+          "Roentgenium",
+          "[282]",
+          "11 (IB)"
+        ],
+        [
+          "112",
+          "Cn",
+          "Kopernitsiy",
+          "Copernicium",
+          "[285]",
+          "12 (IIB)"
+        ],
+        [
+          "113",
+          "Nh",
+          "Nihoniy",
+          "Nihonium",
+          "[286]",
+          "13 (IIIA)"
+        ],
+        [
+          "114",
+          "Fl",
+          "Fleroviy",
+          "Flerovium",
+          "[290]",
+          "14 (IVA)"
+        ],
+        [
+          "115",
+          "Mc",
+          "Moskoviy",
+          "Moscovium",
+          "[290]",
+          "15 (VA)"
+        ],
+        [
+          "116",
+          "Lv",
+          "Livermoriy",
+          "Livermorium",
+          "[293]",
+          "16 (VIA)"
+        ],
+        [
+          "117",
+          "Ts",
+          "Tennessin",
+          "Tennessine",
+          "[294]",
+          "17 (VIIA)"
+        ],
+        [
+          "118",
+          "Og",
+          "Oganesson",
+          "Oganesson",
+          "[294]",
+          "18 (VIIIA)"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "turlari",
+      "text": "Metallar, metallmaslar va nodir gazlar"
+    },
+    {
+      "type": "p",
+      "text": "Maktab tasnifida 118 elementning katta qismi metall. PDF’da metallar ko‘k, metallmaslar sariq, nodir gazlar yashil rangda berilgan."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tur",
+        "Soni",
+        "Jadvaldagi o‘rni"
+      ],
+      "rows": [
+        [
+          "Metallar",
+          "94",
+          "chap va o‘rta qismda, yonaki guruhchalarning hammasi, lantanoidlar va aktinoidlar"
+        ],
+        [
+          "Metallmaslar",
+          "16",
+          "jadvalning yuqori o‘ng qismida"
+        ],
+        [
+          "Nodir gazlar",
+          "6",
+          "18-guruh (VIIIA): geliy, neon, argon, kripton, ksenon, radon"
+        ],
+        [
+          "Xossalari tajribada o‘rganilmagan",
+          "2",
+          "117-tennessin va 118-oganesson"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Metallmaslar: vodorod (H), bor (B), uglerod (C), azot (N), kislorod (O), ftor (F), kremniy (Si), fosfor (P), oltingugurt (S), xlor (Cl), mishyak (As), selen (Se), brom (Br), tellur (Te), yod (I), astat (At). Metallarga xos belgilar — yaltiroqlik, elektr va issiqlik o‘tkazuvchanlik, yaxshi cho‘ziluvchanlik. Ba’zi darsliklarda mishyak, germaniy, surma kabi elementlar oraliq xossali (yarim metall) deb ham yuritiladi, shuning uchun sanoq darslikdan darslikka biroz farq qilishi mumkin: o‘qituvchingiz bergan tasnifga tayaning."
+    },
+    {
+      "type": "p",
+      "text": "Nodir gazlar: geliy (He), neon (Ne), argon (Ar), kripton (Kr), ksenon (Xe), radon (Rn). 117- va 118-elementlarning kimyoviy xossalari tajribada o‘rganilmagan, shuning uchun PDF’da ular rangsiz qoldirilgan."
+    },
+    {
+      "type": "p",
+      "text": "Jadvalda chapdan o‘ngga, davr bo‘ylab metallik xossalari kamayadi, metallmaslik xossalari kuchayadi; guruh bo‘ylab yuqoridan pastga metallik odatda ortadi. Masalan, 3-davrda natriy — kuchli metall, xlor — tipik metallmas."
+    },
+    {
+      "type": "h2",
+      "id": "valentlik",
+      "text": "Guruh raqamidan valentlikni qanday topish"
+    },
+    {
+      "type": "p",
+      "text": "Bosh guruhchalarda (A) elementning yuqori valentligi odatda guruh raqamiga teng. Metallmaslarda vodorodli birikmadagi valentlik 8 dan guruh raqamini ayirib topiladi. Jadvaldagi namunalar shu qoidaga mos keladi:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Guruh (maktab shakli)",
+        "Yuqori valentlik",
+        "Yuqori oksid",
+        "Vodorodli birikma",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "IA (1)",
+          "I",
+          "R₂O",
+          "—",
+          "Na₂O, K₂O"
+        ],
+        [
+          "IIA (2)",
+          "II",
+          "RO",
+          "—",
+          "MgO, CaO"
+        ],
+        [
+          "IIIA (13)",
+          "III",
+          "R₂O₃",
+          "—",
+          "Al₂O₃, B₂O₃"
+        ],
+        [
+          "IVA (14)",
+          "IV",
+          "RO₂",
+          "RH₄",
+          "CO₂, SiO₂; CH₄, SiH₄"
+        ],
+        [
+          "VA (15)",
+          "V",
+          "R₂O₅",
+          "RH₃",
+          "N₂O₅, P₂O₅; NH₃, PH₃"
+        ],
+        [
+          "VIA (16)",
+          "VI",
+          "RO₃",
+          "H₂R",
+          "SO₃; H₂S"
+        ],
+        [
+          "VIIA (17)",
+          "VII",
+          "R₂O₇",
+          "HR",
+          "Cl₂O₇; HCl"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Istisnolar ham bor. Kislorod odatda ikki valentli (VI emas), ftor esa faqat bir valentli. Yonaki guruhchalarda (B) valentlik o‘zgaruvchan bo‘lishi mumkin: xrom CrO₃ da VI valentli, marganes Mn₂O₇ da VII valentli, lekin mis va temirning valentligi birikmaga qarab o‘zgaradi. Nodir gazlarning ko‘pchiligi odatda birikma hosil qilmaydi."
+    },
+    {
+      "type": "p",
+      "text": "Tekshiring: oltingugurt VIA guruhda. Yuqori valentligi VI, oksidi SO₃; vodorodli birikmada 8 − 6 = 2, ya’ni H₂S. Xlor VIIA guruhda: yuqori valentligi VII (Cl₂O₇), vodorodli birikmada 8 − 7 = 1 (HCl)."
+    },
+    {
+      "type": "h2",
+      "id": "yaxlitlash",
+      "text": "Masalalarda nisbiy atom massasi qanday olinadi"
+    },
+    {
+      "type": "p",
+      "text": "Kimyo masalalarida jadvaldagi qiymat odatda butun songacha yaxlitlanadi. Xlor an’anaviy istisno: uning massasi 35,5 deb olinadi. Quyidagi jadvalda maktab masalalarida eng ko‘p uchraydigan 20 ta element berilgan; jadvaldagi qiymat IUPAC (CIAAW) ma’lumotlariga asoslangan."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Element",
+        "Belgi",
+        "Jadvaldagi qiymat",
+        "Masalada olinadi"
+      ],
+      "rows": [
+        [
+          "Vodorod",
+          "H",
+          "1,008",
+          "1"
+        ],
+        [
+          "Uglerod",
+          "C",
+          "12,011",
+          "12"
+        ],
+        [
+          "Azot",
+          "N",
+          "14,007",
+          "14"
+        ],
+        [
+          "Kislorod",
+          "O",
+          "15,999",
+          "16"
+        ],
+        [
+          "Natriy",
+          "Na",
+          "22,990",
+          "23"
+        ],
+        [
+          "Magniy",
+          "Mg",
+          "24,305",
+          "24"
+        ],
+        [
+          "Alyuminiy",
+          "Al",
+          "26,982",
+          "27"
+        ],
+        [
+          "Kremniy",
+          "Si",
+          "28,085",
+          "28"
+        ],
+        [
+          "Fosfor",
+          "P",
+          "30,974",
+          "31"
+        ],
+        [
+          "Oltingugurt",
+          "S",
+          "32,06",
+          "32"
+        ],
+        [
+          "Xlor",
+          "Cl",
+          "35,45",
+          "35,5"
+        ],
+        [
+          "Kaliy",
+          "K",
+          "39,098",
+          "39"
+        ],
+        [
+          "Kalsiy",
+          "Ca",
+          "40,078",
+          "40"
+        ],
+        [
+          "Temir",
+          "Fe",
+          "55,845",
+          "56"
+        ],
+        [
+          "Mis",
+          "Cu",
+          "63,546",
+          "64"
+        ],
+        [
+          "Rux",
+          "Zn",
+          "65,38",
+          "65"
+        ],
+        [
+          "Brom",
+          "Br",
+          "79,904",
+          "80"
+        ],
+        [
+          "Kumush",
+          "Ag",
+          "107,87",
+          "108"
+        ],
+        [
+          "Yod",
+          "I",
+          "126,90",
+          "127"
+        ],
+        [
+          "Bariy",
+          "Ba",
+          "137,33",
+          "137"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Molyar massa va massa ulushi bo‘yicha masalalarni {tasks} sahifasida qadamma-qadam yechib ko‘rish mumkin.",
+      "links": [
+        {
+          "token": "tasks",
+          "target": "/uz/kimyo-masalalar/",
+          "anchor": "kimyo masalalari yechimi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mashqlar",
+      "text": "10 ta «elementni toping» mashqi"
+    },
+    {
+      "type": "p",
+      "text": "Avval o‘zingiz javob bering, keyin pastdagi javoblar bilan solishtiring. Har bir javobda element jadvaldagi ma’lumot bilan tekshirilgan."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Tartib raqami 11, 3-davrda, IA guruhda turadi. Bu qaysi element?",
+        "2. 3-davrning VIA guruhida joylashgan, nisbiy atom massasi taxminan 32 ga teng sariq rangli qattiq metallmas. Qaysi element?",
+        "3. 2-davrdagi nodir gaz. Uning belgisi va tartib raqamini ayting.",
+        "4. 4-davr, VIIIB guruh, yadrosida 26 ta proton bor. Qaysi element?",
+        "5. 6-davr, IB guruh, nisbiy atom massasi 197 ga yaqin metall. Qaysi element?",
+        "6. Eng yengil element: nisbiy atom massasi eng kichik, 1-davrning IA guruhida.",
+        "7. Oddiy sharoitda suyuq holatda bo‘ladigan yagona metall. Uning tartib raqami nechta?",
+        "8. 2-davr, VA guruh: yuqori oksidining formulasi R₂O₅. Qaysi element?",
+        "9. 3-davr, VIIA guruh: vodorodli birikmasi HR, nisbiy atom massasi maktab masalalarida 35,5 deb olinadi. Qaysi element?",
+        "10. Atom yadrosida 20 ta proton bor. Element qaysi davr va qaysi guruhda turadi?"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar",
+      "text": "Mashqlarning javoblari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Natriy (Na). 3-davr, IA guruh, nisbiy atom massasi 22,990; maktab masalalarida 23 deb olinadi.",
+        "2. Oltingugurt (S), tartib raqami 16, nisbiy atom massasi 32,06 (taxminan 32). Guruhi — 16 (VIA).",
+        "3. Neon (Ne), tartib raqami 10, nisbiy atom massasi 20,180. Geliy ham nodir gaz, lekin u 1-davrda turadi.",
+        "4. Temir (Fe). Tartib raqami protonlar sonini bildiradi, 26 — temir; guruhi 8 (VIIIB), nisbiy atom massasi 55,845.",
+        "5. Oltin (Au), tartib raqami 79, nisbiy atom massasi 196,97 (taxminan 197). 11-guruh (IB).",
+        "6. Vodorod (H), tartib raqami 1, nisbiy atom massasi 1,008. U jadvalda 1-davrning birinchi elementi.",
+        "7. Simob (Hg), tartib raqami 80, 6-davr, 12-guruh (IIB), nisbiy atom massasi 200,59. (Metallmas brom ham oddiy sharoitda suyuq, lekin u metall emas.)",
+        "8. Azot (N). VA guruhda yuqori valentlik V ga teng, oksidi N₂O₅. 3-davrdagi qo‘shnisi — fosfor (P), uning oksidi P₂O₅.",
+        "9. Xlor (Cl), tartib raqami 17, vodorodli birikmasi HCl; jadvaldagi nisbiy atom massasi 35,45, masalalarda 35,5.",
+        "10. Kalsiy (Ca): tartib raqami protonlar soniga teng. 4-davr, 2-guruh (IIA), nisbiy atom massasi 40,078 (taxminan 40)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Xato qilgan bo‘lsangiz, chat ustidagi tugmalardan birini bosing: AI o‘qituvchi yangi mashq tuzadi va javobingizni tekshiradi."
+    },
+    {
+      "type": "h2",
+      "id": "yodlash",
+      "text": "Davriy jadvalni yodlash usullari"
+    },
+    {
+      "type": "p",
+      "text": "Jadvalni bir kunda yodlab bo‘lmaydi, ammo qisqa takrorlar yordam beradi. Mana ishlaydigan usullar."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Davr bo‘yicha ayting: «litiy, berilliy, bor, uglerod, azot, kislorod, ftor, neon» — 2-davr. Keyin shunday 3-davr: «natriy, magniy, alyuminiy, kremniy, fosfor, oltingugurt, xlor, argon». Birinchi 20 ta element shu bilan o‘rganiladi.",
+        "Oilalarni birga o‘rganing. Ishqoriy metallar: litiy, natriy, kaliy, rubidiy, seziy, fransiy (1-guruh). Galogenlar: ftor, xlor, brom, yod, astat (17-guruh). Nodir gazlar: geliy, neon, argon, kripton, ksenon, radon (18-guruh).",
+        "Belgidan nomga, nomdan belgiga: har kuni 5 ta element kartasini o‘zingizga so‘rang. Bir tomonida belgi va raqam, ikkinchi tomonida nom va massa.",
+        "Qo‘shnilar bilan bog‘lang: azot — uglerod bilan kislorod o‘rtasida, ftor — kislorodning o‘ng tomonida. Jadvalni PDF’dan ko‘rib, qo‘shnilarni ovoz chiqarib ayting.",
+        "O‘z jumlangizni tuzing: 8 ta belgining bosh harflaridan qofiyali gap yarating (masalan, Na Mg Al Si P S Cl Ar). Jumlani o‘zingiz o‘ylab topsangiz, yaxshi yodda qoladi; AI o‘qituvchidan bir nechta variant so‘rashingiz mumkin.",
+        "Mashq qiling: har hafta 10 ta mashqni yoping, xatolarni alohida yozib qo‘ying va ularga qaytib turing."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Bilimingizni tekshirish uchun {test} sahifasidagi savollarni ham yeching.",
+      "links": [
+        {
+          "token": "test",
+          "target": "/uz/kimyo-test/",
+          "anchor": "kimyo bo‘yicha test savollari"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "pdf-yuklash",
+      "text": "Davriy jadvalni PDF ko‘rinishida yuklab olish"
+    },
+    {
+      "type": "p",
+      "text": "PDF — bitta A4 varaq, albom yo‘nalishi: klassik 18 ustunli jadval, lantanoid va aktinoidlar pastda. Har bir katakda tartib raqami, belgi, o‘zbekcha nom va nisbiy atom massasi bor, rang bo‘yicha metallar, metallmaslar va nodir gazlar ajratilgan. Chop etib daftar yoki devorga qo‘yish mumkin. Fayl bepul, ro‘yxatdan o‘tish talab qilinmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "{pdf} — chop etish va telefonda ko‘rish uchun.",
+      "links": [
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261117/mendeleyev-jadvali.pdf",
+          "anchor": "Mendeleyev jadvalini PDF yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-oqituvchi",
+      "text": "AI o‘qituvchi bilan mashq"
+    },
+    {
+      "type": "p",
+      "text": "Chat ustidagi tugmalarda tayyor so‘rovlar bor: elementni topish mashqlari, valentlikni aniqlash, jadvalni o‘qish, yodlash uchun savollar, metallar va metallmaslarni ajratish hamda 1–20-elementlar bo‘yicha o‘z-o‘zini tekshirish. Tugma so‘rovni faqat yozish maydoniga qo‘yadi; uni o‘zgartirishingiz mumkin, yuborishni esa o‘zingiz hal qilasiz."
+    },
+    {
+      "type": "p",
+      "text": "AI uy vazifasini o‘rningizga bajarish uchun emas: avval o‘zingiz urinib ko‘ring. Model ham adashishi mumkin, shuning uchun raqamlarni shu sahifadagi jadval bilan solishtiring."
+    },
+    {
+      "type": "h2",
+      "id": "manbalar",
+      "text": "Manbalar va tekshirilgan sana"
+    },
+    {
+      "type": "p",
+      "text": "Ma’lumotlar 2026-yil 17-noyabr holatiga ko‘ra tekshirilgan."
+    },
+    {
+      "type": "linkp",
+      "text": "Nisbiy atom massalari: {ciaaw}. Barqaror izotopi yo‘q elementlarning massa sonlari: {iupac}. O‘zbekcha nomlar maktab darsliklari amaliyotiga mos yozilgan; lotincha nomlar an’anaviy, 117- va 118-elementlar uchun IUPAC nomi berilgan.",
+      "links": [
+        {
+          "token": "ciaaw",
+          "target": "https://www.ciaaw.org/abridged-atomic-weights.htm",
+          "anchor": "IUPAC komissiyasi CIAAW, qisqartirilgan standart atom massalari (2024)"
+        },
+        {
+          "token": "iupac",
+          "target": "https://iupac.org/what-we-do/periodic-table-of-elements/",
+          "anchor": "IUPAC davriy jadvali, 2022-yil 4-may"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa fanlar bo‘yicha savollar uchun {tests}, to‘lov va paket shartlari uchun {tariffs}, boshqa vazifalar uchun {chat} sahifasini oching.",
+      "links": [
+        {
+          "token": "tests",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar katalogi"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Кимёвий элементлар даврий жадвали: 118 та элемент, тартиб рақами, белгиси ва нисбий атом массаси. Жадвални PDF кўринишида юклаб олинг ва AI ўқитувчи билан машқ қилинг."
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "bizga Telegram’da"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Mendeleyev jadvalida nechta element bor?",
+      "a": "Hozir 118 ta element. Ularning tartib raqami 1 (vodorod) dan 118 (oganesson) gacha. 94 tasi metall, 16 tasi metallmas, 6 tasi nodir gaz, 117 va 118 esa tajribada hali o‘rganilmagan."
+    },
+    {
+      "q": "Davr va guruh nima?",
+      "a": "Davr — jadvaldagi gorizontal qator, guruh — tik ustun. Davr raqami atomdagi elektron qavatlar sonini, bosh guruhchalarda guruh raqami esa tashqi qavatdagi elektronlar sonini bildiradi. Jami 7 davr va 18 guruh (IUPAC) bor."
+    },
+    {
+      "q": "Nisbiy atom massasi nima va nega kasrli?",
+      "a": "Bu element atomi massasining uglerod-12 atomi massasining 1/12 qismiga nisbati. Tabiatdagi element bir necha izotop aralashmasidan iborat bo‘lgani uchun massasi kasrli son bo‘ladi, masalan xlorniki 35,45."
+    },
+    {
+      "q": "Nega ba’zi elementlarning massasi kvadrat qavsda yozilgan?",
+      "a": "Texnetsiy, prometiy, poloniy va boshqa elementlarda barqaror izotop yo‘q, shuning uchun standart atom massasi yo‘q. Kvadrat qavsda eng uzoq yashaydigan izotopning massa soni beriladi: texnetsiy uchun [97]."
+    },
+    {
+      "q": "Lantanoidlar va aktinoidlar nega alohida qatorda?",
+      "a": "Ular 6- va 7-davrga tegishli, lekin har birida 15 tadan element bor. Ularni asosiy jadval ichiga qo‘ysak, jadval juda keng bo‘lib qoladi, shuning uchun pastda ikki qatorda berilgan."
+    },
+    {
+      "q": "Guruh raqamini qanday o‘qiladi: 17 yoki VIIA?",
+      "a": "Ikkalasi ham to‘g‘ri. 17 — IUPAC jadvalidagi raqamlash, VIIA — maktab darsliklaridagi qisqa shakl. Shu sahifadagi jadvalda ikkalasi qavs ichida yonma-yon yozilgan: 17 (VIIA)."
+    },
+    {
+      "q": "Bu jadval va AI o‘qituvchi bepulmi?",
+      "a": "Jadval, mashqlar va PDF bepul. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kimyo-test/",
+      "anchor": "Kimyo bo‘yicha test savollari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kimyo-masalalar/",
+      "anchor": "Molyar massa masalalarining yechimi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/karra-jadvali/",
+      "anchor": "Ko‘paytirish jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: Mendeleyev jadvali",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Mendeleyev davriy jadvali o‘zbek tilida: 118 element, nisbiy atom massalari, valentlik, javobli mashqlar va PDF, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: yangi mashq tuzadi va javobni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul jadval va mashqlar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Jadval, mashqlar va PDF bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/mendeleyev-jadvali/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

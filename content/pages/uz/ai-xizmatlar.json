@@ -1,0 +1,423 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/ai-xizmatlar/",
+  "slug": "ai-xizmatlar",
+  "pageType": "blog",
+  "primaryKeyword": "AI xizmatlar",
+  "secondaryKeywords": [
+    "sun’iy intellekt xizmatlari",
+    "ai saytlar",
+    "neyrotarmoqlar ro‘yxati",
+    "AI xizmatlar ro‘yxati",
+    "sun’iy intellekt saytlari",
+    "ai vositalar"
+  ],
+  "searchIntent": "informational",
+  "h1": "Sun’iy intellekt xizmatlari ro‘yxati: chat, slayd, rasm va o‘qish uchun",
+  "title": "AI xizmatlar: chat, slayd, rasm va video bo‘yicha katalog",
+  "description": "AI xizmatlar katalogi: ChatGPT, Gemini, Claude, DeepSeek, Gamma, NotebookLM, Flow va boshqalar. Har biri haqida ikki jumla va o‘zbekcha qo‘llanmaga havola.",
+  "canonical": "https://gptbot.uz/uz/ai-xizmatlar/",
+  "hreflangUz": "/uz/ai-xizmatlar/",
+  "ogTitle": "AI xizmatlar: chat, slayd, rasm va video bo‘yicha katalog",
+  "ogDescription": "AI xizmatlar katalogi: ChatGPT, Gemini, Claude, DeepSeek, Gamma, NotebookLM, Flow va boshqalar. Har biri haqida ikki jumla va o‘zbekcha qo‘llanmaga havola.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "AI xizmatlar",
+  "heroSubtitle": "Vazifa bo‘yicha guruhlangan neyrotarmoqlar katalogi: har bir xizmat nima qilishi, nimaga e’tibor berish kerakligi va batafsil o‘zbekcha qo‘llanma.",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Bu sahifa — sun’iy intellekt xizmatlarining vazifa bo‘yicha katalogi. Har bir xizmat uchun ikki jumla yozilgan: nima qiladi va nimani yodda tutish kerak; undan keyin bizning batafsil qo‘llanmamizga havola. Xizmatlar tez o‘zgaradi, shuning uchun narx, limit va mavjudlikni har doim rasmiy saytda tekshiring. Barcha xizmatlar bizdan mustaqil, GPTBot.uz ularning rasmiy vakili emas."
+    },
+    {
+      "type": "toc",
+      "text": "Sahifada",
+      "links": [
+        {
+          "anchor": "chat-yordamchilar",
+          "label": "Chat yordamchilar"
+        },
+        {
+          "anchor": "slayd",
+          "label": "Slayd va taqdimot"
+        },
+        {
+          "anchor": "rasm-video",
+          "label": "Rasm, video va logotip"
+        },
+        {
+          "anchor": "oqish",
+          "label": "O‘qish va tushunish"
+        },
+        {
+          "anchor": "tanlash",
+          "label": "Qaysi xizmatni tanlash kerak"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "chat-yordamchilar",
+      "text": "Chat yordamchilar: savol, matn, tarjima"
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — OpenAI’ning suhbat yordamchisi: savolga javob beradi, matn yozadi va tarjima qiladi. Javob xato bo‘lishi mumkin, faktlarni tekshirib turing.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/chatgptdan-qanday-foydalanish/",
+          "anchor": "ChatGPT’dan foydalanish: 10 qadam va tayyor so‘rovlar"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — GPT-4, GPT-4o va GPT-5 nima ekanini, qaysi model hozir ishlayotganini va bepul rejada nima borligini tushuntiradi. Modellar tez almashadi, sahifa shunga qarab yangilanadi.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/chatgpt-5-nima/",
+          "anchor": "ChatGPT versiyalari: GPT-4, GPT-4o va GPT-5"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — hisob ochish va tizimga kirish bosqichlari. O‘zbekistondan ro‘yxatdan o‘tish hamma uchun ishlashiga kafolat yo‘q, shuning uchun rasmiy sahifani tekshiring.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "anchor": "Hisobga kirish tartibi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — ilovani telefon va kompyuterga rasmiy manbadan o‘rnatish. Begona saytlardan fayl yuklamang.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "ChatGPT ilovasini yuklab olish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — turli vaziyatlar uchun tayyor so‘rovlar to‘plami. Kvadrat qavsdagi joylarni o‘zingiznikiga almashtirib ishlating.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "Tayyor promptlar kutubxonasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — Google’ning AI yordamchisi: matn yozadi, tarjima qiladi va rasm yaratadi. Google hisobi kerak, limitlar rejaga qarab farq qiladi.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+          "anchor": "Gemini AI qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — Anthropic’ning yordamchisi: uzun matn va hujjatlar bilan ishlashga qulay. Ro‘yxatdan o‘tish va bepul reja shartlarini rasmiy saytda tekshiring.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/claude-ai-ozbekistonda/",
+          "anchor": "Claude AI qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — Xitoy kompaniyasining AI chati va modellari. Maxfiylik siyosatiga ko‘ra ma’lumotlar Xitoydagi serverlarda saqlanadi, shuning uchun shaxsiy ma’lumot yozmang.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/deepseek-ozbek-tilida/",
+          "anchor": "DeepSeek AI qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — uchta mashhur yordamchini O‘zbekistonda mavjudlik, til va maxfiylik bo‘yicha solishtiradi. Qaysi xizmat sizga mosligini bilmasangiz, shu yerdan boshlang.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "ChatGPT, Claude va Gemini taqqoslash"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — bizning mustaqil AI chatimiz: o‘zbek va rus tillarida matn bilan ishlaydi, ChatGPT yoki boshqa xizmat emas. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Chat ichida qanday ishlashni {guide} yozilgan.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "GPTBot.uz chatidan foydalanish qo‘llanmasi"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "chat sahifasida"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "slayd",
+      "text": "Slayd va taqdimot yasash"
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — mavzudan tayyor .pptx qoralamasi: kuniga 1 ta bepul namuna, 6 slaydgacha. Qoralamani o‘zingiz tahrirlab chiqing.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "AI bilan taqdimot yaratish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — taqdimotni reja, matn va dizayn bo‘yicha bosqichma-bosqich tayyorlash. Qaysi vositada ishlashingizdan qat’i nazar, tuzilma bir xil.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "Slayd tayyorlash qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — matndan slayd yaratadigan xizmat. Natijani tahrirlash va faktlarni tekshirish sizning zimmangizda; narx va limitlarni rasmiy saytda ko‘ring.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/gamma-app-slayd-tayyorlash/",
+          "anchor": "Gamma App bilan slayd tayyorlash"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — slaydlar uchun fon rasmlarini tanlash va yaratish. Matn o‘qilishi uchun fonni jimroq tanlang.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/slayd-uchun-fonlar/",
+          "anchor": "Slayd uchun fonlar"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "rasm-video",
+      "text": "Rasm, video va logotip"
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — video yaratish xizmati. Natija har safar o‘zgacha chiqadi; foydalanish shartlari va mavjudligini rasmiy saytda tekshiring.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/higgsfield-ai-nima/",
+          "anchor": "Higgsfield AI nima"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — Google’ning video yaratish vositalari. Bunday xizmatlarda limit va mavjudlik rejaga, mamlakatga va vaqtga bog‘liq.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/google-flow-veo-qollanma/",
+          "anchor": "Google Flow va Veo qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — logotip g‘oyasini AI bilan yaratish va sayqallash. AI chizgan logotipning mualliflik va ro‘yxatdan o‘tkazish masalasini oldindan aniqlang.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/logo-yasash/",
+          "anchor": "Logotip yasash"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oqish",
+      "text": "O‘qish va tushunish uchun"
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — o‘zingiz yuklagan manbalar (maqola, konspekt, hujjat) bo‘yicha savollarga javob beradigan yordamchi. Javoblarni manbaning o‘zi bilan solishtiring.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/notebooklm-qollanma/",
+          "anchor": "NotebookLM qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — sun’iy intellekt nima, qanday ishlaydi, foydasi va zarari nimada. Maktab va talabalar uchun to‘liq javob.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/suniy-intellekt/",
+          "anchor": "Sun’iy intellekt nima: to‘liq ta’rif"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tanlash",
+      "text": "Qaysi xizmatni tanlash kerak"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vazifa",
+        "Qayerdan boshlash"
+      ],
+      "rows": [
+        [
+          "Savol berish, matn yozish",
+          "Chat yordamchi: ChatGPT, Gemini, Claude yoki GPTBot.uz"
+        ],
+        [
+          "Maktab yoki universitet taqdimoti",
+          "Slayd tayyorlash qo‘llanmasi, keyin qoralama vositasi"
+        ],
+        [
+          "Rasm, video, logotip",
+          "Gemini, Flow yoki Higgsfield qo‘llanmasi"
+        ],
+        [
+          "Uzun hujjat yoki konspektni tushunish",
+          "NotebookLM yoki Claude"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qoidalar",
+      "text": "Har qanday AI xizmatida amal qilinadigan qoidalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Rasmiy manzilni o‘zingiz yozing; reklama va «yuklab olish» saytlariga ishonmang.",
+        "Parol, karta, pasport va ish sirlarini chatga yozmang.",
+        "Faktlar, sana va iqtiboslarni manbadan tekshiring.",
+        "Narx va to‘lov usulini xizmatning o‘z sahifasida ko‘ring; mahalliy karta ishlashiga kafolat yo‘q.",
+        "Tayyor natijani o‘z ishingiz deb topshirmang."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Katalog 2026-yil 17-noyabrda yig‘ilgan. Yangi qo‘llanmalar chiqqach, ro‘yxat to‘ldiriladi."
+    }
+  ],
+  "faq": [
+    {
+      "q": "AI xizmatlar nima?",
+      "a": "Bu sun’iy intellektga asoslangan saytlar va ilovalar: ular savolga javob beradi, matn yozadi, slayd, rasm yoki video yaratadi, hujjatlarni tahlil qiladi. Bu sahifada ular vazifa bo‘yicha guruhlangan."
+    },
+    {
+      "q": "Qaysi AI xizmat o‘zbek tilida yaxshi ishlaydi?",
+      "a": "Mashhur chat yordamchilar o‘zbekcha so‘rovni tushunadi, lekin sifat har xil va xato bo‘lishi mumkin. Har bir xizmat haqidagi qo‘llanmada o‘zbek tili bo‘yicha rasmiy ma’lumot va maslahatlar keltirilgan."
+    },
+    {
+      "q": "AI xizmatlar bepulmi?",
+      "a": "Ko‘pchiligida bepul reja bor, lekin limit va imkoniyatlar cheklangan va tez o‘zgaradi. Narxni bu yerda yozmaymiz: uni xizmatning rasmiy sahifasida tekshiring."
+    },
+    {
+      "q": "Neyrotarmoq va sun’iy intellekt bir xilmi?",
+      "a": "Deyarli: neyrotarmoq — sun’iy intellektning bir turi, ma’lumotdan o‘rganadigan matematik model. Kundalik nutqda bu so‘zlar ko‘pincha bir ma’noda ishlatiladi."
+    },
+    {
+      "q": "Chat yordamchi uchun qaysi birini tanlash kerak?",
+      "a": "Taqqoslash maqolamizni o‘qing: unda ChatGPT, Claude va Gemini O‘zbekistonda mavjudlik, til va maxfiylik bo‘yicha ko‘rilgan. Eng yaxshisi — o‘z vazifangizdagi bitta savolni bir nechtasida sinab ko‘rish."
+    },
+    {
+      "q": "GPTBot.uz shu ro‘yxatdagi xizmatlardan biri bilan bog‘liqmi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil AI chat. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak. Narx uchun tariflar sahifasiga qarang."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "anchor": "ChatGPT, Claude va Gemini taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chatgptdan-qanday-foydalanish/",
+      "anchor": "AI yordamchidan foydalanish: 10 qadam",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/suniy-intellekt/",
+      "anchor": "Sun’iy intellekt nima",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/taqdimot-ai/",
+      "anchor": "AI bilan taqdimot yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "GPTBot.uz chat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/notebooklm-qollanma/",
+      "anchor": "NotebookLM qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

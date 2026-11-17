@@ -1,0 +1,434 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/sintaktik-tahlil/",
+  "slug": "sintaktik-tahlil",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "8 ta gap: tahlil qilaman, tekshir",
+      "prompt": "Menga sintaktik tahlil qilish uchun 8 ta gap ber: avval sodda, keyin 2 ta qo‘shma gap. Tahlilni darhol ko‘rsatma: men gap bo‘laklarini yozaman, sen tekshirib, xatolarimni tushuntirasan. Sinfim: "
+    },
+    {
+      "label": "Gapimni sintaktik tahlil qil",
+      "prompt": "Quyidagi gapni maktab tartibida sintaktik tahlil qil: gap turi, ega, kesim, to‘ldiruvchi, aniqlovchi, hol, har biriga so‘roq bilan. Oxirida yig‘iq-yoyiqligini ayt.\nGap: "
+    },
+    {
+      "label": "Tahlilimni tekshir",
+      "prompt": "Gapni o‘zim tahlil qildim. Tahlilimni tekshir: xato bo‘lsa, birinchi xatoni ko‘rsat va qaysi so‘roq bilan tekshirish kerakligini tushuntir. Tayyor javobni darhol yozma.\nGap: \nMening tahlilim: "
+    },
+    {
+      "label": "Ega va kesimni topishni o‘rgat",
+      "prompt": "Ega va kesimni topishni 5 ta gap misolida qadamma-qadam o‘rgat: avval kesim, keyin ega. Keyin 6 ta gap ber, men ega va kesimni yozaman, sen tekshirasan."
+    },
+    {
+      "label": "Hol yoki to‘ldiruvchi?",
+      "prompt": "Hol bilan to‘ldiruvchi farqini so‘roqlar orqali tushuntir va 8 ta gap ber, ularda «bu bo‘lak hol yoki to‘ldiruvchi?» deb o‘zim aniqlayman. Javoblarni men yozganimdan keyin tekshir."
+    },
+    {
+      "label": "Qo‘shma gap turini aniqla",
+      "prompt": "Bog‘langan, ergashgan va bog‘lovchisiz qo‘shma gaplarni misollar bilan tushuntir, keyin 6 ta qo‘shma gap ber: ularning turini va tarkibidagi sodda gaplarni o‘zim aniqlayman, sen tekshirasan."
+    }
+  ],
+  "primaryKeyword": "sintaktik tahlil",
+  "secondaryKeywords": [
+    "gap bo‘laklari",
+    "gap bolaklari",
+    "gapni sintaktik tahlil qilish",
+    "sodda gap tahlili",
+    "sintaktik tahlil namunasi",
+    "ega kesim to‘ldiruvchi aniqlovchi hol"
+  ],
+  "searchIntent": "informational",
+  "h1": "Gapni sintaktik tahlil qilish: gap bo‘laklari, so‘roqlari va namunalar",
+  "title": "Sintaktik tahlil: tartibi, jadval va 20 ta tahlil qilingan gap",
+  "description": "Sintaktik tahlil tartibi, gap bo‘laklari (ega, kesim, to‘ldiruvchi, aniqlovchi, hol) va 20 ta tahlil qilingan gap. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "canonical": "https://gptbot.uz/uz/sintaktik-tahlil/",
+  "hreflangUz": "/uz/sintaktik-tahlil/",
+  "hreflangXDefault": "/uz/sintaktik-tahlil/",
+  "ogTitle": "Sintaktik tahlil: tartibi, jadval va 20 ta tahlil qilingan gap",
+  "ogDescription": "Sintaktik tahlil tartibi, gap bo‘laklari (ega, kesim, to‘ldiruvchi, aniqlovchi, hol) va 20 ta tahlil qilingan gap. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Sintaktik tahlil",
+  "heroTitle": "Sintaktik tahlil: tartibi, gap bo‘laklari jadvali va 20 ta namuna",
+  "heroSubtitle": "Tartib, jadval va namunalar bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Sintaktik tahlil — gapni bo‘laklarga ajratib, har bir bo‘lakning vazifasini va gap turini aniqlash. Maktabda bu topshiriq «Gapni sintaktik tahlil qiling» yoki «Gap bo‘laklarini toping» ko‘rinishida beriladi. Bu sahifada tahlilning maktabdagi tartibi, gap bo‘laklari jadvali (ega, kesim, to‘ldiruvchi, aniqlovchi, hol) so‘roqlari va belgilari bilan, sodda va qo‘shma gaplardan 20 ta to‘liq tahlil qilingan namuna hamda tipik xatolar bor. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi gaplar beradi va sizning tahlilingizni tekshiradi."
+    },
+    {
+      "type": "p",
+      "text": "Tartib, jadval va namunalar har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "tartib",
+      "text": "Sintaktik tahlil tartibi"
+    },
+    {
+      "type": "p",
+      "text": "Maktabda gap quyidagi tartibda tahlil qilinadi. Tartibni o‘zgartirmang: avval butun gapning turi, keyin bo‘laklari aniqlanadi. O‘qituvchingiz boshqa tartib so‘rasa, uning talabiga amal qiling."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Gapni o‘qing va mazmunini tushuning.",
+        "2. Gap ifoda maqsadiga ko‘ra turini ayting: darak, so‘roq yoki buyruq gap. His-hayajonga ko‘ra: undov yoki undovsiz.",
+        "3. Tuzilishiga ko‘ra turini ayting: sodda yoki qo‘shma. Gapda nechta kesim bo‘lsa, odatda shuncha sodda gap bor.",
+        "4. Sodda gapda avval kesimni toping (nima qildi? qanday?), keyin egani (kim? nima?).",
+        "5. Ikkinchi darajali bo‘laklarni topish uchun ega yoki kesimdan so‘roq bering: to‘ldiruvchi, aniqlovchi, hol.",
+        "6. Gapni bo‘laklari bo‘yicha turlarga ajrating: faqat bosh bo‘laklardan iborat bo‘lsa — yig‘iq, ikkinchi darajali bo‘laklar ham bo‘lsa — yoyiq; ega va kesimi bor bo‘lsa — ikki tarkibli, bitta bosh bo‘lagi bo‘lsa — bir tarkibli.",
+        "7. Uyushiq bo‘laklar, undalma va kirish so‘z bor-yo‘qligini ayting.",
+        "8. Qo‘shma gapda har bir sodda gapni alohida tahlil qiling va ularning bog‘lanish usulini ayting: bog‘lovchi bilan, ergashtiruvchi vosita bilan yoki faqat ohang bilan.",
+        "9. Tinish belgilarini asoslang: nega vergul, nega tire qo‘yilgan."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "jadval",
+      "text": "Gap bo‘laklari: so‘roqlari va belgilari"
+    },
+    {
+      "type": "p",
+      "text": "Gapning bosh bo‘laklari — ega va kesim; ikkinchi darajali bo‘laklari — to‘ldiruvchi, aniqlovchi va hol. Belgilar daftarda so‘z tagiga chiziladi. Ayrim darsliklarda belgilar biroz farq qilishi mumkin, shuning uchun o‘z darsligingizdagi belgidan foydalaning."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Gap bo‘lagi",
+        "Qanday bo‘lak",
+        "So‘roqlari",
+        "Daftarda belgisi",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "Ega",
+          "Bosh bo‘lak",
+          "kim? nima?",
+          "bir chiziq",
+          "Bolalar o‘ynayapti. (kim?)"
+        ],
+        [
+          "Kesim",
+          "Bosh bo‘lak",
+          "nima qildi? nima qilyapti? qanday? kim?",
+          "ikki chiziq",
+          "Bolalar o‘ynayapti. (nima qilyapti?)"
+        ],
+        [
+          "To‘ldiruvchi",
+          "Ikkinchi darajali",
+          "kimni? nimani? kimga? nimaga? kimda? nimada? kimdan? nimadan? kim bilan? nima haqida?",
+          "uzuq chiziq",
+          "Men kitobni o‘qidim. (nimani?)"
+        ],
+        [
+          "Aniqlovchi",
+          "Ikkinchi darajali",
+          "qanday? qaysi? nechta? kimning? nimaning?",
+          "to‘lqinli chiziq",
+          "Chiroyli gul ochildi. (qanday gul?)"
+        ],
+        [
+          "Hol",
+          "Ikkinchi darajali",
+          "qachon? qayerda? qayerga? qayerdan? qanday? nima uchun? nima sababdan? qancha?",
+          "nuqta-chiziq",
+          "U ertalab keldi. (qachon?)"
+        ]
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        "To‘ldiruvchi vositasiz bo‘ladi (tushum kelishigidagi so‘z: kitobni) va vositali bo‘ladi (boshqa kelishik yoki ko‘makchi bilan: dugonasi bilan, sinfda).",
+        "Aniqlovchi sifatlovchi (qizil olma), qaratqich (do‘stimning kitobi) va izohlovchi (shoir Navoiy) turlarga bo‘linadi.",
+        "Hol turlari: payt (qachon?), o‘rin (qayerda? qayerga? qayerdan?), tarz (qanday?), miqdor-daraja (qancha?), sabab (nima sababdan?), maqsad (nima uchun?)."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "namuna",
+      "text": "Bitta gapning to‘liq tahlili"
+    },
+    {
+      "type": "p",
+      "text": "Gap: «Bahorda bog‘larda chiroyli gullar ochiladi.» Tahlil tartib bo‘yicha olib boriladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mazmuni: bahorda gullar ochilishi haqida xabar berilgan.",
+        "Maqsadiga ko‘ra — darak gap, hissiyotga ko‘ra — undovsiz.",
+        "Tuzilishiga ko‘ra — sodda gap: bitta kesim bor.",
+        "Kesim: ochiladi (nima qiladi?). Ega: gullar (nima?).",
+        "Aniqlovchi: chiroyli (qanday gullar?). Payt holi: bahorda (qachon?). O‘rin holi: bog‘larda (qayerda?).",
+        "Turi: yoyiq, ikki tarkibli. Uyushiq bo‘lak, undalma va kirish so‘z yo‘q.",
+        "Tinish belgisi: gap oxirida nuqta, chunki gap darak."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tahlillar",
+      "text": "20 ta tahlil qilingan gap: sodda gapdan qo‘shma gapgacha"
+    },
+    {
+      "type": "p",
+      "text": "Gaplar osondan qiyinga qarab joylashgan: 1–15 sodda gaplar, 16–20 qo‘shma gaplar. Avval gapni o‘zingiz tahlil qiling, keyin namuna bilan solishtiring."
+    },
+    {
+      "type": "h3",
+      "id": "sodda-gaplar",
+      "text": "Sodda gaplar: 1–15"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. «Bolalar o‘ynayapti.» Sodda gap: darak, undovsiz, yig‘iq, ikki tarkibli. Ega: bolalar (kim?). Kesim: o‘ynayapti (nima qilyapti?).",
+        "2. «Men kitob o‘qiyman.» Sodda gap: darak, yoyiq. Ega: men (kim?). Kesim: o‘qiyman (nima qilaman?). To‘ldiruvchi: kitob (nimani?) — tushum kelishigi qo‘shimchasi tushib qolgan.",
+        "3. «Ona bolasini erkaladi.» Sodda gap: darak, yoyiq. Ega: ona (kim?). Kesim: erkaladi (nima qildi?). To‘ldiruvchi: bolasini (kimni?) — vositasiz to‘ldiruvchi.",
+        "4. «Qizil olma pishdi.» Sodda gap: darak, yoyiq. Ega: olma (nima?). Kesim: pishdi (nima qildi?). Aniqlovchi: qizil (qanday olma?) — sifatlovchi aniqlovchi.",
+        "5. «Akam ertalab maktabga ketdi.» Sodda gap: darak, yoyiq. Ega: akam (kim?). Kesim: ketdi (nima qildi?). Payt holi: ertalab (qachon?). O‘rin holi: maktabga (qayerga?).",
+        "6. «Do‘stimning kitobi stol ustida yotibdi.» Sodda gap: darak, yoyiq. Ega: kitobi (nima?). Aniqlovchi: do‘stimning (kimning kitobi?) — qaratqich aniqlovchi. O‘rin holi: stol ustida (qayerda?). Kesim: yotibdi (nima qilyapti?).",
+        "7. «Yomg‘ir tufayli o‘yin kechiktirildi.» Sodda gap: darak, yoyiq. Ega: o‘yin (nima?). Kesim: kechiktirildi (nima qilindi?). Sabab holi: yomg‘ir tufayli (nima sababdan?).",
+        "8. «Biz sog‘lom bo‘lish uchun sport bilan shug‘ullanamiz.» Sodda gap: darak, yoyiq. Ega: biz (kim?). Kesim: shug‘ullanamiz (nima qilamiz?). To‘ldiruvchi: sport bilan (nima bilan?) — vositali to‘ldiruvchi. Maqsad holi: sog‘lom bo‘lish uchun (nima uchun?).",
+        "9. «Biz bugun ko‘p o‘qidik.» Sodda gap: darak, yoyiq. Ega: biz (kim?). Kesim: o‘qidik (nima qildik?). Payt holi: bugun (qachon?). Miqdor-daraja holi: ko‘p (qancha?).",
+        "10. «Bog‘da olma, anor va uzum pishdi.» Sodda gap: darak, uyushiq bo‘lakli. O‘rin holi: bog‘da (qayerda?). Uyushiq ega: olma, anor, uzum (nima?). Kesim: pishdi (nima qildi?). Uyushiq bo‘laklar orasida vergul va «va» bog‘lovchisi bor.",
+        "11. «Onam bozordan non, sabzi va piyoz oldi.» Sodda gap: darak, uyushiq bo‘lakli. Ega: onam (kim?). Kesim: oldi (nima qildi?). O‘rin holi: bozordan (qayerdan?). Uyushiq to‘ldiruvchi: non, sabzi, piyoz (nimani?) — tushum kelishigi qo‘shimchasiz.",
+        "12. «Aziz, kitobingni och!» Sodda gap: buyruq, undov. Undalma: Aziz — gap bo‘lagi emas, vergul bilan ajratiladi. Kesim: och (nima qil?). To‘ldiruvchi: kitobingni (nimani?). Ega ifodalanmagan: u «sen» so‘zi ma’nosida tushuniladi.",
+        "13. «Menimcha, bugun yomg‘ir yog‘adi.» Sodda gap: darak, kirish so‘zli. Kirish so‘z: menimcha — gap bo‘lagi emas, vergul bilan ajratiladi. Payt holi: bugun (qachon?). Ega: yomg‘ir (nima?). Kesim: yog‘adi (nima qiladi?).",
+        "14. «Siz qayerda o‘qiysiz?» Sodda gap: so‘roq, yoyiq. Ega: siz (kim?). O‘rin holi: qayerda (qayerda?). Kesim: o‘qiysiz (nima qilasiz?).",
+        "15. «Chiroyli tong!» Sodda gap: atov gap, undov, bir tarkibli. Gapning asosiy bo‘lagi: tong — bosh kelishikdagi ot, u narsaning mavjudligini bildiradi. Aniqlovchi: chiroyli (qanday tong?)."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "qoshma-gaplar",
+      "text": "Qo‘shma gaplar: 16–20"
+    },
+    {
+      "type": "list",
+      "items": [
+        "16. «Yomg‘ir yog‘di va havo salqinlashdi.» Qo‘shma gap: ikkita kesim bor (yog‘di, salqinlashdi). Qismlari teng, «va» biriktiruv bog‘lovchisi bilan bog‘langan — bog‘langan qo‘shma gap. 1-sodda gap: ega — yomg‘ir, kesim — yog‘di. 2-sodda gap: ega — havo, kesim — salqinlashdi.",
+        "17. «Men bormoqchi edim, lekin vaqtim yo‘q edi.» Qo‘shma gap, bog‘langan: qismlar «lekin» zidlov bog‘lovchisi bilan bog‘langan, bog‘lovchidan oldin vergul qo‘yiladi. 1-sodda gap: ega — men, kesim — bormoqchi edim. 2-sodda gap: ega — vaqtim, kesim — yo‘q edi.",
+        "18. «Agar yomg‘ir yog‘sa, biz uyda qolamiz.» Ergashgan qo‘shma gap. Ergash gap: «agar yomg‘ir yog‘sa» — shart ergash gap (ega — yomg‘ir, kesim — yog‘sa). Bosh gap: «biz uyda qolamiz» (ega — biz, o‘rin holi — uyda, kesim — qolamiz). Qismlarni «agar» bog‘lovchisi va kesimdagi -sa qo‘shimchasi bog‘laydi; ergash gapdan keyin vergul qo‘yiladi.",
+        "19. «Dars tugagach, o‘quvchilar uyga qaytishdi.» Ergashgan qo‘shma gap. Ergash gap: «dars tugagach» — payt ergash gap (qachon?), ega — dars, kesim — tugagach. Bosh gap: «o‘quvchilar uyga qaytishdi» (ega — o‘quvchilar, o‘rin holi — uyga, kesim — qaytishdi). Bog‘lovchi vosita: kesimdagi -gach qo‘shimchasi.",
+        "20. «Qo‘ng‘iroq chalindi, dars boshlandi.» Bog‘lovchisiz qo‘shma gap: ikki sodda gap bog‘lovchisiz, faqat ohang yordamida bog‘langan va vergul bilan ajratilgan. 1-sodda gap: ega — qo‘ng‘iroq, kesim — chalindi. 2-sodda gap: ega — dars, kesim — boshlandi."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qo‘shma gap turi",
+        "Qismlar qanday bog‘lanadi",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "Bog‘langan qo‘shma gap",
+          "va, ham, ammo, lekin, yoki kabi teng bog‘lovchilar bilan",
+          "Yomg‘ir yog‘di va havo salqinlashdi."
+        ],
+        [
+          "Ergashgan qo‘shma gap",
+          "agar, chunki kabi bog‘lovchilar yoki kesimdagi -sa, -gach kabi qo‘shimchalar bilan",
+          "Agar yomg‘ir yog‘sa, biz uyda qolamiz."
+        ],
+        [
+          "Bog‘lovchisiz qo‘shma gap",
+          "faqat ohang va tinish belgilari bilan",
+          "Qo‘ng‘iroq chalindi, dars boshlandi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Sintaktik tahlildagi tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Egani kesimdan oldin qidirish. To‘g‘risi: avval kesimni toping, keyin unga «kim? nima?» so‘rog‘ini bering.",
+        "Egalik qo‘shimchali so‘zni aniqlovchi deb olish. «Do‘stimning kitobi»da ega — kitobi, aniqlovchi — do‘stimning.",
+        "Hol bilan to‘ldiruvchini aralashtirish. «Maktabga ketdi» — qayerga? (o‘rin holi); «darsga tayyorlandi» — nimaga? (to‘ldiruvchi).",
+        "Uyushiq bo‘laklarni alohida bo‘lak sanash. «Olma, anor va uzum» — bitta uyushiq ega.",
+        "Undalma va kirish so‘zni gap bo‘lagi deb hisoblash. Ular gap bo‘lagi emas, vergul bilan ajratiladi.",
+        "Ifodalanmagan egani unutish. «Kitobingni och!» gapida ega tushirilgan, uni «sen» deb tushunamiz.",
+        "Qo‘shma gapga bitta ega va bitta kesim ko‘rsatish. Har bir sodda gapning o‘z egasi va kesimi alohida topiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-oqituvchi",
+      "text": "AI o‘qituvchi bilan mashq"
+    },
+    {
+      "type": "p",
+      "text": "Chat ustidagi tugmalarda tayyor so‘rovlar bor: tahlil uchun gaplar, gapingizni tahlil qilish, ega va kesimni topish mashqi, hol va to‘ldiruvchini ajratish, qo‘shma gap turini aniqlash va tahlilingizni tekshirish. Tugma so‘rovni faqat yozish maydoniga qo‘yadi; uni o‘zgartirishingiz mumkin, yuborishni esa o‘zingiz hal qilasiz. So‘rovga sinfingizni yozing, masalan: «7-sinf uchun 8 ta sodda gap ber, tahlilini men yozaman»."
+    },
+    {
+      "type": "p",
+      "text": "AI uy vazifasini o‘rningizga bajarish uchun emas: avval o‘zingiz tahlil qiling, keyin tekshirishni so‘rang. Model ham adashishi mumkin, ayniqsa murakkab gaplarda: shubhali javobni shu sahifadagi jadval va namunalar hamda darsligingiz bilan solishtiring."
+    },
+    {
+      "type": "h2",
+      "id": "keyingi-qadam",
+      "text": "Keyingi qadam"
+    },
+    {
+      "type": "linkp",
+      "text": "Tahlilni mustahkamlash uchun {test} bilan sinab ko‘ring: sintaksis va tinish belgilari bo‘yicha alohida savollar bor. O‘zingiz gap tuzishni mashq qilish uchun {matn} sahifasiga o‘ting. Matnni kirill va lotin yozuvlari orasida o‘girish kerak bo‘lsa, {kl} sahifasidan foydalaning. Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "test",
+          "target": "/uz/ona-tili-test/",
+          "anchor": "ona tilidan 80 ta mashq savoli"
+        },
+        {
+          "token": "matn",
+          "target": "/uz/matn-tuzish/",
+          "anchor": "kichik matn tuzish"
+        },
+        {
+          "token": "kl",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill va lotin yozuvini o‘girish"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Синтактик таҳлил: таҳлил тартиби, гап бўлаклари жадвали (эга, кесим, тўлдирувчи, аниқловчи, ҳол) ва соддадан қўшма гапгача 20 та таҳлил қилинган гап. Ўз таҳлилингизни AI ўқитувчи билан текширинг."
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "bizga Telegram’da"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Sintaktik tahlil nima?",
+      "a": "Gapni bo‘laklarga ajratib, har bir bo‘lakning vazifasini (ega, kesim, to‘ldiruvchi, aniqlovchi, hol) va gapning turini (darak, so‘roq, buyruq; sodda, qo‘shma) aniqlash. Maktabda ona tili darsida u og‘zaki yoki yozma topshiriq sifatida so‘raladi."
+    },
+    {
+      "q": "Gap bo‘laklari nechta?",
+      "a": "Beshta: ikkita bosh bo‘lak (ega, kesim) va uchta ikkinchi darajali bo‘lak (to‘ldiruvchi, aniqlovchi, hol). Gap bo‘lagi bo‘lmaydigan so‘zlar ham bor: undalma va kirish so‘z."
+    },
+    {
+      "q": "Ega bilan kesimni qanday tez topish mumkin?",
+      "a": "Kesimni birinchi qidiring: u odatda fe’l bilan ifodalanadi va «nima qildi?» so‘rog‘iga javob beradi. So‘ng kesimga «kim?» yoki «nima?» so‘rog‘ini bering: javob ega bo‘ladi. Masalan, «Qizil olma pishdi» gapida kesim — pishdi, ega — olma."
+    },
+    {
+      "q": "Hol bilan to‘ldiruvchini qanday ajratish mumkin?",
+      "a": "So‘roqqa qarang. Kimni? nimani? kimga? nimaga? nima bilan? kabi so‘roqlar to‘ldiruvchiga, qachon? qayerda? qayerga? qayerdan? qanday? nima uchun? kabi so‘roqlar holga tegishli. Ba’zan bir xil qo‘shimchali so‘z ham to‘ldiruvchi, ham hol bo‘lishi mumkin: «maktabga ketdi» (qayerga? — hol), «darsga tayyorlandi» (nimaga? — to‘ldiruvchi)."
+    },
+    {
+      "q": "Sodda gap bilan qo‘shma gap farqi nima?",
+      "a": "Sodda gapda bitta ega-kesim juftligi (yoki bitta kesim) bo‘ladi, qo‘shma gap esa ikki yoki undan ortiq sodda gapdan tuziladi va unda bir nechta kesim bor. Qo‘shma gap bog‘langan, ergashgan yoki bog‘lovchisiz bo‘lishi mumkin."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Tartib, jadval va namunalar bepul. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ona-tili-test/",
+      "anchor": "Ona tilidan mashq savollari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/matn-tuzish/",
+      "anchor": "Kichik matn tuzish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill va lotin yozuvini o‘girish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: sintaktik tahlil",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Sintaktik tahlil tartibi, gap bo‘laklari jadvali va tahlil qilingan gaplar, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: yangi gaplar beradi va tahlilingizni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul tartib va namunalar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Tartib, jadval va namunalar bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/sintaktik-tahlil/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

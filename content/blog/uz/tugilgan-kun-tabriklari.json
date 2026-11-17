@@ -15,13 +15,14 @@
     "тугилган кун табриклари",
     "tugilgan kun tilaklari",
     "tugilgan kun muborak",
-    "tugilgan kuning bilan"
+    "tugilgan kuning bilan",
+    "тугилган кун табриги сузлар"
   ],
   "intro": "Tug‘ilgan kunda aytilgan iliq so‘z sovg‘adan ham uzoqroq esda qoladi. Bu sahifada adresatlar bo‘yicha tayyor matnlar — onaga, otaga, aka-uka va opa-singilga, do‘stga, turmush o‘rtog‘iga, farzandga, ustozga, hamkasb va rahbarga, buvi va boboga — hamda kirill yozuvidagi variantlar jamlangan.",
   "body": [
     {
       "type": "p",
-      "text": "Qisqa javob: quyida tug‘ilgan kun uchun 57 ta tayyor tabrik bor — onaga, otaga, aka-uka va opa-singilga, do‘st va dugonaga, turmush o‘rtog‘iga, farzandga, ustozga, hamkasb va rahbarga, buvi va boboga, shuningdek kirill yozuvidagi 9 ta matn. Yoqqanini ko‘chirib oling, kvadrat qavsdagi joylarni to‘ldiring va o‘zingizdan bitta jumla qo‘shing: umumiy xotira yoki shu odamning fazilati. Matnlar shu sahifa uchun AI yordamida yozilgan."
+      "text": "Qisqa javob: quyida tug‘ilgan kun uchun 57 ta tayyor tabrik bor — onaga, otaga, aka-uka va opa-singilga, do‘st va dugonaga, turmush o‘rtog‘iga, farzandga, ustozga, hamkasb va rahbarga, buvi va boboga. Sahifa oxirida kirill yozuvidagi 21 ta matn ham bor: 20 tasi shu tabriklarning kirillcha nusxasi, bittasi hammaga mos qisqa tabrik. Yoqqanini ko‘chirib oling, kvadrat qavsdagi joylarni to‘ldiring va o‘zingizdan bitta jumla qo‘shing: umumiy xotira yoki shu odamning fazilati. Matnlar shu sahifa uchun AI yordamida yozilgan."
     },
     {
       "type": "linkp",
@@ -36,6 +37,22 @@
           "token": "sher",
           "target": "/uz/ai-sher-yozish/",
           "anchor": "AI she’r yozish"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Faqat ayolga yoki faqat erkakka atalgan matnlar kerak bo‘lsa, alohida sahifalarga o‘ting: {ayol} va {erkak}. Har birida 48 tadan matn bor, ular bu sahifadagi tabriklarni takrorlamaydi.",
+      "links": [
+        {
+          "token": "ayol",
+          "target": "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+          "anchor": "ayol kishiga tug‘ilgan kun tabrigi"
+        },
+        {
+          "token": "erkak",
+          "target": "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+          "anchor": "erkak kishiga tug‘ilgan kun tabrigi"
         }
       ]
     },
@@ -302,6 +319,77 @@
       "text": "Туғилган кунингиз муборак бўлсин! Сизга соғлик, бахт ва узоқ умр тилайман."
     },
     {
+      "type": "h3",
+      "id": "kirill-sozlar",
+      "lang": "uz-Cyrl",
+      "text": "Туғилган кун табриги сўзлари: кирилл ёзувида яна 12 та матн"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қуйидаги 12 та матн янги табрик эмас: улар юқоридаги лотин ёзувидаги табрикларнинг кириллча нусхаси."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азиз онам, бугун сизга энг чиройли сўзларни айтгим келади, лекин уларнинг ҳаммаси битта гапга сиғади: сиз борлигингиз учун раҳмат. Туғилган кунингиз қутлуғ бўлсин!"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Отажон, сиз менга ҳеч қачон узоқ насиҳат қилмагансиз — ҳаммасини ўз ишингиз билан кўрсатгансиз. Шу сабоқларингиз учун раҳмат. Туғилган кунингиз қутлуғ бўлсин, оиламиз бошида узоқ йиллар соғ-омон юринг!"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Укажон, туғилган кунинг муборак! Кўз ўнгимда улғайдинг, энди ўзинг катта ишларни уддалаяпсан — сен билан фахрланаман. Янги ёшингда барча режаларинг амалга ошсин!"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Сингилжоним, туғилган кунинг муборак! Сен оиламизнинг қувончисан. Орзуларинг катта — ҳаммасига етишингга ишонаман. Доим ёнингдаман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қадрдоним, туғилган кунинг қутлуғ бўлсин! Яхши кунимда ҳам, оғир кунимда ҳам ёнимда бўлганинг учун раҳмат. Сенга мустаҳкам соғлик ва хотиржам ҳаёт тилайман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Жонажон дугонам, туғилган кунинг муборак! Сен билан сирлашиш ҳам, бирга жим ўтириш ҳам ёқимли. Кўзларингдаги шу нур ҳеч қачон сўнмасин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Умр йўлдошим, туғилган кунингиз билан табриклайман! Бирга кечирган йилларимиз — менинг энг катта бойлигим. Бундан кейин ҳам барча қувончларни бирга баҳам кўрайлик."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азизам, туғилган кунинг муборак! Уйимизнинг файзи ҳам, менинг тинчлигим ҳам сен билан. Сабринг ва меҳринг учун раҳмат. Доим соғ бўл, бахтимизга омон бўл."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ўғлим, туғилган кунинг муборак! Сен дунёга келган кун биз учун энг бахтли кун бўлган. Ҳалол, меҳнатсевар ва мард йигит бўлиб улғайганингдан фахрланамиз. Йўлинг доим очиқ бўлсин!"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қизим, туғилган кунинг қутлуғ бўлсин! Сен уйимизнинг қувончи ва кўркисан. Билим ол, орзуларингга интил — биз доим ёнингдамиз. Бахтли бўл, оппоқ қизим!"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қадрли [исм], туғилган кунингиз билан табриклаймиз! Тажрибангизни ҳеч кимдан аямайсиз, янги келганларга доим ёрдам берасиз. Сизга соғлик, ишда янги ютуқлар ва оилангизга тинчлик тилаймиз."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Дадажон, 60 ёшингиз қутлуғ бўлсин! Шунча йил давомида бизга суянч бўлдингиз, энди навбат бизда: фарзандларингиз ва невараларингиз доим хизматингизда. Соғ бўлинг, узоқ умр кўринг."
+    },
+    {
       "type": "h2",
       "id": "shaxsiy",
       "text": "Tabrikni shaxsiy qilish: 3 qadam"
@@ -384,7 +472,7 @@
     },
     {
       "q": "Tabrikni kirill yozuvida yuborsa bo‘ladimi?",
-      "a": "Ha, ayniqsa katta yoshdagilar kirill yozuvini afzal ko‘rsa. Sahifaning pastki qismida kirill yozuvidagi to‘qqizta tabrik bor, boshqa matnni esa saytdagi kirill-lotin o‘giruvchi bilan o‘girish mumkin."
+      "a": "Ha, ayniqsa katta yoshdagilar kirill yozuvini afzal ko‘rsa. Sahifaning pastki qismida kirill yozuvidagi 21 ta matn bor: 20 tasi yuqoridagi tabriklarning kirillcha nusxasi, bittasi hammaga mos qisqa tabrik. Boshqa matnni saytdagi kirill-lotin o‘giruvchi bilan o‘girish mumkin."
     },
     {
       "q": "Tabrikni qachon yuborgan ma’qul?",
@@ -448,7 +536,7 @@
   "breadcrumbLabel": "Tug‘ilgan kun tabriklari",
   "author": "Борис Герасимов",
   "datePublished": "2026-11-16",
-  "dateModified": "2026-11-16",
+  "dateModified": "2026-11-17",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -463,6 +551,6 @@
       "note": "Til modellari noto‘g‘ri fakt yoki mavjud bo‘lmagan ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Tabrikda bu siz aytmagan xotira, sana yoki fazilat ko‘rinishida chiqishi mumkin; bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf. Manba sayt qo‘llanmalari uchun 2026-10-05 kuni tekshirilgan."
     }
   ],
-  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z",
   "createdAt": "2026-11-16T00:00:00.000Z"
 }

@@ -80,6 +80,82 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Yangi bo‘limlar: {ai} — ChatGPT, Gemini, Claude va boshqa xizmatlar bo‘yicha qo‘llanmalar. Ona tili darslari uchun {matn}, {sintaktik} va {onatili} bor; kimyo uchun — {mendeleyev}. Matematika: {formulalar}, {rim}, {sistema}, {mental}, {tub}, {ekub}. Kundalik ishlar uchun: {kalendar}, {taklifnoma} va {nik}.",
+      "links": [
+        {
+          "token": "ai",
+          "target": "/uz/ai-xizmatlar/",
+          "anchor": "AI xizmatlari katalogi"
+        },
+        {
+          "token": "matn",
+          "target": "/uz/matn-tuzish/",
+          "anchor": "matn tuzish namunalari"
+        },
+        {
+          "token": "sintaktik",
+          "target": "/uz/sintaktik-tahlil/",
+          "anchor": "gapni sintaktik tahlil qilish tartibi"
+        },
+        {
+          "token": "onatili",
+          "target": "/uz/ona-tili-test/",
+          "anchor": "ona tilidan mashq testi"
+        },
+        {
+          "token": "mendeleyev",
+          "target": "/uz/mendeleyev-jadvali/",
+          "anchor": "Mendeleyev davriy jadvali"
+        },
+        {
+          "token": "formulalar",
+          "target": "/uz/qisqa-kopaytirish-formulalari/",
+          "anchor": "qisqa ko‘paytirish formulalari"
+        },
+        {
+          "token": "rim",
+          "target": "/uz/rim-raqamlari/",
+          "anchor": "rim raqamlari jadvali"
+        },
+        {
+          "token": "sistema",
+          "target": "/uz/tenglamalar-sistemasi/",
+          "anchor": "tenglamalar sistemasini yechish"
+        },
+        {
+          "token": "mental",
+          "target": "/uz/mental-arifmetika-misollar/",
+          "anchor": "og‘zaki tez hisoblash usullari"
+        },
+        {
+          "token": "tub",
+          "target": "/uz/tub-sonlar/",
+          "anchor": "tub sonlar jadvali"
+        },
+        {
+          "token": "ekub",
+          "target": "/uz/ekub-ekuk/",
+          "anchor": "EKUB va EKUK topish"
+        },
+        {
+          "token": "kalendar",
+          "target": "/uz/kalendar-2027/",
+          "anchor": "2027-yil kalendari"
+        },
+        {
+          "token": "taklifnoma",
+          "target": "/uz/taklifnoma-yasash/",
+          "anchor": "taklifnoma matnlari"
+        },
+        {
+          "token": "nik",
+          "target": "/uz/nik-yasash/",
+          "anchor": "nik uchun chiroyli harflar"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "text": "Biznes uchun AI bot nima"
     },
@@ -502,6 +578,6 @@
     "FAQPage"
   ],
   "lastReviewedAt": "2026-10-07",
-  "updatedAt": "2026-11-16",
+  "updatedAt": "2026-11-17",
   "createdAt": "2026-07-01"
 }

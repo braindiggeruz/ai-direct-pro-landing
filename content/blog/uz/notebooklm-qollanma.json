@@ -1,0 +1,571 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "notebooklm-qollanma",
+  "url": "/uz/blog/notebooklm-qollanma/",
+  "title": "NotebookLM (Gemini Notebook): talabaga qo‘llanma | GPTBot.uz",
+  "description": "NotebookLM endi Gemini Notebook deb ataladi. Rasmiy manzil, fayl qo‘shish, konspekt, savol-javob, audio sharh, o‘zbek tili, limitlar va 8 ta o‘quv ssenariysi.",
+  "h1": "Google NotebookLM (Gemini Notebook): fayllaringizdan konspekt, test va audio sharh",
+  "topicCluster": "ai-xizmatlar",
+  "keywords": [
+    "notebooklm",
+    "notebook lm",
+    "google notebooklm",
+    "notebooklm ai",
+    "notebooklm google",
+    "gemini notebook"
+  ],
+  "intro": "NotebookLM — Google’ning AI yordamchisi: u siz yuklagan fayllar bilan ishlaydi. Manbalarni yuklaysiz — u konspekt tuzadi, savollarga iqtibos bilan javob beradi va mavzuni audio suhbatga aylantiradi. 2026-yil 16-iyulda Google uni Gemini Notebook deb qayta nomladi; rasmiy manzil — notebook.google, eski notebooklm.google manzili ham o‘sha yerga olib boradi. Quyidagi ma’lumotlar rasmiy sahifalardan 2026-yil 17-noyabrda tekshirildi.",
+  "body": [
+    {
+      "type": "quote",
+      "text": "Qisqasi: notebook.google manziliga Google hisobi bilan kirasiz; O‘zbekiston rasmiy ro‘yxatda bor; pullik rejasiz ham ishlaydi, lekin limit bilan; o‘zbek tili chiqish tillari ro‘yxatida yo‘q."
+    },
+    {
+      "type": "linkp",
+      "text": "Rasmiy manzillar: xizmatning o‘zi — {site}; nom o‘zgargani haqidagi e’lon — {news}.",
+      "links": [
+        {
+          "token": "site",
+          "target": "https://notebook.google/",
+          "anchor": "notebook.google"
+        },
+        {
+          "token": "news",
+          "target": "https://blog.google/innovation-and-ai/products/gemini-notebook/notebooklm-gemini-notebook/",
+          "anchor": "Google blogidagi rasmiy xabar"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "NotebookLM nima va nega endi Gemini Notebook deyiladi"
+    },
+    {
+      "type": "p",
+      "text": "Oddiy AI chat savolga o‘zi o‘rgangan umumiy bilim asosida javob beradi. NotebookLM boshqacha ishlaydi: javobni siz yuklagan manbalardan oladi va fikr qaysi manbaga tayanganini iqtibos bilan ko‘rsatadi. Rasmiy yordam sahifasiga ko‘ra, javob manbalarda bo‘lmasa, xizmat javob bermaydi."
+    },
+    {
+      "type": "p",
+      "text": "2026-yil 16-iyulda Google xizmat nomini o‘zgartirdi: NotebookLM endi Gemini Notebook. E’londa aytilishicha, u alohida mahsulot bo‘lib qoladi, daftarlar esa Gemini ilovasida ham ochiladi va ikki tomonda sinxronlanadi. Qidiruvda hali ham «NotebookLM» deb yozishadi — bu o‘sha xizmatning o‘zi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Rasmiy sahifadagi holat (17.11.2026)"
+      ],
+      "rows": [
+        [
+          "Rasmiy manzil",
+          "notebook.google; kirgandan keyin — notebook.google.com"
+        ],
+        [
+          "Kirish",
+          "Google hisobi bilan; alohida ro‘yxatdan o‘tilmaydi"
+        ],
+        [
+          "O‘zbekiston",
+          "Qo‘llab-quvvatlanadigan mamlakatlar ro‘yxatida bor"
+        ],
+        [
+          "Telefon",
+          "Android va iPhone uchun «Gemini Notebook» ilovasi"
+        ],
+        [
+          "O‘zbek tili",
+          "Chiqish tillari ro‘yxatida (80 dan ortiq til) yo‘q"
+        ],
+        [
+          "Pullik rejasiz",
+          "100 tagacha daftar, har birida 50 tagacha manba"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kirish",
+      "text": "Qanday kiriladi va O‘zbekistonda ishlaydimi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Brauzerning manzil qatoriga notebook.google deb o‘zingiz yozing. Reklama havolasi yoki «NotebookLM yuklab olish» deb nomlangan begona saytlar orqali kirmang.",
+        "«Sign in» tugmasini bosing va Google hisobingiz bilan kiring.",
+        "Google yoshingizni tasdiqlashni so‘rasa, buni Google hisobi sozlamalarida bajaring.",
+        "Telefonda Google Play yoki App Store’dan «Gemini Notebook» ilovasini o‘rnatish mumkin. O‘rnatishdan oldin ishlab chiquvchi sifatida Google ko‘rsatilganini tekshiring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy yordam sahifasidagi mamlakatlar ro‘yxatida O‘zbekiston bor; Qozog‘iston, Qirg‘iziston, Tojikiston va Turkmaniston ham shu ro‘yxatda. Xizmat o‘z mamlakatida belgilangan rozilik yoshidan katta foydalanuvchilarga ochiq, ayrim funksiyalar esa faqat 18 yoshdan kattalar uchun. Maktab yoki ish joyi bergan Google hisobida xizmatni administrator yoqib qo‘yishi kerak."
+    },
+    {
+      "type": "linkp",
+      "text": "Ro‘yxat o‘zgarib turadi, ilova esa mamlakatlarga bosqichma-bosqich tarqatilmoqda. Sahifa ochilmasa, avval {countries}ni tekshiring, keyin Google hisobingizdagi yosh va mamlakat sozlamalariga qarang.",
+      "links": [
+        {
+          "token": "countries",
+          "target": "https://support.google.com/gemininotebook/answer/16164461?hl=en&co=GENIE.Platform%3DDesktop",
+          "anchor": "rasmiy mamlakatlar ro‘yxati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "manba-qoshish",
+      "text": "O‘z fayllaringizni qanday qo‘shasiz"
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Create new notebook» tugmasini bosing. Har bir fan yoki mavzu uchun alohida daftar ochgan ma’qul: xizmat bir vaqtda faqat bitta daftar ichidagi manbalarni ko‘radi.",
+        "Ochilgan oynada «Upload a source» ni tanlang: fayl yuklang, havola qo‘ying yoki matnni nusxalab qo‘ying.",
+        "Manbalar chap tomondagi «Sources» panelida turadi. Keraksiz manbaning belgisini olib tashlasangiz, u javoblarda ishlatilmaydi.",
+        "«Chat» panelida manbalarning avtomatik qisqa mazmuni chiqadi — savollarni shu yerda berasiz.",
+        "«Studio» panelida audio, video, kartochka, test va boshqa materiallar yaratiladi."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Manba turi",
+        "Nimaga e’tibor berish kerak"
+      ],
+      "rows": [
+        [
+          "PDF, Word (docx), txt, Markdown, PowerPoint (pptx), CSV, ePub",
+          "Bitta fayl 200 MB dan oshmasin; nusxalashdan himoyalangan PDF yuklanmaydi"
+        ],
+        [
+          "Google Docs, Slides, Sheets",
+          "Slides — 100 slaydgacha; Drive’dagi o‘zgarishlar o‘zi yangilanadi"
+        ],
+        [
+          "Veb-sahifa havolasi",
+          "Faqat matn olinadi; pullik obuna ortidagi sahifalar o‘qilmaydi"
+        ],
+        [
+          "YouTube havolasi",
+          "Video ochiq va subtitrli bo‘lishi kerak"
+        ],
+        [
+          "Audio (MP3, WAV)",
+          "Nutqsiz yoki sifati past yozuv yuklanmasligi mumkin"
+        ],
+        [
+          "Rasm va nusxalangan matn",
+          "Masalan, o‘z qaydlaringiz yoki ma’ruza matni"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bitta manba 500 000 so‘zgacha bo‘lishi mumkin. Pullik rejasiz bir daftarga 50 tagacha manba sig‘adi. Telefon ilovasida manba turlari kamroq: PDF, veb-sahifa, YouTube, audio va nusxalangan matn."
+    },
+    {
+      "type": "p",
+      "text": "Manbani xizmatning o‘zi ham topib beradi. «Add sources» oynasida savol yozsangiz, Fast Research internetdan yoki Drive’dan mos materiallarni taklif qiladi. Deep Research chuqurroq qidiradi, bir necha daqiqa oladi va faqat 18 yoshdan kattalarga ochiq. Topilgan manbani qo‘shishdan oldin o‘zingiz ochib o‘qing."
+    },
+    {
+      "type": "h2",
+      "id": "konspekt-savol",
+      "text": "Konspekt, savol-javob va iqtiboslar"
+    },
+    {
+      "type": "p",
+      "text": "Chatga savolni oddiy tilda yozasiz, masalan: «Shu ma’ruzaning beshta asosiy g‘oyasini sanab ber». Javob ichida iqtiboslar ko‘rsatiladi: har bir fikr qaysi manbaga tayanganini ko‘rasiz. Konspektga ko‘chirishdan oldin o‘sha manbani ochib, tegishli joyini o‘qib chiqing."
+    },
+    {
+      "type": "p",
+      "text": "Tayyor o‘quv materiallari «Studio» panelida yaratiladi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Reports — hisobot. Tayyor turlari orasida «Study guide» (o‘quv qo‘llanma), FAQ va «Briefing document» bor; natija Google Docs’ga eksport qilinadi.",
+        "Flashcards — atama va ta’riflar uchun kartochkalar. Qiyinlik darajasini tanlaysiz, «Got it!» va «Missed it!» belgilari bilan o‘zingizni tekshirasiz, CSV fayl qilib yuklab olasiz.",
+        "Quizzes — test. Har bir savolda maslahat bor, «Explain» tugmasi esa javobni tushuntiradi.",
+        "Mind Map — mavzular xaritasi. Chatdagi «Mind Map» tugmasi bilan yaratiladi; tugunni bosib, shu bo‘lim bo‘yicha savol berasiz.",
+        "Data Tables, Slide Decks va Infographics — jadval, slayd va infografika."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Telefon ilovasida hozircha qaydlar, Mind Map, hisobot va jadvallar yo‘q. To‘liq imkoniyat uchun kompyuterdagi veb-versiyani oching."
+    },
+    {
+      "type": "h2",
+      "id": "audio",
+      "text": "Audio Overview: mavzuni podkast kabi tinglash"
+    },
+    {
+      "type": "p",
+      "text": "Audio Overview — manbalaringiz asosida AI boshlovchilar olib boradigan audio suhbat. «Studio» panelida «Audio Overview» ni bosasiz; tayyor bo‘lishi bir necha daqiqa oladi. To‘rtta format bor:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Deep Dive — ikki boshlovchining batafsil suhbati (standart format).",
+        "The Brief — bitta boshlovchi asosiy xulosalarni ikki daqiqadan qisqa vaqtda aytadi.",
+        "The Critique — ikki boshlovchi ishingizga, masalan, essega tanqidiy fikr bildiradi.",
+        "The Debate — ikki boshlovchi mavzuga turli tomondan qarab bahslashadi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Yaratishdan oldin til, uzunlik (Shorter, Default yoki Longer) va qo‘shimcha ko‘rsatma beriladi; «Longer» faqat ingliz tilida ishlaydi. Tayyor audioni yuklab olish yoki havola orqali ulashish mumkin. Suhbatga ovoz bilan qo‘shilish (Interactive mode) ham faqat ingliz tilida. Video Overview — xuddi shu g‘oyaning video ko‘rinishi: Explainer va taxminan 60 soniyali Short formati bor, Cinematic formati esa faqat ingliz tilida va 18 yoshdan."
+    },
+    {
+      "type": "h2",
+      "id": "ozbek-tili",
+      "text": "O‘zbek tilida nima ishlaydi"
+    },
+    {
+      "type": "p",
+      "text": "Rasmiy «Output Language» ro‘yxatida 80 dan ortiq til bor. Ular orasida ingliz, rus, turk va ozarbayjon tillari bor, o‘zbek tili yo‘q (17.11.2026). Audio Overview tillari ro‘yxatida ham shunday. Demak, o‘zbekcha javob ham, o‘zbekcha audio sharh ham rasman va’da qilinmagan."
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘zbekcha manba yuklab, savolni o‘zbekcha yozib ko‘ring — avval bitta kichik faylda. Natijani iqtiboslar bo‘yicha tekshiring.",
+        "Javob tili to‘g‘ri kelmasa, yuqori o‘ng burchakdagi «Settings» → «Output Language» orqali rus yoki ingliz tilini tanlang.",
+        "Audio Overview uchun ham ro‘yxatdagi tilni tanlang: rus, ingliz yoki turk.",
+        "Standart holda javob tili Google hisobingizdagi asosiy tilga qarab qo‘yiladi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Darslik rus yoki ingliz tilida bo‘lsa, bu hatto qulay: javobni manba tilida olasiz, konspektni esa o‘zbek tilida o‘z so‘zingiz bilan yozasiz."
+    },
+    {
+      "type": "h2",
+      "id": "limitlar",
+      "text": "Limitlar va pullik rejalar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ko‘rsatkich",
+        "Pullik rejasiz",
+        "Google AI Plus, Pro, Ultra rejalarida"
+      ],
+      "rows": [
+        [
+          "Daftarlar soni",
+          "100 tagacha",
+          "Plus — 200, Pro va Ultra — 500"
+        ],
+        [
+          "Bir daftardagi manbalar",
+          "50 tagacha",
+          "Plus — 100, Pro — 300, Ultra — 500–600"
+        ],
+        [
+          "Bitta manba hajmi",
+          "500 000 so‘z yoki 200 MB",
+          "Rasmiy sahifada farq ko‘rsatilmagan"
+        ],
+        [
+          "Chat va Studio",
+          "Standart limit",
+          "Plus — 2 baravar, Pro — 4 baravar ko‘p"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Chat va Studio limitining aniq soni e’lon qilinmagan. U hisoblash hajmiga bog‘liq: so‘rovning murakkabligi, suhbat uzunligi va tanlangan funksiya hisobga olinadi. Limit har 5 soatda yangilanadi, haftalik chegara ham bor. Qolgan miqdorni «Settings» → «Usage» bo‘limida ko‘rasiz; limit tugasa, veb-versiyada «Generate later» ni tanlab, materialni keyinroq olasiz."
+    },
+    {
+      "type": "p",
+      "text": "Narxlarni bu yerda yozmaymiz: ular mamlakat va vaqtga qarab o‘zgaradi. Mahalliy kartadan to‘lov o‘tishi ham kafolatlanmagan. Pullik reja kerak bo‘lsa, narx va to‘lov usulini Google’ning to‘lov sahifasida o‘zingiz tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "ssenariylar",
+      "text": "Talaba uchun 8 ta o‘quv ssenariysi"
+    },
+    {
+      "type": "p",
+      "text": "Kvadrat qavs ichidagi so‘zlarni o‘zingiznikiga almashtiring. Javob o‘zbekcha chiqmasa, o‘sha so‘rovni rus yoki ingliz tilida bering."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ma’ruza konspekti. Slayd yoki ma’ruza matnini yuklang va yozing: «Shu manba bo‘yicha konspekt tuz: 5–7 ta asosiy g‘oya, har biriga bitta misol».",
+        "Imtihonga tayyorlanish. Barcha ma’ruzalarni bitta daftarga yig‘ing va yozing: «Mana imtihon savollari: [ro‘yxat]. Har biriga manbalar asosida qisqa javob rejasini tuz; manbada javob bo‘lmasa, shuni ayt».",
+        "O‘zingizni sinash. «Quizzes» bo‘limida qiyin darajani tanlang. Xato qilgan savollarda «Explain» ni bosing va o‘sha mavzuni qayta o‘qing.",
+        "Atamalar lug‘ati. «Flashcards» uchun ko‘rsatma bering: «Faqat atama va ta’rif, har bir kartochkada bitta tushuncha». Kartochkalarni CSV qilib yuklab oling.",
+        "Qiyin mavzuni tushunish. «[Mavzu]ni birinchi kurs talabasiga tushuntirgandek sodda tilda tushuntir, keyin meni uchta savol bilan tekshir».",
+        "Kurs ishi manbalari. Maqola va kitob boblarini yuklang: «Har bir manbaning maqsadi, usuli va xulosasini jadvalga yoz; qaysi manbalar bir-biriga zid kelishini ko‘rsat». Matnni esa o‘zingiz yozasiz.",
+        "Yo‘lda takrorlash. Audio Overview’ning «The Brief» yoki «Deep Dive» formatini rus yoki ingliz tilida yarating, yuklab oling va yo‘lda tinglang.",
+        "Chet tilidagi maqola. Inglizcha maqolani yuklang: «Maqolaning maqsadi, usuli, natijasi va cheklovlarini alohida bandlarda yoz; atamalarning asl nusxasini qavsda qoldir»."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Kurs ishining tuzilishi va reja namunasi {kurs} qo‘llanmasida, referat talablari esa {referat} sahifasida yozilgan.",
+      "links": [
+        {
+          "token": "kurs",
+          "target": "/uz/blog/kurs-ishi-yozish/",
+          "anchor": "kurs ishi yozish tartibi"
+        },
+        {
+          "token": "referat",
+          "target": "/uz/blog/referat-va-mustaqil-ish/",
+          "anchor": "referat va mustaqil ish yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ehtiyot",
+      "text": "Aniqlik va shaxsiy fayllar: nimalarga ehtiyot bo‘lish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Har bir muhim fikrni manbadan tekshiring: xulosa manbadagidan kengroq yoki noaniq chiqishi mumkin.",
+        "Audio va video sharhlar haqida Google o‘zi ogohlantiradi: ular AI tomonidan yaratiladi va noaniqlik bo‘lishi mumkin. Sana, raqam va formulalarni manba bilan solishtiring.",
+        "Manba xato bo‘lsa, javob ham xato bo‘ladi: xizmat siz bergan matnga tayanadi.",
+        "Pasport, tibbiy hujjat, shartnoma, boshqa odamning shaxsiy ma’lumoti va maxfiy ish hujjatlarini yuklamang.",
+        "Google yozishicha, shaxsiy hisobdagi kontent asosiy AI modellarini to‘g‘ridan to‘g‘ri o‘qitishda ishlatilmaydi — fikr-mulohaza yubormasangiz. Yuborsangiz, so‘rov, manba va javob Google’ga boradi: uni maxsus xodimlar ko‘rib chiqishi mumkin, ma’lumot esa 3 yilgacha saqlanadi.",
+        "Daftarni ulashsangiz, uni ochgan odam ichidagi materiallarni ham ko‘radi. Boshqa odamga tegishli kitob yoki pullik materialni ommaga ulashmang.",
+        "O‘quv muassasangizning AI bo‘yicha qoidasini bilib oling. Xizmat yozib bergan matnni o‘z ishingiz deb topshirmang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "matn-uchun-chat",
+      "text": "Faylsiz vazifalar uchun: GPTBot.uz chati"
+    },
+    {
+      "type": "linkp",
+      "text": "NotebookLM fayllaringiz bilan ishlaydi. Faylsiz vazifalarda — reja, matn qoralamasi, taqdimot nutqi yoki video ssenariysi kerak bo‘lganda — {chat}dan foydalanish mumkin. Bu mustaqil servis: Google, OpenAI yoki ChatGPT mahsuloti emas. U fayl qabul qilmaydi, matnni chatga nusxalab qo‘yasiz. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak — {tarif} tariflar sahifasida.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
+        {
+          "token": "tarif",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI paket shartlari"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Reja va matn qoralamasini AI chatda tuzish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa xizmatlar bo‘yicha qo‘llanmalar {hub} sahifasida jamlangan. Google’ning umumiy AI yordamchisi haqida {gemini} bor; AI’dan o‘qishda halol foydalanish usullari esa {talaba} maqolasida.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/ai-xizmatlar/",
+          "anchor": "AI xizmatlar: qo‘llanmalar to‘plami"
+        },
+        {
+          "token": "gemini",
+          "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+          "anchor": "Google Gemini bo‘yicha o‘zbekcha qo‘llanma"
+        },
+        {
+          "token": "talaba",
+          "target": "/uz/blog/chatgpt-talabalar-uchun/",
+          "anchor": "ChatGPT talabalar uchun: 20 ta usul"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat: Google, NotebookLM yoki Gemini Notebook bilan bog‘liq emas. Sahifadagi ma’lumotlar rasmiy manbalardan 2026-yil 17-noyabrda tekshirildi; limitlar, tillar va mamlakatlar ro‘yxati o‘zgarishi mumkin."
+    }
+  ],
+  "faq": [
+    {
+      "q": "NotebookLM bepulmi?",
+      "a": "Pullik rejasiz ishlatish mumkin: rasmiy jadvalga ko‘ra, 100 tagacha daftar ochiladi va har biriga 50 tagacha manba qo‘shiladi. Chat va Studio uchun standart limit bor, u har 5 soatda yangilanadi. Pullik Google AI rejalari limitni oshiradi; narxni to‘lov sahifasida tekshiring."
+    },
+    {
+      "q": "NotebookLM bilan Gemini Notebook bitta xizmatmi?",
+      "a": "Ha. 2026-yil 16-iyulda Google NotebookLM nomini Gemini Notebook deb o‘zgartirdi. Eski notebooklm.google manzili yangi notebook.google manziliga olib boradi. Bu o‘sha mahsulotning o‘zi."
+    },
+    {
+      "q": "NotebookLM O‘zbekistonda ochiladimi?",
+      "a": "Rasmiy yordam sahifasidagi mamlakatlar ro‘yxatida O‘zbekiston bor (2026-yil 17-noyabr holati). Kirish uchun Google hisobi va unda tasdiqlangan yosh kerak. Ro‘yxat o‘zgarishi mumkin, shuning uchun sahifa ochilmasa, rasmiy ro‘yxatni qayta tekshiring."
+    },
+    {
+      "q": "NotebookLM o‘zbek tilini tushunadimi?",
+      "a": "O‘zbek tili chiqish tillari ro‘yxatida (80 dan ortiq til) yo‘q, shuning uchun o‘zbekcha javob va audio rasman va’da qilinmagan. O‘zbekcha manbani kichik faylda sinab ko‘ring. Javob tili sifatida rus yoki ingliz tilini tanlash mumkin — ular ro‘yxatda bor."
+    },
+    {
+      "q": "NotebookLM telefonda ishlaydimi?",
+      "a": "Ha. Android (10 va undan yuqori) hamda iPhone uchun «Gemini Notebook» ilovasi bor, O‘zbekiston ikkala ilovaning mamlakatlar ro‘yxatida ko‘rsatilgan. Ilova bosqichma-bosqich tarqatilmoqda; unda qaydlar, Mind Map va hisobotlar hozircha yo‘q."
+    },
+    {
+      "q": "Yuklagan fayllarim AI modelini o‘qitishga ishlatiladimi?",
+      "a": "Google yozishicha, shaxsiy hisobdagi manba, so‘rov va javoblar asosiy AI modellarini to‘g‘ridan to‘g‘ri o‘qitishda ishlatilmaydi. Istisno — siz yuborgan fikr-mulohaza: u bilan birga kontent ham Google’ga boradi. Shunday bo‘lsa ham, maxfiy hujjatlarni yuklamang."
+    },
+    {
+      "q": "NotebookLM javoblariga to‘liq ishonsa bo‘ladimi?",
+      "a": "Yo‘q. Javob manbalaringizga tayanadi va iqtibos bilan beriladi, lekin xulosa noaniq bo‘lishi mumkin. Baholanadigan ishga kiritishdan oldin har bir fakt, sana va raqamni manbadan o‘qib tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "Reja va matn qoralamasini AI chatda tuzish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-xizmatlar/",
+      "anchor": "AI xizmatlar: qo‘llanmalar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: reja va matn qoralamasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/kurs-ishi-yozish/",
+      "anchor": "Kurs ishi yozish tartibi va reja namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/referat-va-mustaqil-ish/",
+      "anchor": "Referat va mustaqil ish yozish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+      "anchor": "Google Gemini bo‘yicha o‘zbekcha qo‘llanma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "ChatGPT talabalar uchun: 20 ta usul",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "NotebookLM (Gemini Notebook): talabaga qo‘llanma | GPTBot.uz",
+  "ogDescription": "NotebookLM endi Gemini Notebook deb ataladi. Rasmiy manzil, fayl qo‘shish, konspekt, savol-javob, audio sharh, o‘zbek tili, limitlar va 8 ta o‘quv ssenariysi.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/notebooklm-qollanma/",
+  "hreflangUz": "/uz/blog/notebooklm-qollanma/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "NotebookLM (Gemini Notebook) xizmatidan o‘qishda foydalanmoqchi bo‘lgan talabalar va o‘quvchilar"
+  },
+  "breadcrumbLabel": "NotebookLM qo‘llanma",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Google Blog — NotebookLM is now Gemini Notebook",
+      "url": "https://blog.google/innovation-and-ai/products/gemini-notebook/notebooklm-gemini-notebook/",
+      "note": "2026-yil 16-iyuldagi rasmiy e’lon: NotebookLM nomi Gemini Notebook deb o‘zgardi, mahsulot alohida qoladi va Gemini ilovasi bilan sinxronlanadi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook — rasmiy sayt",
+      "url": "https://notebook.google/",
+      "note": "Rasmiy manzil; notebooklm.google va notebooklm.google.com manzillari notebook.google va notebook.google.com manzillariga yo‘naltiradi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Learn about Gemini Notebook",
+      "url": "https://support.google.com/gemininotebook/answer/16164461?hl=en&co=GENIE.Platform%3DDesktop",
+      "note": "Talablar, yosh sharti va qo‘llab-quvvatlanadigan mamlakatlar ro‘yxati: O‘zbekiston ro‘yxatda bor; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Add or discover new sources for your notebook",
+      "url": "https://support.google.com/notebooklm/answer/16215270?hl=en",
+      "note": "Manba turlari, 500 000 so‘z va 200 MB limiti, pullik rejasiz 50 ta manba, Fast Research va Deep Research; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Create a notebook",
+      "url": "https://support.google.com/notebooklm/answer/16206563?hl=en",
+      "note": "Daftar ochish bosqichlari, Sources, Chat va Studio panellari, hisobot turlari; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Frequently asked questions",
+      "url": "https://support.google.com/notebooklm/answer/16269187?hl=en",
+      "note": "Javob faqat yuklangan manbalarga tayanishi, manbada javob bo‘lmasa javob berilmasligi, himoyalangan PDF yuklanmasligi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Change output language",
+      "url": "https://support.google.com/gemininotebook/answer/16261963?hl=en&co=GENIE.Platform%3DDesktop",
+      "note": "80 dan ortiq chiqish tili ro‘yxati: ingliz, rus, turk va ozarbayjon tillari bor, o‘zbek tili yo‘q; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Use Mind Maps in Gemini Notebook",
+      "url": "https://support.google.com/gemininotebook/answer/16212283?hl=en",
+      "note": "Mind Map chatdagi tugma orqali yaratilishi, tugunlar bilan ishlash, mobil ilovada yo‘qligi; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Generate Audio Overview",
+      "url": "https://support.google.com/notebooklm/answer/16212820?hl=en",
+      "note": "Audio Overview formatlari, uzunlik va til sozlamalari, Interactive mode faqat ingliz tilida, noaniqlik haqidagi ogohlantirish; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Generate Video Overviews",
+      "url": "https://support.google.com/notebooklm/answer/16454555?hl=en",
+      "note": "Video Overview formatlari: Explainer, Short va Cinematic (faqat ingliz tilida, 18+); 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Generate Flashcards or Quizzes",
+      "url": "https://support.google.com/notebooklm/answer/16958963?hl=en",
+      "note": "Kartochka va testlar: qiyinlik darajasi, «Explain» tugmasi, CSV yuklab olish; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Learn about Gemini Notebook’s plans",
+      "url": "https://support.google.com/notebooklm/answer/16213268?hl=en",
+      "note": "Rejalar jadvali: daftarlar va manbalar soni bo‘yicha limitlar; narxlar sahifamizda keltirilmagan; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Manage your Gemini Notebook usage limits",
+      "url": "https://support.google.com/gemininotebook/answer/17670842?hl=en&co=GENIE.Platform%3DDesktop",
+      "note": "Hisoblash hajmiga bog‘liq limitlar, 5 soatlik yangilanish, «Usage» bo‘limi va «Generate later»; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Privacy and Terms of Use in Gemini Notebook",
+      "url": "https://support.google.com/gemininotebook/answer/17004255?hl=en-GB",
+      "note": "Shaxsiy hisobdagi kontent va fikr-mulohaza qanday ishlatilishi, 3 yilgacha saqlash muddati; 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gemini Notebook Help — Get started with the Gemini Notebook mobile app",
+      "url": "https://support.google.com/gemininotebook/answer/16296687?hl=en&co=GENIE.Platform%3DAndroid",
+      "note": "Mobil ilova: Android 10 va undan yuqori, ilovada yo‘q funksiyalar, mamlakatlar ro‘yxatida O‘zbekiston bor; 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

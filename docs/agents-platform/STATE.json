@@ -1,4 +1,29 @@
 {
+  "seo_waves_20261117": {
+    "status": "implementation_validated_pending_guarded_release",
+    "owner_authorized": "Owner order in chat, 2026-11-17: implement every wave of the growth roadmap at once and deploy",
+    "baseline_commit": "7a0f1b81",
+    "live_before": "c907a6c470178e34e9117994b3106437c0d44bb5",
+    "branch": "claude/seo-waves-20261117",
+    "scope": "All roadmap waves in one release: AI-service guides in Uzbek and Russian with a hub, seasonal poems and greetings, ready-text collections, school pages (texts, grammar, maths, a grammar test, the periodic table), document samples with DOCX/PDF, slide backgrounds and templates, a 2027 calendar; additive edits of eight existing pages",
+    "newUrls": 52,
+    "changedExistingPages": 11,
+    "sitemapBefore": 370,
+    "sitemapAfter": 422,
+    "intentPairsBefore": 113,
+    "intentPairsAfter": 126,
+    "downloads": 45,
+    "protectedRevision": "docs/seo/evidence/2026-11-17-seo-waves/reviewed-protected-pages.json",
+    "protectedPagesChanged": "Homepage lists only; nine other protected pages keep their complete contract",
+    "notTouched": "/ru/gpt-chat/, /uz/gpt-uzbek-tilida/, the login and download guides (titles frozen until 2026-12-21), payments, bots, webhooks, pixels, CSP, chat bundle, quiz and tool registries",
+    "changeLog": "docs/seo/CHANGE_LOG_2026-11.md",
+    "review": "reports/seo-waves-20261117/review.ts and artifact-review.json",
+    "roadmap": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-growth-roadmap-20261117",
+    "evidence": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-seo-waves-20261117",
+    "validation": "Validator clean on the 60 authored files; protected-page review (reports/seo-waves-20261117/review.ts against the production build c907a6c4): 0 issues, homepage lists only; 78 content- and build-dependent test files run one at a time: no new failing test against the 2026-11-16 baseline (pre-existing failures unchanged in seo-product-facts, seo-push-revision, seo-revenue-claims, studio-contact, gpt-billing, legal-oferta, gpt-chat-business-line, chat-ui-revision); content-downloads test extended to the new pages, 4 of 4; sitemap 370 to 422. Known gap: the fifteen new chat pages are not in CHAT_RETURN_PATHS (payment code untouched), so a buyer who starts checkout there returns to the main chat of the language.",
+    "limitations": "Uzbek texts, poems and the 80 grammar questions were not proofread by a native speaker; part of the pages was written by Sonnet after the main model limit was reached; provider facts were checked on official pages on 2026-11-17 and age fast (Veo models leave Flow on 2026-12-05); Ads volumes are an upper bound; the amount-in-words, nickname, Roman-numeral and periodic-table pages are static references without converters",
+    "next": "Commit, production build, guarded release through deploy_runner.py, live readback"
+  },
   "seo_growth_20261116": {
     "status": "deployed_verified",
     "owner_authorized": "Owner order in chat, 2026-11-16, after the blind-spot audit: implement the SEO improvements autonomously and turnkey",
@@ -1809,10 +1834,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "SEO growth release of 2026-11-16 deployed and verified; see seo_growth_20261116.",
-  "stage_status": "deployed_verified",
+  "current_stage": "SEO waves release of 2026-11-17 implemented and validated, pending guarded release; see seo_waves_20261117.",
+  "stage_status": "implementation_validated_pending_guarded_release",
   "last_completed_stage": "SEO growth release of 2026-11-16 (ten demand-led pages, samples, links, form diagnostics) deployed and verified.",
-  "next_stage": "Observe the 2026-11-16 release after confirmed recrawl; reconcile payments and leads; read R14/R15/R20 on 2026-12-21 before any snippet experiment.",
+  "next_stage": "Guarded production release of the 2026-11-17 SEO waves stage and live readback.",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -2146,7 +2171,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-11-16T18:16:36.524956+00:00",
+  "updated_at": "2026-11-17T02:11:35.377439+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [

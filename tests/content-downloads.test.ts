@@ -12,11 +12,12 @@ test('authored downloads exist, while unknown file links are not allowlisted', (
   const known = buildKnownUrls([]);
   for (const url of CONTENT_DOWNLOAD_URLS) {
     assert.equal(known.has(url), true);
-    assert.match(url, /^\/downloads\/(?:growth-20261106|pseo-20261108|docs-20261116|marketing-20261109)\/[a-z0-9-]+\.(docx|pdf|csv)$/);
+    assert.match(url, /^\/downloads\/(?:growth-20261106|pseo-20261108|docs-20261116|docs-20261117|marketing-20261109)\/[a-z0-9-]+\.(docx|pdf|csv|pptx|jpg)$/);
     const file = path.join(process.cwd(), 'public', url.slice(1));
     assert.ok(fs.statSync(file).size > 100);
     const prefix = fs.readFileSync(file).subarray(0, 4).toString('latin1');
     if (url.endsWith('.csv')) assert.ok(fs.readFileSync(file).subarray(0, 3).equals(Buffer.from([0xef, 0xbb, 0xbf])));
+    else if (url.endsWith('.jpg')) assert.ok(fs.readFileSync(file).subarray(0, 3).equals(Buffer.from([0xff, 0xd8, 0xff])));
     else assert.equal(prefix, url.endsWith('.pdf') ? '%PDF' : 'PK\x03\x04');
   }
   assert.equal(known.has('/downloads/growth-20261106/missing.pdf'), false);
@@ -43,12 +44,15 @@ test('blog linkp renderer downloads only the exact registered files and preserve
     { text: '{file}', links: [{ token: 'file', target, anchor: 'Материал', lang }] },
     escapeHtml, escapeHtml, () => '', () => false, 'data-studio-contact', new Set(CONTENT_DOWNLOAD_URLS),
   ) as string;
-  assert.equal(CONTENT_DOWNLOAD_URLS.length, 44 + MARKETING_DOWNLOAD_URLS.length);
+  assert.equal(CONTENT_DOWNLOAD_URLS.length, 89 + MARKETING_DOWNLOAD_URLS.length);
   assert.equal(CONTENT_DOWNLOAD_URLS.filter((url) => url.startsWith('/downloads/growth-20261106/')).length, 6);
   assert.equal(PSEO_DOWNLOAD_URLS.length, 20);
   // 2026-11-16: nine kits (explanatory letter, course-paper and referat title page + plan, service memo,
   // lesson analysis, receipt, work report, guarantee letter, applications).
   assert.equal(CONTENT_DOWNLOAD_URLS.filter((url) => url.startsWith('/downloads/docs-20261116/')).length, 18);
+  // 2026-11-17: document kits, slide backgrounds and templates (JPG, PPTX), a printable calendar,
+  // a grammar test and the periodic table.
+  assert.equal(CONTENT_DOWNLOAD_URLS.filter((url) => url.startsWith('/downloads/docs-20261117/')).length, 45);
   for (const url of CONTENT_DOWNLOAD_URLS) {
     assert.match(link(url), new RegExp(`<a href="${url.replace(/\./g, '\\.')}" download class=`));
     for (const other of [`${url}?download=1`, `${url}#preview`, `https://gptbot.uz${url}`, `https://other.example${url}`]) {
@@ -64,8 +68,15 @@ test('blog linkp renderer downloads only the exact registered files and preserve
 
 test('built document articles expose all original and new files as browser downloads', () => {
   const found = new Set<string>();
-  for (const slug of ['rezyume-tayyorlash', 'rasmiy-xat-yozish', 'tavsifnoma-namuna', 'tushuntirish-xati-va-ariza-yozish', 'kurs-ishi-yozish', 'referat-va-mustaqil-ish', 'dars-tahlili-namuna', 'tilxat-namuna', 'hisobot-namuna', 'kafolat-xati-namuna', ...PSEO_DOCUMENT_SLUGS]) {
-    const html = fs.readFileSync(path.join('dist', 'uz', 'blog', slug, 'index.html'), 'utf8');
+  // 2026-11-17: the new files are linked from Uzbek and Russian articles and from three reference pages.
+  const documents = [
+    ...['rezyume-tayyorlash', 'rasmiy-xat-yozish', 'tavsifnoma-namuna', 'tushuntirish-xati-va-ariza-yozish', 'kurs-ishi-yozish', 'referat-va-mustaqil-ish', 'dars-tahlili-namuna', 'tilxat-namuna', 'hisobot-namuna', 'kafolat-xati-namuna', ...PSEO_DOCUMENT_SLUGS].map((slug) => `uz/blog/${slug}`),
+    'uz/blog/psixologik-tavsifnoma-namuna', 'uz/blog/taqriz-namuna', 'uz/blog/tezis-namuna', 'uz/blog/cv-nima',
+    'uz/blog/faxriy-yorliq-matni', 'uz/blog/slayd-uchun-fonlar', 'uz/blog/slayd-tayyorlash', 'ru/blog/obektivka-obrazec',
+    'uz/kalendar-2027', 'uz/ona-tili-test', 'uz/mendeleyev-jadvali',
+  ];
+  for (const document of documents) {
+    const html = fs.readFileSync(path.join('dist', ...document.split('/'), 'index.html'), 'utf8');
     for (const match of html.matchAll(/<a\b([^>]+)>/g)) {
       const attrs = match[1];
       const href = attrs.match(/\bhref="([^"]+)"/)?.[1];

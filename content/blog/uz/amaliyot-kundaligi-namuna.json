@@ -13,6 +13,7 @@
     "amaliyot kundaligi",
     "amaliyot kundaligi qanday yoziladi",
     "pedagogik amaliyot kundaligi",
+    "malakaviy amaliyot kundaligi",
     "amaliyot kundaligi sirtqi"
   ],
   "intro": "Amaliyot kundaligi har ish kuni nima qilganingizni va qanday natija olganingizni qayd etadi. Bu yerda hujjatlar bilan ishlashga oid uch kunlik o‘quv misoli va o‘z amaliyotingiz uchun ko‘paytirib to‘ldiriladigan yozuv tuzilmasi berilgan.",
@@ -40,6 +41,22 @@
     {
       "type": "p",
       "text": "Uch kunlik misol butun amaliyot davri uchun tayyor kundalik emas. Yo‘nalish, ish kunlari, rahbar qaydi va tasdiqlash tartibi kafedra dasturidan olinadi. Kafedra tayyor kundalik bergan bo‘lsa, quyidagi yozish usulini o‘sha shaklga moslang."
+    },
+    {
+      "type": "linkp",
+      "text": "Pedagogik yoki malakaviy amaliyot o‘tayotgan bo‘lsangiz, {hafta} va {malakaviy} bo‘limlariga o‘ting: u yerda jadval ko‘rinishidagi to‘liq haftalik misollar va alohida fayl bor.",
+      "links": [
+        {
+          "token": "hafta",
+          "target": "#pedagogik-hafta",
+          "anchor": "pedagogik amaliyotning to‘liq bir haftasi"
+        },
+        {
+          "token": "malakaviy",
+          "target": "#malakaviy-amaliyot",
+          "anchor": "malakaviy amaliyot misoli"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -130,6 +147,161 @@
         "Amaliyot kunlari ketma-ket bo‘lmasa, har bir yozuvga aniq sanani qo‘ying va o‘tilmagan kunlarni to‘ldirmang.",
         "Rahbar qaydi va imzosi uchun joy qoldiring: uni amaliyot joyidagi rahbar yoki kafedra vakili to‘ldiradi."
       ]
+    },
+    {
+      "type": "h2",
+      "id": "pedagogik-hafta",
+      "text": "Pedagogik amaliyot kundaligi: jadval ko‘rinishidagi to‘liq bir hafta"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi jadval — pedagogik amaliyotning birinchi haftasi uchun to‘liq to‘ldirilgan o‘quv misoli: besh kun, har bir kun alohida qatorda. Kafedra bergan kundalikda ustunlar boshqacha nomlangan bo‘lishi mumkin, lekin yozish usuli o‘zgarmaydi: sana, vazifa, o‘zingiz bajargan ish va natija."
+    },
+    {
+      "type": "linkp",
+      "text": "Shu jadvallar va haftalik bo‘sh blanka alohida faylda: {docx} · {pdf}. Faylda uch sahifa bor: blanka, pedagogik amaliyot misoli va malakaviy amaliyot misoli.",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261117/amaliyot-kundaligi-pedagogik.docx",
+          "anchor": "Pedagogik va malakaviy amaliyot kundaligi — Word (DOCX)"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261117/amaliyot-kundaligi-pedagogik.pdf",
+          "anchor": "PDF nusxasini ochish"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: talaba A shartli 00-sonli maktabning 3-«A» sinfida pedagogik amaliyot o‘taydi. Maktab, sinf va odamlar shartli; bu haqiqiy kundalik o‘rniga topshirilmaydi."
+    },
+    {
+      "type": "quote",
+      "text": "Talaba A · Yo‘nalish: boshlang‘ich ta’lim · Amaliyot joyi: shartli 00-sonli maktab, 3-«A» sinf · Metodist B · Sinf rahbari D · 19–23.10.2026"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Sana",
+        "Vazifa va bajargan ishim",
+        "Natija va xulosa"
+      ],
+      "rows": [
+        [
+          "19.10.2026, dushanba",
+          "Vazifa: maktab va sinf bilan tanishish. Direktor o‘rinbosari bilan suhbatda maktabning ichki tartibi va xavfsizlik qoidalari bilan tanishdim. 3-«A» sinfning dars jadvalini ko‘chirib oldim. Sinf rahbarining ikki darsida o‘quvchilarni kuzatdim.",
+          "Dars jadvali va sinf haqida bir sahifalik qayd: sinfda 28 o‘quvchi bor, darslar soat 08:30 da boshlanadi. Savolim: qo‘shimcha yordam kerak bo‘lgan o‘quvchilar bilan qanday ishlanadi?"
+        ],
+        [
+          "20.10.2026, seshanba",
+          "Vazifa: darslarni kuzatish. Ona tili va o‘qish savodxonligi hamda matematika darslarini kuzatdim. Har bir bosqichga ketgan vaqtni va o‘qituvchi bergan savollarni yozib bordim. Darsdan keyin kuzatuvimni sinf rahbari bilan muhokama qildim.",
+          "Ikki darsning kuzatuv varaqasi. O‘rganganim: matematika darsidagi 5 daqiqalik og‘zaki hisob barcha o‘quvchini darsga jalb qildi."
+        ],
+        [
+          "21.10.2026, chorshanba",
+          "Vazifa: sinov darsiga tayyorlanish. «Ko‘paytirish jadvalini takrorlash» mavzusida dars ishlanmasini yozdim. 12 ta misol kartochkasi va bitta ko‘rgazma tayyorladim. Ishlanmani sinf rahbariga ko‘rsatdim.",
+          "Ikki sahifalik dars ishlanmasi. Sinf rahbari tavsiyasi bilan yakka mustaqil ishga 7 daqiqa ajratdim va ikki misolni soddalashtirdim."
+        ],
+        [
+          "22.10.2026, payshanba",
+          "Vazifa: sinov darsini o‘tish. Sinf rahbari nazoratida matematika darsini o‘tdim: og‘zaki hisob, juftlikda ishlash va yakka mustaqil ish. Dars oxirida o‘quvchilarning ishini yig‘ib oldim.",
+          "Darsda 26 o‘quvchi qatnashdi; mustaqil ishni 19 nafari xatosiz bajardi. Xulosam: juftlikda ishlashga rejadagi 8 daqiqa o‘rniga 12 daqiqa ketdi. Keyingi darsda topshiriqni oldindan doskaga yozib qo‘yaman."
+        ],
+        [
+          "23.10.2026, juma",
+          "Vazifa: tarbiyaviy soat va hafta yakuni. Sinf rahbariga «Kitob — bilim manbai» mavzusidagi tarbiyaviy soatni o‘tkazishda yordam berdim: uch o‘quvchi bilan she’r o‘qishni tayyorladim. Haftalik yozuvlarimni metodistga ko‘rsatdim.",
+          "Tarbiyaviy soat rejasining nusxasi. Metodist tavsiyasi: sinov darsining o‘z-o‘zini tahlilini alohida varaqqa yozish. Keyingi hafta: ikkita dars o‘tish va bitta darsni to‘liq tahlil qilish."
+        ]
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "Hafta yakuni: 4 ta dars kuzatildi, 1 ta sinov darsi o‘tildi, 1 ta tarbiyaviy soatda yordam berildi. Hisobotga dars ishlanmasi, kuzatuv varaqalari va mustaqil ish natijalari kiradi."
+    },
+    {
+      "type": "quote",
+      "text": "Rahbar belgisi: o‘quv misolida to‘ldirilmagan. Haqiqiy kundalikda uni metodist yoki sinf rahbari o‘zi yozadi."
+    },
+    {
+      "type": "h2",
+      "id": "malakaviy-amaliyot",
+      "text": "Malakaviy amaliyot kundaligi: bir haftalik to‘ldirilgan misol"
+    },
+    {
+      "type": "p",
+      "text": "Malakaviy amaliyot o‘quv rejasida belgilangan muddatda, o‘z yo‘nalishingizga mos korxona, tashkilot yoki ta’lim muassasasida o‘tiladi. Kundalikni yozish usuli bir xil, faqat mazmuni kasbga xos bo‘ladi. Quyida buxgalteriya hisobi yo‘nalishi uchun bir haftalik misol berilgan; boshqa yo‘nalishda vazifalarni o‘z amaliyot dasturingizdan oling. Pedagogika yo‘nalishida malakaviy amaliyot maktabda o‘tsa, yuqoridagi jadval sizga mos keladi."
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misoli: talaba A shartli «Namuna-1» korxonasining hisob bo‘limida malakaviy amaliyot o‘taydi. Korxona, odamlar va raqamlar shartli; bu haqiqiy kundalik o‘rniga topshirilmaydi."
+    },
+    {
+      "type": "quote",
+      "text": "Talaba A · Yo‘nalish: buxgalteriya hisobi va audit · Amaliyot joyi: shartli «Namuna-1» korxonasi, hisob bo‘limi · Korxonadan rahbar: bosh hisobchi B · Oliy ta’lim muassasasidan rahbar: D · 12–16.10.2026"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Sana",
+        "Vazifa va bajargan ishim",
+        "Natija va xulosa"
+      ],
+      "rows": [
+        [
+          "12.10.2026, dushanba",
+          "Vazifa: korxona va bo‘lim bilan tanishish. Mehnat muhofazasi va texnika xavfsizligi bo‘yicha yo‘riqnomadan o‘tdim. Hisob bo‘limining tuzilmasi va xodimlarning vazifalari bilan tanishdim. Amaliyot rahbari bilan dastur bo‘yicha ish rejasini tuzdim.",
+          "Yo‘riqnoma jurnalidagi qayd va to‘rt haftalik ish rejasi. O‘rganganim: bo‘limda har bir hisob yo‘nalishiga alohida xodim javob beradi."
+        ],
+        [
+          "13.10.2026, seshanba",
+          "Vazifa: birlamchi hujjatlar bilan tanishish. O‘quv uchun berilgan 10 ta hujjat nusxasini — hisobvaraq-faktura, yuk xati va kassa orderlarini — turlarga ajratdim. Har birida majburiy rekvizitlar borligini tekshirdim.",
+          "Tekshiruv jadvali: 10 ta hujjatdan 2 tasida sana yoki imzo yetishmaydi. Savolim: xato topilgan hujjat qanday tartibda qaytariladi?"
+        ],
+        [
+          "14.10.2026, chorshanba",
+          "Vazifa: kassa hujjatlarini rasmiylashtirish. O‘quv ma’lumotlari asosida 3 ta kassa kirim orderi va 2 ta kassa chiqim orderi namunasini to‘ldirdim. Summani raqam va so‘z bilan yozishni mashq qildim.",
+          "5 ta namunaviy order. Rahbar tekshirganda bitta orderda summa so‘z bilan noto‘g‘ri yozilgani aniqlandi; uni qaytadan to‘ldirdim."
+        ],
+        [
+          "15.10.2026, payshanba",
+          "Vazifa: ombor hisobi bilan tanishish. Ombor mudiri bilan birga 15 nomdagi tovar qoldig‘ini hisob ma’lumotlari bilan solishtirdim. Farqlarni alohida ro‘yxatga yozdim.",
+          "Solishtirish jadvali: 14 nomda qoldiq mos keldi, bittasida 2 dona farq chiqdi. Farq sababini bo‘lim aniqlamoqda; xulosani o‘zimcha yozmadim."
+        ],
+        [
+          "16.10.2026, juma",
+          "Vazifa: hafta yakunini rasmiylashtirish. Hafta davomida tayyorlagan jadval va namunalarni papkaga tartib bilan joyladim. Hisobotning «Korxona tavsifi» bo‘limi qoralamasini yozdim. Kundalikni amaliyot rahbariga ko‘rsatdim.",
+          "Bir yarim sahifalik qoralama. Rahbar topshirig‘i: keyingi hafta ish haqi hisobi bilan tanishish. Haqiqiy mijoz va xodimlarning ma’lumotlarini hisobotga kiritmayman."
+        ]
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "Hafta yakuni: 10 ta hujjat tekshirildi, 5 ta namunaviy kassa orderi to‘ldirildi, 15 nomdagi tovar qoldig‘i solishtirildi. Hisobotga tekshiruv jadvali, solishtirish jadvali va korxona tavsifi qoralamasi kiradi."
+    },
+    {
+      "type": "quote",
+      "text": "Rahbar belgisi: o‘quv misolida to‘ldirilmagan. Haqiqiy kundalikni amaliyot joyidagi mas’ul rahbar o‘z imzosi bilan tasdiqlaydi."
+    },
+    {
+      "type": "h3",
+      "id": "jadvalni-toldirish",
+      "text": "Haftalik jadvalni to‘ldirishda nimaga e’tibor berish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Har bir amaliyot kuni — alohida qator. Sanani to‘liq yozing; o‘tilmagan kun uchun qator ochmang.",
+        "Avval rejadagi vazifani, keyin o‘zingiz bajargan ishni yozing: «kuzatdim», «tuzdim», «tekshirdim», «o‘tdim».",
+        "Natijani son yoki hujjat bilan ko‘rsating: nechta dars, nechta hujjat, necha sahifa.",
+        "Xato yoki bajarilmagan ishni yashirmang: sababini va keyingi qadamni yozing.",
+        "Rahbar belgisi va imzosi uchun joy qoldiring: bu ustunni talaba to‘ldirmaydi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Vazirlar Mahkamasining 2024-yil 8-yanvardagi 11-son qarori bilan tasdiqlangan nizomga ko‘ra, haq to‘lanadigan ishlab chiqarish amaliyotida talaba oliy ta’lim tashkiloti bergan kundalikni yuritadi: unda kunlik yoki haftalik bajarilgan ishlar yoziladi, kundalikni esa amaliyot joyidagi mas’ul rahbar imzosi bilan tasdiqlaydi. Boshqa amaliyot turlarida tartibni kafedrangizdan aniqlang."
     },
     {
       "type": "h2",
@@ -287,6 +459,10 @@
     {
       "q": "Sirtqi ta’lim talabasi kundalikni qanday to‘ldiradi?",
       "a": "Yozish usuli o‘sha: har bir amaliyot kuni uchun vazifa, bajarilgan ish va natija. Muddat, joy va shaklni ta’lim muassasangiz belgilaydi; o‘tilmagan kunlar to‘ldirilmaydi."
+    },
+    {
+      "q": "Malakaviy amaliyot kundaligi qanday to‘ldiriladi?",
+      "a": "Yozish usuli pedagogik amaliyotdagi kabi: har bir kun uchun sana, vazifa, o‘zingiz bajargan ish va natija. Farqi mazmunda: vazifalar o‘z yo‘nalishingiz bo‘yicha amaliyot dasturidan olinadi. Sahifada buxgalteriya hisobi yo‘nalishi uchun bir haftalik misol va alohida fayl bor; kundalik shaklini esa kafedrangiz beradi."
     }
   ],
   "cta": {
@@ -358,7 +534,7 @@
   },
   "breadcrumbLabel": "Amaliyot kundaligi namuna",
   "datePublished": "2026-11-08",
-  "dateModified": "2026-11-16",
+  "dateModified": "2026-11-17",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -371,8 +547,13 @@
       "title": "BuxDU — B. N. Rizayev, H. M. Kobilova: Malaka amaliyotini tashkil etish va o‘tkazish bo‘yicha metodik ko‘rsatma (2023)",
       "url": "https://uniwork.buxdu.uz/resurs/12620_1_15180CD00B79CFF545029E3765E88CD4C69F0E4D.pdf",
       "note": "Tarix yo‘nalishi uchun metodik qo‘llanma: amaliyot vazifalari, kundalik va hisobot o‘rtasidagi bog‘liqlik. Undagi yo‘nalishga xos talablar barcha talabalarga umumlashtirilmaydi; o‘z kafedrangiz yo‘riqnomasini tekshiring."
+    },
+    {
+      "title": "Lex.uz — Vazirlar Mahkamasining 2024-yil 8-yanvardagi 11-son qarori: Oliy ta’lim tashkilotlari talabalarining haq to‘lanadigan malaka amaliyotini tashkil etish tartibi to‘g‘risida",
+      "url": "https://lex.uz/docs/-6738217",
+      "note": "Nizomning 27-bandi: talaba oliy ta’lim tashkiloti bergan amaliyot kundaligini yuritadi, unda kunlik yoki haftalik bajarilgan ishlar aks ettiriladi, kundalik tarmoq korxonasidagi mas’ul rahbar imzosi bilan tasdiqlanadi. 2026-11-17 kuni tekshirildi. Nizom faqat haq to‘lanadigan ishlab chiqarish amaliyotiga tegishli; boshqa amaliyot turlari uchun kafedrangiz yo‘riqnomasini tekshiring. Sahifadagi haftalik misollar mustaqil yozilgan."
     }
   ],
-  "updatedAt": "2026-11-16T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z",
   "createdAt": "2026-11-08T00:00:00.000Z"
 }

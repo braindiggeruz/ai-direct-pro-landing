@@ -1,0 +1,544 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "cv-nima",
+  "url": "/uz/blog/cv-nima/",
+  "title": "CV nima va CV yozish: namuna Word va PDF | GPTBot.uz",
+  "description": "CV nima va u rezyumedan nimasi bilan farq qiladi: bo‘limlar, talaba va mutaxassis uchun to‘ldirilgan CV, ingliz tilidagi namuna, Europass va xatolar.",
+  "h1": "CV nima: tuzilma, rezyumedan farqi va to‘ldirilgan namuna",
+  "topicCluster": "hujjat-va-xatlar",
+  "keywords": [
+    "cv nima",
+    "cv yozish",
+    "cv va rezyume farqi",
+    "cv namunasi",
+    "europass cv",
+    "ingliz tilida cv namuna",
+    "curriculum vitae nima"
+  ],
+  "intro": "CV (curriculum vitae, lotincha «hayot yo‘li bayoni») — ta’limingiz, ish tajribangiz, ko‘nikmalaringiz va yutuqlaringizni bir hujjatda ko‘rsatadigan ariza ilovasi. Bu sahifada CV nima ekani, uning rezyumedan farqi, bo‘limlari, talaba va mutaxassis uchun to‘ldirilgan misollar, ingliz tilidagi CV o‘zbekcha izohlar bilan, Europass haqida ma’lumot va ko‘p uchraydigan xatolar berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Fayllar bepul, ro‘yxatdan o‘tish va AI paket talab qilinmaydi. DOCX ichida tahrirlanadigan CV shabloni, undan keyin talaba, mutaxassis va ingliz tilidagi CV uchun to‘ldirilgan o‘quv misollari bor. PDF ko‘rish va chop etish uchun. Shaxsiy ma’lumotni faqat o‘z qurilmangizdagi nusxada to‘ldiring."
+    },
+    {
+      "type": "linkp",
+      "text": "{docx} · {pdf}",
+      "links": [
+        {
+          "token": "docx",
+          "target": "/downloads/docs-20261117/cv-namuna.docx",
+          "anchor": "CV shablonini DOCX formatida yuklab olish"
+        },
+        {
+          "token": "pdf",
+          "target": "/downloads/docs-20261117/cv-namuna.pdf",
+          "anchor": "CV namunasini PDF formatida ochish"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Namuna tasdiqlangan rasmiy shakl emas. Dastur, oliygoh yoki ish beruvchi o‘z shaklini so‘rasa, masalan, Europass yoki o‘z anketasini, o‘shandan foydalaning. Namunadagi odamlar, tashkilotlar va raqamlar to‘qima."
+    },
+    {
+      "type": "h2",
+      "id": "cv-nima",
+      "text": "CV nima va u nima uchun kerak"
+    },
+    {
+      "type": "p",
+      "text": "CV — o‘qish yoki ishga ariza topshirganda yuboriladigan hujjat. U sizni tanishtiradi: kim ekaningiz, qayerda o‘qiganingiz, qayerda ishlaganingiz, nimalarni bilishingiz va qanday yutuqlaringiz borligi. Uni xalqaro stipendiya, magistratura, grant, xorijiy kompaniya yoki ilmiy lavozimga ariza berganda ko‘pincha so‘rashadi."
+    },
+    {
+      "type": "p",
+      "text": "CV ni o‘qiydigan odam unga bir necha daqiqa ajratadi. Shuning uchun eng muhim narsa — tartib va aniqlik: har bir band sana, joy va qilgan ishni ko‘rsatsin."
+    },
+    {
+      "type": "h2",
+      "id": "farqi",
+      "text": "CV va rezyume farqi nimada"
+    },
+    {
+      "type": "p",
+      "text": "O‘zbekistonda «CV» va «rezyume» ko‘pincha bir xil ma’noda ishlatiladi, ish beruvchilar ham ikkalasini bir narsa deb so‘raydi. Aniq farq bo‘lsa, odatda quyidagicha:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Savol",
+        "Rezyume",
+        "CV"
+      ],
+      "rows": [
+        [
+          "Hajmi",
+          "Odatda bir bet, qisqa",
+          "Ko‘pincha 1–2 bet; akademik CV uzunroq bo‘lishi mumkin"
+        ],
+        [
+          "Nima ko‘rsatiladi",
+          "Aynan shu vakansiyaga mos tajriba va ko‘nikma",
+          "Ta’lim, tajriba, nashrlar, loyihalar, sertifikatlar to‘liqroq"
+        ],
+        [
+          "Qayerda so‘raladi",
+          "Oddiy ish o‘rni uchun",
+          "Stipendiya, magistratura, grant, ilmiy va xalqaro ish uchun"
+        ],
+        [
+          "Moslash",
+          "Har vakansiyaga o‘zgartiriladi",
+          "Asosiy hujjat bir xil qoladi, ariza turiga qarab bo‘limlar qo‘shiladi yoki olinadi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu qat’iy qoida emas: har davlat va tashkilotda ma’no biroz farq qilishi mumkin. Ariza shartlarida nima yozilgan bo‘lsa, shuni bajaring."
+    },
+    {
+      "type": "linkp",
+      "text": "Oddiy ish o‘rni uchun bir betlik qisqa hujjat kerak bo‘lsa, {rezyume} sahifasiga qarang.",
+      "links": [
+        {
+          "token": "rezyume",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "ishga ariza uchun qisqa hujjat qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bolimlar",
+      "text": "CV bo‘limlari: nimalar yoziladi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bo‘lim",
+        "Nima yoziladi",
+        "Maslahat"
+      ],
+      "rows": [
+        [
+          "Sarlavha va aloqa",
+          "Ism-familiya, shahar va mamlakat, telefon, e-mail, bo‘lsa LinkedIn yoki portfolio havolasi",
+          "To‘liq uy manzili shart emas; pasport raqami va JShShIR umuman yozilmaydi"
+        ],
+        [
+          "Profil",
+          "2–3 gap: kimligingiz, sohangiz, nimaga ariza berayotganingiz",
+          "Har ariza uchun moslang"
+        ],
+        [
+          "Ta’lim",
+          "Yillar, o‘qish joyi, yo‘nalish va daraja",
+          "Eng oxirgi o‘qish joyi birinchi turadi"
+        ],
+        [
+          "Ish tajribasi va amaliyot",
+          "Sana, tashkilot, lavozim, 2–4 band: nima qildingiz va natijasi",
+          "Har band fe’l bilan boshlanadi; raqam bo‘lsa, yozing"
+        ],
+        [
+          "Ilmiy faoliyat va loyihalar",
+          "Nashrlar, konferensiyalar, loyihalar, grantlar",
+          "Faqat akademik CV uchun"
+        ],
+        [
+          "Tillar va ko‘nikmalar",
+          "Til va daraja; aniq dastur va vositalar",
+          "Daraja uchun sertifikat bo‘lsa, nomini yozing"
+        ],
+        [
+          "Qo‘shimcha",
+          "Sertifikatlar, kurslar, yutuqlar, volontyorlik, tavsiya beruvchilar",
+          "Tavsiya beruvchining ismini faqat uning roziligi bilan yozing"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "toldirilgan-misol",
+      "text": "To‘ldirilgan CV namunalari: talaba va mutaxassis"
+    },
+    {
+      "type": "quote",
+      "text": "To‘qima o‘quv misollari: ism, universitet, tashkilot, telefon va e-mail shartli; haqiqiy odamga aloqasi yo‘q. Ularni o‘z CV’ngiz sifatida topshirmang."
+    },
+    {
+      "type": "h3",
+      "id": "misol-talaba",
+      "text": "1-misol. Talaba CV’si"
+    },
+    {
+      "type": "quote",
+      "text": "NAMUNA MISOLOVA · Toshkent, O‘zbekiston · +998 00 000 00 00 · namuna@example.com"
+    },
+    {
+      "type": "quote",
+      "text": "Profil: iqtisodiyot yo‘nalishining 3-kurs talabasiman. Ma’lumotlar tahlili va Excel bilan ishlashga qiziqaman. Moliya sohasida yozgi amaliyot o‘rni izlayapman."
+    },
+    {
+      "type": "quote",
+      "text": "Ta’lim: 2024 — hozirgacha · shartli «Namuna universiteti», iqtisodiyot yo‘nalishi, bakalavriat. Asosiy fanlar: statistika, mikroiqtisodiyot, buxgalteriya hisobi."
+    },
+    {
+      "type": "quote",
+      "text": "Amaliyot: 06.2026 — 07.2026 · shartli «Namuna-1» MCHJ, buxgalteriya bo‘limi amaliyotchisi. 120 ta birlamchi hujjatni reyestrga kiritdim. Oylik xarajatlar jadvalini Excel’da yangiladim."
+    },
+    {
+      "type": "quote",
+      "text": "Loyiha: 2026 · «Talabalar oshxonasidagi navbat vaqtini o‘lchash» kurs loyihasi. 5 kun davomida ma’lumot yig‘dim va natijalarni diagrammalarda taqdim etdim."
+    },
+    {
+      "type": "quote",
+      "text": "Tillar: o‘zbek — ona tili; rus — erkin; ingliz — B2."
+    },
+    {
+      "type": "quote",
+      "text": "Ko‘nikmalar: Excel (formulalar, yig‘ma jadval), Word, PowerPoint; jamoada ishlash, taqdimot qilish."
+    },
+    {
+      "type": "quote",
+      "text": "Qo‘shimcha: 2025 — fakultet talabalar ilmiy to‘garagi a’zosi; 2026 — shahar yoshlar tadbirida volontyor."
+    },
+    {
+      "type": "h3",
+      "id": "misol-mutaxassis",
+      "text": "2-misol. Mutaxassis CV’si"
+    },
+    {
+      "type": "quote",
+      "text": "MISOL NAMUNAYEV · Samarqand, O‘zbekiston · +998 00 000 00 00 · misol@example.com"
+    },
+    {
+      "type": "quote",
+      "text": "Profil: 9 yillik tajribaga ega ingliz tili o‘qituvchisi va metodistman. O‘qituvchilar uchun xalqaro malaka oshirish dasturiga ariza beryapman."
+    },
+    {
+      "type": "quote",
+      "text": "Ta’lim: 2015 — 2017 · shartli «Namuna universiteti», lingvistika (ingliz tili), magistratura. 2011 — 2015 · shu universitet, xorijiy til va adabiyoti, bakalavriat."
+    },
+    {
+      "type": "quote",
+      "text": "Ish tajribasi: 2019 — hozirgacha · shartli «Namuna-2» o‘quv markazi, katta o‘qituvchi va metodist. B1–B2 darajadagi guruhlar uchun 2 ta o‘quv dasturini tuzdim. 6 nafar yangi o‘qituvchiga murabbiylik qildim. 2017 — 2019 · shartli maktab, ingliz tili o‘qituvchisi."
+    },
+    {
+      "type": "quote",
+      "text": "Nashrlar va ma’ruzalar: 2024 · «Katta guruhlarda juftlik ishini tashkil etish» — shartli ilmiy-amaliy konferensiya to‘plami, tezis. 2023 · o‘qituvchilar seminarida «Yozma ishga fikr-mulohaza berish» mavzusida ma’ruza."
+    },
+    {
+      "type": "quote",
+      "text": "Sertifikatlar: 2022 · ingliz tilini o‘qitish metodikasi bo‘yicha xalqaro sertifikat (shartli). 2021 · ingliz tili bo‘yicha xalqaro imtihon sertifikati, C1 daraja (shartli)."
+    },
+    {
+      "type": "quote",
+      "text": "Tillar: o‘zbek — ona tili; ingliz — C1; rus — erkin."
+    },
+    {
+      "type": "quote",
+      "text": "Ko‘nikmalar: dars va o‘quv dasturini loyihalash, onlayn platformalarda dars o‘tish, test tuzish; Word, Excel, PowerPoint."
+    },
+    {
+      "type": "quote",
+      "text": "Tavsiya beruvchilar: so‘rov bo‘yicha taqdim etiladi."
+    },
+    {
+      "type": "h2",
+      "id": "ingliz-cv",
+      "text": "Ingliz tilidagi CV: o‘zbekcha izohlar bilan"
+    },
+    {
+      "type": "p",
+      "text": "Xalqaro dastur yoki xorijiy kompaniyaga CV odatda ingliz tilida so‘raladi. Quyidagi jadvalda chapda ingliz tilidagi 1-misolning matni, o‘ngda har bir bo‘lim bo‘yicha o‘zbekcha izoh bor."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "CV matni (ingliz tilida)",
+        "Izoh"
+      ],
+      "rows": [
+        [
+          "NAMUNA MISOLOVA · Tashkent, Uzbekistan · +998 00 000 00 00 · namuna@example.com",
+          "Ism va aloqa. Ism-familiyani pasportdagi lotin yozuvi bilan bir xil yozing. Uy manzili shart emas: shahar va mamlakat yetadi."
+        ],
+        [
+          "PROFILE. Third-year Economics student with a strong interest in data analysis. Seeking a summer internship in finance.",
+          "Profil — 2–3 gap. Gap «I» (men) so‘zisiz boshlanadi; maqsad aniq aytiladi."
+        ],
+        [
+          "EDUCATION. BSc in Economics, Namuna University (fictional), Tashkent, 2024–present. Key courses: Statistics, Microeconomics, Accounting.",
+          "Ta’lim. Daraja inglizcha qisqartmada yoziladi: BSc, BA, MSc, MA. Eng oxirgi o‘qish joyi birinchi turadi."
+        ],
+        [
+          "EXPERIENCE. Accounting Intern, Namuna-1 LLC (fictional), June–July 2026. Entered 120 source documents into the register. Updated the monthly expense sheet in Excel.",
+          "Tajriba. Har bir band o‘tgan zamondagi fe’l bilan boshlanadi: entered, updated, prepared. Raqam bo‘lsa, yozing."
+        ],
+        [
+          "PROJECT. Measuring queue time in the student canteen, course project, 2026. Collected data for 5 days and presented the results in charts.",
+          "Loyiha. Ish tajribasi kam bo‘lsa, o‘quv loyihasi ham yoziladi."
+        ],
+        [
+          "LANGUAGES. Uzbek (native), Russian (fluent), English (B2).",
+          "Tillar. Daraja: native, fluent yoki CEFR shkalasi bo‘yicha A1–C2."
+        ],
+        [
+          "SKILLS. Excel (formulas, pivot tables), Word, PowerPoint; teamwork, presentations.",
+          "Ko‘nikmalar. Aniq dastur va vositalarni yozing; umumiy so‘zlarni kamaytiring."
+        ],
+        [
+          "REFERENCES. Available upon request.",
+          "Tavsiya beruvchilar. Bu ibora «so‘rov bo‘yicha taqdim etiladi» degani. Ism va aloqa faqat ularning roziligi bilan yoziladi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "europass",
+      "text": "Europass CV: bu nima"
+    },
+    {
+      "type": "p",
+      "text": "Europass — Yevropa Komissiyasi taklif qiladigan onlayn xizmat. Rasmiy sahifasiga ko‘ra, u o‘qish va karyerangizni boshqarishga yordam beradi: ko‘nikmalaringizni yozish, ish va o‘qish imkoniyatlarini topish, CV va motivatsion xat tayyorlash mumkin. Xizmat «hech qanday haq olinmasdan» taqdim etiladi va 31 tilda ishlaydi. Ma’lumot 2026-yil noyabr holatiga ko‘ra rasmiy saytdan tekshirildi: europass.europa.eu."
+    },
+    {
+      "type": "p",
+      "text": "CV tayyorlash uchun avval Europass profilini to‘ldirasiz: ta’lim, tajriba va ko‘nikmalar. Shundan so‘ng tahrirchida shablonni tanlab, CV’ni yaratasiz, saqlaysiz va ish beruvchi yoki platformaga yuborasiz. Ko‘pchilik hollarda profil uchun akkaunt kerak bo‘ladi. Xizmatning sizning mamlakatingizdan qanday ishlashi va qaysi fayl formatlarida yuklab olishni rasmiy saytda o‘zingiz tekshiring; bu sahifada u haqda va’da berilmaydi. Europass shakli faqat uni so‘ragan tashkilot uchun majburiy: boshqa joyda oddiy CV yetarli."
+    },
+    {
+      "type": "h2",
+      "id": "shablon",
+      "text": "O‘z ma’lumotlaringiz bilan to‘ldiriladigan shablon"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi maydonlar yuklab olinadigan DOCX faylda ham bor. Keraksiz bandni olib tashlang; misoldagi ism, sana va raqamni o‘zingizniki sifatida qoldirmang."
+    },
+    {
+      "type": "h3",
+      "id": "band-1",
+      "text": "Sarlavha, profil va ta’lim"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[ISM FAMILIYA]",
+        "[Shahar, mamlakat] · [telefon] · [e-mail] · [LinkedIn yoki portfolio havolasi — bo‘lsa]",
+        "Profil: [2–3 gap: kim ekaningiz, qaysi sohada o‘qishingiz yoki ishlashingiz, nimaga ariza berayotganingiz].",
+        "Ta’lim: [yil] — [yil] · [Oliygoh yoki maktab nomi], [yo‘nalish va daraja]. [Asosiy fanlar, bitiruv ishi mavzusi yoki o‘rtacha ball — ariza uchun muhim bo‘lsa]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-2",
+      "text": "Tajriba, ilmiy faoliyat va ko‘nikmalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ish tajribasi va amaliyot: [oy.yil] — [oy.yil] · [Tashkilot nomi], [lavozim]. [Nima qilganingiz va natijasi — 2–4 band; har biri fe’l bilan boshlanadi].",
+        "Nashrlar: [Familiya I. Maqola yoki tezis nomi // To‘plam yoki jurnal. — yil. — betlar].",
+        "Konferensiyalar: [yil, anjuman nomi, ma’ruza mavzusi].",
+        "Loyihalar va grantlar: [nomi, yil, sizning vazifangiz].",
+        "Tillar: [til — daraja; sertifikat nomi va natijasi — bo‘lsa].",
+        "Ko‘nikmalar: [dasturlar va kasbiy ko‘nikmalar — aniq ro‘yxat]."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "band-3",
+      "text": "Qo‘shimcha ma’lumot"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sertifikatlar va kurslar: [nomi, tashkilot, yil].",
+        "Yutuqlar va volontyorlik: [nomi, yil].",
+        "Tavsiya beruvchilar: [F.I.Sh., lavozim, aloqa — faqat ularning roziligi bilan; yoki «so‘rov bo‘yicha taqdim etiladi»]."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "CV yozishda ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Pasport raqami, JShShIR va to‘liq uy manzilini yozish. CV’da bu ma’lumot kerak emas; ular begonaga tushsa, xavf tug‘diradi.",
+        "Ro‘yxat, lekin natijasiz: «hisobotlar bilan ishladim» o‘rniga «120 ta hujjatni reyestrga kiritdim» deb yozing.",
+        "Yolg‘on ma’lumot: bo‘lmagan ish joyi, sertifikat yoki til darajasi. Tekshiruvda chiqadi va ariza rad etilishi mumkin.",
+        "Tavsiya beruvchining roziligini olmasdan uning ismini yozish.",
+        "Eskirgan va ortiqcha band: yetti yil oldingi to‘garak yoki ish bilan aloqasi yo‘q tafsilot.",
+        "Bir xil CV’ni hamma joyga yuborish: profil qismini har arizaga moslang.",
+        "Imlo xatosi va turli uslub: sanalar bir xil formatda bo‘lsin, yozuv uslubi bir xil qolsin.",
+        "Murakkab dizayn: rang, rasm va jadvallar ba’zi onlayn tizimlarda o‘qilmay qoladi; sodda joylashuv xavfsizroq."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "CV ariza shartlarida so‘ralgan shakl va tilda yozilganmi?",
+        "Ism, telefon va e-mail to‘g‘rimi; e-mail manzilingiz jiddiy ko‘rinadimi?",
+        "Har bir sana, daraja va raqam haqiqatmi?",
+        "Profil shu arizaga moslanganmi?",
+        "Tavsiya beruvchilar bilan oldindan kelishdingizmi?",
+        "Fayl PDF yoki talab qilingan formatda saqlanganmi va nomi tushunarlimi (masalan, Familiya_Ism_CV)?"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "CV’dan tashqari ariza bilan odatda yana bir hujjat so‘raladi: {motiv} va {obyektivka}.",
+      "links": [
+        {
+          "token": "motiv",
+          "target": "/uz/blog/motivatsion-xat-namuna/",
+          "anchor": "motivatsion xat namunasi"
+        },
+        {
+          "token": "obyektivka",
+          "target": "/uz/blog/obyektivka-namuna/",
+          "anchor": "ob’ektivka namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Jumlalarni aniqroq va qisqaroq qilish uchun {chat}dan foydalanish mumkin. Unga pasport, telefon yoki boshqa odamlarning ma’lumotini kiritmang: savol xorijdagi AI-provayderlarga ham yuboriladi. Bitta bandni yozing va «Ma’noni o‘zgartirmasdan fe’l bilan boshla» deb so‘rang. Yangi fakt qo‘shilmaganini o‘zingiz tekshiring.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa hujjat kerak bo‘lsa, {hub} sahifasidan tanlang.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/uz/hujjat-namunalari/",
+          "anchor": "barcha hujjat namunalari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "CV nima degani?",
+      "a": "CV — lotincha curriculum vitae, ya’ni «hayot yo‘li bayoni». Bu ta’lim, ish tajribasi, ko‘nikma va yutuqlaringizni ko‘rsatadigan hujjat. Uni o‘qish, stipendiya, grant yoki ishga ariza berganda yuborishadi."
+    },
+    {
+      "q": "CV va rezyume bir narsami?",
+      "a": "O‘zbekistonda ko‘pincha ikkalasi bir xil ma’noda ishlatiladi. Farq bo‘lsa, rezyume qisqa, bir betlik va aynan vakansiyaga moslangan; CV to‘liqroq, ayniqsa stipendiya, magistratura, ilmiy va xalqaro arizalarda. Ariza shartida nima yozilgan bo‘lsa, shuni bajaring."
+    },
+    {
+      "q": "CV necha bet bo‘lishi kerak?",
+      "a": "Talaba va yangi boshlovchilar uchun odatda bir bet yetadi. Tajriba ko‘p bo‘lsa, ikki bet. Akademik CV nashr va loyihalar tufayli uzunroq bo‘lishi mumkin. Tashkilot hajmni belgilagan bo‘lsa, shunga amal qiling."
+    },
+    {
+      "q": "CV’da fotosurat va tug‘ilgan sana kerakmi?",
+      "a": "Bu ariza qoidasiga bog‘liq. Ba’zi tashkilotlar suratni so‘raydi, ba’zilari so‘ramaydi. Shartda yozilmagan bo‘lsa, majburiy emas. Pasport raqami va JShShIR hech qachon kerak emas."
+    },
+    {
+      "q": "Europass CV nima va u majburiymi?",
+      "a": "Europass — Yevropa Komissiyasining onlayn xizmati, u orqali CV yaratish mumkin. U faqat uni so‘ragan dastur yoki ish beruvchi uchun majburiy. Aks holda oddiy CV yetarli. Xizmatning shartlari va ishlashini rasmiy saytdan o‘zingiz tekshiring."
+    },
+    {
+      "q": "CV’ni qaysi tilda yozish kerak?",
+      "a": "Ariza qaysi tilda so‘ralgan bo‘lsa, o‘sha tilda. Xalqaro dastur va xorijiy kompaniyalar odatda ingliz tilini so‘raydi. Ikki tilda yuboring deyilgan bo‘lsa, ikkala matn bir xil faktni aytsin."
+    },
+    {
+      "q": "AI yordamida CV yozsa bo‘ladimi?",
+      "a": "Jumlalarni qisqartirish yoki aniqroq qilishda AI yordam beradi. Lekin faktlarni, sana va darajalarni faqat o‘zingiz yozasiz va tekshirasiz: o‘ylab topilgan band keyin intervyuda ochilib qoladi."
+    }
+  ],
+  "cta": {
+    "label": "CV jumlalarini AI bilan tekshirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/rezyume-tayyorlash/",
+      "anchor": "Ishga ariza uchun qisqa hujjat qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/motivatsion-xat-namuna/",
+      "anchor": "Motivatsion xat namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/obyektivka-namuna/",
+      "anchor": "Ob’ektivka namunasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/hujjat-namunalari/",
+      "anchor": "Barcha hujjat namunalari: Word va PDF",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: CV jumlalarini tekshirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "CV nima va CV yozish: namuna Word va PDF | GPTBot.uz",
+  "ogDescription": "CV nima va u rezyumedan nimasi bilan farq qiladi: bo‘limlar, talaba va mutaxassis uchun to‘ldirilgan CV, ingliz tilidagi namuna, Europass va xatolar.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/cv-nima/",
+  "hreflangUz": "/uz/blog/cv-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Talabalar, bitiruvchilar va mutaxassislar: ish, stipendiya yoki magistraturaga ariza topshiruvchilar"
+  },
+  "breadcrumbLabel": "CV nima",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Europass — About Europass (Yevropa Komissiyasi)",
+      "url": "https://europass.europa.eu/en/about-europass",
+      "note": "Xizmat nima ekani, bepulligi, CV va motivatsion xat tahrirchilari hamda 31 tildagi mavjudligi 2026-yil noyabrda tekshirildi. O‘zbekistondan foydalanish shartlari sahifada alohida tekshirilmagan."
+    },
+    {
+      "title": "Europass — Create your Europass CV",
+      "url": "https://europass.europa.eu/en/create-europass-cv",
+      "note": "CV tahrirchisi Europass profili asosida ishlashi va CV’larni kutubxonada saqlash mumkinligi 2026-yil noyabrda tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

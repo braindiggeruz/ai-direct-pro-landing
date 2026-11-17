@@ -1,3 +1,31 @@
+# Current handoff — SEO waves release · 17.11.2026
+
+## 1. State
+Branch claude/seo-waves-20261117, based on 7a0f1b81 (production code c907a6c4). Stage: all waves of the growth roadmap. Not released yet: guarded production build and deploy_runner.py follow this commit. Working tree: clean after the commit.
+## 2. Delivered
+52 new URLs (sitemap 370 → 422): AI guides (Gemini, Claude, DeepSeek, ChatGPT versions, Gamma, NotebookLM, Higgsfield, Flow; three in Russian) with the hub /uz/ai-xizmatlar/; seasonal poems and greetings; ready-text collections; school pages; document samples; a 2027 calendar. 45 files in /downloads/docs-20261117/. Eight existing pages strengthened; /uz/, the document hub and the Russian calculator link the new pages.
+## 3. Files
+content/blog/{ru,uz}/ and content/pages/{ru,uz}/; content/seo/intent-manifest.json (113 → 126 pairs); public/downloads/docs-20261117/ with five generator scripts in scripts/; src/shared/content-downloads.ts; public/_headers; scripts/generate-robots.ts; scripts/seo-protection.ts (BASELINE); tests/content-downloads.test.ts; docs/seo/CHANGE_LOG_2026-11.md; docs/seo/evidence/2026-11-17-seo-waves/; reports/seo-waves-20261117/.
+## 4. Decisions
+D-SEO-WAVES-20261117 in DECISIONS.md.
+## 5. Excluded
+No edit to the ten protected pages except the homepage lists. /ru/gpt-chat/ and the leaders' titles wait for 2026-12-21. No widget, quiz-set, payment, bot, webhook, pixel, CSP or chat-bundle change. /uz/rasmdan-yechim/ from the roadmap does not exist in content and was skipped.
+## 6. Validation
+Validator clean on the 60 authored files; protected-page review (reports/seo-waves-20261117/review.ts against the production build c907a6c4): 0 issues, homepage lists only; 78 content- and build-dependent test files run one at a time: no new failing test against the 2026-11-16 baseline (pre-existing failures unchanged in seo-product-facts, seo-push-revision, seo-revenue-claims, studio-contact, gpt-billing, legal-oferta, gpt-chat-business-line, chat-ui-revision); content-downloads test extended to the new pages, 4 of 4; sitemap 370 to 422. Known gap: the fifteen new chat pages are not in CHAT_RETURN_PATHS (payment code untouched), so a buyer who starts checkout there returns to the main chat of the language.
+## 7. Known limits
+No native proofreading (poems, greetings, 80 grammar questions, Cyrillic blocks, Uzbek element names). Provider facts dated 2026-11-17; the Flow guide needs an update after Veo leaves Flow on 2026-12-05. Ads volumes are an upper bound. The full npm test list is not green on the predecessor either: compare with the recorded baseline.
+## 8. Next task
+Guarded production release of this commit through deploy_runner.py with DR_ROOT set to this worktree, then live readback.
+## 9. Acceptance
+New URLs return 200, are self-canonical, in the sitemap and indexable; download files return 200 with X-Robots-Tag noindex; the ten protected pages equal the reviewed revision; live manifest commit equals the release commit.
+## 10. Start commands
+git status/log; docs/seo/CHANGE_LOG_2026-11.md; reports/seo-waves-20261117/artifact-review.json.
+## 11. Risks
+Do not edit the chats, the download guide or the login guide before 2026-12-21. Do not create a second page for an intent that has an owner. Do not raise bundle budgets. Keep the counts in titles equal to the content.
+## 12. Rollback
+Revert the release commit on top of current production and use the guarded release; restore BASELINE to docs/seo/evidence/2026-11-16-seo-growth/. No data or schema migration. Previous handoff retained below.
+
+---
 # Current handoff — SEO growth release · 16.11.2026
 
 ## 1. State

@@ -1,0 +1,1253 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "ingliz-tilida-dialoglar",
+  "url": "/uz/blog/ingliz-tilida-dialoglar/",
+  "title": "Dialog ingliz tilida: tarjimasi bilan 36 ta tayyor dialog",
+  "description": "Ingliz tilida 36 ta tayyor dialog o‘zbekcha tarjimasi bilan: tanishuv, maktab, oila, do‘kon, kafe, shifokor, yo‘l, telefon, sayohat va ish. Daraja: A1–B1.",
+  "h1": "Ingliz tilida dialoglar: o‘zbekcha tarjimasi bilan 36 ta dialog",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "dialog ingliz tilida",
+    "ingliz tilida dialoglar",
+    "ingliz tilida dialog tarjimasi bilan",
+    "2 kishilik dialog ingliz tilida",
+    "ingliz tilida dialog tuzish",
+    "dialog tuzish",
+    "do‘kon haqida dialog",
+    "shifokor haqida dialog",
+    "maktab haqida dialog"
+  ],
+  "intro": "Ingliz tilida gapirishni boshlashning eng oson yo‘li — tayyor dialogni ovoz chiqarib o‘qish va rollarga bo‘lib takrorlash. Bu sahifada kundalik vaziyatlar uchun 36 ta qisqa dialog bor: har biri ikki kishi uchun, 6–10 qatordan iborat va o‘zbekcha tarjimasi bilan berilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida 11 mavzu bo‘yicha 36 ta tayyor dialog bor — tanishuv, maktab, oila, do‘kon, kafe, shifokor, yo‘l, telefon, sayohat, ob-havo va ish. Chap ustunda inglizcha matn, o‘ng ustunda o‘zbekcha tarjima turadi. Har bir mavzudan keyin foydali iboralar, sahifa oxirida esa dialogni 10 daqiqada yodlash usuli berilgan. Dialoglar shu sahifa uchun AI yordamida yozilgan; ularni ko‘chirib, ismlarni o‘zgartirib, darsda bemalol ishlatishingiz mumkin."
+    },
+    {
+      "type": "linkp",
+      "text": "Dialogni yodlagach, uni jonli suhbatda sinab ko‘ring: {chat}ga «Sen sotuvchisan, men xaridorman, ingliz tilida gaplashamiz» deb yozsangiz, u suhbatdosh bo‘lib javob beradi. Bu GPTBot.uz AI chati: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mavzular",
+      "text": "36 ta dialog: mavzular va darajalar"
+    },
+    {
+      "type": "p",
+      "text": "Daraja belgilari taxminiy: A1 — endi boshlaganlar, A2 — sodda gaplarni bemalol tuza oladiganlar, B1 — o‘rta daraja uchun. O‘zingizga oson tuyulgan mavzudan boshlang."
+    },
+    {
+      "type": "table",
+      "headers": ["Mavzu", "Dialoglar soni", "Daraja"],
+      "rows": [
+        ["Tanishuv", "4 ta", "A1"],
+        ["Maktab va dars", "5 ta", "A1–A2"],
+        ["Oila", "3 ta", "A1"],
+        ["Do‘kon va bozor", "4 ta", "A1–A2"],
+        ["Kafe", "3 ta", "A2"],
+        ["Shifokor", "3 ta", "A2"],
+        ["Yo‘l va transport", "3 ta", "A2"],
+        ["Telefon", "2 ta", "A2"],
+        ["Sayohat va mehmonxona", "3 ta", "A2–B1"],
+        ["Ob-havo va hobbi", "3 ta", "A1–A2"],
+        ["Ish va intervyu", "3 ta", "B1"]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tanishuv",
+      "text": "Tanishuv haqida dialoglar"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A1. Ism, yosh, shahar va kasb haqidagi eng sodda savol-javoblar. Tengdoshlar bilan «sen», kattalar va notanish odamlar bilan «siz» deb gaplashiladi — tarjimada bu farq saqlangan."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-1",
+      "text": "1-dialog. Yangi sinfdosh bilan tanishuv"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Aziz: Hi! My name is Aziz. What’s your name?", "Aziz: Salom! Mening ismim Aziz. Sening isming nima?"],
+        ["Tom: Hello, Aziz. I’m Tom.", "Tom: Salom, Aziz. Men Tomman."],
+        ["Aziz: Nice to meet you, Tom. Are you new here?", "Aziz: Tanishganimdan xursandman, Tom. Bu yerda yangimisan?"],
+        ["Tom: Yes, I am. Today is my first day.", "Tom: Ha, yangiman. Bugun birinchi kunim."],
+        ["Aziz: Where are you from?", "Aziz: Qayerdansan?"],
+        ["Tom: I’m from London. And you?", "Tom: Londondanman. Sen-chi?"],
+        ["Aziz: I’m from Samarkand. Welcome to our class!", "Aziz: Men Samarqanddanman. Sinfimizga xush kelibsan!"],
+        ["Tom: Thank you!", "Tom: Rahmat!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-2",
+      "text": "2-dialog. Ism va yosh haqida"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Madina: Hello! What is your name?", "Madina: Salom! Isming nima?"],
+        ["Sara: My name is Sara. And what is yours?", "Sara: Ismim Sara. Seniki-chi?"],
+        ["Madina: I’m Madina. How old are you, Sara?", "Madina: Men Madinaman. Necha yoshdasan, Sara?"],
+        ["Sara: I’m twelve. How about you?", "Sara: O‘n ikki yoshdaman. Sen-chi?"],
+        ["Madina: I’m twelve too. We are the same age!", "Madina: Men ham o‘n ikkidaman. Tengdosh ekanmiz!"],
+        ["Sara: Great! Do you live near here?", "Sara: Zo‘r! Shu atrofda yashaysanmi?"],
+        ["Madina: Yes, my house is next to the park.", "Madina: Ha, uyim bog‘ning yonida."],
+        ["Sara: Let’s walk home together after school.", "Sara: Darsdan keyin uyga birga ketaylik."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-3",
+      "text": "3-dialog. Kattalar bilan rasmiy tanishuv"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Mr Brown: Good morning. My name is David Brown.", "Janob Braun: Xayrli tong. Mening ismim Devid Braun."],
+        ["Dilnoza: Good morning, Mr Brown. I’m Dilnoza.", "Dilnoza: Xayrli tong, janob Braun. Men Dilnozaman."],
+        ["Mr Brown: Pleased to meet you. What do you do?", "Janob Braun: Tanishganimdan mamnunman. Kasbingiz nima?"],
+        ["Dilnoza: I’m an English teacher. And you?", "Dilnoza: Ingliz tili o‘qituvchisiman. Siz-chi?"],
+        ["Mr Brown: I’m an engineer. I work in Tashkent.", "Janob Braun: Men muhandisman. Toshkentda ishlayman."],
+        ["Dilnoza: That’s interesting. Welcome to Uzbekistan!", "Dilnoza: Qiziq ekan. O‘zbekistonga xush kelibsiz!"],
+        ["Mr Brown: Thank you very much.", "Janob Braun: Katta rahmat."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-4",
+      "text": "4-dialog. Yangi qo‘shni bilan tanishuv"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Bobur: Hello! Are you our new neighbour?", "Bobur: Salom! Siz bizning yangi qo‘shnimizmisiz?"],
+        ["Anna: Yes, I am. I moved here last week. My name is Anna.", "Anna: Ha. O‘tgan hafta ko‘chib keldim. Ismim Anna."],
+        ["Bobur: Nice to meet you, Anna. I’m Bobur. I live on the second floor.", "Bobur: Tanishganimdan xursandman, Anna. Men Boburman. Ikkinchi qavatda yashayman."],
+        ["Anna: Nice to meet you too. Is there a good shop near here?", "Anna: Men ham xursandman. Shu atrofda yaxshi do‘kon bormi?"],
+        ["Bobur: Yes, there is one round the corner. It is open until ten.", "Bobur: Ha, muyulishda bittasi bor. U soat o‘ngacha ishlaydi."],
+        ["Anna: Thank you. You speak English very well!", "Anna: Rahmat. Ingliz tilida juda yaxshi gapirar ekansiz!"],
+        ["Bobur: Thanks. I learn it at school. If you need any help, just knock.", "Bobur: Rahmat. Maktabda o‘rganyapman. Yordam kerak bo‘lsa, bemalol eshikni taqillating."],
+        ["Anna: That’s very kind of you. See you!", "Anna: Juda mehribon ekansiz. Ko‘rishguncha!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-tanishuv",
+      "text": "Foydali iboralar: tanishuv"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Nice to meet you. — Tanishganimdan xursandman.",
+        "Where are you from? — Qayerdansiz?",
+        "How old are you? — Necha yoshdasiz?",
+        "What do you do? — Kasbingiz nima?",
+        "I live on the second floor. — Ikkinchi qavatda yashayman.",
+        "See you! — Ko‘rishguncha!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "maktab",
+      "text": "Maktab haqida dialoglar: dars va sinfdoshlar"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A1–A2. Dars jadvali, uy vazifasi, sevimli fan, kutubxona va nazorat ishi haqidagi suhbatlar. O‘tgan zamon shakllari (did, forgot, couldn’t) birinchi marta shu yerda uchraydi."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-5",
+      "text": "5-dialog. Dars jadvali"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Sardor: What lessons do we have today?", "Sardor: Bugun qanday darslarimiz bor?"],
+        ["Nilufar: We have maths, English and history.", "Nilufar: Matematika, ingliz tili va tarix."],
+        ["Sardor: What is the first lesson?", "Sardor: Birinchi dars qaysi?"],
+        ["Nilufar: Maths. It starts at half past eight.", "Nilufar: Matematika. U sakkiz yarimda boshlanadi."],
+        ["Sardor: Oh no, I forgot my maths book!", "Sardor: Voy, matematika kitobimni unutibman!"],
+        ["Nilufar: Don’t worry. We can share mine.", "Nilufar: Xavotir olma. Menikidan birga foydalanamiz."],
+        ["Sardor: Thanks a lot. You are a good friend.", "Sardor: Katta rahmat. Sen yaxshi do‘stsan."],
+        ["Nilufar: You’re welcome. Let’s go, the bell is ringing.", "Nilufar: Arzimaydi. Yur, qo‘ng‘iroq chalinyapti."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-6",
+      "text": "6-dialog. Uy vazifasi haqida"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Teacher: Temur, did you do your homework?", "O‘qituvchi: Temur, uy vazifasini bajardingmi?"],
+        ["Temur: I’m sorry, I didn’t finish it.", "Temur: Kechirasiz, oxirigacha bajara olmadim."],
+        ["Teacher: Why not?", "O‘qituvchi: Nega?"],
+        ["Temur: Exercise three was too difficult for me.", "Temur: Uchinchi mashq menga juda qiyin bo‘ldi."],
+        ["Teacher: Which part didn’t you understand?", "O‘qituvchi: Qaysi joyini tushunmading?"],
+        ["Temur: The new words. I couldn’t find them in my dictionary.", "Temur: Yangi so‘zlarni. Ularni lug‘atimdan topa olmadim."],
+        ["Teacher: All right. Stay after the lesson and I will help you.", "O‘qituvchi: Mayli. Darsdan keyin qol, yordam beraman."],
+        ["Temur: Thank you. I will finish it today.", "Temur: Rahmat. Bugun tugataman."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-7",
+      "text": "7-dialog. Sevimli fan"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Laylo: What is your favourite subject?", "Laylo: Sevimli faning qaysi?"],
+        ["Otabek: Geography. I love maps.", "Otabek: Geografiya. Xaritalarni juda yaxshi ko‘raman."],
+        ["Laylo: Why do you like it?", "Laylo: Nega u senga yoqadi?"],
+        ["Otabek: Because I learn about different countries. What about you?", "Otabek: Chunki turli mamlakatlar haqida bilib olaman. Sen-chi?"],
+        ["Laylo: I like biology, but I’m not good at maths.", "Laylo: Menga biologiya yoqadi, lekin matematikani yaxshi bilmayman."],
+        ["Otabek: I can help you with maths.", "Otabek: Matematikadan senga yordam bera olaman."],
+        ["Laylo: Really? Then I will help you with English.", "Laylo: Rostdanmi? Unda men senga ingliz tilidan yordam beraman."],
+        ["Otabek: It’s a deal!", "Otabek: Kelishdik!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-8",
+      "text": "8-dialog. Maktab kutubxonasida"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Student: Good afternoon. Can I borrow this book?", "O‘quvchi: Xayrli kun. Shu kitobni olsam bo‘ladimi?"],
+        ["Librarian: Of course. Do you have your library card?", "Kutubxonachi: Albatta. Kutubxona kartang bormi?"],
+        ["Student: Yes, here it is.", "O‘quvchi: Ha, mana."],
+        ["Librarian: Thank you. You can keep the book for two weeks.", "Kutubxonachi: Rahmat. Kitobni ikki haftaga olishing mumkin."],
+        ["Student: Can I take one more book?", "O‘quvchi: Yana bitta kitob olsam maylimi?"],
+        ["Librarian: Yes, you can take three books at a time.", "Kutubxonachi: Ha, bir safar uchtagacha kitob olish mumkin."],
+        ["Student: Great. Where can I find books about space?", "O‘quvchi: Zo‘r. Koinot haqidagi kitoblar qayerda?"],
+        ["Librarian: They are on the second shelf, on the left.", "Kutubxonachi: Ular chap tomonda, ikkinchi javonda."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-9",
+      "text": "9-dialog. Nazorat ishi oldidan"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Shahzod: Are you ready for the English test?", "Shahzod: Ingliz tilidan nazorat ishiga tayyormisan?"],
+        ["Malika: Not really. I’m a little nervous.", "Malika: Unchalik emas. Biroz hayajonlanyapman."],
+        ["Shahzod: When is the test?", "Shahzod: Nazorat ishi qachon?"],
+        ["Malika: Tomorrow at ten.", "Malika: Ertaga soat o‘nda."],
+        ["Shahzod: Let’s study together after school.", "Shahzod: Darsdan keyin birga tayyorlanaylik."],
+        ["Malika: Good idea. Can you explain the past tense to me?", "Malika: Yaxshi fikr. Menga o‘tgan zamonni tushuntirib bera olasanmi?"],
+        ["Shahzod: Sure. It’s easy, you will see.", "Shahzod: Albatta. U oson, o‘zing ko‘rasan."],
+        ["Malika: Thanks. I feel better now.", "Malika: Rahmat. Endi ancha xotirjamman."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-maktab",
+      "text": "Foydali iboralar: maktab va dars"
+    },
+    {
+      "type": "list",
+      "items": [
+        "What lessons do we have today? — Bugun qanday darslarimiz bor?",
+        "Can I borrow this book? — Shu kitobni olsam bo‘ladimi?",
+        "I didn’t understand. — Tushunmadim.",
+        "Can you explain it again, please? — Yana bir marta tushuntirib bera olasizmi?",
+        "My favourite subject is … — Mening sevimli fanim — …",
+        "Let’s study together. — Birga tayyorlanaylik."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oila",
+      "text": "Oila haqida dialoglar"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A1. Oila a’zolari, ularning yoshi va kasbi haqida. Ingliz tilida brother — ham aka, ham uka, sister — ham opa, ham singil; aniqlashtirish uchun older (katta) yoki younger (kichik) so‘zi qo‘shiladi."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-10",
+      "text": "10-dialog. Oila a’zolari"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Emma: Do you have a big family, Sevara?", "Emma: Sevara, oilang kattami?"],
+        ["Sevara: Yes, I do. There are six of us.", "Sevara: Ha, katta. Biz olti kishimiz."],
+        ["Emma: Do you have any brothers or sisters?", "Emma: Aka-ukang yoki opa-singling bormi?"],
+        ["Sevara: I have an older brother and a younger sister.", "Sevara: Bir akam va bir singlim bor."],
+        ["Emma: How old is your sister?", "Emma: Singling necha yoshda?"],
+        ["Sevara: She is five. She goes to kindergarten.", "Sevara: Besh yoshda. U bog‘chaga boradi."],
+        ["Emma: Who else lives with you?", "Emma: Sizlar bilan yana kim yashaydi?"],
+        ["Sevara: My parents and my grandmother.", "Sevara: Ota-onam va buvim."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-11",
+      "text": "11-dialog. Ota-onaning kasbi"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Ben: What does your father do?", "Ben: Otang nima ish qiladi?"],
+        ["Jahongir: He is a doctor. He works at a hospital.", "Jahongir: U shifokor. Kasalxonada ishlaydi."],
+        ["Ben: And your mother?", "Ben: Onang-chi?"],
+        ["Jahongir: She is a teacher. She teaches maths.", "Jahongir: U o‘qituvchi. Matematikadan dars beradi."],
+        ["Ben: Does she work at your school?", "Ben: U sening maktabingda ishlaydimi?"],
+        ["Jahongir: No, she doesn’t. She works at another school.", "Jahongir: Yo‘q. U boshqa maktabda ishlaydi."],
+        ["Ben: My parents are farmers. We have a lot of apple trees.", "Ben: Mening ota-onam fermer. Olma daraxtlarimiz ko‘p."],
+        ["Jahongir: That’s great! I love apples.", "Jahongir: Zo‘r-ku! Men olmani yaxshi ko‘raman."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-12",
+      "text": "12-dialog. Yakshanba kuni oila bilan"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Zarina: What do you usually do on Sundays?", "Zarina: Yakshanba kunlari odatda nima qilasan?"],
+        ["Kate: I usually visit my grandparents.", "Keyt: Odatda buvim bilan bobomnikiga boraman."],
+        ["Zarina: Do they live far from you?", "Zarina: Ular sizlardan uzoqda yashaydimi?"],
+        ["Kate: No, they live in a village near the city.", "Keyt: Yo‘q, ular shahar yaqinidagi qishloqda yashaydi."],
+        ["Zarina: What do you do there?", "Zarina: U yerda nima qilasan?"],
+        ["Kate: I help my grandmother in the garden.", "Keyt: Buvimga bog‘da yordam beraman."],
+        ["Zarina: That sounds nice. My family has dinner together every Sunday.", "Zarina: Yaxshi ekan. Bizning oilamiz har yakshanba birga kechki ovqat qiladi."],
+        ["Kate: Family time is the best time.", "Keyt: Oila davrasida o‘tgan vaqt — eng yaxshi vaqt."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-oila",
+      "text": "Foydali iboralar: oila"
+    },
+    {
+      "type": "list",
+      "items": [
+        "There are five of us. — Biz besh kishimiz.",
+        "I have an older brother. — Mening akam bor.",
+        "I have a younger sister. — Mening singlim bor.",
+        "What does your father do? — Otangiz nima ish qiladi?",
+        "She works at a hospital. — U kasalxonada ishlaydi.",
+        "I usually visit my grandparents. — Odatda buvim bilan bobomnikiga boraman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "dokon",
+      "text": "Do‘kon haqida dialoglar: xarid va bozor"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A1–A2. Narx so‘rash, o‘lcham tanlash, savdolashish va tovarni almashtirish. Dialoglardagi narxlar shartli, faqat mashq uchun berilgan."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-13",
+      "text": "13-dialog. Oziq-ovqat do‘konida"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Shop assistant: Good morning! Can I help you?", "Sotuvchi: Xayrli tong! Sizga nima kerak?"],
+        ["Customer: Yes, please. I need a loaf of bread and a bottle of milk.", "Xaridor: Menga bitta non va bir shisha sut kerak."],
+        ["Shop assistant: Here you are. Anything else?", "Sotuvchi: Marhamat. Yana biror narsa kerakmi?"],
+        ["Customer: Do you have any eggs?", "Xaridor: Tuxum bormi?"],
+        ["Shop assistant: Yes, we do. How many do you need?", "Sotuvchi: Ha, bor. Nechta kerak?"],
+        ["Customer: Ten, please. How much is that altogether?", "Xaridor: O‘nta bering. Hammasi qancha bo‘ladi?"],
+        ["Shop assistant: Thirty-five thousand soums.", "Sotuvchi: O‘ttiz besh ming so‘m."],
+        ["Customer: Here you are. Thank you!", "Xaridor: Marhamat. Rahmat!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-14",
+      "text": "14-dialog. Kiyim do‘konida"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Shop assistant: Hello! Are you looking for something?", "Sotuvchi: Salom! Biror narsa qidiryapsizmi?"],
+        ["Customer: Yes, I’m looking for a blue T-shirt.", "Xaridor: Ha, ko‘k futbolka qidiryapman."],
+        ["Shop assistant: What size do you wear?", "Sotuvchi: Qaysi o‘lchamni kiyasiz?"],
+        ["Customer: Medium, I think.", "Xaridor: Menimcha, o‘rtacha o‘lchamni."],
+        ["Shop assistant: Here is a nice one. Would you like to try it on?", "Sotuvchi: Mana bunisi chiroyli. Kiyib ko‘rasizmi?"],
+        ["Customer: Yes, please. Where is the fitting room?", "Xaridor: Ha. Kiyinish xonasi qayerda?"],
+        ["Shop assistant: It’s over there, next to the mirror.", "Sotuvchi: Ana u yerda, oynaning yonida."],
+        ["Customer: It fits well. I’ll take it.", "Xaridor: Menga loyiq keldi. Shuni olaman."],
+        ["Shop assistant: Great choice! You can pay at the cash desk.", "Sotuvchi: Yaxshi tanlov! Kassada to‘lashingiz mumkin."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-15",
+      "text": "15-dialog. Bozorda meva xarid qilish"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Customer: Hello! How much are these apples?", "Xaridor: Assalomu alaykum! Bu olmalar qanchadan?"],
+        ["Seller: Fifteen thousand soums a kilo. They are very sweet.", "Sotuvchi: Kilosi o‘n besh ming so‘m. Juda shirin."],
+        ["Customer: That’s a bit expensive. Can you give me a discount?", "Xaridor: Biroz qimmat ekan. Arzonroq qilib berasizmi?"],
+        ["Seller: How many kilos do you want?", "Sotuvchi: Necha kilo olasiz?"],
+        ["Customer: Three kilos.", "Xaridor: Uch kilo."],
+        ["Seller: All right. Forty thousand for three kilos.", "Sotuvchi: Mayli. Uch kilosi qirq ming bo‘la qolsin."],
+        ["Customer: Thank you. And one kilo of grapes, please.", "Xaridor: Rahmat. Yana bir kilo uzum ham bering."],
+        ["Seller: Here you are. Enjoy!", "Sotuvchi: Marhamat. Osh bo‘lsin!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-16",
+      "text": "16-dialog. Poyabzalni almashtirish"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Customer: Excuse me. I bought these shoes yesterday, but they are too small.", "Xaridor: Kechirasiz. Bu poyabzalni kecha olgan edim, lekin kichik keldi."],
+        ["Shop assistant: I’m sorry about that. Do you have the receipt?", "Sotuvchi: Uzr. Chekingiz bormi?"],
+        ["Customer: Yes, here it is.", "Xaridor: Ha, mana."],
+        ["Shop assistant: Would you like a bigger size or your money back?", "Sotuvchi: Kattaroq o‘lchamini beraymi yoki pulingizni qaytaraymi?"],
+        ["Customer: A bigger size, please. Do you have size forty?", "Xaridor: Kattaroq o‘lchamini bering. Qirqinchi o‘lcham bormi?"],
+        ["Shop assistant: Let me check. Yes, we have them in black.", "Sotuvchi: Hozir qarab ko‘raman. Ha, qora rangdagisi bor."],
+        ["Customer: Perfect. Black is fine.", "Xaridor: Juda yaxshi. Qorasi ham bo‘laveradi."],
+        ["Shop assistant: Here you are. Have a nice day!", "Sotuvchi: Marhamat. Kuningiz xayrli o‘tsin!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-dokon",
+      "text": "Foydali iboralar: do‘kon va bozor"
+    },
+    {
+      "type": "list",
+      "items": [
+        "How much is it? — Bu qancha turadi?",
+        "I’m looking for … — Men … qidiryapman.",
+        "Can I try it on? — Kiyib ko‘rsam bo‘ladimi?",
+        "Do you have a bigger size? — Kattaroq o‘lchami bormi?",
+        "That’s too expensive. — Bu juda qimmat.",
+        "I’ll take it. — Shuni olaman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kafe",
+      "text": "Kafeda: buyurtma va hisob"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A2. Buyurtma berish, tavsiya so‘rash va hisobni to‘lash. Muloyim iltimos uchun I would like … va Can I have …? qoliplari ishlatiladi."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-17",
+      "text": "17-dialog. Kafeda buyurtma berish"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Waiter: Good evening. Are you ready to order?", "Ofitsiant: Xayrli kech. Buyurtma berasizmi?"],
+        ["Customer: Yes. I would like a chicken salad, please.", "Mijoz: Ha. Menga tovuqli salat bering."],
+        ["Waiter: Would you like something to drink?", "Ofitsiant: Ichishga nima olasiz?"],
+        ["Customer: A cup of green tea, please.", "Mijoz: Bir piyola ko‘k choy."],
+        ["Waiter: Anything for dessert?", "Ofitsiant: Shirinlikka biror narsa olasizmi?"],
+        ["Customer: What do you recommend?", "Mijoz: Nimani tavsiya qilasiz?"],
+        ["Waiter: Our honey cake is very popular.", "Ofitsiant: Asalli tortimiz ko‘pchilikka yoqadi."],
+        ["Customer: Then I’ll have a piece of honey cake.", "Mijoz: Unda bir bo‘lak asalli tort olaman."],
+        ["Waiter: Thank you. Your order will be ready in ten minutes.", "Ofitsiant: Rahmat. Buyurtmangiz o‘n daqiqada tayyor bo‘ladi."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-18",
+      "text": "18-dialog. Hisobni so‘rash"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Customer: Excuse me! Can I have the bill, please?", "Mijoz: Kechirasiz! Hisobni olib kelasizmi?"],
+        ["Waiter: Of course. Did you enjoy your meal?", "Ofitsiant: Albatta. Taomlar yoqdimi?"],
+        ["Customer: Yes, the soup was delicious.", "Mijoz: Ha, sho‘rva juda mazali ekan."],
+        ["Waiter: I’m glad to hear that. Here is your bill.", "Ofitsiant: Xursandman. Mana hisobingiz."],
+        ["Customer: Can I pay by card?", "Mijoz: Karta orqali to‘lasam bo‘ladimi?"],
+        ["Waiter: Yes, of course. Just a moment, I will bring the card machine.", "Ofitsiant: Ha, albatta. Bir daqiqa, terminalni olib kelaman."],
+        ["Customer: Thank you. Everything was great.", "Mijoz: Rahmat. Hammasi juda yaxshi bo‘ldi."],
+        ["Waiter: Thank you! Please come again.", "Ofitsiant: Rahmat! Yana kelib turing."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-19",
+      "text": "19-dialog. Do‘stlar kafeda"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Diyor: I’m hungry. Let’s have lunch here.", "Diyor: Qornim och. Shu yerda tushlik qilaylik."],
+        ["Lola: Good idea. What are you going to have?", "Lola: Yaxshi fikr. Sen nima olasan?"],
+        ["Diyor: I think I’ll have pizza. And you?", "Diyor: Pitsa olsam kerak. Sen-chi?"],
+        ["Lola: I don’t eat meat. Is there anything without it?", "Lola: Men go‘sht yemayman. Go‘shtsiz biror narsa bormi?"],
+        ["Diyor: Look, they have vegetable soup and cheese pizza.", "Diyor: Qara, sabzavotli sho‘rva va pishloqli pitsa bor ekan."],
+        ["Lola: Cheese pizza sounds good.", "Lola: Pishloqli pitsa yaxshi ekan."],
+        ["Diyor: Shall we share a big one?", "Diyor: Bitta kattasini olib, bo‘lishib yeymizmi?"],
+        ["Lola: Yes, and let’s order two orange juices.", "Lola: Ha, yana ikkita apelsin sharbati ham olaylik."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-kafe",
+      "text": "Foydali iboralar: kafe"
+    },
+    {
+      "type": "list",
+      "items": [
+        "A table for two, please. — Ikki kishilik stol kerak edi.",
+        "I would like …, please. — Menga … bering, iltimos.",
+        "What do you recommend? — Nimani tavsiya qilasiz?",
+        "Can I have the bill, please? — Hisobni olib kelasizmi?",
+        "Can I pay by card? — Karta orqali to‘lasam bo‘ladimi?",
+        "It was delicious. — Juda mazali ekan."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "shifokor",
+      "text": "Shifokor haqida dialoglar: qabul va dorixona"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A2. Shikoyatni aytish, qabulga yozilish va dorixonada gaplashish. Bu matnlar faqat til o‘rganish uchun yozilgan, tibbiy maslahat emas."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-20",
+      "text": "20-dialog. Shifokor qabulida"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Doctor: Good morning. What’s the matter?", "Shifokor: Xayrli tong. Sizni nima bezovta qilyapti?"],
+        ["Patient: I have a headache and a sore throat.", "Bemor: Boshim va tomog‘im og‘riyapti."],
+        ["Doctor: How long have you felt like this?", "Shifokor: Qachondan beri shunday?"],
+        ["Patient: Since yesterday evening.", "Bemor: Kecha kechqurundan beri."],
+        ["Doctor: Do you have a temperature?", "Shifokor: Haroratingiz bormi?"],
+        ["Patient: Yes, a little.", "Bemor: Ha, biroz bor."],
+        ["Doctor: Let me have a look. It looks like a cold.", "Shifokor: Qani, ko‘rib qo‘yay. Shamollaganga o‘xshaysiz."],
+        ["Patient: Do I need to stay at home?", "Bemor: Uyda qolishim kerakmi?"],
+        ["Doctor: Yes, rest for a few days and drink warm tea.", "Shifokor: Ha, bir necha kun dam oling va iliq choy iching."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-21",
+      "text": "21-dialog. Shifokor qabuliga yozilish"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Receptionist: Good afternoon, City Clinic. How can I help you?", "Administrator: Xayrli kun, shahar klinikasi. Sizga qanday yordam bera olaman?"],
+        ["Rustam: Hello. I would like to make an appointment with a dentist.", "Rustam: Salom. Tish shifokori qabuliga yozilmoqchi edim."],
+        ["Receptionist: Certainly. Is Tuesday morning all right?", "Administrator: Albatta. Seshanba kuni ertalab bo‘ladimi?"],
+        ["Rustam: I’m afraid I’m busy then. Is Wednesday possible?", "Rustam: Afsuski, o‘sha payt bandman. Chorshanba kuni bo‘ladimi?"],
+        ["Receptionist: Yes, the dentist is free at three in the afternoon.", "Administrator: Ha, shifokor tushdan keyin soat uchda bo‘sh."],
+        ["Rustam: That’s perfect.", "Rustam: Juda yaxshi."],
+        ["Receptionist: May I have your name, please?", "Administrator: Ismingizni aytasizmi?"],
+        ["Rustam: It’s Rustam. Thank you very much.", "Rustam: Rustam. Katta rahmat."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-22",
+      "text": "22-dialog. Dorixonada"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Customer: Good evening. I have a prescription from my doctor.", "Xaridor: Xayrli kech. Shifokor yozib bergan retseptim bor."],
+        ["Pharmacist: Let me see it, please.", "Dorixonachi: Qani, ko‘rsating."],
+        ["Customer: Here you are. Do you have this medicine?", "Xaridor: Marhamat. Shu dori sizda bormi?"],
+        ["Pharmacist: Yes, we do. Here it is.", "Dorixonachi: Ha, bor. Mana."],
+        ["Customer: How should I take it?", "Xaridor: Uni qanday ichish kerak?"],
+        ["Pharmacist: Follow your doctor’s instructions. They are written on the prescription.", "Dorixonachi: Shifokoringiz aytganidek iching. Hammasi retseptda yozilgan."],
+        ["Customer: I see. Thank you for your help.", "Xaridor: Tushunarli. Yordamingiz uchun rahmat."],
+        ["Pharmacist: You’re welcome. Get well soon!", "Dorixonachi: Arzimaydi. Tezroq sog‘ayib keting!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-shifokor",
+      "text": "Foydali iboralar: shifokor qabuli"
+    },
+    {
+      "type": "list",
+      "items": [
+        "What’s the matter? — Nima bezovta qilyapti?",
+        "I have a headache. — Boshim og‘riyapti.",
+        "I have a sore throat. — Tomog‘im og‘riyapti.",
+        "I don’t feel well. — O‘zimni yomon his qilyapman.",
+        "I would like to make an appointment. — Qabulga yozilmoqchi edim.",
+        "Get well soon! — Tezroq sog‘ayib keting!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yol",
+      "text": "Yo‘l va transport"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A2. Yo‘l so‘rash, taksida gaplashish va chipta olish. Yo‘nalishni ko‘rsatishda buyruq mayli ishlatiladi: go straight on, turn left."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-23",
+      "text": "23-dialog. Yo‘l so‘rash"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Tourist: Excuse me. How can I get to the railway station?", "Sayyoh: Kechirasiz. Temir yo‘l vokzaliga qanday borsam bo‘ladi?"],
+        ["Passer-by: Go straight on and turn left at the traffic lights.", "O‘tkinchi: To‘g‘riga yuring va svetofordan chapga buriling."],
+        ["Tourist: Is it far from here?", "Sayyoh: Bu yerdan uzoqmi?"],
+        ["Passer-by: No, it’s about ten minutes on foot.", "O‘tkinchi: Yo‘q, piyoda o‘n daqiqacha."],
+        ["Tourist: Is there a bus?", "Sayyoh: Avtobus bormi?"],
+        ["Passer-by: Yes, bus number five stops right over there.", "O‘tkinchi: Ha, beshinchi avtobus ana u yerda to‘xtaydi."],
+        ["Tourist: Thank you very much!", "Sayyoh: Katta rahmat!"],
+        ["Passer-by: You’re welcome. Have a good trip!", "O‘tkinchi: Arzimaydi. Oq yo‘l!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-24",
+      "text": "24-dialog. Taksida"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Driver: Good morning. Where to?", "Haydovchi: Xayrli tong. Qayerga boramiz?"],
+        ["Passenger: To the airport, please.", "Yo‘lovchi: Aeroportga."],
+        ["Driver: Which terminal?", "Haydovchi: Qaysi terminalga?"],
+        ["Passenger: Terminal two. How long does it take?", "Yo‘lovchi: Ikkinchisiga. Qancha vaqtda yetamiz?"],
+        ["Driver: About twenty-five minutes if there is no traffic.", "Haydovchi: Tirbandlik bo‘lmasa, yigirma besh daqiqacha."],
+        ["Passenger: Good. My flight is at noon.", "Yo‘lovchi: Yaxshi. Reysim tushda, soat o‘n ikkida."],
+        ["Driver: Don’t worry, we have plenty of time.", "Haydovchi: Xavotir olmang, vaqtimiz yetarli."],
+        ["Passenger: Could you open the window a little, please?", "Yo‘lovchi: Oynani biroz ochib yuborasizmi?"],
+        ["Driver: Sure, no problem.", "Haydovchi: Albatta, hozir."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-25",
+      "text": "25-dialog. Poyezdga chipta olish"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Passenger: Hello. One ticket to Bukhara, please.", "Yo‘lovchi: Salom. Buxoroga bitta chipta bering."],
+        ["Clerk: For today or tomorrow?", "Kassir: Bugungami yoki ertagami?"],
+        ["Passenger: For tomorrow morning.", "Yo‘lovchi: Ertaga ertalabga."],
+        ["Clerk: There is a train at eight. One way or return?", "Kassir: Soat sakkizda poyezd bor. Faqat borishgami yoki borib-kelishgami?"],
+        ["Passenger: Return, please. I’m coming back on Sunday.", "Yo‘lovchi: Borib-kelishga. Yakshanba kuni qaytaman."],
+        ["Clerk: Could I see your passport, please?", "Kassir: Pasportingizni ko‘rsatasizmi?"],
+        ["Passenger: Here you are. Which platform does the train leave from?", "Yo‘lovchi: Marhamat. Poyezd qaysi platformadan jo‘naydi?"],
+        ["Clerk: Platform three. Here are your tickets.", "Kassir: Uchinchi platformadan. Mana chiptalaringiz."],
+        ["Passenger: Thank you.", "Yo‘lovchi: Rahmat."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-yol",
+      "text": "Foydali iboralar: yo‘l va transport"
+    },
+    {
+      "type": "list",
+      "items": [
+        "How can I get to …? — …ga qanday borsam bo‘ladi?",
+        "Go straight on. — To‘g‘riga yuring.",
+        "Turn left. / Turn right. — Chapga buriling. / O‘ngga buriling.",
+        "Is it far from here? — Bu yerdan uzoqmi?",
+        "One ticket to …, please. — …ga bitta chipta bering.",
+        "Which platform does the train leave from? — Poyezd qaysi platformadan jo‘naydi?"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "telefon",
+      "text": "Telefon orqali suhbat"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A2. Telefonda o‘zini tanishtirganda I am emas, It’s … yoki This is … deyiladi. Kerakli odam bo‘lmasa, xabar qoldirish so‘raladi."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-26",
+      "text": "26-dialog. Do‘stga qo‘ng‘iroq"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Kamron: Hello?", "Kamron: Allo?"],
+        ["Mike: Hi, Kamron! It’s Mike. Are you busy now?", "Mayk: Salom, Kamron! Bu men, Mayk. Hozir bandmisan?"],
+        ["Kamron: Hi, Mike! No, I’m free. What’s up?", "Kamron: Salom, Mayk! Yo‘q, bo‘shman. Nima gap?"],
+        ["Mike: We are playing football at five. Can you come?", "Mayk: Soat beshda futbol o‘ynaymiz. Kela olasanmi?"],
+        ["Kamron: Sure! Where are you playing?", "Kamron: Albatta! Qayerda o‘ynaysizlar?"],
+        ["Mike: In the school yard. Bring your ball, please.", "Mayk: Maktab hovlisida. To‘pingni ham olib kel."],
+        ["Kamron: OK. See you at five!", "Kamron: Xo‘p. Beshda ko‘rishamiz!"],
+        ["Mike: See you! Bye!", "Mayk: Ko‘rishguncha! Xayr!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-27",
+      "text": "27-dialog. Xabar qoldirish"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Secretary: Good morning. This is the language centre.", "Kotiba: Xayrli tong. Til markazi eshitadi."],
+        ["Farrukh: Hello. May I speak to Mrs Wilson, please?", "Farrux: Salom. Uilson xonim bilan gaplashsam bo‘ladimi?"],
+        ["Secretary: I’m sorry, she is in a lesson now.", "Kotiba: Kechirasiz, u hozir darsda."],
+        ["Farrukh: Can I leave a message?", "Farrux: Xabar qoldirsam bo‘ladimi?"],
+        ["Secretary: Yes, of course.", "Kotiba: Ha, albatta."],
+        ["Farrukh: Please tell her that Farrukh called. I will be late for the lesson today.", "Farrux: Farrux qo‘ng‘iroq qildi, deb aytib qo‘ying. Bugun darsga kechikaman."],
+        ["Secretary: All right. I will tell her.", "Kotiba: Xo‘p. Aytib qo‘yaman."],
+        ["Farrukh: Thank you. Goodbye!", "Farrux: Rahmat. Xayr!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-telefon",
+      "text": "Foydali iboralar: telefon"
+    },
+    {
+      "type": "list",
+      "items": [
+        "May I speak to …, please? — … bilan gaplashsam bo‘ladimi?",
+        "Can I leave a message? — Xabar qoldirsam bo‘ladimi?",
+        "Hold on, please. — Bir daqiqa kutib turing.",
+        "I’ll call back later. — Keyinroq qayta qo‘ng‘iroq qilaman.",
+        "Are you busy now? — Hozir bandmisiz?",
+        "Goodbye! — Xayr!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sayohat",
+      "text": "Sayohat va mehmonxona"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A2–B1. Mehmonxonaga joylashish, aeroportda ro‘yxatdan o‘tish va notanish shaharda maslahat so‘rash. Gaplar biroz uzunroq, lekin so‘zlari kundalik."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-28",
+      "text": "28-dialog. Mehmonxonaga joylashish"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Receptionist: Good evening. Welcome to our hotel.", "Administrator: Xayrli kech. Mehmonxonamizga xush kelibsiz."],
+        ["Guest: Good evening. I have a reservation. My name is Akmal.", "Mehmon: Xayrli kech. Men xona band qilganman. Ismim Akmal."],
+        ["Receptionist: One moment, please. Yes, a single room for three nights.", "Administrator: Bir daqiqa. Ha, uch kechaga bir kishilik xona."],
+        ["Guest: That’s right. Is breakfast included?", "Mehmon: To‘g‘ri. Nonushta ham kiradimi?"],
+        ["Receptionist: Yes, it is. Breakfast is from seven to ten.", "Administrator: Ha, kiradi. Nonushta soat yettidan o‘ngacha."],
+        ["Guest: Is there Wi-Fi in the room?", "Mehmon: Xonada Wi-Fi bormi?"],
+        ["Receptionist: Yes, there is. The password is on your key card.", "Administrator: Ha, bor. Paroli kalit-kartangizda yozilgan."],
+        ["Guest: Great. Which floor is my room on?", "Mehmon: Yaxshi. Xonam nechanchi qavatda?"],
+        ["Receptionist: It’s on the fourth floor. The lift is on your right.", "Administrator: To‘rtinchi qavatda. Lift o‘ng tomoningizda."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-29",
+      "text": "29-dialog. Aeroportda ro‘yxatdan o‘tish"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Agent: Good morning. May I see your passport and ticket, please?", "Xodim: Xayrli tong. Pasportingiz va chiptangizni ko‘rsatasizmi?"],
+        ["Passenger: Here you are.", "Yo‘lovchi: Marhamat."],
+        ["Agent: Thank you. Are you checking in any bags?", "Xodim: Rahmat. Topshiradigan bagajingiz bormi?"],
+        ["Passenger: Yes, one suitcase.", "Yo‘lovchi: Ha, bitta jomadon."],
+        ["Agent: Please put it on the scale. Would you like a window seat or an aisle seat?", "Xodim: Uni tarozi ustiga qo‘ying. Deraza oldidagi joyni xohlaysizmi yoki yo‘lak tomondagisinimi?"],
+        ["Passenger: A window seat, please.", "Yo‘lovchi: Deraza oldidagisini."],
+        ["Agent: Here is your boarding pass. Boarding starts at nine thirty at gate twelve.", "Xodim: Mana chiqish taloningiz. Samolyotga chiqish to‘qqiz yarimda, o‘n ikkinchi chiqish eshigidan boshlanadi."],
+        ["Passenger: Thank you very much.", "Yo‘lovchi: Katta rahmat."],
+        ["Agent: Have a nice flight!", "Xodim: Parvozingiz xayrli bo‘lsin!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-30",
+      "text": "30-dialog. Samarqandda sayyoh"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Tourist: Hello. I’m visiting Samarkand for the first time. What should I see?", "Sayyoh: Salom. Samarqandga birinchi marta kelishim. Nimalarni ko‘rsam bo‘ladi?"],
+        ["Guide: Start with Registan Square. It is the heart of the city.", "Gid: Avval Registon maydonidan boshlang. U shaharning yuragi."],
+        ["Tourist: How long does it take to see it?", "Sayyoh: Uni tomosha qilishga qancha vaqt ketadi?"],
+        ["Guide: About two hours. After that, you can walk to the Bibi-Khanym Mosque.", "Gid: Ikki soatcha. Undan keyin Bibixonim masjidiga piyoda borsangiz bo‘ladi."],
+        ["Tourist: Is it far from the square?", "Sayyoh: U maydondan uzoqmi?"],
+        ["Guide: No, it’s about fifteen minutes on foot. There is an old bazaar next to it.", "Gid: Yo‘q, piyoda o‘n besh daqiqacha. Uning yonida eski bozor ham bor."],
+        ["Tourist: Can I try local food there?", "Sayyoh: U yerda mahalliy taomlardan tatib ko‘rsa bo‘ladimi?"],
+        ["Guide: Of course. Try Samarkand bread. It is famous all over the country.", "Gid: Albatta. Samarqand nonidan tatib ko‘ring. U butun mamlakatga mashhur."],
+        ["Tourist: Thank you for your advice!", "Sayyoh: Maslahatingiz uchun rahmat!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-sayohat",
+      "text": "Foydali iboralar: sayohat va mehmonxona"
+    },
+    {
+      "type": "list",
+      "items": [
+        "I have a reservation. — Men xona band qilganman.",
+        "Is breakfast included? — Nonushta ham kiradimi?",
+        "A window seat, please. — Deraza oldidagi joyni bering.",
+        "What should I see? — Nimalarni ko‘rsam bo‘ladi?",
+        "How long does it take? — Qancha vaqt ketadi?",
+        "Have a nice flight! — Parvozingiz xayrli bo‘lsin!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ob-havo",
+      "text": "Ob-havo va hobbi"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: A1–A2. Ob-havo, fasllar, bo‘sh vaqt va dam olish kunlari rejasi. Reja haqida gapirganda be going to qolipi ishlatiladi: I’m going to ride my bike."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-31",
+      "text": "31-dialog. Ob-havo haqida suhbat"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Sanjar: What a beautiful day!", "Sanjar: Qanday ajoyib kun!"],
+        ["Olivia: Yes, it’s sunny and warm.", "Oliviya: Ha, havo ochiq va iliq."],
+        ["Sanjar: What is the weather like in your country now?", "Sanjar: Hozir sening yurtingda ob-havo qanday?"],
+        ["Olivia: It’s cold and rainy. I don’t like rain.", "Oliviya: Sovuq va yomg‘irli. Men yomg‘irni yoqtirmayman."],
+        ["Sanjar: What is your favourite season?", "Sanjar: Sevimli fasling qaysi?"],
+        ["Olivia: Spring. Everything is green in spring. And yours?", "Oliviya: Bahor. Bahorda hamma yoq yam-yashil bo‘ladi. Seniki-chi?"],
+        ["Sanjar: I like winter because I can have snowball fights.", "Sanjar: Menga qish yoqadi, chunki qorbo‘ron o‘ynash mumkin."],
+        ["Olivia: I hope it will snow this year!", "Oliviya: Bu yil qor yog‘adi, deb umid qilaman!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-32",
+      "text": "32-dialog. Bo‘sh vaqt va hobbi"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Gulnoza: What do you do in your free time?", "Gulnoza: Bo‘sh vaqtingda nima qilasan?"],
+        ["Jack: I play chess and read books. And you?", "Jek: Shaxmat o‘ynayman va kitob o‘qiyman. Sen-chi?"],
+        ["Gulnoza: I like drawing. I draw every evening.", "Gulnoza: Men rasm chizishni yaxshi ko‘raman. Har kuni kechqurun chizaman."],
+        ["Jack: What do you usually draw?", "Jek: Odatda nimalarni chizasan?"],
+        ["Gulnoza: Mostly animals and mountains.", "Gulnoza: Asosan hayvonlar va tog‘larni."],
+        ["Jack: Can you show me your pictures?", "Jek: Rasmlaringni ko‘rsata olasanmi?"],
+        ["Gulnoza: Sure. I have some on my phone. Look!", "Gulnoza: Albatta. Telefonimda bir nechtasi bor. Qara!"],
+        ["Jack: Wow, they are amazing! You are very talented.", "Jek: Voy, ajoyib-ku! Sen juda iste’dodli ekansan."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-33",
+      "text": "33-dialog. Dam olish kunlari rejasi"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Islom: What are you going to do this weekend?", "Islom: Shu dam olish kunlari nima qilmoqchisan?"],
+        ["Lucy: I’m going to ride my bike in the park.", "Lusi: Bog‘da velosiped uchmoqchiman."],
+        ["Islom: The weather forecast says it will rain on Saturday.", "Islom: Ob-havo ma’lumotiga ko‘ra, shanba kuni yomg‘ir yog‘ar ekan."],
+        ["Lucy: Oh, really? Then I’ll stay at home and watch a film.", "Lusi: Rostdanmi? Unda uyda qolib, kino ko‘raman."],
+        ["Islom: Would you like to come to my place? We can play board games.", "Islom: Biznikiga kelmaysanmi? Stol o‘yinlari o‘ynaymiz."],
+        ["Lucy: I’d love to. What time?", "Lusi: Jon deb boraman. Soat nechada?"],
+        ["Islom: Come at two. My mum will make plov.", "Islom: Ikkida kel. Oyim osh damlaydi."],
+        ["Lucy: Great! I have never tried plov.", "Lusi: Zo‘r! Men hali osh yeb ko‘rmaganman."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-ob-havo",
+      "text": "Foydali iboralar: ob-havo va hobbi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "What is the weather like? — Ob-havo qanday?",
+        "It’s sunny. / It’s rainy. — Havo ochiq. / Yomg‘ir yog‘yapti.",
+        "What do you do in your free time? — Bo‘sh vaqtingizda nima qilasiz?",
+        "I like drawing. — Men rasm chizishni yaxshi ko‘raman.",
+        "I’m going to … — Men … moqchiman.",
+        "I’d love to. — Jon deb."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ish",
+      "text": "Ish va intervyu"
+    },
+    {
+      "type": "p",
+      "text": "Daraja: B1. Ishga kirish suhbati, birinchi ish kuni va hamkasbdan yordam so‘rash. Bu yerda Present Perfect (I have worked) va muloyim Could you …? qolipi uchraydi."
+    },
+    {
+      "type": "h3",
+      "id": "dialog-34",
+      "text": "34-dialog. Ishga kirish suhbati"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Manager: Good morning. Please take a seat.", "Rahbar: Xayrli tong. Marhamat, o‘tiring."],
+        ["Candidate: Good morning. Thank you.", "Nomzod: Xayrli tong. Rahmat."],
+        ["Manager: Could you tell me a little about yourself?", "Rahbar: O‘zingiz haqingizda qisqacha gapirib bersangiz."],
+        ["Candidate: Of course. I graduated from university last year, and I have worked as an assistant since then.", "Nomzod: Albatta. O‘tgan yili universitetni tamomladim va o‘shandan beri yordamchi bo‘lib ishlayapman."],
+        ["Manager: Why do you want to work for our company?", "Rahbar: Nega aynan bizning kompaniyada ishlamoqchisiz?"],
+        ["Candidate: I want to grow as a specialist, and your team is known for its interesting projects.", "Nomzod: Mutaxassis sifatida o‘smoqchiman, jamoangiz esa qiziqarli loyihalari bilan tanilgan."],
+        ["Manager: What are your strengths?", "Rahbar: Kuchli tomonlaringiz qaysi?"],
+        ["Candidate: I’m responsible, and I learn quickly. I also speak three languages.", "Nomzod: Mas’uliyatliman va tez o‘rganaman. Bundan tashqari, uch tilda gaplashaman."],
+        ["Manager: Thank you. We will call you by Friday.", "Rahbar: Rahmat. Juma kunigacha sizga qo‘ng‘iroq qilamiz."],
+        ["Candidate: Thank you for your time. I look forward to hearing from you.", "Nomzod: Vaqt ajratganingiz uchun rahmat. Javobingizni kutaman."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-35",
+      "text": "35-dialog. Birinchi ish kuni"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Manager: Welcome to the team, Nodira! How do you feel?", "Rahbar: Jamoamizga xush kelibsiz, Nodira! Kayfiyatingiz qalay?"],
+        ["Nodira: Thank you. I’m a bit nervous, but very excited.", "Nodira: Rahmat. Biroz hayajondaman, lekin juda xursandman."],
+        ["Manager: That’s normal. This is your desk, and here is your computer.", "Rahbar: Bu tabiiy hol. Mana sizning stolingiz, bu esa kompyuteringiz."],
+        ["Nodira: Thank you. What should I do first?", "Nodira: Rahmat. Ishni nimadan boshlay?"],
+        ["Manager: First, read these documents. Then I will introduce you to your colleagues.", "Rahbar: Avval mana bu hujjatlarni o‘qib chiqing. Keyin sizni hamkasblaringiz bilan tanishtiraman."],
+        ["Nodira: What time is the lunch break?", "Nodira: Tushlik tanaffusi soat nechada?"],
+        ["Manager: From one to two. If you have any questions, just ask me.", "Rahbar: Birdan ikkigacha. Savolingiz bo‘lsa, bemalol so‘rang."],
+        ["Nodira: I will. Thank you for your help.", "Nodira: Albatta. Yordamingiz uchun rahmat."]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "dialog-36",
+      "text": "36-dialog. Hamkasbdan yordam so‘rash"
+    },
+    {
+      "type": "table",
+      "headers": ["English", "O‘zbekcha"],
+      "rows": [
+        ["Bekzod: Hi, Sarah. Have you got a minute?", "Bekzod: Salom, Sara. Bir daqiqa vaqting bormi?"],
+        ["Sarah: Sure. What’s the problem?", "Sara: Albatta. Nima bo‘ldi?"],
+        ["Bekzod: I can’t finish the report by tomorrow. Could you help me?", "Bekzod: Hisobotni ertagacha tugata olmayapman. Yordam bera olasanmi?"],
+        ["Sarah: Which part is left?", "Sara: Qaysi qismi qoldi?"],
+        ["Bekzod: The tables and the conclusion.", "Bekzod: Jadvallar va xulosa."],
+        ["Sarah: I can do the tables if you send me the data now.", "Sara: Ma’lumotlarni hozir yuborsang, jadvallarni men qilaman."],
+        ["Bekzod: That would be great. I’ll send it in five minutes.", "Bekzod: Juda yaxshi bo‘lardi. Besh daqiqada yuboraman."],
+        ["Sarah: No problem. Next time, tell me earlier!", "Sara: Hechqisi yo‘q. Keyingi safar ertaroq ayt!"]
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "iboralar-ish",
+      "text": "Foydali iboralar: ish va intervyu"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Could you tell me about yourself? — O‘zingiz haqingizda gapirib bersangiz.",
+        "What are your strengths? — Kuchli tomonlaringiz qaysi?",
+        "I have worked as … — Men … bo‘lib ishlaganman.",
+        "I look forward to hearing from you. — Javobingizni kutaman.",
+        "Have you got a minute? — Bir daqiqa vaqtingiz bormi?",
+        "Could you help me? — Yordam bera olasizmi?"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yodlash",
+      "text": "Dialogni 10 daqiqada yodlash usuli"
+    },
+    {
+      "type": "p",
+      "text": "Bitta dialogni tanlang va soatga qarab ishlang. Yodlashdan maqsad — matnni so‘zma-so‘z takrorlash emas, shu vaziyatda o‘ylanmasdan gapira olish."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1-daqiqa: dialogni ichingizda o‘qing va tarjimaga qarab har bir gapning ma’nosini tushunib oling.",
+        "2–3-daqiqa: inglizcha matnni ovoz chiqarib ikki marta o‘qing. Notanish so‘zning talaffuzini ovozli lug‘atdan eshitib oling.",
+        "4–5-daqiqa: inglizcha ustunni qo‘lingiz yoki qog‘oz bilan yoping. O‘zbekcha gapga qarab inglizchasini ayting, keyin ochib tekshiring.",
+        "6–7-daqiqa: rollarga bo‘ling. Sherik bo‘lmasa, bir rolni ovoz chiqarib o‘qing, ikkinchisini yoddan ayting, so‘ng rollarni almashtiring.",
+        "8–9-daqiqa: har bir qatordan bittadan tayanch so‘z yozib oling va faqat shu so‘zlarga qarab butun dialogni aytib chiqing.",
+        "10-daqiqa: ism, joy va vaqtni o‘zingiznikiga almashtirib, dialogni yana bir marta ayting. Ertasi kuni bir marta takrorlang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "dialog-tuzish",
+      "text": "Ingliz tilida dialog tuzish: 5 qadam"
+    },
+    {
+      "type": "p",
+      "text": "O‘qituvchi «o‘zingiz dialog tuzing» degan vazifa bergan bo‘lsa, tayyor matnni ko‘chirmang — uni qolip sifatida oling va shu tartibda ishlang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Vaziyat va rollarni tanlang: kim, qayerda, nima haqida gaplashadi. Masalan, xaridor va sotuvchi kitob do‘konida.",
+        "Salomlashuvdan boshlang va maqsadni bitta savol bilan ayting: Can I help you? yoki Excuse me, how can I get to …?",
+        "Har bir javobdan keyin bitta yangi savol qo‘shing — suhbat shunday davom etadi.",
+        "6–10 qator bilan cheklaning va o‘zingiz bilgan zamonlardan foydalaning: A1 darajada Present Simple yetadi.",
+        "Minnatdorchilik va xayrlashuv bilan tugating: Thank you. — You’re welcome. — Goodbye!"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Gap qaysi zamonda tuzilishini bilmasangiz, {zamonlar}ga qarang. Hozirgi zamon uchun {ps}, o‘tgan zamon fe’llari uchun {verbs} bor.",
+      "links": [
+        {
+          "token": "zamonlar",
+          "target": "/uz/ingliz-tili-zamonlari/",
+          "anchor": "ingliz tili zamonlari jadvali"
+        },
+        {
+          "token": "ps",
+          "target": "/uz/present-simple/",
+          "anchor": "Present Simple qoidasi"
+        },
+        {
+          "token": "verbs",
+          "target": "/uz/notogri-fellar/",
+          "anchor": "noto‘g‘ri fe’llar jadvali"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-mashq",
+      "text": "Dialogni AI bilan mashq qilish"
+    },
+    {
+      "type": "p",
+      "text": "Sherik topilmasa, suhbatdosh rolini AI chat bajarishi mumkin. U ovoz chiqarib gapirmaydi — yozma javob beradi, shuning uchun bu usul so‘z boyligi va gap tuzishni mashq qilishga yaraydi, talaffuzni esa o‘qituvchi yoki ovozli lug‘at bilan ishlang. So‘rovda rol, daraja va nima kerakligini aniq yozing."
+    },
+    {
+      "type": "list",
+      "items": [
+        "«Sen kafeda ofitsiantsan, men mijozman. Ingliz tilida A2 darajada suhbatlashamiz. Har safar bitta gap yoz va mening javobimni kut.»",
+        "«Men yozgan mana bu dialogdagi xatolarni top va har birini o‘zbek tilida qisqa tushuntir: [dialog matni].»",
+        "«Kutubxona mavzusida ikki kishi uchun A1 darajada 8 qatorli dialog yoz. Har bir qatorning o‘zbekcha tarjimasini ham ber.»",
+        "«Shu dialogdagi yangi so‘zlarni jadvalga yoz: so‘z, tarjimasi va bitta misol gap.»"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Bunday so‘rovlarni {chat}da yuborish mumkin; so‘rov yozish va limitlar haqida {qollanma}da, AI paket shartlari haqida {tariflar} sahifasida yozilgan.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
+        {
+          "token": "qollanma",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI chat qo‘llanmasi"
+        },
+        {
+          "token": "tariflar",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. AI ingliz tilida ham xato qilishi mumkin: shubhali gapni darslik yoki o‘qituvchingiz bilan tekshiring. Chatga o‘zingiz va boshqalarning telefon raqami, manzili kabi shaxsiy ma’lumotlarni yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "cta",
+      "text": "Dialogni AI bilan mashq qilish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Dialog necha qatordan iborat bo‘lishi kerak?",
+      "a": "Dars va uy vazifasi uchun odatda 6–10 qator yetadi: salomlashuv, ikki-uch savol-javob va xayrlashuv. Bu sahifadagi barcha dialoglar shu hajmda. O‘qituvchi aniq son aytgan bo‘lsa, qator qo‘shish uchun har bir javobdan keyin bitta yangi savol kiriting."
+    },
+    {
+      "q": "Bu dialoglar qaysi daraja uchun mos?",
+      "a": "A1 dan B1 gacha. Tanishuv, oila va ob-havo mavzulari endi boshlaganlar uchun, do‘kon, kafe, shifokor, yo‘l va telefon mavzulari A2 uchun, ish va intervyu B1 uchun mo‘ljallangan. Daraja har bir mavzu boshida yozilgan; belgilar taxminiy, rasmiy sinov natijasi emas."
+    },
+    {
+      "q": "Dialoglardan darsda yoki uy vazifasida foydalansa bo‘ladimi?",
+      "a": "Ha. Matnlar shu sahifa uchun yozilgan, ularni ko‘chirib, qisqartirib, ism va joylarni o‘zgartirib ishlatishingiz mumkin. Vazifa «o‘zingiz tuzing» degan bo‘lsa, tayyor dialogni qolip sifatida olib, vaziyat va so‘zlarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "q": "2 kishilik dialogni yolg‘iz o‘zim qanday mashq qilaman?",
+      "a": "Bir rolni ovoz chiqarib o‘qing, ikkinchisini yoddan ayting, keyin rollarni almashtiring. Ovozingizni telefonga yozib olib tinglash ham foyda beradi. Yozma mashq uchun suhbatdosh rolini AI chatga topshirsa bo‘ladi."
+    },
+    {
+      "q": "Dialoglarning audio yoki video varianti bormi?",
+      "a": "Yo‘q, bu sahifada faqat matn va tarjima bor. So‘zlarning talaffuzini ovozli onlayn lug‘atdan eshitib oling yoki o‘qituvchingizdan dialogni bir marta o‘qib berishni so‘rang."
+    },
+    {
+      "q": "Tarjima so‘zma-so‘z qilinganmi?",
+      "a": "Yo‘q, tarjima ma’noga ko‘ra qilingan — o‘zbek tilida odamlar shu vaziyatda qanday gapirsa, shunday. Masalan, What’s up? — «Nima gap?», Enjoy! — «Osh bo‘lsin!». Alohida so‘zning aniq ma’nosini lug‘atdan qarang."
+    },
+    {
+      "q": "AI chat inglizcha dialog tuzib bera oladimi?",
+      "a": "Ha. Mavzu, daraja va qatorlar sonini yozsangiz, GPTBot.uz AI chati dialog tuzadi yoki suhbatdosh rolini o‘ynaydi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi. AI xato qilishi mumkin, shuning uchun matnni o‘zingiz ham o‘qib chiqing."
+    }
+  ],
+  "cta": {
+    "label": "Dialogni AI bilan mashq qilish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: dialogni mashq qilish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/ingliz-tili-zamonlari/",
+      "anchor": "Ingliz tili zamonlari jadvali: 12 zamon",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/present-simple/",
+      "anchor": "Present Simple: qoida, misollar va mashqlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/notogri-fellar/",
+      "anchor": "Noto‘g‘ri fe’llar jadvali: V1, V2, V3",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/past-simple/",
+      "anchor": "Past Simple: o‘tgan zamon qoidasi va mashqlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/inglizcha-statuslar/",
+      "anchor": "Tarjimasi bilan inglizcha statuslar to‘plami",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Ingliz tilida dialoglar: tarjimasi bilan 36 ta dialog",
+  "ogDescription": "Tanishuv, maktab, oila, do‘kon, kafe, shifokor, yo‘l, telefon, sayohat, ob-havo va ish mavzularida 36 ta inglizcha dialog, o‘zbekcha tarjima va foydali iboralar.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/ingliz-tilida-dialoglar/",
+  "hreflangUz": "/uz/blog/ingliz-tilida-dialoglar/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Ingliz tilida dialoglar",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Council of Europe — The CEFR Levels",
+      "url": "https://www.coe.int/en/web/common-european-framework-reference-languages/level-descriptions",
+      "note": "Til bilish darajalari shkalasi: A1–A2 — boshlang‘ich, B1–B2 — mustaqil, C1–C2 — yuqori daraja. Sahifadagi daraja belgilari shu shkalaga qarab taxminan qo‘yilgan, rasmiy sinovdan o‘tkazilmagan. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari ishonchli ohangda noto‘g‘ri ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf: AI tuzgan dialogda grammatik yoki uslubiy xato bo‘lishi mumkin. 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

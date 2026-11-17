@@ -4,31 +4,31 @@
   "url": "/uz/suniy-intellekt/",
   "slug": "suniy-intellekt",
   "pageType": "blog",
-  "primaryKeyword": "sun’iy intellekt",
+  "primaryKeyword": "suniy intellekt",
   "secondaryKeywords": [
+    "sun’iy intellekt",
     "sun’iy intellekt nima",
-    "sun’iy intellekt turlari",
-    "sun’iy intellekt qanday ishlaydi",
-    "AI nima",
-    "sun’iy intellekt O‘zbekistonda",
     "suniy intellekt nima",
-    "suniy intellekt turlari",
+    "suniy intellekt haqida malumot",
     "sun’iy intellekt haqida ma’lumot",
+    "sun’iy intellekt turlari",
+    "sun’iy intellektning foydasi va zarari",
+    "сунъий интеллект",
     "сунъий интеллект нима"
   ],
   "searchIntent": "informational",
-  "h1": "Sun’iy intellekt nima: oddiy tushuntirish, turlari va O‘zbekistonda qo‘llanishi",
-  "title": "Sun’iy intellekt nima: turlari, tarixi, o‘zbekcha misollar",
-  "description": "Sun’iy intellekt nima, u qanday o‘rganadi va qayerda ishlatiladi: oddiy misollar, asosiy turlari, cheklovlari va O‘zbekistonda biznes uchun amaliy foydasi.",
+  "h1": "Sun’iy intellekt haqida ma’lumot: oddiy tushuntirish, turlari va misollar",
+  "title": "Sun’iy intellekt nima: ta’rifi, turlari, foydasi va zarari",
+  "description": "Sun’iy intellekt nima, qanday ishlaydi va qayerda ishlatiladi: sodda ta’rif, turlari, kundalik misollar, foydasi va zarari, kasblar, tarixi va savol-javoblar.",
   "canonical": "https://gptbot.uz/uz/suniy-intellekt/",
   "hreflangUz": "/uz/suniy-intellekt/",
-  "ogTitle": "Sun’iy intellekt nima — tushunarli misollar bilan",
-  "ogDescription": "Sun’iy intellekt qanday ishlaydi, qaysi turlari bor va O‘zbekistonda biznesda qayerdan boshlash kerak: cheklovlari bilan.",
+  "ogTitle": "Sun’iy intellekt nima: ta’rifi, turlari, foydasi va zarari",
+  "ogDescription": "Sun’iy intellekt haqida ma’lumot o‘quvchi uchun: ta’rif, ishlash usuli, turlari, kundalik misollar, foydasi va xavflari, kasblar va tarixi.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi-1200.webp",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Sun’iy intellekt",
-  "heroSubtitle": "Murakkab ta’riflarsiz: sun’iy intellekt qanday ishlaydi, nima qila oladi, nima qila olmaydi va O‘zbekistonda undan qayerda foyda bor.",
+  "heroSubtitle": "O‘quvchi va talaba uchun to‘liq javob: sun’iy intellekt nima, qanday ishlaydi, qayerda uchraydi va undan qanday foydalanish kerak.",
   "ctaPrimaryLabel": "AI chatni o‘zbek tilida sinash",
   "ctaPrimaryHref": "/uz/gpt-uzbek-tilida/",
   "ctaSecondaryLabel": "Biznes uchun AI bot",
@@ -36,67 +36,101 @@
   "bodyBlocks": [
     {
       "type": "p",
-      "text": "Sun’iy intellekt — kompyuter tizimlarining odatda inson aqli talab qiladigan vazifalarni bajarish qobiliyati: matn tushunish, rasmni tanib olish, qaror qabul qilish, tarjima qilish. Bu sehr emas, balki katta hajmdagi ma’lumotdan naqsh o‘rganadigan matematik modellar to‘plami. Sun’iy intellekt charchamaydi, lekin u tushunmaydi — u hisoblaydi."
+      "text": "Sun’iy intellekt — kompyuter tizimlarining odatda inson aqli talab qiladigan vazifalarni bajarish qobiliyati: matnni tushunish, rasmni tanish, tarjima qilish, qaror qabul qilish. U fikrlamaydi: katta hajmdagi ma’lumotdan o‘rgangan naqshlar asosida eng ehtimoliy javobni hisoblab topadi."
     },
     {
       "type": "quote",
-      "text": "Sun’iy intellekt — bu fikrlovchi mashina emas. Bu katta hajmdagi namunalar asosida eng ehtimoliy javobni hisoblab topadigan model."
+      "text": "Sun’iy intellekt — fikrlovchi mashina emas. Bu ma’lumotdan o‘rganadigan, tez ishlaydigan, lekin xato qilishi mumkin bo‘lgan dastur."
     },
     {
-      "type": "h2",
-      "id": "sinab-koring",
-      "text": "Sun’iy intellekt bilan o‘zbekcha gaplashib ko‘ring"
-    },
-    {
-      "type": "linkp",
-      "text": "Sun’iy intellekt matn bilan qanday ishlashini o‘zingiz sinab ko‘rishingiz mumkin. GPTBot.uz — mustaqil o‘zbekcha AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket; sinov javoblari yangilanmaydi. U OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Masalan, {chat} sahifasida «Sun’iy intellekt nima? Uchta oddiy misol bilan tushuntir» deb yozing, keyin javobni shu sahifadagi ta’rif bilan solishtiring.",
+      "type": "toc",
+      "text": "Sahifada",
       "links": [
         {
-          "token": "chat",
-          "target": "/uz/gpt-uzbek-tilida/",
-          "anchor": "sun’iy intellekt chat (o‘zbek tilida)"
+          "anchor": "qanday-ishlaydi",
+          "label": "Sun’iy intellekt qanday ishlaydi"
+        },
+        {
+          "anchor": "turlari",
+          "label": "Turlari"
+        },
+        {
+          "anchor": "kundalik-hayot",
+          "label": "Kundalik hayotda va O‘zbekistonda"
+        },
+        {
+          "anchor": "foydasi-zarari",
+          "label": "Foydasi va zarari"
+        },
+        {
+          "anchor": "kasblar",
+          "label": "Kasblar"
+        },
+        {
+          "anchor": "tarixi",
+          "label": "Tarixi"
+        },
+        {
+          "anchor": "kirill",
+          "label": "Kirill yozuvida"
         }
       ]
     },
     {
       "type": "h2",
       "id": "qanday-ishlaydi",
-      "text": "Sun’iy intellekt qanday ishlaydi?"
+      "text": "Sun’iy intellekt qanday ishlaydi"
     },
     {
       "type": "p",
-      "text": "Eng keng tarqalgan yondashuv — mashiniy o‘rganish. Modelga minglab va millionlab namunalar beriladi, u ular orasidagi bog‘liqlikni topadi va keyin yangi, ko‘rilmagan holatda taxmin qiladi. Zamonaviy yirik til modellari aynan shu tamoyil bo‘yicha matn yaratadi: ular keyingi so‘zni oldingi so‘zlar asosida bashorat qiladi."
+      "text": "Oddiy dasturga har bir qoida qo‘lda yoziladi. Sun’iy intellektda esa qoidani dasturchi emas, model ma’lumotdan o‘zi topadi. Bu usul mashiniy o‘rganish deyiladi. Misol: modelga minglab mushuk va it rasmini ko‘rsatsangiz, u ularni ajratadigan belgilarni topadi va yangi rasmda ham taxmin qiladi."
     },
     {
       "type": "list",
       "items": [
-        "Ma’lumot yig‘iladi: matn, rasm, jadval yoki hodisalar tarixi.",
-        "Model naqsh izlaydi va ichki parametrlarini sozlaydi.",
-        "Natija sinov to‘plamida tekshiriladi — model ko‘rmagan misollarda ishlashi kerak.",
-        "Tayyor model yangi so‘rovga javob beradi, lekin javob ehtimollik asosida shakllanadi."
+        "Ma’lumot yig‘iladi: matn, rasm, ovoz, jadval yoki hodisalar tarixi.",
+        "Model ma’lumotdan naqsh izlaydi va ichki sozlamalarini tuzatib boradi. Bu bosqich o‘qitish deyiladi.",
+        "Natija model ko‘rmagan misollarda tekshiriladi.",
+        "Tayyor model yangi savolga javob beradi, lekin javob ehtimollik asosida shakllanadi, shuning uchun u xato bo‘lishi mumkin."
       ]
     },
     {
       "type": "p",
-      "text": "Bu sohadagi asosiy tushunchalar bir-birining ichiga joylashgan — eng kengidan eng torigacha:"
+      "text": "Tushunchalar bir-birining ichiga joylashgan. Eng keng soha — sun’iy intellekt. Uning ichida mashiniy o‘rganish, uning ichida chuqur o‘rganish (ko‘p qatlamli neyron tarmoqlar) bor. Katta til modellari (LLM) chuqur o‘rganishga tayanadi: ular keyingi so‘zni oldingi so‘zlar asosida bashorat qilib matn yozadi. AI chatlar aynan shunday ishlaydi."
     },
     {
-      "type": "list",
-      "items": [
-        "Sun’iy intellekt (qisqacha SI) — eng keng soha: odatda inson aqli talab qiladigan vazifani bajaradigan har qanday kompyuter tizimi.",
-        "Mashiniy o‘rganish — SI ichidagi yondashuv: model qoidani dasturchidan emas, ma’lumotdan o‘rganadi.",
-        "Chuqur o‘rganish — ko‘p qatlamli neyron tarmoqlarga asoslangan mashiniy o‘rganish.",
-        "Katta til modellari (LLM) — chuqur o‘rganish asosida matnni tushunadigan va yaratadigan modellar; AI chatlar aynan shularga tayanadi."
+      "type": "table",
+      "headers": [
+        "Belgi",
+        "Oddiy dastur",
+        "Sun’iy intellekt"
+      ],
+      "rows": [
+        [
+          "Qoida",
+          "Dasturchi yozgan qat’iy shartlar",
+          "Ma’lumotdan o‘rganilgan naqsh"
+        ],
+        [
+          "Yangi holat",
+          "Oldindan yozilmagan bo‘lsa, ishlamaydi",
+          "O‘xshash holatga taxmin qo‘llaydi"
+        ],
+        [
+          "Xato",
+          "Ko‘pincha aniq ko‘rinadi",
+          "Ishonchli ko‘rinib, noto‘g‘ri bo‘lishi mumkin"
+        ]
       ]
     },
     {
       "type": "h2",
       "id": "turlari",
-      "text": "Sun’iy intellektning asosiy turlari"
+      "text": "Sun’iy intellekt turlari"
     },
     {
       "type": "p",
-      "text": "Sun’iy intellekt turlarini uch xil mezon bilan ajratish mumkin: imkoniyati, ishlash usuli (funksiyasi) va qo‘llanish sohasi bo‘yicha. Darslik va maqolalarda ko‘pincha birinchi ikkitasi uchraydi."
+      "text": "Turlarini ikki mezon bilan ajratishadi: imkoniyati bo‘yicha va qo‘llanish sohasi bo‘yicha."
     },
     {
       "type": "h3",
@@ -106,29 +140,15 @@
     {
       "type": "list",
       "items": [
-        "Tor SI (ANI, Artificial Narrow Intelligence) — bitta yoki bir nechta aniq vazifani bajaradi: tarjima, yuzni tanish, matn yozish, shaxmat. Bugun mavjud bo‘lgan barcha tizimlar, jumladan AI chatlar ham, shu turga kiradi.",
-        "Umumiy SI (AGI, Artificial General Intelligence) — inson bajara oladigan istalgan aqliy vazifani o‘rgana oladigan tizim. Hozircha nazariy: bunday tizim yaratilmagan, u tadqiqot maqsadi va bahs mavzusi.",
-        "Super SI (ASI, Artificial Superintelligence) — barcha sohalarda insondan ustun bo‘lgan faraziy tizim. Bu ham nazariy tushuncha."
-      ]
-    },
-    {
-      "type": "h3",
-      "id": "funksiya-boyicha",
-      "text": "Funksiya bo‘yicha: reaktiv mashinalardan o‘zini anglashgacha"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Reaktiv mashinalar — xotirasiz, faqat joriy holatga javob beradi. Klassik misol — shaxmat o‘ynagan Deep Blue kompyuteri.",
-        "Cheklangan xotira — yaqin o‘tmishdagi ma’lumotdan foydalanadi. Bugungi amaliy tizimlarning ko‘pi, jumladan til modellari, shu turga kiradi.",
-        "«Ong nazariyasi» (theory of mind) — boshqalarning niyati va his-tuyg‘usini tushunadigan tizim. Gipotetik: hozircha mavjud emas.",
-        "O‘zini anglash (self-awareness) — o‘z holatini anglaydigan tizim. Bu ham gipotetik tur."
+        "Tor sun’iy intellekt (ANI) — bitta yoki bir nechta aniq vazifani bajaradi: tarjima, yuzni tanish, matn yozish, shaxmat. Bugun mavjud barcha tizimlar, jumladan AI chatlar ham shu turga kiradi.",
+        "Umumiy sun’iy intellekt (AGI) — inson bajara oladigan istalgan aqliy vazifani o‘rgana oladigan tizim. Hozircha nazariy: bunday tizim yaratilmagan.",
+        "Super sun’iy intellekt (ASI) — barcha sohada insondan ustun bo‘lgan faraziy tizim. Bu ham faqat nazariy tushuncha."
       ]
     },
     {
       "type": "h3",
       "id": "qollanish-boyicha",
-      "text": "Qo‘llanish bo‘yicha"
+      "text": "Qo‘llanish sohasi bo‘yicha"
     },
     {
       "type": "table",
@@ -141,49 +161,161 @@
         [
           "Matn modellari",
           "Matn yozadi, tahrirlaydi, tarjima qiladi",
-          "AI chat, avtojavob, konspekt"
+          "AI chat, tarjimon, konspekt"
         ],
         [
           "Kompyuter ko‘rishi",
-          "Rasm va videodagi obyektni tanib oladi",
-          "Hujjat skaneri, avtomobil raqamini o‘qish"
+          "Rasm va videodagi narsani tanib oladi",
+          "Telefonni yuz bilan ochish, hujjat skaneri"
         ],
         [
           "Nutq texnologiyalari",
           "Ovozni matnga va matnni ovozga aylantiradi",
-          "Ovozli yordamchi, qo‘ng‘iroq transkripsiyasi"
+          "Ovozli yozish, ovozli yordamchi"
         ],
         [
           "Tavsiya tizimlari",
-          "Foydalanuvchiga mos variantni taklif qiladi",
-          "Marketpleys lentasi, keyingi mahsulot"
+          "Sizga mos variantni taklif qiladi",
+          "Video va do‘kon tavsiyalari"
         ],
         [
           "Bashorat modellari",
-          "Tarixiy ma’lumot bo‘yicha prognoz beradi",
-          "Talab prognozi, narx o‘zgarishi"
+          "Tarixiy ma’lumotdan prognoz beradi",
+          "Talab prognozi, yo‘l tirbandligi"
         ]
       ]
     },
     {
       "type": "linkp",
-      "text": "Kundalikda eng ko‘p uchraydigani — matn modeli asosidagi AI-chat: siz savol yozasiz, model javob beradi. U qanday ishlashi va qaysi turlari borligi alohida maqolada: {aichat}.",
+      "text": "Kundalikda eng ko‘p uchraydigani — matn modeli asosidagi AI chat. U qanday ishlashi va qaysi turlari borligi alohida maqolada yozilgan: {aichat}.",
       "links": [
         {
           "token": "aichat",
           "target": "/uz/blog/ai-chat-nima-va-qanday-turlari-bor/",
-          "anchor": "AI-chat nima va qanday turlari bor"
+          "anchor": "AI chat nima va qanday turlari bor"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kundalik-hayot",
+      "text": "Kundalik hayotda va O‘zbekistonda qayerda ishlatiladi"
+    },
+    {
+      "type": "p",
+      "text": "Ko‘pchilik sun’iy intellektdan buni sezmasdan foydalanadi. Quyidagi misollar umumiy: ular har bir qurilma yoki xizmatda bir xil emas, lekin bunday texnologiyalar bugun keng tarqalgan."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Telefonda: yuz yoki barmoq izi bilan ochish, rasmlarni mavzu bo‘yicha saralash, klaviaturadagi so‘z taklifi, ovozli yozish.",
+        "Tarjima: o‘zbek, rus va ingliz tillari orasida tezkor tarjima qoralamasi.",
+        "Xarita va yo‘l: marshrut tanlash va tirbandlikni hisobga olish.",
+        "Video va do‘konlar: sizga yoqishi mumkin bo‘lgan video yoki mahsulotni taklif qilish.",
+        "Bank va to‘lov: shubhali operatsiyalarni aniqlash.",
+        "Mijozlarga xizmat: Telegram yoki saytdagi AI yordamchi birinchi savollarga javob beradi.",
+        "O‘qish: mavzuni tushuntirish, reja tuzish, test savollari tayyorlash, til o‘rganish."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Sun’iy intellekt matn bilan qanday ishlashini o‘zingiz ko‘rishingiz mumkin. GPTBot.uz — mustaqil o‘zbekcha AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, ular yangilanmaydi; keyin AI paket kerak. U OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. {chat} sahifasida «Sun’iy intellekt nima? Uchta oddiy misol bilan tushuntir» deb yozing va javobni shu sahifadagi ta’rif bilan solishtiring. Mashhur xizmatlar (ChatGPT, Gemini, Claude, DeepSeek) va ular bo‘yicha qo‘llanmalar {hub} sahifasida jamlangan.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/ai-xizmatlar/",
+          "anchor": "AI xizmatlar katalogi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "foydasi-zarari",
+      "text": "Sun’iy intellektning foydasi va zarari"
+    },
+    {
+      "type": "h3",
+      "id": "afzalliklari",
+      "text": "Foydasi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tezlik: qoralama, tarjima yoki qisqa xulosani bir necha soniyada tayyorlaydi.",
+        "Takrorlanuvchi ishni yengillashtiradi: bir xil savollarga javob, ma’lumotni saralash, hujjatni tuzilmalash.",
+        "Katta hajmdagi ma’lumotdan inson ko‘zdan qochirishi mumkin bo‘lgan bog‘liqlikni topadi.",
+        "O‘qishda yordam beradi: mavzuni sodda tilda, turli misollar bilan qayta tushuntiradi.",
+        "Har vaqt tayyor: tunda ham, dam olish kunida ham so‘rovga javob beradi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "xavflari",
+      "text": "Zarari va xavflari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Xato: faktlarni, sana, raqam va manbani to‘qib qo‘yishi mumkin. Ishonchli ko‘rinishi javobning to‘g‘riligini bildirmaydi.",
+        "Maxfiylik: parol, karta, pasport va ish sirlarini chatga yozish xavfli.",
+        "Mustaqil fikrlashning susayishi: tayyor javobni ko‘chiruvchi o‘quvchi mavzuni o‘zlashtirmaydi.",
+        "Yolg‘on kontent: soxta rasm, video va ovoz yaratish mumkin. Shubhali materialni boshqa manbadan tekshiring.",
+        "Noxolislik: model o‘qitilgan ma’lumotdagi xatolar va noaniqliklarni takrorlashi mumkin.",
+        "Javobgarlik: AI xato qilsa, mas’uliyat uni ishlatgan odamda qoladi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Qoida oddiy: AI qoralama tayyorlaydi, odam tekshiradi va qarorni o‘zi qabul qiladi."
+    },
+    {
+      "type": "h2",
+      "id": "kasblar",
+      "text": "Sun’iy intellekt va kasblar"
+    },
+    {
+      "type": "p",
+      "text": "Sun’iy intellekt odatda butun kasbni emas, kasb ichidagi takrorlanuvchi qismini o‘zgartiradi: birinchi qoralama, qaydlarni tuzish, standart xatlar, oddiy tarjima. Muzokara, murakkab holat, ijodiy qaror va javobgarlik odamda qoladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘qituvchi: dars rejasi va test savollari qoralamasini tez tayyorlaydi, lekin darsni o‘zi olib boradi.",
+        "Tarjimon va muharrir: qoralamani AI beradi, uslub va aniqlikni mutaxassis tekshiradi.",
+        "Dasturchi: kod yozish va xatoni topishda AI yordam beradi, loyiha mas’uliyati dasturchida.",
+        "Buxgalter va ofis xodimi: hujjat va hisobot qoralamasini AI tuzadi, raqamlarni xodim tekshiradi.",
+        "Yangi yo‘nalishlar: ma’lumotlar tahlilchisi, mashiniy o‘rganish muhandisi, AI vositalarini ishga joriy qiladigan mutaxassis."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Kasbingizda AI’dan foydalanish uchun {chat} ichidan o‘z sohangizga mosini tanlang; rezyume yozish bo‘yicha esa {rezyume} qo‘llanmasi foydali.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "tayyor so‘rovlar kutubxonasi"
+        },
+        {
+          "token": "rezyume",
+          "target": "/uz/blog/rezyume-tayyorlash/",
+          "anchor": "rezyume tayyorlash"
         }
       ]
     },
     {
       "type": "h2",
       "id": "tarixi",
-      "text": "Sun’iy intellekt tarixi: Tyuring testidan ChatGPT’gacha"
+      "text": "Sun’iy intellekt tarixi: qisqa xronologiya"
     },
     {
       "type": "p",
-      "text": "Soha 70 yildan ortiq rivojlangan. Quyida eng ko‘p tilga olinadigan sanalar; har birining birlamchi manbasi sahifa oxiridagi «Birlamchi manbalar» bo‘limida."
+      "text": "Soha 70 yildan ortiq rivojlangan. Quyida eng ko‘p tilga olinadigan sanalar; birlamchi manbalar sahifa oxirida."
     },
     {
       "type": "table",
@@ -200,13 +332,13 @@
         ],
         [
           "1955–1956",
-          "Jon Makkarti, Marvin Minski, Natanyel Rochester va Klod Shennon 1955-yil 31-avgustda Dartmut seminari uchun taklifnoma yozdi; «artificial intelligence» (sun’iy intellekt) atamasi aynan shu hujjatda paydo bo‘ldi. Seminar 1956-yil yozida o‘tdi.",
-          "Soha o‘z nomini oldi va alohida ilmiy yo‘nalish sifatida shakllandi"
+          "Jon Makkarti, Marvin Minski, Natanyel Rochester va Klod Shennon 1955-yil 31-avgustda Dartmut seminari uchun taklifnoma yozdi; «artificial intelligence» (sun’iy intellekt) atamasi shu hujjatda paydo bo‘ldi. Seminar 1956-yil yozida o‘tdi.",
+          "Soha o‘z nomini oldi va alohida yo‘nalish sifatida shakllandi"
         ],
         [
           "1997",
           "IBM’ning Deep Blue kompyuteri jahon chempioni Garri Kasparovni olti partiyali shaxmat o‘yinida yutdi.",
-          "Kompyuter amaldagi jahon chempionini turnir qoidalari bo‘yicha o‘tgan bellashuvda birinchi marta yengdi"
+          "Kompyuter amaldagi jahon chempionini turnir qoidalari bo‘yicha birinchi marta yengdi"
         ],
         [
           "2012",
@@ -216,7 +348,7 @@
         [
           "2017",
           "Google tadqiqotchilari «Attention Is All You Need» maqolasida Transformer arxitekturasini taqdim etdi.",
-          "GPT kabi zamonaviy til modellarining asosi (GPT — Generative Pre-trained Transformer)"
+          "GPT kabi zamonaviy til modellarining asosi"
         ],
         [
           "2022-yil 30-noyabr",
@@ -227,223 +359,32 @@
     },
     {
       "type": "h2",
-      "id": "xizmatlar",
-      "text": "Mashhur sun’iy intellekt xizmatlari"
-    },
-    {
-      "type": "p",
-      "text": "Quyida eng ko‘p tilga olinadigan to‘rtta AI yordamchi va ishlab chiquvchilar ularni o‘z rasmiy sahifalarida qanday tavsiflashi. Narx va limitlar tez o‘zgaradi, shuning uchun jadvalda berilmagan — ularni har bir xizmatning rasmiy saytida tekshiring."
-    },
-    {
-      "type": "table",
-      "headers": [
-        "Xizmat",
-        "Ishlab chiquvchi",
-        "Rasmiy tavsifga ko‘ra",
-        "Rasmiy sayt"
-      ],
-      "rows": [
-        [
-          "ChatGPT",
-          "OpenAI",
-          "O‘rganish, g‘oya izlash, matn yozish va ma’lumotni tahlil qilishga yordam beradi",
-          "chatgpt.com"
-        ],
-        [
-          "Gemini",
-          "Google",
-          "Google’ning AI yordamchisi: yozish, rejalashtirish va g‘oya izlash",
-          "gemini.google.com"
-        ],
-        [
-          "Claude",
-          "Anthropic",
-          "Ish uchun AI yordamchi: vazifalarni bajaradi, g‘oyadan taqdimot, jadval va prototip tayyorlaydi",
-          "claude.ai"
-        ],
-        [
-          "DeepSeek",
-          "DeepSeek",
-          "Yirik modellarini (masalan, DeepSeek-R1) ochiq e’lon qiladi; chat va API orqali ishlatiladi",
-          "deepseek.com"
-        ]
-      ]
-    },
-    {
-      "type": "linkp",
-      "text": "Bu sahifani GPTBot.uz tayyorlagan. GPTBot.uz — mustaqil o‘zbekcha servis: u uchinchi tomon modellaridan foydalanadi, yuqoridagi mashhur xizmatlar qatoriga kirmaydi va ularning rasmiy vakili emas. Uchta eng mashhur xizmat O‘zbekistonda mavjudlik, o‘zbek tili, narx va maxfiylik bo‘yicha alohida maqolada solishtirilgan: {compare}.",
-      "links": [
-        {
-          "token": "compare",
-          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
-          "anchor": "ChatGPT, Claude va Gemini taqqoslash"
-        }
-      ]
-    },
-    {
-      "type": "h2",
-      "id": "dasturdan-farqi",
-      "text": "Sun’iy intellekt va oddiy dastur farqi"
-    },
-    {
-      "type": "table",
-      "headers": [
-        "Belgi",
-        "Oddiy dastur",
-        "Sun’iy intellekt"
-      ],
-      "rows": [
-        [
-          "Qoida",
-          "Qat’iy yozilgan shartlar",
-          "Ma’lumotdan o‘rganilgan naqsh"
-        ],
-        [
-          "Yangi holat",
-          "Oldindan yozilmagan bo‘lsa, ishlamaydi",
-          "O‘xshash holatga taxmin qo‘llaydi"
-        ],
-        [
-          "Xato",
-          "Ko‘pincha aniq ko‘rinadi",
-          "Ishonchli ko‘rinib, noto‘g‘ri bo‘lishi mumkin"
-        ],
-        [
-          "Tekshiruv",
-          "Natija qayta ishlab chiqiladi",
-          "Natija sinov to‘plamida o‘lchanadi"
-        ]
-      ]
-    },
-    {
-      "type": "h2",
-      "id": "ozbekistonda",
-      "text": "O‘zbekistonda sun’iy intellekt qayerda ishlatiladi"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Mijozlarga javob: Telegram, Instagram Direct va saytdagi AI yordamchisi.",
-        "Kontent: post matni, reklama sarlavhasi, mahsulot tavsifi qoralamasi.",
-        "Tarjima: o‘zbek, rus va ingliz tillari orasida tezkor qoralama.",
-        "Hujjat: shartnoma va hisobot qoralamasi, yig‘ilish qaydlarini tuzilmalash.",
-        "O‘qish: mavzuni tushuntirish, test savollari, reja tuzish."
-      ]
-    },
-    {
-      "type": "linkp",
-      "text": "Sinab ko‘rish uchun {chat} sahifasini oching — GPTBot.uz mustaqil servis, OpenAI emas. Tayyor so‘rov namunalari {prompts} materialida, o‘qish ssenariylari {students} maqolasida.",
-      "links": [
-        {
-          "token": "chat",
-          "target": "/uz/gpt-uzbek-tilida/",
-          "anchor": "ChatGPT o‘rniga o‘zbekcha AI chat"
-        },
-        {
-          "token": "prompts",
-          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
-          "anchor": "o‘zbekcha promptlar"
-        },
-        {
-          "token": "students",
-          "target": "/uz/blog/chatgpt-talabalar-uchun/",
-          "anchor": "talabalar uchun ChatGPT"
-        }
-      ]
-    },
-    {
-      "type": "linkp",
-      "text": "O‘qish va ish uchun alohida qo‘llanmalar ham bor: {kurs}, {rezyume} va {ariza}.",
-      "links": [
-        {
-          "token": "rezyume",
-          "target": "/uz/blog/rezyume-tayyorlash/",
-          "anchor": "rezyume tayyorlash bo‘yicha qo‘llanma"
-        },
-        {
-          "token": "kurs",
-          "target": "/uz/blog/kurs-ishi-yozish/",
-          "anchor": "kurs ishi rejasi namunasi"
-        },
-        {
-          "token": "ariza",
-          "target": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
-          "anchor": "tushuntirish xati namunasi"
-        }
-      ]
-    },
-    {
-      "type": "h2",
-      "id": "cheklovlar",
-      "text": "Sun’iy intellektning afzalliklari va xavflari"
-    },
-    {
-      "type": "h3",
-      "id": "afzalliklari",
-      "text": "Afzalliklari"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Tezlik: qoralama, tarjima yoki qisqa xulosani bir necha soniyada tayyorlaydi.",
-        "Takrorlanuvchi ishni yengillashtiradi: bir xil savollarga javob, ma’lumotni saralash, hujjatni tuzilmalash.",
-        "Tanaffussiz ishlaydi: birinchi javob uchun ish vaqtini kutish shart emas.",
-        "Katta hajmdagi ma’lumotdan naqsh topadi va inson e’tibordan chetda qoldirishi mumkin bo‘lgan bog‘liqlikni ko‘rsatadi.",
-        "O‘qishda yordam beradi: mavzuni sodda tilda va turli misollar bilan qayta tushuntiradi."
-      ]
-    },
-    {
-      "type": "h3",
-      "id": "xavflari",
-      "text": "Xavflari va cheklovlari"
-    },
-    {
-      "type": "list",
-      "items": [
-        "Faktlarni mustaqil tekshirmaydi: sana, narx va qonuniy normalarda xato qilishi mumkin.",
-        "Kontekst cheklangan: juda uzun hujjatda oldingi qismini unutishi mumkin.",
-        "Ma’lumot maxfiyligi: shaxsiy va tijorat sirini chatga yuborish xavfli.",
-        "Noto‘g‘ri so‘rov noto‘g‘ri javob beradi: sifat ko‘p jihatdan so‘rovga bog‘liq.",
-        "Natija kafolat emas: model bir xil savolga har xil javob qaytarishi mumkin."
-      ]
-    },
-    {
-      "type": "p",
-      "text": "Shuning uchun ish sxemasi quyidagicha bo‘lishi kerak: AI qoralama tayyorlaydi, odam tekshiradi va javobgarlikni o‘zida saqlaydi. Bu yondashuv tezlikni ham, xavfsizlikni ham ta’minlaydi."
-    },
-    {
-      "type": "h2",
       "id": "esse-referat-reja",
       "text": "Sun’iy intellekt haqida esse yoki referat uchun reja"
     },
     {
       "type": "p",
-      "text": "Sun’iy intellekt — maktab va oliygohda tez-tez beriladigan mavzu. Quyidagi reja — tuzilma namunasi, tayyor matn emas: har bir bandni manbalarni o‘qib, o‘z so‘zlaringiz bilan yozasiz, sana va faktlarni esa birlamchi manbadan tekshirasiz."
+      "text": "Maktab va oliygohda bu mavzu tez-tez beriladi. Quyidagi reja — tuzilma namunasi, tayyor matn emas: har bir bandni manbalarni o‘qib, o‘z so‘zlaringiz bilan yozing, sana va faktlarni birlamchi manbadan tekshiring."
     },
     {
       "type": "list",
       "items": [
-        "1. Kirish: sun’iy intellekt nima va bu mavzu bugun nega muhim.",
-        "2. Qisqa tarix: Tyuring testidan ChatGPT’gacha (1950–2022).",
-        "3. Turlari: tor, umumiy va super SI; asosiy qo‘llanish sohalari.",
-        "4. O‘zbekistonda qo‘llanishi: o‘qish, biznes va xizmat ko‘rsatish.",
-        "5. Afzalliklari va xavflari: tezlik va qulaylik, xato va maxfiylik.",
-        "6. Xulosa: o‘z fikringiz — sun’iy intellektdan qanday mas’uliyat bilan foydalanish kerak."
+        "Kirish: sun’iy intellekt nima va bu mavzu bugun nega muhim.",
+        "Qisqa tarix: Tyuring maqolasidan ChatGPT’gacha (1950–2022).",
+        "Turlari: tor, umumiy va super SI; asosiy qo‘llanish sohalari.",
+        "Kundalik hayotda va O‘zbekistonda qo‘llanishi: o‘qish, xizmat ko‘rsatish, ish.",
+        "Foydasi va xavflari: tezlik va qulaylik, xato va maxfiylik.",
+        "Xulosa: o‘z fikringiz — AI’dan qanday mas’uliyat bilan foydalanish kerak."
       ]
     },
     {
       "type": "linkp",
-      "text": "Esse tuzilmasi va namunalari {esse} sahifasida, insho uchun tayyor rejalar {reja} sahifasida, referatning titul varaqdan adabiyotlargacha bo‘lgan tuzilmasi {referat} qo‘llanmasida. Mavzuni slaydlarda taqdim etish kerak bo‘lsa, {slayd} qo‘llanmasidan foydalaning; mavzudan tayyor .pptx qoralamasini esa {taqdimot} sahifasida olish mumkin — kuniga 1 ta bepul namuna, 6 slaydgacha.",
+      "text": "Esse tuzilmasi {esse} sahifasida, referatning titul varaqdan adabiyotlargacha tuzilmasi {referat} qo‘llanmasida. Mavzuni slaydlarda taqdim etish uchun {slayd} qo‘llanmasidan foydalaning; tayyor .pptx qoralamasi esa {taqdimot} sahifasida: kuniga 1 ta bepul namuna, 6 slaydgacha.",
       "links": [
         {
           "token": "esse",
           "target": "/uz/blog/esse-yozish-tartibi/",
           "anchor": "esse yozish tartibi"
-        },
-        {
-          "token": "reja",
-          "target": "/uz/blog/murakkab-reja-namuna/",
-          "anchor": "murakkab reja namunalari"
         },
         {
           "token": "referat",
@@ -465,25 +406,22 @@
     {
       "type": "h2",
       "id": "kirill",
-      "text": "Sun’iy intellekt kirill yozuvida: qisqa ta’rif"
+      "text": "Sun’iy intellekt kirill yozuvida"
     },
     {
       "type": "p",
-      "text": "Bu atama turlicha yoziladi: «sun’iy intellekt» (lotin yozuvidagi to‘g‘ri imlo), apostrofsiz «suniy intellekt» yoki kirill yozuvida «сунъий интеллект». Ma’nosi bir xil. Kirill yozuvida o‘qiydiganlar uchun qisqa ta’rif:"
+      "text": "Atama turlicha yoziladi: «sun’iy intellekt» (lotin yozuvidagi to‘g‘ri imlo), apostrofsiz «suniy intellekt» yoki kirillda «сунъий интеллект». Ma’nosi bir xil."
+    },
+    {
+      "type": "h3",
+      "id": "kirill-tarif",
+      "text": "Сунъий интеллект нима?",
+      "lang": "uz-Cyrl"
     },
     {
       "type": "p",
       "lang": "uz-Cyrl",
-      "text": "Сунъий интеллект нима? Бу — компьютер тизимларининг одатда инсон ақли талаб қиладиган вазифаларни бажариш қобилияти: матнни тушуниш, расмни таниб олиш, таржима қилиш ва қарор қабул қилиш. Сунъий интеллект фикрламайди — у катта ҳажмдаги маълумотдан ўрганилган нақш асосида энг эҳтимолий жавобни ҳисоблайди. Шунинг учун унинг жавобини, айниқса сана, рақам ва фактларни, текшириш керак."
-    },
-    {
-      "type": "h2",
-      "id": "ish-or-ni",
-      "text": "Sun’iy intellekt ish o‘rnini egallaydimi?"
-    },
-    {
-      "type": "p",
-      "text": "Amalda AI butun kasbni emas, kasb ichidagi takrorlanuvchi qismini o‘zgartiradi. Birinchi javob qoralamasi, qaydlarni tuzilmalash, tayyor shablon asosida matn — bular avtomatlashtiriladi. Muzokara, murakkab holat va javobgarlik odamda qoladi. Vazifani to‘g‘ri taqsimlagan jamoa bir xil shtat bilan ko‘proq ariza qayta ishlaydi."
+      "text": "Сунъий интеллект — компьютер тизимларининг одатда инсон ақли талаб қиладиган вазифаларни бажариш қобилияти: матнни тушуниш, расмни таниш, таржима қилиш ва қарор қабул қилиш. У фикрламайди: катта ҳажмдаги маълумотдан ўрганилган нақш асосида энг эҳтимолий жавобни ҳисоблайди. Шунинг учун унинг жавобини, айниқса сана, рақам ва фактларни, текшириш керак."
     },
     {
       "type": "h2",
@@ -492,20 +430,20 @@
     },
     {
       "type": "p",
-      "text": "Eng keng tarqalgan xato — texnologiyadan boshlash. To‘g‘ri tartib teskari: avval qaysi jarayon vaqt yoki ariza yo‘qotayotgani aniqlanadi, keyin shu joyga AI qo‘yiladi. Ko‘p hollarda birinchi o‘rinli nomzod — takrorlanuvchi savollar va tunda keladigan arizalar."
+      "text": "Eng keng tarqalgan xato — texnologiyadan boshlash. To‘g‘ri tartib teskari: avval qaysi jarayon vaqt yoki arizani yo‘qotayotganini aniqlang, keyin shu joyga AI qo‘ying. Ko‘pincha birinchi nomzod — takrorlanuvchi savollar va tunda keladigan arizalar."
     },
     {
       "type": "list",
       "items": [
-        "Bir jarayonni tanlang: masalan, birinchi javob tezligi.",
-        "Hozirgi ko‘rsatkichni o‘lchang — javob vaqti, yo‘qotilgan ariza soni.",
+        "Bitta jarayonni tanlang: masalan, birinchi javob tezligi.",
+        "Hozirgi ko‘rsatkichni o‘lchang: javob vaqti, yo‘qotilgan ariza soni.",
         "AI qoralamasini odam nazorati bilan ishga tushiring.",
         "Ikki-uch haftadan keyin o‘sha ko‘rsatkichni qayta o‘lchang."
       ]
     },
     {
       "type": "linkp",
-      "text": "Joriy etish tartibi va narxga ta’sir qiluvchi omillar {business} sahifasida. Saytga ulash variantlari {sitebot} materialida.",
+      "text": "Joriy etish tartibi va narxga ta’sir qiluvchi omillar {business} sahifasida, saytga ulash variantlari {sitebot} materialida.",
       "links": [
         {
           "token": "business",
@@ -526,12 +464,12 @@
         {
           "token": "call",
           "target": "https://t.me/XGame_changerx",
-          "anchor": "Telegram’da"
+          "anchor": "Telegram’da yozing"
         },
         {
           "token": "mail",
           "target": "mailto:ceo@gptbot.uz",
-          "anchor": "e-mail orqali yozing"
+          "anchor": "e-mail orqali murojaat qiling"
         }
       ]
     }
@@ -539,35 +477,35 @@
   "faq": [
     {
       "q": "Sun’iy intellekt nima, oddiy qilib aytganda?",
-      "a": "Bu kompyuter tizimining odatda inson aqli talab qiladigan vazifalarni bajarishi: matn tushunish, rasmni tanib olish, tarjima, prognoz. U fikrlamaydi, balki katta ma’lumotdan o‘rganilgan naqsh bo‘yicha eng ehtimoliy javobni hisoblaydi."
+      "a": "Bu kompyuter tizimining odatda inson aqli talab qiladigan vazifalarni bajarishi: matn tushunish, rasmni tanish, tarjima, prognoz. U fikrlamaydi, balki katta ma’lumotdan o‘rganilgan naqsh bo‘yicha eng ehtimoliy javobni hisoblaydi."
+    },
+    {
+      "q": "Sun’iy intellekt haqida qisqa ma’lumot qanday?",
+      "a": "Atamani 1955-yilgi Dartmut taklifnomasida Makkarti va hamkasblari ishlatgan. Bugungi AI ma’lumotdan o‘rganadi, matn, rasm va ovoz bilan ishlaydi, lekin faqat tor vazifalarda: umumiy aql hozircha nazariy."
     },
     {
       "q": "Sun’iy intellekt va ChatGPT bir xil narsami?",
-      "a": "Yo‘q. Sun’iy intellekt — keng soha. ChatGPT esa shu sohadagi bitta mahsulot: OpenAI yaratgan matnli yordamchi. Xuddi «avtomobil» va «bitta konkret avtomobil modeli» kabi."
+      "a": "Yo‘q. Sun’iy intellekt — keng soha. ChatGPT esa shu sohadagi bitta mahsulot: OpenAI yaratgan matnli yordamchi. Xuddi «transport» va «bitta konkret avtomobil modeli» kabi."
+    },
+    {
+      "q": "Sun’iy intellektning foydasi va zarari nima?",
+      "a": "Foydasi: tezlik, takrorlanuvchi ishni yengillashtirish, o‘qishda yordam. Zarari: xato va to‘qima faktlar, maxfiylik xavfi, soxta kontent, o‘quvchida mustaqil fikrlashning susayishi. Shuning uchun natijani doim tekshirish kerak."
+    },
+    {
+      "q": "Sun’iy intellekt turlari qaysilar?",
+      "a": "Imkoniyati bo‘yicha: tor (bugun mavjud), umumiy va super (nazariy). Qo‘llanish sohasi bo‘yicha: matn modellari, kompyuter ko‘rishi, nutq texnologiyalari, tavsiya tizimlari va bashorat modellari."
     },
     {
       "q": "Sun’iy intellekt o‘zbek tilida ishlaydimi?",
       "a": "Ha, zamonaviy matn modellari o‘zbek tilida yozadi va tushunadi. Sifat so‘rovning aniqligiga bog‘liq, shuning uchun tayyor matnni tahrir qilish va faktlarni tekshirish kerak. GPTBot.uz’da o‘zbekcha sinab ko‘rish mumkin: 3 ta bepul sinov javobi, keyin AI paket."
     },
     {
-      "q": "Eng mashhur sun’iy intellekt xizmatlari qaysilar?",
-      "a": "Eng ko‘p tilga olinadiganlari — OpenAI’ning ChatGPT, Google’ning Gemini, Anthropic’ning Claude va DeepSeek. Ularning imkoniyatlari, narxi va limitlari tez o‘zgaradi, shuning uchun joriy shartlarni har bir xizmatning rasmiy saytida tekshiring. GPTBot.uz bu ro‘yxatga kirmaydi: u uchinchi tomon modellaridan foydalanadigan mustaqil o‘zbekcha servis."
-    },
-    {
-      "q": "Sun’iy intellektdan bepul foydalanish mumkinmi?",
-      "a": "Ko‘p mashhur xizmatlarning bepul rejasi bor, lekin uning limit va shartlari o‘zgarib turadi — ularni rasmiy saytda tekshiring. GPTBot.uz’da ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor; sinov javoblari har kuni yangilanmaydi, keyin davom etish uchun AI paket kerak."
-    },
-    {
-      "q": "Biznesga sun’iy intellekt joriy etish qimmatmi?",
-      "a": "Narx tanlangan jarayon, integratsiya soni va nazorat modeliga bog‘liq. Eng arzon boshlanish — bitta takrorlanuvchi jarayonda qoralama rejimi: masalan, birinchi javob matni."
-    },
-    {
-      "q": "Sun’iy intellekt xato qilsa, kim javob beradi?",
-      "a": "Javobgarlik har doim odamda qoladi. AI qoralama beradi, tekshiruv va yakuniy qaror esa xodim yoki mutaxassis zimmasida. Shuning uchun faktlar, narx va huquqiy normalar rasmiy manbadan tekshirilishi shart."
+      "q": "Sun’iy intellekt ish o‘rnini egallaydimi?",
+      "a": "Odatda u kasbning takrorlanuvchi qismini o‘zgartiradi: qoralama, qayd, standart xat. Muzokara, murakkab qaror va javobgarlik odamda qoladi. Aniq kasbga ta’sirini oldindan aytib bo‘lmaydi."
     },
     {
       "q": "Sun’iy intellektni o‘rganish uchun dasturchi bo‘lish shartmi?",
-      "a": "Yo‘q. Foydalanuvchi darajasida asosiy ko‘nikma — aniq so‘rov yozish va natijani tekshirish. Dasturlash esa modelni o‘z mahsulotiga ulash kerak bo‘lganda talab qilinadi."
+      "a": "Yo‘q. Foydalanuvchi darajasida asosiy ko‘nikma — aniq so‘rov yozish va natijani tekshirish. Dasturlash modelni o‘z mahsulotiga ulash kerak bo‘lganda talab qilinadi."
     }
   ],
   "internalLinks": [
@@ -579,40 +517,39 @@
       "priority": 1
     },
     {
-      "target": "/uz/biznes-uchun-ai-bot/",
-      "anchor": "Biznes uchun AI bot",
+      "target": "/uz/ai-xizmatlar/",
+      "anchor": "AI xizmatlar katalogi",
       "locale": "uz",
-      "type": "contextual"
-    },
-    {
-      "target": "/uz/sayt-uchun-ai-bot/",
-      "anchor": "sayt uchun AI bot",
-      "locale": "uz",
-      "type": "contextual"
+      "type": "contextual",
+      "priority": 2
     },
     {
       "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
       "anchor": "O‘zbekcha promptlar",
       "locale": "uz",
-      "type": "contextual"
+      "type": "contextual",
+      "priority": 3
     },
     {
       "target": "/uz/blog/chatgpt-talabalar-uchun/",
-      "anchor": "ChatGPT talabalar uchun",
+      "anchor": "Talabalar uchun AI yordamchi",
       "locale": "uz",
-      "type": "contextual"
+      "type": "contextual",
+      "priority": 4
     },
     {
-      "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
-      "anchor": "ChatGPT’ga kirish (login)",
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "Biznes uchun AI bot",
       "locale": "uz",
-      "type": "contextual"
+      "type": "contextual",
+      "priority": 5
     },
     {
-      "target": "/uz/chat-bot-narxi/",
-      "anchor": "AI bot narxi",
+      "target": "/uz/blog/chatgptdan-qanday-foydalanish/",
+      "anchor": "AI yordamchi bilan ishlash: 10 qadam",
       "locale": "uz",
-      "type": "contextual"
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "schemaTypes": [
@@ -653,29 +590,9 @@
       "title": "OpenAI — Introducing ChatGPT",
       "url": "https://openai.com/index/chatgpt/",
       "note": "ChatGPT 2022-yil 30-noyabrda taqdim etilgan; 2026-10-24 kuni tekshirildi."
-    },
-    {
-      "title": "OpenAI — ChatGPT overview",
-      "url": "https://openai.com/chatgpt/overview/",
-      "note": "ChatGPT’ning rasmiy tavsifi: o‘rganish, g‘oya izlash, matn yozish va ma’lumotni tahlil qilish; 2026-10-24 kuni tekshirildi."
-    },
-    {
-      "title": "Google — Gemini",
-      "url": "https://gemini.google.com/",
-      "note": "Gemini’ning rasmiy tavsifi: Google’ning AI yordamchisi — yozish, rejalashtirish va g‘oya izlash; 2026-10-24 kuni tekshirildi."
-    },
-    {
-      "title": "Anthropic — Claude",
-      "url": "https://www.anthropic.com/claude",
-      "note": "Claude’ning rasmiy tavsifi: ish uchun AI yordamchi — vazifalar, taqdimot, jadval va prototiplar; 2026-10-24 kuni tekshirildi."
-    },
-    {
-      "title": "DeepSeek",
-      "url": "https://www.deepseek.com/",
-      "note": "DeepSeek o‘z sahifasida yirik modellarini, jumladan DeepSeek-R1’ni, ochiq manbali deb e’lon qiladi; chat va API mavjud; 2026-10-24 kuni tekshirildi."
     }
   ],
   "lastReviewedAt": "2026-10-24",
   "createdAt": "2026-09-01T00:00:00.000Z",
-  "updatedAt": "2026-11-16T00:00:00.000Z"
+  "updatedAt": "2026-11-17T00:00:00.000Z"
 }

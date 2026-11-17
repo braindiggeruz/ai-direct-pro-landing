@@ -84,6 +84,9 @@ https://:version.ai-direct-pro-landing.pages.dev/*
 /downloads/docs-20261116/*
   X-Robots-Tag: noindex
 
+/downloads/docs-20261117/*
+  X-Robots-Tag: noindex
+
 /downloads/marketing-20261109/*
   X-Robots-Tag: noindex
   Content-Type: text/csv; charset=utf-8

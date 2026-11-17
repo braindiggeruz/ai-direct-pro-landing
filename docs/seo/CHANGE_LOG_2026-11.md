@@ -156,3 +156,82 @@ GSC, final, web, 18.10–14.11.2026 (28 дней). «Последний обхо
 Не сделано: «Запросить индексирование» в интерфейсе Search Console — нужен вход владельца в Google; через API такого действия нет, а Indexing API предназначен только для вакансий и трансляций. Отсчёт эффекта по-прежнему ведётся от `lastCrawlTime` каждого URL.
 
 Проверки GitHub на `main` после отправки: `secret-scan` — успешно (шесть тестовых заглушек помечены как заглушки); `Typecheck` падал из-за отсутствия зависимостей Studio в workflow (`pptxgenjs`), шаг установки добавлен; `Silent catch audit` и `Lead Radar release gate` падают на коде, написанном до этого релиза (шесть «тихих» catch в `functions/api/`: lead-radar, gpt auth, billing maintenance, model probe, studio identity) — не исправлялось, это код других продуктов.
+
+## Релиз 17.11.2026: все волны roadmap
+
+Поручение владельца в чате 17.11.2026: реализовать все волны roadmap (`delivery/gptbot-growth-roadmap-20261117/ROADMAP-RU.md`) сразу и выложить. Правило «одна правка на URL до конца окна наблюдения» для страниц когорт 25.10, 08.11 и 16.11 этим поручением сознательно прервано: правки ниже аддитивные, базовые значения записаны. Заморозка заголовков `/ru/gpt-chat/`, `/uz/gpt-uzbek-tilida/` и гайда по входу до 21.12.2026 сохранена: эти страницы не менялись.
+
+Новых URL: 52. Изменённых существующих страниц: 11. Файлов для скачивания: 45 (`/downloads/docs-20261117/`). Пар в intent-manifest: 113 → 126.
+
+### Изменённые существующие страницы и их база (Search Console, 28 дней до 14.11.2026: клики / показы / позиция)
+
+| URL | База | Что изменилось в метаданных |
+|---|---|---|
+| `/uz/blog/amaliyot-kundaligi-namuna/` | 0 / 9 / 7.9 | title, H1 и description не менялись |
+| `/uz/blog/bayonnoma-namuna/` | 2 / 33 / 7.0 | title, H1 и description не менялись |
+| `/uz/blog/slayd-tayyorlash/` | нет показов в окне | description |
+| `/uz/blog/tugilgan-kun-tabriklari/` | нет показов в окне | title, H1 и description не менялись |
+| `/uz/blog/tushuntirish-xati-va-ariza-yozish/` | 5 / 277 / 6.3 | title, H1 и description не менялись |
+| `/ru/kalkulyator/` | 3 / 101 / 7.9 | title, H1 и description не менялись |
+| `/uz/ai-sher-yozish/` | 0 / 7 / 8.4 | title, description |
+| `/uz/` | 3 / 38 / 6.2 | title, H1 и description не менялись |
+| `/uz/hujjat-namunalari/` | нет показов в окне | title, H1 и description не менялись |
+| `/uz/present-simple/` | 0 / 14 / 7.2 | description |
+| `/uz/suniy-intellekt/` | 0 / 72 / 8.9 | title, h1, description |
+
+### Новые URL
+
+- `/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/` — Клауд и Клод (Claude AI) в Узбекистане: как начать
+- `/ru/blog/gamma-app-kak-sdelat-prezentaciyu/` — Гамма апп (Gamma App): как сделать презентацию с ИИ
+- `/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/` — Гемини (Gemini): как пользоваться и скачать | GPTBot.uz
+- `/ru/blog/obektivka-obrazec/` — Объективка (маълумотнома): образец и бланк Word | GPTBot.uz
+- `/ru/summa-propisyu/` — Сумма прописью в сумах: правила, таблицы и 30 примеров
+- `/uz/ai-xizmatlar/` — AI xizmatlar: chat, slayd, rasm va video bo‘yicha katalog
+- `/uz/blog/14-yanvar-tabriklari/` — 14-yanvar tabriklari: 36 ta tayyor tabrik va 10 ta she’r
+- `/uz/blog/8-mart-sherlari/` — 8-mart uchun she’rlar: onaga, buviga, ustozga 36 ta she’r
+- `/uz/blog/8-mart-tabriklari/` — 8-mart tabriklari: 40 ta tayyor tabrik, 20 tasi kirillda
+- `/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/` — Ayol kishiga tug‘ilgan kun tabrigi: 48 ta tayyor matn
+- `/uz/blog/chatgpt-5-nima/` — ChatGPT 5 nima: GPT-4, GPT-4o va GPT-5 farqi, 2026
+- `/uz/blog/chatgptdan-qanday-foydalanish/` — ChatGPT’dan foydalanish: 10 qadam va 15 ta tayyor so‘rov
+- `/uz/blog/claude-ai-ozbekistonda/` — Claude AI O‘zbekistonda: kirish va bepul reja | GPTBot.uz
+- `/uz/blog/cv-nima/` — CV nima va CV yozish: namuna Word va PDF | GPTBot.uz
+- `/uz/blog/deepseek-ozbek-tilida/` — DeepSeek o‘zbek tilida: rasmiy sayt, ilova va maxfiylik
+- `/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/` — Erkak kishiga tug‘ilgan kun tabrigi: 48 ta tayyor matn
+- `/uz/blog/faxriy-yorliq-matni/` — Faxriy yorliq matni: 32 ta tayyor namuna, Word/PDF
+- `/uz/blog/gamma-app-slayd-tayyorlash/` — Gamma app: slayd tayyorlash qadamlari va eksport | GPTBot.uz
+- `/uz/blog/gemini-ai-ozbek-tilida/` — Gemini AI o‘zbek tilida: kirish, ilova va rasm | GPTBot.uz
+- `/uz/blog/google-flow-veo-qollanma/` — Google Flow va Veo 3: qo‘llanma, bepul kreditlar | GPTBot.uz
+- `/uz/blog/hayit-tabriklari/` — Hayit muborak: 40 ta tabrik, Ramazon va Qurbon hayiti
+- `/uz/blog/higgsfield-ai-nima/` — Higgsfield AI nima: bepul reja, video va promptlar | GPTBot.uz
+- `/uz/blog/hikmatli-sozlar/` — Ma’noli gaplar va hikmatli so‘zlar: 100 ta qisqa matn
+- `/uz/blog/ingliz-tilida-dialoglar/` — Dialog ingliz tilida: tarjimasi bilan 36 ta tayyor dialog
+- `/uz/blog/inglizcha-statuslar/` — Inglizcha statuslar tarjimasi bilan: 100 ta qisqa gap
+- `/uz/blog/konstitutsiya-haqida-sherlar/` — Konstitutsiya haqida she’rlar: 30 ta she’r va 10 ta tabrik
+- `/uz/blog/logo-yasash/` — Logo yasash: 5 qadam va 12 ta AI so‘rov | GPTBot.uz
+- `/uz/blog/mantiqiy-savollar/` — Mantiqiy savollar javobi bilan: 120 ta qiziqarli savol
+- `/uz/blog/maqollar/` — Maqollar: 300 ta o‘zbek xalq maqoli mavzular bo‘yicha
+- `/uz/blog/navroz-haqida-sherlar/` — Navroz haqida sher: 30 ta original she’r va 12 ta tabrik
+- `/uz/blog/notebooklm-qollanma/` — NotebookLM (Gemini Notebook): talabaga qo‘llanma | GPTBot.uz
+- `/uz/blog/psixologik-tavsifnoma-namuna/` — Psixologik tavsifnoma namuna: o‘quvchi va sinfga | GPTBot.uz
+- `/uz/blog/sevgi-haqida-sherlar/` — Sevgi haqida she’rlar: 30 ta she’r va 20 ta sevgi so‘zi
+- `/uz/blog/slayd-uchun-fonlar/` — Slayd uchun fon: 24 ta bepul fon, JPG va PPTX | GPTBot.uz
+- `/uz/blog/taqriz-namuna/` — Taqriz namuna: dars ishlanma, maqola va BMIga | GPTBot.uz
+- `/uz/blog/tezis-namuna/` — Tezis namuna: konferensiya uchun Word va PDF | GPTBot.uz
+- `/uz/blog/topishmoqlar/` — Topishmoqlar javobi bilan: 200 ta qiziqarli topishmoq
+- `/uz/blog/yangi-yil-sherlari/` — Yangi yil she’rlari: Qorbobo, archa va qish haqida 40 ta she’r
+- `/uz/blog/zakovat-savollari/` — Zakovat savollari javoblari bilan: 100 ta savol va izoh
+- `/uz/ekub-ekuk/` — EKUB va EKUK topish: 2 usul, 12 misol va 15 ta mashq
+- `/uz/kalendar-2027/` — Kalendar 2027: bayram va dam olish kunlari, hafta raqamlari
+- `/uz/matn-tuzish/` — Matn tuzish: 24 ta tayyor matn (kuz, Vatan, oila, maktab)
+- `/uz/mendeleyev-jadvali/` — Mendeleyev jadvali: 118 element, davr, guruh va PDF
+- `/uz/mental-arifmetika-misollar/` — Mental arifmetika misollar: 12 usul va 100 ta mashq
+- `/uz/nik-yasash/` — Nik yasash: 14 xil chiroyli harf va 60 ta tayyor nik
+- `/uz/ona-tili-test/` — Ona tili testlar: 80 ta savol, javoblar va PDF (5–9-sinf)
+- `/uz/qisqa-kopaytirish-formulalari/` — Qisqa ko‘paytirish formulalari: 7 formula, 20 misol va mashq
+- `/uz/rim-raqamlari/` — Rim raqamlari jadvali: 1 dan 100 gacha va 1000 gacha, qoidalar
+- `/uz/sintaktik-tahlil/` — Sintaktik tahlil: tartibi, jadval va 20 ta tahlil qilingan gap
+- `/uz/taklifnoma-yasash/` — Taklifnoma yasash: 24 ta tayyor matn va AI yordamchi
+- `/uz/tenglamalar-sistemasi/` — Tenglamalar sistemasi: yechish usullari, 12 misol va mashqlar
+- `/uz/tub-sonlar/` — Tub sonlar jadvali: 1 dan 100 va 1000 gacha, mashqlar
+
+Отсчёт эффекта — от `lastCrawlTime` каждого URL; правило проверки показами описано в roadmap, раздел 6. Тексты на узбекском написаны без вычитки носителем языка; часть страниц написана моделью Sonnet после исчерпания лимита основной модели.

@@ -1,0 +1,515 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "zakovat-savollari",
+  "url": "/uz/blog/zakovat-savollari/",
+  "title": "Zakovat savollari javoblari bilan: 100 ta savol va izoh",
+  "description": "Zakovat uslubidagi 100 ta savol javobi va izohi bilan: O‘zbekiston tarixi va geografiyasi, jahon geografiyasi, fan, adabiyot, tabiat, sport. Sinf o‘yini tartibi.",
+  "h1": "Zakovat uslubidagi 100 ta savol: mavzular bo‘yicha javob va izohlar",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "zakovat savollari",
+    "zakovat savollari javoblari bilan",
+    "zakovat o‘yini savollari",
+    "viktorina savollari",
+    "zakovat savollari 2026",
+    "заковат саволлари"
+  ],
+  "intro": "Sinfda, to‘garakda yoki do‘stlar davrasida bilimdonlar o‘yini o‘tkazmoqchimisiz? Bu sahifada «Zakovat» uslubidagi 100 ta savol jamlangan: har birining javobi va bir jumlali izohi bor, savollar olti mavzuga ajratilgan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida 100 ta savol bor — O‘zbekiston tarixi va geografiyasi (20), jahon geografiyasi (15), fan va texnika (20), adabiyot va san’at (15), tabiat (15) va sport (15). Javob «Javob:» so‘zidan, izoh «Izoh:» so‘zidan keyin yozilgan. Sahifa oxirida sinfda o‘yin o‘tkazishning olti qadamli tartibi va kirill yozuvidagi 10 ta savol berilgan."
+    },
+    {
+      "type": "p",
+      "text": "«Zakovat» — O‘zbekistonda mashhur intellektual o‘yin: unda jamoa savolni bir daqiqa muhokama qilib, javob beradi. Bu sahifadagi savollar shu o‘yin uslubida, sinf va davra o‘yinlari uchun tuzilgan. Ular teleo‘yin yoki «Zakovat» klubining rasmiy savollari emas, GPTBot.uz esa klub bilan bog‘liq emas. Savollar shu sahifa uchun AI yordamida tuzilgan; sana, ism va raqamlar 2026-yil noyabrda ochiq manbalar bo‘yicha tekshirilgan."
+    },
+    {
+      "type": "linkp",
+      "text": "O‘z mavzuingizda yangi savollar kerak bo‘lsa, {chat}ga sinf va mavzuni yozing. Bu GPTBot.uz AI chati: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mavzular",
+      "text": "100 ta savol: mavzular bo‘yicha taqsimot"
+    },
+    {
+      "type": "table",
+      "headers": ["Mavzu", "Savollar", "Tartib raqami"],
+      "rows": [
+        ["O‘zbekiston tarixi va geografiyasi", "20 ta", "1–20"],
+        ["Jahon geografiyasi", "15 ta", "21–35"],
+        ["Fan va texnika", "20 ta", "36–55"],
+        ["Adabiyot va san’at", "15 ta", "56–70"],
+        ["Tabiat", "15 ta", "71–85"],
+        ["Sport", "15 ta", "86–100"]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ozbekiston",
+      "text": "O‘zbekiston tarixi va geografiyasi: 20 ta savol"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. O‘zbekiston davlat mustaqilligi qaysi kuni e’lon qilingan? Javob: 1991-yil 31-avgustda. Izoh: shu sababli 1-sentabr Mustaqillik kuni sifatida nishonlanadi.",
+        "2. O‘zbekiston Respublikasi Konstitutsiyasi qachon qabul qilingan? Javob: 1992-yil 8-dekabrda. Izoh: 8-dekabr — Konstitutsiya kuni, umumxalq bayrami.",
+        "3. O‘zbekiston davlat bayrog‘ida nechta yulduz tasvirlangan? Javob: 12 ta. Izoh: bayroq to‘g‘risidagi qonun 1991-yil 18-noyabrda qabul qilingan; yulduzlar yonida yarim oy ham bor.",
+        "4. Milliy valyuta — so‘m qachon muomalaga kiritilgan? Javob: 1994-yil 1-iyulda. Izoh: undan oldin vaqtincha so‘m-kuponlar ishlatilgan.",
+        "5. O‘zbekiston Birlashgan Millatlar Tashkilotiga qachon a’zo bo‘lgan? Javob: 1992-yil 2-martda. Izoh: shu kuni Nyu-Yorkdagi BMT qarorgohi oldida O‘zbekiston bayrog‘i ko‘tarilgan.",
+        "6. O‘zbek tiliga davlat tili maqomi qachon berilgan? Javob: 1989-yil 21-oktabrda. Izoh: 21-oktabr — O‘zbek tili bayrami kuni.",
+        "7. O‘zbekiston nechta davlat bilan chegaradosh? Javob: beshta. Izoh: Qozog‘iston, Qirg‘iziston, Tojikiston, Afg‘oniston va Turkmaniston.",
+        "8. O‘zbekistonda nechta viloyat bor? Javob: 12 ta. Izoh: ulardan tashqari Qoraqalpog‘iston Respublikasi va Toshkent shahri ham alohida hududiy birlik hisoblanadi.",
+        "9. Dunyoda faqat ikki davlatdan okeanga yetish uchun kamida ikki davlat chegarasini kesib o‘tish kerak. Biri — O‘zbekiston. Ikkinchisi qaysi? Javob: Lixtenshteyn. Izoh: uning qo‘shnilari — Shveysariya va Avstriyaning ham dengizga chiqish yo‘li yo‘q.",
+        "10. Orol dengizi O‘zbekiston bilan yana qaysi davlat hududida joylashgan? Javob: Qozog‘iston. Izoh: dengiz XX asrning ikkinchi yarmidan keskin qurib, bir necha bo‘lakka ajralgan.",
+        "11. Amudaryo qaysi ikki daryoning qo‘shilishidan hosil bo‘ladi? Javob: Panj va Vaxsh daryolaridan. Izoh: Amudaryo — Markaziy Osiyoning eng sersuv daryosi.",
+        "12. Qizilqum cho‘li qaysi ikki daryo oralig‘ida joylashgan? Javob: Amudaryo bilan Sirdaryo oralig‘ida. Izoh: cho‘lning nomi qumining qizg‘ish rangidan olingan.",
+        "13. Farg‘ona vodiysida O‘zbekistonning qaysi uch viloyati joylashgan? Javob: Andijon, Namangan va Farg‘ona viloyatlari. Izoh: vodiy — mamlakatning aholi eng zich yashaydigan hududi.",
+        "14. Amir Temur qaysi shahar yaqinida tug‘ilgan? Javob: Kesh — hozirgi Shahrisabz yaqinida. Izoh: u 1336-yilda tug‘ilgan; tavallud kuni har yili 9-aprelda nishonlanadi.",
+        "15. Samarqanddagi Registon maydonini qaysi uch madrasa o‘rab turadi? Javob: Ulug‘bek, Sherdor va Tillakori madrasalari. Izoh: eng qadimgisi — XV asrda qurilgan Ulug‘bek madrasasi.",
+        "16. Mirzo Ulug‘bek XV asrda rasadxonani qaysi shaharda qurdirgan? Javob: Samarqandda. Izoh: u yerda mingdan ortiq yulduzning o‘rni aniqlanib, «Ziji jadidi Ko‘ragoniy» jadvali tuzilgan.",
+        "17. O‘zbekistondan YUNESKOning Jahon merosi ro‘yxatiga birinchi bo‘lib qaysi obyekt kiritilgan? Javob: Xivadagi Ichan qal’a. Izoh: u 1990-yilda kiritilgan; keyinroq Buxoro, Shahrisabz va Samarqandning tarixiy markazlari qo‘shilgan.",
+        "18. Zahiriddin Muhammad Bobur qaysi shaharda tug‘ilgan? Javob: Andijonda. Izoh: 1483-yilda tug‘ilgan Bobur keyinchalik Hindistonda boburiylar saltanatiga asos solgan.",
+        "19. Abu Ali ibn Sino qayerda tug‘ilgan? Javob: Buxoro yaqinidagi Afshona qishlog‘ida. Izoh: uning «Tib qonunlari» asari asrlar davomida Sharq va G‘arbda tibbiyot darsligi bo‘lgan.",
+        "20. Markaziy Osiyodagi birinchi metro qaysi shaharda va qachon ochilgan? Javob: Toshkentda, 1977-yilda. Izoh: birinchi yo‘nalish — Chilonzor yo‘nalishi 1977-yil 6-noyabrda ishga tushgan."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "jahon-geografiyasi",
+      "text": "Jahon geografiyasi: 15 ta savol"
+    },
+    {
+      "type": "list",
+      "items": [
+        "21. Yer yuzidagi eng katta okean qaysi? Javob: Tinch okeani. Izoh: u sayyoramiz yuzasining qariyb uchdan bir qismini egallaydi.",
+        "22. Dunyodagi eng sersuv daryo qaysi? Javob: Amazonka. Izoh: u Janubiy Amerikadan oqib o‘tib, Atlantika okeaniga quyiladi.",
+        "23. Dunyodagi eng baland cho‘qqi qaysi va u qaysi tog‘larda? Javob: Everest (Jomolungma), Himolay tog‘larida. Izoh: 2020-yilda Nepal va Xitoy e’lon qilgan balandligi — 8848,86 metr.",
+        "24. Dunyodagi eng katta issiq cho‘l qaysi? Javob: Sahroi Kabir. Izoh: u Afrikaning shimoliy qismida joylashgan.",
+        "25. Dunyodagi eng chuqur ko‘l qaysi? Javob: Baykal. Izoh: Sibirdagi bu ko‘lning eng chuqur joyi 1600 metrdan oshadi.",
+        "26. Maydoni bo‘yicha dunyodagi eng katta ko‘l qaysi? Javob: Kaspiy dengizi. Izoh: nomi «dengiz» bo‘lsa-da, u okean bilan tutashmagan yopiq suv havzasi.",
+        "27. Dunyodagi eng kichik davlat qaysi? Javob: Vatikan. Izoh: u Rim shahri ichida joylashgan, maydoni yarim kvadrat kilometrdan ham kichik.",
+        "28. Dunyodagi eng katta orol qaysi? Javob: Grenlandiya. Izoh: u Daniya Qirolligi tarkibidagi avtonom hudud.",
+        "29. Eng kichik materik qaysi? Javob: Avstraliya. Izoh: bu materikni bitta davlat to‘liq egallagan.",
+        "30. 2023-yildan boshlab dunyoda aholisi eng ko‘p davlat qaysi? Javob: Hindiston. Izoh: BMT hisob-kitobiga ko‘ra, u 2023-yil aprelida Xitoydan o‘zib ketgan.",
+        "31. Avstraliyaning poytaxti qaysi shahar? Javob: Kanberra. Izoh: ko‘pchilik adashib, mamlakatning eng katta shahri — Sidneyni aytadi.",
+        "32. Dunyodagi eng baland sharshara qaysi mamlakatda joylashgan? Javob: Venesuelada — bu Anxel sharsharasi. Izoh: uning suvi qariyb bir kilometr balandlikdan tushadi.",
+        "33. Jahon okeanining eng chuqur joyi qanday ataladi? Javob: Mariana botig‘i (cho‘kmasi). Izoh: u Tinch okeanida joylashgan, chuqurligi qariyb 11 kilometr.",
+        "34. Uzunlik hisobi boshlanadigan nolinchi meridian qaysi shahardan o‘tadi? Javob: Londondan — Grinvich rasadxonasi orqali. Izoh: shuning uchun u Grinvich meridiani deb ham ataladi.",
+        "35. Qaysi yirik shahar bir yo‘la ikki qit’ada — Yevropa va Osiyoda joylashgan? Javob: Istanbul. Izoh: shaharni Bosfor bo‘g‘ozi ikki qismga ajratib turadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "fan-texnika",
+      "text": "Fan va texnika: 20 ta savol"
+    },
+    {
+      "type": "list",
+      "items": [
+        "36. Suvning kimyoviy formulasi qanday? Javob: H₂O. Izoh: suv molekulasi ikki vodorod va bir kislorod atomidan iborat.",
+        "37. Yorug‘lik vakuumda bir soniyada taxminan qancha masofani bosib o‘tadi? Javob: qariyb 300 ming kilometrni. Izoh: aniq qiymati — sekundiga 299 792 kilometr.",
+        "38. Quyosh tizimidagi eng katta sayyora qaysi? Javob: Yupiter. Izoh: uning massasi qolgan barcha sayyoralarning umumiy massasidan ham katta.",
+        "39. Quyoshga eng yaqin sayyora qaysi? Javob: Merkuriy. Izoh: u Quyosh tizimidagi eng kichik sayyora hamdir.",
+        "40. Koinotga uchgan birinchi inson kim? Javob: Yuriy Gagarin. Izoh: u 1961-yil 12-aprelda «Vostok» kemasida Yer atrofini aylanib chiqqan.",
+        "41. Inson Oyga birinchi marta qachon qadam qo‘ygan? Javob: 1969-yil iyulda. Izoh: «Apollon-11» ekspeditsiyasi a’zosi Nil Armstrong Oy sirtiga birinchi bo‘lib tushgan.",
+        "42. Yerning birinchi sun’iy yo‘ldoshi qachon uchirilgan? Javob: 1957-yil 4-oktabrda. Izoh: uning nomi — «Sputnik-1».",
+        "43. Kimyoviy elementlarning davriy jadvalini kim tuzgan? Javob: Dmitriy Mendeleyev. Izoh: u davriy qonunni 1869-yilda e’lon qilgan.",
+        "44. Butun olam tortishish qonunini kim kashf etgan? Javob: Isaak Nyuton. Izoh: u mexanikaning uchta asosiy qonunini ham ta’riflab bergan.",
+        "45. Nisbiylik nazariyasining muallifi kim? Javob: Albert Eynshteyn. Izoh: mashhur E = mc² formulasi ham shu olimga tegishli.",
+        "46. Telefon uchun birinchi patentni kim olgan? Javob: Aleksandr Bell. Izoh: patent 1876-yilda berilgan.",
+        "47. Birinchi antibiotik — penitsillinni kim kashf etgan? Javob: Aleksandr Fleming. Izoh: kashfiyot 1928-yilda qilingan.",
+        "48. Nobel mukofotini olgan birinchi ayol kim? Javob: Mariya Kyuri. Izoh: u 1903-yilda fizika, 1911-yilda kimyo bo‘yicha mukofotlangan.",
+        "49. Bir baytda nechta bit bor? Javob: 8 ta. Izoh: bit — axborotning eng kichik birligi, u 0 yoki 1 qiymatini oladi.",
+        "50. Butunjahon to‘ri — World Wide Web texnologiyasini kim ixtiro qilgan? Javob: Tim Berners-Li. Izoh: u bu g‘oyani 1989-yilda CERN ilmiy markazida taklif etgan.",
+        "51. Yer atmosferasida qaysi gaz eng ko‘p? Javob: azot. Izoh: u havoning taxminan 78 foizini tashkil etadi, kislorod esa 21 foizga yaqin.",
+        "52. Eng yengil kimyoviy element qaysi? Javob: vodorod. Izoh: davriy jadvalda u birinchi o‘rinda turadi.",
+        "53. «Algoritm» so‘zi qaysi olimning nomidan kelib chiqqan? Javob: Muhammad al-Xorazmiyning. Izoh: «algebra» atamasi ham uning «Al-jabr val-muqobala» asari nomidan olingan.",
+        "54. Dvigatelli samolyotda birinchi boshqariladigan parvozni kimlar amalga oshirgan? Javob: aka-uka Raytlar. Izoh: bu 1903-yil 17-dekabrda AQSHda bo‘lgan.",
+        "55. Fizika bo‘yicha birinchi Nobel mukofoti kimga berilgan? Javob: Vilgelm Rentgenga. Izoh: u 1901-yilda o‘zi kashf etgan nurlar — rentgen nurlari uchun taqdirlangan."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "adabiyot-sanat",
+      "text": "Adabiyot va san’at: 15 ta savol"
+    },
+    {
+      "type": "list",
+      "items": [
+        "56. Alisher Navoiyning «Xamsa»si nechta dostondan iborat? Javob: beshta. Izoh: «Hayrat ul-abror», «Farhod va Shirin», «Layli va Majnun», «Sab’ai sayyor» va «Saddi Iskandariy».",
+        "57. Alisher Navoiy qaysi shaharda tug‘ilgan? Javob: Hirotda. Izoh: u 1441-yil 9-fevralda tug‘ilgan; shu kun har yili shoir tavallud kuni sifatida nishonlanadi.",
+        "58. «Boburnoma» asarining muallifi kim? Javob: Zahiriddin Muhammad Bobur. Izoh: asarda muallif o‘zi ko‘rgan voqealar, o‘lkalar va odamlarni tasvirlagan.",
+        "59. Birinchi o‘zbek romani qaysi va uni kim yozgan? Javob: «O‘tkan kunlar», Abdulla Qodiriy. Izoh: romanning bosh qahramonlari — Otabek va Kumush.",
+        "60. «Shum bola» qissasini kim yozgan? Javob: G‘afur G‘ulom. Izoh: qissa XX asr boshidagi Toshkentda yashagan o‘smir bolaning sarguzashtlari haqida.",
+        "61. «Sariq devni minib» asarining muallifi kim? Javob: Xudoyberdi To‘xtaboyev. Izoh: asar qahramoni Hoshimjon sehrli qalpoqcha yordamida turli sarguzashtlarga duch keladi.",
+        "62. «Qutadg‘u bilig» dostonini kim yozgan? Javob: Yusuf Xos Hojib. Izoh: XI asrda yozilgan bu asarning nomi «saodatga yo‘llovchi bilim» degan ma’noni bildiradi.",
+        "63. Turkiy tillarning birinchi yirik lug‘ati — «Devonu lug‘otit turk»ni kim tuzgan? Javob: Mahmud Koshg‘ariy. Izoh: asar XI asrda yaratilgan.",
+        "64. O‘zbekiston davlat madhiyasining matnini kim yozgan? Javob: Abdulla Oripov. Izoh: musiqasini bastakor Mutal Burhonov yozgan; madhiya 1992-yilda qabul qilingan.",
+        "65. Hakimbek, Barchin va Qorajon qaysi o‘zbek xalq dostonining qahramonlari? Javob: «Alpomish» dostonining. Izoh: Hakimbek yetti yoshida bobosidan qolgan og‘ir yoyni otib, Alpomish degan nom olgan.",
+        "66. «Mona Liza» portretini kim chizgan? Javob: Leonardo da Vinchi. Izoh: asar Parijdagi Luvr muzeyida saqlanadi.",
+        "67. «Hamlet» va «Romeo va Julyetta» tragediyalarining muallifi kim? Javob: Uilyam Shekspir. Izoh: ingliz dramaturgi XVI–XVII asrlarda yashagan.",
+        "68. «Kichkina shahzoda» ertak-qissasini kim yozgan? Javob: Antuan de Sent-Ekzyuperi. Izoh: fransuz yozuvchisi kasbi bo‘yicha uchuvchi bo‘lgan.",
+        "69. Shashmaqom nechta maqomdan iborat? Javob: oltita. Izoh: Buzruk, Rost, Navo, Dugoh, Segoh va Iroq.",
+        "70. «Kecha va kunduz» romanining muallifi kim? Javob: Cho‘lpon. Izoh: Abdulhamid Cho‘lpon — XX asr o‘zbek she’riyatining yirik vakillaridan biri."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tabiat",
+      "text": "Tabiat: 15 ta savol"
+    },
+    {
+      "type": "list",
+      "items": [
+        "71. Yer yuzidagi eng katta hayvon qaysi? Javob: ko‘k kit. Izoh: uning uzunligi 30 metrgacha yetishi mumkin.",
+        "72. Quruqlikdagi eng tez yuguradigan hayvon qaysi? Javob: gepard. Izoh: qisqa masofada u soatiga 100 kilometrga yaqin tezlikka erishadi.",
+        "73. Eng baland bo‘yli hayvon qaysi? Javob: jirafa. Izoh: uning bo‘yi 5 metrdan oshishi mumkin.",
+        "74. Hozir yashayotgan qushlar ichida eng kattasi qaysi? Javob: tuyaqush. Izoh: u ucha olmaydi, lekin juda tez yuguradi.",
+        "75. Tabiatda oq ayiq nega pingvinni ovlamaydi? Javob: chunki ular Yerning qarama-qarshi tomonlarida yashaydi. Izoh: oq ayiqlar Arktikada, pingvinlar esa asosan Janubiy yarimsharda yashaydi.",
+        "76. O‘rgimchakning nechta oyog‘i bor? Javob: sakkizta. Izoh: shuning uchun u hasharot emas — hasharotlarning oyog‘i oltita.",
+        "77. O‘simliklar fotosintez jarayonida havoga qaysi gazni chiqaradi? Javob: kislorodni. Izoh: buning uchun ular karbonat angidrid gazi, suv va quyosh nuridan foydalanadi.",
+        "78. Asalarilar mumdan yasaydigan katakchalar qanday shaklda bo‘ladi? Javob: olti burchakli. Izoh: bunday shaklda katakchalar orasida bo‘sh joy qolmaydi.",
+        "79. Tuya o‘rkachida nimani saqlaydi? Javob: yog‘ni. Izoh: ko‘pchilik o‘ylaganidek suvni emas; yog‘ zaxirasi tuyaga uzoq vaqt ovqatsiz yurishga yordam beradi.",
+        "80. Tumshug‘i o‘rdaknikiga o‘xshaydigan, tuxum qo‘yadigan sutemizuvchi hayvon qaysi? Javob: o‘rdakburun. Izoh: u Avstraliyada yashaydi; sutemizuvchilardan yexidnalar ham tuxum qo‘yadi.",
+        "81. Haqiqiy ma’noda ucha oladigan yagona sutemizuvchilar qaysi? Javob: ko‘rshapalaklar. Izoh: uchar olmaxon kabi hayvonlar uchmaydi, faqat havoda sirpanib o‘tadi.",
+        "82. Sakkizoyoqning nechta yuragi bor? Javob: uchta. Izoh: ikkitasi qonni jabralarga, uchinchisi butun tanaga haydaydi.",
+        "83. Qaysi qush orqaga qarab ham ucha oladi? Javob: kolibri. Izoh: u qanotlarini juda tez qoqib, havoda bir joyda muallaq tura oladi.",
+        "84. O‘simlik barglariga yashil rang beradigan modda nima? Javob: xlorofill. Izoh: aynan shu modda quyosh nurini yutib, fotosintezda qatnashadi.",
+        "85. Dunyodagi eng tez qush qaysi? Javob: lochin. Izoh: o‘ljasiga sho‘ng‘iganda uning tezligi soatiga 300 kilometrdan oshadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sport",
+      "text": "Sport: 15 ta savol"
+    },
+    {
+      "type": "list",
+      "items": [
+        "86. Zamonaviy Olimpiya o‘yinlari birinchi marta qayerda va qachon o‘tkazilgan? Javob: 1896-yilda Afinada. Izoh: o‘yinlarni qayta tiklash tashabbuskori — fransuz Pyer de Kuberten.",
+        "87. Olimpiya bayrog‘ida nechta halqa bor? Javob: beshta. Izoh: ular ko‘k, sariq, qora, yashil va qizil rangda.",
+        "88. Yozgi Olimpiya o‘yinlari necha yilda bir marta o‘tkaziladi? Javob: to‘rt yilda bir marta. Izoh: 2024-yilgi o‘yinlar Parijda bo‘lgan, navbatdagisi 2028-yilda Los-Anjelesda rejalashtirilgan.",
+        "89. Futbol o‘yinida maydonga bir jamoadan nechta o‘yinchi tushadi? Javob: 11 nafar. Izoh: ulardan biri — darvozabon.",
+        "90. Futbol bo‘yicha birinchi jahon chempionati qayerda va qachon o‘tgan? Javob: Urugvayda, 1930-yilda. Izoh: birinchi chempion ham mezbon — Urugvay terma jamoasi bo‘lgan.",
+        "91. Qaysi terma jamoa futbol bo‘yicha jahon chempionatida eng ko‘p — besh marta g‘olib bo‘lgan? Javob: Braziliya. Izoh: 1958, 1962, 1970, 1994 va 2002-yillarda; 2026-yilgi chempionatdan keyin ham bu rekord saqlanib qoldi.",
+        "92. 2026-yilgi futbol bo‘yicha jahon chempionatida qaysi terma jamoa g‘olib bo‘ldi? Javob: Ispaniya. Izoh: 2026-yil 19-iyuldagi finalda u Argentinani qo‘shimcha vaqtda 1:0 hisobida yengdi.",
+        "93. O‘zbekiston terma jamoasi futbol bo‘yicha jahon chempionatiga birinchi marta qaysi turnirga yo‘llanma olgan? Javob: 2026-yilgi chempionatga. Izoh: yo‘llanma 2025-yil 5-iyunda BAA terma jamoasi bilan 0:0 hisobidagi durangdan keyin qo‘lga kiritilgan.",
+        "94. Basketbolda maydonda bir jamoadan nechta o‘yinchi bo‘ladi? Javob: besh nafar. Izoh: o‘yinni 1891-yilda Jeyms Neysmit o‘ylab topgan.",
+        "95. Shaxmat taxtasida nechta katak bor? Javob: 64 ta. Izoh: o‘yin boshida har bir tomonda 16 tadan dona bo‘ladi.",
+        "96. Marafon yugurish masofasi qancha? Javob: 42 kilometr 195 metr. Izoh: bu masofa birinchi marta 1908-yilgi London Olimpiadasida yugurilgan.",
+        "97. O‘zbekiston 2024-yilgi Parij Olimpiadasida nechta oltin medal qo‘lga kiritgan? Javob: 8 ta. Izoh: jami 13 ta medal bilan terma jamoa medallar jadvalida 13-o‘rinni egallagan; oltinlarning beshtasi boksda olingan.",
+        "98. Mustaqil O‘zbekistonga birinchi Olimpiya oltin medalini kim keltirgan? Javob: Lina Cheryazova. Izoh: u 1994-yilda Lillehammerdagi qishki o‘yinlarda fristayl bo‘yicha g‘olib bo‘lgan.",
+        "99. 2004-yilda FIDE talqinidagi shaxmat bo‘yicha jahon chempioni bo‘lgan o‘zbekistonlik grossmeyster kim? Javob: Rustam Qosimjonov. Izoh: Tripolidagi finalda u angliyalik Maykl Adamsni yenggan.",
+        "100. Tennisdagi «Katta dubulg‘a» turkumiga nechta turnir kiradi? Javob: to‘rtta. Izoh: Avstraliya ochiq chempionati, «Rolan Garros», Uimbldon va AQSH ochiq chempionati."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kirill",
+      "text": "Kirill yozuvida: tanlangan 10 ta savol"
+    },
+    {
+      "type": "linkp",
+      "text": "Quyida yuqoridagi 100 ta savoldan o‘ntasi kirill yozuvida takrorlangan — bular yangi savollar emas. Qolgan savollarni {translit} bilan o‘zingiz o‘girishingiz mumkin.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kirill-savollar",
+      "lang": "uz-Cyrl",
+      "text": "Кирилл ёзувида: заковат саволлари"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ўзбекистон давлат мустақиллиги қайси куни эълон қилинган? Жавоб: 1991 йил 31 августда. Изоҳ: шу сабабли 1 сентябрь Мустақиллик куни сифатида нишонланади."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ўзбекистон нечта давлат билан чегарадош? Жавоб: бешта. Изоҳ: Қозоғистон, Қирғизистон, Тожикистон, Афғонистон ва Туркманистон."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Самарқанддаги Регистон майдонини қайси уч мадраса ўраб туради? Жавоб: Улуғбек, Шердор ва Тиллакори мадрасалари. Изоҳ: энг қадимгиси — XV асрда қурилган Улуғбек мадрасаси."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ер юзидаги энг катта океан қайси? Жавоб: Тинч океани. Изоҳ: у сайёрамиз юзасининг қарийб учдан бир қисмини эгаллайди."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Сувнинг кимёвий формуласи қандай? Жавоб: H₂O. Изоҳ: сув молекуласи икки водород ва бир кислород атомидан иборат."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Коинотга учган биринчи инсон ким? Жавоб: Юрий Гагарин. Изоҳ: у 1961 йил 12 апрелда «Восток» кемасида Ер атрофини айланиб чиққан."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Алишер Навоийнинг «Хамса»си нечта достондан иборат? Жавоб: бешта. Изоҳ: «Ҳайрат ул-аброр», «Фарҳод ва Ширин», «Лайли ва Мажнун», «Сабъаи сайёр» ва «Садди Искандарий»."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Биринчи ўзбек романи қайси ва уни ким ёзган? Жавоб: «Ўткан кунлар», Абдулла Қодирий. Изоҳ: романнинг бош қаҳрамонлари — Отабек ва Кумуш."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ер юзидаги энг катта ҳайвон қайси? Жавоб: кўк кит. Изоҳ: унинг узунлиги 30 метргача етиши мумкин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Футбол ўйинида майдонга бир жамоадан нечта ўйинчи тушади? Жавоб: 11 нафар. Изоҳ: улардан бири — дарвозабон."
+    },
+    {
+      "type": "h2",
+      "id": "oyin-tartibi",
+      "text": "Sinfda Zakovat uslubida o‘yin o‘tkazish: 6 qadam"
+    },
+    {
+      "type": "p",
+      "text": "Bu — bir dars soatiga mo‘ljallangan soddalashtirilgan tartib, teleo‘yinning rasmiy qoidalari emas. Kerakli narsalar: savollar ro‘yxati, soat yoki taymer, har bir jamoaga qog‘oz va ruchka."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1-qadam. Jamoalarni tuzing: sinfni 4–6 kishilik jamoalarga bo‘ling. Har bir jamoa o‘ziga nom tanlaydi va sardor saylaydi.",
+        "2-qadam. Savollarni tanlang: bir o‘yinga 12–15 ta savol yetadi. Mavzularni aralashtiring, oson savoldan boshlab, qiyinlarini oxiriga qoldiring.",
+        "3-qadam. Qoidani e’lon qiling: savol ikki marta o‘qiladi, muhokamaga 1 daqiqa beriladi. Telefon, kitob va daftardan foydalanilmaydi.",
+        "4-qadam. Javoblarni yozma oling: vaqt tugashi bilan sardor javob yozilgan qog‘ozni topshiradi. Shunda jamoalar bir-birining javobini eshitib olmaydi.",
+        "5-qadam. Javob va izohni o‘qing: to‘g‘ri javobni izohi bilan ayting, har bir to‘g‘ri javob uchun 1 ochko yozing. Hisobni doskada yuriting.",
+        "6-qadam. Yakunlang: ochkolar teng bo‘lsa, qo‘shimcha savol bering. G‘olibni e’lon qiling va eng ko‘p bahs uyg‘otgan savolni birga muhokama qiling."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "AI bilan yangi savollar tuzish"
+    },
+    {
+      "type": "p",
+      "text": "Dars mavzusiga mos savollar kerak bo‘lsa, AI chatdan qoralama so‘rash mumkin. So‘rovda sinf, mavzu va savollar sonini yozing. Muhimi: AI faktlarda xato qilishi mumkin — sana, ism va raqamlarni darslik yoki rasmiy manbadan tekshirmasdan o‘yinga qo‘shmang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "«7-sinf uchun O‘zbekiston tarixidan 10 ta viktorina savoli tuz. Har biriga javob va bir jumlali izoh yoz.»",
+        "«Jahon geografiyasidan 5 ta oson va 5 ta qiyin savol tuz, qiyinlarini alohida belgila.»",
+        "«Mana bu savollarni 5-sinf o‘quvchilari uchun soddaroq qilib qayta yoz: [savollar].»",
+        "«Shu savolning javobida qaysi sana va raqamlarni alohida tekshirishim kerak? [savol va javob].»"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Bunday so‘rovlarni {chat}da yuborish mumkin; so‘rov yozish va limitlar haqida {qollanma}da, AI paket shartlari haqida {tariflar} sahifasida yozilgan.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
+        {
+          "token": "qollanma",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI chat qo‘llanmasi"
+        },
+        {
+          "token": "tariflar",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chatga o‘quvchilarning ism-familiyasi, telefon raqami va boshqa shaxsiy ma’lumotlarini yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Bilim emas, topqirlik sinaladigan savollar kerak bo‘lsa, {mantiq} to‘plamini oching. Fanlar bo‘yicha o‘zini sinash uchun {testlar} bor.",
+      "links": [
+        {
+          "token": "mantiq",
+          "target": "/uz/blog/mantiqiy-savollar/",
+          "anchor": "120 ta mantiqiy savol"
+        },
+        {
+          "token": "testlar",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "javobli onlayn testlar"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "AI bilan yangi savollar tuzish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bu savollar «Zakovat» teleo‘yinining rasmiy savollarimi?",
+      "a": "Yo‘q. Savollar shu sahifa uchun, o‘yin uslubida tuzilgan va teleo‘yinda yoki klub musobaqalarida berilgan savollardan olinmagan. GPTBot.uz «Zakovat» klubi bilan bog‘liq emas."
+    },
+    {
+      "q": "Bitta o‘yin uchun nechta savol kerak?",
+      "a": "Bir dars soati uchun 12–15 ta savol yetadi: har bir savolga o‘qish, bir daqiqalik muhokama va javobni izohlash bilan birga taxminan uch daqiqa ketadi. Katta tadbir uchun savollarni 10–12 tadan iborat ikki-uch turga bo‘ling."
+    },
+    {
+      "q": "Savollardagi faktlar tekshirilganmi?",
+      "a": "Ha. Sana, ism va raqamlar 2026-yil noyabrda rasmiy saytlar va ochiq manbalar bo‘yicha tekshirilgan, shubhali ma’lumotlar kiritilmagan. Lekin rekordlar va sport natijalari vaqt o‘tishi bilan o‘zgaradi, shuning uchun o‘yindan oldin bunday savollarning dolzarbligini qarab chiqing."
+    },
+    {
+      "q": "Savollarni o‘quvchilarning yoshiga qanday moslash mumkin?",
+      "a": "5–6-sinflar uchun tabiat va sport bo‘limlaridan, shuningdek har bir mavzuning dastlabki savollaridan boshlang. Yuqori sinflar uchun tarix, fan va adabiyot bo‘limlari mos. Savol qiyinlik qilsa, javobning birinchi harfini yoki asrini ishora sifatida ayting."
+    },
+    {
+      "q": "Viktorina savollari oddiy test savollaridan nimasi bilan farq qiladi?",
+      "a": "Testda tayyor variantlardan biri tanlanadi. Viktorinada variant berilmaydi: jamoa javobni o‘zi eslashi yoki mulohaza bilan topishi kerak. Shuning uchun bunday o‘yin bilim bilan birga jamoada ishlash va tez fikrlashni ham mashq qildiradi."
+    },
+    {
+      "q": "Kirill yozuvida ham savollar bormi?",
+      "a": "Ha, sahifaning pastki qismida 100 ta savoldan o‘ntasi kirill yozuvida takrorlangan. Qolganlarini saytdagi kirill-lotin o‘giruvchi yordamida o‘girish mumkin."
+    },
+    {
+      "q": "AI yangi savollar tuzib bera oladimi?",
+      "a": "Ha. GPTBot.uz AI chatiga sinf, mavzu va savollar sonini yozsangiz, u qoralama tuzadi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi. AI sana va raqamlarda adashishi mumkin, shuning uchun har bir faktni o‘zingiz tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "AI bilan yangi savollar tuzish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: yangi savollar tuzish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/mantiqiy-savollar/",
+      "anchor": "120 ta mantiqiy savol: oson, o‘rta va qiyin",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar: informatika, fizika va matematika",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/biologiya-test/",
+      "anchor": "Biologiyadan onlayn test",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/topishmoqlar/",
+      "anchor": "Topishmoqlar: bolalar va kattalar uchun to‘plam",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Zakovat uslubidagi 100 ta savol: javob va izohlar",
+  "ogDescription": "O‘zbekiston tarixi va geografiyasi, jahon geografiyasi, fan va texnika, adabiyot va san’at, tabiat va sport bo‘yicha 100 ta savol javobi va izohi bilan. Sinfda o‘yin o‘tkazish tartibi.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/zakovat-savollari/",
+  "hreflangUz": "/uz/blog/zakovat-savollari/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Zakovat savollari",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Lex.uz — «O‘zbekiston Respublikasining Davlat bayrog‘i to‘g‘risida»gi Qonun",
+      "url": "https://lex.uz/docs/-100122",
+      "note": "Qonun 1991-yil 18-noyabrda qabul qilingan; bayroqda o‘n ikkita yulduz va yarim oy tasvirlangan. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "O‘zbekiston Respublikasi Tashqi ishlar vazirligi — United Nations",
+      "url": "https://gov.uz/en/mfa/sections/view/55971",
+      "note": "O‘zbekiston 1992-yil 2-martda BMT a’zosi bo‘lgan. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Gov.uz — 1-iyul: milliy valyuta — so‘m muomalaga kiritilgan kun",
+      "url": "https://gov.uz/oz/gazna/news/view/186150",
+      "note": "So‘m 1994-yil 1-iyuldan muomalaga kiritilgan. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "UNESCO World Heritage Centre — Uzbekistan",
+      "url": "https://whc.unesco.org/en/statesparties/uz",
+      "note": "Ichan qal’a 1990-yilda, Buxoro tarixiy markazi 1993-yilda, Shahrisabz 2000-yilda, Samarqand 2001-yilda Jahon merosi ro‘yxatiga kiritilgan. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "UN DESA Policy Brief No. 153 — India overtakes China as the world’s most populous country",
+      "url": "https://desapublications.un.org/policy-briefs/un-desa-policy-brief-no-153-india-overtakes-china-worlds-most-populous-country",
+      "note": "BMT hisob-kitobiga ko‘ra, Hindiston aholisi 2023-yil aprelida Xitoy aholisidan oshgan; sana taxminiy. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "FIFA — Spain crowned World Cup 2026 champions",
+      "url": "https://inside.fifa.com/organisation/news/spain-crowned-world-cup-2026-champions-new-york-new-jersey",
+      "note": "2026-yil 19-iyuldagi finalda Ispaniya Argentinani qo‘shimcha vaqtda 1:0 hisobida yengib, ikkinchi marta jahon chempioni bo‘lgan. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "Kun.uz — Parij-2024: yakuniy jadval",
+      "url": "https://kun.uz/news/2024/08/11/parij-2024-yakuniy-jadval-ozbekiston-qahramonlari-va-avvalgi-olimpiadalardagi-natijalar",
+      "note": "O‘zbekiston Parij Olimpiadasida 8 ta oltin, 2 ta kumush va 3 ta bronza medal bilan 13-o‘rinni egallagan; oltinlarning beshtasi boksda. 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "The Nobel Prize — Marie Curie: Facts",
+      "url": "https://www.nobelprize.org/prizes/physics/1903/marie-curie/facts/",
+      "note": "Mariya Kyuri — Nobel mukofotini olgan birinchi ayol: 1903-yilda fizika, 1911-yilda kimyo bo‘yicha. 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

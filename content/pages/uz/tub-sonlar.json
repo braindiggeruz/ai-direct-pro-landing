@@ -1,0 +1,594 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/tub-sonlar/",
+  "slug": "tub-sonlar",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Sonni tub yoki murakkabligini top",
+      "prompt": "Quyidagi son tub yoki murakkab ekanini qadamma-qadam aniqla: √n gacha bo‘lgan tub sonlarga bo‘lib ko‘rsat. Murakkab bo‘lsa, tub ko‘paytuvchilarga ajrat.\nSon: "
+    },
+    {
+      "label": "Tub ko‘paytuvchilarga ajratish",
+      "prompt": "Shu sonni tub ko‘paytuvchilarga ajratishni qadamma-qadam ko‘rsat: har bir bo‘lishni yoz, javobni darajalar bilan ber va ko‘paytirib tekshir. Keyin shunga o‘xshash 5 ta son ber, o‘zim ajrataman.\nSon: "
+    },
+    {
+      "label": "Eratosfen g‘alvirini o‘rgat",
+      "prompt": "Eratosfen g‘alviri usulini 1 dan 50 gacha sonlarda qadamma-qadam tushuntir: har bir qadamda qaysi sonlar o‘chishini yoz. Nega 7 da to‘xtashimizni ham izohla."
+    },
+    {
+      "label": "10 ta mashq: tub sonlar",
+      "prompt": "Menga tub sonlar bo‘yicha 10 ta mashq ber: tub-murakkabni aniqlash va tub ko‘paytuvchilarga ajratish, osondan qiyinga, 1000 gacha. Javoblarni ko‘rsatma: men yozaman, sen tekshirib, xatolarimni tushuntirasan."
+    },
+    {
+      "label": "Bo‘linish belgilarini mashq qilish",
+      "prompt": "Bo‘linish belgilarini (2, 3, 4, 5, 6, 8, 9, 10, 11) misollar bilan eslat. Keyin menga 10 ta sonni ber: men har birining qaysi sonlarga bo‘linishini yozaman, sen tekshirasan."
+    },
+    {
+      "label": "Javobimni tekshir",
+      "prompt": "Tub sonlar bo‘yicha javobimni tekshir. Xato bo‘lsa, qaysi qadamda ekanini ayt va to‘g‘ri yechimni ko‘rsat.\nTopshiriq: \nMening javobim: "
+    }
+  ],
+  "primaryKeyword": "tub sonlar",
+  "secondaryKeywords": [
+    "tub sonlar jadvali",
+    "tub sonlar 1 dan 100 gacha",
+    "1000 gacha tub sonlar",
+    "eratosfen g‘alviri",
+    "tub ko‘paytuvchilarga ajratish",
+    "bo‘linish belgilari",
+    "tub va murakkab sonlar"
+  ],
+  "searchIntent": "informational",
+  "h1": "Tub sonlar: ta’rif, Eratosfen g‘alviri va 1000 gacha ro‘yxat",
+  "title": "Tub sonlar jadvali: 1 dan 100 va 1000 gacha, mashqlar",
+  "description": "Tub sonlar jadvali: 1 dan 100 gacha 25 ta, 1000 gacha 168 ta, Eratosfen g‘alviri, bo‘linish belgilari, 15 mashq. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "canonical": "https://gptbot.uz/uz/tub-sonlar/",
+  "hreflangUz": "/uz/tub-sonlar/",
+  "hreflangXDefault": "/uz/tub-sonlar/",
+  "ogTitle": "Tub sonlar jadvali: 1 dan 100 va 1000 gacha, mashqlar",
+  "ogDescription": "Tub sonlar jadvali: 1 dan 100 gacha 25 ta, 1000 gacha 168 ta, Eratosfen g‘alviri, bo‘linish belgilari, 15 mashq. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Tub sonlar",
+  "heroTitle": "Tub sonlar: ta’rif, Eratosfen g‘alviri va 1000 gacha ro‘yxat",
+  "heroSubtitle": "Jadvallar, qoidalar va mashqlar bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Tub son — 1 dan katta bo‘lib, faqat ikkita bo‘luvchisi bor natural son: 1 va o‘zi. Eng kichik tub sonlar: 2, 3, 5, 7, 11, 13. 1 dan 100 gacha 25 ta, 1 dan 1000 gacha 168 ta tub son bor. Bu sahifada 1 dan 100 va 1000 gacha jadval, Eratosfen g‘alviri qadamlari, bo‘linish belgilari, tub ko‘paytuvchilarga ajratishning 10 ta misoli va javobli 15 ta mashq berilgan. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi mashqlar tuzadi va javobingizni tekshiradi."
+    },
+    {
+      "type": "p",
+      "text": "Jadvallar, qoidalar va mashqlar har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "qisqa-qoida",
+      "text": "Qisqa qoida: tub va murakkab sonlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tub son: faqat 1 ga va o‘ziga bo‘linadi (2, 3, 5, 7, 11, 13, ...).",
+        "Murakkab son: ikkitadan ko‘p bo‘luvchisi bor (4, 6, 8, 9, 10, 12, ...).",
+        "1 soni tub ham, murakkab ham emas: uning bitta bo‘luvchisi bor.",
+        "2 — yagona juft tub son. Boshqa juft sonlar 2 ga bo‘linadi, shuning uchun murakkab.",
+        "Sonni tub yoki murakkabligini bilish uchun uni √n gacha bo‘lgan tub sonlarga bo‘lib ko‘rish yetarli.",
+        "Har bir murakkab son tub ko‘paytuvchilarga yagona usulda ajraladi: 60 = 2² · 3 · 5."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "jadval-1-100",
+      "text": "Tub sonlar 1 dan 100 gacha"
+    },
+    {
+      "type": "p",
+      "text": "1 dan 100 gacha 25 ta tub son bor:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Oraliq",
+        "Tub sonlar",
+        "Soni"
+      ],
+      "rows": [
+        [
+          "1–10",
+          "2, 3, 5, 7",
+          "4"
+        ],
+        [
+          "11–20",
+          "11, 13, 17, 19",
+          "4"
+        ],
+        [
+          "21–30",
+          "23, 29",
+          "2"
+        ],
+        [
+          "31–40",
+          "31, 37",
+          "2"
+        ],
+        [
+          "41–50",
+          "41, 43, 47",
+          "3"
+        ],
+        [
+          "51–60",
+          "53, 59",
+          "2"
+        ],
+        [
+          "61–70",
+          "61, 67",
+          "2"
+        ],
+        [
+          "71–80",
+          "71, 73, 79",
+          "3"
+        ],
+        [
+          "81–90",
+          "83, 89",
+          "2"
+        ],
+        [
+          "91–100",
+          "97",
+          "1"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "jadval-1000",
+      "text": "Tub sonlar jadvali: 1 dan 1000 gacha"
+    },
+    {
+      "type": "p",
+      "text": "1 dan 1000 gacha jami 168 ta tub son bor. Jadvalda ular yuzliklar bo‘yicha berilgan, oxirgi ustunda har bir oraliqdagi soni ko‘rsatilgan. Yig‘indi: 168."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Oraliq",
+        "Tub sonlar",
+        "Soni"
+      ],
+      "rows": [
+        [
+          "1–100",
+          "2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97",
+          "25"
+        ],
+        [
+          "101–200",
+          "101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199",
+          "21"
+        ],
+        [
+          "201–300",
+          "211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293",
+          "16"
+        ],
+        [
+          "301–400",
+          "307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397",
+          "16"
+        ],
+        [
+          "401–500",
+          "401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499",
+          "17"
+        ],
+        [
+          "501–600",
+          "503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599",
+          "14"
+        ],
+        [
+          "601–700",
+          "601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691",
+          "16"
+        ],
+        [
+          "701–800",
+          "701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797",
+          "14"
+        ],
+        [
+          "801–900",
+          "809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887",
+          "15"
+        ],
+        [
+          "901–1000",
+          "907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997",
+          "14"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "eratosfen",
+      "text": "Eratosfen g‘alviri: tub sonlarni topish"
+    },
+    {
+      "type": "p",
+      "text": "Eratosfen g‘alviri — qadimgi yunon olimi Eratosfen nomi bilan atalgan usul. U jadvaldan murakkab sonlarni ketma-ket o‘chirib, tub sonlarni qoldiradi. 1 dan 100 gacha qadamlari:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1 dan 100 gacha sonlarni yozing. 1 ni o‘chiring: u tub emas.",
+        "2 ni qoldiring, uning karralilarini o‘chiring (4, 6, 8, ..., 100): 49 ta son o‘chadi.",
+        "Keyingi o‘chirilmagan son — 3. Uni qoldirib, karralilarini o‘chiring (9, 15, 21, ... — 6, 12, 18 kabilari allaqachon o‘chgan): yana 16 ta son o‘chadi.",
+        "Keyingisi — 5. Karralilari 25, 35, 55, 65, 85, 95: 6 ta yangi son o‘chadi.",
+        "Keyingisi — 7. Yangi o‘chadiganlar: 49, 77, 91 — jami 3 ta son.",
+        "Keyingi son 11, lekin 11² = 121 > 100: endi o‘chiriladigan murakkab son qolmadi. To‘xtang.",
+        "Qolgan sonlar — 25 ta tub son: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Nega 7 da to‘xtaymiz? Murakkab sonning kamida bitta bo‘luvchisi uning kvadrat ildizidan oshmaydi. 100 gacha murakkab son eng kichik tub bo‘luvchisi bo‘yicha 2, 3, 5 yoki 7 ga bo‘linadi. 1000 gacha jadval uchun 31 gacha tub sonlar yetadi, chunki 31² = 961 < 1000 < 37² = 1369."
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish",
+      "text": "Bitta sonni tub ekanini tekshirish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "n ning kvadrat ildizini taxminan toping: 97 uchun 9 dan sal ko‘p (9² = 81, 10² = 100).",
+        "n ni shu songacha bo‘lgan tub sonlarga ketma-ket bo‘lib ko‘ring: 2, 3, 5, 7.",
+        "Birortasiga qoldiqsiz bo‘linsa — murakkab. Hech biriga bo‘linmasa — tub.",
+        "Misol: 91 ni 7 ga bo‘lamiz: 91 = 7 · 13, murakkab. 97 ni 2, 3, 5, 7 ga bo‘lib bo‘lmaydi, demak 97 tub. 221 = 13 · 17 — murakkab (221 ni 11 gacha tub sonlarga bo‘lib ko‘rsangiz, 13 ga bo‘linishini ko‘rasiz). 997 — tub: 31 gacha 11 ta tub songa bo‘linmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bolinish-belgilari",
+      "text": "Bo‘linish belgilari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bo‘luvchi",
+        "Belgisi",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "2",
+          "Oxirgi raqam juft (0, 2, 4, 6, 8)",
+          "358 — bo‘linadi"
+        ],
+        [
+          "3",
+          "Raqamlar yig‘indisi 3 ga bo‘linadi",
+          "729: 7 + 2 + 9 = 18 — bo‘linadi"
+        ],
+        [
+          "4",
+          "Oxirgi ikki raqamdan tuzilgan son 4 ga bo‘linadi",
+          "1352: 52 = 4 · 13 — bo‘linadi"
+        ],
+        [
+          "5",
+          "Oxirgi raqam 0 yoki 5",
+          "745 — bo‘linadi"
+        ],
+        [
+          "6",
+          "Bir vaqtda 2 ga ham, 3 ga ham bo‘linadi",
+          "114: juft, 1 + 1 + 4 = 6 — bo‘linadi"
+        ],
+        [
+          "8",
+          "Oxirgi uch raqamdan tuzilgan son 8 ga bo‘linadi",
+          "5120: 120 = 8 · 15 — bo‘linadi"
+        ],
+        [
+          "9",
+          "Raqamlar yig‘indisi 9 ga bo‘linadi",
+          "459: 4 + 5 + 9 = 18 — bo‘linadi"
+        ],
+        [
+          "10",
+          "Oxirgi raqam 0",
+          "370 — bo‘linadi"
+        ],
+        [
+          "11",
+          "Toq va juft o‘rindagi raqamlar yig‘indilarining farqi 0 yoki 11 ga bo‘linadi",
+          "286: 2 + 6 = 8 va 8; farqi 0 — bo‘linadi"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tub-kopaytuvchilar",
+      "text": "Tub ko‘paytuvchilarga ajratish: 10 ta misol"
+    },
+    {
+      "type": "p",
+      "text": "Sonni tub ko‘paytuvchilarga ajratish uchun uni eng kichik tub songa ketma-ket bo‘lamiz, 1 chiqquncha davom ettiramiz. Bir xil ko‘paytuvchilarni daraja bilan yozamiz."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1) 60 = 2² · 3 · 5.  Qadamlar: 60 ÷ 2 = 30; 30 ÷ 2 = 15; 15 ÷ 3 = 5; 5 ÷ 5 = 1.",
+        "2) 84 = 2² · 3 · 7.  Qadamlar: 84 ÷ 2 = 42; 42 ÷ 2 = 21; 21 ÷ 3 = 7; 7 ÷ 7 = 1.",
+        "3) 126 = 2 · 3² · 7.  Qadamlar: 126 ÷ 2 = 63; 63 ÷ 3 = 21; 21 ÷ 3 = 7; 7 ÷ 7 = 1.",
+        "4) 150 = 2 · 3 · 5².  Qadamlar: 150 ÷ 2 = 75; 75 ÷ 3 = 25; 25 ÷ 5 = 5; 5 ÷ 5 = 1.",
+        "5) 210 = 2 · 3 · 5 · 7.  Qadamlar: 210 ÷ 2 = 105; 105 ÷ 3 = 35; 35 ÷ 5 = 7; 7 ÷ 7 = 1.",
+        "6) 360 = 2³ · 3² · 5.  Qadamlar: 360 ÷ 2 = 180; 180 ÷ 2 = 90; 90 ÷ 2 = 45; 45 ÷ 3 = 15; 15 ÷ 3 = 5; 5 ÷ 5 = 1.",
+        "7) 462 = 2 · 3 · 7 · 11.  Qadamlar: 462 ÷ 2 = 231; 231 ÷ 3 = 77; 77 ÷ 7 = 11; 11 ÷ 11 = 1.",
+        "8) 693 = 3² · 7 · 11.  Qadamlar: 693 ÷ 3 = 231; 231 ÷ 3 = 77; 77 ÷ 7 = 11; 11 ÷ 11 = 1.",
+        "9) 1001 = 7 · 11 · 13.  Qadamlar: 1001 ÷ 7 = 143; 143 ÷ 11 = 13; 13 ÷ 13 = 1.",
+        "10) 1260 = 2² · 3² · 5 · 7.  Qadamlar: 1260 ÷ 2 = 630; 630 ÷ 2 = 315; 315 ÷ 3 = 105; 105 ÷ 3 = 35; 35 ÷ 5 = 7; 7 ÷ 7 = 1."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Natijani tekshirish uchun ko‘paytuvchilarni ko‘paytirib ko‘ring: 60: 2 · 2 · 3 · 5 = 60. Tub ko‘paytuvchilarga ajratish kasrlarni qisqartirish hamda umumiy bo‘luvchi va karrali topish uchun kerak."
+    },
+    {
+      "type": "h2",
+      "id": "qiziqarli",
+      "text": "Tub sonlar haqida yana"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tub sonlar cheksiz ko‘p: buni qadimgi yunon matematigi Evklid isbotlagan.",
+        "Egizak tub sonlar — farqi 2 ga teng tub juftliklar. 1 dan 100 gacha ularning 8 tasi bor: (3; 5), (5; 7), (11; 13), (17; 19), (29; 31), (41; 43), (59; 61), (71; 73).",
+        "3 dan katta har bir tub son 6k − 1 yoki 6k + 1 ko‘rinishda bo‘ladi (masalan, 5 = 6 − 1, 7 = 6 + 1, 11 = 12 − 1). Lekin teskarisi to‘g‘ri emas: 25 = 24 + 1 tub emas.",
+        "Hamma natural sonlar tub ko‘paytuvchilarga yagona usulda ajraladi (tartibni hisobga olmaganda)."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1 ni tub son deb hisoblash. Tub sonning ikkita bo‘luvchisi bor, 1 ning esa bitta.",
+        "Hamma toq sonlarni tub deb o‘ylash: 9, 15, 21, 25, 27, 33, 35, 49, 91 toq, lekin murakkab.",
+        "2 ni tub sonlar ro‘yxatiga qo‘shishni unutish yoki uni «juft, demak tub emas» deb o‘chirib tashlash.",
+        "Tub ko‘paytuvchilarga ajratishda tub bo‘lmagan sonda to‘xtash: 60 = 6 · 10 hali tugallanmagan, 6 va 10 ni ham ajrating.",
+        "Bo‘linishni faqat oxirgi raqamga qarab aniqlash. 3 va 9 uchun raqamlar yig‘indisini qarang.",
+        "Sonni tub deb aytishdan oldin √n gacha barcha tub sonlarni tekshirmaslik."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mashqlar",
+      "text": "15 ta mashq"
+    },
+    {
+      "type": "p",
+      "text": "Avval o‘zingiz bajaring, keyin pastdagi javoblar bilan solishtiring. Kerak bo‘lsa, yuqoridagi jadval va bo‘linish belgilaridan foydalaning."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1) 1 dan 30 gacha barcha tub sonlarni yozing.",
+        "2) 51 tub sonmi?",
+        "3) 87 tub sonmi?",
+        "4) 97 tub sonmi? √97 dan kichik tub bo‘luvchilarni tekshiring.",
+        "5) 119 ni tub ko‘paytuvchilarga ajrating.",
+        "6) 143 ni tub ko‘paytuvchilarga ajrating.",
+        "7) 72 ni tub ko‘paytuvchilarga ajrating.",
+        "8) 180 ni tub ko‘paytuvchilarga ajrating.",
+        "9) 495 ni tub ko‘paytuvchilarga ajrating.",
+        "10) 1001 ni tub ko‘paytuvchilarga ajrating.",
+        "11) 1 dan 100 gacha nechta egizak tub juftlik bor? Egizak tublar — farqi 2 ga teng tub sonlar, masalan 3 va 5.",
+        "12) 200 dan keyingi birinchi tub sonni toping.",
+        "13) 30 ni ikkita tub sonning yig‘indisi shaklida yozing (hamma usulni toping).",
+        "14) 301 tub sonmi? 7 ga bo‘lib ko‘ring.",
+        "15) 400 dan 500 gacha nechta tub son bor?"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "javoblar",
+      "text": "Mashqlar javoblari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1) 2, 3, 5, 7, 11, 13, 17, 19, 23, 29.",
+        "2) Yo‘q: 51 = 3 · 17 (5 + 1 = 6, 3 ga bo‘linadi).",
+        "3) Yo‘q: 87 = 3 · 29 (8 + 7 = 15, 3 ga bo‘linadi).",
+        "4) Ha. 97 ni 2, 3, 5, 7 ga bo‘lib ko‘ring (10² = 100 > 97): hech qaysisiga bo‘linmaydi.",
+        "5) 119 = 7 · 17.",
+        "6) 143 = 11 · 13.",
+        "7) 72 = 2³ · 3².",
+        "8) 180 = 2² · 3² · 5.",
+        "9) 495 = 3² · 5 · 11.",
+        "10) 1001 = 7 · 11 · 13.",
+        "11) 8 ta: (3; 5), (5; 7), (11; 13), (17; 19), (29; 31), (41; 43), (59; 61), (71; 73).",
+        "12) 211. (201 = 3 · 67, 203 = 7 · 29, 205 = 5 · 41, 207 = 9 · 23, 209 = 11 · 19, 211 — tub.)",
+        "13) 7 + 23, 11 + 19, 13 + 17.",
+        "14) Yo‘q: 301 = 7 · 43.",
+        "15) 17 ta: 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Tub ko‘paytuvchilar umumiy bo‘luvchi va karrali topishda ishlatiladi: {gcd}. Sonlarni xayolda tez hisoblash uchun {mental} sahifasiga qarang, ko‘paytirish asosi uchun — {table}. Boshqa ma’lumotnoma jadval: {roman}. {tests}da boshqa fanlar bo‘yicha savollar bor. AI paket shartlari {tariffs} sahifasida. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "gcd",
+          "target": "/uz/ekub-ekuk/",
+          "anchor": "umumiy bo‘luvchi va karrali topish"
+        },
+        {
+          "token": "mental",
+          "target": "/uz/mental-arifmetika-misollar/",
+          "anchor": "og‘zaki hisoblash usullari"
+        },
+        {
+          "token": "table",
+          "target": "/uz/karra-jadvali/",
+          "anchor": "karra jadvali"
+        },
+        {
+          "token": "roman",
+          "target": "/uz/rim-raqamlari/",
+          "anchor": "rim raqamlari jadvali"
+        },
+        {
+          "token": "tests",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar katalogi"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "bizga Telegram’da"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "1 tub sonmi?",
+      "a": "Yo‘q. Tub sonning aynan ikkita bo‘luvchisi bo‘ladi: 1 va o‘zi. 1 ning esa bitta bo‘luvchisi bor, shuning uchun u tub ham, murakkab ham hisoblanmaydi."
+    },
+    {
+      "q": "Nima uchun 2 tub son, lekin juft?",
+      "a": "2 faqat 1 ga va o‘ziga bo‘linadi, shuning uchun tub. Qolgan juft sonlar 2 ga ham bo‘linadi: ularning kamida uchta bo‘luvchisi bor. Shu sababli 2 — yagona juft tub son."
+    },
+    {
+      "q": "1 dan 100 gacha nechta tub son bor?",
+      "a": "25 ta: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97."
+    },
+    {
+      "q": "1 dan 1000 gacha nechta tub son bor?",
+      "a": "168 ta. Eng kattasi — 997. Ularning to‘liq ro‘yxati yuqoridagi jadvalda yuzliklar bo‘yicha berilgan."
+    },
+    {
+      "q": "Eng katta tub son qaysi?",
+      "a": "Eng kattasi yo‘q: tub sonlar cheksiz ko‘p. Har qanday tub sonlar ro‘yxati uchun undan katta yana bitta tub son topiladi. Kompyuterlar bilan topilgan juda katta tub sonlar bor, lekin ular ro‘yxatni tugatmaydi."
+    },
+    {
+      "q": "Tub son va o‘zaro tub sonlar farqi nima?",
+      "a": "Tub son — bitta son haqida (faqat 1 va o‘ziga bo‘linadi). O‘zaro tub sonlar — ikkita sonning umumiy bo‘luvchisi faqat 1 bo‘ladi. Masalan, 8 va 15 tub emas, lekin o‘zaro tub: ularning EKUB qiymati 1."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Jadvallar, qoidalar va mashqlar bepul. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/ekub-ekuk/",
+      "anchor": "Umumiy bo‘luvchi va karrali topish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/mental-arifmetika-misollar/",
+      "anchor": "Og‘zaki hisoblash usullari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/karra-jadvali/",
+      "anchor": "Karra jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/rim-raqamlari/",
+      "anchor": "Rim raqamlari jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: tub sonlar",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Tub sonlar jadvali, Eratosfen g‘alviri, bo‘linish belgilari va javobli mashqlar, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: yangi mashq tuzadi va javobni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul jadvallar va mashqlar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Jadvallar, qoidalar va mashqlar bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/tub-sonlar/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

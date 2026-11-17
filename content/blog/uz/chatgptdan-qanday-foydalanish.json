@@ -1,0 +1,350 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "chatgptdan-qanday-foydalanish",
+  "url": "/uz/blog/chatgptdan-qanday-foydalanish/",
+  "title": "ChatGPT’dan foydalanish: 10 qadam va 15 ta tayyor so‘rov",
+  "description": "ChatGPT’dan foydalanish yo‘riqnomasi: savolni to‘g‘ri berish, kontekst va format so‘rash, javobni tekshirish, o‘qish va ish uchun 15 ta tayyor so‘rov.",
+  "h1": "ChatGPT bilan ishlash: savol berishdan javobni tekshirishgacha",
+  "topicCluster": "ai-xizmatlar",
+  "keywords": [
+    "chatgpt dan foydalanish",
+    "chatgpt qanday ishlatiladi",
+    "chatgpt bilan ishlash",
+    "chatgpt ga savol berish",
+    "chatgpt savol berish",
+    "chatgpt haqida malumot",
+    "chatgpt nima",
+    "chatgpt dan qanday foydalanish"
+  ],
+  "intro": "ChatGPT — OpenAI kompaniyasining suhbat shaklidagi AI yordamchisi: savolga javob beradi, matn yozadi, tarjima qiladi, murakkab mavzuni sodda qilib tushuntiradi. Undan foydalanish oson, lekin javobning sifati ko‘p jihatdan siz yozgan so‘rovga bog‘liq. Quyida 10 qadamdan iborat amaliy yo‘riqnoma, o‘qish va ish uchun 15 ta tayyor so‘rov, tipik xatolar va nimaga ishonmaslik kerakligi.",
+  "body": [
+    {
+      "type": "quote",
+      "text": "Qisqasi: vazifani aniq yozing, kerakli ma’lumotni bering, javob shaklini so‘rang, natijani tekshiring va suhbatni davom ettiring. ChatGPT qoralama beradi, yakuniy javobgarlik sizda qoladi."
+    },
+    {
+      "type": "h2",
+      "id": "nima",
+      "text": "ChatGPT nima va u nimaga yaraydi"
+    },
+    {
+      "type": "p",
+      "text": "ChatGPT matn bilan ishlaydigan til modeliga asoslangan. Siz savol yoki topshiriq yozasiz, u esa matn ko‘rinishida javob qaytaradi. O‘qishda u mavzuni tushuntirishi, reja va konspekt tuzishi, test savollari tayyorlashi mumkin. Ishda xat, qisqa bayon, jadval va qoralama hujjat yozishda yordam beradi."
+    },
+    {
+      "type": "p",
+      "text": "U qidiruv tizimi ham, ma’lumotnoma ham emas. Model matnni ehtimollik asosida tuzadi, shuning uchun ishonchli ko‘ringan javob ham xato bo‘lishi mumkin. OpenAI’ning o‘zi ham ChatGPT xato qilishi mumkinligini ogohlantiradi."
+    },
+    {
+      "type": "linkp",
+      "text": "Hisob ochish va tizimga kirish bu maqolaning mavzusi emas, ular alohida yozilgan: {login}. Qaysi model ishlayotganini bilmoqchi bo‘lsangiz, {versiya} maqolasiga qarang.",
+      "links": [
+        {
+          "token": "login",
+          "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+          "anchor": "hisobga kirish tartibi"
+        },
+        {
+          "token": "versiya",
+          "target": "/uz/blog/chatgpt-5-nima/",
+          "anchor": "ChatGPT versiyalari haqidagi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "10-qadam",
+      "text": "ChatGPT’dan foydalanishning 10 qadami"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Maqsadni belgilang. «Fizika haqida yoz» emas, «8-sinf o‘quvchisiga Nyutonning birinchi qonunini tushuntir» deb yozing. Maqsad aniq bo‘lsa, javob ham aniq chiqadi.",
+        "Rol bering. «Sen o‘zbek tili o‘qituvchisisan» yoki «Sen tajribali HR mutaxassisisan» desangiz, model javob uslubini shunga moslaydi.",
+        "Kontekst bering. Kim uchun yozilyapti, qaysi sinf yoki lavozim, qayerda ishlatiladi, nimani bilasiz va nimani bilmaysiz — hammasini bir-ikki jumlada yozing.",
+        "Kerakli ma’lumotni o‘zingiz qo‘ying. Matnni tahrir qilish yoki qisqartirish kerak bo‘lsa, matnning o‘zini so‘rovga joylang. Model uni «eslab» qolmaydi, ko‘rib turishi kerak.",
+        "Javob shaklini so‘rang: «5 bandli ro‘yxat», «ikki ustunli jadval», «150 so‘zdan oshmasin», «sodda tilda».",
+        "Cheklov qo‘ying. Nimani yozmaslik kerakligini ham ayting: «aniq sana va raqam to‘qima», «murakkab atamalar ishlatma».",
+        "Birinchi javobni qoralama deb biling. Uni o‘qing, yoqmagan joyini ko‘rsating va tuzatishni so‘rang.",
+        "Suhbatni davom ettiring: «qisqaroq qil», «ikkinchi bandga misol qo‘sh», «rasmiyroq yoz». Har gal yangi so‘rov yozish shart emas.",
+        "Faktlarni tekshiring. Sana, raqam, ism, formula, iqtibos va qonun moddalarini darslik, rasmiy sayt yoki ishonchli manbadan solishtiring.",
+        "Natijani o‘z so‘zlaringiz bilan qayta yozing. AI matnini o‘z ishingiz deb topshirmang: o‘qituvchi ham, ish beruvchi ham buni sezadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yaxshi-sorov",
+      "text": "Yaxshi so‘rov qanday tuziladi"
+    },
+    {
+      "type": "p",
+      "text": "Kuchsiz so‘rov: «Ekologiya haqida yozib ber». Kuchli so‘rov: «Men 10-sinf o‘quvchisiman. Ekologiya fanidan 5 daqiqalik og‘zaki javob uchun reja tuz: 4 band, har bir bandga bitta jumlalik izoh. O‘zbekistondan bitta misol qo‘sh, lekin raqam to‘qima.»"
+    },
+    {
+      "type": "p",
+      "text": "Kuchli so‘rovda to‘rt narsa bor: kim so‘rayapti, nima kerak, qanday shaklda va qanday cheklov bilan. Shu tartibni eslab qolsangiz, deyarli har qanday vazifani yoza olasiz."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "So‘rovning qismi",
+        "Nima yoziladi",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "Kim",
+          "Rol yoki sizning holatingiz",
+          "Men 9-sinf o‘quvchisiman"
+        ],
+        [
+          "Nima",
+          "Aniq vazifa",
+          "Mavzuni tushuntir va 3 ta savol ber"
+        ],
+        [
+          "Shakl",
+          "Ro‘yxat, jadval, hajm",
+          "Qisqa ro‘yxat, 100 so‘zgacha"
+        ],
+        [
+          "Cheklov",
+          "Nimadan qochish kerak",
+          "Fakt va raqamni to‘qima"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "15-sorov",
+      "text": "O‘qish va ish uchun 15 ta tayyor so‘rov"
+    },
+    {
+      "type": "p",
+      "text": "Kvadrat qavs ichidagi so‘zlarni o‘zingiznikiga almashtiring. Shaxsiy ma’lumotni (pasport, karta, parol) so‘rovga yozmang."
+    },
+    {
+      "type": "h3",
+      "id": "oqish-uchun",
+      "text": "O‘qish uchun 8 ta so‘rov"
+    },
+    {
+      "type": "list",
+      "items": [
+        "[Mavzu]ni 8-sinf o‘quvchisiga tushuntirgandek sodda tilda tushuntir. Oxirida meni uchta savol bilan tekshir.",
+        "Quyidagi matndan 6 banddan iborat konspekt tuz va muhim atamalarni qalin harf bilan ajrat: [matn].",
+        "«[Mavzu]» bo‘yicha esse uchun reja tuz: kirish, uchta asosiy fikr, xulosa. Har bir bandga bir jumlalik izoh yoz. Tayyor esse yozma.",
+        "Shu tushunchani ikki xil usulda tushuntir: avval rasmiy tilda, keyin kundalik hayotdan misol bilan: [tushuncha].",
+        "[Mavzu] bo‘yicha 10 ta test savoli tuz. Javoblarini oxirida alohida ber, men avval o‘zim yechib ko‘raman.",
+        "Men shu masalani yechdim: [yechim]. Xatoni toping va qaysi qadamda xato qilganimni tushuntiring, lekin to‘liq javobni darrov aytmang.",
+        "Ingliz tilidagi shu jumlalarni o‘zbekchaga tarjima qil va har birida grammatik qoidani qisqa izohla: [jumlalar].",
+        "Imtihonga 5 kun qoldi. [Fan] bo‘yicha [mavzular] ro‘yxati asosida kunlik o‘qish jadvali tuz: kuniga 2 soatdan."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "ish-uchun",
+      "text": "Ish uchun 7 ta so‘rov"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijozga xushmuomala xat yozing: buyurtma ikki kunga kechikadi, uzr so‘raymiz. Aniq sana va chegirma va’da qilma.",
+        "Mana yig‘ilish qaydlari: [qaydlar]. Ulardan qarorlar, mas’ullar va muddatlar jadvalini tuz.",
+        "Shu xatni qisqaroq va rasmiyroq qilib qayta yoz, mazmunini o‘zgartirma: [matn].",
+        "[Lavozim] uchun rezyumeda ish tajribasi bandini aniqroq yoz. Yangi fakt qo‘shma, faqat men bergan ma’lumotdan foydalan: [ma’lumot].",
+        "Excel’da B ustunidagi summalarni A ustunidagi oylar bo‘yicha jamlaydigan formula yoz va uni qadamma-qadam tushuntir.",
+        "[Mahsulot] uchun Instagram posti matnini 3 variantda yoz: qisqa, do‘stona, ishonarli. Narx va chegirma yozma.",
+        "Mana uzun hisobot: [matn]. Uni boshliqqa 5 ta jumlalik xulosa qilib ber va ochiq qolgan savollarni alohida ko‘rsat."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Yana ko‘proq tayyor matnlar kerak bo‘lsa, {prompts}ni oching: u yerda turli vaziyatlar uchun so‘rovlar to‘plangan.",
+      "links": [
+        {
+          "token": "prompts",
+          "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+          "anchor": "tayyor promptlar kutubxonasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Eng ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Juda qisqa so‘rov. «Reja tuz» deb yozsangiz, model nimaga reja kerakligini taxmin qiladi va ko‘pincha adashadi.",
+        "Hammasini bir so‘rovga to‘plash. Katta vazifani qadamlarga bo‘ling: avval reja, keyin har bir bo‘lim.",
+        "Javobni tekshirmasdan ko‘chirish. Ayniqsa sana, ism, raqam va iqtiboslar xato bo‘lishi mumkin.",
+        "Maxfiy ma’lumot yozish. Parol, karta raqami, pasport ma’lumoti, tibbiy hujjat va ish sirlarini so‘rovga qo‘shmang.",
+        "Xatoga qarshi chiqmaslik. Javob noto‘g‘ri tuyulsa, so‘rang: «Bu fikrning manbasi qayerda? Nimaga shunday deb o‘ylaysan?»",
+        "Uzoq suhbatda eski mavzuni davom ettirish. Mavzu o‘zgarsa, yangi suhbat oching: shunda eski kontekst javobga xalaqit bermaydi.",
+        "Tayyor ishni o‘z nomingizdan topshirish. Maktab, universitet va ish joyida bunday ish qabul qilinmasligi mumkin."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ishonmaslik",
+      "text": "Nimaga ishonib bo‘lmaydi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Aniq sana, statistika, narx va manzillarga: model ularni «to‘qib» qo‘yishi mumkin.",
+        "Manba va iqtiboslarga: mavjud bo‘lmagan kitob yoki maqolani ham keltirishi mumkin. Havolani o‘zingiz ochib tekshiring.",
+        "Qonun, tibbiyot va moliya bo‘yicha maslahatga: bunday masalada faqat mutaxassis va rasmiy hujjat hal qiluvchi.",
+        "Imtihon va nazorat ishining javobiga: bunday topshiriqlarni o‘zingiz bajarishingiz kerak.",
+        "Yangi voqealarga: model so‘nggi yangiliklarni bilmasligi yoki eskirgan ma’lumot berishi mumkin."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "muqobil",
+      "text": "Mustaqil AI chatimiz haqida"
+    },
+    {
+      "type": "linkp",
+      "text": "GPTBot.uz — mustaqil AI chat: ChatGPT emas va OpenAI bilan bog‘liq emas. U o‘zbek va rus tillarida matn bilan ishlaydi: tushuntirish, reja, tarjima, qoralama. Yuqoridagi so‘rovlar va qoidalar u yerda ham o‘z kuchida. Butun sayt bo‘yicha ro‘yxatsiz 3 ta bepul sinov javobi bor, ular yangilanmaydi; keyin AI paket kerak — shartlari {tarif} sahifasida. Chatning o‘zida qanday ishlash tartibi {guide} qo‘llanmasida yozilgan.",
+      "links": [
+        {
+          "token": "tarif",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "tariflar"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "GPTBot.uz chatidan foydalanish"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Savolni GPTBot.uz AI chatiga berish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    },
+    {
+      "type": "p",
+      "text": "Ma’lumotlar 2026-yil noyabr holatiga ko‘ra yozilgan. ChatGPT imkoniyatlari tez o‘zgaradi, shuning uchun joriy shartlarni OpenAI’ning rasmiy sahifasida tekshiring."
+    }
+  ],
+  "faq": [
+    {
+      "q": "ChatGPT’dan qanday foydalaniladi?",
+      "a": "Hisobingizga kirib, yozuv maydoniga savol yoki topshiriq yozasiz va yuborasiz. Yaxshi natija uchun maqsadni, kontekstni va javob shaklini aniq yozing, keyin javobni tekshirib, kerak bo‘lsa suhbatni davom ettiring."
+    },
+    {
+      "q": "ChatGPT’ga savolni qanday berish kerak?",
+      "a": "Uch narsani yozing: kim uchun va nima maqsadda, aniq vazifa nima, javob qanday shaklda bo‘lsin. Masalan: «9-sinf o‘quvchisiga fotosintezni tushuntir, 5 bandli ro‘yxat ko‘rinishida, 120 so‘zgacha»."
+    },
+    {
+      "q": "Savolni o‘zbekcha yozsam, ChatGPT tushunadimi?",
+      "a": "Ha, o‘zbekcha so‘rovni tushunadi va o‘zbekcha javob beradi, lekin ingliz tiliga nisbatan xato ko‘proq bo‘lishi mumkin. Javobni o‘qib chiqing, uslubni tuzating, atama va faktlarni tekshiring."
+    },
+    {
+      "q": "ChatGPT javobiga to‘liq ishonsa bo‘ladimi?",
+      "a": "Yo‘q. Model xato qilishi va mavjud bo‘lmagan fakt yoki manbani to‘qishi mumkin. Sana, raqam, iqtibos va qonunlarni darslik yoki rasmiy sayt bilan solishtiring."
+    },
+    {
+      "q": "ChatGPT bilan uy vazifasini bajarsa bo‘ladimi?",
+      "a": "Tushunish uchun ishlating: mavzuni tushuntirtiring, rejani tuzdiring, o‘z yechimingizni tekshirtiring. Tayyor javobni ko‘chirib topshirish o‘rganishga yordam bermaydi va o‘qituvchi tomonidan qabul qilinmasligi mumkin."
+    },
+    {
+      "q": "ChatGPT’ga shaxsiy ma’lumot yozish xavfsizmi?",
+      "a": "Parol, karta raqami, pasport va tibbiy ma’lumotlarni yozmang. Maxfiy ish hujjatini ham joylamang. Ma’lumotlar qanday saqlanishini OpenAI’ning maxfiylik sozlamalarida tekshiring."
+    },
+    {
+      "q": "ChatGPT bepulmi?",
+      "a": "OpenAI bepul rejani taklif qiladi, lekin uning imkoniyatlari va limitlari o‘zgarib turadi. 2026-yil noyabr holatiga ko‘ra qaysi model bepul ekani «ChatGPT versiyalari» maqolasida yozilgan; narx va shartlarni OpenAI’ning rasmiy sahifasida tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "Savolni GPTBot.uz AI chatiga berish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-xizmatlar/",
+      "anchor": "AI xizmatlar: qo‘llanmalar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+      "anchor": "Hisobga kirish tartibi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/chatgpt-uzbek-tilida-promptlar/",
+      "anchor": "Tayyor promptlar kutubxonasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/gpt-chat-qollanma/",
+      "anchor": "GPTBot.uz chatidan foydalanish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/chatgpt-5-nima/",
+      "anchor": "GPT-4, GPT-4o va GPT-5: versiyalar farqi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/chatgpt-talabalar-uchun/",
+      "anchor": "Talabalar uchun AI yordamchi: o‘qish ssenariylari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "ChatGPT’dan foydalanish: 10 qadam va 15 ta tayyor so‘rov",
+  "ogDescription": "ChatGPT’dan foydalanish yo‘riqnomasi: savolni to‘g‘ri berish, kontekst va format so‘rash, javobni tekshirish, o‘qish va ish uchun 15 ta tayyor so‘rov.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/chatgptdan-qanday-foydalanish/",
+  "hreflangUz": "/uz/blog/chatgptdan-qanday-foydalanish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "ChatGPT’dan o‘qish va ishda foydalanmoqchi bo‘lgan o‘quvchilar, talabalar va xodimlar"
+  },
+  "breadcrumbLabel": "ChatGPT’dan foydalanish",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI — ChatGPT overview",
+      "url": "https://openai.com/chatgpt/overview/",
+      "note": "ChatGPT’ning rasmiy tavsifi: o‘rganish, g‘oya izlash, matn yozish va ma’lumotni tahlil qilishga yordam. Sahifa avtomatik so‘rovlarga yopiq; tavsif OpenAI saytidan olingan qidiruv natijasi orqali 2026-11-17 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help — ChatGPT Free Tier FAQ",
+      "url": "https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq",
+      "note": "Bepul reja mavjudligi; imkoniyatlar va limitlar o‘zgarib turishi. Narx keltirilmagan. 2026-11-17 kuni tekshirildi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

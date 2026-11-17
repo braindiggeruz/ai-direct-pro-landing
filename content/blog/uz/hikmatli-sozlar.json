@@ -1,0 +1,442 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "hikmatli-sozlar",
+  "url": "/uz/blog/hikmatli-sozlar/",
+  "title": "Ma’noli gaplar va hikmatli so‘zlar: 100 ta qisqa matn",
+  "description": "Hayot, vaqt, do‘stlik, ota-ona, ilm va sabr haqida 100 ta hikmatli so‘z: izohi bilan 40 ta xalq maqoli va status uchun 60 ta qisqa ma’noli gap.",
+  "h1": "Hikmatli so‘zlar: hayot, vaqt, do‘stlik va ilm haqida ma’noli gaplar",
+  "topicCluster": "matn-yozish",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "manoli gaplar",
+    "ma’noli gaplar",
+    "hikmatli sozlar",
+    "hikmatli so‘zlar",
+    "manoli sozlar",
+    "hayot haqida manoli gaplar",
+    "hikmatli so‘zlar to‘plami",
+    "hikmatlar",
+    "statuslar manoli gaplar"
+  ],
+  "intro": "Ba’zan bitta qisqa gap uzoq nasihatdan ko‘ra ko‘proq ta’sir qiladi. Bu sahifada ikki xil hikmatli so‘z jamlangan: avlodlar sinovidan o‘tgan xalq maqollari hamda status, tabrik yoki insho uchun yozilgan qisqa ma’noli gaplar.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: sahifada 100 ta matn bor — ma’nosi bir satrda izohlangan 40 ta o‘zbek xalq maqoli va olti mavzu bo‘yicha 60 ta qisqa ma’noli gap: hayot, vaqt, do‘stlik, ota-ona, ilm va sabr haqida. Maqollar — xalq og‘zaki ijodi, ularning muallifi yo‘q. Qolgan 60 ta gap shu sahifa uchun AI yordamida yozilgan va tahrir qilingan: ular hech bir shoir, olim yoki mashhur shaxsning iqtibosi emas, shuning uchun ostiga birovning ismini yozmang."
+    },
+    {
+      "type": "linkp",
+      "text": "O‘z fikringizni shunday ixcham aytmoqchi bo‘lsangiz, qoralamangizni {chat}ga yozing: bu mustaqil AI chat, ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "farqi",
+      "text": "Maqol, hikmatli so‘z va ma’noli gap: farqi nimada"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Maqol — xalq yaratgan, muallifi noma’lum, shakli qotib qolgan qisqa hikmat: «Avval o‘yla, keyin so‘yla». Uni o‘zgartirib aytilmaydi.",
+        "Hikmatli so‘z (aforizm) — odatda aniq muallifi va manbasi bor chuqur ma’noli fikr. Uni keltirganda muallif bilan birga asar nomi ham ko‘rsatiladi.",
+        "Ma’noli gap — kundalik nutqdagi keng tushuncha: status, tabrik yoki post uchun yozilgan har qanday ixcham va ta’sirli fikr."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ilm-maqollari",
+      "text": "Ilm va hunar haqida xalq maqollari (8 ta)"
+    },
+    {
+      "type": "table",
+      "headers": ["Maqol", "Ma’nosi"],
+      "rows": [
+        ["Bilagi zo‘r birni yiqar, bilimi zo‘r mingni.", "Jismoniy kuch bir kishiga yetadi, bilim esa ko‘pchilikdan ustun qiladi."],
+        ["Bilim — aql chirog‘i.", "Bilim odamga to‘g‘ri yo‘lni ko‘rsatib turadi."],
+        ["Olim bo‘lsang, olam seniki.", "Bilimli odam uchun hamma eshik ochiq."],
+        ["Kitobsiz aql — qanotsiz qush.", "Kitob o‘qimagan odamning fikri yuksakka ko‘tarila olmaydi."],
+        ["Yoshlikda olingan bilim — toshga o‘yilgan naqsh.", "Yoshlikda o‘rganilgan narsa bir umr esda qoladi."],
+        ["Ustoz otangdek ulug‘.", "Bilim bergan insonni otadek hurmat qilish kerak."],
+        ["Hunar — hunardan unar.", "Bir hunarni egallagan odam ikkinchisini ham oson o‘rganadi."],
+        ["Hunarli kishi och qolmas.", "Qo‘lida hunari bor odam doim tirikchiligini topadi."]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mehnat-maqollari",
+      "text": "Mehnat va intilish haqida maqollar (8 ta)"
+    },
+    {
+      "type": "table",
+      "headers": ["Maqol", "Ma’nosi"],
+      "rows": [
+        ["Mehnatning tagi rohat.", "Bugun qilingan mehnat ertaga rohat keltiradi."],
+        ["Ish ishtaha ochar, dangasa ishdan qochar.", "Ishlagan sari ishga havas ortadi, dangasa esa bahona qidiradi."],
+        ["Intilganga tole yor.", "Harakat qilgan odamga omad ham kulib boqadi."],
+        ["Nima eksang, shuni o‘rasan.", "Har kim o‘z qilmishining natijasini ko‘radi."],
+        ["Bugungi ishni ertaga qo‘yma.", "Kechiktirilgan ish ko‘payib, og‘irlashadi."],
+        ["Qimirlagan qir oshar.", "Harakat qilgan odam har qanday to‘siqdan o‘tadi."],
+        ["Ko‘z qo‘rqoq, qo‘l botir.", "Ish ko‘zga qiyin ko‘rinadi, boshlasang — bitadi."],
+        ["Daryo suvini bahor toshirar, odam qadrini mehnat oshirar.", "Odamni el orasida mehnati ulug‘laydi."]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "vaqt-sabr-maqollari",
+      "text": "Vaqt va sabr haqida maqollar (6 ta)"
+    },
+    {
+      "type": "table",
+      "headers": ["Maqol", "Ma’nosi"],
+      "rows": [
+        ["Vaqting ketdi — baxting ketdi.", "Boy berilgan vaqt bilan birga imkoniyat ham qo‘ldan ketadi."],
+        ["Temirni qizig‘ida bos.", "Har ishni qulay payti o‘tmasdan qilish kerak."],
+        ["Sabr tagi — sariq oltin.", "Sabr qilgan odam oxiri yaxshi natijaga erishadi."],
+        ["Sabr qilsang, g‘o‘radan halvo bitar.", "Shoshilmagan odam nordon g‘o‘raning ham shirin bo‘lishini kutib oladi."],
+        ["Yetti o‘lchab, bir kes.", "Muhim qarordan oldin yaxshilab o‘ylab ko‘rish kerak."],
+        ["Toma-toma ko‘l bo‘lur.", "Oz-ozdan yig‘ilgan narsa vaqt o‘tib kattaga aylanadi."]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "dostlik-maqollari",
+      "text": "Do‘stlik va ahillik haqida maqollar (7 ta)"
+    },
+    {
+      "type": "table",
+      "headers": ["Maqol", "Ma’nosi"],
+      "rows": [
+        ["Do‘st achitib gapirar, dushman — kuldirib.", "Haqiqiy do‘st achchiq bo‘lsa ham rostini aytadi."],
+        ["Do‘st boshga kulfat tushganda sinaladi.", "Do‘stning kimligi qiyin kunda bilinadi."],
+        ["Do‘stsiz boshim — tuzsiz oshim.", "Do‘stsiz hayot tuzsiz ovqatdek bemaza."],
+        ["Hisobli do‘st ayrilmas.", "Oldi-berdida aniq bo‘lgan do‘stlar orasiga gina tushmaydi."],
+        ["Hovli olma, qo‘shni ol.", "Uy tanlaganda eng muhimi — yaxshi qo‘shni."],
+        ["Kuch — birlikda.", "Ahil bo‘lganlar har qanday ishni uddalaydi."],
+        ["Yolg‘iz otning changi chiqmas, changi chiqsa ham dong‘i chiqmas.", "Bir o‘zi qilgan ish ko‘pchilik bilan qilingan ishdek natija bermaydi."]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oila-vatan-maqollari",
+      "text": "Ota-ona, oila va Vatan haqida maqollar (6 ta)"
+    },
+    {
+      "type": "table",
+      "headers": ["Maqol", "Ma’nosi"],
+      "rows": [
+        ["Farzandiga otaning mehri ketmoncha bo‘lsa, onaning mehri osmoncha bor.", "Ona mehrining cheki yo‘q."],
+        ["Har qush uyasida ko‘rganini qiladi.", "Bola oilada ko‘rgan tarbiyasini hayotida takrorlaydi."],
+        ["Ona bilan bola — gul bilan lola.", "Ona va farzand bir-biriga yarashgan, ajralmas."],
+        ["Qari bilganni pari bilmas.", "Kattalarning hayotiy tajribasi bebaho."],
+        ["Bulbul chamanni sevar, odam — Vatanni.", "Har kimga o‘z yurti aziz."],
+        ["Ona yurting omon bo‘lsa, rangi ro‘ying somon bo‘lmas.", "Yurt tinch bo‘lsa, odam ham xotirjam va to‘q yashaydi."]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "soz-odob-maqollari",
+      "text": "So‘z va odob haqida maqollar (5 ta)"
+    },
+    {
+      "type": "table",
+      "headers": ["Maqol", "Ma’nosi"],
+      "rows": [
+        ["Avval o‘yla, keyin so‘yla.", "Gapirishdan oldin o‘ylab olish kerak."],
+        ["Aytilgan so‘z — otilgan o‘q.", "Og‘izdan chiqqan gapni qaytarib bo‘lmaydi."],
+        ["Kamtarga kamol, manmanga zavol.", "Kamtar odam yuksaladi, kibrli odam obro‘sini yo‘qotadi."],
+        ["Jahl kelsa, aql ketar.", "Jahl ustida qilingan ish pushaymonga olib keladi."],
+        ["Bir kun tuz ichgan joyingga qirq kun salom ber.", "Yaxshilik ko‘rgan joyingni va odamlarini unutma."]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Maqollar og‘izdan og‘izga o‘tgani uchun ularning bir nechta varianti uchraydi: masalan, «Sabr tagi — sariq oltin» va «Sabrning tagi — sariq oltin». Bu yerda keng tarqalgan shakli berilgan. Quyidagi 60 ta gap esa maqol emas: ular shu sahifa uchun yozilgan."
+    },
+    {
+      "type": "h2",
+      "id": "hayot",
+      "text": "Hayot haqida ma’noli gaplar (10 ta)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hayot — qoralamasi yo‘q daftar: har bir kun birdaniga oqqa ko‘chiriladi.",
+        "Baxtni uzoqdan izlagan odam uni ko‘pincha o‘z uyida unutib qoldirgan bo‘ladi.",
+        "Kichik narsaga quvona olgan odamni katta tashvish ham yenga olmaydi.",
+        "Har kuni bitta yaxshi ish qilsang, yil oxirida o‘zingni tanimay qolasan.",
+        "Odamning qadri egallagan lavozimida emas, qoldirgan izida.",
+        "Qoqilgan joyingni eslab qol, lekin o‘sha yerda qolib ketma.",
+        "Shikoyat yukni yengillatmaydi — uni harakat yengillatadi.",
+        "O‘zgalarning hayotini kuzatib yashagan odam o‘zinikini o‘tkazib yuboradi.",
+        "Oddiy kunlarning qadri ular o‘tib ketgach bilinadi.",
+        "Ko‘ngli tinch odamga kichkina hovli ham keng."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "vaqt",
+      "text": "Vaqt haqida ma’noli gaplar (10 ta)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Vaqtni sotib ham, qarzga olib ham bo‘lmaydi — uni faqat to‘g‘ri sarflash mumkin.",
+        "«Keyin qilaman» — eng ko‘p vaqt o‘g‘irlaydigan gap.",
+        "Bir soat erta boshlangan ish bir kun oldin bitadi.",
+        "Kechagi kunga achinish ham, ertangi kundan qo‘rqish ham bugunni olib qo‘yadi.",
+        "Soat hammaga bir xil yuradi, lekin har kim undan har xil foydalanadi.",
+        "Bo‘sh vaqt bo‘lmaydi — bo‘sh o‘tkazilgan vaqt bo‘ladi.",
+        "Yaqinlaringga vaqt ajratishni «bo‘shaganimda»ga qoldirma: vaqt o‘zi bo‘shamaydi.",
+        "Besh daqiqalik ishni bir haftaga cho‘zish — eng qimmat odat.",
+        "Yoshlik — tez sarflanadigan boylik: uni bilimga almashtirgan yutadi.",
+        "Rejasiz kun tez o‘tadi, lekin ortidan hech narsa qoldirmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "dostlik",
+      "text": "Do‘stlik haqida ma’noli gaplar (10 ta)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Do‘st — sen yo‘g‘ingda ham sen haqingda yaxshi gapiradigan odam.",
+        "Yutug‘ingga chin dildan quvonadigan odamni asra: bunday do‘st kam uchraydi.",
+        "Do‘stlikni sinash shart emas — qiyin kunning o‘zi uni ko‘rsatadi.",
+        "Ming tanishdan ko‘ra yarim tunda qo‘ng‘irog‘ingga javob beradigan bitta do‘st afzal.",
+        "Do‘stingning xatosini yuzma-yuz ayt, yutug‘ini esa ko‘pchilik oldida.",
+        "Do‘stlik — bir-biriga o‘xshash emas, bir-birini tushunish.",
+        "Yaxshi do‘st bilan o‘tgan bir soat yolg‘iz o‘tgan butun kundan mazmunliroq.",
+        "Do‘stingdan hisob so‘rama, lekin o‘zing ham qarzdor bo‘lib qolma.",
+        "Eski do‘stni asra: u seni hech kim tanimagan paytingdan beri biladi.",
+        "Do‘stlar davrasida kulgan kuning — bekor o‘tmagan kun."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ota-ona",
+      "text": "Ota-ona haqida ma’noli gaplar (10 ta)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ota-onaning duosi — yo‘lga chiqqan farzandning eng yengil va eng kerakli yuki.",
+        "Onangning qo‘ng‘irog‘iga «bandman» deyishdan oldin o‘ylab ko‘r: u bir umr sen uchun vaqt topgan.",
+        "Otaning jimgina qilgan mehnati — farzandiga aytilmagan «yaxshi ko‘raman».",
+        "Ota-onani xursand qilish uchun katta sovg‘a shart emas — bitta qo‘ng‘iroq ham yetadi.",
+        "Biz ulg‘aygan sari ota-onamiz qariydi — buni har kuni eslab yurish kerak.",
+        "Farzand uchun eng yaxshi tarbiya — ota-onaning o‘zi ko‘rsatgan o‘rnak.",
+        "Ona allasi — inson umrida eshitadigan birinchi she’r.",
+        "Otang bergan maslahatning qadrini o‘zing ota bo‘lganingda tushunasan.",
+        "Uyga tez-tez bor: ota-ona uchun eng katta bayram — eshikdan kirib kelgan farzand.",
+        "Ota-onaga aytilgan «rahmat» hech qachon kech ham, ortiqcha ham bo‘lmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ilm",
+      "text": "Ilm va kitob haqida ma’noli gaplar (10 ta)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bilim — bo‘lishgan sari ko‘payadigan boylik.",
+        "Kitob o‘qigan odam yolg‘iz qolmaydi: suhbatdoshi doim yonida.",
+        "Savol berishdan uyalgan odam bilmay qolishga rozi bo‘ladi.",
+        "Bugun o‘rgangan bitta so‘zing ertaga butun bir eshikni ochishi mumkin.",
+        "Diplom devorga osiladi, bilim esa odam bilan birga yuradi.",
+        "Bilmaganini tan olgan odam o‘rganishni boshlagan bo‘ladi.",
+        "Aqlli odam har kimdan o‘rganadi — hatto xato qilgan odamdan ham.",
+        "Ilm yo‘li uzun, lekin har qadami odamni kechagidan balandroq qiladi.",
+        "Kitobga sarflangan pul xarajat emas — o‘zingga qo‘yilgan sarmoya.",
+        "Ustozning bir og‘iz maqtovi shogirdga qanot beradi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sabr",
+      "text": "Sabr va bardosh haqida ma’noli gaplar (10 ta)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sabr — qo‘l qovushtirib kutish emas, kutayotganda ham ishni davom ettirish.",
+        "Daraxt bir kunda o‘smaydi, lekin har kuni o‘sadi.",
+        "Shoshilgan qaror tez qabul qilinadi, oqibati esa uzoq tuzatiladi.",
+        "Jahl ustida yozilgan xabarni ertalab bir o‘qib, keyin yubor.",
+        "Eng og‘ir kun ham yigirma to‘rt soatdan uzoq davom etmaydi.",
+        "Bugun kutishga kuching yetsa, ertaga tanlashga imkoning bo‘ladi.",
+        "Katta natija kichik, zerikarli takrorlardan yig‘iladi.",
+        "Og‘ir damda aytilmagan bitta qattiq so‘z yillik do‘stlikni saqlab qoladi.",
+        "Sabrsiz odam mevani xom uzadi-da, keyin uni nordon deb ayblaydi.",
+        "Har narsa o‘z vaqtida keladi — o‘sha vaqtgacha tayyor turish kerak."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qanday-ishlatish",
+      "text": "Hikmatli so‘zni qayerda va qanday ishlatish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Status yoki bio: bitta qisqa gap yetadi. Ikki-uch hikmatni ketma-ket yozsangiz, hech biri o‘qilmaydi.",
+        "Tabrik: tilakdan keyin bitta mos gap qo‘shing — masalan, ustozga tabrikda ilm haqidagi, do‘stga tabrikda do‘stlik haqidagi gapni.",
+        "Insho va esse: maqolni fikringizga dalil qilib keltiring va «xalq maqolida aytilganidek» deb yozing; undan keyin o‘z izohingiz bo‘lsin.",
+        "Nutq va tadbir: bitta maqol bilan boshlang yoki tugating — tinglovchi butun nutqdan aynan shuni eslab qoladi.",
+        "Muallifni to‘g‘ri ko‘rsating: maqol uchun — «xalq maqoli», shu sahifadagi qolgan gaplar uchun — hech kim."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Internetda ko‘p «hikmatlar» Alisher Navoiy, Albert Eynshteyn yoki boshqa mashhur shaxslarga asossiz nisbat beriladi. Qoida oddiy: asar nomi va sahifasini topa olmasangiz, gap ostiga muallif ismini yozmang. Navoiy hikmatlari kerak bo‘lsa, ularni asar nomi ko‘rsatilgan nashrdan oling: bu sahifada mualliflik iqtiboslari yo‘q."
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "O‘z fikringizni ixcham aytish: AI yordami"
+    },
+    {
+      "type": "p",
+      "text": "Yaxshi qisqa gap uch qadamda yoziladi: avval fikrni oddiy so‘zlar bilan to‘liq yozing, keyin ortiqcha so‘zlarni olib tashlang, oxirida qarama-qarshilik yoki o‘xshatish qo‘shing — «diplom devorga osiladi, bilim odam bilan yuradi». AI chatga shunday so‘rov yuborish mumkin: «Shu fikrimni 12 so‘zdan oshmaydigan bitta gapga keltir, 3 ta variant ber, mashhur odamlarning iqtibosini ishlatma: Men vaqtimni telefonga ko‘p sarflayman va bundan afsusdaman.»"
+    },
+    {
+      "type": "p",
+      "text": "Model ba’zan tayyor, mashhur iborani «yangi» deb berib yuborishi mumkin: gap sizga tanish tuyulsa, uni ishlatishdan oldin qidiruvda tekshiring. GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chatga boshqa odamlarning ismi, telefoni va oilaviy sirlarini yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Faqat maqollar kerak bo‘lsa, {maqollar}ga o‘ting. Ingliz tilidagi qisqa gaplar — {status} sahifasida, tabrik matnini tuzish tartibi — {tabrik}da, inshoda maqoldan foydalanish esa {insho}da tushuntirilgan.",
+      "links": [
+        {
+          "token": "maqollar",
+          "target": "/uz/blog/maqollar/",
+          "anchor": "mavzular bo‘yicha o‘zbek xalq maqollari to‘plami"
+        },
+        {
+          "token": "status",
+          "target": "/uz/blog/inglizcha-statuslar/",
+          "anchor": "inglizcha statuslar"
+        },
+        {
+          "token": "tabrik",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish qo‘llanmasi"
+        },
+        {
+          "token": "insho",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "insho yozish qo‘llanmasi"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Fikringizni AI bilan sayqallash",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Maqol bilan hikmatli so‘zning farqi nima?",
+      "a": "Maqolni xalq yaratgan: uning muallifi yo‘q, shakli esa asrlar davomida qotib qolgan. Hikmatli so‘z yoki aforizm odatda aniq muallifga va manbaga ega bo‘ladi. Kundalik nutqda ikkalasi ham, status uchun yozilgan qisqa fikrlar ham «ma’noli gap» deb ataladi."
+    },
+    {
+      "q": "Bu gaplarni statusga qo‘ysam, muallif sifatida kimni ko‘rsataman?",
+      "a": "Maqol bo‘lsa — «xalq maqoli» deb yozing yoki hech narsa yozmang. Qolgan 60 ta gap shu sahifa uchun yozilgan va hech kimning iqtibosi emas: ularni muallifsiz ishlating va mashhur shaxs nomini qo‘shmang."
+    },
+    {
+      "q": "Sahifada Alisher Navoiy hikmatlari bormi?",
+      "a": "Yo‘q. Bu yerda faqat xalq maqollari va muallifi ko‘rsatilmaydigan original gaplar bor. Navoiy hikmatlarini asar nomi ko‘rsatilgan nashrlardan o‘qigan ma’qul: internetda unga nisbat berilgan gaplarning hammasi ham asarlarida uchramaydi."
+    },
+    {
+      "q": "Nega ayrim maqollar boshqa joyda boshqacha yozilgan?",
+      "a": "Maqollar og‘zaki ijod bo‘lgani uchun hududga va davrga qarab so‘zlari biroz farq qiladi: ma’no saqlanadi, shakl o‘zgaradi. Bu sahifada keng tarqalgan variantlar berilgan. Insho yoki ilmiy ishda maqolni bosma to‘plamdagi shakli bilan solishtiring."
+    },
+    {
+      "q": "Insho yoki esseda bu gaplardan foydalansa bo‘ladimi?",
+      "a": "Maqollardan — ha: ularni «xalq maqoli» deb keltirish mumkin. Original gaplarni esa iqtibos sifatida emas, o‘z fikringizni ochish uchun turtki sifatida ishlating va o‘z so‘zlaringiz bilan yozing. Aniq talabni o‘qituvchingizdan so‘rang."
+    },
+    {
+      "q": "O‘zim ham shunday qisqa ma’noli gap yoza olamanmi?",
+      "a": "Ha. Bitta fikrni tanlang, uni oddiy so‘zlar bilan yozing, ortiqchasini qisqartiring va o‘xshatish yoki qarama-qarshilik qo‘shing. Variantlar kerak bo‘lsa, GPTBot.uz AI chatidan so‘rang: ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi."
+    }
+  ],
+  "cta": {
+    "label": "Fikringizni AI bilan sayqallash",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: fikrni ixcham ifodalash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/maqollar/",
+      "anchor": "O‘zbek xalq maqollari: mavzular bo‘yicha to‘plam",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/inglizcha-statuslar/",
+      "anchor": "Inglizcha statuslar tarjimasi bilan",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "anchor": "Insho yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Ma’noli gaplar va hikmatli so‘zlar: 100 ta qisqa matn",
+  "ogDescription": "Izohi bilan 40 ta xalq maqoli va hayot, vaqt, do‘stlik, ota-ona, ilm, sabr haqida 60 ta qisqa ma’noli gap: status, tabrik va insho uchun.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/hikmatli-sozlar/",
+  "hreflangUz": "/uz/blog/hikmatli-sozlar/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "People in Uzbekistan looking for short wise sayings and proverbs in Uzbek"
+  },
+  "breadcrumbLabel": "Hikmatli so‘zlar",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Vikiiqtibos — O‘zbek maqollari",
+      "url": "https://uz.wikiquote.org/wiki/O%CA%BBzbek_maqollari",
+      "note": "Sahifadagi 40 ta maqoldan 21 tasining yozilishi 2026-11-17 kuni shu ro‘yxat bilan solishtirildi. Qolgan maqollar og‘zaki nutqda keng tarqalgan shaklida berilgan. Maqollarning hududiy variantlari bo‘ladi: insho yoki ilmiy ish uchun bosma to‘plamdan tekshiring. 60 ta original gap bu manbadan olinmagan."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

@@ -1,0 +1,902 @@
+{
+  "checkedAt": "2026-11-17T02:04:26.189Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-16-seo-growth/reviewed-protected-pages.json",
+  "sitemapBefore": 370,
+  "sitemapAfter": 422,
+  "added": [
+    "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+    "/ru/blog/gamma-app-kak-sdelat-prezentaciyu/",
+    "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+    "/ru/blog/obektivka-obrazec/",
+    "/ru/summa-propisyu/",
+    "/uz/ai-xizmatlar/",
+    "/uz/blog/14-yanvar-tabriklari/",
+    "/uz/blog/8-mart-sherlari/",
+    "/uz/blog/8-mart-tabriklari/",
+    "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+    "/uz/blog/chatgpt-5-nima/",
+    "/uz/blog/chatgptdan-qanday-foydalanish/",
+    "/uz/blog/claude-ai-ozbekistonda/",
+    "/uz/blog/cv-nima/",
+    "/uz/blog/deepseek-ozbek-tilida/",
+    "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+    "/uz/blog/faxriy-yorliq-matni/",
+    "/uz/blog/gamma-app-slayd-tayyorlash/",
+    "/uz/blog/gemini-ai-ozbek-tilida/",
+    "/uz/blog/google-flow-veo-qollanma/",
+    "/uz/blog/hayit-tabriklari/",
+    "/uz/blog/higgsfield-ai-nima/",
+    "/uz/blog/hikmatli-sozlar/",
+    "/uz/blog/ingliz-tilida-dialoglar/",
+    "/uz/blog/inglizcha-statuslar/",
+    "/uz/blog/konstitutsiya-haqida-sherlar/",
+    "/uz/blog/logo-yasash/",
+    "/uz/blog/mantiqiy-savollar/",
+    "/uz/blog/maqollar/",
+    "/uz/blog/navroz-haqida-sherlar/",
+    "/uz/blog/notebooklm-qollanma/",
+    "/uz/blog/psixologik-tavsifnoma-namuna/",
+    "/uz/blog/sevgi-haqida-sherlar/",
+    "/uz/blog/slayd-uchun-fonlar/",
+    "/uz/blog/taqriz-namuna/",
+    "/uz/blog/tezis-namuna/",
+    "/uz/blog/topishmoqlar/",
+    "/uz/blog/yangi-yil-sherlari/",
+    "/uz/blog/zakovat-savollari/",
+    "/uz/ekub-ekuk/",
+    "/uz/kalendar-2027/",
+    "/uz/matn-tuzish/",
+    "/uz/mendeleyev-jadvali/",
+    "/uz/mental-arifmetika-misollar/",
+    "/uz/nik-yasash/",
+    "/uz/ona-tili-test/",
+    "/uz/qisqa-kopaytirish-formulalari/",
+    "/uz/rim-raqamlari/",
+    "/uz/sintaktik-tahlil/",
+    "/uz/taklifnoma-yasash/",
+    "/uz/tenglamalar-sistemasi/",
+    "/uz/tub-sonlar/"
+  ],
+  "notBuilt": [],
+  "coverage": [
+    {
+      "url": "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/gamma-app-kak-sdelat-prezentaciyu/",
+        "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/"
+      ]
+    },
+    {
+      "url": "/ru/blog/gamma-app-kak-sdelat-prezentaciyu/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/"
+      ]
+    },
+    {
+      "url": "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+        "/ru/blog/gamma-app-kak-sdelat-prezentaciyu/"
+      ]
+    },
+    {
+      "url": "/ru/blog/obektivka-obrazec/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/summa-propisyu/"
+      ]
+    },
+    {
+      "url": "/ru/summa-propisyu/",
+      "incoming": [
+        "/ru/kalkulyator/",
+        "/ru/blog/obektivka-obrazec/"
+      ]
+    },
+    {
+      "url": "/uz/ai-xizmatlar/",
+      "incoming": [
+        "/uz/",
+        "/uz/suniy-intellekt/",
+        "/uz/blog/chatgpt-5-nima/",
+        "/uz/blog/chatgptdan-qanday-foydalanish/",
+        "/uz/blog/claude-ai-ozbekistonda/",
+        "/uz/blog/deepseek-ozbek-tilida/",
+        "/uz/blog/gemini-ai-ozbek-tilida/",
+        "/uz/blog/google-flow-veo-qollanma/",
+        "/uz/blog/higgsfield-ai-nima/",
+        "/uz/blog/notebooklm-qollanma/"
+      ]
+    },
+    {
+      "url": "/uz/blog/14-yanvar-tabriklari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/konstitutsiya-haqida-sherlar/",
+        "/uz/blog/yangi-yil-sherlari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/8-mart-sherlari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/8-mart-tabriklari/",
+        "/uz/blog/navroz-haqida-sherlar/",
+        "/uz/blog/sevgi-haqida-sherlar/"
+      ]
+    },
+    {
+      "url": "/uz/blog/8-mart-tabriklari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/kalendar-2027/",
+        "/uz/blog/8-mart-sherlari/",
+        "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/hayit-tabriklari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/sevgi-haqida-sherlar/",
+        "/uz/blog/tugilgan-kun-tabriklari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/chatgpt-5-nima/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/chatgptdan-qanday-foydalanish/"
+      ]
+    },
+    {
+      "url": "/uz/blog/chatgptdan-qanday-foydalanish/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/suniy-intellekt/",
+        "/uz/blog/chatgpt-5-nima/",
+        "/uz/blog/deepseek-ozbek-tilida/"
+      ]
+    },
+    {
+      "url": "/uz/blog/claude-ai-ozbekistonda/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/deepseek-ozbek-tilida/",
+        "/uz/blog/gemini-ai-ozbek-tilida/"
+      ]
+    },
+    {
+      "url": "/uz/blog/cv-nima/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/hujjat-namunalari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/deepseek-ozbek-tilida/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/claude-ai-ozbekistonda/",
+        "/uz/blog/gemini-ai-ozbek-tilida/"
+      ]
+    },
+    {
+      "url": "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/sevgi-haqida-sherlar/",
+        "/uz/blog/tugilgan-kun-tabriklari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/faxriy-yorliq-matni/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/hujjat-namunalari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/gamma-app-slayd-tayyorlash/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/slayd-tayyorlash/",
+        "/uz/blog/slayd-uchun-fonlar/"
+      ]
+    },
+    {
+      "url": "/uz/blog/gemini-ai-ozbek-tilida/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+        "/uz/blog/claude-ai-ozbekistonda/",
+        "/uz/blog/deepseek-ozbek-tilida/",
+        "/uz/blog/google-flow-veo-qollanma/",
+        "/uz/blog/notebooklm-qollanma/"
+      ]
+    },
+    {
+      "url": "/uz/blog/google-flow-veo-qollanma/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/higgsfield-ai-nima/"
+      ]
+    },
+    {
+      "url": "/uz/blog/hayit-tabriklari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/kalendar-2027/"
+      ]
+    },
+    {
+      "url": "/uz/blog/higgsfield-ai-nima/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/google-flow-veo-qollanma/"
+      ]
+    },
+    {
+      "url": "/uz/blog/hikmatli-sozlar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/inglizcha-statuslar/",
+        "/uz/blog/maqollar/",
+        "/uz/blog/sevgi-haqida-sherlar/",
+        "/uz/blog/topishmoqlar/"
+      ]
+    },
+    {
+      "url": "/uz/blog/ingliz-tilida-dialoglar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/inglizcha-statuslar/"
+      ]
+    },
+    {
+      "url": "/uz/blog/inglizcha-statuslar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/nik-yasash/",
+        "/uz/blog/hikmatli-sozlar/",
+        "/uz/blog/ingliz-tilida-dialoglar/"
+      ]
+    },
+    {
+      "url": "/uz/blog/konstitutsiya-haqida-sherlar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/14-yanvar-tabriklari/",
+        "/uz/blog/yangi-yil-sherlari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/logo-yasash/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/nik-yasash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/mantiqiy-savollar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/topishmoqlar/",
+        "/uz/blog/zakovat-savollari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/maqollar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/hikmatli-sozlar/",
+        "/uz/blog/topishmoqlar/"
+      ]
+    },
+    {
+      "url": "/uz/blog/navroz-haqida-sherlar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/8-mart-sherlari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/notebooklm-qollanma/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/gemini-ai-ozbek-tilida/",
+        "/uz/blog/google-flow-veo-qollanma/"
+      ]
+    },
+    {
+      "url": "/uz/blog/psixologik-tavsifnoma-namuna/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/hujjat-namunalari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/sevgi-haqida-sherlar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/inglizcha-statuslar/"
+      ]
+    },
+    {
+      "url": "/uz/blog/slayd-uchun-fonlar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/gamma-app-slayd-tayyorlash/",
+        "/uz/blog/slayd-tayyorlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/taqriz-namuna/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/hujjat-namunalari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/tezis-namuna/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/hujjat-namunalari/",
+        "/uz/blog/taqriz-namuna/"
+      ]
+    },
+    {
+      "url": "/uz/blog/topishmoqlar/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/mantiqiy-savollar/",
+        "/uz/blog/maqollar/",
+        "/uz/blog/zakovat-savollari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/yangi-yil-sherlari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/ai-sher-yozish/",
+        "/uz/blog/14-yanvar-tabriklari/",
+        "/uz/blog/konstitutsiya-haqida-sherlar/",
+        "/uz/blog/navroz-haqida-sherlar/",
+        "/uz/blog/sevgi-haqida-sherlar/"
+      ]
+    },
+    {
+      "url": "/uz/blog/zakovat-savollari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/mantiqiy-savollar/",
+        "/uz/blog/topishmoqlar/"
+      ]
+    },
+    {
+      "url": "/uz/ekub-ekuk/",
+      "incoming": [
+        "/uz/",
+        "/uz/mental-arifmetika-misollar/",
+        "/uz/tub-sonlar/"
+      ]
+    },
+    {
+      "url": "/uz/kalendar-2027/",
+      "incoming": [
+        "/uz/",
+        "/uz/blog/yangi-yil-sherlari/"
+      ]
+    },
+    {
+      "url": "/uz/matn-tuzish/",
+      "incoming": [
+        "/uz/",
+        "/uz/ona-tili-test/",
+        "/uz/sintaktik-tahlil/"
+      ]
+    },
+    {
+      "url": "/uz/mendeleyev-jadvali/",
+      "incoming": [
+        "/uz/",
+        "/uz/qisqa-kopaytirish-formulalari/"
+      ]
+    },
+    {
+      "url": "/uz/mental-arifmetika-misollar/",
+      "incoming": [
+        "/uz/ekub-ekuk/",
+        "/uz/",
+        "/uz/qisqa-kopaytirish-formulalari/",
+        "/uz/rim-raqamlari/",
+        "/uz/tenglamalar-sistemasi/",
+        "/uz/tub-sonlar/"
+      ]
+    },
+    {
+      "url": "/uz/nik-yasash/",
+      "incoming": [
+        "/uz/",
+        "/uz/blog/inglizcha-statuslar/"
+      ]
+    },
+    {
+      "url": "/uz/ona-tili-test/",
+      "incoming": [
+        "/uz/",
+        "/uz/matn-tuzish/",
+        "/uz/sintaktik-tahlil/"
+      ]
+    },
+    {
+      "url": "/uz/qisqa-kopaytirish-formulalari/",
+      "incoming": [
+        "/uz/ekub-ekuk/",
+        "/uz/",
+        "/uz/mental-arifmetika-misollar/",
+        "/uz/tenglamalar-sistemasi/"
+      ]
+    },
+    {
+      "url": "/uz/rim-raqamlari/",
+      "incoming": [
+        "/uz/",
+        "/uz/tub-sonlar/"
+      ]
+    },
+    {
+      "url": "/uz/sintaktik-tahlil/",
+      "incoming": [
+        "/uz/",
+        "/uz/matn-tuzish/",
+        "/uz/ona-tili-test/"
+      ]
+    },
+    {
+      "url": "/uz/taklifnoma-yasash/",
+      "incoming": [
+        "/uz/",
+        "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/"
+      ]
+    },
+    {
+      "url": "/uz/tenglamalar-sistemasi/",
+      "incoming": [
+        "/uz/",
+        "/uz/mental-arifmetika-misollar/",
+        "/uz/qisqa-kopaytirish-formulalari/"
+      ]
+    },
+    {
+      "url": "/uz/tub-sonlar/",
+      "incoming": [
+        "/uz/ekub-ekuk/",
+        "/uz/",
+        "/uz/mental-arifmetika-misollar/",
+        "/uz/rim-raqamlari/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {
+    "/uz/suniy-intellekt/": "Rebuilt for the query «sun’iy intellekt nima / haqida ma’lumot» (OpenSEO 2026-11-17: 8 100 a month, the page sat at position 58–77): title, H1 and description now lead with the definition.",
+    "/uz/ai-sher-yozish/": "New Year, Qorbobo and winter poems moved to the collection /uz/blog/yangi-yil-sherlari/ (pair W20261117-04); the generator keeps «ona haqida she’rlar» and its purpose, title and description no longer name New Year poems.",
+    "/uz/blog/slayd-tayyorlash/": "Description extended with the phone section, the 10-slide structure and the template added on 2026-11-17; title and H1 unchanged.",
+    "/uz/present-simple/": "Description extended with the «50 ta gap» section added on 2026-11-17; title and H1 unchanged."
+  },
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+        "/ru/blog/gamma-app-kak-sdelat-prezentaciyu/",
+        "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+        "/ru/blog/obektivka-obrazec/",
+        "/ru/summa-propisyu/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/14-yanvar-tabriklari/",
+        "/uz/blog/8-mart-sherlari/",
+        "/uz/blog/8-mart-tabriklari/",
+        "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/chatgpt-5-nima/",
+        "/uz/blog/chatgptdan-qanday-foydalanish/",
+        "/uz/blog/claude-ai-ozbekistonda/",
+        "/uz/blog/cv-nima/",
+        "/uz/blog/deepseek-ozbek-tilida/",
+        "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/faxriy-yorliq-matni/",
+        "/uz/blog/gamma-app-slayd-tayyorlash/",
+        "/uz/blog/gemini-ai-ozbek-tilida/",
+        "/uz/blog/google-flow-veo-qollanma/",
+        "/uz/blog/hayit-tabriklari/",
+        "/uz/blog/higgsfield-ai-nima/",
+        "/uz/blog/hikmatli-sozlar/",
+        "/uz/blog/ingliz-tilida-dialoglar/",
+        "/uz/blog/inglizcha-statuslar/",
+        "/uz/blog/konstitutsiya-haqida-sherlar/",
+        "/uz/blog/logo-yasash/",
+        "/uz/blog/mantiqiy-savollar/",
+        "/uz/blog/maqollar/",
+        "/uz/blog/navroz-haqida-sherlar/",
+        "/uz/blog/notebooklm-qollanma/",
+        "/uz/blog/psixologik-tavsifnoma-namuna/",
+        "/uz/blog/sevgi-haqida-sherlar/",
+        "/uz/blog/slayd-uchun-fonlar/",
+        "/uz/blog/taqriz-namuna/",
+        "/uz/blog/tezis-namuna/",
+        "/uz/blog/topishmoqlar/",
+        "/uz/blog/yangi-yil-sherlari/",
+        "/uz/blog/zakovat-savollari/",
+        "/uz/ekub-ekuk/",
+        "/uz/kalendar-2027/",
+        "/uz/matn-tuzish/",
+        "/uz/mendeleyev-jadvali/",
+        "/uz/mental-arifmetika-misollar/",
+        "/uz/nik-yasash/",
+        "/uz/ona-tili-test/",
+        "/uz/qisqa-kopaytirish-formulalari/",
+        "/uz/rim-raqamlari/",
+        "/uz/sintaktik-tahlil/",
+        "/uz/taklifnoma-yasash/",
+        "/uz/tenglamalar-sistemasi/",
+        "/uz/tub-sonlar/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+        "/ru/blog/gamma-app-kak-sdelat-prezentaciyu/",
+        "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+        "/ru/blog/obektivka-obrazec/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/14-yanvar-tabriklari/",
+        "/uz/blog/8-mart-sherlari/",
+        "/uz/blog/8-mart-tabriklari/",
+        "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/chatgpt-5-nima/",
+        "/uz/blog/chatgptdan-qanday-foydalanish/",
+        "/uz/blog/claude-ai-ozbekistonda/",
+        "/uz/blog/cv-nima/",
+        "/uz/blog/deepseek-ozbek-tilida/",
+        "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/faxriy-yorliq-matni/",
+        "/uz/blog/gamma-app-slayd-tayyorlash/",
+        "/uz/blog/gemini-ai-ozbek-tilida/",
+        "/uz/blog/google-flow-veo-qollanma/",
+        "/uz/blog/hayit-tabriklari/",
+        "/uz/blog/higgsfield-ai-nima/",
+        "/uz/blog/hikmatli-sozlar/",
+        "/uz/blog/ingliz-tilida-dialoglar/",
+        "/uz/blog/inglizcha-statuslar/",
+        "/uz/blog/konstitutsiya-haqida-sherlar/",
+        "/uz/blog/logo-yasash/",
+        "/uz/blog/mantiqiy-savollar/",
+        "/uz/blog/maqollar/",
+        "/uz/blog/navroz-haqida-sherlar/",
+        "/uz/blog/notebooklm-qollanma/",
+        "/uz/blog/psixologik-tavsifnoma-namuna/",
+        "/uz/blog/sevgi-haqida-sherlar/",
+        "/uz/blog/slayd-uchun-fonlar/",
+        "/uz/blog/taqriz-namuna/",
+        "/uz/blog/tezis-namuna/",
+        "/uz/blog/topishmoqlar/",
+        "/uz/blog/yangi-yil-sherlari/",
+        "/uz/blog/zakovat-savollari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/kalkulyator/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/summa-propisyu/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/ai-sher-yozish/",
+      "fields": [
+        "title",
+        "description",
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/yangi-yil-sherlari/"
+      ],
+      "removedLinks": [],
+      "before": {
+        "title": [
+          "Ona haqida she’rlar va Yangi yil she’rlari — AI she’r yozish"
+        ],
+        "description": [
+          "Onaga, ustozga, do‘stga, Yangi yil va qish haqida she’r: AI chat 4–8 qatorlik original she’r yozadi. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas."
+        ]
+      },
+      "after": {
+        "title": [
+          "Ona haqida she’rlar — AI she’r yozish: ustoz, do‘st, bolalar"
+        ],
+        "description": [
+          "Onaga, ustozga, do‘stga va qish haqida she’r: AI chat 4–8 qatorlik original she’r yozadi. 3 ta bepul sinov javobi, keyin AI paket. OpenAI emas."
+        ]
+      }
+    },
+    {
+      "url": "/uz/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/ai-xizmatlar/",
+        "/uz/ekub-ekuk/",
+        "/uz/kalendar-2027/",
+        "/uz/matn-tuzish/",
+        "/uz/mendeleyev-jadvali/",
+        "/uz/mental-arifmetika-misollar/",
+        "/uz/nik-yasash/",
+        "/uz/ona-tili-test/",
+        "/uz/qisqa-kopaytirish-formulalari/",
+        "/uz/rim-raqamlari/",
+        "/uz/sintaktik-tahlil/",
+        "/uz/taklifnoma-yasash/",
+        "/uz/tenglamalar-sistemasi/",
+        "/uz/tub-sonlar/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/hujjat-namunalari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/cv-nima/",
+        "/uz/blog/faxriy-yorliq-matni/",
+        "/uz/blog/psixologik-tavsifnoma-namuna/",
+        "/uz/blog/taqriz-namuna/",
+        "/uz/blog/tezis-namuna/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/present-simple/",
+      "fields": [
+        "description",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": [],
+      "before": {
+        "description": [
+          "Present Simple o‘zbek tilida: formula, -s/-es qoidasi, 10 ta misol va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket."
+        ]
+      },
+      "after": {
+        "description": [
+          "Present Simple o‘zbek tilida: formula, -s/-es qoidasi, tarjimali 50 ta gap va javobli 10 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket."
+        ]
+      }
+    },
+    {
+      "url": "/uz/suniy-intellekt/",
+      "fields": [
+        "title",
+        "h1",
+        "description",
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/chatgptdan-qanday-foydalanish/"
+      ],
+      "removedLinks": [
+        "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+        "/uz/blog/chatgptga-qanday-kirish-mumkin/",
+        "/uz/blog/kurs-ishi-yozish/",
+        "/uz/blog/murakkab-reja-namuna/",
+        "/uz/blog/tushuntirish-xati-va-ariza-yozish/"
+      ],
+      "before": {
+        "title": [
+          "Sun’iy intellekt nima: turlari, tarixi, o‘zbekcha misollar"
+        ],
+        "h1": [
+          "Sun’iy intellekt nima: oddiy tushuntirish, turlari va O‘zbekistonda qo‘llanishi"
+        ],
+        "description": [
+          "Sun’iy intellekt nima, u qanday o‘rganadi va qayerda ishlatiladi: oddiy misollar, asosiy turlari, cheklovlari va O‘zbekistonda biznes uchun amaliy foydasi."
+        ]
+      },
+      "after": {
+        "title": [
+          "Sun’iy intellekt nima: ta’rifi, turlari, foydasi va zarari"
+        ],
+        "h1": [
+          "Sun’iy intellekt haqida ma’lumot: oddiy tushuntirish, turlari va misollar"
+        ],
+        "description": [
+          "Sun’iy intellekt nima, qanday ishlaydi va qayerda ishlatiladi: sodda ta’rif, turlari, kundalik misollar, foydasi va zarari, kasblar, tarixi va savol-javoblar."
+        ]
+      }
+    },
+    {
+      "url": "/uz/blog/amaliyot-kundaligi-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/downloads/docs-20261117/amaliyot-kundaligi-pedagogik.docx",
+        "/downloads/docs-20261117/amaliyot-kundaligi-pedagogik.pdf"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/bayonnoma-namuna/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/downloads/docs-20261117/pedagogik-kengash-bayonnomasi.docx",
+        "/downloads/docs-20261117/pedagogik-kengash-bayonnomasi.pdf"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/slayd-tayyorlash/",
+      "fields": [
+        "description",
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/downloads/docs-20261117/slayd-shablon-maktab.pptx",
+        "/uz/blog/gamma-app-slayd-tayyorlash/",
+        "/uz/blog/slayd-uchun-fonlar/"
+      ],
+      "removedLinks": [],
+      "before": {
+        "description": [
+          "Slayd tayyorlash 5 qadamda: mavzu, 6–12 slaydli reja, slayd matni, ma’ruza matni, bezash. Chat matn yozadi; tayyor .pptx qoralamasi — Taqdimot AI’da."
+        ]
+      },
+      "after": {
+        "description": [
+          "Slayd tayyorlash 5 qadamda, telefonda ham: 10 slaydli maktab tuzilmasi, bepul vositalar, tayyor PPTX shablon va fonlar, 6×6 qoidasi, tekshiruv ro‘yxati."
+        ]
+      }
+    },
+    {
+      "url": "/uz/blog/tugilgan-kun-tabriklari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/tushuntirish-xati-va-ariza-yozish/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+        "/ru/blog/gamma-app-kak-sdelat-prezentaciyu/",
+        "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+        "/ru/blog/obektivka-obrazec/",
+        "/ru/summa-propisyu/",
+        "/uz/ai-xizmatlar/",
+        "/uz/blog/14-yanvar-tabriklari/",
+        "/uz/blog/8-mart-sherlari/",
+        "/uz/blog/8-mart-tabriklari/",
+        "/uz/blog/ayol-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/chatgpt-5-nima/",
+        "/uz/blog/chatgptdan-qanday-foydalanish/",
+        "/uz/blog/claude-ai-ozbekistonda/",
+        "/uz/blog/cv-nima/",
+        "/uz/blog/deepseek-ozbek-tilida/",
+        "/uz/blog/erkak-kishiga-tugilgan-kun-tabrigi/",
+        "/uz/blog/faxriy-yorliq-matni/",
+        "/uz/blog/gamma-app-slayd-tayyorlash/",
+        "/uz/blog/gemini-ai-ozbek-tilida/",
+        "/uz/blog/google-flow-veo-qollanma/",
+        "/uz/blog/hayit-tabriklari/",
+        "/uz/blog/higgsfield-ai-nima/",
+        "/uz/blog/hikmatli-sozlar/",
+        "/uz/blog/ingliz-tilida-dialoglar/",
+        "/uz/blog/inglizcha-statuslar/",
+        "/uz/blog/konstitutsiya-haqida-sherlar/",
+        "/uz/blog/logo-yasash/",
+        "/uz/blog/mantiqiy-savollar/",
+        "/uz/blog/maqollar/",
+        "/uz/blog/navroz-haqida-sherlar/",
+        "/uz/blog/notebooklm-qollanma/",
+        "/uz/blog/psixologik-tavsifnoma-namuna/",
+        "/uz/blog/sevgi-haqida-sherlar/",
+        "/uz/blog/slayd-uchun-fonlar/",
+        "/uz/blog/taqriz-namuna/",
+        "/uz/blog/tezis-namuna/",
+        "/uz/blog/topishmoqlar/",
+        "/uz/blog/yangi-yil-sherlari/",
+        "/uz/blog/zakovat-savollari/",
+        "/uz/ekub-ekuk/",
+        "/uz/kalendar-2027/",
+        "/uz/matn-tuzish/",
+        "/uz/mendeleyev-jadvali/",
+        "/uz/mental-arifmetika-misollar/",
+        "/uz/nik-yasash/",
+        "/uz/ona-tili-test/",
+        "/uz/qisqa-kopaytirish-formulalari/",
+        "/uz/rim-raqamlari/",
+        "/uz/sintaktik-tahlil/",
+        "/uz/taklifnoma-yasash/",
+        "/uz/tenglamalar-sistemasi/",
+        "/uz/tub-sonlar/"
+      ],
+      "relabelled": [
+        {
+          "url": "/uz/suniy-intellekt/",
+          "before": "Sun’iy intellekt nima: oddiy tushuntirish, turlari va O‘zbekistonda qo‘llanishi",
+          "after": "Sun’iy intellekt haqida ma’lumot: oddiy tushuntirish, turlari va misollar"
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 422
+}

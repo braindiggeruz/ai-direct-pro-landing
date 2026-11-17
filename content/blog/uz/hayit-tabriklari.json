@@ -1,0 +1,610 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "hayit-tabriklari",
+  "url": "/uz/blog/hayit-tabriklari/",
+  "title": "Hayit muborak: 40 ta tabrik, Ramazon va Qurbon hayiti",
+  "description": "Hayit muborak: 40 ta tayyor tabrik. Ramazon hayiti uchun 16 ta, Qurbon hayiti uchun 12 ta, umumiy 12 ta. Ota-onaga, do‘stga, hamkasbga. Kirill yozuvida 12 ta.",
+  "h1": "Hayit tabriklari: ota-onaga, qo‘shniga, hamkasbga yuborish uchun matnlar",
+  "topicCluster": "matn-yozish",
+  "targetMoneyPage": "/uz/ai-tabrik-generatori/",
+  "keywords": [
+    "hayit muborak",
+    "ramazon hayiti tabriklari",
+    "qurbon hayiti tabriklari",
+    "hayit tabrigi",
+    "ramazon hayiti muborak",
+    "qurbon hayiti muborak",
+    "ҳайит муборак",
+    "рамазон ҳайити табриклари"
+  ],
+  "intro": "Hayit kuni yaqinlarga nima yozishni bilmay qoldingizmi? Shu sahifada Ramazon hayiti, Qurbon hayiti va umumiy «Hayit muborak» tabriklari bor: ota-onaga, buvi-bobo va qarindoshlarga, qo‘shni, do‘st, hamkasb va ustozga. Har biri 2-4 gap, ismni qo‘ysangiz bo‘ldi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida hayit uchun 40 ta tayyor tabrik bor: Ramazon hayiti uchun 16 ta, Qurbon hayiti uchun 12 ta va «Hayit muborak» deb yuboriladigan umumiy tabriklar 12 ta. Ular ota-onaga, buvi-bobo va qarindoshlarga, qo‘shniga, do‘stga, hamkasb va rahbarga, ustozga mo‘ljallangan. Pastda 12 ta tabrik kirill yozuvida ham berilgan. Hammasi shu sahifa uchun yozilgan original matn: faqat sog‘lik, tinchlik va yaqinlarning birga bo‘lishi haqidagi tilaklar."
+    },
+    {
+      "type": "p",
+      "text": "Tabriklarda ibodat matnlari, ko‘rsatma va hukm yo‘q: bu sahifa faqat bayram munosabati bilan yaqinlarga yuboriladigan iliq so‘zlar uchun. Kvadrat qavsdagi joylarga ismni yozing, matnni o‘z so‘zlaringiz bilan o‘zgartirsangiz, tabrik yanada samimiy chiqadi."
+    },
+    {
+      "type": "h2",
+      "id": "hayit-sanalari",
+      "text": "Hayit qachon: sanani qayerdan bilish mumkin"
+    },
+    {
+      "type": "linkp",
+      "text": "Hayit kunlari har yili o‘zgaradi va rasmiy tarzda e’lon qilinadi, shuning uchun bu sahifada aniq sana yozilmagan. O‘zbekistonda Ro‘za hayit (Ramazon hayiti) va Qurbon hayit ishlanmaydigan bayram kunlari qatoriga kiradi; vazirlik e’lon qilgan ro‘yxatda ularning sanasi bir kunga farq qilishi mumkinligi ham eslatilgan. Joriy yilning aniq sanasi va dam olish kunlarini hukumatning rasmiy e’lonidan tekshiring. Tabrik matni tayyor bo‘lsa, hayitdan bir kun oldin yuborib qo‘yish ham mumkin. Boshqa bayramlar uchun {ny} va {m8} sahifalariga qarang.",
+      "links": [
+        {
+          "token": "ny",
+          "target": "/uz/blog/yangi-yil-tabriklari/",
+          "anchor": "Yangi yil tabriklari"
+        },
+        {
+          "token": "m8",
+          "target": "/uz/blog/8-mart-tabriklari/",
+          "anchor": "8-mart tabriklari"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ramazon-hayiti",
+      "text": "Ramazon hayiti tabriklari: 16 ta"
+    },
+    {
+      "type": "p",
+      "text": "Ro‘za hayiti, ya’ni Ramazon hayiti uchun tabriklar. Yaqinlar, qo‘shni va hamkasbga alohida matnlar bor, shuningdek yolg‘iz yashayotgan keksa va yaqinini yo‘qotgan odamga ehtiyotkor so‘zlar ham berilgan."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Ota-onaga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz ota-onajonlarim, Ramazon hayitingiz muborak bo‘lsin! Bu kunlarda hammamiz bir dasturxon atrofida yig‘ilib, yoningizda o‘tirishimiz men uchun eng katta xursandlik. Sizga mustahkam sog‘lik, xotirjamlik va uzoq umr tilayman."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Buvi va bobo"
+    },
+    {
+      "type": "p",
+      "text": "Aziz buvijon va bobojon, hayitingiz muborak! Eshigingiz doim ochiq, dasturxoningiz to‘kin bo‘lib, bizni mehr bilan kutib olganingiz uchun rahmat. Sog‘ bo‘ling, nevaralaringizning kulgisi uyingizdan arimasin."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Akaga yoki opaga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [akajon/opajon], Ramazon hayitingiz muborak! Bolaligimizda hayit kuni birga yugurib yurganimiz hali ham yodimda. Sizga sog‘lik, oilangizga tinchlik va to‘kinlik tilayman."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Uka yoki singilga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [ism], hayitingiz muborak bo‘lsin! Katta bo‘lib qolsang ham, men uchun doim kichik ukamsan. O‘qishingda, ishingda omad yor bo‘lsin, sog‘ yur, yaxshi yur."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Uzoqdagi qarindoshga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [amakijon/xolajon], uzoqda bo‘lsak ham, hayit kuni sizni eslab turaman. Ramazon hayitingiz muborak! Uyingizda tinchlik, oilangizda sog‘lik bo‘lsin, yaqin orada bir dasturxon atrofida ko‘rishaylik."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Qo‘shniga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli qo‘shnimiz, Ramazon hayitingiz muborak bo‘lsin! Yillar davomida yonma-yon yashab, bir-birimizga suyanch bo‘lganimizdan xursandmiz. Eshigingizga tinchlik, dasturxoningizga baraka tilaymiz."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Do‘stga"
+    },
+    {
+      "type": "p",
+      "text": "Do‘stim, hayiting muborak! Yillar o‘tsa ham, har bayramda birinchi bo‘lib seni eslayman. Yonimda bo‘lganing uchun rahmat. Sog‘ bo‘l, oilang tinch bo‘lsin, tez orada choy ustida ko‘rishamiz."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Hamkasblarga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz hamkasblar! Sizlarni Ramazon hayiti bilan samimiy tabriklayman. Bu bayram har birimizning uyimizga tinchlik va xotirjamlik olib kelsin. Oilalaringiz sog‘, kayfiyatingiz yaxshi bo‘lsin. Hurmat bilan, [ism, lavozim]."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Rahbarga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli [ism va otasining ismi]! Jamoa nomidan sizni Ramazon hayiti bilan tabriklaymiz. Sizga sihat-salomatlik, oilaviy baxt va barcha rejalaringizda omad tilaymiz."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Ustozga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli ustoz, Ramazon hayitingiz muborak bo‘lsin! Bergan bilimingiz va ko‘rsatgan mehringiz uchun rahmat. Sizga sog‘lik, oilangizga tinchlik tilaymiz. Hurmat bilan, [ism]."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Yolg‘iz yashayotgan keksaga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli [ism], hayitingiz muborak! Bugun sizni yo‘qlab boraman, birga choy ichamiz. Yolg‘iz emassiz: bizning davramizda sizga ham joy bor. Sihat-salomat bo‘ling."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Yaqinini yo‘qotgan odamga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [ism], hayit kunlarida yo‘qotgan yaqinlar ko‘proq esga tushadi. Sizni o‘ylayman va yoningizdaman. Hayitingiz muborak bo‘lsin, o‘zingizni asrang. Xohlasangiz, bugun kelib, birga o‘tiramiz."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Turmush o‘rtog‘iga"
+    },
+    {
+      "type": "p",
+      "text": "Azizim, Ramazon hayitingiz muborak! Mana, yana bir hayit biz bilan, uyimiz tinch, bolalarimiz sog‘. Yoningda bo‘lganing uchun rahmat. Yillar o‘tsa ham shunday bir-birimizga suyanib yashaylik."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Farzandga"
+    },
+    {
+      "type": "p",
+      "text": "Jonginam, hayiting muborak! Bugun bobong va buvingning uyiga boramiz, hammaga salom beramiz. Sog‘ bo‘l, o‘qishingda omadli bo‘l, kulib yur, mening bolam."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Uzoq shaharda yoki xorijda yashayotgan ota-onaga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz ota-onajonlarim, hayitingiz muborak! Yoningizda bo‘la olmaganim uchun ichim siqiladi, lekin dilim sizlar bilan. Telefonda ko‘rishamiz. Sog‘ bo‘linglar, men yaxshi yuribman, xotirjam bo‘linglar."
+    },
+    {
+      "type": "h3",
+      "text": "Ramazon hayiti: Mijoz va hamkorga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli [ism]! [Kompaniya nomi] jamoasi sizni Ramazon hayiti bilan tabriklaydi. Hamkorligingiz uchun minnatdormiz. Sizga va oilangizga sog‘lik, tinchlik va ishlaringizda barqarorlik tilaymiz."
+    },
+    {
+      "type": "h2",
+      "id": "qurbon-hayiti",
+      "text": "Qurbon hayiti tabriklari: 12 ta"
+    },
+    {
+      "type": "p",
+      "text": "Qurbon hayiti odatda oila va qarindoshlar yig‘iladigan, mehmon kutiladigan kunlar bilan bog‘liq, shuning uchun bu tabriklarda birga bo‘lish va mehmondo‘stlik ko‘proq eslatilgan."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Ota-onaga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz ota-onajonlarim, Qurbon hayitingiz muborak bo‘lsin! Bugun hammamiz sizning uyingizda yig‘ilamiz: bu har bir bayramning eng chiroyli tomoni. Sog‘ bo‘ling, bizga doim mehribon bo‘ling."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Buvi va bobo"
+    },
+    {
+      "type": "p",
+      "text": "Aziz buvijon va bobojon, hayitingiz muborak! Siz bor uyda bayram o‘zgacha. Sihat-salomat bo‘ling, nevara-chevaralaringiz davrasida ko‘p bayramlarni ko‘ring."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Aka-ukaga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [aka/uka], Qurbon hayiting muborak! Oila bo‘lib bir joyga yig‘ilish nasib bo‘lganidan xursandman. Sog‘ bo‘l, ishlaring yurishib, oilang tinch bo‘lsin."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Qo‘shniga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli qo‘shnimiz, Qurbon hayitingiz muborak! Mahallamiz tinch, qo‘ni-qo‘shnimiz ahil bo‘lib yashashi — bayramning eng yaxshi tilagi. Eshigingiz doim mehmonga ochiq bo‘lsin."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Do‘stga"
+    },
+    {
+      "type": "p",
+      "text": "Do‘stim, Qurbon hayiting muborak! Bu bayramda sen bilan bir dasturxon atrofida o‘tirishni juda xohlayman. Sog‘lik va omad yor bo‘lsin, oilang ham sog‘ bo‘lsin."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Hamkasblarga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz hamkasblar! Sizlarni Qurbon hayiti bilan samimiy tabriklayman. Bayram kunlari oilangiz bag‘rida dam olib, yangi kuch bilan ishga qaytishingizni tilayman. Hurmat bilan, [ism, lavozim]."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Qarindoshlarga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [amakijon/xolajon], hayit kuni uyingizga mehmon bo‘lib borishni orzu qilaman. Qurbon hayitingiz muborak bo‘lsin! Oilangizda sog‘lik, ko‘nglingizda xotirjamlik tilayman."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Ustozga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli ustoz, Qurbon hayitingiz muborak! Sizning mehnatingiz va sabringiz bizga doim ibrat bo‘ladi. Sizga sog‘lik, oilangizga tinchlik tilaymiz. Hurmat bilan, [sinf] o‘quvchilari."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Rahbarga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli [ism va otasining ismi]! Jamoa nomidan sizni Qurbon hayiti bilan tabriklaymiz. Sizga sihat-salomatlik, oilaviy baxt va barcha ishlaringizda yutuq tilaymiz."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Uzoqdagi yaqinlarga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [ism], hayit kuni telefon orqali bo‘lsa ham, sizning ovozingizni eshitgim keldi. Qurbon hayitingiz muborak! Sihat-salomat bo‘ling, imkon topilsa, tez orada ko‘rishaylik."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Yosh oilaga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [ism] va [ism]! Siz uchun bu — birinchi hayit. Qurbon hayitingiz muborak bo‘lsin! Uyingiz doim shunday iliq, dasturxoningiz to‘kin va davrangiz keng bo‘lsin."
+    },
+    {
+      "type": "h3",
+      "text": "Qurbon hayiti: Mijoz va hamkorga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli [ism]! [Kompaniya nomi] jamoasi sizni Qurbon hayiti bilan tabriklaydi. Ishonchingiz uchun minnatdormiz. Sizga va oilangizga sog‘lik, tinchlik va yaxshi kunlar tilaymiz."
+    },
+    {
+      "type": "h2",
+      "id": "hayit-muborak",
+      "text": "«Hayit muborak» deb yuboriladigan umumiy tabriklar: 12 ta"
+    },
+    {
+      "type": "p",
+      "text": "Ramazon yoki Qurbon hayitini alohida aytmasdan yuborish mumkin bo‘lgan matnlar. Ular qisqa, shuning uchun Telegram, SMS va ijtimoiy tarmoqdagi shaxsiy xabar uchun qulay."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Qisqa SMS"
+    },
+    {
+      "type": "p",
+      "text": "Hayitingiz muborak bo‘lsin! Sog‘lik, tinchlik va oilangiz davrasida iliq kunlar tilayman."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Oilaviy guruh uchun"
+    },
+    {
+      "type": "p",
+      "text": "Aziz oilam! Hayitimiz muborak. Hammamiz sog‘ bo‘lib, yana bir joyga yig‘ilganimizdan xursandman. Bir-birimizning qadrimizga yetaylik."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Ota-onaga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz onajon va otajon, hayitingiz muborak! Sizlar bor uyda hayit — haqiqiy hayit. Sog‘ bo‘linglar, bizga doim ko‘z-quloq bo‘linglar."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Do‘stga"
+    },
+    {
+      "type": "p",
+      "text": "Hayiting muborak, do‘stim! Yangi kunlar senga quvonch, oilangga tinchlik, ishingga omad olib kelsin."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Hamkasbga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli hamkasb, hayitingiz muborak! Oilangiz bilan xotirjam dam oling, so‘ng yana birga ishlaymiz. Sog‘lik va omad tilayman."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Rahbarga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli [ism va otasining ismi], hayitingiz muborak bo‘lsin! Sizga sog‘lik va oilaviy baxt tilaymiz. Hurmat bilan, [jamoa nomi]."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Qo‘shniga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz qo‘shni, hayitingiz muborak! Mahallamiz doim tinch, eshiklarimiz bir-birimizga ochiq bo‘lsin."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Ustozga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli ustoz, hayitingiz muborak! Mehnatingiz va mehringiz uchun rahmat. Sog‘ bo‘ling, oilangiz tinch bo‘lsin."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Uzoqdagi yaqinga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [ism], uzoqda bo‘lsak ham, hayit kuni dilimiz birga. Hayitingiz muborak! Tez orada ko‘rishishni orzu qilaman."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Yosh oilaga"
+    },
+    {
+      "type": "p",
+      "text": "Aziz [ism] va [ism], hayitingiz muborak! Uyingiz tinch va iliq, davrangiz ahil bo‘lsin. Sizlarni yaxshi ko‘ramiz."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Mijozga yoki hamkorga"
+    },
+    {
+      "type": "p",
+      "text": "Hurmatli [ism], [kompaniya nomi] nomidan hayitingiz bilan tabriklaymiz. Hamkorligingiz uchun rahmat, sizga va yaqinlaringizga sog‘lik tilaymiz."
+    },
+    {
+      "type": "h3",
+      "text": "Umumiy: Bolaga"
+    },
+    {
+      "type": "p",
+      "text": "Jonginam, hayiting muborak! Bugun hamma bilan salomlashib, bayramni quvnoq o‘tkaz. Seni juda yaxshi ko‘raman."
+    },
+    {
+      "type": "h3",
+      "id": "kirill-matnlar",
+      "lang": "uz-Cyrl",
+      "text": "Кирилл ёзувида: ҳайит муборак, рамазон ва қурбон ҳайити табриклари"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азиз ота-онажонларим, Рамазон ҳайитингиз муборак бўлсин! Бу кунларда ҳаммамиз бир дастурхон атрофида йиғилиб, ёнингизда ўтиришимиз мен учун энг катта хурсандлик. Сизга мустаҳкам соғлик, хотиржамлик ва узоқ умр тилайман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли қўшнимиз, Рамазон ҳайитингиз муборак бўлсин! Йиллар давомида ёнма-ён яшаб, бир-биримизга суянч бўлганимиздан хурсандмиз. Эшигингизга тинчлик, дастурхонингизга барака тилаймиз."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли [исм], ҳайитингиз муборак! Бугун сизни йўқлаб бораман, бирга чой ичамиз. Ёлғиз эмассиз: бизнинг даврамизда сизга ҳам жой бор. Сиҳат-саломат бўлинг."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азиз ота-онажонларим, ҳайитингиз муборак! Ёнингизда бўла олмаганим учун ичим сиқилади, лекин дилим сизлар билан. Телефонда кўришамиз. Соғ бўлинглар, мен яхши юрибман, хотиржам бўлинглар."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азиз ота-онажонларим, Қурбон ҳайитингиз муборак бўлсин! Бугун ҳаммамиз сизнинг уйингизда йиғиламиз: бу ҳар бир байрамнинг энг чиройли томони. Соғ бўлинг, бизга доим меҳрибон бўлинг."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли қўшнимиз, Қурбон ҳайитингиз муборак! Маҳалламиз тинч, қўни-қўшнимиз аҳил бўлиб яшаши — байрамнинг энг яхши тилаги. Эшигингиз доим меҳмонга очиқ бўлсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азиз [исм] ва [исм]! Сиз учун бу — биринчи ҳайит. Қурбон ҳайитингиз муборак бўлсин! Уйингиз доим шундай илиқ, дастурхонингиз тўкин ва даврангиз кенг бўлсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳайитингиз муборак бўлсин! Соғлик, тинчлик ва оилангиз даврасида илиқ кунлар тилайман."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азиз оилам! Ҳайитимиз муборак. Ҳаммамиз соғ бўлиб, яна бир жойга йиғилганимиздан хурсандман. Бир-биримизнинг қадримизга етайлик."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азиз онажон ва отажон, ҳайитингиз муборак! Сизлар бор уйда ҳайит — ҳақиқий ҳайит. Соғ бўлинглар, бизга доим кўз-қулоқ бўлинглар."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳайитинг муборак, дўстим! Янги кунлар сенга қувонч, оилангга тинчлик, ишингга омад олиб келсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азиз қўшни, ҳайитингиз муборак! Маҳалламиз доим тинч, эшикларимиз бир-биримизга очиқ бўлсин."
+    },
+    {
+      "type": "h2",
+      "id": "yuborish",
+      "text": "Tabrikni yuborishdan oldin: 5 ta tekshiruv"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ism va murojaat to‘g‘rimi, kvadrat qavsdagi barcha joylar to‘ldirilganmi?",
+        "«Sen» va «siz» aralashib ketmaganmi? Katta yoshli va hurmatli odamga «siz» deb yozing.",
+        "Xabar kimga ketyapti? Rahbarga atalgan matn do‘stlar guruhiga tushib qolmasin.",
+        "Yaqinini yo‘qotgan yoki kasal odamga hazil va uzun tilaklar yozmang: qisqa va ehtiyotkor so‘z yaxshiroq.",
+        "Odam qaysi yozuvni afzal ko‘radi — lotin yoki kirill? Qariyalarga ko‘pincha kirill qulay."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Matnni o‘zingizga moslashtirmoqchi bo‘lsangiz, ismni va bitta xotirani yozing: {gen} yoki chat uni bir-ikki jumlaga sig‘diradi. Tabrik tuzilmasi haqida {guide} qo‘llanmasida batafsil yozilgan.",
+      "links": [
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Hayit tabrigini AI chatda yozdirish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Hayit kuni tabrikni qachon yuborgan ma’qul?",
+      "a": "Yaqinlarga — hayit kuni ertalab, hamkasb va rahbarga esa bayramdan oldingi oxirgi ish kunida yoki hayit kuni yarim kungacha. Kechikkan bo‘lsangiz ham yuboring: samimiy so‘z e’tiborsizlikdan yaxshiroq."
+    },
+    {
+      "q": "Ramazon hayiti bilan Qurbon hayitini tabriklashda farq bormi?",
+      "a": "Qisqa tabrik («Hayitingiz muborak!») ikkalasiga ham mos. Aniq aytmoqchi bo‘lsangiz, bayram nomini yozing: «Ramazon hayitingiz muborak» yoki «Qurbon hayitingiz muborak». Sahifada ikkalasi uchun alohida matnlar ham, umumiylari ham berilgan."
+    },
+    {
+      "q": "Ustozni yoki rahbarni hayit bilan qanday tabriklash to‘g‘ri?",
+      "a": "«Siz» bilan, hurmat bilan va qisqa: murojaat, bayram nomi, sog‘lik va oila tinchligi haqida tilak. Hazil va ortiqcha gaplarsiz yozing. Jamoa nomidan yozsangiz, oxirida «Hurmat bilan, [jamoa nomi]» deb imzo qo‘ying."
+    },
+    {
+      "q": "Hayit sanasi qachon e’lon qilinadi?",
+      "a": "Hayit kunlari har yili o‘zgaradi va rasmiy tarzda e’lon qilinadi. Shu sababli bu sahifada aniq sana yozilmagan: joriy yilning sanasi va dam olish kunlarini hukumatning rasmiy e’lonidan tekshiring."
+    },
+    {
+      "q": "Tabriklarni kirill yozuvida yuborsam bo‘ladimi?",
+      "a": "Ha. Sahifada 12 ta tabrik kirill yozuvida alohida bo‘limda berilgan. Boshqa matnlarni o‘girish uchun kirill-lotin o‘giruvchidan foydalaning. Katta yoshli yaqinlarga kirill yozuvida yuborish ko‘pincha yoqimli bo‘ladi."
+    },
+    {
+      "q": "Tabrikdagi matnlardan foydalansam bo‘ladimi?",
+      "a": "Ha, shaxsiy tabrik uchun bemalol. Ular shu sahifa uchun yozilgan original matnlar. Ismni yozing va bitta shaxsiy detal qo‘shing: masalan, birga o‘tkazgan bayramni eslab yozsangiz, tabrik ancha iliq chiqadi."
+    }
+  ],
+  "cta": {
+    "label": "Hayit tabrigini AI chatda yozdirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/yangi-yil-tabriklari/",
+      "anchor": "Yangi yil tabriklari: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/8-mart-tabriklari/",
+      "anchor": "8-mart uchun tabriklar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/tugilgan-kun-tabriklari/",
+      "anchor": "Tug‘ilgan kun tabriklari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz o‘zbekcha AI chati",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Hayit muborak: 40 ta tabrik, Ramazon va Qurbon hayiti",
+  "ogDescription": "Ramazon hayiti uchun 16 ta, Qurbon hayiti uchun 12 ta va umumiy 12 ta tabrik: ota-onaga, do‘stga, hamkasbga. Kirill yozuvida 12 ta matn.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/hayit-tabriklari/",
+  "hreflangUz": "/uz/blog/hayit-tabriklari/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "People in Uzbekistan writing greetings for Ro‘za hayit and Qurbon hayit"
+  },
+  "breadcrumbLabel": "Hayit tabriklari",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Kambag‘allikni qisqartirish va bandlik vazirligi: ishlanmaydigan bayram kunlari ro‘yxati",
+      "url": "https://gov.uz/uz/bv/news/view/31663",
+      "note": "Vazirlik 2025-yil uchun e’lon qilgan ro‘yxatda Ro‘za hayit (Iyd al-Fitr) va Qurbon hayit (Iyd al-Adho) ishlanmaydigan bayram kunlari qatorida ko‘rsatilgan, ularning sanasi bir kunga farq qilishi mumkinligi qayd etilgan. Sahifa 2026-11-17 kuni tekshirilgan."
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

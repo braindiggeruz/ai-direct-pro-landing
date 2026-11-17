@@ -1,0 +1,553 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/taklifnoma-yasash/",
+  "slug": "taklifnoma-yasash",
+  "pageType": "gpt-chat",
+  "chatRole": "writer",
+  "chatStarters": [
+    {
+      "label": "To‘yga taklifnoma matni",
+      "prompt": "To‘yga taklifnoma matni yoz, 3-4 gap, rasmiy va iliq ohangda. Kuyov: [ism], kelin: [ism]. Sana: [sana], vaqt: [vaqt], manzil: [to‘yxona va manzil]. Javob uchun telefon: "
+    },
+    {
+      "label": "Oshga taklifnoma",
+      "prompt": "Oshga taklifnoma yoz, 2-3 gapda, do‘stona va hurmatli ohangda. Osh [sana] kuni soat [vaqt]da, manzil: [manzil]. Mehmonlardan kelishini oldindan aytishlarini so‘ra."
+    },
+    {
+      "label": "Bolaning tug‘ilgan kuniga taklif",
+      "prompt": "Qizimning tug‘ilgan kuniga taklifnoma yoz. U [yosh] yoshga to‘lyapti, tadbir [sana] kuni soat [vaqt]da [manzil]da. O‘yinlar va shirinliklar bo‘ladi. Ota-onalarga ham mo‘ljallangan, quvnoq ohangda."
+    },
+    {
+      "label": "Beshik to‘yiga taklifnoma",
+      "prompt": "Beshik to‘yiga taklifnoma yoz: farzandimiz [ism] tug‘ildi, to‘y [sana] kuni soat [vaqt]da [manzil]da. Matn samimiy, 3 gapdan oshmasin, imzoda ota-onalar nomi bo‘lsin."
+    },
+    {
+      "label": "Yubileyga rasmiy taklifnoma",
+      "prompt": "Otamning 60 yoshlik yubileyiga taklifnoma yoz. Ismi: [ism va otasining ismi]. Tadbir [sana] kuni soat [vaqt]da [manzil]da, kiyim: rasmiy. Hurmatli va issiq ohangda, 3-4 gap."
+    },
+    {
+      "label": "Taklifnomani tekshir va sayqalla",
+      "prompt": "Mana mening taklifnoma matnim. Unda kim, qachon, qayerda, kiyim va javob uchun kontakt bor-yo‘qligini tekshir, yetishmaydigan joyni ayt va matnni ixchamroq qilib ber: "
+    }
+  ],
+  "primaryKeyword": "taklifnoma yasash",
+  "secondaryKeywords": [
+    "taklifnoma matni",
+    "to‘yga taklifnoma matni",
+    "oshga taklifnoma",
+    "tug‘ilgan kunga taklifnoma",
+    "taklifnoma namunasi",
+    "beshik to‘yi taklifnomasi",
+    "таклифнома матни",
+    "таклифнома ясаш"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Taklifnoma matni: to‘y, osh va tug‘ilgan kun uchun AI bilan yozing",
+  "title": "Taklifnoma yasash: 24 ta tayyor matn va AI yordamchi",
+  "description": "Taklifnoma yasash: AI chat sizning ma’lumotlaringiz bo‘yicha matn yozadi. 24 ta tayyor matn: to‘y, osh, tug‘ilgan kun, yubiley. 3 ta bepul sinov javobi.",
+  "canonical": "https://gptbot.uz/uz/taklifnoma-yasash/",
+  "hreflangUz": "/uz/taklifnoma-yasash/",
+  "hreflangXDefault": "/uz/taklifnoma-yasash/",
+  "ogTitle": "Taklifnoma yasash: 24 ta tayyor matn va AI yordamchi",
+  "ogDescription": "Taklifnoma yasash: AI chat sizning ma’lumotlaringiz bo‘yicha matn yozadi. 24 ta tayyor matn: to‘y, osh, tug‘ilgan kun, yubiley. 3 ta bepul sinov javobi.",
+  "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Taklifnoma yasash",
+  "heroTitle": "Taklifnoma yasash: to‘y, osh, tug‘ilgan kun va tadbir uchun matn",
+  "heroSubtitle": "Sana, joy va ismlarni yozing — AI chat taklifnoma matnini tayyorlaydi: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "AI tabrik generatori",
+  "ctaSecondaryHref": "/uz/ai-tabrik-generatori/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Taklifnoma yasash uchun avval matn kerak: kim, nimaga, qachon va qayerda taklif qilyapti. Shu sahifadagi chatga o‘z ma’lumotlaringizni yozing — chat «Ijodkor» rolida ochiladi va to‘y, osh, tug‘ilgan kun yoki tadbir uchun tayyor taklifnoma matnini yozadi. Pastda esa 24 ta tayyor matn bor: ismlarni almashtirsangiz, yuborsa bo‘ladi."
+    },
+    {
+      "type": "p",
+      "text": "Bu — o‘sha GPTBot.uz AI chati, faqat oldindan tanlangan rol bilan. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas; javoblarni boshqa kompaniyalarning til modellari API orqali beradi. Shartlar AI chat bilan umumiy: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi. Keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi. Sinov javoblarini boshqa sahifada ishlatib bo‘lgan bo‘lsangiz, bu yerda ular qayta berilmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-sorash",
+      "text": "Chatdan taklifnomani qanday so‘rash kerak: 3 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tadbir turi va kim taklif qilayotgani: «to‘yga, kuyovning ota-onasi nomidan», «qizimning 7 yoshlik tug‘ilgan kuniga», «mahalla oshiga».",
+        "Aniq ma’lumotlar: sana va hafta kuni, vaqt, manzil va mo‘ljal, kiyim va javob uchun telefon. Chat kerakli joyni o‘zi o‘ylab topmasligi uchun hammasini yozing.",
+        "Ohang va uzunlik: rasmiy yoki do‘stona, 2-3 gap yoki ko‘proq, lotin yoki kirill. Natijani o‘qing va «qisqaroq yoz», «samimiyroq qil» deb aniqlashtiring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Aniqlashtirishga berilgan javob ham sinov javoblaridan bittasi sifatida hisoblanadi, shuning uchun birinchi so‘rovga barcha ma’lumotni yozing."
+    },
+    {
+      "type": "h2",
+      "id": "yaxshi-taklifnoma",
+      "text": "Yaxshi taklifnomada nima bo‘lishi kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kim taklif qilmoqda: ota-onalar, yosh juftlik yoki tashkilot nomi. Imzo oxirida turadi.",
+        "Kim taklif qilinmoqda: ism va murojaat («aziz», «hurmatli»). Umumiy «hammaga» deb yozilgan taklif kamroq e’tibor oladi.",
+        "Nimaga: to‘y, osh, tug‘ilgan kun yoki ochilish. Bola kelishi mumkinmi yoki yo‘qligini ham yozing.",
+        "Qachon: sana, hafta kuni va boshlanish vaqti. Tadbir uzoq cho‘zilsa, tugash vaqtini ham yozing.",
+        "Qayerda: nom, manzil va mo‘ljal. Xaritadagi joy havolasini qo‘shsangiz, mehmonlar adashmaydi.",
+        "Kiyim: rasmiy, milliy yoki erkin. Bu ayniqsa yubiley va rasmiy tadbirlarda foydali.",
+        "Javob: kimga va qaysi sanagacha xabar berish kerakligi. Shu yerdan siz mehmonlar sonini bilib olasiz.",
+        "Qisqalik: taklifnoma ikki-to‘rt gapdan oshmasin. Uzun matnni mehmon oxirigacha o‘qimaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "toy-taklifnoma",
+      "text": "To‘y taklifnomasi matnlari: 6 ta"
+    },
+    {
+      "type": "p",
+      "text": "To‘yga taklifnoma matni uchun oltita variant: klassik, yosh juftlik nomidan, qisqa Telegram uchun, kelin tomonidan, hovli to‘yi uchun va og‘zaki aytiladigan taklif. Kvadrat qavsdagi joylarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "h3",
+      "text": "Klassik to‘y taklifnomasi"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz [ism va otasining ismi]! Sizni farzandlarimiz [kuyov ismi] va [kelin ismi]ning to‘y marosimiga taklif etamiz. To‘y [sana, hafta kuni] kuni soat [vaqt]da [to‘yxona nomi va manzil]da bo‘lib o‘tadi. Siz bilan quvonchimizni baham ko‘rishni istaymiz. Hurmat bilan, [ota-onalar ismlari]."
+    },
+    {
+      "type": "h3",
+      "text": "Yosh juftlik nomidan"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz do‘stlar! Biz, [kuyov ismi] va [kelin ismi], hayotimizdagi eng muhim kunni sizlar bilan nishonlamoqchimiz. To‘y [sana] kuni soat [vaqt]da [manzil]da bo‘ladi. Kelganingiz biz uchun eng katta sovg‘a. Javobingizni [sana]gacha [telefon] raqamiga bildirsangiz, xursand bo‘lamiz."
+    },
+    {
+      "type": "h3",
+      "text": "Qisqa Telegram taklifi"
+    },
+    {
+      "type": "quote",
+      "text": "Assalomu alaykum, [ism]! [Sana] kuni soat [vaqt]da [manzil]da farzandimiz [ism]ning to‘yi bo‘ladi. Sizni oilangiz bilan kutamiz. Kelishingizni [telefon] raqamiga ayting."
+    },
+    {
+      "type": "h3",
+      "text": "Kelin tomondan"
+    },
+    {
+      "type": "quote",
+      "text": "Hurmatli [ism va otasining ismi]! Qizimiz [kelin ismi]ning to‘y tantanasiga sizni oilangiz bilan taklif qilamiz. Marosim [sana] kuni soat [vaqt]da [manzil]da bo‘ladi. Kiyim: [rasmiy/erkin]. Sizni ko‘rishdan xursand bo‘lamiz."
+    },
+    {
+      "type": "h3",
+      "text": "Hovli to‘yi uchun"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz qo‘shni va qarindoshlar! [Sana] kuni, soat [vaqt]dan boshlab uyimizda o‘g‘limiz [ism]ning to‘yi bo‘ladi. Hovlimiz hammaning yo‘liga ochiq: oila a’zolaringiz bilan kelsangiz, xursand bo‘lamiz. Manzil: [manzil, mo‘ljal]."
+    },
+    {
+      "type": "h3",
+      "text": "Og‘zaki taklif matni"
+    },
+    {
+      "type": "quote",
+      "text": "Assalomu alaykum, [ism] aka/opa! Yaxshimisiz, oilangiz sog‘mi? Sizga bir xushxabar: [sana] kuni to‘yimiz bor, shu kuni [manzil]da soat [vaqt]da bo‘ladi. Sizni oilangiz bilan kutamiz, albatta keling."
+    },
+    {
+      "type": "h2",
+      "id": "nikoh-taklifnoma",
+      "text": "Nikoh oqshomi taklifnomasi: 3 ta"
+    },
+    {
+      "type": "p",
+      "text": "Nikoh oqshomi uchun uchta ohang: rasmiy, yaqinlar davrasi uchun va do‘stlarga. Kvadrat qavsdagi joylarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "h3",
+      "text": "Nikoh oqshomi: rasmiy"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz [ism]! Sizni [kuyov ismi] va [kelin ismi]ning nikoh oqshomiga taklif etamiz. Tadbir [sana] kuni soat [vaqt]da [manzil]da bo‘lib o‘tadi. Kiyim: [rasmiy/milliy]. Tashrifingizni [telefon] raqamiga bildirishingizni so‘raymiz."
+    },
+    {
+      "type": "h3",
+      "text": "Nikoh oqshomi: yaqinlar davrasi"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz yaqinlarimiz! Oilaviy hayotimizning birinchi kunini sizlar bilan nishonlamoqchimiz. [Sana] kuni soat [vaqt]da [manzil]da kichik oqshom uyushtiramiz. Davramiz tor bo‘ladi, shuning uchun har bir kelganingiz biz uchun qadrli."
+    },
+    {
+      "type": "h3",
+      "text": "Nikoh oqshomi: do‘stlarga"
+    },
+    {
+      "type": "quote",
+      "text": "Do‘stlar, [sana] kuni [kelin ismi] bilan nikoh oqshomi bo‘ladi, siz bo‘lmasangiz bo‘lmaydi! Soat [vaqt]da [manzil]ga keling. Kiyim — o‘zingiz yoqtirgan, kayfiyat esa bayramona. Kelishingizni [sana]gacha ayting."
+    },
+    {
+      "type": "h2",
+      "id": "osh-taklifnoma",
+      "text": "Oshga taklifnoma: 3 ta"
+    },
+    {
+      "type": "p",
+      "text": "Oshga taklif qisqa va aniq bo‘ladi: kim chaqiryapti, qachon va qayerda. Kvadrat qavsdagi joylarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "h3",
+      "text": "To‘y oldi oshi"
+    },
+    {
+      "type": "quote",
+      "text": "Hurmatli [ism va otasining ismi]! [Sana] kuni ertalab soat [vaqt]da uyimizda to‘y oldi oshi beriladi. Siz bilan bir dasturxon atrofida o‘tirishni istaymiz. Manzil: [manzil]. Hurmat bilan, [oila nomi]."
+    },
+    {
+      "type": "h3",
+      "text": "Mahalla oshiga"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz qo‘ni-qo‘shnilar! [Sana] kuni soat [vaqt]da [manzil]da mahalla oshi bo‘ladi. Hammamiz bir joyga yig‘ilib, gurunglashib o‘tiraylik. Kelishingiz biz uchun xursandchilik. Tashkilotchi: [ism]."
+    },
+    {
+      "type": "h3",
+      "text": "Do‘stlar oshiga"
+    },
+    {
+      "type": "quote",
+      "text": "Do‘stlarim, shanba kuni [vaqt]da uyimda osh damlayman! [Manzil]ga keling, birga ovqatlanib, suhbatlashamiz. Kimlar kelishini oldindan ayting, shunda osh yetmay qolmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "tugilgan-kun-taklifnoma",
+      "text": "Tug‘ilgan kunga taklifnoma: 4 ta"
+    },
+    {
+      "type": "p",
+      "text": "Tug‘ilgan kunga taklifnoma yoshga qarab o‘zgaradi: bolalar uchun o‘yin va shirinlik, kattalar uchun suhbat va choy. Kvadrat qavsdagi joylarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "h3",
+      "text": "Bolaning tug‘ilgan kuni"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz [ism]! [Bola ismi] [yosh] yoshga to‘lyapti. Sizni uning tug‘ilgan kuniga taklif etamiz: [sana] kuni soat [vaqt]da [manzil]da. O‘yinlar, shirinliklar va qiziqarli konkurslar bo‘ladi. Sizni kutamiz!"
+    },
+    {
+      "type": "h3",
+      "text": "Yoshlar uchun tug‘ilgan kun"
+    },
+    {
+      "type": "quote",
+      "text": "Do‘stlar! [Sana] kuni mening [yosh] yoshim to‘ladi va men buni sizlar bilan nishonlamoqchiman. Joy: [manzil], vaqt: [vaqt]. Sovg‘a olib kelish shart emas, kelishingizning o‘zi yetarli. Javobingizni [telefon] raqamiga yozing."
+    },
+    {
+      "type": "h3",
+      "text": "Kattalar uchun tug‘ilgan kun"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz [ism]! [Sana] kuni men [yosh] yoshga to‘laman. Shu kunni yaqin odamlarim davrasida o‘tkazmoqchiman. Soat [vaqt]da [manzil]ga keling: choy, musiqa va yaxshi suhbat bo‘ladi."
+    },
+    {
+      "type": "h3",
+      "text": "Sirli tug‘ilgan kun"
+    },
+    {
+      "type": "quote",
+      "text": "Hurmatli [ism]! [Ism]ning [yosh] yoshlik tug‘ilgan kuniga sirli kechani uyushtirmoqdamiz. [Sana] kuni soat [vaqt]da [manzil]da yig‘iladi. Iltimos, unga hech narsa aytmang! Kelishingizni [ism]ga bildiring: [telefon]."
+    },
+    {
+      "type": "h2",
+      "id": "beshik-taklifnoma",
+      "text": "Beshik to‘yi taklifnomasi: 2 ta"
+    },
+    {
+      "type": "p",
+      "text": "Farzand tug‘ilgani munosabati bilan beshik to‘yiga ikkita taklif matni. Kvadrat qavsdagi joylarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "h3",
+      "text": "Beshik to‘yi: rasmiy"
+    },
+    {
+      "type": "quote",
+      "text": "Hurmatli [ism va otasining ismi]! Oilamizda bola dunyoga keldi va biz bu quvonchni sizlar bilan baham ko‘rmoqchimiz. Beshik to‘yi [sana] kuni soat [vaqt]da [manzil]da bo‘ladi. Sizni oilangiz bilan kutamiz."
+    },
+    {
+      "type": "h3",
+      "text": "Beshik to‘yi: qisqa"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz [ism]! [Sana] kuni, soat [vaqt]da [manzil]da farzandimiz [bola ismi]ning beshik to‘yi bo‘ladi. Kelishingizdan xursand bo‘lamiz. Manzil: [mo‘ljal]. Aloqa: [telefon]."
+    },
+    {
+      "type": "h2",
+      "id": "yubiley-taklifnoma",
+      "text": "Yubiley taklifnomasi: 3 ta"
+    },
+    {
+      "type": "p",
+      "text": "Shaxsiy yubiley va tashkilot yilligi uchun matnlar. Kvadrat qavsdagi joylarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "h3",
+      "text": "50 yoshlik yubiley"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz [ism]! [Ism va otasining ismi]ning 50 yoshlik yubileyi munosabati bilan sizni davramizga taklif qilamiz. Tantana [sana] kuni soat [vaqt]da [manzil]da bo‘ladi. Kiyim: [rasmiy/erkin]. Siz bilan bo‘lish biz uchun sharaf."
+    },
+    {
+      "type": "h3",
+      "text": "60 yoshlik yubiley"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz do‘stlar, qarindoshlar! [Ism va otasining ismi] hayotining 60 yilligini nishonlaymiz. [Sana] kuni soat [vaqt]da [manzil]ga yig‘ilamiz. Yubilyarga yaxshi so‘z va iliq xotiralar bilan keling. Qisqa nutq aytmoqchi bo‘lsangiz, [telefon] raqamiga ayting."
+    },
+    {
+      "type": "h3",
+      "text": "Tashkilot yilligi"
+    },
+    {
+      "type": "quote",
+      "text": "Hurmatli [ism]! [Tashkilot nomi] tashkil topganiga [soni] yil to‘ldi va jamoamiz sizni yubiley tadbiriga taklif etadi. Tadbir [sana] kuni soat [vaqt]da [manzil]da bo‘ladi. Kiyim: rasmiy. Qatnashishingizni [sana]gacha [telefon] orqali tasdiqlashingizni so‘raymiz."
+    },
+    {
+      "type": "h2",
+      "id": "tadbir-taklifnoma",
+      "text": "Tadbir va ochilishga taklifnoma: 3 ta"
+    },
+    {
+      "type": "p",
+      "text": "Ochilish, uchrashuv va taqdimot uchun ishbilarmon va sodda matnlar. Kvadrat qavsdagi joylarni o‘zingiznikiga almashtiring."
+    },
+    {
+      "type": "h3",
+      "text": "Do‘kon yoki kafe ochilishi"
+    },
+    {
+      "type": "quote",
+      "text": "Hurmatli [ism]! [Nom] ochilishiga sizni taklif etamiz. Tadbir [sana] kuni soat [vaqt]da [manzil]da bo‘ladi. Birinchi mehmonlar uchun choy, shirinliklar va kichik sovg‘alar tayyorlangan. Sizni ko‘rishdan xursand bo‘lamiz."
+    },
+    {
+      "type": "h3",
+      "text": "Sinfdoshlar uchrashuvi"
+    },
+    {
+      "type": "quote",
+      "text": "Aziz sinfdoshlar! Bitirganimizga [soni] yil bo‘ldi: uchrashamizmi? [Sana] kuni soat [vaqt]da [joy]da yig‘ilamiz. Eski suratlarni olib keling, hammamiz eslab o‘tiramiz. Kimlar kelishini [sana]gacha [telefon] raqamiga yozing."
+    },
+    {
+      "type": "h3",
+      "text": "Taqdimot yoki seminar"
+    },
+    {
+      "type": "quote",
+      "text": "Hurmatli [ism]! Sizni [tadbir nomi]ga taklif qilamiz. U [sana] kuni soat [vaqt]dan [vaqt]gacha [manzil]da bo‘ladi. Dastur: [qisqa dastur]. Joylar soni cheklangan, ishtirokingizni [havola yoki telefon] orqali tasdiqlang."
+    },
+    {
+      "type": "h2",
+      "id": "yuborishdan-oldin",
+      "text": "Yuborishdan oldin: 6 ta tekshiruv"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ism, sana, vaqt va manzil to‘g‘rimi? Kvadrat qavsdagi barcha joylar to‘ldirilganmi?",
+        "Hafta kuni va sana mos tushyaptimi? Masalan, 15-sana shanbaga to‘g‘ri kelishini kalendardan tekshiring.",
+        "«Sen» va «siz» aralashib ketmaganmi? Katta yoshli mehmonga «siz» deb yozing.",
+        "Xabar kimga ketyapti? Rasmiy taklif do‘stlar guruhiga, hazilomuz matn esa rahbarga tushib qolmasin.",
+        "Javob uchun telefon va muddat ko‘rsatilganmi?",
+        "Telefon raqami faqat tegishli odamlarga yuboriladigan matnda turibdimi? Ochiq postga o‘z raqamingizni yozmang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "cheklovlar",
+      "text": "Cheklovlar: chat nimani qilmaydi"
+    },
+    {
+      "type": "linkp",
+      "text": "Chat faqat matn yozadi: rasm, shablon, bezakli otkritka, PDF yoki videotaklifnoma yaratmaydi. Tayyor matnni Word, Canva yoki o‘zingiz yoqtirgan dasturga qo‘yib, bezatishingiz mumkin. Matnda xato bo‘lishi mumkin: sana, vaqt va manzilni yuborishdan oldin o‘zingiz tekshiring. Kirill yozuvi kerak bo‘lsa, tayyor matnni {kl} bilan bepul o‘giring: u AI’siz ishlaydi va sinov javoblarini sarflamaydi.",
+      "links": [
+        {
+          "token": "kl",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill ↔ lotin o‘giruvchi"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Chatga boshqa odamlarning shaxsiy ma’lumotlarini yozmang: ism va tadbir ma’lumotlari yetarli. So‘rov matni serverimizga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "h2",
+      "id": "nega-gptbot",
+      "text": "Nega aynan GPTBot.uz"
+    },
+    {
+      "type": "linkp",
+      "text": "Chat o‘zbekcha so‘rovni tushunadi va rol ko‘rsatmasiga ko‘ra javobni lotin yozuvida, o‘, g‘ va ’ belgilari bilan yozadi; ruscha yozsangiz, ruscha javob beradi. Ilova o‘rnatish va ro‘yxatdan o‘tish shart emas. Tabrik matni ham kerak bo‘lsa, {gen} sahifasiga qarang, tabrik tuzilmasi va namunalar {guide}da. Boshqa vazifalar uchun {chat}ni oching. Sinov javoblari tugasa, AI paket shartlari {tariffs} sahifasida.",
+      "links": [
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish qo‘llanmasi"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Tug‘ilgan kun uchun taklifdan tashqari tabrik ham kerak bo‘lsa, {tk} sahifasida tayyor matnlar bor.",
+      "links": [
+        {
+          "token": "tk",
+          "target": "/uz/blog/tugilgan-kun-tabriklari/",
+          "anchor": "tug‘ilgan kun tabriklari"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Sahifadagi matnlar namuna sifatida berilgan; muhim tadbir uchun tayyorlangan taklifnomani yuborishdan oldin o‘zingiz ham o‘qib chiqing."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Taklifnoma yasash bepulmi?",
+      "a": "Qisman. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi bor — butun sayt bo‘yicha, AI chat bilan umumiy; ular har kuni yangilanmaydi. Keyin yangi matnlar uchun AI paket kerak: narx, javoblar soni va muddat chatda ko‘rsatiladi. Sahifadagi 24 ta tayyor matnni o‘qish va ko‘chirish bepul."
+    },
+    {
+      "q": "Taklifnoma matnida nima yozilishi shart?",
+      "a": "Kim taklif qilyapti, kimga, qanday tadbirga, qachon (sana va vaqt), qayerda (manzil va mo‘ljal), kiyim va javob uchun telefon. Shu oltita narsa bo‘lsa, mehmon savol bermasdan hammasini tushunadi."
+    },
+    {
+      "q": "To‘yga taklifnoma matni qanday bo‘ladi?",
+      "a": "2-4 gap: murojaat, to‘y munosabati bilan taklif, sana, vaqt va to‘yxona manzili, oxirida taklif qiluvchilar imzosi. Sahifadagi 6 ta to‘y taklifnomasi va 3 ta nikoh oqshomi matnida ham rasmiy, ham do‘stona variantlar bor."
+    },
+    {
+      "q": "Chat bezakli taklifnoma yoki otkritka yasaydimi?",
+      "a": "Yo‘q, chat faqat matn yozadi. Tayyor matnni Word, Canva yoki boshqa dasturdagi shablonga qo‘yib, rasm va ranglarni o‘zingiz tanlaysiz. Bosmaga yuborishdan oldin sana va manzilni yana tekshiring."
+    },
+    {
+      "q": "Taklifnomani kirill yozuvida olsa bo‘ladimi?",
+      "a": "Chat o‘zbekcha javobni lotin yozuvida yozadi. Kirill kerak bo‘lsa, tayyor matnni kirill ↔ lotin o‘giruvchi bilan o‘giring: u brauzerda, AI’siz va sinov javoblarini sarflamasdan ishlaydi."
+    },
+    {
+      "q": "Mehmonlardan javobni qanday so‘rash kerak?",
+      "a": "Matn oxiriga «Kelishingizni [sana]gacha [telefon] raqamiga bildirsangiz, xursand bo‘lamiz» deb yozing. Aniq sana va bitta telefon raqami ko‘rsating: shunda mehmonlar sonini oldindan bilasiz."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis, OpenAI ham, ChatGPT ham emas. Taklifnomani boshqa kompaniyaning til modeli yozadi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/tugilgan-kun-tabriklari/",
+      "anchor": "Tug‘ilgan kun tabriklari: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/rasmiy-xat-yozish/",
+      "anchor": "Rasmiy xat yozish: tuzilma va namunalar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz taklifnoma yasash",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "description": "Taklifnoma matnini o‘zbek tilida yozadigan mustaqil AI vosita, GPTBot.uz chatida «Ijodkor» rolida: to‘y, nikoh oqshomi, osh, tug‘ilgan kun, yubiley va tadbirlar uchun. Ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "3 ta bepul sinov javobi",
+        "description": "Butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/taklifnoma-yasash/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

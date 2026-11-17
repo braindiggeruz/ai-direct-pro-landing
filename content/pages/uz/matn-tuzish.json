@@ -1,0 +1,585 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/matn-tuzish/",
+  "slug": "matn-tuzish",
+  "pageType": "gpt-chat",
+  "chatRole": "writer",
+  "chatStarters": [
+    {
+      "label": "Mavzu bo‘yicha 6 gaplik matn",
+      "prompt": "Menga berilgan mavzu bo‘yicha 6 gapdan iborat kichik matn namunasini yoz: birinchi gap kirish, 3–4 gap asosiy qism, oxirgi gap xulosa bo‘lsin. Tilni sinfimga moslab, sodda yoz. Mavzu va sinf: "
+    },
+    {
+      "label": "Matn rejasini tuz",
+      "prompt": "Quyidagi mavzu bo‘yicha matn tuzishim uchun 5 ta savoldan iborat reja ber. Matnni o‘zim yozaman, sen faqat savollar bilan yo‘l ko‘rsat. Mavzu va sinf: "
+    },
+    {
+      "label": "Matnimni tekshir",
+      "prompt": "Quyidagi matnimni tekshir: mavzuga mosligi, uch qismi bor-yo‘qligi, gaplarning bog‘lanishi, imlo va tinish belgilari bo‘yicha xatolarni ko‘rsat va qisqa tushuntir. Matnni o‘zim qayta yozaman, o‘zing yozib berma.\nMatn: "
+    },
+    {
+      "label": "Gaplarni bir-biriga bog‘la",
+      "prompt": "Quyidagi gaplardan matn tuzmoqchiman, lekin ular bir-biriga yaxshi bog‘lanmayapti. Qayerga qanday bog‘lovchi so‘z qo‘yish mumkinligini va gaplar tartibini qanday o‘zgartirishni tushuntir.\nGaplarim: "
+    },
+    {
+      "label": "Matnni 5 gapga qisqartir",
+      "prompt": "Quyidagi matnni mazmunini saqlagan holda 5 gapga qisqartir, keyin qaysi gaplarni nega olib tashlaganingni qisqa tushuntir.\nMatn: "
+    },
+    {
+      "label": "Matn bo‘yicha savollar ber",
+      "prompt": "Quyidagi matn bo‘yicha menga 5 ta tushunish savoli ber: asosiy fikr, sarlavha va gaplar tartibi haqida. Javoblarni darhol ko‘rsatma, men yozganimdan keyin tekshir.\nMatn: "
+    }
+  ],
+  "primaryKeyword": "matn tuzish",
+  "secondaryKeywords": [
+    "matn yaratish",
+    "kichik matn",
+    "kuz haqida matn",
+    "vatan haqida matn",
+    "oila haqida matn",
+    "maktab haqida matn",
+    "5-6 gapdan iborat matn",
+    "ustoz haqida matn"
+  ],
+  "searchIntent": "informational",
+  "h1": "Kichik matn yozish: usul va kuz, Vatan, oila, maktab haqida namunalar",
+  "title": "Matn tuzish: 24 ta tayyor matn (kuz, Vatan, oila, maktab)",
+  "description": "Matn tuzish: matn nima, 3 qismi, 5 qadamli usul va kuz, Vatan, oila, maktab haqida 24 ta tayyor matn, 2–9-sinf. AI yordamchi: 3 ta bepul sinov javobi.",
+  "canonical": "https://gptbot.uz/uz/matn-tuzish/",
+  "hreflangUz": "/uz/matn-tuzish/",
+  "hreflangXDefault": "/uz/matn-tuzish/",
+  "ogTitle": "Matn tuzish: 24 ta tayyor matn (kuz, Vatan, oila, maktab)",
+  "ogDescription": "Matn tuzish: matn nima, 3 qismi, 5 qadamli usul va kuz, Vatan, oila, maktab haqida 24 ta tayyor matn, 2–9-sinf. AI yordamchi: 3 ta bepul sinov javobi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Matn tuzish",
+  "heroTitle": "Matn tuzish: usul, 24 ta tayyor matn va AI bilan tekshirish",
+  "heroSubtitle": "Usul, matnlar va tekshirish ro‘yxati bepul; AI yordamchining reja va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Matn tuzish — berilgan mavzu bo‘yicha o‘zaro bog‘langan gaplardan iborat butun bir fikr yozish demakdir. Maktabda bu topshiriq «Matn tuzing» yoki «Kuz haqida 5–6 gapdan iborat matn yozing» ko‘rinishida beriladi. Bu sahifada matn nimaligi va uch qismi, matn tuzishning 5 qadamli usuli, 2–4, 5–7 va 8–9-sinflar uchun mavzular bo‘yicha 24 ta tayyor kichik matn (kuz, qish, bahor, yoz, Vatan, oila, maktab, ona va boshqalar) hamda tayyor matnni tekshirish ro‘yxati bor. Shu sahifadagi AI chat «Yozuvchi» rolida ochiladi: u mavzu bo‘yicha reja tuzadi va sizning matningizni tekshiradi."
+    },
+    {
+      "type": "p",
+      "text": "Usul, matnlar va tekshirish ro‘yxati har doim bepul. AI yordamchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "matn-nima",
+      "text": "Matn nima va u necha qismdan iborat"
+    },
+    {
+      "type": "p",
+      "text": "Matn — bir mavzuga bag‘ishlangan, mazmunan va grammatik jihatdan o‘zaro bog‘langan gaplar guruhi. Bir nechta gapni ketma-ket yozish hali matn emas: matnda hamma gap bitta fikrga xizmat qiladi va gaplar mantiqiy tartibda keladi. Matnning sarlavhasi bo‘ladi, u mavzuni aytib turadi."
+    },
+    {
+      "type": "p",
+      "text": "Har bir matn uch qismdan tuziladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kirish: mavzuni tanishtiradi va o‘quvchini fikrga tayyorlaydi. Odatda bir yoki ikki gap.",
+        "Asosiy qism: asosiy fikr, tasvir va misollar shu yerda beriladi. Odatda uch-to‘rt gap.",
+        "Xulosa: fikrni yakunlaydi yoki mavzuga o‘z munosabatingizni bildiradi. Odatda bir-ikki gap."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qism",
+        "Gap soni (5–6 gaplik matnda)",
+        "Nima yoziladi"
+      ],
+      "rows": [
+        [
+          "Kirish",
+          "1",
+          "Mavzu nima ekanini aytadigan birinchi gap: «Kuz keldi.»"
+        ],
+        [
+          "Asosiy qism",
+          "3–4",
+          "Belgilar, voqea yoki misollar: havo, daraxtlar, mevalar, odamlar mehnati"
+        ],
+        [
+          "Xulosa",
+          "1",
+          "Yakuniy fikr yoki munosabat: «Men kuzni yaxshi ko‘raman.»"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "besh-qadam",
+      "text": "Matn tuzishning 5 qadami"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Topshiriqni aniq o‘qing. Mavzu nima, necha gap yozish kerak, kim uchun yoziladi: shularni belgilab oling. Mavzuni o‘zingiz o‘zgartirmang.",
+        "2. Savollar bilan reja tuzing. «Nima haqida?», «Qanday?», «Nima uchun?», «Menga qanday ta’sir qiladi?» savollariga bittadan qisqa javob yozing: bu reja bo‘ladi.",
+        "3. So‘z va misol yig‘ing. Mavzuga mos 5–6 ta so‘z, bitta chiroyli o‘xshatish va bitta o‘zingizdan misol topib yozing: masalan, kuz uchun «sarg‘ayish», «to‘kilmoq», «hosil».",
+        "4. Matnni qismlar bo‘yicha yozing. Kirishdan boshlang, asosiy qismda reja tartibiga amal qiling, xulosa bilan tugating. Gaplarni bir xil so‘z bilan boshlamang; «avval», «keyin», «shuning uchun», «ammo», «nihoyat» kabi bog‘lovchi so‘zlardan foydalaning.",
+        "5. Ovoz chiqarib o‘qing va tekshiring. Qayerda to‘xtab qolsangiz, o‘sha gap noqulay: uni qayta yozing. Pastdagi tekshirish ro‘yxatidan o‘ting."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "matnlar-2-4",
+      "text": "2–4-sinflar uchun 8 ta tayyor matn"
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi matnlar namuna: ularni o‘z so‘zlaringiz bilan o‘zgartiring, o‘zingizdan misol qo‘shing. Yodlab olmang, tuzilishini o‘rganing: har birida kirish, asosiy qism va xulosa bor. Bu guruhdagi matnlar 7–8 ta qisqa gapdan iborat."
+    },
+    {
+      "type": "h3",
+      "id": "matn-1",
+      "text": "1. Kuz"
+    },
+    {
+      "type": "p",
+      "text": "Kuz keldi. Havo salqin tortdi. Daraxtlarning barglari sarg‘ayib, yerga to‘kilmoqda. Bog‘larda olma, anor va uzum pishdi. Dehqonlar hosilni yig‘ishtiryapti. Qushlar issiq o‘lkalarga uchib ketmoqda. Kuzda yangi o‘quv yili boshlanadi. Men kuzni yaxshi ko‘raman."
+    },
+    {
+      "type": "h3",
+      "id": "matn-2",
+      "text": "2. Qish"
+    },
+    {
+      "type": "p",
+      "text": "Qish kelganda havo juda sovuq bo‘ladi. Yerni oppoq qor qoplaydi. Daryo va ko‘llar muzlaydi. Daraxtlar yalang‘ochlanib, bahorni kutadi. Bolalar qor o‘ynaydi va qordan odam yasaydi. Biz issiq kiyim kiyib yuramiz. Uyda choy ichib, ertak o‘qish juda yoqimli. Qishda Yangi yil bayrami keladi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-3",
+      "text": "3. Bahor"
+    },
+    {
+      "type": "p",
+      "text": "Bahor — yilning eng chiroyli fasli. Quyosh mehr bilan nur sochadi. Qor erib, ariqlarda suv jildiraydi. Daraxtlar gulga burkanadi. Dalalarda lola va boychechak ochiladi. Qaldirg‘ochlar issiq yurtlardan qaytib keladi. Dehqonlar yerga urug‘ ekadi. Navro‘z bayrami ham bahorda nishonlanadi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-4",
+      "text": "4. Yoz"
+    },
+    {
+      "type": "p",
+      "text": "Yoz — yilning eng issiq fasli. Kunlar uzun, tunlar qisqa bo‘ladi. O‘quvchilar ta’tilga chiqadi. Biz daryo bo‘yida sayr qilamiz va suvda cho‘milamiz. Bozorda tarvuz, qovun va shaftoli mo‘l bo‘ladi. Yozda bobomning uyiga qishloqqa boramiz. Kechqurun hovlida yulduzlarga qarab o‘tirish ajoyib."
+    },
+    {
+      "type": "h3",
+      "id": "matn-5",
+      "text": "5. Mening oilam"
+    },
+    {
+      "type": "p",
+      "text": "Mening oilam katta va do‘stona. Oilamizda besh kishimiz: dadam, onam, akam, singlim va men. Dadam shifokor bo‘lib ishlaydi. Onam o‘qituvchi. Akam institutda o‘qiydi, singlim esa bog‘chaga boradi. Kechqurun hammamiz dasturxon atrofida yig‘ilamiz. Bir-birimizga doim yordam beramiz. Men oilamni juda yaxshi ko‘raman."
+    },
+    {
+      "type": "h3",
+      "id": "matn-6",
+      "text": "6. Mening maktabim"
+    },
+    {
+      "type": "p",
+      "text": "Mening maktabim uyimizdan uzoq emas. U katta va yorug‘ binoda joylashgan. Sinfimizda yigirma sakkizta o‘quvchi bor. Birinchi dars soat sakkizda boshlanadi. Biz matematika, ona tili va ingliz tilini o‘rganamiz. Tanaffusda hovlida o‘ynaymiz. O‘qituvchilarimiz bizga mehribon. Maktabimda ko‘p do‘st orttirdim."
+    },
+    {
+      "type": "h3",
+      "id": "matn-7",
+      "text": "7. Mening do‘stim"
+    },
+    {
+      "type": "p",
+      "text": "Mening do‘stimning ismi Aziz. Biz bir sinfda o‘qiymiz va bir partada o‘tiramiz. Aziz mehribon va halol bola. U menga darslarni tushunishda yordam beradi. Men ham uni qiyin paytda yolg‘iz qoldirmayman. Dam olish kunlari birga futbol o‘ynaymiz. Haqiqiy do‘st qiyinchilikda bilinadi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-8",
+      "text": "8. Ona"
+    },
+    {
+      "type": "p",
+      "text": "Ona — dunyodagi eng aziz inson. U bizni tongda uyg‘otadi va mazali nonushta tayyorlaydi. Onam har doim mehr bilan gapiradi. Kasal bo‘lsam, tun bo‘yi yonimda o‘tiradi. Men onamning gaplariga quloq solaman. Katta bo‘lgach, unga yordam beraman. Onajon, sizga rahmat!"
+    },
+    {
+      "type": "h2",
+      "id": "matnlar-5-7",
+      "text": "5–7-sinflar uchun 8 ta tayyor matn"
+    },
+    {
+      "type": "p",
+      "text": "Bu matnlarda gaplar uzunroq, fikr ko‘proq: o‘xshatish, sabab va xulosa bor. «Mening shahrim» va «Mening qishlog‘im» matnlarini o‘z manzilingizga moslab o‘zgartiring: shahar yoki qishloq nomini va o‘zingiz bilgan joylarni yozing."
+    },
+    {
+      "type": "h3",
+      "id": "matn-9",
+      "text": "9. Vatan"
+    },
+    {
+      "type": "p",
+      "text": "Vatan — inson tug‘ilib o‘sgan zamin. Mening Vatanim — O‘zbekiston. Bu yurtda tog‘lar, cho‘llar va serhosil vodiylar bor. Xalqimiz mehnatsevar, mehmondo‘st va bag‘rikeng. Samarqand, Buxoro va Xiva dunyoga tanilgan shaharlardir. Vatanni sevish — uning tarixini bilish, tinchligini qadrlash demakdir. Biz yaxshi o‘qib, mehnat qilib, yurtimizni obod qilamiz."
+    },
+    {
+      "type": "h3",
+      "id": "matn-10",
+      "text": "10. Kitob"
+    },
+    {
+      "type": "p",
+      "text": "Kitob — eng sodiq do‘st. Har bir kitob bizga yangi dunyoni ochib beradi. Kitob o‘qigan odamning nutqi boy, fikri keng bo‘ladi. Men har kuni uxlashdan oldin yarim soat kitob o‘qiyman. Hozir sarguzashtlar haqidagi qiziqarli asarni o‘qiyapman. Kutubxonada o‘zimga yoqqan kitoblarni topaman. Kitobsiz bilim ham, tarbiya ham to‘liq bo‘lmaydi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-11",
+      "text": "11. Ustoz"
+    },
+    {
+      "type": "p",
+      "text": "Ustoz — bizga ilm va odob o‘rgatadigan inson. Sinf rahbarimiz juda mehribon va talabchan. U har bir darsga puxta tayyorlanib keladi. Tushunmagan mavzuni bir necha marta qayta tushuntiradi. Biz xato qilsak, koyimaydi, to‘g‘ri yo‘lni ko‘rsatadi. Ustozning mehnati o‘quvchilarning muvaffaqiyatida ko‘rinadi. Ustozni hurmat qilish — har bir o‘quvchining burchi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-12",
+      "text": "12. Tabiat"
+    },
+    {
+      "type": "p",
+      "text": "Tabiat — bizning umumiy uyimiz. Havo, suv, o‘simliklar va hayvonlar — hammasi tabiatning bir bo‘lagi. Daraxtlar havoni tozalaydi va soya beradi. Daryolar dalalarni suv bilan ta’minlaydi. Afsuski, ba’zi odamlar tabiatga beparvo qaraydi. Biz daraxt ekishimiz, axlatni belgilangan joyga tashlashimiz va suvni tejashimiz kerak. Tabiatni asrasak, u ham bizni asraydi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-13",
+      "text": "13. Mening kunim"
+    },
+    {
+      "type": "p",
+      "text": "Men har kuni soat yettida turaman. Yuz-qo‘limni yuvib, badantarbiya qilaman va nonushta qilaman. Soat sakkizda maktabga jo‘nayman. Darsdan keyin uyga qaytib, ovqatlanaman va dam olaman. Keyin uy vazifamni bajaraman. Kechqurun kitob o‘qiyman yoki do‘stlarim bilan sayr qilaman. Soat o‘nda uxlagani yotaman. Kunni tartib bilan o‘tkazish ko‘p ishga ulgurishga yordam beradi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-14",
+      "text": "14. Sport"
+    },
+    {
+      "type": "p",
+      "text": "Sport — salomatlik garovi. Muntazam shug‘ullanadigan odam kam kasal bo‘ladi va ruhan baquvvat bo‘ladi. Men haftada uch marta futbol mashg‘ulotiga boraman. Jamoada o‘ynash menga birgalikda harakat qilishni o‘rgatdi. G‘alaba quvonchli, lekin mag‘lubiyatni mardlik bilan qabul qilish ham muhim. Yurtimizdan chiqqan sportchilar xalqaro musobaqalarda ham qatnashmoqda. Biz ham ularga o‘xshashga intilamiz."
+    },
+    {
+      "type": "h3",
+      "id": "matn-15",
+      "text": "15. Mening shahrim"
+    },
+    {
+      "type": "p",
+      "text": "Men shaharda yashayman. Shahrimiz keng ko‘chalari, ko‘p qavatli uylari va bog‘lari bilan chiroyli. Markazda katta xiyobon bor, kechqurun u yerda odamlar sayr qiladi. Shahar bo‘ylab avtobuslar qatnaydi. Bu yerda muzey, kutubxona va teatrlar ko‘p. Men shahrimizning ozodaligini ko‘rib quvonaman. Uni yanada obod qilish uchun daraxt ekamiz va tozalikka rioya qilamiz."
+    },
+    {
+      "type": "h3",
+      "id": "matn-16",
+      "text": "16. Mening qishlog‘im"
+    },
+    {
+      "type": "p",
+      "text": "Men qishloqda tug‘ilib o‘sganman. Qishlog‘imiz tog‘ etagida, shirin suvli buloq yonida joylashgan. Bahorda atrof yam-yashil bo‘lib, gullar ochiladi. Odamlar dehqonchilik va chorvachilik bilan shug‘ullanadi. Qo‘shnilar bir-biriga mehribon, bayramlarda hamma birga yig‘iladi. Qishlog‘imning havosi toza, suvi shirin. Qayerga bormay, o‘z qishlog‘imni sog‘inaman."
+    },
+    {
+      "type": "h2",
+      "id": "matnlar-8-9",
+      "text": "8–9-sinflar uchun 8 ta tayyor matn"
+    },
+    {
+      "type": "p",
+      "text": "Yuqori sinflarda matn fikrli bo‘lishi kerak: bunda faqat tasvir emas, o‘z qarashingiz, dalil va xulosa ham ko‘rinadi. Namunalardagi faktlarni (sana, nom) o‘zingiz tekshirib oling."
+    },
+    {
+      "type": "h3",
+      "id": "matn-17",
+      "text": "17. Mening orzuim"
+    },
+    {
+      "type": "p",
+      "text": "Har bir inson biror orzu bilan yashaydi. Mening orzuim — shifokor bo‘lish. Kasal bolalarning azobini ko‘rganimda, ularga yordam bergim keladi. Shifokor bo‘lish uchun biologiya va kimyoni chuqur o‘rganishim kerak. Shuning uchun har kuni qo‘shimcha mashq qilaman va ilmiy kitoblar o‘qiyman. Bilaman, yo‘l oson emas, lekin sabr va mehnat bilan maqsadga erishish mumkin. Kelajakda yurtimga foyda keltirishni xohlayman."
+    },
+    {
+      "type": "h3",
+      "id": "matn-18",
+      "text": "18. Mustaqillik"
+    },
+    {
+      "type": "p",
+      "text": "Mustaqillik — xalqimizning asrlar davomidagi orzusi. O‘zbekiston 1991-yil 31-avgustda o‘z mustaqilligini e’lon qildi. Mustaqillik kuni har yili 1-sentabrda keng nishonlanadi. Mustaqillik tufayli biz o‘z tilimiz, qadriyatlarimiz va madaniyatimizni erkin rivojlantirish imkoniga ega bo‘ldik. Bu ne’matning qadriga yetish — avvalo, yaxshi o‘qish va halol mehnat qilish demakdir. Yoshlar yurtning kelajagi, shuning uchun ularning bilimli bo‘lishi muhim. Biz Vatan ravnaqi uchun astoydil harakat qilishimiz kerak."
+    },
+    {
+      "type": "h3",
+      "id": "matn-19",
+      "text": "19. Ona tilim"
+    },
+    {
+      "type": "p",
+      "text": "Til — millatning ruhi. Ona tilim — o‘zbek tili. U bobolarimizdan bizga meros bo‘lib qolgan bebaho boylikdir. Alisher Navoiy asarlari o‘zbek tilining qanchalik boy va jozibali ekanini ko‘rsatadi. Tilimizni asrash uchun uni to‘g‘ri va chiroyli so‘zlash, imlo qoidalariga rioya qilish kerak. Ona tilini yaxshi bilgan odam boshqa tillarni ham tezroq o‘rganadi. Men har kuni yangi so‘z o‘rganishga va fikrimni aniq bayon etishga harakat qilaman."
+    },
+    {
+      "type": "h3",
+      "id": "matn-20",
+      "text": "20. Mehnat"
+    },
+    {
+      "type": "p",
+      "text": "Mehnat — insonni ulug‘laydigan eng go‘zal fazilat. Xalqimizda «Mehnatning noni shirin» degan maqol bor. Dehqon yerni parvarish qiladi, quruvchi uy quradi, o‘qituvchi ilm beradi. Har bir kasb jamiyat uchun zarur. Men uyda ota-onamga yordam berib, mehnatning qadrini his qilaman. Mehnat bilan topilgan non har qanday boylikdan afzal. Yoshligidan mehnatga o‘rgangan bola mustaqil va ishonchli inson bo‘lib o‘sadi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-21",
+      "text": "21. Do‘stlik haqida"
+    },
+    {
+      "type": "p",
+      "text": "Do‘stlik — insonlarni bir-biriga bog‘laydigan eng toza tuyg‘ulardan biri. Haqiqiy do‘st quvonchda ham, qiyinchilikda ham yoningda bo‘ladi. U faqat maqtamaydi, xatoyingni ham to‘g‘ri aytadi. Do‘stlikda halollik va o‘zaro ishonch eng muhim. Menda ham maktabdan beri birga o‘qiyotgan yaqin do‘stlarim bor. Biz bir-birimizning sirlarimizni saqlaymiz va darslarda yordamlashamiz. Do‘st topish oson, uni asrab qolish esa katta mas’uliyat talab qiladi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-22",
+      "text": "22. Navro‘z"
+    },
+    {
+      "type": "p",
+      "text": "Navro‘z — xalqimizning eng qadimiy va sevimli bayrami. U 21-mart kuni, bahorning kirib kelishi bilan nishonlanadi. Bu kuni dasturxonga sumalak, halim va ko‘k somsa tayyorlanadi. Ko‘chalarda kurash va xalq o‘yinlari tashkil etiladi. Odamlar bir-birini tabriklab, eski gina-kuduratlarni unutadi, yangi niyatlar qiladi. Navro‘z tabiatning uyg‘onishi, mehr-oqibat va birdamlik bayramidir. Uning an’analarini avlodlarga yetkazish bizning vazifamiz."
+    },
+    {
+      "type": "h3",
+      "id": "matn-23",
+      "text": "23. Suv — hayot manbai"
+    },
+    {
+      "type": "p",
+      "text": "Suv — hayot manbai. Usiz na inson, na hayvon, na o‘simlik yashay oladi. Yurtimizda suv eng qimmatli boyliklardan biri hisoblanadi. Shu bois uni tejab ishlatish har birimizning burchimiz. Tish yuvayotganda jo‘mrakni yopib qo‘yish, oqib turgan jo‘mrakni ta’mirlash kabi kichik ishlar ham foyda beradi. Daryo va ariqlarni ifloslantirmaslik kerak. Bugun biz tejagan har tomchi ertangi avlodlarga qoladi."
+    },
+    {
+      "type": "h3",
+      "id": "matn-24",
+      "text": "24. Texnologiya va yoshlar"
+    },
+    {
+      "type": "p",
+      "text": "Bugun telefon va internet hayotimizning ajralmas qismiga aylandi. Ular yordamida bilim olish va uzoqdagi yaqinlar bilan aloqa qilish oson. Ammo vaqtni befoyda o‘tkazish xavfi ham bor. Men telefondan darslar uchun va ma’lumot izlash uchun foydalanaman. Kuniga bir soatdan ortiq o‘yin o‘ynamaslikka harakat qilaman. Texnologiya — yaxshi yordamchi, lekin u inson o‘rnini bosa olmaydi. Eng muhimi — undan oqilona foydalanish."
+    },
+    {
+      "type": "h2",
+      "id": "tekshirish",
+      "text": "Tayyor matnni qanday tekshirish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mavzuga mosligi: har bir gap sarlavhada aytilgan mavzuga xizmat qiladimi? Mavzudan chetga chiqqan gapni olib tashlang.",
+        "Gap soni: topshiriqda «5–6 ta gap» deyilgan bo‘lsa, aynan shuncha gap yozilganini sanab chiqing.",
+        "Uch qism: birinchi gap mavzuni tanishtiryaptimi, oxirgi gap fikrni yakunlayaptimi?",
+        "So‘z takrori: bir so‘z yonma-yon gaplarda uch martadan ko‘p kelsa, uni ma’nodosh so‘z bilan almashtiring.",
+        "Imlo: gap boshida bosh harf, atoqli otlarda bosh harf, o‘ va g‘ harflari, tutuq belgisi (ma’no, ta’til), -ning, -ni, -ga qo‘shimchalari.",
+        "Tinish belgilari: gap oxirida nuqta, so‘roq yoki undov belgisi; uyushiq bo‘laklar orasida vergul; undalmadan keyin vergul.",
+        "Zamon birligi: matnni hozirgi zamonda boshlagan bo‘lsangiz, oxirigacha shu zamonda davom ettiring; o‘tgan zamon bilan aralashtirmang.",
+        "Ovoz chiqarib o‘qish: o‘qiganda noqulay eshitilgan joyni qayta yozing."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Matn tuzishdagi tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Gaplar bir-biriga bog‘lanmaydi: har gap alohida mavzuda gapiradi. Yechim: har bir yangi gapni oldingisining davomi qilib yozing.",
+        "Hamma gap bir xil so‘z bilan boshlanadi («Men... Men... Men...»). Yechim: ega, hol yoki bog‘lovchi so‘z bilan boshlashni almashtiring.",
+        "Xulosa yo‘q: matn yarim yo‘lda to‘xtaydi. Yechim: oxirgi gapda fikrni yakunlang yoki munosabatingizni yozing.",
+        "Bitta uzun gap «va» bilan cho‘zilib ketadi. Yechim: uni ikki-uch qisqa gapga bo‘ling.",
+        "Boshqa matn ko‘chirib yoziladi. Yechim: namunadan faqat tuzilishni oling, mazmunni o‘zingiz yozing."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai-yordamchi",
+      "text": "AI yordamchi bilan matn tuzish"
+    },
+    {
+      "type": "p",
+      "text": "Chat ustidagi tugmalarda tayyor so‘rovlar bor: mavzu bo‘yicha matn namunasi, reja tuzish, matningizni tekshirish, gaplarni bog‘lash, matnni qisqartirish yoki uzaytirish va matn bo‘yicha savollar. Tugma so‘rovni faqat yozish maydoniga qo‘yadi; uni o‘zgartirishingiz mumkin, yuborishni esa o‘zingiz hal qilasiz. So‘rovga sinfingiz va gap sonini yozing, masalan: «3-sinf uchun «Mening mushugim» mavzusida 6 gapdan iborat matn tuz»."
+    },
+    {
+      "type": "p",
+      "text": "AI tayyor matnni uy vazifasi sifatida topshirish uchun emas: avval o‘zingiz yozib ko‘ring, keyin tekshirishni so‘rang yoki AI yozgan namunadan tuzilishni o‘rganing. Model ham adashishi mumkin: imlo va faktlarni shu sahifadagi tekshirish ro‘yxati va darslik bilan solishtiring."
+    },
+    {
+      "type": "h2",
+      "id": "keyingi-qadam",
+      "text": "Keyingi qadam"
+    },
+    {
+      "type": "linkp",
+      "text": "Matn tuzishni o‘rganib bo‘lgach, kattaroq yozma ishga o‘ting: {insho} va {esse} bilan tanishing, ularning tartibi va talablari boshqacha. Gaplaringiz to‘g‘ri tuzilganini bilish uchun {syn} sahifasidagi tartibdan foydalaning, ona tilidan bilimingizni esa {test} bilan sinab ko‘ring. Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "insho",
+          "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+          "anchor": "sun’iy intellekt yordamida insho yozish"
+        },
+        {
+          "token": "esse",
+          "target": "/uz/blog/esse-yozish-tartibi/",
+          "anchor": "esse yozish tartibi"
+        },
+        {
+          "token": "syn",
+          "target": "/uz/sintaktik-tahlil/",
+          "anchor": "gap tuzilishini tekshirish"
+        },
+        {
+          "token": "test",
+          "target": "/uz/ona-tili-test/",
+          "anchor": "ona tili mashq savollari"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Матн тузиш: матн нима, унинг уч қисми, 5 қадамли усул ва куз, Ватан, оила, мактаб ҳақида 24 та тайёр матн. Ўз матнингизни AI ёрдамчи билан текширинг."
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "bizga Telegram’da"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Matn nima?",
+      "a": "Matn — bir mavzuga bag‘ishlangan, mazmunan o‘zaro bog‘langan va sarlavhaga ega gaplar guruhi. Unda kirish, asosiy qism va xulosa bo‘ladi, hamma gap bitta fikrga xizmat qiladi."
+    },
+    {
+      "q": "5–6 gapdan iborat matn qanday tuziladi?",
+      "a": "Birinchi gapda mavzuni tanishtiring, keyingi 3–4 gapda asosiy fikr va misollarni yozing, oxirgi gapda xulosa qiling. Masalan, «Kuz» matni: kuz keldi; havo salqin; barglar to‘kiladi; mevalar pishadi; men kuzni yaxshi ko‘raman. Gaplarni qisqa va bir-biriga bog‘langan qilib yozing."
+    },
+    {
+      "q": "Kichik matn necha gapdan iborat bo‘ladi?",
+      "a": "Qat’iy qoida yo‘q: topshiriqda aytilgan gap soniga amal qiling. Boshlang‘ich sinflarda odatda 4–6 gap, 5–7-sinflarda 6–8 gap, yuqori sinflarda esa ko‘proq so‘raladi. Topshiriqda gap soni ko‘rsatilmagan bo‘lsa, o‘qituvchingizdan so‘rang."
+    },
+    {
+      "q": "Tayyor matnni daftarga ko‘chirib yozsam bo‘ladimi?",
+      "a": "Ko‘chirish o‘rgatmaydi, o‘qituvchi ham buni sezadi. Namunadan tuzilishni, kerakli so‘z va gap qurilishini oling, so‘ng matnni o‘z so‘zlaringiz bilan, o‘z hayotingizdagi misollar bilan yozing."
+    },
+    {
+      "q": "Matn bilan insho orasida qanday farq bor?",
+      "a": "Matn — qisqa, bir mavzudagi gaplar to‘plami; unda asosiy maqsad gaplarni mantiqan bog‘lash. Insho kattaroq, erkin fikrli va o‘z qarashni ochib beruvchi yozma ish bo‘lib, reja va dalillarni talab qiladi. Insho haqida alohida maqolamizda yozilgan."
+    },
+    {
+      "q": "AI yordamchi bepulmi?",
+      "a": "Usul, matnlar va tekshirish ro‘yxati bepul. AI yordamchining reja va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Javobni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "anchor": "Sun’iy intellekt yordamida insho yozish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/esse-yozish-tartibi/",
+      "anchor": "Esse yozish tartibi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/sintaktik-tahlil/",
+      "anchor": "Gap tuzilishini tekshirish tartibi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ona-tili-test/",
+      "anchor": "Ona tili mashq savollari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI yordamchi: matn tuzish",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Matn tuzish usuli, 24 ta tayyor kichik matn va tekshirish ro‘yxati, shuningdek GPTBot.uz chatidagi AI yordamchi: reja tuzadi va matningizni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul usul va matnlar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Usul, tayyor matnlar va tekshirish ro‘yxati bepul. AI yordamchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/matn-tuzish/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

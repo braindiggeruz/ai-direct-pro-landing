@@ -1,0 +1,439 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "mantiqiy-savollar",
+  "url": "/uz/blog/mantiqiy-savollar/",
+  "title": "Mantiqiy savollar javobi bilan: 120 ta qiziqarli savol",
+  "description": "120 ta mantiqiy savol javobi bilan: bolalar uchun 40 ta oson, 40 ta o‘rta va 40 ta qiyin savol. Dars, viktorina va oilaviy o‘yin uchun qiziqarli to‘plam.",
+  "h1": "Mantiqiy savollar: javoblari bilan 120 ta oson, o‘rta va qiyin savol",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "mantiqiy savollar",
+    "mantiqiy savollar javobi bilan",
+    "qiziqarli mantiqiy savollar",
+    "mantiqiy savollar bolalar uchun",
+    "qiziqarli savollar"
+  ],
+  "intro": "Mantiqiy savol bilimni emas, diqqat va fikrlashni sinaydi: javob ko‘pincha shartning o‘zida yashiringan bo‘ladi. Bu sahifada 120 ta mantiqiy savol javobi bilan jamlangan va uch darajaga ajratilgan — bolalar uchun oson, o‘rta va qiyin.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida 120 ta mantiqiy savol bor — 40 ta oson, 40 ta o‘rta va 40 ta qiyin. Har bir savolning javobi o‘zidan keyin, «Javob:» so‘zidan so‘ng yozilgan: avval o‘ylab ko‘ring, keyin tekshiring. Savollarning ko‘pi xalq orasida mashhur klassik mantiqiy masalalarga asoslangan; matni shu sahifa uchun AI yordamida qayta yozilgan, har bir javob alohida yechib tekshirilgan."
+    },
+    {
+      "type": "linkp",
+      "text": "Yechimi tushunarsiz qolgan savolni {chat}ga yozib, «bosqichma-bosqich tushuntir» deb so‘rash mumkin. Bu GPTBot.uz AI chati: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qanday-foydalanish",
+      "text": "Savollardan qanday foydalanish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Javobni kaftingiz yoki qog‘oz bilan yopib o‘qing: avval savol, keyin o‘ylash, oxirida javob.",
+        "Shoshilmang: oson savolga yarim daqiqa, qiyiniga 3–5 daqiqa bering.",
+        "Darsda: dars boshida 2–3 ta savol yaxshi «aqliy chigalyozdi» bo‘ladi; guruhlar o‘rtasida bellashuv o‘tkazsa ham bo‘ladi.",
+        "Oilada: yo‘lda yoki dasturxon atrofida navbat bilan savol bering — to‘g‘ri topgan odam keyingi savolni tanlaydi.",
+        "Javobni yodlamang, yo‘lini tushuning: «nega shunday?» degan savolga javob bera olsangiz, masala yechilgan bo‘ladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oson",
+      "text": "Oson mantiqiy savollar: bolalar uchun 40 ta"
+    },
+    {
+      "type": "p",
+      "text": "Bu bo‘limda diqqat va topqirlikni sinaydigan sodda savollar bor. Ko‘pida «tuzoq» bitta so‘zda yashiringan, shuning uchun shartni oxirigacha eshitish kerak. Boshlang‘ich sinf o‘quvchilari bilan o‘ynash uchun qulay."
+    },
+    {
+      "type": "h3",
+      "id": "oson-1-20",
+      "text": "Oson savollar: 1–20"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Bir kilogramm paxta og‘irmi yoki bir kilogramm temir? Javob: ikkalasi teng — har biri bir kilogramm.",
+        "2. Stolda 3 ta olma bor edi. Siz ulardan 2 tasini oldingiz. Sizda nechta olma bor? Javob: 2 ta — o‘zingiz olgan olmalar.",
+        "3. Yilning nechta oyida 28-kun bor? Javob: 12 ta oyida — har bir oyda 28-kun bor.",
+        "4. Xo‘roz tomning eng tepasiga tuxum qo‘ydi. Tuxum qaysi tomonga dumalaydi? Javob: hech qaysi tomonga — xo‘roz tuxum qo‘ymaydi.",
+        "5. Dilnozaning onasining to‘rtta qizi bor. Uchtasining ismi — Lola, Gulnoza va Nargiza. To‘rtinchi qizning ismi nima? Javob: Dilnoza.",
+        "6. Ikki ota va ikki o‘g‘il uchta olmani bo‘lishdi, har biriga bittadan butun olma tegdi. Bu qanday bo‘lishi mumkin? Javob: ular uch kishi — bobo, ota va nevara.",
+        "7. Poygada ikkinchi o‘rinda ketayotgan yuguruvchini quvib o‘tdingiz. Endi nechanchi o‘rindasiz? Javob: ikkinchi o‘rindasiz — birinchi yuguruvchi hali oldinda.",
+        "8. Bo‘sh stakanga nechta no‘xat solish mumkin? Javob: bitta — shundan keyin stakan bo‘sh bo‘lmay qoladi.",
+        "9. Aka ukasidan 4 yosh katta. 10 yildan keyin u ukasidan necha yosh katta bo‘ladi? Javob: yana 4 yosh — yosh farqi o‘zgarmaydi.",
+        "10. Bitta tuxum 5 daqiqada pishadi. Bitta qozonda birga qaynatilgan 4 ta tuxum necha daqiqada pishadi? Javob: 5 daqiqada — ular bir vaqtda pishadi.",
+        "11. Sardor Akmaldan baland, Akmal esa Bekzoddan baland. Uchovidan kim eng past bo‘yli? Javob: Bekzod.",
+        "12. Bugun chorshanba. Indinga, ya’ni ertadan keyingi kun qaysi kun bo‘ladi? Javob: juma.",
+        "13. Kecha yakshanba edi. Ertaga qaysi kun bo‘ladi? Javob: seshanba — chunki bugun dushanba.",
+        "14. To‘rtburchak xonaning har bir burchagida bittadan mushuk o‘tiribdi. Har bir mushuk qarshisida uchta mushukni ko‘ryapti. Xonada nechta mushuk bor? Javob: 4 ta.",
+        "15. Elektr poyezd shimolga ketyapti, shamol esa g‘arbdan esyapti. Poyezdning tutuni qaysi tomonga ketadi? Javob: hech qaysi tomonga — elektr poyezddan tutun chiqmaydi.",
+        "16. Bir qo‘lda 5 ta barmoq bor. O‘nta qo‘lda nechta barmoq bor? Javob: 50 ta.",
+        "17. Shoxda 5 ta chumchuq o‘tirgan edi. Ikkitasi uchib ketmoqchi bo‘ldi. Shoxda nechta chumchuq qoldi? Javob: 5 ta — uchib ketmoqchi bo‘lish hali uchib ketish emas.",
+        "18. Bolalar bir qatorga saf tortdi. Aziz boshidan sanaganda ham, oxiridan sanaganda ham beshinchi. Safda nechta bola bor? Javob: 9 ta — Azizning oldida 4 ta, orqasida 4 ta bola bor.",
+        "19. Mashina o‘ngga burilayotganda qaysi g‘ildiragi aylanmaydi? Javob: zaxira g‘ildiragi.",
+        "20. Choyni qaysi qo‘l bilan aralashtirgan ma’qul? Javob: qo‘l bilan emas, qoshiq bilan."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "oson-21-40",
+      "text": "Oson savollar: 21–40"
+    },
+    {
+      "type": "list",
+      "items": [
+        "21. Yarim olmaga eng ko‘p nima o‘xshaydi? Javob: o‘sha olmaning ikkinchi yarmi.",
+        "22. Nonushtada hech qachon nimani yeb bo‘lmaydi? Javob: tushlik va kechki ovqatni.",
+        "23. Bir kishi sakkiz kun uxlamadi, lekin sira charchamadi. Bu qanday bo‘lishi mumkin? Javob: u kunduzi emas, kechalari uxlagan.",
+        "24. Tasavvur qiling: siz samolyot uchuvchisisiz. Samolyot Toshkentdan Urganchga uchyapti, salonda 120 yo‘lovchi bor. Uchuvchi necha yoshda? Javob: siz necha yoshda bo‘lsangiz, shuncha — uchuvchi o‘zingizsiz.",
+        "25. Avtobusda 10 yo‘lovchi bor edi. Birinchi bekatda 3 kishi tushib, 5 kishi chiqdi; ikkinchi bekatda 4 kishi tushib, 2 kishi chiqdi. Avtobus nechta bekatda to‘xtadi? Javob: 2 ta bekatda.",
+        "26. U ota-onamning farzandi, lekin akam ham, ukam ham, opam ham, singlim ham emas. U kim? Javob: men o‘zim.",
+        "27. Yetti aka-ukaning har birida bittadan singil bor. Oilada jami nechta farzand bor? Javob: 8 ta — singil hammasi uchun bitta.",
+        "28. Daraxtda 10 ta qush o‘tirgan edi. Ovchi miltiq otdi, lekin birortasiga ham tegiza olmadi. Daraxtda nechta qush qoldi? Javob: bitta ham qolmadi — o‘q ovozidan hammasi uchib ketdi.",
+        "29. Yarim tunda yomg‘ir yog‘yapti. Roppa-rosa 48 soatdan keyin quyosh charaqlab turishi mumkinmi? Javob: yo‘q — 48 soatdan keyin yana yarim tun bo‘ladi.",
+        "30. Qaysi idishdan hech narsa yeb bo‘lmaydi? Javob: bo‘sh idishdan.",
+        "31. Ali, Vali va G‘ani musobaqada dastlabki uch o‘rinni egalladi. Ali birinchi emas, Vali esa birinchi ham, ikkinchi ham emas. Kim birinchi bo‘lgan? Javob: G‘ani — Vali uchinchi, Ali ikkinchi.",
+        "32. Hafta kunlaridan qaysi birining nomida «shanba» so‘zi yo‘q? Javob: juma.",
+        "33. Uchta shamni yoqish uchun eng kamida nechta gugurt cho‘pi kerak? Javob: bitta — qolgan shamlarni yonib turgan shamdan yoqsa bo‘ladi.",
+        "34. Qorong‘i xonada sham, kerosin lampa va pechka bor. Qo‘lingizda bitta gugurt cho‘pi. Birinchi bo‘lib nimani yoqasiz? Javob: gugurt cho‘pini.",
+        "35. Ikki sonni qo‘shsa ham, ko‘paytirsa ham 4 chiqadi. Bu qaysi sonlar? Javob: 2 va 2.",
+        "36. Uchta natural sonning yig‘indisi ham, ko‘paytmasi ham 6 ga teng. Bu qaysi sonlar? Javob: 1, 2 va 3.",
+        "37. Qaysi biri ko‘p: bir haftadagi kunlarmi yoki kamalakdagi ranglarmi? Javob: teng — ikkalasi ham yettita.",
+        "38. Qaysi soat sutkasiga faqat ikki marta to‘g‘ri vaqtni ko‘rsatadi? Javob: to‘xtab qolgan milli soat.",
+        "39. G‘oz bir oyog‘ida turganda 4 kilogramm keladi. Ikki oyog‘ida turganda necha kilogramm keladi? Javob: 4 kilogramm — og‘irligi o‘zgarmaydi.",
+        "40. Bog‘bon 5 ta ko‘chatni bir qatorga, har ikki qo‘shni ko‘chat orasini 2 metrdan qilib ekdi. Birinchi va oxirgi ko‘chat orasi necha metr? Javob: 8 metr — beshta ko‘chat orasida to‘rtta oraliq bor."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "orta",
+      "text": "O‘rta darajadagi mantiqiy savollar: 40 ta"
+    },
+    {
+      "type": "p",
+      "text": "Bu yerda topqirlikning o‘zi yetmaydi: sanash, taqqoslash va bir-ikki qadam oldinni o‘ylash kerak. Qog‘oz-qalam olib, chizma chizsangiz, yechim tezroq topiladi. Savollar 4–7-sinf o‘quvchilari va kattalar uchun mos."
+    },
+    {
+      "type": "h3",
+      "id": "orta-41-60",
+      "text": "O‘rta savollar: 41–60"
+    },
+    {
+      "type": "list",
+      "items": [
+        "41. Savatda 5 ta olma bor edi. Ularni 5 bolaga bittadan bo‘lib berishdi, lekin savatda yana bitta olma qoldi. Qanday qilib? Javob: oxirgi bola olmani savati bilan oldi.",
+        "42. G‘ishtning og‘irligi — 1 kilogramm va yana yarim g‘isht. G‘isht necha kilogramm? Javob: 2 kilogramm — yarim g‘isht 1 kilogramm keladi.",
+        "43. Hovuzdagi nilufar barglari egallagan joy har kuni ikki baravar ko‘payadi. Hovuz 30-kuni to‘liq qoplandi. Hovuzning yarmi nechanchi kuni qoplangan edi? Javob: 29-kuni.",
+        "44. Shilliqqurt 10 metrli ustunga chiqyapti: kunduzi 3 metr ko‘tariladi, kechasi 2 metr pastga sirpanadi. U ustun tepasiga nechanchi kuni yetadi? Javob: 8-kuni — yetti sutkada 7 metrga chiqadi, sakkizinchi kuni qolgan 3 metrni bosib o‘tadi.",
+        "45. Tortmada 10 ta qora va 10 ta oq paypoq aralash yotibdi. Qorong‘ida eng kamida nechta paypoq olsangiz, ular orasida albatta bir xil rangli juft bo‘ladi? Javob: 3 ta.",
+        "46. Arrachi xodani 3 bo‘lakka 6 daqiqada arraladi. Xuddi shunday xodani 6 bo‘lakka arralashga qancha vaqt ketadi? Javob: 15 daqiqa — 3 bo‘lak uchun 2 marta, 6 bo‘lak uchun 5 marta arralanadi, har biri 3 daqiqadan.",
+        "47. 100 metrli to‘g‘ri yo‘lak bo‘ylab, boshidan oxirigacha har 10 metrda bittadan chiroq ustuni o‘rnatildi. Jami nechta ustun kerak bo‘ldi? Javob: 11 ta.",
+        "48. Men 6 yoshda bo‘lganimda singlim mendan ikki baravar kichik edi. Hozir men 40 yoshdaman. Singlim necha yoshda? Javob: 37 yoshda — oramizdagi farq 3 yosh.",
+        "49. Ikki kishi shaxmat o‘ynadi: har biri 5 partiyadan o‘ynadi va har biri 5 marta yutdi. Bu qanday bo‘lishi mumkin? Javob: ular bir-biri bilan emas, boshqa raqiblar bilan o‘ynagan.",
+        "50. Uyning to‘rtala devoridagi derazalar ham janubga qaraydi. Bu uy qayerda joylashgan? Javob: Shimoliy qutbda.",
+        "51. Uzunligi 5 metrli arqonga bog‘langan ot 10 metr naridagi pichanni bemalol yedi. Arqon uzilmadi ham, cho‘zilmadi ham. Qanday qilib? Javob: arqonning ikkinchi uchi hech narsaga bog‘lanmagan edi.",
+        "52. Birinchi qavatdan ikkinchi qavatga chiqish uchun 12 ta zina bosiladi. Qavatlar orasi bir xil bo‘lsa, birinchi qavatdan beshinchi qavatga chiqish uchun nechta zina bosiladi? Javob: 48 ta — to‘rtta oraliq bor.",
+        "53. Hovlida tovuqlar va quyonlar bor: jami 8 ta bosh va 22 ta oyoq. Hovlida nechta quyon bor? Javob: 3 ta quyon va 5 ta tovuq: 3 × 4 + 5 × 2 = 22.",
+        "54. Uchta mushuk uchta sichqonni uch daqiqada tutadi. Yuzta mushuk yuzta sichqonni necha daqiqada tutadi? Javob: uch daqiqada — har bir mushuk bittadan sichqon tutadi.",
+        "55. Idish qopqog‘i bilan birga 110 gramm keladi. Idish qopqoqdan 100 gramm og‘ir. Qopqoq necha gramm? Javob: 5 gramm, idish esa 105 gramm.",
+        "56. Sinfda 30 o‘quvchi bor. 18 nafari shaxmat, 15 nafari shashka to‘garagiga qatnaydi, har bir o‘quvchi kamida bitta to‘garakka boradi. Nechta o‘quvchi ikkala to‘garakka ham qatnaydi? Javob: 3 nafar: 18 + 15 − 30 = 3.",
+        "57. Soat roppa-rosa 3:00 ni ko‘rsatganda soat va daqiqa millari orasidagi burchak necha gradus bo‘ladi? Javob: 90 gradus.",
+        "58. Kitobning 1-betidan 20-betigacha raqamlab chiqish uchun jami nechta raqam yoziladi? Javob: 31 ta — 9 ta bir xonali va 11 ta ikki xonali son.",
+        "59. Besh do‘st uchrashganda har biri qolganlarning har biri bilan bir martadan qo‘l berib ko‘rishdi. Jami necha marta qo‘l siqishildi? Javob: 10 marta.",
+        "60. Ota 36 yoshda, o‘g‘li 6 yoshda. Necha yildan keyin ota o‘g‘lidan roppa-rosa uch baravar katta bo‘ladi? Javob: 9 yildan keyin — ota 45, o‘g‘il 15 yoshda bo‘ladi."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "orta-61-80",
+      "text": "O‘rta savollar: 61–80"
+    },
+    {
+      "type": "list",
+      "items": [
+        "61. Ikki kishi daryo bo‘yiga keldi. Qayiq esa faqat bir kishini ko‘taradi. Shunga qaramay ikkalasi ham shu qayiqda narigi qirg‘oqqa o‘tib oldi. Qanday qilib? Javob: ular daryoning ikki qarama-qarshi qirg‘og‘ida turgan edi.",
+        "62. Shifokorning ukasi bor, lekin o‘sha ukaning akasi yo‘q. Shifokor unga kim bo‘ladi? Javob: opasi — shifokor ayol kishi.",
+        "63. Bola 3 ta konfetni har yarim soatda bittadan yeydi. Birinchisini hozir yesa, oxirgisini yeguncha qancha vaqt o‘tadi? Javob: 1 soat.",
+        "64. Agar indinga shanba bo‘lsa, o‘tgan kuni, ya’ni kechadan oldingi kun qaysi kun edi? Javob: seshanba — demak, bugun payshanba.",
+        "65. Bir kishi yomg‘irda soyabonsiz va bosh kiyimsiz qoldi. Kiyimlari shalabbo bo‘ldi, lekin sochining bir tolasi ham ho‘l bo‘lmadi. Nega? Javob: uning boshida soch yo‘q — u kal.",
+        "66. Kema bortidan arqon narvon osilib turibdi, pastki pog‘onasi suvga tegib turibdi. Pog‘onalar orasi 25 santimetr. Dengiz suvi soatiga 20 santimetr ko‘tarilsa, 3 soatda suv nechta pog‘onani bosadi? Javob: birortasini ham — kema suv bilan birga ko‘tariladi.",
+        "67. Qatorni davom ettiring: 1, 1, 2, 3, 5, 8, … Keyingi son qaysi? Javob: 13 — har bir son o‘zidan oldingi ikki sonning yig‘indisi.",
+        "68. Qatorni davom ettiring: 2, 6, 12, 20, 30, … Keyingi son qaysi? Javob: 42 — farqlar 4, 6, 8, 10, 12 bo‘lib o‘sib boradi.",
+        "69. Harflar qatorini davom ettiring: D, S, Ch, P, J, Sh, … Keyingi harf qaysi? Javob: Y — bular hafta kunlarining bosh harflari, oxirgisi yakshanba.",
+        "70. Oyning birinchi kuni dushanbaga to‘g‘ri keldi. Shu oyning 22-kuni haftaning qaysi kuni? Javob: dushanba — 1, 8, 15 va 22-kunlar bir xil kunga to‘g‘ri keladi.",
+        "71. Anvar Botirdan katta, lekin Davrondan kichik. Elyor esa Davrondan katta. To‘rtovidan kim eng katta, kim eng kichik? Javob: eng kattasi — Elyor, eng kichigi — Botir.",
+        "72. Men ikki xonali toq sonman, 5 ga qoldiqsiz bo‘linaman, raqamlarim yig‘indisi 9 ga teng. Men qaysi sonman? Javob: 45.",
+        "73. Uch opa-singilning yoshlari yig‘indisi 30 ga teng. O‘rtanchasi kenjasidan 3 yosh, kattasi esa kenjasidan 6 yosh katta. Ular necha yoshda? Javob: 7, 10 va 13 yoshda.",
+        "74. Olmalarimning yarmini ukamga, qolganining yarmini singlimga berdim. O‘zimda 3 ta olma qoldi. Boshida nechta olmam bor edi? Javob: 12 ta.",
+        "75. Bir son o‘yladim. Unga 5 ni qo‘shdim, natijani 2 ga ko‘paytirdim, keyin 4 ni ayirdim — 20 chiqdi. Qaysi sonni o‘ylagan edim? Javob: 7.",
+        "76. Bir orolda ikki xil odam yashaydi: rostgo‘ylar doim rost, yolg‘onchilar doim yolg‘on gapiradi. Shu orolda yashovchi kishi «Men yolg‘onchiman» deya oladimi? Javob: yo‘q — rostgo‘y bunday desa yolg‘on gapirgan, yolg‘onchi desa rost gapirgan bo‘lardi.",
+        "77. Oltita stakan bir qatorda turibdi: dastlabki uchtasi suvga to‘la, keyingi uchtasi bo‘sh. Faqat bitta stakanni qo‘lga olib, to‘la va bo‘sh stakanlar navbatma-navbat turadigan qilish kerak. Qanday qilasiz? Javob: ikkinchi stakandagi suvni beshinchi stakanga quyib, uni joyiga qo‘yasiz.",
+        "78. Chumchuqlar daraxtga qo‘nmoqchi. Har bir shoxga bittadan qo‘nsa, bitta chumchuqqa shox yetmaydi. Har bir shoxga ikkitadan qo‘nsa, bitta shox bo‘sh qoladi. Nechta chumchuq va nechta shox bor? Javob: 4 ta chumchuq va 3 ta shox.",
+        "79. Katta kub tashqi tomondan bo‘yaldi, so‘ng 27 ta bir xil kichik kubchaga arralandi. Nechta kubchaning birorta ham tomoni bo‘yalmagan? Javob: bitta — eng o‘rtadagi kubcha.",
+        "80. Uzunligi 1 kilometr bo‘lgan poyezd 1 kilometrli tunnelga soatiga 60 kilometr tezlikda kirdi. Poyezdning boshi tunnelga kirgan paytdan oxirgi vagoni chiqib ketguncha qancha vaqt o‘tadi? Javob: 2 daqiqa — poyezd jami 2 kilometr yo‘l bosadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qiyin",
+      "text": "Qiyin mantiqiy savollar: 40 ta"
+    },
+    {
+      "type": "p",
+      "text": "Bu bo‘limdagi masalalar bir necha qadamli mulohazani talab qiladi: tarozi va tangalar, suv o‘lchash, rostgo‘y va yolg‘onchilar, harakat va vaqt. Javoblar yonida qisqa yechim ham berilgan. Yuqori sinf o‘quvchilari, talabalar va kattalar uchun."
+    },
+    {
+      "type": "h3",
+      "id": "qiyin-81-100",
+      "text": "Qiyin savollar: 81–100"
+    },
+    {
+      "type": "list",
+      "items": [
+        "81. Sizda 3 litrli va 5 litrli ikkita bo‘sh idish hamda suv to‘la katta bochka bor. Idishlarda o‘lchov belgilari yo‘q. Roppa-rosa 4 litr suvni qanday o‘lchab olasiz? Javob: 5 litrlini to‘ldirib, undan 3 litrlini to‘ldirasiz — 2 litr qoladi. 3 litrlini bo‘shatib, o‘sha 2 litrni unga quyasiz. 5 litrlini yana to‘ldirib, undan 3 litrli to‘lguncha, ya’ni 1 litr quyasiz — 5 litrlida 4 litr qoladi.",
+        "82. Ko‘rinishi bir xil 9 ta tangadan bittasi qalbaki — u boshqalaridan yengilroq. Toshsiz pallali tarozida eng kami bilan necha marta tortib, uni aniq topish mumkin? Javob: 2 marta. Avval uchtadan tangani ikki pallaga qo‘yasiz va yengil uchlikni aniqlaysiz; pallalar teng kelsa, qalbakisi chetda qolgan uchlikda. Keyin shu uchlikdan ikkitasini tortasiz.",
+        "83. Dehqon daryodan bo‘ri, echki va karamni olib o‘tishi kerak. Qayiqqa dehqon bilan birga faqat bittasi sig‘adi. Dehqonsiz qolsa, bo‘ri echkini, echki karamni yeydi. Qanday olib o‘tish kerak? Javob: avval echkini olib o‘tadi va bo‘sh qaytadi; keyin bo‘rini olib o‘tib, echkini ortga olib qaytadi; echkini qoldirib, karamni olib o‘tadi; bo‘sh qaytib, oxirida echkini olib o‘tadi.",
+        "84. To‘rt kishi tunda tor ko‘prikdan o‘tishi kerak. Ko‘prik bir vaqtda faqat ikki kishini ko‘taradi, fonar esa bitta va usiz yurib bo‘lmaydi. Ular ko‘prikdan 1, 2, 5 va 10 daqiqada o‘tadi; ikki kishi birga yursa, sekinrog‘ining tezligida yuradi. Hammasi eng kamida necha daqiqada o‘tib oladi? Javob: 17 daqiqada: 1 va 2 daqiqalik o‘tadi (2), 1 daqiqalik qaytadi (1), 5 va 10 daqiqalik o‘tadi (10), 2 daqiqalik qaytadi (2), 1 va 2 daqiqalik yana o‘tadi (2).",
+        "85. Yopiq xonada uchta cho‘g‘lanma lampochka, eshik tashqarisida esa uchta o‘chirib-yoqqich bor. Tashqaridan lampochkalar ko‘rinmaydi, xonaga esa faqat bir marta kirish mumkin. Qaysi o‘chirib-yoqqich qaysi lampochkaga tegishli ekanini qanday aniqlaysiz? Javob: birinchisini yoqib, bir necha daqiqadan keyin o‘chirasiz, ikkinchisini yoqib, xonaga kirasiz. Yonib turgani — ikkinchisiniki, o‘chiq, lekin issig‘i — birinchisiniki, sovug‘i — uchinchisiniki.",
+        "86. Ikki eshik bor: biri ozodlikka, ikkinchisi zindonga olib boradi. Har bir eshik oldida bittadan qo‘riqchi turibdi: biri doim rost, ikkinchisi doim yolg‘on gapiradi, kim qaysi ekani noma’lum. Faqat bitta qo‘riqchiga bitta savol berish mumkin. Qanday savol to‘g‘ri eshikni topishga yordam beradi? Javob: «Sherigingdan ozodlik eshigini so‘rasam, u qaysi birini ko‘rsatadi?» deb so‘raysiz va ko‘rsatilgan eshikning aksini tanlaysiz — ikkala qo‘riqchi ham noto‘g‘ri eshikni ko‘rsatadi.",
+        "87. Yo‘lakda 100 ta lampochka bor, hammasi o‘chiq. Birinchi o‘tishda har bir lampochkaning tugmasi bosiladi, ikkinchisida — har ikkinchisiniki, uchinchisida — har uchinchisiniki va hokazo, yuzinchi o‘tishgacha. Oxirida nechta lampochka yonib turadi? Javob: 10 ta — tartib raqami to‘liq kvadrat bo‘lganlari: 1, 4, 9, 16, 25, 36, 49, 64, 81 va 100.",
+        "88. Rostgo‘ylar va yolg‘onchilar orolida ikki kishini uchratdingiz. Birinchisi: «Biz ikkalamiz ham yolg‘onchimiz», dedi. Ularning har biri kim? Javob: birinchisi — yolg‘onchi, ikkinchisi — rostgo‘y. Rostgo‘y o‘zini yolg‘onchi demaydi; demak, gap yolg‘on va ikkalasi birdek yolg‘onchi emas.",
+        "89. Uchta qutining birida faqat olma, ikkinchisida faqat nok, uchinchisida olma va nok aralash. Qutilarga «olma», «nok», «olma va nok» degan yorliqlar yopishtirilgan, lekin uchala yorliq ham noto‘g‘ri. Qaysi qutidan bitta meva olib ko‘rsangiz, hamma qutida nima borligini bilib olasiz? Javob: «olma va nok» yorlig‘i bor qutidan. Undan olma chiqsa, bu — olmali quti; unda «nok» yorliqli qutida aralash mevalar, «olma» yorliqli qutida nok bo‘ladi. Nok chiqsa — aksincha.",
+        "90. Sizda 4 daqiqalik va 7 daqiqalik ikkita qum soat bor. Ular yordamida roppa-rosa 9 daqiqani qanday o‘lchaysiz? Javob: ikkalasini birga ishga tushirasiz. 4 daqiqalik tugagach, uni to‘ntarasiz. 7-daqiqada katta soat tugaydi — uni ham to‘ntarasiz. 8-daqiqada kichik soat yana tugaydi — shu zahoti katta soatni qayta to‘ntarasiz: undagi bir daqiqalik qum 9-daqiqada tugaydi.",
+        "91. Ikkita pilik bor: har biri bir uchidan yoqilsa, roppa-rosa bir soatda yonib tugaydi, lekin notekis yonadi. Faqat shu piliklar va gugurt yordamida 45 daqiqani qanday o‘lchash mumkin? Javob: birinchi pilikni ikki uchidan, ikkinchisini bir uchidan bir vaqtda yoqasiz. Birinchisi 30 daqiqada yonib bo‘ladi — shu payt ikkinchisining narigi uchini ham yoqasiz, u yana 15 daqiqada tugaydi.",
+        "92. Oralari 100 kilometr bo‘lgan ikki poyezd bir-biriga qarab, har biri soatiga 50 kilometr tezlikda yo‘lga chiqdi. Shu payt birinchi poyezd oldidan pashsha uchib chiqdi va poyezdlar uchrashguncha ular orasida soatiga 75 kilometr tezlikda to‘xtovsiz uchib yurdi. Pashsha jami qancha masofa uchgan? Javob: 75 kilometr — poyezdlar bir soatdan keyin uchrashadi, pashsha esa shu bir soat davomida uchadi.",
+        "93. Haydovchi shahardan qishloqqa soatiga 60 kilometr, ortga esa xuddi shu yo‘ldan soatiga 40 kilometr tezlikda yurdi. Butun yo‘ldagi o‘rtacha tezlik qancha? Javob: soatiga 48 kilometr, 50 emas. Masalan, yo‘l 120 kilometr bo‘lsa, borishga 2 soat, qaytishga 3 soat — jami 240 kilometrga 5 soat ketadi.",
+        "94. Soatning soat va daqiqa millari bir sutkada necha marta ustma-ust tushadi? Javob: 22 marta — har 12 soatda 11 marta.",
+        "95. Soat 3:15 ni ko‘rsatganda soat va daqiqa millari orasidagi burchak necha gradus bo‘ladi? Javob: 7,5 gradus — chunki 15 daqiqada soat mili ham 3 raqamidan 7,5 gradusga siljiydi.",
+        "96. 1 dan 100 gacha bo‘lgan barcha sonlar yozib chiqilsa, 9 raqami necha marta uchraydi? Javob: 20 marta — birliklar xonasida 10 marta, o‘nliklar xonasida 10 marta.",
+        "97. Yutqazgan jamoa chiqib ketadigan turnirda 32 ta jamoa qatnashyapti. G‘olibni aniqlash uchun jami nechta o‘yin o‘tkaziladi? Javob: 31 ta — har bir o‘yinda bitta jamoa chiqib ketadi, jami 31 ta jamoa chiqib ketishi kerak.",
+        "98. Hozir sutkaning o‘tgan qismi qolgan qismining yarmiga teng. Soat nechchi? Javob: ertalabki 8:00 — 8 soat o‘tgan, 16 soat qolgan.",
+        "99. Qopda 5 ta qizil, 5 ta ko‘k va 5 ta yashil shar bor. Qaramasdan eng kamida nechta shar olinsa, ular orasida albatta uchala rangdagi shar ham bo‘ladi? Javob: 11 ta — eng omadsiz holatda dastlabki 10 tasi faqat ikki rangda chiqadi.",
+        "100. Bir yilda eng ko‘pi bilan nechta yakshanba bo‘lishi mumkin? Javob: 53 ta — yilda 52 hafta va yana 1 yoki 2 kun bor."
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "qiyin-101-120",
+      "text": "Qiyin savollar: 101–120"
+    },
+    {
+      "type": "list",
+      "items": [
+        "101. Bir erkak rasmga qarab shunday dedi: «Mening aka-ukam ham, opa-singlim ham yo‘q. Bu yigitning otasi esa — mening otamning o‘g‘li». Rasmda kim tasvirlangan? Javob: o‘sha erkakning o‘g‘li — «otamning o‘g‘li» uning o‘zi.",
+        "102. Ikki bola bir kunda, bir yilda, bir ota-onadan tug‘ilgan, lekin ular egizak emas. Bu qanday bo‘lishi mumkin? Javob: ular ikkita emas — uch yoki undan ko‘p egizakning ikkitasi.",
+        "103. Dilshod shunday dedi: «O‘tgan kuni 12 yoshda edim, kelasi yili esa 15 ga to‘laman». U bu gapni qaysi kuni aytgan va tug‘ilgan kuni qachon? Javob: 1-yanvarda aytgan, tug‘ilgan kuni — 31-dekabr. 30-dekabrda u 12 yoshda edi, 31-dekabrda 13 ga to‘ldi, shu yili 14 ga, kelasi yili 15 ga to‘ladi.",
+        "104. Ikki o‘quvchiga 2 ta oq va 1 ta qora qalpoq ko‘rsatildi. Keyin ko‘zlari bog‘lanib, har biriga bittadan qalpoq kiydirildi, uchinchisi yashirildi. Ko‘zlari ochilgach, har biri faqat sherigining qalpog‘ini ko‘radi. Birinchi o‘quvchi: «O‘zimnikining rangini bilmayman», dedi. Shunda ikkinchisi o‘z qalpog‘ining rangini aniq aytdi. U qaysi rangda? Javob: oq. Agar u qora bo‘lganida, birinchi o‘quvchi o‘ziniki oq ekanini darhol bilardi, chunki qora qalpoq bitta.",
+        "105. Mahsulot narxi avval 10 foizga oshirildi, keyin yangi narx 10 foizga tushirildi. Oxirgi narx dastlabkisiga nisbatan qanday o‘zgardi? Javob: 1 foizga arzonlashdi: 1,1 × 0,9 = 0,99.",
+        "106. Dehqon bozorda tuxum sotdi. Birinchi xaridor barcha tuxumning yarmini va yana yarimta tuxum oldi. Ikkinchisi qolganining yarmini va yana yarimta, uchinchisi ham qolganining yarmini va yana yarimta tuxum oldi. Shundan keyin tuxum qolmadi, birorta tuxum ham sindirilmadi. Dehqonda nechta tuxum bo‘lgan? Javob: 7 ta — xaridorlar 4, 2 va 1 ta tuxum olgan.",
+        "107. Bir g‘oz uchib kelayotgan galaga: «Salom, yuzta g‘oz!» dedi. Gala boshi javob berdi: «Biz yuzta emasmiz. Agar yana shuncha, yana yarmimizcha, yana choragimizcha g‘oz va sen qo‘shilsang, ana shunda yuzta bo‘lamiz». Galada nechta g‘oz bor edi? Javob: 36 ta: 36 + 36 + 18 + 9 + 1 = 100.",
+        "108. Ikki cho‘pon uchrashdi. Birinchisi: «Menga bitta qo‘y bersang, qo‘ylarim senikidan ikki baravar ko‘p bo‘ladi», dedi. Ikkinchisi: «Yaxshisi, sen menga bitta ber — shunda qo‘ylarimiz teng bo‘ladi», dedi. Har birida nechta qo‘y bor? Javob: birinchisida 7 ta, ikkinchisida 5 ta.",
+        "109. Har birida 3 tadan halqa bo‘lgan 5 bo‘lak zanjir bor. Ularni bitta uzun zanjirga ulash uchun eng kamida nechta halqani ochib-yopish kerak? Javob: 3 ta — bitta bo‘lakning uchala halqasi ochilib, ular bilan qolgan to‘rt bo‘lak ulanadi.",
+        "110. Tovaga bir vaqtda faqat 2 ta kotlet sig‘adi. Kotletning har bir tomoni 1 daqiqada pishadi. 3 ta kotletni eng kamida necha daqiqada qovurish mumkin? Javob: 3 daqiqada. Avval birinchi va ikkinchining bir tomoni; keyin birinchining ikkinchi tomoni bilan uchinchining bir tomoni; oxirida ikkinchi va uchinchining qolgan tomonlari qovuriladi.",
+        "111. Bugun dushanba. 100 kundan keyin haftaning qaysi kuni bo‘ladi? Javob: chorshanba — 100 kun 14 hafta va 2 kunga teng.",
+        "112. Birinchi quvur hovuzni 2 soatda, ikkinchisi 3 soatda to‘ldiradi. Ikkala quvur birga ochilsa, hovuz qancha vaqtda to‘ladi? Javob: 1 soat 12 daqiqada — bir soatda ular hovuzning 1/2 + 1/3 = 5/6 qismini to‘ldiradi.",
+        "113. Nodir 2000-yil 29-fevralda tug‘ilgan. 2024-yil oxirigacha u tug‘ilgan kunini aynan 29-fevralda necha marta nishonlay olgan? Javob: 6 marta — 2004, 2008, 2012, 2016, 2020 va 2024-yillarda.",
+        "114. Anvar, Bahrom va Sarvar — shifokor, o‘qituvchi va haydovchi. Ma’lumki, Sarvar haydovchidan yoshroq, Anvar o‘qituvchining qo‘shnisi, Bahrom esa uchovining eng yoshi va u o‘qituvchi emas. Kim qaysi kasb egasi? Javob: Sarvar — o‘qituvchi, Anvar — haydovchi, Bahrom — shifokor. Haydovchi Sarvardan katta, demak, u eng yosh bo‘lgan Bahrom emas.",
+        "115. Ali, Bobur, Davron va Erkin bir qator bo‘lib skameykada o‘tiribdi. Erkin eng chapda. Ali chetda o‘tirgani yo‘q. Bobur Alining o‘ng yonida. Davron Erkinning yonida emas. Ular chapdan o‘ngga qanday tartibda o‘tiribdi? Javob: Erkin, Ali, Bobur, Davron.",
+        "116. Uch o‘quvchidan biri sinf oynasini sindirib qo‘ydi. Aziz: «Men sindirmadim», dedi. Botir: «Aziz sindirdi», dedi. Vali: «Men sindirmadim», dedi. Ulardan faqat bittasi rost gapirgani ma’lum. Oynani kim sindirgan? Javob: Vali. Faqat shu holatda bitta rost gap bo‘ladi: Aziz rost, Botir va Vali yolg‘on gapirgan.",
+        "117. Pallali tarozi va 1, 3 hamda 9 kilogrammli uchta tosh bor. Toshlarni tarozining ikkala pallasiga ham qo‘yish mumkin. 5 kilogramm unni qanday tortib olasiz? Javob: bir pallaga 9 kilogrammli toshni, ikkinchisiga 1 va 3 kilogrammli toshlarni qo‘yib, shu pallaga tarozi tenglashguncha un solasiz: 9 = 5 + 1 + 3.",
+        "118. Qatorni davom ettiring: 1, 11, 21, 1211, 111221, … Keyingi son qaysi? Javob: 312211 — har bir son oldingisini «o‘qiydi»: 111221 da uchta 1, ikkita 2 va bitta 1 bor.",
+        "119. Hozir ota o‘g‘lidan to‘rt baravar katta. 20 yildan keyin u o‘g‘lidan ikki baravar katta bo‘ladi. Ular hozir necha yoshda? Javob: ota 40, o‘g‘il 10 yoshda; 20 yildan keyin — 60 va 30.",
+        "120. Tortni pichoq bilan uch marta to‘g‘ri kesib, eng ko‘pi bilan nechta bo‘lakka bo‘lish mumkin? Javob: 8 ta — ikki marta ustidan xoch shaklida, uchinchi marta yonidan, gorizontal kesiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yechish",
+      "text": "Qiyin savolni yechishning 5 usuli"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Shartni sekin, so‘zma-so‘z o‘qing: ko‘p savolda «tuzoq» bitta so‘zda yashiringan — elektr poyezd, bo‘sh stakan, «uchib ketmoqchi bo‘ldi».",
+        "Chizma chizing yoki jadval tuzing: kim, qayerda, nechta — qog‘ozda ko‘rinib tursa, xato kamayadi.",
+        "Kichik sonlarda sinab ko‘ring: 100 ta lampochka o‘rniga avval 10 tasi bilan tekshiring.",
+        "Oxiridan boshlang: natija ma’lum bo‘lsa, amallarni teskari tartibda bajaring — «o‘ylagan son» va olma haqidagi masalalar shunday yechiladi.",
+        "Imkonsiz variantlarni birma-bir chiqarib tashlang: rostgo‘y va yolg‘onchilar, kasblar va o‘rindiqlar haqidagi masalalarda shu usul ishlaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "Yangi mantiqiy savollarni AI bilan tuzish"
+    },
+    {
+      "type": "p",
+      "text": "120 ta savol tugasa, yangilarini AI chat tuzib bera oladi. So‘rovda yosh, daraja va savollar sonini yozing. Muhimi: AI tuzgan savolning sharti noaniq yoki javobi xato bo‘lishi mumkin, shuning uchun sinfga yoki bolaga berishdan oldin har birini o‘zingiz yechib ko‘ring."
+    },
+    {
+      "type": "list",
+      "items": [
+        "«5-sinf o‘quvchilari uchun 10 ta mantiqiy savol tuz. Har birining javobini va qisqa izohini alohida yoz.»",
+        "«Mana bu savolni yechishga yordam ber, lekin javobni darhol aytma — avval bitta ishora ber: [savol matni].»",
+        "«Tarozi va tangalar haqidagi masalaga o‘xshash yana 3 ta masala tuz, qiyinligi o‘rtacha bo‘lsin.»",
+        "«Men tuzgan savolni tekshir: sharti aniqmi, javobi bittami? [savol matni].»"
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Bunday so‘rovlarni {chat}da yuborish mumkin; so‘rov yozish va limitlar haqida {qollanma}da, AI paket shartlari haqida {tariflar} sahifasida yozilgan.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        },
+        {
+          "token": "qollanma",
+          "target": "/uz/gpt-chat-qollanma/",
+          "anchor": "AI chat qo‘llanmasi"
+        },
+        {
+          "token": "tariflar",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chatga o‘zingiz va boshqalarning ism-familiyasi, telefon raqami yoki manzilini yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "linkp",
+      "text": "Fikrlash emas, bilim sinaladigan savollar kerak bo‘lsa, {zakovat} to‘plamiga o‘ting. Og‘zaki hisobni mashq qilish uchun {karra} bor.",
+      "links": [
+        {
+          "token": "zakovat",
+          "target": "/uz/blog/zakovat-savollari/",
+          "anchor": "Zakovat uslubidagi 100 ta savol"
+        },
+        {
+          "token": "karra",
+          "target": "/uz/karra-jadvali/",
+          "anchor": "karra jadvali va mashqlar"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Savolni AI bilan muhokama qilish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Mantiqiy savol topishmoqdan nimasi bilan farq qiladi?",
+      "a": "Topishmoqda narsa belgilariga qarab topiladi. Mantiqiy savolda esa shartdagi ma’lumotdan xulosa chiqariladi: sanash, taqqoslash yoki «tuzoq» so‘zni payqash kerak bo‘ladi. Shuning uchun mantiqiy savolning javobini «nega shunday?» deb isbotlab berish mumkin."
+    },
+    {
+      "q": "Bolalarga mantiqiy savollarni necha yoshdan bersa bo‘ladi?",
+      "a": "Oson bo‘limdagi savollarning ko‘pini sanashni va hafta kunlarini bilgan 6–7 yoshli bola yecha oladi. O‘rta daraja 4–7-sinflar, qiyin daraja yuqori sinflar va kattalar uchun mo‘ljallangan. Bu taxminiy bo‘linish: bolaga qiyin tuyulsa, osonrog‘iga qayting."
+    },
+    {
+      "q": "Bitta savolning ikki xil javobi bo‘lishi mumkinmi?",
+      "a": "Hisob va tartibga oid savollarda javob bitta. Hazil-savollarda, masalan, choy yoki zaxira g‘ildirak haqidagilarida kutilgan javob yozilgan. Bola shartga zid bo‘lmagan boshqa javob topsa, uni ham qabul qiling va nega to‘g‘ri ekanini so‘rang."
+    },
+    {
+      "q": "Bu savollardan darsda yoki musobaqada foydalansa bo‘ladimi?",
+      "a": "Ha. Savollarni ko‘chirib, kartochka qilib yoki doskaga yozib ishlatishingiz mumkin. Musobaqa uchun har darajadan teng sonda savol oling va javob vaqtini oldindan belgilang."
+    },
+    {
+      "q": "Qiyin savolni yecha olmasam, nima qilay?",
+      "a": "Javobga darhol qaramang. Shartni qayta o‘qing, chizma chizing, kichik sonlarda sinab ko‘ring. Baribir chiqmasa, javobni o‘qib, yechim yo‘lini o‘zingiz tiklab ko‘ring — keyingi o‘xshash masalada shu usul yordam beradi."
+    },
+    {
+      "q": "AI yangi mantiqiy savol tuzib bera oladimi?",
+      "a": "Ha. GPTBot.uz AI chatiga yosh va darajani yozsangiz, u yangi savollar tuzadi yoki yechimni tushuntiradi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi. AI tuzgan savolning javobini albatta o‘zingiz tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "Savolni AI bilan muhokama qilish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: yechimni tushuntirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/zakovat-savollari/",
+      "anchor": "Zakovat uslubidagi 100 ta savol javoblari bilan",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/karra-jadvali/",
+      "anchor": "Karra jadvali va mashqlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/tenglama-yechish/",
+      "anchor": "Tenglama yechish: bosqichma-bosqich tushuntirish",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Fanlar bo‘yicha javobli onlayn testlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/topishmoqlar/",
+      "anchor": "Bolalar uchun topishmoqlar to‘plami",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "Mantiqiy savollar javobi bilan: 120 ta savol",
+  "ogDescription": "Oson, o‘rta va qiyin darajadagi 120 ta mantiqiy savol javobi bilan: bolalar, o‘quvchilar va kattalar uchun. Yechish usullari va AI bilan yangi savol tuzish.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/mantiqiy-savollar/",
+  "hreflangUz": "/uz/blog/mantiqiy-savollar/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Mantiqiy savollar",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — Does ChatGPT tell the truth?",
+      "url": "https://help.openai.com/en/articles/8313428-does-chatgpt-tell-the-truth",
+      "note": "Til modellari ishonchli ohangda noto‘g‘ri ma’lumot yozishi mumkin; muhim ma’lumotni tekshirish tavsiya etiladi. Bu barcha til modellariga, jumladan GPTBot.uz chati ishlaydigan modellarga ham tegishli umumiy xavf: AI tuzgan mantiqiy savolning javobi xato bo‘lishi mumkin. 2026-11-17 kuni tekshirildi. Sahifadagi 120 ta savolning javoblari alohida yechib tekshirilgan."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

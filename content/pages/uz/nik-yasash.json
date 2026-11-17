@@ -1,0 +1,679 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/nik-yasash/",
+  "slug": "nik-yasash",
+  "pageType": "gpt-chat",
+  "chatRole": "writer",
+  "chatStarters": [
+    {
+      "label": "O‘yin uchun 10 ta kuchli nik",
+      "prompt": "Onlayn o‘yin uchun 10 ta qisqa nik o‘ylab top: 6–10 harf, faqat lotin harflari va raqamlar, apostrofsiz, o‘zbekcha mavzu: tog', burgut, tun. Mashhur odam yoki brend nomini ishlatma."
+    },
+    {
+      "label": "Qizlar uchun yumshoq nik",
+      "prompt": "Qizlar uchun 10 ta yumshoq, chiroyli nik yoz: gul, oy, yulduz mavzusida, 6–10 harf, lotin harflari, apostrofsiz. Har birining yoniga qisqa izoh yoz."
+    },
+    {
+      "label": "Yigitlar uchun jiddiy nik",
+      "prompt": "Yigitlar uchun 10 ta jiddiy va qisqa nik yoz: tog', burgut, sher va yo‘l mavzusida, 6–10 harf, lotin harflari, apostrofsiz. Mashhur odamga o‘xshatma."
+    },
+    {
+      "label": "Telegram kanal nomi va @username",
+      "prompt": "Telegram kanalim uchun 10 ta nom va unga mos @username yoz: faqat lotin harflari, raqamlar va pastki chiziq, 5–32 belgi. Mavzu: "
+    },
+    {
+      "label": "Instagram uchun chiroyli nik",
+      "prompt": "Instagram sahifam uchun 10 ta chiroyli nik yoz: lotin harflari, nuqta yoki pastki chiziq bilan, 8–15 belgi. Mavzu va xarakterim: "
+    },
+    {
+      "label": "Mening ismimdan nik yasash",
+      "prompt": "Mening ismim: [ismingiz]. Shu ismdan 10 ta nik yasab ber: qisqartma, so‘z qo‘shish va raqam bilan variantlar, lotin harflari, apostrofsiz. Menga mos uslub: "
+    }
+  ],
+  "primaryKeyword": "nik yasash",
+  "secondaryKeywords": [
+    "chiroyli nik",
+    "nik uchun harflar",
+    "chiroyli harflar",
+    "nik g‘oyalari",
+    "o‘yin uchun nik",
+    "instagram nik",
+    "telegram nik",
+    "nickname"
+  ],
+  "searchIntent": "transactional",
+  "h1": "Chiroyli nik yasash: bezakli lotin harflari jadvali va 60 ta nik g‘oyasi",
+  "title": "Nik yasash: 14 xil chiroyli harf va 60 ta tayyor nik",
+  "description": "Nik yasash: 14 xil chiroyli harflar jadvali (A–Z), 60 ta tayyor nik (o‘yin, Telegram, Instagram), bezak belgilari, qoidalar va AI chat.",
+  "canonical": "https://gptbot.uz/uz/nik-yasash/",
+  "hreflangUz": "/uz/nik-yasash/",
+  "hreflangXDefault": "/uz/nik-yasash/",
+  "ogTitle": "Nik yasash: 14 xil chiroyli harf va 60 ta tayyor nik",
+  "ogDescription": "Nik yasash: 14 xil chiroyli harflar jadvali (A–Z), 60 ta tayyor nik (o‘yin, Telegram, Instagram), bezak belgilari, qoidalar va AI chat.",
+  "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Nik yasash",
+  "heroTitle": "Chiroyli nik yasash: bezakli lotin harflari jadvali va 60 ta nik g‘oyasi",
+  "heroSubtitle": "14 xil bezakli alifbo, 60 ta tayyor nik va AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "AI tabrik generatori",
+  "ctaSecondaryHref": "/uz/ai-tabrik-generatori/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Nik yasash uchun shu sahifada 14 xil bezakli lotin alifbosi (A–Z), 60 ta tayyor nik g‘oyasi, bezak belgilari guruhlari va qoidalar jamlangan. Alifbo jadvallaridan harfni belgilab nusxa qiling va ismingizga qo‘ying. Yangi variant kerak bo‘lsa, tepadagi chatga uslub va mavzuni yozing: u o‘zbekcha nik g‘oyalarini tayyorlaydi."
+    },
+    {
+      "type": "p",
+      "text": "Bu sahifadagi bezakli harflar «shrift» emas: ular Unicode jadvalidagi alohida belgilar. Shu sabab ular har qurilmada bir xil ko‘rinmasligi, ekran o‘quvchi dasturlari ularni noto‘g‘ri o‘qishi va qidiruvda topilmasligi mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "alifbolar",
+      "text": "14 xil bezakli alifbo: katta harflar A–Z"
+    },
+    {
+      "type": "p",
+      "text": "Jadvaldagi qatorni yoki bitta harfni belgilab nusxa qiling. Faqat lotin A–Z harflari: o‘ va g‘ kabi o‘zbekcha harflar bezakli ko‘rinishga o‘tmaydi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Uslub",
+        "Katta harflar A–Z"
+      ],
+      "rows": [
+        [
+          "Qalin (bold)",
+          "𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙"
+        ],
+        [
+          "Qiya (italic)",
+          "𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍"
+        ],
+        [
+          "Qalin qiya",
+          "𝑨𝑩𝑪𝑫𝑬𝑭𝑮𝑯𝑰𝑱𝑲𝑳𝑴𝑵𝑶𝑷𝑸𝑹𝑺𝑻𝑼𝑽𝑾𝑿𝒀𝒁"
+        ],
+        [
+          "Yozma (script)",
+          "𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵"
+        ],
+        [
+          "Qalin yozma",
+          "𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩"
+        ],
+        [
+          "Qo‘sh chiziqli (double-struck)",
+          "𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ"
+        ],
+        [
+          "Gotik (fraktur)",
+          "𝔄𝔅ℭ𝔇𝔈𝔉𝔊ℌℑ𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜ℨ"
+        ],
+        [
+          "Qalin gotik",
+          "𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅"
+        ],
+        [
+          "Monoshirina",
+          "𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉"
+        ],
+        [
+          "Qalin sans",
+          "𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭"
+        ],
+        [
+          "Doiracha ichida",
+          "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ"
+        ],
+        [
+          "Kvadrat ichida",
+          "🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉"
+        ],
+        [
+          "Kichik kapital",
+          "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ"
+        ],
+        [
+          "Keng (fullwidth)",
+          "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kichik-harflar",
+      "text": "Kichik harflar a–z"
+    },
+    {
+      "type": "p",
+      "text": "Kvadrat va kichik kapital uslublarda alohida kichik harflar yo‘q yoki ular katta harflarga o‘xshaydi; shuning uchun ularda ism bosh harflar bilan yoziladi. Kichik kapital uslubida Q va X uchun alohida belgi yo‘q: Q o‘rnida «ǫ», X o‘rnida oddiy x ishlatilgan."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Uslub",
+        "Kichik harflar a–z"
+      ],
+      "rows": [
+        [
+          "Qalin (bold)",
+          "𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳"
+        ],
+        [
+          "Qiya (italic)",
+          "𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧"
+        ],
+        [
+          "Qalin qiya",
+          "𝒂𝒃𝒄𝒅𝒆𝒇𝒈𝒉𝒊𝒋𝒌𝒍𝒎𝒏𝒐𝒑𝒒𝒓𝒔𝒕𝒖𝒗𝒘𝒙𝒚𝒛"
+        ],
+        [
+          "Yozma (script)",
+          "𝒶𝒷𝒸𝒹ℯ𝒻ℊ𝒽𝒾𝒿𝓀𝓁𝓂𝓃ℴ𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏"
+        ],
+        [
+          "Qalin yozma",
+          "𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃"
+        ],
+        [
+          "Qo‘sh chiziqli (double-struck)",
+          "𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫"
+        ],
+        [
+          "Gotik (fraktur)",
+          "𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷"
+        ],
+        [
+          "Qalin gotik",
+          "𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟"
+        ],
+        [
+          "Monoshirina",
+          "𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣"
+        ],
+        [
+          "Qalin sans",
+          "𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇"
+        ],
+        [
+          "Doiracha ichida",
+          "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ"
+        ],
+        [
+          "Kvadrat ichida",
+          "— (alohida kichik harflar yo‘q)"
+        ],
+        [
+          "Kichik kapital",
+          "— (alohida kichik harflar yo‘q)"
+        ],
+        [
+          "Keng (fullwidth)",
+          "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "misollar",
+      "text": "Bitta ism, hamma uslublarda"
+    },
+    {
+      "type": "p",
+      "text": "Jadvalda «Sardor» va «Malika» ismlari 14 uslubda yozilgan: o‘zingizga yoqqanini tanlab, ismingizni almashtirib oling."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Uslub",
+        "Sardor",
+        "Malika"
+      ],
+      "rows": [
+        [
+          "Qalin (bold)",
+          "𝐒𝐚𝐫𝐝𝐨𝐫",
+          "𝐌𝐚𝐥𝐢𝐤𝐚"
+        ],
+        [
+          "Qiya (italic)",
+          "𝑆𝑎𝑟𝑑𝑜𝑟",
+          "𝑀𝑎𝑙𝑖𝑘𝑎"
+        ],
+        [
+          "Qalin qiya",
+          "𝑺𝒂𝒓𝒅𝒐𝒓",
+          "𝑴𝒂𝒍𝒊𝒌𝒂"
+        ],
+        [
+          "Yozma (script)",
+          "𝒮𝒶𝓇𝒹ℴ𝓇",
+          "ℳ𝒶𝓁𝒾𝓀𝒶"
+        ],
+        [
+          "Qalin yozma",
+          "𝓢𝓪𝓻𝓭𝓸𝓻",
+          "𝓜𝓪𝓵𝓲𝓴𝓪"
+        ],
+        [
+          "Qo‘sh chiziqli (double-struck)",
+          "𝕊𝕒𝕣𝕕𝕠𝕣",
+          "𝕄𝕒𝕝𝕚𝕜𝕒"
+        ],
+        [
+          "Gotik (fraktur)",
+          "𝔖𝔞𝔯𝔡𝔬𝔯",
+          "𝔐𝔞𝔩𝔦𝔨𝔞"
+        ],
+        [
+          "Qalin gotik",
+          "𝕾𝖆𝖗𝖉𝖔𝖗",
+          "𝕸𝖆𝖑𝖎𝖐𝖆"
+        ],
+        [
+          "Monoshirina",
+          "𝚂𝚊𝚛𝚍𝚘𝚛",
+          "𝙼𝚊𝚕𝚒𝚔𝚊"
+        ],
+        [
+          "Qalin sans",
+          "𝗦𝗮𝗿𝗱𝗼𝗿",
+          "𝗠𝗮𝗹𝗶𝗸𝗮"
+        ],
+        [
+          "Doiracha ichida",
+          "Ⓢⓐⓡⓓⓞⓡ",
+          "Ⓜⓐⓛⓘⓚⓐ"
+        ],
+        [
+          "Kvadrat ichida",
+          "🅂🄰🅁🄳🄾🅁",
+          "🄼🄰🄻🄸🄺🄰"
+        ],
+        [
+          "Kichik kapital",
+          "ꜱᴀʀᴅᴏʀ",
+          "ᴍᴀʟɪᴋᴀ"
+        ],
+        [
+          "Keng (fullwidth)",
+          "Ｓａｒｄｏｒ",
+          "Ｍａｌｉｋａ"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "belgilar",
+      "text": "Bezak belgilari guruhlar bo‘yicha"
+    },
+    {
+      "type": "p",
+      "text": "Belgilar nikning boshi yoki oxiriga qo‘yiladi. Bir nikda 2–3 ta belgidan ortiq qo‘ymang: ko‘p belgi nikni o‘qib bo‘lmaydigan qiladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Guruh",
+        "Belgilar"
+      ],
+      "rows": [
+        [
+          "Yulduzlar",
+          "★ ☆ ✦ ✧ ✩ ✪ ✫ ✬ ✭ ✮ ✯ ✰ ⚝"
+        ],
+        [
+          "Yuraklar",
+          "♥ ♡ ❤ ❥ ❣ ❦"
+        ],
+        [
+          "Gul va tabiat",
+          "✿ ❀ ❁ ❃ ❋ ☘ ☀ ☁ ☂ ☃ ☾ ☽ ✺"
+        ],
+        [
+          "Kuch va toj",
+          "♔ ♕ ♚ ♛ ⚔ ⚡ ☠ ☯ ☮ ♞ ♜"
+        ],
+        [
+          "Musiqa",
+          "♩ ♪ ♫ ♬ ♭ ♯"
+        ],
+        [
+          "Strelkalar",
+          "➤ ➜ ➔ ➳ ➵ ➼ ➥ ⇒ → ⇢"
+        ],
+        [
+          "Qavslar va ramkalar",
+          "「 」 『 』 【 】 〖 〗 《 》 〔 〕 ⟦ ⟧ ❮ ❯"
+        ],
+        [
+          "Ajratgichlar",
+          "• · ∙ ⋆ ◦ ▪ ◈ ◇ ◆ ♢ ♦ ─ ━ ═ ┄"
+        ],
+        [
+          "Belgilar",
+          "✓ ✔ ✗ ✘ ☑ ☒ ⚑ ⚐ ✈ ☎ ✉ ✂"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Eslatma: ba’zi belgilar (masalan, ❤ yoki ⚡) telefonlarda rangli emoji ko‘rinishida chiqishi mumkin; bu belgining o‘zi emas, qurilmaning shrifti sabab."
+    },
+    {
+      "type": "h2",
+      "id": "nik-goyalari",
+      "text": "60 ta tayyor nik g‘oyasi mavzular bo‘yicha"
+    },
+    {
+      "type": "p",
+      "text": "Nik g‘oyalari 5 mavzuga bo‘lingan, har birida 12 tadan. Ularda o' va g' o‘rniga oddiy o va g ishlatilgan, chunki foydalanuvchi nomlarida bu belgilar odatda ruxsat etilmaydi. Nik band bo‘lishi mumkin: oxiriga raqam yoki so‘z qo‘shing."
+    },
+    {
+      "type": "h3",
+      "id": "nik-oyin",
+      "text": "O‘yin uchun nik g‘oyalari: 12 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. QoraSher",
+        "2. TunSoyasi",
+        "3. OltinBurgut",
+        "4. ShamolOvchi",
+        "5. TemirQalqon",
+        "6. YolgizBars",
+        "7. OlovYoy",
+        "8. MuzQilich",
+        "9. SokinOvchi",
+        "10. KumushQilich",
+        "11. SahroSultoni",
+        "12. TezkorSoya"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "nik-telegram",
+      "text": "Telegram uchun nik g‘oyalari (@foydalanuvchi_nomi): 12 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "13. kunlik_fikr",
+        "14. sokin_kanal",
+        "15. tong_xabarlari",
+        "16. kitob_sirlari",
+        "17. bilim_bulogi",
+        "18. yangi_ufq",
+        "19. dastur_ustoz",
+        "20. oquvchi_yordami",
+        "21. sayohat_izi",
+        "22. oshxona_sirlari",
+        "23. chorak_soat",
+        "24. fikr_bolagi"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "nik-instagram",
+      "text": "Instagram uchun nik g‘oyalari: 12 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "25. yorqin.lahza",
+        "26. orzu.dunyosi",
+        "27. sokin.shahar",
+        "28. lahza_kadrlari",
+        "29. kunbotar.rang",
+        "30. yulduz.izi",
+        "31. mening.olamim",
+        "32. tong.nafasi",
+        "33. kamalak.kunlar",
+        "34. sharpa.rasm",
+        "35. oq.qanot",
+        "36. yoz.kayfiyati"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "nik-qizlar",
+      "text": "Qizlar uchun nik g‘oyalari: 12 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "37. OyParcha",
+        "38. GulSadaf",
+        "39. Kumushoy",
+        "40. Yulduzcha",
+        "41. NozGul",
+        "42. LolaRang",
+        "43. Shabnamcha",
+        "44. OqQanot",
+        "45. Marvarid",
+        "46. Zumradoy",
+        "47. TongGuli",
+        "48. BahorNafasi"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "nik-yigitlar",
+      "text": "Yigitlar uchun nik g‘oyalari: 12 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "49. SokinAlp",
+        "50. TunChopar",
+        "51. TezOtliq",
+        "52. KumushQoplon",
+        "53. TogOvchisi",
+        "54. SarBurgut",
+        "55. MuzYurak",
+        "56. ShaxdamQadam",
+        "57. OlovYurak",
+        "58. BirinchiSaf",
+        "59. JasurSoya",
+        "60. TemirIroda"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qoidalar",
+      "text": "Nik tanlashda qoidalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘qilishi: nik ovoz chiqarib o‘qilganda qiyin bo‘lmasin; 6–12 belgi odatda yetarli.",
+        "Boshqa odamga yoki brendga o‘xshatmang: mashhur kishining, do‘stingizning yoki tashkilotning nomini o‘zingiznikidek ko‘rsatish aldov hisoblanadi va hisobingiz bloklanishiga olib kelishi mumkin.",
+        "Shaxsiy ma’lumotni nikka yozmang: telefon raqami, to‘liq tug‘ilgan sana yoki uy manzili nikda ko‘rinib turmasin.",
+        "Haqorat, siyosiy yoki dinga oid kamsituvchi so‘z ishlatmang: nik hammaga ko‘rinadi.",
+        "Bezakli harflarni faqat ko‘rinadigan ism joyiga qo‘ying: kanal va hisob nomlari uchun ishonchli variant — oddiy lotin harflari."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "uzunlik",
+      "text": "Telegram va boshqa ilovalarda cheklovlar"
+    },
+    {
+      "type": "linkp",
+      "text": "Telegram foydalanuvchi nomi (@username) uchun rasmiy API hujjatida 5 dan 32 gacha belgi va faqat lotin harflari, raqamlar hamda pastki chiziq ruxsat etilishi aytilgan ({tg}, 2026-yil noyabr holatiga ko‘ra). Demak, bezakli harflar va belgilar @username’ga qo‘yilmaydi, ularni ko‘rinadigan ism yoki taxallus maydoniga joylashtirish kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "tg",
+          "target": "https://core.telegram.org/method/account.checkUsername",
+          "anchor": "core.telegram.org"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Instagram, o‘yinlar va boshqa ilovalar uchun uzunlik va ruxsat etilgan belgilar o‘zgarib turadi, biz ularni rasmiy yordam sahifalaridan tasdiqlay olmadik. Shu sababli nikni qo‘ymasdan oldin ilovaning o‘zidagi yordam bo‘limidagi qoidalarni tekshiring."
+    },
+    {
+      "type": "h2",
+      "id": "ai-nik",
+      "text": "AI chatdan nik so‘rash"
+    },
+    {
+      "type": "p",
+      "text": "Bu sahifadagi chat «Ijodkor» rolida ochiladi va nik g‘oyalarini tayyorlaydi. So‘rovda mavzuni, harf soni va uslubni yozing: masalan, «qizlar uchun 10 ta yumshoq nik, 6–9 harf, apostrofsiz». Chat bezakli harflarni ishonchli almashtirmaydi, shu sabab asosiy nikni oddiy harflarda oling va bezakni jadvaldan qo‘shing."
+    },
+    {
+      "type": "p",
+      "text": "Ro‘yxatsiz 3 ta bepul sinov javobi butun sayt bo‘yicha jami beriladi va AI chat bilan umumiy; u yangilanmaydi. Keyin davom etish uchun AI paket kerak."
+    },
+    {
+      "type": "linkp",
+      "text": "Boshqa matnlar kerak bo‘lsa: {sher} yoki {tabrik}; kirill va lotin harflarini o‘zgartirish uchun {kl}. Paket shartlari — {tariflar}.",
+      "links": [
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "she’r yozish uchun AI vosita"
+        },
+        {
+          "token": "tabrik",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "tabrik matni generatori"
+        },
+        {
+          "token": "kl",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill ↔ lotin konvertori"
+        },
+        {
+          "token": "tariflar",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Jadvaldagi belgilar Unicode standartining alohida belgilari bo‘lib, har qurilmada bir xil ko‘rinishi kafolatlanmaydi."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Nik yasash nima va u qanday ishlaydi?",
+      "a": "Nik yasash — ism yoki taxallusni chiroyli ko‘rsatish: bezakli harflar, belgilar yoki yangi so‘zlar bilan. Bu sahifada tayyor bezakli alifbolar jadvali bor: harfni nusxa qilib ismga qo‘yasiz. Hech narsa o‘rnatish yoki ro‘yxatdan o‘tish shart emas."
+    },
+    {
+      "q": "Chiroyli harflar ilovalarda ishlaydimi?",
+      "a": "Ko‘pincha ha, lekin kafolat yo‘q. Jadvaldagi 14 uslub Unicode belgilaridan iborat; eski telefon yoki ilovalarda ular kvadrat yoki savol belgisi bo‘lib ko‘rinishi mumkin. Shuning uchun asosiy nikni oddiy harflarda ham saqlang."
+    },
+    {
+      "q": "Telegram @username ga chiroyli harflarni qo‘yish mumkinmi?",
+      "a": "Yo‘q. Telegramning rasmiy hujjatida foydalanuvchi nomi uchun 5–32 belgi va faqat lotin harflari, raqamlar va pastki chiziq ruxsat etilgani aytilgan. Bezakli harflarni ko‘rinadigan ism maydoniga qo‘ying."
+    },
+    {
+      "q": "Nik uchun qanday harflar xavfsiz?",
+      "a": "Eng xavfsizi — oddiy lotin harflari, raqamlar va pastki chiziq. Bezakli harflar va belgilar ko‘pgina joyda ishlaydi, lekin qidiruv va ekran o‘quvchilarda qiyinchilik tug‘diradi."
+    },
+    {
+      "q": "O‘yin uchun nikni qanday tanlash kerak?",
+      "a": "Qisqa, o‘qilishi oson va boshqalarga o‘xshamaydigan nik tanlang. Har o‘yinning belgilar soniga va ruxsat etilgan belgilarga oid o‘z qoidasi bor: ularni o‘yinning o‘zidagi yordam bo‘limidan tekshiring. Sahifadagi o‘yin nik g‘oyalarini boshlang‘ich sifatida oling."
+    },
+    {
+      "q": "AI chat nik yasashda qanday yordam beradi?",
+      "a": "Siz mavzu, uslub va harflar sonini yozasiz, chat o‘zbekcha nik g‘oyalarini qaytaradi. Ro‘yxatsiz 3 ta bepul sinov javobi butun sayt bo‘yicha jami beriladi va yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Boshqa odamning nomini nikka qo‘ysam bo‘ladimi?",
+      "a": "Yo‘q. Mashhur odam, do‘st yoki tashkilot nomini o‘zingizniki qilib ko‘rsatish aldov hisoblanadi va hisobingizni cheklashga sabab bo‘lishi mumkin. O‘z nomingiz yoki o‘ylab topilgan so‘zdan foydalaning."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/ai-sher-yozish/",
+      "anchor": "AI she’r yozish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill ↔ lotin konvertori",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/inglizcha-statuslar/",
+      "anchor": "Inglizcha statuslar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/logo-yasash/",
+      "anchor": "Logo yasash qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/maxfiylik-siyosati/",
+      "anchor": "Maxfiylik siyosati",
+      "locale": "uz",
+      "type": "footer"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz nik yasash",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "description": "Chiroyli nik yasash uchun 14 xil bezakli lotin alifbosi jadvali, 60 ta nik g‘oyasi va GPTBot.uz chati «Ijodkor» rolida: o‘zbekcha nik g‘oyalari. Ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "3 ta bepul sinov javobi",
+        "description": "Butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/nik-yasash/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

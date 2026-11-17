@@ -320,6 +320,61 @@
           "anchor": "kirill-lotin o‘giruvchi"
         }
       ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — o‘quvchi va sinf uchun tuzilma, ikki to‘ldirilgan misol, Word va PDF.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/psixologik-tavsifnoma-namuna/",
+          "anchor": "Psixologik tavsifnoma namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — dars ishlanma, maqola, bitiruv ishi va kitobga yozilgan to‘rt misol.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/taqriz-namuna/",
+          "anchor": "Taqriz namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — talablar, shablon va ikki to‘ldirilgan misol.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/tezis-namuna/",
+          "anchor": "Konferensiya tezisi namunasi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — talaba va mutaxassis uchun to‘ldirilgan CV, Word va PDF.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/cv-nima/",
+          "anchor": "CV nima va rezyumedan farqi"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "{doc} — 32 ta tayyor matn va tahrirlanadigan blank.",
+      "links": [
+        {
+          "token": "doc",
+          "target": "/uz/blog/faxriy-yorliq-matni/",
+          "anchor": "Faxriy yorliq matnlari"
+        }
+      ]
     }
   ],
   "faq": [
@@ -403,5 +458,5 @@
     "FAQPage"
   ],
   "createdAt": "2026-11-16T00:00:00.000Z",
-  "updatedAt": "2026-11-16T00:00:00.000Z"
+  "updatedAt": "2026-11-17T00:00:00.000Z"
 }

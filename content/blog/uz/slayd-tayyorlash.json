@@ -4,7 +4,7 @@
   "slug": "slayd-tayyorlash",
   "url": "/uz/blog/slayd-tayyorlash/",
   "title": "Slayd tayyorlash: reja va slayd matni AI yordamida",
-  "description": "Slayd tayyorlash 5 qadamda: mavzu, 6–12 slaydli reja, slayd matni, ma’ruza matni, bezash. Chat matn yozadi; tayyor .pptx qoralamasi — Taqdimot AI’da.",
+  "description": "Slayd tayyorlash 5 qadamda, telefonda ham: 10 slaydli maktab tuzilmasi, bepul vositalar, tayyor PPTX shablon va fonlar, 6×6 qoidasi, tekshiruv ro‘yxati.",
   "h1": "Slayd tayyorlash sun’iy intellekt bilan: rejadan tayyor matngacha",
   "topicCluster": "maktab-va-talabalar",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
@@ -13,6 +13,8 @@
     "prezentatsiya tayyorlash",
     "taqdimot tayyorlash",
     "slayd tayyorlash telefonda",
+    "telefonda slayd tayyorlash",
+    "bepul slayd tayyorlash",
     "slayd qanday tayyorlanadi",
     "prezentatsiya tayyorlash ai",
     "slayd tayyorlash sun’iy intellekt"
@@ -298,8 +300,131 @@
       ]
     },
     {
+      "type": "h2",
+      "id": "telefonda",
+      "text": "Telefonda slayd tayyorlash: qadamma-qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Telefonda AI chatni oching va reja bilan slayd matnini oling (yuqoridagi tayyor so‘rovlardan foydalaning). Matnni xabarlar ilovasiga yoki eslatmalarga nusxalab qo‘ying.",
+        "2. Google Slides ilovasini (Android yoki iPhone) oching va yangi taqdimot yarating. Ilova PowerPoint (PPTX) fayllarini ham ochadi va tahrirlaydi.",
+        "3. Shablon tanlang yoki yuklab olingan tayyor shablon faylni oching: u pastda berilgan.",
+        "4. Matnni slaydma-slayd joylang. Telefonda uzun matn yozish noqulay, shuning uchun nusxalash va qo‘yishdan foydalaning.",
+        "5. Rasmni galereyadan qo‘shing. Fon uchun pastdagi tayyor fonlardan foydalaning.",
+        "6. Tayyor ishni o‘qituvchi so‘ragan formatda saqlang: PPTX yoki PDF. Faylni boshqa qurilmada ochib tekshiring."
+      ]
+    },
+    {
       "type": "p",
-      "text": "Telefonda slayd tayyorlash ham shu tartibda: avval AI chatda reja va matnni oling, keyin Google Slides ilovasida (Android yoki iPhone) shablon tanlab, matnni slaydma-slayd ko‘chiring. Tayyor faylni o‘qituvchi so‘ragan formatda — PPTX yoki PDF — saqlang."
+      "text": "Telefon ekrani kichik, shuning uchun taqdimotni chiqishdan oldin kompyuterda yoki kattaroq ekranda bir marta ko‘rib chiqing: matn siljishi mumkin."
+    },
+    {
+      "type": "h2",
+      "id": "maktab-10-slayd",
+      "text": "Maktab taqdimoti: 10 slaydning har biri nimadan iborat"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Slayd",
+        "Sarlavha namunasi",
+        "Ichida nima bo‘ladi"
+      ],
+      "rows": [
+        [
+          "1",
+          "Mavzu nomi",
+          "Fan, ism-familiya, sinf, o‘qituvchi, sana"
+        ],
+        [
+          "2",
+          "Reja",
+          "3–4 band: nimalar haqida gapirasiz"
+        ],
+        [
+          "3",
+          "Kirish: nima va nega muhim",
+          "Mavzuning ta’rifi bir-ikki gapda"
+        ],
+        [
+          "4",
+          "Birinchi asosiy fikr",
+          "3 ta qisqa band va bitta rasm yoki sxema"
+        ],
+        [
+          "5",
+          "Ikkinchi asosiy fikr",
+          "Misol yoki taqqoslash jadvali"
+        ],
+        [
+          "6",
+          "Uchinchi asosiy fikr",
+          "Sabab va oqibat, 3 band"
+        ],
+        [
+          "7",
+          "Qiziqarli ma’lumot",
+          "Darslikdan tekshirilgan bitta fakt yoki raqam"
+        ],
+        [
+          "8",
+          "Hayotdan misol",
+          "Maktab yoki uyda uchraydigan holat"
+        ],
+        [
+          "9",
+          "Xulosa",
+          "2–3 asosiy fikr va tinglovchiga savol"
+        ],
+        [
+          "10",
+          "Manbalar va savollar",
+          "Darslik, sayt, rasm manbalari; «E’tiboringiz uchun rahmat»"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Shu tuzilmada tayyor 10 slaydli shablon bor, undagi matnlar kvadrat qavs ichida almashtiriladi: {shablon}. Fon kerak bo‘lsa, {fonlar}.",
+      "links": [
+        {
+          "token": "shablon",
+          "target": "/downloads/docs-20261117/slayd-shablon-maktab.pptx",
+          "anchor": "maktab taqdimoti shablonini PPTX shaklda yuklab olish"
+        },
+        {
+          "token": "fonlar",
+          "target": "/uz/blog/slayd-uchun-fonlar/",
+          "anchor": "24 ta bepul slayd fonini ko‘ring"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bepul-vositalar",
+      "text": "Slayd uchun bepul vositalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Google Slides: brauzerda va telefon ilovasida ishlaydi, Google hisobi kerak, hamkorlikda tahrirlash mumkin.",
+        "PowerPoint for the web: brauzerda ishlaydi, kompyuter dasturidan imkoniyati kamroq; Microsoft hisobi kerak bo‘lishi mumkin.",
+        "Canva: tayyor shablonlar ko‘p; bepul va pullik elementlar aralash, PPTX’da ko‘rinish o‘zgarishi mumkin.",
+        "Gamma: matndan taqdimot qoralamasini yaratadi; bepul tarifda cheklovlar bor. Qadamlari alohida qo‘llanmada.",
+        "Taqdimot AI: GPTBot.uz’ning o‘zbekcha qoralama vositasi; shartlari tegishli oynada ko‘rsatiladi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Gamma bilan ishlash tartibi, eksport va bepul tarif cheklovlari — {gamma} qo‘llanmasida. Har bir xizmatda shartlar o‘zgaradi: bepul ekani va O‘zbekistondan ishlashini o‘zingiz tekshiring.",
+      "links": [
+        {
+          "token": "gamma",
+          "target": "/uz/blog/gamma-app-slayd-tayyorlash/",
+          "anchor": "Gamma app"
+        }
+      ]
     },
     {
       "type": "p",
@@ -412,14 +537,14 @@
       "type": "contextual"
     },
     {
-      "target": "/uz/suniy-intellekt/",
-      "anchor": "Sun’iy intellekt nima",
+      "target": "/uz/blog/gamma-app-slayd-tayyorlash/",
+      "anchor": "Gamma app: slayd yaratish qadamlari",
       "locale": "uz",
       "type": "contextual"
     },
     {
-      "target": "/uz/blog/referat-va-mustaqil-ish/",
-      "anchor": "Referat va mustaqil ish: tuzilma namunasi",
+      "target": "/uz/blog/slayd-uchun-fonlar/",
+      "anchor": "24 ta bepul slayd foni",
       "locale": "uz",
       "type": "contextual"
     }
@@ -438,7 +563,7 @@
   "breadcrumbLabel": "Slayd tayyorlash",
   "author": "Борис Герасимов",
   "datePublished": "2026-10-05",
-  "dateModified": "2026-11-07",
+  "dateModified": "2026-11-17",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -493,6 +618,6 @@
       "note": "Til modellari noto‘g‘ri sana va faktlar, mavjud bo‘lmagan manba va iqtiboslar berishi mumkin; muhim ma’lumotni ishonchli manbadan tekshirish tavsiya etiladi. Bu har qanday til modeliga, jumladan GPTBot.uz chatiga ham tegishli umumiy xavf; 2026-10-04 kuni tekshirildi."
     }
   ],
-  "updatedAt": "2026-11-07T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z",
   "createdAt": "2026-10-05T00:00:00.000Z"
 }

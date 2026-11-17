@@ -1,0 +1,1121 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/rim-raqamlari/",
+  "slug": "rim-raqamlari",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "10 ta mashq: rim raqamlari",
+      "prompt": "Menga rim raqamlari bo‘yicha 10 ta mashq ber: 5 tasida sonni rim raqamlarida yozaman, 5 tasida rim raqamini o‘qiyman. Osondan qiyinga, 1 dan 3000 gacha. Javoblarni darhol ko‘rsatma: men yozaman, sen tekshirib, xatolarimni tushuntirasan."
+    },
+    {
+      "label": "Javobimni tekshir",
+      "prompt": "Rim raqamlari bo‘yicha javobimni tekshir. Xato bo‘lsa, qaysi qoida buzilganini tushuntir va to‘g‘ri yozuvni xona birliklariga ajratib ko‘rsat.\nSon: \nMening javobim: "
+    },
+    {
+      "label": "Sonni rim raqamlarida yozish",
+      "prompt": "Shu sonni rim raqamlarida yozishni qadamma-qadam tushuntir: avval minglik, yuzlik, o‘nlik va birliklarga ajrat, keyin har bir qismni yoz. Oxirida shunga o‘xshash 3 ta son ber, ularni o‘zim yozaman. Son: "
+    },
+    {
+      "label": "Asrni aniqlash mashqi",
+      "prompt": "Yil bo‘yicha asrni aniqlashni qisqa tushuntir va menga 8 ta yil ber: 00 bilan tugaydigan yillar ham bo‘lsin. Men har birining asrini rim raqamlarida yozaman, sen tekshirasan."
+    },
+    {
+      "label": "Qoidalarni sodda tushuntir",
+      "prompt": "Rim raqamlarining qo‘shish va ayirish qoidalarini boshlang‘ich sinf o‘quvchisiga tushunarli qilib, misollar bilan tushuntir. Nega 4 soni IV deb yozilishini ham ayt. Keyin 5 ta qisqa savol ber, javoblarni men yozganimdan keyin tekshir."
+    },
+    {
+      "label": "Xatoni top: noto‘g‘ri yozuvlar",
+      "prompt": "Menga rim raqamlarida ataylab xato yozilgan 8 ta son ber, masalan IIII yoki VV kabi. Men har birining xatosini topib, to‘g‘ri yozaman, sen tekshirib, qaysi qoida buzilganini aytasan."
+    }
+  ],
+  "primaryKeyword": "rim raqamlari",
+  "secondaryKeywords": [
+    "rim raqamlari jadvali",
+    "rim raqamlari 1 dan 100 gacha",
+    "rim raqamlari 1 dan 1000 gacha",
+    "рим рақамлари",
+    "римские цифры"
+  ],
+  "searchIntent": "informational",
+  "h1": "Rim raqamlari: 1 dan 1000 gacha jadval, yozish qoidalari va mashqlar",
+  "title": "Rim raqamlari jadvali: 1 dan 100 gacha va 1000 gacha, qoidalar",
+  "description": "Rim raqamlari jadvali: 1 dan 100 gacha, 1000 gacha o‘nlik va yuzliklar, qoidalar, asrlar, 20 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "canonical": "https://gptbot.uz/uz/rim-raqamlari/",
+  "hreflangUz": "/uz/rim-raqamlari/",
+  "hreflangXDefault": "/uz/rim-raqamlari/",
+  "ogTitle": "Rim raqamlari jadvali: 1 dan 100 gacha va 1000 gacha, qoidalar",
+  "ogDescription": "Rim raqamlari jadvali: 1 dan 100 gacha, 1000 gacha o‘nlik va yuzliklar, qoidalar, asrlar, 20 ta mashq. AI o‘qituvchi: 3 ta bepul sinov javobi, keyin AI paket.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Rim raqamlari",
+  "heroTitle": "Rim raqamlari: 1 dan 1000 gacha jadval, yozish qoidalari va mashqlar",
+  "heroSubtitle": "Jadvallar, qoidalar va mashqlar bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Rim raqamlari yettita harf bilan yoziladi: I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000. Kichik raqam kattasidan keyin tursa, qo‘shiladi: VI = 6. Kichik raqam kattasidan oldin tursa, ayiriladi: IV = 4. Bu sahifada 1 dan 100 gacha to‘liq jadval, 1000 gacha o‘nliklar va yuzliklar jadvali, muhim yillar, asrlar, yozish va o‘qish tartibi hamda javoblari bilan 20 ta mashq bor. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi mashqlar tuzadi va javobingizni tekshiradi."
+    },
+    {
+      "type": "p",
+      "text": "Jadvallar, qoidalar va mashqlar har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "asosiy-belgilar",
+      "text": "Yettita asosiy belgi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Rim raqami",
+        "Qiymati"
+      ],
+      "rows": [
+        [
+          "I",
+          "1"
+        ],
+        [
+          "V",
+          "5"
+        ],
+        [
+          "X",
+          "10"
+        ],
+        [
+          "L",
+          "50"
+        ],
+        [
+          "C",
+          "100"
+        ],
+        [
+          "D",
+          "500"
+        ],
+        [
+          "M",
+          "1000"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Eslab qolish uchun: C harfini lotincha centum («yuz»), M harfini mille («ming») so‘zi bilan bog‘lash qulay. Shu so‘zlar sentimetr va millimetr nomlarida ham bor: sentimetr — metrning yuzdan biri, millimetr — mingdan biri."
+    },
+    {
+      "type": "h2",
+      "id": "qoidalar",
+      "text": "Yozish qoidalari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Qo‘shish qoidasi. Kichik yoki teng raqam kattasidan keyin tursa, qiymatlar qo‘shiladi: VI = 5 + 1 = 6, XII = 10 + 1 + 1 = 12, LX = 50 + 10 = 60.",
+        "Ayirish qoidasi. Kichik raqam kattasidan oldin tursa, kattasidan ayiriladi: IV = 5 − 1 = 4, IX = 10 − 1 = 9, XL = 50 − 10 = 40, XC = 100 − 10 = 90, CD = 500 − 100 = 400, CM = 1000 − 100 = 900.",
+        "Ayirma juftliklari faqat oltita: IV, IX, XL, XC, CD va CM. I faqat V va X dan oldin, X faqat L va C dan oldin, C faqat D va M dan oldin yoziladi.",
+        "I, X, C va M ketma-ket ko‘pi bilan uch marta yoziladi: III = 3, XXX = 30, CCC = 300, MMM = 3000.",
+        "V, L va D takrorlanmaydi: ikkita V o‘rniga X, ikkita L o‘rniga C, ikkita D o‘rniga M yoziladi.",
+        "Son chapdan o‘ngga, kattadan kichikka qarab yoziladi: avval mingliklar, keyin yuzliklar, o‘nliklar va birliklar.",
+        "Nol uchun belgi yo‘q. Odatdagi yozuvda eng katta son — 3999, u MMMCMXCIX deb yoziladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "jadval-1-100",
+      "text": "Rim raqamlari 1 dan 100 gacha"
+    },
+    {
+      "type": "p",
+      "text": "Chap ustunlarda 1 dan 50 gacha, o‘ng ustunlarda 51 dan 100 gacha sonlar berilgan."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Son",
+        "Rim raqami",
+        "Son",
+        "Rim raqami"
+      ],
+      "rows": [
+        [
+          "1",
+          "I",
+          "51",
+          "LI"
+        ],
+        [
+          "2",
+          "II",
+          "52",
+          "LII"
+        ],
+        [
+          "3",
+          "III",
+          "53",
+          "LIII"
+        ],
+        [
+          "4",
+          "IV",
+          "54",
+          "LIV"
+        ],
+        [
+          "5",
+          "V",
+          "55",
+          "LV"
+        ],
+        [
+          "6",
+          "VI",
+          "56",
+          "LVI"
+        ],
+        [
+          "7",
+          "VII",
+          "57",
+          "LVII"
+        ],
+        [
+          "8",
+          "VIII",
+          "58",
+          "LVIII"
+        ],
+        [
+          "9",
+          "IX",
+          "59",
+          "LIX"
+        ],
+        [
+          "10",
+          "X",
+          "60",
+          "LX"
+        ],
+        [
+          "11",
+          "XI",
+          "61",
+          "LXI"
+        ],
+        [
+          "12",
+          "XII",
+          "62",
+          "LXII"
+        ],
+        [
+          "13",
+          "XIII",
+          "63",
+          "LXIII"
+        ],
+        [
+          "14",
+          "XIV",
+          "64",
+          "LXIV"
+        ],
+        [
+          "15",
+          "XV",
+          "65",
+          "LXV"
+        ],
+        [
+          "16",
+          "XVI",
+          "66",
+          "LXVI"
+        ],
+        [
+          "17",
+          "XVII",
+          "67",
+          "LXVII"
+        ],
+        [
+          "18",
+          "XVIII",
+          "68",
+          "LXVIII"
+        ],
+        [
+          "19",
+          "XIX",
+          "69",
+          "LXIX"
+        ],
+        [
+          "20",
+          "XX",
+          "70",
+          "LXX"
+        ],
+        [
+          "21",
+          "XXI",
+          "71",
+          "LXXI"
+        ],
+        [
+          "22",
+          "XXII",
+          "72",
+          "LXXII"
+        ],
+        [
+          "23",
+          "XXIII",
+          "73",
+          "LXXIII"
+        ],
+        [
+          "24",
+          "XXIV",
+          "74",
+          "LXXIV"
+        ],
+        [
+          "25",
+          "XXV",
+          "75",
+          "LXXV"
+        ],
+        [
+          "26",
+          "XXVI",
+          "76",
+          "LXXVI"
+        ],
+        [
+          "27",
+          "XXVII",
+          "77",
+          "LXXVII"
+        ],
+        [
+          "28",
+          "XXVIII",
+          "78",
+          "LXXVIII"
+        ],
+        [
+          "29",
+          "XXIX",
+          "79",
+          "LXXIX"
+        ],
+        [
+          "30",
+          "XXX",
+          "80",
+          "LXXX"
+        ],
+        [
+          "31",
+          "XXXI",
+          "81",
+          "LXXXI"
+        ],
+        [
+          "32",
+          "XXXII",
+          "82",
+          "LXXXII"
+        ],
+        [
+          "33",
+          "XXXIII",
+          "83",
+          "LXXXIII"
+        ],
+        [
+          "34",
+          "XXXIV",
+          "84",
+          "LXXXIV"
+        ],
+        [
+          "35",
+          "XXXV",
+          "85",
+          "LXXXV"
+        ],
+        [
+          "36",
+          "XXXVI",
+          "86",
+          "LXXXVI"
+        ],
+        [
+          "37",
+          "XXXVII",
+          "87",
+          "LXXXVII"
+        ],
+        [
+          "38",
+          "XXXVIII",
+          "88",
+          "LXXXVIII"
+        ],
+        [
+          "39",
+          "XXXIX",
+          "89",
+          "LXXXIX"
+        ],
+        [
+          "40",
+          "XL",
+          "90",
+          "XC"
+        ],
+        [
+          "41",
+          "XLI",
+          "91",
+          "XCI"
+        ],
+        [
+          "42",
+          "XLII",
+          "92",
+          "XCII"
+        ],
+        [
+          "43",
+          "XLIII",
+          "93",
+          "XCIII"
+        ],
+        [
+          "44",
+          "XLIV",
+          "94",
+          "XCIV"
+        ],
+        [
+          "45",
+          "XLV",
+          "95",
+          "XCV"
+        ],
+        [
+          "46",
+          "XLVI",
+          "96",
+          "XCVI"
+        ],
+        [
+          "47",
+          "XLVII",
+          "97",
+          "XCVII"
+        ],
+        [
+          "48",
+          "XLVIII",
+          "98",
+          "XCVIII"
+        ],
+        [
+          "49",
+          "XLIX",
+          "99",
+          "XCIX"
+        ],
+        [
+          "50",
+          "L",
+          "100",
+          "C"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "jadval-1000",
+      "text": "1000 gacha: o‘nliklar va yuzliklar jadvali"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "O‘nlik",
+        "Rim raqami",
+        "Yuzlik",
+        "Rim raqami"
+      ],
+      "rows": [
+        [
+          "10",
+          "X",
+          "100",
+          "C"
+        ],
+        [
+          "20",
+          "XX",
+          "200",
+          "CC"
+        ],
+        [
+          "30",
+          "XXX",
+          "300",
+          "CCC"
+        ],
+        [
+          "40",
+          "XL",
+          "400",
+          "CD"
+        ],
+        [
+          "50",
+          "L",
+          "500",
+          "D"
+        ],
+        [
+          "60",
+          "LX",
+          "600",
+          "DC"
+        ],
+        [
+          "70",
+          "LXX",
+          "700",
+          "DCC"
+        ],
+        [
+          "80",
+          "LXXX",
+          "800",
+          "DCCC"
+        ],
+        [
+          "90",
+          "XC",
+          "900",
+          "CM"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Mingliklar: 1000 = M, 2000 = MM, 3000 = MMM. Shu jadval va birliklar (I dan IX gacha) yordamida 1 dan 1000 gacha istalgan sonni yig‘ish mumkin: yuzlik, o‘nlik va birlikni alohida topib, yonma-yon yozing. Masalan, 786 = 700 + 80 + 6: DCC, LXXX va VI birga DCCLXXXVI bo‘ladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Son",
+        "Rim raqami",
+        "Son",
+        "Rim raqami"
+      ],
+      "rows": [
+        [
+          "101",
+          "CI",
+          "500",
+          "D"
+        ],
+        [
+          "110",
+          "CX",
+          "555",
+          "DLV"
+        ],
+        [
+          "150",
+          "CL",
+          "666",
+          "DCLXVI"
+        ],
+        [
+          "199",
+          "CXCIX",
+          "750",
+          "DCCL"
+        ],
+        [
+          "250",
+          "CCL",
+          "888",
+          "DCCCLXXXVIII"
+        ],
+        [
+          "365",
+          "CCCLXV",
+          "900",
+          "CM"
+        ],
+        [
+          "400",
+          "CD",
+          "999",
+          "CMXCIX"
+        ],
+        [
+          "444",
+          "CDXLIV",
+          "1000",
+          "M"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qanday-yozish",
+      "text": "Sonni rim raqamlarida qanday yozish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1-qadam. Sonni xona birliklariga ajrating: mingliklar, yuzliklar, o‘nliklar va birliklar.",
+        "2-qadam. Har bir qismni jadvaldan toping.",
+        "3-qadam. Topilgan belgilarni chapdan o‘ngga, kattadan kichikka qarab yonma-yon yozing."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Quyidagi misollar osondan qiyinga qarab berilgan."
+    },
+    {
+      "type": "list",
+      "items": [
+        "8 = 5 + 3 = VIII.",
+        "14 = 10 + 4 = XIV.",
+        "49 = 40 + 9 = XLIX. Bu son IL deb yozilmaydi: I faqat V va X dan oldin turadi.",
+        "94 = 90 + 4 = XCIV.",
+        "368 = 300 + 60 + 8 = CCCLXVIII.",
+        "1991 = 1000 + 900 + 90 + 1 = MCMXCI.",
+        "2026 = 2000 + 20 + 6 = MMXXVI.",
+        "3999 = 3000 + 900 + 90 + 9 = MMMCMXCIX."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qanday-oqish",
+      "text": "Rim raqamini qanday o‘qish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Yozuvni chapdan o‘ngga o‘qing. Kichik raqam kattasidan oldin turgan joyni toping: bunday juftlik bitta son sifatida o‘qiladi. Keyin hamma qismlarni qo‘shing."
+    },
+    {
+      "type": "list",
+      "items": [
+        "XVII = 10 + 5 + 1 + 1 = 17.",
+        "XXIV = 10 + 10 + 4 = 24. Oxiridagi IV juftligi 4 ni bildiradi.",
+        "XLII = 40 + 2 = 42. Boshidagi XL juftligi 40 ni bildiradi.",
+        "XCIX = 90 + 9 = 99.",
+        "CDXLIV = 400 + 40 + 4 = 444.",
+        "MCMXCI = 1000 + 900 + 90 + 1 = 1991.",
+        "MMXXVII = 2000 + 20 + 7 = 2027."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yillar",
+      "text": "Yillar rim raqamlarida: 1991, 2026, 2027 va boshqalar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Yil",
+        "Rim raqamlarida",
+        "Yil",
+        "Rim raqamlarida"
+      ],
+      "rows": [
+        [
+          "1991",
+          "MCMXCI",
+          "2026",
+          "MMXXVI"
+        ],
+        [
+          "1999",
+          "MCMXCIX",
+          "2027",
+          "MMXXVII"
+        ],
+        [
+          "2000",
+          "MM",
+          "2028",
+          "MMXXVIII"
+        ],
+        [
+          "2001",
+          "MMI",
+          "2029",
+          "MMXXIX"
+        ],
+        [
+          "2020",
+          "MMXX",
+          "2030",
+          "MMXXX"
+        ],
+        [
+          "2024",
+          "MMXXIV",
+          "2050",
+          "MML"
+        ],
+        [
+          "2025",
+          "MMXXV",
+          "2100",
+          "MMC"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "1991-yil — O‘zbekiston mustaqillikka erishgan yil. U MCMXCI deb yoziladi: M — 1000, CM — 900, XC — 90, I — 1."
+    },
+    {
+      "type": "h2",
+      "id": "asrlar",
+      "text": "Asrlar rim raqamlari bilan"
+    },
+    {
+      "type": "p",
+      "text": "Asrlar an’anaga ko‘ra rim raqamlari bilan yoziladi: XXI asr — yigirma birinchi asr. Imlo qoidasiga ko‘ra tartib sonni bildirgan rim raqamidan keyin chiziqcha qo‘yilmaydi: XXI asr, IX sinf. Arab raqamidan keyin esa chiziqcha qo‘yiladi: 21-asr, 9-sinf."
+    },
+    {
+      "type": "p",
+      "text": "Yil bo‘yicha asrni topish uchun yilning oxirgi ikki raqamini tashlab, qolgan songa 1 qo‘shing. Yil 00 bilan tugasa, 1 qo‘shilmaydi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1336-yil: 13 + 1 = 14, ya’ni XIV asr. Amir Temur shu yili tug‘ilgan.",
+        "1441-yil: 14 + 1 = 15, ya’ni XV asr. Alisher Navoiy shu yili tug‘ilgan.",
+        "1991-yil: 19 + 1 = 20, ya’ni XX asr.",
+        "2026-yil: 20 + 1 = 21, ya’ni XXI asr.",
+        "2000-yil 00 bilan tugaydi, shuning uchun 1 qo‘shilmaydi: bu XX asrning oxirgi yili. XXI asr 2001-yil 1-yanvarda boshlangan."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Rim raqami",
+        "Asr",
+        "Yillar"
+      ],
+      "rows": [
+        [
+          "I",
+          "1-asr",
+          "1–100"
+        ],
+        [
+          "II",
+          "2-asr",
+          "101–200"
+        ],
+        [
+          "III",
+          "3-asr",
+          "201–300"
+        ],
+        [
+          "IV",
+          "4-asr",
+          "301–400"
+        ],
+        [
+          "V",
+          "5-asr",
+          "401–500"
+        ],
+        [
+          "VI",
+          "6-asr",
+          "501–600"
+        ],
+        [
+          "VII",
+          "7-asr",
+          "601–700"
+        ],
+        [
+          "VIII",
+          "8-asr",
+          "701–800"
+        ],
+        [
+          "IX",
+          "9-asr",
+          "801–900"
+        ],
+        [
+          "X",
+          "10-asr",
+          "901–1000"
+        ],
+        [
+          "XI",
+          "11-asr",
+          "1001–1100"
+        ],
+        [
+          "XII",
+          "12-asr",
+          "1101–1200"
+        ],
+        [
+          "XIII",
+          "13-asr",
+          "1201–1300"
+        ],
+        [
+          "XIV",
+          "14-asr",
+          "1301–1400"
+        ],
+        [
+          "XV",
+          "15-asr",
+          "1401–1500"
+        ],
+        [
+          "XVI",
+          "16-asr",
+          "1501–1600"
+        ],
+        [
+          "XVII",
+          "17-asr",
+          "1601–1700"
+        ],
+        [
+          "XVIII",
+          "18-asr",
+          "1701–1800"
+        ],
+        [
+          "XIX",
+          "19-asr",
+          "1801–1900"
+        ],
+        [
+          "XX",
+          "20-asr",
+          "1901–2000"
+        ],
+        [
+          "XXI",
+          "21-asr",
+          "2001–2100"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Jadval milodiy asrlar uchun tuzilgan."
+    },
+    {
+      "type": "h2",
+      "id": "qayerda",
+      "text": "Rim raqamlari qayerda ishlatiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Asrlar va ming yilliklar: XXI asr, III ming yillik.",
+        "Kitob boblari, qismlar va jildlar: II bob, IV jild.",
+        "Soat siferblati: I dan XII gacha.",
+        "Hukmdorlar ismidagi tartib raqami: Yelizaveta II, Lyudovik XIV.",
+        "Sanalarda oy raqami: 17.XI.2026.",
+        "Maktabda choraklar va sinflar: I chorak, IX sinf.",
+        "Kimyoda valentlik: temir(III) oksid.",
+        "Tibbiyotda qon guruhlari: I, II, III va IV.",
+        "Musobaqa va anjumanlarning tartib raqami."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "4 sonini IIII deb yozish. To‘g‘risi — IV. Xuddi shunday: 9 — IX, 40 — XL, 90 — XC.",
+        "V, L yoki D ni takrorlash: VV emas, X; LL emas, C; DD emas, M.",
+        "Noto‘g‘ri ayirish: 99 — IC emas, XCIX; 49 — IL emas, XLIX; 990 — XM emas, CMXC.",
+        "Ikkita raqamni birdan ayirish: 8 — IIX emas, VIII.",
+        "Bir xil raqamni to‘rt marta yozish: 40 — XXXX emas, XL; 400 — CCCC emas, CD.",
+        "Asrni hisoblashda 1 qo‘shishni unutish: 1991-yil XIX asrga emas, XX asrga kiradi.",
+        "00 bilan tugaydigan yilga 1 qo‘shish: 2000-yil XXI asrga emas, XX asrga kiradi.",
+        "Rim raqamidan keyin chiziqcha qo‘yish: «XXI-asr» emas, «XXI asr» deb yoziladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mashqlar",
+      "text": "20 ta mashq: ikki tomonga o‘girish"
+    },
+    {
+      "type": "p",
+      "text": "1–10-mashqlarda sonni rim raqamlarida yozing. 11–20-mashqlarda rim raqamini odatdagi (arab) raqamlar bilan yozing. Avval hammasini o‘zingiz bajaring, keyin javoblarga qarang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. 7",
+        "2. 16",
+        "3. 29",
+        "4. 44",
+        "5. 68",
+        "6. 99",
+        "7. 145",
+        "8. 490",
+        "9. 1876",
+        "10. 2049",
+        "11. XIII",
+        "12. XIX",
+        "13. XXXVI",
+        "14. LIV",
+        "15. LXXXIX",
+        "16. XCII",
+        "17. CCLXXV",
+        "18. DCXL",
+        "19. MCMLXVI",
+        "20. MMXIX"
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "javoblar",
+      "text": "Javoblar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. 7 = VII.",
+        "2. 16 = XVI.",
+        "3. 29 = XXIX.",
+        "4. 44 = XLIV.",
+        "5. 68 = LXVIII.",
+        "6. 99 = XCIX.",
+        "7. 145 = CXLV.",
+        "8. 490 = CDXC.",
+        "9. 1876 = MDCCCLXXVI.",
+        "10. 2049 = MMXLIX.",
+        "11. XIII = 13.",
+        "12. XIX = 19.",
+        "13. XXXVI = 36.",
+        "14. LIV = 54.",
+        "15. LXXXIX = 89.",
+        "16. XCII = 92.",
+        "17. CCLXXV = 275.",
+        "18. DCXL = 640.",
+        "19. MCMLXVI = 1966.",
+        "20. MMXIX = 2019."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Xato qilgan bo‘lsangiz, chat ustidagi «Javobimni tekshir» tugmasini bosing va son bilan javobingizni yozing: AI qaysi qoida buzilganini tushuntiradi va shunga o‘xshash yangi mashq beradi."
+    },
+    {
+      "type": "h2",
+      "id": "ai-oqituvchi",
+      "text": "AI o‘qituvchi bilan mashq"
+    },
+    {
+      "type": "p",
+      "text": "Chat ustidagi tugmalarda tayyor so‘rovlar bor: 10 ta mashq, javobni tekshirish, sonni qadamma-qadam yozish, asrni aniqlash, qoidalarni sodda tushuntirish va xato yozuvlarni topish. Tugma so‘rovni faqat yozish maydoniga qo‘yadi; uni o‘zgartirishingiz mumkin, yuborishni esa o‘zingiz hal qilasiz. So‘rovga sinfingizni va sonlar oralig‘ini yozing, masalan: «4-sinf uchun 1 dan 100 gacha rim raqamlariga 10 ta mashq ber»."
+    },
+    {
+      "type": "p",
+      "text": "AI uy vazifasini o‘rningizga bajarish uchun emas: avval o‘zingiz yozing, keyin tekshirishni so‘rang. Model ham adashishi mumkin, shuning uchun shubhali javobni shu sahifadagi jadvallar bilan solishtiring."
+    },
+    {
+      "type": "h2",
+      "id": "keyingi-qadam",
+      "text": "Keyingi qadam"
+    },
+    {
+      "type": "linkp",
+      "text": "Shu saytda boshqa ma’lumotnoma jadvallar ham bor: {primes} va {multiplication}. Sonlarni xayolda hisoblashni {mental} sahifasida mashq qiling, boshqa fanlar bo‘yicha savollar esa {tests}da. Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "primes",
+          "target": "/uz/tub-sonlar/",
+          "anchor": "tub sonlar jadvali"
+        },
+        {
+          "token": "multiplication",
+          "target": "/uz/karra-jadvali/",
+          "anchor": "karra jadvali va mashqlari"
+        },
+        {
+          "token": "mental",
+          "target": "/uz/mental-arifmetika-misollar/",
+          "anchor": "og‘zaki hisoblash usullari va misollari"
+        },
+        {
+          "token": "tests",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar katalogi"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Рим рақамлари жадвали: 1 дан 100 гача, ўнликлар ва юзликлар 1000 гача, ёзиш қоидалари, асрлар ва жавоблари билан 20 та машқ. Жавобингизни AI ўқитувчи билан текширинг."
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "bizga Telegram’da"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz mustaqil AI-servis bo‘lib, OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas. Chatga yozilgan savollar serverimizga va xorijdagi AI-provayderlarga yuboriladi, shuning uchun parol, karta raqami va pasport ma’lumotlarini yubormang."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Rim raqamlarida nol bormi?",
+      "a": "Yo‘q. Rim sanoq tizimida nol uchun belgi ham, xona birliklari ham yo‘q: sonning qiymati belgilarni qo‘shish va ayirish orqali topiladi. Shuning uchun rim raqamlari bilan ustun shaklida hisoblash noqulay, hisob-kitobda arab raqamlari ishlatiladi."
+    },
+    {
+      "q": "Rim raqamlari bilan yoziladigan eng katta son qaysi?",
+      "a": "Odatdagi qoidalar bilan — 3999, u MMMCMXCIX deb yoziladi: M ketma-ket uch martadan ko‘p yozilmaydi. Kattaroq sonlar uchun harf ustiga chiziq qo‘yilgan: bunday chiziq qiymatni 1000 ga ko‘paytiradi. Maktab mashqlarida odatda 3999 gacha bo‘lgan sonlar uchraydi."
+    },
+    {
+      "q": "Nega ba’zi soatlarda 4 soni IIII deb yozilgan?",
+      "a": "Bu soatsozlikdagi eski an’ana: ko‘p siferblatlarda IV o‘rniga IIII yoziladi. Matematika darsida va rasmiy yozuvda esa 4 soni IV shaklida yoziladi."
+    },
+    {
+      "q": "2026-yil rim raqamlarida qanday yoziladi?",
+      "a": "MMXXVI. 2000 — MM, 20 — XX, 6 — VI; bu qismlar chapdan o‘ngga yonma-yon yoziladi. Keyingi yil, 2027 — MMXXVII."
+    },
+    {
+      "q": "XXI asr qaysi yillarni o‘z ichiga oladi?",
+      "a": "2001-yil 1-yanvardan 2100-yil 31-dekabrgacha. 2000-yil hali XX asrga kiradi, chunki sanoq 1-yildan boshlanadi va har bir asr 100 yil davom etadi."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Jadvallar, qoidalar va mashqlar bepul. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "O‘zbek tilida AI chat",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/tub-sonlar/",
+      "anchor": "Tub sonlar jadvali: 1 dan 1000 gacha",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/karra-jadvali/",
+      "anchor": "Karra jadvali va 12 ta mashq",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/mental-arifmetika-misollar/",
+      "anchor": "Og‘zaki hisoblash usullari va misollari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: rim raqamlari",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Rim raqamlari jadvali, yozish qoidalari, asrlar va javobli mashqlar, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: yangi mashq tuzadi va javobni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul jadvallar va mashqlar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Jadvallar, qoidalar va mashqlar bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/rim-raqamlari/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

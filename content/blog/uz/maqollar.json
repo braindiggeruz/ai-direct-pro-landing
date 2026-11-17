@@ -1,0 +1,795 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "maqollar",
+  "url": "/uz/blog/maqollar/",
+  "title": "Maqollar: 300 ta o‘zbek xalq maqoli mavzular bo‘yicha",
+  "description": "300 ta o‘zbek xalq maqoli 15 mavzu bo‘yicha: Vatan, mehnat, ilm, do‘stlik, til, vaqt, sabr, odob va boshqalar. Har mavzuda inshoda qo‘llash bo‘yicha maslahat.",
+  "h1": "O‘zbek xalq maqollari: Vatan, do‘stlik, mehnat va ilm haqida 300 ta maqol",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "maqollar",
+    "o‘zbek xalq maqollari",
+    "vatan haqida maqollar",
+    "do‘stlik haqida maqollar",
+    "mehnat haqida maqollar",
+    "ilm haqida maqollar",
+    "maqol"
+  ],
+  "intro": "Maqol — xalqning asrlar davomida sinalgan hikmati. Bu sahifada 300 ta o‘zbek xalq maqoli 15 mavzu bo‘yicha jamlangan; ulardan insho, ertalik, dars va oddiy suhbatda foydalanish mumkin.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida 300 ta o‘zbek xalq maqoli bor — 15 mavzuning har birida 20 tadan, takrorlarsiz. Maqollar lotin yozuvida, xalq orasida aytilgan ko‘rinishiga yaqin tarzda berilgan; har mavzuning oxirida ularni inshoda qanday qo‘llash haqida ikki jumlalik maslahat bor."
+    },
+    {
+      "type": "linkp",
+      "text": "Maqol ma’nosi tushunarsiz bo‘lsa yoki insho uchun reja kerak bo‘lsa, {chat}dan foydalanish mumkin. Bu GPTBot.uz AI chati: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Maqollar og‘zaki ijod mahsuli, shuning uchun bir maqol turli joylarda ozgina boshqacha aytilishi mumkin. Bu sahifadagi matnlar nashr etilgan «O‘zbek xalq maqollari» to‘plamlaridagi ro‘yxatlar bilan solishtirib tanlangan; maqollar ma’nosi tushuntirilmagan, chunki ularning ko‘pi o‘zi tushunarli."
+    },
+    {
+      "type": "h2",
+      "id": "maqol-nima",
+      "text": "Maqol nima va u qanday ishlatiladi"
+    },
+    {
+      "type": "p",
+      "text": "Maqol — xalq hikmatini qisqa, ixcham va ko‘pincha qofiyali shaklda ifodalaydigan ibora. U voqeani tasvirlamaydi, balki xulosa beradi: «Vataning tinch — sen tinch». Shu sababli maqol inshoda dalil, kirish yoki xulosa bo‘lib xizmat qiladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Maqolni mavzuga mos tanlang: Vatan haqidagi insho uchun Vatan bo‘limidan oling.",
+        "Maqolni so‘zma-so‘z o‘zgartirmang; qo‘shtirnoq yoki «» ichida bering.",
+        "Maqoldan keyin o‘z fikringiz va bitta misol bo‘lsin: maqol o‘zi isbot emas.",
+        "Bir insho uchun 1–3 ta maqol yetarli, ko‘p bo‘lsa matn ko‘chirmaga o‘xshab qoladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "vatan",
+      "text": "Vatan haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Bulbul chamanni sevar, odam — Vatanni.",
+        "2. Bulbulga bog‘ yaxshi, kaklikka — tog‘.",
+        "3. Vatan qadrini bilmagan o‘z qadrini bilmas.",
+        "4. Vatanga falokat — o‘zingga halokat.",
+        "5. Vatani borning baxti bor, mehnati borning — taxti.",
+        "6. Vataning tinch — sen tinch.",
+        "7. Vatansiz inson — kuysiz bulbul.",
+        "8. Dushmanga nafrati bo‘lmaganning Vatanga muhabbati bo‘lmas.",
+        "9. Kiymoqqa katan yaxshi, turmoqqa vatan yaxshi.",
+        "10. Ona yerning tuprog‘i — ona sutidan aziz.",
+        "11. Ona yurting — oltin beshiging.",
+        "12. Ona yurting omon bo‘lsa, rangi ro‘ying somon bo‘lmas.",
+        "13. Tug‘ilgan yerdan ko‘ngil uzilmas, yurt qo‘riganning yurti buzilmas.",
+        "14. Tug‘ilgan yering — Vataning, Vataning — nomusing.",
+        "15. Baliq suv bilan tirik, odam — el bilan.",
+        "16. Yurting omon — o‘zing omon.",
+        "17. O‘z uyim — o‘lan to‘shagim.",
+        "18. O‘z yurtingning qadri o‘zga yurtda bilinar.",
+        "19. O‘lsang o‘l, Vataningda bo‘l.",
+        "20. Qush butaga sig‘inar, odam — Vatanga."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Vatan haqidagi maqollarni inshoda kirish yoki xulosa jumlasi sifatida qo‘ying: ular Vatanga muhabbat, yurtni asrash va tug‘ilgan yerning qadri haqida gapiradi. Maqoldan keyin o‘z fikringizni bir jumla bilan davom ettiring, masalan: o‘z mahallangiz yoki yurtingiz haqidagi bitta aniq misol bilan."
+    },
+    {
+      "type": "h2",
+      "id": "ona-oila",
+      "text": "Ona va oila haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "21. Bolali uy — bozor, bolasiz uy — mozor.",
+        "22. Bolali uy — xandon, bolasiz uy — zindon.",
+        "23. Oila tinch — yurt tinch.",
+        "24. Oila — qo‘sh ustunli ayvon.",
+        "25. Ota — aql, ona — idrok.",
+        "26. Ota — bilak, ona — yurak.",
+        "27. Sarishtali uy — farishtali uy.",
+        "28. Ona bilan bola — gul bilan lola.",
+        "29. Ona — daraxt, bola — meva.",
+        "30. Ona — mehribon, ota — g‘amg‘uzor.",
+        "31. Onangni quyosh bilsang, otangni oy bil.",
+        "32. Farzand boqqan ota, jonni qoqqan ona.",
+        "33. Farzandsiz kishi — mevasiz daraxt.",
+        "34. Davlating — ota-onang, savlating — o‘g‘il-qizing.",
+        "35. Farzand baxti — ona taxti, farzand kamoli — ota jamoli.",
+        "36. Yaxshi ko‘rsang bolasin, izzat qilgin onasin.",
+        "37. Otangga qilganingni bolangdan ko‘rarsan.",
+        "38. Farzand — dilband, farzand — qanot.",
+        "39. Yon qo‘shni — jon qo‘shni.",
+        "40. Yaxshi qo‘shni uzoq qarindoshdan yaxshi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Ona, ota, farzand va oila haqidagi maqollar «Mening oilam», «Ota-ona hurmati» kabi mavzularda yaxshi o‘rin oladi. Maqolni sarlavhadan keyingi birinchi jumlada keltirib, keyin oilangizdagi bitta kichik voqea bilan isbotlang."
+    },
+    {
+      "type": "h2",
+      "id": "dostlik",
+      "text": "Do‘stlik haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "41. Do‘st achitib gapirar, dushman — kulib.",
+        "42. Do‘st do‘stni kulfatda sinar.",
+        "43. Do‘st og‘ir kunda bilinar.",
+        "44. Do‘st do‘stga — qalqon.",
+        "45. Do‘st — do‘stning oynasi.",
+        "46. Daraxt — ildizi bilan, odam — do‘stlari bilan.",
+        "47. Burgut kuchi — oyog‘ida, odamniki — do‘stlikda.",
+        "48. Arpa-bug‘doy bir kuningga yaraydi, sodiq do‘sting o‘lguningcha yaraydi.",
+        "49. Aybsiz do‘st izlagan do‘stsiz qolar.",
+        "50. Bilagi alp birni yiqar, do‘sti ko‘p — mingni.",
+        "51. Davlating — do‘sting.",
+        "52. Dushman siringni o‘g‘irlar, do‘st xatongni to‘g‘rilar.",
+        "53. Dushman chaqirsa borma, do‘st chaqirsa qolma.",
+        "54. Do‘st bo‘lsang, do‘stingning aybini tuzat.",
+        "55. Do‘st uzoqda bo‘lsa ham, ko‘ngli yaqin.",
+        "56. Do‘st yuzidan bilinar, dushman — izidan.",
+        "57. Bir ko‘rgan — tanish, ikki ko‘rgan — bilish.",
+        "58. Do‘st ming bo‘lsa ham — oz, dushman bir bo‘lsa ham — ko‘p.",
+        "59. Vafoli do‘st yo‘lga solar, ig‘vogar do‘st paydan olar.",
+        "60. Do‘st bilan sirdosh bo‘l, ishiga doim qo‘ldosh bo‘l."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Do‘stlik maqollari «Haqiqiy do‘st kim?» kabi mavzularda dalil bo‘lib xizmat qiladi. Maqolni keltirgach, o‘zingiz guvoh bo‘lgan yoki o‘qigan bitta voqeani yozing: shunda dalil quruq gap bo‘lib qolmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "mehnat",
+      "text": "Mehnat haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "61. Betashvish bosh qayda, mehnatsiz osh qayda.",
+        "62. Bemehnat hikmat yo‘q.",
+        "63. Bersang — olasan, eksang — o‘rasan.",
+        "64. Birni birov beradi, ko‘pni — mehnat.",
+        "65. Birovning bergani — ko‘rgulik, mehnatning bergani — to‘ygulik.",
+        "66. Bor-bor, ishda bor, ishlamagan nonga zor.",
+        "67. Gap bilan osh pishmas.",
+        "68. Gap bilan o‘roq o‘rish oson.",
+        "69. Gap bilguncha, ish bil.",
+        "70. Daraxt yaprog‘i bilan ko‘rkam, odam — mehnati bilan.",
+        "71. Daryo suvini bahor toshirar, odam qadrini mehnat oshirar.",
+        "72. Yotgan qolar, chopgan olar.",
+        "73. Yotganga yomg‘ir yog‘mas.",
+        "74. Yotib yeganga tog‘ chidamas.",
+        "75. Jon koyitmay, ish bitmas.",
+        "76. Ish bor yerda osh bor.",
+        "77. Ish seni yengmasin, sen ishni yeng.",
+        "78. Ari zahrin chekmagan bol qadrini bilmas.",
+        "79. Bir qo‘llab eksang, ikki qo‘llab o‘rasan.",
+        "80. Dangasaga bulut soyasi ham yuk."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Mehnat haqidagi maqollar inshoning asosiy qismida fikringizni mustahkamlaydi: mehnat insonni ulug‘laydi degan fikringizni bitta maqol bilan tasdiqlang. Maqol keltirilgan jumlani qo‘shtirnoq yoki «» ichiga oling va unga bir jumlali izoh yozing."
+    },
+    {
+      "type": "h2",
+      "id": "ilm-kitob",
+      "text": "Ilm va kitob haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "81. Avval o‘rgan, keyin o‘rgat.",
+        "82. Bilagi zo‘r birni yiqar, bilimi zo‘r — mingni.",
+        "83. Bilgan bilganin ishlar, bilmagan barmog‘in tishlar.",
+        "84. Bilgan bitirar, bilmagan yitirar.",
+        "85. Bilgan o‘zar, bilmagan to‘zar.",
+        "86. Bilim — aql chirog‘i.",
+        "87. Bilim — davlatdan qimmat.",
+        "88. Bilimliga dunyo yorug‘, bilimsizga — qorong‘u.",
+        "89. Bilmagan ayb emas, bilishga tirishmagan ayb.",
+        "90. Bilmasang, bilgandan so‘ra.",
+        "91. Davlat tugar, bilim tugamas.",
+        "92. Ilm — aql bulog‘i, aql — yashash chirog‘i.",
+        "93. Ilm — yorug‘lik, jaholat — zulmat.",
+        "94. Ilm izlagan yetar, izlamagan — yitar.",
+        "95. Ilm olishning erta-kechi yo‘q.",
+        "96. Ilm — tubsiz quduq.",
+        "97. Ilmsiz bir yashar, ilmli ming yashar.",
+        "98. Ilmsizga ishonch yo‘q, hunarsizga quvonch yo‘q.",
+        "99. Kitob — aql qayrog‘i.",
+        "100. Kitobsiz aql — qanotsiz qush."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Ilm va kitob haqidagi maqollar «Kitob — bilim manbai», «Nega o‘qish kerak?» kabi mavzularga mos keladi. Bittadan ortiq maqol keltirsangiz, ularni bir-biriga bog‘lab yozing, ketma-ket ro‘yxat qilib qo‘ymang."
+    },
+    {
+      "type": "h2",
+      "id": "til-soz",
+      "text": "Til va so‘z haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "101. Aytilgan so‘z — otilgan o‘q.",
+        "102. Anjom — uy ziynati, so‘z — inson ziynati.",
+        "103. Ariqni suv bezar, odamni — so‘z.",
+        "104. Bir shirin so‘z bitkazar, ming ko‘ngilning yarasin.",
+        "105. Bir yaxshi gap esdan chiqmas, bir — yomon gap.",
+        "106. Bug‘doy noning bo‘lmasin, bug‘doy so‘zing bo‘lsin.",
+        "107. Go‘sht-yog‘ berma, yaxshi til ber.",
+        "108. Yomon gap tarsakidan yomon.",
+        "109. Yomon so‘z egasiga qaytar.",
+        "110. Yomon til boshga balo keltirar, yaxshi til davlat, dunyo keltirar.",
+        "111. Iliq so‘z — shakar, sovuq so‘z — zahar.",
+        "112. Issiq kiyim tanni ilitar, issiq so‘z jonni ilitar.",
+        "113. Kuch egmaganni so‘z egar.",
+        "114. Ko‘p gap — eshakka yuk.",
+        "115. Ovni — oziq bilan, odamni — so‘z bilan.",
+        "116. Odam so‘zi bilan sinalar, osh — tuzi bilan.",
+        "117. Oz gapir — soz gapir.",
+        "118. Og‘izdan chiqqan so‘z qaytmas.",
+        "119. Puling bo‘lmasa, bo‘lmasin, shirin so‘zing bo‘lsin.",
+        "120. Mazali so‘zga quloq charchamas."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Til va so‘z maqollari nutq madaniyati, odob va muomala haqidagi insholarda yaxshi ishlaydi. Maqolning o‘zini emas, uning ma’nosini o‘z so‘zlaringiz bilan ham yozing: shunda matn ko‘chirma emas, fikr bo‘lib chiqadi."
+    },
+    {
+      "type": "h2",
+      "id": "vaqt",
+      "text": "Vaqt haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "121. Bugungi ishni ertaga qo‘yma.",
+        "122. Bahorgi harakat — kuzgi barakat.",
+        "123. Barvaqt qilingan harakat, hosilga berar barakat.",
+        "124. Vaqt aqchadur, g‘ofil bo‘lma, qochadur.",
+        "125. Vaqt — g‘animat, o‘tsa — nadomat.",
+        "126. Vaqtdan yutding — baxtdan yutding.",
+        "127. Vaqting ketdi — baxting ketdi.",
+        "128. Vaqtli harakat — oxiri barakat.",
+        "129. Vaqting bor — naqding bor.",
+        "130. Yo‘qolgan oltin topilar, yo‘qolgan vaqt topilmas.",
+        "131. Kech boshlagan kechikar.",
+        "132. Ekinni erta yiqqan xirmon qilar, kech qolgan armon qilar.",
+        "133. Erta turgan ish bitirar, kech turgan ko‘p turtinar.",
+        "134. Erta turgan horimas.",
+        "135. Ertalabki ish, ko‘ngilni qilar xush.",
+        "136. O‘tgan vaqt yo‘qolgan oltindan qimmat.",
+        "137. O‘tgan kun topilmas, kelar kun sotilmas.",
+        "138. Bir kun burun sochsang, hafta burun o‘rasan.",
+        "139. Ekinni erta ekkan, hosilni erta o‘rar.",
+        "140. Uch kun barvaqt turgan bir kun yutar."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Vaqt haqidagi maqollar «Vaqtning qadri» yoki kun tartibi haqidagi insholarda xulosani kuchaytiradi. Maqolni oxirgi jumlaga qo‘yish yaxshi: u fikringizni qisqa va esda qoladigan shaklda yakunlaydi."
+    },
+    {
+      "type": "h2",
+      "id": "halollik",
+      "text": "Halollik haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "141. Dili pokning ishi — pok.",
+        "142. Dili pokning yo‘li — pok.",
+        "143. Ishlab topganning oshi — lazzatli.",
+        "144. Manglay tering bilan topilgan mol, taningga halol.",
+        "145. Pora yegan pona yer.",
+        "146. Poraxo‘r boyimas, o‘g‘ri koyinmas.",
+        "147. Tekin yegan — ko‘zga tikan.",
+        "148. Tekin yeguncha, ekib ye.",
+        "149. Tekin topgan mol yomon, oxiri qo‘ymas omon.",
+        "150. Tekinning minnati ko‘p, mehnatning — ziynati.",
+        "151. Tekinxo‘r boyimaydi, boyisa ham yuqmaydi.",
+        "152. Tekinxo‘r qopib yeydi, mehnatkash topib yeydi.",
+        "153. Tomog‘ining yo‘li toza, ishi bo‘lar pokiza.",
+        "154. Xalq molini yegan halqumidan ilinar.",
+        "155. Halol ish — lazzatli yemish.",
+        "156. Halol ishla, halol tishla.",
+        "157. Halol mehnat yerda qolmas.",
+        "158. Halol mehnat — mo‘l daromad.",
+        "159. Mehnatingni halol qilsang, huzurini ko‘rasan.",
+        "160. Ishlamay yegan og‘rimay o‘lar."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Halollik va to‘g‘rilik haqidagi maqollar axloqiy mavzudagi insholarga mos. Maqoldan keyin «Men buni shunday tushunaman» deb o‘z fikringizni yozing va bitta hayotiy misol qo‘shing."
+    },
+    {
+      "type": "h2",
+      "id": "sabr",
+      "text": "Sabr haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "161. Asl boylik — qanoat.",
+        "162. Achchiq yutish — tog‘ yutish.",
+        "163. Bardoshliga yog‘lik osh, sabrsizga osh ham tosh.",
+        "164. Bir yomon kunning bir yaxshi kuni bor.",
+        "165. Boriga rozi bo‘l, yo‘g‘iga sabr qil.",
+        "166. Bugungi jahlni ertaga qo‘y.",
+        "167. Gul tikansiz bo‘lmas, dur — sadafsiz.",
+        "168. Jahl — joningga jabr.",
+        "169. Jahl dushmani — sabr.",
+        "170. Ip qancha uzun bo‘lmasin, uchi topilar.",
+        "171. Kashta qimmat, sabr arzon.",
+        "172. Kutganga kun uzoq.",
+        "173. Oshiqmagan olisga yetar.",
+        "174. Ochiqqan o‘lmas, oshiqqan o‘lar.",
+        "175. Sabr — achchiq, mevasi — shirin.",
+        "176. Sabr — yutuq kaliti.",
+        "177. Sabr tog‘ni yiqitar.",
+        "178. Sabr etgan yetar murodga, besabr qolar uyatga.",
+        "179. Bolta bo‘lsang, ur, kunda bo‘lsang, chida.",
+        "180. Sabr tagi — sari oltin, sabr bilan chiqar oting."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Sabr va qanoat haqidagi maqollar qiyinchilikni yengish, maqsadga intilish mavzularida o‘rinli. Maqolni inshoning o‘rtasida dalil sifatida ishlating va keyingi jumlada uning ma’nosini bir gap bilan izohlang."
+    },
+    {
+      "type": "h2",
+      "id": "sogliq",
+      "text": "Sog‘liq haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "181. Boylikning boshi — sog‘liq.",
+        "182. Bosh omon bo‘lsa, do‘ppi topilar.",
+        "183. Kasalning kelishi oson, ketishi qiyin.",
+        "184. Mol ketsin, pul ketsin, eson-sog‘likka ne yetsin.",
+        "185. Omon bo‘lsang, olam seniki.",
+        "186. Pokliging — sog‘liging.",
+        "187. Salomatlik — tuman boylik.",
+        "188. Sihat tilasang, ko‘p yema, izzat tilasang, ko‘p dema.",
+        "189. Sog‘likda xo‘rlik yo‘q.",
+        "190. Sog‘ tanda — sog‘lom aql.",
+        "191. Sog‘lik — umrning garovi.",
+        "192. Suyak butun bo‘lsa, et bitar.",
+        "193. Bola sog‘ligi — ona boyligi.",
+        "194. Bir kunlik isitma qirq kunlik kuchni olar.",
+        "195. Sog‘ olma shoxidan tushmas.",
+        "196. Tan og‘risa, jon sezar.",
+        "197. Kasal ko‘rsang, ko‘ngil ko‘tar.",
+        "198. Bosh rohati — tan rohati.",
+        "199. Rang ko‘r, hol so‘r.",
+        "200. Tonggi havo — tanga davo."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Sog‘liq maqollari sog‘lom turmush tarzi haqidagi insholarda boshlanish uchun qulay. Maqol umumiy hikmatni aytadi, tibbiy maslahat bermaydi: tavsiya kerak bo‘lsa, shifokor yoki ishonchli manbaga tayaning."
+    },
+    {
+      "type": "h2",
+      "id": "tejamkorlik",
+      "text": "Tejamkorlik haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "201. Bir boshoq don — bir savat non.",
+        "202. Birin-birin ming bo‘lar, toma-toma ko‘l bo‘lar.",
+        "203. Boylik ushoqdan yig‘ilar.",
+        "204. Don ayagan donga yetar, non ayagan — nonga.",
+        "205. Donni yiqqan donodir.",
+        "206. Yig‘sang yetasan, sovursang ketasan.",
+        "207. Ozni beja, ko‘pni teja.",
+        "208. Ota mulki bo‘lsa ham, ayab ye.",
+        "209. Otni ayagan ot minar, to‘nni ayagan to‘n kiyar.",
+        "210. Oq tangang ortiq bo‘lsa, qora kuningga saqla.",
+        "211. Pul bo‘ldi — kul bo‘ldi.",
+        "212. Pulni topish oson, saqlash qiyin.",
+        "213. Pulning onasi — tiyin.",
+        "214. Tanga tiyindan o‘sar, yilqi qulundan o‘sar.",
+        "215. Tejab yegan darmonda, tejamagan — armonda.",
+        "216. Tejagan terga tushmas.",
+        "217. Tejamaganning tagi — tang.",
+        "218. Tiyin qadrini bilmagan so‘m qadrini bilmas.",
+        "219. To‘qlikda ochlikni o‘yla, boyiganda — muhtojlikni.",
+        "220. Kam-kam yesang, doim yersan, ko‘p-ko‘p yesang, neni yersan."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Tejamkorlik haqidagi maqollar «Pulni to‘g‘ri sarflash», «Isrofgarchilikka yo‘q» kabi mavzularda yaxshi dalildir. Maqoldan keyin bitta kundalik odatni misol qiling: masalan, non yoki suvni isrof qilmaslik."
+    },
+    {
+      "type": "h2",
+      "id": "mehmondostlik",
+      "text": "Mehmondo‘stlik haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "221. Kelish mehmondan, ketish mezbondan.",
+        "222. Kelmoq ixtiyor bilan, ketmoq ijozat bilan.",
+        "223. Mehmon — aziz, mezbon — laziz.",
+        "224. Mehmon joyi ko‘z ustida.",
+        "225. Mehmon izzatda, mezbon xizmatda.",
+        "226. Mehmon kelgan uy — barakali.",
+        "227. Mehmon kelgan uyning chirog‘i ravshan.",
+        "228. Mehmon ko‘rki — dasturxon.",
+        "229. Mehmon mezbonga aziz, mezbon — mehmonga.",
+        "230. Mehmon — otangdan ulug‘.",
+        "231. Mehmon — uyning ziynati.",
+        "232. Mehmonning ketishini so‘rama, kelishini so‘ra.",
+        "233. Mehmonxonang tor bo‘lsa ham, mehri-diling keng bo‘lsin.",
+        "234. Ochiq yuz — oshdan shirin.",
+        "235. Osh — mehmon bilan aziz.",
+        "236. Osh — egasi bilan shirin.",
+        "237. Shirin choying bo‘lmasa, shirin tiling bo‘lsin.",
+        "238. Yo‘qcha guruch osh bo‘ladi, mehmon ko‘ngli shod bo‘ladi.",
+        "239. Qo‘noqqa osh ber, otiga — yem.",
+        "240. Mehmon kelar eshikdan, rizqi kelar teshikdan."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Mehmon va mezbon haqidagi maqollar o‘zbek xalqining odatlari, mehmondo‘stlik haqidagi insholarda o‘rinli. Maqolni keltirib, o‘z oilangizda mehmon kutish udumidan bitta tasvir qo‘shsangiz, matn jonli chiqadi."
+    },
+    {
+      "type": "h2",
+      "id": "odob",
+      "text": "Odob haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "241. Bola — aziz, odobi undan aziz.",
+        "242. Inson — odobi bilan, osmon — oftobi bilan.",
+        "243. Kattaga katta bo‘l, kichikka — kichik.",
+        "244. Odob bozorda sotilmas.",
+        "245. Odob — oltindan qimmat.",
+        "246. Odobli bola elga manzur.",
+        "247. Odobning boshi — til.",
+        "248. Oltin olmay, odob ol, odob oltin emasmi.",
+        "249. Ota oldidan o‘tma, odob oldidan ketma.",
+        "250. Osh kattadan, suv kichikdan.",
+        "251. So‘z kishining — o‘zagi, odob kishining — bezagi.",
+        "252. Husn husn emas, odob husn.",
+        "253. Kamtar bo‘lding — gavhar bo‘lding.",
+        "254. Kamtarga — kamol, manmanga — zavol.",
+        "255. Kamtarlik — katta davlat.",
+        "256. Maqtangan pand yeydi, kamtarin qand yeydi.",
+        "257. Bola ko‘rganini qilar, ota — bilganini.",
+        "258. Suv bilan ekin o‘sar, tarbiya bilan — odam.",
+        "259. Ustoz bilimli — shogird ilmli.",
+        "260. Buzishga o‘rganma, tuzishga o‘rgan."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Odob va kamtarlik maqollari «Odob — insonning ziynati» kabi mavzularda asosiy dalil bo‘ladi. Maqolni inshoning kirishida bering, keyin o‘qituvchi, katta yoshli odam yoki do‘stga munosabatdagi bitta holatni yozing."
+    },
+    {
+      "type": "h2",
+      "id": "botirlik",
+      "text": "Botirlik haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "261. Arslon izidan qaytmas, yigit — so‘zidan.",
+        "262. Botir yovda bilinar, so‘zchi — dovda.",
+        "263. Botir o‘lsa, nomi qolar, nomard o‘lsa, nimasi qolar.",
+        "264. Botir qiyinni yengar, nomard bo‘yinni egar.",
+        "265. Botirning kulgani — elning kulgani.",
+        "266. Botirning mushti — ishongan do‘sti.",
+        "267. Buzilgan elni botir tuzatar.",
+        "268. Bo‘ridan qo‘rqqan ovga chiqmas, ilondan qo‘rqqan suvga tushmas.",
+        "269. Dovni yenggan botir emas, yovni yengan botir.",
+        "270. Jasur jangda sinalar.",
+        "271. Itni ovga borganda sina, yigitni — yovga borganda.",
+        "272. Yigitning botirini maydonda sina.",
+        "273. Yo‘lbarsni yenggan emas, jahlni yenggan — botir.",
+        "274. Ko‘z — qo‘rqoq, qo‘l — botir.",
+        "275. Mergan ovda bilinar, botir — yovda.",
+        "276. Odam safarda bilinar, botir — xatarda.",
+        "277. Yigit ishi bichuvda bilinar, tuya — suv kechuvda.",
+        "278. Bir boshga — bir o‘lim.",
+        "279. Jondan kechmay, daryo kechilmas.",
+        "280. Mard qalbi — gul, nomardniki — kul."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Botirlik, jasorat va mardlik haqidagi maqollar qahramonlar va jasorat mavzusidagi insholarda yaxshi ishlaydi. Maqolni keltirgach, jasorat faqat jangda emas, kundalik hayotda ham bo‘lishini bir jumla bilan ko‘rsating."
+    },
+    {
+      "type": "h2",
+      "id": "tabiat",
+      "text": "Tabiat haqida maqollar: 20 ta"
+    },
+    {
+      "type": "list",
+      "items": [
+        "281. Qishning qori — yozga dori.",
+        "282. Qor yog‘di — don yog‘di, yomg‘ir yog‘di — osh yog‘di.",
+        "283. Yilning yaxshi kelishi bahordan ma’lum.",
+        "284. Bahorning bir kuni qishni boqar.",
+        "285. Yomg‘ir — ekinning joni.",
+        "286. Toqqa yog‘sa, cho‘l obod, cho‘lga yog‘sa, el obod.",
+        "287. Toqqa qalin qor tushgani — yerning qonib suv ichgani.",
+        "288. Yomg‘ir bilan yer ko‘karar, mehnat bilan — el.",
+        "289. Mevali daraxt yerga engashar, mevasiz daraxt ko‘kka tirmashar.",
+        "290. Terakka qarab, tol o‘sar.",
+        "291. Sayoz daryo shovqin oqar, chuqur daryo sokin oqar.",
+        "292. Katta daryo hayqirmas, aqlli kishi baqirmas.",
+        "293. Tomchi tomib bo‘lguncha, daryo oqib bo‘ladi.",
+        "294. Ilib-ilib, yoz bo‘lar, sovib-sovib, qish bo‘lar.",
+        "295. Qarg‘a ketmay, qor ketmas, turna kelmay, muz ketmas.",
+        "296. Yozning yomg‘iridan qo‘rq, qishning — qirovidan.",
+        "297. Qora bulutdan tiniq suv tomar.",
+        "298. Savr yomg‘iri — sari oltin.",
+        "299. Yer — ona, suv — ota, mehnat — boylik.",
+        "300. Yoz mevasi — qish xazinasi."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Inshoda qo‘llash: Tabiat, fasllar va suv haqidagi maqollar ekologiya va fasllar mavzusidagi insholarga mos. Maqolni tasvirga qo‘shib ishlating: avval manzarani tasvirlang, keyin maqol bilan fikrni umumlashtiring."
+    },
+    {
+      "type": "h2",
+      "id": "jadval",
+      "text": "Mavzular va raqamlar jadvali"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Mavzu",
+        "Raqamlari"
+      ],
+      "rows": [
+        [
+          "Vatan",
+          "1–20"
+        ],
+        [
+          "Ona va oila",
+          "21–40"
+        ],
+        [
+          "Do‘stlik",
+          "41–60"
+        ],
+        [
+          "Mehnat",
+          "61–80"
+        ],
+        [
+          "Ilm va kitob",
+          "81–100"
+        ],
+        [
+          "Til va so‘z",
+          "101–120"
+        ],
+        [
+          "Vaqt",
+          "121–140"
+        ],
+        [
+          "Halollik",
+          "141–160"
+        ],
+        [
+          "Sabr",
+          "161–180"
+        ],
+        [
+          "Sog‘liq",
+          "181–200"
+        ],
+        [
+          "Tejamkorlik",
+          "201–220"
+        ],
+        [
+          "Mehmondo‘stlik",
+          "221–240"
+        ],
+        [
+          "Odob",
+          "241–260"
+        ],
+        [
+          "Botirlik",
+          "261–280"
+        ],
+        [
+          "Tabiat",
+          "281–300"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "insho-qoidalari",
+      "text": "Maqolni insho yoki esseda qo‘llash: 4 qoida"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Maqol fikrni boshlaydi yoki yakunlaydi, o‘zi fikr o‘rnini bosmaydi.",
+        "Maqoldan keyin «Bu shuni anglatadiki...» yoki «Men buni shunday tushunaman...» deb izoh bering.",
+        "Maqolni hayotiy misol bilan ulang: oilangiz, sinfingiz yoki mahallangizdagi bitta voqea.",
+        "Matnni o‘zingiz yozing: maqollar to‘plamidan ketma-ket ko‘chirilgan insho o‘qituvchi ko‘ziga tez tashlanadi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Inshoning tuzilishi va reja haqida {esse} sahifasida batafsil yozilgan; xalq donoligidan keyingi bosqich — {hikmat}.",
+      "links": [
+        {
+          "token": "esse",
+          "target": "/uz/blog/esse-yozish-tartibi/",
+          "anchor": "esse yozish tartibi"
+        },
+        {
+          "token": "hikmat",
+          "target": "/uz/blog/hikmatli-sozlar/",
+          "anchor": "hikmatli so‘zlar to‘plami"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Topishmoq va fikrlash o‘yinlari ham xalq og‘zaki ijodining bir qismi: {top} sahifasini oching.",
+      "links": [
+        {
+          "token": "top",
+          "target": "/uz/blog/topishmoqlar/",
+          "anchor": "topishmoqlar javobi bilan"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bu sahifada nechta maqol bor?",
+      "a": "Jami 300 ta: Vatan, ona va oila, do‘stlik, mehnat, ilm va kitob, til va so‘z, vaqt, halollik, sabr, sog‘liq, tejamkorlik, mehmondo‘stlik, odob, botirlik va tabiat mavzularining har birida 20 tadan. Takrorlar yo‘q."
+    },
+    {
+      "q": "Maqol bilan matal qanday farq qiladi?",
+      "a": "Maqol to‘liq fikr va xulosa beradi: «Do‘st kulfatda bilinar». Matal esa nutqni bezaydigan tayyor ibora yoki o‘xshatish bo‘lib, to‘liq hukm bermaydi. Bu sahifada faqat maqollar bor."
+    },
+    {
+      "q": "Maqolni insho yoki esseda qanday keltirish kerak?",
+      "a": "Maqolni so‘zma-so‘z, qo‘shtirnoq yoki «» ichida keltiring, keyin uning ma’nosini o‘z so‘zlaringiz bilan izohlab, bitta hayotiy misol qo‘shing. Bir insho uchun 1–3 ta maqol yetarli."
+    },
+    {
+      "q": "Maqollarning matni boshqa manbalardan farq qilsa nima qilish kerak?",
+      "a": "Maqollar og‘zaki ijod bo‘lgani uchun matni joyiga qarab ozgina farq qilishi mumkin. Maktab yoki universitet topshirig‘ida ko‘rsatilgan darslik yoki to‘plamdagi variantni oling."
+    },
+    {
+      "q": "Maqollarni kirill yozuvida olsa bo‘ladimi?",
+      "a": "Bu sahifada maqollar lotin yozuvida. Kirillga o‘tkazish uchun saytdagi kirill ↔ lotin konvertoridan foydalaning: u AI’siz ishlaydi va sinov javoblarini sarflamaydi."
+    },
+    {
+      "q": "Bu maqollarni o‘qituvchi yoki o‘quvchi ishlatsa bo‘ladimi?",
+      "a": "Ha, maqollar xalq og‘zaki ijodi: ularni dars, bayram ertaligi, devoriy gazeta va insholarda keltirish mumkin. Tayyor maqollar ro‘yxatini ko‘chirib topshirish o‘rniga, ularni o‘z fikringizga dalil qilib ishlating."
+    }
+  ],
+  "cta": {
+    "label": "Maqol ma’nosini AI bilan tushuntirish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/esse-yozish-tartibi/",
+      "anchor": "Esse yozish tartibi: reja va namuna",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/hikmatli-sozlar/",
+      "anchor": "Hikmatli so‘zlar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/topishmoqlar/",
+      "anchor": "200 ta topishmoq javobi bilan",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/insho-yozish-suniy-intellekt-bilan/",
+      "anchor": "Insho yozish: AI yordamida reja tuzish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: maqol ma’nosini tushuntirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill ↔ lotin konvertori",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "Maqollar: 300 ta o‘zbek xalq maqoli",
+  "ogDescription": "300 ta o‘zbek xalq maqoli 15 mavzu bo‘yicha: Vatan, mehnat, ilm, do‘stlik va boshqalar. Insho va ertalik uchun.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/maqollar/",
+  "hreflangUz": "/uz/blog/maqollar/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Maqollar",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "InfoEdu.uz — Maqollar (boshlang‘ich sinf o‘qish kitoblaridan mavzular bo‘yicha)",
+      "url": "https://infoedu.uz/maqollar",
+      "note": "Vatan, ilm, til, odob va sog‘liq haqidagi bir qancha maqolning yozilishi 2026-11-17 kuni shu sahifa bilan solishtirildi."
+    },
+    {
+      "title": "Baxtiyor.uz — O‘zbek xalq maqollari: mavzular bo‘yicha to‘plam",
+      "url": "https://baxtiyor.uz/barcha-maqollar-o-zbek-xalq-maqollari-to-plami/",
+      "note": "Sahifada ro‘yxatlar T. Mirzayev, A. Musoqulov, B. Sarimsoqov tuzgan «O‘zbek xalq maqollari» (Sharq, 2005) kitobidan olingani aytilgan; 2026-11-17 kuni mavzu sahifalari ko‘zdan kechirildi. Maqollar mavzularga qayta guruhlab tanlangan, matn tuzatilgan joylar bor, shuning uchun nashr bilan so‘zma-so‘z mos kelishi kafolatlanmaydi."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

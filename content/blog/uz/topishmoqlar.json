@@ -1,0 +1,644 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "topishmoqlar",
+  "url": "/uz/blog/topishmoqlar/",
+  "title": "Topishmoqlar javobi bilan: 200 ta qiziqarli topishmoq",
+  "description": "200 ta topishmoq javobi bilan: hayvonlar, qushlar, meva-sabzavot, tabiat, maktab, kasblar va texnika haqida. Bolalar uchun xalq topishmoqlari va yangilari.",
+  "h1": "Bolalar uchun topishmoqlar: 10 mavzu bo‘yicha 200 ta, javoblari bilan",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "topishmoqlar",
+    "topishmoqlar javobi bilan",
+    "bolalar uchun topishmoqlar",
+    "qiziqarli topishmoqlar",
+    "o‘zbek xalq topishmoqlari",
+    "топишмоқлар"
+  ],
+  "intro": "Topishmoq — eng sevimli xalq o‘yinlaridan biri: belgilariga qarab narsani topish tafakkurni charxlaydi. Bu sahifada 200 ta topishmoq javobi bilan jamlangan va 10 mavzuga ajratilgan: hayvonlar, qushlar, meva va sabzavot, tabiat, uy buyumlari, maktab, inson tanasi, fasllar, kasblar va texnika.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida 200 ta topishmoq bor. Ular 10 mavzuga bo‘lingan, har mavzuda 20 tadan. Javob har bir topishmoqning oxirida, «Javob:» so‘zidan keyin yozilgan: avval o‘ylang, keyin javobni tekshiring. Har topishmoqning bitta aniq javobi bor."
+    },
+    {
+      "type": "linkp",
+      "text": "Topishmoq qiyin bo‘lib qolsa, {chat}dan yangi variant so‘rash yoki javobning nima uchun shunday ekanini tushuntirishni iltimos qilish mumkin. Bu GPTBot.uz AI chati: ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu to‘plamdagi topishmoqlarning bir qismi xalq orasida aytiladigan ko‘rinishlarga yaqin, qolganlari shu sahifa uchun yangidan yozilgan. Xalq topishmoqlari og‘zaki aytilgani uchun har viloyatda so‘zlari biroz farq qiladi; sizning oilangizda boshqacha aytilsa, bu xato emas."
+    },
+    {
+      "type": "h2",
+      "id": "qanday-foydalanish",
+      "text": "Topishmoqlar bilan qanday o‘ynash mumkin"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Javobni qo‘l yoki qog‘oz bilan yopib o‘qing: avval topishmoq, keyin o‘ylash, oxirida javob.",
+        "Bolaga javobni darrov aytmang: «Bu qanday shaklda?», «U nima qiladi?» kabi yordamchi savollar bering.",
+        "Oilada navbat bilan o‘qing: to‘g‘ri topgan odam keyingi topishmoqni tanlaydi.",
+        "Darsda bitta mavzuni tanlang: masalan, fasllar darsida «Fasllar» bo‘limidan 3–4 ta topishmoq yetarli.",
+        "Topgandan keyin «Nega aynan shu?» deb so‘rang: bola belgilarni o‘zi sanasa, topishmoq o‘z vazifasini bajargan bo‘ladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "topishmoq-nima",
+      "text": "Topishmoq nima va u qanday tuziladi"
+    },
+    {
+      "type": "p",
+      "text": "Topishmoq — narsani nomini aytmasdan, uning belgilari bilan tasvirlaydigan qisqa matn. Eng ko‘p uchraydigan usullar uchta: narsani boshqa narsaga o‘xshatish («Ming ko‘ylak kiyadi»), qarama-qarshi belgini aytish («Qush emas, lekin uchadi») va narsaning vazifasini tasvirlash («Vaqtni ko‘rsatadi»). Yaxshi topishmoqda javob bitta bo‘ladi va uning belgilari hammaga tanish bo‘ladi."
+    },
+    {
+      "type": "p",
+      "text": "Topishmoq mantiqiy savoldan farq qiladi: topishmoqda narsa belgilariga qarab topiladi, mantiqiy savolda esa shartdagi ma’lumotdan xulosa chiqariladi."
+    },
+    {
+      "type": "h2",
+      "id": "hayvonlar",
+      "text": "Hayvonlar haqida topishmoqlar: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "Uy va yovvoyi hayvonlar: ayiq, tuya, sigir, fil va boshqalar. Kichik yoshdagi bolalar uchun eng qulay bo‘lim."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Ikki shoxi bor, lekin ho‘kiz emas; uyini orqasida ko‘tarib yuradi. Javob: salyangoz.",
+        "2. Tikanli kiyim kiygan, xavf sezsa to‘pday yumalab oladi. Javob: kirpi.",
+        "3. Kichkina, qora, yoz bo‘yi don tashiydi, qishga g‘amlaydi. Javob: chumoli.",
+        "4. Tunda ko‘zlari chiroqday yonadi, sichqonni ovlaydi, o‘zi esa mayin. Javob: mushuk.",
+        "5. Uyni qo‘riqlaydi, begonani ko‘rsa irillaydi, egasini ko‘rsa dumini likillatadi. Javob: it.",
+        "6. O‘rkachi bor, sahroda kemaday suzadi, suvsiz bir necha kun yuradi. Javob: tuya.",
+        "7. Gulma-gul uchib sharbat yig‘adi, bol tayyorlaydi, ammo ninasi bor. Javob: asalari.",
+        "8. Qanoti bor, lekin qush emas; kechasi uchadi, kunduzi boshi pastga osilib uxlaydi. Javob: ko‘rshapalak.",
+        "9. Suvda yashaydi, tangacha kiyadi, suzgich qanotlari bilan suzadi. Javob: baliq.",
+        "10. Bo‘yni juda uzun, baland daraxtning bargini yeydi, tanasi dog‘li. Javob: jirafa.",
+        "11. Sutini ichamiz, uyda boqiladi, o‘tlab yuradi, shoxi bor, \"mo'-o'\" deydi. Javob: sigir.",
+        "12. Oyoqsiz, qo‘lsiz, sudralib yuradi, yilda bir marta po‘st tashlaydi. Javob: ilon.",
+        "13. Yoli bor, ovozi gumburlaydi, hayvonlar shohi deyiladi. Javob: sher.",
+        "14. Qulog‘i uzun, dumi kalta, sabzini yaxshi ko‘radi, sakrab yuradi. Javob: quyon.",
+        "15. Yo‘l-yo‘l kiyim kiygan, Afrika dashtida yuguradi, ot kabi, ammo ot emas. Javob: zebra.",
+        "16. Qishda uxlab yotadi, bahorda uyg‘onadi, asalni juda yaxshi ko‘radi, katta va kuchli. Javob: ayiq.",
+        "17. Burni uzun, qulog‘i katta, tanasi tog‘dek, burni bilan o‘ziga suv sepadi. Javob: fil.",
+        "18. Qo‘ng‘ir kiyimi yozda qirqiladi, qishda issiq kiyim bo‘ladi, \"me-e\" deydi. Javob: qo‘y.",
+        "19. Yer ostida yo‘l qazir, ko‘zi juda mayda, panjalari kurakday. Javob: ko‘rsichqon.",
+        "20. Daryoda yashaydi, og‘zi keng, tishlari o‘tkir, terisi qalin. Javob: timsoh."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "qushlar",
+      "text": "Qushlar haqida topishmoqlar: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "Xo‘roz, qaldirg‘och, laylak, bulbul va boshqa qushlar: belgilariga va ovoziga qarab toping."
+    },
+    {
+      "type": "list",
+      "items": [
+        "21. Boshida toji bor, tong otmasdan \"qu-qi-qu\" deb hammani uyg‘otadi. Javob: xo‘roz.",
+        "22. Tuxum qo‘yadi, \"qud-qudak\" deydi, har kuni don cho‘qiydi. Javob: tovuq.",
+        "23. Suvda suzadi, bo‘yni uzun, patlari qordek oppoq, ko‘rkam. Javob: oqqush.",
+        "24. Bahorda issiq o‘lkalardan keladi, uyasini tomga quradi, dumi ikki shoxli. Javob: qaldirg‘och.",
+        "25. Kechasi ovlaydi, ko‘zlari katta, \"uhu\" deydi, boshini deyarli orqaga buradi. Javob: boyo‘g‘li.",
+        "26. Odam ovozini takrorlaydi, rang-barang patli, qafasda ham yashaydi. Javob: to‘ti.",
+        "27. Uzun oyoqli, uzun tumshuqli, bir oyoqda turadi, uyasini tomga quradi. Javob: laylak.",
+        "28. Suvda suzadi, \"g‘ag'-g‘ag'\" deydi, oyoqlari kaft kabi kengaygan. Javob: o‘rdak.",
+        "29. Qatorlashib \"V\" shaklida uchadi, uyda ham boqiladi, bo‘yni uzun, ovozi baland. Javob: g‘oz.",
+        "30. Qora-oq patli, uzun dumli, yaltiroq narsalarni olib ketishni yaxshi ko‘radi. Javob: zag‘izg‘on.",
+        "31. Qora kiyimli, \"qag'-qag'\" deb qichqiradi, daraxtlarda to‘da bo‘lib o‘tiradi. Javob: qarg‘a.",
+        "32. O‘z tuxumini boshqa qush uyasiga qo‘yadi, \"ku-ku\" deydi. Javob: kakku.",
+        "33. Tog‘larda baland uchadi, ko‘zi o‘tkir, tirnoqlari kuchli, qushlar shohi deyiladi. Javob: burgut.",
+        "34. Boshida patdan toji bor, tumshug‘i ingichka va uzun, \"hud-hud\" deydi. Javob: hudhud.",
+        "35. Tunda bog‘da sayraydi, ovozi shirin, o‘zi kichkina va kulrang. Javob: bulbul.",
+        "36. Uzun bo‘yinli, uzun oyoqli, kuzda qator tizilib \"qurr-qurr\" deb ketadi. Javob: turna.",
+        "37. Kichkina, kulrang, qishda ham ketmaydi, non uvog‘ini cho‘qiydi. Javob: chumchuq.",
+        "38. Tinchlik ramzi, oq rangli, tomda dongillab yuradi, qadimda xat tashigan. Javob: kaptar.",
+        "39. Dumi yelpig‘ichday ochiladi, patlarida ko‘k-yashil ko‘zlar bor. Javob: tovus.",
+        "40. Qush bo‘lsa ham uchmaydi, muz ustida yuradi, qora-oq kiyimda. Javob: pingvin."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "meva-sabzavot",
+      "text": "Meva va sabzavot topishmoqlari: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "Dasturxondagi tanish narsalar: tarvuz, anor, piyoz, sarimsoq. Oshxonada bola bilan o‘ynash uchun qulay."
+    },
+    {
+      "type": "list",
+      "items": [
+        "41. Tashi yashil, ichi qizil, urug‘i qora, yozda polizda pishadi. Javob: tarvuz.",
+        "42. Tashi to‘rli, ichi sariq, hidi xushbo‘y, juda shirin. Javob: qovun.",
+        "43. Shingil-shingil osilib turadi, quritsak mayiz bo‘ladi. Javob: uzum.",
+        "44. Qizil po‘stli, ichida yuzlab yoqut donalar bor. Javob: anor.",
+        "45. Kesib qarasang, ichidan yulduzcha chiqadi, qizil, sariq yoki yashil bo‘ladi. Javob: olma.",
+        "46. Yer ostida o‘sadi, to‘q sariq, uzun, quyonning sevimli taomi, palovning asosi. Javob: sabzi.",
+        "47. Ming ko‘ylak kiyadi, yechsang ko‘zingdan yosh oqadi. Javob: piyoz.",
+        "48. Yer ostida tuganak hosil qiladi, qaynatib ham, qovurib ham yeyiladi. Javob: kartoshka.",
+        "49. Qizil, yumaloq, sershira, salatning bezagi, yozda poliz etagida pishadi. Javob: pomidor.",
+        "50. Yashil, uzun, tashi biroz g‘adir-budur, ichi suvli, salatga solinadi. Javob: bodring.",
+        "51. Boshi bor, miyasi yo‘q; tishlari bor, og‘zi yo‘q; hidi o‘tkir. Javob: sarimsoq.",
+        "52. Mayin tukli, yonog‘i qizil, ichida katta danagi bor. Javob: shaftoli.",
+        "53. Bahor boshida gullaydi, to‘q sariq, quritilsa quruq meva bo‘ladi, ichida danak. Javob: o‘rik.",
+        "54. Sariq, xushbo‘y, xomligida taxir, pishirilsa shirin murabbo bo‘ladi. Javob: behi.",
+        "55. Sariq, nordon, choyga solinadi, vitaminga boy. Javob: limon.",
+        "56. Sariq kiyim kiygan, kiyimi yechilsa ichi oppoq, maymunning sevimlisi. Javob: banan.",
+        "57. Yerda dumalab yotadi, katta, to‘q sariq, ichida ko‘p urug' bor, manti ichiga solinadi. Javob: qovoq.",
+        "58. Ko‘ylagi ko‘p, tugmasi yo‘q, ichi oppoq, boshi yumaloq. Javob: karam.",
+        "59. Achchiq, qizil yoki yashil, tilni kuydiradi, ammo sho‘rvaga maza beradi. Javob: achchiq qalampir.",
+        "60. Bahorda erta pishadi, qizil, shirin, shoxda juft-juft osilib turadi. Javob: gilos."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tabiat",
+      "text": "Tabiat hodisalari haqida topishmoqlar: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "Yomg‘ir, qor, kamalak, shudring, sel va boshqalar. Fasllar va tabiat darsiga mos."
+    },
+    {
+      "type": "list",
+      "items": [
+        "61. Osmondan tushadi, qush emas; yerni sug‘oradi, ekinni o‘stiradi. Javob: yomg‘ir.",
+        "62. Oppoq paxtadek uchib tushadi, qishda yerni yopadi, qo‘lga olsang eriydi. Javob: qor.",
+        "63. Osmonda gumburlaydi, lekin odam emas. Javob: momaqaldiroq.",
+        "64. Qora bulutda yorqin yo‘l ochadi, ko‘zni qamashtiradi, ovozi keyin eshitiladi. Javob: chaqmoq.",
+        "65. Yomg‘irdan keyin osmonda paydo bo‘ladi, yetti rangli ko‘prikka o‘xshaydi. Javob: kamalak.",
+        "66. Ko‘rinmaydi, lekin daraxtni egadi, barglarni uchirib ketadi. Javob: shamol.",
+        "67. Oppoq parda yerga tushadi, yo‘lda hech narsa ko‘rinmaydi. Javob: tuman.",
+        "68. Ertalab o‘tlarda tomchilar yaltiraydi, quyosh chiqsa yo‘q bo‘lib ketadi. Javob: shudring.",
+        "69. Muz donalari yozda ham yog‘adi, dala va bog‘ni ayovsiz uradi. Javob: do‘l.",
+        "70. Kunduzi yoritadi, hammaga iliqlik beradi, tunda yo‘q. Javob: quyosh.",
+        "71. Tunda yoritadi, shakli o‘zgarib turadi: yarim, o‘roq, to‘lin. Javob: oy.",
+        "72. Qora ko‘rpa ustida son-sanoqsiz mayda chiroqlar yonadi. Javob: yulduzlar.",
+        "73. Osmonda suzadi, oq bo‘ladi, suv saqlaydi, qorayganda yomg‘ir tashlaydi. Javob: bulut.",
+        "74. Suv edi, sovuqdan toshdek qotdi, issiq tegsa yana suv bo‘ladi. Javob: muz.",
+        "75. Tog‘dan tushadi, o‘zi bilan loy va tosh olib keladi, yo‘lni to‘sadi. Javob: sel.",
+        "76. Yer osti silkinadi, binolar chayqaladi. Javob: zilzila.",
+        "77. Qum yoki qorni uchiradi, ko‘zni ko‘r qiladi, kuchli shamol. Javob: bo‘ron.",
+        "78. Qorong‘ilik tarqaladi, sharqda yorug‘lik paydo bo‘ladi, xo‘roz qichqiradi. Javob: tong.",
+        "79. Sen yursang, u ham yuradi; kunduzi yonida, tunda yo‘q. Javob: soya.",
+        "80. Tog‘da qichqirsang, javob beradi, ammo o‘zi ko‘rinmaydi. Javob: aks-sado."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "uy-buyumlari",
+      "text": "Uy-ro‘zg‘or buyumlari haqida topishmoqlar: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "Qoshiq, soat, ayna, igna va gilam: har kuni ko‘rib yuradigan narsalar."
+    },
+    {
+      "type": "list",
+      "items": [
+        "81. Tik-tak qiladi, qo‘li bor, ko‘zi yo‘q, vaqtni ko‘rsatadi. Javob: soat.",
+        "82. Dastasi bor, qo‘li yo‘q; oshni og‘zimizga yetkazadi. Javob: qoshiq.",
+        "83. Burni bor, hid sezmaydi, qopqog‘i va dastasi bor, ichida choy damlanadi. Javob: choynak.",
+        "84. Kechasi ustimizni yopadi, kunduzi yig‘ib qo‘yiladi. Javob: ko‘rpa.",
+        "85. Qarasang, o‘zingni ko‘rasan; qo‘l tegizsang, sovuq shisha. Javob: ayna.",
+        "86. Kichkina, temir, eshikning qulfini ochadi. Javob: kalit.",
+        "87. Ikki oyoqli, ammo yurmaydi; ikki tig‘i bor, mato va qog‘ozni kesadi. Javob: qaychi.",
+        "88. Ingichka, bitta ko‘zi bor, ammo ko‘rmaydi, ipni yetaklab yuradi. Javob: igna.",
+        "89. Issiq, tekis taglikli, ko‘ylakning ajinini yo‘qotadi. Javob: dazmol.",
+        "90. Qo‘lga tegsa ko‘pik beradi, kirni ketkazadi, suvda kichrayib boradi. Javob: sovun.",
+        "91. Tunda xonani yoritadi, ulansa yonadi, uzilsa o‘chadi. Javob: chiroq.",
+        "92. Polni tozalaydi, changni olib ketadi, burchakda tik turishni yaxshi ko‘radi. Javob: supurgi.",
+        "93. Ichkariga yo‘l, ochilsa kirasan, yopilsa uy yopiq, ba’zan g‘ichirlaydi. Javob: eshik.",
+        "94. To‘rt oyog‘i bor, lekin yurmaydi, ustida ovqat yeymiz yoki yozamiz. Javob: stol.",
+        "95. Yuzi yumaloq, tandirda pishadi, dasturxonning to‘ri. Javob: non.",
+        "96. Ichi qish, tashi yoz; ovqatni sovuq saqlaydi. Javob: muzlatgich.",
+        "97. Dastasi bor, tig‘i bor, ehtiyot bo‘lmasang kesadi. Javob: pichoq.",
+        "98. Katta, qorni keng, ostiga o‘t yoqiladi, palov pishiradi. Javob: qozon.",
+        "99. Boshingni qo‘ysang yumshoq, tushlaringni qo‘riqlaydi. Javob: yostiq.",
+        "100. Yerga to‘shaladi, naqshi bor, oyoq ostida bo‘lsa ham qadri baland. Javob: gilam."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "maktab",
+      "text": "Maktab haqida topishmoqlar: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "Qalam, daftar, doska, qo‘ng‘iroq va baho: maktab sumkasidagi va sinfdagi narsalar."
+    },
+    {
+      "type": "list",
+      "items": [
+        "101. Yog‘och kiyimli, ichida qora o‘zak, uchi o‘tkir; yozsang kichrayadi. Javob: qalam.",
+        "102. Siyoh yoki pasta bilan yozadi, qopqog‘i bor, xatoni o‘chirib bo‘lmaydi. Javob: ruchka.",
+        "103. Xatoni yo‘qotadi, o‘zi esa kichrayadi. Javob: o‘chirg‘ich.",
+        "104. Ichida sahifalar, katak yoki chiziq, bolalar unga yozadi. Javob: daftar.",
+        "105. Sahifalari bor, ammo daraxt emas; tili yo‘q, lekin gapiradi. Javob: kitob.",
+        "106. Qora yoki yashil, bo‘r bilan yoziladi, latta bilan o‘chiriladi. Javob: doska.",
+        "107. Oq, doskada yozadi, yozgan sari qisqaradi. Javob: bo‘r.",
+        "108. Dars boshlanganini va tugaganini bildiradi, jiringlaydi. Javob: qo‘ng‘iroq.",
+        "109. Yelkada olib yuriladi, ichida kitob va daftar bor, maktabga birga boradi. Javob: maktab sumkasi.",
+        "110. To‘g‘ri chiziq chizadi, ustida raqamlar bor, uzunlikni o‘lchaydi. Javob: chizg‘ich.",
+        "111. Ikki oyog‘i bor, bittasi joyida turadi, ikkinchisi aylana chizadi. Javob: sirkul.",
+        "112. Dunyoning kichik nusxasi, aylanadi, ustida qit’alar va okeanlar bor. Javob: globus.",
+        "113. Qog‘ozda butun mamlakat bor: daryolar, tog‘lar va shaharlar. Javob: xarita.",
+        "114. Qutida yetti-sakkiz xil rangda, osmonni ham, daraxtni ham chizadi. Javob: rangli qalamlar.",
+        "115. Besh bo‘lsa, ota-ona quvonadi; ikki bo‘lsa, o‘quvchi xafa bo‘ladi. Javob: baho.",
+        "116. Harflar jamlanmasi, birinchi sinfda bolalar uni yod oladi, \"A\" bilan boshlanadi. Javob: alifbo.",
+        "117. Ichida baholar va uyga vazifa yozilgan, o‘qituvchi imzo qo‘yadi. Javob: kundalik.",
+        "118. Qaysi kun qaysi fan borligini ko‘rsatadi, sinf devorida osilib turadi. Javob: dars jadvali.",
+        "119. Ikki o‘quvchi o‘tiradi, ustida daftar yotadi, ichida sumka turadi. Javob: parta.",
+        "120. Darslar orasida bo‘ladi, bolalar hovlida yugurib, dam oladi. Javob: tanaffus."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "inson-tanasi",
+      "text": "Inson tanasi haqida topishmoqlar: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "Ko‘z, til, yurak, miya va boshqa a’zolar. Tabiatshunoslik darsida foydali."
+    },
+    {
+      "type": "list",
+      "items": [
+        "121. Ikki darcha, ochib-yopsang, olamni ko‘rasan. Javob: ko‘z.",
+        "122. Ikkita, boshning ikki yonida turadi, eshitadi, lekin gapirmaydi. Javob: quloq.",
+        "123. Yuzning o‘rtasida, hid biladi, nafas oladi. Javob: burun.",
+        "124. Og‘izda yashaydi, suyagi yo‘q, ammo gapni shu aytadi. Javob: til.",
+        "125. Og‘izda oq xonadonlar, ovqatni maydalaydi, ertalab va kechqurun yuvamiz. Javob: tish.",
+        "126. Besh barmoqli, yozadi, ushlaydi, salom berganda uzatiladi. Javob: qo‘l.",
+        "127. Ko‘krakda tik-tik qiladi, tinmay uradi, qonni haydaydi. Javob: yurak.",
+        "128. Ikkitasi bor, yurishga yordam beradi, poyabzal kiyadi. Javob: oyoq.",
+        "129. Boshda o‘sadi, taralsa yotadi, qirqsang yana o‘sadi. Javob: soch.",
+        "130. Barmoq uchida o‘sadi, qirqsang og‘rimaydi. Javob: tirnoq.",
+        "131. Bosh suyagi ichida turadi, o‘ylaydi, tanani boshqaradi. Javob: miya.",
+        "132. Ko‘krakda ikkita \"qop\", nafas olganda havoga to‘ladi. Javob: o‘pka.",
+        "133. Qorinda joylashgan, ovqat yig‘iladigan joy, och qolsa quldiraydi. Javob: oshqozon.",
+        "134. Tanamizning ichida, ko‘rinmaydi, lekin tik tutib turadi, sinsa uzoq tuzaladi. Javob: suyak.",
+        "135. Oyoqni ikkiga bo‘ladi, bukilganda egilamiz. Javob: tizza.",
+        "136. Ko‘z tepasida ikki yoy, taralsa chiroyli ko‘rinadi. Javob: qosh.",
+        "137. Ko‘zni changdan saqlaydi, tez-tez pirpiraydi. Javob: kiprik.",
+        "138. Boshni tanaga bog‘laydi, burilsa chapga ham, o‘ngga ham qaraymiz. Javob: bo‘yin.",
+        "139. Ikki yonda turadi, sumkani shunga ilamiz. Javob: yelka.",
+        "140. Tomirda oqadi, qizil rangda, kesilsa chiqadi. Javob: qon."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "fasllar",
+      "text": "Fasllar haqida topishmoqlar: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "Bahor, yoz, kuz, qish, Navro‘z va fasllarga xos narsalar: sumalak, chana, sandal, paxta."
+    },
+    {
+      "type": "list",
+      "items": [
+        "141. Qor eriydi, qushlar qaytadi, daraxtlar gullaydi, Navro‘z keladi. Javob: bahor.",
+        "142. Issiq, bolalar ta’tilda, qovun-tarvuz pishadi. Javob: yoz.",
+        "143. Barglar sarg‘ayadi, uzum va anor pishadi, maktab ochiladi. Javob: kuz.",
+        "144. Qor yog‘adi, kunlar qisqa, sandal yaxshi, kechalar uzun. Javob: qish.",
+        "145. Bahorning birinchi bayrami, sumalak qaynaydi, kun bilan tun tenglashadi. Javob: Navro‘z.",
+        "146. Bug‘doy o‘sig‘idan, tun bo‘yi qozonda aylantirib pishiriladi, Navro‘zda tayyorlanadi. Javob: sumalak.",
+        "147. Bahorda tog' yonbag‘rini qizil rangga bo‘yaydi, yaproqlari ingichka, gul. Javob: lola.",
+        "148. Qishda hovlida qordan yasaymiz, sabzi burun, quyoshda eriydi. Javob: qor odam.",
+        "149. Qishda tepadan tushamiz, otsiz ham yuguradi. Javob: chana.",
+        "150. Qishki bayramda uyda turadi, yashil, shoxlarida o‘yinchoqlar yonadi. Javob: archa.",
+        "151. Kuzda daraxtdan to‘kiladi, sariq-qizil gilam bo‘ladi. Javob: barg.",
+        "152. Kuzda dalada oppoq ochiladi, termachilar yig‘adi. Javob: paxta.",
+        "153. Stolning ostida cho‘g' bor, ustida ko‘rpa, qishda hammani isitadi. Javob: sandal.",
+        "154. Besh barmog‘i bor, odam emas; qishda qo‘lni isitadi. Javob: qo‘lqop.",
+        "155. Yomg‘irda ochiladi, yopilsa tayoqqa o‘xshaydi. Javob: soyabon.",
+        "156. Qishda bolalarning eng sevimli bayrami, soat o‘n ikkida keladi, Qorbobo sovg‘a tashlaydi. Javob: Yangi yil.",
+        "157. Bahorda ochiladi, hidi xush, ari qo‘nadi. Javob: gul.",
+        "158. Kuzda dehqon yig‘adi, mehnat mevasi, omborga solinadi. Javob: hosil.",
+        "159. Yozda maktab yopiladi, uch oy dam olish. Javob: ta’til.",
+        "160. Bahorda gullaydi, yozda soya beradi, kuzda meva, qishda uxlaydi. Javob: bog'."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "kasblar",
+      "text": "Kasblar haqida topishmoqlar: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "O‘qituvchi, shifokor, novvoy, bog‘bon va boshqa kasb egalari: kasb tanlash suhbatiga qulay."
+    },
+    {
+      "type": "list",
+      "items": [
+        "161. Maktabda bolalarga dars beradi, doskada yozadi, savol so‘raydi. Javob: o‘qituvchi.",
+        "162. Oq xalatda, bo‘yniga quloqchin (stetoskop) taqadi, kasalni ko‘radi, dori yozadi. Javob: shifokor.",
+        "163. G‘isht teradi, uy quradi, bolta va mala bilan ishlaydi. Javob: quruvchi.",
+        "164. Qozon boshida, palov dam qiladi, bayramda ishi ko‘p. Javob: oshpaz.",
+        "165. Rul qo‘lida, yo‘lga qaraydi, yo‘lovchilarni manzilga yetkazadi. Javob: haydovchi.",
+        "166. Qaychi va taroq qo‘lida, sochimizni olib, chiroyli qiladi. Javob: sartarosh.",
+        "167. Mato, igna va ip bilan kiyim tikadi. Javob: tikuvchi.",
+        "168. Yerni haydaydi, urug' sepadi, kuzda hosil yig‘adi. Javob: dehqon.",
+        "169. Samolyotni boshqaradi, bulutlar ustida ishlaydi. Javob: uchuvchi.",
+        "170. Olovni o‘chiradi, signali baland, qizil mashinada keladi. Javob: o‘t o‘chiruvchi.",
+        "171. Randa, bolta va arra bilan taxtadan stol-stul yasaydi. Javob: duradgor.",
+        "172. Tong sahar turadi, tandirda non yopadi. Javob: novvoy.",
+        "173. Tuflini tuzatadi, mix va bolg‘a bilan ishlaydi. Javob: etikdo‘z.",
+        "174. Chizma chizadi, hisob-kitob qiladi, ko‘prik va bino loyihasini tuzadi. Javob: muhandis.",
+        "175. Mo‘yqalam va bo‘yoq bilan rasm chizadi. Javob: rassom.",
+        "176. Qofiyalar yozadi, she’r to‘qiydi. Javob: shoir.",
+        "177. Peshtaxta ortida turadi, tovarni tortadi, pul oladi. Javob: sotuvchi.",
+        "178. Daraxtlarni parvarishlaydi, bog‘da ishlaydi, kuzda mevasini yig‘adi. Javob: bog‘bon.",
+        "179. Kitoblar qo‘riqchisi, o‘quvchilarga kitob beradi, jimlikni yaxshi ko‘radi. Javob: kutubxonachi.",
+        "180. Qo‘y-qo‘zilarni haydab yuradi, qo‘lida tayoq, yordamchisi it. Javob: cho‘pon."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "texnika",
+      "text": "Texnika haqida topishmoqlar: 20 ta"
+    },
+    {
+      "type": "p",
+      "text": "Telefon, kompyuter, velosiped, samolyot, svetofor va boshqa texnik vositalar. Katta bolalar uchun qiziq."
+    },
+    {
+      "type": "list",
+      "items": [
+        "181. Cho‘ntakda yuradi, qo‘ng‘iroq qiladi, ekranga tegamiz, xabar yuboradi. Javob: telefon.",
+        "182. Monitor, klaviatura, sichqoncha: hammasi bir joyda ishlaydi. Javob: kompyuter.",
+        "183. Stol ustida yuguradi, lekin pishloq yemaydi. Javob: kompyuter sichqonchasi.",
+        "184. Ekrani bor, ichida odamlar ko‘rinadi, o‘zi gapiradi. Javob: televizor.",
+        "185. Ikki g‘ildirak, rul va pedal, ot emas, ammo yuguradi, yoqilg‘isi — oyoq kuchi. Javob: velosiped.",
+        "186. To‘rt g‘ildirakli, yo‘lda yuradi, haydovchi boshqaradi. Javob: avtomobil.",
+        "187. Qanotli temir qush, bulutlar ustida uchadi. Javob: samolyot.",
+        "188. Rels ustida yuguradi, ketma-ket vagonlar bor, gudok beradi. Javob: poyezd.",
+        "189. Suvda suzadi, katta, yuk va odam tashiydi. Javob: kema.",
+        "190. Dalada ishlaydi, yer haydaydi, g‘ildiraklari katta. Javob: traktor.",
+        "191. Ichida kirni aylantiradi, suv va kukun bilan yuvadi. Javob: kir yuvish mashinasi.",
+        "192. Changni yutadi, shovqinli, qornida chang to‘planadi. Javob: changyutgich.",
+        "193. Ko‘z qisib, bir lahzani rasmga oladi. Javob: fotoapparat.",
+        "194. Quloqqa taqiladi, musiqani faqat sizga eshittiradi. Javob: quloqchin.",
+        "195. Qutichada yuqoriga-pastga yuradi, tugma bosilsa eshigi ochiladi. Javob: lift.",
+        "196. Uch ko‘zi bor, qizil bo‘lsa to‘xta, yashil bo‘lsa yur. Javob: svetofor.",
+        "197. Temir odamga o‘xshaydi, buyruqni bajaradi, charchamaydi. Javob: robot.",
+        "198. Yozda xonani sovutadi, devorda osilib turadi. Javob: konditsioner.",
+        "199. Kompyuterdagi matnni qog‘ozga chiqaradi. Javob: printer.",
+        "200. Ustida ko‘p tugma bor, har birida harf, yozish uchun kerak. Javob: klaviatura."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mavzu-jadvali",
+      "text": "Qaysi mavzudan boshlash kerak"
+    },
+    {
+      "type": "p",
+      "text": "Jadvalda har bo‘limning raqamlari va u kimga qulayligi ko‘rsatilgan. Yosh chegaralari taxminiy: bola bilan o‘zingiz sinab ko‘ring."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Mavzu",
+        "Raqamlari",
+        "Taxminan kimga qulay"
+      ],
+      "rows": [
+        [
+          "Hayvonlar",
+          "1–20",
+          "4–6 yosh"
+        ],
+        [
+          "Qushlar",
+          "21–40",
+          "4–6 yosh"
+        ],
+        [
+          "Meva va sabzavot",
+          "41–60",
+          "4–7 yosh"
+        ],
+        [
+          "Tabiat hodisalari",
+          "61–80",
+          "6–9 yosh"
+        ],
+        [
+          "Uy-ro‘zg‘or buyumlari",
+          "81–100",
+          "5–8 yosh"
+        ],
+        [
+          "Maktab",
+          "101–120",
+          "6–10 yosh"
+        ],
+        [
+          "Inson tanasi",
+          "121–140",
+          "6–10 yosh"
+        ],
+        [
+          "Fasllar",
+          "141–160",
+          "5–9 yosh"
+        ],
+        [
+          "Kasblar",
+          "161–180",
+          "6–10 yosh"
+        ],
+        [
+          "Texnika",
+          "181–200",
+          "8–12 yosh"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "oz-topishmoq",
+      "text": "O‘zingiz topishmoq tuzing: 4 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Narsani tanlang va uning 3 ta belgisini yozing: shakli, rangi, nima qilishi.",
+        "Eng yorqin belgidan boshlang va javobning o‘zini matnga yozmang.",
+        "Bitta ajoyib o‘xshatish qo‘shing: «ko‘k ko‘rpa», «temir qush».",
+        "Do‘stingizga o‘qing: agar bir necha javob chiqsa, qo‘shimcha belgi qo‘shing, shunda javob bitta bo‘ladi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Bu qadamlarni {chat} bilan ham bajarish mumkin: narsani va yoshni yozing, u bir nechta variant beradi, siz eng yaxshisini tanlab, javobi bittaligini tekshirasiz.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz AI chati"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kirill",
+      "text": "Кирилл ёзувида: 5 та топишмоқ",
+      "lang": "uz-Cyrl"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Қуйидаги беш топишмоқ юқоридаги рўйхатдан олинган, кирилл ёзувида берилган; рақамлар ичидаги 200 тага қўшилмайди."
+    },
+    {
+      "type": "list",
+      "lang": "uz-Cyrl",
+      "items": [
+        "Минг кўйлак кияди, ечсанг кўзингдан ёш оқади. Жавоб: пиёз.",
+        "Ташқи яшил, ичи қизил, уруғи қора, ёзда полизда пишади. Жавоб: тарвуз.",
+        "Кўринмайди, лекин дарахтни эгади, баргларни учириб кетади. Жавоб: шамол.",
+        "Тик-так қилади, қўли бор, кўзи йўқ, вақтни кўрсатади. Жавоб: соат.",
+        "Тунда ёритади, шакли ўзгариб туради: ярим, ўроқ, тўлин. Жавоб: ой."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Ushbu topishmoqlar bilan bir qatorda {logic} va {zakovat} ham bolalarning fikrlashini rivojlantiradi; xalq donoligi esa {maqol} sahifasida.",
+      "links": [
+        {
+          "token": "logic",
+          "target": "/uz/blog/mantiqiy-savollar/",
+          "anchor": "javobi shartda yashiringan hiyla-savollar to‘plami"
+        },
+        {
+          "token": "zakovat",
+          "target": "/uz/blog/zakovat-savollari/",
+          "anchor": "zakovat uslubidagi savollar"
+        },
+        {
+          "token": "maqol",
+          "target": "/uz/blog/maqollar/",
+          "anchor": "300 ta o‘zbek xalq maqoli"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Bu sahifada nechta topishmoq bor?",
+      "a": "Jami 200 ta: 10 mavzuning har birida 20 tadan. Hayvonlar, qushlar, meva va sabzavot, tabiat hodisalari, uy-ro‘zg‘or buyumlari, maktab, inson tanasi, fasllar, kasblar va texnika. Har birining javobi o‘z qatorida yozilgan."
+    },
+    {
+      "q": "Bolalar uchun qaysi topishmoqlar mos?",
+      "a": "Eng kichiklar (4–6 yosh) uchun hayvonlar, qushlar va meva-sabzavot bo‘limlaridan boshlash qulay: ularda belgilar ko‘zga ko‘rinib turadi. Maktab yoshidagi bolalarga tabiat, maktab, inson tanasi va kasblar mos, texnika bo‘limi esa kattaroq bolalarga qiziq."
+    },
+    {
+      "q": "Topishmoqlar xalq topishmoqlarimi yoki yangi yozilganmi?",
+      "a": "Qisman ikkalasi: ularning bir qismi xalq orasida aytiladigan ko‘rinishlarga yaqin, qolganlari shu sahifa uchun yangidan yozilgan. Xalq topishmoqlari og‘zaki tarqalgani uchun so‘zlari joyiga qarab farq qilishi mumkin."
+    },
+    {
+      "q": "Topishmoq bilan mantiqiy savol qanday farq qiladi?",
+      "a": "Topishmoqda narsa belgilari va o‘xshatishlar orqali topiladi. Mantiqiy savolda esa shartdagi ma’lumotdan xulosa chiqariladi: sanash, taqqoslash yoki «tuzoq» so‘zni payqash kerak bo‘ladi."
+    },
+    {
+      "q": "Topishmoqlarni darsda yoki to‘garakda ishlatsa bo‘ladimi?",
+      "a": "Ha. Ularni ko‘chirib kartochka qilish, doskaga yozish yoki ovoz chiqarib o‘qish mumkin. Dars mavzusiga mos bo‘limni tanlang: masalan, fasllar darsiga «Fasllar», tabiatshunoslikka «Inson tanasi»."
+    },
+    {
+      "q": "O‘zim topishmoq o‘ylab topsam, qanday tekshiraman?",
+      "a": "Uni 2–3 kishiga o‘qib bering. Hammasi bir xil javob aytsa, topishmoq yaxshi. Har xil javob chiqsa, narsaning yana bitta aniq belgisini qo‘shing. Sahifadagi «O‘zingiz topishmoq tuzing» bo‘limida to‘liq qadamlar bor."
+    }
+  ],
+  "cta": {
+    "label": "Yangi topishmoqni AI bilan o‘ylab topish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/mantiqiy-savollar/",
+      "anchor": "Javobi shartda yashiringan hiyla-savollar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/zakovat-savollari/",
+      "anchor": "Zakovat uslubidagi 100 ta savol",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/maqollar/",
+      "anchor": "300 ta o‘zbek xalq maqoli mavzular bo‘yicha",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/hikmatli-sozlar/",
+      "anchor": "Hikmatli so‘zlar to‘plami",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz AI chati: yangi topishmoq tuzish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar maktab o‘quvchilari uchun",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "Topishmoqlar javobi bilan: 200 ta topishmoq",
+  "ogDescription": "200 ta topishmoq javobi bilan, 10 mavzu bo‘yicha: bolalar, o‘quvchilar va butun oila uchun. Xalq topishmoqlari va yangi yozilganlari.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/topishmoqlar/",
+  "hreflangUz": "/uz/blog/topishmoqlar/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "Борис Герасимов",
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Topishmoqlar",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

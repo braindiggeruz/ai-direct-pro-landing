@@ -1,0 +1,525 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "14-yanvar-tabriklari",
+  "url": "/uz/blog/14-yanvar-tabriklari/",
+  "title": "14-yanvar tabriklari: 36 ta tayyor tabrik va 10 ta she’r",
+  "description": "14-yanvar — Vatan himoyachilari kuniga 36 ta tabrik: otaga, akaga, turmush o‘rtog‘iga, o‘g‘ilga, bobojonga, hamkasblarga. 10 ta she’r, kirillda 8 ta matn.",
+  "h1": "Vatan himoyachilari kuni tabriklari: ota, aka, o‘g‘il va hamkasblar uchun 36 ta matn, 10 ta she’r",
+  "topicCluster": "matn-yozish",
+  "targetMoneyPage": "/uz/ai-tabrik-generatori/",
+  "keywords": [
+    "14 yanvar tabriklari",
+    "14-yanvar tabriklari",
+    "14 yanvar sherlar",
+    "14 yanvar tabrik sherlari",
+    "vatan himoyachilari kuni tabriklari",
+    "vatan himoyachilari kuni sherlar",
+    "askar haqida sher",
+    "14 январь табриклари",
+    "14 январ табриклари"
+  ],
+  "intro": "14-yanvarda otaga, akaga, turmush o‘rtog‘iga yoki hamkasbga nima deb yozishni o‘ylab qoldingizmi? Bu sahifada Vatan himoyachilari kuni uchun adresatlar bo‘yicha tayyor matnlar, qisqa she’rlar va kirill yozuvidagi variantlar jamlangan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida 14-yanvar — Vatan himoyachilari kuni uchun 36 ta tayyor tabrik bor: otaga, aka-ukaga, turmush o‘rtog‘iga, o‘g‘ilga, bobojonga, sinfdoshlarga, hamkasblarga, ustozga va harbiy xizmatchiga — har biriga 4 tadan. Ulardan keyin 10 ta qisqa she’r va kirill yozuvidagi 8 ta tabrik berilgan. Yoqqanini ko‘chirib oling, kvadrat qavsdagi joylarni to‘ldiring. Matnlar shu sahifa uchun AI yordamida yozilgan."
+    },
+    {
+      "type": "linkp",
+      "text": "Faqat shu odamga atalgan matn kerak bo‘lsa, {gen}ga kimga va qanday ohangda yozish kerakligini ayting: bu GPTBot.uz AI chatining «Ijodkor» roli, ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi. Tabrik she’r shaklida kerak bo‘lsa — {sher}.",
+      "links": [
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bayram-haqida",
+      "text": "Vatan himoyachilari kuni haqida qisqa ma’lumot"
+    },
+    {
+      "type": "p",
+      "text": "14-yanvar — Vatan himoyachilari kuni. 1992-yil 14-yanvarda Oliy Kengash qarori bilan respublika hududidagi harbiy tuzilmalar O‘zbekiston tasarrufiga o‘tkazilgan, bu sana O‘zbekiston Qurolli Kuchlari tashkil etilgan kun sifatida nishonlanadi. 1993-yil 29-dekabrdagi qonun bilan 14-yanvar Vatan himoyachilari kuni etib belgilangan. 2027-yilda Qurolli Kuchlar tashkil etilganiga 35 yil to‘ladi."
+    },
+    {
+      "type": "p",
+      "text": "Bu sana ishlanmaydigan bayram kunlari ro‘yxatiga kirmaydi: 2027-yilda 14-yanvar payshanbaga to‘g‘ri keladi va oddiy ish kuni bo‘ladi. Shu kuni harbiy xizmatchilar va faxriylar, odatga ko‘ra esa otalar, aka-ukalar, o‘g‘illar va erkak hamkasblar ham tabriklanadi."
+    },
+    {
+      "type": "h2",
+      "id": "otaga",
+      "text": "Otaga 14-yanvar tabriklari"
+    },
+    {
+      "type": "p",
+      "text": "Ota-onaga, kattalarga va ishxonada odatda «siz» deb, uka, o‘g‘il va tengdoshlarga «sen» deb murojaat qilinadi. Namunadagi murojaatni o‘zingizga moslang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Dadajon, Vatan himoyachilari kuni bilan tabriklayman! Biz uchun eng ishonchli himoyachi — siz. Sog‘ bo‘ling, baxtimizga uzoq yillar omon yuring.",
+        "Otajon, 14-yanvar muborak! Uyimizning tinchligi — sizning mehnatingiz va mehringiz tufayli. Sizga mustahkam sog‘lik va xotirjam kunlar tilayman.",
+        "Harbiy xizmatni o‘tagan otaga: Dadajon, bayramingiz bilan! Harbiy kiyimdagi suratingizga har qaraganimda faxrlanaman. Doim tetik va quvnoq yuring.",
+        "Qisqa xabar: Dadajon, Vatan himoyachilari kuni muborak! Siz — bizning qalqonimizsiz. Sizni juda yaxshi ko‘raman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "aka-ukaga",
+      "text": "Akaga va ukaga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Akajon, Vatan himoyachilari kuni bilan! Bolaligimdan sizga suyanib katta bo‘ldim. Sog‘ bo‘ling, ishlaringiz doim o‘ngidan kelsin.",
+        "Ukajon, 14-yanvar muborak! Sen oilamizning faxrisan. Mard, halol va sog‘lom yigit bo‘lib yur, omad doim senga yor bo‘lsin.",
+        "Xizmatdagi ukaga: Ukajon, bayraming bilan! Sen hozir xizmatdasan, biz esa uyda seni har kuni eslaymiz. Xizmating yengil o‘tsin, uyga sog‘-omon qayt.",
+        "Qisqa xabar: Aka, bayramingiz muborak! Sizga sog‘lik, kuch-g‘ayrat va omad tilayman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "turmush-ortogiga",
+      "text": "Turmush o‘rtog‘iga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Azizim, Vatan himoyachilari kuni bilan tabriklayman! Siz yonimda bo‘lsangiz, hech narsadan qo‘rqmayman. Uyimizning tayanchi bo‘lib, doim sog‘-salomat yuring.",
+        "Dadasi, bayramingiz muborak! Bolalarimiz sizdan mardlik va halollikni o‘rganyapti. Sizga sog‘lik, ishingizda omad, uyimizga esa tinchlik tilayman.",
+        "Umr yo‘ldoshim, 14-yanvar bilan! Oilamizning himoyachisi — siz. Charchab kelgan kunlaringizda ham kulib kirib kelganingiz uchun rahmat. Sizni yaxshi ko‘raman.",
+        "Qisqa xabar: Azizim, bayramingiz bilan! Bizning oilamiz himoyachisi — siz. Sog‘ bo‘ling!"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ogilga",
+      "text": "O‘g‘ilga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘g‘lim, Vatan himoyachilari kuni bilan tabriklayman! Sen bizning ishonchimiz va faxrimizsan. Sog‘lom, bilimli va mard bo‘lib ulg‘ay.",
+        "Kichkina o‘g‘ilga: Polvonim, bayraming bilan! Hozir o‘yinchoq askarlar bilan o‘ynaysan, katta bo‘lsang, oilangning chin himoyachisi bo‘lasan. Seni juda yaxshi ko‘ramiz.",
+        "Xizmatdagi o‘g‘ilga: O‘g‘lim, bayraming muborak! Xizmating yengil, do‘stlaring sodiq bo‘lsin. Uyda seni sog‘inib kutyapmiz, sog‘-omon qayt.",
+        "Qisqa xabar: O‘g‘lim, 14-yanvar muborak! Mard, halol va baxtli bo‘l. Biz doim yoningdamiz."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bobojonga",
+      "text": "Bobojonga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bobojon, Vatan himoyachilari kuni bilan tabriklayman! Sizning nasihatlaringiz — biz uchun eng katta maktab. Sog‘ bo‘ling, nevaralar davrasida uzoq yillar yuring.",
+        "Aziz bobojon, bayramingiz muborak! Sizdek sabrli va mard inson bo‘lishni orzu qilaman. Dardsiz, g‘amsiz, nevaralar quvonchini ko‘rib yuring.",
+        "Harbiy xizmatni o‘tagan boboga: Bobojon, 14-yanvar bilan! Xizmat yillaringiz haqidagi hikoyalaringizni tinglashni yaxshi ko‘raman. Sizga sog‘lik va xotirjamlik tilayman.",
+        "Qisqa xabar: Bobojon, bayramingiz bilan! Sog‘ bo‘ling, baxtimizga omon bo‘ling."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sinfdoshlarga",
+      "text": "Sinfdoshlarga: qizlardan o‘g‘il bolalarga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Sinfimizning o‘g‘il bolalari! Sizlarni Vatan himoyachilari kuni bilan tabriklaymiz. Kuchli, bilimli va mard bo‘linglar, bizni esa doim himoya qilinglar. Sinfimiz qizlari.",
+        "Aziz sinfdoshlar, 14-yanvar muborak! Darsda ham, sport musobaqalarida ham doim g‘olib bo‘linglar. Sizlar bilan bir sinfda o‘qiyotganimizdan xursandmiz.",
+        "Guruh chati uchun: Yigitlar, bayramingiz bilan! Bugun sizlarning kuningiz. Sog‘lik, omad va a’lo baholar tilaymiz. Qizlar.",
+        "Sinfdosh do‘stga: [Ism], Vatan himoyachilari kuni bilan! Sen qiyin paytda yordam beradigan haqiqiy do‘stsan. Orzularing ushalsin, doim shunday mard bo‘l."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "hamkasblarga",
+      "text": "Hamkasblarga va jamoaga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hurmatli hamkasblar! Sizlarni 14-yanvar — Vatan himoyachilari kuni bilan tabriklaymiz. Sizlarga mustahkam sog‘lik, ishlaringizda omad, oilangizga tinchlik tilaymiz. Jamoamiz ayollari nomidan.",
+        "Hurmatli [ism], bayramingiz muborak! Siz bilan ishlash oson: so‘zingizda turasiz, qiyin paytda yordam berasiz. Sizga sog‘lik va yangi yutuqlar tilayman.",
+        "Jamoamiz erkaklariga: Aziz hamkasblar, Vatan himoyachilari kuni bilan! Ishda ham, uyda ham tayanch bo‘lib kelayotganingiz uchun rahmat. Bayram muborak!",
+        "Qisqa xabar: Hamkasblar, 14-yanvar muborak! Hammaga sog‘lik, kuch-g‘ayrat va tinchlik tilayman."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ustozga",
+      "text": "Ustozga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hurmatli ustoz, Vatan himoyachilari kuni bilan tabriklaymiz! Siz bizga bilim bilan birga mardlik va halollikni ham o‘rgatyapsiz. Sog‘ bo‘ling, ishingizda omad tilaymiz. Hurmat bilan, [sinf yoki guruh nomi].",
+        "Hurmatli [ism va otasining ismi], bayramingiz muborak! Darslaringizda Vatanni sevish nima ekanini tushunyapmiz. Sizga mustahkam sog‘lik va sabr-toqat tilaymiz.",
+        "Harbiy tayyorgarlik o‘qituvchisiga: Hurmatli ustoz, 14-yanvar bilan! Siz bizga intizom, chidam va do‘stlikni o‘rgatasiz. Bayramingiz muborak bo‘lsin!",
+        "Ota-onalar nomidan: Hurmatli [ism va otasining ismi]! Sizni Vatan himoyachilari kuni bilan tabriklaymiz. Farzandlarimizga berayotgan bilim va tarbiyangiz uchun minnatdormiz. Xonadoningizga tinchlik va baraka tilaymiz."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "harbiylarga",
+      "text": "Harbiy xizmatchi va ofitserga"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hurmatli [harbiy unvoni va ismi]! Sizni Vatan himoyachilari kuni bilan samimiy tabriklaymiz. Yurt tinchligi yo‘lidagi xizmatingiz uchun rahmat. Sizga mustahkam sog‘lik, oilangizga xotirjamlik tilaymiz.",
+        "Hurmatli [harbiy unvoni va ismi], bayramingiz muborak! Sizdek insonlarning xizmati tufayli biz tinch uxlaymiz. Xizmatingiz yengil, safdoshlaringiz sodiq, yaqinlaringiz doim sog‘ bo‘lsin.",
+        "Harbiy xizmatchi do‘stga: Do‘stim, 14-yanvar — sening bayraming! Yelkangdagi mas’uliyat katta, lekin sen uni sharaf bilan ko‘tarib yuribsan. Sog‘ bo‘l, uyingga doim omon qayt.",
+        "Tashkilot nomidan: Hurmatli harbiy xizmatchilar va faxriylar! [Tashkilot nomi] jamoasi sizlarni Vatan himoyachilari kuni bilan tabriklaydi. Yurtimiz tinchligi yo‘lidagi xizmatingiz uchun minnatdormiz."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Tashkilot nomidan blankada yuboriladigan rasmiy tabrik xatining umumiy tuzilmasi {rasmiy} qo‘llanmasida berilgan.",
+      "links": [
+        {
+          "token": "rasmiy",
+          "target": "/uz/blog/rasmiy-xat-yozish/",
+          "anchor": "rasmiy xat yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "sherlar",
+      "text": "14-yanvar she’rlari: 10 ta qisqa she’r"
+    },
+    {
+      "type": "p",
+      "text": "To‘qqiztasi 4 qatorlik, bittasi 8 qatorlik. Birinchi beshtasini bog‘cha va boshlang‘ich sinf bolalari ota yoki akasiga aytib berishi mumkin; qolganlari maktab tadbiri, sinf tabrigi va otkritka uchun."
+    },
+    {
+      "type": "quote",
+      "text": "Devorda bir surat bor: / Dadam harbiy kiyimda. / Men ham shunday bo‘laman — / Orzuim bor ko‘nglimda."
+    },
+    {
+      "type": "quote",
+      "text": "Akam hozir xizmatda, / Chegarada turibdi. / Biz tinch uxlaymiz, chunki / Akam uyg‘oq yuribdi."
+    },
+    {
+      "type": "quote",
+      "text": "Vatanni kim qo‘riqlar? / — Mard-u botir askarlar. / Qorda, yomg‘irda, tunda / Ular hushyor turarlar."
+    },
+    {
+      "type": "quote",
+      "text": "Men hali kichkinaman, / Lekin kuchim ko‘p mening. / Katta bo‘lsam, bo‘laman / Qalqoni ona elning."
+    },
+    {
+      "type": "quote",
+      "text": "O‘n to‘rtinchi yanvarda / Maktabdan tez qaytaman. / Dadamni mahkam quchib, / Unga bir she’r aytaman."
+    },
+    {
+      "type": "quote",
+      "text": "Bobomning ko‘kragida / Medallari yaltirar. / Ularning har bittasi / Bir hikoya gapirar."
+    },
+    {
+      "type": "quote",
+      "text": "Sinfimizning yigitlari, / Tabriklaymiz bugun sizni. / Kuchli, botir, mard bo‘linglar, / Himoya qilinglar bizni!"
+    },
+    {
+      "type": "quote",
+      "text": "Yurt tinchini asragan / Mard o‘g‘lonlar bor bo‘lsin. / Xonadoni tinch bo‘lib, / Uylari nurga to‘lsin!"
+    },
+    {
+      "type": "quote",
+      "text": "Vatan himoyachilari, / Bugun sizning kuningizdir. / Yurtning tinch-u omonligi — / Sizning mardlik, kuchingizdir."
+    },
+    {
+      "type": "quote",
+      "text": "Shahar tunda uxlaydi, / Tinchdir har kimning uyi. / Chunki askar postida / Uyg‘oq turar tun bo‘yi. / Rahmat sizga, askarlar, / Tinch tonglarimiz uchun. / Bayramingiz muborak — / Sizning kuningiz bugun!"
+    },
+    {
+      "type": "h2",
+      "id": "kirill",
+      "text": "Kirill yozuvida 14-yanvar tabriklari"
+    },
+    {
+      "type": "linkp",
+      "text": "Katta yoshdagilar tabrikni ko‘pincha kirill yozuvida o‘qishni afzal ko‘radi. Quyida yuqoridagi matnlardan sakkiztasi kirill yozuvida berilgan; boshqa matnni {translit} bilan o‘zingiz o‘girishingiz mumkin.",
+      "links": [
+        {
+          "token": "translit",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "id": "kirill-matnlar",
+      "lang": "uz-Cyrl",
+      "text": "Кирилл ёзувида: 14 январь табриклари"
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Дадажон, Ватан ҳимоячилари куни билан табриклайман! Биз учун энг ишончли ҳимоячи — сиз. Соғ бўлинг, бахтимизга узоқ йиллар омон юринг."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Акажон, Ватан ҳимоячилари куни билан! Болалигимдан сизга суяниб катта бўлдим. Соғ бўлинг, ишларингиз доим ўнгидан келсин."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Азизим, Ватан ҳимоячилари куни билан табриклайман! Сиз ёнимда бўлсангиз, ҳеч нарсадан қўрқмайман. Уйимизнинг таянчи бўлиб, доим соғ-саломат юринг."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ўғлим, Ватан ҳимоячилари куни билан табриклайман! Сен бизнинг ишончимиз ва фахримизсан. Соғлом, билимли ва мард бўлиб улғай."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Бобожон, Ватан ҳимоячилари куни билан табриклайман! Сизнинг насиҳатларингиз — биз учун энг катта мактаб. Соғ бўлинг, неваралар даврасида узоқ йиллар юринг."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли ҳамкасблар! Сизларни 14 январь — Ватан ҳимоячилари куни билан табриклаймиз. Сизларга мустаҳкам соғлик, ишларингизда омад, оилангизга тинчлик тилаймиз. Жамоамиз аёллари номидан."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли устоз, Ватан ҳимоячилари куни билан табриклаймиз! Сиз бизга билим билан бирга мардлик ва ҳалолликни ҳам ўргатяпсиз. Соғ бўлинг, ишингизда омад тилаймиз. Ҳурмат билан, [синф ёки гуруҳ номи]."
+    },
+    {
+      "type": "p",
+      "lang": "uz-Cyrl",
+      "text": "Ҳурматли [ҳарбий унвони ва исми]! Сизни Ватан ҳимоячилари куни билан самимий табриклаймиз. Юрт тинчлиги йўлидаги хизматингиз учун раҳмат. Сизга мустаҳкам соғлик, оилангизга хотиржамлик тилаймиз."
+    },
+    {
+      "type": "h2",
+      "id": "shaxsiy",
+      "text": "Tabrikni shaxsiy qilish: 4 ta maslahat"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta aniq narsani eslang: otangiz o‘rgatgan ish, akangiz yordam bergan kun, hamkasbingiz hal qilgan qiyin vazifa. Bitta jumla yetadi.",
+        "Xizmat haqida faqat bilganingizni yozing: odam harbiy xizmatni o‘tamagan bo‘lsa, «xizmat yillaringiz» demang — oilaga g‘amxo‘rligi va mardligi uchun rahmat ayting.",
+        "Xizmatdagi yaqiningizga uzun matn emas, qisqa va iliq xabar yuboring: u telefonni darhol ko‘ra olmasligi mumkin.",
+        "Vaqtni to‘g‘ri tanlang: 14-yanvar ish kuni bo‘lsa, hamkasblarni ish boshida, yaqinlarni ertalab yoki kechki dasturxon atrofida tabriklang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "Tabrikni AI yordamida yozdirish"
+    },
+    {
+      "type": "p",
+      "text": "AI chat yaqinlaringizni tanimaydi, shuning uchun so‘rovga to‘rt narsani yozing: kimga, qaysi bayram, bitta umumiy xotira va ohang. Masalan: «Dadamga 14-yanvar uchun tabrik yoz. U har yakshanba bizni toqqa olib chiqadi. Iliq ohangda, sizlab, 3 gap. O‘zingdan xotira qo‘shma.» Model baribir to‘qima detal qo‘shib yuborishi mumkin — yuborishdan oldin matnni o‘qib chiqing. Chat faqat matn yozadi: otkritka, rasm yoki ovozli tabrik yasamaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Bunday so‘rovni {gen} sahifasida yuborish mumkin, boshqa matnlar uchun {chat} bor. Tabrik matni qanday tuzilishi — {guide}da, boshqa bayramlar uchun to‘plamlar — {ny} va {tk} sahifalarida.",
+      "links": [
+        {
+          "token": "gen",
+          "target": "/uz/ai-tabrik-generatori/",
+          "anchor": "AI tabrik generatori"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish qo‘llanmasi"
+        },
+        {
+          "token": "ny",
+          "target": "/uz/blog/yangi-yil-tabriklari/",
+          "anchor": "Yangi yil tabriklari"
+        },
+        {
+          "token": "tk",
+          "target": "/uz/blog/tugilgan-kun-tabriklari/",
+          "anchor": "tug‘ilgan kun tabriklari"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Bolalar uchun bayram she’rlari alohida sahifalarda: {nysher} va {kon}.",
+      "links": [
+        {
+          "token": "nysher",
+          "target": "/uz/blog/yangi-yil-sherlari/",
+          "anchor": "Yangi yil she’rlari"
+        },
+        {
+          "token": "kon",
+          "target": "/uz/blog/konstitutsiya-haqida-sherlar/",
+          "anchor": "Konstitutsiya haqida she’rlar"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chatga boshqa odamning telefoni, manzili, xizmat joyi va oilaviy sirlarini yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi."
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Yuborishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ism va murojaat to‘g‘rimi, kvadrat qavsdagi barcha joylar to‘ldirilganmi?",
+        "«Sen» va «siz» aralashib ketmaganmi?",
+        "Harbiy unvon to‘g‘ri yozilganmi? Ishonchingiz komil bo‘lmasa, unvonsiz, ism va otasining ismi bilan murojaat qiling.",
+        "Sana to‘g‘rimi: Vatan himoyachilari kuni — 14-yanvar.",
+        "Odam qaysi yozuvni afzal ko‘radi — lotin yoki kirill?"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "AI tabrik generatorini ochish",
+      "href": "/uz/ai-tabrik-generatori/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "14-yanvar qanday bayram?",
+      "a": "14-yanvar — Vatan himoyachilari kuni. 1992-yil 14-yanvar O‘zbekiston Qurolli Kuchlari tashkil etilgan kun sifatida nishonlanadi, 1993-yil 29-dekabrdagi qonun bilan esa bu sana Vatan himoyachilari kuni etib belgilangan."
+    },
+    {
+      "q": "14-yanvar dam olish kunimi?",
+      "a": "Yo‘q. 14-yanvar ishlanmaydigan bayram kunlari ro‘yxatiga kirmaydi: shanba yoki yakshanbaga to‘g‘ri kelmasa, oddiy ish kuni hisoblanadi. 2027-yilda u payshanbaga to‘g‘ri keladi."
+    },
+    {
+      "q": "14-yanvarda kimlar tabriklanadi?",
+      "a": "Avvalo harbiy xizmatchilar, ofitserlar va faxriylar. Odatga ko‘ra shu kuni otalar, aka-ukalar, turmush o‘rtoqlar, o‘g‘illar, erkak hamkasblar va sinfdosh o‘g‘il bolalar ham tabriklanadi."
+    },
+    {
+      "q": "Harbiy xizmatni o‘tamagan odamni ham tabriklash mumkinmi?",
+      "a": "Ha, mumkin. Bunday tabrikda xizmat haqida emas, oilaga g‘amxo‘rligi, mardligi va tayanch bo‘lgani haqida yozing. «Xizmat yillaringiz» kabi to‘qima gaplar o‘rinsiz chiqadi."
+    },
+    {
+      "q": "14-yanvar tabrik rasmlari ham bormi?",
+      "a": "Yo‘q, bu sahifada faqat matnlar va she’rlar bor. Yoqqan matnni otkritka yoki rasm ustiga o‘zingiz yozishingiz mumkin. AI chat ham faqat matn yozadi, rasm yasamaydi."
+    },
+    {
+      "q": "Kirill yozuvida 14-yanvar tabriklari bormi?",
+      "a": "Ha, sahifaning pastki qismida sakkizta tabrik kirill yozuvida berilgan. Boshqa matnni kirillga o‘girish uchun saytdagi kirill-lotin o‘giruvchidan foydalanish mumkin."
+    },
+    {
+      "q": "Shaxsiy tabrikni AI yozib bera oladimi?",
+      "a": "Ha. AI tabrik generatoriga kimga, qaysi bayram uchun va qanday ohangda yozish kerakligini aytsangiz, u matn tayyorlaydi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi. Matndagi har bir detal haqiqatga to‘g‘ri kelishini o‘zingiz tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "AI tabrik generatorini ochish",
+    "href": "/uz/ai-tabrik-generatori/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/ai-sher-yozish/",
+      "anchor": "AI she’r yozish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/yangi-yil-tabriklari/",
+      "anchor": "Yangi yil tabriklari 2027: tayyor matnlar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/konstitutsiya-haqida-sherlar/",
+      "anchor": "Konstitutsiya haqida she’rlar va tabriklar",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "14-yanvar tabriklari: 36 ta tayyor tabrik va 10 ta she’r",
+  "ogDescription": "Vatan himoyachilari kuni uchun otaga, aka-ukaga, turmush o‘rtog‘iga, o‘g‘ilga, bobojonga, sinfdosh va hamkasblarga, ustozga, harbiy xizmatchiga 36 ta tabrik, 10 ta qisqa she’r va kirill yozuvidagi 8 ta matn.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/14-yanvar-tabriklari/",
+  "hreflangUz": "/uz/blog/14-yanvar-tabriklari/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "People in Uzbekistan writing greetings for the Day of Defenders of the Motherland"
+  },
+  "breadcrumbLabel": "14-yanvar tabriklari",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "«Vatan himoyachilari kunini belgilash to‘g‘risida»gi Qonun, 1993-yil 29-dekabr, 1018-XII-son — Lex.uz",
+      "url": "https://lex.uz/docs/112115",
+      "note": "Qonun matni: 14-yanvar — Vatan himoyachilari kuni etib belgilangan (2026-11-17 kuni tekshirilgan)."
+    },
+    {
+      "title": "14-yanvar – Vatan himoyachilari kuni — Yoshlar ishlari agentligi, gov.uz",
+      "url": "https://gov.uz/oz/yoshlar/news/view/32578",
+      "note": "1992-yil 14-yanvarda Oliy Kengash qarori bilan Qurolli Kuchlar tashkil etilgani va 1993-yildan bu sana Vatan himoyachilari kuni sifatida nishonlanishi (2026-11-17 kuni tekshirilgan)."
+    },
+    {
+      "title": "Vatan himoyachilari kuniga bag‘ishlangan tantanali marosim — O‘zbekiston Respublikasi Prezidentining rasmiy veb-sayti, 2017-yil 13-yanvar",
+      "url": "https://president.uz/oz/lists/view/184",
+      "note": "2017-yilda Qurolli Kuchlar tashkil etilganining 25 yilligi nishonlangani; 1992-yil 14-yanvardagi qarorga muvofiq respublika hududidagi harbiy tuzilmalar O‘zbekiston tasarrufiga o‘tkazilgani (2026-11-17 kuni tekshirilgan)."
+    },
+    {
+      "title": "Dam olish vaqti — gov.uz",
+      "url": "https://gov.uz/oz/advice/554/document/2237",
+      "note": "Ishlanmaydigan bayram kunlari ro‘yxati: 14-yanvar unda yo‘q (2026-11-17 kuni tekshirilgan)."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}

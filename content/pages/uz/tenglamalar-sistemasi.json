@@ -1,0 +1,625 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/tenglamalar-sistemasi/",
+  "slug": "tenglamalar-sistemasi",
+  "pageType": "gpt-chat",
+  "chatRole": "teacher",
+  "chatStarters": [
+    {
+      "label": "Sistemani qadamma-qadam yech",
+      "prompt": "Quyidagi tenglamalar sistemasini qo‘shish usulida qadamma-qadam yech. Har bir qadamni qisqa izohla va oxirida ikkala tenglamaga qo‘yib tekshir.\nSistema: "
+    },
+    {
+      "label": "O‘rniga qo‘yish: 8 ta mashq",
+      "prompt": "Menga o‘rniga qo‘yish usulida yechiladigan 8 ta tenglamalar sistemasi ber: osondan qiyinga, butun javobli. Javoblarni darhol ko‘rsatma: men yechaman, sen tekshirib, xatolarimni tushuntirasan."
+    },
+    {
+      "label": "Qaysi usul qulay: tanlash",
+      "prompt": "Quyidagi sistemani ko‘rib, qaysi usul (o‘rniga qo‘yish yoki qo‘shish) qulayroq ekanini sababi bilan ayt, keyin shu usulda yechib ko‘rsat.\nSistema: "
+    },
+    {
+      "label": "Yechimimni tekshir",
+      "prompt": "Tenglamalar sistemasini yechdim. Hisoblashimni tekshir: xato bo‘lsa, qaysi qadamda ekanini ayt va to‘g‘ri yechimni ko‘rsat.\nSistema: \nMening yechimim: "
+    },
+    {
+      "label": "Matnli masalani sistemaga aylantir",
+      "prompt": "Quyidagi masalani tenglamalar sistemasi orqali yechishni o‘rgat: noma’lumlarni belgilash, tenglamalarni tuzish, yechish va tekshirishni qadamma-qadam ko‘rsat.\nMasala: "
+    },
+    {
+      "label": "Grafik usul: chizmasiz tushuntir",
+      "prompt": "Tenglamalar sistemasini grafik usulda yechishni sodda tushuntir: har bir to‘g‘ri chiziq uchun nuqtalar jadvalini tuz va kesishish nuqtasini top. Keyin shunga o‘xshash 3 ta sistema ber, men o‘zim yechaman."
+    }
+  ],
+  "primaryKeyword": "tenglamalar sistemasi",
+  "secondaryKeywords": [
+    "tenglamalar sistemasini yechish",
+    "o‘rniga qo‘yish usuli",
+    "qo‘shish usuli",
+    "tenglamalar sistemasi misollar",
+    "ikki noma’lumli tenglamalar sistemasi",
+    "tenglamalar sistemasi grafik usul"
+  ],
+  "searchIntent": "informational",
+  "h1": "Tenglamalar sistemasini yechish: 3 usul, 12 misol, mashqlar",
+  "title": "Tenglamalar sistemasi: yechish usullari, 12 misol va mashqlar",
+  "description": "Tenglamalar sistemasi: o‘rniga qo‘yish va qo‘shish usullari, grafik usul, 12 ta yechilgan misol, javobli 12 mashq. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "canonical": "https://gptbot.uz/uz/tenglamalar-sistemasi/",
+  "hreflangUz": "/uz/tenglamalar-sistemasi/",
+  "hreflangXDefault": "/uz/tenglamalar-sistemasi/",
+  "ogTitle": "Tenglamalar sistemasi: yechish usullari, 12 misol va mashqlar",
+  "ogDescription": "Tenglamalar sistemasi: o‘rniga qo‘yish va qo‘shish usullari, grafik usul, 12 ta yechilgan misol, javobli 12 mashq. AI o‘qituvchi: 3 ta bepul sinov javobi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Tenglamalar sistemasi",
+  "heroTitle": "Tenglamalar sistemasini yechish: 3 usul, 12 misol, mashqlar",
+  "heroSubtitle": "Jadvallar, qoidalar va mashqlar bepul; AI o‘qituvchining tushuntirish va tekshiruvlari — ro‘yxatsiz 3 ta bepul sinov javobi, AI chat bilan umumiy, keyin AI paket.",
+  "ctaPrimaryLabel": "AI chat tariflari",
+  "ctaPrimaryHref": "/uz/tariflar/#ai-paket",
+  "ctaSecondaryLabel": "O‘zbek tilida AI chat",
+  "ctaSecondaryHref": "/uz/gpt-uzbek-tilida/",
+  "bodyBlocks": [
+    {
+      "type": "p",
+      "text": "Tenglamalar sistemasi — bir vaqtda bajarilishi kerak bo‘lgan ikki yoki undan ko‘p tenglama. Ikki noma’lumli sistemaning yechimi — ikkala tenglamani ham to‘g‘ri tenglikka aylantiradigan x va y qiymatlari. Masalan, x + y = 7 va x − y = 1 sistemasining yechimi x = 4, y = 3: 4 + 3 = 7 va 4 − 3 = 1. Bu sahifada uch usul — o‘rniga qo‘yish, qo‘shish va grafik usul, 12 ta bosqichma-bosqich yechilgan sistema va javobli 12 ta mashq bor. Shu sahifadagi AI chat «O‘qituvchi» rolida ochiladi: u yangi sistema tuzadi va sizning yechimingizni tekshiradi."
+    },
+    {
+      "type": "p",
+      "text": "Jadvallar, qoidalar va mashqlar har doim bepul. AI o‘qituvchi — GPTBot.uz AI chati, mustaqil servis: OpenAI ham, ChatGPT ham emas. Ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor va ular yangilanmaydi; keyin davom etish uchun AI paket kerak: narx, muddat va to‘lov usullari chatda ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "id": "qisqa-qoida",
+      "text": "Qisqa qoida: sistema qanday yechiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ikkala tenglamani x va y tartibida yozing: noma’lumlar bir ustunda tursin.",
+        "Usulni tanlang. Biror tenglamada noma’lum yakka turgan bo‘lsa (y = 2x yoki x = y + 3), o‘rniga qo‘yish qulay. Aks holda qo‘shish usulini oling.",
+        "Bitta noma’lumni yo‘qoting: bitta tenglama hosil bo‘ladi, uni yeching.",
+        "Topilgan qiymatni tenglamalardan biriga qo‘yib, ikkinchi noma’lumni toping.",
+        "Ikkala tenglamaga qo‘yib tekshiring. Javobni juftlik shaklida yozing: x = 4, y = 3."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Bitta noma’lumli chiziqli tenglamalar (masalan, 3x + 5 = 20) alohida sahifada tushuntirilgan: {eq}. Bu yerda ikkita noma’lum bilan ishlaymiz.",
+      "links": [
+        {
+          "token": "eq",
+          "target": "/uz/tenglama-yechish/",
+          "anchor": "bitta noma’lumli tenglamalarni yechish qadamlari"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "usullar-jadvali",
+      "text": "Uch usul bir qarashda"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Usul",
+        "Qachon qulay",
+        "Asosiy qadam",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "O‘rniga qo‘yish",
+          "Bir noma’lum yakka turibdi yoki oson ajraladi",
+          "Noma’lumni ifodalab, ikkinchi tenglamaga qo‘yish",
+          "y = 2x; x + y = 12"
+        ],
+        [
+          "Qo‘shish (ayirish)",
+          "Noma’lumlar oldidagi sonlar teng yoki qarama-qarshi",
+          "Tenglamalarni qo‘shib yoki ayirib, bir noma’lumni yo‘qotish",
+          "x + y = 10; x − y = 4"
+        ],
+        [
+          "Qo‘shish + ko‘paytirish",
+          "Koeffitsiyentlar har xil",
+          "Tenglamani songa ko‘paytirib, koeffitsiyentlarni tenglashtirish",
+          "3x + 2y = 7; 2x + 5y = 12"
+        ],
+        [
+          "Grafik usul",
+          "Yechimni chizmada ko‘rish, taxminiy javob",
+          "Ikki to‘g‘ri chiziq chizib, kesishish nuqtasini topish",
+          "y = x + 1; x + y = 5"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Har qanday sistemani qo‘shish usulida yechish mumkin, shuning uchun imtihon va nazorat ishlarida u eng ishonchli. O‘rniga qo‘yish esa yakka turgan noma’lum bor sistemalarda tezroq."
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv-natijalari",
+      "text": "Nechta yechim bo‘lishi mumkin"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Holat",
+        "Hisoblashda nima chiqadi",
+        "Chizmada",
+        "Misol"
+      ],
+      "rows": [
+        [
+          "Bitta yechim",
+          "x va y aniq sonlar",
+          "To‘g‘ri chiziqlar bir nuqtada kesishadi",
+          "x + y = 7; x − y = 1 → (4; 3)"
+        ],
+        [
+          "Yechim yo‘q",
+          "0 = 5 kabi noto‘g‘ri tenglik",
+          "Chiziqlar parallel",
+          "x + y = 3; 2x + 2y = 8"
+        ],
+        [
+          "Cheksiz ko‘p yechim",
+          "0 = 0 kabi doim to‘g‘ri tenglik",
+          "Chiziqlar ustma-ust tushadi",
+          "x + y = 3; 2x + 2y = 6"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "orniga-qoyish",
+      "text": "O‘rniga qo‘yish usuli: 3 ta misol"
+    },
+    {
+      "type": "h3",
+      "text": "1-misol. x + y = 7;  x − y = 1"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Birinchi tenglamadan x ni ifodalaymiz: x = 7 − y.",
+        "Buni ikkinchi tenglamaga qo‘yamiz: (7 − y) − y = 1.",
+        "Soddalashtiramiz: 7 − 2y = 1, bundan 2y = 6, y = 3.",
+        "x ni topamiz: x = 7 − 3 = 4.",
+        "Tekshiruv: 4 + 3 = 7 (to‘g‘ri), 4 − 3 = 1 (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = 4, y = 3."
+    },
+    {
+      "type": "h3",
+      "text": "2-misol. y = 2x;  x + y = 12"
+    },
+    {
+      "type": "list",
+      "items": [
+        "y allaqachon tayyor: y = 2x. Uni ikkinchi tenglamaga qo‘yamiz: x + 2x = 12.",
+        "3x = 12, bundan x = 4.",
+        "y = 2 · 4 = 8.",
+        "Tekshiruv: 4 + 8 = 12 (to‘g‘ri), 8 = 2 · 4 (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = 4, y = 8."
+    },
+    {
+      "type": "h3",
+      "text": "3-misol. 2x + y = 11;  x − 3y = −5"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Birinchi tenglamada y oldida 1 turibdi, uni ifodalaymiz: y = 11 − 2x.",
+        "Ikkinchi tenglamaga qo‘yamiz: x − 3(11 − 2x) = −5.",
+        "Qavsni ochamiz: x − 33 + 6x = −5. Qavs oldidagi minus ishorani hamma hadga qo‘llang.",
+        "7x − 33 = −5, 7x = 28, x = 4.",
+        "y = 11 − 2 · 4 = 3.",
+        "Tekshiruv: 2 · 4 + 3 = 11 (to‘g‘ri), 4 − 3 · 3 = 4 − 9 = −5 (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = 4, y = 3."
+    },
+    {
+      "type": "h2",
+      "id": "qoshish-usuli",
+      "text": "Qo‘shish usuli: 7 ta misol"
+    },
+    {
+      "type": "p",
+      "text": "G‘oya oddiy: tenglamalarni hadma-had qo‘shamiz yoki ayiramiz, shunda bitta noma’lum yo‘qoladi. Ayirishda ikkinchi tenglamaning har bir hadidan ishorasi o‘zgarishini unutmang."
+    },
+    {
+      "type": "h3",
+      "text": "4-misol. x + y = 10;  x − y = 4"
+    },
+    {
+      "type": "list",
+      "items": [
+        "y oldidagi sonlar qarama-qarshi (+1 va −1). Tenglamalarni qo‘shamiz: (x + y) + (x − y) = 10 + 4.",
+        "2x = 14, bundan x = 7.",
+        "Birinchi tenglamadan y = 10 − 7 = 3.",
+        "Tekshiruv: 7 + 3 = 10 va 7 − 3 = 4 (ikkalasi to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = 7, y = 3."
+    },
+    {
+      "type": "h3",
+      "text": "5-misol. 3x + 2y = 15;  3x − y = 6"
+    },
+    {
+      "type": "list",
+      "items": [
+        "x oldidagi sonlar bir xil (3 va 3). Birinchi tenglamadan ikkinchisini ayiramiz: (3x + 2y) − (3x − y) = 15 − 6.",
+        "3y = 9, bundan y = 3.",
+        "Ikkinchi tenglamaga qo‘yamiz: 3x − 3 = 6, 3x = 9, x = 3.",
+        "Tekshiruv: 3 · 3 + 2 · 3 = 15 (to‘g‘ri), 3 · 3 − 3 = 6 (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = 3, y = 3."
+    },
+    {
+      "type": "h3",
+      "text": "6-misol. 2x + 3y = 12;  4x − 3y = 6"
+    },
+    {
+      "type": "list",
+      "items": [
+        "y oldida +3 va −3 turibdi, ularni qo‘shsak yo‘qoladi: (2x + 3y) + (4x − 3y) = 12 + 6.",
+        "6x = 18, bundan x = 3.",
+        "Birinchi tenglamaga qo‘yamiz: 6 + 3y = 12, 3y = 6, y = 2.",
+        "Tekshiruv: 2 · 3 + 3 · 2 = 12 (to‘g‘ri), 4 · 3 − 3 · 2 = 12 − 6 = 6 (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = 3, y = 2."
+    },
+    {
+      "type": "h3",
+      "text": "7-misol. 3x + 2y = 7;  2x + 5y = 12"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Koeffitsiyentlar har xil. x ni tenglashtiramiz: 3 va 2 ning eng kichik umumiy karralisi 6.",
+        "Birinchi tenglamani 2 ga ko‘paytiramiz: 6x + 4y = 14. Ikkinchisini 3 ga ko‘paytiramiz: 6x + 15y = 36.",
+        "Ikkinchisidan birinchisini ayiramiz: (6x + 15y) − (6x + 4y) = 36 − 14, ya’ni 11y = 22, y = 2.",
+        "Birinchi tenglamaga qo‘yamiz: 3x + 4 = 7, 3x = 3, x = 1.",
+        "Tekshiruv: 3 · 1 + 2 · 2 = 7 (to‘g‘ri), 2 · 1 + 5 · 2 = 12 (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = 1, y = 2."
+    },
+    {
+      "type": "h3",
+      "text": "8-misol. 5x − 3y = 1;  3x + 2y = 12"
+    },
+    {
+      "type": "list",
+      "items": [
+        "y oldida −3 va +2: ularning eng kichik umumiy karralisi 6. Birinchini 2 ga, ikkinchini 3 ga ko‘paytiramiz.",
+        "10x − 6y = 2 va 9x + 6y = 36.",
+        "Qo‘shamiz: 19x = 38, bundan x = 2.",
+        "Ikkinchi tenglamaga qo‘yamiz: 6 + 2y = 12, 2y = 6, y = 3.",
+        "Tekshiruv: 5 · 2 − 3 · 3 = 10 − 9 = 1 (to‘g‘ri), 3 · 2 + 2 · 3 = 12 (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = 2, y = 3."
+    },
+    {
+      "type": "h3",
+      "text": "9-misol. x + 2y = 3;  2x + 3y = 4  (yechim manfiy son bo‘ladi)"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Birinchi tenglamani 2 ga ko‘paytiramiz: 2x + 4y = 6.",
+        "Undan ikkinchi tenglamani ayiramiz: (2x + 4y) − (2x + 3y) = 6 − 4, ya’ni y = 2.",
+        "Birinchi tenglamaga qo‘yamiz: x + 4 = 3, bundan x = −1.",
+        "Tekshiruv: −1 + 2 · 2 = 3 (to‘g‘ri), 2 · (−1) + 3 · 2 = −2 + 6 = 4 (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = −1, y = 2."
+    },
+    {
+      "type": "h3",
+      "text": "10-misol. Masala: hovlida tovuqlar va quyonlar bor. Jami 20 ta bosh va 56 ta oyoq. Nechta tovuq va nechta quyon bor?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Noma’lumlar: t — tovuqlar soni, q — quyonlar soni.",
+        "Boshlar: t + q = 20. Oyoqlar: tovuqda 2 ta, quyonda 4 ta, shuning uchun 2t + 4q = 56.",
+        "Ikkinchi tenglamani 2 ga bo‘lamiz: t + 2q = 28.",
+        "Undan birinchisini ayiramiz: (t + 2q) − (t + q) = 28 − 20, ya’ni q = 8.",
+        "t = 20 − 8 = 12.",
+        "Tekshiruv: 12 + 8 = 20 bosh, 2 · 12 + 4 · 8 = 24 + 32 = 56 oyoq (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: 12 ta tovuq va 8 ta quyon."
+    },
+    {
+      "type": "h2",
+      "id": "grafik-usul",
+      "text": "Grafik usul va maxsus holatlar"
+    },
+    {
+      "type": "p",
+      "text": "Grafik usulda har bir tenglama to‘g‘ri chiziqni beradi. Sistema yechimi — chiziqlar kesishgan nuqtaning koordinatalari. Chiziq chizish uchun ikkita nuqta yetadi, uchinchisi tekshiruv uchun."
+    },
+    {
+      "type": "h3",
+      "text": "11-misol. y = x + 1;  x + y = 5"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Birinchi chiziq uchun nuqtalar: x = 0 bo‘lsa y = 1; x = 2 bo‘lsa y = 3; x = 4 bo‘lsa y = 5.",
+        "Ikkinchi chiziq uchun nuqtalar: x = 0 bo‘lsa y = 5; x = 2 bo‘lsa y = 3; x = 5 bo‘lsa y = 0.",
+        "Ikkala jadvalda ham (2; 3) nuqta bor: chiziqlar aynan shu nuqtada kesishadi.",
+        "Tekshiruv: 3 = 2 + 1 (to‘g‘ri), 2 + 3 = 5 (to‘g‘ri)."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: x = 2, y = 3."
+    },
+    {
+      "type": "p",
+      "text": "Grafik usul yechimni ko‘rsatadi, lekin kasr javoblarda aniq emas. Maktab ishlarida odatda grafik bilan topilgan javob algebra yo‘li bilan tasdiqlanadi."
+    },
+    {
+      "type": "h3",
+      "text": "12-misol. x + y = 3;  2x + 2y = 8"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ikkinchi tenglamani 2 ga bo‘lamiz: x + y = 4.",
+        "Birinchi tenglama x + y = 3 deydi, ikkinchisi x + y = 4. Bir xil yig‘indi ham 3, ham 4 bo‘lolmaydi.",
+        "Qo‘shish usulida ham shu natija: 2 · (birinchi) − (ikkinchi) = 0 = −2, noto‘g‘ri tenglik.",
+        "Chizmada bu ikkita parallel to‘g‘ri chiziq."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javob: yechim yo‘q."
+    },
+    {
+      "type": "h2",
+      "id": "xatolar",
+      "text": "Tipik xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ayirishda ishorani faqat birinchi hadga qo‘llash. (3x + 2y) − (3x − y) da ikkinchi qavs ichidagi har bir had ishorasi o‘zgaradi: −3x va +y.",
+        "Tenglamani songa ko‘paytirganda bir tomonni unutish. 3x + 2y = 7 ni 2 ga ko‘paytirsangiz, o‘ng tomon ham 14 bo‘ladi.",
+        "Faqat bitta noma’lumni topib to‘xtash. Javob — juftlik: x ham, y ham kerak.",
+        "Qavsni noto‘g‘ri ochish: x − 3(11 − 2x) = x − 33 + 6x, x − 33 − 6x emas.",
+        "Tekshiruvni faqat bitta tenglamada qilish. To‘g‘ri yechim ikkala tenglamaga mos kelishi shart.",
+        "Noma’lumlarni almashtirib yuborish: (4; 3) va (3; 4) har xil javob. Tekshirib ko‘ring."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "mashqlar",
+      "text": "12 ta mashq"
+    },
+    {
+      "type": "p",
+      "text": "Avval o‘zingiz yeching, keyin pastdagi javoblar bilan solishtiring. Har birini tekshirib ko‘rishni unutmang. 1–10-mashqlar sistemalar, 11-mashq yosh masalasi, 12-mashqda maxsus holat bor."
+    },
+    {
+      "type": "list",
+      "items": [
+        "1) x + y = 9;  x − y = 3",
+        "2) y = x − 2;  2x + y = 13",
+        "3) x = 3y;  x + y = 20",
+        "4) 3x + y = 14;  x − y = 2",
+        "5) 2x + y = 10;  3x − y = 5",
+        "6) 4x + 3y = 24;  2x − 3y = −6",
+        "7) 2x + 3y = 13;  3x − 2y = 0",
+        "8) 5x + 2y = 16;  3x + 4y = 18",
+        "9) x − 2y = −7;  3x + y = 7",
+        "10) 3x − 4y = 2;  5x + 2y = 12",
+        "11) Ota va o‘g‘ilning yoshlari yig‘indisi 50, ota o‘g‘ildan 4 marta katta. Ikkalasi necha yoshda?",
+        "12) x + y = 2;  2x + 2y = 7. Yechim bormi?"
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "javoblar",
+      "text": "Mashqlar javoblari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1) x = 6, y = 3",
+        "2) x = 5, y = 3",
+        "3) x = 15, y = 5",
+        "4) x = 4, y = 2",
+        "5) x = 3, y = 4",
+        "6) x = 3, y = 4",
+        "7) x = 2, y = 3",
+        "8) x = 2, y = 3",
+        "9) x = 1, y = 4",
+        "10) x = 2, y = 1",
+        "11) o‘g‘il 10 yoshda, ota 40 yoshda",
+        "12) Yechim yo‘q: ikkinchi tenglamani 2 ga bo‘lsak, x + y = 3,5 chiqadi, birinchisi esa x + y = 2 deydi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Shu saytda yaqin mavzular ham bor: ixcham ko‘paytirish uchun {formulas}, sonlarni xayolda hisoblash uchun {mental}, ko‘paytirishni mustahkamlash uchun {table}. Boshqa fanlar bo‘yicha savollar {tests}da. Har kuni shug‘ullansangiz, sinov javoblari tez tugaydi: AI paket shartlari {tariffs} sahifasida. Boshqa vazifalar uchun {chat}ni oching.",
+      "links": [
+        {
+          "token": "formulas",
+          "target": "/uz/qisqa-kopaytirish-formulalari/",
+          "anchor": "qisqa ko‘paytirish formulalari"
+        },
+        {
+          "token": "mental",
+          "target": "/uz/mental-arifmetika-misollar/",
+          "anchor": "og‘zaki hisoblash usullari"
+        },
+        {
+          "token": "table",
+          "target": "/uz/karra-jadvali/",
+          "anchor": "karra jadvali"
+        },
+        {
+          "token": "tests",
+          "target": "/uz/onlayn-testlar/",
+          "anchor": "onlayn testlar katalogi"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "AI paket bo‘yicha savolingiz bo‘lsa, {call} yoki {mail}.",
+      "links": [
+        {
+          "token": "call",
+          "target": "https://t.me/XGame_changerx",
+          "anchor": "bizga Telegram’da"
+        },
+        {
+          "token": "mail",
+          "target": "mailto:ceo@gptbot.uz",
+          "anchor": "ceo@gptbot.uz manziliga yozing"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Tenglamalar sistemasini qaysi usulda yechgan yaxshi?",
+      "a": "Noma’lum yakka turgan sistemalarda (y = 2x, x = y + 3) o‘rniga qo‘yish tezroq. Boshqa hollarda qo‘shish usuli qulay: u har qanday chiziqli sistema uchun ishlaydi va qavslar bilan kam xato qildiradi."
+    },
+    {
+      "q": "Qo‘shish usulida qachon tenglamani songa ko‘paytirish kerak?",
+      "a": "Qaysi noma’lumni yo‘qotmoqchi bo‘lsangiz, uning oldidagi sonlar teng yoki qarama-qarshi bo‘lishi kerak. Bo‘lmasa, tenglamalarni mos songa ko‘paytiring: masalan, 3x va 2x uchun birini 2 ga, ikkinchisini 3 ga, ikkalasida 6x hosil bo‘ladi."
+    },
+    {
+      "q": "Yechim to‘g‘ri ekanini qanday tekshiraman?",
+      "a": "Topilgan x va y ni ikkala dastlabki tenglamaga qo‘yib, har ikkala tenglik to‘g‘ri chiqishini ko‘ring. Faqat bittasi to‘g‘ri chiqsa, hisoblashda xato bor."
+    },
+    {
+      "q": "Sistemaning yechimi bo‘lmasligi mumkinmi?",
+      "a": "Ha. Agar hisoblashda 0 = 5 kabi noto‘g‘ri tenglik chiqsa, yechim yo‘q: chizmada bu parallel chiziqlar. 0 = 0 chiqsa, yechim cheksiz ko‘p: chiziqlar ustma-ust tushadi."
+    },
+    {
+      "q": "Uchta noma’lumli sistema qanday yechiladi?",
+      "a": "Xuddi shu g‘oya bilan: avval tenglamalarning ikki juftidan bitta noma’lumni yo‘qotib, ikki noma’lumli sistema hosil qilasiz, keyin uni yuqoridagi usullarda yechasiz. Maktab dasturida ko‘pincha ikki noma’lumli sistemalar uchraydi."
+    },
+    {
+      "q": "AI o‘qituvchi bepulmi?",
+      "a": "Jadvallar, qoidalar va mashqlar bepul. AI o‘qituvchining tushuntirish va tekshiruvlari uchun butun sayt bo‘yicha jami 3 ta bepul sinov javobi bor, ular AI chat bilan umumiy va har kuni yangilanmaydi; keyin AI paket kerak."
+    },
+    {
+      "q": "Bu ChatGPT’mi?",
+      "a": "Yo‘q. GPTBot.uz — mustaqil servis: OpenAI ham, ChatGPT ham emas. Tushuntirishni boshqa kompaniyaning til modeli beradi; qaysi model javob bergani har bir javob ostida yozilgan."
+    }
+  ],
+  "internalLinks": [
+    {
+      "target": "/uz/tenglama-yechish/",
+      "anchor": "Bitta noma’lumli tenglamalarni yechish qadamlari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/qisqa-kopaytirish-formulalari/",
+      "anchor": "Qisqa ko‘paytirish formulalari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/mental-arifmetika-misollar/",
+      "anchor": "Og‘zaki hisoblash usullari",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/karra-jadvali/",
+      "anchor": "Karra jadvali",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/onlayn-testlar/",
+      "anchor": "Onlayn testlar katalogi",
+      "locale": "uz",
+      "type": "block"
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "AI chat tariflari",
+      "locale": "uz",
+      "type": "block"
+    }
+  ],
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList"
+  ],
+  "extraJsonLd": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "GPTBot.uz AI o‘qituvchi: tenglamalar sistemasi",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "Tenglamalar sistemasini yechish usullari, yechilgan misollar va javobli mashqlar, shuningdek GPTBot.uz chatidagi AI o‘qituvchi: yangi sistema tuzadi va yechimni tekshiradi. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. OpenAI yoki ChatGPT’ning rasmiy mahsuloti emas.",
+      "offers": {
+        "@type": "Offer",
+        "name": "Bepul jadvallar va mashqlar, AI’ning 3 ta bepul sinov javobi",
+        "description": "Jadvallar, qoidalar va mashqlar bepul. AI o‘qituvchi: butun sayt bo‘yicha jami 3 ta muvaffaqiyatli sinov javobi, AI chat bilan umumiy; har kuni yangilanmaydi. Keyin davom etish uchun AI paket kerak.",
+        "price": "0",
+        "priceCurrency": "UZS"
+      },
+      "url": "https://gptbot.uz/uz/tenglamalar-sistemasi/",
+      "inLanguage": [
+        "uz"
+      ]
+    }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z"
+}

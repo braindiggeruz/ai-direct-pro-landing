@@ -1,0 +1,444 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "8-mart-sherlari",
+  "url": "/uz/blog/8-mart-sherlari/",
+  "title": "8-mart uchun she’rlar: onaga, buviga, ustozga 36 ta she’r",
+  "description": "8-mart uchun 36 ta original she’r: onaga 10 ta, buviga 6 ta, ustozga 8 ta, opa-singilga 4 ta, bog‘cha va maktab tadbiri uchun 8 ta. Qisqa, yodlash oson.",
+  "h1": "8-mart she’rlari: bolalar aytadigan 36 ta qisqa she’r",
+  "topicCluster": "matn-yozish",
+  "targetMoneyPage": "/uz/ai-sher-yozish/",
+  "keywords": [
+    "8 mart uchun sherlar",
+    "8 mart she’rlar",
+    "8 mart haqida sher",
+    "8 mart sherlar",
+    "8 mart sher",
+    "8 mart bolalar uchun sherlar",
+    "8 mart sherlar bolalar uchun",
+    "onajon haqida sher 8 mart"
+  ],
+  "intro": "8-mart ertaligi yoki oilaviy davraga she’r kerak bo‘lsa, shu sahifadan tanlang: bu yerda onaga, buviga, ustozga, opa va singilga atalgan hamda bog‘cha va maktab tadbirida aytiladigan qisqa she’rlar jamlangan. Ko‘pi to‘rt qatorli, so‘zlari sodda — kichkintoy ham yodlay oladi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: quyida 8-mart uchun 36 ta she’r bor: onaga 10 ta, buviga 6 ta, ustozga 8 ta, opa va singilga 4 ta, bog‘cha va maktab tadbirlari uchun 8 ta. Shundan 29 tasi to‘rt qatorli, 7 tasi sakkiz qatorli. She’rlar shu sahifa uchun AI yordamida yozilgan, hech bir shoirning asaridan olinmagan. Qiyshiq chiziq ( / ) satr tugaganini bildiradi: ko‘chirayotganda har bir satrni yangi qatordan yozing."
+    },
+    {
+      "type": "linkp",
+      "text": "She’r emas, oddiy so‘z bilan aytiladigan tabrik kerak bo‘lsa — {tabrik}. Onangiz yoki ustozingizning ismi va bitta odati qo‘shilgan yangi she’r kerak bo‘lsa, {sher} sahifasidagi chatga yozing: bu GPTBot.uz AI chatining «Ijodkor» roli, ro‘yxatdan o‘tmasdan butun sayt bo‘yicha jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi.",
+      "links": [
+        {
+          "token": "tabrik",
+          "target": "/uz/blog/8-mart-tabriklari/",
+          "anchor": "8-mart tabriklari: nasriy tayyor matnlar"
+        },
+        {
+          "token": "sher",
+          "target": "/uz/ai-sher-yozish/",
+          "anchor": "AI she’r yozish"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "onaga",
+      "text": "Onajonga 8-mart she’rlari: 10 ta"
+    },
+    {
+      "type": "p",
+      "text": "Avval kichkintoylar aytadigan to‘rt qatorli she’rlar, keyin kattaroq bolalar va katta yoshli farzandlar uchun sakkiz qatorli she’rlar berilgan. «Sochlarimni o‘rgan qo‘lda» she’ri qiz bola tilidan yozilgan."
+    },
+    {
+      "type": "h3",
+      "text": "Onaga: to‘rt qatorli she’rlar (7 ta)"
+    },
+    {
+      "type": "quote",
+      "text": "Onajonim, bugun men / Erta turdim hammadan. / Sizga atab gul terdim / Hovlidagi chamandan."
+    },
+    {
+      "type": "quote",
+      "text": "Oq qog‘ozga rasm chizdim: / Quyosh, lola, kapalak. / O‘rtasida — onajon, / Tepasida kamalak."
+    },
+    {
+      "type": "quote",
+      "text": "O‘yinchoqni yig‘aman, / Dasturxonni tuzayman. / Bugun onam bayrami — / Uyni o‘zim bezayman."
+    },
+    {
+      "type": "quote",
+      "text": "Bugun choyni o‘zim damlab, / Yozdim katta dasturxon. / Bayram kuni dam oling siz, / Mehribonim, onajon."
+    },
+    {
+      "type": "quote",
+      "text": "Sochlarimni o‘rgan qo‘lda / Issiq nonning isi bor. / Onajonim, siz bor uyda / Qish kunida ham bahor."
+    },
+    {
+      "type": "quote",
+      "text": "Maktabdan kech qaytsam ham, / Yo‘l boshida kutasiz. / Muzlab qolgan qo‘limni / Kaftingizda tutasiz."
+    },
+    {
+      "type": "quote",
+      "text": "Bayram kuni borolmadim, / Yo‘llar olis, onajon. / Tilagim shu: baxtimizga / Yuring doim sog‘-omon."
+    },
+    {
+      "type": "h3",
+      "text": "Onaga: sakkiz qatorli she’rlar (3 ta)"
+    },
+    {
+      "type": "quote",
+      "text": "Erta tongda uyg‘onib men / Qadam bosdim sekin-asta. / Onam hali uxlar edi, / Qo‘llarimda bir guldasta. / Gulni qo‘ydim yostig‘iga, / Bir ozdan so‘ng uyg‘onadi. / Ko‘z ochsa-yu, gulni ko‘rsa, / Onajonim quvonadi."
+    },
+    {
+      "type": "quote",
+      "text": "Yo‘qolgan paypog‘imni / Onam darrov topadi. / Ertalab esa bizga / Issiq nonlar yopadi. / Tizzamni shilib olsam, / Puflab-puflab bog‘laydi. / Men yig‘lasam — onam ham / Ich-ichidan yig‘laydi."
+    },
+    {
+      "type": "quote",
+      "text": "Sochingizga oq tushibdi, / Qachon tushdi — bilmabman. / Ishim ko‘p deb, oylab-oylab / Oldingizga kelmabman. / Bugun, ona, gul keltirdim, / Eshikni siz ochasiz. / «Keldingmi?» deb, yana meni / Bag‘ringizga bosasiz."
+    },
+    {
+      "type": "h2",
+      "id": "buviga",
+      "text": "Buvijonga she’rlar: 6 ta"
+    },
+    {
+      "type": "p",
+      "text": "Buvi haqidagi she’rlarda ertak, tandir noni, to‘qilgan paypoq kabi har bir bolaga tanish narsalar bor. Oxirgi she’r sakkiz qatorli: uni katta nevara aytgani ma’qul."
+    },
+    {
+      "type": "quote",
+      "text": "Buvimning ertaklari / Hech qachon tugamaydi. / Har oqshom so‘rasam ham, / Aytishdan charchamaydi."
+    },
+    {
+      "type": "quote",
+      "text": "Ko‘zoynakni taqib olib, / Buvim kitob o‘qiydi. / «Sovuq qotma, bolam», — deya / Menga paypoq to‘qiydi."
+    },
+    {
+      "type": "quote",
+      "text": "Tandirdan non uzadi / Buvim har kun ertalab. / Eng birinchi nonini / Menga berar erkalab."
+    },
+    {
+      "type": "quote",
+      "text": "Buvim bizga kelganda, / Cho‘ntagida doim qand. / Hammaga teng beradi — / Nevaralar ko‘p xursand."
+    },
+    {
+      "type": "quote",
+      "text": "Buvijonga gulli ro‘mol / Sovg‘a qildik bayramda. / O‘rab olib, kulib qo‘ydi — / Yosharibdi shu damda."
+    },
+    {
+      "type": "quote",
+      "text": "«Toychog‘im» deb chaqirasiz, / Bo‘yim sizdan o‘tsa ham. / Buvijonim, bayram bilan! / Yuring tetik va bardam. / Siz rayhonlar ekkan hovli / Men uchun eng aziz joy. / Ikkalamiz ayvondamiz, / O‘rtamizda issiq choy."
+    },
+    {
+      "type": "h2",
+      "id": "ustozga",
+      "text": "Ustozga 8-mart she’rlari: 8 ta"
+    },
+    {
+      "type": "p",
+      "text": "Bu she’rlarni o‘quvchi sinf rahbariga yoki fan o‘qituvchisiga aytishi mumkin. «Birinchi kun qo‘rqib turdim» she’ri birinchi ustozga atalgan."
+    },
+    {
+      "type": "quote",
+      "text": "Ustoz «a’lo» deb yozsa, / Quvonchimdan uchaman. / Uyga yetib borguncha / Daftarimni quchaman."
+    },
+    {
+      "type": "quote",
+      "text": "Ustozimning stolida / Bugun gullar bir quchoq. / Sinfimiz ham yasangan, / Har bir bola shod, quvnoq."
+    },
+    {
+      "type": "quote",
+      "text": "Qo‘ng‘iroqdan oldinroq / Ustoz sinfga kiradi. / Kim xafa-yu, kim betob — / Bir qarashda biladi."
+    },
+    {
+      "type": "quote",
+      "text": "Tushunmasam, qo‘l ko‘tarib, / Beraman yuz xil savol. / Ustozim hech jahl qilmasdan / Tushuntirar bemalol."
+    },
+    {
+      "type": "quote",
+      "text": "Qalam tutgan qo‘llarimni / Qo‘lingizga oldingiz. / Egri chiqqan harflarimni / To‘g‘ri yo‘lga soldingiz."
+    },
+    {
+      "type": "quote",
+      "text": "Darsga kirsak, kutib olar / Yoqimli, tanish ovoz. / Bayram bilan tabriklaymiz, / Mehribon, aziz ustoz!"
+    },
+    {
+      "type": "quote",
+      "text": "Bugun sizning bayramingizdir, / Sizdan oldik bilim — xazina. / Siz o‘rgatgan har bitta saboq — / Katta hayot sari bir zina."
+    },
+    {
+      "type": "quote",
+      "text": "Birinchi kun qo‘rqib turdim, / Boshladingiz partaga. / «Qo‘rqma, bolam, — dedingiz siz, — / Ko‘nikasan ertaga». / Mana, yillar o‘tib ketdi, / Ancha o‘sdi bo‘yim ham. / O‘sha kungi jilmayishni / Unutmadim biror dam."
+    },
+    {
+      "type": "h2",
+      "id": "opa-singilga",
+      "text": "Opa va singilga she’rlar: 4 ta"
+    },
+    {
+      "type": "p",
+      "text": "Birinchi ikki she’r opaga, keyingi ikkitasi singilga atalgan."
+    },
+    {
+      "type": "quote",
+      "text": "Onam ishda bo‘lganda, / Opam ovqat pishirar. / Non, qoshiqni qo‘yishni / Doim menga topshirar."
+    },
+    {
+      "type": "quote",
+      "text": "Sirimni ham, dardimni ham / Faqat sizga aytaman. / Opam, sizdan dalda olib, / Yengil tortib qaytaman."
+    },
+    {
+      "type": "quote",
+      "text": "Singiljonim, bayram bilan! / Mana senga qizil gul. / Sen kulganda uyimizda / Go‘yo sayrar bir bulbul."
+    },
+    {
+      "type": "quote",
+      "text": "Singlim hali besh yoshda, / Ishlari boshdan oshar: / Qo‘g‘irchoqni uxlatib, / Kosa-tovoq yuvishar. / Bayram kuni onamga / Katta bir gul chizibdi. / Qiyshiq-qiyshiq harf bilan / «Onamga» deb yozibdi."
+    },
+    {
+      "type": "h2",
+      "id": "tadbir",
+      "text": "Bog‘cha va maktab tadbiri uchun she’rlar: 8 ta"
+    },
+    {
+      "type": "p",
+      "text": "Bu yerda tadbirni ochadigan va yopadigan she’rlar, bog‘cha bolalari uchun uchta, maktab o‘quvchilari uchun uchta she’r bor. «Qizlar, bugun sochingizdan» she’ri o‘g‘il bolalar nomidan sinfdosh qizlarga aytiladi."
+    },
+    {
+      "type": "h3",
+      "text": "Tadbirni ochish va yopish uchun (2 ta)"
+    },
+    {
+      "type": "quote",
+      "text": "Zalimizga xush kelibsiz, / Onajonlar, buvilar! / Bugun sizga she’r o‘qiydi / Sho‘x qizlar-u o‘g‘illar."
+    },
+    {
+      "type": "quote",
+      "text": "She’rlarimiz tugasa ham, / Mehrimiz hech tugamas. / Onajonlar, sizni sevgan / Yuraklar hech charchamas."
+    },
+    {
+      "type": "h3",
+      "text": "Bog‘cha bolalari uchun (3 ta)"
+    },
+    {
+      "type": "quote",
+      "text": "Men hali kichkinaman, / Lekin bir she’r bilaman: / «Onajon, bayram bilan, / Sizga sog‘lik tilaman!»"
+    },
+    {
+      "type": "quote",
+      "text": "Tomdan tomchi tomadi: / Chak-chak, chak-chak, chak-chak-chak. / Bahor kelib, onamga / Sovg‘a qildi boychechak."
+    },
+    {
+      "type": "quote",
+      "text": "Bog‘chadagi opajonim / Ertak aytib uxlatar. / Uyg‘onsak, biz bilan birga / Qo‘shiq aytib o‘ynatar."
+    },
+    {
+      "type": "h3",
+      "text": "Maktab o‘quvchilari uchun (3 ta)"
+    },
+    {
+      "type": "quote",
+      "text": "Bugun bayram: onam, buvim, / Opam hamda jajji singlim. / Barchasiga gul ulashsam, / Yayrab ketar shunda ko‘nglim."
+    },
+    {
+      "type": "quote",
+      "text": "Qizlar, bugun sochingizdan / Hech birimiz tortmaymiz. / Bayramingiz bilan qutlab, / Yomon so‘z ham aytmaymiz."
+    },
+    {
+      "type": "quote",
+      "text": "Bugun ovqat pishirishni / Bo‘yniga oldi dadam. / Sabzilarni archib berib, / Qarashib turdim men ham. / Qozon tagi kuyib qoldi, / Tuzi ham kam chiqdi sal. / Onam esa maqtab yedi: / «Bu osh emas, bu — asal!»"
+    },
+    {
+      "type": "h2",
+      "id": "yoshga-qarab",
+      "text": "She’rni bolaning yoshiga qarab tanlash"
+    },
+    {
+      "type": "list",
+      "items": [
+        "3–5 yosh: yetti bo‘g‘inli to‘rt qator, tanish so‘zlar va takror bor she’rlar — «Tomdan tomchi tomadi», «Men hali kichkinaman», «O‘yinchoqni yig‘aman».",
+        "6–8 yosh: kichik voqeasi bor to‘rtliklar — «Oq qog‘ozga rasm chizdim», «Buvim bizga kelganda», «Qalam tutgan qo‘llarimni».",
+        "9 yoshdan katta: sakkiz qatorli she’rlar — «Erta tongda uyg‘onib men», «Birinchi kun qo‘rqib turdim», «Bugun ovqat pishirishni».",
+        "Katta yoshli farzandlar uchun: «Bayram kuni borolmadim» va «Sochingizga oq tushibdi»."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "yodlash",
+      "text": "She’rni yodlash: 4 ta usul"
+    },
+    {
+      "type": "p",
+      "text": "8-mart — Xotin-qizlar kuni, O‘zbekistonda ishlanmaydigan bayram kuni. Bog‘cha va maktabda tadbir odatda bayramdan oldingi ish kunlarida o‘tadi, shuning uchun she’rni oldindan tanlab, yodlashni bir necha kun avval boshlang."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Avval she’rni o‘zingiz ifodali o‘qib bering va bola bilan u nima haqida ekanini gaplashing: tushunilgan she’r tezroq yodlanadi.",
+        "Satrma-satr yodlang: birinchi satrni bir necha marta takrorlang, keyin ikkinchisini qo‘shing. Bir kunda to‘rt qator yetarli.",
+        "Harakat qo‘shing: «Tomdan tomchi tomadi» deganda barmoq bilan tomchini ko‘rsating, «Daftarimni quchaman» deganda daftarni quchoqlang — harakat so‘zni eslatadi.",
+        "Har kuni uxlashdan oldin bir marta takrorlang, tadbir kuni esa yangi she’r bermang."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ai",
+      "text": "Ism qo‘shilgan she’rni AI yordamida yozdirish"
+    },
+    {
+      "type": "p",
+      "text": "Tayyor she’r o‘rniga onangiz yoki buvingizga atalgan yangi she’r kerak bo‘lsa, AI chatga aniq so‘rov yozing: kimga, necha qator, har satrda necha bo‘g‘in va bitta haqiqiy xotira. Masalan: «Buvimga 8-mart uchun 4 qatorli she’r yoz. U har yoz bizga o‘rik murabbosi qaynatadi. Har satrda 7 bo‘g‘in, 2- va 4-satrlar qofiyalansin. O‘zingdan xotira qo‘shma.» Model vazn va qofiyada xato qilishi yoki to‘qima detal qo‘shib yuborishi mumkin — she’rni ovoz chiqarib o‘qing va bo‘g‘inlarni sanab ko‘ring. Chat faqat matn yozadi: otkritka, rasm yoki ovozli tabrik yasamaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "So‘rovni {chat}ga yozish mumkin: shartlar o‘sha — jami 3 ta bepul sinov javobi, sinov yangilanmaydi, keyin AI paket kerak bo‘ladi; paket shartlari {tariffs} sahifasida. She’r yoniga qisqa nasriy tabrik qo‘shmoqchi bo‘lsangiz, uning tuzilmasi {guide}da tushuntirilgan. Kirill yozuvi kerak bo‘lsa, tayyor she’rni {translit} bilan o‘giring: u AI ishlatmaydi va sinov javoblarini sarflamaydi.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "GPTBot.uz o‘zbekcha AI chati"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI chat tariflari"
+        },
+        {
+          "token": "guide",
+          "target": "/uz/blog/tabrik-yozish/",
+          "anchor": "tabrik yozish qo‘llanmasi"
+        },
+        {
+          "token": "translit",
+          "target": "/uz/kirill-lotin/",
+          "anchor": "kirill-lotin o‘giruvchi"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz — mustaqil AI-xizmat, OpenAI yoki ChatGPT mahsuloti emas. Chatga boshqa odamning telefoni, manzili va oilaviy sirlarini yozmang: so‘rov matni GPTBot.uz serveriga va xorijdagi AI-provayderlarga yuboriladi. She’r uchun ism va bitta xotira yetarli."
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "Sahnaga chiqishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bola she’rdagi har bir so‘zni tushunadimi? Tushunmagan so‘zini izohlab bering.",
+        "She’r kimga atalgan: onagami, buvigami, ustozgami? Murojaat to‘g‘ri kelishini tekshiring.",
+        "Bir tadbirda ikki bola bir xil she’r aytmayaptimi? Tarbiyachi yoki sinf rahbari bilan kelishib oling.",
+        "Sakkiz qatorli she’r bolaga og‘irlik qilmayaptimi? Qiynalsa, to‘rt qatorlisini tanlang yoki she’rni ikki bolaga bo‘lib bering.",
+        "Otkritkaga ko‘chirganda har bir satr alohida qatorda yozildimi, o‘ va g‘ harflari to‘g‘rimi?"
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "She’rni AI chatda shaxsiy qilish",
+      "href": "/uz/gpt-uzbek-tilida/"
+    }
+  ],
+  "faq": [
+    {
+      "q": "8-mart ertaligi uchun bog‘cha bolasiga qaysi she’r mos?",
+      "a": "To‘rt qatorli, har satri yetti bo‘g‘inli she’rlar: «Tomdan tomchi tomadi», «Men hali kichkinaman» yoki «O‘yinchoqni yig‘aman». Ularda so‘zlar qisqa va tanish, shuning uchun kichkintoyga yodlash oson."
+    },
+    {
+      "q": "O‘g‘il bolalar aytadigan 8-mart she’rlari bormi?",
+      "a": "Ha. «Qizlar, bugun sochingizdan» she’ri o‘g‘il bolalar nomidan sinfdosh qizlarga yozilgan, «Bugun bayram: onam, buvim» va «Bugun ovqat pishirishni» ham o‘g‘il bolaga mos. Qolgan she’rlarning ko‘pini o‘g‘il bola ham, qiz bola ham aytishi mumkin; faqat «Sochlarimni o‘rgan qo‘lda» qiz bola tilidan yozilgan."
+    },
+    {
+      "q": "Bu she’rlarni kim yozgan, ulardan foydalansa bo‘ladimi?",
+      "a": "She’rlar shu sahifa uchun AI yordamida yozilgan va hech bir shoirning asaridan olinmagan. Ularni ertalik, otkritka, devoriy gazeta yoki shaxsiy tabrik uchun bemalol ko‘chirib oling. Tanlovga yubormoqchi bo‘lsangiz, uning qoidalarini o‘qing: ko‘pincha faqat o‘zingiz yozgan asar qabul qilinadi."
+    },
+    {
+      "q": "To‘rt qatorli she’r yaxshimi yoki sakkiz qatorli?",
+      "a": "Bog‘cha va boshlang‘ich sinf uchun to‘rt qator yetarli: bola uni ishonch bilan, adashmay aytadi. Sakkiz qatorli she’rni kattaroq o‘quvchi uchun tanlang yoki ikki bolaga bo‘lib bering — har biri to‘rt qatordan aytadi."
+    },
+    {
+      "q": "She’rdagi «onajon» o‘rniga ism qo‘ysa bo‘ladimi?",
+      "a": "Bo‘ladi, lekin bo‘g‘inlar soni saqlansin. «Onajon» — uch bo‘g‘in, o‘rniga ham uch bo‘g‘inli so‘z kerak, masalan «buvijon» yoki «ustozim». Bo‘g‘inni unli tovushlar bo‘yicha sanang va she’rni ovoz chiqarib o‘qib ko‘ring."
+    },
+    {
+      "q": "She’rni kirill yozuvida olsa bo‘ladimi?",
+      "a": "Ha. She’rni ko‘chirib, saytdagi kirill-lotin o‘giruvchiga qo‘ying: u matnni kirill yozuviga o‘giradi, AI ishlatmaydi va sinov javoblarini sarflamaydi."
+    },
+    {
+      "q": "Yangi she’rni AI yozib bera oladimi?",
+      "a": "Ha. AI she’r yozish sahifasidagi chatga kimga, necha qator va qaysi xotira bilan yozish kerakligini aytsangiz, u she’r tayyorlaydi. Ro‘yxatdan o‘tmasdan jami 3 ta bepul sinov javobi beriladi, sinov yangilanmaydi; keyin AI paket kerak bo‘ladi. Model vazn va qofiyada xato qilishi mumkin, shuning uchun she’rni o‘qib tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "She’rni AI chatda shaxsiy qilish",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "GPTBot.uz o‘zbekcha AI chati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/navroz-haqida-sherlar/",
+      "anchor": "Navro‘z va bahor haqida she’rlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/tabrik-yozish/",
+      "anchor": "Tabrik yozish qo‘llanmasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/kirill-lotin/",
+      "anchor": "Kirill-lotin o‘giruvchi",
+      "locale": "uz",
+      "type": "contextual"
+    },
+    {
+      "target": "/uz/ai-tabrik-generatori/",
+      "anchor": "AI tabrik generatori",
+      "locale": "uz",
+      "type": "contextual"
+    }
+  ],
+  "ogTitle": "8-mart uchun she’rlar: 36 ta qisqa she’r",
+  "ogDescription": "Onaga, buviga, ustozga, opa va singilga hamda bog‘cha va maktab tadbiri uchun 36 ta original she’r: 29 tasi to‘rt qatorli, 7 tasi sakkiz qatorli. Yoshga qarab tanlash va yodlash bo‘yicha maslahatlar.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-uzbek-tilida-promptlar-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/8-mart-sherlari/",
+  "hreflangUz": "/uz/blog/8-mart-sherlari/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Parents, teachers and pupils in Uzbekistan preparing poems for 8 March"
+  },
+  "breadcrumbLabel": "8-mart she’rlari",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-17",
+  "dateModified": "2026-11-17",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Kambag‘allikni qisqartirish va bandlik vazirligi: ishlanmaydigan bayram kunlari ro‘yxati",
+      "url": "https://gov.uz/uz/bv/news/view/31663",
+      "note": "Vazirlik e’lon qilgan ro‘yxatda «8-mart — Xotin-qizlar kuni» ishlanmaydigan bayram kunlari qatorida ko‘rsatilgan. Sahifa 2026-11-17 kuni tekshirilgan."
+    }
+  ],
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "createdAt": "2026-11-17T00:00:00.000Z"
+}
