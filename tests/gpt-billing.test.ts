@@ -36,6 +36,10 @@ import {
   chatReturnPath,
 } from "../functions/lib/gpt-chat/return-path";
 
+// Payme reads the pairs by key: their order may change so that the segment never holds a "/" (payme-checkout.ts, tests/gpt-payme-link.test.ts).
+const sameParams = (actual: string, expected: string, message?: string) =>
+  assert.deepEqual(actual.split(";").sort(), expected.split(";").sort(), message);
+
 /**
  * The account's free answers of the day, spent just now (as a pack holder's,
  * ACCOUNT_FREE_ID): its next answers come from a pack (decision R2).
@@ -992,7 +996,7 @@ test("Ш2-lite checkout: the provider's page returns to the listed page; the ord
   const expected = (attemptId: string, path: string) =>
     `m=${f.env.GPT_PAYME_MERCHANT_ID};ac.order_id=${attemptId};a=2000000;c=https://gpt.test${path}?pay=return;l=ru;ct=15000`;
   const first = await payme("/ru/kalkulyator/");
-  assert.equal(first.params, expected(first.attemptId, "/ru/kalkulyator/"));
+  sameParams(first.params, expected(first.attemptId, "/ru/kalkulyator/"));
   // The same key from another page (a reload, a second tab) re-serves the
   // same order; only the way back follows the page, never off the list.
   for (const [returnPath, path] of [
@@ -1005,7 +1009,7 @@ test("Ш2-lite checkout: the provider's page returns to the listed page; the ord
   ] as const) {
     const again = await payme(returnPath);
     assert.equal(again.attemptId, first.attemptId, String(returnPath));
-    assert.equal(again.params, expected(first.attemptId, path), String(returnPath));
+    sameParams(again.params, expected(first.attemptId, path), String(returnPath));
   }
   assert.equal(f.db.value("SELECT COUNT(*) FROM gpt_payment_orders"), 1);
   assert.equal(f.db.value("SELECT amount FROM gpt_payment_orders WHERE id=?", first.attemptId), 2000000);

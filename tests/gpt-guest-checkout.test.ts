@@ -30,6 +30,10 @@ import { TurnStore } from "../functions/lib/gpt-chat/turn-store";
 import { hydrateRuntimeConfig, RUNTIME_CONFIG_KEYS } from "../functions/lib/runtime-config";
 import { BILLING_SETTINGS, committedRuntimeConfig } from "../scripts/release/live-gate";
 
+// Payme reads the pairs by key: their order may change so that the segment never holds a "/" (payme-checkout.ts, tests/gpt-payme-link.test.ts).
+const sameParams = (actual: string, expected: string, message?: string) =>
+  assert.deepEqual(actual.split(";").sort(), expected.split(";").sort(), message);
+
 type Fixture = Awaited<ReturnType<typeof billingFixture>>;
 
 const ORIGIN = "https://gpt.test";
@@ -188,10 +192,11 @@ test("a guest pays with Payme live: checkout.paycom.uz, the pack is the browser'
     assert.equal(body.mode, "checkout");
     const page = new URL(body.checkoutUrl);
     assert.equal(page.origin, "https://checkout.paycom.uz");
-    assert.equal(
+    sameParams(
       atob(page.pathname.slice(1)),
       `m=${f.env.GPT_PAYME_MERCHANT_ID};ac.order_id=${body.attemptId};a=2000000;c=${ORIGIN}/uz/gpt-uzbek-tilida/?pay=return;l=uz;ct=15000`,
     );
+    assert.ok(!page.pathname.slice(1).includes("/"), "one path segment");
     const order = body.attemptId;
     const guest = f.db.value(`SELECT user_id FROM gpt_payment_orders WHERE id='${order}'`) as string;
     assert.ok(isGuestAccount(guest));
@@ -291,7 +296,8 @@ test("Ш2-lite: a guest paying live with Click or Payme goes back to the chat pa
   const paymePage = async (locale: "ru" | "uz", returnPath: unknown, path: string) => {
     const { body, page } = await pay("payme", locale, returnPath);
     assert.equal(page.origin, "https://checkout.paycom.uz");
-    assert.equal(atob(page.pathname.slice(1)), paymeParams(body.attemptId, locale, path), String(returnPath));
+    sameParams(atob(page.pathname.slice(1)), paymeParams(body.attemptId, locale, path), String(returnPath));
+    assert.ok(!page.pathname.slice(1).includes("/"), String(returnPath));
   };
   // A listed chat page of the checkout's language: back to it.
   await clickPage("ru", "/ru/kalkulyator/", "/ru/kalkulyator/");

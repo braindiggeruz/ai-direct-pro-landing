@@ -25,8 +25,32 @@ export const PAYME_CHECKOUT_BASE: Record<BillingMode, string> = {
 export const PAYME_RETURN_DELAY_MS = 15_000;
 
 /**
+ * The pairs in the order Payme's page has always been given them, then the
+ * other orders with the cash desk first (lexicographic, so the choice is the
+ * same every time). Payme reads the pairs by key, in any order.
+ */
+function* pairOrders(pairs: string[]): Generator<string[]> {
+  const [first, ...rest] = pairs;
+  const permute = function* (items: string[], head: string[] = []): Generator<string[]> {
+    if (!items.length) yield head;
+    for (const [index, item] of items.entries()) yield* permute(items.filter((_, other) => other !== index), [...head, item]);
+  };
+  for (const order of permute(rest)) yield [first, ...order];
+}
+
+/**
  * The Payme page for `orderId`, or null without a valid cash desk id or with
  * a value that would break Payme's `key=value;…` format.
+ *
+ * The page is one path segment, the base64 of the pairs. Standard base64 has
+ * "/" for the six bits 111111, and the only character of these pairs that
+ * makes them is the "?" of the return address (`?pay=return`) when it is the
+ * third byte of a triplet: on five of the chat's secondary pages (and any page
+ * added later) the segment then carried a "/" that Payme's router may read as
+ * a path separator. The pairs go in their classic order unless that happens
+ * (every page that worked keeps its link, byte for byte); otherwise the next
+ * order without a "/". Only the order changes: merchant, account field,
+ * amount, return address, language and delay are the same.
  */
 export function paymeCheckoutUrl(
   env: BillingEnv,
@@ -37,15 +61,19 @@ export function paymeCheckoutUrl(
 ): string | null {
   const merchant = paymeMerchantId(env);
   if (!merchant || /[;\s]/.test(orderId) || /[;\s]/.test(back)) return null;
-  const params = [
+  const pairs = [
     `m=${merchant}`,
     `ac.order_id=${orderId}`,
     `a=${PRICE_TIYIN}`,
     `c=${back}`,
     `l=${locale}`,
     `ct=${PAYME_RETURN_DELAY_MS}`,
-  ].join(";");
-  return `${PAYME_CHECKOUT_BASE[mode]}/${btoa(params)}`;
+  ];
+  for (const order of pairOrders(pairs)) {
+    const segment = btoa(order.join(";"));
+    if (!segment.includes("/")) return `${PAYME_CHECKOUT_BASE[mode]}/${segment}`;
+  }
+  return null;
 }
 
 /** One line of a Payme receipt (CheckPerformTransaction `detail.items`). */
