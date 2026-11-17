@@ -1,4 +1,23 @@
 {
+  "natal_release_1_20261117": {
+    "status": "committed_NOT_deployed_waits_for_owner",
+    "owner_authorized": "Owner in chat, 2026-11-17: \"Родной делай всё по роад мапу только сделай первый AI-разбор совместимости - беспатно\". Work, not a deploy.",
+    "baseline_commit": "7609334b",
+    "production_before": "213fff00",
+    "branch": "claude/natal-20261117",
+    "commits": [
+      "edc28afe feat(natal): chart engine — planets, houses, pair contacts and birth time zones",
+      "0f181b53 feat(natal): AI reading endpoint — closed facts, checked answers, saved readings, free slots",
+      "f98a21b6 feat(natal): natal chart and compatibility pages with the chart widget and the place base"
+    ],
+    "scope": "Natal chart and compatibility pages (owner orders of 2026-11-17: a roadmap, then \"AI checks the chart and says the compatibility\", then \"do everything by the roadmap, only make the first AI compatibility reading free\"). Four tool pages /uz/natal-karta/, /ru/natalnaya-karta/, /uz/burjlar-mosligi/, /ru/sovmestimost-po-date-rozhdeniya/ with a browser-side chart engine (Astronomy Engine 2.1.19 vendored, own houses, pinned tz 2025b zone tables, GeoNames places), and POST /api/natal/reading (closed fact ids, checked AI answer, saved readings, one free natal and one free pair reading per browser, eight model calls per address per day, 1 000 per day).",
+    "notYet": "Not deployed. Not built yet: the paid next reading (release 2: needs the owner's \"текст согласен\" on an offer edition, the accountant's IKPU and the providers; gpt_payment_orders_v2 already accepts another sku) and the AI chat under the chart (role instructions ride in the chat start bundle, about 270 B left; a fact-checked chat needs a core change). Uzbek and Russian copy not yet read by a native speaker.",
+    "gates": "Before a deploy: a native read of the Uzbek and Russian copy (roadmap T11); apply migrations/0086_natal_readings.sql to production D1 first; money for the model after 17.12; the 24.11 readout becomes mixed; the privacy-policy line on reading data is the owner's decision.",
+    "roadmap": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-natal-roadmap-20261117/ROADMAP-NATAL-RU.md",
+    "evidence": "F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-natal-roadmap-20261117/release-1",
+    "validation": "Production build of dc661bf0 (2 192 files, sitemap 426); a gate of 88 test files run one by one: the failing set equals release C's 26 tests by name, plus the natal browser test, whose sign-name check was fixed in the next commit (it passes on the same build). Release check pass. New suites: natal-engine 9 (accuracy against the Swiss Ephemeris on 300 charts 1920-2030: Sun 1.8″, Moon 6.3″, planets up to 18.6″, Ascendant 0.3″, cusps 0.3″), natal-time 9 (Tashkent and Samarkand offsets read from the tz database text), natal-reading 10 (closed facts, checked answers, one retry, free slots, counters, tenant isolation, migration parity), natal-places 10, natal-browser 1 (the built site in Chrome at 390 px with the reading answered locally: places by «Тошкент», UTC+7 summer time for July 1985, the pair with contacts and no percentage, two free readings and the honest next one, no birth data in any request). Protected pages: reports/natal-20261117/review.ts against a build of 7609334b; nine protected pages unchanged, the homepage gains exactly four list entries. tsc -b, the functions typecheck and eslint on the changed files clean. Not measured: the AI reading on the real model (latency, Uzbek quality).",
+    "deploy": "NOT DEPLOYED. Production runs 213fff00 (release C). This branch is based on 7609334b (origin/main). A deploy needs, in this order: the owner's word, wrangler d1 execute --remote --file migrations/0086_natal_readings.sql, npm run build:production, deploy_runner.py check, deploy."
+  },
   "chat_cro_release_c_20261117": {
     "status": "deployed_and_verified",
     "owner_authorized": "Owner in chat, 2026-11-17, after roadmap №2: \"Приступай и сделай всё что можешь сделать автономно чтобы улучшить сервис и увеличить количество оплат\". The message orders the work, not a deploy. Asked \"Выкладывать релиз C на сайт и в публичный main?\", the owner answered in chat: \"Да, выкладывай\".",
@@ -2004,10 +2023,10 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Release C of the chat conversion work (roadmap №2, the autonomous part) is live and verified. See chat_cro_release_c_20261117.",
-  "stage_status": "release_c_live_verified",
+  "current_stage": "Natal chart release 1 is committed on claude/natal-20261117 and NOT deployed; production runs 213fff00. See natal_release_1_20261117.",
+  "stage_status": "natal_release_1_ready_not_deployed",
   "last_completed_stage": "Release C on 2026-11-17: the send button at the wall, the question kept, the seller line, the ended-pack wall, three counters.",
-  "next_stage": "The readout of 2026-11-24 (release A, the 3-day pack and release C together), then the owner's decisions of roadmap №2.",
+  "next_stage": "The owner's word on the natal release (with the native read and the migration first); then release 2 (paid next reading).",
   "r0_4_progress": {
     "status": "completed 2026-07-30",
     "production_deployment": "ee530d71 deployed and canonical, aliased to gptbot.uz, direct upload from the canonical clean repository",
@@ -2341,7 +2360,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-11-17T12:48:22.845956+00:00",
+  "updated_at": "2026-11-17T14:51:31.783829+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [

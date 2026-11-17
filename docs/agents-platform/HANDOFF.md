@@ -1,3 +1,31 @@
+# Current handoff — natal chart release 1 is ready and NOT deployed · 17.11.2026
+
+## 1. State
+Branch claude/natal-20261117 on top of 7609334b (origin/main). **Production still runs 213fff00 (release C); natal release 1 is committed, not deployed.** Working tree: clean after the commit.
+## 2. Delivered
+Natal chart and compatibility pages (owner orders of 2026-11-17: a roadmap, then "AI checks the chart and says the compatibility", then "do everything by the roadmap, only make the first AI compatibility reading free"). Four tool pages /uz/natal-karta/, /ru/natalnaya-karta/, /uz/burjlar-mosligi/, /ru/sovmestimost-po-date-rozhdeniya/ with a browser-side chart engine (Astronomy Engine 2.1.19 vendored, own houses, pinned tz 2025b zone tables, GeoNames places), and POST /api/natal/reading (closed fact ids, checked AI answer, saved readings, one free natal and one free pair reading per browser, eight model calls per address per day, 1 000 per day).
+## 3. Files
+src/tools/natal/** (engine/, vendor/, widget), src/shared/natal-{facts,names}.ts, functions/api/natal/reading.ts, functions/lib/natal/*, migrations/0086_natal_readings.sql, public/natal/{places,tz}/**, scripts/natal/*, content/pages/{uz/natal-karta,uz/burjlar-mosligi,ru/natalnaya-karta,ru/sovmestimost-po-date-rozhdeniya}.json, content/seo/demand-policy.json, scripts/prerender.ts, scripts/vite-manifest.ts, vite.config.ts, src/shared/types.ts, eslint.config.js, tests/natal-*.test.ts, tests/fixtures/natal-oracle.json.
+## 4. Decisions
+D-NATAL-20261117 in DECISIONS.md.
+## 5. Excluded
+Not deployed. Not built yet: the paid next reading (release 2: needs the owner's "текст согласен" on an offer edition, the accountant's IKPU and the providers; gpt_payment_orders_v2 already accepts another sku) and the AI chat under the chart (role instructions ride in the chat start bundle, about 270 B left; a fact-checked chat needs a core change). Uzbek and Russian copy not yet read by a native speaker.
+## 6. Validation
+Production build of dc661bf0 (2 192 files, sitemap 426); a gate of 88 test files run one by one: the failing set equals release C's 26 tests by name, plus the natal browser test, whose sign-name check was fixed in the next commit (it passes on the same build). Release check pass. New suites: natal-engine 9 (accuracy against the Swiss Ephemeris on 300 charts 1920-2030: Sun 1.8″, Moon 6.3″, planets up to 18.6″, Ascendant 0.3″, cusps 0.3″), natal-time 9 (Tashkent and Samarkand offsets read from the tz database text), natal-reading 10 (closed facts, checked answers, one retry, free slots, counters, tenant isolation, migration parity), natal-places 10, natal-browser 1 (the built site in Chrome at 390 px with the reading answered locally: places by «Тошкент», UTC+7 summer time for July 1985, the pair with contacts and no percentage, two free readings and the honest next one, no birth data in any request). Protected pages: reports/natal-20261117/review.ts against a build of 7609334b; nine protected pages unchanged, the homepage gains exactly four list entries. tsc -b, the functions typecheck and eslint on the changed files clean. Not measured: the AI reading on the real model (latency, Uzbek quality).
+## 7. Known limits
+3 784 Uzbek places have no Uzbek name in GeoNames and 6 973 no Russian one (the Latin name is shown); "york" does not find New York (shards follow the first letters). AI reading latency not measured on the real model yet. The meanings table has no astrologer's review.
+## 8. Next task
+Before a deploy: a native read of the Uzbek and Russian copy (roadmap T11); apply migrations/0086_natal_readings.sql to production D1 first; money for the model after 17.12; the 24.11 readout becomes mixed; the privacy-policy line on reading data is the owner's decision.
+## 9. Acceptance
+On the live site: a Tashkent 1985 birth shows UTC+7 summer time in «Как посчитано»; a pair shows contacts without a percentage; the first natal and the first pair reading arrive; the third says the next one is not available yet; no birth data in any request.
+## 10. Start commands
+node --import tsx --test tests/natal-engine.test.ts; tests/natal-time.test.ts; tests/natal-reading.test.ts; tests/natal-places.test.ts; after a build: tests/natal-browser.test.ts; npx tsx scripts/natal/accuracy-report.ts.
+## 11. Risks
+Do not install packages with npm in this worktree: node_modules is a junction to a folder another checkout owns, and npm deleted the junction once (recreated with mklink /J). Do not add code to the chat start bundle. The Swiss Ephemeris is AGPL: keep it out of the repository.
+## 12. Rollback
+Not deployed. After a deploy: redeploy the previous commit; the two natal tables stay and nothing else reads them. Previous handoff retained below.
+
+---
 # Current handoff — release C is live · 17.11.2026
 
 ## 1. State
