@@ -39,7 +39,7 @@
     { "type": "h2", "text": "Narx va maxfiylik", "id": "narx" },
     { "type": "list", "items": [
       "Xaritalar va aloqalar roʻyxati — har doim bepul.",
-      "Birinchi moslik AI tahlili — bepul. Keyingi juftliklar tez orada 5 000 soʻmdan boʻladi.",
+      "Birinchi moslik AI tahlili — bepul. Keyingi juftliklar tez orada pullik boʻladi; narxi ommaviy ofertada eʼlon qilinadi.",
       "Sanalar, vaqt va joylar faqat shu brauzerda qoladi. AI ga faqat burjlar va aloqalar yuboriladi."
     ] }
   ],

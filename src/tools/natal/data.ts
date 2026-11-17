@@ -98,6 +98,20 @@ export function cacheReading(key: string, value: unknown): void {
   writeSaved(saved);
 }
 
+/** The steps GA4 hears about, once per page view: a fixed name, the page's path and language; nothing typed or computed. */
+export type NatalEvent = 'natal_chart_built' | 'natal_pair_built' | 'natal_reading_requested' | 'natal_reading_shown' | 'natal_reading_next';
+const reported = new Set<NatalEvent>();
+export function report(event: NatalEvent): void {
+  if (reported.has(event)) return;
+  reported.add(event);
+  try {
+    const w = window as unknown as { gtag?: (...args: unknown[]) => void; dataLayer?: unknown[] };
+    const data = { route: location.pathname, lang: document.documentElement.lang.slice(0, 2) };
+    if (typeof w.gtag === 'function') w.gtag('event', event, data);
+    else (w.dataLayer ??= []).push({ event, ...data });
+  } catch { /* Analytics never stops the tool. */ }
+}
+
 export interface ReadingSection { id: string; facts: string[]; text: string }
 export type ReadingResult =
   | { ok: true; sections: ReadingSection[]; cached: boolean }

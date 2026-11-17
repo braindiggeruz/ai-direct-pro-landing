@@ -94,6 +94,26 @@ test('the answer is checked by construction: known sections, known facts, no dig
   assert.ok(checkReading('natal', '```json\n' + NATAL_OK(facts) + '\n```', facts).ok, 'a fenced answer is read');
 });
 
+test('the word scan matches whole words only: ordinary Uzbek and Russian words pass, forecasts do not', () => {
+  const facts = ['1.sign.sun.leo', '1.sign.moon.cancer'];
+  const with_ = (extra: string) => JSON.stringify({ sections: [{ id: 'core', facts: ['1.sign.sun.leo'], text: `${TEXT} ${extra}` }, { id: 'advice', facts: ['1.sign.moon.cancer'], text: TEXT }] });
+  for (const ok of ['Bu yoʻlim emas, deysiz.', 'Ushbu boʻlimda.', 'Siz olim kabi qiziquvchansiz.', 'Yutuqlaringizni qadrlang.', 'Imtihonga tayyorgarlikda sabr kerak.', 'Это может быть болезненно, но полезно.', 'Вы выигрываете, когда слушаете.']) {
+    assert.ok(checkReading('natal', with_(ok), facts).ok, ok);
+  }
+  for (const bad of ['Sizni oʻlim kutadi.', 'Ajrashish mumkin.', 'Homiladorlik yaqin.', 'Вас ждёт развод.', 'Болезнь возможна.', 'Он умрёт.']) {
+    assert.equal(checkReading('natal', with_(bad), facts).ok, false, bad);
+  }
+});
+
+test('houses reach the model in words: the answer may carry no digits, so the prompt carries none in names', () => {
+  const messages = readingMessages('natal', 'uz', (checkFacts('natal', NATAL) as { facts: string[] }).facts);
+  const lines = messages[1].content.split('\n').filter((line) => line.includes('.house.'));
+  assert.ok(lines.length > 5);
+  for (const line of lines) assert.doesNotMatch(line.replace(/\[[^\]]*\]/, ''), /\d/, line);
+  assert.match(factLine('1.house.sun.10', 'uz', 'natal'), /oʻninchi uy/);
+  assert.match(factLine('1.house.moon.4', 'ru', 'natal'), /четвёртый дом/);
+});
+
 test('T10: the first natal reading is free, saved, and the same chart shows the same text without a second call', async () => {
   const f = await fixture();
   const m = model([NATAL_OK]);

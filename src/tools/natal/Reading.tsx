@@ -2,7 +2,7 @@
 // each with the facts it explains; saved in this browser so it reopens the
 // same. The free first readings and what comes after are said plainly.
 import { useEffect, useState } from 'react';
-import { cacheReading, cachedReading, requestReading, type ReadingSection } from './data';
+import { cacheReading, cachedReading, report, requestReading, type ReadingSection } from './data';
 import type { NatalStrings } from './strings';
 import { ANGLE_NAME, ASPECT_NAME, BODY_NAME, ELEMENT_NAME, MODALITY_NAME, SIGN_NAME, houseName, type NatalLocale } from '../../shared/natal-names';
 import { parseFact, type ReadingKind } from '../../shared/natal-facts';
@@ -37,11 +37,16 @@ export function Reading({ kind, facts, cacheKey, locale, s }: { kind: ReadingKin
 
   const ask = async () => {
     setState({ at: 'loading' });
+    report('natal_reading_requested');
     const result = await requestReading(kind, locale, facts);
     if (result.ok) {
       cacheReading(cacheKey, result.sections);
       setState({ at: 'done', sections: result.sections });
-    } else setState({ at: 'error', code: result.code });
+      report('natal_reading_shown');
+    } else {
+      if (result.code === 'next_paid') report('natal_reading_next');
+      setState({ at: 'error', code: result.code });
+    }
   };
 
   const message = (code: string) =>

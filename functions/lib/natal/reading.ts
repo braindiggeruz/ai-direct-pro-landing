@@ -6,7 +6,7 @@
 // death, pregnancy, divorce, money or exams. A broken answer is retried once,
 // then refused.
 import type { ChatMessage } from '../gpt-chat/prompt';
-import { ANGLE_NAME, ASPECT_NAME, BODY_NAME, ELEMENT_NAME, MODALITY_NAME, SIGN_NAME, houseName, type NatalLocale } from '../../../src/shared/natal-names';
+import { ANGLE_NAME, ASPECT_NAME, BODY_NAME, ELEMENT_NAME, MODALITY_NAME, SIGN_NAME, houseWords, type NatalLocale } from '../../../src/shared/natal-names';
 import { parseFact, type ReadingKind } from '../../../src/shared/natal-facts';
 import { ASPECT_MEANING, BODY_MEANING, ELEMENT_MEANING, HOUSE_MEANING, MODALITY_MEANING, SIGN_MEANING } from './meanings';
 
@@ -56,7 +56,7 @@ export function factLine(fact: string, locale: NatalLocale, kind: ReadingKind): 
     case 'sign':
       return `- [${fact}] ${who(p.person)}${BODY_NAME[locale][p.body]} — ${SIGN_NAME[locale][p.sign]}${p.uncertain ? ' (uncertain: birth time unknown)' : ''}. Meaning: ${BODY_MEANING[p.body]}; ${SIGN_MEANING[p.sign]}.`;
     case 'house':
-      return `- [${fact}] ${who(p.person)}${BODY_NAME[locale][p.body]} — ${houseName(locale, p.house)}. Meaning: ${BODY_MEANING[p.body]}; house: ${HOUSE_MEANING[p.house]}.`;
+      return `- [${fact}] ${who(p.person)}${BODY_NAME[locale][p.body]} — ${houseWords(locale, p.house)}. Meaning: ${BODY_MEANING[p.body]}; house: ${HOUSE_MEANING[p.house]}.`;
     case 'angle':
       return `- [${fact}] ${who(p.person)}${ANGLE_NAME[locale][p.angle]} — ${SIGN_NAME[locale][p.sign]}. Meaning: ${pointMeaning(p.angle)}; ${SIGN_MEANING[p.sign]}.`;
     case 'aspect':
@@ -91,10 +91,15 @@ export function readingMessages(kind: ReadingKind, locale: NatalLocale, facts: r
   return [{ role: 'system', content: system }, { role: 'user', content: user }];
 }
 
+// Whole words only: «oʻlim» (death) but not «yoʻlim», «boʻlim» or «olim»; «болезнь» but not «болезненно».
+// The prompt forbids these forecasts; this scan is the last check, so it stays narrow.
+const NOT_LETTER_BEFORE = "(?<![\\p{L}ʻʼ'‘’`])";
+const NOT_LETTER_AFTER = "(?![\\p{L}])";
+const whole = (stems: string) => new RegExp(`${NOT_LETTER_BEFORE}(?:${stems})${NOT_LETTER_AFTER}`, 'iu');
 const FORBIDDEN: readonly RegExp[] = [
   /[0-9%°]/,
-  /смерт|умр[её]т|умира|беремен|болезн|диагноз|развод|лотере|выигра|проигра|экзамен/i,
-  /o[ʻ'‘’`]?lim|vafot|homilador|kasallik|kasal bo|tashxis|ajrash|lotereya|yutuq|imtihon/i,
+  whole('смерт[ьиюей]*|умр[её]т[её]?|умр[её]те|беременн\\p{L}*|болезн(?:ь|и|ью|ей|ям|ями|ях)|диагноз\\p{L}*|развод\\p{L}*|лотере\\p{L}*'),
+  whole('o[ʻ\'‘’`]lim\\p{L}*|vafot\\p{L}*|homilador\\p{L}*|kasallik\\p{L}*|tashxis\\p{L}*|ajrash\\p{L}*|lotereya\\p{L}*'),
 ];
 
 export type ReadingCheck = { ok: true; sections: ReadingSection[] } | { ok: false; reason: string };

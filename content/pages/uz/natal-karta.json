@@ -41,7 +41,7 @@
       "Xarita, jadval va «Asosiy uchlik» — har doim bepul.",
       "Birinchi natal xarita AI tahlili — bepul. Maʼlumotni xato kiritsangiz, bir sutka ichida uch marta tuzatish mumkin.",
       "Birinchi moslik AI tahlili ham bepul.",
-      "Keyingi tahlillar tez orada 5 000 soʻmdan boʻladi."
+      "Keyingi tahlillar tez orada pullik boʻladi; narxi ommaviy ofertada eʼlon qilinadi."
     ] },
     { "type": "h2", "text": "Maʼlumotlaringiz qayerda qoladi", "id": "maxfiylik" },
     { "type": "p", "text": "Sana, vaqt, joy va ism faqat shu brauzerda saqlanadi. AI tahlil uchun serverga faqat burjlar, uylar va aspektlar yuboriladi: sizning kimligingizni ular bildirmaydi." }

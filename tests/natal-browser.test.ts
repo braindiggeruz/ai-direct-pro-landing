@@ -79,6 +79,7 @@ test('natal chart and compatibility in a browser: form, places, chart, offsets, 
     await fillPerson(page, 0, { day: '12', month: '7', year: '1985', time: '09:30', place: 'Тошкент', pick: /Toshkent/ });
     await page.locator('.natal-actions .natal-button').first().click();
     await page.locator('#natal-result').waitFor({ timeout: 20_000 });
+    assert.equal(await page.locator('.natal.ym-hide-content').count(), 1, 'Webvisor records nothing of the widget');
     const big3 = await page.locator('.natal-big3').innerText();
     // The traditional name and the everyday one, on two lines.
     assert.match(big3, /Quyosh\s+Saraton\s+Qisqichbaqa/, 'the Sun in Cancer on 12 July');
@@ -127,7 +128,8 @@ test('natal chart and compatibility in a browser: form, places, chart, offsets, 
     await ru.locator('.natal-actions .natal-button').first().click();
     await ru.locator('.natal-pair').waitFor({ timeout: 20_000 });
     await ru.getByRole('button', { name: 'Получить AI-разбор' }).click();
-    await ru.getByText('Следующий разбор скоро станет платным (5 000 сум) — пока недоступен.', { exact: false }).waitFor({ timeout: 15_000 });
+    await ru.getByText('Следующий разбор скоро станет платным — пока недоступен.', { exact: false }).waitFor({ timeout: 15_000 });
+    assert.doesNotMatch(await ru.locator('.natal').innerText(), /5 000/, 'no price before an offer names it');
     await narrow(ru, 'ru pair');
     await shot(ru, 'pair-ru-next');
 

@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { BirthForm, EMPTY_FORM, formFromInput, placeLabel, readForm, type FormValue } from './BirthForm';
 import { Reading } from './Reading';
 import { Wheel } from './Wheel';
-import { removeChart, saveChart, savedCharts, zoneTable, type BirthInput, type SavedChart } from './data';
+import { removeChart, report, saveChart, savedCharts, zoneTable, type BirthInput, type SavedChart } from './data';
 import { buildChart, contactsBetween, type Chart, type Contact } from './engine/chart';
 import type { HouseSystem } from './engine/houses';
 import { localDay, offsetLabel, resolveLocal } from './engine/time';
@@ -93,6 +93,7 @@ export default function NatalApp({ locale, mode }: { locale: NatalLocale; mode: 
       if (b) saveChart(b.input);
       setSaved(savedCharts());
       setResult({ first: a.value, second: b });
+      report(b ? 'natal_pair_built' : 'natal_chart_built');
       window.requestAnimationFrame(() => document.getElementById('natal-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     } catch {
       setError(s.errEngine);
@@ -106,7 +107,8 @@ export default function NatalApp({ locale, mode }: { locale: NatalLocale; mode: 
   const pairFacts = useMemo(() => (result?.second ? factsOfPair(result.first.chart, result.second.chart, contacts) : []), [result, contacts]);
 
   return (
-    <div className="natal" lang={locale}>
+    // ym-hide-content: Webvisor (Yandex Metrika on every page) records nothing typed or shown here: birth data stays private.
+    <div className="natal ym-hide-content" lang={locale}>
       {saved.length > 0 && !result && (
         <details className="natal-saved">
           <summary>{s.saved} ({saved.length})</summary>

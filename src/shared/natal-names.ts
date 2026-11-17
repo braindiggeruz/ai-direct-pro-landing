@@ -62,3 +62,13 @@ export const MODALITY_NAME: Readonly<Record<NatalLocale, Record<'cardinal' | 'fi
 export function houseName(locale: NatalLocale, house: number): string {
   return locale === 'uz' ? `${house}-uy` : `${house}-й дом`;
 }
+
+const HOUSE_ORDINAL: Readonly<Record<NatalLocale, readonly string[]>> = {
+  uz: ['birinchi', 'ikkinchi', 'uchinchi', 'toʻrtinchi', 'beshinchi', 'oltinchi', 'yettinchi', 'sakkizinchi', 'toʻqqizinchi', 'oʻninchi', 'oʻn birinchi', 'oʻn ikkinchi'],
+  ru: ['первый', 'второй', 'третий', 'четвёртый', 'пятый', 'шестой', 'седьмой', 'восьмой', 'девятый', 'десятый', 'одиннадцатый', 'двенадцатый'],
+};
+
+/** A house in words («oʻninchi uy», «десятый дом»): the AI reading's prompt, whose answer may carry no digits. */
+export function houseWords(locale: NatalLocale, house: number): string {
+  return `${HOUSE_ORDINAL[locale][house - 1]} ${locale === 'uz' ? 'uy' : 'дом'}`;
+}
