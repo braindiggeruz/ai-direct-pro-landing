@@ -1,3 +1,31 @@
+# Current handoff — the 3-day pack sells · 17.11.2026
+
+## 1. State
+Branch claude/chat-cro-20261117, based on af3ebe58. Production runs b16e7356 (deployed_and_verified, https://a29d923f.ai-direct-pro-landing.pages.dev); live readback is in F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-b2. GPT_PACK_ONCE is "live": every visitor is offered two packs, under offer edition ai-paket-2026-11-v6. Working tree: clean after the commit.
+## 2. Delivered
+The go-live of the second pack (5 000 UZS, 30 answers, 72 hours): the offer in both languages, the pricing pages, the product facts of llms.txt, the switch, a release-gate rule that ties the switch to the offer, and the tests that pin all of it.
+## 3. Files
+content/pages/{ru,uz}/oferta.json; content/pages/ru/tarify-ai-chat.json; content/studio/pages/uz/tariflar.json; public/llms.txt, public/llms-full.txt; scripts/product-facts.ts; scripts/release/live-gate.ts; functions/lib/studio/plans.ts; wrangler.toml; docs/seo/CHANGE_LOG_2026-11.md; tests/{legal-oferta,seo-revenue-claims,seo-product-facts,gpt-once-pack,gpt-guest-checkout,pages-config-parity,studio-config,studio-plans,studio-contact,publisher-schema}.test.ts; dev fixtures in scripts/{one-tap-check,pack-window-preview,chat-layout-check,contact-card}; docs/paid-chat/OFFER-RU.md (the record of v6); docs/paid-chat/patches/2026-12-17-*.patch (rebuilt), docs/paid-chat/MODEL-CLIFF-1712-RU.md (dated note), scripts/paid-chat/regen-cliff-patches.py (new).
+## 4. Decisions
+D-ONCE-PACK-GOLIVE-20261117 in DECISIONS.md (and D-ONCE-PACK-20261117 for the pack itself).
+## 5. Excluded
+No change to the monthly pack, to the trial, limits or free-first, to Uzum, to the privacy policies, to titles and H1 of any page, to the JSON-LD offers, to protected pages or the pages under observation until 2026-12-21.
+## 6. Validation
+Guarded release b16e7356: 74 test files, the same 26 failing tests as before the change by name and by reason (25 of the previous release gate plus one of a suite newly added to the gate, studio-config, already failing before); tsc -b and the functions typecheck clean; the offers checked word for word against the approved draft (sections 1, 3 and 5, both languages); the failing tests of every touched suite are the same by name and reason as before the change (F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/release-b2/baseline-digest.json against after-digest.json); new tests: the offers describe the pack the code sells (price 5 000, VAT 535,71, 72 hours with the offers' own example checked against packEnd) and the release gate refuses GPT_PACK_ONCE "live" under an offer that does not quote the pack's receipt name; release check pass; live readback 30/30: manifest and artifact, ten protected pages equal to the reviewed revision, chat pages and assets served as built, the account view names both packs under the new edition, the offers, the pricing pages and llms.txt name the 3-day pack, and the deployed bundle in a browser (two rows, a tap on each pack) with the order and event endpoints answered locally. No request for an order was sent to production.
+## 7. Known limits
+No real payment was made by the session; the owner's word on the sum: "Включай, оплачу сразу" (deploy first, the owner pays 5 000 with each provider right after). The offer has no lawyer's review. Click receipts are refused by Click (-12) for every order. The reversal tool takes pay_ orders only. tests/gpt-live-readiness.test.ts "the committed configuration" fails since before 2026-11-16 and does not reach the pack objects it pins. tests/seo-product-facts.test.ts "published llms manifest" cannot pass on a CRLF checkout; tools/check-llms.ts in the delivery folder runs its checks on the LF text. The two 17.12 patches were rebuilt on top of b16e7356 and proven to apply alone and together, but the tests the runbook lists were not run on the patched tree; any later change of the packed config (a flip of GPT_PACK_ONCE included) makes them stale again: rebuild with scripts/paid-chat/regen-cliff-patches.py.
+## 8. Next task
+After the owner pays 5 000 with Click and with Payme: read the order in gpt_payment_orders_v2 (pk_ id, amount 500000, state paid), the pack in gpt_access_periods (30 answers, ends 72 hours after the payment), the receipt line and the owner's notice. Aggregates only, no personal data in reports.
+## 9. Acceptance
+A 5 000 order with a pk_ id paid by each provider; a pack of 30 answers ending 72 hours after the payment; the receipt line "AI paket 30 (xizmat, 3 kun)"; the owner's notice "5 000 UZS"; the monthly pack sold as before.
+## 10. Start commands
+git status/log; node --import tsx --test tests/legal-oferta.test.ts; node --import tsx --test tests/gpt-once-pack.test.ts; ONCE_LIVE=1 npx tsx F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/tools/live-check.ts <commit> <out.json> (reads production; sends no order).
+## 11. Risks
+Never send a real subscribe request for the pack to production: it creates an order. Do not change the offer text without a new edition and the owner's approval. Do not set GPT_PACK_ONCE to live under an offer that does not name the pack (the gate refuses it). Do not raise bundle budgets.
+## 12. Rollback
+The switch: python F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/tools/flip-once.py off (GPT_PACK_ONCE = "off" in the packed GPTBOT_RUNTIME_CONFIG_JSON and in the table; no test changes), commit with F:/_moved_from_C/Documents_ChatGPT/Easy Breezy/delivery/gptbot-chat-cro-roadmap-20261117/commit-msgs/11-once-off-ROLLBACK-ONLY.txt, npm run build:production, deploy_runner.py check, deploy_runner.py deploy. The offer may stay (it then describes a pack that is not on sale; the gate allows it). Or revert 3c884875 and release. Packs already paid keep working either way: turns read gpt_access_periods. Previous handoff retained below.
+
+---
 # Current handoff — the 3-day pack, dark release · 17.11.2026
 
 ## 1. State
