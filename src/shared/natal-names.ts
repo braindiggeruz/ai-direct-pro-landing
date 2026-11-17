@@ -29,13 +29,14 @@ export const SIGN_NAME: Readonly<Record<NatalLocale, Record<SignId, string>>> = 
   },
 };
 
+// U+FE0E asks for the text glyph: Chrome on Windows draws bare zodiac signs as coloured emoji.
 export const SIGN_GLYPH: Readonly<Record<SignId, string>> = {
-  aries: '♈', taurus: '♉', gemini: '♊', cancer: '♋', leo: '♌', virgo: '♍',
-  libra: '♎', scorpio: '♏', sagittarius: '♐', capricorn: '♑', aquarius: '♒', pisces: '♓',
+  aries: '♈︎', taurus: '♉︎', gemini: '♊︎', cancer: '♋︎', leo: '♌︎', virgo: '♍︎',
+  libra: '♎︎', scorpio: '♏︎', sagittarius: '♐︎', capricorn: '♑︎', aquarius: '♒︎', pisces: '♓︎',
 };
 
 export const BODY_GLYPH: Readonly<Record<BodyId, string>> = {
-  sun: '☉', moon: '☽', mercury: '☿', venus: '♀', mars: '♂', jupiter: '♃', saturn: '♄', uranus: '♅', neptune: '♆', pluto: '♇', node: '☊',
+  sun: '☉︎', moon: '☽︎', mercury: '☿︎', venus: '♀︎', mars: '♂︎', jupiter: '♃︎', saturn: '♄︎', uranus: '♅︎', neptune: '♆︎', pluto: '♇︎', node: '☊︎',
 };
 
 export const ASPECT_NAME: Readonly<Record<NatalLocale, Record<AspectId, string>>> = {

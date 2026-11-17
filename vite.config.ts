@@ -69,6 +69,9 @@ export default defineConfig({
         'calculator-widget': here('./src/tools/calculator/main.ts'),
         'irregular-verbs': here('./src/tools/irregular-verbs/main.ts'),
         'practice-quiz': here('./src/tools/quiz/main.ts'),
+        // The natal chart and compatibility widget (Page.interactiveTool
+        // 'natal-chart'), injected only on the pages that declare it.
+        'natal-chart': here('./src/tools/natal/main.tsx'),
       },
       output: {
         manualChunks(id) {

@@ -1,0 +1,64 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/burjlar-mosligi/",
+  "slug": "burjlar-mosligi",
+  "pageType": "tool",
+  "interactiveTool": "natal-chart",
+  "natalMode": "pair",
+  "primaryKeyword": "burjlar mosligi",
+  "secondaryKeywords": ["burj moslik", "sevgi mosligi", "tugʻilgan sana boʻyicha moslik", "burjlar xarakteri va mosligi", "natal karta moslik"],
+  "searchIntent": "transactional",
+  "title": "Burjlar mosligi: ikki xarita boʻyicha AI tahlil | GPTBot.uz",
+  "h1": "Burjlar mosligi: tugʻilgan sanalar boʻyicha ikki xaritani solishtirish",
+  "description": "Burjlar mosligini tugʻilgan sanalar boʻyicha tekshiring: ikki natal xarita va ular orasidagi uygʻun va tarang aloqalar. Foizlar emas — aniq hisob. Birinchi AI tahlil bepul.",
+  "heroSubtitle": "Ikkalangizning tugʻilgan sanangizni kiriting, vaqt va joy — bilsangiz. Xaritalar brauzerda hisoblanadi, birinchi moslik AI tahlili bepul.",
+  "canonical": "https://gptbot.uz/uz/burjlar-mosligi/",
+  "hreflangUz": "/uz/burjlar-mosligi/",
+  "hreflangRu": "/ru/sovmestimost-po-date-rozhdeniya/",
+  "ogTitle": "Burjlar mosligi — ikki xarita va bepul AI tahlil",
+  "ogDescription": "Ikki natal xarita orasidagi uygʻun va tarang aloqalar: aniq hisob, foizlarsiz. Birinchi AI tahlil bepul.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Burjlar mosligi",
+  "bodyBlocks": [
+    { "type": "h2", "text": "Faqat burj emas, butun xarita", "id": "burj-emas" },
+    { "type": "p", "text": "Odatda moslik faqat Quyosh burjlari boʻyicha aytiladi: «Arslon va Qoʻy mos keladi». Bu juda umumiy, chunki bir burjda tugʻilganlar millionlab. Bu yerda ikki odamning toʻliq xaritalari hisoblanadi va ularning sayyoralari orasidagi aloqalar topiladi: kimning Venerasi kimning Marsi bilan uygʻun, qayerda taranglik bor. Astrologiya fan sifatida isbotlanmagan — natijani munosabat haqida oʻylash uchun mavzu sifatida oʻqing." },
+    { "type": "h2", "text": "Nimani koʻrasiz", "id": "natija" },
+    { "type": "list", "items": [
+      "Ikkala xarita yonma-yon: Quyosh, Oy, sayyoralar, vaqt maʼlum boʻlsa — ascendent va uylar.",
+      "Xaritalar orasidagi aloqalar roʻyxati: uygʻun, tarang va qoʻshilish. Eng yaqin aloqalar birinchi.",
+      "Uygʻun va tarang aloqalar soni. Foiz yoʻq: «87% moslik» ni halol hisoblab boʻlmaydi.",
+      "AI tahlili: qayerda bir-biringizni qoʻllaysiz, qayerda tortishuv boʻlishi mumkin va bu haqda qanday gaplashish kerak."
+    ] },
+    { "type": "h2", "text": "Tugʻilgan vaqt nomaʼlum boʻlsa", "id": "vaqtsiz" },
+    { "type": "p", "text": "Moslik uchun ikkala sana yetarli. Vaqt maʼlum boʻlmasa, ascendent va uylar bilan bogʻliq aloqalar koʻrsatilmaydi, Oy bilan bogʻliq aloqalar esa «aniq emas» deb belgilanadi: Oy bir kunda taxminan 13 darajaga siljiydi. Vaqtni bilsangiz, natija aniqroq boʻladi." },
+    { "type": "h2", "text": "Hisob qanday qilinadi", "id": "hisob" },
+    { "type": "p", "text": "Sayyoralar oʻrni astronomik modellar boʻyicha hisoblanadi va 300 ta tekshiruv xaritasida Swiss Ephemeris bilan 1 yoy daqiqasidan kam farq qilgan. Vaqt tugʻilgan joyning oʻsha paytdagi vaqt mintaqasi boʻyicha olinadi: Sovet davridagi yozgi vaqt ham hisobga kiradi. Aloqalar beshta asosiy aspekt boʻyicha topiladi: qoʻshilish, sekstil, kvadrat, trigon va qarama-qarshilik." },
+    { "type": "h2", "text": "Narx va maxfiylik", "id": "narx" },
+    { "type": "list", "items": [
+      "Xaritalar va aloqalar roʻyxati — har doim bepul.",
+      "Birinchi moslik AI tahlili — bepul. Keyingi juftliklar tez orada 5 000 soʻmdan boʻladi.",
+      "Sanalar, vaqt va joylar faqat shu brauzerda qoladi. AI ga faqat burjlar va aloqalar yuboriladi."
+    ] }
+  ],
+  "faq": [
+    { "q": "Burjlar mosligini tekshirish bepulmi?", "a": "Ha. Ikki xarita va ular orasidagi aloqalar har doim bepul, birinchi moslik AI tahlili ham bepul." },
+    { "q": "Faqat tugʻilgan sanalarni bilsam boʻladimi?", "a": "Boʻladi. Vaqtsiz ascendent va uylar boʻlmaydi, Oy bilan bogʻliq aloqalar «aniq emas» deb belgilanadi. Qolgan sayyoralar orasidagi aloqalar aniq." },
+    { "q": "Nega moslik foizda koʻrsatilmaydi?", "a": "Chunki uni halol hisoblashning yoʻli yoʻq: har qanday foiz oʻylab topilgan boʻladi. Biz aniq hisoblangan narsani koʻrsatamiz — qaysi aloqalar uygʻun va qaysilari tarang." },
+    { "q": "AI tahlil ajralish yoki toʻyni bashorat qiladimi?", "a": "Yoʻq. AI taqdirni bashorat qilmaydi. U xaritalar orasidagi aloqalarni tushuntiradi: qayerda bir-biringizni toʻldirasiz va qayerda kelishmovchilik boʻlishi mumkin." },
+    { "q": "Sherigimning maʼlumotlari qayerga ketadi?", "a": "Hech qayerga. Sana, vaqt va joy brauzeringizda qoladi. AI ga faqat burjlar va aloqalar ketadi." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/natal-karta/", "anchor": "Natal karta: bitta xarita va AI tahlil", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/gpt-uzbek-tilida/", "anchor": "AI chat oʻzbek tilida", "locale": "uz", "type": "contextual" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "WebPage", "FAQPage"],
+  "extraJsonLd": [
+    { "@type": "WebApplication", "@id": "https://gptbot.uz/uz/burjlar-mosligi/#tool", "name": "Burjlar mosligi va AI tahlil — GPTBot.uz", "url": "https://gptbot.uz/uz/burjlar-mosligi/", "applicationCategory": "LifestyleApplication", "operatingSystem": "Web", "inLanguage": "uz", "isAccessibleForFree": true }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "lastReviewedAt": "2026-11-17"
+}

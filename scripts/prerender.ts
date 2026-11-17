@@ -931,7 +931,7 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
 </div>`;
 }
 
-function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null, chatPreloads: string[] = [], chatStyles: string[] = [], widgetScripts: Partial<WidgetScripts> = {}, chatToolHref: string | null = null): string {
+function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: string | null, articles: BlogArticle[] = [], chatHref: string | null = null, calculatorHref: string | null = null, chatPreloads: string[] = [], chatStyles: string[] = [], widgetScripts: Partial<WidgetScripts> = {}, chatToolHref: string | null = null, natalAssets: { script: string; styles: string[] } | null = null): string {
   // An AI tool page's starters and widgets are checked before anything renders.
   assertToolPage(page);
   const marketVariant = page.designVariant === 'warm-market-signals';
@@ -1037,6 +1037,16 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
       </div>
     </section>`
     : '';
+  // The natal chart widget (src/tools/natal): the frame and its noscript line are
+  // prerendered; the chart is computed in the visitor's browser.
+  const natalUz = page.locale === 'uz';
+  const natalHtml = page.interactiveTool === 'natal-chart'
+    ? `<section id="natal" aria-label="${natalUz ? 'Natal xarita kalkulyatori' : 'Калькулятор натальной карты'}" class="scroll-mt-24 mb-16">
+      <div id="natal-chart-root" data-locale="${natalUz ? 'uz' : 'ru'}" data-mode="${page.natalMode === 'pair' ? 'pair' : 'natal'}">
+        <noscript><p class="rounded-2xl border border-amber-300/20 bg-amber-300/[0.05] p-5 text-amber-100/85">${natalUz ? 'Xaritani hisoblash uchun brauzerda JavaScript ni yoqing.' : 'Для расчёта карты включите JavaScript в браузере.'}</p></noscript>
+      </div>
+    </section>`
+    : '';
   const hasCopyablePrompts = page.bodyBlocks?.some((block) => block.copyableItems) ?? false;
   // Two-field lead form, only on the allowlist in scripts/lead-form.ts (which
   // also refuses protected, measurement-hold, calculator and market pages).
@@ -1109,7 +1119,7 @@ ${marketVariant ? '' : `<link rel="icon" type="image/png" sizes="96x96" href="/a
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />`}
 ${cssLinks}${isPseoPracticePage(page) ? `\n<link rel="stylesheet" href="${PSEO_STYLE_HREF}" />` : ''}${isMarketingTool(page) ? '\n' + marketingToolStyle : ''}
 ${isTargetLanding(page) ? `<link rel="stylesheet" href="${TARGET_LANDING_STYLE}" />` : ''}
-${page.pageType === 'gpt-chat' ? chatStyles.map((href) => `<link rel="stylesheet" href="${escapeHtml(href)}" />`).join('\n') : ''}
+${page.pageType === 'gpt-chat' ? chatStyles.map((href) => `<link rel="stylesheet" href="${escapeHtml(href)}" />`).join('\n') : ''}${page.interactiveTool === 'natal-chart' && natalAssets ? natalAssets.styles.map((href) => `\n<link rel="stylesheet" href="${escapeHtml(href)}" />`).join('') : ''}
 ${page.pageType === 'gpt-chat' ? chatPreloads.map((href) => `<link rel="modulepreload" href="${escapeHtml(href)}" />`).join('\n') : ''}${chatToolHead(page, chatToolHref)}
 ${page.designVariant === 'digital-command-center' ? DIGITAL_COMMAND_STYLES : ''}
 
@@ -1168,7 +1178,7 @@ ${marketVariant
   </div>`}
 
   ${leadDemo}
-  ${calculatorHtml}
+  ${calculatorHtml}${natalHtml}
   ${renderMarketingTool(page)}
   ${renderGrowthTool(page)}
   <div class="${page.designVariant === 'digital-command-center' ? 'max-w-3xl mx-auto' : ''}">
@@ -1213,7 +1223,7 @@ ${marketVariant ? renderMarketFooter(page) : page.pageType === 'gpt-chat' ? '' :
 ${marketVariant ? '' : stickyCtaHtml}
 ${jsHref ? `<!-- The landing React bundle is intentionally not loaded on money pages. -->` : ''}
 ${page.pageType === 'gpt-chat' && chatHref ? `<script type="module" src="${chatHref}"></script>` : ''}${toolWidgetScripts(page, widgetScripts)}
-${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}
+${page.interactiveTool === 'telegram-cost-calculator' && calculatorHref ? `<script type="module" src="${calculatorHref}"></script>` : ''}${page.interactiveTool === 'natal-chart' && natalAssets ? `<script type="module" src="${natalAssets.script}"></script>` : ''}
 ${page.growthTool ? GROWTH_TOOL_SCRIPT : ''}
 ${isMarketingTool(page) ? marketingToolScript : ''}
 ${hasCopyablePrompts ? PROMPT_COPY_SCRIPT : ''}${leadForm ? `\n${renderLeadFormScript(page)}` : ''}
@@ -1244,6 +1254,8 @@ async function main() {
   const chatStyles = entryStyles(manifest, ENTRIES.chat);
   if (!chatStyles.length) throw new Error('The chat entry has no stylesheet; refusing to render the chat pages unstyled.');
   const calculatorHref = entryScript(manifest, ENTRIES.calculator);
+  // The natal chart widget: its script and its own stylesheet, on its pages only.
+  const natalAssets = { script: entryScript(manifest, ENTRIES.natalChart), styles: entryStyles(manifest, ENTRIES.natalChart) };
   // The AI tool pages' widgets (scripts/tool-widgets.ts), the Uzbek Cyrillic ↔
   // Latin converter among them: one script each, loaded only on a gpt-chat
   // page that lists the widget.
@@ -1260,7 +1272,7 @@ async function main() {
     const page = source.status === 'draft' ? asPreviewPage(source) : source;
     const outPath = path.join(DIST_DIR, page.url, 'index.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref, chatPreloads, chatStyles, widgetScripts, chatToolHref);
+    const html = renderPage(page, global, cssLinks, jsHref, articles, chatHref, calculatorHref, chatPreloads, chatStyles, widgetScripts, chatToolHref, natalAssets);
     // Every bare studio-contact link gets a prefilled first message naming the
     // service and the page; protected pages come back unchanged. Then every
     // e-mail address is wrapped in <!--email_off--> (scripts/email-off.ts).

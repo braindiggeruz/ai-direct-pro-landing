@@ -182,7 +182,9 @@ export interface Page {
   /** Static-first conversion aid. Calculations stay in the visitor's browser. */
   growthTool?: 'channel-selector' | 'cpl-calculator' | 'creative-matrix' | 'telegram-funnel' | 'audit-heatmap';
   /** Optional client-side island injected only on the page that declares it. */
-  interactiveTool?: 'telegram-cost-calculator';
+  interactiveTool?: 'telegram-cost-calculator' | 'natal-chart';
+  /** interactiveTool 'natal-chart' only: open on one chart (default) or on a pair (compatibility). */
+  natalMode?: 'natal' | 'pair';
   /**
    * gpt-chat pages only: the chat role the page opens with (a closed list),
    * which makes it an AI tool page. scripts/prerender.ts emits data-chat-role

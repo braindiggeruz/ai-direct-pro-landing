@@ -1,0 +1,68 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "url": "/uz/natal-karta/",
+  "slug": "natal-karta",
+  "pageType": "tool",
+  "interactiveTool": "natal-chart",
+  "natalMode": "natal",
+  "primaryKeyword": "natal karta",
+  "secondaryKeywords": ["natal xarita", "natal karta tuzish", "natal karta online", "natal karta bepul", "ascendent aniqlash", "oy burji aniqlash"],
+  "searchIntent": "transactional",
+  "title": "Natal karta tuzish online, bepul AI tahlil bilan | GPTBot.uz",
+  "h1": "Natal karta: tugʻilgan paytdagi osmon xaritasi va AI tahlili",
+  "description": "Natal kartani bepul tuzing: Quyosh, Oy, ascendent, uylar va aspektlar aniq astronomik hisob bilan. Oʻzbekiston vaqt mintaqalari tarixi hisobga olinadi, birinchi AI tahlil bepul.",
+  "heroSubtitle": "Sana, vaqt va joyni kiriting: xarita brauzeringizda hisoblanadi, maʼlumotlaringiz hech qayerga yuborilmaydi. Birinchi AI tahlil bepul.",
+  "canonical": "https://gptbot.uz/uz/natal-karta/",
+  "hreflangUz": "/uz/natal-karta/",
+  "hreflangRu": "/ru/natalnaya-karta/",
+  "ogTitle": "Natal karta tuzish — aniq hisob va bepul AI tahlil",
+  "ogDescription": "Quyosh, Oy, ascendent, uylar va aspektlar: tugʻilgan paytdagi osmonning aniq xaritasi. Birinchi AI tahlil bepul.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "Natal karta",
+  "bodyBlocks": [
+    { "type": "h2", "text": "Natal karta nima", "id": "nima" },
+    { "type": "p", "text": "Natal karta — siz tugʻilgan daqiqada osmonda Quyosh, Oy va sayyoralar qayerda turganining xaritasi. Xaritaning oʻzi astronomiya: sayyoralar oʻrni hisoblanadi va tekshiriladi. Unga berilgan maʼno esa astrologiya — asrlar davomida shakllangan ramzlar tizimi. Astrologiya fan sifatida isbotlanmagan, shuning uchun tahlilni taqdir emas, oʻzingizni yaxshiroq tushunish uchun mavzu sifatida oʻqing." },
+    { "type": "h2", "text": "Xarita qanday hisoblanadi", "id": "hisob" },
+    { "type": "list", "items": [
+      "Sayyoralar oʻrni astronomik modellar (VSOP87, NOVAS) asosida hisoblanadi. 1920–2030-yillardagi 300 ta xarita Swiss Ephemeris bilan solishtirilgan: farq 1 yoy daqiqasidan kam.",
+      "Vaqt tugʻilgan joyning oʻsha paytdagi vaqt mintaqasi boʻyicha UTC ga oʻtkaziladi. Masalan, Toshkent 1930–1991-yillarda UTC+6 boʻyicha yashagan, 1981–1990-yillarda yozda UTC+7 boʻlgan; Samarqand 1981-yilgacha UTC+5 boʻyicha yashagan.",
+      "Ascendent va uylar tugʻilgan vaqt va joyning koordinatalaridan hisoblanadi. Standart tizim — Plasidus; teng uylar va butun burjlar tizimini ham tanlash mumkin.",
+      "Har bir xaritada «Qanday hisoblandi» boʻlimi bor: vaqt mintaqasi, koordinatalar, uylar tizimi va hisob versiyasi."
+    ] },
+    { "type": "h2", "text": "Tugʻilgan vaqtni bilmasangiz", "id": "vaqtsiz" },
+    { "type": "p", "text": "«Vaqtini bilmayman» ni belgilang. Xarita tush payti uchun tuziladi, lekin uylar va ascendent koʻrsatilmaydi: ular vaqtga bogʻliq va bir soatda taxminan 15 darajaga siljiydi. Agar Oy oʻsha kuni burjini almashtirgan boʻlsa, xarita buni «aniq emas» deb belgilaydi." },
+    { "type": "h2", "text": "AI tahlil nimaga asoslanadi", "id": "ai" },
+    { "type": "p", "text": "AI xaritani oʻzi hisoblamaydi. Unga faqat hisoblangan maʼlumotlar beriladi: qaysi sayyora qaysi burj va uyda, qanday aspektlar bor. AI ularni anʼanaviy maʼnolar asosida oddiy tilda tushuntiradi. Har bir boʻlim ostida u qaysi maʼlumotga tayangani koʻrsatiladi. AI salomatlik, pul yoki ajralish haqida bashorat qilmaydi va foiz yozmaydi." },
+    { "type": "h2", "text": "Narx", "id": "narx" },
+    { "type": "list", "items": [
+      "Xarita, jadval va «Asosiy uchlik» — har doim bepul.",
+      "Birinchi natal xarita AI tahlili — bepul. Maʼlumotni xato kiritsangiz, bir sutka ichida uch marta tuzatish mumkin.",
+      "Birinchi moslik AI tahlili ham bepul.",
+      "Keyingi tahlillar tez orada 5 000 soʻmdan boʻladi."
+    ] },
+    { "type": "h2", "text": "Maʼlumotlaringiz qayerda qoladi", "id": "maxfiylik" },
+    { "type": "p", "text": "Sana, vaqt, joy va ism faqat shu brauzerda saqlanadi. AI tahlil uchun serverga faqat burjlar, uylar va aspektlar yuboriladi: sizning kimligingizni ular bildirmaydi." }
+  ],
+  "faq": [
+    { "q": "Natal karta tuzish bepulmi?", "a": "Ha. Xarita, jadval va asosiy uchlik har doim bepul. Birinchi natal xarita AI tahlili va birinchi moslik tahlili ham bepul." },
+    { "q": "Tugʻilgan vaqtimni bilmasam nima boʻladi?", "a": "Xarita tush payti uchun tuziladi, uylar va ascendentsiz. Quyosh va sayyoralar burjlari baribir aniq, Oy esa kun davomida burjini almashtirgan boʻlsa, «aniq emas» deb belgilanadi." },
+    { "q": "Hisob qanchalik aniq?", "a": "Sayyoralar oʻrni 300 ta tekshiruv xaritasida Swiss Ephemeris bilan 1 yoy daqiqasidan kam farq qilgan. Aniqlikni koʻpincha tugʻilgan vaqtning oʻzi belgilaydi: 4 daqiqa xato ascendentni taxminan 1 darajaga siljitadi." },
+    { "q": "Sovet davrida tugʻilgan boʻlsam vaqt toʻgʻri hisoblanadimi?", "a": "Ha. Vaqt mintaqalari bazasi (tz) boʻyicha oʻsha paytdagi soat hisobga olinadi: masalan, 1985-yil iyulida Toshkentda UTC+7 boʻlgan. Soat mili oʻzgargan kuni bunday vaqt boʻlmagan yoki ikki marta boʻlgan boʻlsa, xarita sizdan soʻraydi." },
+    { "q": "AI tahlili astrolog tahlili bilan bir xilmi?", "a": "Yoʻq. Matnni AI xaritaning hisoblangan maʼlumotlari asosida yozadi, buni sahifada ochiq aytamiz. U faqat xaritadagi narsalarga tayanadi va taqdir haqida bashorat qilmaydi." },
+    { "q": "Maʼlumotlarim kimga koʻrinadi?", "a": "Hech kimga. Sana, vaqt va joy brauzeringizda qoladi. Serverga va AI ga faqat burjlar, uylar va aspektlar boradi." }
+  ],
+  "internalLinks": [
+    { "target": "/uz/burjlar-mosligi/", "anchor": "Burjlar mosligi: ikki xaritani solishtirish", "locale": "uz", "type": "contextual" },
+    { "target": "/uz/gpt-uzbek-tilida/", "anchor": "AI chat oʻzbek tilida", "locale": "uz", "type": "contextual" }
+  ],
+  "schemaTypes": ["Organization", "WebSite", "BreadcrumbList", "WebPage", "FAQPage"],
+  "extraJsonLd": [
+    { "@type": "WebApplication", "@id": "https://gptbot.uz/uz/natal-karta/#tool", "name": "Natal karta va AI tahlil — GPTBot.uz", "url": "https://gptbot.uz/uz/natal-karta/", "applicationCategory": "LifestyleApplication", "operatingSystem": "Web", "inLanguage": "uz", "isAccessibleForFree": true }
+  ],
+  "createdAt": "2026-11-17T00:00:00.000Z",
+  "updatedAt": "2026-11-17T00:00:00.000Z",
+  "lastReviewedAt": "2026-11-17"
+}

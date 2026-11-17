@@ -1017,6 +1017,22 @@
       "source": "OpenSEO Google Ads, Uzbekistan 2860, language parameter ru; exact text",
       "measuredAt": "2026-11-09",
       "note": "Owner-authorized limited marketing cohort. KD unavailable; volume is an estimate, not traffic. See reports/marketing-gap-20261109/PLAN.json."
+    },
+    {
+      "keyword": "натальная карта онлайн",
+      "volumePerMonth": 1900
+    },
+    {
+      "keyword": "natal karta",
+      "volumePerMonth": 320
+    },
+    {
+      "keyword": "burjlar mosligi",
+      "volumePerMonth": 1600
+    },
+    {
+      "keyword": "совместимость по дате рождения",
+      "volumePerMonth": 1300
     }
   ],
   "qualityRequirements": {
