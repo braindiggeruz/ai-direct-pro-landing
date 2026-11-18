@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-11-18T04:17:21.276Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-17-natal/reviewed-protected-pages.json",
+  "pages": 427,
+  "changed": [
+    "/ru/gpt-chat/",
+    "/uz/gpt-uzbek-tilida/"
+  ],
+  "reviewedChanges": [
+    {
+      "pathname": "/uz/gpt-uzbek-tilida/",
+      "fields": [
+        "hreflang"
+      ],
+      "note": "Decision A14 (owner's order of 2026-11-18): the RU↔UZ chat pair is no longer declared to search engines; the three <link rel=\"alternate\" hreflang> lines (ru https://gptbot.uz/ru/gpt-chat/; uz https://gptbot.uz/uz/gpt-uzbek-tilida/; x-default https://gptbot.uz/uz/gpt-uzbek-tilida/) are removed and nothing else changes. Title, description, H1, canonical, robots, internal links and body text are byte-identical; the visible cross-links stay."
+    },
+    {
+      "pathname": "/ru/gpt-chat/",
+      "fields": [
+        "hreflang"
+      ],
+      "note": "Decision A14 (owner's order of 2026-11-18): the RU↔UZ chat pair is no longer declared to search engines; the three <link rel=\"alternate\" hreflang> lines (ru https://gptbot.uz/ru/gpt-chat/; uz https://gptbot.uz/uz/gpt-uzbek-tilida/; x-default https://gptbot.uz/uz/gpt-uzbek-tilida/) are removed and nothing else changes. Title, description, H1, canonical, robots, internal links and body text are byte-identical; the visible cross-links stay."
+    }
+  ]
+}

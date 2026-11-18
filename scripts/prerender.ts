@@ -955,9 +955,14 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
   // is a real pair to annotate. This is markup hygiene, not a ranking lever —
   // the content model already treats a single-locale page as valid
   // (see the missing-hreflang rule in src/shared/audit.ts).
-  const hasAlternatePair = Boolean(hrefRu && hrefUz);
+  // A page may keep its language pair for people (the RU/UZ switch) while not
+  // declaring it to search engines (hreflangUnpaired, see src/shared/types.ts).
+  const hasLanguagePair = Boolean(hrefRu && hrefUz);
+  const hasAlternatePair = hasLanguagePair && !page.hreflangUnpaired;
   const altRu = hasAlternatePair ? hrefRu : '';
   const altUz = hasAlternatePair ? hrefUz : '';
+  const switchRu = hasLanguagePair ? hrefRu : '';
+  const switchUz = hasLanguagePair ? hrefUz : '';
   // x-default names the URL to serve a searcher whose language matches none of
   // the declared alternates. The Russian member is the right global default for
   // a Tashkent studio that sells in Russian, and it was applied unconditionally
@@ -1131,7 +1136,7 @@ ${METRIKA_HEAD}
 <body class="${marketVariant ? 'market-page' : 'bg-bg-base text-white'} antialiased ${isTargetLanding(page) ? 'target-cro-page ' : ''}${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta && !marketVariant ? 'pb-24 lg:pb-0' : ''}">
 <a href="${isToolFirstPage(page) ? '#tool-first' : '#main'}" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-lg focus:border focus:border-black">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 ${METRIKA_NOSCRIPT}
-${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : renderLandingHeader(page, global, altRu, altUz)}
+${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : renderLandingHeader(page, global, switchRu, switchUz)}
 
 ${marketVariant
   ? page.slug === 'sotuvchi' ? renderMarketLanding(page) : renderMarketTrust(page)

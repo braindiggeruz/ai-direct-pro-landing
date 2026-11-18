@@ -104,6 +104,48 @@ test('built site: the guides carry no hreflang link and no page points one at th
   }
 });
 
+// ---- Decision A14 (2026-11-18): the two chats stay linked for people but are not an hreflang pair.
+const CHATS = { ru: '/ru/gpt-chat/', uz: '/uz/gpt-uzbek-tilida/' } as const;
+
+test('decision A14 names exactly the two chats', () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/seo/intent-manifest.json'), 'utf8')) as {
+    architectureDecisions: Array<{ id: string; decision: string; decidedAt: string; pages?: string[]; evidence?: string }>;
+  };
+  const a14 = manifest.architectureDecisions.find((d) => d.id === 'A14-chat-pair-hreflang-unpaired-2026-11-18');
+  assert.ok(a14, 'A14 is recorded');
+  assert.equal(a14.decision, 'HREFLANG_UNPAIRED_KEEP_CROSS_LINKS');
+  assert.deepEqual([...(a14.pages ?? [])].sort(), Object.values(CHATS).sort());
+  assert.ok(fs.existsSync(path.join(ROOT, a14.evidence ?? '')), 'the evidence file exists');
+});
+
+test('content: both chats keep their language links for people and declare no hreflang pair', () => {
+  for (const url of Object.values(CHATS)) {
+    const own = docs.filter(({ doc }) => doc.url === url);
+    assert.equal(own.length, 1, `${url}: one content file`);
+    const { file, doc } = own[0];
+    assert.equal((doc as { hreflangUnpaired?: unknown }).hreflangUnpaired, true, `${file}: hreflangUnpaired`);
+    assert.equal(pathOf(doc.hreflangRu ?? ''), CHATS.ru, `${file}: hreflangRu keeps the visible pair`);
+    assert.equal(pathOf(doc.hreflangUz ?? ''), CHATS.uz, `${file}: hreflangUz keeps the visible pair`);
+  }
+});
+
+const chatsBuilt = fs.existsSync(path.join(DIST, 'sitemap.xml'))
+  && Object.values(CHATS).every((url) => fs.existsSync(path.join(DIST, url.slice(1), 'index.html')));
+
+test('built site: the chats carry no hreflang link, no sitemap alternates, and still link each other', { skip: !chatsBuilt && 'no dist/ build present' }, () => {
+  const sitemap = fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8');
+  const entries = sitemap.match(/<url>[\s\S]*?<\/url>/g) ?? [];
+  for (const [lang, url] of Object.entries(CHATS)) {
+    const html = fs.readFileSync(path.join(DIST, url.slice(1), 'index.html'), 'utf8');
+    assert.doesNotMatch(html, /<link\b[^>]*\bhreflang=/i, `${url}: an hreflang <link> in the HTML`);
+    const other = lang === 'ru' ? CHATS.uz : CHATS.ru;
+    assert.match(html, new RegExp(`<a\\b[^>]*href="(?:${SITE})?${other.replace(/\//g, '\\/')}"`), `${url}: a visible link to ${other}`);
+    const own = entries.filter((entry) => entry.includes(`<loc>${SITE}${url}</loc>`));
+    assert.equal(own.length, 1, `${url}: one sitemap entry`);
+    assert.doesNotMatch(own[0], /xhtml:link/, `${url}: an alternate in the sitemap`);
+  }
+});
+
 test('built site: the sitemap lists the guides without xhtml:link alternates', { skip: !built && 'no dist/ build present' }, () => {
   const sitemap = fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8');
   const entries = sitemap.match(/<url>[\s\S]*?<\/url>/g) ?? [];

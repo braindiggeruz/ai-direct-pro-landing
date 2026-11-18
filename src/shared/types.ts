@@ -142,6 +142,14 @@ export interface Page {
   canonical: string;
   hreflangRu?: string;
   hreflangUz?: string;
+  /**
+   * The RU↔UZ pair stays a pair for people (visible language links) but is not
+   * declared to search engines: no <link rel="alternate" hreflang> and no sitemap
+   * alternates. Google serves the member of a declared pair that matches the
+   * searcher's interface language, which in Uzbekistan is often Russian, so an
+   * Uzbek query got the Russian chat (decision D-UZ-UNPAIR-20261118).
+   */
+  hreflangUnpaired?: boolean;
 
   // OG
   ogTitle?: string;

@@ -75,7 +75,7 @@ function imageLinks(images: string[]): string {
 
 type Alternates = { ru?: string; uz?: string; xDefault?: string };
 
-type HreflangFields = { hreflangRu?: string; hreflangUz?: string; hreflangXDefault?: string };
+type HreflangFields = { hreflangRu?: string; hreflangUz?: string; hreflangXDefault?: string; hreflangUnpaired?: boolean };
 
 // Content JSON may carry an absolute URL instead of a site-relative path (one
 // UZ article did, and the sitemap printed `https://gptbot.uzhttps://…`). The
@@ -92,7 +92,8 @@ function sitePath(href: string | undefined): string {
 function alternatesOf(item: HreflangFields): Alternates | undefined {
   const ru = sitePath(item.hreflangRu);
   const uz = sitePath(item.hreflangUz);
-  if (!ru || !uz) return undefined;
+  // A pair kept for people only (hreflangUnpaired) is not declared here either.
+  if (!ru || !uz || item.hreflangUnpaired) return undefined;
   const override = sitePath(item.hreflangXDefault);
   return { ru, uz, xDefault: override === ru || override === uz ? override : ru };
 }

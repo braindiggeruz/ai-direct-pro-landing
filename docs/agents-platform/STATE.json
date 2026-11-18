@@ -2375,7 +2375,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-11-17T16:01:56.868392+00:00",
+  "updated_at": "2026-11-18T04:18:27.578080+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -3725,5 +3725,15 @@
     "connection": "Explicit supported cutover completed in owner UI; Telegram sender masked 2410 freshly confirmed",
     "audience": "New car-wash search saved 22 companies without contact details; existing 28-contact audience preserved; fresh source validation waiting after OSM 429",
     "messages_sent": 0
+  },
+  "uz_unpair_20261118": {
+    "status": "prepared_not_deployed",
+    "branch": "claude/uz-unpair-20261118",
+    "owner_order": "2026-11-18: \"действуй\" after the recommendation to prepare now and release on 2026-12-22, after R15",
+    "release_not_before": "2026-12-22",
+    "release_condition": "observation R15 read on 2026-12-21; the owner's word to deploy",
+    "scope": "hreflangUnpaired on /ru/gpt-chat/ and /uz/gpt-uzbek-tilida/; prerender and sitemap honour it; intent-manifest A14; reviewed protected revision 2026-11-18-uz-unpair; tests/seo-hreflang-guard.test.ts",
+    "evidence": "docs/seo/research/2026-11-18-uz-unpair/EVIDENCE.md",
+    "after_release": "Request indexing for both chats; Search Console at days 7, 14 and 28 after both are recrawled; rollback if the pair's impressions on Uzbek-worded queries fall by more than 20 % in 14 days or its clicks fall."
   }
 }
