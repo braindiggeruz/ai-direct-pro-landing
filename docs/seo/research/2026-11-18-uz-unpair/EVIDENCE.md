@@ -35,7 +35,7 @@ Both content files set `hreflangUnpaired: true`. The pages keep `hreflangRu` / `
 
 ## Release and measurement
 
-- **Release.** On or after 2026-12-22, after observation R15 (titles and descriptions of the two chats) is read on 2026-12-21. Owner's order of 2026-11-18: prepare now, release after R15.
+- **Release.** Deployed on 2026-11-18 (production 655ce59a) on the owner's order, ahead of the first plan (after observation R15). R15 (titles and descriptions of the two chats) is therefore read on 2026-12-21 per query language, with 2026-11-18 marked as a change date.
 - **After the deploy.** Use «Request indexing» for both URLs, then read Search Console at days 7, 14 and 28 after both are recrawled.
 - **Success.** In Uzbekistan the Russian chat's share of Uzbek-worded impressions falls from 22 % to 5 % or less, and the pair's clicks on those queries grow. Russian-query impressions of the Russian chat fall no more than the site trend.
 - **Rollback.** If within 14 days the pair's impressions on Uzbek-worded queries fall by more than 20 %, or its clicks fall, remove `hreflangUnpaired` from both files (one revision). Google takes days to weeks to re-read the pair.
