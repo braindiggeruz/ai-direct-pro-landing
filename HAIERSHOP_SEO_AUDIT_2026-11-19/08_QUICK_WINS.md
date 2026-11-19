@@ -83,7 +83,7 @@
 
 ### QW-7. 301 для мёртвых URL, у которых есть **точный** живой аналог (HS-02, часть) — YELLOW с минимальным фактическим риском
 - **Почему здесь:** исходный URL уже отдаёт 404/403, терять нечего. Цель — тот же товар по новому адресу.
-- **Доказательство:** строгая классификация 128 мёртвых URL. **Класс A — 29 URL (432 клика за 12 мес): тот же slug жив под новым родителем.** Класс B — 9 URL (152 клика): тот же цифровой код, но другой slug, серию нужно проверить вручную. Класс C — 8 URL (100 кликов): только частичное совпадение. Примеры класса A:
+- **Доказательство:** строгая классификация 128 мёртвых URL. **Класс A — 31 URL (484 клика за 12 мес): тот же slug жив под новым родителем** (29 товаров и 2 категории фанкойлов). Полная карта со статусами проверки — `13a_REDIRECT_MAP.csv`. Класс B — 9 URL (152 клика): тот же цифровой код, но другой slug, серию нужно проверить вручную. Класс C — 8 URL (100 кликов): только частичное совпадение. Примеры класса A:
   - `/ru/otopitelnoe-oborudovanie/elektricheskiy-kotyol-haier-cozy-208` (84) → `/ru/otopitelnoe-oborudovanie/elektricheskie-kotly/elektricheskiy-kotyol-haier-cozy-208`
   - `/ru/teplovye-nasosy/teplovoy-nasos-haier-hpm10-nd2` (56) → `/ru/teplovye-nasosy/otopitelnoe-oborudovanie/teplovoy-nasos-haier-hpm10-nd2`
   - `/ru/morozilniki/morozilnyy-lar-haier-hce379r` (23) → `/ru/morozilniki/morozilnye-lari/morozilnyy-lar-haier-hce379r`
