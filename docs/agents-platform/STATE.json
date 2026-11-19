@@ -1,4 +1,15 @@
 {
+  "gsc_top1000_plan_20261119": {
+    "status": "planned_gated",
+    "owner_authorized": "Owner in chat, 2026-11-19: asked for \"1000 уникальных сео статей\" for the Search Console top-1000 queries and an immediate deploy; after the refusal with data, approved the alternative: \"Ты абсолютно прав родной! приступай !\" (cannibalization in the ChatGPT cluster and the snippets of the three core pages). Work, not a deploy.",
+    "branch": "claude/stoic-allen-ntixyw",
+    "baseline_commit": "0dca0df",
+    "scope": "Docs only: docs/seo/research/2026-11-19-gsc-top1000/PLAN.md, D-GSC-TOP1000-20261119, this record, HANDOFF. No page, code, manifest or production change. OpenSEO credits: 0.",
+    "finding": "Search Console 2026-08-16..2026-11-16: 3 084 queries, 248 non-human (236 of the ai\\d+ rank-check kind), 2 836 real; the top 1000 hold 100 % of clicks (3 566). All are served by 124 existing pages, 614 with the main page in the top 10; three protected pages earn 96.4 % of clicks. 322 queries show on two or more pages (454 389 impressions); 97.2 % of the secondary impressions sit on protected pages under R14/R15/A14, the remaining 3 085 on 108 pages with a median of 5.",
+    "decision": "No page per query (every query already has a page; doorway and scaled-content risk; seo-cluster-quality). Items 1-2 wait for the readouts: R15 and R14 on 2026-12-21; A14 at days 7, 14 and 28 after both chats are recrawled (not yet on 2026-11-19: last crawls 2026-11-17).",
+    "next": "If neither chat is recrawled by 22.11, the owner presses Request indexing for both. After 2026-12-21, in order and one change per URL per window: C23/W3-02 301 of /ru/blog/chat-gpt-online/ into /ru/gpt-chat/; the kirish owner by R14; the RU chat snippet for colloquial Cyrillic queries by R15; then a fresh run of the analysis.",
+    "evidence": "docs/seo/research/2026-11-19-gsc-top1000/PLAN.md; the full query table went to the owner in chat as gptbot-uz-top1000-queries.xlsx (not committed; reproduction parameters in the plan)."
+  },
   "natal_release_1_20261117": {
     "status": "deployed_and_verified",
     "owner_authorized": "Owner in chat, 2026-11-17: \"Родной делай всё по роад мапу только сделай первый AI-разбор совместимости - беспатно\". Work, not a deploy.",

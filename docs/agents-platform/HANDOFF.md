@@ -1,3 +1,31 @@
+# Current handoff — Search Console top-1000: plan only, the ChatGPT core waits for its readouts · 19.11.2026
+
+## 1. State
+Branch claude/stoic-allen-ntixyw, based on 0dca0df (production 655ce59a unchanged). One docs-only commit: no page, code, content, manifest or production change. OpenSEO credits spent: 0.
+## 2. Delivered
+Owner's order of 2026-11-19: "1000 уникальных сео статей" for the Search Console top-1000 queries and an immediate deploy. Refused with data; the owner approved the alternative ("Ты абсолютно прав родной! приступай !"): (1) cannibalization in the ChatGPT cluster, (2) the snippets of the three core pages. Neither ships now: (2) is observation R15 (read 2026-12-21) plus A14 (live 2026-11-18), and (1) lies 97.2 % on protected pages under R14/R15/A14. Delivered instead: the analysis and a dated plan, docs/seo/research/2026-11-19-gsc-top1000/PLAN.md, and decision D-GSC-TOP1000-20261119. The full query table (XLSX: top 1000 with cluster, intent, language, main page, cannibalization; all 2 836 real queries; 248 excluded with reasons) went to the owner in chat and is not committed.
+## 3. Files
+docs/seo/research/2026-11-19-gsc-top1000/PLAN.md (new), docs/agents-platform/DECISIONS.md (D-GSC-TOP1000-20261119), docs/agents-platform/STATE.json (gsc_top1000_plan_20261119), docs/agents-platform/HANDOFF.md.
+## 4. Decisions
+D-GSC-TOP1000-20261119 in DECISIONS.md: no page per query; the core waits for R14/R15/A14; after 2026-12-21 the steps run in order, one change per URL per window.
+## 5. Excluded
+No articles from this list: every query already has a page (124 pages, 614 queries with the main page in the top 10). No edits on the 10 protected pages or on pages inside open windows (CHANGE_LOG_2026-11). No work on the 102 queries ranking below 20 (4 611 impressions, 1 click): the pages exist; the gap is authority. No deploy: this session has no access to deploy_runner, and nothing deployable changed.
+## 6. Validation
+Docs-only diff (git diff --stat lists the four files above). STATE.json parses and round-trips byte for byte with indent 2 and ensure_ascii false. Secret grep (\d{8,10}:[A-Za-z0-9_-]{30,}) on the diff: clean. No code changed, so tsc, the test gate and the build were not run.
+## 7. Known limits
+The cluster, intent and language labels in the XLSX come from keyword rules; about 2 % of rows may sit in the wrong group. The query-to-page baseline predates A14 (16.08–16.11), so it must not pick the owner for the chat pair. Search Console hides rare queries entirely.
+## 8. Next task
+Unchanged from the natal handoff below: after 05:00 Tashkent one pair-ru reading request to verify a4580d69; a native read of the Uzbek copy and readings; release 2 after the offer edition. A14 (two chats unpaired, 655ce59a): on 2026-11-19 neither chat had been recrawled since the deploy (last crawls: /uz/gpt-uzbek-tilida/ 2026-11-17T22:58:19Z, /ru/gpt-chat/ 2026-11-17T16:18:26Z). If neither is recrawled by 22.11, the owner presses Request indexing for both; read Search Console at days 7, 14 and 28 after the later recrawl, per docs/seo/research/2026-11-18-uz-unpair/EVIDENCE.md. On 2026-12-21 read R15 per query language and R14. After that, per the plan: (a) C23/W3-02, a 301 of /ru/blog/chat-gpt-online/ into /ru/gpt-chat/ (it is still first for 72 queries C23 gives the RU chat); (b) the kirish owner by R14; (c) the RU chat snippet for colloquial Cyrillic queries by R15 (119 567 impressions at CTR 0.16 %); (d) a fresh run of this analysis.
+## 9. Acceptance
+Plan: every step cites its baseline and decision rule, and no step changes a URL inside an open window. Release of each later step: the gate from AGENTS §7, a CHANGE_LOG_2026-12 row with a 28-day baseline and the URL's lastCrawlTime, and the seo-protection test against a reviewed revision whenever a protected page moves.
+## 10. Start commands
+Re-pull the data with OpenSEO get_search_console_performance using the parameters in PLAN.md §6; URL Inspection with inspect_urls for the two chats to start the A14 clock.
+## 11. Risks
+Changing the two chats, the kirish guide or /ru/blog/chat-gpt-online/ before 2026-12-21 voids R15, R14 and A14. Publishing pages per query risks a site-wide doorway or scaled-content signal on a domain where three pages earn 96 % of clicks.
+## 12. Rollback
+Docs only: revert the commit. Nothing was deployed. Previous handoff retained below.
+
+---
 # Current handoff — natal chart release 1 is live · 17.11.2026
 
 ## 1. State
