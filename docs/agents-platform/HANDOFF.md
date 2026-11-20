@@ -1,3 +1,31 @@
+# Current handoff — «здесь и сейчас» release is live (ae4b1f22) · 20.11.2026
+
+## 1. State
+Production ae4b1f22 since 2026-11-20T02:34Z (previous 655ce59a). PR braindiggeruz/ai-direct-pro-landing#63 merged; deployed by the manual workflow «Pages production deploy» (run 44661601843), the first use of the second deploy path (D-DEPLOY-CI-20261120).
+## 2. Delivered
+The whole release of PR #63 (see the handoff below): download guide «skachat», chat titles and H1, «gaplashish» section, honest anchors on five pages, named breadcrumbs on three. Live check 8/8; WebSub accepted (3 feeds); IndexNow accepted for the 10 changed URLs (api.indexnow.org 200, Yandex 202). First video published the same day: YouTube Short «Chachipiti nima? ChatGPT o‘zbek tilida (jaji piti, chati piti)», https://www.youtube.com/shorts/I-wJo2LGLg8 (channel «Brain Digger»; chat frame zoomed by the agent, Uzbek SRT, AI disclosure); not embedded on the site.
+## 3. Files
+docs/agents-platform/STATE.json (current_stage, last_commit, uz_now_release_20261120.deployed, deploy_ci_20261120.first_run), docs/seo/CHANGE_LOG_2026-11.md (deploy record), this handoff.
+## 4. Decisions
+No new decision; D-UZ-NOW-20261120, D-UZ-NOW-B-20261120 and D-DEPLOY-CI-20261120 apply.
+## 5. Excluded
+Google Request indexing (Search Console UI, owner). Videos, listings, spam report, media pitch (owner, NOW.md). Login guide (R14) until 2026-12-21.
+## 6. Validation
+Workflow log: build:production ok; pages-production.ts deploy: lineage, gates and stamp ok; wrangler 4.118.0 uploaded 441 new files of 2 190; deployed_and_verified ae4b1f22; gptbot.uz/gptbot-release.json serves ae4b1f22 at 02:34:34Z; scratchpad verify script 8/8 pages OK.
+## 7. Known limits
+Effects need recrawls: reads at days 7/14/28 from each lastCrawlTime. The workflow prints a Node 20 deprecation warning for actions/checkout@v4 and actions/setup-node@v4 (forced to Node 24; harmless today).
+## 8. Next task
+Day-7 read on 2026-11-27: inspect_urls for the three protected URLs, GSC [query, page] from each recrawl, «skachat», «chachipiti», «gaplashish» share, A14 RU share, SERP + AI Overview for the 12 tracked prompts (~150 credits); compare with CHANGE_LOG_2026-11 baselines and NOW.md §1 rollback thresholds.
+## 9. Acceptance
+Day 28 as in the handoff below.
+## 10. Start commands
+git log --oneline -3 origin/main; curl https://gptbot.uz/gptbot-release.json; read CHANGE_LOG_2026-11 (section «Релиз «здесь и сейчас»»).
+## 11. Risks
+Main traffic pages changed together; watch the rollback thresholds. Future deploys: only through deploy_runner.py or the workflow, on the owner's command.
+## 12. Rollback
+Cloudflare Pages: roll back to the 655ce59a deployment in the dashboard for an emergency; otherwise git revert of the page's lines, a new reviewed revision, and the workflow.
+
+---
 # Current handoff — «здесь и сейчас», step «b»: «gaplashish» on the UZ chat, honest anchors, named breadcrumbs · 20.11.2026
 
 ## 1. State

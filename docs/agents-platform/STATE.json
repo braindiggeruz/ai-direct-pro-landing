@@ -2038,7 +2038,7 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Production 655ce59a: the two chats are no longer an hreflang pair (uz_unpair_20261118); natal release 1 live.",
+  "current_stage": "Production ae4b1f22: the «здесь и сейчас» release (download guide «skachat», chat titles and H1, «gaplashish» on the UZ chat, honest anchors, named breadcrumbs) is live since 2026-11-20T02:34Z, deployed by the manual GitHub Actions workflow (deploy_ci_20261120); see uz_now_release_20261120.",
   "stage_status": "natal_release_1_live",
   "last_completed_stage": "Natal chart and compatibility release 1 on 2026-11-17: four pages, browser-side engine, AI readings with checked answers.",
   "next_stage": "After 05:00 Tashkent on 18.11: one pair-ru reading request (not all four, never from the owner's network) to verify a4580d69; read the texts; a native read of the Uzbek copy and readings; release 2 (paid next reading) after the offer edition. Search engines for the four pages were notified on 17.11 (sitemaps, IndexNow, manual list given to the owner).",
@@ -2311,7 +2311,7 @@
   },
   "next_stage_note": "STATE.json records chat_errors_20261114, target_cro_20261113 and marketing_gap_20261109 as pending: all three are in production (ancestors of the live commit); their status fields were left as their authors wrote them. Measurement rules and baselines: docs/seo/CHANGE_LOG_2026-11.md.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "655ce59a",
+  "last_commit": "ae4b1f22",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -2375,7 +2375,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-11-18T04:55:55.283244+00:00",
+  "updated_at": "2026-11-20T02:38:46.784663+00:00",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -3751,7 +3751,7 @@
     "evidence": "docs/seo/research/2026-11-20-uz-top1-roadmap/ROADMAP.md; raw exports to the owner in chat as gptbot-uz-top1-research-20261120.xlsx with 375 px screenshots (not committed)."
   },
   "uz_now_release_20261120": {
-    "status": "committed_not_deployed",
+    "status": "live",
     "owner_authorized": "Owner in chat, 2026-11-20: \"так мы что-то можем сделать сейчас исходя из твоих исследований чтобы забрать как можно больше запросов и выходить выше конкурентов??\" and \"мне нужен роад мап чтобы получить первые места здесь и сейчас!!\", after \"ты можешь не спрашивать у меня разрешения я даю тебе полные права!\". Work in the branch; the deploy stays the owner's command (deploy_runner.py on the owner's machine is not reachable from this session).",
     "branch": "claude/festive-hypatia-c43eg6",
     "baseline_commit": "ba4d4f8 (content identical to 0dca0df, production 655ce59a)",
@@ -3759,7 +3759,7 @@
     "validation": "tsc -b: 0 errors. seo-audit: no critical issues. eslint on review.ts and seo-protection.ts: 0. review.ts: 423 built pages, exactly /, /ru/gpt-chat/, /uz/blog/, the download guide and the UZ chat changed; the homepage reverts byte for byte with the two old labels; protected contracts change only in title/h1/bodyTextSha256 as listed. npm test: 2308 tests, 35 fail on the branch against 36 on the base build in a clean worktree; the sets match except a flaky Studio deck test and two Studio files that fail only in the worktree; no content-dependent test fails (seo-push-revision R3-6/R3-9, chat-ui-revision and gpt-chat-honesty fail on the base too).",
     "baseline": "GSC 2026-10-20..11-16: UZ chat 911 clicks / 107 044 impressions / CTR 0.85 % / position 6.1 (last crawl 2026-11-17T22:58:19Z); download guide 497 / 22 646 / 2.19 % / 4.9 (2026-11-17T20:28:08Z); RU chat 315 / 87 522 / 0.36 % / 6.3 (2026-11-19T02:03:25Z). chatgpt skachat and chat gpt skachat: 0 impressions; chachipiti: 15 impressions at 8.6; A14 RU share (Uzbekistan, 01-18.11): kirish 15.9 %, piti 20.7 %.",
     "rollback": "Download guide title if the 14-day CTR of «chatgpt yuklab olish uzbek tilida» at position <= 3.5 falls below 2.0 % or its clicks fall over 20 % at comparable impressions; UZ chat title and H1 if kirish + uzbekcha clicks fall over 20 % in 7 days at the same impressions; RU chat title on the same rule for Cyrillic queries. git revert of the page, a new reviewed revision, deploy.",
-    "next": "Owner: fetch and check out claude/festive-hypatia-c43eg6 on the deploy machine (or merge PR #63), npm run build:production, deploy_runner.py check, then deploy; Request indexing for the UZ chat, the RU chat and the download guide; record the four videos (NOW.md §2); listings (§3); spam report (§4); media pitch (§6). Agents: reads at days 7, 14 and 28 after each recrawl (plus the «gaplashish» share and the breadcrumb report); R14 on 2026-12-21; wave 2 after day 28 (videos on pages, chat TBT, login guide by R14).",
+    "next": "Owner (optional, speeds Google): Request indexing for the UZ chat, the RU chat and the download guide; record the four videos (NOW.md §2); listings (§3); spam report incl. chatgpt.uz (§4); media pitch (§6). Agents: day-7 read on 2026-11-27, day 14 on 2026-12-04, day 28 on 2026-12-18; R14 on 2026-12-21.",
     "step_b": {
       "owner_authorized": "Owner in chat, 2026-11-20: \"родной ну сделай сейчас всё автономно! все твои предложения которые потенциально усилят сео и повысят позиции! автономно действуй по максимуму сео вытащи наше! … и сразу деплой!\"",
       "base_commit": "a17451a",
@@ -3767,14 +3767,33 @@
       "validation": "review-b.ts: sitemap identical; 8 HTML pages changed exactly as declared; other files: llms-full.txt and two Markdown twins; protected contracts: bodyTextSha256 of the UZ chat and the download guide only. tsc -b 0; seo-audit OK; eslint 0 on touched scripts/tests; targeted SEO tests green; npm test 2308 tests / 34 fail, none new against the base.",
       "baseline": "«chatgpt uzbek tilida gaplashish» (GSC 28 days to 2026-11-17): 8 clicks / 758 impressions / CTR 1.06 % / position 6.9; UZ chat 64 % of impressions (CTR 1.65 %, position 5.6), promptlar 36 % (CTR 0 %, position 9.3). Ads: 1 300 a month, 1 600 in October 2026.",
       "deploy": "Not possible from this cloud session without credentials; owner runs deploy_runner.py, or adds the repository secret CLOUDFLARE_API_TOKEN for .github/workflows/pages-production-deploy.yml (D-DEPLOY-CI-20261120) and the agent dispatches it on the owner's command. Both steps ship in one deploy. Cloud pre-flight on 3477199: npm run build:production and pages-production.ts check pass (2 192 files)."
-    }
+    },
+    "deployed": {
+      "production_commit": "ae4b1f2243c4b3c64fb4a53336f87940ad5dbc93 (merge of PR #63; contains a17451a, 0e6cea8 and the workflow)",
+      "previous_production": "655ce59aeb5322d2bc1f980981526000165ca0dc",
+      "how": "Owner's order «сразу деплой» with full rights; the owner confirmed the CLOUDFLARE_API_TOKEN repository secret exists. PR #63 merged by the agent; workflow «Pages production deploy» run 44661601843 on main: build 26 s, wrangler 4.118.0 uploaded 441 new files (2 190 total), status deployed_and_verified; Pages deployment b5dfbcc7.",
+      "live_at": "2026-11-20T02:34:34Z (gptbot.uz/gptbot-release.json serves ae4b1f22)",
+      "live_check": "8/8 pages on gptbot.uz carry the expected title, H1, section, breadcrumb name or anchor; the old «rasmiy» sentence is gone from the download guide.",
+      "discovery": "WebSub accepted for ru/uz blog feeds and updates/atom.xml (HTTP 204). IndexNow with the site key 712a8e89… for the 10 changed URLs: api.indexnow.org HTTP 200, yandex.com/indexnow HTTP 202. Google: Request indexing in Search Console for the UZ chat, the RU chat and the download guide is the owner's (no API).",
+      "reads": "Days 7, 14 and 28 from each URL's lastCrawlTime after 2026-11-20T02:34Z against the CHANGE_LOG_2026-11 baselines; rollback thresholds NOW.md §1."
+    },
+    "videos": [
+      {
+        "published": "2026-11-20",
+        "url": "https://www.youtube.com/shorts/I-wJo2LGLg8",
+        "title": "Chachipiti nima? ChatGPT o‘zbek tilida (jaji piti, chati piti)",
+        "channel": "Brain Digger",
+        "notes": "Script: NOW.md §2 video 1, vertical cut. Chat frame zoomed 1.6x by the agent; Uzbek SRT with timings; YouTube altered-content disclosure: yes. Not embedded on the site (video is not the main content of the UZ chat page)."
+      }
+    ]
   },
   "deploy_ci_20261120": {
-    "status": "prepared_needs_owner_secrets",
+    "status": "live",
     "owner_question": "Owner in chat, 2026-11-20: \"родной как сделать чтобы ты автономно мог всё задеплоить??\"",
     "workflow": ".github/workflows/pages-production-deploy.yml — workflow_dispatch only, main only, input confirm=deploy, concurrency pages-production; runs yarn install --frozen-lockfile, npm --prefix apps/bormi-admin ci, npm run build:production, npm run deploy:pages:production.",
     "secrets_needed": "CLOUDFLARE_API_TOKEN (Account · Cloudflare Pages · Edit) as a GitHub repository secret; never in chat or code. CLOUDFLARE_ACCOUNT_ID defaults to 14ce9e04574f2e6d825e56ee603e5cd5 (recorded in BORMI_SESSION_HANDOFF_2026-08-02); an optional secret overrides it.",
     "effective_when": "The workflow is on main (PR #63 merged) and the CLOUDFLARE_API_TOKEN secret exists.",
-    "credential_search_20261120": "No Cloudflare credential in this session's environment or in the owner's cloud environments (ai-direct-pro-landing: Instagram key only; BEK CORP preview: none). The owner's machine deploys through a wrangler OAuth login that stays there."
+    "credential_search_20261120": "No Cloudflare credential in this session's environment or in the owner's cloud environments (ai-direct-pro-landing: Instagram key only; BEK CORP preview: none). The owner's machine deploys through a wrangler OAuth login that stays there.",
+    "first_run": "2026-11-20: run 44661601843 on ae4b1f22 — success (deployed_and_verified). The repository already held CLOUDFLARE_API_TOKEN; the account ID came from the documented default."
   }
 }
