@@ -1,3 +1,31 @@
+# Current handoff — Uzbek ChatGPT queries: research and roadmap to #1 among non-official results · 20.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6, based on 0dca0df (production 655ce59a unchanged). One docs-only commit: no page, code, content, manifest or production change. OpenSEO credits spent: 602 (13 695 -> 13 093). PR #61 (claude/stoic-allen-ntixyw, plan for the GSC top-1000) is open and not merged; this branch does not contain its PLAN.md and refers to it by PR.
+## 2. Delivered
+Owner's order of 2026-11-19: explain with evidence why GPTBot.uz sits at 3-7 on the top Uzbek ChatGPT queries and give a roadmap to #1 among non-official results and into AI Overview sources. Delivered: docs/seo/research/2026-11-20-uz-top1-roadmap/ROADMAP.md (short answer table, causes ranked with evidence, plan by horizon with effect ranges, do-nots, measurement calendar, credits, appendix of 56 Uzbek queries at positions 2-10) and decision D-UZ-TOP1-20261120. Raw exports went to the owner in chat (gptbot-uz-top1-research-20261120.xlsx: GSC, A14 base, Ads volumes of 476 spellings, SERP summary and snippets, AI Overview sources, Lighthouse, backlinks; 375 px screenshots), not committed.
+## 3. Files
+docs/seo/research/2026-11-20-uz-top1-roadmap/ROADMAP.md (new), docs/agents-platform/DECISIONS.md (D-UZ-TOP1-20261120), docs/agents-platform/STATE.json (uz_top1_roadmap_20261120, appended at the end), docs/agents-platform/HANDOFF.md.
+## 4. Decisions
+D-UZ-TOP1-20261120: no page per spelling; nothing on the site before 2026-12-21 and no experiment sacrificed; now off-site video, listings, earned mentions, a spam report and the owner's Request indexing for the UZ chat; after the readouts wave 1 (22-24.12) and wave 2 (~25.01), one change per URL per window.
+## 5. Excluded
+No site change (the brief is research only; the 10 protected pages and R14/R15/A14 are frozen until 2026-12-21; the 16.11 and 17.11 cohorts are inside their windows). No new pages for spellings or queries. No rank tracker (one run up to 4 650 credits). No AI Overview for hl=uz: the OpenSEO tracker accepts only ru for Uzbekistan. chatgpt.uz could not be fetched (403 from nginx to the cloud IP, also in a real browser); its teardown uses SERP snippets and the 2026-10-04 data.
+## 6. Validation
+Docs-only diff (git diff --stat lists the four files above). STATE.json parses and round-trips byte for byte with indent 2, ensure_ascii false and a trailing newline. Secret grep (\d{8,10}:[A-Za-z0-9_-]{30,}) on the diff: clean. No code changed, so tsc, the test gate and the build were not run.
+## 7. Known limits
+OpenSEO SERP snapshots disagree with Search Console for gptbot.uz (absent where GSC shows page 1; foreign locales; 22 random spam domains): they are used for SERP features and the competitor set only. Ads volumes are grouped close variants and an upper bound («chachipiti» 22 200 a month vs 15 impressions). Lighthouse ran from a cloud container outside Uzbekistan (lab data). The A14 base covers 01-18.11 with no post-recrawl day yet.
+## 8. Next task
+Owner: Request indexing for /uz/gpt-uzbek-tilida/ now (last crawl 2026-11-17T22:58:19Z; /ru/gpt-chat/ recrawled 2026-11-19T02:03:25Z) and decide the YouTube channel and the first four videos (kirish, o‘zbek tilida yozish, yuklab olish, chachipiti). Agents: read A14 at days 7, 14 and 28 after the later recrawl (docs/seo/research/2026-11-18-uz-unpair/EVIDENCE.md); on 2026-12-21 read R14 and R15 per query language; then wave 1 per ROADMAP §3.2. The natal tasks of the 17.11 handoff below are unchanged.
+## 9. Acceptance
+Each later step cites its baseline from ROADMAP and its decision rule; protected pages move only through a reviewed revision with seo-protection green; a CHANGE_LOG_2026-12 row with a 28-day baseline and the URL's lastCrawlTime; reads at days 14 and 28 after recrawl; CTR judged at a comparable position, not raw clicks (winter break).
+## 10. Start commands
+git log --oneline -3; read docs/seo/research/2026-11-20-uz-top1-roadmap/ROADMAP.md; OpenSEO inspect_urls for both chats (A14 clock); get_search_console_performance with dimensions [date, page], filters query contains "kirish" / "piti" and country uzb, from 2026-11-01 (A14 base in ROADMAP §2.3).
+## 11. Risks
+Changing the two chats, the kirish guide or /ru/blog/chat-gpt-online/ before 2026-12-21 voids R14, R15 and A14. Pages per spelling risk a site-wide doorway or scaled-content signal on a domain where three pages earn 96 % of clicks. Paid or bulk links would add to the spam already pointing at the domain.
+## 12. Rollback
+Docs only: revert the commit. Nothing was deployed. In OpenSEO the tracker topic "UZ core SERP" can be archived (12 prompt IDs in the tracker); the tracker's engines and language were restored to their prior values. Previous handoff retained below.
+
+---
 # Current handoff — natal chart release 1 is live · 17.11.2026
 
 ## 1. State
