@@ -29,7 +29,8 @@
     "chatgpt yozish",
     "chatgpt tarjima",
     "chati piti",
-    "chaji piti"
+    "chaji piti",
+    "chatgpt uzbek tilida gaplashish"
   ],
   "searchIntent": "transactional",
   "h1": "ChatGPT’ga o‘zbekcha muqobil — 3 ta bepul sinov javobi",
@@ -133,6 +134,22 @@
     {
       "type": "p",
       "text": "Javobni tekshiring. Sana, narx, ism va raqamlarni birlamchi manba bilan solishtiring; tarjimada ism va raqamlar o‘zgarmaganini ko‘ring. Shubhali joy bo‘lsa, «qaysi faktlarni tekshirish kerak — ro‘yxat qilib ber» deb so‘rang. Javob mos kelmasa, so‘rovni aniqroq qilib qayta yozing yoki bitta aniqlashtiruvchi savol bering."
+    },
+    {
+      "type": "h2",
+      "id": "gaplashish",
+      "text": "ChatGPT bilan o‘zbek tilida gaplashish: yozma va ovozli suhbat"
+    },
+    {
+      "type": "linkp",
+      "text": "Shu sahifadagi GPTBot.uz chati yozma suhbat uchun: savolni o‘zbekcha yozasiz, javob matn bo‘lib keladi. Ovozli rejim (mikrofon orqali gaplashish) OpenAI’ning ChatGPT ilovasida bor — ilovani {download} bo‘yicha o‘rnatish mumkin. Qaysi birini tanlasangiz ham, suhbat boshida «o‘zbek tilida javob ber» deb yozib qo‘ysangiz, javob o‘zbekcha keladi.",
+      "links": [
+        {
+          "token": "download",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "yuklab olish yo‘riqnomasi"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -632,6 +649,10 @@
     {
       "q": "AI chat talabalar uchun foydalimi?",
       "a": "Ha: mavzuni tushuntirish, reja, test savollari, slayd matni va insho qoralamasi uchun foydali. Javobni tayyor ish sifatida topshirmang: tekshiring, o‘zingiz qayta ishlang va o‘quv muassasasi qoidalariga rioya qiling. Slayd va esse uchun saytda alohida yo‘riqnomalar bor."
+    },
+    {
+      "q": "ChatGPT bilan ovozli gaplashsa bo‘ladimi?",
+      "a": "OpenAI’ning ChatGPT ilovasida ovozli rejim bor. Shu sahifadagi GPTBot.uz chati esa yozma: savolni o‘zbekcha yozib yuborasiz, javob matn bo‘lib keladi."
     },
     {
       "q": "Shu AI chat o‘zbekcha qanchalik to‘g‘ri yozadi?",

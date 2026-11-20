@@ -1264,7 +1264,8 @@
           "rezyume tayyorlash",
           "rezyume namuna",
           "rezyume",
-          "cv tayyorlash"
+          "cv tayyorlash",
+          "chatgpt uzbek tilida gaplashish"
         ]
       },
       "informational": {
@@ -1276,7 +1277,7 @@
           "ai uchun prompt"
         ]
       },
-      "gscNote": "No measured overlap on 2026-10-04: the prompt library declares no rezyume or CV keyword (repository grep). Recorded because KEYWORD-BRIEFS-2026-10-04 §7 names the library as a supporting mention, not the owner of the résumé intent.",
+      "gscNote": "No measured overlap on 2026-10-04: the prompt library declares no rezyume or CV keyword (repository grep). Recorded because KEYWORD-BRIEFS-2026-10-04 §7 names the library as a supporting mention, not the owner of the résumé intent. 2026-11-20: «chatgpt uzbek tilida gaplashish» (Ads 1 300 a month, 1 600 in October) put 36 % of its impressions on promptlar at CTR 0 % and position 9.1–9.3 (GSC 28 days and 3 months); the UZ chat (64 %, CTR 1.65 %) declares it and answers it with a «yozma va ovozli suhbat» section, so promptlar must not target it.",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-10-05"
     },

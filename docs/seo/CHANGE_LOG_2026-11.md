@@ -260,7 +260,11 @@ GSC, final, web, 18.10–14.11.2026 (28 дней). «Последний обхо
 - A14 читается вместе с этим релизом;
 - R14 (гайд входа) не трогается.
 
-План и предохранители — `docs/seo/research/2026-11-20-uz-top1-roadmap/NOW.md`, исследование — `ROADMAP.md` там же. Защищённая ревизия — `docs/seo/evidence/2026-11-20-uz-now/` (доказательство: `reports/uz-now-20261120/review.ts`, сборка против сборки базы `0dca0df`).
+План и предохранители — `docs/seo/research/2026-11-20-uz-top1-roadmap/NOW.md`, исследование — `ROADMAP.md` там же. Защищённые ревизии:
+- `docs/seo/evidence/2026-11-20-uz-now/` — доказательство `reports/uz-now-20261120/review.ts`, сборка против сборки базы `0dca0df`;
+- `docs/seo/evidence/2026-11-20-uz-now-b/` (шаг «b», ниже) — доказательство `reports/uz-now-20261120/review-b.ts`, сборка против сборки `a17451a`.
+
+Оба шага уходят одной выкладкой.
 
 ### Что изменено
 
@@ -305,7 +309,28 @@ GSC, final, web, 18.10–14.11.2026 (28 дней). «Последний обхо
 
 Откат — `git revert` правки конкретной страницы, новая защищённая ревизия и выкладка.
 
+### Шаг «b» (20.11.2026, тот же релиз)
+
+**Основание.** Владелец в чате 20.11.2026: «сделай сейчас всё автономно! все твои предложения которые потенциально усилят сео и повысят позиции!». Взяты правки, которые честны, не задевают R14 и доказуемо меняют только то, что указано.
+
+| URL | Изменение | Почему |
+|---|---|---|
+| `/uz/gpt-uzbek-tilida/` | H2 «ChatGPT bilan o‘zbek tilida gaplashish: yozma va ovozli suhbat» и абзац: чат GPTBot.uz письменный, голосовой режим есть в приложении ChatGPT от OpenAI (ссылка на гайд скачивания — та же цель, что уже была на странице). Вопрос в FAQ «ChatGPT bilan ovozli gaplashsa bo‘ladimi?». Ключ «chatgpt uzbek tilida gaplashish». Title, H1, description, ссылки прежние | «chatgpt uzbek tilida gaplashish» — 1 300 в месяц, 1 600 в октябре (Ads). GSC за 28 дней: 8 кликов, 758 показов, позиция 6,9; 36 % показов уходили на гайд промптов при CTR 0 % (позиция 9,3), UZ-чат — 64 % при CTR 1,65 % |
+| `/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/` | Две фразы шага 20.11 без слова «rasmiy»: «Google Play, App Store yoki chatgpt.com/download», «OpenAI’ning ChatGPT ilovasi emas», «Asl ChatGPT ilovasining ishlab chiquvchisi — OpenAI». Первая фраза — в первом абзаце, который выводится только в Markdown-двойнике и llms-full.txt | Правило брифа: новый текст сайта не пишет «rasmiy» |
+| `/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/`, `/uz/gpt-uzbek-tilida/`, `/ru/gpt-chat/` | BreadcrumbList получает имя страницы, как на всех остальных страницах (вне контракта защиты) | Search Console подписывает цепочку этих трёх URL «Unnamed item» — это подпись, не ошибка (аудит 24.10, `docs/seo/research/2026-10-24-growth-audit/L4-technical.md` §5); имена были отложены до ревизии этих страниц (`BREADCRUMB_NAME_HELD`). Гайд входа остаётся без имени до чтения R14. На позиции не влияет |
+| `/uz/blog/chat-gpt-uzbek-biznes-uchun/`, `/uz/informatika-test/`, `/uz/ingliz-tili-zamonlari/`, `/uz/past-simple/`, `/uz/present-continuous/` | В каждой по одной ссылке на UZ-чат: анкор «o‘zbek tilidagi AI chat» → честный вариант с «ChatGPT … muqobil / o‘rniga», везде разный | Семья «uzbekcha / uzbek tilida» на первой странице только в 36–47 % поисков; анкоры внутренних ссылок не называли запрос, по которому страница отвечает |
+| `content/seo/intent-manifest.json` | C36: гайд промптов не целевает «chatgpt uzbek tilida gaplashish» | Один интент — один URL |
+
+Остальные страницы сборки совпадают байт в байт; sitemap не меняется. Из других файлов меняются только `llms-full.txt` и Markdown-двойники UZ-чата и гайда скачивания. На защищённых страницах контракт меняется только в `bodyTextSha256` у UZ-чата и гайда скачивания.
+
+**Как читать шаг «b».** Отдельно не читается: выходит одной выкладкой с первым шагом. Дополнительно к срезам первого шага смотреть:
+- долю показов «chatgpt uzbek tilida gaplashish» у UZ-чата (база 64 %) и CTR запроса;
+- Search Console → «Навигационная цепочка»: «Unnamed item» у трёх URL должен уйти после обхода.
+
+Ожидаемый эффект шага «b» небольшой: по «gaplashish» 0…+10 кликов за 28 дней; анкоры отдельно не измеряются. Откат — `git revert` коммита шага, новая ревизия и выкладка.
+
 ### Не сделано
 - Выкладка: нужен `deploy_runner.py` на машине владельца.
 - Скриншоты с реального устройства и ролики — у владельца, сценарии в `NOW.md` §2.
 - Гайд входа (R14) и перенаправление `/ru/blog/chat-gpt-online/` (C23) — после 21.12.
+- Скорость чатов (TBT): правка кода чата с риском для конверсии, ждёт отдельного окна.

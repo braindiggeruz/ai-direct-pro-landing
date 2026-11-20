@@ -24,7 +24,7 @@
     "chat gpt skachat",
     "chatgpt skachat qilish"
   ],
-  "intro": "ChatGPT ilovasini yuklab olish uchun Androidda Google Play, iPhone va iPadda App Store, kompyuterda esa OpenAI rasmiy download sahifasidan foydalaning. O‘zbek tilida ishlash uchun alohida «uzbekcha APK» kerak emas: so‘rovni o‘zbekcha yozish kifoya. Brauzerda chatgpt.com orqali ilovasiz ham ishlash mumkin. «ChatGPT skachat» (ruscha «скачать») deb qidirilsa ham, yo‘l shu: rasmiy do‘kon yoki chatgpt.com/download sahifasi.",
+  "intro": "ChatGPT ilovasini yuklab olish uchun Androidda Google Play, iPhone va iPadda App Store, kompyuterda esa OpenAI rasmiy download sahifasidan foydalaning. O‘zbek tilida ishlash uchun alohida «uzbekcha APK» kerak emas: so‘rovni o‘zbekcha yozish kifoya. Brauzerda chatgpt.com orqali ilovasiz ham ishlash mumkin. «ChatGPT skachat» (ruscha «скачать») deb qidirilsa ham, yo‘l shu: Google Play, App Store yoki chatgpt.com/download sahifasi.",
   "body": [
     {
       "type": "figure",
@@ -285,7 +285,7 @@
     },
     {
       "type": "p",
-      "text": "Qidiruvda APK kataloglari ko‘p chiqadi. Ulardagi «Chat GPT» nomli ilovalarning ishlab chiquvchisi ko‘pincha boshqa kompaniya bo‘ladi, ya’ni bu rasmiy ChatGPT emas. Rasmiy ilovaning ishlab chiquvchisi — OpenAI: Android uchun uni Google Play’dan, iPhone uchun App Store’dan oling va faylni noma’lum saytdan yuklamang."
+      "text": "Qidiruvda APK kataloglari ko‘p chiqadi. Ulardagi «Chat GPT» nomli ilovalarning ishlab chiquvchisi ko‘pincha boshqa kompaniya bo‘ladi, ya’ni bu OpenAI’ning ChatGPT ilovasi emas. Asl ChatGPT ilovasining ishlab chiquvchisi — OpenAI: Android uchun uni Google Play’dan, iPhone uchun App Store’dan oling va faylni noma’lum saytdan yuklamang."
     },
     {
       "type": "h2",

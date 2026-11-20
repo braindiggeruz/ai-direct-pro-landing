@@ -1,3 +1,31 @@
+# Current handoff — «здесь и сейчас», step «b»: «gaplashish» on the UZ chat, honest anchors, named breadcrumbs · 20.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6, draft PR braindiggeruz/ai-direct-pro-landing#63. Three commits on 0dca0df: the research roadmap (ba4d4f8), the first release step (a17451a) and this step «b». NOT deployed: production stays 655ce59a. Both steps ship in one deploy, which only the owner can run (deploy_runner.py on the owner's machine; the machine's folders are not available to cloud sessions).
+## 2. Delivered
+Owner's order of 2026-11-20: «сделай сейчас всё автономно! все твои предложения которые потенциально усилят сео и повысят позиции! … и сразу деплой!». (a) UZ chat: H2 «ChatGPT bilan o‘zbek tilida gaplashish: yozma va ovozli suhbat», a paragraph (the GPTBot.uz chat is written; voice is in OpenAI's ChatGPT app, linked through the existing download-guide target), FAQ «ChatGPT bilan ovozli gaplashsa bo‘ladimi?», keyword «chatgpt uzbek tilida gaplashish»; intent-manifest C36 stops promptlar from targeting it. (b) BreadcrumbList named on the download guide and both chats (they leave BREADCRUMB_NAME_HELD; the login guide stays held for R14). (c) Five unprotected pages (chat-gpt-uzbek-biznes-uchun, informatika-test, ingliz-tili-zamonlari, past-simple, present-continuous): their one link to the UZ chat gets an honest anchor with «ChatGPT … muqobil / o‘rniga», each different. (d) The two sentences of a17451a that said «rasmiy» about OpenAI's app are reworded; the video scripts in NOW.md lose the word too (brief: never write «rasmiy»). (e) Reviewed revision 2026-11-20-uz-now-b with its proof; BASELINE points to it.
+## 3. Files
+content/pages/uz/gpt-uzbek-tilida.json, content/blog/uz/chatgpt-telefon-va-kompyuterga-yuklab-olish.json, content/blog/uz/chat-gpt-uzbek-biznes-uchun.json, content/pages/uz/{informatika-test,ingliz-tili-zamonlari,past-simple,present-continuous}.json, content/seo/intent-manifest.json (C36), scripts/jsonld-helpers.ts (BREADCRUMB_NAME_HELD), tests/seo-breadcrumb-ld.test.ts, scripts/seo-protection.ts (BASELINE and comment), reports/uz-now-20261120/review-b.ts and artifact-review-b.json (new), docs/seo/evidence/2026-11-20-uz-now-b/reviewed-protected-pages.json (new, immutable), docs/seo/CHANGE_LOG_2026-11.md (step «b»), docs/seo/research/2026-11-20-uz-top1-roadmap/NOW.md (row 4b, no «rasmiy»), ROADMAP.md (one video title), docs/agents-platform/{DECISIONS.md,STATE.json,HANDOFF.md}.
+## 4. Decisions
+D-UZ-NOW-B-20261120: take every honest change that does not touch R14 and is provable; no «rasmiy» in new text; nothing against competitors beyond a spam report on doorway domains; C23 301 and chat TBT stay out.
+## 5. Excluded
+No deploy (owner's machine). Login guide (R14) and the C23 301 wait for 2026-12-21. Chat speed (TBT) — code change with conversion risk, own window. No new pages, no bought links, no complaints or negative SEO against chatgpt.uz or others. Older «rasmiy» wording already on the pages (reviewed earlier, always about OpenAI's products) is left as is.
+## 6. Validation
+npm run build:fast: ok, 423 pages. npx tsx reports/uz-now-20261120/review-b.ts --before <build of a17451a>: sitemap byte-identical; exactly 8 HTML pages changed; RU chat differs only by the BreadcrumbList name; the download guide only by that name and the reworded APK sentence (its Markdown twin by the two sentences); each donor only by its anchor; other changed files only llms-full.txt and two Markdown twins; protected contracts change only in bodyTextSha256 of the UZ chat and the download guide. npx tsc -b: exit 0. seo-audit: no critical issues. eslint on review-b.ts, review.ts, seo-protection.ts, jsonld-helpers.ts, seo-breadcrumb-ld.test.ts: 0. Targeted tests green: seo-protection 21, seo-breadcrumb-ld 5, homepage-lists-frozen 4, seo-cluster-quality 19, intent-guard 16, seo-intent-manifest 5, seo-anchor-intent 5, seo-content-guards 8, uzbek-login-journey 3, seo-trial-product-truth 7, home-hreflang-cluster 4, gpt-chat-business-intent 5. npm test: 2308 tests, 34 fail, no failure that the base build does not have (seo-push-revision R3-6/R3-9 fail on the base too).
+## 7. Known limits
+The effect of step «b» is small and is not read separately from the first step: «gaplashish» 0…+10 clicks in 28 days; anchors and breadcrumb names are not measurable on their own. Pre-existing failures as in the previous handoff.
+## 8. Next task
+Owner: git fetch origin claude/festive-hypatia-c43eg6 and check it out on the deploy machine (or merge PR #63 first), npm run build:production, deploy_runner.py check, then deploy; Request indexing for the UZ chat, the RU chat and the download guide; videos, listings, spam report and pitch from NOW.md. Agents: verify the live pages; reads at days 7, 14 and 28 after each recrawl (CHANGE_LOG_2026-11 baselines, plus the «gaplashish» share and the breadcrumb report); R14 on 2026-12-21.
+## 9. Acceptance
+Live: the UZ chat serves the «gaplashish» section and FAQ; the three URLs carry a named BreadcrumbList; the five donor pages link the UZ chat with the new anchors; seo-protection passes against 2026-11-20-uz-now-b. Day 28: UZ chat share of «chatgpt uzbek tilida gaplashish» above 64 %; first-step acceptance unchanged.
+## 10. Start commands
+git log --oneline -4; npx tsx reports/uz-now-20261120/review-b.ts --before <build of a17451a> (needs that build); read CHANGE_LOG_2026-11, section «Шаг «b»».
+## 11. Risks
+Low: one section and one FAQ answer on the UZ chat, anchor text on five unprotected pages, JSON-LD names. The UZ chat is the main traffic page: if its clicks fall, the first step's rollback rule applies; step «b» reverts on its own with git revert of its commit.
+## 12. Rollback
+git revert of the step «b» commit (and/or a17451a), rebuild, a new reviewed revision via a review script (never repoint BASELINE to an old revision), deploy. Nothing was deployed from this session.
+
+---
 # Current handoff — «здесь и сейчас» release prepared in the branch: download guide, UZ chat, RU chat · 20.11.2026
 
 ## 1. State
