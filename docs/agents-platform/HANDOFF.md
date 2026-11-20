@@ -3,7 +3,7 @@
 ## 1. State
 Production ae4b1f22 since 2026-11-20T02:34Z (previous 655ce59a). PR braindiggeruz/ai-direct-pro-landing#63 merged; deployed by the manual workflow «Pages production deploy» (run 44661601843), the first use of the second deploy path (D-DEPLOY-CI-20261120).
 ## 2. Delivered
-The whole release of PR #63 (see the handoff below): download guide «skachat», chat titles and H1, «gaplashish» section, honest anchors on five pages, named breadcrumbs on three. Live check 8/8; WebSub accepted (3 feeds); IndexNow accepted for the 10 changed URLs (api.indexnow.org 200, Yandex 202).
+The whole release of PR #63 (see the handoff below): download guide «skachat», chat titles and H1, «gaplashish» section, honest anchors on five pages, named breadcrumbs on three. Live check 8/8; WebSub accepted (3 feeds); IndexNow accepted for the 10 changed URLs (api.indexnow.org 200, Yandex 202). First video published the same day: YouTube Short «Chachipiti nima? ChatGPT o‘zbek tilida (jaji piti, chati piti)», https://www.youtube.com/shorts/I-wJo2LGLg8 (channel «Brain Digger»; chat frame zoomed by the agent, Uzbek SRT, AI disclosure); not embedded on the site.
 ## 3. Files
 docs/agents-platform/STATE.json (current_stage, last_commit, uz_now_release_20261120.deployed, deploy_ci_20261120.first_run), docs/seo/CHANGE_LOG_2026-11.md (deploy record), this handoff.
 ## 4. Decisions

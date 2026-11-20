@@ -3776,7 +3776,16 @@
       "live_check": "8/8 pages on gptbot.uz carry the expected title, H1, section, breadcrumb name or anchor; the old «rasmiy» sentence is gone from the download guide.",
       "discovery": "WebSub accepted for ru/uz blog feeds and updates/atom.xml (HTTP 204). IndexNow with the site key 712a8e89… for the 10 changed URLs: api.indexnow.org HTTP 200, yandex.com/indexnow HTTP 202. Google: Request indexing in Search Console for the UZ chat, the RU chat and the download guide is the owner's (no API).",
       "reads": "Days 7, 14 and 28 from each URL's lastCrawlTime after 2026-11-20T02:34Z against the CHANGE_LOG_2026-11 baselines; rollback thresholds NOW.md §1."
-    }
+    },
+    "videos": [
+      {
+        "published": "2026-11-20",
+        "url": "https://www.youtube.com/shorts/I-wJo2LGLg8",
+        "title": "Chachipiti nima? ChatGPT o‘zbek tilida (jaji piti, chati piti)",
+        "channel": "Brain Digger",
+        "notes": "Script: NOW.md §2 video 1, vertical cut. Chat frame zoomed 1.6x by the agent; Uzbek SRT with timings; YouTube altered-content disclosure: yes. Not embedded on the site (video is not the main content of the UZ chat page)."
+      }
+    ]
   },
   "deploy_ci_20261120": {
     "status": "live",
