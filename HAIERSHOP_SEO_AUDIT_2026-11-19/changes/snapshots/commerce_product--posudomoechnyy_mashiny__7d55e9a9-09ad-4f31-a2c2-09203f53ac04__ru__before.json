@@ -1,0 +1,434 @@
+{
+ "type": "commerce_product--posudomoechnyy_mashiny",
+ "id": "7d55e9a9-09ad-4f31-a2c2-09203f53ac04",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04"
+  }
+ },
+ "attributes": {
+  "drupal_internal__product_id": 291,
+  "langcode": "ru",
+  "status": true,
+  "title": "Посудомоечная машина Haier HDWE15-58CS2RU",
+  "path": {
+   "alias": "/posudomoechnye-mashiny/posudomoechnaya-mashina-haier-hdwe15-58cs2ru",
+   "pid": 869,
+   "langcode": "ru"
+  },
+  "created": "2025-12-28T13:02:06+00:00",
+  "changed": "2026-01-06T11:39:22+00:00",
+  "default_langcode": true,
+  "overall_rating": null,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Посудомоечная машина Haier HDWE15-58WE2RU 60см купить в Ташкенте | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Мощная посудомоечная машина Haier HDWE15-58WE2RU 60 см на 15 комплектов. Умная сушка с автооткрытием дверцы, регулируемые корзины, защита от протечек. Доставка и установка в Ташкенте."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "Полноразмерная встраиваемая посудомоечная машина Haier с максимальной загрузкой. Технология сушки Auto Door Open, складные держатели, регулировка корзины по высоте. Для больших семей и любителей принимать гостей."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "посудомоечная машина купить ташкент, посудомойка купить ташкент, посудомоечная машина Haier HDWE15-58WE2RU, купить посудомойку 60 см Ташкент, Haier HDWE15-58WE2RU цена"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Ташкент, Узбекистан"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop — техника для дома и промышленные решения | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "Официальный онлайн-магазин Haier в Узбекистане. Всё — от бытовой техники до промышленного оборудования для вашего бизнеса. Надёжность, инновации и качество в каждом продукте | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "content_translation_source": "und",
+  "content_translation_outdated": false,
+  "field_antibakterialnaya_obrabotk": null,
+  "field_avtomaticheskoe_otkryvani1": "Да",
+  "field_avto_programma": "Да",
+  "field_blokirovka_ot_detey": "yes",
+  "field_bystraya_moyka": "Да",
+  "field_cvet": "Серебро",
+  "field_dezinfekciya": null,
+  "field_dostavka": null,
+  "field_eco": "Да",
+  "field_elektronnye_indikatory_ots": "Да",
+  "field_gigiena1": "Да",
+  "field_intensivnaya": null,
+  "field_invertornyy_motor": null,
+  "field_khit_prodazh": null,
+  "field_klass_energoeffektivnosti": "A",
+  "field_klass_mytya": "A",
+  "field_klass_sushki": "A",
+  "field_kolichestvo_korzin": 3,
+  "field_kolichestvo_programm": 6,
+  "field_kolichestvo_razbryzgivatel": 3,
+  "field_kolichestvo_urovney_razbry": 3,
+  "field_luch_na_polu_indikaciya_st": null,
+  "field_material_baka": "Нержавеющая сталь",
+  "field_meta_tegi": "{\"abstract\":\"\\u041f\\u043e\\u043b\\u043d\\u043e\\u0440\\u0430\\u0437\\u043c\\u0435\\u0440\\u043d\\u0430\\u044f \\u0432\\u0441\\u0442\\u0440\\u0430\\u0438\\u0432\\u0430\\u0435\\u043c\\u0430\\u044f \\u043f\\u043e\\u0441\\u0443\\u0434\\u043e\\u043c\\u043e\\u0435\\u0447\\u043d\\u0430\\u044f \\u043c\\u0430\\u0448\\u0438\\u043d\\u0430 Haier \\u0441 \\u043c\\u0430\\u043a\\u0441\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u043e\\u0439 \\u0437\\u0430\\u0433\\u0440\\u0443\\u0437\\u043a\\u043e\\u0439. \\u0422\\u0435\\u0445\\u043d\\u043e\\u043b\\u043e\\u0433\\u0438\\u044f \\u0441\\u0443\\u0448\\u043a\\u0438 Auto Door Open, \\u0441\\u043a\\u043b\\u0430\\u0434\\u043d\\u044b\\u0435 \\u0434\\u0435\\u0440\\u0436\\u0430\\u0442\\u0435\\u043b\\u0438, \\u0440\\u0435\\u0433\\u0443\\u043b\\u0438\\u0440\\u043e\\u0432\\u043a\\u0430 \\u043a\\u043e\\u0440\\u0437\\u0438\\u043d\\u044b \\u043f\\u043e \\u0432\\u044b\\u0441\\u043e\\u0442\\u0435. \\u0414\\u043b\\u044f \\u0431\\u043e\\u043b\\u044c\\u0448\\u0438\\u0445 \\u0441\\u0435\\u043c\\u0435\\u0439 \\u0438 \\u043b\\u044e\\u0431\\u0438\\u0442\\u0435\\u043b\\u0435\\u0439 \\u043f\\u0440\\u0438\\u043d\\u0438\\u043c\\u0430\\u0442\\u044c \\u0433\\u043e\\u0441\\u0442\\u0435\\u0439.\",\"description\":\"\\u041c\\u043e\\u0449\\u043d\\u0430\\u044f \\u043f\\u043e\\u0441\\u0443\\u0434\\u043e\\u043c\\u043e\\u0435\\u0447\\u043d\\u0430\\u044f \\u043c\\u0430\\u0448\\u0438\\u043d\\u0430 Haier HDWE15-58WE2RU 60 \\u0441\\u043c \\u043d\\u0430 15 \\u043a\\u043e\\u043c\\u043f\\u043b\\u0435\\u043a\\u0442\\u043e\\u0432. \\u0423\\u043c\\u043d\\u0430\\u044f \\u0441\\u0443\\u0448\\u043a\\u0430 \\u0441 \\u0430\\u0432\\u0442\\u043e\\u043e\\u0442\\u043a\\u0440\\u044b\\u0442\\u0438\\u0435\\u043c \\u0434\\u0432\\u0435\\u0440\\u0446\\u044b, \\u0440\\u0435\\u0433\\u0443\\u043b\\u0438\\u0440\\u0443\\u0435\\u043c\\u044b\\u0435 \\u043a\\u043e\\u0440\\u0437\\u0438\\u043d\\u044b, \\u0437\\u0430\\u0449\\u0438\\u0442\\u0430 \\u043e\\u0442 \\u043f\\u0440\\u043e\\u0442\\u0435\\u0447\\u0435\\u043a. \\u0414\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u0438 \\u0443\\u0441\\u0442\\u0430\\u043d\\u043e\\u0432\\u043a\\u0430 \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435.\",\"geo_placename\":\"\\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442, \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TK\",\"keywords\":\"\\u043f\\u043e\\u0441\\u0443\\u0434\\u043e\\u043c\\u043e\\u0435\\u0447\\u043d\\u0430\\u044f \\u043c\\u0430\\u0448\\u0438\\u043d\\u0430 \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u0442\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442, \\u043f\\u043e\\u0441\\u0443\\u0434\\u043e\\u043c\\u043e\\u0439\\u043a\\u0430 \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u0442\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442, \\u043f\\u043e\\u0441\\u0443\\u0434\\u043e\\u043c\\u043e\\u0435\\u0447\\u043d\\u0430\\u044f \\u043c\\u0430\\u0448\\u0438\\u043d\\u0430 Haier HDWE15-58WE2RU, \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u043f\\u043e\\u0441\\u0443\\u0434\\u043e\\u043c\\u043e\\u0439\\u043a\\u0443 60 \\u0441\\u043c \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442, Haier HDWE15-58WE2RU \\u0446\\u0435\\u043d\\u0430\",\"title\":\"\\u041f\\u043e\\u0441\\u0443\\u0434\\u043e\\u043c\\u043e\\u0435\\u0447\\u043d\\u0430\\u044f \\u043c\\u0430\\u0448\\u0438\\u043d\\u0430 Haier HDWE15-58WE2RU 60\\u0441\\u043c \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435 | Haiershop\"}",
+  "field_moshchnost_podklyucheniya": "1720-2050 Вт",
+  "field_motor": "Индукционный",
+  "field_nominalnoe_napryazhenie_c1": "220-240 В / 50 Гц",
+  "field_nominalnyy_tok_predohranit": "10 A",
+  "field_novinka": "yes",
+  "field_opisanie_tovara_1": {
+   "value": "<p>Модель шириной 60 см рассчитана на загрузку до 15 стандартных комплектов посуды, что позволяет легко справляться с большим объемом после семейного ужина, праздника или приема гостей. Эта машина становится идеальным решением для тех, кто ценит время и не хочет возвращаться к ручной мойке даже в самых сложных ситуациях.</p>",
+   "format": "full_html",
+   "processed": "<p>Модель шириной 60 см рассчитана на загрузку до 15 стандартных комплектов посуды, что позволяет легко справляться с большим объемом после семейного ужина, праздника или приема гостей. Эта машина становится идеальным решением для тех, кто ценит время и не хочет возвращаться к ручной мойке даже в самых сложных ситуациях.</p>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p>Гибкая организация внутреннего пространства делает загрузку простой и интуитивной:</p><ul><li><strong>Складные держатели</strong> в нижней и средней корзинах позволяют размещать посуду нестандартных форм и размеров</li><li><strong>Регулируемая по высоте средняя корзина</strong> создает дополнительное пространство для высоких кастрюль, графинов или противней<br>&nbsp;</li></ul>",
+   "format": "full_html",
+   "processed": "<p>Гибкая организация внутреннего пространства делает загрузку простой и интуитивной:</p><ul><li><strong>Складные держатели</strong> в нижней и средней корзинах позволяют размещать посуду нестандартных форм и размеров</li><li><strong>Регулируемая по высоте средняя корзина</strong> создает дополнительное пространство для высоких кастрюль, графинов или противней<br>&nbsp;</li></ul>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p>Ключевая особенность модели — функция автоматического открывания двери после завершения цикла мойки. Эта технология позволяет:</p><ul><li>Обеспечить естественную вентиляцию и быстрое высыхание посуды</li><li>Полностью исключить дополнительный расход электроэнергии на сушку</li><li>Предотвратить образование конденсата и неприятных запахов</li><li>Сохранить идеальное состояние даже самых деликатных материалов<br>&nbsp;</li></ul>",
+   "format": "full_html",
+   "processed": "<p>Ключевая особенность модели — функция автоматического открывания двери после завершения цикла мойки. Эта технология позволяет:</p><ul><li>Обеспечить естественную вентиляцию и быстрое высыхание посуды</li><li>Полностью исключить дополнительный расход электроэнергии на сушку</li><li>Предотвратить образование конденсата и неприятных запахов</li><li>Сохранить идеальное состояние даже самых деликатных материалов<br>&nbsp;</li></ul>"
+  },
+  "field_opisanie_tovara_4": {
+   "value": "<ul><li>Экономия времени благодаря возможности загружать большой объем посуды за один цикл</li><li>Универсальность использования благодаря продуманной системе раскладки</li><li>Снижение расходов на электроэнергию благодаря интеллектуальной системе сушки</li><li>Долговечность и надежность, соответствующие стандартам премиального сегмента</li></ul><p><strong>Haier HDWE15-58WE2RU</strong> — это не просто посудомоечная машина, а технологически продвинутый помощник, который берет на себя самые сложные задачи, оставляя вам больше времени для важных моментов жизни.</p>",
+   "format": "full_html",
+   "processed": "<ul><li>Экономия времени благодаря возможности загружать большой объем посуды за один цикл</li><li>Универсальность использования благодаря продуманной системе раскладки</li><li>Снижение расходов на электроэнергию благодаря интеллектуальной системе сушки</li><li>Долговечность и надежность, соответствующие стандартам премиального сегмента</li></ul><p><strong>Haier HDWE15-58WE2RU</strong> — это не просто посудомоечная машина, а технологически продвинутый помощник, который берет на себя самые сложные задачи, оставляя вам больше времени для важных моментов жизни.</p>"
+  },
+  "field_opisanie_tovara_5": null,
+  "field_opisanie_tovara_6": null,
+  "field_opisanie_tovara_7": null,
+  "field_opisanie_tovara_8": null,
+  "field_otsrochka_starta_ch": "1 - 24",
+  "field_parametry_rashoda_vody_l_g": null,
+  "field_poddelnyy_zagolovok": "Посудомоечная машина Haier",
+  "field_polovinnaya_zagruzka": "Да",
+  "field_potreblenie_elektroenergii": 342,
+  "field_predvaritelnaya_moyka": null,
+  "field_razmery_nishi_dlya_vstraiv": "(85.5-87.5) х 60 х 60.2 с установленной верхней панелью, (82.5-84.5) х 45 х 60.5 со снятой верхней панелью",
+  "field_razmery_pribora_vxshxg_sm": "(85-87) х 59.8 х 60 с установленной верхней панелью, (82-84) х 59.8 х 60 со снятой верхней панелью",
+  "field_razmery_upakovki_vxshxg_sm": "88 х 65 х 68.5",
+  "field_regulirovka_vysoty_nozhek": "Да, 60 мм",
+  "field_ruchka_korziny": "Да, пластик",
+  "field_sistema_zashchity_ot_prote": "Да",
+  "field_skladnye_derzhateli_posudy": "Да",
+  "field_srok_sluzhby": "7 лет",
+  "field_steklo_45deg": "Да",
+  "field_strana_proizvodstva": "Китай",
+  "field_tip": "Отдельностоящая",
+  "field_universalnaya": "Да",
+  "field_upravlenie": "Электронное",
+  "field_uroven_shuma_db": 49,
+  "field_uskorennaya_59_min": "Да",
+  "field_variativnaya_tretya_korzin": "Да",
+  "field_ves_brutto_kg": 48,
+  "field_ves_netto_kg": 45,
+  "field_vnutrennyaya_podsvetka": null,
+  "field_v_izbrannoe": null,
+  "field_zagolovok_opisaniya_1": "Вместимость для самых требовательных задач",
+  "field_zagolovok_opisaniya_2": "Эргономика, адаптированная под ваши нужды",
+  "field_zagolovok_opisaniya_3": "Инновационная технология энергоэффективной сушки",
+  "field_zagolovok_opisaniya_4": "Преимущества, которые вы оцените:",
+  "field_zagolovok_opisaniya_5": null,
+  "field_zagolovok_opisaniya_6": null,
+  "field_zagolovok_opisaniya_7": null,
+  "field_zagolovok_opisaniya_8": null,
+  "field_zagruzka_kol_vo_komplektov": 15,
+  "field_zvukovoy_signal_po_okoncha": null
+ },
+ "relationships": {
+  "commerce_product_type": {
+   "data": {
+    "type": "commerce_product_type--commerce_product_type",
+    "id": "a636ad03-88d2-4b89-8048-d3d4d29a6ce3",
+    "meta": {
+     "drupal_internal__target_id": "posudomoechnyy_mashiny"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/commerce_product_type"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/commerce_product_type"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/uid"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/uid"
+    }
+   }
+  },
+  "stores": {
+   "data": [
+    {
+     "type": "commerce_store--online",
+     "id": "10d9cb6e-3da7-4177-a918-8547abd388db",
+     "meta": {
+      "drupal_internal__target_id": 1
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/stores"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/stores"
+    }
+   }
+  },
+  "variations": {
+   "data": [
+    {
+     "type": "commerce_product_variation--default",
+     "id": "32e87d47-e08c-483f-8cfa-c556f2cd9b5c",
+     "meta": {
+      "drupal_internal__target_id": 312
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/variations"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/variations"
+    }
+   }
+  },
+  "default_variation": {
+   "data": {
+    "type": "commerce_product_variation--default",
+    "id": "32e87d47-e08c-483f-8cfa-c556f2cd9b5c",
+    "meta": {
+     "drupal_internal__target_id": 312
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/default_variation"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/default_variation"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_1"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_1"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_3"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_3"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_4"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_5"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_6"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_6"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_7": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_7"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_8": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_8"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_8"
+    }
+   }
+  },
+  "field_vid_tovara": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "51f9d26b-c5b2-4ce8-bf80-7619e774b064",
+     "meta": {
+      "drupal_internal__target_id": 21
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_vid_tovara"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_vid_tovara"
+    }
+   }
+  }
+ }
+}

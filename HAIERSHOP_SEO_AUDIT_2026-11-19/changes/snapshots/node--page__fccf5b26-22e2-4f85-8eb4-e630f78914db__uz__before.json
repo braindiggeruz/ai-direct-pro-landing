@@ -1,0 +1,327 @@
+{
+ "type": "node--page",
+ "id": "fccf5b26-22e2-4f85-8eb4-e630f78914db",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db?resourceVersion=id%3A217"
+  }
+ },
+ "attributes": {
+  "drupal_internal__nid": 139,
+  "drupal_internal__vid": 217,
+  "langcode": "uz",
+  "revision_timestamp": "2025-12-23T07:30:57+00:00",
+  "revision_log": null,
+  "status": true,
+  "title": "Sifat sertifikatlari va O‘zbekistondagi Haier rasmiy kafolati",
+  "created": "2025-12-23T07:30:57+00:00",
+  "changed": "2025-12-24T13:14:15+00:00",
+  "promote": true,
+  "sticky": false,
+  "default_langcode": false,
+  "revision_translation_affected": true,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Sertifikatlar va rasmiy kafolat Haier — Haier Shop O'zbekiston"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Haier texnikasi uchun sifat sertifikatlari (ISO 9001, CE) va O'zbekistonda ishlab chiqaruvchining rasmiy kafolati. Litsenziyalar, ro'yxatdan o'tish, servis xizmati shartlari (kompressor uchun 12 yilgacha), Toshkentdagi vakolatli servis markazi."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "Haier Shop — O'zbekistonda Haier rasmiy vakili. Barcha mahsulotlar ishlab chiqaruvchining rasmiy kafolati (1 yildan 3 yilgacha + kompressorlar uchun 12 yilgacha kengaytirilgan kafolat) va zarur sifat sertifikatlari (ISO 9001, CE, O'zR muvofiqlik sertifikatlari) bilan ta'minlangan. Toshkentdagi vakolatli servis markazi, bepul kafolat xizmati, xarid qilishda chek va kafolat taloni."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "haier rasmiy kafolat o'zbekiston, haier sifat sertifikatlari, haier muvofiqlik sertifikati uzbekistan, haier rasmiy distribyutor toshkent, haier texnika kafolati, haier kompressor 12 yil kafolat, haier servis markazi toshkent, rasmiy kafolat bilan haier texnika sotib olish, iso 9001 haier sertifikat, ce sertifikat haier texnika, vakolatli servis xizmati haier"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Ташкент"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.311151, 69.279737"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "icbm",
+     "content": "41.311151, 69.279737"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/ru/sertifikaty-i-garantiya"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow, max-snippet:1, max-video-preview:1, max-image-preview:large"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "author",
+     "content": "Haier Shop Uzbekistan"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "original-source",
+     "content": "https://haiershop.uz/ru/sertifikaty-i-garantiya"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop – uy uchun texnika va sanoat yechimlari | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "Сертификаты качества (ISO 9001, CE) на технику Haier и официальная гарантия производителя в Узбекистане. Лицензии, регистрация, условия сервисного обслуживания (до 12 лет на компрессор), авторизованный сервисный центр в Ташкенте."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:alt",
+     "content": "Сертификаты и официальная гарантия Haier — Haier Shop Узбекистан"
+    }
+   }
+  ],
+  "path": {
+   "alias": "/sifat-sertifikatlari-va-ozbekistondagi-haier-rasmiy-kafolati",
+   "pid": 783,
+   "langcode": "uz"
+  },
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "body": null,
+  "field_meta": "{\"abstract\":\"Haier Shop \\u2014 O\\u0027zbekistonda Haier rasmiy vakili. Barcha mahsulotlar ishlab chiqaruvchining rasmiy kafolati (1 yildan 3 yilgacha + kompressorlar uchun 12 yilgacha kengaytirilgan kafolat) va zarur sifat sertifikatlari (ISO 9001, CE, O\\u0027zR muvofiqlik sertifikatlari) bilan ta\\u0027minlangan. Toshkentdagi vakolatli servis markazi, bepul kafolat xizmati, xarid qilishda chek va kafolat taloni.\",\"author\":\"Haier Shop Uzbekistan\",\"canonical_url\":\"https:\\/\\/haiershop.uz\\/ru\\/sertifikaty-i-garantiya\",\"description\":\"Haier texnikasi uchun sifat sertifikatlari (ISO 9001, CE) va O\\u0027zbekistonda ishlab chiqaruvchining rasmiy kafolati. Litsenziyalar, ro\\u0027yxatdan o\\u0027tish, servis xizmati shartlari (kompressor uchun 12 yilgacha), Toshkentdagi vakolatli servis markazi.\",\"geo_placename\":\"\\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\",\"geo_position\":\"41.311151, 69.279737\",\"geo_region\":\"UZ-TK\",\"icbm\":\"41.311151, 69.279737\",\"keywords\":\"haier rasmiy kafolat o\\u0027zbekiston, haier sifat sertifikatlari, haier muvofiqlik sertifikati uzbekistan, haier rasmiy distribyutor toshkent, haier texnika kafolati, haier kompressor 12 yil kafolat, haier servis markazi toshkent, rasmiy kafolat bilan haier texnika sotib olish, iso 9001 haier sertifikat, ce sertifikat haier texnika, vakolatli servis xizmati haier\",\"og_description\":\"\\u0421\\u0435\\u0440\\u0442\\u0438\\u0444\\u0438\\u043a\\u0430\\u0442\\u044b \\u043a\\u0430\\u0447\\u0435\\u0441\\u0442\\u0432\\u0430 (ISO 9001, CE) \\u043d\\u0430 \\u0442\\u0435\\u0445\\u043d\\u0438\\u043a\\u0443 Haier \\u0438 \\u043e\\u0444\\u0438\\u0446\\u0438\\u0430\\u043b\\u044c\\u043d\\u0430\\u044f \\u0433\\u0430\\u0440\\u0430\\u043d\\u0442\\u0438\\u044f \\u043f\\u0440\\u043e\\u0438\\u0437\\u0432\\u043e\\u0434\\u0438\\u0442\\u0435\\u043b\\u044f \\u0432 \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\\u0435. \\u041b\\u0438\\u0446\\u0435\\u043d\\u0437\\u0438\\u0438, \\u0440\\u0435\\u0433\\u0438\\u0441\\u0442\\u0440\\u0430\\u0446\\u0438\\u044f, \\u0443\\u0441\\u043b\\u043e\\u0432\\u0438\\u044f \\u0441\\u0435\\u0440\\u0432\\u0438\\u0441\\u043d\\u043e\\u0433\\u043e \\u043e\\u0431\\u0441\\u043b\\u0443\\u0436\\u0438\\u0432\\u0430\\u043d\\u0438\\u044f (\\u0434\\u043e 12 \\u043b\\u0435\\u0442 \\u043d\\u0430 \\u043a\\u043e\\u043c\\u043f\\u0440\\u0435\\u0441\\u0441\\u043e\\u0440), \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u043e\\u0432\\u0430\\u043d\\u043d\\u044b\\u0439 \\u0441\\u0435\\u0440\\u0432\\u0438\\u0441\\u043d\\u044b\\u0439 \\u0446\\u0435\\u043d\\u0442\\u0440 \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435.\",\"og_image_alt\":\"\\u0421\\u0435\\u0440\\u0442\\u0438\\u0444\\u0438\\u043a\\u0430\\u0442\\u044b \\u0438 \\u043e\\u0444\\u0438\\u0446\\u0438\\u0430\\u043b\\u044c\\u043d\\u0430\\u044f \\u0433\\u0430\\u0440\\u0430\\u043d\\u0442\\u0438\\u044f Haier \\u2014 Haier Shop \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\",\"original_source\":\"https:\\/\\/haiershop.uz\\/ru\\/sertifikaty-i-garantiya\",\"robots\":\"index, follow, max-snippet:1, max-video-preview:1, max-image-preview:large\",\"title\":\"Sertifikatlar va rasmiy kafolat Haier \\u2014 Haier Shop O\\u0027zbekiston\"}",
+  "field_opisanie_tovara_1": {
+   "value": "<h1>Sifat sertifikatlari va Haier rasmiy kafolati O'zbekistonda</h1><p><strong>Haier Shop — O'zbekistonda Haier rasmiy vakili.</strong> Barcha mahsulotlar ishlab chiqaruvchining rasmiy kafolati va zarur sifat sertifikatlari bilan ta'minlangan.</p><p>Xarid qilishda siz chek va kafolat talonini olasiz, bu Haier vakolatli servis markazlarida bepul servis xizmatiga huquqingizni tasdiqlaydi.</p><p>📌 <strong>Bu \"kulrang\" texnika emas, balki ishlab chiqaruvchining to'liq qo'llab-quvvatlashi bilan rasmiy mahsulotdir.</strong></p><h2>O'zbekistonda Haier rasmiy kafolati</h2><p>Haier rasmiy kafolati — bu shunchaki \"qog'oz\" emas, balki xaridor sifatida huquqlaringizning haqiqiy himoyasi.</p><h3>Kafolat muddatlari va shartlari</h3><p>Haier maishiy texnikasi uchun standart kafolat <strong>1 yildan 3 yilgacha</strong> (mahsulot toifasiga qarab) tashkil etadi. Alohida tugunlar uchun kengaytirilgan kafolat taqdim etiladi.</p><table style=\"border-collapse:collapse;margin:20px 0;width:100%;\"><thead><tr style=\"background-color:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:10px;text-align:left;\">Texnika toifasi</th><th style=\"border:1px solid #ddd;padding:10px;text-align:left;\">Standart kafolat</th><th style=\"border:1px solid #ddd;padding:10px;text-align:left;\">Kengaytirilgan kafolat (asosiy tugunlar uchun)</th></tr></thead><tbody><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Muzlatgichlar</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–3 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">Invertor kompressor uchun 12 yilgacha</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Konditsionerlar</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–3 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">Kompressor uchun 10 yilgacha</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Kir yuvish mashinalari</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–3 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">Invertor motor uchun 10 yilgacha</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Suv isitgichlar</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–3 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">Ichki bak uchun 7 yilgacha</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Televizorlar</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–2 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">—</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Kichik maishiy texnika</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">—</td></tr></tbody></table><p>📌 <strong>Masalan:</strong> Haier muzlatgichlarining invertor kompressorlari uchun <strong>12 yillik</strong> kafolat amal qiladi — bu bozordagi eng uzoq muddatlardan biri.</p><h3>Haier kafolati nimalarni qamrab oladi</h3><p>Haier rasmiy kafolati quyidagilarni qamrab oladi:</p><ul><li>✅ <strong>Zavod nuqsonlari</strong> — agar texnika ishlab chiqarish nuqsoni tufayli ishdan chiqqan bo'lsa.</li><li>✅ <strong>Asosiy tugunlarning nosozliklari</strong> — kompressor, motor, elektronika, bak va boshqalar.</li><li>✅ <strong>Bepul ta'mirlash yoki almashtirish</strong> — Haier vakolatli servis markazida.</li><li>✅ <strong>Bepul diagnostika</strong> — agar texnika ishlamasa, usta sababini tekshiradi.</li><li>✅ <strong>Uyga usta chaqirish</strong> — yirik texnika uchun (muzlatgichlar, konditsionerlar, kir yuvish mashinalari).</li></ul><h3>Haier kafolati nimalarni qamrab OLMAYDI</h3><p>Kafolat quyidagilarga taalluqli EMAS:</p><ul><li>❌ <strong>Mexanik shikastlanishlar</strong> — zarbalar, tushishlar, tirnalishlar, yorilishlar.</li><li>❌ <strong>Noto'g'ri foydalanish</strong> — maqsadiga ko'ra ishlatmaslik, yo'riqnomani buzish.</li><li>❌ <strong>Mustaqil ta'mirlash</strong> — agar siz yoki vakolatli bo'lmagan usta texnikani ochgan bo'lsa.</li><li>❌ <strong>Kuchlanish o'zgarishidan shikastlanishlar</strong> — agar stabilizator ishlatilmagan bo'lsa (texnikani himoya qilish uchun stabilizator ishlatishni tavsiya qilamiz).</li><li>❌ <strong>Tabiiy eskirish</strong> — sarf materiallari (filtrlar, lampalar, zichlagichlar va boshqalar).</li><li>❌ <strong>Fors-major</strong> — yong'in, suv toshqini, zilzila va boshqalar.</li></ul><p>📌 <strong>Muhim:</strong> texnikani qabul qilishda tekshiring va hujjatlarni saqlang (chek, kafolat taloni, yo'riqnoma).</p><h3>Toshkentdagi Haier vakolatli servis markazlari</h3><p>Kafolat ta'mirini <strong>Haier vakolatli servis markazlari</strong> amalga oshiradi.</p><p><strong>Kafolat xizmati uchun qayerga murojaat qilish kerak?</strong></p><ul><li>📞 <strong>Haier qo'ng'iroq markaziga qo'ng'iroq qiling:</strong> telefon raqami kafolat talonida va saytda ko'rsatilgan.</li><li>🏢 <strong>Servis markaziga tashrif:</strong> manzil va ish vaqti kafolat talonida ko'rsatilgan.</li><li>🚗 <strong>Uyga usta chaqirish:</strong> yirik texnika uchun (muzlatgichlar, konditsionerlar, kir yuvish mashinalari).</li></ul><p>📌 <strong>Toshkentda Haier o'zining vakolatli servis markazi mavjud.</strong> Manzil, telefon va ish vaqti kafolat talonida va saytda ko'rsatilgan.</p><p>👉 Toshkentdagi Haier servis markazi kontaktlari - 71 207 10 01</p><h2>Sifat va muvofiqlik sertifikatlari</h2><p>Haier texnikasi xalqaro sifat va xavfsizlik standartlariga javob beradi.</p><h3>Xalqaro standartlar (ISO 9001, CE va boshqalar)</h3><p>Haier — 40 yildan ortiq tarixga ega jahon brendi. Haier mahsulotlari quyidagi sertifikatlarga ega:</p><ul><li>✅ <strong>ISO 9001:2015</strong> — sifat boshqaruvi tizimi sertifikati. Bu Haier texnikasini ishlab chiqarish xalqaro sifat standartlariga javob berishini anglatadi.</li><li>✅ <strong>ISO 14001</strong> — ekologik boshqaruv tizimi sertifikati. Haier atrof-muhitga g'amxo'rlik qiladi va ekologik toza materiallardan foydalanadi.</li><li>✅ <strong>CE (Conformité Européenne)</strong> — Yevropa xavfsizlik sertifikati. Bu Haier texnikasi Yevropa Ittifoqi xavfsizlik talablariga javob berishini anglatadi.</li><li>✅ <strong>RoHS (Restriction of Hazardous Substances)</strong> — mahsulotda xavfli moddalar yo'qligini tasdiqlovchi sertifikat.</li><li>✅ <strong>EAC (Yevroosiyo muvofiqlik)</strong> — YeEI (Yevroosiyo Iqtisodiy Ittifoqi) mamlakatlari uchun sertifikat.</li></ul><p>📌 <strong>Bu siz uchun nimani anglatadi?</strong> Haier texnikasi xavfsiz, ishonchli va eng qat'iy xalqaro standartlarga javob beradi.</p><h3>O'zbekistonda muvofiqlik sertifikatlari</h3><p>Rasmiy Haier Shop do'koni orqali sotiladigan barcha Haier texnikasi <strong>O'zbekiston Respublikasi talablariga muvofiqlik sertifikatlariga</strong> ega.</p><p>Bu mahsulot O'zbekistonda majburiy sertifikatlashtiruvdan o'tganligini va milliy sifat va xavfsizlik standartlariga javob berishini anglatadi.</p><p>📌 <strong>Siz O'zbekistonda sotishga rasman ruxsat berilgan \"oq\" texnikani sotib olasiz.</strong></p><h2>Litsenziyalar va rasmiy vakillik</h2><h3>O'zbekistonda Haier rasmiy distribyutori</h3><p>Haier Shop — <strong>O'zbekistonda Haier rasmiy vakili</strong>.</p><p>Biz Haier ishlab chiqaruvchisi bilan shartnoma asosida faoliyat yuritamiz va barcha zarur hujjatlarga egamiz:</p><ul><li>✅ <strong>Haier Global dan xat</strong> — O'zbekistonda Haier rasmiy distribyutori maqomini tasdiqlaydi.</li><li>✅ <strong>Davlat ro'yxatidan o'tish guvohnomasi</strong> — O'zbekistonda ro'yxatdan o'tgan yuridik shaxs.</li><li>✅ <strong>Litsenziyalar va ruxsat hujjatlari</strong> — maishiy texnika savdosi uchun barcha zarur hujjatlar.</li></ul><p>📌 <strong>Biz o'z faoliyatimizning huquqiy asosini ochiq namoyish etamiz.</strong> Siz rasmiy vakildan texnika sotib olayotganingizga ishonch hosil qilishingiz mumkin, \"kulrang\" import qiluvchidan emas.</p><h3>Kompaniya ro'yxatdan o'tishi va ruxsat hujjatlari</h3><p>Haier Shop O'zbekistonda ro'yxatdan o'tgan va maishiy texnika savdosi uchun barcha zarur hujjatlarga ega:</p><ul><li>✅ <strong>Davlat ro'yxatidan o'tish guvohnomasi</strong> — O'zbekistonda ro'yxatdan o'tgan yuridik shaxs.</li><li>✅ <strong>STIR (soliq to'lovchining identifikatsiya raqami)</strong> — kompaniya O'zbekistonda soliq to'laydi.</li><li>✅ <strong>Savdo litsenziyalari</strong> — maishiy texnika sotish uchun barcha zarur ruxsatlar.</li></ul><p>📌 <strong>Siz mahsulot va xizmatlar sifati uchun to'liq javobgarlik oladigan rasmiy kompaniyadan sotib olasiz.</strong></p><h2>Haier kafolatining haqiqiyligini qanday tekshirish mumkin</h2><p>Rasmiy Haier kafolati bilan texnika sotib olayotganingizga ishonch hosil qilish uchun quyidagilarni tekshiring:</p><ol><li>✅ <strong>Kafolat taloni</strong> — to'ldirilgan bo'lishi kerak (xarid sanasi, model, seriya raqami, do'kon muhri).</li><li>✅ <strong>Chek</strong> — rasmiy do'konda xarid qilganingizni tasdiqlaydi.</li><li>✅ <strong>Seriya raqami</strong> — texnikada, kafolat talonida va chekda bir xil bo'lishi kerak.</li><li>✅ <strong>Servis markazi kontaktlari</strong> — kafolat talonida ko'rsatilgan bo'lishi kerak (telefon, manzil).</li><li>✅ <strong>Rasmiy sayt</strong> — do'kon Haier rasmiy saytida vakolatli diler sifatida ko'rsatilganligini tekshiring.</li></ol><p>📌 <strong>Agar kamida bitta band bajarilmasa — bu xavotirlanish uchun sabab.</strong></p><p>👉 <a href=\"[URL_BLOG_WARRANTY]\">Haier rasmiy kafolatini qanday tekshirish mumkin — batafsil ko'rsatma</a></p><h2>Kafolat va sertifikatlar haqida tez-tez beriladigan savollar (FAQ)</h2><h3>Haier kafolat xizmatini qanday olish mumkin?</h3><p><strong>Javob:</strong> Haier qo'ng'iroq markaziga qo'ng'iroq qiling (telefon raqami kafolat talonida ko'rsatilgan), muammoni tasvirlab bering. Usta uyga keladi (yirik texnika uchun) yoki siz texnikani servis markaziga olib kelasiz. Kafolat bo'yicha diagnostika va ta'mirlash — bepul.</p><h3>Agar texnika birinchi oyda buzilsa nima qilish kerak?</h3><p><strong>Javob:</strong> Agar texnika dastlabki 14 kun ichida ishdan chiqqan bo'lsa — siz uni qaytarishingiz yoki o'xshashiga almashtirishingiz mumkin (iste'molchilar huquqlarini himoya qilish to'g'risidagi qonunga ko'ra). Agar 14 kundan ko'proq vaqt o'tgan bo'lsa — kafolat ta'miri uchun Haier servis markaziga murojaat qiling.</p><h3>Haier texnikasi uchun stabilizator kerakmi?</h3><p><strong>Javob:</strong> Ha, texnikani kuchlanish o'zgarishidan himoya qilish uchun kuchlanish stabilizatoridan foydalanishni tavsiya qilamiz. Kuchlanish o'zgarishidan shikastlanishlar kafolat bilan qoplanmaydi.</p><h3>Kafolat ta'miri uchun qanday hujjatlar kerak?</h3><p><strong>Javob:</strong> Kafolat taloni (to'ldirilgan va do'kon muhri bilan) + chek. Bu hujjatlarsiz kafolat xizmati mumkin emas.</p><h3>Haier kafolatini uzaytirish mumkinmi?</h3><p><strong>Javob:</strong> Ha, ba'zi texnika toifalari asosiy tugunlar uchun kengaytirilgan kafolatga ega (masalan, muzlatgich kompressori uchun 12 yil). Xarid qilishda shartlarni aniqlashtiring.</p><h3>Agar kafolat talonini yo'qotgan bo'lsam nima qilish kerak?</h3><p><strong>Javob:</strong> Texnika sotib olgan do'konga murojaat qiling. Agar chekingiz bo'lsa — do'kon kafolat talonini tiklashi mumkin. Cheksiz — kafolat xizmati mumkin emas.</p><h3>Toshkentda Haier servis markazi qayerda joylashgan?</h3><p><strong>Javob:</strong> Manzil, telefon va ish vaqti kafolat talonida va saytda ko'rsatilgan. Shuningdek, aniqlashtirish uchun Haier qo'ng'iroq markaziga qo'ng'iroq qilishingiz mumkin.</p><h2>Xulosa: nima uchun rasmiy kafolat bilan Haier texnikasini sotib olish kerak</h2><p>Rasmiy Haier Shop do'konida Haier texnikasini sotib olish orqali siz quyidagilarni olasiz:</p><ol><li>✅ <strong>Ishlab chiqaruvchining rasmiy kafolati</strong> — 1 yildan 3 yilgacha + asosiy tugunlar uchun 12 yilgacha kengaytirilgan kafolat.</li><li>✅ <strong>Sifat sertifikatlari</strong> — ISO 9001, CE, O'zR muvofiqlik sertifikatlari.</li><li>✅ <strong>Toshkentdagi vakolatli servis markazi</strong> — bepul kafolat xizmati, uyga usta chaqirish.</li><li>✅ <strong>Chek va kafolat taloni</strong> — bepul servis xizmatiga huquqingizni tasdiqlaydi.</li><li>✅ <strong>\"Oq\" texnika</strong> — O'zbekistonda sotishga rasman ruxsat berilgan.</li></ol><p>📌 <strong>Bu \"kulrang\" texnika emas, balki ishlab chiqaruvchining to'liq qo'llab-quvvatlashi bilan rasmiy mahsulotdir.</strong></p><div style=\"background-color:#007BFF;border-radius:10px;color:#fff;margin:30px 0;padding:20px;text-align:center;\"><p style=\"font-size:18px;margin:0 0 15px 0;\"><strong>Rasmiy kafolat bilan Haier texnikasini sotib oling</strong></p><p style=\"margin:0 0 20px 0;\">Ishlab chiqaruvchining rasmiy kafolati, sifat sertifikatlari, Toshkentdagi vakolatli servis markazi, \"kalit topshirish\" yetkazib berish va o'rnatish.</p><p><a style=\"background-color:#fff;border-radius:5px;color:#007BFF;display:inline-block;padding:12px 30px;text-decoration:none;\" href=\"https://haiershop.uz/uz\"><strong>Haier texnikasini tanlash</strong></a></p></div><div style=\"background-color:#F7F7F7;border-radius:10px;margin-top:30px;padding:16px;text-align:left;\"><p><strong>Foydali maqolalar va toifalar:</strong></p><ul><li><a href=\"https://haiershop.uz/uz\">Haier texnika katalogi — muzlatgichlar, konditsionerlar, kir yuvish mashinalari, suv isitgichlar</a></li><li><a href=\"https://haiershop.uz/uz/muzlatgichlar\">Haier muzlatgichlari — kompressor uchun 12 yilgacha kafolat bilan</a></li><li><a href=\"https://haiershop.uz/uz/konditsionerlar\">Haier konditsionerlari — kompressor uchun 10 yilgacha kafolat bilan</a></li><li><a href=\"https://haiershop.uz/uz/kir-yuvish-mashinalari\">Haier kir yuvish mashinalari — motor uchun 10 yilgacha kafolat bilan</a></li><li><a href=\"[URL_VODONAGREVATELY]\">Haier suv isitgichlari — bak uchun 7 yilgacha kafolat bilan</a></li><li><a href=\"https://t.me/haiershop_uz\">Toshkentdagi Haier servis markazi kontaktlari</a></li></ul></div>",
+   "format": "full_html",
+   "processed": "<h1>Sifat sertifikatlari va Haier rasmiy kafolati O'zbekistonda</h1><p><strong>Haier Shop — O'zbekistonda Haier rasmiy vakili.</strong> Barcha mahsulotlar ishlab chiqaruvchining rasmiy kafolati va zarur sifat sertifikatlari bilan ta'minlangan.</p><p>Xarid qilishda siz chek va kafolat talonini olasiz, bu Haier vakolatli servis markazlarida bepul servis xizmatiga huquqingizni tasdiqlaydi.</p><p>📌 <strong>Bu \"kulrang\" texnika emas, balki ishlab chiqaruvchining to'liq qo'llab-quvvatlashi bilan rasmiy mahsulotdir.</strong></p><h2>O'zbekistonda Haier rasmiy kafolati</h2><p>Haier rasmiy kafolati — bu shunchaki \"qog'oz\" emas, balki xaridor sifatida huquqlaringizning haqiqiy himoyasi.</p><h3>Kafolat muddatlari va shartlari</h3><p>Haier maishiy texnikasi uchun standart kafolat <strong>1 yildan 3 yilgacha</strong> (mahsulot toifasiga qarab) tashkil etadi. Alohida tugunlar uchun kengaytirilgan kafolat taqdim etiladi.</p><table style=\"border-collapse:collapse;margin:20px 0;width:100%;\"><thead><tr style=\"background-color:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:10px;text-align:left;\">Texnika toifasi</th><th style=\"border:1px solid #ddd;padding:10px;text-align:left;\">Standart kafolat</th><th style=\"border:1px solid #ddd;padding:10px;text-align:left;\">Kengaytirilgan kafolat (asosiy tugunlar uchun)</th></tr></thead><tbody><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Muzlatgichlar</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–3 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">Invertor kompressor uchun 12 yilgacha</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Konditsionerlar</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–3 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">Kompressor uchun 10 yilgacha</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Kir yuvish mashinalari</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–3 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">Invertor motor uchun 10 yilgacha</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Suv isitgichlar</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–3 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">Ichki bak uchun 7 yilgacha</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Televizorlar</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1–2 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">—</td></tr><tr><td style=\"border:1px solid #ddd;padding:10px;\"><strong>Kichik maishiy texnika</strong></td><td style=\"border:1px solid #ddd;padding:10px;\">1 yil</td><td style=\"border:1px solid #ddd;padding:10px;\">—</td></tr></tbody></table><p>📌 <strong>Masalan:</strong> Haier muzlatgichlarining invertor kompressorlari uchun <strong>12 yillik</strong> kafolat amal qiladi — bu bozordagi eng uzoq muddatlardan biri.</p><h3>Haier kafolati nimalarni qamrab oladi</h3><p>Haier rasmiy kafolati quyidagilarni qamrab oladi:</p><ul><li>✅ <strong>Zavod nuqsonlari</strong> — agar texnika ishlab chiqarish nuqsoni tufayli ishdan chiqqan bo'lsa.</li><li>✅ <strong>Asosiy tugunlarning nosozliklari</strong> — kompressor, motor, elektronika, bak va boshqalar.</li><li>✅ <strong>Bepul ta'mirlash yoki almashtirish</strong> — Haier vakolatli servis markazida.</li><li>✅ <strong>Bepul diagnostika</strong> — agar texnika ishlamasa, usta sababini tekshiradi.</li><li>✅ <strong>Uyga usta chaqirish</strong> — yirik texnika uchun (muzlatgichlar, konditsionerlar, kir yuvish mashinalari).</li></ul><h3>Haier kafolati nimalarni qamrab OLMAYDI</h3><p>Kafolat quyidagilarga taalluqli EMAS:</p><ul><li>❌ <strong>Mexanik shikastlanishlar</strong> — zarbalar, tushishlar, tirnalishlar, yorilishlar.</li><li>❌ <strong>Noto'g'ri foydalanish</strong> — maqsadiga ko'ra ishlatmaslik, yo'riqnomani buzish.</li><li>❌ <strong>Mustaqil ta'mirlash</strong> — agar siz yoki vakolatli bo'lmagan usta texnikani ochgan bo'lsa.</li><li>❌ <strong>Kuchlanish o'zgarishidan shikastlanishlar</strong> — agar stabilizator ishlatilmagan bo'lsa (texnikani himoya qilish uchun stabilizator ishlatishni tavsiya qilamiz).</li><li>❌ <strong>Tabiiy eskirish</strong> — sarf materiallari (filtrlar, lampalar, zichlagichlar va boshqalar).</li><li>❌ <strong>Fors-major</strong> — yong'in, suv toshqini, zilzila va boshqalar.</li></ul><p>📌 <strong>Muhim:</strong> texnikani qabul qilishda tekshiring va hujjatlarni saqlang (chek, kafolat taloni, yo'riqnoma).</p><h3>Toshkentdagi Haier vakolatli servis markazlari</h3><p>Kafolat ta'mirini <strong>Haier vakolatli servis markazlari</strong> amalga oshiradi.</p><p><strong>Kafolat xizmati uchun qayerga murojaat qilish kerak?</strong></p><ul><li>📞 <strong>Haier qo'ng'iroq markaziga qo'ng'iroq qiling:</strong> telefon raqami kafolat talonida va saytda ko'rsatilgan.</li><li>🏢 <strong>Servis markaziga tashrif:</strong> manzil va ish vaqti kafolat talonida ko'rsatilgan.</li><li>🚗 <strong>Uyga usta chaqirish:</strong> yirik texnika uchun (muzlatgichlar, konditsionerlar, kir yuvish mashinalari).</li></ul><p>📌 <strong>Toshkentda Haier o'zining vakolatli servis markazi mavjud.</strong> Manzil, telefon va ish vaqti kafolat talonida va saytda ko'rsatilgan.</p><p>👉 Toshkentdagi Haier servis markazi kontaktlari - 71 207 10 01</p><h2>Sifat va muvofiqlik sertifikatlari</h2><p>Haier texnikasi xalqaro sifat va xavfsizlik standartlariga javob beradi.</p><h3>Xalqaro standartlar (ISO 9001, CE va boshqalar)</h3><p>Haier — 40 yildan ortiq tarixga ega jahon brendi. Haier mahsulotlari quyidagi sertifikatlarga ega:</p><ul><li>✅ <strong>ISO 9001:2015</strong> — sifat boshqaruvi tizimi sertifikati. Bu Haier texnikasini ishlab chiqarish xalqaro sifat standartlariga javob berishini anglatadi.</li><li>✅ <strong>ISO 14001</strong> — ekologik boshqaruv tizimi sertifikati. Haier atrof-muhitga g'amxo'rlik qiladi va ekologik toza materiallardan foydalanadi.</li><li>✅ <strong>CE (Conformité Européenne)</strong> — Yevropa xavfsizlik sertifikati. Bu Haier texnikasi Yevropa Ittifoqi xavfsizlik talablariga javob berishini anglatadi.</li><li>✅ <strong>RoHS (Restriction of Hazardous Substances)</strong> — mahsulotda xavfli moddalar yo'qligini tasdiqlovchi sertifikat.</li><li>✅ <strong>EAC (Yevroosiyo muvofiqlik)</strong> — YeEI (Yevroosiyo Iqtisodiy Ittifoqi) mamlakatlari uchun sertifikat.</li></ul><p>📌 <strong>Bu siz uchun nimani anglatadi?</strong> Haier texnikasi xavfsiz, ishonchli va eng qat'iy xalqaro standartlarga javob beradi.</p><h3>O'zbekistonda muvofiqlik sertifikatlari</h3><p>Rasmiy Haier Shop do'koni orqali sotiladigan barcha Haier texnikasi <strong>O'zbekiston Respublikasi talablariga muvofiqlik sertifikatlariga</strong> ega.</p><p>Bu mahsulot O'zbekistonda majburiy sertifikatlashtiruvdan o'tganligini va milliy sifat va xavfsizlik standartlariga javob berishini anglatadi.</p><p>📌 <strong>Siz O'zbekistonda sotishga rasman ruxsat berilgan \"oq\" texnikani sotib olasiz.</strong></p><h2>Litsenziyalar va rasmiy vakillik</h2><h3>O'zbekistonda Haier rasmiy distribyutori</h3><p>Haier Shop — <strong>O'zbekistonda Haier rasmiy vakili</strong>.</p><p>Biz Haier ishlab chiqaruvchisi bilan shartnoma asosida faoliyat yuritamiz va barcha zarur hujjatlarga egamiz:</p><ul><li>✅ <strong>Haier Global dan xat</strong> — O'zbekistonda Haier rasmiy distribyutori maqomini tasdiqlaydi.</li><li>✅ <strong>Davlat ro'yxatidan o'tish guvohnomasi</strong> — O'zbekistonda ro'yxatdan o'tgan yuridik shaxs.</li><li>✅ <strong>Litsenziyalar va ruxsat hujjatlari</strong> — maishiy texnika savdosi uchun barcha zarur hujjatlar.</li></ul><p>📌 <strong>Biz o'z faoliyatimizning huquqiy asosini ochiq namoyish etamiz.</strong> Siz rasmiy vakildan texnika sotib olayotganingizga ishonch hosil qilishingiz mumkin, \"kulrang\" import qiluvchidan emas.</p><h3>Kompaniya ro'yxatdan o'tishi va ruxsat hujjatlari</h3><p>Haier Shop O'zbekistonda ro'yxatdan o'tgan va maishiy texnika savdosi uchun barcha zarur hujjatlarga ega:</p><ul><li>✅ <strong>Davlat ro'yxatidan o'tish guvohnomasi</strong> — O'zbekistonda ro'yxatdan o'tgan yuridik shaxs.</li><li>✅ <strong>STIR (soliq to'lovchining identifikatsiya raqami)</strong> — kompaniya O'zbekistonda soliq to'laydi.</li><li>✅ <strong>Savdo litsenziyalari</strong> — maishiy texnika sotish uchun barcha zarur ruxsatlar.</li></ul><p>📌 <strong>Siz mahsulot va xizmatlar sifati uchun to'liq javobgarlik oladigan rasmiy kompaniyadan sotib olasiz.</strong></p><h2>Haier kafolatining haqiqiyligini qanday tekshirish mumkin</h2><p>Rasmiy Haier kafolati bilan texnika sotib olayotganingizga ishonch hosil qilish uchun quyidagilarni tekshiring:</p><ol><li>✅ <strong>Kafolat taloni</strong> — to'ldirilgan bo'lishi kerak (xarid sanasi, model, seriya raqami, do'kon muhri).</li><li>✅ <strong>Chek</strong> — rasmiy do'konda xarid qilganingizni tasdiqlaydi.</li><li>✅ <strong>Seriya raqami</strong> — texnikada, kafolat talonida va chekda bir xil bo'lishi kerak.</li><li>✅ <strong>Servis markazi kontaktlari</strong> — kafolat talonida ko'rsatilgan bo'lishi kerak (telefon, manzil).</li><li>✅ <strong>Rasmiy sayt</strong> — do'kon Haier rasmiy saytida vakolatli diler sifatida ko'rsatilganligini tekshiring.</li></ol><p>📌 <strong>Agar kamida bitta band bajarilmasa — bu xavotirlanish uchun sabab.</strong></p><p>👉 <a href=\"[URL_BLOG_WARRANTY]\">Haier rasmiy kafolatini qanday tekshirish mumkin — batafsil ko'rsatma</a></p><h2>Kafolat va sertifikatlar haqida tez-tez beriladigan savollar (FAQ)</h2><h3>Haier kafolat xizmatini qanday olish mumkin?</h3><p><strong>Javob:</strong> Haier qo'ng'iroq markaziga qo'ng'iroq qiling (telefon raqami kafolat talonida ko'rsatilgan), muammoni tasvirlab bering. Usta uyga keladi (yirik texnika uchun) yoki siz texnikani servis markaziga olib kelasiz. Kafolat bo'yicha diagnostika va ta'mirlash — bepul.</p><h3>Agar texnika birinchi oyda buzilsa nima qilish kerak?</h3><p><strong>Javob:</strong> Agar texnika dastlabki 14 kun ichida ishdan chiqqan bo'lsa — siz uni qaytarishingiz yoki o'xshashiga almashtirishingiz mumkin (iste'molchilar huquqlarini himoya qilish to'g'risidagi qonunga ko'ra). Agar 14 kundan ko'proq vaqt o'tgan bo'lsa — kafolat ta'miri uchun Haier servis markaziga murojaat qiling.</p><h3>Haier texnikasi uchun stabilizator kerakmi?</h3><p><strong>Javob:</strong> Ha, texnikani kuchlanish o'zgarishidan himoya qilish uchun kuchlanish stabilizatoridan foydalanishni tavsiya qilamiz. Kuchlanish o'zgarishidan shikastlanishlar kafolat bilan qoplanmaydi.</p><h3>Kafolat ta'miri uchun qanday hujjatlar kerak?</h3><p><strong>Javob:</strong> Kafolat taloni (to'ldirilgan va do'kon muhri bilan) + chek. Bu hujjatlarsiz kafolat xizmati mumkin emas.</p><h3>Haier kafolatini uzaytirish mumkinmi?</h3><p><strong>Javob:</strong> Ha, ba'zi texnika toifalari asosiy tugunlar uchun kengaytirilgan kafolatga ega (masalan, muzlatgich kompressori uchun 12 yil). Xarid qilishda shartlarni aniqlashtiring.</p><h3>Agar kafolat talonini yo'qotgan bo'lsam nima qilish kerak?</h3><p><strong>Javob:</strong> Texnika sotib olgan do'konga murojaat qiling. Agar chekingiz bo'lsa — do'kon kafolat talonini tiklashi mumkin. Cheksiz — kafolat xizmati mumkin emas.</p><h3>Toshkentda Haier servis markazi qayerda joylashgan?</h3><p><strong>Javob:</strong> Manzil, telefon va ish vaqti kafolat talonida va saytda ko'rsatilgan. Shuningdek, aniqlashtirish uchun Haier qo'ng'iroq markaziga qo'ng'iroq qilishingiz mumkin.</p><h2>Xulosa: nima uchun rasmiy kafolat bilan Haier texnikasini sotib olish kerak</h2><p>Rasmiy Haier Shop do'konida Haier texnikasini sotib olish orqali siz quyidagilarni olasiz:</p><ol><li>✅ <strong>Ishlab chiqaruvchining rasmiy kafolati</strong> — 1 yildan 3 yilgacha + asosiy tugunlar uchun 12 yilgacha kengaytirilgan kafolat.</li><li>✅ <strong>Sifat sertifikatlari</strong> — ISO 9001, CE, O'zR muvofiqlik sertifikatlari.</li><li>✅ <strong>Toshkentdagi vakolatli servis markazi</strong> — bepul kafolat xizmati, uyga usta chaqirish.</li><li>✅ <strong>Chek va kafolat taloni</strong> — bepul servis xizmatiga huquqingizni tasdiqlaydi.</li><li>✅ <strong>\"Oq\" texnika</strong> — O'zbekistonda sotishga rasman ruxsat berilgan.</li></ol><p>📌 <strong>Bu \"kulrang\" texnika emas, balki ishlab chiqaruvchining to'liq qo'llab-quvvatlashi bilan rasmiy mahsulotdir.</strong></p><div style=\"background-color:#007BFF;border-radius:10px;color:#fff;margin:30px 0;padding:20px;text-align:center;\"><p style=\"font-size:18px;margin:0 0 15px 0;\"><strong>Rasmiy kafolat bilan Haier texnikasini sotib oling</strong></p><p style=\"margin:0 0 20px 0;\">Ishlab chiqaruvchining rasmiy kafolati, sifat sertifikatlari, Toshkentdagi vakolatli servis markazi, \"kalit topshirish\" yetkazib berish va o'rnatish.</p><p><a style=\"background-color:#fff;border-radius:5px;color:#007BFF;display:inline-block;padding:12px 30px;text-decoration:none;\" href=\"https://haiershop.uz/uz\"><strong>Haier texnikasini tanlash</strong></a></p></div><div style=\"background-color:#F7F7F7;border-radius:10px;margin-top:30px;padding:16px;text-align:left;\"><p><strong>Foydali maqolalar va toifalar:</strong></p><ul><li><a href=\"https://haiershop.uz/uz\">Haier texnika katalogi — muzlatgichlar, konditsionerlar, kir yuvish mashinalari, suv isitgichlar</a></li><li><a href=\"https://haiershop.uz/uz/muzlatgichlar\">Haier muzlatgichlari — kompressor uchun 12 yilgacha kafolat bilan</a></li><li><a href=\"https://haiershop.uz/uz/konditsionerlar\">Haier konditsionerlari — kompressor uchun 10 yilgacha kafolat bilan</a></li><li><a href=\"https://haiershop.uz/uz/kir-yuvish-mashinalari\">Haier kir yuvish mashinalari — motor uchun 10 yilgacha kafolat bilan</a></li><li><a href=\"[URL_VODONAGREVATELY]\">Haier suv isitgichlari — bak uchun 7 yilgacha kafolat bilan</a></li><li><a href=\"https://t.me/haiershop_uz\">Toshkentdagi Haier servis markazi kontaktlari</a></li></ul></div>"
+  },
+  "field_opisanie_tovara_2": null,
+  "field_opisanie_tovara_3": null,
+  "field_opisanie_tovara_4": null,
+  "field_opisanie_tovara_5": null,
+  "field_opisanie_tovara_6": null,
+  "field_zagolovok_opisaniya_1": "Sifat sertifikatlari va Haier rasmiy kafolati O'zbekistonda",
+  "field_zagolovok_opisaniya_2": null,
+  "field_zagolovok_opisaniya_3": null,
+  "field_zagolovok_opisaniya_4": null,
+  "field_zagolovok_opisaniya_5": null,
+  "field_zagolovok_opisaniya_6": null
+ },
+ "relationships": {
+  "node_type": {
+   "data": {
+    "type": "node_type--node_type",
+    "id": "a516e3ad-1a90-415c-85f0-5c27aa7dae64",
+    "meta": {
+     "drupal_internal__target_id": "page"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/node_type?resourceVersion=id%3A217"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/relationships/node_type?resourceVersion=id%3A217"
+    }
+   }
+  },
+  "revision_uid": {
+   "data": {
+    "type": "user--user",
+    "id": "6ac28a79-206d-4b9a-b2d8-4a7ee6f936f6",
+    "meta": {
+     "drupal_internal__target_id": 31
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/revision_uid?resourceVersion=id%3A217"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/relationships/revision_uid?resourceVersion=id%3A217"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "6ac28a79-206d-4b9a-b2d8-4a7ee6f936f6",
+    "meta": {
+     "drupal_internal__target_id": 31
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/uid?resourceVersion=id%3A217"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/relationships/uid?resourceVersion=id%3A217"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": {
+    "type": "file--file",
+    "id": "22947e10-bca3-4631-833a-c0e0f6e71ba6",
+    "meta": {
+     "alt": "Сертификаты и официальная гарантия Haier — Haier Shop Узбекистан",
+     "title": "",
+     "width": 1600,
+     "height": 900,
+     "drupal_internal__target_id": 5229
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/field_izobrazhenie_opisaniya_1?resourceVersion=id%3A217"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/relationships/field_izobrazhenie_opisaniya_1?resourceVersion=id%3A217"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_2": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/field_izobrazhenie_opisaniya_2?resourceVersion=id%3A217"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/relationships/field_izobrazhenie_opisaniya_2?resourceVersion=id%3A217"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/field_izobrazhenie_opisaniya_3?resourceVersion=id%3A217"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/relationships/field_izobrazhenie_opisaniya_3?resourceVersion=id%3A217"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/field_izobrazhenie_opisaniya_4?resourceVersion=id%3A217"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/relationships/field_izobrazhenie_opisaniya_4?resourceVersion=id%3A217"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/field_izobrazhenie_opisaniya_5?resourceVersion=id%3A217"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/relationships/field_izobrazhenie_opisaniya_5?resourceVersion=id%3A217"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/field_izobrazhenie_opisaniya_6?resourceVersion=id%3A217"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/fccf5b26-22e2-4f85-8eb4-e630f78914db/relationships/field_izobrazhenie_opisaniya_6?resourceVersion=id%3A217"
+    }
+   }
+  }
+ }
+}

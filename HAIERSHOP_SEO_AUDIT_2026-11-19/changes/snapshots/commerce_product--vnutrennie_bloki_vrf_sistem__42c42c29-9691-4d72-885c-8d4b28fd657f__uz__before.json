@@ -1,0 +1,417 @@
+{
+ "type": "commerce_product--vnutrennie_bloki_vrf_sistem",
+ "id": "42c42c29-9691-4d72-885c-8d4b28fd657f",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f"
+  }
+ },
+ "attributes": {
+  "drupal_internal__product_id": 333,
+  "langcode": "uz",
+  "status": true,
+  "title": "Haier VRF tizimining kanalli o‘rta bosimli ichki bloki AD092MJERAB",
+  "path": {
+   "alias": "/sanoat-konditsionerlari-vrf-tizimlari/kanalli-ichki-bloklar/haier-vrf-tizimining-kanalli-orta-0",
+   "pid": 1145,
+   "langcode": "uz"
+  },
+  "created": "2026-04-06T11:29:10+00:00",
+  "changed": "2026-04-06T11:39:46+00:00",
+  "default_langcode": false,
+  "overall_rating": null,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "VRF kanal bloki Haier AD092MJERAB o'rta bosimli sotib olish | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "O'rta bosimli VRF bloki Haier AD092MJERAB. Statik bosim 50/100 Pa, ultra yupqa korpus, drenaj nasosi, Blue Fin. Ofis va ishlab chiqarish uchun. Toshkentga yetkazish. | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "Haier AD092MJERAB VRF blokini Toshkentda sotib oling. Inverter texnologiyasi, avtorestart, kompressor himoyasi. Ma'muriy va sanoat ob'ektlari uchun. Kafolat. | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "haier ad092mjerab, o'rta bosimli vrf kanal bloki, 50 100 pa o'rta bosimli vrf blok, ofis uchun ultra yupqa vrf blok, sanoat xonalari uchun vrf, haier ad092mjerab narxi, vrf blok yetkazish toshkent, drenaj nasosli vrf, haiershop vrf"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Toshkent, O‘zbekiston"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop – uy uchun texnika va sanoat yechimlari | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "O‘zbekistonda Haier ning rasmiy onlayn do‘koni. Hammasi – sizning biznesingiz uchun maishiy texnikadan tortib sanoat uskunalarigacha. Har bir mahsulotda ishonchlilik, innovatsiyalar va yuqori sifat | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "field_diametr_gazovoy_truby_mm": 9.52,
+  "field_diametr_zhidkostnoy_truby": 6.35,
+  "field_dostavka": null,
+  "field_drenazhnyy_nasos": "Standart",
+  "field_elektropitanie_f_v_gc_": "1/230/50",
+  "field_gabaritnye_razmery_sh_h_g": "700 x 700 x 248",
+  "field_garantiya": "3 yil",
+  "field_khit_prodazh": null,
+  "field_meta_tegi": "{\"abstract\":\"Haier AD092MJERAB VRF blokini Toshkentda sotib oling. Inverter texnologiyasi, avtorestart, kompressor himoyasi. Ma\\u0027muriy va sanoat ob\\u0027ektlari uchun. Kafolat. | Haiershop\",\"description\":\"O\\u0027rta bosimli VRF bloki Haier AD092MJERAB. Statik bosim 50\\/100 Pa, ultra yupqa korpus, drenaj nasosi, Blue Fin. Ofis va ishlab chiqarish uchun. Toshkentga yetkazish. | Haiershop\",\"geo_placename\":\"Toshkent, O\\u2018zbekiston\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TK\",\"keywords\":\"haier ad092mjerab, o\\u0027rta bosimli vrf kanal bloki, 50 100 pa o\\u0027rta bosimli vrf blok, ofis uchun ultra yupqa vrf blok, sanoat xonalari uchun vrf, haier ad092mjerab narxi, vrf blok yetkazish toshkent, drenaj nasosli vrf, haiershop vrf\",\"title\":\"VRF kanal bloki Haier AD092MJERAB o\\u0027rta bosimli sotib olish | Haiershop\"}",
+  "field_naimenovanie_modeli_paneli": null,
+  "field_novinka": "yes",
+  "field_obogrev_kvt": 3.2,
+  "field_ohlazhdenie_kvt": 2.8,
+  "field_opisanie_tovara_1": {
+   "value": "<p><strong>Ma'muriy va sanoat binolari uchun yuqori unumdor yechim</strong><br>Haier AD092MJERAB kanalli ichki bloki ko‘p zonali VRF tizimlari tarkibida ishlash uchun mo‘ljallangan. O‘rta bosimli model ma'muriy va sanoat binolariga o‘rnatish uchun ishlab chiqilgan bo‘lib, yuqori unumdorlik, amaliylik va ishonchlilik bilan ajralib turadi.</p>",
+   "format": "full_html",
+   "processed": "<p><strong>Ma'muriy va sanoat binolari uchun yuqori unumdor yechim</strong><br>Haier AD092MJERAB kanalli ichki bloki ko‘p zonali VRF tizimlari tarkibida ishlash uchun mo‘ljallangan. O‘rta bosimli model ma'muriy va sanoat binolariga o‘rnatish uchun ishlab chiqilgan bo‘lib, yuqori unumdorlik, amaliylik va ishonchlilik bilan ajralib turadi.</p>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p>Ultra yupqa korpus tufayli blok asosiy va to‘xtatilgan shift orasidagi cheklangan bo‘shliqlarga o‘rnatilishi mumkin. Qurilmalar tez o‘rnatiladi, foydalanish uchun qulay va uzoq xizmat muddatiga mo‘ljallangan.</p>",
+   "format": "full_html",
+   "processed": "<p>Ultra yupqa korpus tufayli blok asosiy va to‘xtatilgan shift orasidagi cheklangan bo‘shliqlarga o‘rnatilishi mumkin. Qurilmalar tez o‘rnatiladi, foydalanish uchun qulay va uzoq xizmat muddatiga mo‘ljallangan.</p>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p>DC Inverter texnologiyasi quvvatni silliq sozlashni va energiya sarfini kamaytirishni ta’minlaydi. Uskuna kam elektr energiyasini iste’mol qilib, yuqori unumdorlikni saqlaydi, bu modelni uzoq muddatli foydalanishda iqtisodiy jihatdan foydali qiladi.</p>",
+   "format": "full_html",
+   "processed": "<p>DC Inverter texnologiyasi quvvatni silliq sozlashni va energiya sarfini kamaytirishni ta’minlaydi. Uskuna kam elektr energiyasini iste’mol qilib, yuqori unumdorlikni saqlaydi, bu modelni uzoq muddatli foydalanishda iqtisodiy jihatdan foydali qiladi.</p>"
+  },
+  "field_opisanie_tovara_4": {
+   "value": "<p>Qurilmalar deyarli shovqinsiz ishlaydi, xonadagi odamlarning qulayligini buzmaydi. Bu bloklarni ofis va ma'muriy binolarda, tinchlik muhim bo‘lgan joylarda ishlatish imkonini beradi.</p>",
+   "format": "full_html",
+   "processed": "<p>Qurilmalar deyarli shovqinsiz ishlaydi, xonadagi odamlarning qulayligini buzmaydi. Bu bloklarni ofis va ma'muriy binolarda, tinchlik muhim bo‘lgan joylarda ishlatish imkonini beradi.</p>"
+  },
+  "field_opisanie_tovara_5": {
+   "value": "<p>Havo filtri mayda chang zarralari, hasharotlar va boshqa zarralarni ushlab turadi. O‘rnatilgan drenaj nasosi kondensatni samarali chiqaradi. Blue Fin korroziyaga qarshi himoyasi issiqlik almashtirgichni korroziyadan saqlaydi, o‘rnatilgan kompressor himoyasi esa uskunaning xizmat muddatini uzaytiradi.</p>",
+   "format": "full_html",
+   "processed": "<p>Havo filtri mayda chang zarralari, hasharotlar va boshqa zarralarni ushlab turadi. O‘rnatilgan drenaj nasosi kondensatni samarali chiqaradi. Blue Fin korroziyaga qarshi himoyasi issiqlik almashtirgichni korroziyadan saqlaydi, o‘rnatilgan kompressor himoyasi esa uskunaning xizmat muddatini uzaytiradi.</p>"
+  },
+  "field_opisanie_tovara_6": {
+   "value": "<p>\"Avtorestart\" funksiyasi elektr ta’minoti tiklanganidan keyin oxirgi ish rejimini avtomatik ravishda qayta boshlaydi. Boshqarish alohida sotib olinadigan pult yoki markazlashtirilgan tizim yordamida amalga oshirilishi mumkin.</p>",
+   "format": "full_html",
+   "processed": "<p>\"Avtorestart\" funksiyasi elektr ta’minoti tiklanganidan keyin oxirgi ish rejimini avtomatik ravishda qayta boshlaydi. Boshqarish alohida sotib olinadigan pult yoki markazlashtirilgan tizim yordamida amalga oshirilishi mumkin.</p>"
+  },
+  "field_opisanie_tovara_7": {
+   "value": "<p>Model ma'muriy va ishlab chiqarish binolari, ofis markazlari, savdo zallari va boshqa ob’ektlarda qulay mikroiqlim yaratish uchun mo‘ljallangan bo‘lib, bunda yashirin o‘rnatish va yuqori unumdorlik talab etiladi.</p>",
+   "format": "full_html",
+   "processed": "<p>Model ma'muriy va ishlab chiqarish binolari, ofis markazlari, savdo zallari va boshqa ob’ektlarda qulay mikroiqlim yaratish uchun mo‘ljallangan bo‘lib, bunda yashirin o‘rnatish va yuqori unumdorlik talab etiladi.</p>"
+  },
+  "field_opisanie_tovara_8": {
+   "value": "<p><strong>Haier AD092MJERAB</strong> — bu ultra yupqa korpus, yuqori unumdorlik, past shovqin darajasi va ishonchli himoyani o‘zida mujassam etgan VRF tizimlari uchun professional o‘rta bosimli kanalli ichki blokdir. Cheklangan o‘rnatish joyiga ega xonalar uchun ideal tanlovdir.</p>",
+   "format": "full_html",
+   "processed": "<p><strong>Haier AD092MJERAB</strong> — bu ultra yupqa korpus, yuqori unumdorlik, past shovqin darajasi va ishonchli himoyani o‘zida mujassam etgan VRF tizimlari uchun professional o‘rta bosimli kanalli ichki blokdir. Cheklangan o‘rnatish joyiga ega xonalar uchun ideal tanlovdir.</p>"
+  },
+  "field_poddelnyy_zagolovok": "Haier VRF tizimining kanalli o‘rta bosimli ichki bloki",
+  "field_pult_upravleniya_infrakras": "YR-HRS01",
+  "field_pult_upravleniya_provodnoy": "HW-PB101AFK",
+  "field_rashod_vozduha_v_s_n_m3_ch": "630/510/424",
+  "field_razmery_v_upakovke_sh_h_g": "932 x 835 x 280",
+  "field_srok_sluzhby": "30 yil",
+  "field_staticheskoe_davlenie_pa": "50/100",
+  "field_strana_proizvodstva": "Xitoy",
+  "field_uroven_zvukovogo_davleniya": 33,
+  "field_v_izbrannoe": null,
+  "field_ves_kg": 27,
+  "field_zagolovok_opisaniya_1": "Haier AD092MJERAB VRF tizimining kanalli o‘rta bosimli ichki bloki",
+  "field_zagolovok_opisaniya_2": "Ultra yupqa konstruksiya va o‘rnatish qulayligi",
+  "field_zagolovok_opisaniya_3": "Inverter texnologiyasi va energiya samaradorligi",
+  "field_zagolovok_opisaniya_4": "Past shovqin darajasi va qulaylik",
+  "field_zagolovok_opisaniya_5": "Filtrlash va himoya tizimi",
+  "field_zagolovok_opisaniya_6": "Intellektual boshqaruv funksiyalari",
+  "field_zagolovok_opisaniya_7": "Qo‘llanish sohasi",
+  "field_zagolovok_opisaniya_8": "Xulosa: ishonchlilik, unumdorlik va ixchamlik"
+ },
+ "relationships": {
+  "commerce_product_type": {
+   "data": {
+    "type": "commerce_product_type--commerce_product_type",
+    "id": "29660155-002e-42d5-a42d-7a01243d3efe",
+    "meta": {
+     "drupal_internal__target_id": "vnutrennie_bloki_vrf_sistem"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/commerce_product_type"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/commerce_product_type"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/uid"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/uid"
+    }
+   }
+  },
+  "stores": {
+   "data": [
+    {
+     "type": "commerce_store--online",
+     "id": "10d9cb6e-3da7-4177-a918-8547abd388db",
+     "meta": {
+      "drupal_internal__target_id": 1
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/stores"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/stores"
+    }
+   }
+  },
+  "variations": {
+   "data": [
+    {
+     "type": "commerce_product_variation--default",
+     "id": "2c0db7aa-6310-4cbb-8e4e-b44cc3db74b1",
+     "meta": {
+      "drupal_internal__target_id": 354
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/variations"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/variations"
+    }
+   }
+  },
+  "default_variation": {
+   "data": {
+    "type": "commerce_product_variation--default",
+    "id": "2c0db7aa-6310-4cbb-8e4e-b44cc3db74b1",
+    "meta": {
+     "drupal_internal__target_id": 354
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/default_variation"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/default_variation"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/field_izobrazhenie_opisaniya_"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/field_izobrazhenie_opisaniya_"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/field_izobrazhenie_opisaniya_1"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/field_izobrazhenie_opisaniya_1"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/field_izobrazhenie_opisaniya_3"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/field_izobrazhenie_opisaniya_3"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/field_izobrazhenie_opisaniya_4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/field_izobrazhenie_opisaniya_4"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/field_izobrazhenie_opisaniya_5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/field_izobrazhenie_opisaniya_5"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/field_izobrazhenie_opisaniya_6"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/field_izobrazhenie_opisaniya_6"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_7": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/field_izobrazhenie_opisaniya_7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/field_izobrazhenie_opisaniya_7"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_8": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/field_izobrazhenie_opisaniya_8"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/field_izobrazhenie_opisaniya_8"
+    }
+   }
+  },
+  "field_vid_tovara": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "28990ae0-f4d5-48d4-abf1-f0be46a006da",
+     "meta": {
+      "drupal_internal__target_id": 31
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/field_vid_tovara"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/vnutrennie_bloki_vrf_sistem/42c42c29-9691-4d72-885c-8d4b28fd657f/relationships/field_vid_tovara"
+    }
+   }
+  }
+ }
+}
