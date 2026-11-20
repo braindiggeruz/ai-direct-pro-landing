@@ -8,10 +8,12 @@ name: Pages production deploy
 # stamped artifact, production lineage (never overwrites a newer release),
 # upload, read-back of the production commit and of the live release manifest.
 #
-# Cloudflare credentials live only in two repository secrets:
-#   CLOUDFLARE_API_TOKEN  — API token with Account · Cloudflare Pages · Edit
-#   CLOUDFLARE_ACCOUNT_ID — the account that owns the ai-direct-pro-landing project
-# They reach the deploy step and nothing else. Never runs on push or schedule.
+# The Cloudflare credential lives only in the repository secret
+#   CLOUDFLARE_API_TOKEN — API token with Account · Cloudflare Pages · Edit.
+# The account ID is not a secret: it defaults to the account recorded in
+# docs/agents-platform/BORMI_SESSION_HANDOFF_2026-08-02_SEARCH_AND_LATENCY.md
+# (a CLOUDFLARE_ACCOUNT_ID secret overrides it). Both reach the deploy step
+# and nothing else. Never runs on push or schedule.
 
 on:
   workflow_dispatch:
@@ -60,5 +62,5 @@ jobs:
       - name: Guarded deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || '14ce9e04574f2e6d825e56ee603e5cd5' }}
         run: npm run deploy:pages:production

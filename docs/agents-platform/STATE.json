@@ -3766,14 +3766,15 @@
       "scope": "UZ chat: H2 «ChatGPT bilan o‘zbek tilida gaplashish: yozma va ovozli suhbat», paragraph, FAQ «ChatGPT bilan ovozli gaplashsa bo‘ladimi?», keyword chatgpt uzbek tilida gaplashish; intent-manifest C36. BreadcrumbList named on the download guide and both chats (BREADCRUMB_NAME_HELD keeps only the login guide, R14). Five unprotected pages: one anchor to the UZ chat each, honest «ChatGPT … muqobil / o‘rniga» wording. Download guide: the two a17451a sentences reworded without «rasmiy»; NOW.md video scripts without «rasmiy». Reviewed revision docs/seo/evidence/2026-11-20-uz-now-b/ (proof reports/uz-now-20261120/review-b.ts, chained from 2026-11-20-uz-now); BASELINE points to it.",
       "validation": "review-b.ts: sitemap identical; 8 HTML pages changed exactly as declared; other files: llms-full.txt and two Markdown twins; protected contracts: bodyTextSha256 of the UZ chat and the download guide only. tsc -b 0; seo-audit OK; eslint 0 on touched scripts/tests; targeted SEO tests green; npm test 2308 tests / 34 fail, none new against the base.",
       "baseline": "«chatgpt uzbek tilida gaplashish» (GSC 28 days to 2026-11-17): 8 clicks / 758 impressions / CTR 1.06 % / position 6.9; UZ chat 64 % of impressions (CTR 1.65 %, position 5.6), promptlar 36 % (CTR 0 %, position 9.3). Ads: 1 300 a month, 1 600 in October 2026.",
-      "deploy": "Not possible from this cloud session without credentials; owner runs deploy_runner.py, or adds the repository secrets for .github/workflows/pages-production-deploy.yml (D-DEPLOY-CI-20261120) and the agent dispatches it on the owner's command. Both steps ship in one deploy. Cloud pre-flight on 3477199: npm run build:production and pages-production.ts check pass (2 192 files)."
+      "deploy": "Not possible from this cloud session without credentials; owner runs deploy_runner.py, or adds the repository secret CLOUDFLARE_API_TOKEN for .github/workflows/pages-production-deploy.yml (D-DEPLOY-CI-20261120) and the agent dispatches it on the owner's command. Both steps ship in one deploy. Cloud pre-flight on 3477199: npm run build:production and pages-production.ts check pass (2 192 files)."
     }
   },
   "deploy_ci_20261120": {
     "status": "prepared_needs_owner_secrets",
     "owner_question": "Owner in chat, 2026-11-20: \"родной как сделать чтобы ты автономно мог всё задеплоить??\"",
     "workflow": ".github/workflows/pages-production-deploy.yml — workflow_dispatch only, main only, input confirm=deploy, concurrency pages-production; runs yarn install --frozen-lockfile, npm --prefix apps/bormi-admin ci, npm run build:production, npm run deploy:pages:production.",
-    "secrets_needed": "CLOUDFLARE_API_TOKEN (Account · Cloudflare Pages · Edit) and CLOUDFLARE_ACCOUNT_ID as GitHub repository secrets; never in chat or code.",
-    "effective_when": "The workflow is on main (PR #63 merged) and both secrets exist."
+    "secrets_needed": "CLOUDFLARE_API_TOKEN (Account · Cloudflare Pages · Edit) as a GitHub repository secret; never in chat or code. CLOUDFLARE_ACCOUNT_ID defaults to 14ce9e04574f2e6d825e56ee603e5cd5 (recorded in BORMI_SESSION_HANDOFF_2026-08-02); an optional secret overrides it.",
+    "effective_when": "The workflow is on main (PR #63 merged) and the CLOUDFLARE_API_TOKEN secret exists.",
+    "credential_search_20261120": "No Cloudflare credential in this session's environment or in the owner's cloud environments (ai-direct-pro-landing: Instagram key only; BEK CORP preview: none). The owner's machine deploys through a wrangler OAuth login that stays there."
   }
 }
