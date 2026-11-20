@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-11-20T01:15:22.548Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-18-uz-unpair/reviewed-protected-pages.json",
+  "pages": 423,
+  "changed": [
+    "/",
+    "/ru/gpt-chat/",
+    "/uz/blog/",
+    "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "/uz/gpt-uzbek-tilida/"
+  ],
+  "reviewedChanges": [
+    {
+      "pathname": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "fields": [
+        "bodyTextSha256",
+        "h1",
+        "title"
+      ],
+      "note": "Title and H1 take «(skachat)» for the bare Latin «chatgpt skachat» (12 100 a month) and «chat gpt skachat» (4 400), which had no impressions on any of our URLs; one intro sentence on «skachat»; the official links line says they were re-checked on 20.11.2026 (Google Play, App Store and chatgpt.com/download answered 200 and name OpenAI); an H3 and paragraph on third-party «Chat GPT APK» catalogs; two FAQ answers (safe sources, Samsung); dateModified 2026-11-20. Description, canonical, robots and internal links unchanged."
+    },
+    {
+      "pathname": "/uz/gpt-uzbek-tilida/",
+      "fields": [
+        "bodyTextSha256",
+        "h1",
+        "title"
+      ],
+      "note": "Title «ChatGPT uzbekcha muqobili — bepul kirish, ro‘yxatsiz chat» → «ChatGPT uzbekcha muqobili: bepul kirish, ro‘yxatsiz chat» (a colon instead of the dash: in 7 of 11 SERP snapshots of 2026-11-19/20 Google showed only the part after the dash); H1 «O‘zbek tilida AI chat — 3 ta bepul sinov javobi» → «ChatGPT’ga o‘zbekcha muqobil — 3 ta bepul sinov javobi»; the spellings heading starts with «Chachipiti» (22 200 a month, 15 impressions in 28 days); visible update date 20.11.2026. Description, canonical, robots, hreflang (none, A14) and internal links unchanged."
+    },
+    {
+      "pathname": "/ru/gpt-chat/",
+      "fields": [
+        "bodyTextSha256",
+        "title"
+      ],
+      "note": "Title «Аналог ChatGPT онлайн в Узбекистане — без регистрации» → «Аналог ChatGPT онлайн: на русском и узбекском, без регистрации» for Uzbek speakers who search in Cyrillic (чачи пити, чати пити: 49 thousand impressions in 28 days at CTR 0.16 %); visible update date 20.11.2026. H1, description, canonical, robots, hreflang (none, A14) and internal links unchanged."
+    },
+    {
+      "pathname": "/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "note": "Homepage lists: the UZ chat entry shows its new H1 and the download-guide entry its new title; putting the two old labels back gives the predecessor HTML byte for byte. Links, order and every other label are unchanged."
+    }
+  ]
+}

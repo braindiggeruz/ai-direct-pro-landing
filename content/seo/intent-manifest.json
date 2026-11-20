@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-11-17",
+  "updatedAt": "2026-11-20",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "commercialClusters": [
     {
@@ -3680,7 +3680,7 @@
       "id": "C97-uz-download-guide-vs-ru-download-guide",
       "commercial": {
         "url": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
-        "owns": "the Uzbek and Latin-script wording of the download task — «chatgpt yuklab olish …», «chatgpt uzbekcha skachat» and the mixed «chatgpt uzbekcha скачать»; protected and unchanged, no hreflang pair (A11)",
+        "owns": "the Uzbek and Latin-script wording of the download task — «chatgpt yuklab olish …», «chatgpt uzbekcha skachat» and the mixed «chatgpt uzbekcha скачать»; protected and unchanged, no hreflang pair (A11); since 2026-11-20 also the bare Latin «chatgpt skachat» and «chat gpt skachat»",
         "mustNotTarget": [
           "скачать chatgpt",
           "chatgpt скачать",
@@ -3699,10 +3699,12 @@
           "chatgpt uzbekcha skachat",
           "chatgpt skachat uzbek tilida",
           "chatgpt uzbekcha скачать",
-          "chatgpt скачать uzbek tilida"
+          "chatgpt скачать uzbek tilida",
+          "chatgpt skachat",
+          "chat gpt skachat"
         ]
       },
-      "gscNote": "«chatgpt uzbekcha скачать»: 2 594 impressions in 28 days to 2026-11-14; Google already moves it to the Uzbek guide (position 4.9 against 5.8 for the RU chat). The Russian guide must not pull the Uzbek-worded queries back.",
+      "gscNote": "«chatgpt uzbekcha скачать»: 2 594 impressions in 28 days to 2026-11-14; Google already moves it to the Uzbek guide (position 4.9 against 5.8 for the RU chat). The Russian guide must not pull the Uzbek-worded queries back. 2026-11-20: the bare Latin «chatgpt skachat» (Ads 12 100 a month) and «chat gpt skachat» (4 400) had no impressions on any of our URLs in GSC 21.10–17.11, while only «skachat» variants with «uzbek tilida» or «qilish» reached the guide. The owner ordered the «здесь и сейчас» release, so the guide takes them into its title, H1, intro and keywords; the Russian guide must not target the Latin spelling (docs/seo/research/2026-11-20-uz-top1-roadmap/NOW.md).",
       "evidence": "delivery/gptbot-seo-blindspots-20261116/evidence/02-analytics/FINDINGS.md (section 5, group 3)",
       "decision": "KEEP_DIFFERENT_INTENT",
       "decidedAt": "2026-11-16"

@@ -32,21 +32,21 @@
     "chaji piti"
   ],
   "searchIntent": "transactional",
-  "h1": "O‘zbek tilida AI chat — 3 ta bepul sinov javobi",
-  "title": "ChatGPT uzbekcha muqobili — bepul kirish, ro‘yxatsiz chat",
+  "h1": "ChatGPT’ga o‘zbekcha muqobil — 3 ta bepul sinov javobi",
+  "title": "ChatGPT uzbekcha muqobili: bepul kirish, ro‘yxatsiz chat",
   "description": "O‘zbekcha yozing: matn, reja va g‘oyalar brauzerda, ilovasiz. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
   "hreflangXDefault": "/uz/gpt-uzbek-tilida/",
   "hreflangUnpaired": true,
-  "ogTitle": "ChatGPT uzbekcha muqobili — bepul kirish, ro‘yxatsiz chat",
+  "ogTitle": "ChatGPT uzbekcha muqobili: bepul kirish, ro‘yxatsiz chat",
   "ogDescription": "O‘zbekcha yozing: matn, reja va g‘oyalar brauzerda, ilovasiz. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "O‘zbek tilida AI chat",
-  "heroTitle": "O‘zbek tilida AI chat — 3 ta bepul sinov javobi",
+  "heroTitle": "ChatGPT’ga o‘zbekcha muqobil — 3 ta bepul sinov javobi",
   "heroSubtitle": "O‘zbek tilida AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "ctaPrimaryLabel": "AI-bot narxlari",
   "ctaPrimaryHref": "/uz/chat-bot-narxi/",
@@ -137,7 +137,7 @@
     {
       "type": "h2",
       "id": "jaji-piti",
-      "text": "Jaji piti, chachipiti, chati piti — bu ChatGPT’mi?"
+      "text": "Chachipiti, jaji piti, chati piti — bu ChatGPT’mi?"
     },
     {
       "type": "p",
@@ -818,5 +818,5 @@
   ],
   "lastReviewedAt": "2026-10-23",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-11-08"
+  "updatedAt": "2026-11-20"
 }

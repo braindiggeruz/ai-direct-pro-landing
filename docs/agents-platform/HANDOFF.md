@@ -1,3 +1,31 @@
+# Current handoff — «здесь и сейчас» release prepared in the branch: download guide, UZ chat, RU chat · 20.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6, draft PR braindiggeruz/ai-direct-pro-landing#63. Two commits on 0dca0df: the research roadmap (ba4d4f8) and this release commit. NOT deployed: production stays 655ce59a until the owner runs the deploy on the owner's machine (deploy_runner.py is not reachable from this cloud session).
+## 2. Delivered
+Owner's orders of 2026-11-20 («…сделать сейчас…», «…первые места здесь и сейчас!!»). (a) docs/seo/research/2026-11-20-uz-top1-roadmap/NOW.md: 7-day plan with effect ranges and rollback thresholds, four Uzbek video scripts, listing texts (Telegram bot and AI directories), the spam list (22 random domains), a media pitch, Request-indexing steps. (b) Release: the download guide takes «chatgpt skachat» / «chat gpt skachat» (title, H1, intro, keywords; links re-checked 2026-11-20; APK-catalog H3; two FAQ answers); the UZ chat gets a colon title, the H1 «ChatGPT’ga o‘zbekcha muqobil — 3 ta bepul sinov javobi» and «Chachipiti» first in the spellings H2; the RU chat title names both languages. Homepage labels and the /uz/blog/ recent list follow automatically.
+## 3. Files
+content/blog/uz/chatgpt-telefon-va-kompyuterga-yuklab-olish.json, content/pages/uz/gpt-uzbek-tilida.json, content/pages/ru/gpt-chat.json, content/seo/intent-manifest.json (C97), scripts/seo-protection.ts (BASELINE), docs/seo/evidence/2026-11-20-uz-now/reviewed-protected-pages.json (new, immutable), reports/uz-now-20261120/review.ts and artifact-review.json (new), docs/seo/CHANGE_LOG_2026-11.md (release row with baselines), docs/seo/research/2026-11-20-uz-top1-roadmap/NOW.md (new) and ROADMAP.md (pointer), docs/agents-platform/{STATE.json, DECISIONS.md, HANDOFF.md}.
+## 4. Decisions
+D-UZ-NOW-20261120: R15 given up at the owner's order, A14 read jointly, R14 kept; no page per spelling; no bought links.
+## 5. Excluded
+No deploy (owner's machine). Login guide (R14) and the C23 301 of /ru/blog/chat-gpt-online/ wait for 2026-12-21. No screenshots from a real device and no videos (the owner records them from NOW.md §2). No breadcrumb «Unnamed item» fix (template change, wave 2). No change to descriptions, links or body text of the chats beyond the listed lines.
+## 6. Validation
+npx tsc -b: exit 0. npx tsx scripts/seo-audit.ts: no critical issues. npx eslint reports/uz-now-20261120/review.ts scripts/seo-protection.ts: 0 problems. npm run build:fast: ok, 423 pages. npx tsx reports/uz-now-20261120/review.ts --before <build of the base>: changed exactly /, /ru/gpt-chat/, /uz/blog/, the download guide and the UZ chat; homepage reverts byte for byte with the two old labels; protected contract fields as allowed. Targeted: seo-protection, homepage-lists-frozen, seo-cluster-quality, intent-guard, seo-intent-manifest, seo-hreflang-guard, uzbek-login-journey, seo-content-guards, seo-anchor-intent, seo-trial-product-truth, seo-product-facts, blog-feed, updates-feed, blog-related-links, seo-breadcrumb-ld, seo-demand-gate, home-hreflang-cluster: pass. npm test: 2308 tests, 35 fail on the branch vs 36 on the base build in a clean worktree, same set apart from Studio items (a flaky deck test; two files failing only in the worktree).
+## 7. Known limits
+Pre-existing failures (on the base too): seo-push-revision R3-6 and R3-9 (expect an H1 and a date changed before this work), chat-ui-revision (stale report for src/gpt-chat/premium.css), gpt-chat-honesty «‹ 1/2 ›», and the rest of the 35 listed in the test log (backend, studio, payments). The title-truncation diagnosis rests on automated snapshots (7 of 11); confirm on a phone in Uzbekistan after the recrawl. Ads volumes are upper bounds.
+## 8. Next task
+Owner: npm run build:production; deploy_runner.py check, then deploy; Request indexing for the three URLs; videos, listings, spam report and pitch from NOW.md. Agents: verify the live pages after the deploy; read at days 7, 14 and 28 after each recrawl against the CHANGE_LOG_2026-11 baselines; apply the rollback thresholds; read R14 on 2026-12-21.
+## 9. Acceptance
+Live: the three URLs serve the new titles and H1s, the homepage shows the two new labels, seo-protection passes against 2026-11-20-uz-now. Day 28: «chatgpt skachat» shows impressions on the guide; «chatgpt yuklab olish uzbek tilida» CTR at position <= 3.5 not below 2.0 %; UZ chat and RU chat clicks not down >20 % at comparable impressions; A14 RU share on Uzbek-worded queries toward <= 5 %.
+## 10. Start commands
+git log --oneline -3; read NOW.md and CHANGE_LOG_2026-11 (last section); OpenSEO inspect_urls for the three URLs; get_search_console_performance [query, page] from the recrawl date.
+## 11. Risks
+The download guide is the second traffic page (497 clicks in 28 days): watch its head term. The UZ chat H1 also labels the homepage list. Rolling back needs a new reviewed revision (never repoint BASELINE to an old one).
+## 12. Rollback
+git revert of the release commit (or of one page's lines), rebuild, a new reviewed revision via a review script, deploy. Nothing was deployed from this session.
+
+---
 # Current handoff — Uzbek ChatGPT queries: research and roadmap to #1 among non-official results · 20.11.2026
 
 ## 1. State

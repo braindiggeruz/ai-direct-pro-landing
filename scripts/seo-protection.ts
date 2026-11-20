@@ -274,7 +274,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // released after R15 is read on 21.12) changes one contract field on two pages:
 // hreflang of /ru/gpt-chat/ and /uz/gpt-uzbek-tilida/ becomes empty. Every other
 // built page is byte-identical; see reports/uz-unpair-20261118/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-18-uz-unpair/reviewed-protected-pages.json';
+export const BASELINE = 'docs/seo/evidence/2026-11-20-uz-now/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
