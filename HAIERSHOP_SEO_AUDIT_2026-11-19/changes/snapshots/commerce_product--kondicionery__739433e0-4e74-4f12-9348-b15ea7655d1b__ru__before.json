@@ -1,0 +1,423 @@
+{
+ "type": "commerce_product--kondicionery",
+ "id": "739433e0-4e74-4f12-9348-b15ea7655d1b",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b"
+  }
+ },
+ "attributes": {
+  "drupal_internal__product_id": 207,
+  "langcode": "ru",
+  "status": true,
+  "title": "Кассетный кондиционер Haier AB71S1LG1FA R32/1U71S1LR1FA R32",
+  "path": {
+   "alias": "/promyshlennye-kondicionery/kassetnyy-kondicioner-haier-ab71s1lg1fa-r321u71s1lr1fa-r32",
+   "pid": 519,
+   "langcode": "ru"
+  },
+  "created": "2025-02-25T08:40:48+00:00",
+  "changed": "2026-03-22T08:15:48+00:00",
+  "default_langcode": true,
+  "overall_rating": null,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Купить кассетный кондиционер Haier AB71S1LG1FA R32 в Ташкенте | Haier Shop Узбекистан"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Haier AB71S1LG1FA R32 — мощный кассетный кондиционер для офиса, гостиницы и больших помещений. Доставка по Ташкенту, гарантия качества!"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "Кассетный кондиционер Haier AB71S1LG1FA R32 — отличное решение для крупных помещений, гостиниц и ресторанов. Энергоэффективность, низкий уровень шума, удобное управление."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "купить кассетный кондиционер Haier AB71S1LG1FA R32 в Ташкенте кассетный кондиционер Haier цена Узбекистан кондиционер для офиса Haier коммерческий кондиционер Haier AB71S1LG1FA Haier AB71S1LG1FA R32 Ташкент кассетный кондиционер Haier доставка Узбекистан промышленные кондиционеры Haier кондиционер для гостиницы кондиционер для больших помещений кондиционер для больших домов мощный кондиционер Haier промышленное кондиционирование кассетный кондиционер для ресторана кондиционер для торгового центра энергосберегающий кондиционер Haier 4-поточный кассетный кондиционер"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Ташкент, Узбекистан"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop — техника для дома и промышленные решения | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "Официальный онлайн-магазин Haier в Узбекистане. Всё — от бытовой техники до промышленного оборудования для вашего бизнеса. Надёжность, инновации и качество в каждом продукте | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "content_translation_source": "und",
+  "content_translation_outdated": false,
+  "field_chistyy_ves_kg_": 27,
+  "field_cvet": "Белый",
+  "field_diametr_gazovoy_linii_mm_": "15.9",
+  "field_diametr_zhidkostnoy_linii_": "9.52",
+  "field_diapazon_rabochikh_tempera": "-15 ~ 24",
+  "field_diapazon_rab_temp_ohlad": "-25 ~ 43",
+  "field_dostavka": null,
+  "field_eer_cop_srednee_znachenie_": null,
+  "field_elektropitanie_f_v_gc_": null,
+  "field_energoeffektivnost": null,
+  "field_field_chistyy_ves_kg_naruj": 38,
+  "field_gabaritnye_razmery_bez_upa": "840x840x204",
+  "field_gabaritnye_razmery_v_upako": null,
+  "field_garantiya": null,
+  "field_khit_prodazh": null,
+  "field_maksimalnaya_dlina_trassy_": 30,
+  "field_maksimalnyy_perepad_vysot_": 10,
+  "field_meta_tegi": "{\"abstract\":\"\\u041a\\u0430\\u0441\\u0441\\u0435\\u0442\\u043d\\u044b\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 Haier AB71S1LG1FA R32 \\u2014 \\u043e\\u0442\\u043b\\u0438\\u0447\\u043d\\u043e\\u0435 \\u0440\\u0435\\u0448\\u0435\\u043d\\u0438\\u0435 \\u0434\\u043b\\u044f \\u043a\\u0440\\u0443\\u043f\\u043d\\u044b\\u0445 \\u043f\\u043e\\u043c\\u0435\\u0449\\u0435\\u043d\\u0438\\u0439, \\u0433\\u043e\\u0441\\u0442\\u0438\\u043d\\u0438\\u0446 \\u0438 \\u0440\\u0435\\u0441\\u0442\\u043e\\u0440\\u0430\\u043d\\u043e\\u0432. \\u042d\\u043d\\u0435\\u0440\\u0433\\u043e\\u044d\\u0444\\u0444\\u0435\\u043a\\u0442\\u0438\\u0432\\u043d\\u043e\\u0441\\u0442\\u044c, \\u043d\\u0438\\u0437\\u043a\\u0438\\u0439 \\u0443\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c \\u0448\\u0443\\u043c\\u0430, \\u0443\\u0434\\u043e\\u0431\\u043d\\u043e\\u0435 \\u0443\\u043f\\u0440\\u0430\\u0432\\u043b\\u0435\\u043d\\u0438\\u0435.\",\"description\":\"Haier AB71S1LG1FA R32 \\u2014 \\u043c\\u043e\\u0449\\u043d\\u044b\\u0439 \\u043a\\u0430\\u0441\\u0441\\u0435\\u0442\\u043d\\u044b\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 \\u0434\\u043b\\u044f \\u043e\\u0444\\u0438\\u0441\\u0430, \\u0433\\u043e\\u0441\\u0442\\u0438\\u043d\\u0438\\u0446\\u044b \\u0438 \\u0431\\u043e\\u043b\\u044c\\u0448\\u0438\\u0445 \\u043f\\u043e\\u043c\\u0435\\u0449\\u0435\\u043d\\u0438\\u0439. \\u0414\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u043f\\u043e \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0443, \\u0433\\u0430\\u0440\\u0430\\u043d\\u0442\\u0438\\u044f \\u043a\\u0430\\u0447\\u0435\\u0441\\u0442\\u0432\\u0430!\",\"geo_placename\":\"\\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442, \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TK\",\"keywords\":\"\\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u043a\\u0430\\u0441\\u0441\\u0435\\u0442\\u043d\\u044b\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 Haier AB71S1LG1FA R32 \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435 \\u043a\\u0430\\u0441\\u0441\\u0435\\u0442\\u043d\\u044b\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 Haier \\u0446\\u0435\\u043d\\u0430 \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 \\u0434\\u043b\\u044f \\u043e\\u0444\\u0438\\u0441\\u0430 Haier \\u043a\\u043e\\u043c\\u043c\\u0435\\u0440\\u0447\\u0435\\u0441\\u043a\\u0438\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 Haier AB71S1LG1FA Haier AB71S1LG1FA R32 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442 \\u043a\\u0430\\u0441\\u0441\\u0435\\u0442\\u043d\\u044b\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 Haier \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d \\u043f\\u0440\\u043e\\u043c\\u044b\\u0448\\u043b\\u0435\\u043d\\u043d\\u044b\\u0435 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440\\u044b Haier \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 \\u0434\\u043b\\u044f \\u0433\\u043e\\u0441\\u0442\\u0438\\u043d\\u0438\\u0446\\u044b \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 \\u0434\\u043b\\u044f \\u0431\\u043e\\u043b\\u044c\\u0448\\u0438\\u0445 \\u043f\\u043e\\u043c\\u0435\\u0449\\u0435\\u043d\\u0438\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 \\u0434\\u043b\\u044f \\u0431\\u043e\\u043b\\u044c\\u0448\\u0438\\u0445 \\u0434\\u043e\\u043c\\u043e\\u0432 \\u043c\\u043e\\u0449\\u043d\\u044b\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 Haier \\u043f\\u0440\\u043e\\u043c\\u044b\\u0448\\u043b\\u0435\\u043d\\u043d\\u043e\\u0435 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435 \\u043a\\u0430\\u0441\\u0441\\u0435\\u0442\\u043d\\u044b\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 \\u0434\\u043b\\u044f \\u0440\\u0435\\u0441\\u0442\\u043e\\u0440\\u0430\\u043d\\u0430 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 \\u0434\\u043b\\u044f \\u0442\\u043e\\u0440\\u0433\\u043e\\u0432\\u043e\\u0433\\u043e \\u0446\\u0435\\u043d\\u0442\\u0440\\u0430 \\u044d\\u043d\\u0435\\u0440\\u0433\\u043e\\u0441\\u0431\\u0435\\u0440\\u0435\\u0433\\u0430\\u044e\\u0449\\u0438\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 Haier 4-\\u043f\\u043e\\u0442\\u043e\\u0447\\u043d\\u044b\\u0439 \\u043a\\u0430\\u0441\\u0441\\u0435\\u0442\\u043d\\u044b\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440\",\"title\":\"\\u041a\\u0443\\u043f\\u0438\\u0442\\u044c \\u043a\\u0430\\u0441\\u0441\\u0435\\u0442\\u043d\\u044b\\u0439 \\u043a\\u043e\\u043d\\u0434\\u0438\\u0446\\u0438\\u043e\\u043d\\u0435\\u0440 Haier AB71S1LG1FA R32 \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435 | Haier Shop \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\"}",
+  "field_nazvanie_modeli": "AB71S1LG1FA R32/1U71S1LR1FA R32",
+  "field_novinka": null,
+  "field_obogrev_vt_": "7200",
+  "field_okhlazhdenie_vt_": "6800",
+  "field_opisanie_tovara_1": {
+   "value": "<h3 data-start=\"0\" data-end=\"97\"><strong data-start=\"4\" data-end=\"95\">Haier AB71S1LG1FA/1U71S1LR1FA – Мощный кассетный кондиционер для коммерческих помещений</strong></h3><p data-start=\"99\" data-end=\"460\">Кассетный кондиционер <strong data-start=\"121\" data-end=\"154\">Haier AB71S1LG1FA/1U71S1LR1FA</strong> – это профессиональное решение для охлаждения и обогрева больших помещений, таких как офисы, рестораны, магазины и бизнес-центры. Благодаря <strong data-start=\"295\" data-end=\"318\">компактному дизайну</strong>, <strong data-start=\"320\" data-end=\"346\">инверторной технологии</strong> и <strong data-start=\"349\" data-end=\"398\">четырехпоточной системе распределения воздуха</strong>, он обеспечивает <strong data-start=\"416\" data-end=\"457\">комфортный микроклимат без сквозняков</strong>.</p>",
+   "format": "full_html",
+   "processed": "<h3 data-start=\"0\" data-end=\"97\"><strong data-start=\"4\" data-end=\"95\">Haier AB71S1LG1FA/1U71S1LR1FA – Мощный кассетный кондиционер для коммерческих помещений</strong></h3><p data-start=\"99\" data-end=\"460\">Кассетный кондиционер <strong data-start=\"121\" data-end=\"154\">Haier AB71S1LG1FA/1U71S1LR1FA</strong> – это профессиональное решение для охлаждения и обогрева больших помещений, таких как офисы, рестораны, магазины и бизнес-центры. Благодаря <strong data-start=\"295\" data-end=\"318\">компактному дизайну</strong>, <strong data-start=\"320\" data-end=\"346\">инверторной технологии</strong> и <strong data-start=\"349\" data-end=\"398\">четырехпоточной системе распределения воздуха</strong>, он обеспечивает <strong data-start=\"416\" data-end=\"457\">комфортный микроклимат без сквозняков</strong>.</p>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p><strong data-start=\"502\" data-end=\"528\">Инверторная технология</strong> – снижает энергопотребление и продлевает срок службы оборудования.<br><strong data-start=\"600\" data-end=\"637\">Равномерное распределение воздуха</strong> – 4-поточная система охлаждает и обогревает помещение без резких температурных перепадов.<br><strong data-start=\"732\" data-end=\"766\">Энергоэффективность класса A++</strong> – экономия электроэнергии и снижение эксплуатационных затрат.<br><strong data-start=\"833\" data-end=\"862\">Современный хладагент R32</strong> – безопасный для окружающей среды и улучшает производительность кондиционера.<br><strong data-start=\"945\" data-end=\"972\">Тихая работа (от 30 дБ)</strong> – комфорт без шума.<br><strong data-start=\"997\" data-end=\"1027\">Самоочистка теплообменника</strong> – предотвращает образование плесени и бактерий внутри устройства.<br><strong data-start=\"1098\" data-end=\"1131\">Гибкие возможности управления</strong> – в комплекте беспроводной пульт, возможно подключение проводного пульта.<br><strong data-start=\"1210\" data-end=\"1231\">Режим работы 24/7</strong> – идеально подходит для коммерческого использования.</p>",
+   "format": "full_html",
+   "processed": "<p><strong data-start=\"502\" data-end=\"528\">Инверторная технология</strong> – снижает энергопотребление и продлевает срок службы оборудования.<br><strong data-start=\"600\" data-end=\"637\">Равномерное распределение воздуха</strong> – 4-поточная система охлаждает и обогревает помещение без резких температурных перепадов.<br><strong data-start=\"732\" data-end=\"766\">Энергоэффективность класса A++</strong> – экономия электроэнергии и снижение эксплуатационных затрат.<br><strong data-start=\"833\" data-end=\"862\">Современный хладагент R32</strong> – безопасный для окружающей среды и улучшает производительность кондиционера.<br><strong data-start=\"945\" data-end=\"972\">Тихая работа (от 30 дБ)</strong> – комфорт без шума.<br><strong data-start=\"997\" data-end=\"1027\">Самоочистка теплообменника</strong> – предотвращает образование плесени и бактерий внутри устройства.<br><strong data-start=\"1098\" data-end=\"1131\">Гибкие возможности управления</strong> – в комплекте беспроводной пульт, возможно подключение проводного пульта.<br><strong data-start=\"1210\" data-end=\"1231\">Режим работы 24/7</strong> – идеально подходит для коммерческого использования.</p>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p data-start=\"1915\" data-end=\"2113\">Закажите <strong data-start=\"1924\" data-end=\"1979\">кассетный кондиционер Haier AB71S1LG1FA/1U71S1LR1FA</strong> в интернет-магазине <strong data-start=\"2000\" data-end=\"2016\">haiershop.uz</strong> с официальной гарантией, быстрой доставкой по Ташкенту и возможностью покупки <strong data-start=\"2095\" data-end=\"2110\">в рассрочку</strong>.</p><p data-start=\"2115\" data-end=\"2166\">&nbsp; <strong data-start=\"2118\" data-end=\"2161\">Haier – качество, проверенное временем!</strong>&nbsp;</p>",
+   "format": "full_html",
+   "processed": "<p data-start=\"1915\" data-end=\"2113\">Закажите <strong data-start=\"1924\" data-end=\"1979\">кассетный кондиционер Haier AB71S1LG1FA/1U71S1LR1FA</strong> в интернет-магазине <strong data-start=\"2000\" data-end=\"2016\">haiershop.uz</strong> с официальной гарантией, быстрой доставкой по Ташкенту и возможностью покупки <strong data-start=\"2095\" data-end=\"2110\">в рассрочку</strong>.</p><p data-start=\"2115\" data-end=\"2166\">&nbsp; <strong data-start=\"2118\" data-end=\"2161\">Haier – качество, проверенное временем!</strong>&nbsp;</p>"
+  },
+  "field_opisanie_tovara_4": null,
+  "field_opisanie_tovara_5": null,
+  "field_opisanie_tovara_6": null,
+  "field_opisanie_tovara_7": null,
+  "field_opisanie_tovara_8": null,
+  "field_ploschad_m2": "70",
+  "field_poddelnyy_zagolovok": "Кассетный кондиционер Haier",
+  "field_potreblyaemaya_moschnost_n": "1990",
+  "field_potreblyaemaya_moschnost_o": "2120",
+  "field_proizvoditelnost_btu": "24000",
+  "field_proizvoditel_kompressora": "Mitsubishi",
+  "field_rabochiy_tok_a_khol_ob_": "220/50",
+  "field_raskhod_vozdukha_m3_ch_": 1260,
+  "field_razmery_bez_upa_narujka": "820x300x597",
+  "field_razmery_v_upako_narujka": null,
+  "field_seer_scop_srednee_znacheni": null,
+  "field_srok_sluzhby": null,
+  "field_strana_proizvodstva": "Китай",
+  "field_tip_dvigatelya": "inverter",
+  "field_tip_ispolzuemogo_khladagen": "R32",
+  "field_uroven_zvuk_davlen_narujka": null,
+  "field_uroven_zvuk_davl_vys_skoro": null,
+  "field_uroven_zvuk_dav_vsns": "35",
+  "field_ves_v_upakovke_kg_": null,
+  "field_ves_zapravlyaemogo_khladag": null,
+  "field_v_izbrannoe": null,
+  "field_zagolovok_opisaniya_1": null,
+  "field_zagolovok_opisaniya_2": "Преимущества и особенности",
+  "field_zagolovok_opisaniya_3": "Где купить в Ташкенте?",
+  "field_zagolovok_opisaniya_4": null,
+  "field_zagolovok_opisaniya_5": null,
+  "field_zagolovok_opisaniya_6": null,
+  "field_zagolovok_opisaniya_7": null,
+  "field_zagolovok_opisaniya_8": null
+ },
+ "relationships": {
+  "commerce_product_type": {
+   "data": {
+    "type": "commerce_product_type--commerce_product_type",
+    "id": "4d4da79d-e848-4750-807b-1a11d0675aac",
+    "meta": {
+     "drupal_internal__target_id": "kondicionery"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/commerce_product_type"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/commerce_product_type"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/uid"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/uid"
+    }
+   }
+  },
+  "stores": {
+   "data": [
+    {
+     "type": "commerce_store--online",
+     "id": "10d9cb6e-3da7-4177-a918-8547abd388db",
+     "meta": {
+      "drupal_internal__target_id": 1
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/stores"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/stores"
+    }
+   }
+  },
+  "variations": {
+   "data": [
+    {
+     "type": "commerce_product_variation--default",
+     "id": "bea012dd-a36f-48e6-b7dc-458570e48463",
+     "meta": {
+      "drupal_internal__target_id": 228
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/variations"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/variations"
+    }
+   }
+  },
+  "default_variation": {
+   "data": {
+    "type": "commerce_product_variation--default",
+    "id": "bea012dd-a36f-48e6-b7dc-458570e48463",
+    "meta": {
+     "drupal_internal__target_id": 228
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/default_variation"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/default_variation"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_1"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_1"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_3"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_3"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_4"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_5"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_6"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_6"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_7": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_7"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_8": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_8"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_8"
+    }
+   }
+  },
+  "field_vid_tovara": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "6567c067-3c0e-49cc-9d1b-3b510ddbf19c",
+     "meta": {
+      "drupal_internal__target_id": 20
+     }
+    },
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "4b3715cd-4643-4eef-9121-023c2c27b48f",
+     "meta": {
+      "drupal_internal__target_id": 28
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_vid_tovara"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_vid_tovara"
+    }
+   }
+  }
+ }
+}

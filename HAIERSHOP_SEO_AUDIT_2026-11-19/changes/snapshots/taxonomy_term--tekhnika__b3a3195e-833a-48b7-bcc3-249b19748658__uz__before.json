@@ -1,0 +1,259 @@
+{
+ "type": "taxonomy_term--tekhnika",
+ "id": "b3a3195e-833a-48b7-bcc3-249b19748658",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658?resourceVersion=id%3A4"
+  }
+ },
+ "attributes": {
+  "drupal_internal__tid": 4,
+  "drupal_internal__revision_id": 4,
+  "langcode": "uz",
+  "revision_created": "2023-07-21T09:54:55+00:00",
+  "revision_log_message": null,
+  "status": true,
+  "name": "Muzlatgichlar",
+  "description": {
+   "value": "<p class=\"text-align-justify\">Sovutgichdagi muzlatgichning kattaligisizni qoniqtirmaydimi zamonaviy sovutgichlarda juda kengtarqalgan muammo. Ishlab chiqaruvchilar mahsulotni muzlatish uchun faqat ikkita yoki uchta kichik bo‘linmaqiladilar. Ammo bu juda kam, ayniqsa bir nechta bolali katta oila bo‘lsa. Uy bekalariga qish uchun meva, sabzavotlar, hamda baliq, go‘sht mahsulotlari va boshqalarni muzlatish qulay.</p><p class=\"text-align-justify\">Agar siz bunday muammoga duch kelsangiz, muzlatish kamerasiga buyurtma berish va muzlatilga noziq-ovqat zaxiralarini ko‘paytirish vaqti keldi.</p><h3 class=\"text-align-justify\">O‘zbekistonda muzlatgich xarid qilish.</h3><p class=\"text-align-justify\">Aslida, nafaqat katta oilalarga alohida katta muzlatgich shkafi kerak. Kafe va restoranlar ham, tozalash jarayoni juda oddiy, iloji boricha ishonchli bo‘lgan professional yuqorisig‘imli muzlatgich texnikalariga muhtoj.</p><p class=\"text-align-justify\">Hatto yolg‘izodamlar, farzandsiz oilaviy juftliklar ham do‘konlarga muntazam tashrif buyurib, yangi mahsulot soti bolishga vaqtlari va xohishlari bo‘lmasa, O‘zbekistonda muzlatgich xarid qilishlari kerak. Mahsulotlarni osongina muzlatib qo‘yish va kerak bo‘lganda muzlatish kamerasida nolibishlatish mumkin.</p><h3 class=\"text-align-justify\">O‘zbekistonda muzlatgichga buyurtma berish</h3><p class=\"text-align-justify\">O‘zbekistonda muzlatgich nito‘g‘ri tanlash va buyurtma qilish uchun siz ushbu masalaga mas’uliyat bilan yondashi shingiz kerak. Quyidagilarga alohida e’tibor bering:</p><ul><li><p class=\"text-align-justify\">qurilmalarning turlari va parametrlari;</p></li><li><p class=\"text-align-justify\">qurilmaning tashqi xususiyatlari;</p></li><li><p class=\"text-align-justify\">texnik xususiyatlari;</p></li><li><p class=\"text-align-justify\">maishiy texnikadagi muzini eritishusuli;</p></li><li><p class=\"text-align-justify\">narxi.</p></li></ul><p class=\"text-align-justify\">O‘lchamlari va konstruksiya turlari—muzlatgichni tanlashda muhimko‘rsatkichlar hisoblanadi. Eng qulay va maqbulyechim — vertikal konstruksiyalardir. Bunday modellar oddiy, ularni ishlatish juda qulay. Ulardankatta shahar xonadonlari, dala xovlidagi uylarda foydalanish qulay. Siz ular niosh xonada, balkonda, koridorda osongina joylashtirishingiz mumkin. Tashqi tomondan, ular klassik bo‘lgan sovutgichlarga o‘xshaydi: tepasida muzlatilgan mahsulotlarni saqlash uchun pastki qismida esa bir zumda muzlatish uchun joylar mavjud. Bundan tashqari, bunday qurilmalarning hajmi 50 litrdan 400 litrgacha bo‘lishi mumkin. Agar yashash maydoningiz imkon bersa, siz muzlatish kamerasining gorizontal turini ham buyurtma qilishingiz mumkin.</p><h3 class=\"text-align-justify\">Muzlatgichlar narxi</h3><p class=\"text-align-justify\">Haier Shopinternet-do‘konimizda har bir odam O‘zbekistondagi yuqori sifatli muzlatgichga ham yonbop narxda buyurtma berish imkoniyatiga ega. Siz buyurtmani Toshkent bo‘ylab arzony etkazib berish xizmati bilan rasmiylashtirishingiz mumkin. Shuningdek, zamonaviy qurilmalarni mamlakatning boshqa hududlariga tashish imkoniyati mavjud.</p><p class=\"text-align-justify\">Uskunani tanlash yoki narxi haqida savollaringiz bo‘lsa, hardoim Haier Shopxodimlariga murojaat qilishingiz mumkin. Sizning qaerdaligingiz muhim emas, Toshkentda yoki boshqa shaharda bo‘lsangiz ham, bizning menejerlarimiz sizga maslahat berishadi va sizni o‘ylantirgan savollaringizga javob berishadi.</p>",
+   "format": "full_html",
+   "processed": "<p class=\"text-align-justify\">Sovutgichdagi muzlatgichning kattaligisizni qoniqtirmaydimi zamonaviy sovutgichlarda juda kengtarqalgan muammo. Ishlab chiqaruvchilar mahsulotni muzlatish uchun faqat ikkita yoki uchta kichik bo‘linmaqiladilar. Ammo bu juda kam, ayniqsa bir nechta bolali katta oila bo‘lsa. Uy bekalariga qish uchun meva, sabzavotlar, hamda baliq, go‘sht mahsulotlari va boshqalarni muzlatish qulay.</p><p class=\"text-align-justify\">Agar siz bunday muammoga duch kelsangiz, muzlatish kamerasiga buyurtma berish va muzlatilga noziq-ovqat zaxiralarini ko‘paytirish vaqti keldi.</p><h3 class=\"text-align-justify\">O‘zbekistonda muzlatgich xarid qilish.</h3><p class=\"text-align-justify\">Aslida, nafaqat katta oilalarga alohida katta muzlatgich shkafi kerak. Kafe va restoranlar ham, tozalash jarayoni juda oddiy, iloji boricha ishonchli bo‘lgan professional yuqorisig‘imli muzlatgich texnikalariga muhtoj.</p><p class=\"text-align-justify\">Hatto yolg‘izodamlar, farzandsiz oilaviy juftliklar ham do‘konlarga muntazam tashrif buyurib, yangi mahsulot soti bolishga vaqtlari va xohishlari bo‘lmasa, O‘zbekistonda muzlatgich xarid qilishlari kerak. Mahsulotlarni osongina muzlatib qo‘yish va kerak bo‘lganda muzlatish kamerasida nolibishlatish mumkin.</p><h3 class=\"text-align-justify\">O‘zbekistonda muzlatgichga buyurtma berish</h3><p class=\"text-align-justify\">O‘zbekistonda muzlatgich nito‘g‘ri tanlash va buyurtma qilish uchun siz ushbu masalaga mas’uliyat bilan yondashi shingiz kerak. Quyidagilarga alohida e’tibor bering:</p><ul><li><p class=\"text-align-justify\">qurilmalarning turlari va parametrlari;</p></li><li><p class=\"text-align-justify\">qurilmaning tashqi xususiyatlari;</p></li><li><p class=\"text-align-justify\">texnik xususiyatlari;</p></li><li><p class=\"text-align-justify\">maishiy texnikadagi muzini eritishusuli;</p></li><li><p class=\"text-align-justify\">narxi.</p></li></ul><p class=\"text-align-justify\">O‘lchamlari va konstruksiya turlari—muzlatgichni tanlashda muhimko‘rsatkichlar hisoblanadi. Eng qulay va maqbulyechim — vertikal konstruksiyalardir. Bunday modellar oddiy, ularni ishlatish juda qulay. Ulardankatta shahar xonadonlari, dala xovlidagi uylarda foydalanish qulay. Siz ular niosh xonada, balkonda, koridorda osongina joylashtirishingiz mumkin. Tashqi tomondan, ular klassik bo‘lgan sovutgichlarga o‘xshaydi: tepasida muzlatilgan mahsulotlarni saqlash uchun pastki qismida esa bir zumda muzlatish uchun joylar mavjud. Bundan tashqari, bunday qurilmalarning hajmi 50 litrdan 400 litrgacha bo‘lishi mumkin. Agar yashash maydoningiz imkon bersa, siz muzlatish kamerasining gorizontal turini ham buyurtma qilishingiz mumkin.</p><h3 class=\"text-align-justify\">Muzlatgichlar narxi</h3><p class=\"text-align-justify\">Haier Shopinternet-do‘konimizda har bir odam O‘zbekistondagi yuqori sifatli muzlatgichga ham yonbop narxda buyurtma berish imkoniyatiga ega. Siz buyurtmani Toshkent bo‘ylab arzony etkazib berish xizmati bilan rasmiylashtirishingiz mumkin. Shuningdek, zamonaviy qurilmalarni mamlakatning boshqa hududlariga tashish imkoniyati mavjud.</p><p class=\"text-align-justify\">Uskunani tanlash yoki narxi haqida savollaringiz bo‘lsa, hardoim Haier Shopxodimlariga murojaat qilishingiz mumkin. Sizning qaerdaligingiz muhim emas, Toshkentda yoki boshqa shaharda bo‘lsangiz ham, bizning menejerlarimiz sizga maslahat berishadi va sizni o‘ylantirgan savollaringizga javob berishadi.</p>"
+  },
+  "weight": 26,
+  "changed": "2026-10-15T08:09:08+00:00",
+  "default_langcode": false,
+  "revision_translation_affected": true,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Haier Muzlatgichlari Toshkentda | Arzon narxlarda yetkazib berish bilan HaierShop'dan sotib oling"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Toshkentda Haier muzlatgichlarini ishlab chiqaruvchidan kafolat bilan sotib oling. Modellar keng tanlovi: sandiqlar, shkaflar, vertikal. Arzon narxlar, shahar bo'ylab tezkor yetkazib berish - HaierShop internet-do'koni."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "muzlatgichlar, Haier, Toshkent, sotib olish, narx, yetkazib berish, sandiqlar, shkaflar, vertikal, kafolat, internet-do'kon, muzlatgich kameralari"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Toshkent, O‘zbekiston"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TOS"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "icbm",
+     "content": "Малая кольцевая 50"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Muzlatgichlari - Toshkentda yetkazib berish bilan sotib oling | HaierShop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "Toshkentda Haier muzlatgichini qidiryapsizmi? HaierShop muzlatgich sandiqlari, shkaflari va vertikal modellari keng tanlovini kafolat va yetkazib berish bilan taklif etadi! Mahsulotlarni uzoq vaqt saqlang!"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:alt",
+     "content": "Toshkentda Haier muzlatgichlarining turli xillari tanlovi"
+    }
+   }
+  ],
+  "path": {
+   "alias": "/muzlatgichlar",
+   "pid": 45,
+   "langcode": "uz"
+  },
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "content_translation_created": "2023-07-21T10:37:56+00:00",
+  "field_meta_tegi": "{\"description\":\"Toshkentda Haier muzlatgichlarini ishlab chiqaruvchidan kafolat bilan sotib oling. Modellar keng tanlovi: sandiqlar, shkaflar, vertikal. Arzon narxlar, shahar bo\\u0027ylab tezkor yetkazib berish - HaierShop internet-do\\u0027koni.\",\"geo_placename\":\"Toshkent, O\\u2018zbekiston\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TOS\",\"icbm\":\"\\u041c\\u0430\\u043b\\u0430\\u044f \\u043a\\u043e\\u043b\\u044c\\u0446\\u0435\\u0432\\u0430\\u044f 50\",\"keywords\":\"muzlatgichlar, Haier, Toshkent, sotib olish, narx, yetkazib berish, sandiqlar, shkaflar, vertikal, kafolat, internet-do\\u0027kon, muzlatgich kameralari\",\"og_description\":\"Toshkentda Haier muzlatgichini qidiryapsizmi? HaierShop muzlatgich sandiqlari, shkaflari va vertikal modellari keng tanlovini kafolat va yetkazib berish bilan taklif etadi! Mahsulotlarni uzoq vaqt saqlang!\",\"og_image_alt\":\"Toshkentda Haier muzlatgichlarining turli xillari tanlovi\",\"og_title\":\"Haier Muzlatgichlari - Toshkentda yetkazib berish bilan sotib oling | HaierShop\",\"robots\":\"index, follow\",\"title\":\"Haier Muzlatgichlari Toshkentda | Arzon narxlarda yetkazib berish bilan HaierShop\\u0027dan sotib oling\"}",
+  "field_otobrazhenie_kategorii_na_": "yes"
+ },
+ "relationships": {
+  "vid": {
+   "data": {
+    "type": "taxonomy_vocabulary--taxonomy_vocabulary",
+    "id": "39aa8843-6557-483c-a604-66eeb0ec96db",
+    "meta": {
+     "drupal_internal__target_id": "tekhnika"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/vid?resourceVersion=id%3A4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/relationships/vid?resourceVersion=id%3A4"
+    }
+   }
+  },
+  "revision_user": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/revision_user?resourceVersion=id%3A4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/relationships/revision_user?resourceVersion=id%3A4"
+    }
+   }
+  },
+  "parent": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "virtual",
+     "meta": {
+      "links": {
+       "help": {
+        "href": "https://www.drupal.org/docs/8/modules/json-api/core-concepts#virtual",
+        "meta": {
+         "about": "Usage and meaning of the 'virtual' resource identifier."
+        }
+       }
+      }
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/parent?resourceVersion=id%3A4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/relationships/parent?resourceVersion=id%3A4"
+    }
+   }
+  },
+  "content_translation_uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/content_translation_uid?resourceVersion=id%3A4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/relationships/content_translation_uid?resourceVersion=id%3A4"
+    }
+   }
+  },
+  "field_izobrazhenie": {
+   "data": {
+    "type": "file--file",
+    "id": "c630ea6c-1c25-4db1-8861-bc1c181777ff",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 245,
+     "height": 180,
+     "drupal_internal__target_id": 11
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/field_izobrazhenie?resourceVersion=id%3A4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/b3a3195e-833a-48b7-bcc3-249b19748658/relationships/field_izobrazhenie?resourceVersion=id%3A4"
+    }
+   }
+  }
+ }
+}

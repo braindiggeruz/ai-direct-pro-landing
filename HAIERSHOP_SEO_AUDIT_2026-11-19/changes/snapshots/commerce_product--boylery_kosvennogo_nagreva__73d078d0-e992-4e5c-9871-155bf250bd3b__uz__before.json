@@ -1,0 +1,433 @@
+{
+ "type": "commerce_product--boylery_kosvennogo_nagreva",
+ "id": "73d078d0-e992-4e5c-9871-155bf250bd3b",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b"
+  }
+ },
+ "attributes": {
+  "drupal_internal__product_id": 362,
+  "langcode": "uz",
+  "status": true,
+  "title": "Bilvosita isitishli boyler Haier WT150V-SCA3E(EU)",
+  "path": {
+   "alias": "/suv-isitgichlar/bilvosita-isitish-boylerlari/bilvosita-isitishli-boyler-haier-wt150v-sca3eeu",
+   "pid": 1217,
+   "langcode": "uz"
+  },
+  "created": "2026-05-29T07:19:31+00:00",
+  "changed": "2026-05-29T07:37:25+00:00",
+  "default_langcode": false,
+  "overall_rating": null,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Haier WT150V-SCAE(EU) bilvosita isitish boyleri 150l | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Toshkentda issiqlik nasoslari uchun Haier WT150V-SCAE(EU) boylerini sotib oling. 150l hajm, 1.5 m² zmeevik, 2.5 kVt TEN. Rasmiy kafolat va O‘zbekiston bo‘ylab yetkazib berish!"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "Professional Haier WT150V-SCAE(EU) 150 litrli boyler. 1.5 m² issiqlik almashinuvchisi, ERP C klassi, 2500 Vt TEN. Issiqlik nasoslari uchun ideal uskuna."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "Haier WT150V-SCAE(EU), bilvosita isitish boyleri 150 litr, issiqlik nasosi uchun boyler Toshkent, zmeevikli suv isitgich, WT150V-SCAE xarakteristikalari, Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Toshkent, O‘zbekiston"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop – uy uchun texnika va sanoat yechimlari | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "O‘zbekistonda Haier ning rasmiy onlayn do‘koni. Hammasi – sizning biznesingiz uchun maishiy texnikadan tortib sanoat uskunalarigacha. Har bir mahsulotda ishonchlilik, innovatsiyalar va yuqori sifat | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "field_cvet": null,
+  "field_dostavka": null,
+  "field_elektricheskiy_ten": "2500 Vt",
+  "field_gabaritnye_razmery_v_x_sh_": "1170×600×628",
+  "field_garantiya": "3 yil",
+  "field_greyushchiy_kontur_dyuym": "G1\"",
+  "field_khit_prodazh": "yes",
+  "field_kontur_gvs_dyuym": "G1\"",
+  "field_maksimalnaya_temperatura_t": "90°С",
+  "field_maksimalnaya_temperatura_v": "80°С",
+  "field_maksimalnoe_davlenie_teplo": "10 Bar",
+  "field_maksimalnoe_davlenie_v_bak": "8.5 Bar",
+  "field_meta_tegi": "{\"abstract\":\"Professional Haier WT150V-SCAE(EU) 150 litrli boyler. 1.5 m\\u00b2 issiqlik almashinuvchisi, ERP C klassi, 2500 Vt TEN. Issiqlik nasoslari uchun ideal uskuna.\",\"description\":\"Toshkentda issiqlik nasoslari uchun Haier WT150V-SCAE(EU) boylerini sotib oling. 150l hajm, 1.5 m\\u00b2 zmeevik, 2.5 kVt TEN. Rasmiy kafolat va O\\u2018zbekiston bo\\u2018ylab yetkazib berish!\",\"geo_placename\":\"Toshkent, O\\u2018zbekiston\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TK\",\"keywords\":\"Haier WT150V-SCAE(EU), bilvosita isitish boyleri 150 litr, issiqlik nasosi uchun boyler Toshkent, zmeevikli suv isitgich, WT150V-SCAE xarakteristikalari, Haiershop.uz\",\"title\":\"Haier WT150V-SCAE(EU) bilvosita isitish boyleri 150l | Haiershop.uz\"}",
+  "field_nominalnaya_teplovaya_mosh": null,
+  "field_novinka": null,
+  "field_obyom_l": 150,
+  "field_opisanie_tovara_1": {
+   "value": "<h4>ERP C klassidagi energiya samaradorligi: 2026-yil standarti</h4><p>Haier WT150V-SCAE(EU) modeli Yevropaning energiya samaradorligi bo‘yicha qat’iy standartlariga muvofiq ishlab chiqilgan. Unga berilgan ERP C klassi bakning passiv issiqlik yo‘qotish ko‘rsatkichlari minimal ekanligini kafolatlaydi. Toshkent sharoitida energiya tejash birinchi o‘ringa chiqayotgan bir paytda, ushbu boyler isitish tizimidagi yuklamani kamaytirib, to‘plangan issiqlikni oddiy qurilmalarga qaraganda ancha uzoqroq saqlash imkonini beradi.</p>",
+   "format": "full_html",
+   "processed": "<h4>ERP C klassidagi energiya samaradorligi: 2026-yil standarti</h4><p>Haier WT150V-SCAE(EU) modeli Yevropaning energiya samaradorligi bo‘yicha qat’iy standartlariga muvofiq ishlab chiqilgan. Unga berilgan ERP C klassi bakning passiv issiqlik yo‘qotish ko‘rsatkichlari minimal ekanligini kafolatlaydi. Toshkent sharoitida energiya tejash birinchi o‘ringa chiqayotgan bir paytda, ushbu boyler isitish tizimidagi yuklamani kamaytirib, to‘plangan issiqlikni oddiy qurilmalarga qaraganda ancha uzoqroq saqlash imkonini beradi.</p>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p>Ushbu seriyaning asosiy ustunligi — 1.5 m² kengaytirilgan yuzaga ega o‘rnatilgan ilonizomsimon issiqlik almashinuvchisidir (zmeevik). Bunday arxitektura issiqlik nasoslari va kondensatsion qozonlar bilan ishlaydigan tizimlar uchun o‘ta muhimdir. Katta aloqa maydoni issiqlik tashuvchining past haroratida ham maksimal issiqlik quvvatini olish imkonini beradi. Bu 150 litr suvning o‘ta tez isishini ta’minlaydi va issiqlik nasosi kompressorini zo‘riqtirmaydi.</p>",
+   "format": "full_html",
+   "processed": "<p>Ushbu seriyaning asosiy ustunligi — 1.5 m² kengaytirilgan yuzaga ega o‘rnatilgan ilonizomsimon issiqlik almashinuvchisidir (zmeevik). Bunday arxitektura issiqlik nasoslari va kondensatsion qozonlar bilan ishlaydigan tizimlar uchun o‘ta muhimdir. Katta aloqa maydoni issiqlik tashuvchining past haroratida ham maksimal issiqlik quvvatini olish imkonini beradi. Bu 150 litr suvning o‘ta tez isishini ta’minlaydi va issiqlik nasosi kompressorini zo‘riqtirmaydi.</p>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p>WT150V-SCAE(EU) konstruksiyasida qalinligi 50 mm bo‘lgan takomillashtirilgan penopoliuretan issiqlik izolyatsiyasi qo‘llanilgan. Past issiqlik o‘tkazuvchanlikka ega materiallardan foydalanish \"termos\" effektini yaratadi. Hatto isitish manbalari to‘liq o‘chirilgan taqdirda ham, bak ichidagi suv harorati juda sekin pasayadi, bu esa ushbu modelni quyosh kollektorlari va issiqlik nasoslari bilan integratsiya qilish uchun ideal tanlovga aylantiradi.</p>",
+   "format": "full_html",
+   "processed": "<p>WT150V-SCAE(EU) konstruksiyasida qalinligi 50 mm bo‘lgan takomillashtirilgan penopoliuretan issiqlik izolyatsiyasi qo‘llanilgan. Past issiqlik o‘tkazuvchanlikka ega materiallardan foydalanish \"termos\" effektini yaratadi. Hatto isitish manbalari to‘liq o‘chirilgan taqdirda ham, bak ichidagi suv harorati juda sekin pasayadi, bu esa ushbu modelni quyosh kollektorlari va issiqlik nasoslari bilan integratsiya qilish uchun ideal tanlovga aylantiradi.</p>"
+  },
+  "field_opisanie_tovara_4": {
+   "value": "<p>Haier muhandislari suvning kirish/chiqish qismi va zmeevik konturini ulash uchun G1\" standartidagi rezbali ulanishlarni ko‘zda tutgan. Bu qozonxonaning gidravlik bog‘lanishini sezilarli darajada osonlashtiradi, tizimdagi bosim pasayishi xavfini kamaytiradi. Boyler kaskadli sxemalarga oson o‘rnatiladi va har qanday zamonaviy isitishni boshqarish kontrollerlari bilan birga ishlaydi.</p>",
+   "format": "full_html",
+   "processed": "<p>Haier muhandislari suvning kirish/chiqish qismi va zmeevik konturini ulash uchun G1\" standartidagi rezbali ulanishlarni ko‘zda tutgan. Bu qozonxonaning gidravlik bog‘lanishini sezilarli darajada osonlashtiradi, tizimdagi bosim pasayishi xavfini kamaytiradi. Boyler kaskadli sxemalarga oson o‘rnatiladi va har qanday zamonaviy isitishni boshqarish kontrollerlari bilan birga ishlaydi.</p>"
+  },
+  "field_opisanie_tovara_5": {
+   "value": "<p>O‘rnatilgan 2.5 kVt quvvatli yordamchi elektr isitish elementi (TEN) ushbu boylerni universal gibrid markazga aylantiradi. 2500 Vt quvvatli elektr isitgich asosiy qozonga texnik xizmat ko‘rsatish vaqtida ham doimiy issiq suvni ta’minlaydi. Bundan tashqari, TEN \"Antilegionella\" funksiyasi uchun ishlatiladi — u bak ichidagi suvni vaqti-vaqti bilan yuqori haroratgacha qizdirib, to‘liq biologik dezinfeksiyani amalga oshiradi.</p>",
+   "format": "full_html",
+   "processed": "<p>O‘rnatilgan 2.5 kVt quvvatli yordamchi elektr isitish elementi (TEN) ushbu boylerni universal gibrid markazga aylantiradi. 2500 Vt quvvatli elektr isitgich asosiy qozonga texnik xizmat ko‘rsatish vaqtida ham doimiy issiq suvni ta’minlaydi. Bundan tashqari, TEN \"Antilegionella\" funksiyasi uchun ishlatiladi — u bak ichidagi suvni vaqti-vaqti bilan yuqori haroratgacha qizdirib, to‘liq biologik dezinfeksiyani amalga oshiradi.</p>"
+  },
+  "field_opisanie_tovara_6": {
+   "value": "<p>Bakning ichki yuzasi tajovuzkor ta’sirlarga va harorat kengayishiga chidamli bo‘lgan maxsus emal bilan himoyalangan. Emallangan qoplama metall korroziyasini oldini oladi va bak devorlarida bakteriyalar ko‘payishiga yo‘l qo‘ymaydi. 0.85 MPa ishchi bosimi bilan birgalikda, bu Haier uskunalarini O‘zbekiston shahar suv quvurlaridagi yuqori bosim sharoitida ham xavfsiz ishlatish imkonini beradi.</p>",
+   "format": "full_html",
+   "processed": "<p>Bakning ichki yuzasi tajovuzkor ta’sirlarga va harorat kengayishiga chidamli bo‘lgan maxsus emal bilan himoyalangan. Emallangan qoplama metall korroziyasini oldini oladi va bak devorlarida bakteriyalar ko‘payishiga yo‘l qo‘ymaydi. 0.85 MPa ishchi bosimi bilan birgalikda, bu Haier uskunalarini O‘zbekiston shahar suv quvurlaridagi yuqori bosim sharoitida ham xavfsiz ishlatish imkonini beradi.</p>"
+  },
+  "field_opisanie_tovara_7": {
+   "value": "<p>150 litr hajmi va issiqlikni tez tiklash tezligi tufayli WT150V-SCAE(EU) modeli 4–6 kishidan iborat xonadonlar uchun ham, kichik biznes sub’ektlari: mehmonxonalar, restoranlar va sport klublari uchun ham juda mos keladi. Kulrang rangdagi ixcham o‘lchamlari (600 × 628 × 1170 mm) interyer estetikasini saqlagan holda boylerni kichik texnik xonalarda joylashtirish imkonini beradi.</p>",
+   "format": "full_html",
+   "processed": "<p>150 litr hajmi va issiqlikni tez tiklash tezligi tufayli WT150V-SCAE(EU) modeli 4–6 kishidan iborat xonadonlar uchun ham, kichik biznes sub’ektlari: mehmonxonalar, restoranlar va sport klublari uchun ham juda mos keladi. Kulrang rangdagi ixcham o‘lchamlari (600 × 628 × 1170 mm) interyer estetikasini saqlagan holda boylerni kichik texnik xonalarda joylashtirish imkonini beradi.</p>"
+  },
+  "field_opisanie_tovara_8": {
+   "value": "<p>Professional Haier seriyasini rasmiy dilerdan sotib olib, siz nafaqat uskunaga, balki uning uzoq muddatli xizmatiga ham ishonch hosil qilasiz. Biz boylerni <a href=\"/uz/issiqlik-nasosi\">issiqlik nasoslari</a> tizimiga integratsiya qilish bo‘yicha to‘liq ma’lumot beramiz. Toshkentdagi rasmiy kafolat va avtorizatsiyalangan servis markazlari Haiershop.uz saytidagi xaridni uyingiz konforti uchun eng ishonchli investitsiyaga aylantiradi.</p>",
+   "format": "full_html",
+   "processed": "<p>Professional Haier seriyasini rasmiy dilerdan sotib olib, siz nafaqat uskunaga, balki uning uzoq muddatli xizmatiga ham ishonch hosil qilasiz. Biz boylerni <a href=\"/uz/issiqlik-nasosi\">issiqlik nasoslari</a> tizimiga integratsiya qilish bo‘yicha to‘liq ma’lumot beramiz. Toshkentdagi rasmiy kafolat va avtorizatsiyalangan servis markazlari Haiershop.uz saytidagi xaridni uyingiz konforti uchun eng ishonchli investitsiyaga aylantiradi.</p>"
+  },
+  "field_ploshchad_teploobmennika": 1.5,
+  "field_poddelnyy_zagolovok": "Bilvosita isitishli boyler Haier",
+  "field_podklyuchenie_tena": null,
+  "field_proizvoditelnost_pri_nomin": null,
+  "field_ravnomernoe_raspredelenie": "Ha",
+  "field_razmery_upakovki_v_sh_g_mm": null,
+  "field_recirkulyaciya_gvs": "Ha",
+  "field_sertifikat": null,
+  "field_srok_sluzhby": "15-20 yil",
+  "field_strana_proizvodstva": "Xitoy",
+  "field_teploizolyacionnyy_sloy_mm": null,
+  "field_tip_montazha": "Pol ustiga o'rnatiladigan",
+  "field_ums_pokrytie_vnutrennego_b": null,
+  "field_uvelichennyy_magnievyy_ano": "yes",
+  "field_v_izbrannoe": null,
+  "field_ves_kg1": null,
+  "field_vremya_nagreva_pri_t_50deg": null,
+  "field_zagolovok_opisaniya_1": "Haier WT150V-SCAE(EU) bilvosita isitish boyleri: Zamonaviy isitish tizimlari uchun professional standart",
+  "field_zagolovok_opisaniya_2": "Maksimal issiqlik almashinuvi maydoni — 1.5 m²",
+  "field_zagolovok_opisaniya_3": "50 mm qalinlikdagi innovatsion izolyatsiya qatlami",
+  "field_zagolovok_opisaniya_4": "G1\" universal ulanishlari va integratsiya qulayligi",
+  "field_zagolovok_opisaniya_5": "Gibrid isitish: 2500 Vt quvvatli zaxira manbai",
+  "field_zagolovok_opisaniya_6": "Bakning o‘ta chidamli emallangan qoplamasi",
+  "field_zagolovok_opisaniya_7": "Tijorat va xususiy sektorda qo‘llanilishi",
+  "field_zagolovok_opisaniya_8": "Haiershop.uz saytida professional o‘rnatish va kafolat"
+ },
+ "relationships": {
+  "commerce_product_type": {
+   "data": {
+    "type": "commerce_product_type--commerce_product_type",
+    "id": "bb7c1329-cfed-478b-a50f-b15ce8e604ea",
+    "meta": {
+     "drupal_internal__target_id": "boylery_kosvennogo_nagreva"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/commerce_product_type"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/commerce_product_type"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/uid"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/uid"
+    }
+   }
+  },
+  "stores": {
+   "data": [
+    {
+     "type": "commerce_store--online",
+     "id": "10d9cb6e-3da7-4177-a918-8547abd388db",
+     "meta": {
+      "drupal_internal__target_id": 1
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/stores"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/stores"
+    }
+   }
+  },
+  "variations": {
+   "data": [
+    {
+     "type": "commerce_product_variation--default",
+     "id": "102e495b-88dc-4597-ab75-cd5cfd5a9750",
+     "meta": {
+      "drupal_internal__target_id": 383
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/variations"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/variations"
+    }
+   }
+  },
+  "default_variation": {
+   "data": {
+    "type": "commerce_product_variation--default",
+    "id": "102e495b-88dc-4597-ab75-cd5cfd5a9750",
+    "meta": {
+     "drupal_internal__target_id": 383
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/default_variation"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/default_variation"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_1"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_1"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_3"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_3"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_4"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_5"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_6"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_6"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_7": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_7"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_8": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_8"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_8"
+    }
+   }
+  },
+  "field_vid_tovara": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "cbe4439d-6880-46fb-b18e-040707a486a7",
+     "meta": {
+      "drupal_internal__target_id": 13
+     }
+    },
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "5470b53e-99c4-4648-b77b-18f2b09ee658",
+     "meta": {
+      "drupal_internal__target_id": 32
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_vid_tovara"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_vid_tovara"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,243 @@
+{
+ "catalog/info": {
+  "urls": 635,
+  "clicks": 20588.0,
+  "impr": 731449.0,
+  "examples": [
+   [
+    "/ru/kondicionery",
+    "3289",
+    "156464"
+   ],
+   [
+    "/ru/teplovye-nasosy",
+    "1622",
+    "38964"
+   ],
+   [
+    "/ru/kholodilniki",
+    "1550",
+    "55616"
+   ],
+   [
+    "/ru/otopitelnoe-oborudovanie",
+    "1412",
+    "48886"
+   ],
+   [
+    "/ru/vodonagrevateli",
+    "992",
+    "29240"
+   ],
+   [
+    "/uz/konditsionerlar",
+    "745",
+    "37486"
+   ]
+  ]
+ },
+ "home lang": {
+  "urls": 3,
+  "clicks": 2204.0,
+  "impr": 22839.0,
+  "examples": [
+   [
+    "/ru",
+    "2157",
+    "21004"
+   ],
+   [
+    "/uz",
+    "43",
+    "1805"
+   ],
+   [
+    "/ru/",
+    "4",
+    "30"
+   ]
+  ]
+ },
+ "blog": {
+  "urls": 642,
+  "clicks": 12249.0,
+  "impr": 810391.0,
+  "examples": [
+   [
+    "/ru/blog/skolko-elektrichestva-potreblyaet-kondicioner-za-1-chas-kalkulyator-kvtch-ponyatnyy-gid",
+    "686",
+    "28405"
+   ],
+   [
+    "/uz/blog/konditsioner-1-soatda-qancha-elektr-yeydi-kvtsoat-kalkulyator-tushunarli-qollanma",
+    "619",
+    "10632"
+   ],
+   [
+    "/uz/blog/konditsioner-narxlari-9121824-va-inverter-toshkentda-brendlarni-solishtirish",
+    "609",
+    "60329"
+   ],
+   [
+    "/ru/blog/top-3-populyarnykh-vodonagrevateley-ariston",
+    "479",
+    "64824"
+   ],
+   [
+    "/ru/blog/haier-smart-tv-obzor-funkciy-android-tv-ustanovka-allplay-itvuz-i-drugikh-prilozheniy-v",
+    "435",
+    "39650"
+   ],
+   [
+    "/ru/blog/skolko-stoit-ustanovka-kondicionera-v-tashkente-i-chto-vkhodit-v-cenu-chestnyy-razbor-2025",
+    "424",
+    "42877"
+   ]
+  ]
+ },
+ "root": {
+  "urls": 1,
+  "clicks": 112.0,
+  "impr": 4149.0,
+  "examples": [
+   [
+    "/",
+    "112",
+    "4149"
+   ]
+  ]
+ },
+ "user/cart/system": {
+  "urls": 9,
+  "clicks": 57.0,
+  "impr": 5010.0,
+  "examples": [
+   [
+    "/uz/user/register",
+    "51",
+    "4087"
+   ],
+   [
+    "/uz/user/login",
+    "2",
+    "326"
+   ],
+   [
+    "/uz/wishlist",
+    "2",
+    "89"
+   ],
+   [
+    "/ru/cart",
+    "1",
+    "55"
+   ],
+   [
+    "/ru/user/register",
+    "1",
+    "20"
+   ],
+   [
+    "/ru/user/login",
+    "0",
+    "38"
+   ]
+  ]
+ },
+ "index.php duplicate": {
+  "urls": 146,
+  "clicks": 145.0,
+  "impr": 5361.0,
+  "examples": [
+   [
+    "/index.php/ru/stiralnye-mashiny/stiralnaya-mashina-haier-hw90-bp14929as",
+    "15",
+    "257"
+   ],
+   [
+    "/index.php/ru/kholodilniki",
+    "14",
+    "769"
+   ],
+   [
+    "/index.php/ru/kondicionery/kondicioner-flora-heat-inverter-as12idhhra-bl11u12idhfra-bl1",
+    "13",
+    "60"
+   ],
+   [
+    "/index.php/ru/teplovye-nasosy",
+    "7",
+    "190"
+   ],
+   [
+    "/index.php/ru/kholodilniki/kholodilnik-haier-hdpw3620dnpd",
+    "6",
+    "104"
+   ],
+   [
+    "/index.php/uz/kir-yuvish-mashinalari",
+    "6",
+    "180"
+   ]
+  ]
+ },
+ "system path": {
+  "urls": 3,
+  "clicks": 12.0,
+  "impr": 458.0,
+  "examples": [
+   [
+    "/uz/node/63",
+    "5",
+    "330"
+   ],
+   [
+    "/uz/node/49",
+    "4",
+    "54"
+   ],
+   [
+    "/uz/node/80",
+    "3",
+    "74"
+   ]
+  ]
+ },
+ "parameter URL": {
+  "urls": 57,
+  "clicks": 5.0,
+  "impr": 625.0,
+  "examples": [
+   [
+    "/ru/vodonagrevateli?page=1",
+    "2",
+    "19"
+   ],
+   [
+    "/ru/blog?page=0",
+    "1",
+    "33"
+   ],
+   [
+    "/ru/blog?page=4",
+    "1",
+    "84"
+   ],
+   [
+    "/uz/kir-yuvish-mashinalari?page=1",
+    "1",
+    "43"
+   ],
+   [
+    "/ru/blog?page=1",
+    "0",
+    "125"
+   ],
+   [
+    "/ru/blog?page=10",
+    "0",
+    "21"
+   ]
+  ]
+ }
+}

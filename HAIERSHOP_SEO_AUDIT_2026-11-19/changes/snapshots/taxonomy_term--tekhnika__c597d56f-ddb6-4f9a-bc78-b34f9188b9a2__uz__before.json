@@ -1,0 +1,259 @@
+{
+ "type": "taxonomy_term--tekhnika",
+ "id": "c597d56f-ddb6-4f9a-bc78-b34f9188b9a2",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2?resourceVersion=id%3A2"
+  }
+ },
+ "attributes": {
+  "drupal_internal__tid": 2,
+  "drupal_internal__revision_id": 2,
+  "langcode": "uz",
+  "revision_created": "2023-07-21T09:36:11+00:00",
+  "revision_log_message": null,
+  "status": true,
+  "name": "Sovutgichlar",
+  "description": {
+   "value": "<p class=\"text-align-justify\">Zamonaviy sovutgich-bushovqinsiz, maksimal darajada samarali va ishonchli qurilma bo‘lib, uning asosiy vazifasi meva va sabzavotlar, go‘sht, sut mahsulotlari, shuningdek, yetarli chapast haroratda saqlanishi kerak bo‘lgan taomlarni saqlashdir. Sovutgichning vazifasi nafaqat mahsulotlarni, balki undagi foydali moddalar va mikroelementlarni ham saqlash hisoblanadi. Shunisi e’tiborga loyiqki, bunday qurilmada taom va mahsulotlarni saqlanganda, ularning ishtahani ochadigan chiroyli ko‘rinishi ham saqlanib qoladi.</p><p class=\"text-align-justify\">Sovutgich oshxonada mavjud bo‘lgan boshqa maishiy texnika bilan uyg‘un bo‘lishi shart. Faqat shundagina siz xonada mukammal chiziqlarga ega betakror interer yaratishingiz va oshxonani chiroyli bezatishingiz mumkin.</p><h3 class=\"text-align-justify\">O‘zbekistonda sovutgich xarid qilish</h3><p class=\"text-align-justify\">O‘zbekistonda sovutgichni tanlash va xarid qilishni nimadan boshlash kerak? Umuman olganda, bu masala har bir odam uchun har xil bo‘lishi mumkin. Ba’zilar qurilmaning rangi va dizaynini tanlashdan boshlashni afzalko‘rishadi. Ba’zilar uchun texnik xususiyatlar, muzini eritish tizimlari va kompressor turi muhimroqdir. Ammo har qanday holatda, sizning talablaringiz va istaklaringizga javob beradigan yuqori sifatli qurilmani sotib olish uchun e’tibor berishingiz kerak bo‘lgan mezonlar mavjud:</p><ul><li><p class=\"text-align-justify\">sovutgichning hajmi;</p></li><li><p class=\"text-align-justify\">kameralar soni;</p></li><li><p class=\"text-align-justify\">sovutishtizimining turlari;</p></li><li><p class=\"text-align-justify\">kompressor turi;</p></li><li><p class=\"text-align-justify\">muzlatish kamerasining joylash ish xususiyatlari;</p></li><li><p class=\"text-align-justify\">muz generatorining mavjudligi va hokazo.</p></li></ul><p class=\"text-align-justify\">Ushbu mezonlarning barchasini hisobga olgan holda, siz o‘zingiz uchun mukammal sovutgichni tanlashingiz mumkin, bu oshxonani jihozlab, uni yanada shinam va qulay qiladi.</p><h3 class=\"text-align-justify\">O‘zbekistonda sovutgich buyurtma qilish</h3><p class=\"text-align-justify\">Agarsiz qurilmani tanlashda qiyinchiliklarga duch kelsangiz, hardoim Toshkentdagi Haier Shopinternet-do‘konimiz xodimlariga telefon orqali yoki onlayn murojaat qilishingiz mumkin. Bizning menejerlarimiz doimo aloqada, ular sizga maslahat berishadi, siz uchun eng yaxshi yechimni tanlab beradilar va O‘zbekistonda sovutgich buyurtma qilishda yordam berishadi. Bizning xodimlarimiz sizni qiziqtirgan barcha savollarga javob berishadi..</p><h3 class=\"text-align-justify\">Sovutgichlarning narxi</h3><p class=\"text-align-justify\">Sovutgichlarning raqobat bardosh narxlardagi eng yaxshi modellari Toshkentdagi HaierShop katalogida taqdim etilgan. Yuqori sifatli qurilmalarni tanlang va sotib oling. Tovarlarga buyurtma berishda manzilga arzon yetkazish xizmatidan foydalaning. Biz uskunalarni shahar bo‘ylab yetkazishimiz, pochta xizmatlari yordamida mamlakatning barcha hududlariga yetkazib berishimiz mumkin.</p><p class=\"text-align-justify\">Barcha mahsulotlar ishlab chiqaruvchi tomonidan kafolat beriladi. Xarid uchun darhol bank kartasi yordamida to‘liq to‘lov qilish yoki muddatli to‘lov rasmiylashtirish mumkin.</p><p class=\"text-align-justify\">Haier Shop bilan birgalikda xaridlaringiz hardoim juda foydali va yoqimli bo‘ladi.</p>",
+   "format": "full_html",
+   "processed": "<p class=\"text-align-justify\">Zamonaviy sovutgich-bushovqinsiz, maksimal darajada samarali va ishonchli qurilma bo‘lib, uning asosiy vazifasi meva va sabzavotlar, go‘sht, sut mahsulotlari, shuningdek, yetarli chapast haroratda saqlanishi kerak bo‘lgan taomlarni saqlashdir. Sovutgichning vazifasi nafaqat mahsulotlarni, balki undagi foydali moddalar va mikroelementlarni ham saqlash hisoblanadi. Shunisi e’tiborga loyiqki, bunday qurilmada taom va mahsulotlarni saqlanganda, ularning ishtahani ochadigan chiroyli ko‘rinishi ham saqlanib qoladi.</p><p class=\"text-align-justify\">Sovutgich oshxonada mavjud bo‘lgan boshqa maishiy texnika bilan uyg‘un bo‘lishi shart. Faqat shundagina siz xonada mukammal chiziqlarga ega betakror interer yaratishingiz va oshxonani chiroyli bezatishingiz mumkin.</p><h3 class=\"text-align-justify\">O‘zbekistonda sovutgich xarid qilish</h3><p class=\"text-align-justify\">O‘zbekistonda sovutgichni tanlash va xarid qilishni nimadan boshlash kerak? Umuman olganda, bu masala har bir odam uchun har xil bo‘lishi mumkin. Ba’zilar qurilmaning rangi va dizaynini tanlashdan boshlashni afzalko‘rishadi. Ba’zilar uchun texnik xususiyatlar, muzini eritish tizimlari va kompressor turi muhimroqdir. Ammo har qanday holatda, sizning talablaringiz va istaklaringizga javob beradigan yuqori sifatli qurilmani sotib olish uchun e’tibor berishingiz kerak bo‘lgan mezonlar mavjud:</p><ul><li><p class=\"text-align-justify\">sovutgichning hajmi;</p></li><li><p class=\"text-align-justify\">kameralar soni;</p></li><li><p class=\"text-align-justify\">sovutishtizimining turlari;</p></li><li><p class=\"text-align-justify\">kompressor turi;</p></li><li><p class=\"text-align-justify\">muzlatish kamerasining joylash ish xususiyatlari;</p></li><li><p class=\"text-align-justify\">muz generatorining mavjudligi va hokazo.</p></li></ul><p class=\"text-align-justify\">Ushbu mezonlarning barchasini hisobga olgan holda, siz o‘zingiz uchun mukammal sovutgichni tanlashingiz mumkin, bu oshxonani jihozlab, uni yanada shinam va qulay qiladi.</p><h3 class=\"text-align-justify\">O‘zbekistonda sovutgich buyurtma qilish</h3><p class=\"text-align-justify\">Agarsiz qurilmani tanlashda qiyinchiliklarga duch kelsangiz, hardoim Toshkentdagi Haier Shopinternet-do‘konimiz xodimlariga telefon orqali yoki onlayn murojaat qilishingiz mumkin. Bizning menejerlarimiz doimo aloqada, ular sizga maslahat berishadi, siz uchun eng yaxshi yechimni tanlab beradilar va O‘zbekistonda sovutgich buyurtma qilishda yordam berishadi. Bizning xodimlarimiz sizni qiziqtirgan barcha savollarga javob berishadi..</p><h3 class=\"text-align-justify\">Sovutgichlarning narxi</h3><p class=\"text-align-justify\">Sovutgichlarning raqobat bardosh narxlardagi eng yaxshi modellari Toshkentdagi HaierShop katalogida taqdim etilgan. Yuqori sifatli qurilmalarni tanlang va sotib oling. Tovarlarga buyurtma berishda manzilga arzon yetkazish xizmatidan foydalaning. Biz uskunalarni shahar bo‘ylab yetkazishimiz, pochta xizmatlari yordamida mamlakatning barcha hududlariga yetkazib berishimiz mumkin.</p><p class=\"text-align-justify\">Barcha mahsulotlar ishlab chiqaruvchi tomonidan kafolat beriladi. Xarid uchun darhol bank kartasi yordamida to‘liq to‘lov qilish yoki muddatli to‘lov rasmiylashtirish mumkin.</p><p class=\"text-align-justify\">Haier Shop bilan birgalikda xaridlaringiz hardoim juda foydali va yoqimli bo‘ladi.</p>"
+  },
+  "weight": 25,
+  "changed": "2026-10-15T08:09:08+00:00",
+  "default_langcode": false,
+  "revision_translation_affected": true,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Haier Sovutgichlari Toshkentda | Kafolat bilan arzon narxlarda HaierShop'dan sotib oling"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Toshkentda Haier sovutgichlarini uyga yetkazib berish bilan sotib oling. Ikki kamerali, No Frost, Side-by-Side modellari keng tanlovi. Ishlab chiqaruvchidan kafolat - HaierShop internet-do'koni."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "sovutgichlar, Haier, Toshkent, sotib olish, narx, yetkazib berish, kafolat, ikki kamerali, No Frost, Side-by-Side, internet-do'kon, maishiy sovutgichlar"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Ташкент, Узбекистан"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TOS"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "icbm",
+     "content": "Малая кольцевая 50"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Sovutgichlari - Toshkentda arzon narxlarda sotib oling | HaierShop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "Toshkentda Haier sovutgichini qidiryapsizmi? HaierShop ikki kamerali sovutgichlar, No Frost va Side-by-Side modellari keng tanlovini kafolat bilan taklif etadi! O'zingizga mos sovutgichni toping!"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:alt",
+     "content": "Toshkentda Haier sovutgichlarining keng tanlovi"
+    }
+   }
+  ],
+  "path": {
+   "alias": "/sovutgichlar",
+   "pid": 161,
+   "langcode": "uz"
+  },
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "content_translation_created": "2023-09-15T13:01:37+00:00",
+  "field_meta_tegi": "{\"description\":\"Toshkentda Haier sovutgichlarini uyga yetkazib berish bilan sotib oling. Ikki kamerali, No Frost, Side-by-Side modellari keng tanlovi. Ishlab chiqaruvchidan kafolat - HaierShop internet-do\\u0027koni.\",\"geo_placename\":\"\\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442, \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TOS\",\"icbm\":\"\\u041c\\u0430\\u043b\\u0430\\u044f \\u043a\\u043e\\u043b\\u044c\\u0446\\u0435\\u0432\\u0430\\u044f 50\",\"keywords\":\"sovutgichlar, Haier, Toshkent, sotib olish, narx, yetkazib berish, kafolat, ikki kamerali, No Frost, Side-by-Side, internet-do\\u0027kon, maishiy sovutgichlar\",\"og_description\":\"Toshkentda Haier sovutgichini qidiryapsizmi? HaierShop ikki kamerali sovutgichlar, No Frost va Side-by-Side modellari keng tanlovini kafolat bilan taklif etadi! O\\u0027zingizga mos sovutgichni toping!\",\"og_image_alt\":\"Toshkentda Haier sovutgichlarining keng tanlovi\",\"og_title\":\"Haier Sovutgichlari - Toshkentda arzon narxlarda sotib oling | HaierShop\",\"robots\":\"index, follow\",\"title\":\"Haier Sovutgichlari Toshkentda | Kafolat bilan arzon narxlarda HaierShop\\u0027dan sotib oling\"}",
+  "field_otobrazhenie_kategorii_na_": "yes"
+ },
+ "relationships": {
+  "vid": {
+   "data": {
+    "type": "taxonomy_vocabulary--taxonomy_vocabulary",
+    "id": "39aa8843-6557-483c-a604-66eeb0ec96db",
+    "meta": {
+     "drupal_internal__target_id": "tekhnika"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/vid?resourceVersion=id%3A2"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/relationships/vid?resourceVersion=id%3A2"
+    }
+   }
+  },
+  "revision_user": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/revision_user?resourceVersion=id%3A2"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/relationships/revision_user?resourceVersion=id%3A2"
+    }
+   }
+  },
+  "parent": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "virtual",
+     "meta": {
+      "links": {
+       "help": {
+        "href": "https://www.drupal.org/docs/8/modules/json-api/core-concepts#virtual",
+        "meta": {
+         "about": "Usage and meaning of the 'virtual' resource identifier."
+        }
+       }
+      }
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/parent?resourceVersion=id%3A2"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/relationships/parent?resourceVersion=id%3A2"
+    }
+   }
+  },
+  "content_translation_uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/content_translation_uid?resourceVersion=id%3A2"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/relationships/content_translation_uid?resourceVersion=id%3A2"
+    }
+   }
+  },
+  "field_izobrazhenie": {
+   "data": {
+    "type": "file--file",
+    "id": "93f0a4ed-9047-4136-94b9-89d936ec93ad",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 245,
+     "height": 180,
+     "drupal_internal__target_id": 8
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/field_izobrazhenie?resourceVersion=id%3A2"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c597d56f-ddb6-4f9a-bc78-b34f9188b9a2/relationships/field_izobrazhenie?resourceVersion=id%3A2"
+    }
+   }
+  }
+ }
+}

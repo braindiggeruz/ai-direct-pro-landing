@@ -1,0 +1,423 @@
+{
+ "type": "commerce_product--kondicionery",
+ "id": "739433e0-4e74-4f12-9348-b15ea7655d1b",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b"
+  }
+ },
+ "attributes": {
+  "drupal_internal__product_id": 207,
+  "langcode": "uz",
+  "status": true,
+  "title": "Kassetali konditsioner Haier AB71S1LG1FA R32/1U71S1LR1FA R32",
+  "path": {
+   "alias": "/sanoat-konditsionerlari/kassetali-konditsioner-haier-ab71s1lg1fa-r321u71s1lr1fa-r32",
+   "pid": 520,
+   "langcode": "uz"
+  },
+  "created": "2025-02-25T09:11:23+00:00",
+  "changed": "2026-03-22T08:19:33+00:00",
+  "default_langcode": false,
+  "overall_rating": null,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Kasseta konditsioner Haier AB71S1LG1FA R32 sotib olish | Haier Shop Oʻzbekiston"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Haier AB71S1LG1FA R32 kuchli kasseta konditsioneri — ofis, mehmonxona va katta binolar uchun ajoyib tanlov. Toshkent boʻylab yetkazib berish!"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "Haier AB71S1LG1FA R32 kasseta konditsioneri katta binolar, mehmonxonalar va restoranlar uchun ideal. Energiya tejovchi, sokin ishlaydi, qulay boshqaruv."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "Haier AB71S1LG1FA R32 kasseta konditsioner sotib olish Toshkent, Haier kasseta konditsioner narxi Oʻzbekiston, Haier ofis uchun konditsioner, Haier AB71S1LG1FA tijorat konditsioneri, Haier AB71S1LG1FA R32 Toshkent, Haier kasseta konditsioner yetkazib berish Oʻzbekiston, sanoat konditsionerlari Haier, mehmonxona uchun konditsioner, katta binolar uchun konditsioner, katta uylar uchun konditsioner, kuchli konditsioner Haier, sanoat sovutish tizimi, restoran uchun kasseta konditsioner, savdo markazi uchun konditsioner, energiya tejovchi konditsioner Haier, 4-yo‘nalishli kasseta konditsioner"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Toshkent, O‘zbekiston"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop – uy uchun texnika va sanoat yechimlari | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "O‘zbekistonda Haier ning rasmiy onlayn do‘koni. Hammasi – sizning biznesingiz uchun maishiy texnikadan tortib sanoat uskunalarigacha. Har bir mahsulotda ishonchlilik, innovatsiyalar va yuqori sifat | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "field_chistyy_ves_kg_": 27,
+  "field_cvet": "Oq",
+  "field_diametr_gazovoy_linii_mm_": "15.9",
+  "field_diametr_zhidkostnoy_linii_": "9.52",
+  "field_diapazon_rab_temp_ohlad": "-25 ~ 43",
+  "field_diapazon_rabochikh_tempera": "-15 ~ 24",
+  "field_dostavka": null,
+  "field_eer_cop_srednee_znachenie_": null,
+  "field_elektropitanie_f_v_gc_": null,
+  "field_energoeffektivnost": null,
+  "field_field_chistyy_ves_kg_naruj": 38,
+  "field_gabaritnye_razmery_bez_upa": "840x840x204",
+  "field_gabaritnye_razmery_v_upako": null,
+  "field_garantiya": null,
+  "field_khit_prodazh": null,
+  "field_maksimalnaya_dlina_trassy_": 30,
+  "field_maksimalnyy_perepad_vysot_": 10,
+  "field_meta_tegi": "{\"abstract\":\"Haier AB71S1LG1FA R32 kasseta konditsioneri katta binolar, mehmonxonalar va restoranlar uchun ideal. Energiya tejovchi, sokin ishlaydi, qulay boshqaruv.\",\"description\":\"Haier AB71S1LG1FA R32 kuchli kasseta konditsioneri \\u2014 ofis, mehmonxona va katta binolar uchun ajoyib tanlov. Toshkent bo\\u02bbylab yetkazib berish!\",\"geo_placename\":\"Toshkent, O\\u2018zbekiston\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TK\",\"keywords\":\"Haier AB71S1LG1FA R32 kasseta konditsioner sotib olish Toshkent, Haier kasseta konditsioner narxi O\\u02bbzbekiston, Haier ofis uchun konditsioner, Haier AB71S1LG1FA tijorat konditsioneri, Haier AB71S1LG1FA R32 Toshkent, Haier kasseta konditsioner yetkazib berish O\\u02bbzbekiston, sanoat konditsionerlari Haier, mehmonxona uchun konditsioner, katta binolar uchun konditsioner, katta uylar uchun konditsioner, kuchli konditsioner Haier, sanoat sovutish tizimi, restoran uchun kasseta konditsioner, savdo markazi uchun konditsioner, energiya tejovchi konditsioner Haier, 4-yo\\u2018nalishli kasseta konditsioner\",\"title\":\"Kasseta konditsioner Haier AB71S1LG1FA R32 sotib olish | Haier Shop O\\u02bbzbekiston\"}",
+  "field_nazvanie_modeli": "AB71S1LG1FA R32/1U71S1LR1FA R32",
+  "field_novinka": null,
+  "field_obogrev_vt_": "7200",
+  "field_okhlazhdenie_vt_": "6800",
+  "field_opisanie_tovara_1": {
+   "value": "<h3 data-start=\"0\" data-end=\"93\"><strong data-start=\"4\" data-end=\"91\">Haier AB71S1LG1FA/1U71S1LR1FA – Tijorat binolari uchun kuchli kasseta konditsioneri</strong></h3><p data-start=\"95\" data-end=\"411\"><strong data-start=\"95\" data-end=\"128\">Haier AB71S1LG1FA/1U71S1LR1FA</strong> kasseta konditsioneri <strong data-start=\"151\" data-end=\"218\">katta ofislar, restoranlar, savdo markazlari va biznes binolari</strong> uchun <strong data-start=\"225\" data-end=\"244\">mukammal yechim</strong> hisoblanadi. <strong data-start=\"258\" data-end=\"340\">Kompakt dizayni, inverter texnologiyasi va to‘rt yo‘nalishli havo oqimi tizimi</strong> tufayli xona ichida <strong data-start=\"361\" data-end=\"396\">bir tekis va qulay mikroiqlimni</strong> ta’minlaydi.</p>",
+   "format": "full_html",
+   "processed": "<h3 data-start=\"0\" data-end=\"93\"><strong data-start=\"4\" data-end=\"91\">Haier AB71S1LG1FA/1U71S1LR1FA – Tijorat binolari uchun kuchli kasseta konditsioneri</strong></h3><p data-start=\"95\" data-end=\"411\"><strong data-start=\"95\" data-end=\"128\">Haier AB71S1LG1FA/1U71S1LR1FA</strong> kasseta konditsioneri <strong data-start=\"151\" data-end=\"218\">katta ofislar, restoranlar, savdo markazlari va biznes binolari</strong> uchun <strong data-start=\"225\" data-end=\"244\">mukammal yechim</strong> hisoblanadi. <strong data-start=\"258\" data-end=\"340\">Kompakt dizayni, inverter texnologiyasi va to‘rt yo‘nalishli havo oqimi tizimi</strong> tufayli xona ichida <strong data-start=\"361\" data-end=\"396\">bir tekis va qulay mikroiqlimni</strong> ta’minlaydi.</p>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p><strong data-start=\"456\" data-end=\"482\">Invertor texnologiyasi</strong> – energiya tejamkorligi va uzoq muddatli ishlashni ta’minlaydi.<br><strong data-start=\"551\" data-end=\"583\">To‘rt yo‘nalishli havo oqimi</strong> – havo haroratining bir tekis taqsimlanishini ta’minlab, skvozyatning oldini oladi.<br><strong data-start=\"672\" data-end=\"710\">Energiya samaradorligi – A++ klass</strong> – elektr energiyasini tejaydi va foydalanish xarajatlarini kamaytiradi.<br><strong data-start=\"787\" data-end=\"805\">R32 sovutgichi</strong> – ekologik xavfsiz va yuqori samaradorlikka ega.<br><strong data-start=\"859\" data-end=\"888\">Tinch ishlash (30 dB dan)</strong> – ortiqcha shovqinsiz qulay foydalanish.<br><strong data-start=\"934\" data-end=\"968\">O‘z-o‘zini tozalash funksiyasi</strong> – mog‘or va bakteriyalar paydo bo‘lishining oldini oladi.<br><strong data-start=\"1031\" data-end=\"1073\">Moslashuvchan boshqarish imkoniyatlari</strong> – to‘plamda simsiz pult bor, qo‘shimcha simli pult ulash mumkin.<br><strong data-start=\"1143\" data-end=\"1168\">24/7 rejimida ishlash</strong> – tijorat binolari uchun mukammal variant.</p>",
+   "format": "full_html",
+   "processed": "<p><strong data-start=\"456\" data-end=\"482\">Invertor texnologiyasi</strong> – energiya tejamkorligi va uzoq muddatli ishlashni ta’minlaydi.<br><strong data-start=\"551\" data-end=\"583\">To‘rt yo‘nalishli havo oqimi</strong> – havo haroratining bir tekis taqsimlanishini ta’minlab, skvozyatning oldini oladi.<br><strong data-start=\"672\" data-end=\"710\">Energiya samaradorligi – A++ klass</strong> – elektr energiyasini tejaydi va foydalanish xarajatlarini kamaytiradi.<br><strong data-start=\"787\" data-end=\"805\">R32 sovutgichi</strong> – ekologik xavfsiz va yuqori samaradorlikka ega.<br><strong data-start=\"859\" data-end=\"888\">Tinch ishlash (30 dB dan)</strong> – ortiqcha shovqinsiz qulay foydalanish.<br><strong data-start=\"934\" data-end=\"968\">O‘z-o‘zini tozalash funksiyasi</strong> – mog‘or va bakteriyalar paydo bo‘lishining oldini oladi.<br><strong data-start=\"1031\" data-end=\"1073\">Moslashuvchan boshqarish imkoniyatlari</strong> – to‘plamda simsiz pult bor, qo‘shimcha simli pult ulash mumkin.<br><strong data-start=\"1143\" data-end=\"1168\">24/7 rejimida ishlash</strong> – tijorat binolari uchun mukammal variant.</p>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p data-start=\"1835\" data-end=\"2032\"><strong data-start=\"1835\" data-end=\"1868\">Haier AB71S1LG1FA/1U71S1LR1FA</strong> kasseta konditsionerini <strong data-start=\"1893\" data-end=\"1909\">haiershop.uz</strong> saytidan <strong data-start=\"1919\" data-end=\"1937\">rasmiy kafolat</strong>, <strong data-start=\"1939\" data-end=\"1962\">tez yetkazib berish</strong> va <strong data-start=\"1966\" data-end=\"1995\">bo‘lib to‘lash imkoniyati</strong> bilan buyurtma qilishingiz mumkin.</p><p data-start=\"2034\" data-end=\"2082\">&nbsp; <strong data-start=\"2037\" data-end=\"2077\">Sifat va ishonchlilik – Haier bilan!</strong>&nbsp;</p>",
+   "format": "full_html",
+   "processed": "<p data-start=\"1835\" data-end=\"2032\"><strong data-start=\"1835\" data-end=\"1868\">Haier AB71S1LG1FA/1U71S1LR1FA</strong> kasseta konditsionerini <strong data-start=\"1893\" data-end=\"1909\">haiershop.uz</strong> saytidan <strong data-start=\"1919\" data-end=\"1937\">rasmiy kafolat</strong>, <strong data-start=\"1939\" data-end=\"1962\">tez yetkazib berish</strong> va <strong data-start=\"1966\" data-end=\"1995\">bo‘lib to‘lash imkoniyati</strong> bilan buyurtma qilishingiz mumkin.</p><p data-start=\"2034\" data-end=\"2082\">&nbsp; <strong data-start=\"2037\" data-end=\"2077\">Sifat va ishonchlilik – Haier bilan!</strong>&nbsp;</p>"
+  },
+  "field_opisanie_tovara_4": null,
+  "field_opisanie_tovara_5": null,
+  "field_opisanie_tovara_6": null,
+  "field_opisanie_tovara_7": null,
+  "field_opisanie_tovara_8": null,
+  "field_ploschad_m2": "70",
+  "field_poddelnyy_zagolovok": "Kassetali konditsioner Haier",
+  "field_potreblyaemaya_moschnost_n": "1990",
+  "field_potreblyaemaya_moschnost_o": "2120",
+  "field_proizvoditel_kompressora": "Mitsubishi",
+  "field_proizvoditelnost_btu": "24000",
+  "field_rabochiy_tok_a_khol_ob_": "220/50",
+  "field_raskhod_vozdukha_m3_ch_": 1260,
+  "field_razmery_bez_upa_narujka": "820x300x597",
+  "field_razmery_v_upako_narujka": null,
+  "field_seer_scop_srednee_znacheni": null,
+  "field_srok_sluzhby": null,
+  "field_strana_proizvodstva": "Xitoy",
+  "field_tip_dvigatelya": "inverter",
+  "field_tip_ispolzuemogo_khladagen": "R32",
+  "field_uroven_zvuk_dav_vsns": "35",
+  "field_uroven_zvuk_davl_vys_skoro": null,
+  "field_uroven_zvuk_davlen_narujka": null,
+  "field_v_izbrannoe": null,
+  "field_ves_v_upakovke_kg_": null,
+  "field_ves_zapravlyaemogo_khladag": null,
+  "field_zagolovok_opisaniya_1": null,
+  "field_zagolovok_opisaniya_2": "Afzalliklari va xususiyatlari",
+  "field_zagolovok_opisaniya_3": "Toshkentda qayerdan sotib olish mumkin?",
+  "field_zagolovok_opisaniya_4": null,
+  "field_zagolovok_opisaniya_5": null,
+  "field_zagolovok_opisaniya_6": null,
+  "field_zagolovok_opisaniya_7": null,
+  "field_zagolovok_opisaniya_8": null
+ },
+ "relationships": {
+  "commerce_product_type": {
+   "data": {
+    "type": "commerce_product_type--commerce_product_type",
+    "id": "4d4da79d-e848-4750-807b-1a11d0675aac",
+    "meta": {
+     "drupal_internal__target_id": "kondicionery"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/commerce_product_type"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/commerce_product_type"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/uid"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/uid"
+    }
+   }
+  },
+  "stores": {
+   "data": [
+    {
+     "type": "commerce_store--online",
+     "id": "10d9cb6e-3da7-4177-a918-8547abd388db",
+     "meta": {
+      "drupal_internal__target_id": 1
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/stores"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/stores"
+    }
+   }
+  },
+  "variations": {
+   "data": [
+    {
+     "type": "commerce_product_variation--default",
+     "id": "bea012dd-a36f-48e6-b7dc-458570e48463",
+     "meta": {
+      "drupal_internal__target_id": 228
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/variations"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/variations"
+    }
+   }
+  },
+  "default_variation": {
+   "data": {
+    "type": "commerce_product_variation--default",
+    "id": "bea012dd-a36f-48e6-b7dc-458570e48463",
+    "meta": {
+     "drupal_internal__target_id": 228
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/default_variation"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/default_variation"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_1"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_1"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_3"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_3"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_4"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_5"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_6"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_6"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_7": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_7"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_8": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_izobrazhenie_opisaniya_8"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_izobrazhenie_opisaniya_8"
+    }
+   }
+  },
+  "field_vid_tovara": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "6567c067-3c0e-49cc-9d1b-3b510ddbf19c",
+     "meta": {
+      "drupal_internal__target_id": 20
+     }
+    },
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "4b3715cd-4643-4eef-9121-023c2c27b48f",
+     "meta": {
+      "drupal_internal__target_id": 28
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/field_vid_tovara"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/kondicionery/739433e0-4e74-4f12-9348-b15ea7655d1b/relationships/field_vid_tovara"
+    }
+   }
+  }
+ }
+}

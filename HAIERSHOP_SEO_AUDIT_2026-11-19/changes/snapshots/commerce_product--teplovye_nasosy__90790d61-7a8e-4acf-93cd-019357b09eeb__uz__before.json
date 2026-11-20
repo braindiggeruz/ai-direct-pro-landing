@@ -1,0 +1,447 @@
+{
+ "type": "commerce_product--teplovye_nasosy",
+ "id": "90790d61-7a8e-4acf-93cd-019357b09eeb",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb"
+  }
+ },
+ "attributes": {
+  "drupal_internal__product_id": 257,
+  "langcode": "uz",
+  "status": true,
+  "title": "Issiqlik nasosi Haier HPM08-Nd2",
+  "path": {
+   "alias": "/issiqlik-nasosi/issiqlik-nasosi-haier-hpm08-nd2",
+   "pid": 619,
+   "langcode": "uz"
+  },
+  "created": "2025-11-16T17:13:09+00:00",
+  "changed": "2026-02-25T06:10:37+00:00",
+  "default_langcode": false,
+  "overall_rating": null,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Haier HPM08-Nd2 issiqlik nasosi (R290) narxi, Toshkentda sotib olish | Haier shop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Haier HPM08-Nd2 (R290, A+++) invertor issiqlik nasosini isitish, sovutish va issiq suv uchun Toshkentda sotib oling. Yuqori COP, A+++ sinfi, kafolat. O'zbekiston bo'ylab yetkazish."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "R290 dagi Haier ProWarm monoblok issiqlik nasosi (EVI DC Inverter). A+++ sinfi. -30°C gacha samarali isitish, sovutish va issiq suv. Toshkentda o'rnatish xizmati."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "Haier HPM08-Nd2 issiqlik nasosi, Toshkentda issiqlik nasosi sotib olish, Haier issiqlik nasosi narxi, invertorli issiqlik nasosi R290, isitish sovutish O'zbekiston, A+++."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Toshkent, O‘zbekiston"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop – uy uchun texnika va sanoat yechimlari | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "O‘zbekistonda Haier ning rasmiy onlayn do‘koni. Hammasi – sizning biznesingiz uchun maishiy texnikadan tortib sanoat uskunalarigacha. Har bir mahsulotda ishonchlilik, innovatsiyalar va yuqori sifat | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "field_cop_a7_w35": "4.95",
+  "field_cvet": "Oq",
+  "field_diapazon_temperatury_vozd1": "от -30 °C до +43 °C",
+  "field_diapazon_temperatury_vozdu": "от -30 °C до +35 °C",
+  "field_dostavka": null,
+  "field_dostupnyy_napor_vody": "12.5",
+  "field_elektricheskiy_rezervnyy_n": "3",
+  "field_elektropitanie_v_f_gc1": "220-240  / 1 / 50",
+  "field_gabarity_shxgxv111": "1312 x 470 x 990",
+  "field_garantiya": "3 yil",
+  "field_holodoproizvoditelnost_a35": "8",
+  "field_khit_prodazh": null,
+  "field_khladagent": "R290",
+  "field_klass_sezonnoy_energoeffe1": "A++",
+  "field_klass_sezonnoy_energoeffek": "A+++",
+  "field_maks_temperatura_vody_otop": "75 °C (Isitish), 60 °C (IST)",
+  "field_meta_tegi": "{\"abstract\":\"R290 dagi Haier ProWarm monoblok issiqlik nasosi (EVI DC Inverter). A+++ sinfi. -30\\u00b0C gacha samarali isitish, sovutish va issiq suv. Toshkentda o\\u0027rnatish xizmati.\",\"description\":\"Haier HPM08-Nd2 (R290, A+++) invertor issiqlik nasosini isitish, sovutish va issiq suv uchun Toshkentda sotib oling. Yuqori COP, A+++ sinfi, kafolat. O\\u0027zbekiston bo\\u0027ylab yetkazish.\",\"geo_placename\":\"Toshkent, O\\u2018zbekiston\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TK\",\"keywords\":\"Haier HPM08-Nd2 issiqlik nasosi, Toshkentda issiqlik nasosi sotib olish, Haier issiqlik nasosi narxi, invertorli issiqlik nasosi R290, isitish sovutish O\\u0027zbekiston, A+++.\",\"title\":\"Haier HPM08-Nd2 issiqlik nasosi (R290) narxi, Toshkentda sotib olish | Haier shop\"}",
+  "field_nominalnyy_rashod_vody": "1.38",
+  "field_novinka": null,
+  "field_opisanie_tovara_1": {
+   "value": "<p data-path-to-node=\"3\">Haier ProWarm (HPM-Nd2 seriyasi) issiqlik nasoslari — bu zamonaviy uylar uchun isitish, sovutish va Issiq Suv Ta’minoti (IST) funksiyalarini birlashtirgan integratsiyalashgan monoblok tizimlardir. Ilg‘or EVI DC Inverter texnologiyasi va ekologik toza R290 sovutgichiga asoslangan ushbu nasoslar maksimal qulaylik va rekord darajadagi tejamkorlikni ta'minlaydi.</p>",
+   "format": "full_html",
+   "processed": "<p data-path-to-node=\"3\">Haier ProWarm (HPM-Nd2 seriyasi) issiqlik nasoslari — bu zamonaviy uylar uchun isitish, sovutish va Issiq Suv Ta’minoti (IST) funksiyalarini birlashtirgan integratsiyalashgan monoblok tizimlardir. Ilg‘or EVI DC Inverter texnologiyasi va ekologik toza R290 sovutgichiga asoslangan ushbu nasoslar maksimal qulaylik va rekord darajadagi tejamkorlikni ta'minlaydi.</p>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p>HPM-Nd2 seriyasi eng yuqori A+++ energiya samaradorligi klassiga va ajoyib SCOP (5.2 gacha) ko‘rsatkichiga ega. Bu isitish xarajatlarini tubdan kamaytirish imkonini beradi. O‘rtacha sutkalik elektr energiyasi iste'moli atigi 10 kVt ni tashkil qilishi mumkin (yaxshi izolyatsiyalangan uylar va moʻtadil iqlimda), bu esa tizimdan foydalanishni o‘ta foydali qiladi. Atrof-muhitga minimal ta’sir ko‘rsatuvchi ekologik toza R290 (Propan) sovutgichidan foydalaniladi.</p>",
+   "format": "full_html",
+   "processed": "<p>HPM-Nd2 seriyasi eng yuqori A+++ energiya samaradorligi klassiga va ajoyib SCOP (5.2 gacha) ko‘rsatkichiga ega. Bu isitish xarajatlarini tubdan kamaytirish imkonini beradi. O‘rtacha sutkalik elektr energiyasi iste'moli atigi 10 kVt ni tashkil qilishi mumkin (yaxshi izolyatsiyalangan uylar va moʻtadil iqlimda), bu esa tizimdan foydalanishni o‘ta foydali qiladi. Atrof-muhitga minimal ta’sir ko‘rsatuvchi ekologik toza R290 (Propan) sovutgichidan foydalaniladi.</p>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p>EVI DC Inverter texnologiyasi tufayli, issiqlik nasosi -30 °C gacha bo‘lgan haroratlarda ham isitish rejimida barqaror ishlaydi, eng qattiq sovuqlarda ham uyingizni ishonchli issiqlik bilan ta'minlaydi. Tizim ko‘p qirrali: radiatorlar uchun 75 °C gacha issiqlik tashuvchini yetkazib beradi va maishiy ehtiyojlar uchun suvni 60 °C gacha qizdiradi. Yuqori SEER (7.0 gacha) yozda iqtisodiy sovutishni kafolatlaydi.</p>",
+   "format": "full_html",
+   "processed": "<p>EVI DC Inverter texnologiyasi tufayli, issiqlik nasosi -30 °C gacha bo‘lgan haroratlarda ham isitish rejimida barqaror ishlaydi, eng qattiq sovuqlarda ham uyingizni ishonchli issiqlik bilan ta'minlaydi. Tizim ko‘p qirrali: radiatorlar uchun 75 °C gacha issiqlik tashuvchini yetkazib beradi va maishiy ehtiyojlar uchun suvni 60 °C gacha qizdiradi. Yuqori SEER (7.0 gacha) yozda iqtisodiy sovutishni kafolatlaydi.</p>"
+  },
+  "field_opisanie_tovara_4": {
+   "value": "<p>Monoblok konstruksiyasi o‘rnatishni sezilarli darajada soddalashtiradi, chunki barcha asosiy gidravlik komponentlar (nasos kabi) tashqi blokning ichiga joylashtirilgan. Ishlab chiqariladigan shovqin darajasi optimallashtirilgan bo‘lib, 45 dB dan boshlanadi. Quvvatlar diapazoni 8 kVt dan 16 kVt gacha (HPM08-Nd2 – HPM16-Nd2) bo‘lib, har qanday obyektning ehtiyojlariga mos yechimni tanlash imkonini beradi.</p>",
+   "format": "full_html",
+   "processed": "<p>Monoblok konstruksiyasi o‘rnatishni sezilarli darajada soddalashtiradi, chunki barcha asosiy gidravlik komponentlar (nasos kabi) tashqi blokning ichiga joylashtirilgan. Ishlab chiqariladigan shovqin darajasi optimallashtirilgan bo‘lib, 45 dB dan boshlanadi. Quvvatlar diapazoni 8 kVt dan 16 kVt gacha (HPM08-Nd2 – HPM16-Nd2) bo‘lib, har qanday obyektning ehtiyojlariga mos yechimni tanlash imkonini beradi.</p>"
+  },
+  "field_opisanie_tovara_5": null,
+  "field_opisanie_tovara_6": null,
+  "field_opisanie_tovara_7": null,
+  "field_opisanie_tovara_8": null,
+  "field_poddelnyy_zagolovok": "Issiqlik nasosi Haier",
+  "field_scop_sredniy_klimat_35degc": "4.9",
+  "field_srok_sluzhby": null,
+  "field_strana_proizvodstva": "Xitoy",
+  "field_teplovaya_moshchnost_a7_w3": "8",
+  "field_tip_kompressora": "EVI To‘liq DC Invertor",
+  "field_tip_sistemy": "3-in-1: Isitish, Sovutish, Issiq Suv Ta'minoti (IST)",
+  "field_tip_teplovogo_nasosa": "Monoblok, Manba: Havo-Suv",
+  "field_uroven_shuma_db": 45,
+  "field_v_izbrannoe": null,
+  "field_vodyanoy_predohranitelnyy": null,
+  "field_wi_fi": "Ha",
+  "field_zagolovok_opisaniya_1": "Haier ProWarm HPM-Nd2: A+++ Issiqlik Nasosi, 3-in-1 Yechim",
+  "field_zagolovok_opisaniya_2": "Maksimal Tejamkorlik: A+++ Klass",
+  "field_zagolovok_opisaniya_3": "-30 °C gacha Haroratda Ishlash Qobiliyati",
+  "field_zagolovok_opisaniya_4": "Monoblok va Jim Ishlash",
+  "field_zagolovok_opisaniya_5": null,
+  "field_zagolovok_opisaniya_6": null,
+  "field_zagolovok_opisaniya_7": null,
+  "field_zagolovok_opisaniya_8": null,
+  "field_zapravka_r290_kg": "1.3",
+  "field_zashchita_ot_vody": "IPX4"
+ },
+ "relationships": {
+  "commerce_product_type": {
+   "data": {
+    "type": "commerce_product_type--commerce_product_type",
+    "id": "0c313f3e-a26e-4191-abe3-77d9ec69d75e",
+    "meta": {
+     "drupal_internal__target_id": "teplovye_nasosy"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/commerce_product_type"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/commerce_product_type"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/uid"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/uid"
+    }
+   }
+  },
+  "stores": {
+   "data": [
+    {
+     "type": "commerce_store--online",
+     "id": "10d9cb6e-3da7-4177-a918-8547abd388db",
+     "meta": {
+      "drupal_internal__target_id": 1
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/stores"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/stores"
+    }
+   }
+  },
+  "variations": {
+   "data": [
+    {
+     "type": "commerce_product_variation--default",
+     "id": "a5a88de7-abc0-4e32-91b6-e2561008eb38",
+     "meta": {
+      "drupal_internal__target_id": 278
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/variations"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/variations"
+    }
+   }
+  },
+  "default_variation": {
+   "data": {
+    "type": "commerce_product_variation--default",
+    "id": "a5a88de7-abc0-4e32-91b6-e2561008eb38",
+    "meta": {
+     "drupal_internal__target_id": 278
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/default_variation"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/default_variation"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_": {
+   "data": {
+    "type": "file--file",
+    "id": "4db8e4f3-176e-47f8-9e72-c9cf84f6bf72",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 608,
+     "height": 1200,
+     "drupal_internal__target_id": 5065
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": {
+    "type": "file--file",
+    "id": "c77237fe-e139-4f41-a403-1b600ee6453c",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 500,
+     "height": 400,
+     "drupal_internal__target_id": 5064
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_1"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_1"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_3"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_3"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": {
+    "type": "file--file",
+    "id": "2ed2295c-517d-4a7c-8695-474035dafa81",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 600,
+     "height": 600,
+     "drupal_internal__target_id": 5066
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_4"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_5"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_6"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_6"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_7": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_7"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_8": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_8"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_8"
+    }
+   }
+  },
+  "field_vid_tovara": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "ac75c265-2474-42f0-8640-96378ba3f1f2",
+     "meta": {
+      "drupal_internal__target_id": 19
+     }
+    },
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "ab7b8bf4-d4cd-4657-abff-ad6b8b7d0dc5",
+     "meta": {
+      "drupal_internal__target_id": 15
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_vid_tovara"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_vid_tovara"
+    }
+   }
+  }
+ }
+}

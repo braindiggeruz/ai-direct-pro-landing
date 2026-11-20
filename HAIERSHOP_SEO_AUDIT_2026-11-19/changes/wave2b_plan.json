@@ -1,0 +1,212 @@
+[
+ {
+  "key": "uz|commerce_product--elektricheskie_kotly|9de86dee-4f7f-43f9-b777-9d423f272d34",
+  "alias": "/isitish-uskunalari/elektr-qozonlari/elektr-qozon-haier-cozy-208",
+  "field": "field_gabaritnye_razmery_v_x_sh_",
+  "expected_changed": null,
+  "old": "375 x 24 x 686",
+  "new": "375 x 243 x 686",
+  "changed_keys": [
+   "field_gabaritnye_razmery_v_x_sh_"
+  ],
+  "why": [
+   "HS-06 spec: uz value '375 x 24 x 686' -> '375 x 243 x 686' (from ru)"
+  ],
+  "title": "Elektr qozon Haier COZY 208"
+ },
+ {
+  "key": "uz|commerce_product--stiralnye_mashiny|2e80cda5-19d3-4ec8-b957-dadc75b2cbec",
+  "alias": "/kir-yuvish-mashinalari/kir-yuvish-mashinasi-haier-hw90-b14979s",
+  "field": "field_maksimalnaya_skorost_otzhi",
+  "expected_changed": null,
+  "old": null,
+  "new": 1400,
+  "changed_keys": [
+   "field_maksimalnaya_skorost_otzhi"
+  ],
+  "why": [
+   "HS-06 spec: uz value None -> 1400 (from ru)"
+  ],
+  "title": "Kir yuvish mashinasi Haier HW90-B14979S"
+ },
+ {
+  "key": "ru|commerce_product--stiralnye_mashiny|2e80cda5-19d3-4ec8-b957-dadc75b2cbec",
+  "alias": "/stiralnye-mashiny/stiralnaya-mashina-haier-hw90-b14979s",
+  "field": "field_zagruzka_kg_stirka_",
+  "expected_changed": null,
+  "old": null,
+  "new": 9,
+  "changed_keys": [
+   "field_zagruzka_kg_stirka_"
+  ],
+  "why": [
+   "HS-06 spec: ru value None -> 9 (from uz)"
+  ],
+  "title": "Kir yuvish mashinasi Haier HW90-B14979S"
+ },
+ {
+  "key": "uz|commerce_product--fankoyly|bdf73eb2-7b5f-458e-9f7a-63506b287d4c",
+  "alias": "/issiqlik-nasosi/fankoyllar/kanalli-fankoyl-haier-fce-102bcb2b",
+  "field": "field_obogrev_60degc_vhod_vody_k",
+  "expected_changed": null,
+  "old": 8874,
+  "new": 8.874,
+  "changed_keys": [
+   "field_obogrev_60degc_vhod_vody_k"
+  ],
+  "why": [
+   "HS-06 spec: uz value 8874 -> 8.874 (from ru)"
+  ],
+  "title": "Kanalli fankoyl Haier FCE-102BCB2B"
+ },
+ {
+  "key": "uz|commerce_product--fankoyly|bdf73eb2-7b5f-458e-9f7a-63506b287d4c",
+  "alias": "/issiqlik-nasosi/fankoyllar/kanalli-fankoyl-haier-fce-102bcb2b",
+  "field": "field_ohlazhdenie_kvt",
+  "expected_changed": null,
+  "old": 5580,
+  "new": 5.58,
+  "changed_keys": [
+   "field_ohlazhdenie_kvt"
+  ],
+  "why": [
+   "HS-06 spec: uz value 5580 -> 5.58 (from ru)"
+  ],
+  "title": "Kanalli fankoyl Haier FCE-102BCB2B"
+ },
+ {
+  "key": "uz|commerce_product--nastennye_gazovye_kotly|879ff192-ff11-47d5-8dca-439c401667b0",
+  "alias": "/isitish-uskunalari/devorga-ornatiladigan-gazli-qozon-haier-greenline-130-ti",
+  "field": "field_temperaturnyy_kpd_",
+  "expected_changed": null,
+  "old": null,
+  "new": 105,
+  "changed_keys": [
+   "field_temperaturnyy_kpd_"
+  ],
+  "why": [
+   "HS-06 spec: uz value None -> 105 (from ru)"
+  ],
+  "title": "Devorga o'rnatiladigan gazli qozon Haier GreenLine 1.30 Ti"
+ },
+ {
+  "key": "uz|commerce_product--kondicionery|a0c294ee-e410-4f49-adc0-c1eb4b79e472",
+  "alias": "/konditsionerlar/konditsioner-inverter-as18idhhra-w1u18idhfra-isitish-elementi-bilan",
+  "field": "field_nazvanie_modeli",
+  "expected_changed": null,
+  "old": "17100/21535",
+  "new": "AS18IDHHRA-W/1U18IDHFRA",
+  "changed_keys": [
+   "field_nazvanie_modeli"
+  ],
+  "why": [
+   "HS-06 spec: uz value '17100/21535' -> 'AS18IDHHRA-W/1U18IDHFRA' (from ru)"
+  ],
+  "title": "Konditsioner Inverter AS18IDHHRA-W/1U18IDHFRA isitish elementi bilan"
+ },
+ {
+  "key": "uz|commerce_product--kondicionery|a0c294ee-e410-4f49-adc0-c1eb4b79e472",
+  "alias": "/konditsionerlar/konditsioner-inverter-as18idhhra-w1u18idhfra-isitish-elementi-bilan",
+  "field": "field_ploschad_m2",
+  "expected_changed": null,
+  "old": null,
+  "new": "50",
+  "changed_keys": [
+   "field_ploschad_m2"
+  ],
+  "why": [
+   "HS-06 spec: uz value None -> '50' (from ru)"
+  ],
+  "title": "Konditsioner Inverter AS18IDHHRA-W/1U18IDHFRA isitish elementi bilan"
+ },
+ {
+  "key": "uz|commerce_product--kondicionery|a0c294ee-e410-4f49-adc0-c1eb4b79e472",
+  "alias": "/konditsionerlar/konditsioner-inverter-as18idhhra-w1u18idhfra-isitish-elementi-bilan",
+  "field": "field_proizvoditelnost_btu",
+  "expected_changed": null,
+  "old": null,
+  "new": "17100/21535",
+  "changed_keys": [
+   "field_proizvoditelnost_btu"
+  ],
+  "why": [
+   "HS-06 spec: uz value None -> '17100/21535' (from ru)"
+  ],
+  "title": "Konditsioner Inverter AS18IDHHRA-W/1U18IDHFRA isitish elementi bilan"
+ },
+ {
+  "key": "uz|commerce_product--kondicionery|de8cc0c1-22c8-45e1-a6ed-2990a9550c02",
+  "alias": "/konditsionerlar/konditsioner-inverter-haier-heat-gold-as12idhhra-g11u12idhfra-g1",
+  "field": "field_elektropitanie_f_v_gc_",
+  "expected_changed": null,
+  "old": null,
+  "new": "1 / 220 / 50",
+  "changed_keys": [
+   "field_elektropitanie_f_v_gc_"
+  ],
+  "why": [
+   "HS-06 spec: uz value None -> '1 / 220 / 50' (from ru)"
+  ],
+  "title": "Konditsioner Inverter Haier Heat Gold AS12IDHHRA-G1/1U12IDHFRA-G1"
+ },
+ {
+  "key": "uz|commerce_product--kondicionery|7f4d70cc-cb77-4bb9-836b-71f3ddb6a42b",
+  "alias": "/konditsionerlar/konditsioner-inverter-haier-coral-plus-as35phc1hra1u35phc1fra",
+  "field": "field_elektropitanie_f_v_gc_",
+  "expected_changed": null,
+  "old": null,
+  "new": "1/220/50",
+  "changed_keys": [
+   "field_elektropitanie_f_v_gc_"
+  ],
+  "why": [
+   "HS-06 spec: uz value None -> '1/220/50' (from ru)"
+  ],
+  "title": "Konditsioner Inverter Haier Coral Plus AS35PHC1HRA/1U35PHC1FRA"
+ },
+ {
+  "key": "ru|commerce_product--kondicionery|95863fa5-d910-4370-bf56-f39aa881bbf9",
+  "alias": "/promyshlennye-kondicionery/napolno-potolochnyy-kondicioner-haier-ac71s1lg1fa-r321u71s1lr1fa-r32",
+  "field": "field_elektropitanie_f_v_gc_",
+  "expected_changed": null,
+  "old": null,
+  "new": "1/220/50",
+  "changed_keys": [
+   "field_elektropitanie_f_v_gc_"
+  ],
+  "why": [
+   "HS-06 spec: ru value None -> '1/220/50' (from uz)"
+  ],
+  "title": "Pol va ship kondisioneri Haier AC71S1LG1FA R32/1U71S1LR1FA R32"
+ },
+ {
+  "key": "uz|commerce_product--elektricheskie_vodonagrevateli|46556ad7-3bd6-47bf-8d79-801734e7aaad",
+  "alias": "/suv-isitgichlar/suv-isitgich-haier-es80v-a5",
+  "field": "field_nominalnoe_davlenie_mpa_",
+  "expected_changed": null,
+  "old": null,
+  "new": 0.8,
+  "changed_keys": [
+   "field_nominalnoe_davlenie_mpa_"
+  ],
+  "why": [
+   "HS-06 spec: uz value None -> 0.8 (from ru)"
+  ],
+  "title": "Suv isitgich Haier ES80V-A5"
+ },
+ {
+  "key": "uz|commerce_product--elektricheskie_vodonagrevateli|3dd3a99b-069b-4daa-83f8-39ebe3c6a071",
+  "alias": "/suv-isitgichlar/suv-isitgich-haier-es10v-sqm2",
+  "field": "field_nominalnoe_davlenie_mpa_",
+  "expected_changed": null,
+  "old": 8,
+  "new": 0.8,
+  "changed_keys": [
+   "field_nominalnoe_davlenie_mpa_"
+  ],
+  "why": [
+   "HS-06 spec: uz value 8 -> 0.8 (from ru)"
+  ],
+  "title": "Suv isitgich Haier ES10V-SQM2"
+ }
+]

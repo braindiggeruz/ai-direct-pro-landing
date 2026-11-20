@@ -1,0 +1,318 @@
+{
+ "type": "node--page",
+ "id": "1a8d366e-75ee-4dff-ba49-4dc351e6d0cb",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb?resourceVersion=id%3A114"
+  }
+ },
+ "attributes": {
+  "drupal_internal__nid": 36,
+  "drupal_internal__vid": 114,
+  "langcode": "uz",
+  "revision_timestamp": "2024-11-08T04:38:42+00:00",
+  "revision_log": null,
+  "status": true,
+  "title": "Qaytarish siyosati",
+  "created": "2024-11-08T04:23:43+00:00",
+  "changed": "2025-12-25T03:16:49+00:00",
+  "promote": true,
+  "sticky": false,
+  "default_langcode": false,
+  "revision_translation_affected": true,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Qaytarish siyosati | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Xaridingizdan qoniqishingizni ta'minlashga intilamiz. Agar biror narsani qaytarish yoki almashtirish kerak bo'lsa, iltimos, bizning qaytarish va almashtirish siyosatimizni ko'rib chiqing.  Biz texnikani zavod nuqsoni yoki yetkazib berish paytida shikastlanish holatida qaytarib olamiz. Agar qurilma ishlamayotganini yoki ko'zga ko'ringan shikastlanishlar borligini aniqlaganingizda, darhol qo'llab-quvvatlash xizmatimiz bilan bog'laning (kontaktlar quyida ko'rsatilgan) va muammoni tasdiqlovchi foto yoki video ilova qiling. Agar nosozlik tasdiqlansa, tovarni o'xshashiga almashtirish ham mumkin.Agar tovarni boshqa sababga ko'ra qaytarmoqchi bo'lsangiz (masalan, sizga mos kelmadi), bu faqat O'zbekiston Respublikasi qonunchiligiga muvofiq va tovar ko'rinishi saqlanib qolgan taqdirda mumkin — bunday imkoniyatni menejerimizdan aniqlang. Esda tutingki, ishlatilgan va ishlab chiqarish nuqsoni bo'lmagan texnika qaytarilmasligi mumkin.Qaytarish asoslari:✅ Zavod nuqsoni — qurilma ishlamaydi yoki ishlab chiqarish nuqsoni tufayli noto'g'ri ishlaydi.✅ Yetkazib berish paytida shikastlanish — tovar qadoq yoki qurilmaning o'zida ko'rinadigan shikastlanishlar bilan qabul qilingan.✅ Buyurtmaga mos kelmaslik — sizga boshqa model yoki komplektatsiya yetkazib berilgan.⚠️ Tovar mos kelmadi — qaytarish faqat qonunchilik doirasida va tovar ko'rinishi saqlanib qolgan taqdirda mumkin (menejerdan aniqlang)."
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/uz/qaytarish-siyosati"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop – uy uchun texnika va sanoat yechimlari | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "O‘zbekistonda Haier ning rasmiy onlayn do‘koni. Hammasi – sizning biznesingiz uchun maishiy texnikadan tortib sanoat uskunalarigacha. Har bir mahsulotda ishonchlilik, innovatsiyalar va yuqori sifat | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "path": {
+   "alias": "/qaytarish-siyosati",
+   "pid": 439,
+   "langcode": "uz"
+  },
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "body": {
+   "value": "<h3 class=\"text-align-center\"><strong>Xaridingizdan qoniqishingizni ta'minlashga intilamiz. Agar biror narsani qaytarish yoki almashtirish kerak bo'lsa, iltimos, bizning qaytarish va almashtirish siyosatimizni ko'rib chiqing.</strong></h3><p class=\"text-align-center\">&nbsp;</p>",
+   "format": "full_html",
+   "processed": "<h3 class=\"text-align-center\"><strong>Xaridingizdan qoniqishingizni ta'minlashga intilamiz. Agar biror narsani qaytarish yoki almashtirish kerak bo'lsa, iltimos, bizning qaytarish va almashtirish siyosatimizni ko'rib chiqing.</strong></h3><p class=\"text-align-center\">&nbsp;</p>",
+   "summary": ""
+  },
+  "field_meta": null,
+  "field_opisanie_tovara_1": {
+   "value": "<p>Biz texnikani <strong>zavod nuqsoni yoki yetkazib berish paytida shikastlanish</strong> holatida qaytarib olamiz. Agar qurilma ishlamayotganini yoki ko'zga ko'ringan shikastlanishlar borligini aniqlaganingizda, darhol qo'llab-quvvatlash xizmatimiz bilan bog'laning (kontaktlar quyida ko'rsatilgan) va muammoni tasdiqlovchi foto yoki video ilova qiling. Agar nosozlik tasdiqlansa, tovarni o'xshashiga almashtirish ham mumkin.</p><p>Agar tovarni boshqa sababga ko'ra qaytarmoqchi bo'lsangiz (masalan, sizga mos kelmadi), bu faqat O'zbekiston Respublikasi qonunchiligiga muvofiq va tovar ko'rinishi saqlanib qolgan taqdirda mumkin — bunday imkoniyatni menejerimizdan aniqlang. Esda tutingki, <strong>ishlatilgan va ishlab chiqarish nuqsoni bo'lmagan texnika qaytarilmasligi mumkin.</strong></p><p><strong>Qaytarish asoslari:</strong></p><ul><li>✅ <strong>Zavod nuqsoni</strong> — qurilma ishlamaydi yoki ishlab chiqarish nuqsoni tufayli noto'g'ri ishlaydi.</li><li>✅ <strong>Yetkazib berish paytida shikastlanish</strong> — tovar qadoq yoki qurilmaning o'zida ko'rinadigan shikastlanishlar bilan qabul qilingan.</li><li>✅ <strong>Buyurtmaga mos kelmaslik</strong> — sizga boshqa model yoki komplektatsiya yetkazib berilgan.</li><li>⚠️ <strong>Tovar mos kelmadi</strong> — qaytarish faqat qonunchilik doirasida va tovar ko'rinishi saqlanib qolgan taqdirda mumkin (menejerdan aniqlang).</li></ul>",
+   "format": "full_html",
+   "processed": "<p>Biz texnikani <strong>zavod nuqsoni yoki yetkazib berish paytida shikastlanish</strong> holatida qaytarib olamiz. Agar qurilma ishlamayotganini yoki ko'zga ko'ringan shikastlanishlar borligini aniqlaganingizda, darhol qo'llab-quvvatlash xizmatimiz bilan bog'laning (kontaktlar quyida ko'rsatilgan) va muammoni tasdiqlovchi foto yoki video ilova qiling. Agar nosozlik tasdiqlansa, tovarni o'xshashiga almashtirish ham mumkin.</p><p>Agar tovarni boshqa sababga ko'ra qaytarmoqchi bo'lsangiz (masalan, sizga mos kelmadi), bu faqat O'zbekiston Respublikasi qonunchiligiga muvofiq va tovar ko'rinishi saqlanib qolgan taqdirda mumkin — bunday imkoniyatni menejerimizdan aniqlang. Esda tutingki, <strong>ishlatilgan va ishlab chiqarish nuqsoni bo'lmagan texnika qaytarilmasligi mumkin.</strong></p><p><strong>Qaytarish asoslari:</strong></p><ul><li>✅ <strong>Zavod nuqsoni</strong> — qurilma ishlamaydi yoki ishlab chiqarish nuqsoni tufayli noto'g'ri ishlaydi.</li><li>✅ <strong>Yetkazib berish paytida shikastlanish</strong> — tovar qadoq yoki qurilmaning o'zida ko'rinadigan shikastlanishlar bilan qabul qilingan.</li><li>✅ <strong>Buyurtmaga mos kelmaslik</strong> — sizga boshqa model yoki komplektatsiya yetkazib berilgan.</li><li>⚠️ <strong>Tovar mos kelmadi</strong> — qaytarish faqat qonunchilik doirasida va tovar ko'rinishi saqlanib qolgan taqdirda mumkin (menejerdan aniqlang).</li></ul>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p>Do'kon qoidalariga ko'ra, <strong>tovarni qabul qilganingizdan keyin 7 kun ichida qaytarish yoki almashtirishingiz mumkin</strong>. Bu muddat ichida biz bilan bog'lanishingiz va tovarni jo'natishga tayyorlashingiz kerak. Biz faqat <strong>asl zavod qadoqda, to'liq aksessuarlar va hujjatlar bilan, foydalanish izlarisiz</strong> bo'lgan mahsulotlarni qaytarib olamiz. Bu shart qurilma ishlatilmaganligiga va tovar ko'rinishi saqlanib qolganligiga ishonch hosil qilishga yordam beradi.</p><p>Almashtirish uchun muddat bir xil. Agar tovar plombalar yoki himoya plyonkalari bilan yetkazib berilgan bo'lsa, ular saqlanib qolishi kerak. 7 kunlik muddat tugagandan so'ng qaytarish faqat kafolat xizmati doirasida mumkin bo'ladi.</p><p><strong>Qaytarishda tovarga qo'yiladigan talablar:</strong></p><ol><li>✅ <strong>Asl qadoq</strong> — tovar zavod qutisida, shikastlanishlarsiz bo'lishi kerak.</li><li>✅ <strong>To'liq komplektatsiya</strong> — barcha aksessuarlar, kabellar, ko'rsatmalar, kafolat taloni.</li><li>✅ <strong>Foydalanish izlarisiz</strong> — qurilmada tirnalishlar, ishqalanishlar, o'rnatish izlari bo'lmasligi kerak.</li><li>✅ <strong>Plombalar va himoya plyonkalari saqlanib qolgan</strong> — agar ular tovar ustida bo'lgan bo'lsa.</li><li>✅ <strong>Chek yoki kvitansiya</strong> — xaridni tasdiqlash.</li></ol>",
+   "format": "full_html",
+   "processed": "<p>Do'kon qoidalariga ko'ra, <strong>tovarni qabul qilganingizdan keyin 7 kun ichida qaytarish yoki almashtirishingiz mumkin</strong>. Bu muddat ichida biz bilan bog'lanishingiz va tovarni jo'natishga tayyorlashingiz kerak. Biz faqat <strong>asl zavod qadoqda, to'liq aksessuarlar va hujjatlar bilan, foydalanish izlarisiz</strong> bo'lgan mahsulotlarni qaytarib olamiz. Bu shart qurilma ishlatilmaganligiga va tovar ko'rinishi saqlanib qolganligiga ishonch hosil qilishga yordam beradi.</p><p>Almashtirish uchun muddat bir xil. Agar tovar plombalar yoki himoya plyonkalari bilan yetkazib berilgan bo'lsa, ular saqlanib qolishi kerak. 7 kunlik muddat tugagandan so'ng qaytarish faqat kafolat xizmati doirasida mumkin bo'ladi.</p><p><strong>Qaytarishda tovarga qo'yiladigan talablar:</strong></p><ol><li>✅ <strong>Asl qadoq</strong> — tovar zavod qutisida, shikastlanishlarsiz bo'lishi kerak.</li><li>✅ <strong>To'liq komplektatsiya</strong> — barcha aksessuarlar, kabellar, ko'rsatmalar, kafolat taloni.</li><li>✅ <strong>Foydalanish izlarisiz</strong> — qurilmada tirnalishlar, ishqalanishlar, o'rnatish izlari bo'lmasligi kerak.</li><li>✅ <strong>Plombalar va himoya plyonkalari saqlanib qolgan</strong> — agar ular tovar ustida bo'lgan bo'lsa.</li><li>✅ <strong>Chek yoki kvitansiya</strong> — xaridni tasdiqlash.</li></ol>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p>Agar qaytarish sababi <strong>ishlab chiqarish nuqsoni yoki yetkazib berish paytida shikastlanish bo'lsa, biz teskari yetkazib berish xarajatlarini qoplaymiz</strong>. Boshqa hollarda teskari yetkazib berishni xaridor to'laydi. Tovarni menejerimiz taqdim etadigan manzilga, buyurtma raqami va qaytarish sababini ko'rsatib jo'natish kerak.</p>",
+   "format": "full_html",
+   "processed": "<p>Agar qaytarish sababi <strong>ishlab chiqarish nuqsoni yoki yetkazib berish paytida shikastlanish bo'lsa, biz teskari yetkazib berish xarajatlarini qoplaymiz</strong>. Boshqa hollarda teskari yetkazib berishni xaridor to'laydi. Tovarni menejerimiz taqdim etadigan manzilga, buyurtma raqami va qaytarish sababini ko'rsatib jo'natish kerak.</p>"
+  },
+  "field_opisanie_tovara_4": {
+   "value": "<p>Qaytarilgan tovarning holatini qabul qilish va tekshirishdan so'ng biz <strong>ko'rsatgan hisobingizga pulni qaytarishni tashkil qilamiz. Jarayon 5 ish kunigacha davom etadi</strong>. E'tibor bering, pulni qaytarish to'lov amalga oshirilgan usul bilan amalga oshiriladi (Click, Payme, Uzum Bank). Tovarni almashtirish holatida biz kerakli modelning mavjudligi va yetkazib berish muddatlarini kelishamiz.</p>",
+   "format": "full_html",
+   "processed": "<p>Qaytarilgan tovarning holatini qabul qilish va tekshirishdan so'ng biz <strong>ko'rsatgan hisobingizga pulni qaytarishni tashkil qilamiz. Jarayon 5 ish kunigacha davom etadi</strong>. E'tibor bering, pulni qaytarish to'lov amalga oshirilgan usul bilan amalga oshiriladi (Click, Payme, Uzum Bank). Tovarni almashtirish holatida biz kerakli modelning mavjudligi va yetkazib berish muddatlarini kelishamiz.</p>"
+  },
+  "field_opisanie_tovara_5": {
+   "value": "<p>Qaytarish yoki almashtirishni boshlash uchun quyidagi qadamlarni bajaring:</p><ol><li><strong>Qo'llab-quvvatlash xizmatimiz bilan bog'laning</strong> — <a href=\"mailto:ceo@haiershop.uz\">ceo@haiershop.uz</a> manziliga xat yuboring yoki <a href=\"tel:+998909661415\">+998 90 966 14 15</a> raqamiga qo'ng'iroq qiling. Buyurtma raqamini, xarid sanasini ko'rsating va qaytarish sababini batafsil tasvirlab bering.</li><li><strong>Menejerdan ko'rsatmalar oling.</strong> Xodimimiz tovarni qanday qadoqlash, posilkani qayerga jo'natish va qanday hujjatlar ilova qilish kerakligini tushuntiradi.</li><li><strong>Tovarni tayyorlang.</strong> Qurilma asl qadoqda, to'liq aksessuarlar bilan va foydalanish izlarisiz ekanligiga ishonch hosil qiling. Chek yoki kvitansiya nusxasini saqlang.</li><li><strong>Tovarni jo'nating.</strong> Ishonchli yetkazib berish xizmatidan foydalaning; agar nuqsonsiz tovarni qaytarayotgan bo'lsangiz, teskari yetkazib berishni siz to'laysiz.</li><li><strong>Pulni qaytarish yoki almashtirishni kuting.</strong> Tovarni qabul qilish va tekshirishdan so'ng biz besh ish kuni ichida pulni qaytaramiz yoki sizga yangi tovarni jo'natamiz (kelishilgan holda).</li></ol><p>Agar savollaringiz qolgan bo'lsa, Haier Shop qo'llab-quvvatlash xizmati doimo yordam berishga tayyor.</p>",
+   "format": "full_html",
+   "processed": "<p>Qaytarish yoki almashtirishni boshlash uchun quyidagi qadamlarni bajaring:</p><ol><li><strong>Qo'llab-quvvatlash xizmatimiz bilan bog'laning</strong> — <a href=\"mailto:ceo@haiershop.uz\">ceo@haiershop.uz</a> manziliga xat yuboring yoki <a href=\"tel:+998909661415\">+998 90 966 14 15</a> raqamiga qo'ng'iroq qiling. Buyurtma raqamini, xarid sanasini ko'rsating va qaytarish sababini batafsil tasvirlab bering.</li><li><strong>Menejerdan ko'rsatmalar oling.</strong> Xodimimiz tovarni qanday qadoqlash, posilkani qayerga jo'natish va qanday hujjatlar ilova qilish kerakligini tushuntiradi.</li><li><strong>Tovarni tayyorlang.</strong> Qurilma asl qadoqda, to'liq aksessuarlar bilan va foydalanish izlarisiz ekanligiga ishonch hosil qiling. Chek yoki kvitansiya nusxasini saqlang.</li><li><strong>Tovarni jo'nating.</strong> Ishonchli yetkazib berish xizmatidan foydalaning; agar nuqsonsiz tovarni qaytarayotgan bo'lsangiz, teskari yetkazib berishni siz to'laysiz.</li><li><strong>Pulni qaytarish yoki almashtirishni kuting.</strong> Tovarni qabul qilish va tekshirishdan so'ng biz besh ish kuni ichida pulni qaytaramiz yoki sizga yangi tovarni jo'natamiz (kelishilgan holda).</li></ol><p>Agar savollaringiz qolgan bo'lsa, Haier Shop qo'llab-quvvatlash xizmati doimo yordam berishga tayyor.</p>"
+  },
+  "field_opisanie_tovara_6": null,
+  "field_zagolovok_opisaniya_1": "Qaytarish qachon mumkin",
+  "field_zagolovok_opisaniya_2": "Qaytarish va almashtirish muddatlari",
+  "field_zagolovok_opisaniya_3": "Qaytarish narxi va teskari yetkazib berish",
+  "field_zagolovok_opisaniya_4": "Pulni qaytarish",
+  "field_zagolovok_opisaniya_5": "Qaytarish yoki almashtirishni qanday rasmiylashtirish",
+  "field_zagolovok_opisaniya_6": null
+ },
+ "relationships": {
+  "node_type": {
+   "data": {
+    "type": "node_type--node_type",
+    "id": "a516e3ad-1a90-415c-85f0-5c27aa7dae64",
+    "meta": {
+     "drupal_internal__target_id": "page"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/node_type?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/node_type?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "revision_uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/revision_uid?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/revision_uid?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/uid?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/uid?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": {
+    "type": "file--file",
+    "id": "1f5516ed-7413-4cff-b2f1-d62cc2a803ec",
+    "meta": {
+     "alt": "Haier Shop tovarlarini qaytarish qachon mumkin",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4720
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_1?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_1?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_2": {
+   "data": {
+    "type": "file--file",
+    "id": "a5c4c816-49e0-4696-af5b-7fa3fb5e59d5",
+    "meta": {
+     "alt": "Haier Shop tovarlarini qaytarish va almashtirish muddatlari",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4724
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_2?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_2?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": {
+    "type": "file--file",
+    "id": "2879632c-f4c8-49e6-842a-52ba3bccda6b",
+    "meta": {
+     "alt": "Haier Shop qaytarish narxi va teskari yetkazib berish",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4725
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_3?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_3?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": {
+    "type": "file--file",
+    "id": "9320a960-9d2b-4968-90da-ceb9ebbd1c6f",
+    "meta": {
+     "alt": "Haier Shop tovar uchun pulni qaytarish",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4726
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_4?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_4?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": {
+    "type": "file--file",
+    "id": "6643fa7f-73fd-4c51-bcef-9ec9757088f1",
+    "meta": {
+     "alt": "Haier Shop tovarini qaytarish yoki almashtirishni qanday rasmiylashtirish",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4727
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_5?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_5?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_6?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_6?resourceVersion=id%3A114"
+    }
+   }
+  }
+ }
+}

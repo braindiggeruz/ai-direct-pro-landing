@@ -1,0 +1,318 @@
+{
+ "type": "node--page",
+ "id": "1a8d366e-75ee-4dff-ba49-4dc351e6d0cb",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb?resourceVersion=id%3A114"
+  }
+ },
+ "attributes": {
+  "drupal_internal__nid": 36,
+  "drupal_internal__vid": 114,
+  "langcode": "ru",
+  "revision_timestamp": "2024-11-08T04:38:42+00:00",
+  "revision_log": null,
+  "status": true,
+  "title": "Правила возврата товаров",
+  "created": "2024-11-08T04:23:43+00:00",
+  "changed": "2025-12-25T03:16:49+00:00",
+  "promote": true,
+  "sticky": false,
+  "default_langcode": true,
+  "revision_translation_affected": true,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Правила возврата товаров | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Мы стремимся к тому, чтобы вы остались довольны покупкой. Если вам необходимо вернуть или обменять товар, пожалуйста, ознакомьтесь с нашими правилами возврата и обмена."
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/ru/pravila-vozvrata-tovarov"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "page"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop — техника для дома и промышленные решения | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "Официальный онлайн-магазин Haier в Узбекистане. Всё — от бытовой техники до промышленного оборудования для вашего бизнеса. Надёжность, инновации и качество в каждом продукте | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "path": {
+   "alias": "/pravila-vozvrata-tovarov",
+   "pid": 438,
+   "langcode": "ru"
+  },
+  "content_translation_source": "und",
+  "content_translation_outdated": false,
+  "body": {
+   "value": "<h3 class=\"text-align-center\"><strong>Мы стремимся к тому, чтобы вы остались довольны покупкой. Если вам необходимо вернуть или обменять товар, пожалуйста, ознакомьтесь с нашими правилами возврата и обмена.</strong></h3><p class=\"text-align-center\">&nbsp;</p>",
+   "format": "full_html",
+   "processed": "<h3 class=\"text-align-center\"><strong>Мы стремимся к тому, чтобы вы остались довольны покупкой. Если вам необходимо вернуть или обменять товар, пожалуйста, ознакомьтесь с нашими правилами возврата и обмена.</strong></h3><p class=\"text-align-center\">&nbsp;</p>",
+   "summary": ""
+  },
+  "field_meta": "{\"description\":\"\\u041c\\u044b \\u0441\\u0442\\u0440\\u0435\\u043c\\u0438\\u043c\\u0441\\u044f \\u043a \\u0442\\u043e\\u043c\\u0443, \\u0447\\u0442\\u043e\\u0431\\u044b \\u0432\\u044b \\u043e\\u0441\\u0442\\u0430\\u043b\\u0438\\u0441\\u044c \\u0434\\u043e\\u0432\\u043e\\u043b\\u044c\\u043d\\u044b \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u043e\\u0439. \\u0415\\u0441\\u043b\\u0438 \\u0432\\u0430\\u043c \\u043d\\u0435\\u043e\\u0431\\u0445\\u043e\\u0434\\u0438\\u043c\\u043e \\u0432\\u0435\\u0440\\u043d\\u0443\\u0442\\u044c \\u0438\\u043b\\u0438 \\u043e\\u0431\\u043c\\u0435\\u043d\\u044f\\u0442\\u044c \\u0442\\u043e\\u0432\\u0430\\u0440, \\u043f\\u043e\\u0436\\u0430\\u043b\\u0443\\u0439\\u0441\\u0442\\u0430, \\u043e\\u0437\\u043d\\u0430\\u043a\\u043e\\u043c\\u044c\\u0442\\u0435\\u0441\\u044c \\u0441 \\u043d\\u0430\\u0448\\u0438\\u043c\\u0438 \\u043f\\u0440\\u0430\\u0432\\u0438\\u043b\\u0430\\u043c\\u0438 \\u0432\\u043e\\u0437\\u0432\\u0440\\u0430\\u0442\\u0430 \\u0438 \\u043e\\u0431\\u043c\\u0435\\u043d\\u0430.\",\"og_type\":\"page\"}",
+  "field_opisanie_tovara_1": {
+   "value": "<p>Мы принимаем возврат техники в случае <strong>заводского дефекта или повреждения товара при доставке</strong>. Если вы обнаружили, что устройство не работает или имеет явные повреждения, сразу свяжитесь с нашей службой поддержки (контакты указаны ниже) и приложите фото или видео, подтверждающее проблему. Также допускается обмен товара на аналогичный, если неисправность подтверждена.</p><p>Если хотите вернуть товар по другой причине (например, он вам не подошёл), это возможно только в рамках действующего законодательства Республики Узбекистан и при сохранении товарного вида — уточните такую возможность у нашего менеджера. Важно помнить, что <strong>техника, бывшая в употреблении и не имеющая производственного брака, к возврату может не приниматься.</strong></p><p><strong>Основания для возврата:</strong></p><ul><li>✅ <strong>Заводской дефект</strong> — устройство не работает или работает некорректно из-за производственного брака.</li><li>✅ <strong>Повреждение при доставке</strong> — товар получен с видимыми повреждениями упаковки или самого устройства.</li><li>✅ <strong>Несоответствие заказу</strong> — вам доставили не ту модель или комплектацию.</li><li>⚠️ <strong>Товар не подошёл</strong> — возврат возможен только в рамках законодательства и при сохранении товарного вида (уточните у менеджера).</li></ul>",
+   "format": "full_html",
+   "processed": "<p>Мы принимаем возврат техники в случае <strong>заводского дефекта или повреждения товара при доставке</strong>. Если вы обнаружили, что устройство не работает или имеет явные повреждения, сразу свяжитесь с нашей службой поддержки (контакты указаны ниже) и приложите фото или видео, подтверждающее проблему. Также допускается обмен товара на аналогичный, если неисправность подтверждена.</p><p>Если хотите вернуть товар по другой причине (например, он вам не подошёл), это возможно только в рамках действующего законодательства Республики Узбекистан и при сохранении товарного вида — уточните такую возможность у нашего менеджера. Важно помнить, что <strong>техника, бывшая в употреблении и не имеющая производственного брака, к возврату может не приниматься.</strong></p><p><strong>Основания для возврата:</strong></p><ul><li>✅ <strong>Заводской дефект</strong> — устройство не работает или работает некорректно из-за производственного брака.</li><li>✅ <strong>Повреждение при доставке</strong> — товар получен с видимыми повреждениями упаковки или самого устройства.</li><li>✅ <strong>Несоответствие заказу</strong> — вам доставили не ту модель или комплектацию.</li><li>⚠️ <strong>Товар не подошёл</strong> — возврат возможен только в рамках законодательства и при сохранении товарного вида (уточните у менеджера).</li></ul>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p>Согласно правилам магазина, <strong>вернуть или обменять товар можно в течение 7 дней с момента получения</strong>. В этот срок вам необходимо связаться с нами и подготовить товар к отправке. Мы принимаем обратно только изделия в <strong>оригинальной заводской упаковке, с полным комплектом аксессуаров и документацией, без следов использования</strong>. Это условие помогает нам убедиться, что устройство не было в эксплуатации и сохранён товарный вид.</p><p>Для обмена срок аналогичный. Если же товар поставлялся с пломбами или защитными плёнками, они должны быть сохранены. После истечения 7‑дневного периода возврат будет возможен только в рамках гарантийного обслуживания.</p><p><strong>Требования к товару при возврате:</strong></p><ol><li>✅ <strong>Оригинальная упаковка</strong> — товар должен быть в заводской коробке, без повреждений.</li><li>✅ <strong>Полная комплектация</strong> — все аксессуары, кабели, инструкции, гарантийный талон.</li><li>✅ <strong>Без следов использования</strong> — устройство не должно иметь царапин, потёртостей, следов монтажа.</li><li>✅ <strong>Сохранены пломбы и защитные плёнки</strong> — если они были на товаре.</li><li>✅ <strong>Чек или квитанция</strong> — подтверждение покупки.</li></ol>",
+   "format": "full_html",
+   "processed": "<p>Согласно правилам магазина, <strong>вернуть или обменять товар можно в течение 7 дней с момента получения</strong>. В этот срок вам необходимо связаться с нами и подготовить товар к отправке. Мы принимаем обратно только изделия в <strong>оригинальной заводской упаковке, с полным комплектом аксессуаров и документацией, без следов использования</strong>. Это условие помогает нам убедиться, что устройство не было в эксплуатации и сохранён товарный вид.</p><p>Для обмена срок аналогичный. Если же товар поставлялся с пломбами или защитными плёнками, они должны быть сохранены. После истечения 7‑дневного периода возврат будет возможен только в рамках гарантийного обслуживания.</p><p><strong>Требования к товару при возврате:</strong></p><ol><li>✅ <strong>Оригинальная упаковка</strong> — товар должен быть в заводской коробке, без повреждений.</li><li>✅ <strong>Полная комплектация</strong> — все аксессуары, кабели, инструкции, гарантийный талон.</li><li>✅ <strong>Без следов использования</strong> — устройство не должно иметь царапин, потёртостей, следов монтажа.</li><li>✅ <strong>Сохранены пломбы и защитные плёнки</strong> — если они были на товаре.</li><li>✅ <strong>Чек или квитанция</strong> — подтверждение покупки.</li></ol>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p>Если причиной возврата является <strong>производственный брак или повреждение при доставке, мы компенсируем стоимость обратной доставки</strong>. В иных случаях обратную доставку оплачивает покупатель. Товар следует отправлять на адрес, который предоставит наш менеджер, с указанием номера заказа и причины возврата.</p>",
+   "format": "full_html",
+   "processed": "<p>Если причиной возврата является <strong>производственный брак или повреждение при доставке, мы компенсируем стоимость обратной доставки</strong>. В иных случаях обратную доставку оплачивает покупатель. Товар следует отправлять на адрес, который предоставит наш менеджер, с указанием номера заказа и причины возврата.</p>"
+  },
+  "field_opisanie_tovara_4": {
+   "value": "<p>После получения и проверки состояния возвращённого товара мы организуем <strong>возврат средств на указанный вами счёт. Процедура занимает до 5 рабочих дней</strong>. Обратите внимание, что возврат средств производится тем же способом, которым была осуществлена оплата (Click, Payme, Uzum Bank). При обмене товара мы согласуем наличие нужной модели и сроки её поставки.</p>",
+   "format": "full_html",
+   "processed": "<p>После получения и проверки состояния возвращённого товара мы организуем <strong>возврат средств на указанный вами счёт. Процедура занимает до 5 рабочих дней</strong>. Обратите внимание, что возврат средств производится тем же способом, которым была осуществлена оплата (Click, Payme, Uzum Bank). При обмене товара мы согласуем наличие нужной модели и сроки её поставки.</p>"
+  },
+  "field_opisanie_tovara_5": {
+   "value": "<p>Чтобы инициировать возврат или обмен, выполните следующие шаги:</p><ol><li><strong>Свяжитесь с нашей службой поддержки</strong> — отправьте письмо на <a href=\"mailto:ceo@haiershop.uz\">ceo@haiershop.uz</a> или позвоните по номеру <a href=\"tel:+998909661415\">+998 90 966 14 15</a>. Укажите номер заказа, дату покупки и подробно опишите причину возврата.</li><li><strong>Получите инструкции от менеджера.</strong> Наш сотрудник объяснит, как упаковать товар, куда отправить посылку и какие документы приложить.</li><li><strong>Подготовьте товар.</strong> Убедитесь, что устройство находится в оригинальной упаковке, с полным комплектом аксессуаров и без следов использования. Сохраните копию чека или квитанции.</li><li><strong>Отправьте товар.</strong> Используйте надёжную службу доставки; если возвращаете товар без дефекта, обратную доставку оплачиваете вы.</li><li><strong>Ожидайте возврата средств или обмена.</strong> После получения и проверки товара мы либо вернём деньги в течение пяти рабочих дней, либо отправим вам новый товар (по согласованию).</li></ol><p>Если у вас остались вопросы, служба поддержки Haier Shop всегда готова помочь.</p>",
+   "format": "full_html",
+   "processed": "<p>Чтобы инициировать возврат или обмен, выполните следующие шаги:</p><ol><li><strong>Свяжитесь с нашей службой поддержки</strong> — отправьте письмо на <a href=\"mailto:ceo@haiershop.uz\">ceo@haiershop.uz</a> или позвоните по номеру <a href=\"tel:+998909661415\">+998 90 966 14 15</a>. Укажите номер заказа, дату покупки и подробно опишите причину возврата.</li><li><strong>Получите инструкции от менеджера.</strong> Наш сотрудник объяснит, как упаковать товар, куда отправить посылку и какие документы приложить.</li><li><strong>Подготовьте товар.</strong> Убедитесь, что устройство находится в оригинальной упаковке, с полным комплектом аксессуаров и без следов использования. Сохраните копию чека или квитанции.</li><li><strong>Отправьте товар.</strong> Используйте надёжную службу доставки; если возвращаете товар без дефекта, обратную доставку оплачиваете вы.</li><li><strong>Ожидайте возврата средств или обмена.</strong> После получения и проверки товара мы либо вернём деньги в течение пяти рабочих дней, либо отправим вам новый товар (по согласованию).</li></ol><p>Если у вас остались вопросы, служба поддержки Haier Shop всегда готова помочь.</p>"
+  },
+  "field_opisanie_tovara_6": null,
+  "field_zagolovok_opisaniya_1": "Когда возможен возврат",
+  "field_zagolovok_opisaniya_2": "Сроки возврата и обмена",
+  "field_zagolovok_opisaniya_3": "Стоимость возврата и обратная доставка",
+  "field_zagolovok_opisaniya_4": "Возврат средств",
+  "field_zagolovok_opisaniya_5": "Как оформить возврат или обмен",
+  "field_zagolovok_opisaniya_6": null
+ },
+ "relationships": {
+  "node_type": {
+   "data": {
+    "type": "node_type--node_type",
+    "id": "a516e3ad-1a90-415c-85f0-5c27aa7dae64",
+    "meta": {
+     "drupal_internal__target_id": "page"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/node_type?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/node_type?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "revision_uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/revision_uid?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/revision_uid?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/uid?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/uid?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": {
+    "type": "file--file",
+    "id": "1f5516ed-7413-4cff-b2f1-d62cc2a803ec",
+    "meta": {
+     "alt": "Haier Shop tovarlarini qaytarish qachon mumkin",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4720
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_1?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_1?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_2": {
+   "data": {
+    "type": "file--file",
+    "id": "a5c4c816-49e0-4696-af5b-7fa3fb5e59d5",
+    "meta": {
+     "alt": "Haier Shop tovarlarini qaytarish va almashtirish muddatlari",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4724
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_2?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_2?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": {
+    "type": "file--file",
+    "id": "2879632c-f4c8-49e6-842a-52ba3bccda6b",
+    "meta": {
+     "alt": "Haier Shop qaytarish narxi va teskari yetkazib berish",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4725
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_3?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_3?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": {
+    "type": "file--file",
+    "id": "9320a960-9d2b-4968-90da-ceb9ebbd1c6f",
+    "meta": {
+     "alt": "Haier Shop tovar uchun pulni qaytarish",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4726
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_4?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_4?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": {
+    "type": "file--file",
+    "id": "6643fa7f-73fd-4c51-bcef-9ec9757088f1",
+    "meta": {
+     "alt": "Haier Shop tovarini qaytarish yoki almashtirishni qanday rasmiylashtirish",
+     "title": "",
+     "width": 1024,
+     "height": 1024,
+     "drupal_internal__target_id": 4727
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_5?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_5?resourceVersion=id%3A114"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/field_izobrazhenie_opisaniya_6?resourceVersion=id%3A114"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/node/page/1a8d366e-75ee-4dff-ba49-4dc351e6d0cb/relationships/field_izobrazhenie_opisaniya_6?resourceVersion=id%3A114"
+    }
+   }
+  }
+ }
+}

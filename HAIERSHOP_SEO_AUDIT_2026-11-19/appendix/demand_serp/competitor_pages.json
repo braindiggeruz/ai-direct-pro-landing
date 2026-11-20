@@ -1,0 +1,125 @@
+[
+ {
+  "name": "easymarket AC",
+  "url": "https://easymarket.uz/category/konditsionery/",
+  "status": 200,
+  "title": "Купить кондиционер в Ташкенте — Easymarket",
+  "h1": [
+   "Кондиционеры"
+  ],
+  "canonical": "https://easymarket.uz/category/konditsionery/",
+  "hreflang": [],
+  "jsonld": [
+   "BreadcrumbList",
+   "CollectionPage",
+   "ListItem",
+   "Organization",
+   "WebSite"
+  ],
+  "microdata": [],
+  "words": 608,
+  "html_kb": 249,
+  "imgs": 45,
+  "int_links": 95,
+  "meta_desc_len": 120
+ },
+ {
+  "name": "directcool HP",
+  "url": "https://directcool.uz/category/klimaticheskie-sistemyi-tica/teplovyie-nasosyi/",
+  "status": 200,
+  "title": "Тепловые насосы - Климатические системы в Ташкенте | DC Engineering",
+  "h1": [],
+  "canonical": "https://directcool.uz/category/klimaticheskie-sistemyi-tica/teplovyie-nasosyi/",
+  "hreflang": [],
+  "jsonld": [
+   "BreadcrumbList",
+   "CollectionPage",
+   "EntryPoint",
+   "ImageObject",
+   "ListItem",
+   "Organization",
+   "SearchAction",
+   "WebPage",
+   "WebSite"
+  ],
+  "microdata": [],
+  "words": 95,
+  "html_kb": 176,
+  "imgs": 2,
+  "int_links": 17,
+  "meta_desc_len": 101
+ },
+ {
+  "name": "powersun HP",
+  "url": "https://powersun.uz/ru/products/heat-pumps",
+  "status": 200,
+  "title": "Купить тепловые насосы Kraft в Ташкенте — цены на отопление воздух-вода | Power Sun",
+  "h1": [
+   "Тепловые насосы Kraft в Ташкенте — отопление воздух-вода под ключ"
+  ],
+  "canonical": "https://powersun.uz/ru/products/heat-pumps",
+  "hreflang": [
+   "en",
+   "ru",
+   "uz",
+   "x-default"
+  ],
+  "jsonld": [],
+  "microdata": [],
+  "words": 1340,
+  "html_kb": 81,
+  "imgs": 28,
+  "int_links": 53,
+  "meta_desc_len": 195
+ },
+ {
+  "name": "haiershop AC",
+  "url": "https://haiershop.uz/ru/kondicionery",
+  "status": 200,
+  "title": "Кондиционеры Haier в Ташкенте | Купить с установкой и гарантией в HaierShop",
+  "h1": [
+   "Кондиционеры"
+  ],
+  "canonical": "https://haiershop.uz/ru/kondicionery",
+  "hreflang": [
+   "ru",
+   "uz",
+   "x-default"
+  ],
+  "jsonld": [
+   "BreadcrumbList",
+   "ListItem"
+  ],
+  "microdata": [],
+  "words": 707,
+  "html_kb": 174,
+  "imgs": 73,
+  "int_links": 55,
+  "meta_desc_len": 199
+ },
+ {
+  "name": "haiershop HP",
+  "url": "https://haiershop.uz/ru/teplovye-nasosy",
+  "status": 200,
+  "title": "Тепловые насосы Haier – купить тепловой насос в Ташкенте | Haier shop",
+  "h1": [
+   "Тепловые насосы"
+  ],
+  "canonical": "https://haiershop.uz/ru/teplovye-nasosy",
+  "hreflang": [
+   "ru",
+   "uz",
+   "x-default"
+  ],
+  "jsonld": [
+   "BreadcrumbList",
+   "ListItem"
+  ],
+  "microdata": [],
+  "words": 353,
+  "html_kb": 130,
+  "imgs": 67,
+  "int_links": 51,
+  "meta_desc_len": 142
+ }
+]
