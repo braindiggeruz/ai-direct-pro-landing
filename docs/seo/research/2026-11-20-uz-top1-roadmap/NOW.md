@@ -153,6 +153,18 @@ cjcdrhvvnppp.help · cyktojetewnj.xyz · dnrebapaiqge.fit · fscpfdyaqibh.video 
 
 Отдельно — страница agentr.net «Log in — ChatGPT»: в сниппете поля email и пароля. Если при открытии она просит пароль, отправить её в Google Safe Browsing как фишинг.
 
+### chatgpt.uz: «rasmiy sayti» (добавлено 20.11, шаг «b»)
+
+В снимках выдачи 19–20.11 сниппет chatgpt.uz — «chatgpt.uz rasmiy sayti o'zbek tilida … 2025», то есть «официальный сайт». ChatGPT — продукт OpenAI, его сайт — chatgpt.com. В правилах Google о спаме есть раздел **Scam and fraud**: «impersonating an official business or service through imposter sites», «attracting users to a site on false pretenses» (developers.google.com/search/docs/essentials/spam-policies, проверено 20.11.2026).
+
+Порядок:
+1. Откройте chatgpt.uz из Узбекистана и убедитесь, что слова «rasmiy sayti» или «официальный» всё ещё есть в заголовке или на странице. Нашему облаку сайт отвечает 403, поэтому мы видели только сниппет. Сделайте скриншот.
+2. Форма: https://developers.google.com/search/docs/advanced/guidelines/report-spam → отчёт о спаме. Текст (по-английски, только факты):
+   > Google results show chatgpt.uz as «chatgpt.uz rasmiy sayti» ("official site" in Uzbek) for queries such as "chatgpt uzbekcha" and "chatgpt o‘zbek tilida". ChatGPT is a product of OpenAI, whose official site is chatgpt.com. Users may believe they are on OpenAI's official site. This appears to match the "Scam and fraud" policy: impersonating an official business or service.
+3. Больше ничего. Товарный знак ChatGPT защищает OpenAI, это их решение; на выдачу это напрямую не влияет.
+
+Чего не делаем: не называем их мошенниками публично (ни на сайте, ни в роликах, ни в каталогах — это риск иска о клевете), не ставим на них ссылки-ловушки, не заказываем отзывы и «негативное SEO». Наш довод в выдаче — честное «muqobil» против их ложного «rasmiy».
+
 ---
 
 ## 5. «Запросить индексирование» — пошагово
