@@ -274,7 +274,15 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // released after R15 is read on 21.12) changes one contract field on two pages:
 // hreflang of /ru/gpt-chat/ and /uz/gpt-uzbek-tilida/ becomes empty. Every other
 // built page is byte-identical; see reports/uz-unpair-20261118/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-18-uz-unpair/reviewed-protected-pages.json';
+// The 2026-11-20-uz-now revision (owner's order «здесь и сейчас», 20.11.2026)
+// changes the titles/H1 of the download guide and both chats and the homepage
+// labels that follow them; see reports/uz-now-20261120/review.ts.
+// The 2026-11-20-uz-now-b revision (same order, second step) changes only body
+// text: /uz/gpt-uzbek-tilida/ gains a «gaplashish» section and FAQ answer, the
+// download guide rewords two sentences of 20.11 without «rasmiy»; both and the
+// RU chat name their BreadcrumbList (outside the contract); see
+// reports/uz-now-20261120/review-b.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-20-uz-now-b/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

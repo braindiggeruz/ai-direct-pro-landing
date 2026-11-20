@@ -1,0 +1,66 @@
+name: Pages production deploy
+
+# The guarded production deploy, run by GitHub Actions only on an explicit
+# request (owner's decision D-DEPLOY-CI-20261120). Same commands as
+# deploy_runner.py on the owner's machine: `npm run build:production`, then
+# `npm run deploy:pages:production` (scripts/release/pages-production.ts) —
+# SEO protection, chat bundle budget, live and Studio gates, clean runtime,
+# stamped artifact, production lineage (never overwrites a newer release),
+# upload, read-back of the production commit and of the live release manifest.
+#
+# The Cloudflare credential lives only in the repository secret
+#   CLOUDFLARE_API_TOKEN — API token with Account · Cloudflare Pages · Edit.
+# The account ID is not a secret: it defaults to the account recorded in
+# docs/agents-platform/BORMI_SESSION_HANDOFF_2026-08-02_SEARCH_AND_LATENCY.md
+# (a CLOUDFLARE_ACCOUNT_ID secret overrides it). Both reach the deploy step
+# and nothing else. Never runs on push or schedule.
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type deploy to publish the current main to production'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+# One production upload at a time; a queued run waits instead of cancelling.
+concurrency:
+  group: pages-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main' && inputs.confirm == 'deploy'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The lineage check runs `git merge-base --is-ancestor <production> HEAD`.
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches "packageManager": "yarn@1.22.22"; there is no package-lock.json.
+          node-version: '24'
+          cache: 'yarn'
+
+      - name: Dependencies
+        run: |
+          yarn install --frozen-lockfile
+          npm --prefix apps/bormi-admin ci
+
+      - name: Production build (stamped artifact)
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: npm run build:production
+
+      - name: Guarded deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || '14ce9e04574f2e6d825e56ee603e5cd5' }}
+        run: npm run deploy:pages:production

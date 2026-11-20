@@ -223,10 +223,10 @@ export function buildWebSiteLd(global: GlobalSEO): Record<string, unknown> {
  * R-S1b articles since 26.10. When the set is empty, delete it. Each entry
  * must stay a protected page (tests/seo-breadcrumb-ld.test.ts).
  */
+// 2026-11-20 («здесь и сейчас» revision 2026-11-20-uz-now-b): the download
+// guide and both chats leave the set in their own reviewed revision; the login
+// guide stays held until observation R14 is read (2026-12-21).
 export const BREADCRUMB_NAME_HELD: ReadonlySet<string> = new Set([
-  '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
-  '/ru/gpt-chat/',
-  '/uz/gpt-uzbek-tilida/',
   '/uz/blog/chatgptga-qanday-kirish-mumkin/',
 ]);
 

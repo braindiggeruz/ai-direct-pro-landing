@@ -3,9 +3,9 @@
   "locale": "uz",
   "slug": "chatgpt-telefon-va-kompyuterga-yuklab-olish",
   "url": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
-  "title": "ChatGPT yuklab olish o‘zbek tilida — 3 usul (2026)",
+  "title": "ChatGPT yuklab olish (skachat) o‘zbek tilida — 3 usul (2026)",
   "description": "ChatGPT yuklab olish o‘zbek tilida: Android, iPhone va kompyuterga — 3 usul, bepul. Rasmiy OpenAI ilovasini soxta APK’dan qanday ajratish.",
-  "h1": "ChatGPT yuklab olish: telefon va kompyuterga xavfsiz o‘rnatish",
+  "h1": "ChatGPT yuklab olish (skachat): telefon va kompyuterga xavfsiz o‘rnatish",
   "topicCluster": "chatgpt-uzbek-tilida",
   "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
   "keywords": [
@@ -19,9 +19,12 @@
     "chatgpt ochish",
     "chatgpt uzbekcha skachat",
     "chatgpt skachat uzbek tilida",
-    "chatgpt yuklab olish kompyuter uchun"
+    "chatgpt yuklab olish kompyuter uchun",
+    "chatgpt skachat",
+    "chat gpt skachat",
+    "chatgpt skachat qilish"
   ],
-  "intro": "ChatGPT ilovasini yuklab olish uchun Androidda Google Play, iPhone va iPadda App Store, kompyuterda esa OpenAI rasmiy download sahifasidan foydalaning. O‘zbek tilida ishlash uchun alohida «uzbekcha APK» kerak emas: so‘rovni o‘zbekcha yozish kifoya. Brauzerda chatgpt.com orqali ilovasiz ham ishlash mumkin.",
+  "intro": "ChatGPT ilovasini yuklab olish uchun Androidda Google Play, iPhone va iPadda App Store, kompyuterda esa OpenAI rasmiy download sahifasidan foydalaning. O‘zbek tilida ishlash uchun alohida «uzbekcha APK» kerak emas: so‘rovni o‘zbekcha yozish kifoya. Brauzerda chatgpt.com orqali ilovasiz ham ishlash mumkin. «ChatGPT skachat» (ruscha «скачать») deb qidirilsa ham, yo‘l shu: Google Play, App Store yoki chatgpt.com/download sahifasi.",
   "body": [
     {
       "type": "figure",
@@ -56,7 +59,7 @@
     },
     {
       "type": "linkp",
-      "text": "Rasmiy yuklab olish manzillari: Android uchun {android}, iPhone va iPad uchun {ios}, Windows yoki macOS uchun {desktop}. O‘zbekistonda xizmat mavjudligini {countries} ro‘yxatidan tekshirish mumkin.",
+      "text": "Rasmiy yuklab olish manzillari (20.11.2026 kuni qayta tekshirildi): Android uchun {android}, iPhone va iPad uchun {ios}, Windows yoki macOS uchun {desktop}. O‘zbekistonda xizmat mavjudligini {countries} ro‘yxatidan tekshirish mumkin.",
       "links": [
         {
           "token": "android",
@@ -277,6 +280,14 @@
       "text": "Shubhali faylni o‘rnatgan bo‘lsangiz, uni o‘chirish bilan cheklanmay: qurilmani tekshiring, hisob parolini yangilang, faol sessiyalarni nazorat qiling va to‘lov tarixini ko‘ring. Bir xil parol boshqa saytda ishlatilgan bo‘lsa, u yerda ham almashtiring."
     },
     {
+      "type": "h3",
+      "text": "«Chat GPT APK» saytlari: nimaga e’tibor berish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Qidiruvda APK kataloglari ko‘p chiqadi. Ulardagi «Chat GPT» nomli ilovalarning ishlab chiquvchisi ko‘pincha boshqa kompaniya bo‘ladi, ya’ni bu OpenAI’ning ChatGPT ilovasi emas. Asl ChatGPT ilovasining ishlab chiquvchisi — OpenAI: Android uchun uni Google Play’dan, iPhone uchun App Store’dan oling va faylni noma’lum saytdan yuklamang."
+    },
+    {
       "type": "h2",
       "id": "uzbek",
       "text": "ChatGPTda o‘zbek tilida qanday yozish kerak?"
@@ -399,6 +410,14 @@
       "a": "Yo‘q, alohida «o‘zbekcha versiya» yo‘q. Rasmiy ilova o‘zbek tilini tushunadi, shuning uchun qo‘shimcha dastur izlash kerak emas."
     },
     {
+      "q": "ChatGPT skachat qilish uchun qaysi sayt xavfsiz?",
+      "a": "Android uchun Google Play, iPhone va iPad uchun App Store, Windows va macOS uchun chatgpt.com/download. Har birida ishlab chiquvchi OpenAI ekanini tekshiring: APK kataloglaridagi «Chat GPT» nomli ilovalar boshqa kompaniyalarniki bo‘lishi mumkin."
+    },
+    {
+      "q": "Samsung telefoniga ChatGPT qanday o‘rnatiladi?",
+      "a": "Samsung — Android telefon. Google Play’ni oching, «ChatGPT» deb qidiring va ishlab chiquvchisi OpenAI bo‘lgan ilovani o‘rnating. Alohida «Samsung versiyasi» kerak emas."
+    },
+    {
       "q": "APK orqali o‘rnatish xavfsizmi?",
       "a": "Faqat rasmiy do‘kondan oling. Internetdagi tasodifiy APK fayllar o‘rniga noma’lum kod o‘rnatishi mumkin — bu hisobingiz uchun xavfli."
     }
@@ -478,7 +497,7 @@
       "priority": 3
     }
   ],
-  "ogTitle": "ChatGPT yuklab olish o‘zbek tilida — 3 usul (2026)",
+  "ogTitle": "ChatGPT yuklab olish (skachat) o‘zbek tilida — 3 usul (2026)",
   "ogDescription": "ChatGPT yuklab olish o‘zbek tilida: Android, iPhone va kompyuterga — 3 usul, bepul. Rasmiy OpenAI ilovasini soxta APK’dan qanday ajratish.",
   "ogImage": "https://gptbot.uz/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp",
   "canonical": "https://gptbot.uz/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
@@ -487,7 +506,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-07-30",
-  "dateModified": "2026-09-30",
+  "dateModified": "2026-11-20",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -496,7 +515,7 @@
     "FAQPage"
   ],
   "createdAt": "2026-07-30T00:00:00.000Z",
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-11-20",
   "sources": [
     {
       "title": "OpenAI Help Center — What is ChatGPT?",
@@ -516,17 +535,17 @@
     {
       "title": "Google Play — ChatGPT by OpenAI",
       "url": "https://play.google.com/store/apps/details?id=com.openai.chatgpt&hl=uz",
-      "note": "Android uchun rasmiy ilova sahifasi; 2026-08-20 kuni tekshirildi."
+      "note": "Android uchun rasmiy ilova sahifasi; 2026-08-20 kuni tekshirildi, 2026-11-20 kuni qayta tekshirildi."
     },
     {
       "title": "Apple App Store — ChatGPT",
       "url": "https://apps.apple.com/uz/app/chatgpt/id6448311069",
-      "note": "O‘zbekiston App Store hududidagi rasmiy iPhone va iPad ilovasi; 2026-08-20 kuni tekshirildi."
+      "note": "O‘zbekiston App Store hududidagi rasmiy iPhone va iPad ilovasi; 2026-08-20 kuni tekshirildi, 2026-11-20 kuni qayta tekshirildi."
     },
     {
       "title": "ChatGPT — Download",
       "url": "https://chatgpt.com/download/",
-      "note": "Windows va macOS uchun rasmiy yuklab olish sahifasi; 2026-08-20 kuni tekshirildi."
+      "note": "Windows va macOS uchun rasmiy yuklab olish sahifasi; 2026-08-20 kuni tekshirildi, 2026-11-20 kuni qayta tekshirildi."
     }
   ]
 }

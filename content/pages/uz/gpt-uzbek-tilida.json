@@ -29,24 +29,25 @@
     "chatgpt yozish",
     "chatgpt tarjima",
     "chati piti",
-    "chaji piti"
+    "chaji piti",
+    "chatgpt uzbek tilida gaplashish"
   ],
   "searchIntent": "transactional",
-  "h1": "O‘zbek tilida AI chat — 3 ta bepul sinov javobi",
-  "title": "ChatGPT uzbekcha muqobili — bepul kirish, ro‘yxatsiz chat",
+  "h1": "ChatGPT’ga o‘zbekcha muqobil — 3 ta bepul sinov javobi",
+  "title": "ChatGPT uzbekcha muqobili: bepul kirish, ro‘yxatsiz chat",
   "description": "O‘zbekcha yozing: matn, reja va g‘oyalar brauzerda, ilovasiz. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "canonical": "https://gptbot.uz/uz/gpt-uzbek-tilida/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
   "hreflangXDefault": "/uz/gpt-uzbek-tilida/",
   "hreflangUnpaired": true,
-  "ogTitle": "ChatGPT uzbekcha muqobili — bepul kirish, ro‘yxatsiz chat",
+  "ogTitle": "ChatGPT uzbekcha muqobili: bepul kirish, ro‘yxatsiz chat",
   "ogDescription": "O‘zbekcha yozing: matn, reja va g‘oyalar brauzerda, ilovasiz. Ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "O‘zbek tilida AI chat",
-  "heroTitle": "O‘zbek tilida AI chat — 3 ta bepul sinov javobi",
+  "heroTitle": "ChatGPT’ga o‘zbekcha muqobil — 3 ta bepul sinov javobi",
   "heroSubtitle": "O‘zbek tilida AI chat: ro‘yxatsiz 3 ta bepul sinov javobi, keyin AI paket. GPTBot.uz — mustaqil servis, OpenAI emas.",
   "ctaPrimaryLabel": "AI-bot narxlari",
   "ctaPrimaryHref": "/uz/chat-bot-narxi/",
@@ -136,8 +137,24 @@
     },
     {
       "type": "h2",
+      "id": "gaplashish",
+      "text": "ChatGPT bilan o‘zbek tilida gaplashish: yozma va ovozli suhbat"
+    },
+    {
+      "type": "linkp",
+      "text": "Shu sahifadagi GPTBot.uz chati yozma suhbat uchun: savolni o‘zbekcha yozasiz, javob matn bo‘lib keladi. Ovozli rejim (mikrofon orqali gaplashish) OpenAI’ning ChatGPT ilovasida bor — ilovani {download} bo‘yicha o‘rnatish mumkin. Qaysi birini tanlasangiz ham, suhbat boshida «o‘zbek tilida javob ber» deb yozib qo‘ysangiz, javob o‘zbekcha keladi.",
+      "links": [
+        {
+          "token": "download",
+          "target": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+          "anchor": "yuklab olish yo‘riqnomasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
       "id": "jaji-piti",
-      "text": "Jaji piti, chachipiti, chati piti — bu ChatGPT’mi?"
+      "text": "Chachipiti, jaji piti, chati piti — bu ChatGPT’mi?"
     },
     {
       "type": "p",
@@ -634,6 +651,10 @@
       "a": "Ha: mavzuni tushuntirish, reja, test savollari, slayd matni va insho qoralamasi uchun foydali. Javobni tayyor ish sifatida topshirmang: tekshiring, o‘zingiz qayta ishlang va o‘quv muassasasi qoidalariga rioya qiling. Slayd va esse uchun saytda alohida yo‘riqnomalar bor."
     },
     {
+      "q": "ChatGPT bilan ovozli gaplashsa bo‘ladimi?",
+      "a": "OpenAI’ning ChatGPT ilovasida ovozli rejim bor. Shu sahifadagi GPTBot.uz chati esa yozma: savolni o‘zbekcha yozib yuborasiz, javob matn bo‘lib keladi."
+    },
+    {
       "q": "Shu AI chat o‘zbekcha qanchalik to‘g‘ri yozadi?",
       "a": "Sifat vazifaga bog‘liq: oddiy matn, xat va reja odatda tushunarli chiqadi, lekin termin, imlo va faktlarda xato bo‘lishi mumkin. Tayyor matnni bir marta o‘qib chiqing va muhim faktlarni rasmiy manba bilan tekshiring."
     },
@@ -818,5 +839,5 @@
   ],
   "lastReviewedAt": "2026-10-23",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-11-08"
+  "updatedAt": "2026-11-20"
 }

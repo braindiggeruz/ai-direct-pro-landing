@@ -33,14 +33,14 @@
   ],
   "searchIntent": "transactional",
   "h1": "ИИ-чат — аналог ChatGPT: 3 пробных ответа бесплатно",
-  "title": "Аналог ChatGPT онлайн в Узбекистане — без регистрации",
+  "title": "Аналог ChatGPT онлайн: на русском и узбекском, без регистрации",
   "description": "ИИ-чат на русском и узбекском в браузере, без установки: 3 бесплатных пробных ответа, затем AI-пакет. GPTBot.uz — независимый сервис, не OpenAI и не ChatGPT.",
   "canonical": "https://gptbot.uz/ru/gpt-chat/",
   "hreflangRu": "/ru/gpt-chat/",
   "hreflangUz": "/uz/gpt-uzbek-tilida/",
   "hreflangXDefault": "/uz/gpt-uzbek-tilida/",
   "hreflangUnpaired": true,
-  "ogTitle": "Аналог ChatGPT онлайн в Узбекистане — без регистрации",
+  "ogTitle": "Аналог ChatGPT онлайн: на русском и узбекском, без регистрации",
   "ogDescription": "ИИ-чат на русском и узбекском в браузере, без установки: 3 бесплатных пробных ответа, затем AI-пакет. GPTBot.uz — независимый сервис, не OpenAI и не ChatGPT.",
   "ogImage": "https://gptbot.uz/assets/blog/gpt-uzbek-tilida-online-1200.webp",
   "robotsIndex": true,
@@ -505,5 +505,5 @@
   ],
   "lastReviewedAt": "2026-10-05",
   "createdAt": "2026-07-11T00:00:00Z",
-  "updatedAt": "2026-11-08"
+  "updatedAt": "2026-11-20"
 }

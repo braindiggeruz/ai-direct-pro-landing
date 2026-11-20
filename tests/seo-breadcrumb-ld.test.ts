@@ -58,14 +58,13 @@ const R_S1B_NAMED = [
   '/uz/blog/chatgpt-ozbekistonda-vpnsiz-ishlaydimi/',
   '/uz/blog/ai-chat-nima-va-qanday-turlari-bor/',
 ];
+// 2026-11-20 (revision 2026-11-20-uz-now-b): the download guide and both chats
+// leave the set; only the login guide stays held until R14 is read on 2026-12-21.
 const STILL_HELD = [
-  '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
-  '/ru/gpt-chat/',
-  '/uz/gpt-uzbek-tilida/',
   '/uz/blog/chatgptga-qanday-kirish-mumkin/',
 ];
 
-test('R-S1b names its five articles; the four pages of later windows stay held', () => {
+test('R-S1b names its five articles; only the login guide (R14) stays held', () => {
   assert.deepEqual([...BREADCRUMB_NAME_HELD].sort(), [...STILL_HELD].sort());
   for (const pathname of R_S1B_NAMED) {
     assert.ok(!BREADCRUMB_NAME_HELD.has(pathname), `${pathname} left the held set in R-S1b`);

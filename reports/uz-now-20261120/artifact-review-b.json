@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-11-20T01:45:20.819Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-20-uz-now/reviewed-protected-pages.json",
+  "pages": 423,
+  "changed": [
+    "/ru/gpt-chat/",
+    "/uz/blog/chat-gpt-uzbek-biznes-uchun/",
+    "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+    "/uz/gpt-uzbek-tilida/",
+    "/uz/informatika-test/",
+    "/uz/ingliz-tili-zamonlari/",
+    "/uz/past-simple/",
+    "/uz/present-continuous/"
+  ],
+  "reviewedChanges": [
+    {
+      "pathname": "/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "note": "The two sentences added on 20.11 (intro «ChatGPT skachat…» and the «Chat GPT APK» paragraph) are reworded without the word «rasmiy» (owner’s rule for the site’s new text): «Google Play, App Store yoki chatgpt.com/download», «OpenAI’ning ChatGPT ilovasi emas», «Asl ChatGPT ilovasining ishlab chiquvchisi — OpenAI». The BreadcrumbList gets its name. Title, H1, description, canonical, robots, hreflang and internal links unchanged."
+    },
+    {
+      "pathname": "/uz/gpt-uzbek-tilida/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "note": "A section «ChatGPT bilan o‘zbek tilida gaplashish: yozma va ovozli suhbat» (the GPTBot.uz chat is written; voice is in OpenAI’s ChatGPT app, linked through the existing download-guide target) and the FAQ answer «ChatGPT bilan ovozli gaplashsa bo‘ladimi?»: «chatgpt uzbek tilida gaplashish» (1 600 searches in October 2026) put 36 % of its impressions on promptlar at CTR 0 %. The BreadcrumbList gets its name (Search Console «Unnamed item»). Title, H1, description, canonical, robots, hreflang (none, A14) and internal links unchanged."
+    }
+  ]
+}

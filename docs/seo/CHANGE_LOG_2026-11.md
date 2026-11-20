@@ -252,3 +252,85 @@ GSC, final, web, 18.10–14.11.2026 (28 дней). «Последний обхо
 Также изменены `llms.txt` (блок фактов о продукте называет оба пакета; даты «Last updated» — 17.11.2026) и `llms-full.txt` (дата). Разметка `Offer` (JSON-LD) и блок условий на `/ru/gpt-chat/` и `/uz/gpt-uzbek-tilida/` не менялись: они по-прежнему описывают пакет на месяц.
 
 Отдельного окна наблюдения для этих страниц нет: правка продуктовая. База для сравнения показов — та же, что в релизе волн 17.11.2026 (Search Console, 28 дней до 14.11.2026).
+
+## Релиз «здесь и сейчас» (20.11.2026, подготовлен в ветке, ждёт выкладки)
+
+**Основание.** Владелец в чате 20.11.2026: «мне нужен роад мап чтобы получить первые места здесь и сейчас!!». Это решение снимает заморозку до 21.12 для двух чатов и гайда скачивания:
+- чистое чтение R15 (сниппеты обоих чатов) пропадает;
+- A14 читается вместе с этим релизом;
+- R14 (гайд входа) не трогается.
+
+План и предохранители — `docs/seo/research/2026-11-20-uz-top1-roadmap/NOW.md`, исследование — `ROADMAP.md` там же. Защищённые ревизии:
+- `docs/seo/evidence/2026-11-20-uz-now/` — доказательство `reports/uz-now-20261120/review.ts`, сборка против сборки базы `0dca0df`;
+- `docs/seo/evidence/2026-11-20-uz-now-b/` (шаг «b», ниже) — доказательство `reports/uz-now-20261120/review-b.ts`, сборка против сборки `a17451a`.
+
+Оба шага уходят одной выкладкой.
+
+### Что изменено
+
+| URL | Изменение | Почему |
+|---|---|---|
+| `/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/` | Title «ChatGPT yuklab olish (skachat) o‘zbek tilida — 3 usul (2026)»; H1 «ChatGPT yuklab olish (skachat): telefon va kompyuterga xavfsiz o‘rnatish»; фраза о «skachat» в первом абзаце; строка «20.11.2026 kuni qayta tekshirildi» у официальных ссылок (Google Play, App Store и chatgpt.com/download отвечали 200 и называли OpenAI); H3 и абзац о каталогах «Chat GPT APK»; два вопроса в FAQ; ключи «chatgpt skachat», «chat gpt skachat», «chatgpt skachat qilish»; dateModified 2026-11-20. Description прежний | «chatgpt skachat» (Ads 12 100 в месяц) и «chat gpt skachat» (4 400) — 0 показов у любого нашего URL (GSC 21.10–17.11); в выдаче по «chatgpt skachat» APK-каталоги |
+| `/uz/gpt-uzbek-tilida/` | Title «ChatGPT uzbekcha muqobili: bepul kirish, ro‘yxatsiz chat» (двоеточие вместо тире); H1 «ChatGPT’ga o‘zbekcha muqobil — 3 ta bepul sinov javobi»; H2 «Chachipiti, jaji piti, chati piti — bu ChatGPT’mi?»; дата 20.11.2026. Description, ссылки и текст прежние | Title в 7 снимках из 11 Google показывал как «bepul kirish, ro'yxatsiz chat»; на первом экране не было «ChatGPT»; «chachipiti» (22 200 в месяц, 49 500 в октябре) — 15 показов за 28 дней |
+| `/ru/gpt-chat/` | Title «Аналог ChatGPT онлайн: на русском и узбекском, без регистрации»; дата 20.11.2026. H1, description, ссылки и текст прежние | Кириллические «чачи пити» и «чати пити» — 49 тыс. показов за 28 дней при CTR 0,16 % |
+| `/` | Две подписи в списках: H1 UZ-чата и title гайда скачивания | Главная перечисляет страницы по H1 или title |
+| `/uz/blog/` | Гайд скачивания попал в список недавно обновлённых | dateModified; у страницы 0 показов за 28 дней |
+| `content/seo/intent-manifest.json` | C97: гайд скачивания владеет голыми «chatgpt skachat» и «chat gpt skachat»; русский гайд их не целевает | — |
+
+Остальные 418 страниц сборки совпадают байт в байт. В sitemap сдвинулся `lastmod` пяти URL: трёх правленых, `/` и `/uz/blog/`.
+
+### База для замера (Search Console, 20.10–16.11.2026, 28 дней; обход — URL Inspection 20.11)
+
+| URL | Клики | Показы | CTR | Позиция | Последний обход |
+|---|---:|---:|---:|---:|---|
+| `/uz/gpt-uzbek-tilida/` | 911 | 107 044 | 0,85 % | 6,1 | 2026-11-17T22:58:19Z |
+| `/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/` | 497 | 22 646 | 2,19 % | 4,9 | 2026-11-17T20:28:08Z |
+| `/ru/gpt-chat/` | 315 | 87 522 | 0,36 % | 6,3 | 2026-11-19T02:03:25Z |
+
+Ключевые запросы на те же 28 дней:
+- «chatgpt yuklab olish uzbek tilida» — гайд 240 / 7 133 / 3,36 % / 2,5;
+- «chatgpt skachat» и «chat gpt skachat» — 0 показов;
+- «chachipiti» — 15 показов на позиции 8,6 (21.10–17.11);
+- кириллица «чачи пити» и «чати пити» на RU-чате — 37 кликов, 36 тыс. показов;
+- A14 (Узбекистан, 01–18.11) — доля RU-чата: kirish 15,9 %, piti 20,7 %.
+
+### Как читать
+- Отсчёт от `lastCrawlTime` каждого URL после выкладки. Сразу после выкладки — «Запросить индексирование» для трёх URL.
+- Чтения на 7-й, 14-й и 28-й день.
+- CTR сравнивать при сопоставимой позиции, отдельно по языку запроса.
+
+**Откат** (NOW.md §1):
+
+| URL | Порог | Что вернуть |
+|---|---|---|
+| Гайд скачивания | CTR «chatgpt yuklab olish uzbek tilida» при позиции ≤ 3,5 в 14-дневном окне ниже 2,0 % или клики гайда упали больше чем на 20 % при сопоставимых показах | title |
+| UZ-чат | Клики семей kirish и uzbekcha за 7 дней упали больше чем на 20 % при тех же показах | title и H1 |
+| RU-чат | То же по кириллическим запросам | title |
+
+Откат — `git revert` правки конкретной страницы, новая защищённая ревизия и выкладка.
+
+### Шаг «b» (20.11.2026, тот же релиз)
+
+**Основание.** Владелец в чате 20.11.2026: «сделай сейчас всё автономно! все твои предложения которые потенциально усилят сео и повысят позиции!». Взяты правки, которые честны, не задевают R14 и доказуемо меняют только то, что указано.
+
+| URL | Изменение | Почему |
+|---|---|---|
+| `/uz/gpt-uzbek-tilida/` | H2 «ChatGPT bilan o‘zbek tilida gaplashish: yozma va ovozli suhbat» и абзац: чат GPTBot.uz письменный, голосовой режим есть в приложении ChatGPT от OpenAI (ссылка на гайд скачивания — та же цель, что уже была на странице). Вопрос в FAQ «ChatGPT bilan ovozli gaplashsa bo‘ladimi?». Ключ «chatgpt uzbek tilida gaplashish». Title, H1, description, ссылки прежние | «chatgpt uzbek tilida gaplashish» — 1 300 в месяц, 1 600 в октябре (Ads). GSC за 28 дней: 8 кликов, 758 показов, позиция 6,9; 36 % показов уходили на гайд промптов при CTR 0 % (позиция 9,3), UZ-чат — 64 % при CTR 1,65 % |
+| `/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/` | Две фразы шага 20.11 без слова «rasmiy»: «Google Play, App Store yoki chatgpt.com/download», «OpenAI’ning ChatGPT ilovasi emas», «Asl ChatGPT ilovasining ishlab chiquvchisi — OpenAI». Первая фраза — в первом абзаце, который выводится только в Markdown-двойнике и llms-full.txt | Правило брифа: новый текст сайта не пишет «rasmiy» |
+| `/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/`, `/uz/gpt-uzbek-tilida/`, `/ru/gpt-chat/` | BreadcrumbList получает имя страницы, как на всех остальных страницах (вне контракта защиты) | Search Console подписывает цепочку этих трёх URL «Unnamed item» — это подпись, не ошибка (аудит 24.10, `docs/seo/research/2026-10-24-growth-audit/L4-technical.md` §5); имена были отложены до ревизии этих страниц (`BREADCRUMB_NAME_HELD`). Гайд входа остаётся без имени до чтения R14. На позиции не влияет |
+| `/uz/blog/chat-gpt-uzbek-biznes-uchun/`, `/uz/informatika-test/`, `/uz/ingliz-tili-zamonlari/`, `/uz/past-simple/`, `/uz/present-continuous/` | В каждой по одной ссылке на UZ-чат: анкор «o‘zbek tilidagi AI chat» → честный вариант с «ChatGPT … muqobil / o‘rniga», везде разный | Семья «uzbekcha / uzbek tilida» на первой странице только в 36–47 % поисков; анкоры внутренних ссылок не называли запрос, по которому страница отвечает |
+| `content/seo/intent-manifest.json` | C36: гайд промптов не целевает «chatgpt uzbek tilida gaplashish» | Один интент — один URL |
+
+Остальные страницы сборки совпадают байт в байт; sitemap не меняется. Из других файлов меняются только `llms-full.txt` и Markdown-двойники UZ-чата и гайда скачивания. На защищённых страницах контракт меняется только в `bodyTextSha256` у UZ-чата и гайда скачивания.
+
+**Как читать шаг «b».** Отдельно не читается: выходит одной выкладкой с первым шагом. Дополнительно к срезам первого шага смотреть:
+- долю показов «chatgpt uzbek tilida gaplashish» у UZ-чата (база 64 %) и CTR запроса;
+- Search Console → «Навигационная цепочка»: «Unnamed item» у трёх URL должен уйти после обхода.
+
+Ожидаемый эффект шага «b» небольшой: по «gaplashish» 0…+10 кликов за 28 дней; анкоры отдельно не измеряются. Откат — `git revert` коммита шага, новая ревизия и выкладка.
+
+### Не сделано
+- Выкладка: нужен `deploy_runner.py` на машине владельца.
+- Скриншоты с реального устройства и ролики — у владельца, сценарии в `NOW.md` §2.
+- Гайд входа (R14) и перенаправление `/ru/blog/chat-gpt-online/` (C23) — после 21.12.
+- Скорость чатов (TBT): правка кода чата с риском для конверсии, ждёт отдельного окна.
