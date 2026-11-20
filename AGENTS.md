@@ -39,6 +39,10 @@ knowledge-схема, workflows, prompts, i18n; регистрация одно�
   `F:/Claude/gptbot-tools/deploy_runner.py check|deploy` после `npm run build:production` — только по
   команде; «сырой» `wrangler pages deploy` в обход guard запрещён. Worker `gptbot-automation`
   деплоится отдельно (`wrangler deploy -c wrangler.automation.toml`, сначала `--dry-run`), тоже по команде.
+  Второй путь того же guard (D-DEPLOY-CI-20261120): workflow «Pages production deploy» в GitHub Actions —
+  ручной запуск на `main` с вводом `deploy`; он выполняет `npm run build:production` и
+  `npm run deploy:pages:production`. Токен Cloudflare — только в секретах репозитория GitHub. Агент
+  запускает workflow только по команде владельца в чате.
 - Бренд пишется **«GPTBot.uz»** везде, где он виден поисковику или модели: `og:site_name`, суффикс
   title (`| GPTBot.uz`), h1 главной, подписи «Проверено командой», llms.txt. «GPTBot» без `.uz` —
   только `organizationLegalName`/`alternateName` в JSON-LD (коллизия с краулером OpenAI GPTBot;
