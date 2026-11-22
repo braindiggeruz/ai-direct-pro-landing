@@ -1,4 +1,13 @@
 {
+  "lead_radar_free_catalog_off_20261122": {
+    "status": "released_pending_deploy",
+    "owner_authorized": "Same order as lead_radar_prod_hardening_20261122; found while watching the owner search of 22.11.2026 14:36 UTC.",
+    "branch": "fix/lead-radar-free-catalog-off-20261122",
+    "scope": "The free catalog contact-source step (top.uz adapter via createFreeContactAcquisitionDependencies) is off unless LEAD_RADAR_FREE_CATALOG_ENABLED=\"true\". Evidence: lead_radar_contact_enrichments holds ~330 runs with no phone and no Telegram candidate; in the live search it paged the rubric once per company (85 companies, page 24 and climbing, part of the answers unavailable) and kept the search running long after all 100 candidates were saved in about 3 minutes. Contact-resolve jobs keep running the free t.me check and TG Sender lookups.",
+    "live_search_20261122": "search 6ad8e859 (dentistry, Tashkent, contact mode, depth 100): map_snapshot_20261121 (no Overpass), 147 found, pool 100/100 persisted within ~3 minutes (was 10 in 60 minutes), enrichment terminal for 99 within ~4 minutes (72 no website, invalid_website 2, http_blocked 4, robots 2, enriched 2), contacts 46 phones / 12 sites / 4 Telegram, TG Sender resolved 2 usernames; Worker 594 invocations all ok, 0 exceptions.",
+    "rollback": "Set LEAD_RADAR_FREE_CATALOG_ENABLED = \"true\" in wrangler.automation.toml vars and redeploy, or wrangler rollback f3c33cd8-a2f0-4fad-a516-f99e890c391d -c wrangler.automation.toml.",
+    "release": "pending"
+  },
   "lead_radar_telegram_yield_20261122": {
     "status": "deployed_and_verified",
     "owner_authorized": "Same order as lead_radar_prod_hardening_20261122 (owner: as many Telegram contacts as possible, no bots).",
