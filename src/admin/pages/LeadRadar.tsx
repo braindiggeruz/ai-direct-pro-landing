@@ -154,12 +154,12 @@ const FAILURE_COPY: Record<string, { title: string; body: string }> = {
     body: 'Сервис определения города не ответил. Поля поиска сохранены — попробуйте снова через минуту.',
   },
   discovery_source_unavailable: {
-    title: 'Источник компаний временно недоступен',
-    body: 'Список компаний получить не удалось. Это не означает, что компаний нет; запрос можно безопасно повторить.',
+    title: 'Серверы карт OpenStreetMap недоступны',
+    body: 'Публичные серверы карт не ответили, повторные попытки не помогли. Это не означает, что компаний нет: повторите через 10–15 минут — сохранённый ответ карт за 30 дней используется автоматически.',
   },
   source_timeout: {
-    title: 'Источник не успел ответить',
-    body: 'Ожидание превысило безопасный лимит. Запрос сохранён и готов к повтору.',
+    title: 'Серверы карт не успели ответить',
+    body: 'Публичные серверы карт OpenStreetMap не ответили вовремя. Повторите через 10–15 минут — сохранённый ответ карт за 30 дней используется автоматически.',
   },
   upstream_payload_invalid: {
     title: 'Источник вернул некорректные данные',
@@ -193,6 +193,22 @@ const PHASE_COPY: Record<LeadRadarSearchPhase, { title: string; detail: string }
   finalizing: { title: 'Завершаем проверку', detail: 'Фиксируем доказательства и итоговые счётчики.' },
   completed: { title: 'Проверка завершена', detail: 'Результаты и источники сохранены.' },
 };
+
+/**
+ * What a failed search tells the owner (audit 22.11.2026, E10): which part
+ * failed and what to do, instead of «Источник не завершил запуск» and
+ * «Результаты и источники сохранены» over an empty result.
+ */
+function failedSearchCopy(errorCode: string | null, savedCount: number): string {
+  if (savedCount > 0) return 'Часть найденных компаний сохранена; один из этапов не завершился. Выгрузка доступна.';
+  if (errorCode === 'source_timeout' || errorCode === 'discovery_source_unavailable') {
+    return 'Серверы карт OpenStreetMap не ответили, повторные попытки не помогли. Запустите его ещё раз через 10–15 минут — если эта ниша и город уже искались за последние 30 дней, возьмём сохранённый ответ карт.';
+  }
+  if (errorCode === 'city_not_found' || errorCode === 'geocoder_unavailable') {
+    return 'Город не найден на карте или геокодер недоступен. Проверьте написание города и повторите поиск.';
+  }
+  return 'Поиск не завершился до получения компаний. Повторите его через несколько минут.';
+}
 
 const ENRICHMENT_STATUS_COPY: Record<LeadRadarEnrichmentStatus, { label: string; tone: 'info' | 'warning' | 'neutral' | 'success' }> = {
   pending: { label: 'Ожидает проверки', tone: 'neutral' },
@@ -657,7 +673,9 @@ function CurrentSearchFunnel({ search, pollingDelayed, pollingStopped }: {
   pollingDelayed: boolean;
   pollingStopped: boolean;
 }) {
-  const phase = PHASE_COPY[search.phase ?? (search.status === 'running' ? 'discovering' : 'completed')];
+  const phase = search.status === 'failed'
+    ? { title: 'Поиск не завершён', detail: failedSearchCopy(search.errorCode, search.candidateCount) }
+    : PHASE_COPY[search.phase ?? (search.status === 'running' ? 'discovering' : 'completed')];
   const funnel = search.funnel ?? {
     rawDiscoveredCount: search.candidateCount,
     candidateCount: search.candidateCount,
@@ -2421,7 +2439,7 @@ export default function LeadRadarPage() {
                         {result.search.status === 'running'
                           ? PHASE_COPY[result.search.phase].detail
                           : result.search.status === 'failed'
-                            ? result.leads.length > 0 ? 'Часть найденных компаний сохранена; один из этапов не завершился.' : 'Источник не завершил запуск до получения компаний.'
+                            ? failedSearchCopy(result.search.errorCode, result.leads.length)
                             : `Сохранено ${result.search.funnel.candidateCount} компаний · обработано ${result.search.funnel.processedCount} · личных Telegram одобрено ${result.search.funnel.personalTelegramCount}`}
                       </p>
                       {pulseNotice && (

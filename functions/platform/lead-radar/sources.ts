@@ -391,6 +391,15 @@ async function resolveDns(hostname: string, type: 'A' | 'AAAA', budget: Subreque
   );
 }
 
+/** Hosts whose DNS answered "no such name" (not a failed lookup). A website
+ *  on such a host is dead, not temporarily down (audit 22.11.2026, E6). */
+const dnsNxdomainCache = new Map<string, number>();
+
+function isKnownNxdomain(hostname: string): boolean {
+  const until = dnsNxdomainCache.get(hostname);
+  return Boolean(until && until > Date.now());
+}
+
 async function hasOnlyPublicAddresses(url: URL, budget: SubrequestBudget): Promise<boolean> {
   const cached = dnsSafetyCache.get(url.hostname);
   if (cached && cached.expiresAt > Date.now()) return cached.safe;
@@ -400,6 +409,10 @@ async function hasOnlyPublicAddresses(url: URL, budget: SubrequestBudget): Promi
     const ipv4 = await resolveDns(url.hostname, 'A', budget);
     const ipv6 = await resolveDns(url.hostname, 'AAAA', budget);
     const addresses = [...ipv4, ...ipv6];
+    if (addresses.length === 0) {
+      if (dnsNxdomainCache.size > 500) dnsNxdomainCache.clear();
+      dnsNxdomainCache.set(url.hostname, Date.now() + 10 * 60_000);
+    }
     const safe = addresses.length > 0 && addresses.every((address) => !isPrivateAddress(address));
     dnsSafetyCache.set(url.hostname, { safe, expiresAt: Date.now() + 30_000 });
     return safe;
@@ -1162,6 +1175,60 @@ async function overpass(query: string, budget: SubrequestBudget): Promise<{ resp
   );
 }
 
+const OVERPASS_CACHE_FRESH_MS = 24 * 60 * 60_000;
+
+async function overpassCacheKey(query: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(query));
+  return `overpass:v1:${[...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')}`;
+}
+
+/** Only the fields discovery reads, so a 240-row answer stays a small cache row. */
+function compactOverpassElements(elements: readonly unknown[]): unknown[] {
+  return elements.flatMap((element) => {
+    if (!element || typeof element !== 'object') return [];
+    const { type, id, lat, lon, center, tags, timestamp } = element as Partial<OverpassElement>;
+    return [{ type, id, lat, lon, center, tags, timestamp }];
+  });
+}
+
+/**
+ * Overpass with a 30-day answer cache (audit 22.11.2026, E4): a search reuses
+ * an answer younger than a day, and when every public server is down it falls
+ * back to an older one instead of failing — the second dentistry search of
+ * 22.11 failed 32 minutes after the first had found the same 100 candidates.
+ * Without a store (tests, the synchronous path) it is plain Overpass.
+ */
+async function cachedOverpass(
+  query: string,
+  budget: SubrequestBudget,
+  store?: LeadRadarGeocodeStore,
+): Promise<{ response: OverpassResponse; warnings: string[]; observedAt?: string }> {
+  if (!store?.getOverpassResponse || !store.putOverpassResponse) return overpass(query, budget);
+  const key = await overpassCacheKey(query);
+  const now = new Date();
+  const cached = await store.getOverpassResponse(key, now.toISOString()).catch(() => null);
+  const ageMs = cached ? now.getTime() - Date.parse(cached.observedAt) : Number.POSITIVE_INFINITY;
+  if (cached && ageMs < OVERPASS_CACHE_FRESH_MS) {
+    return { response: { elements: cached.elements as OverpassElement[] }, warnings: ['map_cache_fresh'], observedAt: cached.observedAt };
+  }
+  try {
+    const live = await overpass(query, budget);
+    const elements = live.response.elements ?? [];
+    if (elements.length) await store.putOverpassResponse(key, compactOverpassElements(elements), now.toISOString()).catch(() => undefined);
+    return live;
+  } catch (error) {
+    if (cached && error instanceof LeadRadarSourceError) {
+      const hours = Math.max(1, Math.round(ageMs / 3_600_000));
+      return {
+        response: { elements: cached.elements as OverpassElement[] },
+        warnings: [`map_cache_stale_${hours}h`, ...error.diagnostics.slice(0, 2)],
+        observedAt: cached.observedAt,
+      };
+    }
+    throw error;
+  }
+}
+
 function osmTagsFromElement(element: unknown): Record<string, string> {
   if (!element || typeof element !== 'object' || Array.isArray(element)) return {};
   const tags = (element as Partial<OverpassElement>).tags;
@@ -1653,10 +1720,41 @@ export async function readPublicWebsiteRobots(target: URL): Promise<string | nul
   });
 }
 
-async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2, maxBytes = MAX_WEBSITE_BYTES): Promise<{ url: URL; html: string } | null> {
+type WebsiteFailureReason = 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable' | 'invalid_website';
+
+/**
+ * A home page that cannot be read is not always "temporarily down". A host
+ * with no DNS name, a 404/410 home page or a non-HTML root is dead or wrong in
+ * the catalog, and 401/403/other 4xx block crawlers: none of them recovers in
+ * 15 minutes, and retrying them held whole contact batches for an hour
+ * (prod 22.11.2026). Only 429, 5xx and transport errors stay retryable.
+ */
+export function classifyHomeFailure(failure: PageFetchFailure): { reason: WebsiteFailureReason; retryable: boolean } {
+  if (failure.nxdomain) return { reason: 'invalid_website', retryable: false };
+  const status = failure.status;
+  if (status === 404 || status === 410) return { reason: 'invalid_website', retryable: false };
+  if (status === 429 || (status !== undefined && status >= 500)) return { reason: 'source_unavailable', retryable: true };
+  if (status !== undefined && status >= 400) return { reason: 'http_blocked', retryable: false };
+  if (failure.nonHtml) return { reason: 'invalid_website', retryable: false };
+  return { reason: 'source_unavailable', retryable: true };
+}
+
+/** Why a page could not be read: an HTTP status, a dead host or a non-HTML answer. */
+export interface PageFetchFailure { status?: number; nxdomain?: boolean; nonHtml?: boolean }
+
+async function fetchText(
+  url: URL,
+  budget: SubrequestBudget,
+  maxRedirects = 2,
+  maxBytes = MAX_WEBSITE_BYTES,
+  failure?: PageFetchFailure,
+): Promise<{ url: URL; html: string } | null> {
   let current = url;
   for (let attempt = 0; attempt <= maxRedirects; attempt += 1) {
-    if (!(await hasOnlyPublicAddresses(current, budget))) return null;
+    if (!(await hasOnlyPublicAddresses(current, budget))) {
+      if (failure && isKnownNxdomain(current.hostname)) failure.nxdomain = true;
+      return null;
+    }
     const outcome = await fetchWithin(
       current,
       {
@@ -1669,7 +1767,12 @@ async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2, m
         if (response.status >= 300 && response.status < 400) {
           return { redirect: response.headers.get('location'), html: null };
         }
-        if (!response.ok || !(response.headers.get('content-type') ?? '').toLowerCase().includes('text/html')) {
+        if (!response.ok) {
+          if (failure) failure.status = response.status;
+          return { redirect: null, html: null };
+        }
+        if (!(response.headers.get('content-type') ?? '').toLowerCase().includes('text/html')) {
+          if (failure) failure.nonHtml = true;
           return { redirect: null, html: null };
         }
         return { redirect: null, html: await readTextBounded(response, maxBytes) };
@@ -1810,7 +1913,7 @@ export function extractCompanyPageFacts(
 async function enrichCompanyWebsiteWithBudget(
   website: string,
   budget: SubrequestBudget,
-  diagnostic?: { reason: 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable'; retryable: boolean },
+  diagnostic?: { reason: WebsiteFailureReason; retryable: boolean },
   expected?: ExpectedCompanyWebsiteIdentity,
 ): Promise<WebsiteFacts | null> {
   const start = safePublicHttpUrl(website);
@@ -1858,9 +1961,10 @@ async function enrichCompanyWebsiteWithBudget(
       if (diagnostic) Object.assign(diagnostic, { reason: 'robots_blocked', retryable: false });
       return null;
     }
-    const home = await fetchText(start, budget, 1);
+    const homeFailure: PageFetchFailure = {};
+    const home = await fetchText(start, budget, 1, MAX_WEBSITE_BYTES, homeFailure);
     if (!home) {
-      if (diagnostic) Object.assign(diagnostic, { reason: 'source_unavailable', retryable: true });
+      if (diagnostic) Object.assign(diagnostic, classifyHomeFailure(homeFailure));
       return null;
     }
     const pages = [home];
@@ -1962,7 +2066,7 @@ export async function enrichCompanyWebsiteDetailed(
 }> {
   if (!safePublicHttpUrl(website)) return { facts: null, reason: 'invalid_website', retryable: false };
   const diagnostic = { reason: 'source_unavailable' as const, retryable: true } as {
-    reason: 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable'; retryable: boolean;
+    reason: WebsiteFailureReason; retryable: boolean;
   };
   // Single-company detailed crawl: homepage + up to 4 contact pages + optional
   // sitemap lookup all fit the Free-plan 50-subrequest invocation ceiling
@@ -2054,9 +2158,11 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     // fallback: a niche with sparse OSM contact tagging must still return
     // companies, otherwise we trade a low yield for no yield at all.
     let elements: unknown[] = [];
+    const answeredAt: string[] = [];
     try {
       const contactPlan = buildLeadRadarQueryPlan(input, bounds, { contactOnly: true });
-      const contact = await overpass(contactPlan.query, budget);
+      const contact = await cachedOverpass(contactPlan.query, budget, this.geocodeStore);
+      if (contact.observedAt) answeredAt.push(contact.observedAt);
       sourceWarnings.push(...contact.warnings);
       elements = contact.response.elements ?? [];
       plansRun.push('contact');
@@ -2083,13 +2189,17 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     const contactFloor = Math.max(10, input.desiredCount);
     if (elements.length < contactFloor) {
       const broadPlan = buildLeadRadarQueryPlan(input, bounds);
-      const broad = await overpass(broadPlan.query, budget);
+      const broad = await cachedOverpass(broadPlan.query, budget, this.geocodeStore);
+      if (broad.observedAt) answeredAt.push(broad.observedAt);
       sourceWarnings.push(...broad.warnings);
       elements = mergeOsmElements(elements, broad.response.elements ?? []);
       plansRun.push('broad');
     }
 
-    const collectedAt = new Date().toISOString();
+    // A cached map answer keeps the date it was collected, so evidence dates,
+    // the export's source_date / stale columns and the 30-day evidence window
+    // never present a month-old answer as fresh.
+    const collectedAt = answeredAt.sort()[0] ?? new Date().toISOString();
     const rawDiscoveredCount = elements.length;
     const candidates = rankLeadRadarOsmElements(elements, intent)
       .map((element) => candidateFromOsmElement(element, input, category, collectedAt))
