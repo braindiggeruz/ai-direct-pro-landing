@@ -102,3 +102,34 @@ export async function writeTelegramHandleVerdicts(
       .bind(now.toISOString(), JSON.stringify(rows.slice(0, 200))).run();
   } catch { /* a write failure never breaks the caller */ }
 }
+
+/**
+ * Org-wide pause of account lookups after the lookup service itself failed
+ * (prod 22.11.2026: TG Sender answered `lookup_unavailable` to every handle).
+ * While paused, contact jobs finish as "Telegram not checked" instead of
+ * spinning, and nothing is spent from the 200-a-day check budget. Stored in the
+ * existing source-throttle table, so no schema change.
+ */
+const LOOKUP_PAUSE_PREFIX = 'tg-lookup-pause:';
+export const TELEGRAM_LOOKUP_PAUSE_MS = 15 * 60_000;
+
+export async function readTelegramLookupPause(db: D1Database, orgId: string, now = new Date()): Promise<string | null> {
+  try {
+    const row = await db.prepare(`SELECT next_allowed_at FROM lead_radar_source_throttles WHERE source_key = ?`)
+      .bind(`${LOOKUP_PAUSE_PREFIX}${orgId}`).first<{ next_allowed_at: string }>();
+    return row && row.next_allowed_at > now.toISOString() ? row.next_allowed_at : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function pauseTelegramLookups(db: D1Database, orgId: string, now = new Date(), pauseMs = TELEGRAM_LOOKUP_PAUSE_MS): Promise<void> {
+  const until = new Date(now.getTime() + pauseMs).toISOString();
+  try {
+    await db.prepare(`INSERT INTO lead_radar_source_throttles (source_key, next_allowed_at, updated_at)
+      VALUES (?, ?, ?)
+      ON CONFLICT(source_key) DO UPDATE SET next_allowed_at = excluded.next_allowed_at, updated_at = excluded.updated_at
+      WHERE lead_radar_source_throttles.next_allowed_at < excluded.next_allowed_at`)
+      .bind(`${LOOKUP_PAUSE_PREFIX}${orgId}`, until, now.toISOString()).run();
+  } catch { /* the pause is an optimisation; never break the caller */ }
+}

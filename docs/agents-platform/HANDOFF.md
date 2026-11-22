@@ -1,3 +1,32 @@
+# Current handoff — Lead Radar production hardening: searches survive map outages, dead sites and a broken lookup service · 22.11.2026
+
+## 1. State
+Built on feat/lead-radar-prod-hardening-20261122 from main 6728b37d (Pages eff0fd37 from 3529801b; automation Worker 24ab7045). Release pending at the time of writing; the follow-up docs commit records runs and versions. Owner's order of 22.11 after the production-error audit F:/Claude/lead-radar-audit-20261122/ROADMAP_PROD_RU.md (D-LEAD-RADAR-HARDENING-20261122).
+## 2. Delivered
+(a) Discovery: 5 attempts at 1/4/10/20 minutes (was 3 within ~2.5 minutes), per-mirror diagnostics appended to the search (`discovery_<mirror>_<code>`). (b) Overpass answers cached 30 days under `overpass:v1:<sha256(query)>` in lead_radar_geocode_cache: fresh for 24 h (`map_cache_fresh`), used stale when every mirror fails (`map_cache_stale_<n>h`), evidence stamped with the answer date. (c) Pool flow: enrichment jobs in retry_wait and contact-resolve jobs no longer gate the next batch; batches of 25. (d) Websites: NXDOMAIN, 404/410 and non-HTML homes are `invalid_website`, other 4xx `http_blocked`, both terminal; only 429/5xx/transport errors retry. (e) Lookups: every failure that is neither a short hiccup nor a local rejection climbs 1/5/15 min then 2 h; a hosted lookup outage writes `tg-lookup-pause:<org>` (15 min) in lead_radar_source_throttles and contact jobs finish as "Telegram not checked" without touching TG Sender. (f) Admin copy for failed searches names the OpenStreetMap servers and the retry. (g) Release gate pins build:cf, build:studio and release:pages:stamp as the Pages build runs them (separate commit); lead-radar-api capabilities expectation gains telegramTransportMode and publicBusinessInquiryEnabled.
+## 3. Files
+functions/platform/lead-radar/{queue.ts, store.ts, sources.ts, types.ts, contact-resolution.ts, contact-resolution-worker.ts, telegram-handle-store.ts}; src/admin/pages/LeadRadar.tsx; scripts/lead-radar/release-gate.ts; tests/{lead-radar-prod-hardening (new), lead-radar-queue-reliability, lead-radar-discovery-wiring, lead-radar-release-gate, lead-radar-api}.test.ts; package.json (test:lead-radar); docs/agents-platform/{STATE.json,HANDOFF.md,DECISIONS.md}.
+## 4. Decisions
+D-LEAD-RADAR-HARDENING-20261122: a search must outlive a short map outage and reuse a recent map answer; nothing waits on a dead site or an unavailable lookup service; budgets are spent only on attempts that can succeed.
+## 5. Excluded
+Stage 2 own OSM snapshot (next PR; the cache helps only niches searched within 30 days, today's dentistry search is not in it yet), stage 3 open data, stage 4 owner decisions, partial_enrichment_failure semantics, the CI audit job's 9 gating silent catches, the 2 Telegram Business manual-draft tests whose fixtures predate the contact-check proof.
+## 6. Validation
+npx tsc -b: 0. Functions and Lead Radar typechecks: 0. eslint on the changed files: 0. New suite lead-radar-prod-hardening: 10 tests (site classification, ladder, org pause, pool flow, diagnostics, map cache with the real OSM source, D1 budget of real contact-mode discovery at most 40 statements, pause wiring). Release gate plans again (no unsafe_package_script_graph). Full Lead Radar run: see the follow-up docs commit.
+## 7. Known limits
+Public Overpass stays the only discovery source until stage 2; a brand-new niche during a full outage still fails after ~35 minutes of retries. TG Sender lookups are unavailable in production (cause outside this repository).
+## 8. Next task
+Agents: stage 2 own OSM snapshot (ROADMAP_PROD_RU.md). Owner: TG Sender health (status endpoint, Worker logs, binding), decisions on phone-to-Telegram and 2GIS.
+## 9. Acceptance
+A contact-mode search of 100 candidates processes all batches within the window; a dead site ends as invalid_website at once; a second search of the same niche and city within 24 h makes no map request; a TG Sender outage writes one pause row instead of dozens of check attempts.
+## 10. Start commands
+git log --oneline -3; node --import tsx --test tests/lead-radar-prod-hardening.test.ts tests/lead-radar-queue-reliability.test.ts; read F:/Claude/lead-radar-audit-20261122/ROADMAP_PROD_RU.md.
+## 11. Risks
+Medium-low: more parallel enrichment per search (25 per batch, stragglers in the background); map answers up to 30 days old can be served during outages (dated, flagged).
+## 12. Rollback
+Pages: revert the merge, rerun the workflow. Worker: wrangler rollback 24ab7045-99fe-40f5-bdaf-aa61858d2397 -c wrangler.automation.toml.
+
+---
+
 # Current handoff — Lead Radar parser quality: clean niche export, bots and channels cut, the pool remainder kept · 22.11.2026
 
 ## 1. State

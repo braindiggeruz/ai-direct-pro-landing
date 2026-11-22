@@ -352,6 +352,9 @@ test('research response is server-redacted and contact approval stays closed', a
     },
     campaignOutreachEnabled: false,
     campaignAutoSendEnabled: false,
+    // The capabilities carry the configured transport since the TG Sender cutover.
+    telegramTransportMode: 'local_bridge',
+    publicBusinessInquiryEnabled: false,
     telegramCampaignDailyLimit: 30,
     telegramCampaignMinimumIntervalSeconds: 120,
     mode: 'paused',

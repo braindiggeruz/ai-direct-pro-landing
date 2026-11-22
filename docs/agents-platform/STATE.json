@@ -1,4 +1,16 @@
 {
+  "lead_radar_prod_hardening_20261122": {
+    "status": "released_pending_deploy",
+    "owner_authorized": "Owner in chat, 2026-11-22, after the production-error audit (F:/Claude/lead-radar-audit-20261122/ROADMAP_PROD_RU.md): «отлично теперь исходя из твоего аудита сделай комлексный фикс и доведи всё до 100% рабочего продакшн состояния».",
+    "branch": "feat/lead-radar-prod-hardening-20261122",
+    "baseline_commit": "6728b37d (main; Pages eff0fd37 from 3529801b; automation Worker 24ab7045)",
+    "scope": "Stages 0, 1 and 5 of ROADMAP_PROD_RU.md. (E2) discovery retries 1/4/10/20 min, 5 attempts, inside the 60-minute contact window; (E3) per-mirror diagnostics kept on the search; (E4) 30-day Overpass answer cache in lead_radar_geocode_cache (fresh for 24 h, stale fallback when every mirror fails; evidence keeps the answer date); (E5) a site in retry or a contact check no longer holds the next pool batch, batches of 25; (E6) dead websites (NXDOMAIN, 404/410, non-HTML) and 4xx blocks are terminal at once, only 429/5xx/transport errors retry; (E7/E8) every non-transient lookup failure climbs 1/5/15 min then 2 h, and a hosted lookup outage pauses lookups for the whole org for 15 minutes (lead_radar_source_throttles) so contact jobs finish as \"Telegram not checked\"; (E10) failed-search copy names the map servers; (E11) release gate pins the current build:cf, build:studio and release:pages:stamp again, lead-radar-api capabilities test updated.",
+    "not_touched": "Schema and migrations (none), sending, authorization, DNC, the Telegram Business manual-draft path (its 2 failing tests stay), phone-to-Telegram lookup and 2GIS (owner decisions).",
+    "deferred": "Stage 2 own OSM snapshot (separate PR), stage 3 Overture / Foursquare measurement, stage 4 owner decisions (TG Sender health: account connected since 09.11 but lookups answer lookup_unavailable; phone-to-Telegram; 2GIS), partial_enrichment_failure status semantics (copy-only change this time), the 9 gating silent catches of the CI audit job.",
+    "validation": "pending: see the follow-up docs commit.",
+    "release": "pending",
+    "rollback": "Pages: git revert of the merge and rerun the workflow. Worker: wrangler rollback 24ab7045-99fe-40f5-bdaf-aa61858d2397 -c wrangler.automation.toml. Cache rows (overpass:v1:*) and pause rows (tg-lookup-pause:*) expire on their own and older code ignores them."
+  },
   "lead_radar_parser_quality_20261122": {
     "status": "deployed_and_verified",
     "owner_authorized": "Owner in chat, 2026-11-22: deep audit of the TG Sender contact parser (Lead Radar) with a roadmap, then «Отлично родной приступай и реализуй по максимуму всё автономно! действуй и затем сразу деплой». Audit and roadmap outside the repository: F:/Claude/lead-radar-audit-20261122/ (AUDIT_RU.md, ROADMAP_RU.md).",

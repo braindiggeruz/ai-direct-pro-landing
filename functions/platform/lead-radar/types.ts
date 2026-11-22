@@ -180,6 +180,9 @@ export interface LeadRadarGeocodeStore {
     expiresAt: string,
   ): Promise<void>;
   acquireGeocoderSlot(now: string, nextAllowedAt: string): Promise<boolean>;
+  /** Map query answers kept for 30 days: fresh for a day, a fallback when every public server is down. */
+  getOverpassResponse?(cacheKey: string, now: string): Promise<{ elements: unknown[]; observedAt: string } | null>;
+  putOverpassResponse?(cacheKey: string, elements: unknown[], observedAt: string): Promise<void>;
 }
 
 export interface LeadRadarSource {

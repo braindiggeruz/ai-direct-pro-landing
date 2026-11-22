@@ -529,6 +529,24 @@ export class LeadRadarStore {
       expires_at = excluded.expires_at`).bind(cacheKey, JSON.stringify(bounds), observedAt, expiresAt).run();
   }
 
+  async getOverpassResponse(cacheKey: string, now: string): Promise<{ elements: unknown[]; observedAt: string } | null> {
+    const row = await this.db.prepare(`SELECT bounds_json, observed_at FROM lead_radar_geocode_cache
+      WHERE cache_key = ? AND expires_at > ? LIMIT 1`).bind(cacheKey, now).first<{ bounds_json: string; observed_at: string }>();
+    if (!row) return null;
+    const elements = parseJson<unknown>(row.bounds_json, null);
+    return Array.isArray(elements) ? { elements, observedAt: row.observed_at } : null;
+  }
+
+  async putOverpassResponse(cacheKey: string, elements: unknown[], observedAt: string): Promise<void> {
+    const json = JSON.stringify(elements);
+    if (json.length > 1_500_000) return;
+    await this.db.prepare(`INSERT INTO lead_radar_geocode_cache (cache_key, bounds_json, observed_at, expires_at)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT(cache_key) DO UPDATE SET bounds_json = excluded.bounds_json,
+        observed_at = excluded.observed_at, expires_at = excluded.expires_at`)
+      .bind(cacheKey, json, observedAt, new Date(Date.parse(observedAt) + 30 * 86_400_000).toISOString()).run();
+  }
+
   async acquireGeocoderSlot(now: string, nextAllowedAt: string): Promise<boolean> {
     const result = await this.db.prepare(`INSERT INTO lead_radar_source_throttles (
       source_key, next_allowed_at, updated_at
@@ -656,6 +674,20 @@ export class LeadRadarStore {
       if (input) result.push({ id: row.id, input });
     }
     return result;
+  }
+
+  /** Merge diagnostic codes into a search's warnings (deduplicated, capped at 20). */
+  async appendSearchWarnings(orgId: string, searchId: string, warnings: readonly string[]): Promise<void> {
+    const clean = warnings.filter((code) => /^[a-z0-9_:.-]{1,80}$/.test(code)).slice(0, 10);
+    if (!clean.length) return;
+    await this.db.prepare(`UPDATE lead_radar_searches SET warnings_json = (
+        SELECT json_group_array(value) FROM (
+          SELECT value FROM json_each(CASE WHEN json_valid(warnings_json) THEN warnings_json ELSE '[]' END)
+          UNION SELECT value FROM json_each(?)
+          LIMIT 20
+        )
+      ), state_version = state_version + 1
+      WHERE org_id = ? AND id = ?`).bind(JSON.stringify(clean), orgId, searchId).run();
   }
 
   async setSearchPhase(
@@ -2355,9 +2387,11 @@ export class LeadRadarStore {
       WHERE company.org_id = ? AND company.search_id = ?`).bind(orgId, searchId).all<Pick<LeadRow,
         'priority' | 'website' | 'telegram_contact_json' | 'decision_makers_json' | 'enrichment_status' | 'suppressed'
       > & { verified_identity: number; verified_anchor: number; verified_website: number }>();
-    const jobsResult = await this.db.prepare(`SELECT stage, status, last_error_code FROM lead_radar_jobs
+    const jobsResult = await this.db.prepare(`SELECT stage, status, last_error_code,
+      CASE WHEN idempotency_key LIKE 'contact-resolve:%' THEN 1 ELSE 0 END AS contact_check
+      FROM lead_radar_jobs
       WHERE org_id = ? AND search_id = ?`).bind(orgId, searchId).all<{
-        stage: LeadRadarJobStage; status: LeadRadarJob['status']; last_error_code: string | null;
+        stage: LeadRadarJobStage; status: LeadRadarJob['status']; last_error_code: string | null; contact_check: number | null;
       }>();
     const rows = (rowsResult.results ?? []).filter((row) => row.suppressed !== 1);
     const jobs = jobsResult.results ?? [];
@@ -2401,10 +2435,16 @@ export class LeadRadarStore {
     // wait out their cooldown and must not hold the pool hostage: replenish
     // or resume discovery while only they remain active. The terminal/status
     // calculation below still counts every active job.
+    // Prod 22.11.2026: one site in a 15-minute retry or one Telegram check
+    // waiting for TG Sender held the next batch for the whole 60-minute window
+    // (10 of 100 candidates processed). Stragglers keep running in the
+    // background; only first attempts of the current batch gate the next one.
     const blockingActiveJobs = activeJobs.filter((job) => !(
       // Regeneration keeps the budget reason but changes retry_wait to queued.
       // Both durable parked states must release discovery's progress barrier.
-      ['retry_wait', 'queued'].includes(job.status) && /budget_exhausted/.test(job.last_error_code ?? '')
+      (['retry_wait', 'queued'].includes(job.status) && /budget_exhausted/.test(job.last_error_code ?? ''))
+      || job.contact_check === 1
+      || (job.stage === 'enrichment' && job.status === 'retry_wait')
     ));
     if (input.searchGoal === 'telegram_contacts' && blockingActiveJobs.length === 0 && !discoveryFailure
       && await this.supportsContactDiscovery()) {

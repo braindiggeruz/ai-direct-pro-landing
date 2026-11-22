@@ -55,29 +55,39 @@ async function proof(candidate: LeadRadarContactCandidate, evidence: EvidenceRow
   // with the historical corporate proof format.
   return hash(sourceProof.length ? [...base,'public-source:v1',sourceProof] : candidate.ownership==='company' ? base : [...base,'type-only:v1']);
 }
-/** The hosted TG Sender lookup is down or not configured: asking every minute only burns the daily budget. */
-const UNAVAILABLE_LOOKUP_REASONS = new Set(['tg_sender_unavailable', 'tg_sender_not_configured', 'telegram_lookup_unavailable']);
-/** Transport hiccups (and the local Bridge being briefly offline) that a short pause clears. */
-const TRANSIENT_LOOKUP_REASONS = new Set(['lookup_unconfirmed', 'telegram_timeout', 'check_expired']);
+/** Known short transport hiccups (and the local Bridge being briefly
+ *  offline) that a one-minute pause clears. Every other failure reason —
+ *  including whatever vocabulary the hosted TG Sender returns, such as
+ *  `lookup_unavailable` — climbs the backoff ladder. */
+const TRANSIENT_LOOKUP_REASONS = new Set(['lookup_unconfirmed', 'telegram_timeout', 'check_expired', 'bridge_offline', 'account_not_connected']);
+/** One-minute, five-minute, fifteen-minute pauses, then two hours. */
+const FAILURE_BACKOFF_MS = [60_000, 5 * 60_000, 15 * 60_000] as const;
+
+/** Failures this module produces itself before or around a lookup; they say
+ *  nothing about the health of the lookup service. */
+const LOCAL_CHECK_REJECTIONS = new Set(['contact_schema_unavailable', 'contact_not_found', 'do_not_contact',
+  'corporate_source_required', 'daily_check_limit', 'invalid_target', 'invalid_bridge_response', 'check_superseded',
+  'invalid_username']);
+
+/** A failure that is neither a known short hiccup nor a local rejection: the lookup service itself is unusable. */
+export function isLookupOutage(result: TelegramContactResolution): boolean {
+  return result.status === 'failed' && !TRANSIENT_LOOKUP_REASONS.has(result.reason) && !LOCAL_CHECK_REJECTIONS.has(result.reason)
+    && !result.reason.startsWith('business_listing_');
+}
 
 /**
  * How long one check result stands before the queue may ask again (owner audit
- * 22.11.2026, EX-12). A `failed` used to stand 60 s whatever the cause, so a
- * hosted lookup outage, an invalid username or an account kind that can never
- * take a DM was re-asked on every queue pass until the 200-a-day budget ran
- * out. Short local-Bridge hiccups keep their 60 s retry.
+ * 22.11.2026, EX-12; prod finding of the same day: one `lookup_unavailable`
+ * candidate was re-asked 28 times in 30 minutes). A `failed` result climbs
+ * 1 / 5 / 15 minutes and then two hours per candidate and day, whatever its
+ * reason, unless it is a known short hiccup.
  */
 export function contactCheckTtlMs(result: TelegramContactResolution, attemptsToday = 1): number {
   if (result.status === 'limited') return Math.max(3, result.retryAfterSeconds ?? 60) * 1000;
   if (TRANSIENT_LOOKUP_REASONS.has(result.reason)) return 60_000;
   if (result.status === 'failed') {
-    // One network blip must not park a candidate past the search window,
-    // a long outage must not drain the daily budget: 1, 5, 15 min, then 2 h.
-    if (UNAVAILABLE_LOOKUP_REASONS.has(result.reason)) {
-      return ([60_000, 5 * 60_000, 15 * 60_000][Math.max(0, Math.trunc(attemptsToday) - 1)] ?? 2 * 3600_000);
-    }
     if (result.reason === 'invalid_username') return 30 * 86400_000;
-    return 60_000;
+    return FAILURE_BACKOFF_MS[Math.max(0, Math.trunc(attemptsToday) - 1)] ?? 2 * 3600_000;
   }
   // Bot, channel, group or a username-only lookup asked about a phone: the
   // answer does not change tomorrow.

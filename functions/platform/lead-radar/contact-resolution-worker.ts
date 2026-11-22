@@ -1,7 +1,9 @@
-import { checkCorporateTelegramContact, nextTelegramContactCandidate } from './contact-resolution';
+import { checkCorporateTelegramContact, isLookupOutage, nextTelegramContactCandidate } from './contact-resolution';
+import { pauseTelegramLookups, readTelegramLookupPause } from './telegram-handle-store';
 import { getTelegramUserAccount, getTelegramUserAccountGatewayBinding, isTelegramCampaignDataKeyValid } from './telegram-campaign';
 import { resolveTelegramContact } from './telegram-account-service';
 import type { LeadRadarQueueDependencies } from './queue';
+import type { TelegramContactResolution } from '../../../src/shared/lead-radar-contact-resolution';
 import type { Env } from '../../_types';
 import { tgSenderConfiguration, tgSenderMode } from './outreach-transport';
 import { resolveOutreachContact } from './outreach-account';
@@ -11,6 +13,9 @@ export function createContactResolutionQueueDependencies(env: Partial<Env>, db: 
     || !isTelegramCampaignDataKeyValid(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY)) return {};
   return { resolveLeadContacts: async (job, lead) => {
     if (!job.companyId || lead.suppressed || lead.lifecycle === 'do_not_contact') return { pending: false };
+    // While the hosted lookup is known to be down, finish the company as
+    // "Telegram not checked" instead of spinning until the search deadline.
+    if (tgSenderMode(env) && await readTelegramLookupPause(db, job.orgId)) return { pending: false };
     const account = await getTelegramUserAccount(db,job.orgId);
     if (!account || account.status !== 'connected') return { pending: true, reason:'waiting_for_account', retryAfterSeconds:60 };
     // TG Sender resolves public usernames only: phone candidates would burn the
@@ -33,14 +38,33 @@ export function createContactResolutionQueueDependencies(env: Partial<Env>, db: 
           internalServiceToken: env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN, orgId: job.orgId,
           gatewayAccountRef: binding.gatewayAccountRef, target, operationId }),
       });
-      if (result.status === 'pending') return { pending: true, reason:'waiting_for_bridge' };
-      // Concurrent companies share one Bridge rate gate. A short local cooldown
-      // is a continuation, not a terminal negative contact result.
-      if (result.status === 'limited' || ['daily_check_limit','contact_schema_unavailable','bridge_offline','account_not_connected'].includes(result.reason)) return { pending: true, reason:result.reason, retryAfterSeconds:result.retryAfterSeconds ?? 60 };
-      if (['contact_not_found','corporate_source_required'].includes(result.reason)) return {pending:false};
-      if (result.status==='resolved' && result.reason!=='username_exists_ownership_unconfirmed') return {pending:false};
-      // Next delivery skips fresh negative/type-only results and advances, even
-      // when the successful corporate endpoint is candidate 3, 4, or later.
-      return {pending:true};
+      return contactCheckOutcome(db, job.orgId, tgSenderMode(env), result);
   } };
+}
+
+/**
+ * What the queue does after one contact check. Exported for tests: the
+ * 22.11.2026 loop (28 lookups in 30 minutes) came from exactly this decision.
+ */
+export async function contactCheckOutcome(
+  db: D1Database,
+  orgId: string,
+  hostedLookup: boolean,
+  result: TelegramContactResolution,
+): Promise<{ pending: boolean; reason?: string; retryAfterSeconds?: number }> {
+  if (result.status === 'pending') return { pending: true, reason:'waiting_for_bridge' };
+  // The hosted lookup service itself failed (not a short hiccup): pause
+  // lookups for the whole org and let this company finish without a verdict.
+  if (hostedLookup && isLookupOutage(result)) {
+    await pauseTelegramLookups(db, orgId);
+    return { pending: false };
+  }
+  // Concurrent companies share one Bridge rate gate. A short local cooldown
+  // is a continuation, not a terminal negative contact result.
+  if (result.status === 'limited' || ['daily_check_limit','contact_schema_unavailable','bridge_offline','account_not_connected'].includes(result.reason)) return { pending: true, reason:result.reason, retryAfterSeconds:result.retryAfterSeconds ?? 60 };
+  if (['contact_not_found','corporate_source_required'].includes(result.reason)) return {pending:false};
+  if (result.status==='resolved' && result.reason!=='username_exists_ownership_unconfirmed') return {pending:false};
+  // Next delivery skips fresh negative/type-only results and advances, even
+  // when the successful corporate endpoint is candidate 3, 4, or later.
+  return {pending:true};
 }
