@@ -263,6 +263,13 @@ test('checkout in a browser: the tap, a browser that never leaves, a tap during 
       assert.equal(await page.evaluate(() => localStorage.getItem('gptchat_checkout')), null, 'watched while the page lives, never stored');
       await narrow(page, 'share');
       await shot(page, 'share-uz');
+      // C1 (conversion audit 2026-11-22): the live link is counted once per screen, through the 15-second refresh too;
+      // a copy is counted as such (the 60-an-hour allowance is shared with the checkout steps).
+      await sleep(16_000);
+      assert.deepEqual(f.events.filter((event) => event.type === 'pay_share').map((event) => event.detail), ['shown']);
+      await ctx.grantPermissions(['clipboard-read', 'clipboard-write'], { origin });
+      await page.locator('[data-testid="ai-pay-share-copy"]').click();
+      await until('the copy is counted', () => f.events.some((event) => event.type === 'pay_share' && event.detail === 'copied'));
       await page.reload();
       await ready(page);
       await sleep(1_200);
@@ -669,6 +676,45 @@ test('checkout in a browser: the tap, a browser that never leaves, a tap during 
       await page.reload();
       await until('a visit nine days later', () => f.events.some((event) => event.type === 'trial_wall_seen' && event.detail === 'd8_plus'), 20_000);
       assert.equal(f.events.filter((event) => event.type === 'trial_wall_seen').length, 3, 'once per page view');
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+
+    // ---- 15. The last trial answer (conversion audit 2026-11-22): the card sells the 3-day pack by name while the server
+    //          offers it, and its tap orders that pack; without the offer it is the monthly card it always was.
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      f.trialLeft = 2;
+      await page.goto(`${origin}/uz/gpt-uzbek-tilida/`);
+      await ready(page);
+      await ask(page);
+      const card = page.locator('[data-testid="chat-pack-prompt"][data-surface="trial_last"]');
+      await card.waitFor({ timeout: 20_000 });
+      await card.scrollIntoViewIfNeeded();
+      assert.match((await card.innerText()).replace(/\s/g, ''), /5000so‘m/);
+      assert.doesNotMatch((await card.innerText()).replace(/\s/g, ''), /20000/);
+      assert.deepEqual(await card.locator('[data-provider]').evaluateAll((all) => all.map((button) => `${button.getAttribute('data-provider')}:${button.getAttribute('data-sku')}`)), ['click:once', 'payme:once']);
+      await shot(page, 'trial-last-uz');
+      await card.locator('[data-provider="click"]').click();
+      await until('the 3-day pack is ordered', () => f.subscribes.length === 1);
+      assert.equal(f.subscribes[0].sku, 'once');
+      assert.equal(f.subscribes[0].provider, 'click');
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.trialLeft = 2;
+      await page.goto(`${origin}/ru/gpt-chat/`);
+      await ready(page);
+      await ask(page);
+      const card = page.locator('[data-testid="chat-pack-prompt"][data-surface="trial_last"]');
+      await card.waitFor({ timeout: 20_000 });
+      assert.match((await card.innerText()).replace(/\s/g, ''), /20000сум/);
+      await card.locator('[data-provider="payme"]').click();
+      await until('the monthly pack is ordered', () => f.subscribes.length === 1);
+      assert.equal(f.subscribes[0].sku, undefined, 'the monthly pack is the request it always was');
       assert.deepEqual(f.errors, []);
       await ctx.close();
     }
