@@ -59,8 +59,9 @@ test('a dead or wrong website is terminal at once; only 429, 5xx and transport e
 
 test('any lookup failure that is not a short hiccup climbs the ladder; local rejections are not outages', () => {
   const failed = (reason: string) => ({ status: 'failed' as const, username: null, reason, retryAfterSeconds: null });
-  assert.equal(isLookupOutage(failed('lookup_unavailable')), true, 'TG Sender vocabulary counts as an outage');
-  assert.equal(isLookupOutage(failed('tg_sender_unavailable')), true);
+  assert.equal(isLookupOutage(failed('lookup_unavailable')), false, "TG Sender's answer about one username is not an outage");
+  assert.equal(isLookupOutage(failed('tg_sender_unavailable')), true, 'our client could not reach TG Sender');
+  assert.equal(isLookupOutage(failed('tg_sender_not_configured')), true);
   assert.equal(isLookupOutage(failed('telegram_timeout')), false);
   assert.equal(isLookupOutage(failed('contact_not_found')), false);
   assert.equal(isLookupOutage(failed('daily_check_limit')), false);
@@ -254,11 +255,13 @@ test('a hosted lookup outage pauses the org and finishes the company; local answ
   assert.equal(await readTelegramLookupPause(db.asD1(), ORG), null, 'a local rejection never pauses lookups');
   assert.deepEqual(await contactCheckOutcome(db.asD1(), ORG, true, failed('bridge_offline')),
     { pending: true, reason: 'bridge_offline', retryAfterSeconds: 60 });
-  assert.deepEqual(await contactCheckOutcome(db.asD1(), ORG, false, failed('lookup_unavailable')), { pending: true },
+  assert.deepEqual(await contactCheckOutcome(db.asD1(), ORG, false, failed('tg_sender_unavailable')), { pending: true },
     'the local Bridge path keeps its candidate-by-candidate advance');
-  assert.equal(await readTelegramLookupPause(db.asD1(), ORG), null);
-  assert.deepEqual(await contactCheckOutcome(db.asD1(), ORG, true, failed('lookup_unavailable')), { pending: false });
-  assert.ok(await readTelegramLookupPause(db.asD1(), ORG), 'TG Sender outage pauses the whole org');
+  assert.deepEqual(await contactCheckOutcome(db.asD1(), ORG, true, failed('lookup_unavailable')), { pending: true },
+    'one dead username advances to the next candidate');
+  assert.equal(await readTelegramLookupPause(db.asD1(), ORG), null, 'and never pauses the org');
+  assert.deepEqual(await contactCheckOutcome(db.asD1(), ORG, true, failed('tg_sender_unavailable')), { pending: false });
+  assert.ok(await readTelegramLookupPause(db.asD1(), ORG), 'an unreachable TG Sender pauses the whole org');
 });
 
 test('while lookups are paused, a contact job finishes before touching the account or TG Sender', async () => {
