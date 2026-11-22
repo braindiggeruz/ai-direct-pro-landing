@@ -84,6 +84,8 @@ export interface ExportSummary {
   withLandline: number;
   withTelegram: number;
   withVerifiedTelegram: number;
+  /** Rows whose Telegram handle is still of unknown type (not yet checked). */
+  unclassifiedTelegram: number;
   excludedLeads: Partial<Record<ExportLeadExclusion, number>>;
   excludedPhones: Partial<Record<ExportPhoneExclusion, number>>;
   excludedTelegram: Partial<Record<ExportTelegramExclusion, number>>;
@@ -362,7 +364,7 @@ export function buildLeadExport(leads: readonly LeadRadarLead[], options: Export
   const sharing = exportSharingCounts(leads);
   const summary: ExportSummary = {
     leads: leads.length, rows: 0, withMobile: 0, withLandline: 0, withTelegram: 0, withVerifiedTelegram: 0,
-    excludedLeads: {}, excludedPhones: {}, excludedTelegram: {},
+    unclassifiedTelegram: 0, excludedLeads: {}, excludedPhones: {}, excludedTelegram: {},
   };
   const groups = new UnionFind();
   const prepared: Array<{ lead: LeadRadarLead; contacts: LeadExportContacts; id: string; order: number }> = [];
@@ -442,6 +444,7 @@ export function buildLeadExport(leads: readonly LeadRadarLead[], options: Export
     if (rankedLandlines.length) summary.withLandline += 1;
     if (telegram) summary.withTelegram += 1;
     if (telegram?.verified) summary.withVerifiedTelegram += 1;
+    if (telegram && telegram.type === 'unknown') summary.unclassifiedTelegram += 1;
   }
   rows.sort((a, b) => Number(Boolean(b.telegramUsername)) - Number(Boolean(a.telegramUsername))
     || Number(Boolean(b.phoneMobile1)) - Number(Boolean(a.phoneMobile1))

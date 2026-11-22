@@ -1369,6 +1369,11 @@ export function osmTelegramLocators(tags: Record<string, string>): string[] {
   return out.slice(0, 4);
 }
 
+/** The element names a Telegram handle in a Telegram tag or a t.me website. */
+export function hasOsmTelegramTag(element: unknown): boolean {
+  return osmTelegramLocators(osmTagsFromElement(element)).length > 0;
+}
+
 export function candidateFromOsmElement(
   element: unknown,
   input: LeadRadarSearchInput,
@@ -2170,7 +2175,10 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     let fromSnapshot = false;
     if (this.snapshot && intent.canonicalId) {
       try {
-        const snap = await readOsmSnapshot(this.snapshot, intent.canonicalId, bounds);
+        const snap = await readOsmSnapshot(this.snapshot, intent.canonicalId, bounds, new Date(), (reason) => {
+          // An expired copy is worth saying out loud: it means the monthly refresh is due.
+          if (reason === 'stale') sourceWarnings.push('map_snapshot_stale');
+        });
         if (snap && snap.elements.length > 0) {
           elements = snap.elements;
           answeredAt.push(`${snap.snapshotDate}T00:00:00.000Z`);
@@ -2224,7 +2232,20 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     // never present a month-old answer as fresh.
     const collectedAt = answeredAt.sort()[0] ?? new Date().toISOString();
     const rawDiscoveredCount = elements.length;
-    const candidates = rankLeadRadarOsmElements(elements, intent)
+    // A "Telegram contacts" search wants the objects that carry a Telegram
+    // handle first (the ranking alone prefers a phone), and the own snapshot
+    // can hand over several hundred objects: only what selection can use is
+    // turned into candidates, so a big niche costs no more CPU than an
+    // Overpass answer of 240.
+    const contactMode = input.searchGoal === 'telegram_contacts';
+    const selectionLimit = contactMode
+      ? Math.min(250, input.maxCandidates ?? input.desiredCount * 5) : Math.min(80, input.desiredCount * 3);
+    const ranked = rankLeadRadarOsmElements(elements, intent);
+    const ordered = contactMode
+      ? [...ranked.filter(hasOsmTelegramTag), ...ranked.filter((element) => !hasOsmTelegramTag(element))]
+      : ranked;
+    const candidates = ordered
+      .slice(0, Math.max(240, selectionLimit * 2))
       .map((element) => candidateFromOsmElement(element, input, category, collectedAt))
       .filter((item): item is SourceCandidate => Boolean(item));
 
@@ -2234,8 +2255,7 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
       const existing = deduped.get(key);
       if (!existing || candidate.evidence.length > existing.evidence.length) deduped.set(key, candidate);
     }
-    const selected = [...deduped.values()].slice(0, input.searchGoal === 'telegram_contacts'
-      ? Math.min(250, input.maxCandidates ?? input.desiredCount * 5) : Math.min(80, input.desiredCount * 3));
+    const selected = [...deduped.values()].slice(0, selectionLimit);
 
     for (const candidate of selected) yieldRecorder.recordCandidate(this.id, candidate);
     yieldRecorder.recordRequested(this.id, rawDiscoveredCount - selected.length);

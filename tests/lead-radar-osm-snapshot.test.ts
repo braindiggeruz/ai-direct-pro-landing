@@ -122,3 +122,29 @@ test('a niche the snapshot does not cover still goes to the live map', async (t)
   assert.ok(overpassCalls >= 1);
   assert.ok(!result.sourceWarnings.some((warning) => warning.startsWith('map_snapshot_')));
 });
+
+test('the copy expires after 30 days, the lookup evidence window, and says so', async () => {
+  const { entries } = buildOsmSnapshotEntries([line(DENTIST)], '2026-11-21');
+  const skipped: string[] = [];
+  assert.ok(await readOsmSnapshot(kv(entries), 'dentistry', TASHKENT, new Date('2026-12-15T00:00:00.000Z')), 'day 24 still answers');
+  assert.equal(await readOsmSnapshot(kv(entries), 'dentistry', TASHKENT, new Date('2026-12-25T00:00:00.000Z'), (reason) => skipped.push(reason)), null);
+  assert.deepEqual(skipped, ['stale']);
+});
+
+test('a Telegram-contacts search puts objects with a handle first, even below phone-only ones', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () => new Response('down', { status: 504 }));
+  const phoneOnly = Array.from({ length: 250 }, (_, index) => line({
+    type: 'node', id: 20_000 + index, lat: 41.3, lon: 69.27,
+    tags: { name: `Cafe Phone ${index}`, amenity: 'cafe', phone: `+99890${String(1_000_000 + index)}`, 'addr:street': `Street ${index}` },
+  }));
+  const withTelegram = Array.from({ length: 40 }, (_, index) => line({
+    type: 'node', id: 30_000 + index, lat: 41.31, lon: 69.28,
+    tags: { name: `Cafe Telegram ${index}`, amenity: 'cafe', telegram: `cafe_handle_${index}` },
+  }));
+  const { entries } = buildOsmSnapshotEntries([...phoneOnly, ...withTelegram], '2026-11-21');
+  const result = await new OpenStreetMapLeadSource(geocodeStore, kv(entries)).discoverRaw({
+    ...INPUT, niche: 'Кафе', searchGoal: 'telegram_contacts', maxCandidates: 100,
+  });
+  assert.equal(result.candidates.length, 100);
+  assert.equal(result.candidates.filter((candidate) => candidate.telegramContact).length, 40, 'every handle reaches the selection');
+});

@@ -313,6 +313,15 @@ test('one OSM object seen under several names keeps its own number (niche scope)
   assert.equal(summary.excludedPhones.shared, undefined);
 });
 
+test('the summary counts handles whose type is still unknown', () => {
+  const { summary } = buildLeadExport([
+    lead({ id: '1', name: 'Unknown Type', telegramUrl: 'https://t.me/fresh_clinic' }),
+    lead({ id: '2', name: 'Known User', telegramUrl: 'https://t.me/known_clinic' }),
+  ], { verdicts: new Map<string, TelegramHandleKind>([['known_clinic', 'user']]) });
+  assert.equal(summary.withTelegram, 2);
+  assert.equal(summary.unclassifiedTelegram, 1);
+});
+
 test('lexical helpers: bot suffix and repeated-digit placeholders', () => {
   assert.equal(isBotUsername('DentClinicBot'), true);
   assert.equal(isBotUsername('dent_clinic'), false);

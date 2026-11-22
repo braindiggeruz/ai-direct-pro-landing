@@ -168,6 +168,9 @@ function ExportSummaryLine({ summary }: { summary: ExportSummaryWire }) {
         {' '}только городской — {summary.withLandline}.
         {summary.publicChecks ? ` Проверено в Telegram сейчас: ${summary.publicChecks}.` : ''}
       </p>
+      {summary.unclassifiedTelegram ? (
+        <p>Тип ещё не проверен у {summary.unclassifiedTelegram} Telegram — повторная выгрузка проверит следующих (до 40 за раз).</p>
+      ) : null}
       {telegram.length ? <p>Отсеяно Telegram: {telegram.join(', ')}.</p> : null}
       {phones.length ? <p>Отсеяно телефонов: {phones.join(', ')}.</p> : null}
       {leads.length ? <p>Не попали компании: {leads.join(', ')}.</p> : null}
