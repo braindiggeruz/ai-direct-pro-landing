@@ -437,8 +437,10 @@ test('one report per ended payment: checkout_result always, a purchase for real 
   // The panel reports it once, from the start bundle, with the window open or not.
   const panel = read('src/gpt-chat/components/AiAccountPanel.tsx');
   assert.equal((panel.match(/track\(EV\.checkoutResult/g) ?? []).length, 1);
-  // The purchase itself is reported by the lazy part chat-pay (it runs once per payment), asked for through the window's part.
-  assert.match(panel, /if \(result === "paid"\) void accountPart\.load\(\)\.then\(\(part\) => part\.reportPurchase\(data, checkout\)\)\.catch\(\(\) => undefined\);/);
+  // The purchase itself is reported by the lazy part chat-pay (it runs once per payment), asked for through the window's part;
+  // the same call counts the ending with the client class (conversion audit 2026-11-22, C2), for every ending.
+  assert.match(panel, /void accountPart\.load\(\)\.then\(\(part\) => Promise\.all\(\[part\.reportResultClass\(apiBase, result\), result === "paid" && part\.reportPurchase\(data, checkout\)\]\)\)\.catch\(\(\) => undefined\);/);
+  assert.match(read('src/gpt-chat/parts/chat-account.ts'), /export const reportResultClass = [^;]*payPart\.load\(\)\.then\(\(part\) => part\.resultClass\(apiBase, result\)\);/);
   assert.match(read('src/gpt-chat/account/purchase-report.ts'), /const \{ purchase \} = checkoutReport\(account, watch, 'paid'\);\s*if \(purchase && firstReport\(purchase\.transactionId\)\) trackPurchase\(purchase\);/);
   // A 3-day pack is reported for what it cost, not for the pack on offer.
   assert.deepEqual(checkoutReport({ ...live, payment: { id: ORDER, state: 'paid', provider: 'payme', sku: 'once', priceUzs: 5000, messageLimit: 30 } }, watchOf(), 'paid').purchase,
@@ -524,8 +526,9 @@ test('guest checkout: the pack, the offer and Click without signing in; a guest 
 test('one tap (07.10): no offer box in the window, the acceptance line in both languages, the window\'s copy folds, and the tap from the limit card pays once', async () => {
   const ru = accountStrings('ru');
   const uz = accountStrings('uz');
-  assert.equal(ru.fine, 'Без возврата после оплаты · не ChatGPT');
-  assert.equal(uz.fine, 'To‘lovdan keyin qaytarilmaydi · ChatGPT emas');
+  // Positive facts first; the no-refund rule stays beside the price (offer §8, WP-25; conversion audit 2026-11-22, B1).
+  assert.equal(ru.fine, 'Разовая покупка, без автосписаний · без возврата · не ChatGPT');
+  assert.equal(uz.fine, 'Bir martalik xarid, avtomatik yechim yo‘q · qaytarilmaydi · ChatGPT emas');
   assert.equal(ru.sum('20 000'), '20 000 сум');
   assert.equal(uz.sum('20 000'), '20 000 so‘m');
   assert.equal(strings('ru').premium.packLine(PACK), '1 месяц · 300 ответов · до 50 в день · без автосписаний');

@@ -61,7 +61,7 @@ async function window(locale: Locale, data: AccountView | null, options: { watch
 }
 
 /** The rows of packs in a page, as [sku, [providers]] in the order they are drawn. */
-const rowsOf = (page: string) => [...page.matchAll(/<section class="gpt-pay-pack" data-sku="(month|once)"[\s\S]*?<\/section>/g)]
+const rowsOf = (page: string) => [...page.matchAll(/<section class="gpt-pay-pack(?: gpt-pay-pack-lead)?" data-sku="(month|once)"[\s\S]*?<\/section>/g)]
   .map((row) => [row[1], [...row[0].matchAll(/<button[^>]*data-provider="(\w+)"[^>]*data-sku="(\w+)"/g)].map((button) => `${button[1]}:${button[2]}`)]);
 
 // ------------------------------------------------------------------ the offers
@@ -139,6 +139,13 @@ test('the window with two packs: a row each with its own buttons, the small one 
     // The mark goes to the cheapest answer, once.
     assert.equal([...page.matchAll(new RegExp(`<em>${s.best}</em>`, 'g'))].length, 1);
     assert.match(page, new RegExp(`data-sku="month"[\\s\\S]*?<em>${s.best}</em>`));
+    // The first row leads (conversion audit 2026-11-22, B2): the 3-day pack for a guest, with its job named once;
+    // the other row's buttons are quiet outlines and still pay in one tap.
+    assert.match(page, /<section class="gpt-pay-pack gpt-pay-pack-lead" data-sku="once"/, locale);
+    assert.equal([...page.matchAll(/data-testid="ai-pay-pack-job"/g)].length, 1, locale);
+    assert.ok(has(page, s.job), `${locale}: the job line`);
+    assert.equal([...page.matchAll(/<button[^>]*class="gpt-primary gpt-pay-quiet"[^>]*data-sku="month"/g)].length, 2, locale);
+    assert.equal([...page.matchAll(/<button[^>]*class="gpt-primary gpt-pay-quiet"[^>]*data-sku="once"/g)].length, 0, locale);
     // The rows carry the prices: no big price of one pack over them, no single «per answer» line; the notes stay.
     assert.ok(!page.includes('gpt-price'), 'no single price card');
     assert.doesNotMatch(page, /data-testid="ai-pay-per"/);
@@ -149,6 +156,7 @@ test('the window with two packs: a row each with its own buttons, the small one 
     // A holder: the month first; no row is hidden.
     const holder = await window(locale, member({ access: { order_id: ORDER, ends_at: Date.now() + 86_400_000, remaining: 100, renewSoon: false } }));
     assert.deepEqual(rowsOf(holder).map((row) => row[0]), ['month', 'once'], locale);
+    assert.match(holder, /<section class="gpt-pay-pack gpt-pay-pack-lead" data-sku="month"/, `${locale}: a holder's lead is the month`);
     // Uzum sells the monthly pack only.
     const uzum = await window(locale, member({ user: { signedIn: true, storageKey: 'a'.repeat(64) }, providers: ['click', 'uzum', 'payme'] }));
     assert.deepEqual(rowsOf(uzum), [['once', ['click:once', 'payme:once']], ['month', ['click:month', 'uzum:month', 'payme:month']]]);

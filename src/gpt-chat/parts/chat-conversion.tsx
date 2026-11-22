@@ -78,12 +78,14 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
         <DialogDescription>{c.line}</DialogDescription>
         {offers.length > 1 ? (
           <div className="gpt-trial-packs" data-testid="trial-packs">
+            {/* The 3-day pack leads (conversion audit 2026-11-22, B2); the other pack's buttons are quiet outlines. */}
             {offers.map(offer => (
-              <div className="gpt-trial-pack" key={offer.sku} data-sku={offer.sku}>
+              <div className={offer.sku === 'once' ? 'gpt-trial-pack gpt-trial-pack-lead' : 'gpt-trial-pack'} key={offer.sku} data-sku={offer.sku}>
                 <div className="gpt-trial-pack-head"><strong>{o.name(offer)}</strong><b>{o.sum(offer)}</b></div>
+                {offer.sku === 'once' && <em className="gpt-trial-pack-job" data-testid="trial-pack-job">{o.job}</em>}
                 <span>{o.facts(offer)} · {o.per(perAnswer(offer))}</span>
                 <div className="gpt-trial-pay"><i aria-hidden="true">{o.via}</i>{providers.filter(provider => offer.sku === 'month' || provider !== 'uzum').map(provider => (
-                  <button type="button" key={provider} data-provider={provider} data-sku={offer.sku} aria-label={o.pay(offer, brand(provider))} onClick={() => {
+                  <button type="button" key={provider} className={offer.sku === 'once' ? undefined : 'gpt-trial-quiet'} data-provider={provider} data-sku={offer.sku} aria-label={o.pay(offer, brand(provider))} onClick={() => {
                     setOpen(false);
                     track(EV.packPromptClicked, { locale, surface: 'trial_exhausted', provider });
                     onPay(provider, offer.sku === 'once' ? 'once' : undefined);
@@ -178,17 +180,23 @@ export function LimitSmallPack({ locale, pack, providers, onPay }: {
  * The pack after a useful answer. During the trial it shows once one trial
  * answer is left (Ш7, `trial`): «1 ta sinov javobi qoldi», the pack's facts
  * and its price, counted as the surface trial_last.
+ *
+ * While the server offers the 3-day pack, the trial's card sells that one
+ * (conversion audit 2026-11-22): the first payment is the hard one, and the
+ * card had quoted only the monthly sum to someone one answer from the wall.
  */
 export function ChatPackPrompt({ locale, owner, pack, providers, termsUrl, nearLimit, trial, apiBase, onPay, onOpen }: {
   locale:Locale;owner:string;pack:PackTerms;providers:PaymentProvider[];termsUrl:string|null;nearLimit:boolean;trial?:boolean;apiBase:string;
-  onPay:(provider:PaymentProvider)=>void;onOpen:()=>void;
+  onPay:(provider:PaymentProvider,sku?:'once')=>void;onOpen:()=>void;
 }) {
   const ru=locale==='ru', today=new Date().toISOString().slice(0,10), key=`gptchat_pack_prompt_v1:${owner}`;
   const [closed,setClosed]=useState(()=>{try{return localStorage.getItem(key)===today;}catch{return false;}});
   const card=useRef<HTMLElement>(null), seen=useRef(false);
   const surface=trial?'trial_last':nearLimit?'near_limit':'after_answer';
   const last=trial?trialCopy(locale,'general',pack):null;
-  const price=new Intl.NumberFormat(ru?'ru-RU':'uz-UZ').format(pack.priceUzs);
+  const small=trial?offersOf(pack).find(offer=>offer.sku==='once'):undefined;
+  const o=packText(locale);
+  const price=new Intl.NumberFormat(ru?'ru-RU':'uz-UZ').format(small?small.priceUzs:pack.priceUzs);
   useEffect(()=>{
     const el=card.current;
     if(!el || closed || seen.current)return;
@@ -205,8 +213,8 @@ export function ChatPackPrompt({ locale, owner, pack, providers, termsUrl, nearL
   return <section ref={card} className="gpt-pack-prompt" data-testid="chat-pack-prompt" data-surface={surface} aria-label={ru?'Пакет текстового чата':'Matnli chat paketi'}>
     <button type="button" className="gpt-pack-prompt-close" aria-label={ru?'Скрыть предложение на сегодня':'Taklifni bugunga yashirish'} onClick={()=>{setClosed(true);try{localStorage.setItem(key,today);}catch{/* The mounted card still stays closed. */}track(EV.packPromptDismissed,{locale,surface});recordUiEvent(apiBase,'pack_prompt_dismissed',surface);}}>×</button>
     <strong>{last?last.lastTitle:nearLimit?(ru?'Бесплатных ответов осталось мало':'Bepul javoblar kamaymoqda'):(ru?'Нужно больше ответов для работы и учёбы?':'Ish va o‘qish uchun ko‘proq javob kerakmi?')}</strong>
-    <p>{last?last.lastFacts:ru?`${pack.messageLimit} ответов · ${pack.months} календ. мес. · до ${pack.dailyLimit} в день`:`${pack.messageLimit} javob · ${pack.months} kalendar oy · kuniga ${pack.dailyLimit} tagacha`}</p>
-    <div className="gpt-pack-prompt-actions"><b>{price} {ru?'сум':'so‘m'}</b>{providers.length && termsUrl ? providers.map(provider=><button type="button" key={provider} data-provider={provider} onClick={()=>{track(EV.packPromptClicked,{locale,surface,provider});onPay(provider);}}>{provider==='click'?'Click':provider==='payme'?'Payme':'Uzum Bank'} ↗</button>):<button type="button" onClick={onOpen}>{ru?'Выбрать пакет':'Paket tanlash'}</button>}</div>
+    <p>{small?`${o.facts(small)}. ${o.job}`:last?last.lastFacts:ru?`${pack.messageLimit} ответов · ${pack.months} календ. мес. · до ${pack.dailyLimit} в день`:`${pack.messageLimit} javob · ${pack.months} kalendar oy · kuniga ${pack.dailyLimit} tagacha`}</p>
+    <div className="gpt-pack-prompt-actions"><b>{price} {ru?'сум':'so‘m'}</b>{providers.length && termsUrl ? providers.filter(provider=>!small||provider!=='uzum').map(provider=><button type="button" key={provider} data-provider={provider} data-sku={small?'once':'month'} onClick={()=>{track(EV.packPromptClicked,{locale,surface,provider});onPay(provider,small?'once':undefined);}}>{provider==='click'?'Click':provider==='payme'?'Payme':'Uzum Bank'} ↗</button>):<button type="button" onClick={onOpen}>{ru?'Выбрать пакет':'Paket tanlash'}</button>}</div>
     <small>{ru?'Разовая покупка, без автосписаний. ':'Bir martalik xarid, avtomatik yechim yo‘q. '}{termsUrl && <>{ru?'Оплачивая, принимаете ':'To‘lab, qabul qilasiz: '}<a href={termsUrl} target="_blank" rel="noopener noreferrer">{ru?'оферту':'oferta'}</a>.</>}{ru?' Презентации оплачиваются отдельно.':' Taqdimotlar alohida to‘lanadi.'}</small>
   </section>;
 }

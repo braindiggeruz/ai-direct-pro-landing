@@ -126,8 +126,9 @@ export function AiAccountPanel({
     saveCheckout(null);
     track(EV.checkoutResult, { provider: data?.payment?.provider ?? checkout.provider ?? "unknown", status: result, mode: data?.mode || "unavailable", locale });
     recordUiEvent(apiBase, "checkout_result", result);
-    // Revenue, for real money only and once per order on this browser: the window's part reports it (account/purchase-report.ts).
-    if (result === "paid") void accountPart.load().then((part) => part.reportPurchase(data, checkout)).catch(() => undefined);
+    // The ending with the client class (computer or phone), then revenue for real money only and once per
+    // order on this browser: both from the window's part (account/purchase-report.ts, parts/pay-screens.ts).
+    void accountPart.load().then((part) => Promise.all([part.reportResultClass(apiBase, result), result === "paid" && part.reportPurchase(data, checkout)])).catch(() => undefined);
   }, [apiBase, checkout, data, locale]);
   // The payment ended (paid, or cancelled); a wait that outlived the
   // schedule, counted from an answered view, is reported as pending and may

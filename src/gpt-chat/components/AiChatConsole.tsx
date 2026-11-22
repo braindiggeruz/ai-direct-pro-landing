@@ -1482,7 +1482,7 @@ export function AiChatConsole({ config }: { config: MountConfig }) {
                 )}
                 {canShowOffer && packTerms && payOffer && !limit && assistantCount >= 1 && !businessLine && !showOffer && (!trial || remaining === 1) && (
                   <LazyPart part={conversionPart} fallback={null} failed={null}>
-                    {({ChatPackPrompt}) => <ChatPackPrompt key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} nearLimit={fewLeft} trial={trial} onPay={(provider)=>openAccount("after_value",provider)} onOpen={()=>openAccount("after_value")}/>}
+                    {({ChatPackPrompt}) => <ChatPackPrompt key={ownerKey} owner={ownerKey} locale={config.locale} apiBase={config.apiBase} pack={packTerms} providers={payOffer.providers} termsUrl={payOffer.termsUrl} nearLimit={fewLeft} trial={trial} onPay={(provider,sku)=>openAccount("after_value",provider,sku)} onOpen={()=>openAccount("after_value")}/>}
                   </LazyPart>
                 )}
                 {canShowOffer && packTerms && payOffer && limit?.reason === 'trial' && !accountOpen && (
