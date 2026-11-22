@@ -945,9 +945,25 @@ export class LeadRadarStore {
       seen.add(lead.canonicalKey);
       return true;
     });
+    // Chunked by payload bytes, not rows: a full 250-candidate pool fits in one
+    // or two chunks, two statements each, inside the 50-query D1 budget of the
+    // invocation that stops the pool.
+    const chunks: string[] = [];
+    let current: ReturnType<LeadRadarStore['fanoutPayload']> = [];
+    let currentBytes = 2;
+    for (const item of this.fanoutPayload(remainder, false)) {
+      const size = new TextEncoder().encode(JSON.stringify(item)).byteLength + 1;
+      if (current.length && currentBytes + size > 900_000) {
+        chunks.push(JSON.stringify(current));
+        current = [];
+        currentBytes = 2;
+      }
+      current.push(item);
+      currentBytes += size;
+    }
+    if (current.length) chunks.push(JSON.stringify(current));
     let inserted = 0;
-    for (let index = 0; index < remainder.length; index += 40) {
-      const payloadJson = JSON.stringify(this.fanoutPayload(remainder.slice(index, index + 40), false));
+    for (const payloadJson of chunks.slice(0, 4)) {
       const searchFence = `EXISTS (SELECT 1 FROM lead_radar_searches search WHERE search.org_id = ? AND search.id = ?)`;
       const results = await this.db.batch([
         this.db.prepare(`WITH payload AS (
@@ -1031,8 +1047,9 @@ export class LeadRadarStore {
     await this.contactDiscovery.stop(orgId, searchId, reason, now);
   }
 
-  /** Expired pools still holding candidates, so the retention purge flushes before it clears. */
-  async flushExpiredContactPools(now: string, limit = 5): Promise<number> {
+  /** Expired pools still holding candidates, so the retention purge flushes before it clears.
+   *  One pool per cron tick by default: the tick shares its D1 budget with every other job. */
+  async flushExpiredContactPools(now: string, limit = 1): Promise<number> {
     if (!await this.supportsContactDiscovery()) return 0;
     const pools = (await this.db.prepare(`SELECT org_id, search_id FROM lead_radar_candidate_pools
       WHERE expires_at <= ? AND candidates_json IS NOT NULL LIMIT ?`).bind(now, Math.max(1, Math.min(25, limit)))
@@ -2500,6 +2517,22 @@ export class LeadRadarStore {
       summary.funnel.resolvedTelegramCount = (await this.contactDiscovery.getPool(orgId,searchId))?.resolved_count ?? 0;
     }
     return { search: summary, leads: await this.mapLeadRows(orgId, leadRows) };
+  }
+
+  /**
+   * Leads of several searches of one org in one company read and one evidence
+   * read, newest priority first. The niche export uses it instead of one
+   * getSearch per search, which would cost ~6 D1 queries each against the
+   * 50-per-invocation budget.
+   */
+  async getLeadsForSearches(orgId: string, searchIds: readonly string[], maxRows = 1500): Promise<LeadRadarLead[]> {
+    const ids = [...new Set(searchIds)].slice(0, 50);
+    if (ids.length === 0 || maxRows < 1) return [];
+    const rows = await this.db.prepare(`SELECT * FROM lead_radar_companies
+      WHERE org_id = ? AND search_id IN (SELECT value FROM json_each(?))
+      ORDER BY CASE priority WHEN 'P1' THEN 1 WHEN 'P2' THEN 2 ELSE 3 END, score DESC, name ASC
+      LIMIT ?`).bind(orgId, JSON.stringify(ids), Math.max(1, Math.min(2000, Math.trunc(maxRows)))).all<LeadRow>();
+    return this.mapLeadRows(orgId, rows.results ?? []);
   }
 
   /** Bounded tenant-scoped access shared by single-search and saved audiences. */

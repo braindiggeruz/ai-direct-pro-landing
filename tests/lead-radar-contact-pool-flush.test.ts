@@ -153,3 +153,55 @@ test('flushed rows are never selected for automatic Telegram outreach', async ()
   assert.equal(selection.automatic, 0);
   assert.equal(selection.verified, 0);
 });
+
+test('niche export reads: org B never sees org A searches or leads', async () => {
+  const db = database();
+  const search = (id: string, orgId: string, niche: string, createdAt: string) => db.sqlite.prepare(
+    `INSERT INTO lead_radar_searches (id, org_id, input_json, status, created_at) VALUES (?, ?, ?, 'ready', ?)`,
+  ).run(id, orgId, JSON.stringify({ ...INPUT, niche }), createdAt);
+  const company = (id: string, orgId: string, searchId: string) => db.sqlite.prepare(`INSERT INTO lead_radar_companies (
+    id, org_id, search_id, canonical_key, name, category, city, country, score, confidence, priority,
+    score_components_json, signals_json, discovered_at, last_verified_at, updated_at
+  ) VALUES (?, ?, ?, ?, ?, 'dentist', 'Ташкент', 'UZ', 50, 0.7, 'P2', '[]', '[]', ?, ?, ?)`)
+    .run(id, orgId, searchId, `key:${id}`, `Company ${id}`, NOW, NOW, NOW);
+  search('a_old', ORG_A, 'Стоматология', '2026-11-20T10:00:00.000Z');
+  search('a_new', ORG_A, 'стоматологии', '2026-11-21T10:00:00.000Z');
+  search('b_one', ORG_B, 'Стоматология', '2026-11-22T10:00:00.000Z');
+  company('ca1', ORG_A, 'a_old');
+  company('ca2', ORG_A, 'a_new');
+  company('cb1', ORG_B, 'b_one');
+  const store = new LeadRadarStore(db.asD1());
+
+  const listed = await store.listSearchesForExport(ORG_A);
+  assert.deepEqual(listed.map((item) => item.id), ['a_new', 'a_old'], 'newest first, own org only');
+  assert.equal(listed[0]?.input.niche, 'стоматологии');
+
+  const leads = await store.getLeadsForSearches(ORG_A, ['a_old', 'a_new', 'b_one']);
+  assert.deepEqual(leads.map((lead) => lead.id).sort(), ['ca1', 'ca2'], 'a foreign search id returns nothing');
+  assert.deepEqual((await store.getLeadsForSearches(ORG_B, ['a_old', 'a_new'])).length, 0);
+  assert.equal((await store.getLeadsForSearches(ORG_A, ['a_old', 'a_new'], 1)).length, 1, 'the row cap holds');
+});
+
+test('flushing a full 250-candidate pool stays far inside the 50-query D1 budget', async () => {
+  const db = database();
+  const leads = Array.from({ length: 250 }, (_, index) => stored(10_000 + index, {
+    name: `Dent ${index}`, phone: `+998 90 ${String(1_000_000 + index).slice(-7)}`, website: `https://dent${index}.uz`,
+  }));
+  db.sqlite.prepare(`INSERT INTO lead_radar_searches (id, org_id, input_json, status, created_at) VALUES (?, ?, ?, 'running', ?)`)
+    .run(SEARCH_ID, ORG_A, JSON.stringify(INPUT), NOW);
+  db.sqlite.prepare(`INSERT INTO lead_radar_candidate_pools
+    (org_id, search_id, candidates_json, candidate_count, cursor, batch_start, target, created_at, expires_at, updated_at)
+    VALUES (?, ?, ?, 250, 0, 0, 20, ?, ?, ?)`).run(ORG_A, SEARCH_ID, JSON.stringify(leads), NOW, NOW, NOW);
+  const base = db.asD1();
+  let statements = 0;
+  const counted = new Proxy(base, {
+    get(target, property, receiver) {
+      if (property === 'prepare') return (sql: string) => { statements += 1; return target.prepare(sql); };
+      const value = Reflect.get(target, property, receiver);
+      return typeof value === 'function' ? value.bind(target) : value;
+    },
+  }) as D1Database;
+  const inserted = await new LeadRadarStore(counted).persistContactPoolRemainder(ORG_A, SEARCH_ID, NOW);
+  assert.equal(inserted, 250);
+  assert.ok(statements <= 8, `flush used ${statements} statements`);
+});

@@ -1,10 +1,11 @@
 import type { TelegramHandleKind } from '../../../src/shared/lead-radar-export-contacts';
-import { isCacheableTelegramUsername, writeTelegramHandleVerdict } from './telegram-handle-store';
+import { isCacheableTelegramUsername, writeTelegramHandleVerdicts } from './telegram-handle-store';
 
 export {
   readTelegramHandleVerdicts,
   telegramHandleCacheKey,
   writeTelegramHandleVerdict,
+  writeTelegramHandleVerdicts,
 } from './telegram-handle-store';
 
 /**
@@ -127,10 +128,11 @@ export async function checkTelegramHandlesPublicly(
         if (card.status === 429) { stopped = true; return; }
         if (!card.kind || card.kind === 'unknown') continue;
         found.set(username, card.kind);
-        await writeTelegramHandleVerdict(db, username, card.kind, 'public_card', options.now);
       } catch { /* a timeout or network error leaves the handle unclassified */ }
     }
   }
   await Promise.all(Array.from({ length: concurrency }, () => worker()));
+  // One statement for every new verdict (D1 budget: 50 queries per invocation).
+  await writeTelegramHandleVerdicts(db, found, 'public_card', options.now);
   return found;
 }

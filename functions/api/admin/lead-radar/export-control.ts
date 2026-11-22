@@ -250,16 +250,15 @@ export async function handleExportRequest(
   if (scope === 'niche') {
     const nicheKey = exportNicheKey(input.niche ?? '');
     const cityKey = exportCityKey(input.city ?? '');
-    // Each getSearch is several D1 reads: the newest 12 matching searches are
-    // plenty for one niche and city.
+    // The newest 12 matching searches, read in one company query and one
+    // evidence query (the D1 budget is 50 queries per invocation).
     const peers = (await store.listSearchesForExport(orgId, 80))
       .filter((item) => item.id !== searchId && exportNicheKey(item.input.niche ?? '') === nicheKey
         && exportCityKey(item.input.city ?? '') === cityKey)
       .slice(0, 12);
-    for (const peer of peers) {
-      if (leads.length >= 1500) break;
-      const other = await store.getSearch(orgId, peer.id);
-      if (other) { leads = leads.concat(other.leads); searchesUsed += 1; }
+    if (peers.length && leads.length < 1500) {
+      leads = leads.concat(await store.getLeadsForSearches(orgId, peers.map((peer) => peer.id), 1500 - leads.length));
+      searchesUsed += peers.length;
     }
   }
 

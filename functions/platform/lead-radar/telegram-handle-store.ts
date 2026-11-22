@@ -67,14 +67,38 @@ export async function writeTelegramHandleVerdict(
   source: TelegramHandleVerdictSource,
   now = new Date(),
 ): Promise<void> {
-  const clean = username.toLowerCase();
-  if (!USERNAME_RE.test(clean) || !KINDS.has(kind)) return;
-  const expires = new Date(now.getTime() + VERDICT_TTL_DAYS[kind] * 86_400_000).toISOString();
+  await writeTelegramHandleVerdicts(db, [[username, kind]], source, now);
+}
+
+/**
+ * Many verdicts in one D1 statement: an export may classify 40 handles and
+ * the invocation budget is 50 queries, so one row per query would not fit.
+ */
+export async function writeTelegramHandleVerdicts(
+  db: D1Database,
+  verdicts: Iterable<readonly [string, TelegramHandleKind]>,
+  source: TelegramHandleVerdictSource,
+  now = new Date(),
+): Promise<void> {
+  const rows: Array<{ k: string; b: string; e: string }> = [];
+  const seen = new Set<string>();
+  for (const [username, kind] of verdicts) {
+    const clean = username.toLowerCase();
+    if (!USERNAME_RE.test(clean) || !KINDS.has(kind) || seen.has(clean)) continue;
+    seen.add(clean);
+    rows.push({
+      k: telegramHandleCacheKey(clean),
+      b: JSON.stringify({ kind, source }),
+      e: new Date(now.getTime() + VERDICT_TTL_DAYS[kind] * 86_400_000).toISOString(),
+    });
+  }
+  if (!rows.length) return;
   try {
     await db.prepare(`INSERT INTO lead_radar_geocode_cache (cache_key, bounds_json, observed_at, expires_at)
-      VALUES (?, ?, ?, ?)
+      SELECT json_extract(value, '$.k'), json_extract(value, '$.b'), ?, json_extract(value, '$.e')
+      FROM json_each(?) WHERE 1
       ON CONFLICT(cache_key) DO UPDATE SET bounds_json = excluded.bounds_json,
         observed_at = excluded.observed_at, expires_at = excluded.expires_at`)
-      .bind(telegramHandleCacheKey(clean), JSON.stringify({ kind, source }), now.toISOString(), expires).run();
+      .bind(now.toISOString(), JSON.stringify(rows.slice(0, 200))).run();
   } catch { /* a write failure never breaks the caller */ }
 }

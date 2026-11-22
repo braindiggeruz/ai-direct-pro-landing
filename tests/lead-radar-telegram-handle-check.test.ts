@@ -16,8 +16,10 @@ const signalFixture = (name: string) => readFileSync(new URL(`./fixtures/signal-
 /** In-memory stand-in for the one cache table the verdict store touches. */
 function fakeCacheDb(options: { failReads?: boolean; failWrites?: boolean } = {}) {
   const rows = new Map<string, { bounds_json: string; observed_at: string; expires_at: string }>();
+  let writes = 0;
   const db = {
     rows,
+    get writes() { return writes; },
     prepare(sql: string) {
       return {
         bind(...args: unknown[]) {
@@ -34,17 +36,19 @@ function fakeCacheDb(options: { failReads?: boolean; failWrites?: boolean } = {}
             },
             async run() {
               if (options.failWrites) throw new Error('read only');
-              assert.match(sql, /INSERT INTO lead_radar_geocode_cache/);
-              const [key, bounds, observed, expires] = args.map(String);
-              rows.set(key!, { bounds_json: bounds!, observed_at: observed!, expires_at: expires! });
-              return { meta: { changes: 1 } };
+              assert.match(sql, /INSERT INTO lead_radar_geocode_cache[\s\S]*json_each/);
+              const observed = String(args[0]);
+              const batch = JSON.parse(String(args[1])) as Array<{ k: string; b: string; e: string }>;
+              for (const item of batch) rows.set(item.k, { bounds_json: item.b, observed_at: observed, expires_at: item.e });
+              writes += 1;
+              return { meta: { changes: batch.length } };
             },
           };
         },
       };
     },
   };
-  return db as unknown as D1Database & { rows: typeof rows };
+  return db as unknown as D1Database & { rows: typeof rows; writes: number };
 }
 
 function fakeFetch(pages: Record<string, { status?: number; html?: string }>, calls: string[] = []): typeof fetch {
@@ -127,6 +131,7 @@ test('the public check classifies, caches and returns only new verdicts', async 
   assert.equal(calls.length, 6, 'one canary plus five handles');
   assert.equal(calls[0], 'https://t.me/telegram');
   assert.equal(db.rows.size, 4, 'an unknown page is not cached');
+  assert.equal(db.writes, 1, 'all verdicts in one D1 statement');
   assert.equal(JSON.parse(db.rows.get(telegramHandleCacheKey('clinic_news'))!.bounds_json).source, 'public_card');
 });
 
