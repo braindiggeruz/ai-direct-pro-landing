@@ -69,10 +69,19 @@ const LOCAL_CHECK_REJECTIONS = new Set(['contact_schema_unavailable', 'contact_n
   'corporate_source_required', 'daily_check_limit', 'invalid_target', 'invalid_bridge_response', 'check_superseded',
   'invalid_username']);
 
-/** A failure that is neither a known short hiccup nor a local rejection: the lookup service itself is unusable. */
+/**
+ * Failures our own TG Sender client reports when the service itself cannot be
+ * reached or is not configured. Reason codes TG Sender returns for one
+ * username (prod 22.11.2026: `lookup_unavailable` for a handle that does not
+ * exist, while two other handles resolved in the same minute) describe that
+ * username only: they climb the per-candidate ladder, never pause the org.
+ */
+const LOOKUP_SERVICE_OUTAGE_REASONS = new Set(['tg_sender_unavailable', 'tg_sender_not_configured', 'telegram_lookup_unavailable']);
+
+/** The lookup service itself is unusable (not a hiccup, not one username's answer). */
 export function isLookupOutage(result: TelegramContactResolution): boolean {
-  return result.status === 'failed' && !TRANSIENT_LOOKUP_REASONS.has(result.reason) && !LOCAL_CHECK_REJECTIONS.has(result.reason)
-    && !result.reason.startsWith('business_listing_');
+  return result.status === 'failed' && LOOKUP_SERVICE_OUTAGE_REASONS.has(result.reason)
+    && !TRANSIENT_LOOKUP_REASONS.has(result.reason) && !LOCAL_CHECK_REJECTIONS.has(result.reason);
 }
 
 /**
