@@ -149,6 +149,7 @@ export const TEXT = {
     invoice: (ref: string) => `Счёт №${ref}`,
     helpText: (ref: string) => `Не получилось оплатить AI-пакет.${ref ? ` Счёт №${ref}` : ''}`,
     other: 'Другой способ',
+    switchVia: (name: string) => `Оплатить через ${name}`,
   },
   uz: {
     retry: 'Qayta urinish',
@@ -191,6 +192,7 @@ export const TEXT = {
     invoice: (ref: string) => `Hisob №${ref}`,
     helpText: (ref: string) => `AI paketni to‘lay olmadim.${ref ? ` Hisob №${ref}` : ''}`,
     other: 'Boshqa usul',
+    switchVia: (name: string) => `${name} orqali to‘lash`,
   },
 } as const;
 
@@ -437,7 +439,7 @@ export function orderRef(id: string | null | undefined): string {
   return typeof id === 'string' ? id.slice(-6).toUpperCase() : '';
 }
 
-export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, provider, since, closed, busy, onContinue, onOther, onAsk, cheaper = null }: {
+export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, provider, since, closed, busy, onContinue, onOther, onAsk, cheaper = null, switchTo = null }: {
   /** The card is the window's whole screen: its title is the window's, `top` follows it and `children` close it. */
   heading: boolean; top?: ReactNode; children?: ReactNode;
   /** The order the client holds (account view or watch), or null. */
@@ -448,6 +450,8 @@ export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, pr
   onContinue: () => void; onOther: () => void; onAsk: (() => void) | null;
   /** The smaller pack, for a monthly order left unpaid: one tap with the same provider. */
   cheaper?: { offer: PackOffer; onPay: () => void } | null;
+  /** The other link provider, one tap (CheckoutReturn): offered while the open order can be closed, or once it is closed. */
+  switchTo?: { provider: PaymentProvider; onPay: () => void } | null;
 }) {
   const s = TEXT[locale];
   const ref = orderRef(orderId);
@@ -474,6 +478,11 @@ export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, pr
       <p>{closed ? s.unpaidClosed : s.unpaidOpen}</p>
       {ref && <p className="gpt-pay-ref" data-testid="ai-pay-ref">{s.invoice(ref)}</p>}
       {provider && <button type="button" className="gpt-primary" disabled={busy} onClick={onContinue}>{s.cont} · {NAMES[provider]}</button>}
+      {switchTo && (
+        <button type="button" className="gpt-pay-cheaper" data-testid="ai-pay-switch" disabled={busy} onClick={switchTo.onPay}>
+          {s.switchVia(NAMES[switchTo.provider])}
+        </button>
+      )}
       {cheaper && provider && (
         <button type="button" className="gpt-pay-cheaper" data-testid="ai-pay-cheaper" disabled={busy} onClick={cheaper.onPay}>
           {packText(locale).cheaper(cheaper.offer)} · {NAMES[provider]}

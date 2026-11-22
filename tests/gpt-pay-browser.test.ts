@@ -50,6 +50,8 @@ interface Fixture {
   /** The view offers a sign-in (loginAvailable): the paid screen then offers to keep the pack through Telegram. */
   login: boolean;
   subscribes: Array<Record<string, unknown>>;
+  /** cancel_invoice requests (POST /api/gpt/account): the order ids, in order. */
+  cancels: string[];
   events: Array<{ type: string; detail: string }>;
   /** Main-frame navigations to another origin, each cancelled as if the browser never left. */
   left: string[];
@@ -59,7 +61,7 @@ interface Fixture {
 async function open(browser: Awaited<ReturnType<typeof chromium.launch>>, origin: string): Promise<{ ctx: BrowserContext; page: Page; f: Fixture }> {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 780 } });
   const page = await ctx.newPage();
-  const f: Fixture = { ordered: false, paid: false, accountDelay: 0, reading: 0, started: 0, refuse: 0, more: false, trialLeft: null, sku: 'month', dayOver: false, ended: false, login: false, subscribes: [], events: [], left: [], errors: [] };
+  const f: Fixture = { ordered: false, paid: false, accountDelay: 0, reading: 0, started: 0, refuse: 0, more: false, trialLeft: null, sku: 'month', dayOver: false, ended: false, login: false, subscribes: [], cancels: [], events: [], left: [], errors: [] };
   page.on('pageerror', (error) => f.errors.push(error.message));
   await ctx.route('**/*', async (route) => {
     const request = route.request();
@@ -75,6 +77,11 @@ async function open(browser: Awaited<ReturnType<typeof chromium.launch>>, origin
     if (url.pathname === '/api/gpt/session') return json({ ok: true, sessionId: 'fixture-session' });
     if (url.pathname === '/api/gpt/event') { f.events.push(request.postDataJSON()); return json({ ok: true }); }
     if (url.pathname === '/api/gpt/account') {
+      // The account's own unseen invoice closed (BillingStore.cancelInvoice): no open order any more.
+      if (request.method() === 'POST') {
+        const body = request.postDataJSON() as Record<string, unknown>;
+        if (body.action === 'cancel_invoice') { f.cancels.push(String(body.orderId)); f.ordered = false; return json({ ok: true }); }
+      }
       f.reading++;
       f.started++;
       if (f.accountDelay) await sleep(f.accountDelay);
@@ -341,6 +348,51 @@ test('checkout in a browser: the tap, a browser that never leaves, a tap during 
       await until('the small pack is asked for', () => f.subscribes.length === 2 && f.left.length === 2);
       assert.deepEqual({ provider: f.subscribes[1].provider, sku: f.subscribes[1].sku }, { provider: 'click', sku: 'once' });
       assert.notEqual(f.subscribes[1].requestId, f.subscribes[0].requestId, 'its own request key');
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+
+    // ---- 5b. A card that did not go through on Click (21.11.2026): the other provider is one tap away. The Click
+    //      invoice no provider has seen is closed on the way (cancel_invoice), then Payme's order is made; back
+    //      from Payme the card offers Click the same way, and the pack window's own row does the same.
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      await page.goto(`${origin}/uz/gpt-uzbek-tilida/`);
+      await ready(page);
+      await page.locator('[data-testid="ai-account-trigger"]').click();
+      const month = page.locator('.gpt-pay-pack[data-sku="month"] [data-provider="click"]');
+      await month.waitFor();
+      await until('the row is live', async () => !(await month.isDisabled()));
+      await month.click();
+      await until('the browser is sent to Click', () => f.left.length === 1);
+      await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+      const other = page.locator('[data-testid="ai-pay-switch"]');
+      await other.waitFor({ timeout: 15_000 });
+      assert.equal((await other.innerText()).trim(), 'Payme orqali to‘lash');
+      assert.equal(await page.locator('[data-testid="ai-pay-unpaid"] button.gpt-primary').count(), 1, 'one primary button');
+      await narrow(page, 'unpaid with the other provider');
+      await shot(page, 'unpaid-switch-uz');
+      await other.click();
+      await until('the browser is sent to Payme', () => f.left.length === 2);
+      assert.equal(f.left[1], LINKS.payme);
+      assert.deepEqual(f.cancels, [ORDER], 'the unseen Click invoice is closed first');
+      assert.equal(f.subscribes.length, 2);
+      assert.deepEqual({ provider: f.subscribes[1].provider, sku: f.subscribes[1].sku }, { provider: 'payme', sku: undefined });
+      assert.notEqual(f.subscribes[1].requestId, f.subscribes[0].requestId, 'a new order, its own request key');
+      // Back from Payme unpaid: the card offers Click.
+      await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+      await until('the card offers Click', async () => (await other.count()) === 1 && (await other.innerText()).trim() === 'Click orqali to‘lash', 15_000);
+      // «Boshqa usul» back to the pay step: the month's Click row closes the unseen Payme invoice on the way.
+      await page.locator('[data-testid="ai-pay-unpaid"] .gpt-pay-unpaid-more button').first().click();
+      const row = page.locator('.gpt-pay-pack[data-sku="month"] [data-provider="click"]');
+      await row.waitFor();
+      await until('the row is live', async () => !(await row.isDisabled()));
+      await row.click();
+      await until('the browser is sent to Click again', () => f.left.length === 3);
+      assert.deepEqual(f.cancels, [ORDER, ORDER], 'the unseen Payme invoice is closed first');
+      assert.equal(f.subscribes.length, 3);
+      assert.equal(f.subscribes[2].provider, 'click');
       assert.deepEqual(f.errors, []);
       await ctx.close();
     }

@@ -266,7 +266,8 @@ test('the window never asks a refund: the only account action closes an unseen i
   assert.equal(uz.supportLabel, 'To‘lovda muammo bormi? Bizga yozing:');
   const dialog = read('src/gpt-chat/account/AccountDialog.tsx');
   const panel = read('src/gpt-chat/account/PackPanel.tsx');
-  assert.deepEqual([...dialog.matchAll(/action: "(\w+)"/g)].map((m) => m[1]), ['cancel_invoice']);
+  // One kind of account action only: closing an unseen invoice (the link, and the switch to the other provider, 21.11.2026).
+  assert.deepEqual([...new Set([...dialog.matchAll(/action: "(\w+)"/g)].map((m) => m[1]))], ['cancel_invoice']);
   for (const source of [dialog, panel, read('src/gpt-chat/types.ts')])
     assert.doesNotMatch(source, /refund_request|requestRefund|onRefund|\.refundable\b|refundable\?:|refundDays|refund_uzs/);
 });
