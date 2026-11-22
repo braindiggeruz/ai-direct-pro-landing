@@ -1,0 +1,16 @@
+{
+ "rows": 5984,
+ "bad_rows": 4,
+ "excluded_rows": 109,
+ "excluded_roots": 58,
+ "unique_hosts": 4611,
+ "unique_roots": 4276,
+ "ref_roots": 0,
+ "cat_counts": {
+  "C": 1280,
+  "A": 813,
+  "D": 1026,
+  "B": 1157
+ },
+ "duplicate_rows_collapsed": 1595
+}
