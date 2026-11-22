@@ -29,6 +29,8 @@ export interface Order {
   version: number;
   /** A 3-day pack order's own column (gpt_payment_orders_v2); the pack of any order is read from its id (packs.ts). */
   sku?: string;
+  /** click_paydoc_id from Click's Prepare: Click's payment id for its Merchant API (click-merchant.ts). */
+  provider_doc_id?: string | null;
 }
 export interface AccessPeriod {
   order_id: string;

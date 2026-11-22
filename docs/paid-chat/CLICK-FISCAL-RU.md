@@ -42,7 +42,7 @@
 | `CommissionInfo` | `TIN` = `GPT_FISCAL_TIN` (9 цифр) или `PINFL` (14 цифр) |
 | `received_card` | 2 000 000; `received_cash` и `received_ecash` = 0 |
 
-`payment_id` (номер платежа в Click) мы не угадываем: берём его у Click по номеру нашего заказа (`status_by_mti`) и сохраняем.
+`payment_id` (номер платежа в Click) мы не угадываем: это `click_paydoc_id`, который Click подписанно присылает в Prepare и Complete; он лежит у заказа (`provider_doc_id`) и сохраняется в строке чека. Проверено на боевом сервисе 22.11.2026: `payment/status` и `ofd_data` принимают этот номер, а `click_trans_id` нет. Только заказ без `click_paydoc_id` ищется по номеру заказа (`status_by_mti`). Сервис 107654 на `status_by_mti` отвечает `-12`.
 
 ## Что нужно, чтобы чеки шли
 
@@ -64,7 +64,7 @@
 
 Попытка («сначала проверить»):
 
-1. Найти `payment_id` у Click по номеру заказа (`status_by_mti`) и сохранить.
+1. Взять `payment_id` заказа: `click_paydoc_id` из Prepare (`provider_doc_id`). Только у заказа без него найти номер у Click по номеру заказа (`status_by_mti`). Сохранить.
 2. Спросить у Click (`ofd_data`), есть ли чек. Есть ссылка — чек готов.
 3. Если уже сохранена метка `operation_id` или подтверждение `submitted_at`, только ждать ссылку: второй автоматический `submit_items` запрещён. Потерянный ответ и временный 404/пустой `ofd_data` не доказывают, что первая отправка не создала чек. Метка резервируется атомарно текущим владельцем lease; старый обработчик не может отправить чек.
 4. Чека нет, а с оплаты прошло меньше 10 минут — ждать (`auto_wait`). Это не ошибка и не попытка.
@@ -106,16 +106,20 @@
 
 1. Узнать причину, только чтение: `SELECT last_error, attempts, COUNT(*) AS n FROM gpt_fiscal_receipts WHERE provider = 'click' AND status_code = -1 GROUP BY last_error, attempts;`
 2. `config_missing` — сверить выданные реквизиты Merchant API и `GPT_FISCAL_*`. `click_<код>` и `qr_host` — сверка в кабинете Click и с поддержкой провайдера. `auto_pending` означает отсутствие подтверждённой ссылки, а не доказанное отсутствие чека. После восстановления доступа очередь продолжает сверку по обычному расписанию.
-   - `payment_id:click_-12`: с первой живой оплаты (07.10.2026) так падает **каждый** чек Click. GET `status_by_mti` отвечает HTTP 200, `error_code=-12`, `error_note="Неверные данные поставщика"`. Наш чек ни разу не уходил (`operation_id` и `submitted_at` пусты). Это ошибка поиска, а не номер платежа.
-     - **Что значит `-12` (проба 22.11.2026 без ключей).** `status_by_mti` отвечает тем же `-12` на запрос совсем **без** заголовка `Auth`, на выдуманный `merchant_user_id` и на устаревший timestamp. Поэтому по одному `-12` не отличить непринятого пользователя Merchant API от сбоя поиска. Различает `payment/status`: без `Auth` он отвечает `-12`, с неверной подписью — `-15` («Неверная строка подписи данных»).
-     - **`secret_key` и `service_id` верны.** Ими же проверяется подпись Prepare/Complete, и оплаты проходят. Под подозрением `merchant_user_id` или Merchant API, не включённый для него. Запрос в коде совпадает с docs.click.uz: `Auth`, пути, тело.
-     - **Новые реквизиты сначала проверить скриптом.** Скрипт делает только GET и не печатает ни ключей, ни номеров:
-       `node --import tsx scripts/paid-chat/click-merchant-check.ts --inbox F:/Claude/gptbot-keys-inbox --orders <файл>`.
-       Файл — вывод `wrangler d1 execute gptbot-ai-drafts --remote --json` с полями `id,external_id,provider_doc_id,perform_time,provider_time` для 1–3 оплаченных live-заказов Click.
+   - `payment_id:click_-12`: с первой живой оплаты (07.10.2026) по 22.11.2026 так падал **каждый** чек Click. GET `status_by_mti` отвечает HTTP 200, `error_code=-12`, `error_note="Неверные данные поставщика"`. Наш чек ни разу не уходил (`operation_id` и `submitted_at` пусты). Это ошибка поиска, а не номер платежа.
+     - **Причина найдена 22.11.2026: доступ рабочий, сломан только поиск.**
+       - Проба без ключей: `status_by_mti` отвечает тем же `-12` на запрос совсем без заголовка `Auth`, на выдуманный `merchant_user_id` и на устаревший timestamp.
+       - Проверка с ключами владельца (его разрешение, три GET, вывод только кодов): `payment/status` по `click_paydoc_id` заказа #64 ответил `error_code 0`, `payment_status 2`. По `click_trans_id` он ответил `-44`. `ofd_data` по `click_paydoc_id` вернул ссылку на ofd.soliq.uz: **чек этой оплаты Click пробил сам**.
+       - Значит: `merchant_user_id` и Merchant API в порядке, номер платежа Click — это `click_paydoc_id`, и он с Prepare лежит у заказа (`provider_doc_id`).
+     - **Исправлено в коде** (`findClickPaymentId`, click-merchant.ts). Номер платежа берётся из `provider_doc_id` без вызова Click. `status_by_mti` спрашивается только у заказа без него. Тот же путь используют возврат через API (`gpt-click-reversal`) и возврат Studio. До исправления они тоже не находили платёж.
+     - **Проверка доступа скриптом.** Скрипт делает только GET и не печатает ни ключей, ни номеров, ни сумм:
+       `node --import tsx scripts/paid-chat/click-merchant-check.ts --inbox F:/Claude/gptbot-keys-inbox --orders - --no-lookup --codes-only --max-calls 4`.
+       На вход (`-`) по конвейеру подаётся вывод `wrangler d1 execute gptbot-ai-drafts --remote --json` с полями `id,external_id,provider_doc_id,perform_time,provider_time` для 1–3 оплаченных live-заказов Click.
      - **Вердикты скрипта:**
-       - `lookup_works`: положить секрет (`ingest-keys.ts --apply`) и выкатить. Секрет Pages действует только со следующего деплоя.
-       - `lookup_only_fails`: Click принимает доступ, но не находит платёж по номеру заказа. Номер платежа можно брать из заказа (`paymentIdIs` в ответе скрипта); это правка кода.
-       - `auth_rejected`: Click не принимает пользователя Merchant API. Нужен ответ Click (вопрос 8 ниже), код не поможет.
+       - `access_works` или `lookup_works`: доступ рабочий.
+       - `auth_rejected`: Click не принимает пользователя Merchant API, нужен ответ Click.
+       - `unclear`: смотреть коды ответа.
+       - Секрет Pages действует только со следующего деплоя.
      - Не подменять `merchant_user_id` значением `merchant_id`. Данные инцидента: `reports/click-fiscal-incident-20261008/`.
    - `ofd:click_<код>` или `ofd:http_<код>`: наличие чека неизвестно. Сверить платёж в кабинете; не переключать политику ради обхода ошибки.
    - `submit_unknown`: не очищать `operation_id`/`submitted_at` и не сбрасывать очередь ради повторной отправки. Нужна сверка с Click/ОФД. Даже после 404 или ненулевого кода отправки чек мог появиться с задержкой. Автоматические чтения и срочные алерты продолжаются. Повторная финансовая операция допустима только после документированной сверки и отдельного решения владельца.
@@ -177,11 +181,12 @@ LIMIT 1;
 
 ## Вопросы к Click (план §8, п. 5)
 
-1. `payment_id` для `ofd_data` — это `click_trans_id` или `click_paydoc_id`? (Мы берём его через `status_by_mti`; первая оплата ответит.)
+1. ~~`payment_id` для `ofd_data` — это `click_trans_id` или `click_paydoc_id`?~~ **Ответ (22.11.2026, проверка на боевом сервисе): `click_paydoc_id`.** `payment/status` по нему — `error_code 0`, по `click_trans_id` — `-44`.
 2. `Amount` — штуки (1) или тысячные (1000)?
 3. Для оплаты кошельком Click — `received_card` или `received_ecash`?
 4. Обязателен ли `CommissionInfo` при продаже собственной услуги?
 5. Как фискализируется отмена через `payment/reversal`?
 6. Есть ли отдельный тестовый сервис для Merchant API?
 7. После настройки ОФД 05.10.2026 Click пробивает чек каждой оплаты сам? Если да, нужен ли наш `submit_items` вообще и что будет, если мы его отправим? (Пока ответа нет, работает «сначала проверить». Ответ «да» → `GPT_CLICK_AUTOFISCAL = "true"`, ответ «нет» → можно `"false"`.)
-8. `status_by_mti` с нашими реквизитами сервиса 107654 с 07.10.2026 отвечает `-12` «Неверные данные поставщика». Так же он отвечает на запрос вообще без заголовка `Auth`. Какой `merchant_user_id` верный для сервиса 107654? Включён ли для него Merchant API: `status_by_mti`, `payment/status`, `ofd_data`, `submit_items`, `reversal`? Нужно ли регистрировать IP-адреса, с которых идут запросы? (Ответ разблокирует все чеки Click с 07.10.2026.)
+   **Частичный ответ (22.11.2026):** у оплаты #64 (11.11) чек на ofd.soliq.uz пробил сам Click: `ofd_data` вернул ссылку, наш `submit_items` не уходил ни разу. Сколько ещё таких оплат, очередь покажет после выката исправления (`last_error = auto`).
+8. Почему `status_by_mti` для сервиса 107654 отвечает `-12` «Неверные данные поставщика» при рабочем доступе (`payment/status` и `ofd_data` с теми же реквизитами отвечают)? Тот же ответ приходит и без заголовка `Auth`. Не блокирует: номер платежа берём из `click_paydoc_id`.

@@ -176,11 +176,12 @@ async function clickCall(
   credentials: ClickCredentials,
   order: string,
   action: "0" | "1",
-  over: { tx: string; prepareId?: string; amount?: string; secret?: string; serviceId?: string },
+  over: { tx: string; prepareId?: string; amount?: string; secret?: string; serviceId?: string; paydoc?: string },
 ): Promise<number> {
   const p: Record<string, string> = {
     click_trans_id: over.tx,
-    click_paydoc_id: String(randomBytes(4).readUInt32BE(0)),
+    // Click's payment id for its Merchant API (live service, 22.11.2026).
+    click_paydoc_id: over.paydoc ?? String(randomBytes(4).readUInt32BE(0)),
     service_id: over.serviceId ?? credentials.serviceId,
     merchant_trans_id: order,
     amount: over.amount ?? "20000.00",
@@ -505,8 +506,9 @@ test("Click live against a stub of api.click.uz: the checkout link, a test signa
   assert.equal(await clickCall(h, test, order, "0", { tx }), -1);
   // Click's real server: it knows the payment (status_by_mti), signs with the live secret.
   const paymentId = clickFake.pay(order, Date.now(), live.serviceId);
-  assert.equal(await clickCall(h, live, order, "0", { tx }), 0);
-  assert.equal(await clickCall(h, live, order, "1", { tx, prepareId: prepareIds.get(order)! }), 0);
+  const paydoc = String(paymentId);
+  assert.equal(await clickCall(h, live, order, "0", { tx, paydoc }), 0);
+  assert.equal(await clickCall(h, live, order, "1", { tx, prepareId: prepareIds.get(order)!, paydoc }), 0);
   await h.drain();
 
   // The receipt, checked first as committed (GPT_CLICK_AUTOFISCAL ""): right

@@ -618,7 +618,8 @@ test("Click prints the 3-day pack's receipt from its own table: one line named a
   const tx = digits();
   const call = async (action: "0" | "1") => {
     const p = {
-      click_trans_id: tx, click_paydoc_id: digits(), service_id: String(live.service_id), merchant_trans_id: order.id, amount: "5000.00", action,
+      // Click's payment id is the click_paydoc_id it sends (live service, 22.11.2026).
+      click_trans_id: tx, click_paydoc_id: String(paymentId), service_id: String(live.service_id), merchant_trans_id: order.id, amount: "5000.00", action,
       sign_time: "2026-11-17 14:00:00", error: "0", ...(action === "1" ? { merchant_prepare_id: String(order.seq) } : {}),
     };
     const body = new URLSearchParams({ ...p, sign_string: clickSignature(p, live.secret_key) });
