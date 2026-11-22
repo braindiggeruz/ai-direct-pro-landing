@@ -13,16 +13,21 @@ export function createContactResolutionQueueDependencies(env: Partial<Env>, db: 
     || !isTelegramCampaignDataKeyValid(env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY)) return {};
   return { resolveLeadContacts: async (job, lead) => {
     if (!job.companyId || lead.suppressed || lead.lifecycle === 'do_not_contact') return { pending: false };
-    // While the hosted lookup is known to be down, finish the company as
-    // "Telegram not checked" instead of spinning until the search deadline.
-    if (tgSenderMode(env) && await readTelegramLookupPause(db, job.orgId)) return { pending: false };
+    // While the hosted lookup is known to be down, a company finishes as
+    // "Telegram not checked" instead of spinning until the search deadline —
+    // but only after the free public t.me check below has classified its
+    // handle (bots, channels, groups), which costs no lookup at all.
+    const paused = tgSenderMode(env) ? await readTelegramLookupPause(db, job.orgId) : null;
     const account = await getTelegramUserAccount(db,job.orgId);
-    if (!account || account.status !== 'connected') return { pending: true, reason:'waiting_for_account', retryAfterSeconds:60 };
+    if (!account || account.status !== 'connected') {
+      return paused ? { pending: false } : { pending: true, reason:'waiting_for_account', retryAfterSeconds:60 };
+    }
     // TG Sender resolves public usernames only: phone candidates would burn the
     // daily check budget (and an OSM refresh) on a guaranteed "unsupported".
     const next=await nextTelegramContactCandidate({db,orgId:job.orgId,companyId:job.companyId,accountId:account.id,now:new Date().toISOString(),
       usernameOnly:tgSenderMode(env), publicCheckFetch:(request, init) => fetch(request, init)});
     if (!next.candidateKey) return next;
+    if (paused) return { pending: false };
     const binding = await getTelegramUserAccountGatewayBinding({ db, orgId: job.orgId, accountId: account.id,
       dataKey: env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY! });
     if (!binding) return { pending: true, reason:'waiting_for_binding', retryAfterSeconds:60 };

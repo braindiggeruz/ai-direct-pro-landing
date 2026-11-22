@@ -1,6 +1,18 @@
 {
-  "lead_radar_osm_snapshot_20261122": {
+  "lead_radar_telegram_yield_20261122": {
     "status": "released_pending_deploy",
+    "owner_authorized": "Same order as lead_radar_prod_hardening_20261122 (owner: as many Telegram contacts as possible, no bots).",
+    "branch": "feat/lead-radar-telegram-yield-20261122",
+    "baseline_commit": "77c71c3c (main; Pages 36bbc568; Worker 0d22dbd5)",
+    "scope": "Telegram yield after the snapshot: (1) while TG Sender lookups are paused, a contact job still runs the free public t.me check (bots, channels, groups) before it finishes, instead of returning before it; (2) a \"Telegram contacts\" search orders objects with a Telegram handle first and turns only what selection can use (max(240, 2 x limit)) into candidates, so a 400-object snapshot answer costs no more than an Overpass answer; (3) the export summary counts handles whose type is still unknown and the admin says the next download checks the next 40; (4) the snapshot expires after 30 days (the lookup evidence window) and warns map_snapshot_stale.",
+    "measurement": "Real snapshot, Tashkent, depth 100, Overpass down: restaurants 414 objects -> 100 selected, all 60 Telegram-tagged objects in (48 distinct handles behind 181 tagged objects city-wide); beauty 9 (85 tagged objects are 8 chain handles); pharmacy 18 (52 tagged objects, 3 handles); dentistry 4 of 4. Local timing 24-122 ms per discovery including candidate building (same order as a 240-element Overpass answer).",
+    "not_touched": "Schema, KV data, sending, authorization, DNC.",
+    "validation": "Suites: lead-radar-osm-snapshot 8, lead-radar-outreach-export 28, prod-hardening 10, discovery-wiring 11, lead-radar 36, osm-contacts 8, d1-budget 8. npx tsc -b 0; functions and Lead Radar typechecks 0; eslint 0.",
+    "release": "pending",
+    "rollback": "Worker: wrangler rollback 0d22dbd5-a488-4db1-b617-82f2381331b0 -c wrangler.automation.toml; Pages: revert and rerun the workflow."
+  },
+  "lead_radar_osm_snapshot_20261122": {
+    "status": "deployed_and_verified",
     "owner_authorized": "Same order as lead_radar_prod_hardening_20261122 (roadmap stage 2 of ROADMAP_PROD_RU.md: own copy of the map instead of public Overpass).",
     "branch": "feat/lead-radar-osm-snapshot-20261122",
     "baseline_commit": "7878f3ca (main; Pages e3006b39; Worker 8e6b5aaa)",
@@ -8,7 +20,7 @@
     "not_touched": "Schema and migrations (none), Pages bindings (the Pages discovery path keeps Overpass), sending, authorization, DNC.",
     "deferred": "Automatic weekly refresh (needs a Cloudflare token with KV write in GitHub secrets; until then a manual rebuild with the two scripts, documented in the builder header), relations (skipped by the extractor), cities outside the 0.5° grid cap of 36 cells per search.",
     "validation": "New suite lead-radar-osm-snapshot: 6 tests (grid, builder parity and cap, manifest checks, reader bounds filter, source answers without any map request and dates evidence, uncovered niche falls through). Related suites green: prod-hardening 10, discovery-wiring 11, osm-contact-plan 10, osm-contacts 8, lead-radar 36, d1-budget 8, discovery-sources 14, two-gis-source 28, golden-eval 10. npx tsc -b 0; eslint 0.",
-    "release": "pending",
+    "release": "PR #75 (commit 77f0a5a4), merged as 77c71c3c. Pages: workflow run 45031085653, deployment 36bbc568 (no snapshot binding on Pages; unchanged path). Worker: gptbot-automation 0d22dbd5-a488-4db1-b617-82f2381331b0 with binding LEAD_RADAR_OSM_SNAPSHOT (rollback 8e6b5aaa). Cron ticks after deploy ran clean (tail: outcome ok, no exceptions, no worker_failure). No search was run by the agent.",
     "rollback": "Worker: wrangler rollback 8e6b5aaa-3e47-4db7-bea5-c4253ae21ded -c wrangler.automation.toml (or delete the manifest key osm:v1:manifest to disable the snapshot without a deploy: the reader then falls through to Overpass)."
   },
   "lead_radar_prod_hardening_20261122": {

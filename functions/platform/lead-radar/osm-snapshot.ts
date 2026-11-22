@@ -20,7 +20,9 @@ export const OSM_SNAPSHOT_VERSION = 'v1';
 export const OSM_SNAPSHOT_MANIFEST_KEY = `osm:${OSM_SNAPSHOT_VERSION}:manifest`;
 export const OSM_SNAPSHOT_CELLS_PER_DEGREE = 2;
 export const OSM_SNAPSHOT_SHARD_CAP = 400;
-export const OSM_SNAPSHOT_MAX_AGE_DAYS = 60;
+/** Matches the 30-day evidence window of contact lookups: an older copy would
+ *  produce candidates the lookup queue already ignores. Refresh monthly. */
+export const OSM_SNAPSHOT_MAX_AGE_DAYS = 30;
 const MAX_CELLS_PER_SEARCH = 36;
 
 /** A niche string that resolves to each canonical intent; the builder asserts it. */
@@ -115,13 +117,15 @@ export async function readOsmSnapshot(
   intentId: string,
   bounds: readonly [number, number, number, number],
   now = new Date(),
+  onSkip?: (reason: 'absent' | 'stale' | 'niche' | 'bounds') => void,
 ): Promise<{ elements: unknown[]; snapshotDate: string } | null> {
   const manifest = await store.get(OSM_SNAPSHOT_MANIFEST_KEY, 'json');
-  if (!validManifest(manifest) || !manifest.intents.includes(intentId)) return null;
+  if (!validManifest(manifest)) { onSkip?.('absent'); return null; }
+  if (!manifest.intents.includes(intentId)) { onSkip?.('niche'); return null; }
   const ageDays = (now.getTime() - Date.parse(`${manifest.snapshotDate}T00:00:00.000Z`)) / 86_400_000;
-  if (!(ageDays >= -1 && ageDays <= OSM_SNAPSHOT_MAX_AGE_DAYS)) return null;
+  if (!(ageDays >= -1 && ageDays <= OSM_SNAPSHOT_MAX_AGE_DAYS)) { onSkip?.('stale'); return null; }
   const cells = osmSnapshotCellsForBounds(bounds, manifest.cellsPerDegree);
-  if (!cells.length) return null;
+  if (!cells.length) { onSkip?.('bounds'); return null; }
   const shards = await Promise.all(cells.map((cell) => store.get(osmSnapshotShardKey(intentId, cell), 'json')));
   const [south, west, north, east] = bounds;
   const elements = shards.flatMap((shard) => {
