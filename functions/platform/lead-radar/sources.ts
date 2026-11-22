@@ -1026,6 +1026,10 @@ export interface LeadRadarOsmQueryPlan {
  * these tags need no crawl at all, which is why they are worth their own
  * Overpass round trip.
  */
+// Mobile- and Telegram-only rows are deliberately not separate selectors: on
+// 22.11.2026 every public mirror answered 504 even to this 4-key plan, so a
+// doubled union would only add load. Such rows still arrive through the broad
+// plan, and the candidate reader takes their mobile and Telegram tags.
 export const OSM_CONTACT_KEYS = ['contact:phone', 'phone', 'contact:website', 'website'] as const;
 
 /** Expand category selectors into contact-bearing selectors. */
@@ -1123,6 +1127,15 @@ async function overpass(query: string, budget: SubrequestBudget): Promise<{ resp
       );
       if (!parsed || typeof parsed !== 'object' || !Array.isArray((parsed as OverpassResponse).elements)) {
         failures.push(`${endpoint.id}_invalid_payload`);
+        overpassCooldownUntil.set(endpoint.id, Date.now() + OVERPASS_ENDPOINT_COOLDOWN_MS);
+        continue;
+      }
+      // A server-side timeout or memory abort still answers HTTP 200, with a
+      // `remark` and a truncated (often empty) element list. That is a failed
+      // mirror, not "this city has no dentists" (audit SC-02).
+      const remark = (parsed as { remark?: unknown }).remark;
+      if (typeof remark === 'string' && /runtime (?:error|remark)|timed out|out of memory|Dispatcher/i.test(remark)) {
+        failures.push(`${endpoint.id}_remark_${/out of memory/i.test(remark) ? 'memory' : 'timeout'}`);
         overpassCooldownUntil.set(endpoint.id, Date.now() + OVERPASS_ENDPOINT_COOLDOWN_MS);
         continue;
       }
@@ -1236,6 +1249,58 @@ export function rankLeadRadarOsmElements(
     .map(({ element }) => element);
 }
 
+/** Phone-bearing OSM tags after the primary `contact:phone` / `phone`. */
+const OSM_PHONE_TAGS = ['contact:phone', 'phone', 'contact:mobile', 'mobile', 'phone:mobile', 'contact:whatsapp', 'whatsapp'] as const;
+const OSM_TELEGRAM_TAGS = ['contact:telegram', 'telegram', 'social:telegram'] as const;
+
+/** All numbers of all phone tags except the primary one, as E.164, capped. */
+export function osmAdditionalPhones(tags: Record<string, string>, primary: string | null, country: string): string[] {
+  const primaryE164 = primary ? assessLeadRadarPhone(primary, country).e164 : null;
+  const out = new Set<string>();
+  for (const key of OSM_PHONE_TAGS) {
+    const value = tags[key];
+    if (!value || value.length > 400) continue;
+    for (const phone of extractLeadRadarPhones(value, country)) {
+      if (phone.e164 && phone.e164 !== primaryE164) out.add(phone.e164);
+    }
+  }
+  return [...out].slice(0, 6);
+}
+
+/**
+ * Every Telegram locator of the Telegram tags (and a `website` that is a t.me
+ * link), normalised to `https://t.me/<handle>`. Mappers write handles in many
+ * shapes — `@clinic`, `clinic`, `t.me/clinic`, `tg://resolve?domain=clinic`,
+ * several separated by `;` — and the old reader kept only a full URL in the
+ * first non-empty tag (audit EX-05).
+ */
+export function osmTelegramLocators(tags: Record<string, string>): string[] {
+  const out: string[] = [];
+  const push = (value: string | null) => { if (value && !out.some((item) => item.toLowerCase() === value.toLowerCase())) out.push(value); };
+  const values: Array<[string | undefined, boolean]> = [
+    ...OSM_TELEGRAM_TAGS.map((key): [string | undefined, boolean] => [tags[key], false]),
+    [tags['contact:website'], true], [tags.website, true],
+  ];
+  for (const [value, websiteTag] of values) {
+    if (!value || value.length > 400) continue;
+    for (const part of value.split(/[;,]+/)) {
+      const tokens = part.trim().split(/\s+/).filter(Boolean);
+      for (const token of tokens) {
+        const resolve = /^tg:\/\/resolve\?domain=([A-Za-z][A-Za-z0-9_]{4,31})/i.exec(token);
+        if (resolve) { push(cleanTelegram(`https://t.me/${resolve[1]}`)); continue; }
+        if (/^(?:www\.)?(?:t|telegram)\.me\//i.test(token)) { push(cleanTelegram(`https://${token}`)); continue; }
+        if (/^https?:\/\/(?:www\.)?(?:t|telegram)\.me\//i.test(token)) { push(cleanTelegram(token.replace('://www.', '://'))); continue; }
+        if (websiteTag) continue; // a website tag only counts when it is a t.me link
+        if (/^@[A-Za-z][A-Za-z0-9_]{4,31}$/.test(token)) { push(cleanTelegram(token)); continue; }
+        // A bare word is a handle only when it is the whole part: free text
+        // such as "Smile Dent channel" must not become t.me/Smile.
+        if (tokens.length === 1 && /^[A-Za-z][A-Za-z0-9_]{4,31}$/.test(token)) push(cleanTelegram(`https://t.me/${token}`));
+      }
+    }
+  }
+  return out.slice(0, 4);
+}
+
 export function candidateFromOsmElement(
   element: unknown,
   input: LeadRadarSearchInput,
@@ -1259,9 +1324,12 @@ export function candidateFromOsmElement(
   const category = sourcedCategory ?? fallbackCategory;
   const address = addressFrom(tags);
   const website = cleanWebsite(tags['contact:website'] || tags.website || null);
-  const phone = cleanPhone(tags['contact:phone'] || tags.phone || null);
+  const phone = cleanPhone(tags['contact:phone'] || tags.phone || null)
+    ?? cleanPhone(OSM_PHONE_TAGS.map((key) => tags[key]).find(Boolean) ?? null);
   const email = genericEmail(tags['contact:email'] || tags.email || null);
-  const telegram = cleanTelegram(tags['contact:telegram'] || tags.telegram || tags['social:telegram'] || null);
+  const telegramLocators = osmTelegramLocators(tags);
+  const telegram = telegramLocators[0] ?? null;
+  const extraPhones = osmAdditionalPhones(tags, phone, input.country);
   const sourceObservedAt = collectedAt && Number.isFinite(Date.parse(collectedAt)) ? new Date(collectedAt).toISOString()
     : typeof raw.timestamp === 'string' && Number.isFinite(Date.parse(raw.timestamp))
     ? new Date(raw.timestamp).toISOString()
@@ -1299,6 +1367,12 @@ export function candidateFromOsmElement(
   if (phone) evidence.push(sourceEvidence(
     'company_contacts.phone', phone, sourceUrl, 'openstreetmap', 0.74, 'company_data', sourceObservedAt,
   ));
+  // Every further number of a multi-value tag ("+998 71 …; +998 90 …") and of
+  // the mobile / WhatsApp tags: the first one is often the reception landline
+  // and the mobile that can take a message sits second (audit EX-02).
+  for (const extra of extraPhones) evidence.push(sourceEvidence(
+    'company_contacts.phone', extra, sourceUrl, 'openstreetmap', 0.74, 'company_data', sourceObservedAt,
+  ));
   if (email) evidence.push(sourceEvidence(
     'company_contacts.generic_email', email, sourceUrl, 'openstreetmap', 0.74, 'company_data', sourceObservedAt,
   ));
@@ -1326,6 +1400,11 @@ export function candidateFromOsmElement(
       verifiedAt: evidenceItem.observedAt,
     };
   }
+  // Further handles of the Telegram tags stay unverified evidence; the export
+  // and the account check decide which one, if any, is the business.
+  for (const extra of telegramLocators.slice(1)) evidence.push(sourceEvidence(
+    'web.telegram.unknown', extra, sourceUrl, 'openstreetmap', 0.4, 'model_inference', sourceObservedAt,
+  ));
 
   return {
     sourceId: `osm:${raw.type}:${raw.id}`,

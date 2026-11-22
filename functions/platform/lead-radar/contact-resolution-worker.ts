@@ -13,7 +13,10 @@ export function createContactResolutionQueueDependencies(env: Partial<Env>, db: 
     if (!job.companyId || lead.suppressed || lead.lifecycle === 'do_not_contact') return { pending: false };
     const account = await getTelegramUserAccount(db,job.orgId);
     if (!account || account.status !== 'connected') return { pending: true, reason:'waiting_for_account', retryAfterSeconds:60 };
-    const next=await nextTelegramContactCandidate({db,orgId:job.orgId,companyId:job.companyId,accountId:account.id,now:new Date().toISOString()});
+    // TG Sender resolves public usernames only: phone candidates would burn the
+    // daily check budget (and an OSM refresh) on a guaranteed "unsupported".
+    const next=await nextTelegramContactCandidate({db,orgId:job.orgId,companyId:job.companyId,accountId:account.id,now:new Date().toISOString(),
+      usernameOnly:tgSenderMode(env), publicCheckFetch:(request, init) => fetch(request, init)});
     if (!next.candidateKey) return next;
     const binding = await getTelegramUserAccountGatewayBinding({ db, orgId: job.orgId, accountId: account.id,
       dataKey: env.LEAD_RADAR_TELEGRAM_CAMPAIGN_DATA_KEY! });
@@ -26,7 +29,7 @@ export function createContactResolutionQueueDependencies(env: Partial<Env>, db: 
     }
       const result = await checkCorporateTelegramContact({ db, orgId: job.orgId, searchId: job.searchId,
         companyId: job.companyId, candidateKey: next.candidateKey, accountId: account.id,
-        resolve: (target, operationId) => tgSenderMode(env) ? resolveOutreachContact(env as Env, job.orgId, target) : resolveTelegramContact({ service: env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+        resolve: (target, operationId) => tgSenderMode(env) ? resolveOutreachContact(env as Env, job.orgId, target, db) : resolveTelegramContact({ service: env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
           internalServiceToken: env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN, orgId: job.orgId,
           gatewayAccountRef: binding.gatewayAccountRef, target, operationId }),
       });

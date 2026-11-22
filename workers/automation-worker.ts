@@ -346,7 +346,13 @@ export default {
       if (await firecrawlStore.available()) await firecrawlStore.purgeResults(retentionNow.toISOString());
     } catch { recordLeadRadarFailure('firecrawl_retention', new Error('firecrawl_retention_failed')); }
     try {
-      if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) await new ContactDiscoveryStore(env.GPTBOT_DRAFTS_DB).purgeExpired(retentionNow.toISOString());
+      if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) {
+        // SC-01: unreached pool candidates become inert company rows before
+        // the retention purge clears expired pools.
+        try { await new LeadRadarStore(env.GPTBOT_DRAFTS_DB).flushExpiredContactPools(retentionNow.toISOString()); }
+        catch { recordLeadRadarFailure('contact_pool_flush', new Error('contact_pool_flush_failed')); }
+        await new ContactDiscoveryStore(env.GPTBOT_DRAFTS_DB).purgeExpired(retentionNow.toISOString());
+      }
     } catch { recordLeadRadarFailure('contact_retention', new Error('contact_retention_failed')); }
     try {
       if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) {

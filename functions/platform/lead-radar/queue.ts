@@ -1,5 +1,6 @@
 import type { LeadRadarSearchInput, LeadRadarSearchResult } from '../../../src/shared/lead-radar';
 import { fanOutDiscovery } from './discovery-sources';
+import { TWO_GIS_SOURCE_ID } from './two-gis-source';
 import { LeadRadarBusyError, mergeWebsiteFactsIntoLead, sourceCandidateToStoredLead } from './service';
 import {
   enrichCompanyWebsiteDetailed,
@@ -395,9 +396,11 @@ async function discoverWithSources(
   if (discovery.failures === configured.size) {
     throw discovery.errors[0] ?? new Error('discovery_failed');
   }
+  // SC-14: a catalog that silently never ran looks like a thin city. Say so.
+  const skipped = configured.has(TWO_GIS_SOURCE_ID) ? [] : [`source_skipped:${TWO_GIS_SOURCE_ID}_no_key`];
   return {
     candidates: discovery.candidates,
-    sourceWarnings: discovery.warnings,
+    sourceWarnings: [...discovery.warnings, ...skipped],
     rawDiscoveredCount: discovery.rawDiscoveredCount,
     ...(discovery.yieldBySource ? { sourceYield: discovery.yieldBySource } : {}),
   };
