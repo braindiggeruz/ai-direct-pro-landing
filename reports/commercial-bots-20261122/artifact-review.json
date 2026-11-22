@@ -1,0 +1,247 @@
+{
+  "checkedAt": "2026-11-22T04:34:35.954Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-20-uz-now-b/reviewed-protected-pages.json",
+  "sitemapBefore": 426,
+  "sitemapAfter": 427,
+  "added": [
+    "/uz/blog/telegram-bot-yaratish/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/uz/blog/telegram-bot-yaratish/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/telegram-bot-biznes-uchun/",
+        "/ru/blog/kak-sozdat-telegram-bota/",
+        "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {
+    "/ru/razrabotka-telegram-bota-tashkent/": "Hub diet (roadmap 2026-11-22 §4.4): title «Разработка Telegram-ботов на заказ в Ташкенте — от 990 000 сум», H1 «Разработка и создание телеграм-ботов на заказ в Ташкенте», description with «на заказ» and the 990 000 floor. In Uzbekistan the page had 31 impressions at 74.8 over 19.08–19.11; rollback = git revert of the content commit.",
+    "/uz/chat-bot-narxi/": "Phrase gap (roadmap 2026-11-22 §4.1): the manifest owner of «telegram bot yaratish narxi» (Google Ads 20 a month) never used the phrase; title, H1 and description now name it. 4 impressions at 102.3 over 19.08–19.11."
+  },
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/telegram-bot-yaratish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/telegram-bot-yaratish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/ai-bot-dlya-salona-krasoty/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/chat-bot-dlya-biznesa/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/luchshie-razrabotchiki-chat-botov-tashkent/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/chat-bot-po-uzbekistanu/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/razrabotka-telegram-bota-tashkent/",
+      "fields": [
+        "title",
+        "h1",
+        "description",
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/ai-bot-dlya-horeca/",
+        "/ru/ai-bot-dlya-kliniki/",
+        "/ru/ai-bot-dlya-magazina/",
+        "/ru/ai-bot-dlya-salona-krasoty/",
+        "/ru/ai-bot-dlya-uchebnogo-tsentra/"
+      ],
+      "removedLinks": [],
+      "before": {
+        "title": [
+          "Разработка Telegram-бота в Ташкенте от 990 000 сум | GPTBot.uz"
+        ],
+        "h1": [
+          "Разработка и создание Telegram-ботов в Ташкенте для бизнеса"
+        ],
+        "description": [
+          "Разработка Telegram-бота в Ташкенте: заявки и запросы на запись для менеджера. От 990 000 сум за базовый сценарий. Демо, состав и стоимость интеграций."
+        ]
+      },
+      "after": {
+        "title": [
+          "Разработка Telegram-ботов на заказ в Ташкенте — от 990 000 сум"
+        ],
+        "h1": [
+          "Разработка и создание телеграм-ботов на заказ в Ташкенте"
+        ],
+        "description": [
+          "Разработка телеграм-ботов на заказ в Ташкенте: заявки, запись, каталог, CRM и оплата. Бот для заявок — от 990 000 сум, состав и цена — в смете до начала работ."
+        ]
+      }
+    },
+    {
+      "url": "/ru/stoimost-chat-bota/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/telegram-bot-dlya-biznesa/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/chat-bot-narxi/",
+      "fields": [
+        "title",
+        "h1",
+        "description",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": [],
+      "before": {
+        "title": [
+          "Chat-bot narxi O‘zbekistonda 2026 — 990 000 so‘mdan | GPTBot.uz"
+        ],
+        "h1": [
+          "O‘zbekistonda biznes uchun chat-bot narxi"
+        ],
+        "description": [
+          "Chat-bot narxi: Telegram bot 990 000 so‘mdan, Instagram Direct 1 190 000 dan, AI bot 1 990 000 dan, Pro (CRM, to‘lov) 4 900 000 so‘mdan. Paketlar va muddatlar."
+        ]
+      },
+      "after": {
+        "title": [
+          "Telegram bot yaratish narxi 2026 — 990 000 so‘mdan | GPTBot.uz"
+        ],
+        "h1": [
+          "Telegram bot yaratish narxi va chat-bot narxlari O‘zbekistonda"
+        ],
+        "description": [
+          "Telegram bot yaratish narxi: Start 990 000 so‘mdan, AI bot 1 990 000 dan, Pro (CRM, to‘lov) 4 900 000 so‘mdan. Instagram, WhatsApp va muddatlar — jadvalda."
+        ]
+      }
+    },
+    {
+      "url": "/uz/telegram-bot-biznes-uchun/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/telegram-bot-yaratish/"
+      ],
+      "removedLinks": [
+        "/ru/blog/kak-sozdat-telegram-bota/",
+        "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/"
+      ]
+    },
+    {
+      "url": "/ru/blog/kak-sozdat-telegram-bota/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/telegram-bot-yaratish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/skolko-stoit-razrabotka-telegram-bota-v-tashkente/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+        "/ru/razrabotka-telegram-bota-tashkent/#lead-form",
+        "/ru/stoimost-chat-bota/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/telegram-bot-yaratish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/uz/blog/telegram-bot-yaratish/"
+      ],
+      "relabelled": [
+        {
+          "url": "/ru/razrabotka-telegram-bota-tashkent/",
+          "before": "Разработка и создание Telegram-ботов в Ташкенте для бизнеса",
+          "after": "Разработка и создание телеграм-ботов на заказ в Ташкенте"
+        },
+        {
+          "url": "/uz/chat-bot-narxi/",
+          "before": "O‘zbekistonda biznes uchun chat-bot narxi",
+          "after": "Telegram bot yaratish narxi va chat-bot narxlari O‘zbekistonda"
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 424
+}

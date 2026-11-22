@@ -4,8 +4,9 @@
   "url": "/uz/chat-bot-narxi/",
   "slug": "chat-bot-narxi",
   "pageType": "money",
-  "primaryKeyword": "chat-bot narxi",
+  "primaryKeyword": "telegram bot yaratish narxi",
   "secondaryKeywords": [
+    "chat-bot narxi",
     "AI bot narxi",
     "Telegram bot narxi",
     "chat-bot qancha turadi",
@@ -13,19 +14,19 @@
     "chat-bot buyurtma narxi"
   ],
   "searchIntent": "commercial",
-  "h1": "O‘zbekistonda biznes uchun chat-bot narxi",
-  "title": "Chat-bot narxi O‘zbekistonda 2026 — 990 000 so‘mdan | GPTBot.uz",
-  "description": "Chat-bot narxi: Telegram bot 990 000 so‘mdan, Instagram Direct 1 190 000 dan, AI bot 1 990 000 dan, Pro (CRM, to‘lov) 4 900 000 so‘mdan. Paketlar va muddatlar.",
+  "h1": "Telegram bot yaratish narxi va chat-bot narxlari O‘zbekistonda",
+  "title": "Telegram bot yaratish narxi 2026 — 990 000 so‘mdan | GPTBot.uz",
+  "description": "Telegram bot yaratish narxi: Start 990 000 so‘mdan, AI bot 1 990 000 dan, Pro (CRM, to‘lov) 4 900 000 so‘mdan. Instagram, WhatsApp va muddatlar — jadvalda.",
   "canonical": "https://gptbot.uz/uz/chat-bot-narxi/",
   "hreflangRu": "/ru/stoimost-chat-bota/",
   "hreflangUz": "/uz/chat-bot-narxi/",
-  "ogTitle": "Chat-bot narxi O‘zbekistonda 2026 — 990 000 so‘mdan | GPTBot.uz",
-  "ogDescription": "Chat-bot narxi: Telegram bot 990 000 so‘mdan, Instagram Direct 1 190 000 dan, AI bot 1 990 000 dan, Pro (CRM, to‘lov) 4 900 000 so‘mdan. Paketlar va muddatlar.",
+  "ogTitle": "Telegram bot yaratish narxi 2026 — 990 000 so‘mdan | GPTBot.uz",
+  "ogDescription": "Telegram bot yaratish narxi: Start 990 000 so‘mdan, AI bot 1 990 000 dan, Pro (CRM, to‘lov) 4 900 000 so‘mdan. Instagram, WhatsApp va muddatlar — jadvalda.",
   "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
   "robotsIndex": true,
   "robotsFollow": true,
   "breadcrumbLabel": "Chat-bot narxi",
-  "heroTitle": "Biznes uchun chat-bot narxi",
+  "heroTitle": "Telegram bot yaratish narxi va chat-bot narxlari",
   "heroSubtitle": "Telegram bot — 990 000 so‘mdan, bitta kanal uchun AI bot — 1 990 000 so‘mdan. Quyida paket tarkibi, muddatlar va ishga tushirgandan keyingi alohida xarajatlar keltirilgan.",
   "ctaPrimaryLabel": "Narxni bilish",
   "ctaPrimaryHref": "#lead-form",
@@ -34,11 +35,15 @@
   "bodyBlocks": [
     {
       "type": "p",
+      "text": "Telegram bot yaratish narxi GPTBot.uz’da — 990 000 so‘mdan: Start paketida tugmali ssenariy, FAQ va arizalar bitta tanlangan tilda. AI-javoblar va CRM bilan «Biznes» — 2 490 000 so‘mdan, CRM, Payme/Click to‘lovi va vitrina yoki Mini App bilan Pro — 4 900 000 so‘mdan. Bitta kanal uchun AI bot — 1 990 000 so‘mdan. Aniq summa va muddat ishdan oldin smetada qayd etiladi."
+    },
+    {
+      "type": "p",
       "text": "Kerakli natijani tanlab, mos paketlarni solishtiring. Bu GPTBot.uz xizmatlarining ko‘rsatilgan tarkib uchun boshlang‘ich narxlari; aniq ish hajmi, muddat va summa brifdan keyin kelishiladi."
     },
     {
       "type": "h2",
-      "text": "Chat-bot tariflari jadvali 2026"
+      "text": "Telegram bot yaratish narxi: tariflar jadvali 2026"
     },
     {
       "type": "table",
@@ -330,6 +335,10 @@
       "a": "Tariflar jadvalidagi eng past narx — Telegram’dagi bazaviy bot uchun 990 000 so‘mdan. Instagram Direct boti 1 190 000 so‘mdan, to‘laqonli AI-voronka esa 1 990 000 so‘mdan boshlanadi. Aniq narxni qisqa brifdan keyin vazifangizga qarab qayd etamiz."
     },
     {
+      "q": "Telegram bot yaratish narxi qancha?",
+      "a": "Narx tarkibga bog‘liq: Start — 990 000 so‘mdan (tugmalar, FAQ, arizalar, bitta til), Biznes — 2 490 000 so‘mdan, Pro — 4 900 000 so‘mdan. Ikkinchi til va integratsiyalar alohida hisoblanadi, yakuniy summa brifdan keyin smetada kelishiladi."
+    },
+    {
       "q": "“Dan boshlab” narxi nimani anglatadi?",
       "a": "Bu jadvalda ko‘rsatilgan tarkibdagi aniq paketning eng past narxi. Qo‘shimcha kanal, CRM, to‘lov, katalog, yuqori yuklama yoki kengaytirilgan qo‘llab-quvvatlash kerak bo‘lsa, ular smetaga alohida qo‘shiladi."
     },
@@ -428,9 +437,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-23",
+  "lastReviewedAt": "2026-11-22",
   "createdAt": "2026-06-25T00:00:00Z",
-  "updatedAt": "2026-10-23",
+  "updatedAt": "2026-11-22",
   "heroTrust": [
     "Narx va paket tarkibi",
     "Telegram Start — bitta til",

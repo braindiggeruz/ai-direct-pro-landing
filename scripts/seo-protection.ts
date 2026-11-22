@@ -282,7 +282,15 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // download guide rewords two sentences of 20.11 without «rasmiy»; both and the
 // RU chat name their BreadcrumbList (outside the contract); see
 // reports/uz-now-20261120/review-b.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-20-uz-now-b/reviewed-protected-pages.json';
+// The 2026-11-22-commercial-bots revision (owner, chat 22.11: «приступай и
+// делай автономно комплексно улучшения согласно твоему роад мапу!», the TOP-3
+// roadmap for «заказать / разработка телеграм-бота») changes only the
+// homepage, and only its lists: one entry for the new single-language guide
+// /uz/blog/telegram-bot-yaratish/ and two relabelled entries, whose H1 changed
+// on purpose (the slimmed RU Telegram-bot hub and /uz/chat-bot-narxi/, which
+// now names «telegram bot yaratish narxi»). Nine pages keep their complete
+// contract; see reports/commercial-bots-20261122/review.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-22-commercial-bots/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

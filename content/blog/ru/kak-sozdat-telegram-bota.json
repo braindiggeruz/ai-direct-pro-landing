@@ -61,6 +61,18 @@
       "text": "BotFather создаёт аккаунт и выдаёт токен, но не пишет ответы, не хранит заявки и не запускает бизнес-логику. После /newbot работа только начинается."
     },
     {
+      "type": "linkp",
+      "text": "Читаете по-узбекски? Та же инструкция на узбекском языке — {uz}.",
+      "links": [
+        {
+          "token": "uz",
+          "target": "/uz/blog/telegram-bot-yaratish/",
+          "anchor": "Telegram bot yaratish: 7 qadamli qo‘llanma",
+          "lang": "uz"
+        }
+      ]
+    },
+    {
       "type": "h2",
       "id": "chto-ponadobitsya",
       "text": "Что понадобится до создания бота?"
@@ -841,7 +853,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-07-27",
-  "dateModified": "2026-07-27",
+  "dateModified": "2026-11-22",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -849,7 +861,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-07-27T00:00:00.000Z",
+  "updatedAt": "2026-11-22T00:00:00.000Z",
   "createdAt": "2026-07-27T00:00:00.000Z",
   "sources": [
     {

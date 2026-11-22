@@ -133,6 +133,17 @@
     },
     {
       "type": "linkp",
+      "text": "Botni hali yaratmagan bo‘lsangiz, avval {guide} bilan tanishing: BotFather, token, konstruktor yoki kod va hosting.",
+      "links": [
+        {
+          "token": "guide",
+          "target": "/uz/blog/telegram-bot-yaratish/",
+          "anchor": "Telegram bot yaratish bo‘yicha qo‘llanma"
+        }
+      ]
+    },
+    {
+      "type": "linkp",
       "text": "Barcha tariflar va har birining tarkibi — {narx} sahifasida.",
       "links": [
         {
@@ -239,7 +250,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-01",
-  "dateModified": "2026-09-29",
+  "dateModified": "2026-11-22",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -247,7 +258,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-09-29T00:00:00.000Z",
+  "updatedAt": "2026-11-22T00:00:00.000Z",
   "createdAt": "2026-07-01T00:00:00.000Z",
   "sources": [
     {
