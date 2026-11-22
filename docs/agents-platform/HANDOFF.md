@@ -1,3 +1,32 @@
+# Current handoff — chat conversion release D: the 3-day pack leads, the last-trial card sells it, two counters · 22.11.2026
+
+## 1. State
+Branch feat/chat-cro-d-20261122 on 83b34aef (production 166db6f5 + docs). One release commit; deploy through the workflow «Pages production deploy» on main after the merge (owner's order of 22.11, D-CHAT-CRO-D-20261122). Audit and roadmap outside the repository: F:/Claude/gptbot_conversion/conversion-audit-20261122.md (+ data/ with the read-only D1 queries).
+## 2. Delivered
+(a) Pack window and trial paywall: the first row leads (filled buttons, job line), the other row has quiet outlines; a holder's lead stays the month. (b) The last-trial card sells the 3-day pack by name while the server offers it (ChatPackPrompt; AiChatConsole passes the sku). (c) Fine line «Разовая покупка, без автосписаний · без возврата · не ChatGPT» / «Bir martalik xarid, avtomatik yechim yo‘q · qaytarilmaydi · ChatGPT emas»; noRefund near the price unchanged. (d) UI events pay_share (shown, telegram, copied) and checkout_result_class (result.app.os), counted from chat-pay; checkout_result unchanged for the admin.
+## 3. Files
+src/gpt-chat/parts/{pay-screens.tsx,pay.css,chat-conversion.tsx,conversion.css,chat-account.ts}; src/gpt-chat/{pack-text.ts,account-strings.ts,ui-events.ts}; src/gpt-chat/components/{AiAccountPanel.tsx,AiChatConsole.tsx}; functions/lib/gpt-chat/ui-event-store.ts; docs/paid-chat/ANALYTICS-RU.md; tests/{chat-trial-paywall,gpt-two-packs,gpt-pack-dialog}.test.ts; docs/agents-platform/{STATE.json,HANDOFF.md,DECISIONS.md}.
+## 4. Decisions
+D-CHAT-CRO-D-20261122: one pack leads (every purchase since 17.11 was the 3-day pack); the first payment is sold at the last trial answer; honesty kept (no-refund beside the price, no «подписка» wording, which tests/gpt-chat-honesty bans); measurement before the QR.
+## 5. Excluded
+Desktop QR (no encoder; owner test payments first). Empty-state price (the chat keeps every sum server-side and the empty state renders before the account view). «Javob tayyor», Telegram receipt and reminders (offer edition + lawyer). Protected pages (after 21.12).
+## 6. Validation
+npx tsc -b: 0. eslint on the changed files (including AiAccountPanel.tsx and AiChatConsole.tsx): 0. npm run build:fast: ok. scripts/chat-bundle-budget.ts: within budget — start 109 790 / 110 000 B (these edits ≈ +80 B), chat-account 11 471 / 12 000, chat-pay 7 814, chat-conversion 5 227. seo-protection check: 10/10 unchanged (the chat strings are client-rendered; the protected pages are byte-identical). Tests green: gpt-pack-dialog 21, gpt-two-packs 10 (row regex and lead/quiet assertions updated), chat-trial-paywall 7 (new conversion-audit test), gpt-ui-events 14, gpt-pay-cro 22, gpt-once-pack 20, gpt-limit-state 18, gpt-admin-ai-chat 17, gpt-guest-checkout 14, gpt-payme-link 4, gpt-checkout-intent 2, chat-cro-ui 6, chat-entry 6, gpt-chat-lazy-part 10, studio-analytics 11, gpt-pay-browser 1 (built site, screenshots), chat-conversion-browser 1, measurement-funnel-browser 1, gpt-chat-rev-design 25, chat-bundle-budget 12. Pre-existing failures, identical by name on a clean worktree of 83b34aef: gpt-account-ui 2 (limit-card and use-account regexes), gpt-chat-honesty 1 («Qayta yozish» versions), legal-oferta 3 ((f), built-site offers, live gate), gpt-chat-business-line 1, gpt-live-readiness 1 (committed configuration); chat-trial-browser 1 (line 133 expects a dead send button after reload: stale since 3db791a8 of 17.11, test last changed 26.10).
+## 7. Known limits
+Tiny samples: 3 real purchases in the five days after 17.11; read the steps of the funnel, not purchase counts. The start bundle has ≈210 B left.
+## 8. Next task
+Owner: two test payments of 5 000 (computer and iPhone) while an agent tails the deployment logs; letters to Click and Payme about the display name (texts in F:/Claude/gptbot_conversion/conversion-audit-20261122/letters-click-payme.md); say whether Z.ai is a new package or a balance (docs/paid-chat/MODEL-CLIFF-1712-RU.md, variants A/B). Agents: read the funnel on 24.11 and 01.12 with data/q1.js and data/q2.js.
+## 9. Acceptance
+Live: the pack window and the paywall show the 3-day row first with filled buttons and the job line, the monthly row with outline buttons; the last-trial card shows 5 000 and pays the 3-day pack; POST /api/gpt/event accepts pay_share and checkout_result_class.
+## 10. Start commands
+git log --oneline -3; node --import tsx --test tests/chat-trial-paywall.test.ts; npm run build:fast; npx tsx scripts/chat-bundle-budget.ts; npx tsx scripts/seo-protection.ts check.
+## 11. Risks
+Low: copy and styling of the pay surfaces plus two additive event types; order creation and money paths untouched.
+## 12. Rollback
+git revert of the release commit, rebuild, redeploy with the workflow.
+
+---
+
 # Current handoff — commercial bot queries («заказать / разработка телеграм-бота»): roadmap release · 22.11.2026
 
 ## 1. State

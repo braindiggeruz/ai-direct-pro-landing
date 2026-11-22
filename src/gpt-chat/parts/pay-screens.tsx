@@ -101,6 +101,19 @@ export function payEvent(
   recordUiEvent(apiBase, type as 'checkout_created', (lead ? `${lead}.${tail}` : tail) as `${CheckoutProvider}.${CheckoutBucket}.${CheckoutApp}.${CheckoutOs}`);
 }
 
+/**
+ * A watched payment's ending with the client class, result.app.os (conversion
+ * audit 2026-11-22, C2): how many payments end on a computer and how many on a
+ * phone. Asked for through chat-account (reportResultClass), beside checkout_result.
+ */
+export function resultClass(apiBase: string, result: 'paid' | 'pending' | 'cancelled'): void {
+  const { app, os } = clientClass();
+  recordUiEvent(apiBase, 'checkout_result_class', `${result}.${app}.${os}`);
+}
+
+/** The page's API base, as the limit card reads it (chat-conversion.tsx): the share screen has no prop for it. */
+const rootApi = (): string => (typeof document === 'undefined' ? '' : document.getElementById('gpt-chat-root')?.dataset.apiBase ?? '');
+
 // ---------------------------------------------------------------- copy
 
 const NAMES: Record<PaymentProvider, string> = { click: 'Click', payme: 'Payme', uzum: 'Uzum Bank' };
@@ -310,7 +323,13 @@ export function PayExtras({ locale, pack, offers, providers, busy, termsUrl, onA
 /**
  * Two packs on offer (the 3-day pack beside the monthly one): a row each, with
  * its sum, what it holds, the price of one answer and its own pay buttons, so
- * one tap still pays. Nothing is preselected. Every number is the server's.
+ * one tap still pays. Every number is the server's.
+ *
+ * One pack leads (conversion audit 2026-11-22, B2): every purchase since
+ * 17.11 was the 3-day pack, and four buttons of equal weight left the eye
+ * nowhere to land. The 3-day pack keeps the filled buttons and a line naming
+ * its job; the other pack's buttons are quiet outlines. Nothing is selected
+ * for the buyer and both packs still pay in one tap.
  */
 export function PayPacks({ locale, offers, providers, busy, onPay }: {
   locale: Locale; offers: PackOffer[]; providers: readonly PaymentProvider[]; busy: boolean;
@@ -318,15 +337,18 @@ export function PayPacks({ locale, offers, providers, busy, onPay }: {
 }) {
   const s = packText(locale);
   const best = Math.min(...offers.map(perAnswer));
+  // The first row leads: the 3-day pack for someone without a pack, the monthly one for a holder (pack-offers.ts, listed).
+  const lead = offers[0]?.sku;
   return (
     <div className="gpt-pay-packs" data-testid="ai-pay-packs">
       <WallQuestion locale={locale} />
       {offers.map((offer) => (
-        <section className="gpt-pay-pack" key={offer.sku} data-sku={offer.sku} aria-label={`${s.name(offer)}: ${s.sum(offer)}`}>
+        <section className={offer.sku === lead ? 'gpt-pay-pack gpt-pay-pack-lead' : 'gpt-pay-pack'} key={offer.sku} data-sku={offer.sku} aria-label={`${s.name(offer)}: ${s.sum(offer)}`}>
           <div className="gpt-pay-pack-head">
             <strong>{s.name(offer)}{perAnswer(offer) === best && <em>{s.best}</em>}</strong>
             <b>{s.sum(offer)}</b>
           </div>
+          {offer.sku === 'once' && <p className="gpt-pay-pack-job" data-testid="ai-pay-pack-job">{s.job}</p>}
           <p>{s.facts(offer)} · {s.per(perAnswer(offer))}</p>
           <div className="gpt-pay-pack-buttons">
             {/* The word the acceptance line names, once; then a button per provider. Uzum sells the monthly pack only. */}
@@ -334,7 +356,7 @@ export function PayPacks({ locale, offers, providers, busy, onPay }: {
             {providers.filter((provider) => offer.sku === 'month' || provider !== 'uzum').map((provider) => (
               <button
                 type="button"
-                className="gpt-primary"
+                className={offer.sku === lead ? 'gpt-primary' : 'gpt-primary gpt-pay-quiet'}
                 key={provider}
                 data-provider={provider}
                 data-sku={offer.sku}
@@ -375,6 +397,13 @@ export function PayShare({ locale, provider, url, at, orderState, priceUzs, busy
     return () => window.clearInterval(timer);
   }, []);
   const expired = Date.now() - at >= ORDER_LIFETIME_MS || (orderState !== null && !['pending', 'prepared'].includes(orderState));
+  // «Попросить оплатить» counted (conversion audit 2026-11-22, C1): the live link shown once per screen, then each way of sending it.
+  const shown = useRef(false);
+  useEffect(() => {
+    if (expired || shown.current) return;
+    shown.current = true;
+    recordUiEvent(rootApi(), 'pay_share', 'shown');
+  }, [expired]);
   const sum = sumOf(priceUzs);
   const name = NAMES[provider];
   if (expired)
@@ -393,6 +422,7 @@ export function PayShare({ locale, provider, url, at, orderState, priceUzs, busy
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
+      recordUiEvent(rootApi(), 'pay_share', 'copied');
     } catch {
       input.current?.focus();
       input.current?.select();
@@ -404,7 +434,7 @@ export function PayShare({ locale, provider, url, at, orderState, priceUzs, busy
       <DialogDescription asChild>
         <p className="gpt-panel-note" data-testid="ai-pay-share">{s.shareLead(name, sum)}</p>
       </DialogDescription>
-      <a className="gpt-primary" href={share} target="_blank" rel="noopener noreferrer" data-testid="ai-pay-share-telegram">{s.tg}</a>
+      <a className="gpt-primary" href={share} target="_blank" rel="noopener noreferrer" data-testid="ai-pay-share-telegram" onClick={() => recordUiEvent(rootApi(), 'pay_share', 'telegram')}>{s.tg}</a>
       <button type="button" className="gpt-text-button gpt-pay-copy" data-testid="ai-pay-share-copy" onClick={() => void copy()}>
         {copied ? s.copied : s.copy}
       </button>

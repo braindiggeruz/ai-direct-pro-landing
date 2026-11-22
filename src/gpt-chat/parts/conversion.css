@@ -12,6 +12,9 @@
 .gpt-trial-pack .gpt-trial-pay{display:flex;align-items:center;gap:8px;margin-top:4px}
 .gpt-trial-pack .gpt-trial-pay i,.gpt-limit-small-pay i{flex:none;font-style:normal;font-size:13px;color:var(--text-2);white-space:nowrap}
 .gpt-trial-pack .gpt-trial-pay button{flex:1 1 0;min-width:0;white-space:nowrap}
+.gpt-trial-pack-lead{border-color:var(--accent-line)}
+.gpt-trial-pack .gpt-trial-pack-job{font-style:normal;font-size:13px;line-height:1.4;color:var(--accent-text)}
+.gpt-trial-pack .gpt-trial-pay button.gpt-trial-quiet{background:transparent;border:1px solid var(--accent-line);color:var(--accent-text)}
 .gpt-limit-small{display:grid;gap:8px;width:100%}
 .gpt-limit-small-pay{display:flex;align-items:center;gap:8px}
 .gpt-limit-small-pay .gpt-primary{flex:1 1 0;min-width:0;white-space:nowrap}

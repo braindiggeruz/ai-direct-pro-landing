@@ -14,3 +14,7 @@ import type { CheckoutWatch } from '../checkout';
  */
 export const reportPurchase = (account: AccountView | null, watch: CheckoutWatch): Promise<void> =>
   payPart.load().then((part) => part.reportPurchase(account, watch));
+
+/** A watched payment's ending with the client class (conversion audit 2026-11-22, C2), counted from chat-pay. */
+export const reportResultClass = (apiBase: string, result: 'paid' | 'pending' | 'cancelled'): Promise<void> =>
+  payPart.load().then((part) => part.resultClass(apiBase, result));

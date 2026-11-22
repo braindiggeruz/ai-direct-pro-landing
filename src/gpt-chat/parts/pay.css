@@ -32,5 +32,8 @@ a.gpt-primary[data-testid="ai-pay-share-telegram"]{margin:6px 0 0}
 .gpt-pay-pack-buttons{display:flex;align-items:center;gap:8px}
 .gpt-pay-pack-buttons>span{flex:none;font-size:13px;color:var(--text-2);white-space:nowrap}
 .gpt-pay-pack-buttons .gpt-primary{flex:1 1 0;min-width:0;min-height:48px;margin:0;white-space:nowrap}
+.gpt-pay-pack-lead{border-color:var(--accent-line)}
+.gpt-pay-pack .gpt-pay-pack-job{margin:2px 0 0;font-size:13px;color:var(--accent-text)}
+.gpt-pay-pack-buttons .gpt-pay-quiet{background:transparent;border:1px solid var(--accent-line);color:var(--accent-text);box-shadow:none}
 .gpt-pay-cheaper{min-height:44px;padding:8px 12px;border:1px solid var(--accent-line);border-radius:12px;background:transparent;color:var(--accent-text);font-size:14px;font-weight:600;cursor:pointer}
 .gpt-pay-cheaper:disabled{opacity:.5;cursor:default}

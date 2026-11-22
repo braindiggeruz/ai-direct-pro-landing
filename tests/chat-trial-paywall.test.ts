@@ -143,6 +143,34 @@ test('Ш7 and the role on the start bundle: a prop or two, the copy stays in the
   assert.match(card, /<strong>\{last\?last\.lastTitle:/);
 });
 
+test('conversion audit 2026-11-22: the 3-day pack leads the paywall, the last-trial card sells it, the share link and the ending are counted', () => {
+  const part = read('src/gpt-chat/parts/chat-conversion.tsx');
+  const paywall = part.slice(part.indexOf('export function TrialPaywall('), part.indexOf('export function ChatPackPrompt('));
+  // B2: the 3-day pack leads with its job named; the monthly pack's buttons are quiet outlines; both still pay in one tap.
+  assert.match(paywall, /className=\{offer\.sku === 'once' \? 'gpt-trial-pack gpt-trial-pack-lead' : 'gpt-trial-pack'\}/);
+  assert.match(paywall, /\{offer\.sku === 'once' && <em className="gpt-trial-pack-job" data-testid="trial-pack-job">\{o\.job\}<\/em>\}/);
+  assert.match(paywall, /className=\{offer\.sku === 'once' \? undefined : 'gpt-trial-quiet'\}/);
+  assert.match(paywall, /onPay\(provider, offer\.sku === 'once' \? 'once' : undefined\);/);
+  // The last-trial card (trial_last) sells the 3-day pack while the server offers it, and pays it by name.
+  const card = part.slice(part.indexOf('export function ChatPackPrompt('));
+  assert.match(card, /const small=trial\?offersOf\(pack\)\.find\(offer=>offer\.sku==='once'\):undefined;/);
+  assert.match(card, /format\(small\?small\.priceUzs:pack\.priceUzs\)/);
+  assert.match(card, /data-sku=\{small\?'once':'month'\}/);
+  assert.match(card, /onPay\(provider,small\?'once':undefined\);/);
+  assert.match(read('src/gpt-chat/components/AiChatConsole.tsx'), /onPay=\{\(provider,sku\)=>openAccount\("after_value",provider,sku\)\}/);
+  // The job line in both languages: plain, no sum, no ASCII apostrophe in Uzbek.
+  const job = read('src/gpt-chat/pack-text.ts').match(/job: '([^']+)'/g) ?? [];
+  assert.equal(job.length, 2);
+  for (const line of job) assert.doesNotMatch(line, /\d|сум|so‘m|!/, line);
+  // C1 and C2: «Попросить оплатить» counted on the share screen; every ending counted with the client class.
+  const pay = read('src/gpt-chat/parts/pay-screens.tsx');
+  for (const step of ['shown', 'copied', 'telegram']) assert.match(pay, new RegExp(`recordUiEvent\\(rootApi\\(\\), 'pay_share', '${step}'\\)`), step);
+  assert.match(pay, /recordUiEvent\(apiBase, 'checkout_result_class', `\$\{result\}\.\$\{app\}\.\$\{os\}`\);/);
+  assert.deepEqual([...UI_EVENTS.pay_share], ['shown', 'telegram', 'copied']);
+  assert.ok((UI_EVENTS.checkout_result_class as readonly string[]).includes('paid.none.desktop'));
+  assert.ok((UI_EVENTS.checkout_result_class as readonly string[]).includes('cancelled.telegram.ios'));
+});
+
 test('the limit card under the trial: no «Kutishni xohlamaysizmi?», the pack facts stay; a cap that time lifts keeps the question', () => {
   const now = Date.parse('2026-11-12T10:00:00Z');
   const input = { billingAvailable: true, paid: false, botHandoff: false, remaining: 0, pack: { ...PACK } };

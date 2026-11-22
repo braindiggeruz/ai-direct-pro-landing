@@ -77,6 +77,18 @@ export const UI_EVENTS = {
   checkout_started: ["click", "uzum", "payme"],
   /** How the payment the browser waited for ended: paid, still pending after the wait, or cancelled. */
   checkout_result: ["paid", "pending", "cancelled"],
+  /**
+   * The same ending with the client class the checkout steps carry, result.app.os
+   * (conversion audit 2026-11-22, C2): how many payments end on a computer and
+   * how many on a phone. checkout_result keeps its words for the readers that count it.
+   */
+  checkout_result_class: cross(cross(["paid", "pending", "cancelled"] as const, CHECKOUT_APPS), CHECKOUT_OS),
+  /**
+   * «Попросить оплатить» (conversion audit 2026-11-22, C1): the link screen shown,
+   * the Telegram share tapped, the link copied. Whether the shared order was then
+   * paid is the order's own state, read from the orders, not from here.
+   */
+  pay_share: ["shown", "telegram", "copied"],
   /** The order exists: subscribe answered; the time is subscribe's. */
   checkout_created: CHECKOUT_TAIL,
   /** The browser did not keep the guest cookie (or could not tell); the time is the probe's. */
@@ -110,6 +122,8 @@ export const PACK_WINDOW_EVENTS: ReadonlySet<UiEventType> = new Set<UiEventType>
   "login_result",
   "checkout_started",
   "checkout_result",
+  "checkout_result_class",
+  "pay_share",
   "checkout_created",
   "checkout_probe_failed",
   "checkout_aborted",

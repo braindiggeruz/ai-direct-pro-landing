@@ -41,6 +41,8 @@ GA4 не видит тех, кто блокирует аналитику. Поэ
 | `login_result` | `done` / `rejected` / `expired` / `failed` |
 | `checkout_started` | `click` / `uzum` / `payme` |
 | `checkout_result` | `paid` / `pending` / `cancelled` |
+| `checkout_result_class` (с 22.11.2026) | то же окончание с классом клиента `результат.приложение.система`, например `paid.none.desktop`: сколько оплат заканчивается на компьютере и сколько на телефоне. Приложение и система — те же закрытые списки, что у шагов пути оплаты (`src/shared/checkout-events.ts`); `checkout_result` не меняется |
+| `pay_share` (с 22.11.2026) | «Попросить оплатить»: `shown` — экран со ссылкой показан, `telegram` — нажата отправка в Telegram, `copied` — ссылка скопирована. Оплачен ли переданный счёт, видно по самому заказу |
 | `b2b_line_shown`, `b2b_line_dismissed` | тема бизнес-строки: `bot` / `site` / `ads` / `crm` / `smm` / `uzum` |
 | `pack_prompt_viewed`, `pack_prompt_dismissed` | `after_answer` / `near_limit` / `trial_exhausted` / `trial_last` |
 | `trial_paywall_role` (с 26.10.2026) | роль страницы, где кончилась проба: `general` (главные чаты) / `translator` / `teacher` / `smm` / `marketer` / `business` / `writer` — какой инструмент приводит к пэйволлу |
