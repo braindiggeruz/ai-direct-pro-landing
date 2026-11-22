@@ -1,0 +1,35 @@
+row_type,segment_or_query,query_rows,clicks,impressions,ctr,position
+TOTAL,brand,244,1056,8056,0.1311,
+TOTAL,non-brand,756,2095,114137,0.0184,
+TOTAL,outside top-1000 rows / anonymized (property total from date series minus listed queries),,6040,262269,,
+TOTAL,property total 3m (date series),,9191,384462,0.0239,
+TOP_BRAND_QUERY,haier,,118,1288,0.0916,2.7
+TOP_BRAND_QUERY,haiershop,,83,116,0.7155,1.8
+TOP_BRAND_QUERY,haier uz,,44,224,0.1964,2.1
+TOP_BRAND_QUERY,haier кондиционер,,41,534,0.0768,3.4
+TOP_BRAND_QUERY,haier холодильник,,37,371,0.0997,4.4
+TOP_BRAND_QUERY,haier shop,,29,45,0.6444,2.2
+TOP_BRAND_QUERY,haier стиральная машина,,24,617,0.0389,4.5
+TOP_BRAND_QUERY,haier uzbekistan,,24,182,0.1319,2.9
+TOP_BRAND_QUERY,haier водонагреватель,,23,88,0.2614,1.3
+TOP_BRAND_QUERY,haier katyol,,17,116,0.1466,1.1
+TOP_BRAND_QUERY,haier kondisioner narxlari,,16,89,0.1798,1.6
+TOP_BRAND_QUERY,холодильник haier htf-450lm6ru,,16,44,0.3636,2.1
+TOP_BRAND_QUERY,haier котел,,15,67,0.2239,1.3
+TOP_BRAND_QUERY,водонагреватель haier 50 литров,,14,75,0.1867,3.1
+TOP_BRAND_QUERY,холодильник haier,,13,122,0.1066,4.5
+TOP_BRAND_QUERY,haier котел газовый,,13,48,0.2708,1.8
+TOP_BRAND_QUERY,haier hcr7818dwpt,,12,28,0.4286,2.4
+TOP_BRAND_QUERY,водонагреватель haier 100 литров,,11,44,0.25,3.2
+TOP_BRAND_QUERY,водонагреватель haier 80 литров,,10,98,0.102,2.9
+TOP_BRAND_QUERY,тепловой насос haier,,10,19,0.5263,1.3
+TOP_BRAND_QUERY,haier посудомоечная машина,,9,31,0.2903,1.4
+TOP_BRAND_QUERY,haier greenline,,9,27,0.3333,1
+TOP_BRAND_QUERY,хаер котел,,9,16,0.5625,1
+TOP_BRAND_QUERY,haier air conditioner,,8,100,0.08,2.1
+TOP_BRAND_QUERY,haier konditsioner,,8,85,0.0941,1.1
+TOP_BRAND_QUERY,haier hw120-bd14397su1,,8,38,0.2105,2.9
+TOP_BRAND_QUERY,haier кондиционер 12,,7,204,0.0343,2
+TOP_BRAND_QUERY,кондиционер haier 12 инверторный,,7,152,0.0461,2.6
+TOP_BRAND_QUERY,сушильная машина haier,,7,38,0.1842,4.3
+TOP_BRAND_QUERY,холодильники haier,,7,33,0.2121,6.5

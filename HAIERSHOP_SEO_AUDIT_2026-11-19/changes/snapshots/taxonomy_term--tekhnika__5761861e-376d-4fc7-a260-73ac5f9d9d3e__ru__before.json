@@ -1,0 +1,199 @@
+{
+ "type": "taxonomy_term--tekhnika",
+ "id": "5761861e-376d-4fc7-a260-73ac5f9d9d3e",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e?resourceVersion=id%3A5"
+  }
+ },
+ "attributes": {
+  "drupal_internal__tid": 5,
+  "drupal_internal__revision_id": 5,
+  "langcode": "ru",
+  "revision_created": "2023-07-21T09:55:14+00:00",
+  "revision_log_message": null,
+  "status": true,
+  "name": "Морозильные лари",
+  "description": null,
+  "weight": 0,
+  "changed": "2023-12-27T12:08:53+00:00",
+  "default_langcode": true,
+  "revision_translation_affected": true,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Морозильные лари | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Купить Морозильные лари в Узбекистане недорого с доставкой под ключ. Доступная цена, высочайшее качество, гарантия работы - интернет-магазин Haier Shop"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop — техника для дома и промышленные решения | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "Официальный онлайн-магазин Haier в Узбекистане. Всё — от бытовой техники до промышленного оборудования для вашего бизнеса. Надёжность, инновации и качество в каждом продукте | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "path": {
+   "alias": "/morozilniki/morozilnye-lari",
+   "pid": 258,
+   "langcode": "ru"
+  },
+  "content_translation_source": "und",
+  "content_translation_outdated": false,
+  "content_translation_created": "2023-07-21T09:55:14+00:00",
+  "field_meta_tegi": null,
+  "field_otobrazhenie_kategorii_na_": null
+ },
+ "relationships": {
+  "vid": {
+   "data": {
+    "type": "taxonomy_vocabulary--taxonomy_vocabulary",
+    "id": "39aa8843-6557-483c-a604-66eeb0ec96db",
+    "meta": {
+     "drupal_internal__target_id": "tekhnika"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/vid?resourceVersion=id%3A5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/relationships/vid?resourceVersion=id%3A5"
+    }
+   }
+  },
+  "revision_user": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/revision_user?resourceVersion=id%3A5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/relationships/revision_user?resourceVersion=id%3A5"
+    }
+   }
+  },
+  "parent": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "b3a3195e-833a-48b7-bcc3-249b19748658",
+     "meta": {
+      "drupal_internal__target_id": 4
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/parent?resourceVersion=id%3A5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/relationships/parent?resourceVersion=id%3A5"
+    }
+   }
+  },
+  "content_translation_uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/content_translation_uid?resourceVersion=id%3A5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/relationships/content_translation_uid?resourceVersion=id%3A5"
+    }
+   }
+  },
+  "field_izobrazhenie": {
+   "data": {
+    "type": "file--file",
+    "id": "a74b5b42-f1dc-4aae-9e8d-094686aa3012",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 490,
+     "height": 360,
+     "drupal_internal__target_id": 1423
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/field_izobrazhenie?resourceVersion=id%3A5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/taxonomy_term/tekhnika/5761861e-376d-4fc7-a260-73ac5f9d9d3e/relationships/field_izobrazhenie?resourceVersion=id%3A5"
+    }
+   }
+  }
+ }
+}

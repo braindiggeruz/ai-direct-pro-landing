@@ -1,0 +1,16 @@
+[
+ {
+  "key": "uz|commerce_product--nastennye_gazovye_kotly|431ed497-3cfd-40b7-94dd-a4283cc35045",
+  "alias": "/isitish-uskunalari/gazovyy-kotel-haier-greenline-126-ti",
+  "field": "title",
+  "expected_changed": null,
+  "old": "Газовый котел Haier GreenLine 1.26 Ti",
+  "new": "Gazli qozon Haier GreenLine 1.26 Ti",
+  "changed_keys": [
+   "title"
+  ],
+  "why": [
+   "HS-20: Russian product title on UZ page; literal translation of the RU title of the same product"
+  ]
+ }
+]

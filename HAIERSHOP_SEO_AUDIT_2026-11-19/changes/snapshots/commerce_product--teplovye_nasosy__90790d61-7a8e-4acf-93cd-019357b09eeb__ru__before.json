@@ -1,0 +1,447 @@
+{
+ "type": "commerce_product--teplovye_nasosy",
+ "id": "90790d61-7a8e-4acf-93cd-019357b09eeb",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb"
+  }
+ },
+ "attributes": {
+  "drupal_internal__product_id": 257,
+  "langcode": "ru",
+  "status": true,
+  "title": "Тепловой насос Haier HPM08-Nd2",
+  "path": {
+   "alias": "/teplovye-nasosy/otopitelnoe-oborudovanie/teplovoy-nasos-haier-hpm08-nd2",
+   "pid": 618,
+   "langcode": "ru"
+  },
+  "created": "2025-11-16T16:30:42+00:00",
+  "changed": "2026-11-07T04:20:21+00:00",
+  "default_langcode": true,
+  "overall_rating": null,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Тепловой насос Haier HPM08-Nd2 (R290, A+++) купить в Ташкенте | Haier shop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Я проанализировал данные по тепловому насосу Haier HPM08-Nd2 (и серии HPM-Nd2). Это высокоэффективный, современный продукт на R290 с классом A+++, идеально подходящий для климата Узбекистана, где требуется и отопление, и охлаждение. Чтобы максимально вывести товар в поисковой выдаче Google в Ташкенте, мы должны сделать акцент на локальных коммерческих запросах и обязательно использовать двуязычный подход (русский и узбекский). Ниже представлены мои рекомендации в запрошенном формате: 🇷🇺 Рекомендации по SEO для Google (Русский язык) Заголовок страницы (Title): (Длина: 65 символов. Включены: модель, технология, класс, коммерческий интент, локация.) Тепловой насос Haier HPM08-Nd2 (R290, A+++) купить в Ташкенте. Описание (Description): (Длина: 160 символов. Включены: модель, функции 3-в-1, преимущества, локация, интент.) Купите инверторный тепловой насос Haier HPM08-Nd2 (R290, A+++) для отопления, охлаждения и ГВС в Ташкенте. Высокий COP, класс A+++, гарантия. Доставка по Узбекистану."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "Моноблок Haier ProWarm (EVI DC Inverter) R290. Класс A+++. Эффективное отопление (до -30°C), охлаждение, ГВС. Высокий COP. Установка и продажа в Ташкенте."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "Тепловой насос Haier HPM08-Nd2, купить тепловой насос в Ташкенте, цена теплового насоса Haier, инверторный тепловой насос R290, Haier ProWarm, отопление охлаждение ГВС Узбекистан, A+++ тепловой насос, отопительные системы в ташкенте, Haier"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Ташкент, Узбекистан"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop — техника для дома и промышленные решения | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "Официальный онлайн-магазин Haier в Узбекистане. Всё — от бытовой техники до промышленного оборудования для вашего бизнеса. Надёжность, инновации и качество в каждом продукте | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "content_translation_source": "und",
+  "content_translation_outdated": false,
+  "field_cop_a7_w35": "4.95",
+  "field_cvet": "Белый",
+  "field_diapazon_temperatury_vozd1": "от -30 °C до +43 °C",
+  "field_diapazon_temperatury_vozdu": "от -30 °C до +35 °C",
+  "field_dostavka": null,
+  "field_dostupnyy_napor_vody": "12.5",
+  "field_elektricheskiy_rezervnyy_n": "3",
+  "field_elektropitanie_v_f_gc1": "220-240  / 1 / 50",
+  "field_gabarity_shxgxv111": "1312 x 470 x 990",
+  "field_garantiya": "3 года",
+  "field_holodoproizvoditelnost_a35": "8",
+  "field_khit_prodazh": null,
+  "field_khladagent": "R290",
+  "field_klass_sezonnoy_energoeffe1": "A++",
+  "field_klass_sezonnoy_energoeffek": "A+++",
+  "field_maks_temperatura_vody_otop": "75 °C (Отопление), 60 °C (ГВС)",
+  "field_meta_tegi": "{\"abstract\":\"\\u041c\\u043e\\u043d\\u043e\\u0431\\u043b\\u043e\\u043a Haier ProWarm (EVI DC Inverter) R290. \\u041a\\u043b\\u0430\\u0441\\u0441 A+++. \\u042d\\u0444\\u0444\\u0435\\u043a\\u0442\\u0438\\u0432\\u043d\\u043e\\u0435 \\u043e\\u0442\\u043e\\u043f\\u043b\\u0435\\u043d\\u0438\\u0435 (\\u0434\\u043e -30\\u00b0C), \\u043e\\u0445\\u043b\\u0430\\u0436\\u0434\\u0435\\u043d\\u0438\\u0435, \\u0413\\u0412\\u0421. \\u0412\\u044b\\u0441\\u043e\\u043a\\u0438\\u0439 COP. \\u0423\\u0441\\u0442\\u0430\\u043d\\u043e\\u0432\\u043a\\u0430 \\u0438 \\u043f\\u0440\\u043e\\u0434\\u0430\\u0436\\u0430 \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435.\",\"description\":\"\\u042f \\u043f\\u0440\\u043e\\u0430\\u043d\\u0430\\u043b\\u0438\\u0437\\u0438\\u0440\\u043e\\u0432\\u0430\\u043b \\u0434\\u0430\\u043d\\u043d\\u044b\\u0435 \\u043f\\u043e \\u0442\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u043c\\u0443 \\u043d\\u0430\\u0441\\u043e\\u0441\\u0443 Haier HPM08-Nd2 (\\u0438 \\u0441\\u0435\\u0440\\u0438\\u0438 HPM-Nd2). \\u042d\\u0442\\u043e \\u0432\\u044b\\u0441\\u043e\\u043a\\u043e\\u044d\\u0444\\u0444\\u0435\\u043a\\u0442\\u0438\\u0432\\u043d\\u044b\\u0439, \\u0441\\u043e\\u0432\\u0440\\u0435\\u043c\\u0435\\u043d\\u043d\\u044b\\u0439 \\u043f\\u0440\\u043e\\u0434\\u0443\\u043a\\u0442 \\u043d\\u0430 R290 \\u0441 \\u043a\\u043b\\u0430\\u0441\\u0441\\u043e\\u043c A+++, \\u0438\\u0434\\u0435\\u0430\\u043b\\u044c\\u043d\\u043e \\u043f\\u043e\\u0434\\u0445\\u043e\\u0434\\u044f\\u0449\\u0438\\u0439 \\u0434\\u043b\\u044f \\u043a\\u043b\\u0438\\u043c\\u0430\\u0442\\u0430 \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\\u0430, \\u0433\\u0434\\u0435 \\u0442\\u0440\\u0435\\u0431\\u0443\\u0435\\u0442\\u0441\\u044f \\u0438 \\u043e\\u0442\\u043e\\u043f\\u043b\\u0435\\u043d\\u0438\\u0435, \\u0438 \\u043e\\u0445\\u043b\\u0430\\u0436\\u0434\\u0435\\u043d\\u0438\\u0435.\\r\\n\\r\\n\\u0427\\u0442\\u043e\\u0431\\u044b \\u043c\\u0430\\u043a\\u0441\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u043e \\u0432\\u044b\\u0432\\u0435\\u0441\\u0442\\u0438 \\u0442\\u043e\\u0432\\u0430\\u0440 \\u0432 \\u043f\\u043e\\u0438\\u0441\\u043a\\u043e\\u0432\\u043e\\u0439 \\u0432\\u044b\\u0434\\u0430\\u0447\\u0435 Google \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435, \\u043c\\u044b \\u0434\\u043e\\u043b\\u0436\\u043d\\u044b \\u0441\\u0434\\u0435\\u043b\\u0430\\u0442\\u044c \\u0430\\u043a\\u0446\\u0435\\u043d\\u0442 \\u043d\\u0430 \\u043b\\u043e\\u043a\\u0430\\u043b\\u044c\\u043d\\u044b\\u0445 \\u043a\\u043e\\u043c\\u043c\\u0435\\u0440\\u0447\\u0435\\u0441\\u043a\\u0438\\u0445 \\u0437\\u0430\\u043f\\u0440\\u043e\\u0441\\u0430\\u0445 \\u0438 \\u043e\\u0431\\u044f\\u0437\\u0430\\u0442\\u0435\\u043b\\u044c\\u043d\\u043e \\u0438\\u0441\\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u044c \\u0434\\u0432\\u0443\\u044f\\u0437\\u044b\\u0447\\u043d\\u044b\\u0439 \\u043f\\u043e\\u0434\\u0445\\u043e\\u0434 (\\u0440\\u0443\\u0441\\u0441\\u043a\\u0438\\u0439 \\u0438 \\u0443\\u0437\\u0431\\u0435\\u043a\\u0441\\u043a\\u0438\\u0439).\\r\\n\\r\\n\\u041d\\u0438\\u0436\\u0435 \\u043f\\u0440\\u0435\\u0434\\u0441\\u0442\\u0430\\u0432\\u043b\\u0435\\u043d\\u044b \\u043c\\u043e\\u0438 \\u0440\\u0435\\u043a\\u043e\\u043c\\u0435\\u043d\\u0434\\u0430\\u0446\\u0438\\u0438 \\u0432 \\u0437\\u0430\\u043f\\u0440\\u043e\\u0448\\u0435\\u043d\\u043d\\u043e\\u043c \\u0444\\u043e\\u0440\\u043c\\u0430\\u0442\\u0435:\\r\\n\\r\\n\\ud83c\\uddf7\\ud83c\\uddfa \\u0420\\u0435\\u043a\\u043e\\u043c\\u0435\\u043d\\u0434\\u0430\\u0446\\u0438\\u0438 \\u043f\\u043e SEO \\u0434\\u043b\\u044f Google (\\u0420\\u0443\\u0441\\u0441\\u043a\\u0438\\u0439 \\u044f\\u0437\\u044b\\u043a)\\r\\n\\u0417\\u0430\\u0433\\u043e\\u043b\\u043e\\u0432\\u043e\\u043a \\u0441\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u044b (Title):\\r\\n(\\u0414\\u043b\\u0438\\u043d\\u0430: 65 \\u0441\\u0438\\u043c\\u0432\\u043e\\u043b\\u043e\\u0432. \\u0412\\u043a\\u043b\\u044e\\u0447\\u0435\\u043d\\u044b: \\u043c\\u043e\\u0434\\u0435\\u043b\\u044c, \\u0442\\u0435\\u0445\\u043d\\u043e\\u043b\\u043e\\u0433\\u0438\\u044f, \\u043a\\u043b\\u0430\\u0441\\u0441, \\u043a\\u043e\\u043c\\u043c\\u0435\\u0440\\u0447\\u0435\\u0441\\u043a\\u0438\\u0439 \\u0438\\u043d\\u0442\\u0435\\u043d\\u0442, \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f.)\\r\\n\\r\\n\\u0422\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u0439 \\u043d\\u0430\\u0441\\u043e\\u0441 Haier HPM08-Nd2 (R290, A+++) \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435.\\r\\n\\r\\n\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435 (Description):\\r\\n(\\u0414\\u043b\\u0438\\u043d\\u0430: 160 \\u0441\\u0438\\u043c\\u0432\\u043e\\u043b\\u043e\\u0432. \\u0412\\u043a\\u043b\\u044e\\u0447\\u0435\\u043d\\u044b: \\u043c\\u043e\\u0434\\u0435\\u043b\\u044c, \\u0444\\u0443\\u043d\\u043a\\u0446\\u0438\\u0438 3-\\u0432-1, \\u043f\\u0440\\u0435\\u0438\\u043c\\u0443\\u0449\\u0435\\u0441\\u0442\\u0432\\u0430, \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f, \\u0438\\u043d\\u0442\\u0435\\u043d\\u0442.)\\r\\n\\r\\n\\u041a\\u0443\\u043f\\u0438\\u0442\\u0435 \\u0438\\u043d\\u0432\\u0435\\u0440\\u0442\\u043e\\u0440\\u043d\\u044b\\u0439 \\u0442\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u0439 \\u043d\\u0430\\u0441\\u043e\\u0441 Haier HPM08-Nd2 (R290, A+++) \\u0434\\u043b\\u044f \\u043e\\u0442\\u043e\\u043f\\u043b\\u0435\\u043d\\u0438\\u044f, \\u043e\\u0445\\u043b\\u0430\\u0436\\u0434\\u0435\\u043d\\u0438\\u044f \\u0438 \\u0413\\u0412\\u0421 \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435. \\u0412\\u044b\\u0441\\u043e\\u043a\\u0438\\u0439 COP, \\u043a\\u043b\\u0430\\u0441\\u0441 A+++, \\u0433\\u0430\\u0440\\u0430\\u043d\\u0442\\u0438\\u044f. \\u0414\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u043f\\u043e \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\\u0443.\",\"geo_placename\":\"\\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442, \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TK\",\"keywords\":\"\\u0422\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u0439 \\u043d\\u0430\\u0441\\u043e\\u0441 Haier HPM08-Nd2, \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u0442\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u0439 \\u043d\\u0430\\u0441\\u043e\\u0441 \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435, \\u0446\\u0435\\u043d\\u0430 \\u0442\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u0433\\u043e \\u043d\\u0430\\u0441\\u043e\\u0441\\u0430 Haier, \\u0438\\u043d\\u0432\\u0435\\u0440\\u0442\\u043e\\u0440\\u043d\\u044b\\u0439 \\u0442\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u0439 \\u043d\\u0430\\u0441\\u043e\\u0441 R290, Haier ProWarm, \\u043e\\u0442\\u043e\\u043f\\u043b\\u0435\\u043d\\u0438\\u0435 \\u043e\\u0445\\u043b\\u0430\\u0436\\u0434\\u0435\\u043d\\u0438\\u0435 \\u0413\\u0412\\u0421 \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d, A+++ \\u0442\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u0439 \\u043d\\u0430\\u0441\\u043e\\u0441, \\u043e\\u0442\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c\\u043d\\u044b\\u0435 \\u0441\\u0438\\u0441\\u0442\\u0435\\u043c\\u044b \\u0432 \\u0442\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435, Haier\",\"title\":\"\\u0422\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u0439 \\u043d\\u0430\\u0441\\u043e\\u0441 Haier HPM08-Nd2 (R290, A+++) \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435 | Haier shop\"}",
+  "field_nominalnyy_rashod_vody": "1.38",
+  "field_novinka": null,
+  "field_opisanie_tovara_1": {
+   "value": "<p>Тепловые насосы Haier ProWarm (серия HPM-Nd2) — это интегрированные моноблочные системы, обеспечивающие отопление, охлаждение и ГВС. Основанные на передовой EVI DC Inverter технологии и экологичном хладагенте R290, они гарантируют комфорт и рекордную экономию.</p>",
+   "format": "full_html",
+   "processed": "<p>Тепловые насосы Haier ProWarm (серия HPM-Nd2) — это интегрированные моноблочные системы, обеспечивающие отопление, охлаждение и ГВС. Основанные на передовой EVI DC Inverter технологии и экологичном хладагенте R290, они гарантируют комфорт и рекордную экономию.</p>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p>Серия HPM-Nd2 имеет высший класс энергоэффективности A+++ и впечатляющий SCOP до 5.2. Это позволяет радикально снизить затраты на отопление. В среднем, суточное потребление электроэнергии может составлять всего 10 кВт (для хорошо утепленных домов в умеренном климате), что делает эксплуатацию системы сверхвыгодной. Используется экологичный хладагент R290 (Пропан) с минимальным воздействием на окружающую среду.</p>",
+   "format": "full_html",
+   "processed": "<p>Серия HPM-Nd2 имеет высший класс энергоэффективности A+++ и впечатляющий SCOP до 5.2. Это позволяет радикально снизить затраты на отопление. В среднем, суточное потребление электроэнергии может составлять всего 10 кВт (для хорошо утепленных домов в умеренном климате), что делает эксплуатацию системы сверхвыгодной. Используется экологичный хладагент R290 (Пропан) с минимальным воздействием на окружающую среду.</p>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p>Благодаря технологии EVI DC Inverter, тепловой насос стабильно работает в режиме отопления при температурах до -30 °C, обеспечивая теплоснабжение в самых суровых условиях. Система универсальна: подает теплоноситель до 75 °C для радиаторов и нагревает воду для б</p>",
+   "format": "full_html",
+   "processed": "<p>Благодаря технологии EVI DC Inverter, тепловой насос стабильно работает в режиме отопления при температурах до -30 °C, обеспечивая теплоснабжение в самых суровых условиях. Система универсальна: подает теплоноситель до 75 °C для радиаторов и нагревает воду для б</p>"
+  },
+  "field_opisanie_tovara_4": {
+   "value": "<p>Конструкция моноблока упрощает установку, поскольку все гидравлические компоненты (включая насос) находятся в одном внешнем блоке. Уровень звукового давления оптимизирован и составляет от 45 дБ. Модельный ряд от 8 до 16 кВт (HPM08-Nd2 – HPM16-Nd2) позволяет подобрать идеальное решение для любого объекта.</p>",
+   "format": "full_html",
+   "processed": "<p>Конструкция моноблока упрощает установку, поскольку все гидравлические компоненты (включая насос) находятся в одном внешнем блоке. Уровень звукового давления оптимизирован и составляет от 45 дБ. Модельный ряд от 8 до 16 кВт (HPM08-Nd2 – HPM16-Nd2) позволяет подобрать идеальное решение для любого объекта.</p>"
+  },
+  "field_opisanie_tovara_5": null,
+  "field_opisanie_tovara_6": null,
+  "field_opisanie_tovara_7": null,
+  "field_opisanie_tovara_8": null,
+  "field_poddelnyy_zagolovok": "Тепловой насос Haier",
+  "field_scop_sredniy_klimat_35degc": "4.9",
+  "field_srok_sluzhby": null,
+  "field_strana_proizvodstva": "Китай",
+  "field_teplovaya_moshchnost_a7_w3": "8",
+  "field_tip_kompressora": "EVI Полный DC Инвертор",
+  "field_tip_sistemy": "3-в-1: Отопление, Охлаждение, Горячее водоснабжение (ГВС)",
+  "field_tip_teplovogo_nasosa": "Моноблок, Источник: Воздух-Вода",
+  "field_uroven_shuma_db": 45,
+  "field_vodyanoy_predohranitelnyy": null,
+  "field_v_izbrannoe": null,
+  "field_wi_fi": "Да",
+  "field_zagolovok_opisaniya_1": "Haier ProWarm HPM-Nd2: Тепловой Насос A+++, 3-в-1",
+  "field_zagolovok_opisaniya_2": "Максимальная Экономия: Класс A+++",
+  "field_zagolovok_opisaniya_3": "Всесезонная Надежность до -30 °C",
+  "field_zagolovok_opisaniya_4": "Моноблок и Тихая Работа",
+  "field_zagolovok_opisaniya_5": null,
+  "field_zagolovok_opisaniya_6": null,
+  "field_zagolovok_opisaniya_7": null,
+  "field_zagolovok_opisaniya_8": null,
+  "field_zapravka_r290_kg": "1.3",
+  "field_zashchita_ot_vody": "IPX4"
+ },
+ "relationships": {
+  "commerce_product_type": {
+   "data": {
+    "type": "commerce_product_type--commerce_product_type",
+    "id": "0c313f3e-a26e-4191-abe3-77d9ec69d75e",
+    "meta": {
+     "drupal_internal__target_id": "teplovye_nasosy"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/commerce_product_type"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/commerce_product_type"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/uid"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/uid"
+    }
+   }
+  },
+  "stores": {
+   "data": [
+    {
+     "type": "commerce_store--online",
+     "id": "10d9cb6e-3da7-4177-a918-8547abd388db",
+     "meta": {
+      "drupal_internal__target_id": 1
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/stores"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/stores"
+    }
+   }
+  },
+  "variations": {
+   "data": [
+    {
+     "type": "commerce_product_variation--default",
+     "id": "a5a88de7-abc0-4e32-91b6-e2561008eb38",
+     "meta": {
+      "drupal_internal__target_id": 278
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/variations"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/variations"
+    }
+   }
+  },
+  "default_variation": {
+   "data": {
+    "type": "commerce_product_variation--default",
+    "id": "a5a88de7-abc0-4e32-91b6-e2561008eb38",
+    "meta": {
+     "drupal_internal__target_id": 278
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/default_variation"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/default_variation"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_": {
+   "data": {
+    "type": "file--file",
+    "id": "4db8e4f3-176e-47f8-9e72-c9cf84f6bf72",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 608,
+     "height": 1200,
+     "drupal_internal__target_id": 5065
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": {
+    "type": "file--file",
+    "id": "c77237fe-e139-4f41-a403-1b600ee6453c",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 500,
+     "height": 400,
+     "drupal_internal__target_id": 5064
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_1"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_1"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_3"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_3"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": {
+    "type": "file--file",
+    "id": "2ed2295c-517d-4a7c-8695-474035dafa81",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 600,
+     "height": 600,
+     "drupal_internal__target_id": 5066
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_4"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_5"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_6"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_6"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_7": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_7"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_8": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_izobrazhenie_opisaniya_8"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_izobrazhenie_opisaniya_8"
+    }
+   }
+  },
+  "field_vid_tovara": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "ac75c265-2474-42f0-8640-96378ba3f1f2",
+     "meta": {
+      "drupal_internal__target_id": 19
+     }
+    },
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "ab7b8bf4-d4cd-4657-abff-ad6b8b7d0dc5",
+     "meta": {
+      "drupal_internal__target_id": 15
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/field_vid_tovara"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/teplovye_nasosy/90790d61-7a8e-4acf-93cd-019357b09eeb/relationships/field_vid_tovara"
+    }
+   }
+  }
+ }
+}

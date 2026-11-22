@@ -1,0 +1,433 @@
+{
+ "type": "commerce_product--boylery_kosvennogo_nagreva",
+ "id": "73d078d0-e992-4e5c-9871-155bf250bd3b",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b"
+  }
+ },
+ "attributes": {
+  "drupal_internal__product_id": 362,
+  "langcode": "ru",
+  "status": true,
+  "title": "Бойлер косвенного нагрева Haier WT150V-SCA3E(EU)",
+  "path": {
+   "alias": "/vodonagrevateli/boylery-kosvennogo-nagreva/boyler-kosvennogo-nagreva-haier-wt150v-sca3eeu",
+   "pid": 1216,
+   "langcode": "ru"
+  },
+  "created": "2026-05-29T06:21:56+00:00",
+  "changed": "2026-05-29T07:35:55+00:00",
+  "default_langcode": true,
+  "overall_rating": null,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Бойлер косвенного нагрева Haier WT150V-SCAE(EU) 150л | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Купите бойлер Haier WT150V-SCAE(EU) для тепловых насосов в Ташкенте. Объем 150л, змеевик 1.5 м², ТЭН 2.5 кВт. Официальная гарантия и доставка по Узбекистану!"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "Профессиональный бойлер Haier WT150V-SCAE(EU) на 150 литров со змеевиком 1.5 м². Энергоэффективность ERP C, ТЭН 2500 Вт. Оборудование для тепловых насосов."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "Haier WT150V-SCAE(EU), бойлер косвенного нагрева 150 литров, купить бойлер для теплового насоса Ташкент, водонагреватель со змеевиком 1.5 м2, характеристики WT150V-SCAE, Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Ташкент, Узбекистан"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop — техника для дома и промышленные решения | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "Официальный онлайн-магазин Haier в Узбекистане. Всё — от бытовой техники до промышленного оборудования для вашего бизнеса. Надёжность, инновации и качество в каждом продукте | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "content_translation_source": "und",
+  "content_translation_outdated": false,
+  "field_cvet": null,
+  "field_dostavka": null,
+  "field_elektricheskiy_ten": "2500 Вт",
+  "field_gabaritnye_razmery_v_x_sh_": "1170×600×628",
+  "field_garantiya": "3 года",
+  "field_greyushchiy_kontur_dyuym": "G1\"",
+  "field_khit_prodazh": "yes",
+  "field_kontur_gvs_dyuym": "G1\"",
+  "field_maksimalnaya_temperatura_t": "90°С",
+  "field_maksimalnaya_temperatura_v": "80°С",
+  "field_maksimalnoe_davlenie_teplo": "10 Бар",
+  "field_maksimalnoe_davlenie_v_bak": "8.5 Бар",
+  "field_meta_tegi": "{\"abstract\":\"\\u041f\\u0440\\u043e\\u0444\\u0435\\u0441\\u0441\\u0438\\u043e\\u043d\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0431\\u043e\\u0439\\u043b\\u0435\\u0440 Haier WT150V-SCAE(EU) \\u043d\\u0430 150 \\u043b\\u0438\\u0442\\u0440\\u043e\\u0432 \\u0441\\u043e \\u0437\\u043c\\u0435\\u0435\\u0432\\u0438\\u043a\\u043e\\u043c 1.5 \\u043c\\u00b2. \\u042d\\u043d\\u0435\\u0440\\u0433\\u043e\\u044d\\u0444\\u0444\\u0435\\u043a\\u0442\\u0438\\u0432\\u043d\\u043e\\u0441\\u0442\\u044c ERP C, \\u0422\\u042d\\u041d 2500 \\u0412\\u0442. \\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435 \\u0434\\u043b\\u044f \\u0442\\u0435\\u043f\\u043b\\u043e\\u0432\\u044b\\u0445 \\u043d\\u0430\\u0441\\u043e\\u0441\\u043e\\u0432.\",\"description\":\"\\u041a\\u0443\\u043f\\u0438\\u0442\\u0435 \\u0431\\u043e\\u0439\\u043b\\u0435\\u0440 Haier WT150V-SCAE(EU) \\u0434\\u043b\\u044f \\u0442\\u0435\\u043f\\u043b\\u043e\\u0432\\u044b\\u0445 \\u043d\\u0430\\u0441\\u043e\\u0441\\u043e\\u0432 \\u0432 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442\\u0435. \\u041e\\u0431\\u044a\\u0435\\u043c 150\\u043b, \\u0437\\u043c\\u0435\\u0435\\u0432\\u0438\\u043a 1.5 \\u043c\\u00b2, \\u0422\\u042d\\u041d 2.5 \\u043a\\u0412\\u0442. \\u041e\\u0444\\u0438\\u0446\\u0438\\u0430\\u043b\\u044c\\u043d\\u0430\\u044f \\u0433\\u0430\\u0440\\u0430\\u043d\\u0442\\u0438\\u044f \\u0438 \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u043f\\u043e \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\\u0443!\",\"geo_placename\":\"\\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442, \\u0423\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u0430\\u043d\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TK\",\"keywords\":\"Haier WT150V-SCAE(EU), \\u0431\\u043e\\u0439\\u043b\\u0435\\u0440 \\u043a\\u043e\\u0441\\u0432\\u0435\\u043d\\u043d\\u043e\\u0433\\u043e \\u043d\\u0430\\u0433\\u0440\\u0435\\u0432\\u0430 150 \\u043b\\u0438\\u0442\\u0440\\u043e\\u0432, \\u043a\\u0443\\u043f\\u0438\\u0442\\u044c \\u0431\\u043e\\u0439\\u043b\\u0435\\u0440 \\u0434\\u043b\\u044f \\u0442\\u0435\\u043f\\u043b\\u043e\\u0432\\u043e\\u0433\\u043e \\u043d\\u0430\\u0441\\u043e\\u0441\\u0430 \\u0422\\u0430\\u0448\\u043a\\u0435\\u043d\\u0442, \\u0432\\u043e\\u0434\\u043e\\u043d\\u0430\\u0433\\u0440\\u0435\\u0432\\u0430\\u0442\\u0435\\u043b\\u044c \\u0441\\u043e \\u0437\\u043c\\u0435\\u0435\\u0432\\u0438\\u043a\\u043e\\u043c 1.5 \\u043c2, \\u0445\\u0430\\u0440\\u0430\\u043a\\u0442\\u0435\\u0440\\u0438\\u0441\\u0442\\u0438\\u043a\\u0438 WT150V-SCAE, Haiershop.uz\",\"title\":\"\\u0411\\u043e\\u0439\\u043b\\u0435\\u0440 \\u043a\\u043e\\u0441\\u0432\\u0435\\u043d\\u043d\\u043e\\u0433\\u043e \\u043d\\u0430\\u0433\\u0440\\u0435\\u0432\\u0430 Haier WT150V-SCAE(EU) 150\\u043b | Haiershop.uz\"}",
+  "field_nominalnaya_teplovaya_mosh": null,
+  "field_novinka": null,
+  "field_obyom_l": 150,
+  "field_opisanie_tovara_1": {
+   "value": "<h4>Энергоэффективность класса ERP C: Стандарт 2026 года</h4><p>Модель Haier WT150V-SCAE(EU) спроектирована с жестким соблюдением европейских стандартов энергоэффективности. Присвоенный класс ERP C гарантирует, что бак обладает минимальными показателями пассивных теплопотерь. В условиях Ташкента, где энергосбережение становится приоритетом, этот бойлер позволяет снизить нагрузку на систему отопления, сохраняя накопленное тепло в разы дольше обычных накопителей.</p>",
+   "format": "full_html",
+   "processed": "<h4>Энергоэффективность класса ERP C: Стандарт 2026 года</h4><p>Модель Haier WT150V-SCAE(EU) спроектирована с жестким соблюдением европейских стандартов энергоэффективности. Присвоенный класс ERP C гарантирует, что бак обладает минимальными показателями пассивных теплопотерь. В условиях Ташкента, где энергосбережение становится приоритетом, этот бойлер позволяет снизить нагрузку на систему отопления, сохраняя накопленное тепло в разы дольше обычных накопителей.</p>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p>Основное преимущество серии — интегрированный змеевик с развитой поверхностью теплообмена 1.5 м². Такая архитектура критически важна для систем с тепловыми насосами и конденсационными котлами. Большая площадь контакта позволяет снимать максимальную тепловую мощность при низкой температуре теплоносителя. Это обеспечивает сверхбыстрый нагрев 150 литров воды, не перегружая компрессор теплового насоса.</p>",
+   "format": "full_html",
+   "processed": "<p>Основное преимущество серии — интегрированный змеевик с развитой поверхностью теплообмена 1.5 м². Такая архитектура критически важна для систем с тепловыми насосами и конденсационными котлами. Большая площадь контакта позволяет снимать максимальную тепловую мощность при низкой температуре теплоносителя. Это обеспечивает сверхбыстрый нагрев 150 литров воды, не перегружая компрессор теплового насоса.</p>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p>В конструкции WT150V-SCAE(EU) применен усовершенствованный слой пенополиуретановой теплоизоляции толщиной 50 мм. Использование материалов с низкой теплопроводностью создает эффект «термоса». Даже при полном отключении источников нагрева, падение температуры воды внутри бака происходит крайне медленно, что делает эту модель идеальной для интеграции в системы с солнечными коллекторами и тепловыми насосами.</p>",
+   "format": "full_html",
+   "processed": "<p>В конструкции WT150V-SCAE(EU) применен усовершенствованный слой пенополиуретановой теплоизоляции толщиной 50 мм. Использование материалов с низкой теплопроводностью создает эффект «термоса». Даже при полном отключении источников нагрева, падение температуры воды внутри бака происходит крайне медленно, что делает эту модель идеальной для интеграции в системы с солнечными коллекторами и тепловыми насосами.</p>"
+  },
+  "field_opisanie_tovara_4": {
+   "value": "<p>Инженеры Haier предусмотрели стандартные резьбовые соединения G1\" для входа/выхода воды и подключения контура змеевика. Это значительно упрощает гидравлическую обвязку котельной, снижая риск возникновения зауженных участков и падения давления в системе. Бойлер легко встраивается в каскадные схемы и работает в паре с любыми современными контроллерами управления отоплением.</p>",
+   "format": "full_html",
+   "processed": "<p>Инженеры Haier предусмотрели стандартные резьбовые соединения G1\" для входа/выхода воды и подключения контура змеевика. Это значительно упрощает гидравлическую обвязку котельной, снижая риск возникновения зауженных участков и падения давления в системе. Бойлер легко встраивается в каскадные схемы и работает в паре с любыми современными контроллерами управления отоплением.</p>"
+  },
+  "field_opisanie_tovara_5": {
+   "value": "<p>Наличие встроенного вспомогательного ТЭНа мощностью 2.5 кВт превращает этот бойлер в универсальный мультиэнергетический центр. Электрический нагреватель мощностью 2500 Вт обеспечивает постоянное ГВС даже в периоды сервисного обслуживания основного котла. Кроме того, ТЭН используется для автоматической функции «Антилегионелла», кратковременно прогревая воду до высоких температур для полной биологической дезинфекции бака.</p>",
+   "format": "full_html",
+   "processed": "<p>Наличие встроенного вспомогательного ТЭНа мощностью 2.5 кВт превращает этот бойлер в универсальный мультиэнергетический центр. Электрический нагреватель мощностью 2500 Вт обеспечивает постоянное ГВС даже в периоды сервисного обслуживания основного котла. Кроме того, ТЭН используется для автоматической функции «Антилегионелла», кратковременно прогревая воду до высоких температур для полной биологической дезинфекции бака.</p>"
+  },
+  "field_opisanie_tovara_6": {
+   "value": "<p>Внутренняя поверхность бака защищена специализированной эмалью, устойчивой к агрессивным воздействиям и температурному расширению. Эмалированное покрытие предотвращает коррозию металла и препятствует размножению бактерий на стенках сосуда. В сочетании с рабочим давлением в 0.85 МПа, это делает оборудование Haier пригодным для эксплуатации в условиях высокого давления городских водопроводных сетей Узбекистана.</p>",
+   "format": "full_html",
+   "processed": "<p>Внутренняя поверхность бака защищена специализированной эмалью, устойчивой к агрессивным воздействиям и температурному расширению. Эмалированное покрытие предотвращает коррозию металла и препятствует размножению бактерий на стенках сосуда. В сочетании с рабочим давлением в 0.85 МПа, это делает оборудование Haier пригодным для эксплуатации в условиях высокого давления городских водопроводных сетей Узбекистана.</p>"
+  },
+  "field_opisanie_tovara_7": {
+   "value": "<p>Благодаря объему 150 литров и высокой скорости рекуперации тепла, модель WT150V-SCAE(EU) идеально подходит как для домохозяйств из 4–6 человек, так и для малого бизнеса: гостиниц, ресторанов и спортивных клубов. Компактные размеры (600 × 628 × 1170 мм) при стильном сером исполнении позволяют разместить бойлер в ограниченных пространствах технических помещений, сохраняя эстетику интерьера.</p>",
+   "format": "full_html",
+   "processed": "<p>Благодаря объему 150 литров и высокой скорости рекуперации тепла, модель WT150V-SCAE(EU) идеально подходит как для домохозяйств из 4–6 человек, так и для малого бизнеса: гостиниц, ресторанов и спортивных клубов. Компактные размеры (600 × 628 × 1170 мм) при стильном сером исполнении позволяют разместить бойлер в ограниченных пространствах технических помещений, сохраняя эстетику интерьера.</p>"
+  },
+  "field_opisanie_tovara_8": {
+   "value": "<p>Покупая профессиональную серию Haier у официального дилера, вы получаете не только оборудование, но и уверенность в его долговечности. Мы обеспечиваем полную информационную поддержку по интеграции бойлера в системы с <a href=\"/ru/teplovye-nasosy\">тепловыми насосами</a>. Официальная гарантия и наличие авторизованных сервисных центров в Ташкенте делают покупку на Haiershop.uz максимально надежной и безопасной инвестицией в комфорт вашего дома.</p>",
+   "format": "full_html",
+   "processed": "<p>Покупая профессиональную серию Haier у официального дилера, вы получаете не только оборудование, но и уверенность в его долговечности. Мы обеспечиваем полную информационную поддержку по интеграции бойлера в системы с <a href=\"/ru/teplovye-nasosy\">тепловыми насосами</a>. Официальная гарантия и наличие авторизованных сервисных центров в Ташкенте делают покупку на Haiershop.uz максимально надежной и безопасной инвестицией в комфорт вашего дома.</p>"
+  },
+  "field_ploshchad_teploobmennika": 1.5,
+  "field_poddelnyy_zagolovok": "Бойлер косвенного нагрева Haier ",
+  "field_podklyuchenie_tena": null,
+  "field_proizvoditelnost_pri_nomin": null,
+  "field_ravnomernoe_raspredelenie": "Да",
+  "field_razmery_upakovki_v_sh_g_mm": null,
+  "field_recirkulyaciya_gvs": "Да",
+  "field_sertifikat": null,
+  "field_srok_sluzhby": "15-20 лет",
+  "field_strana_proizvodstva": "Китай",
+  "field_teploizolyacionnyy_sloy_mm": null,
+  "field_tip_montazha": "Напольный",
+  "field_ums_pokrytie_vnutrennego_b": null,
+  "field_uvelichennyy_magnievyy_ano": "yes",
+  "field_ves_kg1": null,
+  "field_vremya_nagreva_pri_t_50deg": null,
+  "field_v_izbrannoe": null,
+  "field_zagolovok_opisaniya_1": "Бойлер косвенного нагрева Haier WT150V-SCAE(EU): Профессиональный стандарт для тепловых насосов",
+  "field_zagolovok_opisaniya_2": "Максимальная площадь теплообмена — 1.5 м²",
+  "field_zagolovok_opisaniya_3": "Инновационный изоляционный барьер 50 мм",
+  "field_zagolovok_opisaniya_4": "Универсальные соединения G1\" и легкость интеграции",
+  "field_zagolovok_opisaniya_5": "Гибридный нагрев: Резервная мощность 2500 Вт",
+  "field_zagolovok_opisaniya_6": "Сверхпрочное эмалированное покрытие бака",
+  "field_zagolovok_opisaniya_7": "Применение в коммерческом и частном секторе",
+  "field_zagolovok_opisaniya_8": "Профессиональный монтаж и гарантия от Haiershop.uz"
+ },
+ "relationships": {
+  "commerce_product_type": {
+   "data": {
+    "type": "commerce_product_type--commerce_product_type",
+    "id": "bb7c1329-cfed-478b-a50f-b15ce8e604ea",
+    "meta": {
+     "drupal_internal__target_id": "boylery_kosvennogo_nagreva"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/commerce_product_type"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/commerce_product_type"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/uid"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/uid"
+    }
+   }
+  },
+  "stores": {
+   "data": [
+    {
+     "type": "commerce_store--online",
+     "id": "10d9cb6e-3da7-4177-a918-8547abd388db",
+     "meta": {
+      "drupal_internal__target_id": 1
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/stores"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/stores"
+    }
+   }
+  },
+  "variations": {
+   "data": [
+    {
+     "type": "commerce_product_variation--default",
+     "id": "102e495b-88dc-4597-ab75-cd5cfd5a9750",
+     "meta": {
+      "drupal_internal__target_id": 383
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/variations"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/variations"
+    }
+   }
+  },
+  "default_variation": {
+   "data": {
+    "type": "commerce_product_variation--default",
+    "id": "102e495b-88dc-4597-ab75-cd5cfd5a9750",
+    "meta": {
+     "drupal_internal__target_id": 383
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/default_variation"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/default_variation"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_1"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_1"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_3"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_3"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_4"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_5"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_6"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_6"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_7": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_7"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_8": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_izobrazhenie_opisaniya_8"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_izobrazhenie_opisaniya_8"
+    }
+   }
+  },
+  "field_vid_tovara": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "cbe4439d-6880-46fb-b18e-040707a486a7",
+     "meta": {
+      "drupal_internal__target_id": 13
+     }
+    },
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "5470b53e-99c4-4648-b77b-18f2b09ee658",
+     "meta": {
+      "drupal_internal__target_id": 32
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/field_vid_tovara"
+    },
+    "self": {
+     "href": "https://haiershop.uz/ru/jsonapi/commerce_product/boylery_kosvennogo_nagreva/73d078d0-e992-4e5c-9871-155bf250bd3b/relationships/field_vid_tovara"
+    }
+   }
+  }
+ }
+}

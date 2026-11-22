@@ -1,0 +1,434 @@
+{
+ "type": "commerce_product--posudomoechnyy_mashiny",
+ "id": "7d55e9a9-09ad-4f31-a2c2-09203f53ac04",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04"
+  }
+ },
+ "attributes": {
+  "drupal_internal__product_id": 291,
+  "langcode": "uz",
+  "status": true,
+  "title": "Kir yuvish mashinasi Haier HDWE15-58CS2RU",
+  "path": {
+   "alias": "/idish-yuvish-mashinalar/kir-yuvish-mashinasi-haier-hdwe15-58cs2ru",
+   "pid": 870,
+   "langcode": "uz"
+  },
+  "created": "2025-12-28T13:20:03+00:00",
+  "changed": "2025-12-28T13:33:06+00:00",
+  "default_langcode": false,
+  "overall_rating": null,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Haier HDWE15-58WE2RU 60sm idish yuvish mashinasi Toshkentda sotib olish | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Kuchli Haier HDWE15-58WE2RU 60 sm 15 komplektli idish yuvish mashinasi. Aqlli quritish (eshik avtomatik ochiladi), sozlanadigan savatlar, oqishdan himoya. Toshkentda yetkazib berish va o'rnatish."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "abstract",
+     "content": "To'liq o'lchamli, 15 komplektli o'rnatma Haier idish yuvish mashinasi. Auto Door Open quritish texnologiyasi, buklanadigan ushlagichlar, savat balandligini sozlash. Katta oilalar va mehmon kutuvchilar uchun."
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "keywords",
+     "content": "kir yuvish mashinasi sotib olish toshkentda, Haier HDWE15-58WE2RU idish yuvish mashinasi, 60 sm idish yuvish mashinasi sotib olish Toshkent, Haier HDWE15-58WE2RU narxi"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.placename",
+     "content": "Toshkent, O‘zbekiston"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.position",
+     "content": "41.2995, 69.2401"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "geo.region",
+     "content": "UZ-TK"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "robots",
+     "content": "index, follow"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop – uy uchun texnika va sanoat yechimlari | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "O‘zbekistonda Haier ning rasmiy onlayn do‘koni. Hammasi – sizning biznesingiz uchun maishiy texnikadan tortib sanoat uskunalarigacha. Har bir mahsulotda ishonchlilik, innovatsiyalar va yuqori sifat | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "field_antibakterialnaya_obrabotk": null,
+  "field_avto_programma": "Ha",
+  "field_avtomaticheskoe_otkryvani1": null,
+  "field_blokirovka_ot_detey": "yes",
+  "field_bystraya_moyka": "Ha",
+  "field_cvet": "Kulrang",
+  "field_dezinfekciya": null,
+  "field_dostavka": null,
+  "field_eco": "Ha",
+  "field_elektronnye_indikatory_ots": "Да",
+  "field_gigiena1": "Ha",
+  "field_intensivnaya": null,
+  "field_invertornyy_motor": null,
+  "field_khit_prodazh": null,
+  "field_klass_energoeffektivnosti": "A",
+  "field_klass_mytya": "A",
+  "field_klass_sushki": "A",
+  "field_kolichestvo_korzin": 3,
+  "field_kolichestvo_programm": 6,
+  "field_kolichestvo_razbryzgivatel": 3,
+  "field_kolichestvo_urovney_razbry": 3,
+  "field_luch_na_polu_indikaciya_st": null,
+  "field_material_baka": "Zanglamaydigan po‘lat",
+  "field_meta_tegi": "{\"abstract\":\"To\\u0027liq o\\u0027lchamli, 15 komplektli o\\u0027rnatma Haier idish yuvish mashinasi. Auto Door Open quritish texnologiyasi, buklanadigan ushlagichlar, savat balandligini sozlash. Katta oilalar va mehmon kutuvchilar uchun.\",\"description\":\"Kuchli Haier HDWE15-58WE2RU 60 sm 15 komplektli idish yuvish mashinasi. Aqlli quritish (eshik avtomatik ochiladi), sozlanadigan savatlar, oqishdan himoya. Toshkentda yetkazib berish va o\\u0027rnatish.\",\"geo_placename\":\"Toshkent, O\\u2018zbekiston\",\"geo_position\":\"41.2995, 69.2401\",\"geo_region\":\"UZ-TK\",\"keywords\":\"kir yuvish mashinasi sotib olish toshkentda, Haier HDWE15-58WE2RU idish yuvish mashinasi, 60 sm idish yuvish mashinasi sotib olish Toshkent, Haier HDWE15-58WE2RU narxi\",\"title\":\"Haier HDWE15-58WE2RU 60sm idish yuvish mashinasi Toshkentda sotib olish | Haiershop\"}",
+  "field_moshchnost_podklyucheniya": "1720-2050 Vt",
+  "field_motor": "Induksion",
+  "field_nominalnoe_napryazhenie_c1": "220-240 V / 50 Gh",
+  "field_nominalnyy_tok_predohranit": "10 A",
+  "field_novinka": "yes",
+  "field_opisanie_tovara_1": {
+   "value": "<p>60 sm kenglikdagi model 15 tagacha standart idish to'plamini yuklash uchun mo'ljallangan bo'lib, oilaviy kechki ovqatdan keyin, bayram yoki mehmonlarni kutishdan keyin katta hajmni osonlikcha hal qilish imkonini beradi. Ushbu mashina vaqtni qadrlaydigan va hatto eng qiyin vaziyatlarda ham qo'lda yuvishga qaytishni istamaydiganlar uchun ideal yechimga aylanadi.</p>",
+   "format": "full_html",
+   "processed": "<p>60 sm kenglikdagi model 15 tagacha standart idish to'plamini yuklash uchun mo'ljallangan bo'lib, oilaviy kechki ovqatdan keyin, bayram yoki mehmonlarni kutishdan keyin katta hajmni osonlikcha hal qilish imkonini beradi. Ushbu mashina vaqtni qadrlaydigan va hatto eng qiyin vaziyatlarda ham qo'lda yuvishga qaytishni istamaydiganlar uchun ideal yechimga aylanadi.</p>"
+  },
+  "field_opisanie_tovara_2": {
+   "value": "<p>Ichki makonning moslashuvchan tashkil etilishi yuklashni oddiy va intuitiv qiladi:</p><ul><li><strong>Quyi va o'rta savatlardagi buklanadigan ushlagichlar</strong> nostandart shakl va o'lchamdagi idishlarni joylashtirish imkonini beradi</li><li><strong>Balandligi sozlanadigan o'rta savat</strong> baland kastryullar, karaf yoki tovada qovurish uchun qo'shimcha makon yaratadi<br>&nbsp;</li></ul>",
+   "format": "full_html",
+   "processed": "<p>Ichki makonning moslashuvchan tashkil etilishi yuklashni oddiy va intuitiv qiladi:</p><ul><li><strong>Quyi va o'rta savatlardagi buklanadigan ushlagichlar</strong> nostandart shakl va o'lchamdagi idishlarni joylashtirish imkonini beradi</li><li><strong>Balandligi sozlanadigan o'rta savat</strong> baland kastryullar, karaf yoki tovada qovurish uchun qo'shimcha makon yaratadi<br>&nbsp;</li></ul>"
+  },
+  "field_opisanie_tovara_3": {
+   "value": "<p>Modelning asosiy xususiyati - yuvish tsikli tugagandan so'ng eshikni avtomatik ochish funktsiyasi. Ushbu texnologiya quyidagilarga imkon beradi:</p><ul><li>Tabiiy shamollatish va idishlarning tez qurishini ta'minlash</li><li>Quritish uchun qo'shimcha elektr energiyasi iste'molini butunlay yo'q qilish</li><li>Kondensat va yoqimsiz hidlarning paydo bo'lishining oldini olish</li><li>Hatto eng nozik materiallarning ham ideal holatini saqlash<br>&nbsp;</li></ul>",
+   "format": "full_html",
+   "processed": "<p>Modelning asosiy xususiyati - yuvish tsikli tugagandan so'ng eshikni avtomatik ochish funktsiyasi. Ushbu texnologiya quyidagilarga imkon beradi:</p><ul><li>Tabiiy shamollatish va idishlarning tez qurishini ta'minlash</li><li>Quritish uchun qo'shimcha elektr energiyasi iste'molini butunlay yo'q qilish</li><li>Kondensat va yoqimsiz hidlarning paydo bo'lishining oldini olish</li><li>Hatto eng nozik materiallarning ham ideal holatini saqlash<br>&nbsp;</li></ul>"
+  },
+  "field_opisanie_tovara_4": {
+   "value": "<ul><li>Bir tsikl davomida katta hajmdagi idishlarni yuklash imkoniyati tufayli vaqtni tejash</li><li>Puxta o'ylab topilgan yotqizish tizimi tufayli foydalanishning universaligi</li><li>Aqlli quritish tizimi tufayli elektr energiyasi xarajatlarini kamaytirish</li><li><p>Premium segment standartlariga mos keladigan uzoq muddatli va ishonchlilik</p><p><strong>Haier HDWE15-58WE2RU</strong> nafaqat idish yuvish mashinasi, balki hayotdagi muhim lahzalar uchun sizga ko'proq vaqt qoldirib, eng murakkab vazifalarni o'z zimmasiga oladigan texnologik jihatdan ilg'or yordamchidir.</p></li></ul>",
+   "format": "full_html",
+   "processed": "<ul><li>Bir tsikl davomida katta hajmdagi idishlarni yuklash imkoniyati tufayli vaqtni tejash</li><li>Puxta o'ylab topilgan yotqizish tizimi tufayli foydalanishning universaligi</li><li>Aqlli quritish tizimi tufayli elektr energiyasi xarajatlarini kamaytirish</li><li><p>Premium segment standartlariga mos keladigan uzoq muddatli va ishonchlilik</p><p><strong>Haier HDWE15-58WE2RU</strong> nafaqat idish yuvish mashinasi, balki hayotdagi muhim lahzalar uchun sizga ko'proq vaqt qoldirib, eng murakkab vazifalarni o'z zimmasiga oladigan texnologik jihatdan ilg'or yordamchidir.</p></li></ul>"
+  },
+  "field_opisanie_tovara_5": null,
+  "field_opisanie_tovara_6": null,
+  "field_opisanie_tovara_7": null,
+  "field_opisanie_tovara_8": null,
+  "field_otsrochka_starta_ch": "1 - 24",
+  "field_parametry_rashoda_vody_l_g": null,
+  "field_poddelnyy_zagolovok": "Kir yuvish mashinasi Haier",
+  "field_polovinnaya_zagruzka": "Ha",
+  "field_potreblenie_elektroenergii": 342,
+  "field_predvaritelnaya_moyka": null,
+  "field_razmery_nishi_dlya_vstraiv": "(Yuqori panelli o‘rnatilgan holatda): (85,5-87,5) x 60 x 60,2 sm, (Yuqori panelsiz): (82,5-84,5) x 45 x 60,5 sm",
+  "field_razmery_pribora_vxshxg_sm": "(Yuqori panelli o‘rnatilgan holatda): (85-87) x 59,8 x 60 sm, (Yuqori panelsiz): (82-84) x 59,8 x 60 sm",
+  "field_razmery_upakovki_vxshxg_sm": "88 х 65 х 68.5",
+  "field_regulirovka_vysoty_nozhek": "Ha, 60 mm",
+  "field_ruchka_korziny": "Ha, plastik",
+  "field_sistema_zashchity_ot_prote": "Ha",
+  "field_skladnye_derzhateli_posudy": "Ha",
+  "field_srok_sluzhby": "7 yil",
+  "field_steklo_45deg": "Ha",
+  "field_strana_proizvodstva": "Xitoy",
+  "field_tip": "Mustaqil (alohida turuvchi)",
+  "field_universalnaya": "Ha",
+  "field_upravlenie": "Elektron",
+  "field_uroven_shuma_db": 49,
+  "field_uskorennaya_59_min": "Ha",
+  "field_v_izbrannoe": null,
+  "field_variativnaya_tretya_korzin": "Ha",
+  "field_ves_brutto_kg": 48,
+  "field_ves_netto_kg": 45,
+  "field_vnutrennyaya_podsvetka": null,
+  "field_zagolovok_opisaniya_1": "Eng talabchan vazifalar uchun sig'im",
+  "field_zagolovok_opisaniya_2": "Sizning ehtiyojlaringizga moslashtirilgan ergonomika",
+  "field_zagolovok_opisaniya_3": "Energiya samarali quritishning innovatsion texnologiyasi",
+  "field_zagolovok_opisaniya_4": "Siz qadrlaydigan afzalliklar:",
+  "field_zagolovok_opisaniya_5": null,
+  "field_zagolovok_opisaniya_6": null,
+  "field_zagolovok_opisaniya_7": null,
+  "field_zagolovok_opisaniya_8": null,
+  "field_zagruzka_kol_vo_komplektov": 15,
+  "field_zvukovoy_signal_po_okoncha": null
+ },
+ "relationships": {
+  "commerce_product_type": {
+   "data": {
+    "type": "commerce_product_type--commerce_product_type",
+    "id": "a636ad03-88d2-4b89-8048-d3d4d29a6ce3",
+    "meta": {
+     "drupal_internal__target_id": "posudomoechnyy_mashiny"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/commerce_product_type"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/commerce_product_type"
+    }
+   }
+  },
+  "uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/uid"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/uid"
+    }
+   }
+  },
+  "stores": {
+   "data": [
+    {
+     "type": "commerce_store--online",
+     "id": "10d9cb6e-3da7-4177-a918-8547abd388db",
+     "meta": {
+      "drupal_internal__target_id": 1
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/stores"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/stores"
+    }
+   }
+  },
+  "variations": {
+   "data": [
+    {
+     "type": "commerce_product_variation--default",
+     "id": "32e87d47-e08c-483f-8cfa-c556f2cd9b5c",
+     "meta": {
+      "drupal_internal__target_id": 312
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/variations"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/variations"
+    }
+   }
+  },
+  "default_variation": {
+   "data": {
+    "type": "commerce_product_variation--default",
+    "id": "32e87d47-e08c-483f-8cfa-c556f2cd9b5c",
+    "meta": {
+     "drupal_internal__target_id": 312
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/default_variation"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/default_variation"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_1": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_1"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_1"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_3": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_3"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_3"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_4": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_4"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_4"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_5": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_5"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_5"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_6": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_6"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_6"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_7": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_7"
+    }
+   }
+  },
+  "field_izobrazhenie_opisaniya_8": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_izobrazhenie_opisaniya_8"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_izobrazhenie_opisaniya_8"
+    }
+   }
+  },
+  "field_vid_tovara": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "51f9d26b-c5b2-4ce8-bf80-7619e774b064",
+     "meta": {
+      "drupal_internal__target_id": 21
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/field_vid_tovara"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/commerce_product/posudomoechnyy_mashiny/7d55e9a9-09ad-4f31-a2c2-09203f53ac04/relationships/field_vid_tovara"
+    }
+   }
+  }
+ }
+}

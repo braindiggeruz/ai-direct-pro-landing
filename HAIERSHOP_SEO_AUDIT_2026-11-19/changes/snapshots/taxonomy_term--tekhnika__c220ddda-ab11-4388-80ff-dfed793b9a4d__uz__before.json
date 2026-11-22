@@ -1,0 +1,199 @@
+{
+ "type": "taxonomy_term--tekhnika",
+ "id": "c220ddda-ab11-4388-80ff-dfed793b9a4d",
+ "links": {
+  "self": {
+   "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d?resourceVersion=id%3A7"
+  }
+ },
+ "attributes": {
+  "drupal_internal__tid": 7,
+  "drupal_internal__revision_id": 7,
+  "langcode": "uz",
+  "revision_created": "2023-07-21T09:55:56+00:00",
+  "revision_log_message": null,
+  "status": true,
+  "name": "Muzqaymoq uchun muzlatgichlar",
+  "description": null,
+  "weight": 2,
+  "changed": "2023-12-27T12:09:50+00:00",
+  "default_langcode": false,
+  "revision_translation_affected": true,
+  "metatag": [
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "title",
+     "content": "Muzqaymoq uchun muzlatgichlar | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "description",
+     "content": "Uzbekistonda Muzqaymoq uchun muzlatgichlar arzon narxlarda kalit yetkazib berish bilan sotib oling. Arzon narx, eng yuqori sifat, kafolatlangan ishlash - Haier Shop onlayn-dokoni"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "canonical",
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d"
+    }
+   },
+   {
+    "tag": "link",
+    "attributes": {
+     "rel": "image_src",
+     "href": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "name": "google",
+     "content": "notranslate"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:site_name",
+     "content": "Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:type",
+     "content": "products"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:title",
+     "content": "Haier Shop – uy uchun texnika va sanoat yechimlari | Haiershop"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:description",
+     "content": "O‘zbekistonda Haier ning rasmiy onlayn do‘koni. Hammasi – sizning biznesingiz uchun maishiy texnikadan tortib sanoat uskunalarigacha. Har bir mahsulotda ishonchlilik, innovatsiyalar va yuqori sifat | Haiershop.uz"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   },
+   {
+    "tag": "meta",
+    "attributes": {
+     "property": "og:image:secure_url",
+     "content": "https://haiershop.uz/conditioners.png"
+    }
+   }
+  ],
+  "path": {
+   "alias": "/muzlatgichlar/muzqaymoq-uchun-muzlatgichlar",
+   "pid": 48,
+   "langcode": "uz"
+  },
+  "content_translation_source": "ru",
+  "content_translation_outdated": false,
+  "content_translation_created": "2023-07-21T10:50:54+00:00",
+  "field_meta_tegi": null,
+  "field_otobrazhenie_kategorii_na_": null
+ },
+ "relationships": {
+  "vid": {
+   "data": {
+    "type": "taxonomy_vocabulary--taxonomy_vocabulary",
+    "id": "39aa8843-6557-483c-a604-66eeb0ec96db",
+    "meta": {
+     "drupal_internal__target_id": "tekhnika"
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/vid?resourceVersion=id%3A7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/relationships/vid?resourceVersion=id%3A7"
+    }
+   }
+  },
+  "revision_user": {
+   "data": null,
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/revision_user?resourceVersion=id%3A7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/relationships/revision_user?resourceVersion=id%3A7"
+    }
+   }
+  },
+  "parent": {
+   "data": [
+    {
+     "type": "taxonomy_term--tekhnika",
+     "id": "b3a3195e-833a-48b7-bcc3-249b19748658",
+     "meta": {
+      "drupal_internal__target_id": 4
+     }
+    }
+   ],
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/parent?resourceVersion=id%3A7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/relationships/parent?resourceVersion=id%3A7"
+    }
+   }
+  },
+  "content_translation_uid": {
+   "data": {
+    "type": "user--user",
+    "id": "ffe2743a-e181-469e-895b-06fc34392253",
+    "meta": {
+     "drupal_internal__target_id": 1
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/content_translation_uid?resourceVersion=id%3A7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/relationships/content_translation_uid?resourceVersion=id%3A7"
+    }
+   }
+  },
+  "field_izobrazhenie": {
+   "data": {
+    "type": "file--file",
+    "id": "a390b6c8-031d-4bf8-b79c-a7f7d961d7df",
+    "meta": {
+     "alt": "",
+     "title": "",
+     "width": 245,
+     "height": 180,
+     "drupal_internal__target_id": 14
+    }
+   },
+   "links": {
+    "related": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/field_izobrazhenie?resourceVersion=id%3A7"
+    },
+    "self": {
+     "href": "https://haiershop.uz/uz/jsonapi/taxonomy_term/tekhnika/c220ddda-ab11-4388-80ff-dfed793b9a4d/relationships/field_izobrazhenie?resourceVersion=id%3A7"
+    }
+   }
+  }
+ }
+}
