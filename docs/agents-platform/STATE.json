@@ -1,6 +1,6 @@
 {
   "lead_radar_telegram_yield_20261122": {
-    "status": "released_pending_deploy",
+    "status": "deployed_and_verified",
     "owner_authorized": "Same order as lead_radar_prod_hardening_20261122 (owner: as many Telegram contacts as possible, no bots).",
     "branch": "feat/lead-radar-telegram-yield-20261122",
     "baseline_commit": "77c71c3c (main; Pages 36bbc568; Worker 0d22dbd5)",
@@ -8,7 +8,7 @@
     "measurement": "Real snapshot, Tashkent, depth 100, Overpass down: restaurants 414 objects -> 100 selected, all 60 Telegram-tagged objects in (48 distinct handles behind 181 tagged objects city-wide); beauty 9 (85 tagged objects are 8 chain handles); pharmacy 18 (52 tagged objects, 3 handles); dentistry 4 of 4. Local timing 24-122 ms per discovery including candidate building (same order as a 240-element Overpass answer).",
     "not_touched": "Schema, KV data, sending, authorization, DNC.",
     "validation": "Suites: lead-radar-osm-snapshot 8, lead-radar-outreach-export 28, prod-hardening 10, discovery-wiring 11, lead-radar 36, osm-contacts 8, d1-budget 8. npx tsc -b 0; functions and Lead Radar typechecks 0; eslint 0.",
-    "release": "pending",
+    "release": "PR #76 (commit d2fa98de), merged as 38c2a614. Pages: workflow run 45032836130, deployment 7596f239. Worker: gptbot-automation c072fb4e-35c1-4679-b020-d38023e92a08 (rollback 0d22dbd5). Not yet exercised by a live search: the owner's next contact-mode search is the acceptance (pool cursor vs candidate_count, map_snapshot_20261121 in warnings, unclassifiedTelegram in the export summary).",
     "rollback": "Worker: wrangler rollback 0d22dbd5-a488-4db1-b617-82f2381331b0 -c wrangler.automation.toml; Pages: revert and rerun the workflow."
   },
   "lead_radar_osm_snapshot_20261122": {
