@@ -1,3 +1,32 @@
+# Current handoff — Lead Radar own OSM snapshot: discovery without public map servers · 22.11.2026
+
+## 1. State
+Built on feat/lead-radar-osm-snapshot-20261122 from main 7878f3ca (Pages e3006b39, Worker 8e6b5aaa, both from PR #74). Snapshot data already uploaded to Workers KV (namespace lead-radar-osm-snapshot, id 518f435fafcc4a878e0740888cb06705; manifest osm:v1:manifest, snapshot date 2026-11-21). Release of the reader pending at the time of writing. Roadmap stage 2 of F:/Claude/lead-radar-audit-20261122/ROADMAP_PROD_RU.md (D-LEAD-RADAR-OSM-SNAPSHOT-20261122).
+## 2. Delivered
+(a) scripts/lead-radar/osm-extract-pois.py: pyosmium extraction of named business POIs from a Geofabrik PBF into Overpass-shaped JSON lines (ways get their bounding-box centre; relations skipped). (b) scripts/lead-radar/osm-snapshot-build.ts: buckets every POI into each canonical niche whose filters it matches (scoreLeadRadarOsmTags primary/related, the same rule as the Overpass selectors) and a 0.5° grid cell, caps shards at 400 (contact-bearing first), writes the manifest last. (c) functions/platform/lead-radar/osm-snapshot.ts: grid, keys, manifest validation (version, 60-day age, niche coverage) and readOsmSnapshot (cells covering the geocoded bounds, objects inside them). (d) OpenStreetMapLeadSource reads the snapshot first for canonical niches; evidence carries the snapshot date; warning map_snapshot_<yyyymmdd>; everything else falls through to the cached / live Overpass path. (e) wrangler.automation.toml binds LEAD_RADAR_OSM_SNAPSHOT.
+## 3. Files
+functions/platform/lead-radar/{osm-snapshot.ts (new), sources.ts, discovery-sources.ts}; functions/_types.ts; wrangler.automation.toml; scripts/lead-radar/{osm-extract-pois.py (new), osm-snapshot-build.ts (new)}; tests/lead-radar-osm-snapshot.test.ts (new); package.json; docs/agents-platform/{STATE.json,HANDOFF.md,DECISIONS.md}.
+## 4. Decisions
+D-LEAD-RADAR-OSM-SNAPSHOT-20261122: Workers KV, not D1 (no schema change, 918 small keys fit the free 1 000 writes a day); per niche and grid cell so a search parses only what it needs on the Free plan; the snapshot answers the Overpass question (objects in the geocoded box) and states its date.
+## 5. Excluded
+Automatic refresh (needs a token with KV write in GitHub secrets), relations, non-canonical niches (stay on Overpass with the 30-day cache).
+## 6. Validation
+lead-radar-osm-snapshot 6 tests; related suites green (prod-hardening 10, discovery-wiring 11, osm-contact-plan 10, osm-contacts 8, lead-radar 36, d1-budget 8, discovery-sources 14, two-gis-source 28, golden-eval 10); npx tsc -b 0; eslint 0. Data acceptance: dentistry Tashkent 147 named objects, 48 with a phone, 4 with Telegram; restaurants 2 464 matched (Overpass stops at 240).
+## 7. Known limits
+The copy is as fresh as its extract (2026-11-21); after 60 days the reader stops using it and Overpass is back. Shards keep at most 400 objects per niche and cell (the largest raw shard, food service in central Tashkent, has 5 921).
+## 8. Next task
+Refresh monthly: download the new extract, run the two scripts, wrangler kv bulk put --namespace-id 518f435fafcc4a878e0740888cb06705 --remote. Owner: a Cloudflare token with KV write in GitHub secrets would let a scheduled workflow do it. Then roadmap stage 3 (Overture / Foursquare measurement).
+## 9. Acceptance
+Live: a dentistry search in Tashkent completes while every public Overpass mirror is down; its warnings show map_snapshot_20261121; evidence dates are 2026-11-21.
+## 10. Start commands
+git log --oneline -3; node --import tsx --test tests/lead-radar-osm-snapshot.test.ts; wrangler kv key get osm:v1:manifest --namespace-id 518f435fafcc4a878e0740888cb06705 --remote.
+## 11. Risks
+Low: read-only KV lookups before the existing path; a bad snapshot is disabled by deleting the manifest key (no deploy).
+## 12. Rollback
+Delete osm:v1:manifest (instant), or wrangler rollback 8e6b5aaa-3e47-4db7-bea5-c4253ae21ded -c wrangler.automation.toml.
+
+---
+
 # Current handoff — Lead Radar production hardening: searches survive map outages, dead sites and a broken lookup service · 22.11.2026
 
 ## 1. State

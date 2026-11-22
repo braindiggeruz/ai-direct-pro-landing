@@ -4,10 +4,14 @@ import { mergeSourceYield, type SourceYieldMap } from './source-yield';
 import { TwoGisLeadSource, type TwoGisEnvironment } from './two-gis-source';
 import { LeadRadarSourceError, type LeadRadarDiscoveryResult, type LeadRadarGeocodeStore, type LeadRadarSource, type SourceCandidate } from './types';
 import { normalizeCompanyKey } from './validation';
+import type { OsmSnapshotStore } from './osm-snapshot';
 
 /** Everything the optional catalog sources read from the environment. A missing
  *  key is a normal state, not an error: the source then simply does not run. */
-export type LeadRadarSourceEnvironment = TwoGisEnvironment;
+export type LeadRadarSourceEnvironment = TwoGisEnvironment & {
+  /** Workers KV namespace holding the own OSM snapshot (stage 2). */
+  LEAD_RADAR_OSM_SNAPSHOT?: OsmSnapshotStore;
+};
 
 /**
  * Sources that are actually usable with this environment.
@@ -22,7 +26,7 @@ export function configuredLeadRadarSources(
   geocodeStore: LeadRadarGeocodeStore | undefined,
   env: LeadRadarSourceEnvironment,
 ): LeadRadarSource[] {
-  const sources: LeadRadarSource[] = [new OpenStreetMapLeadSource(geocodeStore)];
+  const sources: LeadRadarSource[] = [new OpenStreetMapLeadSource(geocodeStore, env.LEAD_RADAR_OSM_SNAPSHOT)];
   if (env.TWOGIS_API_KEY?.trim()) sources.push(new TwoGisLeadSource(env));
   return sources;
 }
