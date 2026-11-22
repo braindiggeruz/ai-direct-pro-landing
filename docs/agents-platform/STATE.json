@@ -1,6 +1,6 @@
 {
   "chat_cro_d_20261122": {
-    "status": "committed_deploy_pending",
+    "status": "deployed_and_verified",
     "owner_authorized": "Owner in chat, 2026-11-22: \"Модель оплачена! приступай и максимально улучши всё исходя из твоего роад мапа! осторожнее только чтобы сео не ухудшилось!\" and \"оплан Z.AI\" (Z.ai paid; package or balance not yet stated). Roadmap: F:/Claude/gptbot_conversion/conversion-audit-20261122.md (outside the repository).",
     "branch": "feat/chat-cro-d-20261122",
     "baseline_commit": "83b34aef (production 166db6f5 + docs only)",
@@ -9,6 +9,13 @@
     "deferred": "Desktop «pay on the phone» QR (audit 1.1): no QR encoder in the repository and none may be installed into the shared node_modules; gated on the owner's test payments from a computer and an iPhone (audit 0.2). «Javob tayyor», Telegram receipt and reminders: a new offer edition with a lawyer. Protected-page items: after 21.12.",
     "validation": "npx tsc -b: 0. eslint on the changed files (including AiAccountPanel.tsx and AiChatConsole.tsx): 0. npm run build:fast: ok. scripts/chat-bundle-budget.ts: within budget — start 109 790 / 110 000 B (these edits ≈ +80 B), chat-account 11 471 / 12 000, chat-pay 7 814, chat-conversion 5 227. seo-protection check: 10/10 unchanged (the chat strings are client-rendered; the protected pages are byte-identical). Tests green: gpt-pack-dialog 21, gpt-two-packs 10 (row regex and lead/quiet assertions updated), chat-trial-paywall 7 (new conversion-audit test), gpt-ui-events 14, gpt-pay-cro 22, gpt-once-pack 20, gpt-limit-state 18, gpt-admin-ai-chat 17, gpt-guest-checkout 14, gpt-payme-link 4, gpt-checkout-intent 2, chat-cro-ui 6, chat-entry 6, gpt-chat-lazy-part 10, studio-analytics 11, gpt-pay-browser 1 (built site, screenshots), chat-conversion-browser 1, measurement-funnel-browser 1, gpt-chat-rev-design 25, chat-bundle-budget 12. Pre-existing failures, identical by name on a clean worktree of 83b34aef: gpt-account-ui 2 (limit-card and use-account regexes), gpt-chat-honesty 1 («Qayta yozish» versions), legal-oferta 3 ((f), built-site offers, live gate), gpt-chat-business-line 1, gpt-live-readiness 1 (committed configuration); chat-trial-browser 1 (line 133 expects a dead send button after reload: stale since 3db791a8 of 17.11, test last changed 26.10).",
     "measurement": "Read from 2026-11-23: paid share of invoices by device (checkout_result_class), pay_share steps, and the 3-day share of trial_last taps; owner and agent test payments excluded by time (conversion audit §1).",
+    "release": {
+      "commits": "4222bc62 + 0b1d75e8 (browser test), merge d710f762 (PR #69 https://github.com/braindiggeruz/ai-direct-pro-landing/pull/69)",
+      "run": "44999411823 (workflow «Pages production deploy» on main, success)",
+      "deployment": "https://e9ab1993.ai-direct-pro-landing.pages.dev",
+      "live": "Live since 2026-11-22 ≈07:43 UTC. Readback on gptbot.uz (Uzbek chat, 390 and 1366 px, the header button only: no message, no pay tap): the pack window shows the 3-day row first with the lead class, filled buttons and the job line «Bugungi vazifani oxiriga yetkazish uchun», the monthly row with two quiet outline buttons, and the fine line «Bir martalik xarid, avtomatik yechim yo‘q · qaytarilmaydi · ChatGPT emas». Two pack_viewed:header events at 07:44:34Z and 07:44:38Z are ours (exclude them). SEO pages: live check 8/8 (titles and H1 unchanged), seo-protection 10/10 on the build. Previous production deployment 6ac7818d (166db6f); nothing deployed in between.",
+      "ci": "PR checks: secret-scan and typecheck green; «Silent catch audit» and «Lead Radar release gate» (unsafe_package_script_graph:root_script_changed) red on main for the same reasons before this PR."
+    },
     "rollback": "git revert of the release commit, rebuild, guarded deploy with the workflow «Pages production deploy». No data migration; the two event types simply stop arriving."
   },
   "commercial_bots_20261122": {

@@ -1,7 +1,7 @@
 # Current handoff — chat conversion release D: the 3-day pack leads, the last-trial card sells it, two counters · 22.11.2026
 
 ## 1. State
-Branch feat/chat-cro-d-20261122 on 83b34aef (production 166db6f5 + docs). One release commit; deploy through the workflow «Pages production deploy» on main after the merge (owner's order of 22.11, D-CHAT-CRO-D-20261122). Audit and roadmap outside the repository: F:/Claude/gptbot_conversion/conversion-audit-20261122.md (+ data/ with the read-only D1 queries).
+Released and verified: commits 4222bc62 + 0b1d75e8, merged as d710f762 (PR #69), deployed by run 44999411823 (workflow «Pages production deploy» on main), deployment https://e9ab1993.ai-direct-pro-landing.pages.dev, live since 2026-11-22 ≈07:43 UTC (owner's order of 22.11, D-CHAT-CRO-D-20261122). Live readback: the 3-day row leads with its job line, the monthly row has quiet buttons, the new fine line shows; SEO live check 8/8. Base was 83b34aef. Audit and roadmap outside the repository: F:/Claude/gptbot_conversion/conversion-audit-20261122.md (+ data/ with the read-only D1 queries).
 ## 2. Delivered
 (a) Pack window and trial paywall: the first row leads (filled buttons, job line), the other row has quiet outlines; a holder's lead stays the month. (b) The last-trial card sells the 3-day pack by name while the server offers it (ChatPackPrompt; AiChatConsole passes the sku). (c) Fine line «Разовая покупка, без автосписаний · без возврата · не ChatGPT» / «Bir martalik xarid, avtomatik yechim yo‘q · qaytarilmaydi · ChatGPT emas»; noRefund near the price unchanged. (d) UI events pay_share (shown, telegram, copied) and checkout_result_class (result.app.os), counted from chat-pay; checkout_result unchanged for the admin.
 ## 3. Files
