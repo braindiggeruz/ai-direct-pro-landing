@@ -366,6 +366,45 @@ test('P5: «Оплата не завершена»: one compact card with three 
   assert.match(source, /onAsk=\{provider === "click" \|\| provider === "payme" \? \(\) => onPay\(provider, true\) : null\}/);
 });
 
+test('switch: the other provider for the same pack closes the open invoice no provider has seen (cancel_invoice) before its own order; a held one is never closed', () => {
+  const dialog = read('src/gpt-chat/account/AccountDialog.tsx').replace(/\r\n/g, '\n');
+  const body = dialog.slice(dialog.indexOf('const pay = (provider'), dialog.indexOf("// Close the account's own invoice"));
+  // Only an invoice the server calls cancellable (pending, no provider id), of this pack, of the other provider.
+  assert.match(body, /const switchFrom = resumeReady && !resume && !other && data\?\.payment\?\.state === "pending"\s*&& data\.payment\.cancellable === true && data\.payment\.provider !== provider \? data\.payment\.id : null;/);
+  // The same cancel as «Отменить этот счёт», before the one subscribe call; a provider that took the invoice up answers invoice_in_progress (held).
+  const cancel = body.indexOf('await post("/api/gpt/account", { action: "cancel_invoice", orderId: switchFrom });');
+  assert.ok(cancel > 0, 'the open invoice is closed through the account endpoint');
+  assert.ok(cancel < body.indexOf('post("/api/gpt/subscribe"'), 'closed before the new order is asked for');
+  assert.equal(body.split('post("/api/gpt/subscribe"').length, 2, 'still one subscribe call');
+  // The new order is never the old key of an order this page made with that provider.
+  assert.match(body, /if \(switchFrom\) \{\s*await post\("\/api\/gpt\/account", \{ action: "cancel_invoice", orderId: switchFrom \}\);\s*memoryRef\.current\.requestKeys\[key\] = undefined;\s*\}/);
+  assert.match(dialog, /if \(code === "invoice_in_progress"\) \{\s*setHeld\(true\);/, 'a held invoice still says so');
+  // The return card offers the other provider only while the open order can be closed, or once it is closed.
+  const back = read('src/gpt-chat/account/CheckoutReturn.tsx').replace(/\r\n/g, '\n');
+  assert.match(back, /switchTo=\{alternative && \(closed \|\| payment\?\.cancellable === true\) \? \{ provider: alternative, onPay: \(\) => onPay\(alternative\) \} : null\}/);
+  assert.match(back, /const alternative = provider === "click" \|\| provider === "payme"\s*\? offeredProviders\(data\)\.find\(\(other\) => other !== provider && \(other === "click" \|\| other === "payme"\)\) \?\? null\s*: null;/);
+});
+
+test('switch: «Оплата не завершена» shows the other provider as a second, quiet button — never a second primary', () => {
+  for (const locale of LOCALES) {
+    const s = TEXT[locale];
+    const page = node(React.createElement(PayUnpaid, {
+      heading: false, orderId: ORDER, locale, apiBase: '', provider: 'click', since: Date.now(), closed: false, busy: false,
+      onContinue: () => {}, onOther: () => {}, onAsk: () => {}, switchTo: { provider: 'payme', onPay: () => {} },
+    }));
+    assert.match(page, new RegExp(`data-testid="ai-pay-switch"[^>]*>${s.switchVia('Payme')}<`), locale);
+    assert.equal((page.match(/gpt-primary/g) ?? []).length, 1, 'still exactly one primary button');
+    assert.equal([...page.matchAll(/<button/g)].length, 5, 'the primary, the switch, the dismiss ×, and two small text links');
+    const plain = node(React.createElement(PayUnpaid, {
+      heading: false, orderId: ORDER, locale, apiBase: '', provider: 'click', since: Date.now(), closed: false, busy: false,
+      onContinue: () => {}, onOther: () => {}, onAsk: () => {},
+    }));
+    assert.ok(!plain.includes('ai-pay-switch'), 'no switch unless the window offers one');
+  }
+  assert.equal(TEXT.ru.switchVia('Payme'), 'Оплатить через Payme');
+  assert.equal(TEXT.uz.switchVia('Payme'), 'Payme orqali to‘lash');
+});
+
 test('P5: the card counts itself once (checkout_return_unpaid with the outcome), and says nothing about money that may have moved', () => {
   const unpaid = read('src/gpt-chat/parts/pay-screens.tsx');
   assert.match(unpaid, /payEvent\(apiBase, 'checkout_return_unpaid', provider, since, closed \? 'cancelled' : 'none'\);/);
@@ -422,7 +461,7 @@ test('a tap while the account is being read waits for the read; it pays only on 
   assert.match(dialog, /const checkoutReady = startable && !loading;\s*const resumeReady = resumable && !loading;/);
   assert.match(dialog, /const resume = resumeReady && data\?\.payment\?\.provider === provider && openSku === sku;/);
   assert.match(dialog, /const other = resumeReady && openSku !== sku;/);
-  assert.match(dialog, /if \(\(!checkoutReady && !resume && !other\) \|\| !data \|\| !offer \|\| !offeredProviders\(data\)\.includes\(provider\)\s*\|\| \(sku === "once" && provider === "uzum"\)/);
+  assert.match(dialog, /if \(\(!checkoutReady && !resume && !other && !switchFrom\) \|\| !data \|\| !offer \|\| !offeredProviders\(data\)\.includes\(provider\)\s*\|\| \(sku === "once" && provider === "uzum"\)/);
   // Every button that pays goes through it; the limit card's one tap keeps its own rule (blocked intents are consumed).
   const taps = [...dialog.matchAll(/void pay\(/g)].length;
   assert.equal(taps, 4, 'pay() is called by payWhenRead (now, or after the read) and by the one-tap intent (the monthly pack, or the 3-day pack by name) only');

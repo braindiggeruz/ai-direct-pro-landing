@@ -316,8 +316,16 @@ export function AccountDialog({
       // The other pack while an invoice is open: the server closes one no
       // provider has seen, and names the one that is held (pending_elsewhere).
       const other = resumeReady && openSku !== sku;
+      // The same pack with the other provider (21.11.2026: a buyer whose card
+      // did not go through on Click could not reach Payme): the open invoice no
+      // provider has seen yet (cancellable) is closed as the account's own, the
+      // same step as «Отменить этот счёт», then this provider's order is made.
+      // One a provider holds is never closed: the cancel answers
+      // invoice_in_progress and the window says it is held.
+      const switchFrom = resumeReady && !resume && !other && data?.payment?.state === "pending"
+        && data.payment.cancellable === true && data.payment.provider !== provider ? data.payment.id : null;
       const offer = offers.find((entry) => entry.sku === sku);
-      if ((!checkoutReady && !resume && !other) || !data || !offer || !offeredProviders(data).includes(provider)
+      if ((!checkoutReady && !resume && !other && !switchFrom) || !data || !offer || !offeredProviders(data).includes(provider)
         || (sku === "once" && provider === "uzum") || globalThis.navigator?.cookieEnabled === false) throw new Error();
       const generation = memoryRef.current.generation ?? 0;
       // A guest has no account until subscribe makes one: that change is this order's own.
@@ -335,6 +343,10 @@ export function AccountDialog({
       // Pressing the button is the acceptance (the offer, section 7): the
       // server records the edition and the time on the order, as before.
       const key = sku === "once" ? `${provider}:once` : provider;
+      if (switchFrom) {
+        await post("/api/gpt/account", { action: "cancel_invoice", orderId: switchFrom });
+        memoryRef.current.requestKeys[key] = undefined;
+      }
       if (data.payment && !["pending", "prepared"].includes(data.payment.state))
         memoryRef.current.requestKeys[key] = undefined;
       memoryRef.current.requestKeys[key] ??= crypto.randomUUID();

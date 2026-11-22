@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import type { AccountView, Locale, PaymentProvider } from "../types";
+import { offeredProviders } from "../types";
 import type { ChatStrings } from "../i18n";
 import type { AccountStrings } from "../account-strings";
 import { CHECKOUT_FAST_FOR_MS, settledCheckout, type CheckoutOutcome, type CheckoutWatch } from "../checkout";
@@ -116,6 +117,12 @@ export function CheckoutReturn({
   const again = <button type="button" className="gpt-primary" onClick={onAgain}>{copy.payAgain}</button>;
   // «Оплата не завершена» (chat-pay); until it is here, or if it cannot load, the screen it replaces.
   const provider = payment?.provider ?? watch.provider;
+  // The other link provider (21.11.2026): a card that does not go through on
+  // one often goes through on the other. pay() closes the open order on the
+  // way when no provider has seen it; a held one is not offered here.
+  const alternative = provider === "click" || provider === "payme"
+    ? offeredProviders(data).find((other) => other !== provider && (other === "click" || other === "payme")) ?? null
+    : null;
   const card = (closed: boolean, whole = false) => (
     <PayUnpaid
       heading={whole}
@@ -130,6 +137,7 @@ export function CheckoutReturn({
       onOther={closed ? onAgain : onChange}
       onAsk={provider === "click" || provider === "payme" ? () => onPay(provider, true) : null}
       cheaper={cheaper}
+      switchTo={alternative && (closed || payment?.cancellable === true) ? { provider: alternative, onPay: () => onPay(alternative) } : null}
       top={whole ? notices : null}
     >
       {whole && back(false)}
