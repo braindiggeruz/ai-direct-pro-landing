@@ -802,7 +802,13 @@ export default {
             message.ack();
             continue;
           }
-          const contactSources=await createFreeContactAcquisitionDependencies(env,env.GPTBOT_DRAFTS_DB,knownJob.orgId);
+          // The free catalog adapter paged a public rubric once per company (up to
+          // 24 pages each, thousands of requests per search) and produced no phone
+          // and no Telegram candidate in ~330 production runs (22.11.2026), while
+          // keeping every contact search open until its deadline. Off unless enabled.
+          const contactSources = env.LEAD_RADAR_FREE_CATALOG_ENABLED === 'true'
+            ? await createFreeContactAcquisitionDependencies(env,env.GPTBOT_DRAFTS_DB,knownJob.orgId)
+            : {};
           const result = await consumeLeadRadarQueueMessage(
             env.GPTBOT_DRAFTS_DB,
             raw,
