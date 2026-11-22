@@ -182,11 +182,13 @@ test("GPT_CLICK_AUTOFISCAL: true only reads Click's link, false submits at once,
     ["0", "1", "30", " 15 ", "1440", "5000", "", "-5", "1.5", "ten", "0x10", "1e3"].map(delay),
     [0, 1, 30, 15, 1440, 1440, 10, 10, 10, 10, 10, 10],
   );
-  // Committed: check first after 10 minutes. runtime-config.test.ts keeps the
-  // packed line and the nested table of wrangler.toml equal.
+  // Committed since 2026-11-22: Click prints the receipts (its own receipt was
+  // found on ofd.soliq.uz for live payments), we only read the link. The
+  // delay stays for a switch back to check first. runtime-config.test.ts
+  // keeps the packed line and the nested table of wrangler.toml equal.
   const source = readFileSync(new URL("../wrangler.toml", import.meta.url), "utf8");
   const packed = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(source)![1]) as Record<string, string>;
-  assert.equal(packed.GPT_CLICK_AUTOFISCAL, "");
+  assert.equal(packed.GPT_CLICK_AUTOFISCAL, "true");
   assert.equal(packed.GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES, "10");
 });
 

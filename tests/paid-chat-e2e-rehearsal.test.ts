@@ -511,19 +511,15 @@ test("Click live against a stub of api.click.uz: the checkout link, a test signa
   assert.equal(await clickCall(h, live, order, "1", { tx, prepareId: prepareIds.get(order)!, paydoc }), 0);
   await h.drain();
 
-  // The receipt, checked first as committed (GPT_CLICK_AUTOFISCAL ""): right
-  // after the payment Click is asked whether it printed one itself; it has
-  // none, so ours goes out through the queue 10 minutes later, with the
-  // pack's codes and VAT.
-  assert.deepEqual(receipts(f, order), [{ kind: "PERFORM", status_code: -1, last_error: "auto_wait", receipt_url: null }]);
-  assert.equal(clickFake.count("POST", "submit_items"), 0);
+  // The receipt, as committed since 2026-11-22 (GPT_CLICK_AUTOFISCAL "true"):
+  // Click prints it itself. Right after the payment it is not there yet, so
+  // the row waits (auto_pending, no attempt); a later read keeps Click's
+  // link. Our receipt line never goes out.
+  assert.deepEqual(receipts(f, order), [{ kind: "PERFORM", status_code: -1, last_error: "auto_pending", receipt_url: null }]);
+  clickFake.autoPrint(paymentId);
   assert.equal((await fiscalizeDue(f.env, { now: Date.now() + 10 * 60_000 })).printed, 1);
-  assert.deepEqual(receipts(f, order), [{ kind: "PERFORM", status_code: 0, last_error: "ours", receipt_url: clickFake.qrUrl(paymentId) }]);
-  const [item] = clickFake.receipts.get(paymentId)!.items as Array<Record<string, unknown>>;
-  assert.deepEqual(
-    [item.SPIC, item.PackageCode, item.Price, item.VAT, item.VATPercent, item.CommissionInfo],
-    ["10305008002000000", "1514296", PRICE_TIYIN, Math.round((PRICE_TIYIN * 12) / 112), 12, { TIN: "310618348" }],
-  );
+  assert.deepEqual(receipts(f, order), [{ kind: "PERFORM", status_code: 0, last_error: "auto", receipt_url: clickFake.qrUrl(paymentId) }]);
+  assert.equal(clickFake.count("POST", "submit_items"), 0);
   const paid = await buyer.get("/api/gpt/account");
   assert.deepEqual(paid.body.receipts, [{ kind: "PERFORM", receipt_url: clickFake.qrUrl(paymentId) }]);
   assert.equal((paid.body.access as { remaining: number }).remaining, PAID_MESSAGES);
