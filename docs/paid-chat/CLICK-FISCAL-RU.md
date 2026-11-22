@@ -106,7 +106,17 @@
 
 1. Узнать причину, только чтение: `SELECT last_error, attempts, COUNT(*) AS n FROM gpt_fiscal_receipts WHERE provider = 'click' AND status_code = -1 GROUP BY last_error, attempts;`
 2. `config_missing` — сверить выданные реквизиты Merchant API и `GPT_FISCAL_*`. `click_<код>` и `qr_host` — сверка в кабинете Click и с поддержкой провайдера. `auto_pending` означает отсутствие подтверждённой ссылки, а не доказанное отсутствие чека. После восстановления доступа очередь продолжает сверку по обычному расписанию.
-   - `payment_id:click_-12`: 08.10.2026 сервис 107654 вернул HTTP 200 с `error_code=-12`, `error_note="Неверные данные поставщика"` при GET `status_by_mti`. Проверить отдельный `merchant_user_id`, `service_id`, `secret_key` и доступ Merchant API; не подменять `merchant_user_id` значением `merchant_id`. Это ошибка поиска, а не номер платежа. Данные инцидента: `reports/click-fiscal-incident-20261008/`.
+   - `payment_id:click_-12`: с первой живой оплаты (07.10.2026) так падает **каждый** чек Click. GET `status_by_mti` отвечает HTTP 200, `error_code=-12`, `error_note="Неверные данные поставщика"`. Наш чек ни разу не уходил (`operation_id` и `submitted_at` пусты). Это ошибка поиска, а не номер платежа.
+     - **Что значит `-12` (проба 22.11.2026 без ключей).** `status_by_mti` отвечает тем же `-12` на запрос совсем **без** заголовка `Auth`, на выдуманный `merchant_user_id` и на устаревший timestamp. Поэтому по одному `-12` не отличить непринятого пользователя Merchant API от сбоя поиска. Различает `payment/status`: без `Auth` он отвечает `-12`, с неверной подписью — `-15` («Неверная строка подписи данных»).
+     - **`secret_key` и `service_id` верны.** Ими же проверяется подпись Prepare/Complete, и оплаты проходят. Под подозрением `merchant_user_id` или Merchant API, не включённый для него. Запрос в коде совпадает с docs.click.uz: `Auth`, пути, тело.
+     - **Новые реквизиты сначала проверить скриптом.** Скрипт делает только GET и не печатает ни ключей, ни номеров:
+       `node --import tsx scripts/paid-chat/click-merchant-check.ts --inbox F:/Claude/gptbot-keys-inbox --orders <файл>`.
+       Файл — вывод `wrangler d1 execute gptbot-ai-drafts --remote --json` с полями `id,external_id,provider_doc_id,perform_time,provider_time` для 1–3 оплаченных live-заказов Click.
+     - **Вердикты скрипта:**
+       - `lookup_works`: положить секрет (`ingest-keys.ts --apply`) и выкатить. Секрет Pages действует только со следующего деплоя.
+       - `lookup_only_fails`: Click принимает доступ, но не находит платёж по номеру заказа. Номер платежа можно брать из заказа (`paymentIdIs` в ответе скрипта); это правка кода.
+       - `auth_rejected`: Click не принимает пользователя Merchant API. Нужен ответ Click (вопрос 8 ниже), код не поможет.
+     - Не подменять `merchant_user_id` значением `merchant_id`. Данные инцидента: `reports/click-fiscal-incident-20261008/`.
    - `ofd:click_<код>` или `ofd:http_<код>`: наличие чека неизвестно. Сверить платёж в кабинете; не переключать политику ради обхода ошибки.
    - `submit_unknown`: не очищать `operation_id`/`submitted_at` и не сбрасывать очередь ради повторной отправки. Нужна сверка с Click/ОФД. Даже после 404 или ненулевого кода отправки чек мог появиться с задержкой. Автоматические чтения и срочные алерты продолжаются. Повторная финансовая операция допустима только после документированной сверки и отдельного решения владельца.
 3. Если чек пробили другим путём (кабинет Click, бухгалтер), строку закрывают вручную, только с согласия владельца: `UPDATE gpt_fiscal_receipts SET status_code = -2, last_error = 'manual', lease_until = 0 WHERE org_id = 'gptbot-consumer' AND kind = 'PERFORM' AND status_code = -1 AND order_id = '<pay_…>';`. После этого алерты прекращаются. Строку не удаляют.
@@ -174,3 +184,4 @@ LIMIT 1;
 5. Как фискализируется отмена через `payment/reversal`?
 6. Есть ли отдельный тестовый сервис для Merchant API?
 7. После настройки ОФД 05.10.2026 Click пробивает чек каждой оплаты сам? Если да, нужен ли наш `submit_items` вообще и что будет, если мы его отправим? (Пока ответа нет, работает «сначала проверить». Ответ «да» → `GPT_CLICK_AUTOFISCAL = "true"`, ответ «нет» → можно `"false"`.)
+8. `status_by_mti` с нашими реквизитами сервиса 107654 с 07.10.2026 отвечает `-12` «Неверные данные поставщика». Так же он отвечает на запрос вообще без заголовка `Auth`. Какой `merchant_user_id` верный для сервиса 107654? Включён ли для него Merchant API: `status_by_mti`, `payment/status`, `ofd_data`, `submit_items`, `reversal`? Нужно ли регистрировать IP-адреса, с которых идут запросы? (Ответ разблокирует все чеки Click с 07.10.2026.)
