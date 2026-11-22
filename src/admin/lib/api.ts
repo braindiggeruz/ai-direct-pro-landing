@@ -854,18 +854,37 @@ export const api = {
   leadRadarExportContacts: async (
     searchId: string,
     format: 'csv' | 'vcf',
-  ): Promise<{ blob: Blob; filename: string; rows: number }> => {
+    scope: 'search' | 'niche' = 'search',
+  ): Promise<{
+    blob: Blob;
+    filename: string;
+    rows: number;
+    leads: number;
+    searches: number;
+    summary: import('../../shared/lead-radar-export-contacts').ExportSummaryWire | null;
+  }> => {
     const response = await request<Response>(
       'GET',
-      `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}/export?format=${format}`,
+      `/api/admin/lead-radar/searches/${encodeURIComponent(searchId)}/export?format=${format}&scope=${scope}`,
       undefined,
-      { timeoutMs: 45_000, responseType: 'raw' },
+      { timeoutMs: 60_000, responseType: 'raw' },
     );
+    const summary = ((): import('../../shared/lead-radar-export-contacts').ExportSummaryWire | null => {
+      try {
+        const raw = response.headers.get('X-Export-Summary');
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    })();
     return {
       blob: await response.blob(),
       filename: contentDispositionFilename(response.headers.get('Content-Disposition'))
         ?? `leads-${searchId}.${format}`,
       rows: Number(response.headers.get('X-Export-Rows') ?? 0),
+      leads: Number(response.headers.get('X-Export-Leads') ?? 0),
+      searches: Number(response.headers.get('X-Export-Searches') ?? 1),
+      summary,
     };
   },
   leadRadarSetLifecycle: (

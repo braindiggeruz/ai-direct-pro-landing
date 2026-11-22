@@ -1249,7 +1249,7 @@ export async function handleTelegramCampaignPost(
       }
       const result = await checkCorporateTelegramContact({ db: ctx.db, orgId, searchId: body.searchId,
         companyId: body.companyId, candidateKey: body.candidateKey, accountId: account.id,
-        resolve: (target, operationId) => tgSenderMode(ctx.env) ? resolveOutreachContact(ctx.env, orgId, target) : resolveTelegramContact({ service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
+        resolve: (target, operationId) => tgSenderMode(ctx.env) ? resolveOutreachContact(ctx.env, orgId, target, ctx.db) : resolveTelegramContact({ service: ctx.env.LEAD_RADAR_TELEGRAM_ACCOUNT_SERVICE,
           internalServiceToken: ctx.env.LEAD_RADAR_TELEGRAM_INTERNAL_SERVICE_TOKEN, orgId, gatewayAccountRef: binding.gatewayAccountRef, operationId, target }),
       });
       return ownerJson(contactResolutionForBrowser(result, ctx.request.headers.get('X-Lead-Radar-Contact-Protocol')), ctx.requestId);

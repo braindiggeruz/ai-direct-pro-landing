@@ -640,6 +640,24 @@ export class LeadRadarStore {
     return row ? parseJson<LeadRadarSearchInput | null>(row.input_json, null) : null;
   }
 
+  /**
+   * Recent searches of one org with their input, newest first. The niche
+   * export merges every search of the same niche and city, so a list built
+   * over several days is one file instead of N partial ones.
+   */
+  async listSearchesForExport(orgId: string, limit = 80): Promise<Array<{ id: string; input: LeadRadarSearchInput }>> {
+    const bounded = Math.max(1, Math.min(200, Math.floor(limit)));
+    const rows = await this.db.prepare(`SELECT id, input_json FROM lead_radar_searches
+      WHERE org_id = ? ORDER BY created_at DESC, id DESC LIMIT ?`).bind(orgId, bounded)
+      .all<{ id: string; input_json: string }>();
+    const result: Array<{ id: string; input: LeadRadarSearchInput }> = [];
+    for (const row of rows.results ?? []) {
+      const input = parseJson<LeadRadarSearchInput | null>(row.input_json, null);
+      if (input) result.push({ id: row.id, input });
+    }
+    return result;
+  }
+
   async setSearchPhase(
     orgId: string,
     searchId: string,
@@ -843,7 +861,16 @@ export class LeadRadarStore {
     if (canonicalKeys.size !== leads.length) {
       throw new Error('lead_radar_discovery_fanout_duplicate');
     }
-    const payload = leads.map((lead) => {
+    const payload = this.fanoutPayload(leads, resolveMissingWebsites);
+    const payloadJson = JSON.stringify(payload);
+    if (new TextEncoder().encode(payloadJson).byteLength > DISCOVERY_FANOUT_MAX_JSON_BYTES) {
+      throw new Error('lead_radar_discovery_fanout_payload_too_large');
+    }
+    return this.persistDiscoveryFanoutPayload(orgId, searchId, parentJobId, leaseOwner, leaseGeneration, payloadJson, now, nextDispatchAt);
+  }
+
+  private fanoutPayload(leads: StoredLeadInput[], resolveMissingWebsites: boolean) {
+    return leads.map((lead) => {
       const identity = fingerprint(lead);
       const storedContact = contactForStorage(
         lead.telegramContact,
@@ -882,10 +909,166 @@ export class LeadRadarStore {
         evidence: lead.evidence,
       };
     });
-    const payloadJson = JSON.stringify(payload);
-    if (new TextEncoder().encode(payloadJson).byteLength > DISCOVERY_FANOUT_MAX_JSON_BYTES) {
-      throw new Error('lead_radar_discovery_fanout_payload_too_large');
+  }
+
+  /**
+   * Owner audit 22.11.2026 (SC-01): a "Telegram contacts" search keeps up to
+   * 250 discovered businesses in its candidate pool and persists them ten at a
+   * time while Telegram checks run. When the pool stopped — search deadline,
+   * target reached, time limit, retention purge — every candidate not yet
+   * reached was deleted, so a search that found 127 dentists exported 10.
+   *
+   * This writes the unreached remainder as inert company rows before the pool
+   * is cleared: same suppression rules as a normal fanout, no jobs, enrichment
+   * already terminal, so nothing is crawled, checked or sent because of them.
+   * They are ordinary unverified leads the owner can export. Existing rows of
+   * the same business win (`INSERT OR IGNORE` on the search's canonical key).
+   */
+  async persistContactPoolRemainder(orgId: string, searchId: string, now: string): Promise<number> {
+    if (!await this.supportsContactDiscovery()) return 0;
+    const pool = await this.contactDiscovery.getPool(orgId, searchId);
+    if (!pool?.candidates_json) return 0;
+    let stored: StoredLeadInput[];
+    try {
+      const parsed: unknown = JSON.parse(pool.candidates_json);
+      if (!Array.isArray(parsed)) return 0;
+      stored = parsed as StoredLeadInput[];
+    } catch {
+      return 0;
     }
+    // A reserved window may never have been persisted (its job died), so it
+    // is included; rows that did persist are ignored by the unique key.
+    const start = Math.max(0, Math.min(stored.length, pool.batch_job_id ? pool.batch_start : pool.cursor));
+    const seen = new Set<string>();
+    const remainder = stored.slice(start).filter((lead) => {
+      if (!lead || typeof lead.canonicalKey !== 'string' || seen.has(lead.canonicalKey)) return false;
+      seen.add(lead.canonicalKey);
+      return true;
+    });
+    // Chunked by payload bytes, not rows: a full 250-candidate pool fits in one
+    // or two chunks, two statements each, inside the 50-query D1 budget of the
+    // invocation that stops the pool.
+    const chunks: string[] = [];
+    let current: ReturnType<LeadRadarStore['fanoutPayload']> = [];
+    let currentBytes = 2;
+    for (const item of this.fanoutPayload(remainder, false)) {
+      const size = new TextEncoder().encode(JSON.stringify(item)).byteLength + 1;
+      if (current.length && currentBytes + size > 900_000) {
+        chunks.push(JSON.stringify(current));
+        current = [];
+        currentBytes = 2;
+      }
+      current.push(item);
+      currentBytes += size;
+    }
+    if (current.length) chunks.push(JSON.stringify(current));
+    let inserted = 0;
+    for (const payloadJson of chunks.slice(0, 4)) {
+      const searchFence = `EXISTS (SELECT 1 FROM lead_radar_searches search WHERE search.org_id = ? AND search.id = ?)`;
+      const results = await this.db.batch([
+        this.db.prepare(`WITH payload AS (
+          SELECT value AS item FROM json_each(?)
+        )
+        INSERT OR IGNORE INTO lead_radar_companies (
+          id, org_id, search_id, canonical_key, name, category, city, country,
+          address, website, domain, phone_digits, name_city_key,
+          phone, generic_email, telegram_url, telegram_contact_json,
+          decision_makers_json, score, confidence,
+          priority, lifecycle, suppressed, score_components_json, signals_json,
+          discovered_at, last_verified_at, updated_at,
+          enrichment_status, enrichment_reason, enrichment_attempts
+        )
+        SELECT
+          json_extract(item, '$.companyId'), ?, ?,
+          json_extract(item, '$.canonicalKey'), json_extract(item, '$.name'),
+          json_extract(item, '$.category'), json_extract(item, '$.city'),
+          json_extract(item, '$.country'), json_extract(item, '$.address'),
+          json_extract(item, '$.website'), json_extract(item, '$.domain'),
+          json_extract(item, '$.phoneDigits'), json_extract(item, '$.nameCityKey'),
+          json_extract(item, '$.phone'), json_extract(item, '$.genericEmail'),
+          json_extract(item, '$.telegramUrl'), json_extract(item, '$.telegramContactJson'),
+          json_extract(item, '$.decisionMakersJson'), json_extract(item, '$.score'),
+          json_extract(item, '$.confidence'), json_extract(item, '$.priority'),
+          json_extract(item, '$.lifecycle'), json_extract(item, '$.suppressed'),
+          json_extract(item, '$.scoreComponentsJson'), json_extract(item, '$.signalsJson'),
+          json_extract(item, '$.discoveredAt'), json_extract(item, '$.lastVerifiedAt'), ?,
+          'terminal',
+          CASE WHEN json_type(item, '$.website') = 'text' THEN 'retry_exhausted' ELSE 'no_website' END,
+          json_extract(item, '$.enrichmentAttempts')
+        FROM payload
+        WHERE json_extract(item, '$.suppressed') = 0
+          AND ${searchFence}
+          AND NOT EXISTS (
+            SELECT 1 FROM lead_radar_suppressions suppression
+            WHERE suppression.org_id = ? AND (
+              suppression.canonical_key = json_extract(item, '$.canonicalKey')
+              OR (json_type(item, '$.domain') = 'text'
+                AND suppression.domain = json_extract(item, '$.domain'))
+              OR (json_type(item, '$.phoneDigits') = 'text'
+                AND suppression.phone_digits = json_extract(item, '$.phoneDigits'))
+              OR (json_type(item, '$.nameCityKey') = 'text'
+                AND suppression.name_city_key = json_extract(item, '$.nameCityKey'))
+            )
+          )`).bind(payloadJson, orgId, searchId, now, orgId, searchId, orgId),
+        this.db.prepare(`WITH payload AS (
+          SELECT value AS item FROM json_each(?)
+        ), payload_evidence AS (
+          SELECT payload.item, evidence.value AS evidence
+          FROM payload JOIN json_each(payload.item, '$.evidence') evidence
+        )
+        INSERT OR IGNORE INTO lead_radar_evidence (
+          id, org_id, company_id, field_path, value, source_url, source_type,
+          observed_at, confidence, classification
+        )
+        SELECT
+          json_extract(payload_evidence.evidence, '$.id'), ?, company.id,
+          json_extract(payload_evidence.evidence, '$.fieldPath'),
+          json_extract(payload_evidence.evidence, '$.value'),
+          json_extract(payload_evidence.evidence, '$.sourceUrl'),
+          json_extract(payload_evidence.evidence, '$.sourceType'),
+          json_extract(payload_evidence.evidence, '$.observedAt'),
+          json_extract(payload_evidence.evidence, '$.confidence'),
+          json_extract(payload_evidence.evidence, '$.classification')
+        FROM payload_evidence
+        JOIN lead_radar_companies company
+          ON company.org_id = ? AND company.search_id = ?
+          AND company.canonical_key = json_extract(payload_evidence.item, '$.canonicalKey')
+          AND company.id = json_extract(payload_evidence.item, '$.companyId')
+        WHERE company.suppressed = 0`).bind(payloadJson, orgId, orgId, searchId),
+      ]);
+      inserted += Number(results[0]?.meta.changes ?? 0);
+    }
+    return inserted;
+  }
+
+  /** Terminal pool stop: flush the unreached remainder first (SC-01), then clear the pool. */
+  private async stopContactPool(orgId: string, searchId: string, reason: string, now: string): Promise<void> {
+    await this.persistContactPoolRemainder(orgId, searchId, now);
+    await this.contactDiscovery.stop(orgId, searchId, reason, now);
+  }
+
+  /** Expired pools still holding candidates, so the retention purge flushes before it clears.
+   *  One pool per cron tick by default: the tick shares its D1 budget with every other job. */
+  async flushExpiredContactPools(now: string, limit = 1): Promise<number> {
+    if (!await this.supportsContactDiscovery()) return 0;
+    const pools = (await this.db.prepare(`SELECT org_id, search_id FROM lead_radar_candidate_pools
+      WHERE expires_at <= ? AND candidates_json IS NOT NULL LIMIT ?`).bind(now, Math.max(1, Math.min(25, limit)))
+      .all<{ org_id: string; search_id: string }>()).results ?? [];
+    let inserted = 0;
+    for (const pool of pools) inserted += await this.persistContactPoolRemainder(pool.org_id, pool.search_id, now);
+    return inserted;
+  }
+
+  private async persistDiscoveryFanoutPayload(
+    orgId: string,
+    searchId: string,
+    parentJobId: string,
+    leaseOwner: string,
+    leaseGeneration: number,
+    payloadJson: string,
+    now: string,
+    nextDispatchAt: string,
+  ): Promise<boolean> {
     const parentFence = `EXISTS (
       SELECT 1 FROM lead_radar_jobs parent
       WHERE parent.org_id = ? AND parent.id = ? AND parent.search_id = ?
@@ -1722,6 +1905,8 @@ export class LeadRadarStore {
           )`).bind(now, orgId, searchId, now),
     ];
     if (contactMode && await this.supportsContactDiscovery()) {
+      // SC-01: keep the unreached candidates as inert rows before the pool is cleared.
+      await this.persistContactPoolRemainder(orgId, searchId, now);
       statements.push(this.db.prepare(`UPDATE lead_radar_candidate_pools SET
         candidates_json = NULL, batch_job_id = NULL, stop_reason = 'cancelled', updated_at = ?
         WHERE org_id = ? AND search_id = ?
@@ -2236,10 +2421,10 @@ export class LeadRadarStore {
         // limits (daily, domain, search, credits, rate limit) park the pool.
         const blockedSources = deadJobs.find(job => /^contact_sources_(?!.*company).*(?:budget|credits|rate_limit)/.test(job.last_error_code ?? ''));
         if (resolvedGoalCount >= input.desiredCount) {
-          if (!pool.stop_reason) await this.contactDiscovery.stop(orgId, searchId, 'target_reached', now);
+          if (!pool.stop_reason) await this.stopContactPool(orgId, searchId, 'target_reached', now);
         } else if (blockedSources) {
           if (!pool.stop_reason) {
-            await this.contactDiscovery.stop(orgId, searchId, 'provider_budget', now);
+            await this.stopContactPool(orgId, searchId, 'provider_budget', now);
             warnings.push('contact_provider_budget');
           }
         } else if (pool.stop_reason === 'time_limit' || pool.expires_at <= now) {
@@ -2250,14 +2435,14 @@ export class LeadRadarStore {
             replenishing = ['queued', 'running', 'retry_wait'].includes(next.status);
             discoveryActive = replenishing;
           } else if (!pool.stop_reason) {
-            await this.contactDiscovery.stop(orgId, searchId, 'time_limit', now);
+            await this.stopContactPool(orgId, searchId, 'time_limit', now);
             warnings.push('contact_time_limit');
           }
         } else {
           const reason = pool.cursor >= pool.candidate_count
             ? (pool.candidate_count >= (input.maxCandidates ?? 250) ? 'candidate_limit' : 'sources_exhausted') : null;
           if (reason) {
-            await this.contactDiscovery.stop(orgId, searchId, reason, now);
+            await this.stopContactPool(orgId, searchId, reason, now);
             warnings.push(`contact_${reason}`);
           } else {
             // A dead replenish row from an older code generation must not
@@ -2332,6 +2517,22 @@ export class LeadRadarStore {
       summary.funnel.resolvedTelegramCount = (await this.contactDiscovery.getPool(orgId,searchId))?.resolved_count ?? 0;
     }
     return { search: summary, leads: await this.mapLeadRows(orgId, leadRows) };
+  }
+
+  /**
+   * Leads of several searches of one org in one company read and one evidence
+   * read, newest priority first. The niche export uses it instead of one
+   * getSearch per search, which would cost ~6 D1 queries each against the
+   * 50-per-invocation budget.
+   */
+  async getLeadsForSearches(orgId: string, searchIds: readonly string[], maxRows = 1500): Promise<LeadRadarLead[]> {
+    const ids = [...new Set(searchIds)].slice(0, 50);
+    if (ids.length === 0 || maxRows < 1) return [];
+    const rows = await this.db.prepare(`SELECT * FROM lead_radar_companies
+      WHERE org_id = ? AND search_id IN (SELECT value FROM json_each(?))
+      ORDER BY CASE priority WHEN 'P1' THEN 1 WHEN 'P2' THEN 2 ELSE 3 END, score DESC, name ASC
+      LIMIT ?`).bind(orgId, JSON.stringify(ids), Math.max(1, Math.min(2000, Math.trunc(maxRows)))).all<LeadRow>();
+    return this.mapLeadRows(orgId, rows.results ?? []);
   }
 
   /** Bounded tenant-scoped access shared by single-search and saved audiences. */
