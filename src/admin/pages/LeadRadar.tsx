@@ -2434,6 +2434,12 @@ export default function LeadRadarPage() {
                             {pulseBusy ? 'Обрабатываем партию…' : '⚡ Обработать партию сейчас'}
                           </button>
                         )}
+                        {result.leads.length > 0 && (
+                          <a href="#lead-radar-export"
+                            className="inline-flex min-h-9 items-center rounded-xl bg-brand-cyan px-3 text-xs font-semibold text-[#04121c] hover:opacity-90">
+                            ⬇ Скачать контакты
+                          </a>
+                        )}
                       </div>
                       <p className="mt-1 text-xs text-white/55">
                         {result.search.status === 'running'
@@ -2499,8 +2505,10 @@ export default function LeadRadarPage() {
                 </section>
 
                 {result.leads.length > 0 && (
-                  <details className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-                    <summary className="min-h-11 cursor-pointer py-2 text-sm font-semibold text-white/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">Выгрузить контакты в файл</summary>
+                  // Open by default and styled as an action: the owner could not
+                  // find the collapsed "Выгрузить контакты в файл" row (22.11.2026).
+                  <details open id="lead-radar-export" className="rounded-2xl border border-brand-cyan/40 bg-brand-cyan/[0.06] p-4">
+                    <summary className="min-h-11 cursor-pointer py-2 text-base font-semibold text-brand-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan">⬇ Скачать контакты — CSV для TG Sender, vCard для телефона</summary>
                   <section aria-label="Выгрузка контактов для рассылки">
                     <p className="mt-1 max-w-prose text-xs text-white/55">
                       Компании с телефоном или Telegram — без повторов и без отказавшихся от связи.
