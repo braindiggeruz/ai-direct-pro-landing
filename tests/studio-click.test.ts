@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { paidDatabase, paidEnv, paidOrder, pendingOrder, studioJson } from "./helpers/studio-paid";
+import { MAINTENANCE_KEY, paidDatabase, paidEnv, paidOrder, pendingOrder, studioJson } from "./helpers/studio-paid";
 import { handleStudioClick } from "../functions/lib/studio/click-studio";
 import { clickSignature } from "../functions/lib/gpt-chat/payment-protocol";
 import { clickMerchantAuth, FiscalStore, fiscalizeDue } from "../functions/lib/gpt-chat/fiscal-store";
@@ -11,6 +11,7 @@ import { planOfVersion } from "../functions/lib/studio/plans";
 import { onRequestPost as sharedClick } from "../functions/api/payments/click";
 import { BillingStore } from "../functions/lib/gpt-chat/billing-store";
 import { fakeClickMerchant } from "./helpers/click-merchant-fake";
+import { studioOperation as studioReversal } from "../functions/lib/studio/refund";
 
 const SHARED_CLICK = { service_id: "107654", merchant_id: "4444", merchant_user_id: "3333", secret_key: "shared-click-secret-for-tests" };
 const sharedConfig = studioJson({ STUDIO_CLICK_USE_CHAT_SERVICE: "true", STUDIO_CLICK_AMOUNTS_CONFIRMED: "true", STUDIO_PAYMENT_PROVIDERS: "click" });
@@ -151,4 +152,22 @@ test('Studio Click: no credentials is 404; signed cancellation does not grant; f
   assert.equal((await send(p)).error,-9);
   assert.equal((await send({...p,error:'0'})).error,-9);
   assert.equal(db.value('SELECT COUNT(*) FROM studio_entitlements'),0);
+});
+
+test("Studio Click reversal sends Click's payment id from the click_paydoc_id, without status_by_mti (-12 on the live service)", async t => {
+  const db = await paidDatabase(); const env = sharedEnv(db, "live");
+  const { fake, restore } = fakeClickMerchant([{ serviceId: SHARED_CLICK.service_id, merchantUserId: SHARED_CLICK.merchant_user_id, secretKey: SHARED_CLICK.secret_key }]);
+  t.after(restore);
+  fake.mtiRefuses = true;
+  const paydoc = "5550001112";
+  const row = await paidOrder(db, { provider: "click", serviceId: SHARED_CLICK.service_id, plan: "kunlik", mode: "live", paidAt: Date.now(), docId: paydoc });
+  const response = await studioReversal(new Request("https://gptbot.uz/api/internal/studio-click-reversal", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${MAINTENANCE_KEY}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ orderId: row.id, confirmReversal: true, requestId: "reversal-request-1" }),
+  }), env, "click-reversal");
+  assert.equal(response.status, 200);
+  assert.deepEqual(fake.calls.map(call => `${call.method} ${call.path}`), [`DELETE /reversal/${SHARED_CLICK.service_id}/${paydoc}`]);
+  assert.equal(fake.count("GET", "status_by_mti"), 0);
+  assert.equal(db.value("SELECT state FROM studio_orders_v2 WHERE id=?", row.id), "refunded");
 });
