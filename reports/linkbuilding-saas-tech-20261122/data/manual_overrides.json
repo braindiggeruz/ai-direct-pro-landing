@@ -1,0 +1,1195 @@
+{
+ "tproger.ru": {
+  "action": "accept",
+  "category": "Startup & Tech Community",
+  "submission_type": "ARTICLE",
+  "verification_status": "VERIFIED",
+  "submit_url": "https://tproger.ru/articles/reshili-neprostuju-zadachu-ili-sozdajote-interesnyj-proekt-rasskazhite-ob-jetom-na-tproger",
+  "evidence_url": "https://tproger.ru/articles/reshili-neprostuju-zadachu-ili-sozdajote-interesnyj-proekt-rasskazhite-ob-jetom-na-tproger",
+  "registration_required": "yes",
+  "free_submission": "yes (UGC posts free; paid promo separate)",
+  "external_links_allowed": "yes (links to personal site/socials allowed in posts)",
+  "self_promotion_allowed": "expert content only; ads are sold separately (sales@tproger.ru)",
+  "moderation_required": "yes (editorial moderation)",
+  "xrumer_compatibility": "MANUAL_ONLY",
+  "placement": 20,
+  "notes": "manual check (official author page): log in -> profile -> 'Мои посты' -> 'Написать' -> send to moderation; unique (unpublished) content required; authors@tproger.ru"
+ },
+ "vc.ru": {
+  "action": "accept",
+  "category": "Startup & Tech Community",
+  "submission_type": "ARTICLE",
+  "verification_status": "VERIFIED",
+  "submit_url": "https://vc.ru/",
+  "evidence_url": "https://vc.ru/rules",
+  "registration_required": "yes",
+  "free_submission": "yes (personal/company blog free; reach limited without Pro)",
+  "external_links_allowed": "yes (in blog posts, within rules)",
+  "self_promotion_allowed": "no direct advertising; expert/case content in own blog; press releases to news@vc.ru",
+  "moderation_required": "post-moderation by rules",
+  "xrumer_compatibility": "MANUAL_ONLY",
+  "placement": 19,
+  "notes": "manual check: any registered user can publish in blogs (vc.ru/26741-blogs); rules prohibit direct ads (vc.ru/rules)"
+ },
+ "dzen.ru": {
+  "action": "accept",
+  "category": "Startup & Tech Community",
+  "submission_type": "ARTICLE",
+  "verification_status": "PARTIAL",
+  "submit_url": "https://dzen.ru/",
+  "evidence_url": "https://www.unisender.com/ru/blog/kak-sozdat-kanal-na-yandeks-dzen/",
+  "registration_required": "yes",
+  "free_submission": "yes",
+  "external_links_allowed": "unverified",
+  "self_promotion_allowed": "channel content (brand channel allowed)",
+  "moderation_required": "platform moderation",
+  "xrumer_compatibility": "MANUAL_ONLY",
+  "placement": 16,
+  "notes": "third-party guides: every authorized user gets a channel; publish via Dzen Studio ('+'). Not checked on dzen.ru itself (JS/anti-bot)"
+ },
+ "aidirectori.es": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "paid directory-submission service, not a placement platform"
+ },
+ "submitsaas.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "paid directory-submission service, not a placement platform"
+ },
+ "submitmatic.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "paid directory-submission service, not a placement platform"
+ },
+ "submitium.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "paid directory-submission service, not a placement platform"
+ },
+ "launchpact.io": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "paid directory-submission service, not a placement platform"
+ },
+ "getlaunchlist.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "product/tool website (its form is not a public listing)"
+ },
+ "indexmachine.co": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "product/tool website (its form is not a public listing)"
+ },
+ "firmos.ai": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "product/tool website (its form is not a public listing)"
+ },
+ "nothumansearch.ai": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "product/tool website (its form is not a public listing)"
+ },
+ "affylist.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "affiliate-programs directory (requires an affiliate program)"
+ },
+ "alstonantony.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "personal blog; form is for Black Friday deals only"
+ },
+ "geekwire.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "regional (US Pacific NW) news/startup list"
+ },
+ "macpip.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "landin.page": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "phototoolfinder.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "topwebsitebuilders.org": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "lowcodeplatforms.org": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "toools.design": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "clawtools.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "vibecoding.app": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "opensourcealternatives.to": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "infrabase.ai": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "aiservicesindex.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure)"
+ },
+ "startupvessel.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical '/get-started' login flow and 'X Software for Y' title template: startupvessel.com, startupbenchmarks.com, thecoretools.com, smartkithub.com, productwing.com, weliketools.com, ashlist.com, appalist.com"
+ },
+ "startupbenchmarks.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical '/get-started' login flow and 'X Software for Y' title template: startupvessel.com, startupbenchmarks.com, thecoretools.com, smartkithub.com, productwing.com, weliketools.com, ashlist.com, appalist.com"
+ },
+ "thecoretools.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical '/get-started' login flow and 'X Software for Y' title template: startupvessel.com, startupbenchmarks.com, thecoretools.com, smartkithub.com, productwing.com, weliketools.com, ashlist.com, appalist.com"
+ },
+ "smartkithub.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical '/get-started' login flow and 'X Software for Y' title template: startupvessel.com, startupbenchmarks.com, thecoretools.com, smartkithub.com, productwing.com, weliketools.com, ashlist.com, appalist.com"
+ },
+ "productwing.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical '/get-started' login flow and 'X Software for Y' title template: startupvessel.com, startupbenchmarks.com, thecoretools.com, smartkithub.com, productwing.com, weliketools.com, ashlist.com, appalist.com"
+ },
+ "weliketools.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical '/get-started' login flow and 'X Software for Y' title template: startupvessel.com, startupbenchmarks.com, thecoretools.com, smartkithub.com, productwing.com, weliketools.com, ashlist.com, appalist.com"
+ },
+ "ashlist.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical '/get-started' login flow and 'X Software for Y' title template: startupvessel.com, startupbenchmarks.com, thecoretools.com, smartkithub.com, productwing.com, weliketools.com, ashlist.com, appalist.com"
+ },
+ "appalist.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical '/get-started' login flow and 'X Software for Y' title template: startupvessel.com, startupbenchmarks.com, thecoretools.com, smartkithub.com, productwing.com, weliketools.com, ashlist.com, appalist.com"
+ },
+ "bestekitools.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical submit form (name/url/tagline/description/problemsolved/logo) and '2xx tools indexed' titles: bestekitools.com, kitoolsheute.com, launchelion.com, theaitoolsindex.com"
+ },
+ "kitoolsheute.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical submit form (name/url/tagline/description/problemsolved/logo) and '2xx tools indexed' titles: bestekitools.com, kitoolsheute.com, launchelion.com, theaitoolsindex.com"
+ },
+ "launchelion.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical submit form (name/url/tagline/description/problemsolved/logo) and '2xx tools indexed' titles: bestekitools.com, kitoolsheute.com, launchelion.com, theaitoolsindex.com"
+ },
+ "theaitoolsindex.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical submit form (name/url/tagline/description/problemsolved/logo) and '2xx tools indexed' titles: bestekitools.com, kitoolsheute.com, launchelion.com, theaitoolsindex.com"
+ },
+ "thedevtoolsdir.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical submit form (referrer_notes/website_url) and 'TheXDir' naming: thedevtoolsdir.com, thesaasdir.com, thedevtoolslist.com, theaitoolsdir.com"
+ },
+ "thesaasdir.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical submit form (referrer_notes/website_url) and 'TheXDir' naming: thedevtoolsdir.com, thesaasdir.com, thedevtoolslist.com, theaitoolsdir.com"
+ },
+ "thedevtoolslist.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical submit form (referrer_notes/website_url) and 'TheXDir' naming: thedevtoolsdir.com, thesaasdir.com, thedevtoolslist.com, theaitoolsdir.com"
+ },
+ "theaitoolsdir.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical submit form (referrer_notes/website_url) and 'TheXDir' naming: thedevtoolsdir.com, thesaasdir.com, thedevtoolslist.com, theaitoolsdir.com"
+ },
+ "mediapronet.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical title 'Where builders launch and get discovered', identical form and $19 price: mediapronet.com, sitepatent.com"
+ },
+ "sitepatent.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical title 'Where builders launch and get discovered', identical form and $19 price: mediapronet.com, sitepatent.com"
+ },
+ "dofollow.tools": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical form build (same React field ids) and 'Discover Best AI Tools & SaaS Solutions' title: dofollow.tools, gets.tools, tooldisk.com, toolsclaw.com"
+ },
+ "gets.tools": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical form build (same React field ids) and 'Discover Best AI Tools & SaaS Solutions' title: dofollow.tools, gets.tools, tooldisk.com, toolsclaw.com"
+ },
+ "tooldisk.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical form build (same React field ids) and 'Discover Best AI Tools & SaaS Solutions' title: dofollow.tools, gets.tools, tooldisk.com, toolsclaw.com"
+ },
+ "toolsclaw.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical form build (same React field ids) and 'Discover Best AI Tools & SaaS Solutions' title: dofollow.tools, gets.tools, tooldisk.com, toolsclaw.com"
+ },
+ "aitoolbus.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical 'All in One, Get the best AI tools' title, identical form (name/url/twitter) and pricing: aitoolbus.com, allinai.tools, toolsbox.me"
+ },
+ "allinai.tools": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical 'All in One, Get the best AI tools' title, identical form (name/url/twitter) and pricing: aitoolbus.com, allinai.tools, toolsbox.me"
+ },
+ "toolsbox.me": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical 'All in One, Get the best AI tools' title, identical form (name/url/twitter) and pricing: aitoolbus.com, allinai.tools, toolsbox.me"
+ },
+ "ai-findr.com": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical 'Get your best AI Tools | X' title template and identical submit form: ai-findr.com, toolsapp.cc, toolsify.ai"
+ },
+ "toolsapp.cc": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical 'Get your best AI Tools | X' title template and identical submit form: ai-findr.com, toolsapp.cc, toolsify.ai"
+ },
+ "toolsify.ai": {
+  "action": "reject",
+  "code": "NETWORK",
+  "reason": "templated directory network — identical 'Get your best AI Tools | X' title template and identical submit form: ai-findr.com, toolsapp.cc, toolsify.ai"
+ },
+ "aidbase.ai": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "appdrift.co": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "descript.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "devdojo.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "documentolog.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "elfchatbot.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "followx.today": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "formsubmit.app": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "huntr.co": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "interviewace.online": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "kosmik.app": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "loraai.pro": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "mindpal.space": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "mintlify.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "mkdirs.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "netus.ai": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "paddle.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "raftlabs.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "rapidtextai.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "rating.so": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "recall.it": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "robopost.app": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "seahawkmedia.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "taranify.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "telerik.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "tryrocket.ai": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "unicornplatform.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "usefocal.xyz": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "zumvu.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "shadow.vc": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "smallbets.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "readmake.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "levels.io": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "learnwithhasan.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "bestnanobananaprompt.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "1000logos.net": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "advice.lk": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product/company/agency/personal website, not a placement platform"
+ },
+ "macbase.app": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/Mac apps only"
+ },
+ "macmenubar.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/Mac apps only"
+ },
+ "macnative.io": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/Mac apps only"
+ },
+ "macupdate.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/Mac apps only"
+ },
+ "nativeshelf.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/Mac apps only"
+ },
+ "udonboost.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/Mac apps only"
+ },
+ "madewithbolt.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: showcase only for products built with a specific tool (Bolt/Lovable/Vue)"
+ },
+ "madewithlovable.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: showcase only for products built with a specific tool (Bolt/Lovable/Vue)"
+ },
+ "madewithvuejs.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: showcase only for products built with a specific tool (Bolt/Lovable/Vue)"
+ },
+ "mcpservers.org": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "jsindex.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "apislist.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "dbtools.dev": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "sectools.dev": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "boilerplatehunt.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "boilerplates4saas.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "templatefame.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "frameplate.co": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "tidyrepo.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)"
+ },
+ "onepagelove.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design gallery / design-tools niche"
+ },
+ "a1.gallery": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design gallery / design-tools niche"
+ },
+ "learn.uno": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design gallery / design-tools niche"
+ },
+ "sidebar.io": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design gallery / design-tools niche"
+ },
+ "sustainabilitysoftwares.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)"
+ },
+ "gamifylist.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)"
+ },
+ "detectortools.ai": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)"
+ },
+ "launchpoly.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)"
+ },
+ "startupvideos.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)"
+ },
+ "fosspost.org": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)"
+ },
+ "lawbhoomi.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)"
+ },
+ "dev.events": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)"
+ },
+ "vibcod.dev": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: vibe-coded projects only"
+ },
+ "vibecode.net": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: vibe-coded projects only"
+ },
+ "vibecodinglist.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: vibe-coded projects only"
+ },
+ "youraiproject.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: vibe-coded projects only"
+ },
+ "indiemaker.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: marketplace for selling startups / deals / finding investors (not a listing for this product)"
+ },
+ "buysellstartups.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: marketplace for selling startups / deals / finding investors (not a listing for this product)"
+ },
+ "openvc.app": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: marketplace for selling startups / deals / finding investors (not a listing for this product)"
+ },
+ "dealmyapp.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: marketplace for selling startups / deals / finding investors (not a listing for this product)"
+ },
+ "appsumo.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: marketplace for selling startups / deals / finding investors (not a listing for this product)"
+ },
+ "builtin.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: jobs/recruiting platform"
+ },
+ "place123.net": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/local business directory without topical focus"
+ },
+ "ontoplist.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/local business directory without topical focus"
+ },
+ "trueen.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/local business directory without topical focus"
+ },
+ "web-review.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/local business directory without topical focus"
+ },
+ "linkcentre.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/local business directory without topical focus"
+ },
+ "submissionwebdirectory.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/local business directory without topical focus"
+ },
+ "viesearch.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/local business directory without topical focus"
+ },
+ "phyco.org": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/local business directory without topical focus"
+ },
+ "baltimoresun.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: newspaper opinion section"
+ },
+ "launchauditor.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product (website audit/SEO badge tool), not a listing platform"
+ },
+ "launcholio.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: product (website audit/SEO badge tool), not a listing platform"
+ },
+ "mcpshelf.co": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: MCP servers only"
+ },
+ "businesslistingfinder.co": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general/local business directory without topical focus"
+ },
+ "bzdir.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general/local business directory without topical focus"
+ },
+ "blackfridaydirectory.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: seasonal deals directory (requires a deal)"
+ },
+ "saasaffiliate.net": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: affiliate-programs directory (requires an affiliate program)"
+ },
+ "ocstartupcouncil.org": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: regional (US) startup council/events"
+ },
+ "startupcouncil.org": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: regional (US) startup council/events"
+ },
+ "amzdir.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (e-commerce tools / file & photo utilities)"
+ },
+ "mikesullytools.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (e-commerce tools / file & photo utilities)"
+ },
+ "abacktools.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (e-commerce tools / file & photo utilities)"
+ },
+ "acedir.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "activewebdir.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "addonbiz.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "alive2directory.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "annewebdirectory.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "apexdir.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "brightlinksdirectory.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "deepbluedirectory.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "dir.cx": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "direct-directory.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "directory.top": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "ecobluedirectory.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "qualitylinksdir.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "unique-listing.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "primadirectory.it": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "namedirectory.com.ar": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: general web/link directory without topical focus"
+ },
+ "cal.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "cssdesignawards.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "entrepreneur.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "infoworld.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "macworld.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "pcworld.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "techadvisor.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "techradar.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "theverge.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "osnews.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "iphoneincanada.ca": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "iosdevweekly.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "fixmypdf.in": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "genclean.site": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "yourhack.ai": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "toolquix.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "press.farm": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "shortlistiq.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "shopify.dev": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "ubersuggest.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "aifordatabase.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "omnitopical.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "tooltrim.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "efficient.app": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "howbrandsarebuilt.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: media outlet / product / utility website, not a placement platform"
+ },
+ "kitploit.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "launchonwatch.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "madewithreactjs.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "mc-servers-list.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "mcp.directory": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "selfh.st": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "vibecodejobs.io": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "webdesign-inspiration.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "euroalternative.eu": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "european-alternatives.eu": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "romanianstartups.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "startups.co.ke": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "startupsoflondon.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "aimodelfind.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "partnero.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "uneedlists.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "allmacapps.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "macappindex.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "applevis.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "appiod.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "besttravelapps.online": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "atemplate.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "landingpage.fyi": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "admiretheweb.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "land-book.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "curated.design": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "flatui.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "gamebuino.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: game development communities (showcase is for games)"
+ },
+ "html5gamedevs.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: game development communities (showcase is for games)"
+ },
+ "defold.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: game development communities (showcase is for games)"
+ },
+ "realestatewebmasters.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "imusician.pro": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "browserextension.dev": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "arxiv.org": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "affiliate.watch": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "domainrating.lol": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: SEO metric/checker tool, not a placement platform"
+ },
+ "drchecker.net": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: SEO metric/checker tool, not a placement platform"
+ },
+ "boostdomainrating.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: SEO metric/checker tool, not a placement platform"
+ }
+}
