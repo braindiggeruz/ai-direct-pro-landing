@@ -1,0 +1,453 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "telegram-bot-yaratish",
+  "url": "/uz/blog/telegram-bot-yaratish/",
+  "title": "Telegram bot yaratish: 7 qadamli qo‘llanma 2026 | GPTBot.uz",
+  "description": "Telegram bot yaratish bosqichma-bosqich: BotFather’da bot ochish, token, konstruktor yoki Python, hosting, Payme/Click va qachon buyurtma qilish foydaliroq.",
+  "h1": "Telegram bot qanday yaratiladi: BotFather, konstruktor yoki dasturchi",
+  "topicCluster": "telegram-bot-development",
+  "targetMoneyPage": "/uz/telegram-bot-biznes-uchun/",
+  "keywords": [
+    "bot yaratish",
+    "telegram bot yaratish",
+    "telegram bot yasash",
+    "bot yasash",
+    "telegram bot ochish",
+    "botfather orqali bot yaratish",
+    "telegram bot yaratish bepul"
+  ],
+  "intro": "Telegram bot yaratish uchun rasmiy @BotFather’da /newbot buyrug‘i bilan bot ochasiz va maxfiy token olasiz. Keyin botga mantiq ulanadi: kodsiz konstruktor, Python yoki Node.js’dagi dastur yoki tayyor AI xizmati. So‘ng ssenariy sinovdan o‘tkaziladi, bot serverga joylanadi va shundan keyingina foydalanuvchilar chaqiriladi. Quyida — /newbot buyrug‘idan ishlaydigan botgacha bo‘lgan to‘liq yo‘l.",
+  "body": [
+    {
+      "type": "figure",
+      "src": "/assets/blog/kak-sozdat-telegram-bota-1200.webp",
+      "srcSet": "/assets/blog/kak-sozdat-telegram-bota-480.webp 480w, /assets/blog/kak-sozdat-telegram-bota-800.webp 800w, /assets/blog/kak-sozdat-telegram-bota-1200.webp 1200w",
+      "sizes": "(max-width: 640px) 100vw, (max-width: 960px) 90vw, 1200px",
+      "alt": "Telegram bot yaratish: BotFather’dan ishga tushirishgacha bo‘lgan yo‘l",
+      "width": 1200,
+      "height": 630,
+      "loading": "eager",
+      "caption": "Ishlaydigan Telegram bot faqat BotFather’dagi hisob emas: unga ssenariy, mantiq, ma’lumotlar ombori, barqaror ishga tushirish va xatolarni nazorat qilish kerak."
+    },
+    {
+      "type": "h2",
+      "id": "qisqacha",
+      "text": "Telegram bot yaratish: 7 qadamda qisqacha"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta vazifani tanlang: javob berish, ariza qabul qilish, yozilish yoki to‘lov.",
+        "@BotFather’da /newbot buyrug‘i bilan bot oching va tokenni saqlang.",
+        "Bot nomi, tavsifi, avatar va buyruqlarini sozlang.",
+        "Yo‘lni tanlang: konstruktor, kod yoki AI.",
+        "Ssenariyni tugmalardan oldin chizib chiqing: kirish, tanlov, ma’lumot, tasdiq.",
+        "Botni serverga joylang va xatolarni sinab ko‘ring.",
+        "Faqat shundan keyin bot havolasini mijozlarga tarqating."
+      ]
+    },
+    {
+      "type": "quote",
+      "text": "BotFather hisob ochadi va token beradi, lekin javoblarni yozmaydi, arizalarni saqlamaydi va botni o‘zi ishga tushirmaydi."
+    },
+    {
+      "type": "h2",
+      "id": "botfather",
+      "text": "1-qadam. BotFather orqali bot ochish"
+    },
+    {
+      "type": "p",
+      "text": "@BotFather — Telegram’ning botlarni ro‘yxatdan o‘tkazish va sozlash uchun rasmiy vositasi. Username va tasdiq belgisini tekshiring: soxta hisobga ma’lumot bermang. Bu jarayon konstruktor, Python, Node.js va AI yechimlari uchun bir xil."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Telegram’da @BotFather’ni toping.",
+        "Start tugmasini bosing yoki /start yuboring.",
+        "/newbot buyrug‘ini yuboring.",
+        "Botning ko‘rinadigan nomini kiriting: u o‘zbek yoki rus tilida bo‘lishi mumkin.",
+        "Lotin harflarida noyob username o‘ylab toping: u «bot» bilan tugashi kerak, masalan, klinika_toshkent_bot.",
+        "Ro‘yxatdan o‘tgach, HTTP API tokenini himoyalangan joyga nusxalang.",
+        "t.me/username havolasini ochib, bot mavjudligini tekshiring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu bosqichda bot hali suhbat qura olmaydi: Start bosilganda Telegram hodisa yuboradi, lekin unga javob beradigan dastur yoki konstruktor hali ulanmagan."
+    },
+    {
+      "type": "h3",
+      "text": "Token nima va uni qanday saqlash kerak"
+    },
+    {
+      "type": "p",
+      "text": "Token Telegram’ga API so‘rovi qaysi bot nomidan yuborilayotganini bildiradi. Unga administrator paroli kabi qarang: maqola, skrinshot, GitHub, jadval yoki guruh chatiga joylamang. Kodda token muhit o‘zgaruvchisida yoki maxfiy ma’lumotlar omborida saqlanadi. Token begona qo‘lga tushsa, uni BotFather orqali darhol yangilang va tizimdagi qiymatni almashtiring."
+    },
+    {
+      "type": "h2",
+      "id": "sozlash",
+      "text": "2-qadam. Tavsif, avatar va buyruqlarni sozlang"
+    },
+    {
+      "type": "p",
+      "text": "Birinchi xabargacha foydalanuvchi uchta savolga javob olishi kerak: bot kimniki, nima foyda beradi va qanday boshlanadi. BotFather’da tavsif (/setdescription), qisqa ma’lumot (/setabouttext), avatar (/setuserpic) va buyruqlar ro‘yxati (/setcommands) sozlanadi."
+    },
+    {
+      "type": "p",
+      "text": "BotFather’dagi buyruq — interfeysdagi yozuv, tayyor funksiya emas. /help qo‘shsangiz, unga javobni baribir konstruktor yoki kod beradi."
+    },
+    {
+      "type": "h2",
+      "id": "yol",
+      "text": "3-qadam. Yo‘lni tanlang: konstruktor, kod yoki AI"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Yo‘l",
+        "Nimaga mos",
+        "Afzalligi",
+        "Cheklovi"
+      ],
+      "rows": [
+        [
+          "Kodsiz konstruktor",
+          "FAQ, arizalar, kvizlar, oddiy menyu",
+          "Tez ishga tushadi, sxema ko‘rinib turadi",
+          "Tariflar, limitlar va platformaga bog‘liqlik"
+        ],
+        [
+          "Python yoki Node.js",
+          "Integratsiyalar, rollar, nostandart mantiq",
+          "Kod va ma’lumotlar nazoratda",
+          "Ishlab chiqish, server va qo‘llab-quvvatlash kerak"
+        ],
+        [
+          "Buyurtma asosida ishlab chiqish",
+          "CRM, hisob, to‘lovlar, murakkab jarayonlar",
+          "Ssenariy biznesga moslab quriladi",
+          "Narx yuqoriroq, vazifani aniq qo‘yish kerak"
+        ],
+        [
+          "AI bot",
+          "Erkin savollar, bilimlar bazasi bo‘yicha maslahat",
+          "Turli so‘zlashuvni tushunadi",
+          "Cheklovlar, tekshirilgan ma’lumot va menejerga uzatish kerak"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "konstruktor",
+      "text": "Dasturlashsiz bot yaratish: konstruktor"
+    },
+    {
+      "type": "p",
+      "text": "Konstruktor botga token orqali ulanadi va backend vazifasini bajaradi. Dialogni bloklardan yig‘asiz: xabar, tugma, shart, savol, javobni saqlash va amal. Platformalar nomi, tariflari va integratsiyalari o‘zgarib turadi, shuning uchun tanlovni reklamadagi «besh daqiqada bot» va’dasiga emas, amaldagi hujjatlar, ma’lumotlarni eksport qilish imkoniyati va kerakli kanallarga qarab qiling."
+    },
+    {
+      "type": "p",
+      "text": "Konstruktor talabni tekshirish va oddiy jarayonlar uchun yaxshi. Lekin biznes qoidasini bloklar bilan ifodalab bo‘lmasa yoki ma’lumotlarni o‘z tizimingizda saqlash kerak bo‘lsa, kodga yoki buyurtma asosidagi ishlab chiqishga o‘tish arzonroq tushadi."
+    },
+    {
+      "type": "h2",
+      "id": "kod",
+      "text": "Python yoki Node.js’da bot yaratish"
+    },
+    {
+      "type": "p",
+      "text": "Dastur Telegram yangilanishlarini oladi, hodisa turini aniqlaydi, kerakli ishlovchini chaqiradi va javob yuboradi. Python’da ko‘pincha aiogram kutubxonasi ishlatiladi. Token koddagi faylda emas, muhit o‘zgaruvchisida saqlanadi."
+    },
+    {
+      "type": "p",
+      "text": "Yangilanishlar ikki usulda olinadi: long polling (getUpdates) yoki webhook. Bitta token uchun ikkalasini bir vaqtda ishlatib bo‘lmaydi: webhook o‘rnatilgan bo‘lsa, getUpdates ishlamaydi. Mahalliy sinov uchun polling qulay, doimiy ish uchun ko‘pincha webhook tanlanadi."
+    },
+    {
+      "type": "linkp",
+      "text": "Loyiha tuzilmasi, holatlar va takroriy hodisalarni qayta ishlash bo‘yicha batafsil material rus tilida: {python}.",
+      "links": [
+        {
+          "token": "python",
+          "target": "/ru/blog/telegram-bot-na-python/",
+          "anchor": "Telegram-бот на Python",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "ssenariy",
+      "text": "4-qadam. Ssenariyni tugmalardan oldin loyihalang"
+    },
+    {
+      "type": "p",
+      "text": "Ssenariy — ekranlar ro‘yxati emas, natijaga olib boradigan yo‘l. Oxiridan boshlang: foydalanuvchi nima olishi kerak — javob, ariza, yozilish yoki to‘lov. So‘ng har bir qadamda qaysi ma’lumot kerakligini va xato bo‘lsa nima bo‘lishini yozib chiqing."
+    },
+    {
+      "type": "p",
+      "text": "Birinchi xabardayoq telefon, manzil va tug‘ilgan sanani tushuntirishsiz so‘ramang. Avval foydani ko‘rsating, keyin faqat kerakli maydonlarni so‘rang va yuborishdan oldin rozilik matnini ko‘rsating."
+    },
+    {
+      "type": "h2",
+      "id": "hosting",
+      "text": "5-qadam. Botni qayerda ishga tushirish: 24/7 hosting"
+    },
+    {
+      "type": "p",
+      "text": "Koddagi bot dastur ishlab turgan paytdagina javob beradi: yopilgan noutbuk xabar qabul qilmaydi. Doimiy ish uchun dastur VPS, bulutli platforma yoki serverless funksiyalarga joylanadi."
+    },
+    {
+      "type": "p",
+      "text": "Bepul hosting o‘rganish uchun mos, lekin dasturni to‘xtatishi, so‘rovlarni cheklashi yoki shartlarni o‘zgartirishi mumkin. Reklamani ishga tushirishdan oldin limitlar, xatodan keyingi xatti-harakat va jurnallarni tekshiring: beqaror bepul tarif tufayli yo‘qolgan arizalar server narxidan qimmatroq tushadi."
+    },
+    {
+      "type": "linkp",
+      "text": "VPS, PaaS va serverless taqqoslovi rus tilida: {hosting}.",
+      "links": [
+        {
+          "token": "hosting",
+          "target": "/ru/blog/hosting-dlya-telegram-bota/",
+          "anchor": "Хостинг для Telegram-бота",
+          "lang": "ru"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tolov",
+      "text": "6-qadam. Payme yoki Click to‘lovini ulash"
+    },
+    {
+      "type": "p",
+      "text": "To‘lov qabul qilish — qo‘shimcha tugma emas, alohida to‘lov jarayoni. Provayderda biznes hisobi, shartnoma va texnik sozlamalar, hisob-faktura yaratish, natijani serverda tekshirish va takroriy ishlov berishdan himoya kerak. Foydalanuvchi tugmani bosgani yoki skrinshot yuborgani uchun «to‘landi» holatini qo‘yib bo‘lmaydi."
+    },
+    {
+      "type": "p",
+      "text": "Payme va Click’ning amaldagi shartlari, ulash tartibi va savdo nuqtasiga qo‘yiladigan talablarni ishlab chiqishdan oldin provayderning rasmiy hujjatlari bo‘yicha tekshiring: ular o‘zgarib turadi."
+    },
+    {
+      "type": "linkp",
+      "text": "To‘lovlarni Telegram botda qabul qilish tartibi: {pay}.",
+      "links": [
+        {
+          "token": "pay",
+          "target": "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+          "anchor": "Payme, Click va Humo to‘lovlari Telegram botda"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "tekshiruv",
+      "text": "7-qadam. Ishga tushirishdan oldin tekshiring"
+    },
+    {
+      "type": "list",
+      "items": [
+        "To‘liq yo‘lni sinang: Start → tanlov → ma’lumot → tasdiq → menejerga yetib borish.",
+        "Takroriy yuborish va tarmoq xatosida ariza ikki marta yaratilmasligini tekshiring.",
+        "Noto‘g‘ri telefon raqami yoki bo‘sh javobda bot nima deyishini ko‘ring.",
+        "Ikkala tilda (o‘zbek va rus) matnlar to‘g‘ri chiqishini tekshiring.",
+        "Sinov tokenlari va ma’lumotlarni o‘chirib, maxfiylik siyosatini qo‘shing."
+      ]
+    },
+    {
+      "type": "h2",
+      "id": "bepul",
+      "text": "Telegram bot yaratish bepulmi?"
+    },
+    {
+      "type": "p",
+      "text": "BotFather’da ro‘yxatdan o‘tish bepul. Kodni o‘zingiz yozsangiz va bepul infratuzilmadan foydalansangiz, o‘quv bot to‘g‘ridan-to‘g‘ri xarajatsiz ishlashi mumkin. Lekin ishlaydigan loyiha baribir pul turadi: ssenariy va ishlab chiqish uchun vaqt, konstruktor tarifi yoki server, ma’lumotlar bazasi, tashqi API, AI model, monitoring va qo‘llab-quvvatlash."
+    },
+    {
+      "type": "h2",
+      "id": "buyurtma",
+      "text": "O‘zingiz yaratasizmi yoki buyurtma qilasizmi?"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "O‘zingiz yarating",
+        "Dasturchi yoki studiya yaxshiroq"
+      ],
+      "rows": [
+        [
+          "Bitta oddiy g‘oyani tekshirish kerak",
+          "Bot to‘lov, CRM yoki ichki hisob bilan bog‘langan"
+        ],
+        [
+          "Ssenariy bitta sxemaga sig‘adi",
+          "Rollar, huquqlar, holatlar va murakkab istisnolar bor"
+        ],
+        [
+          "Konstruktor cheklovlari maqbul",
+          "Ma’lumotlar nazorati va platformadan mustaqillik kerak"
+        ],
+        [
+          "O‘rganish va qo‘llab-quvvatlashga vaqt bor",
+          "Yo‘qolgan arizalar tufayli to‘xtab qolish qimmatga tushadi"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Prototipdan keyin ishlaydigan versiya kerak bo‘lsa, {service} sahifasida tarkib, muddat va smeta tartibi bor. Tayyor narxlar — {price} sahifasida: Start paketi 990 000 so‘mdan.",
+      "links": [
+        {
+          "token": "service",
+          "target": "/uz/telegram-bot-biznes-uchun/",
+          "anchor": "Telegram bot buyurtma qilish"
+        },
+        {
+          "token": "price",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "Telegram bot yaratish narxi"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Bot uchun smeta olish",
+      "href": "/uz/telegram-bot-biznes-uchun/#lead-form"
+    },
+    {
+      "type": "h2",
+      "id": "xulosa",
+      "text": "Xulosa: bugun nimadan boshlash kerak"
+    },
+    {
+      "type": "p",
+      "text": "BotFather’da sinov botini oching, lekin darhol o‘nlab funksiyalarni ulamang. Bitta vazifani tanlang, uni oxirigacha sinang va shundan keyingina yangi qadam qo‘shing. Arizalar, to‘lov yoki CRM kerak bo‘lsa, buni ishlab chiqishdan oldin rejalashtiring."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Telegram’da bot qanday yaratiladi?",
+      "a": "@BotFather’ni oching, /newbot buyrug‘ini yuboring, nom va «bot» bilan tugaydigan username kiriting. BotFather token beradi — uni maxfiy saqlang. Shundan keyin botga konstruktor, kod yoki AI xizmati orqali mantiq ulanadi."
+    },
+    {
+      "q": "Telegram bot yaratish bepulmi?",
+      "a": "Ro‘yxatdan o‘tish bepul. O‘quv botni xarajatsiz ishga tushirish mumkin, lekin ishlaydigan loyiha uchun server yoki konstruktor tarifi, ma’lumotlar bazasi, tashqi API va qo‘llab-quvvatlash kerak bo‘ladi."
+    },
+    {
+      "q": "Dasturlashni bilmasdan bot yasash mumkinmi?",
+      "a": "Ha, kodsiz konstruktorlar FAQ, ariza va oddiy menyu uchun yetarli. CRM, to‘lov yoki nostandart qoidalar kerak bo‘lsa, kod yoki buyurtma asosidagi ishlab chiqish kerak bo‘ladi."
+    },
+    {
+      "q": "BotFather’da ochilgan bot nega javob bermaydi?",
+      "a": "BotFather faqat hisob ochadi va token beradi. Javoblarni konstruktor yoki serverda ishlayotgan dastur beradi; ular ulanmaguncha bot jim turadi."
+    },
+    {
+      "q": "Bot 24/7 qayerda ishlashi kerak?",
+      "a": "Kod bilan yozilgan bot VPS, bulutli platforma yoki serverless funksiyada doimiy ishlashi kerak. Noutbukda ishlayotgan bot u yopilishi bilan to‘xtaydi."
+    },
+    {
+      "q": "Botga Payme yoki Click ulash mumkinmi?",
+      "a": "Ha, lekin bu alohida to‘lov jarayoni: provayder bilan shartnoma, sozlamalar va to‘lov holatini serverda tekshirish kerak. Shartlarni ishlab chiqishdan oldin provayder hujjatlari bo‘yicha tekshiring."
+    },
+    {
+      "q": "Bot o‘zbek va rus tilida ishlay oladimi?",
+      "a": "Ha. Har bir til uchun matnlar alohida yoziladi va sinovdan o‘tkaziladi; foydalanuvchi tilni boshida tanlaydi."
+    },
+    {
+      "q": "Botni o‘zim yaratish yoki buyurtma qilish — qaysi biri arzon?",
+      "a": "Oddiy g‘oyani tekshirish uchun o‘zingiz yaratish arzonroq. Bot arizalar, to‘lov yoki CRM bilan ishlasa, buyurtma qilish ko‘pincha arzonroq tushadi: GPTBot.uz’da Start paketi 990 000 so‘mdan, aniq summa smetada kelishiladi."
+    }
+  ],
+  "cta": {
+    "label": "Bot uchun smeta olish",
+    "href": "/uz/telegram-bot-biznes-uchun/#lead-form"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/telegram-bot-biznes-uchun/",
+      "anchor": "Telegram bot buyurtma qilish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/chat-bot-narxi/",
+      "anchor": "Telegram bot yaratish narxi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/telegram-botda-payme-click-humo-tolovlarini-qabul-qilish/",
+      "anchor": "Telegram botda Payme va Click to‘lovlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "anchor": "arizalarni qabul qiluvchi bot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+      "anchor": "Telegram botni amoCRM va Bitrix24 ga ulash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/telegram-bot-biznes-uchun-narxi-uzbekistonda/",
+      "anchor": "Telegram bot narxi nimaga bog‘liq",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "Telegram bot yaratish: 7 qadamli qo‘llanma 2026 | GPTBot.uz",
+  "ogDescription": "Telegram bot yaratish bosqichma-bosqich: BotFather’da bot ochish, token, konstruktor yoki Python, hosting, Payme/Click va qachon buyurtma qilish foydaliroq.",
+  "ogImage": "https://gptbot.uz/assets/blog/kak-sozdat-telegram-bota-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/telegram-bot-yaratish/",
+  "hreflangUz": "/uz/blog/telegram-bot-yaratish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "author": "GPTBot Team",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Telegram bot yaratmoqchi bo‘lgan tadbirkorlar va boshlovchi dasturchilar"
+  },
+  "breadcrumbLabel": "Telegram bot yaratish",
+  "datePublished": "2026-11-22",
+  "dateModified": "2026-11-22",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Telegram — From BotFather to Hello World",
+      "url": "https://core.telegram.org/bots/tutorial",
+      "note": "/newbot buyrug‘i, token olish, tokenni parol kabi maxfiy saqlash va uni BotFather orqali bekor qilish; 2026-11-22 kuni tekshirildi."
+    },
+    {
+      "title": "Telegram — Bot Features: BotFather",
+      "url": "https://core.telegram.org/bots/features#botfather",
+      "note": "Bot tavsifi, qisqa ma’lumot, avatar va buyruqlarni sozlash (/setdescription, /setabouttext, /setuserpic, /setcommands) va username qoidalari."
+    },
+    {
+      "title": "Telegram Bot API",
+      "url": "https://core.telegram.org/bots/api",
+      "note": "getUpdates va webhook orqali yangilanishlarni olish; webhook o‘rnatilgan bo‘lsa, getUpdates ishlamaydi."
+    },
+    {
+      "title": "Telegram Bot Payments",
+      "url": "https://core.telegram.org/bots/payments",
+      "note": "Provayderlar orqali to‘lovlarning umumiy arxitekturasi."
+    }
+  ],
+  "updatedAt": "2026-11-22T00:00:00.000Z",
+  "createdAt": "2026-11-22T00:00:00.000Z"
+}

@@ -1033,6 +1033,22 @@
     {
       "keyword": "совместимость по дате рождения",
       "volumePerMonth": 1300
+    },
+    {
+      "keyword": "bot yaratish",
+      "volumePerMonth": 590,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, get_keyword_metrics of 2026-11-22 (F:/Claude/gptbot_seo/roadmap-commercial-top3-20261122/data/kw_metrics_1.json, outside the repository)",
+      "measuredAt": "2026-11-22",
+      "note": "Google Ads competition index 0.01, CPC 0.98 USD; October 2026 1 900, 12-month average 636. Do-it-yourself intent: the SERP holds a course, constructors and video. Owned by the Uzbek guide /uz/blog/telegram-bot-yaratish/ — a blog article, outside this gate’s page types; the bot-services cluster stays frozen for new commercial pages. «telegram bot yasash» (70) and «bot yasash» (20) are its close variants on the same guide."
+    },
+    {
+      "keyword": "telegram bot yaratish narxi",
+      "volumePerMonth": 20,
+      "competition": "LOW",
+      "source": "OpenSEO/DataForSEO Google Ads, location 2860, get_keyword_metrics of 2026-11-22 (F:/Claude/gptbot_seo/roadmap-commercial-top3-20261122/data/kw_metrics_1.json, outside the repository)",
+      "measuredAt": "2026-11-22",
+      "note": "12-month series 10–20, no CPC returned. Owned by the existing /uz/chat-bot-narxi/ (created 2026-06-25, grandfathered), whose primaryKeyword names it since 2026-11-22; before that the page never used the phrase and held 4 Search Console impressions at 102.3 over 19.08–19.11."
     }
   ],
   "qualityRequirements": {

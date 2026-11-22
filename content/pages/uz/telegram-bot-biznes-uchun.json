@@ -146,6 +146,30 @@
     },
     {
       "type": "h2",
+      "text": "Telegram bot buyurtma qilish: 4 qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ariza yoki Telegram’dagi xabar: vazifa, kanal va tilni qisqacha yozasiz.",
+        "Brif: xizmatlar, ariza maydonlari, integratsiyalar va arizani kim olishi kelishiladi.",
+        "Ssenariy va smeta: dialog xaritasi, ish tarkibi, muddat va narx ishdan oldin qayd etiladi.",
+        "Ishlab chiqish, sinov va ishga tushirish: sinov arizasi, takroriy yuborish va arizaning menejerga yetib borishini tekshiramiz."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Paketlar, summalar va muddatlar — {price} sahifasida.",
+      "links": [
+        {
+          "token": "price",
+          "target": "/uz/chat-bot-narxi/",
+          "anchor": "Telegram bot yaratish narxi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
       "text": "Telegram bot nimani uddalaydi"
     },
     {
@@ -192,13 +216,12 @@
     },
     {
       "type": "linkp",
-      "text": "BotFather’da bot ochish, tokenni saqlash, konstruktor yoki kod tanlash va hosting bo‘yicha bosqichma-bosqich yo‘riqnoma rus tilida: {guide}. Tokenni parol kabi saqlang: uni ochiq chat yoki hujjatga joylamang.",
+      "text": "BotFather’da bot ochish, tokenni saqlash, konstruktor yoki kod tanlash va hosting bo‘yicha bosqichma-bosqich yo‘riqnoma: {guide}. Tokenni parol kabi saqlang: uni ochiq chat yoki hujjatga joylamang.",
       "links": [
         {
           "token": "guide",
-          "target": "/ru/blog/kak-sozdat-telegram-bota/",
-          "anchor": "Как создать Telegram-бота",
-          "lang": "ru"
+          "target": "/uz/blog/telegram-bot-yaratish/",
+          "anchor": "Telegram bot yaratish: 7 qadamli qo‘llanma"
         }
       ]
     },
@@ -394,9 +417,9 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-22",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-11-08",
+  "updatedAt": "2026-11-22",
   "heroTrust": [
     "990 000 so‘mdan",
     "Start — bitta til",
