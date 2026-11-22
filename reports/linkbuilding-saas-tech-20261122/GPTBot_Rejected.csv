@@ -961,6 +961,7 @@ boards.net,NOT_A_PLATFORM,"looks like a product/company website, not a listing/p
 boldgrid.com,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: Build a Better Website and Grow Your Business | BoldGrid)",https://www.boldgrid.com/,65,2026-11-22
 bolt.new,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: Bolt AI builder: Websites, apps & prototypes)",https://bolt.new/,56,2026-11-22
 boomy.com,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: Boomy - Make Generative Music with Artificial Intelligence)",https://boomy.com,47,2026-11-22
+boostdomainrating.com,NOT_A_PLATFORM,"manual check: manual review: SEO metric/checker tool, not a placement platform",https://boostdomainrating.com/,,2026-11-22
 boosty.to,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: Boosty.to - a place where success turns into a stable income)",https://boosty.to/,42,2026-11-22
 bootstrappers.io,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: )",https://bootstrappers.io/,38,2026-11-22
 borncity.com,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: BornCity - Windows und IT News)",https://borncity.com/,63,2026-11-22
@@ -1134,6 +1135,7 @@ domore.ai,NOT_A_PLATFORM,"looks like a product/company website, not a listing/pu
 dondon.life,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: DonDon — AI-assisted task manager on every platform)",https://dondon.life/,65,2026-11-22
 doola.com,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: Home - doola is for Do'ers: LLC Formation, Bookkeeping, Busi)",https://www.doola.com/,56,2026-11-22
 drapx.com,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: DrapX AI | Physics-Simulated Virtual Try-On for Shopify)",https://drapx.com/,62,2026-11-22
+drchecker.net,NOT_A_PLATFORM,"manual check: manual review: SEO metric/checker tool, not a placement platform",https://drchecker.net/,,2026-11-22
 drift.com,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: Redirecting...)",https://www.drift.com/,39,2026-11-22
 dropbox.com,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: Dropbox: Secure cloud storage, file sharing, and more)",https://www.dropbox.com/,61,2026-11-22
 drupalcommerce.org,NOT_A_PLATFORM,"looks like a product/company website, not a listing/publishing platform (title: Drupal Commerce)",https://drupalcommerce.org/,56,2026-11-22
@@ -1948,31 +1950,42 @@ abacktools.com,NOT_SUITABLE,manual check: manual review: unrelated niche (e-comm
 acedir.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.acedir.com/,,2026-11-22
 activewebdir.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.activewebdir.com/,,2026-11-22
 addonbiz.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.addonbiz.com/,,2026-11-22
+admiretheweb.com,NOT_SUITABLE,manual check: manual review: design galleries / templates / landing-page inspiration niche,https://www.admiretheweb.com/,,2026-11-22
+affiliate.watch,NOT_SUITABLE,"manual check: manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)",https://affiliate.watch/,,2026-11-22
 affylist.com,NOT_SUITABLE,manual check: affiliate-programs directory (requires an affiliate program),https://affylist.com/,,2026-11-22
 agentskillshub.dev,NOT_SUITABLE,accepts open-source GitHub projects only,https://agentskillshub.dev/,92,2026-11-22
 ai-future.com,NOT_SUITABLE,"submission form is for podcasts/jobs/events, not for software products",https://ai-future.com/,86,2026-11-22
 aimodelfind.com,NOT_SUITABLE,"manual check: manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)",https://aimodelfind.com/,,2026-11-22
 aiservicesindex.com,NOT_SUITABLE,manual check: niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure),https://aiservicesindex.com/,,2026-11-22
 alive2directory.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.alive2directory.com/,,2026-11-22
+allmacapps.com,NOT_SUITABLE,manual check: manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app),https://allmacapps.com/,,2026-11-22
 alstonantony.com,NOT_SUITABLE,manual check: personal blog; form is for Black Friday deals only,https://alstonantony.com/,,2026-11-22
 amzdir.com,NOT_SUITABLE,manual check: manual review: unrelated niche (e-commerce tools / file & photo utilities),https://amzdir.com/,,2026-11-22
 annewebdirectory.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.annewebdirectory.com/,,2026-11-22
 apexdir.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.apexdir.com/,,2026-11-22
 apislist.com,NOT_SUITABLE,"manual check: manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)",https://apislist.com/,,2026-11-22
+appiod.com,NOT_SUITABLE,manual check: manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app),https://appiod.com/,,2026-11-22
+applevis.com,NOT_SUITABLE,manual check: manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app),https://www.applevis.com/,,2026-11-22
 appsumo.com,NOT_SUITABLE,manual check: manual review: marketplace for selling startups / deals / finding investors (not a listing for this product),https://appsumo.com/,,2026-11-22
+arxiv.org,NOT_SUITABLE,"manual check: manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)",https://arxiv.org/,,2026-11-22
+atemplate.com,NOT_SUITABLE,manual check: manual review: design galleries / templates / landing-page inspiration niche,https://atemplate.com/,,2026-11-22
 baltimoresun.com,NOT_SUITABLE,manual check: manual review: newspaper opinion section,https://talk.baltimoresun.com/,,2026-11-22
+besttravelapps.online,NOT_SUITABLE,manual check: manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app),https://besttravelapps.online/,,2026-11-22
 blackfridaydirectory.com,NOT_SUITABLE,manual check: manual review: seasonal deals directory (requires a deal),https://www.blackfridaydirectory.com/,,2026-11-22
 blockchain-life.com,NOT_SUITABLE,"submission form is for podcasts/jobs/events, not for software products",https://blockchain-life.com/,80,2026-11-22
 boilerplatehunt.com,NOT_SUITABLE,"manual check: manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)",https://boilerplatehunt.com/,,2026-11-22
 boilerplates4saas.com,NOT_SUITABLE,"manual check: manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)",https://boilerplates4saas.com/,,2026-11-22
 brightlinksdirectory.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.brightlinksdirectory.com/,,2026-11-22
+browserextension.dev,NOT_SUITABLE,"manual check: manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)",https://browserextension.dev/,,2026-11-22
 builtin.com,NOT_SUITABLE,manual check: manual review: jobs/recruiting platform,https://builtin.com/,,2026-11-22
 buysellstartups.com,NOT_SUITABLE,manual check: manual review: marketplace for selling startups / deals / finding investors (not a listing for this product),https://buysellstartups.com/,,2026-11-22
 bzdir.com,NOT_SUITABLE,manual check: manual review: general/local business directory without topical focus,https://www.bzdir.com/,,2026-11-22
 clawtools.com,NOT_SUITABLE,manual check: niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure),https://clawtools.com/,,2026-11-22
+curated.design,NOT_SUITABLE,manual check: manual review: design galleries / templates / landing-page inspiration niche,https://curated.design/,,2026-11-22
 dbtools.dev,NOT_SUITABLE,"manual check: manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)",https://dbtools.dev/,,2026-11-22
 dealmyapp.com,NOT_SUITABLE,manual check: manual review: marketplace for selling startups / deals / finding investors (not a listing for this product),https://dealmyapp.com/,,2026-11-22
 deepbluedirectory.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.deepbluedirectory.com/,,2026-11-22
+defold.com,NOT_SUITABLE,manual check: manual review: game development communities (showcase is for games),https://forum.defold.com/,,2026-11-22
 detectortools.ai,NOT_SUITABLE,"manual check: manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)",https://detectortools.ai/,,2026-11-22
 dev.events,NOT_SUITABLE,"manual check: manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)",https://dev.events/,,2026-11-22
 dir.cx,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.dir.cx/,,2026-11-22
@@ -1980,14 +1993,20 @@ direct-directory.com,NOT_SUITABLE,manual check: manual review: general web/link 
 directory.top,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://directory.top/,,2026-11-22
 ecobluedirectory.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.ecobluedirectory.com/,,2026-11-22
 european-alternatives.eu,NOT_SUITABLE,"manual check: manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)",https://european-alternatives.eu/,,2026-11-22
+flatui.com,NOT_SUITABLE,manual check: manual review: design galleries / templates / landing-page inspiration niche,https://flatui.com/,,2026-11-22
 fosspost.org,NOT_SUITABLE,"manual check: manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)",https://fosspost.org/,,2026-11-22
 frameplate.co,NOT_SUITABLE,"manual check: manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)",https://frameplate.co/,,2026-11-22
+gamebuino.com,NOT_SUITABLE,manual check: manual review: game development communities (showcase is for games),https://community.gamebuino.com/,,2026-11-22
 gamifylist.com,NOT_SUITABLE,"manual check: manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)",https://gamifylist.com/,,2026-11-22
 geekwire.com,NOT_SUITABLE,manual check: regional (US Pacific NW) news/startup list,https://www.geekwire.com/,,2026-11-22
+html5gamedevs.com,NOT_SUITABLE,manual check: manual review: game development communities (showcase is for games),https://www.html5gamedevs.com/,,2026-11-22
+imusician.pro,NOT_SUITABLE,"manual check: manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)",https://community.imusician.pro/,,2026-11-22
 infrabase.ai,NOT_SUITABLE,manual check: niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure),https://infrabase.ai/,,2026-11-22
 jsindex.com,NOT_SUITABLE,"manual check: manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)",https://jsindex.com/,,2026-11-22
 kitploit.com,NOT_SUITABLE,"manual check: manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)",https://www.kitploit.com/,,2026-11-22
+land-book.com,NOT_SUITABLE,manual check: manual review: design galleries / templates / landing-page inspiration niche,https://land-book.com/,,2026-11-22
 landin.page,NOT_SUITABLE,manual check: niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure),https://tools.landin.page/,,2026-11-22
+landingpage.fyi,NOT_SUITABLE,manual check: manual review: design galleries / templates / landing-page inspiration niche,https://www.landingpage.fyi/,,2026-11-22
 launchonwatch.com,NOT_SUITABLE,"manual check: manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)",https://launchonwatch.com/,,2026-11-22
 launchpoly.com,NOT_SUITABLE,"manual check: manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)",https://launchpoly.com/,,2026-11-22
 lawbhoomi.com,NOT_SUITABLE,"manual check: manual review: unrelated niche (ESG, gamification, AI detectors, prediction markets, video inspiration, open-source news, legal, events)",https://lawbhoomi.com/,,2026-11-22
@@ -1995,6 +2014,7 @@ layboard.com,NOT_SUITABLE,"job board, not a software/product placement platform"
 learn.uno,NOT_SUITABLE,manual check: manual review: design gallery / design-tools niche,https://undesign.learn.uno/,,2026-11-22
 linkcentre.com,NOT_SUITABLE,manual check: manual review: general web/local business directory without topical focus,https://linkcentre.com/,,2026-11-22
 lowcodeplatforms.org,NOT_SUITABLE,manual check: niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure),https://lowcodeplatforms.org/,,2026-11-22
+macappindex.com,NOT_SUITABLE,manual check: manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app),https://macappindex.com/,,2026-11-22
 macbase.app,NOT_SUITABLE,manual check: manual review: Apple/Mac apps only,https://macbase.app/,,2026-11-22
 macmenubar.com,NOT_SUITABLE,manual check: manual review: Apple/Mac apps only,https://macmenubar.com/,,2026-11-22
 macnative.io,NOT_SUITABLE,manual check: manual review: Apple/Mac apps only,https://macnative.io/,,2026-11-22
@@ -2024,6 +2044,7 @@ phyco.org,NOT_SUITABLE,manual check: manual review: general web/local business d
 place123.net,NOT_SUITABLE,manual check: manual review: general web/local business directory without topical focus,https://www.place123.net/,,2026-11-22
 primadirectory.it,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://primadirectory.it/,,2026-11-22
 qualitylinksdir.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://www.qualitylinksdir.com/,,2026-11-22
+realestatewebmasters.com,NOT_SUITABLE,"manual check: manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)",https://www.realestatewebmasters.com/,,2026-11-22
 romanianstartups.com,NOT_SUITABLE,"manual check: manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)",https://www.romanianstartups.com/,,2026-11-22
 saasaffiliate.net,NOT_SUITABLE,manual check: manual review: affiliate-programs directory (requires an affiliate program),https://saasaffiliate.net/,,2026-11-22
 sectools.dev,NOT_SUITABLE,"manual check: manual review: developer-artifact directory (MCP servers, JS libraries, public APIs, DB/security tools, boilerplates, templates, WordPress plugins)",https://sectools.dev/,,2026-11-22
@@ -2040,6 +2061,7 @@ toools.design,NOT_SUITABLE,manual check: niche directory that does not match GPT
 topwebsitebuilders.org,NOT_SUITABLE,manual check: niche directory that does not match GPTBot.uz's category (Mac apps / landing pages / photo editing / website builders / low-code / design / OpenClaw / vibe-coding / open-source-only / AI infrastructure),https://topwebsitebuilders.org/,,2026-11-22
 trueen.com,NOT_SUITABLE,manual check: manual review: general web/local business directory without topical focus,https://trueen.com/,,2026-11-22
 udonboost.com,NOT_SUITABLE,manual check: manual review: Apple/Mac apps only,https://udonboost.com/,,2026-11-22
+uneedlists.com,NOT_SUITABLE,manual check: manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app),https://uneedlists.com/,,2026-11-22
 unique-listing.com,NOT_SUITABLE,manual check: manual review: general web/link directory without topical focus,https://unique-listing.com/,,2026-11-22
 vibcod.dev,NOT_SUITABLE,manual check: manual review: vibe-coded projects only,https://vibcod.dev/,,2026-11-22
 vibecode.net,NOT_SUITABLE,manual check: manual review: vibe-coded projects only,https://vibecode.net/,,2026-11-22

@@ -117,7 +117,7 @@ https://huntscreens.com/ru/products/submitsaas/claim | Startup & Tech Community 
 https://startupdope.com/submit/new | Startup & Tech Community | форма добавления | TIER 1/85 | бесплатно + платные опции
 https://yourstory.com/companies | Startup & Tech Community | форма добавления | TIER 1/85 | бесплатно
 
-=== TIER 2 (581) ===
+=== TIER 2 (580) ===
 
 --- AI Tools Directory (349) ---
 https://aiagentslisting.com/submit | AI Tools Directory | форма добавления | TIER 2/84 | нужен аккаунт; CAPTCHA; условия оплаты не указаны
@@ -678,7 +678,7 @@ https://startupresources.io/add-resource/ | Startup & Tech Community | форм�
 https://uss.eu.com/go-to-on/?redirect_to=https://uss.eu.com/add-listing/ | Startup & Tech Community | форма добавления | TIER 2/70 | нужен аккаунт; CAPTCHA; условия оплаты не указаны
 https://www.promptzone.com/enter?state=new-user | Startup & Tech Community | профиль компании | TIER 2/70 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 
---- Technology Forum (28) ---
+--- Technology Forum (27) ---
 https://ziggit.dev/c/showcase/7 | Technology Forum | форум | TIER 2/78 | нужен аккаунт; CAPTCHA; бесплатно; yes — section: Showcase
 https://bizwarriors.com/forum/ | Technology Forum | форум | TIER 2/77 | нужен аккаунт; CAPTCHA; бесплатно; yes — section: Showcase; Getting Local Businesses To Sell Your Products?
 https://www.freewebspace.net/forums/index.php | Technology Forum | форум | TIER 2/77 | нужен аккаунт; CAPTCHA; бесплатно; yes — section: Review my webdesign
@@ -699,7 +699,6 @@ https://www.austech.info/ | Technology Forum | форум | TIER 2/71 | нуже
 https://community.kodular.io/c/koded/12 | Technology Forum | форум | TIER 2/71 | нужен аккаунт; бесплатно; conditional — showcase is for projects built with/using kodular; post only if GPTBot actua
 https://webmasterforum.net/ | Technology Forum | ручной процесс | TIER 2/71 | нужен аккаунт; CAPTCHA; бесплатно; частичная проверка: XenForo
 https://computerforums.net/ | Technology Forum | форум | TIER 2/70 | нужен аккаунт; бесплатно; частичная проверка: XenForo: Threads 241, Messages 949, Threads 241; possible — section: Introductions (rules not confirmed)
-https://forum.defold.com/c/show-your-defold-work/10 | Technology Forum | форум | TIER 2/70 | нужен аккаунт; CAPTCHA; бесплатно; conditional — showcase is for projects built with/using defold; post only if GPTBot actual
 https://forum.dfinity.org/c/showcase/71 | Technology Forum | форум | TIER 2/70 | нужен аккаунт; CAPTCHA; бесплатно; conditional — showcase is for projects built with/using dfinity; post only if GPTBot actua
 https://forum.fossunited.org/c/project-showcase/14 | Technology Forum | форум | TIER 2/70 | нужен аккаунт; CAPTCHA; бесплатно; conditional — showcase is for projects built with/using fossunited; post only if GPTBot ac
 https://community.appinventor.mit.edu/c/app-showcase/18 | Technology Forum | форум | TIER 2/70 | нужен аккаунт; CAPTCHA; бесплатно; conditional — showcase is for projects built with/using mit; post only if GPTBot actually 
@@ -708,18 +707,16 @@ https://community.palantir.com/c/show-tell/16 | Technology Forum | форум | 
 https://discuss.privacyguides.net/c/showcase/13 | Technology Forum | форум | TIER 2/70 | нужен аккаунт; CAPTCHA; бесплатно; conditional — showcase is for projects built with/using privacyguides; post only if GPTBot
 https://community.wappler.io/c/showcase/17 | Technology Forum | форум | TIER 2/70 | нужен аккаунт; CAPTCHA; бесплатно; conditional — showcase is for projects built with/using wappler; post only if GPTBot actua
 
-=== TIER 3 (643) ===
+=== TIER 3 (629) ===
 
---- AI Tools Directory (107) ---
+--- AI Tools Directory (103) ---
 https://t.me/joinchat/DKixXT-LjcjWm-_alID5VA | AI Tools Directory | форма добавления | TIER 3/69 | нужен аккаунт; условия оплаты не указаны
-https://affiliate.watch/affiliate/submit | AI Tools Directory | форма добавления | TIER 3/69 | нужен аккаунт; CAPTCHA; условия оплаты не указаны
 https://aifindy.com/notion | AI Tools Directory | ручной процесс | TIER 3/69 | CAPTCHA; бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
 https://app.arize.com/auth/join | AI Tools Directory | ручной процесс | TIER 3/69 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://awesomeclaude.ai/vibe-coding-tools | AI Tools Directory | ручной процесс | TIER 3/69 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
 https://freeaitool.ai/new | AI Tools Directory | ручной процесс | TIER 3/69 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
 https://www.futurepedia.io/register | AI Tools Directory | ручной процесс | TIER 3/69 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://hauntboard.com/products/submitwell | AI Tools Directory | ручной процесс | TIER 3/69 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
-https://macappindex.com/auth/login?next=/submit | AI Tools Directory | форма добавления | TIER 3/69 | нужен аккаунт; CAPTCHA; условия оплаты не указаны
 https://oecd.ai/en/catalogue/tools/submit | AI Tools Directory | форма добавления | TIER 3/69 | CAPTCHA; условия оплаты не указаны
 https://somuch.com/submit-links/ | AI Tools Directory | ручной процесс | TIER 3/69 | бесплатно; частичная проверка: page has a form without URL field (contact/request form?)
 https://startupevents.org/submit-events | AI Tools Directory | форма добавления | TIER 3/69 | CAPTCHA; бесплатно + платные опции
@@ -729,7 +726,6 @@ https://100wmz.com/bots-catalog/ | AI Tools Directory | ручной проце�
 https://aigems.net/submit | AI Tools Directory | ручной процесс | TIER 3/68 | бесплатно + платные опции; частичная проверка: submission info page without a form (email/DM/other flow)
 https://architecturehelper.com/users/sign_up | AI Tools Directory | ручной процесс | TIER 3/68 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://autopostmode.com/signup | AI Tools Directory | ручной процесс | TIER 3/68 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
-https://besttravelapps.online/login?redirectTo=/submit | AI Tools Directory | форма добавления | TIER 3/68 | нужен аккаунт; условия оплаты не указаны
 https://gptonline.ai | AI Tools Directory | ручной процесс | TIER 3/68 | CAPTCHA; бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
 https://launchleague.xyz/sign-in?redirectTo=/submit-product | AI Tools Directory | форма добавления | TIER 3/68 | нужен аккаунт; условия оплаты не указаны
 https://listedpress.com/submit | AI Tools Directory | форма добавления | TIER 3/68 | нужен аккаунт; условия оплаты не указаны
@@ -768,7 +764,6 @@ https://www.beyondaitools.com/product/submit | AI Tools Directory | ручной
 https://indiedev.tools/tool/submitmap-t_mtnb1ml2qlrrck0fp1n | AI Tools Directory | ручной процесс | TIER 3/65 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
 https://app.sourcely.net/signup?utm_source=landing&utm_medium=banner&utm_campaign=black-friday-2026 | AI Tools Directory | ручной процесс | TIER 3/65 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://woy.ai/submit | AI Tools Directory | ручной процесс | TIER 3/65 | условия оплаты не указаны; частичная проверка: submission info page without a form (email/DM/other flow)
-https://boostdomainrating.com/sign-in?redirect=/submit?domain%3D | AI Tools Directory | форма добавления | TIER 3/64 | нужен аккаунт; CAPTCHA; условия оплаты не указаны
 https://docswrite.com/accounts/signup | AI Tools Directory | ручной процесс | TIER 3/64 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://ezwebdirectory.com/user/register | AI Tools Directory | ручной процесс | TIER 3/64 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://www.libraire.ai/frontend/login.html?mode=register | AI Tools Directory | ручной процесс | TIER 3/64 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
@@ -819,8 +814,7 @@ https://www.startupguys.net/submit-startup/ | AI Tools Directory | ручной 
 https://www.techinasia.com/submit | AI Tools Directory | ручной процесс | TIER 3/55 | условия оплаты не указаны; частичная проверка: submission info page without a form (email/DM/other flow)
 https://tiktoksongfinder.org/sign-up | AI Tools Directory | ручной процесс | TIER 3/55 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 
---- SaaS Directory (80) ---
-https://allmacapps.com/submit | SaaS Directory | форма добавления | TIER 3/69 | CAPTCHA; бесплатно
+--- SaaS Directory (74) ---
 https://discoverlaunches.com/submit | SaaS Directory | ручной процесс | TIER 3/69 | условия оплаты не указаны; частичная проверка: submission info page without a form (email/DM/other flow)
 https://launchandloop.com/signin?next=/dashboard/submit | SaaS Directory | форма добавления | TIER 3/69 | нужен аккаунт; условия оплаты не указаны
 https://launchitx.com/auth/login | SaaS Directory | форма добавления | TIER 3/69 | нужен аккаунт; условия оплаты не указаны
@@ -832,7 +826,6 @@ https://solutions.technologyadvice.com/list-your-product/ | SaaS Directory | р�
 https://a2is.ru/catalog/platformy-elektronnoj-kommertsii-b2b/gidkhab | SaaS Directory | форма добавления | TIER 3/68 | нужен аккаунт; условия оплаты не указаны
 https://blocksentient.com/for-vendors/ | SaaS Directory | ручной процесс | TIER 3/68 | условия оплаты не указаны; частичная проверка: submission info page without a form (email/DM/other flow)
 https://comparetiers.com/for-vendors | SaaS Directory | ручной процесс | TIER 3/68 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
-https://www.landingpage.fyi/submit | SaaS Directory | форма добавления | TIER 3/68 | условия оплаты не указаны
 https://www.softwaredoit.es/registra-solucion-de-software/index.html | SaaS Directory | ручной процесс | TIER 3/68 | CAPTCHA; бесплатно; частичная проверка: page has a form without URL field (contact/request form?)
 https://www.topbestalternatives.com/submit/ | SaaS Directory | форма добавления | TIER 3/68 | CAPTCHA; бесплатно
 https://www.launchpanda.dev/blog/launch-startup-directories-guide | SaaS Directory | ручной процесс | TIER 3/67 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
@@ -845,9 +838,7 @@ https://adzooma.com/ad-extensions-assets/ | SaaS Directory | ручной про
 https://www.appvizer.com/accounting-finance/cash-register | SaaS Directory | ручной процесс | TIER 3/66 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://www.dark.design/submit | SaaS Directory | ручной процесс | TIER 3/66 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
 https://www.deviantart.com/join/?joinpoint=anon_desktop_home_banner_submit&referer=https://www.deviantart.com/studio?new%3D1&cancel=https://www.deviantart.com/ | SaaS Directory | форма добавления | TIER 3/66 | нужен аккаунт; CAPTCHA; условия оплаты не указаны
-https://drchecker.net/auth/login?callbackUrl=https://drchecker.net/submit | SaaS Directory | форма добавления | TIER 3/66 | нужен аккаунт; условия оплаты не указаны
 https://www.kickproduct.com/auth/signup | SaaS Directory | ручной процесс | TIER 3/66 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
-https://land-book.com/login | SaaS Directory | форма добавления | TIER 3/66 | нужен аккаунт; CAPTCHA; условия оплаты не указаны
 https://launchorbit.co/create | SaaS Directory | форма добавления | TIER 3/66 | нужен аккаунт; условия оплаты не указаны
 https://saassurf.com/submit-a-product | SaaS Directory | ручной процесс | TIER 3/66 | CAPTCHA; условия оплаты не указаны; частичная проверка: page has a form without URL field (contact/request form?)
 https://soware.ru/products/cnewsmarket | SaaS Directory | ручной процесс | TIER 3/66 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
@@ -868,7 +859,6 @@ https://showmeyour.site/pricing | SaaS Directory | ручной процесс |
 https://startuplist.ing/login?redirect=/products/new%26via%3Dlaunchdb | SaaS Directory | форма добавления | TIER 3/64 | нужен аккаунт; условия оплаты не указаны
 https://app.submi.io/sign-up?redirect_url=https%3A%2F%2Fapp.submi.io%2Fplan | SaaS Directory | ручной процесс | TIER 3/64 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://addgoodsites.com/submit.php | SaaS Directory | форма добавления | TIER 3/63 | CAPTCHA; бесплатно
-https://docs.google.com/forms/d/e/1FAIpQLSdVb2JpVLmL-Oajh5uAjy_8FbFyUSZWjzixIIPEkR993jKgNA/viewform?usp=send_form | SaaS Directory | форма добавления | TIER 3/63 | CAPTCHA; бесплатно
 https://builders-backlinks.com/submit | SaaS Directory | форма добавления | TIER 3/63 | нужен аккаунт; условия оплаты не указаны
 https://comparecamp.com/write-for-us/ | SaaS Directory | статья/контрибьютор | TIER 3/63 | CAPTCHA; условия оплаты не указаны
 https://coolpot.com/user/sign-in/login | SaaS Directory | форма добавления | TIER 3/63 | нужен аккаунт; условия оплаты не указаны
@@ -894,22 +884,19 @@ https://www.provenexpert.com/en-us/register/ | SaaS Directory | ручной п�
 https://setapp.com/suggest/ | SaaS Directory | ручной процесс | TIER 3/59 | бесплатно; частичная проверка: page has a form without URL field (contact/request form?)
 https://startups.watch/login | SaaS Directory | форма добавления | TIER 3/58 | нужен аккаунт; условия оплаты не указаны
 https://womenmake.com/submit | SaaS Directory | ручной процесс | TIER 3/58 | условия оплаты не указаны; частичная проверка: submission info page without a form (email/DM/other flow)
-https://arxiv.org/login?next_page=/submit/ | SaaS Directory | форма добавления | TIER 3/57 | нужен аккаунт; условия оплаты не указаны
 https://hackaday.io/add | SaaS Directory | форма добавления | TIER 3/56 | нужен аккаунт; CAPTCHA; условия оплаты не указаны
 https://www.lafabriquedunet.fr/aide/referencer-mon-logiciel | SaaS Directory | ручной процесс | TIER 3/56 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
 https://lobste.rs/about | SaaS Directory | ручной процесс | TIER 3/56 | условия оплаты не указаны; частичная проверка: submission info page without a form (email/DM/other flow)
 https://appsafari.com/submit/ | SaaS Directory | ручной процесс | TIER 3/55 | CAPTCHA; бесплатно; частичная проверка: page has a form without URL field (contact/request form?)
 https://saascollect.fr/register-saas/ | SaaS Directory | форма добавления | TIER 3/55 | нужен аккаунт; условия оплаты не указаны
 
---- Startup & Tech Community (76) ---
-https://appiod.com/submit-app-for-review/ | Startup & Tech Community | форма добавления | TIER 3/69 | CAPTCHA; условия оплаты не указаны
+--- Startup & Tech Community (74) ---
 https://appsmamma.com/submit-your-app/ | Startup & Tech Community | форма добавления | TIER 3/69 | CAPTCHA; условия оплаты не указаны
 https://www.freestyle-joomla.com/forum.html | Startup & Tech Community | форма добавления | TIER 3/69 | нужен аккаунт; условия оплаты не указаны
 https://hackr.io/tutorials | Startup & Tech Community | ручной процесс | TIER 3/69 | CAPTCHA; условия оплаты не указаны; частичная проверка: submission info page without a form (email/DM/other flow)
 https://incubatorlist.com/for-programs | Startup & Tech Community | ручной процесс | TIER 3/69 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
 https://plainenglish.io/write-for-us | Startup & Tech Community | ручной процесс | TIER 3/69 | бесплатно; частичная проверка: submission info page without a form (email/DM/other flow)
 https://stackademic.com/write-for-us | Startup & Tech Community | статья/контрибьютор | TIER 3/69 | условия оплаты не указаны
-https://www.applevis.com/forum | Startup & Tech Community | форма добавления | TIER 3/68 | нужен аккаунт; условия оплаты не указаны
 https://arcticstartup.com/finest-bay-area-development-submits-a-new-application-to-the-estonian-government/ | Startup & Tech Community | ручной процесс | TIER 3/68 | CAPTCHA; условия оплаты не указаны; частичная проверка: page has a form without URL field (contact/request form?)
 https://astanahub.com/registration/ | Startup & Tech Community | профиль компании | TIER 3/68 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://businessofsoftware.org/talks/patrick-mckenzie-marketing-to-minorities/ | Startup & Tech Community | ручной процесс | TIER 3/68 | условия оплаты не указаны; частичная проверка: page has a form without URL field (contact/request form?)
@@ -979,7 +966,7 @@ https://www.sideprojectors.com/submit | Startup & Tech Community | ручной 
 https://startuptank.com/account/register | Startup & Tech Community | профиль компании | TIER 3/55 | нужен аккаунт; условия оплаты не указаны; частичная проверка: only account registration found (profile/listing likely after sign-up)
 https://wiby.me/submit/ | Startup & Tech Community | форма добавления | TIER 3/55 | CAPTCHA; условия оплаты не указаны
 
---- Technology Forum (380) ---
+--- Technology Forum (378) ---
 https://community.blynk.cc/c/projects/21 | Technology Forum | форум | TIER 3/69 | нужен аккаунт; бесплатно; conditional — showcase is for projects built with/using blynk; post only if GPTBot actuall
 https://forum.framework7.io/c/showcase/6 | Technology Forum | форум | TIER 3/69 | нужен аккаунт; бесплатно; conditional — showcase is for projects built with/using framework7; post only if GPTBot ac
 https://hardwarecanucks.com/forum/ | Technology Forum | форум | TIER 3/69 | нужен аккаунт; CAPTCHA; бесплатно; conditional — showcase is for projects built with/using hardwarecanucks; post only if GPTB
@@ -1016,7 +1003,6 @@ https://www.developpez.net/forums/ | Technology Forum | ручной проце�
 https://forum.digikey.com/c/design-tools-and-resources/21 | Technology Forum | форум | TIER 3/67 | нужен аккаунт; бесплатно; частичная проверка: Discourse: 665 active users/30d, 1406 posts/30d; possible — section: Design Tools and Resources; Design Tools and Resources > Scheme-it; De
 https://domainrank.app/ | Technology Forum | ручной процесс | TIER 3/67 | нужен аккаунт; бесплатно; частичная проверка: Discuz
 https://forum.earlybird.club/ | Technology Forum | форум | TIER 3/67 | нужен аккаунт; бесплатно; частичная проверка: redirects from androidforums.com; possible — section: Introductions (rules not confirmed)
-https://community.imusician.pro/c/music-feedback/49 | Technology Forum | форум | TIER 3/67 | нужен аккаунт; бесплатно; conditional — showcase is for projects built with/using imusician; post only if GPTBot act
 https://community.ncd.io/c/projects/13 | Technology Forum | форум | TIER 3/67 | нужен аккаунт; бесплатно; частичная проверка: Discourse: 24 active users/30d, 253 posts/30d; possible — section: General Discussion > Projects (rules not confirmed)
 https://forums.developer.nvidia.com/c/startups-vcs/775 | Technology Forum | форум | TIER 3/67 | нужен аккаунт; бесплатно; частичная проверка: Discourse: 20408 active users/30d, 10204 posts/30d; possible — section: Healthcare & Life Sciences > Startups & VCs (rules not confirmed)
 https://community.openlinksw.com/c/user-intro/32 | Technology Forum | форум | TIER 3/67 | нужен аккаунт; бесплатно; частичная проверка: Discourse: 13 active users/30d, 385 posts/30d; possible — section: Miscellaneous > User Introductions (rules not confirmed)
@@ -1167,7 +1153,6 @@ https://discuss.dramatica.com/ | Technology Forum | ручной процесс 
 https://discuss.elastic.co/ | Technology Forum | ручной процесс | TIER 3/62 | нужен аккаунт; CAPTCHA; бесплатно; частичная проверка: Discourse: 550 active users/30d, 1400 posts/30d
 https://community.frame.work/ | Technology Forum | ручной процесс | TIER 3/62 | нужен аккаунт; CAPTCHA; бесплатно; частичная проверка: Discourse: 3179 active users/30d, 4232 posts/30d
 https://api-discuss.freeagent.com/ | Technology Forum | ручной процесс | TIER 3/62 | нужен аккаунт; CAPTCHA; бесплатно; частичная проверка: Discourse: 60 active users/30d, 449 posts/30d
-https://community.gamebuino.com/c/creations/19 | Technology Forum | форум | TIER 3/62 | нужен аккаунт; CAPTCHA; бесплатно; conditional — showcase is for projects built with/using gamebuino; post only if GPTBot act
 https://community.hubitat.com/ | Technology Forum | ручной процесс | TIER 3/62 | нужен аккаунт; CAPTCHA; бесплатно; частичная проверка: Discourse: 1778 active users/30d, 5771 posts/30d
 https://www.imtalk.org/ | Technology Forum | ручной процесс | TIER 3/62 | нужен аккаунт; бесплатно; частичная проверка: phpBB: Threads: 81, Posts: 729, Threads: 238
 https://community.iotex.io/c/depin-developers/87 | Technology Forum | форум | TIER 3/62 | нужен аккаунт; CAPTCHA; бесплатно; conditional — showcase is for projects built with/using iotex; post only if GPTBot actuall

@@ -1076,5 +1076,120 @@
   "action": "reject",
   "code": "NOT_SUITABLE",
   "reason": "manual review: niche that does not match GPTBot.uz (security tools, Apple Watch, React showcase, Minecraft, MCP, self-hosted, jobs, design gallery, EU-only/country-only startups, AI model pricing, affiliate programs)"
+ },
+ "uneedlists.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "allmacapps.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "macappindex.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "applevis.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "appiod.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "besttravelapps.online": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: Apple/mobile/travel app catalogs or deals (GPTBot.uz has no such app)"
+ },
+ "atemplate.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "landingpage.fyi": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "admiretheweb.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "land-book.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "curated.design": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "flatui.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: design galleries / templates / landing-page inspiration niche"
+ },
+ "gamebuino.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: game development communities (showcase is for games)"
+ },
+ "html5gamedevs.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: game development communities (showcase is for games)"
+ },
+ "defold.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: game development communities (showcase is for games)"
+ },
+ "realestatewebmasters.com": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "imusician.pro": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "browserextension.dev": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "arxiv.org": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "affiliate.watch": {
+  "action": "reject",
+  "code": "NOT_SUITABLE",
+  "reason": "manual review: unrelated niche (real estate, music distribution, browser extensions only, academic preprints, affiliate programs)"
+ },
+ "domainrating.lol": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: SEO metric/checker tool, not a placement platform"
+ },
+ "drchecker.net": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: SEO metric/checker tool, not a placement platform"
+ },
+ "boostdomainrating.com": {
+  "action": "reject",
+  "code": "NOT_A_PLATFORM",
+  "reason": "manual review: SEO metric/checker tool, not a placement platform"
  }
 }
