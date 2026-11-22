@@ -58,6 +58,12 @@ max_retries = 3
 max_concurrency = 4
 dead_letter_queue = "gptbot-automation-dlq"
 
+# Own OpenStreetMap snapshot for Lead Radar discovery (roadmap stage 2): business
+# POIs from the Geofabrik extract, built by scripts/lead-radar/osm-snapshot-build.ts.
+[[kv_namespaces]]
+binding = "LEAD_RADAR_OSM_SNAPSHOT"
+id = "518f435fafcc4a878e0740888cb06705"
+
 [triggers]
 crons = ["*/15 * * * *"]
 

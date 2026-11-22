@@ -27,6 +27,7 @@ import { assessLeadRadarPhone, extractLeadRadarPhones } from '../../../src/share
 import { publishedTelegramLocators } from './telegram-locators';
 import { hasDistinctBusinessName, publishedBusinessEntities, publishedPagePhones } from './business-contact-data';
 import { SourceYieldRecorder } from './source-yield';
+import { readOsmSnapshot, type OsmSnapshotStore } from './osm-snapshot';
 
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
 const OVERPASS_ENDPOINTS = [
@@ -2142,7 +2143,11 @@ async function enrichCandidates(candidates: SourceCandidate[], budget: Subreques
 export class OpenStreetMapLeadSource implements LeadRadarSource {
   readonly id = 'openstreetmap';
 
-  constructor(private readonly geocodeStore?: LeadRadarGeocodeStore) {}
+  constructor(
+    private readonly geocodeStore?: LeadRadarGeocodeStore,
+    /** Own OSM snapshot in Workers KV (roadmap stage 2); absent means Overpass only. */
+    private readonly snapshot?: OsmSnapshotStore,
+  ) {}
 
   async discoverRaw(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult> {
     const budget = new SubrequestBudget(MAX_SOURCE_SUBREQUESTS);
@@ -2159,7 +2164,25 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     // companies, otherwise we trade a low yield for no yield at all.
     let elements: unknown[] = [];
     const answeredAt: string[] = [];
-    try {
+    // Own snapshot first (stage 2): a recognised niche is answered from the
+    // Geofabrik copy without any public map server, with the full list instead
+    // of Overpass's truncated one. Anything it cannot answer falls through.
+    let fromSnapshot = false;
+    if (this.snapshot && intent.canonicalId) {
+      try {
+        const snap = await readOsmSnapshot(this.snapshot, intent.canonicalId, bounds);
+        if (snap && snap.elements.length > 0) {
+          elements = snap.elements;
+          answeredAt.push(`${snap.snapshotDate}T00:00:00.000Z`);
+          sourceWarnings.push(`map_snapshot_${snap.snapshotDate.replace(/-/g, '')}`);
+          plansRun.push('snapshot');
+          fromSnapshot = true;
+        }
+      } catch {
+        sourceWarnings.push('map_snapshot_unavailable');
+      }
+    }
+    if (!fromSnapshot) try {
       const contactPlan = buildLeadRadarQueryPlan(input, bounds, { contactOnly: true });
       const contact = await cachedOverpass(contactPlan.query, budget, this.geocodeStore);
       if (contact.observedAt) answeredAt.push(contact.observedAt);
@@ -2187,7 +2210,7 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     // delivered. Public mirrors are a shared free resource, so the fallback is
     // skipped whenever contact coverage is sufficient.
     const contactFloor = Math.max(10, input.desiredCount);
-    if (elements.length < contactFloor) {
+    if (!fromSnapshot && elements.length < contactFloor) {
       const broadPlan = buildLeadRadarQueryPlan(input, bounds);
       const broad = await cachedOverpass(broadPlan.query, budget, this.geocodeStore);
       if (broad.observedAt) answeredAt.push(broad.observedAt);
