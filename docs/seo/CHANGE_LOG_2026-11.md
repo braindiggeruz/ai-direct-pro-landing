@@ -510,3 +510,12 @@ Business Hub не принял несжатый `.jsonl`. Добавлены `ht
 - **Не сделано и почему:** узбекский гайд «Instagram va Telegram → CRM» уже есть (`instagram-telegram-crm-bitta-ariza-voronkasi`, `amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam`, обе в парах с RU) — новый был бы дублем. Библиотека промптов не делалась: интент принадлежит защищённой `/uz/blog/chatgpt-uzbek-tilida-promptlar/` и `/ru/promty-gpt-chatgpt-50-primerov/`. Обновление гайдов Gemini/Claude/DeepSeek требует отдельной сверки фактов (сайт DeepSeek 23.11 закрыт для автоматической проверки) — перенесено. Кейсы: только шаблон `CASES_TEMPLATE.md`, факты нужны от владельца.
 - **Внешние площадки:** `OFFSITE.md` — карточка NAP, описания EN/RU/UZ в трёх длинах, типовой список площадок и три темы статей для узбекских медиа. Публикует владелец.
 - **Защита:** ревизия `2026-11-23-ai-visibility-3`: главная +1 пункт в списках.
+
+### Выкладка (23.11)
+Каждую волну после merge выкладывали вручную через workflow «Pages production deploy». После каждой выкладки `check-entity-consistency` обходил весь sitemap на проде:
+- 1a + оферта v7 — `53189d7f`, 427 URL OK;
+- 1b — `3293f8eb`, 429 URL OK;
+- 1c — `477e3f1f`, 435 URL OK, IndexNow 200 (13 URL);
+- 2a — `e896777b`, 444 URL OK, IndexNow 200 (11 URL);
+- 2b — `97acc08c`, 447 URL OK, IndexNow 200 (10 URL);
+- 3 — `b72ac03c` (run 45128034156, 07:02Z), 448 URL OK, IndexNow 200 (5 URL).

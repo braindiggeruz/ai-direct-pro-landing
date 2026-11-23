@@ -1,7 +1,7 @@
 # Current handoff — AI visibility wave 3: contractor checklist, offsite texts, cases template · 23.11.2026
 
 ## 1. State
-Branch feat/ai-visibility-wave3 from main 97acc08c. Production 97acc08c (waves 1a–2b live; check-entity-consistency OK on 447 URLs; IndexNow sent for 2b) until this PR is merged and deployed.
+Merged as b72ac03c (PR #91) and live since 2026-11-23T07:02Z (deploy run 45128034156): the new URL is 200 and in the sitemap, check-entity-consistency OK on 448 URLs, IndexNow 200 for 5 URLs. Waves 1a–3 are complete; STATE.json ai_visibility_20261123 = deployed_and_verified.
 ## 2. Delivered
 /uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/ (neutral checklist, unpaired); related links from two UZ guides and /en/ai-chatbot-development-tashkent/; intent pair W20261123-08; llms.txt routing; docs/seo/research/2026-11-23-ai-visibility/OFFSITE.md and CASES_TEMPLATE.md; VERIFICATION.md rows 17–24; protection revision 2026-11-23-ai-visibility-3.
 ## 3. Files
@@ -15,7 +15,7 @@ seo-audit OK; build:fast + build:studio; review vs a build of production 97acc08
 ## 7. Known limits
 OFFSITE.md is not checked against the owner's TOP50 platform list (files on the owner's PC).
 ## 8. Next task
-Deploy, verify, IndexNow; final report to the owner; re-measure on 2026-11-30 (tracker) and 14/28 days after each wave.
+Owner TODO in FINAL_REPORT.md (case facts, offsite profiles and links for sameAs, company Telegram channel, Business Hub brand name, feed cache TTL, media articles); re-measure on 2026-11-30 (tracker) and on 2026-12-07 / 2026-12-21 (14/28 days).
 ## 9. Acceptance
 URL 200 and in the sitemap; check-entity-consistency OK on 448 URLs.
 ## 10. Start commands
