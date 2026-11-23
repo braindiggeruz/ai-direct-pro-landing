@@ -1,0 +1,443 @@
+{
+  "checkedAt": "2026-11-23T09:20:34.740Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ai-visibility-3/reviewed-protected-pages.json",
+  "sitemapBefore": 448,
+  "sitemapAfter": 457,
+  "added": [
+    "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+    "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+    "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+    "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+    "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/",
+    "/uz/blog/reklama-kreativlari/",
+    "/uz/blog/reklama-turlari/",
+    "/uz/blog/telegram-kanalga-reklama-berish/",
+    "/uz/blog/toshkentda-targetolog-tanlash/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/targetirovannaya-reklama-tashkent/",
+        "/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+        "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+        "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+        "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+        "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/telegram-ads-uzbekistan/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+        "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/"
+      ]
+    },
+    {
+      "url": "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-kreativlari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/kopirayting-nima/",
+        "/uz/blog/oquv-markazi-reklamasi/",
+        "/uz/blog/target-reklama-nima/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-turlari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/google-reklama-sozlash/",
+        "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+        "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+        "/uz/blog/telegram-kanalga-reklama-berish/"
+      ]
+    },
+    {
+      "url": "/uz/blog/telegram-kanalga-reklama-berish/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/telegram-reklama/",
+        "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+        "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+        "/uz/blog/reklama-turlari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/target-reklama-nima/",
+        "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {
+    "/uz/blog/target-reklama-nima/": "Wave A2 (D-ADS-GPT-20261123): 575 impressions at position 6 with CTR 0.5% (GSC 20.08-20.11). Title gains the brand suffix and the year, the description states the answer, and an answer-first paragraph opens the body; the primary keyword «target nima» stays first."
+  },
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/",
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/telegram-kanalga-reklama-berish/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/telegram-kanalga-reklama-berish/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/targetirovannaya-reklama-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/telegram-ads-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/instagram-target-yoqish/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/telegram-reklama/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/telegram-kanalga-reklama-berish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/skolko-stoit-internet-reklama-uzbekistan-2026/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/google-reklama-sozlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-turlari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/telegram-kanalga-reklama-berish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/kopirayting-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-kreativlari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/oquv-markazi-reklamasi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-kreativlari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/telegram-kanalga-reklama-berish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/target-reklama-nima/",
+      "fields": [
+        "title",
+        "description",
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ],
+      "removedLinks": [],
+      "before": {
+        "title": [
+          "Target nima: target reklama O‘zbekistonda qanday ishlaydi"
+        ],
+        "description": [
+          "Target nima — oddiy tilda: e’lon siz tanlagan auditoriyaga ko‘rsatiladi. Kontekstdan farqi, minimal byudjet, targetolog nima qiladi va qachon mutaxassis kerak."
+        ]
+      },
+      "after": {
+        "title": [
+          "Target nima: target reklama oddiy tilda, 2026 | GPTBot.uz"
+        ],
+        "description": [
+          "Target nima? Instagram, Facebook yoki Telegram’da e’lonni siz tanlagan auditoriyaga ko‘rsatish. Kontekstdan farqi, byudjet va targetolog vazifasi."
+        ]
+      }
+    },
+    {
+      "url": "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/",
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/telegram-kanalga-reklama-berish/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ],
+      "relabelled": [
+        {
+          "url": "/uz/blog/target-reklama-nima/",
+          "before": "Target nima: target reklama O‘zbekistonda qanday ishlaydi",
+          "after": "Target nima: target reklama oddiy tilda, 2026 | GPTBot.uz"
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 454
+}

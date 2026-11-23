@@ -3,8 +3,8 @@
   "locale": "uz",
   "slug": "target-reklama-nima",
   "url": "/uz/blog/target-reklama-nima/",
-  "title": "Target nima: target reklama O‘zbekistonda qanday ishlaydi",
-  "description": "Target nima — oddiy tilda: e’lon siz tanlagan auditoriyaga ko‘rsatiladi. Kontekstdan farqi, minimal byudjet, targetolog nima qiladi va qachon mutaxassis kerak.",
+  "title": "Target nima: target reklama oddiy tilda, 2026 | GPTBot.uz",
+  "description": "Target nima? Instagram, Facebook yoki Telegram’da e’lonni siz tanlagan auditoriyaga ko‘rsatish. Kontekstdan farqi, byudjet va targetolog vazifasi.",
   "h1": "Target reklama nima va u O‘zbekistonda qanday ishlaydi",
   "topicCluster": "internet-reklama",
   "targetMoneyPage": "/uz/instagram-target-yoqish/",
@@ -19,6 +19,10 @@
   ],
   "intro": "Target reklama — belgilangan auditoriya va platforma signallari asosida e’lon ko‘rsatish usuli. U yangi qiziqish uyg‘otishi ham, taklifni allaqachon bilgan odamga eslatishi ham mumkin. Kontekst reklama esa ko‘pincha qidiruvdagi so‘rovga javob beradi. Quyida kanal tanlash, byudjet, targetolog vazifasi va arizani o‘lchashni ajratamiz.",
   "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: target (targetlangan reklama) — e’lon qidiruvdagi so‘rovga emas, siz tanlagan auditoriyaga ko‘rsatiladigan reklama: shahar, yosh, qiziqishlar yoki sahifangiz bilan allaqachon muloqot qilgan odamlar. Masalan, Instagram va Facebook’da (Meta), Telegram Ads’da va YouTube’da. Kontekst reklama esa odam Google yoki Yandex’da nimanidir qidirganda chiqadi. Natijani obunachilar soni bilan emas, arizalar va ariza narxi bilan o‘lchang."
+    },
     {
       "type": "h2",
       "text": "Bitta vazifa uch bosqichda",
@@ -459,6 +463,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "anchor": "targetolog tanlash uchun 15 savol",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/reklama-kreativlari/",
+      "anchor": "reklama kreativlari: formatlar va o‘lchamlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",
@@ -470,7 +488,7 @@
   "robotsFollow": true,
   "author": "Борис Герасимов",
   "datePublished": "2026-09-01",
-  "dateModified": "2026-11-09",
+  "dateModified": "2026-11-23",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -489,6 +507,6 @@
       "note": "Ko‘rsatishlar bo‘yicha kampaniya uchun minimal kunlik byudjet. 2026-09-19 da tekshirildi."
     }
   ],
-  "updatedAt": "2026-11-09T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z",
   "createdAt": "2026-09-01T00:00:00.000Z"
 }

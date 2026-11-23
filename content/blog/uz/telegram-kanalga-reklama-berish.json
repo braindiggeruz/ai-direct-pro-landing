@@ -1,0 +1,310 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "telegram-kanalga-reklama-berish",
+  "url": "/uz/blog/telegram-kanalga-reklama-berish/",
+  "title": "Telegram kanalga reklama berish: narx va tanlash | GPTBot.uz",
+  "description": "Telegram kanalga reklama berish narxi, CPM hisoblash, kanalni TGStat va Telemetr’da tekshirish hamda kanal posti Telegram Ads’dan nimasi bilan farq qilishi.",
+  "h1": "Telegram kanalga reklama berish: narxlar, CPM, kanalni tanlash va TGStat hamda Telemetr bilan tekshirish",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/telegram-reklama/",
+  "keywords": [
+    "telegram kanalga reklama berish",
+    "telegram kanalga reklama berish narxi",
+    "telegram kanalni tanlash",
+    "telegram kanal statistikasi",
+    "telegram kanalda reklama narxi"
+  ],
+  "intro": "Qisqa javob (2026-11-23 da tekshirildi): yagona narxlar ro‘yxati yo‘q — post narxini kanal administratori belgilaydi. Spot 2025-yil yanvarida e’lon qilgan Tanish Bilish agentligi ma’lumotiga ko‘ra, 100 ming obunachigacha bo‘lgan tematik kanalda post 300–500 ming so‘m, 500 minggacha bo‘lgan kanalda — 1–2 mln, mualliflik kanallari va mediada — 2–15 mln so‘m turgan (QQSsiz, agentlik xizmatlari bilan). Kanallarni obunachilar soni bilan emas, 1 000 ta haqiqiy ko‘rish narxi (CPM) bilan solishtiring va to‘lovdan oldin TGStat yoki Telemetr’da tekshiring. Telegram Ads — alohida format: 1 000 ta ko‘rsatishning minimal narxi 0,1 Toncoin bo‘lgan auksion.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23 da tekshirildi): yagona narxlar ro‘yxati yo‘q — post narxini kanal administratori belgilaydi. Spot 2025-yil yanvarida e’lon qilgan Tanish Bilish agentligi ma’lumotiga ko‘ra, 100 ming obunachigacha bo‘lgan tematik kanalda post 300–500 ming so‘m, 500 minggacha bo‘lgan kanalda — 1–2 mln, mualliflik kanallari va mediada — 2–15 mln so‘m turgan (QQSsiz, agentlik xizmatlari bilan). Kanallarni obunachilar soni bilan emas, 1 000 ta haqiqiy ko‘rish narxi (CPM) bilan solishtiring va to‘lovdan oldin TGStat yoki Telemetr’da tekshiring. Telegram Ads — alohida format: 1 000 ta ko‘rsatishning minimal narxi 0,1 Toncoin bo‘lgan auksion."
+    },
+    {
+      "type": "h2",
+      "text": "O‘zbekistondagi Telegram kanallarida post narxlari bo‘yicha mo‘ljal"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Kanal turi",
+        "Post narxi",
+        "Manba"
+      ],
+      "rows": [
+        [
+          "100 ming obunachigacha tematik kanal",
+          "300–500 ming so‘m",
+          "Tanish Bilish, Spot uchun, 2025-yil yanvar"
+        ],
+        [
+          "500 ming obunachigacha o‘rta kanal",
+          "1–2 mln so‘m",
+          "Tanish Bilish, Spot uchun, 2025-yil yanvar"
+        ],
+        [
+          "Mualliflik kanallari va media",
+          "2–15 mln so‘m",
+          "Tanish Bilish, Spot uchun, 2025-yil yanvar"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Narxlar QQSsiz va agentlik xizmatlari bilan ko‘rsatilgan. Bu narxlar ro‘yxati emas, mo‘ljal: administrator boshqa narx aytishi mumkin, deyarli ikki yil ichida bozor ham o‘zgargan bo‘lishi mumkin. Spot reytingidagi eng qimmat o‘zbek tilidagi kanal — Kun.uz, post uchun taxminan 23 mln so‘m (2025-yil yanvar)."
+    },
+    {
+      "type": "h2",
+      "text": "Narx foydalimi: CPM’ni hisoblaymiz"
+    },
+    {
+      "type": "p",
+      "text": "CPM — 1 000 ta ko‘rish narxi. Formula: CPM = post narxi ÷ postning o‘rtacha qamrovi × 1 000. O‘rtacha qamrovni obunachilar sonidan emas, kanal statistikasidan oling."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "",
+        "A kanal",
+        "B kanal"
+      ],
+      "rows": [
+        [
+          "Obunachilar",
+          "100 ming",
+          "40 ming"
+        ],
+        [
+          "Postning o‘rtacha qamrovi",
+          "15 ming",
+          "12 ming"
+        ],
+        [
+          "Post narxi",
+          "1,5 mln so‘m",
+          "600 ming so‘m"
+        ],
+        [
+          "CPM",
+          "100 ming so‘m",
+          "50 ming so‘m"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Misol shartli: B kanalda obunachilar kamroq, lekin 1 000 ta ko‘rish ikki baravar arzon. Kanallarni yakunda sinovdan keyin ariza yoki savdo narxi bo‘yicha solishtiring."
+    },
+    {
+      "type": "h2",
+      "text": "Sotib olishdan oldin kanalni qanday tekshirish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Postning o‘rtacha qamrovi va 12, 24, 48 soatlik reklama qamrovi — bu ma’lumotlarni TGStat ko‘rsatadi.",
+        "ERR — postlarni ko‘radigan obunachilar ulushi: obunachilar ko‘p, ERR esa juda past bo‘lsa — ehtiyot bo‘ling.",
+        "Obunachilar dinamikasi: sababsiz keskin sakrashlar ko‘pincha soxta obunachilar belgisi.",
+        "Iqtiboslar indeksi: kanalni boshqa kanallar qanchalik tez-tez eslatishi va ulashishi.",
+        "Botlar belgilari va auditoriya sifati — Telemetr ularni kanal tahlilida belgilaydi va reklama postlari bazasini yuritadi.",
+        "Reklama tarixi: kanal qancha reklama posti chiqaradi va sizning postingiz ular orasida yo‘qolib ketmaydimi.",
+        "Til va geografiya: lotin, kirill yoki rus tili; Toshkent yoki viloyatlar — administratordan aniqlang."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Soxta obunachilar belgilari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Obunachilar ko‘p, oddiy postlar ko‘rishlari esa kam.",
+        "Bir kunda ulashish va eslatishlarsiz obunachilar sakrashi.",
+        "Turli postlar ostida bir xil reaksiya va izohlar.",
+        "Ko‘rishlar birinchi daqiqalardan keyin deyarli o‘smaydi yoki bir tekis zinapoyalar bilan o‘sadi.",
+        "Administrator oldingi reklama postlari statistikasini ko‘rsatishdan bosh tortadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Kanal posti, taklif qilingan post yoki Telegram Ads"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Format",
+        "Qanday ishlaydi",
+        "Narx",
+        "Nimani hisobga olish kerak"
+      ],
+      "rows": [
+        [
+          "Administrator orqali post",
+          "bevosita yoki agentlik orqali kelishasiz; post kanal lentasida chiqadi",
+          "administrator belgilaydi",
+          "shartlarni yozma kelishing: sana, vaqt, post qancha turadi, UTM bilan havola"
+        ],
+        [
+          "Telegram orqali taklif qilingan post",
+          "kanal egasiga Telegram Stars yoki Toncoin evaziga post taklif qilasiz",
+          "sizning taklifingiz",
+          "mukofot 24 soatdan keyin o‘tadi; post oldinroq o‘chirilsa, Telegram butun summani qaytaradi"
+        ],
+        [
+          "Telegram Ads",
+          "1000 dan ortiq obunachili ommaviy kanallarda 1 000 ta ko‘rsatish narxi bo‘yicha auksion",
+          "minimal CPM — 0,1 Toncoin",
+          "tugmali 160 belgigacha matn; to‘lov Fragment orqali; balans qoldig‘i qaytarilmaydi"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Administrator bilan qanday kelishish kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Chiqish sanasi va vaqti, post lentada va qadalgan holda qancha turishi.",
+        "Format: matn, rasm, video; matnni kim tayyorlaydi va uni tahrirlash mumkinmi.",
+        "O‘tishlar va arizalarni tahlilda ko‘rish uchun UTM-belgili havola.",
+        "24 va 48 soatdan keyin post statistikasi skrinshoti.",
+        "Post muddatidan oldin o‘chirilsa yoki noto‘g‘ri vaqtda chiqsa nima bo‘ladi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Telegram’ni Instagram va qidiruv bilan solishtirish uchun {turlari} maqolasini o‘qing; reklama byudjetini {byu} yordamida hisoblang. Telegram reklamasini to‘liq ishga tushirish kerak bo‘lsa, {money} sahifasini ko‘ring.",
+      "links": [
+        {
+          "token": "turlari",
+          "target": "/uz/blog/reklama-turlari/",
+          "anchor": "internet reklama turlari"
+        },
+        {
+          "token": "byu",
+          "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+          "anchor": "reklama byudjeti qancha bo‘lishi kerak"
+        },
+        {
+          "token": "money",
+          "target": "/uz/telegram-reklama/",
+          "anchor": "biznes uchun Telegram reklama xizmati"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "O‘zbekistonda Telegram kanalga reklama berish qancha turadi?",
+      "a": "Yagona narx yo‘q. Tanish Bilish ma’lumotiga ko‘ra (Spot, 2025-yil yanvar): 100 ming obunachigacha tematik kanal — post uchun 300–500 ming so‘m, 500 minggacha — 1–2 mln, mualliflik kanallari va media — 2–15 mln so‘m, QQSsiz."
+    },
+    {
+      "q": "Telegram kanal soxta obunachilarini qanday tekshirish mumkin?",
+      "a": "Postlarning o‘rtacha qamrovini obunachilar soni bilan solishtiring, TGStat’da ERR va obunachilar dinamikasini, Telemetr’da botlar belgilarini ko‘ring. Administratordan oldingi reklama postlari statistikasini so‘rang."
+    },
+    {
+      "q": "Telegram’da CPM nima?",
+      "a": "1 000 ta ko‘rish narxi: post narxi ÷ postning o‘rtacha qamrovi × 1 000. CPM bilan turli kattalikdagi kanallarni solishtirish qulay."
+    },
+    {
+      "q": "Kanal posti Telegram Ads’dan nimasi bilan farq qiladi?",
+      "a": "Kanal posti — administrator bilan kelishuv bo‘yicha lentadagi post. Telegram Ads — Telegram’ning reklama platformasi orqali 1000 dan ortiq obunachili ommaviy kanallarda ko‘rsatish auksioni; e’lon matni — 160 belgigacha."
+    },
+    {
+      "q": "Telegram Ads’ning minimal byudjeti qancha?",
+      "a": "1 000 ta ko‘rsatishning minimal narxi — 0,1 Toncoin; minimal byudjetni Telegram o‘z sahifalarida ko‘rsatmaydi. To‘lov Fragment orqali, sarflanmagan balans qaytarilmaydi."
+    },
+    {
+      "q": "Administrator postni muddatidan oldin o‘chirsa, pul qaytariladimi?",
+      "a": "Agar post Telegram orqali taklif qilingan post sifatida sotib olinib, 24 soatdan oldin o‘chirilsa, Telegram butun summani qaytaradi. Bevosita kelishuvda qaytarish shartlarini oldindan yozib qo‘ying."
+    }
+  ],
+  "cta": {
+    "label": "Telegram reklamasini ishga tushirish",
+    "href": "/uz/telegram-reklama/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/telegram-reklama/",
+      "anchor": "biznes uchun Telegram reklama xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-turlari/",
+      "anchor": "internet reklama turlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "anchor": "reklama byudjeti qancha bo‘lishi kerak",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "anchor": "internet reklama narxlari 2026",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Telegram kanalga reklama berish: narx va tanlash",
+  "ogDescription": "Post narxlari bo‘yicha mo‘ljal, CPM hisoblash, kanalni TGStat va Telemetr’da tekshirish va kanal postini Telegram Ads bilan solishtirish.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/telegram-kanalga-reklama-berish/",
+  "hreflangRu": "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+  "hreflangUz": "/uz/blog/telegram-kanalga-reklama-berish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "O‘zbekistonda Telegram kanallarida reklama sotib oladigan biznes va marketologlar"
+  },
+  "breadcrumbLabel": "Telegram kanalga reklama berish",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Spot — Telegram’da reklama narxlari (23.01.2025)",
+      "url": "https://www.spot.uz/oz/2025/01/23/prices/",
+      "note": "2026-11-23 da tekshirildi: Tanish Bilish agentligi narxlari — 100 ming obunachigacha tematik kanallar 300–500 ming so‘m, 500 minggacha — 1–2 mln, mualliflik kanallari va media — 2–15 mln; QQSsiz, agentlik xizmatlari bilan."
+    },
+    {
+      "title": "TGStat API — kanal statistikasi",
+      "url": "https://api.tgstat.ru/docs/ru/channels/stat.html",
+      "note": "2026-11-23 da tekshirildi: obunachilar, post o‘rtacha qamrovi, 12/24/48 soatlik reklama qamrovi, ERR, kunlik qamrov, iqtiboslar indeksi; TGStat mamlakatlar katalogida O‘zbekiston bor."
+    },
+    {
+      "title": "Telemetr — xizmat tavsifi (llms.txt)",
+      "url": "https://telemetr.io/llms.txt",
+      "note": "2026-11-23 da tekshirildi: botlar va soxta obunachilarni aniqlash, reklama sotib olishdan oldin kanal tahlili (ER, dinamika, auditoriya sifati), reklama postlari bazasi."
+    },
+    {
+      "title": "Telegram — Checklists, Suggested Posts (blog, 01.07.2025)",
+      "url": "https://telegram.org/blog/checklists-suggested-posts",
+      "note": "2026-11-23 da tekshirildi: kanal egasiga Telegram Stars yoki Toncoin evaziga post taklif qilish mumkin; mukofot 24 soatdan keyin keladi, post oldinroq o‘chirilsa, Telegram butun summani qaytaradi."
+    },
+    {
+      "title": "Telegram Ads — Getting started va Guidelines",
+      "url": "https://ads.telegram.org/getting-started",
+      "note": "2026-11-23 da tekshirildi: 1000 dan ortiq obunachili ommaviy kanallarda ko‘rsatiladi; minimal CPM — 0,1 Toncoin; e’lon matni — bo‘sh joylar bilan 160 belgigacha (ads.telegram.org/guidelines); to‘lov Fragment orqali."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

@@ -326,6 +326,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+      "anchor": "где рекламироваться бизнесу: сравнение площадок",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Сколько стоит интернет-реклама в Узбекистане: цены 2026",

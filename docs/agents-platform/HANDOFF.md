@@ -1,3 +1,31 @@
+# Current handoff — advertising cluster, waves A and B: nine answer-first articles · 23.11.2026
+
+## 1. State
+Branch feat/ads-gpt-wave-b from main 5ff87341. Production b72ac03c (448 URLs) until this PR is merged and deployed.
+## 2. Delivered
+Nine URLs: /ru/blog/kak-vybrat-targetologa-v-tashkente/ + /uz/blog/toshkentda-targetolog-tanlash/, /ru/blog/skolko-stoit-reklama-v-telegram-kanalah/ + /uz/blog/telegram-kanalga-reklama-berish/, /ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/ + /uz/blog/reklama-turlari/, /ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/ + /uz/blog/reklama-kreativlari/, /ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/. Wave A: target nima snippet; llms.txt routes and four quick answers.
+## 3. Files
+content/blog/{ru,uz}/ (9 new, 16 existing with one or two added related links, target-reklama-nima rewritten head), content/seo/intent-manifest.json (W20261123-09…17), public/llms.txt, scripts/seo-protection.ts (BASELINE), tests/ads-gpt-wave-b.test.ts + package.json, reports/ads-gpt-20261123-b/, docs/seo/evidence/2026-11-23-ads-gpt-b/, docs.
+## 4. Decisions
+D-ADS-GPT-WAVE-B-20261123 (under D-ADS-GPT-20261123).
+## 5. Excluded
+Telegram Ads agency price (D3 unanswered), case pages (D4), tgmarket.io figures (page unreadable), wave C (next PR).
+## 6. Validation
+build:fast; review vs a build of main 5ff87341: sitemap 448 → 457, 25 existing pages change by added links only, 0 removed, issues 0; 75 of 78 SEO test files green, the 3 red ones (seo-commercial-coverage 5/6, seo-push-revision R3-6/R3-9, seo-revenue-claims 7/11) fail identically on main; tsc -b clean; seo-audit OK.
+## 7. Known limits
+Third-party Telegram post prices are January-2025 ranges (Spot); Meta minimum budgets are only illustrative in Meta's docs.
+## 8. Next task
+Merge, deploy, verify (457 URLs), IndexNow, GSC list; then wave C and the other clusters (AnswerThePublic data in the scratchpad, 51 searches left).
+## 9. Acceptance
+URLs 200 and in the sitemap; check-entity-consistency OK on 457 URLs.
+## 10. Start commands
+npx tsx reports/ads-gpt-20261123-b/review.ts --before <main dist>; node --import tsx --test tests/ads-gpt-wave-b.test.ts
+## 11. Risks
+Low: added links only; one existing title rewritten on purpose.
+## 12. Rollback
+git revert; the ai-visibility-3 BASELINE stays valid for the old homepage.
+
+---
 # Current handoff — advertising cluster: GPT-answer roadmap (AnswerThePublic) · 23.11.2026
 
 ## 1. State

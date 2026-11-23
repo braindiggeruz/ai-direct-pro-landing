@@ -192,7 +192,8 @@
     { "target": "/ru/telegram-ads-uzbekistan/", "anchor": "Telegram Ads в Узбекистане", "locale": "ru", "type": "contextual" },
     { "target": "/ru/kontekstnaya-reklama-tashkent/", "anchor": "контекстная реклама в Ташкенте", "locale": "ru", "type": "contextual" },
     { "target": "/ru/seo-prodvizhenie-saytov-tashkent/", "anchor": "SEO-продвижение сайтов", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/", "anchor": "как выбрать digital-агентство", "locale": "ru", "type": "contextual" }
+    { "target": "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/", "anchor": "как выбрать digital-агентство", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/kak-vybrat-targetologa-v-tashkente/", "anchor": "чек-лист выбора таргетолога", "locale": "ru", "type": "contextual", "priority": 3 }
   ],
   "ogTitle": "Агентство или фрилансер в Узбекистане: честное сравнение",
   "ogDescription": "Когда фрилансер объективно лучше агентства, где схема ломается и как проверить исполнителя до оплаты.",

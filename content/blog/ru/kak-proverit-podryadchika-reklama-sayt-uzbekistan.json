@@ -251,6 +251,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+      "anchor": "как выбрать таргетолога в Ташкенте: 15 вопросов",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Как проверить подрядчика по рекламе и сайту: чеклист",

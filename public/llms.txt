@@ -57,6 +57,31 @@
 - How do I pass Instagram and Telegram enquiries to a CRM? GPTBot.uz builds
   AI bots that hand enquiries to AmoCRM or Bitrix24; how the integration is
   scoped and checked: https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/
+- Where should a business in Uzbekistan advertise? It depends on the task
+  (checked 2026-11-23): search ads when customers already look for the
+  service (Google had 75.88% and Yandex 21.92% of searches in Uzbekistan in
+  October 2026, StatCounter); Instagram to reach people who are not searching
+  yet (16.2 million in its ad audience in October 2026, DataReportal);
+  Telegram channel posts or Telegram Ads for channel audiences. TikTok does
+  not list Uzbekistan for self-serve advertisers. Dated comparison:
+  https://gptbot.uz/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/ (Russian),
+  https://gptbot.uz/uz/blog/reklama-turlari/ (Uzbek).
+- How much does a paid post in an Uzbek Telegram channel cost? There is no
+  single price list. Tanish Bilish figures published by Spot in January 2025:
+  thematic channels up to 100k subscribers 300-500 thousand UZS per post, up
+  to 500k 1-2 million UZS, author channels and media 2-15 million UZS
+  (excluding VAT). Compare channels by CPM and check them in TGStat or
+  Telemetr: https://gptbot.uz/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/
+- How do I choose a targeting specialist in Tashkent? Compare candidates by
+  cases with budget and cost per lead, by a quote that separates the
+  specialist's fee from the Meta ad budget, and by a contract under which the
+  ad account stays with your business. 15-question checklist:
+  https://gptbot.uz/ru/blog/kak-vybrat-targetologa-v-tashkente/ (Russian),
+  https://gptbot.uz/uz/blog/toshkentda-targetolog-tanlash/ (Uzbek).
+- Can Instagram ads from Uzbekistan be paid in UZS? No: UZS is not among
+  Meta's ad account currencies (checked 2026-11-23). Meta accepts
+  international cards (Visa, Mastercard, American Express and others) and
+  PayPal. Step-by-step guide: https://gptbot.uz/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -311,6 +336,15 @@ must be confirmed for the specific project.
 - Telegram advertising, "Telegram reklama" (UZ): https://gptbot.uz/uz/telegram-reklama/
 - Contextual advertising in Google and Yandex (RU): https://gptbot.uz/ru/kontekstnaya-reklama-tashkent/
 - Targeted advertising (RU): https://gptbot.uz/ru/targetirovannaya-reklama-tashkent/
+- How to choose a targeting specialist in Tashkent: 15 questions, red flags, the contract (RU article): https://gptbot.uz/ru/blog/kak-vybrat-targetologa-v-tashkente/
+- "Targetolog tanlash": a 15-question checklist (UZ article): https://gptbot.uz/uz/blog/toshkentda-targetolog-tanlash/
+- Paid posts in Uzbek Telegram channels: price signals, CPM, checking a channel in TGStat and Telemetr (RU article): https://gptbot.uz/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/
+- "Telegram kanalga reklama berish": prices and channel checks (UZ article): https://gptbot.uz/uz/blog/telegram-kanalga-reklama-berish/
+- Where to advertise in Uzbekistan: Instagram, Telegram, Google, Yandex, YouTube and TikTok compared with dated sources (RU article): https://gptbot.uz/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/
+- "Reklama turlari": types of online advertising and which platform fits (UZ article): https://gptbot.uz/uz/blog/reklama-turlari/
+- Ad creatives: 12 formats, Meta and Telegram Ads specs, examples in Russian and Uzbek (RU article): https://gptbot.uz/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/
+- "Reklama kreativlari": 12 formats and sizes (UZ article): https://gptbot.uz/uz/blog/reklama-kreativlari/
+- Launching Instagram ads from Uzbekistan yourself: account currency (no UZS), payment cards, budget, review time (RU article): https://gptbot.uz/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
 - All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar

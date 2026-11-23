@@ -266,6 +266,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "anchor": "targetolog tanlash chek-listi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "AI bot uchun pudratchini qanday tanlash: 15 savol",
