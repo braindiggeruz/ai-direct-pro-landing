@@ -345,6 +345,13 @@
       "anchor": "O'zbekistonda qurilish kompaniyasi uchun AI-bot: arizalarni yo'qotishni to'xtating",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/",
+      "anchor": "AI bot pudratchisini tanlash: 15 savol",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "AI botni biznes uchun qanday tanlash: ishga tushirish chek-listi",

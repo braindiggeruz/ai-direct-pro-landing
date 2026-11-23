@@ -4334,6 +4334,33 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 2b; OpenSEO 2860, 2026-11-23: «midjourney» 9 900, «gemini pro» 4 400, «chatgpt plus» 720, «chatgpt go» 590, «google ai pro» 590, «claude pro» 210)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-08-uz-ai-bot-service-vs-contractor-checklist",
+      "commercial": {
+        "url": "/uz/biznes-uchun-ai-bot/",
+        "owns": "the AI bot service: packages, prices, order",
+        "mustNotTarget": [
+          "ai bot pudratchi tanlash",
+          "chatbot ishlab chiquvchi tanlash",
+          "ai bot qabul testi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/",
+        "owns": "a neutral checklist for choosing any AI bot contractor",
+        "mustNotTarget": [
+          "biznes uchun ai bot",
+          "o‘zbekistonda biznes uchun ai bot",
+          "biznes uchun gpt bot",
+          "ai menejer biznes uchun",
+          "telegram bot biznes"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 3: the owner's brief asks for a neutral contractor checklist; the Russian side is already covered by /ru/luchshie-razrabotchiki-chat-botov-tashkent/ and /ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

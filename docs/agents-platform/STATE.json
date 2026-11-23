@@ -3922,7 +3922,7 @@
     "decision": "D-OPENAI-FEED-GZIP-20261123"
   },
   "ai_visibility_20261123": {
-    "status": "wave2b_pr_open",
+    "status": "wave3_pr_open",
     "owner_request": "Owner in chat, 2026-11-23: maximise gptbot.uz visibility in ChatGPT and other AI answers; waves 1-3 per docs/seo/research/2026-11-23-ai-visibility/ANALYSIS.md, each wave its own PR, merge, deploy, IndexNow.",
     "owner_answers": "1 address Kichik Xalqa Yo‘li 57 (offer v7 needed); 2 sameAs @XGame_changerx (not added, decision L14, already contactPoint); 3 cases cakecity.uz, mirac.uz, deutschexrepte.com, bekcorp.uz (facts missing); 4 comparisons agreed",
     "baseline": "Business Hub 1 281 mentions / 310 clicks (23.10-19.11); Bing AI 250 citations / 23 pages (6 months); tracker ChatGPT 2.1% mentions, 3.6% citations in neutral answers, brand in 5/32 on 23.11",
@@ -3940,7 +3940,16 @@
     "wave1c_live": "477e3f1f; check-entity-consistency OK on 435 URLs; IndexNow 200 for 13 URLs",
     "wave2a": "presentation cluster: 4 uz/ru pairs + /ru/blog/kak-sdelat-prezentatsiyu/, intent pairs W20261123-01..05, protection revision 2026-11-23-ai-visibility-2a; decision D-PRESENTATION-CLUSTER-20261123",
     "wave2a_live": "e896777b; check-entity-consistency OK on 444 URLs; IndexNow 200 for 11 URLs",
-    "wave2b": "payments: /uz/blog/chatgpt-plus-tolov/ + uz/ru pair on Claude Pro, Google AI Pro, Midjourney; intent pairs W20261123-06/-07; protection revision 2026-11-23-ai-visibility-2b; decision D-AI-PAYMENTS-20261123"
+    "wave2b": "payments: /uz/blog/chatgpt-plus-tolov/ + uz/ru pair on Claude Pro, Google AI Pro, Midjourney; intent pairs W20261123-06/-07; protection revision 2026-11-23-ai-visibility-2b; decision D-AI-PAYMENTS-20261123",
+    "wave2b_live": "97acc08c; check-entity-consistency OK on 447 URLs; IndexNow 200 for 10 URLs",
+    "wave3": "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/, OFFSITE.md, CASES_TEMPLATE.md, intent pair W20261123-08, protection revision 2026-11-23-ai-visibility-3; decision D-AI-VISIBILITY-WAVE3-20261123",
+    "owner_todo": [
+      "case facts (CASES_TEMPLATE.md)",
+      "publish OFFSITE.md profiles; send links for businessProfiles/sameAs",
+      "company Telegram channel as sameAs",
+      "Business Hub brand name «GPTBot.uz»",
+      "Cloudflare Browser Cache TTL: Respect Existing Headers for the feed"
+    ]
   },
   "offer_edition_v7_20261123": {
     "status": "live_53189d7f",

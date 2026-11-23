@@ -1,0 +1,302 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "toshkentda-ai-bot-pudratchisini-tanlash",
+  "url": "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/",
+  "title": "AI bot pudratchisini qanday tanlash: 15 savollik chek-list | GPTBot.uz",
+  "description": "AI bot ishlab chiquvchiga 15 savol: smetada nima bo‘lishi kerak, qabul testi, akkaunt va ma’lumotlarga egalik, xavfli belgilar va narxlarni taqqoslash.",
+  "h1": "Toshkentda AI bot buyurtma qilishdan oldin: pudratchini tanlash uchun 15 savol",
+  "topicCluster": "ai-bot-launch-checklist",
+  "targetMoneyPage": "/uz/biznes-uchun-ai-bot/",
+  "keywords": [
+    "ai bot pudratchi tanlash",
+    "chatbot ishlab chiquvchi tanlash",
+    "ai bot smetasi",
+    "ai bot qabul testi",
+    "ai bot yaratishdan oldin savollar"
+  ],
+  "intro": "Qisqa javob: AI bot pudratchisini narx bo‘yicha emas, uchta hujjat bo‘yicha tanlang — nima kirishi va nima alohida to‘lanishi yozilgan smeta, bot qaysi savollarga qanday javob berishi kerakligini ko‘rsatadigan qabul testi va akkauntlar hamda bilim bazasi kimda qolishini belgilaydigan kelishuv. Quyidagi 15 savolni har bir pudratchiga bering va javoblarni bitta jadvalda solishtiring.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: AI bot pudratchisini narx bo‘yicha emas, uchta hujjat bo‘yicha tanlang — nima kirishi va nima alohida to‘lanishi yozilgan smeta, bot qaysi savollarga qanday javob berishi kerakligini ko‘rsatadigan qabul testi va akkauntlar hamda bilim bazasi kimda qolishini belgilaydigan kelishuv. Quyidagi 15 savolni har bir pudratchiga bering va javoblarni bitta jadvalda solishtiring."
+    },
+    {
+      "type": "h2",
+      "text": "Pudratchiga beriladigan 15 savol"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "Savol",
+        "Nima uchun muhim"
+      ],
+      "rows": [
+        [
+          "1",
+          "Bot qaysi kanallarda ishlaydi: Telegram, Instagram Direct, WhatsApp yoki sayt?",
+          "Har bir kanal alohida ulanadi va narxga ta’sir qiladi."
+        ],
+        [
+          "2",
+          "Bilim bazasini kim tayyorlaydi va u qanday yangilanadi?",
+          "Bot faqat bazadagi ma’lumot asosida to‘g‘ri javob beradi."
+        ],
+        [
+          "3",
+          "Bot bilmagan savolga nima qiladi?",
+          "To‘g‘ri yo‘l — menejerga uzatish, o‘ylab topilgan javob emas."
+        ],
+        [
+          "4",
+          "Bot narx, chegirma yoki bronni o‘zi o‘ylab topmasligi qanday ta’minlanadi?",
+          "Noto‘g‘ri narx yoki va’da mijoz bilan nizoga olib keladi."
+        ],
+        [
+          "5",
+          "Qaysi AI model ishlatiladi va undan foydalanish xarajatini kim to‘laydi?",
+          "AI/API xarajati ishlab chiqish narxiga kirmasligi mumkin."
+        ],
+        [
+          "6",
+          "CRM integratsiyasi smetaga kiradimi yoki alohida baholanadimi?",
+          "Integratsiyani API, kirish huquqlari va maydonlar tekshirilgandan keyin baholash to‘g‘ri."
+        ],
+        [
+          "7",
+          "Bot qanday mezon bilan qabul qilinadi?",
+          "Oldindan kelishilgan savollar ro‘yxati va kutilgan harakat bo‘yicha."
+        ],
+        [
+          "8",
+          "Muddat qaysi kundan hisoblanadi?",
+          "Kirish huquqlari va materiallar qachon berilishi muddatga bevosita ta’sir qiladi."
+        ],
+        [
+          "9",
+          "Hosting, AI/API va tashqi platforma litsenziyalarini kim to‘laydi?",
+          "Bu xarajatlar alohida bo‘lsa, ular smetada ko‘rinsin."
+        ],
+        [
+          "10",
+          "Bot tokeni, Meta Business va CRM akkauntlari kimning nomida bo‘ladi?",
+          "Akkauntlar kompaniyangiz nomida bo‘lishi kerak."
+        ],
+        [
+          "11",
+          "Mijozlar xabarlari qayerda va qancha muddat saqlanadi?",
+          "Shaxsga doir ma’lumotlar bilan ishlash qonun bilan tartibga solinadi."
+        ],
+        [
+          "12",
+          "Ishga tushirilgandan keyin qo‘llab-quvvatlash nimalarni o‘z ichiga oladi va qancha turadi?",
+          "Bilim bazasi yangilanmasa, bot javoblari eskiradi."
+        ],
+        [
+          "13",
+          "Natija qanday o‘lchanadi?",
+          "Javob vaqti, ariza sifati va xatolar soni oldindan kelishilsin."
+        ],
+        [
+          "14",
+          "Hamkorlik tugasa, bilim bazasi va sozlamalar bizga beriladimi?",
+          "Aks holda boshqa pudratchiga o‘tish qimmatga tushadi."
+        ],
+        [
+          "15",
+          "Qaysi ishlab turgan botni ko‘rsata oladi?",
+          "Demo yoki ishlab turgan bot va’dalardan ko‘ra ko‘proq narsani ko‘rsatadi."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Smetada nima yozilgan bo‘lishi kerak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kanallar va tillar: masalan, Telegram va Instagram, o‘zbek va rus tili.",
+        "Bilim bazasining tarkibi va uni kim tayyorlashi.",
+        "Bot menejerga qachon va qaysi kanal orqali uzatishi.",
+        "Integratsiyalar (CRM, to‘lov, jadval): qaysilari narxga kiradi, qaysilari alohida.",
+        "Hosting, AI/API va tashqi platforma litsenziyalari: kim to‘laydi.",
+        "Muddat va u qaysi kundan hisoblanishi.",
+        "Qabul testi mezonlari va natijani o‘lchash ko‘rsatkichlari.",
+        "Qo‘llab-quvvatlash shartlari, narxi va javob berish muddati.",
+        "Akkauntlar, bilim bazasi va sozlamalarga egalik."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qabul testini qanday o‘tkazish mumkin?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Kompaniyangizga haqiqatda beriladigan 20–30 savolni yozing: narx, manzil, ish vaqti, yetkazib berish va nostandart holatlar.",
+        "2. Har bir savol uchun kutilgan harakatni yozing: javob, aniqlashtiruvchi savol yoki menejerga uzatish.",
+        "3. Bilim bazasining qaysi versiyasi bilan sinalayotganini qayd qiling.",
+        "4. Botni shu savollar bilan sinang va har bir natijani jadvalga yozing.",
+        "5. Javobni chiroyliligiga emas, manbaga mosligi va odamga to‘g‘ri uzatilishiga qarab baholang."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Xavfli belgilar: qachon boshqa pudratchini ko‘rib chiqish kerak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Biznesingiz haqida savol bermasdan, bir necha daqiqada aniq yakuniy narx aytiladi.",
+        "«Bot 100% to‘g‘ri javob beradi» yoki «sotuv ikki barobar oshadi» kabi kafolatlar beriladi.",
+        "Bot tokeni yoki Meta Business akkaunti pudratchi nomida ochiladi.",
+        "Smetada AI/API va hosting xarajatlari yo‘q, keyin «kutilmagan» to‘lovlar paydo bo‘ladi.",
+        "Qabul testi va natijani o‘lchash mezonlari yo‘q.",
+        "Hamkorlik tugaganda bilim bazasi va sozlamalarni topshirishdan bosh tortiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Narxlarni qanday taqqoslash kerak?"
+    },
+    {
+      "type": "p",
+      "text": "Narxni faqat bir xil tarkib bo‘yicha taqqoslang: bitta kanal va ikki kanal, CRM bilan va CRM’siz, qo‘llab-quvvatlash bilan va usiz — bular turli loyihalar. Har bir taklifni yuqoridagi 15 savol jadvaliga joylang. Taqqoslash uchun bir nuqta: GPTBot.uz o‘z sahifasida paketlarning boshlang‘ich narxlarini e’lon qilgan, yakuniy narx esa ish boshlanishidan oldin smetada belgilanadi."
+    },
+    {
+      "type": "h2",
+      "text": "Mijozlar ma’lumotlari va qonun"
+    },
+    {
+      "type": "p",
+      "text": "Bot mijozlarning ismi, telefoni va xabarlarini qayta ishlaydi. O‘zbekistonda bunday ma’lumotlar bilan ishlash «Shaxsga doir ma’lumotlar to‘g‘risida»gi Qonun (2019-yil 2-iyul, O‘RQ-547) bilan tartibga solinadi. Ma’lumotlar qayerda va qancha muddat saqlanishini pudratchi bilan yozma kelishib oling, qonun talablarini esa yurist bilan tekshiring."
+    },
+    {
+      "type": "linkp",
+      "text": "AI bot tanlash mezonlari: {criteria}. Agentlik, frilanser yoki birja: {agency}. Paketlar va boshlang‘ich narxlar: {service}. Instagram va Telegram arizalarini bitta voronkaga yig‘ish: {crm}. AmoCRM va Bitrix24’ni ulash: {steps}.",
+      "links": [
+        {
+          "token": "criteria",
+          "target": "/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+          "anchor": "biznes uchun AI botni qanday tanlash"
+        },
+        {
+          "token": "agency",
+          "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+          "anchor": "kimga buyurtma berish"
+        },
+        {
+          "token": "service",
+          "target": "/uz/biznes-uchun-ai-bot/",
+          "anchor": "GPTBot.uz AI bot paketlari"
+        },
+        {
+          "token": "crm",
+          "target": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+          "anchor": "Instagram, Telegram va CRM: bitta voronka"
+        },
+        {
+          "token": "steps",
+          "target": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+          "anchor": "Telegram botni CRM’ga ulash qadamlari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "AI bot pudratchisini qanday tanlash kerak?",
+      "a": "Uchta hujjatga qarang: aniq smeta, qabul testi va akkauntlar hamda bilim bazasiga egalik bo‘yicha kelishuv. Har bir pudratchiga bir xil 15 savolni bering va javoblarni jadvalda solishtiring."
+    },
+    {
+      "q": "Smetaga nimalar kirishi kerak?",
+      "a": "Kanallar va tillar, bilim bazasi, menejerga uzatish qoidalari, integratsiyalar, AI/API va hosting xarajatlari kim to‘lashi, muddat, qabul mezonlari, qo‘llab-quvvatlash va egalik."
+    },
+    {
+      "q": "AI bot akkauntlari kimning nomida bo‘lishi kerak?",
+      "a": "Kompaniyangiz nomida: bot tokeni, Meta Business va CRM akkauntlari. Shunda pudratchi almashsa ham bot va ma’lumotlar sizda qoladi."
+    },
+    {
+      "q": "Qabul testi nima?",
+      "a": "Kompaniyangizga beriladigan 20–30 savol va har biri uchun kutilgan harakat ro‘yxati. Bot shu ro‘yxat bo‘yicha sinab ko‘riladi va natija jadvalga yoziladi."
+    },
+    {
+      "q": "Arzon taklifni qanday tekshirish mumkin?",
+      "a": "Tarkibni solishtiring: kanallar soni, CRM, qo‘llab-quvvatlash, AI/API va hosting xarajatlari kim to‘lashi. Arzon narx shu bandlardan biri smetada yo‘qligini bildirishi mumkin."
+    }
+  ],
+  "cta": {
+    "label": "AI bot paketlarini ko‘rish",
+    "href": "/uz/biznes-uchun-ai-bot/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+      "anchor": "biznes uchun AI botni qanday tanlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "anchor": "agentlik, frilanser yoki birja",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/biznes-uchun-ai-bot/",
+      "anchor": "GPTBot.uz AI bot paketlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "anchor": "Instagram, Telegram va CRM: bitta voronka",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/amocrm-bitrix24-telegram-botni-ulash-qadam-ba-qadam/",
+      "anchor": "Telegram botni AmoCRM va Bitrix24’ga ulash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "AI bot uchun pudratchini qanday tanlash: 15 savol",
+  "ogDescription": "Smeta, qabul testi, akkauntlarga egalik, xavfli belgilar va narxlarni taqqoslash — AI bot buyurtma qilishdan oldin.",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-botni-biznes-uchun-qanday-tanlash-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/",
+  "hreflangUz": "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "O‘zbekistondagi kichik va o‘rta biznes"
+  },
+  "breadcrumbLabel": "AI bot pudratchisini tanlash",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "O‘zbekiston Respublikasining «Shaxsga doir ma’lumotlar to‘g‘risida»gi Qonuni (O‘RQ-547, 02.07.2019)",
+      "url": "https://lex.uz/docs/4396419",
+      "note": "Shaxsga doir ma’lumotlar bilan ishlashni tartibga soladi. 2026-11-23 kuni tekshirildi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

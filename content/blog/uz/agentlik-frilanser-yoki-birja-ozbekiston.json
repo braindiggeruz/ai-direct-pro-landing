@@ -308,6 +308,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/",
+      "anchor": "AI bot pudratchisiga 15 savol",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Agentlik, frilanser yoki birja: kimga buyurtma berish (2026)",
