@@ -291,6 +291,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/mahsulotni-reklama-qilish/",
+      "anchor": "mahsulotni qanday reklama qilish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Uzum Market’da sotuvchi bo‘lish: ro‘yxatdan o‘tishdan birinchi savdogacha",

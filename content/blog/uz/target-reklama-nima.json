@@ -484,6 +484,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/meta-ads-manager-qollanma/",
+      "anchor": "Meta Ads Manager qo‘llanma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",

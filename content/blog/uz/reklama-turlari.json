@@ -305,6 +305,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/uz/blog/mahsulotni-reklama-qilish/",
+      "anchor": "mahsulot reklamasi uchun kanallar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/restoran-va-kafe-reklamasi/",
+      "anchor": "restoran va kafe reklamasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Reklama turlari: qaysi platforma biznesga mos, 2026",

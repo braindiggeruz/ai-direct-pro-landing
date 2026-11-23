@@ -316,6 +316,27 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/toshkentda-gozallik-saloni-reklamasi/",
+      "anchor": "go‘zallik saloni uchun reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/uz/blog/restoran-va-kafe-reklamasi/",
+      "anchor": "kafe reklamasida nimani ko‘rsatish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
+    },
+    {
+      "target": "/uz/blog/meta-ads-manager-qollanma/",
+      "anchor": "Ads Manager’da e’lon yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Reklama kreativlari: 12 format va o‘lchamlar",

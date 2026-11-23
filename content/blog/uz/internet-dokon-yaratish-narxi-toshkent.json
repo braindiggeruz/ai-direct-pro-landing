@@ -236,6 +236,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/mahsulotni-reklama-qilish/",
+      "anchor": "internet-do‘kon reklamasi: oltita kanal",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "ogTitle": "Internet do'kon yaratish narxi Toshkent 2026",

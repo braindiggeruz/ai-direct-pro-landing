@@ -416,6 +416,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/toshkentda-gozallik-saloni-reklamasi/",
+      "anchor": "go‘zallik saloni reklamasi: Toshkent uchun reja",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Stomatologiya reklamasi: kanallar, yozilish va bemor jalb qilish narxi",

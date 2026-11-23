@@ -4822,6 +4822,192 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-26-ru-internet-ads-hub-vs-product-ads",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub",
+        "mustNotTarget": [
+          "как рекламировать товар",
+          "реклама товара в узбекистане",
+          "реклама товаров на uzum"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+        "owns": "channels for advertising a product or online store in Uzbekistan (Uzum, Meta catalog, Google, Yandex, Telegram)",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-27-uz-internet-ads-hub-vs-product-ads",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "mahsulotni qanday reklama qilish",
+          "mahsulot reklamasi",
+          "uzumda mahsulotni reklama qilish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/mahsulotni-reklama-qilish/",
+        "owns": "channels for advertising a product or online store (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-28-ru-internet-ads-hub-vs-beauty-salon-ads",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub",
+        "mustNotTarget": [
+          "реклама салона красоты",
+          "как продвигать салон красоты",
+          "реклама салона красоты в инстаграм"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-salona-krasoty-tashkent/",
+        "owns": "a plan for advertising a beauty salon in Tashkent: maps, Instagram, Telegram, consent and law",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в instagram",
+          "реклама в интернете",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-29-uz-internet-ads-hub-vs-beauty-salon-ads",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "go‘zallik saloni reklamasi",
+          "go‘zallik salonini reklama qilish",
+          "salonga mijoz jalb qilish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/toshkentda-gozallik-saloni-reklamasi/",
+        "owns": "a plan for advertising a beauty salon in Tashkent (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "instagramda reklama berish",
+          "reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-30-ru-internet-ads-hub-vs-cafe-ads",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub",
+        "mustNotTarget": [
+          "реклама кафе",
+          "реклама ресторана",
+          "реклама ресторана в ташкенте"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-kafe-i-restorana-tashkent/",
+        "owns": "channels and rules for advertising a cafe or restaurant in Tashkent (maps, delivery apps, social, beer and wine rules)",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-31-uz-internet-ads-hub-vs-cafe-ads",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "restoran reklamasi",
+          "kafe reklamasi",
+          "restoran va kafe reklamasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/restoran-va-kafe-reklamasi/",
+        "owns": "channels and rules for advertising a cafe or restaurant (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-32-uz-internet-ads-hub-vs-meta-ads-manager-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "meta ads manager",
+          "meta ads manager qo‘llanma",
+          "ads manager o‘zbek tilida"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/meta-ads-manager-qollanma/",
+        "owns": "a step-by-step Meta Ads Manager guide in Uzbek",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "instagramda reklama berish",
+          "reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

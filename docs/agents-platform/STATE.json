@@ -2132,7 +2132,7 @@
     "next_step": "Owner hard-refreshes Lead Radar and performs one fresh phone -> received code -> 2FA password flow. Do not call it connected until the UI shows the explicit connected state and masked identity; inspect the local ledger if the state does not settle. One controlled send still requires an explicitly approved recipient and exact message; companies without a verified Telegram user remain ineligible. Bormi state unchanged."
   },
   "architecture_version": "2026-07-17",
-  "current_stage": "Production 6ff1ba82: advertising GPT wave B of 2026-11-23 (nine answer-first articles, the target nima snippet) is live; wave C1 (eight articles: the advertising law, bloggers, ad payback, ads in two languages) is in review on branch claude/festive-hypatia-c43eg6; see ads_cluster_gpt_roadmap_20261123.",
+  "current_stage": "Production 40cc7ecb: advertising GPT waves B and C1 of 2026-11-23 are live (465 URLs); the targeting roadmap is merged (26566d6b); wave C2 (product, salon, cafe, Meta Ads Manager UZ) is in review on branch claude/festive-hypatia-c43eg6; see ads_cluster_gpt_roadmap_20261123 and target_cluster_gpt_roadmap_20261123.",
   "stage_status": "natal_release_1_live",
   "last_completed_stage": "Natal chart and compatibility release 1 on 2026-11-17: four pages, browser-side engine, AI readings with checked answers.",
   "next_stage": "After 05:00 Tashkent on 18.11: one pair-ru reading request (not all four, never from the owner's network) to verify a4580d69; read the texts; a native read of the Uzbek copy and readings; release 2 (paid next reading) after the offer edition. Search engines for the four pages were notified on 17.11 (sitemaps, IndexNow, manual list given to the owner).",
@@ -2405,7 +2405,7 @@
   },
   "next_stage_note": "STATE.json records chat_errors_20261114, target_cro_20261113 and marketing_gap_20261109 as pending: all three are in production (ancestors of the live commit); their status fields were left as their authors wrote them. Measurement rules and baselines: docs/seo/CHANGE_LOG_2026-11.md.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "6ff1ba82",
+  "last_commit": "40cc7ecb",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -3963,7 +3963,7 @@
     "decision": "D-OFFER-V7-20261123"
   },
   "ads_cluster_gpt_roadmap_20261123": {
-    "status": "wave_c1_live",
+    "status": "wave_c2_pr_open",
     "wave_b": "9 URLs (ru/uz targetologist checklist, Telegram channel prices, platform comparison / reklama turlari, ad creatives; ru Instagram launch guide) + wave A (target nima snippet, llms.txt routes and quick answers); intent pairs W20261123-09..17; protection revision 2026-11-23-ads-gpt-b; sitemap 448 -> 457; decision D-ADS-GPT-WAVE-B-20261123",
     "owner_approval": "Owner in chat, 2026-11-23: maximum articles, do everything needed, do not spare credits; D1, D2, D6 accepted; D3-D5 unanswered (safe defaults); decision D-ADS-GPT-20261123",
     "owner_request": "Owner in chat, 2026-11-23: AnswerThePublic paid; analyse what people ask about targeting and advertising and give a roadmap of articles that wins the most traffic from GPT answers; act comprehensively.",
@@ -3981,14 +3981,15 @@
       "D5 confirm services: creatives, blogger placements, TikTok",
       "D6 keep the advertising lane with the AI-citation metric (commercial clicks about 5.7 per 28 days vs the threshold of 5)"
     ],
-    "next": "Wave C2 (C2 product ads, C3 beauty salon, C4 cafe, C7 Meta Ads Manager in Uzbek; facts checked 23.11), then the targeting roadmap waves T-A..T-C (target_cluster_gpt_roadmap_20261123) and the other clusters; tracker reading 2026-11-30",
+    "next": "Merge, deploy, verify 472 URLs, IndexNow; then the targeting roadmap waves T-A..T-C (target_cluster_gpt_roadmap_20261123), C9 is T5 there; then the other clusters; tracker reading 2026-11-30",
     "wave_b_live": "PR #94 merged 6ff1ba82 and deployed by the manual Pages workflow on 2026-11-23; production gptbot-release.json shows 6ff1ba82; nine new URLs 200 with self canonicals; check-entity-consistency OK on 457 sitemap URLs; IndexNow HTTP 200 for 35 URLs (9 new, 24 changed pages from the build diff, llms.txt, llms-full.txt)",
     "wave_c1": "8 URLs in four ru/uz pairs: advertising law ZRU-776 (/ru/blog/zakon-o-reklame-v-uzbekistane/, /uz/blog/reklama-togrisidagi-qonun/), ads with bloggers (/ru/blog/reklama-u-blogerov-v-uzbekistane/, /uz/blog/reklama-blogerlarda/), ad payback ROMI/ROAS/CPL/CAC (/ru/blog/kak-ponyat-okupaetsya-li-reklama/ -> performance marketing, /uz/blog/reklama-samaradorligi-romi/), ads in Uzbek and Russian (/ru/blog/reklama-na-uzbekskom-i-russkom/, /uz/blog/reklama-ozbek-va-rus-tilida/); intent pairs W20261123-18..25; incoming links from 18 existing articles; llms.txt routes and 4 quick answers; protection revision 2026-11-23-ads-gpt-c1; sitemap 457 -> 465; decision D-ADS-GPT-WAVE-C1-20261123",
     "wave_c1_facts": "lex.uz (ZRU-776 to ZRU-1187, Administrative Code 178-1 and 42, state-language law Art. 20, ZRU-547), raqobat.gov.uz posts 12.08.2025, 03.09/21.10/09.11.2026, Tax Committee 06.05.2026, Meta/Google Ads/Google Analytics/Yandex Direct/Telegram help pages; key finding: Google Ads does not support Uzbek as a targeting language and disapproves ads in unsupported languages, Search campaigns lost the language setting in late September 2026",
-    "wave_c1_live": "PR #95 merged 40cc7ecb and deployed on 2026-11-23; production gptbot-release.json shows 40cc7ecb; eight new URLs 200 with self canonicals; check-entity-consistency OK on 465 sitemap URLs; IndexNow HTTP 200 for 32 URLs (8 new, 22 changed pages, llms.txt, llms-full.txt)"
+    "wave_c1_live": "PR #95 merged 40cc7ecb and deployed on 2026-11-23; production gptbot-release.json shows 40cc7ecb; eight new URLs 200 with self canonicals; check-entity-consistency OK on 465 sitemap URLs; IndexNow HTTP 200 for 32 URLs (8 new, 22 changed pages, llms.txt, llms-full.txt)",
+    "wave_c2": "7 URLs: product ads (/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/, /uz/blog/mahsulotni-reklama-qilish/), beauty salon (/ru/blog/reklama-salona-krasoty-tashkent/, /uz/blog/toshkentda-gozallik-saloni-reklamasi/), cafe and restaurant (/ru/blog/reklama-kafe-i-restorana-tashkent/, /uz/blog/restoran-va-kafe-reklamasi/), Meta Ads Manager guide in Uzbek (/uz/blog/meta-ads-manager-qollanma/, unpaired); intent pairs W20261123-26..32; incoming links from 15 existing articles; llms.txt routes and 2 quick answers; protection revision 2026-11-23-ads-gpt-c2; sitemap 465 -> 472; decision D-ADS-GPT-WAVE-C2-20261123"
   },
   "target_cluster_gpt_roadmap_20261123": {
-    "status": "roadmap_pr_open",
+    "status": "roadmap_merged",
     "owner_request": "Owner in chat, 2026-11-23: collect as many targeted-advertising queries as possible via AnswerThePublic and, if needed, OpenSEO; a roadmap for a whole batch of articles that wins all targeting queries.",
     "roadmap": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md",
     "data": "ai-prompts.tsv (623 ChatGPT/Gemini prompts from 26 AnswerThePublic searches: 18 new + 8 from the ads roadmap), google-suggestions.tsv (864), openseo-keywords.tsv (580 Uzbekistan keywords; top: таргетинг в инстаграм 720/mo, таргет 390/mo), gsc-target-queries.tsv (56 rows, 453 impressions, 0 clicks; target nima 156 and таргет нима 121 impressions)",
@@ -3998,6 +3999,7 @@
       "D-T1 write about the targetologist profession (11.4% of prompts) or not; default no",
       "D-T2 add a Cyrillic «Таргет нима?» line to the Uzbek page; default no"
     ],
-    "atp_access": "33 searches left until 2026-12-23 after this batch"
+    "atp_access": "33 searches left until 2026-12-23 after this batch",
+    "merged": "PR #96 merged 26566d6b (docs only)"
   }
 }

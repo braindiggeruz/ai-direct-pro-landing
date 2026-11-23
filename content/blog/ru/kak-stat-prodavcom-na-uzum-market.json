@@ -297,6 +297,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+      "anchor": "как рекламировать товар: шесть каналов",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Как стать продавцом на Uzum Market: от регистрации до первых продаж",

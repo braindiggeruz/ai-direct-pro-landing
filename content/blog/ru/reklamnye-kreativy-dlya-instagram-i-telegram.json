@@ -328,6 +328,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/reklama-salona-krasoty-tashkent/",
+      "anchor": "реклама салона красоты: план на месяц",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
+    },
+    {
+      "target": "/ru/blog/reklama-kafe-i-restorana-tashkent/",
+      "anchor": "что показывать в рекламе кафе",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Рекламные креативы: 12 форматов и размеры",
