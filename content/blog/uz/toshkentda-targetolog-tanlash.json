@@ -363,6 +363,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/uz/blog/reklama-akkaunti-bloklandi/",
+      "anchor": "reklama akkaunti xavfsizligi va cheklovlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Toshkentda targetolog tanlash: 15 savol",

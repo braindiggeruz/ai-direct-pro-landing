@@ -295,6 +295,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/lid-forma-instagram/",
+      "anchor": "lid-forma bilan reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
+    },
+    {
+      "target": "/uz/blog/reklama-akkaunti-bloklandi/",
+      "anchor": "akkaunt cheklansa nima qilish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Meta Ads Manager: o‘zbek tilida qo‘llanma 2026",

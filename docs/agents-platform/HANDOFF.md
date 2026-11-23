@@ -1,3 +1,32 @@
+# Current handoff — targeting wave T-C: lead forms, blocked ad accounts, cost per lead, retargeting · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 5be56e8b (= production: advertising waves B, C1, C2 and targeting wave T-B live, 478 URLs, check-entity-consistency OK, IndexNow HTTP 200 for 28 URLs of T-B). Production stays 5be56e8b until this PR is merged and deployed.
+## 2. Delivered
+Eight URLs in four RU/UZ pairs: /ru/blog/zayavki-iz-lid-formy-instagram/ + /uz/blog/lid-forma-instagram/, /ru/blog/problemy-s-reklamnym-kabinetom-meta/ + /uz/blog/reklama-akkaunti-bloklandi/, /ru/blog/tsena-zayavki-v-targete/ + /uz/blog/targetda-ariza-narxini-pasaytirish/, /ru/blog/retargeting-v-instagram-i-facebook/ + /uz/blog/retargeting-nima/. Intent pairs W20261123-39…46, links from 21 existing articles, llms.txt (8 routes, 4 quick answers), updates feed limit 250 → 300.
+## 3. Files
+content/blog/{ru,uz}/ (8 new, 21 existing with added related links), content/seo/intent-manifest.json, public/llms.txt, scripts/generate-updates-feed.ts (limit), scripts/seo-protection.ts (BASELINE), tests/target-gpt-wave-tc.test.ts + package.json, reports/target-gpt-20261123-tc/, docs/seo/evidence/2026-11-23-target-gpt-tc/, docs.
+## 4. Decisions
+D-TARGET-GPT-WAVE-TC-20261123 (under D-ADS-GPT-20261123).
+## 5. Excluded
+T-A edits (D-T2 unanswered), profession pages (D-T1 unanswered), cost-per-lead benchmarks and any prices, a website-audience retention cap.
+## 6. Validation
+seo-audit OK; build:fast; review vs a build of main 5be56e8b: sitemap 478 → 486, 24 existing pages change by added links only, 0 removed, issues 0; wave test 9/9; 52 of 56 SEO-related test files green, the 4 red ones fail identically on main; updates-feed was red until the limit change (the T-C articles pushed /uz/arizalarni-qabul-qiluvchi-bot/ to place 252); tsc -b and eslint clean.
+## 7. Known limits
+Meta's interface names are English; Ads Manager screens were not inspected (login). Meta's developer docs give both 180 and 365 days for website custom audiences, so the articles name no cap. The updates feed limit grows with content; a later wave may need it again.
+## 8. Next task
+Merge, deploy, verify 486 URLs, IndexNow, GSC list; then the next cluster (bots, websites, SEO, AI chat) or T-A on D-T2.
+## 9. Acceptance
+Eight URLs 200 and in the sitemap; check-entity-consistency OK on 486 URLs.
+## 10. Start commands
+npx tsx reports/target-gpt-20261123-tc/review.ts --before <main dist>; node --import tsx --test tests/target-gpt-wave-tc.test.ts
+## 11. Risks
+Low: new pages, added links and a larger Atom feed (300 entries, about 190 KB).
+## 12. Rollback
+git revert; the target-gpt-tb BASELINE stays valid for the old homepage.
+
+---
+
 # Current handoff — targeting wave T-B: targeting in Instagram, audiences, Meta Pixel, ad account · 23.11.2026
 
 ## 1. State

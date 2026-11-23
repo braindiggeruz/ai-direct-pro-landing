@@ -1,0 +1,402 @@
+{
+  "checkedAt": "2026-11-23T11:35:34.448Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-target-gpt-tb/reviewed-protected-pages.json",
+  "sitemapBefore": 478,
+  "sitemapAfter": 486,
+  "added": [
+    "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+    "/ru/blog/retargeting-v-instagram-i-facebook/",
+    "/ru/blog/tsena-zayavki-v-targete/",
+    "/ru/blog/zayavki-iz-lid-formy-instagram/",
+    "/uz/blog/lid-forma-instagram/",
+    "/uz/blog/reklama-akkaunti-bloklandi/",
+    "/uz/blog/retargeting-nima/",
+    "/uz/blog/targetda-ariza-narxini-pasaytirish/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/reklamnyy-kabinet-meta/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/ru/blog/retargeting-v-instagram-i-facebook/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+        "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+        "/ru/blog/tselevaya-auditoriya-dlya-targeta/"
+      ]
+    },
+    {
+      "url": "/ru/blog/tsena-zayavki-v-targete/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+        "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+        "/ru/blog/retargeting-v-instagram-i-facebook/",
+        "/ru/blog/zayavki-iz-lid-formy-instagram/"
+      ]
+    },
+    {
+      "url": "/ru/blog/zayavki-iz-lid-formy-instagram/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/chto-takoe-lid-v-marketinge/",
+        "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+        "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+        "/ru/blog/retargeting-v-instagram-i-facebook/",
+        "/ru/blog/tsena-zayavki-v-targete/"
+      ]
+    },
+    {
+      "url": "/uz/blog/lid-forma-instagram/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+        "/uz/blog/meta-ads-manager-qollanma/",
+        "/uz/blog/retargeting-nima/",
+        "/uz/blog/target-reklama-nima/",
+        "/uz/blog/targetda-ariza-narxini-pasaytirish/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-akkaunti-bloklandi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/meta-ads-manager-qollanma/",
+        "/uz/blog/reklama-togrisidagi-qonun/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/retargeting-nima/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/mahsulotni-reklama-qilish/",
+        "/uz/blog/meta-pikseli-ornatish/",
+        "/uz/blog/targetda-auditoriya-sozlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+        "/uz/blog/reklama-samaradorligi-romi/",
+        "/uz/blog/retargeting-nima/",
+        "/uz/blog/target-reklama-nima/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+        "/ru/blog/retargeting-v-instagram-i-facebook/",
+        "/ru/blog/tsena-zayavki-v-targete/",
+        "/ru/blog/zayavki-iz-lid-formy-instagram/",
+        "/uz/blog/lid-forma-instagram/",
+        "/uz/blog/reklama-akkaunti-bloklandi/",
+        "/uz/blog/retargeting-nima/",
+        "/uz/blog/targetda-ariza-narxini-pasaytirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+        "/ru/blog/retargeting-v-instagram-i-facebook/",
+        "/ru/blog/tsena-zayavki-v-targete/",
+        "/ru/blog/zayavki-iz-lid-formy-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/lid-forma-instagram/",
+        "/uz/blog/reklama-akkaunti-bloklandi/",
+        "/uz/blog/retargeting-nima/",
+        "/uz/blog/targetda-ariza-narxini-pasaytirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/chto-takoe-lid-v-marketinge/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/zayavki-iz-lid-formy-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/tsena-zayavki-v-targete/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/zayavki-iz-lid-formy-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/tsena-zayavki-v-targete/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/retargeting-v-instagram-i-facebook/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/retargeting-v-instagram-i-facebook/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/tsena-zayavki-v-targete/",
+        "/ru/blog/zayavki-iz-lid-formy-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnyy-kabinet-meta/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/problemy-s-reklamnym-kabinetom-meta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/retargeting-v-instagram-i-facebook/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/problemy-s-reklamnym-kabinetom-meta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/problemy-s-reklamnym-kabinetom-meta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/lid-forma-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/mahsulotni-reklama-qilish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/retargeting-nima/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/meta-ads-manager-qollanma/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/lid-forma-instagram/",
+        "/uz/blog/reklama-akkaunti-bloklandi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/meta-pikseli-ornatish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/retargeting-nima/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/targetda-ariza-narxini-pasaytirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-samaradorligi-romi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/targetda-ariza-narxini-pasaytirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-togrisidagi-qonun/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-akkaunti-bloklandi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/target-reklama-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/lid-forma-instagram/",
+        "/uz/blog/targetda-ariza-narxini-pasaytirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/targetda-auditoriya-sozlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/retargeting-nima/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-akkaunti-bloklandi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+        "/ru/blog/retargeting-v-instagram-i-facebook/",
+        "/ru/blog/tsena-zayavki-v-targete/",
+        "/ru/blog/zayavki-iz-lid-formy-instagram/",
+        "/uz/blog/lid-forma-instagram/",
+        "/uz/blog/reklama-akkaunti-bloklandi/",
+        "/uz/blog/retargeting-nima/",
+        "/uz/blog/targetda-ariza-narxini-pasaytirish/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 483
+}

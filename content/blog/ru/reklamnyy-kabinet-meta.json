@@ -213,6 +213,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+      "anchor": "если аккаунт ограничен или реклама отклонена",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Рекламный кабинет Meta: как создать и дать доступ",

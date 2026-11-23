@@ -3,9 +3,10 @@
 import type { BlogArticle, GlobalSEO, Page } from '../src/shared/types';
 import { articleUpdated, authoredDate, byUpdatedThenUrl, canonicalContent, escapeXml, pageUpdated, WEBSUB_HUB } from './feed-data';
 
-// 250 since 2026-11-23: the AI-visibility waves add new dated articles, and the bounded feed keeps
-// listing the core service pages (tests/updates-feed.test.ts) instead of pushing them out.
-export const UPDATES_ITEM_LIMIT = 250;
+// 300 since 2026-11-23 (250 earlier the same day): the AI-visibility and advertising waves add new dated
+// articles, and the bounded feed keeps listing the core service pages (tests/updates-feed.test.ts)
+// instead of pushing them out. Targeting wave T-C moved /uz/arizalarni-qabul-qiluvchi-bot/ to place 252.
+export const UPDATES_ITEM_LIMIT = 300;
 export interface UpdateEntry {
   url: string;
   title: string;

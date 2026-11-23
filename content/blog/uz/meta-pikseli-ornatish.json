@@ -247,6 +247,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/retargeting-nima/",
+      "anchor": "piksel bilan retargeting",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Meta pikselini o‘rnatish: hodisalar va tekshiruv",

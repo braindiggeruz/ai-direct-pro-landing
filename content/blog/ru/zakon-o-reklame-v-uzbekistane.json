@@ -306,6 +306,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+      "anchor": "отклонение рекламы в Meta и проверка",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Закон о рекламе в Узбекистане: что важно бизнесу",

@@ -305,6 +305,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+      "anchor": "ariza narxini qanday pasaytirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Reklama o‘zini oqlaydimi: ROMI, ROAS, CPL va CAC",
