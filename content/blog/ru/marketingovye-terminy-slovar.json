@@ -516,6 +516,13 @@
     {
       "target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
       "anchor": "Посевы в Telegram-каналах"
+    },
+    {
+      "target": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+      "anchor": "ROMI, ROAS и CAC на примере в сумах",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "ogTitle": "Словарь маркетинговых терминов простыми словами",

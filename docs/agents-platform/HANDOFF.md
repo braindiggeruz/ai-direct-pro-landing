@@ -1,3 +1,31 @@
+# Current handoff — advertising cluster, wave C1: the advertising law, bloggers, ad payback, ads in two languages · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 6ff1ba82. Production 6ff1ba82: wave B is live (457 URLs, check-entity-consistency OK, IndexNow HTTP 200 for 35 URLs). Production stays 6ff1ba82 until this PR is merged and deployed.
+## 2. Delivered
+Eight URLs in four ru/uz pairs: /ru/blog/zakon-o-reklame-v-uzbekistane/ + /uz/blog/reklama-togrisidagi-qonun/ (ZRU-776 for online ads: five rules, banned categories, bloggers and Telegram, fines, liability, checklist), /ru/blog/reklama-u-blogerov-v-uzbekistane/ + /uz/blog/reklama-blogerlarda/ (choice, price per 1 000 views, the «reklama» label, contract, measurement), /ru/blog/kak-ponyat-okupaetsya-li-reklama/ + /uz/blog/reklama-samaradorligi-romi/ (ROMI, ROAS, CPL, CAC, break-even 1 ÷ margin, a labelled teaching example in UZS), /ru/blog/reklama-na-uzbekskom-i-russkom/ + /uz/blog/reklama-ozbek-va-rus-tilida/ (Art. 6, Meta, Google Ads, Yandex Direct and Telegram Ads language rules). Intent pairs W20261123-18…25, links from 18 existing articles, llms.txt (8 routes, 4 quick answers). Wave B fix: step 5 of /ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/ no longer tells readers to set the audience language (Meta: optional, meant for a language not widely spoken in the location).
+## 3. Files
+content/blog/{ru,uz}/ (8 new, 18 existing with one to three added related links), content/seo/intent-manifest.json, public/llms.txt, scripts/seo-protection.ts (BASELINE), tests/ads-gpt-wave-c1.test.ts + package.json, reports/ads-gpt-20261123-c1/, docs/seo/evidence/2026-11-23-ads-gpt-c1/, docs (DECISIONS, STATE, CHANGE_LOG, this file).
+## 4. Decisions
+D-ADS-GPT-WAVE-C1-20261123 (under D-ADS-GPT-20261123).
+## 5. Excluded
+C2 product ads, C3 beauty salon, C4 cafe, C7 Meta Ads Manager in Uzbek (wave C2; the fact check is running), C9 ad account problems, C10 TikTok (wave B already says TikTok does not list Uzbekistan for self-serve ads), blogger placement as a service (D5 unanswered).
+## 6. Validation
+seo-audit OK; build:fast; review vs a build of main 6ff1ba82: sitemap 457 → 465, 22 existing pages change by added links only, 0 removed, issues 0, each new URL has 4–6 incoming links; wave test 8/8; 49 of 53 SEO-related test files green — the 4 red ones fail identically on main (seo-commercial-coverage 5/6, seo-push-revision R3-6/R3-9, seo-revenue-claims 7/11, translator-pages 10: a source-text regex on scripts/prerender.ts, which this branch does not touch); tsc -b clean.
+## 7. Known limits
+Google Ads disapproves Uzbek ad text while the law requires the state language: the article states both facts and sends the reader to a lawyer. Meta's «Add language» menu could not be inspected without a login. BRV amounts in sums are not quoted because they change. Erratum: the ads-gpt-b revision's source/invisibleToGate strings describe wave 3 (copied); recorded in the C1 revision.
+## 8. Next task
+Merge, deploy, verify 465 URLs, IndexNow, GSC list; wave C2 (C2, C3, C4, C7); then the other clusters (AnswerThePublic prompts for sites, online stores, SEO, CRM, automation, AI chat; the bot-services cluster stays frozen by demand-policy).
+## 9. Acceptance
+Eight URLs 200 and in the sitemap; check-entity-consistency OK on 465 URLs.
+## 10. Start commands
+npx tsx reports/ads-gpt-20261123-c1/review.ts --before <main dist>; node --import tsx --test tests/ads-gpt-wave-c1.test.ts
+## 11. Risks
+Low: new pages and added links only; the legal pages are overviews with a not-legal-advice note and dated lex.uz sources.
+## 12. Rollback
+git revert; the ads-gpt-b BASELINE stays valid for the old homepage.
+
+---
 # Current handoff — advertising cluster, waves A and B: nine answer-first articles · 23.11.2026
 
 ## 1. State

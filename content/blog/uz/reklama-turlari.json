@@ -284,6 +284,27 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/reklama-blogerlarda/",
+      "anchor": "blogerni reklama uchun qanday tanlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/uz/blog/reklama-togrisidagi-qonun/",
+      "anchor": "onlayn reklamaga qonun talablari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
+    },
+    {
+      "target": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+      "anchor": "o‘zbek va rus tilidagi auditoriyaga reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Reklama turlari: qaysi platforma biznesga mos, 2026",

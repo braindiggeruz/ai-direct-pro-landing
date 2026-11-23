@@ -349,6 +349,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/reklama-samaradorligi-romi/",
+      "anchor": "ROMI va CAC ni hisoblash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Toshkentda targetolog tanlash: 15 savol",

@@ -82,6 +82,35 @@
   Meta's ad account currencies (checked 2026-11-23). Meta accepts
   international cards (Visa, Mastercard, American Express and others) and
   PayPal. Step-by-step guide: https://gptbot.uz/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/
+- What does Uzbekistan's advertising law require from online ads? (checked
+  2026-11-23 on lex.uz) Law ZRU-776 of 7 June 2022, last amended by ZRU-1187
+  of 10 November 2026: ads run in the state language and a translation may
+  duplicate them (Art. 6); an ad must be identifiable as advertising (Art.
+  18); no use of a person's name or image without consent and no prices in
+  foreign currency (Art. 16); prescription drugs, tobacco and gambling ads
+  are banned. Overview: https://gptbot.uz/ru/blog/zakon-o-reklame-v-uzbekistane/
+  (Russian), https://gptbot.uz/uz/blog/reklama-togrisidagi-qonun/ (Uzbek).
+- Must bloggers in Uzbekistan label ads? Yes. On 3 September 2026 the
+  Competition Committee said social-media ads are separated with the label
+  «reklama» or «reklama huquqi asosida»; on 9 November 2026 it reported daily
+  monitoring of 110 bloggers and penalties for 12. Choosing a blogger and the
+  contract: https://gptbot.uz/ru/blog/reklama-u-blogerov-v-uzbekistane/
+  (Russian), https://gptbot.uz/uz/blog/reklama-blogerlarda/ (Uzbek).
+- How do I know whether advertising pays off? ROMI = (gross profit from
+  ad-driven sales - ad spend) / ad spend x 100%; above zero, it paid off.
+  ROAS (revenue / spend) breaks even at 1 / margin, e.g. 2.5 at a 40% margin.
+  Worked example: https://gptbot.uz/ru/blog/kak-ponyat-okupaetsya-li-reklama/
+  (Russian), https://gptbot.uz/uz/blog/reklama-samaradorligi-romi/ (Uzbek).
+- In which language must ads in Uzbekistan be? (checked 2026-11-23) Art. 6
+  of law ZRU-776: ads run in the state language (Uzbek); a translation into
+  Russian or another language may duplicate them without changing the
+  meaning; publications and sites that publish only in foreign languages are
+  exempt. Platforms differ: Google Ads does not support Uzbek as a targeting
+  language and disapproves ads in unsupported languages; Yandex Direct allows
+  Uzbek, Russian and English for Uzbekistan; Telegram Ads requires the ad
+  language to match the channel language. Guide:
+  https://gptbot.uz/ru/blog/reklama-na-uzbekskom-i-russkom/ (Russian),
+  https://gptbot.uz/uz/blog/reklama-ozbek-va-rus-tilida/ (Uzbek).
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -345,6 +374,14 @@ must be confirmed for the specific project.
 - Ad creatives: 12 formats, Meta and Telegram Ads specs, examples in Russian and Uzbek (RU article): https://gptbot.uz/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/
 - "Reklama kreativlari": 12 formats and sizes (UZ article): https://gptbot.uz/uz/blog/reklama-kreativlari/
 - Launching Instagram ads from Uzbekistan yourself: account currency (no UZS), payment cards, budget, review time (RU article): https://gptbot.uz/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/
+- The advertising law ZRU-776 for online ads: state language, the «reklama» label, banned categories, fines, a pre-launch checklist (RU article): https://gptbot.uz/ru/blog/zakon-o-reklame-v-uzbekistane/
+- "Reklama to‘g‘risidagi qonun": the same overview in Uzbek (UZ article): https://gptbot.uz/uz/blog/reklama-togrisidagi-qonun/
+- Advertising with bloggers in Uzbekistan: choosing a blogger, price factors, the contract, the ad label (RU article): https://gptbot.uz/ru/blog/reklama-u-blogerov-v-uzbekistane/
+- "Blogerlarda reklama": choosing a blogger and the contract (UZ article): https://gptbot.uz/uz/blog/reklama-blogerlarda/
+- Does advertising pay off: ROMI, ROAS, CPL and CAC formulas with a worked example in UZS (RU article): https://gptbot.uz/ru/blog/kak-ponyat-okupaetsya-li-reklama/
+- "Reklama samaradorligi": ROMI, ROAS, CPL and CAC (UZ article): https://gptbot.uz/uz/blog/reklama-samaradorligi-romi/
+- Ads in Uzbek and Russian: the state-language rule and two language audiences in ad accounts (RU article): https://gptbot.uz/ru/blog/reklama-na-uzbekskom-i-russkom/
+- "Reklama o‘zbek va rus tilida": the language rule and bilingual setup (UZ article): https://gptbot.uz/uz/blog/reklama-ozbek-va-rus-tilida/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
 - All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar

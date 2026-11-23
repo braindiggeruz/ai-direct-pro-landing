@@ -258,6 +258,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+      "anchor": "что требует закон о рекламе в Узбекистане",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Как проверить подрядчика по рекламе и сайту: чеклист",

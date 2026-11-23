@@ -4607,6 +4607,221 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-18-ru-internet-ads-hub-vs-advertising-law",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub",
+        "mustNotTarget": [
+          "закон о рекламе узбекистан",
+          "закон о рекламе зру-776",
+          "пометка реклама в соцсетях",
+          "штраф за рекламу узбекистан"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+        "owns": "a plain-language overview of the advertising law ZRU-776 for online ads (not legal advice)",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-19-uz-internet-ads-hub-vs-advertising-law",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "reklama to‘g‘risidagi qonun",
+          "reklama qonuni o‘zbekiston",
+          "reklama uchun jarima"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-togrisidagi-qonun/",
+        "owns": "a plain-language overview of the advertising law O‘RQ-776 (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-20-ru-internet-ads-hub-vs-blogger-ads",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub",
+        "mustNotTarget": [
+          "реклама у блогеров",
+          "реклама у блогеров узбекистан",
+          "договор с блогером на рекламу",
+          "как выбрать блогера для рекламы"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+        "owns": "choosing a blogger, price factors, the contract and the ad label; the site sells no blogger placement",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в instagram",
+          "реклама в telegram",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-21-uz-internet-ads-hub-vs-blogger-ads",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "blogerlarda reklama",
+          "bloger reklama narxi",
+          "bloger bilan shartnoma"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-blogerlarda/",
+        "owns": "choosing a blogger, price factors, the contract and the ad label (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "instagramda reklama berish",
+          "reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-22-ru-performance-service-vs-ad-payback",
+      "commercial": {
+        "url": "/ru/performance-marketing-tashkent/",
+        "owns": "the performance marketing service: paid traffic optimised to lead quality and end-to-end analytics",
+        "mustNotTarget": [
+          "как понять окупается ли реклама",
+          "окупаемость рекламы",
+          "romi формула",
+          "как посчитать romi"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+        "owns": "ROMI, ROAS, CPL and CAC formulas with a labelled teaching example in UZS",
+        "mustNotTarget": [
+          "performance маркетинг ташкент",
+          "маркетинг по результату",
+          "сквозная аналитика ташкент",
+          "лидогенерация ташкент"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-23-uz-internet-ads-hub-vs-ad-payback",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "reklama samaradorligi",
+          "romi nima",
+          "romi formulasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-samaradorligi-romi/",
+        "owns": "ROMI, ROAS, CPL and CAC formulas with a labelled teaching example (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-24-ru-internet-ads-hub-vs-bilingual-ads",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub",
+        "mustNotTarget": [
+          "реклама на узбекском и русском",
+          "на каком языке делать рекламу в узбекистане",
+          "язык рекламы закон"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "owns": "the state-language rule and how to run ads for Uzbek- and Russian-speaking audiences",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "настройка рекламы",
+          "реклама в instagram",
+          "google ads"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-25-uz-internet-ads-hub-vs-bilingual-ads",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "reklama o‘zbek va rus tilida",
+          "reklama qaysi tilda bo‘lishi kerak",
+          "ikki tilda reklama"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+        "owns": "the state-language rule and bilingual ad setup (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "google ads toshkent",
+          "instagramda reklama berish"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

@@ -306,6 +306,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 11
+    },
+    {
+      "target": "/uz/blog/reklama-samaradorligi-romi/",
+      "anchor": "reklama samaradorligini qanday hisoblash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 12
     }
   ],
   "ogTitle": "Internet reklama narxi O'zbekistonda: 2026 yil raqamlari",

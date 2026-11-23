@@ -270,7 +270,8 @@
     { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "SMM-сопровождение в Ташкенте" },
     { "target": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/", "anchor": "Что входит в услуги SMM-специалиста" },
     { "target": "/ru/blog/stoimost-i-pakety-smm-uslug-v-tashkente/", "anchor": "Стоимость SMM-услуг в Ташкенте" },
-    { "target": "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/", "anchor": "Как выбрать digital-агентство в Ташкенте" }
+    { "target": "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/", "anchor": "Как выбрать digital-агентство в Ташкенте" },
+    { "target": "/ru/blog/zakon-o-reklame-v-uzbekistane/", "anchor": "закон о рекламе: правила для бизнеса", "locale": "ru", "type": "contextual", "priority": 1 }
   ],
   "sources": [
     {
