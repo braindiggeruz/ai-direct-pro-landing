@@ -312,6 +312,14 @@ for (const feed of DISCOVERY_FEEDS) {
   headers.push(`  Cache-Control: ${DISCOVERY_CACHE_CONTROL}`);
   headers.push(`  Content-Type: ${feed.type}; charset=utf-8`);
 }
+// OpenAI product feed (scripts/build-openai-feed.ts), the Hosted URL in
+// ChatGPT Business Hub → Products: NDJSON media type, an hour of cache, and
+// readable cross-origin. Mirrored in public/_headers.
+headers.push('/openai-product-feed.jsonl');
+headers.push('  ! Cache-Control');
+headers.push('  Cache-Control: public, max-age=3600');
+headers.push('  Content-Type: application/x-ndjson; charset=utf-8');
+headers.push('  Access-Control-Allow-Origin: *');
 // Markdown twins for LLM agents: correct content-type + noindex so search
 // engines never treat them as duplicate HTML pages (anti-cannibalisation).
 headers.push('/*.md');

@@ -1,0 +1,624 @@
+// OpenAI product feed (ChatGPT Business Hub → Products → Hosted URL).
+// Spec: https://developers.openai.com/commerce/specs/file-upload/products.md
+//
+// Nothing here states a price. Every amount is read from the place the site
+// itself takes it from, so a price changed on the site changes the feed on the
+// next build and can never drift from it:
+//   - AI chat packs: functions/lib/gpt-chat/packs.ts via CHAT_FACTS (the same
+//     numbers the checkout charges and the pages print);
+//   - Studio plans: functions/lib/studio/plans.ts via STUDIO_FACTS (the plan
+//     of the published offer edition);
+//   - agency services: the package table «Пакет | Что входит | Срок | Цена (сум)»
+//     on each service page (content/pages/ru/*.json), the table the visitor reads.
+// The catalog below holds only what the pages cannot give: the stable item_id,
+// the English wording and the product category. Each English «includes» line
+// keeps the Russian cell it was translated from (`sourceRu`); when the page text
+// changes, the test fails until the translation is reviewed.
+//
+// Unknown values are left out of a record entirely: no null, "n/a" or "".
+import fs from 'node:fs';
+import path from 'node:path';
+
+import { CHAT_FACTS, STUDIO_FACTS } from './product-facts';
+
+export const SITE = 'https://gptbot.uz';
+export const FEED_FILE = 'public/openai-product-feed.jsonl';
+export const FEED_URL = `${SITE}/openai-product-feed.jsonl`;
+const BRAND = 'GPTBot.uz';
+const OFFER_URL = `${SITE}/ru/oferta/`;
+
+// Item ids already handed to OpenAI. Append only: an id is never renamed or
+// removed, because the Hub keys the product's history on it.
+export const LOCKED_ITEM_IDS = [
+  'gptbot-ai-chat-trial', 'gptbot-ai-pack-3d', 'gptbot-ai-pack-1m',
+  'gptbot-studio-day', 'gptbot-studio-month',
+  'gptbot-ai-bot-business', 'gptbot-ai-bot-business-tier', 'gptbot-ai-bot-pro', 'gptbot-ai-bot-support',
+  'gptbot-ig-start', 'gptbot-ig-ai-manager', 'gptbot-ig-pro',
+  'gptbot-wa-start', 'gptbot-wa-business',
+  'gptbot-tg-start', 'gptbot-tg-business', 'gptbot-tg-pro', 'gptbot-tg-support',
+  'gptbot-web-landing', 'gptbot-web-corporate', 'gptbot-web-eshop', 'gptbot-web-support',
+  'gptbot-seo-audit', 'gptbot-seo-start', 'gptbot-seo-growth', 'gptbot-seo-leader',
+  'gptbot-smm-start', 'gptbot-smm-business', 'gptbot-smm-pro',
+  'gptbot-target-launch', 'gptbot-target-management',
+  'gptbot-ppc-launch', 'gptbot-ppc-management',
+] as const;
+
+export const AVAILABILITY_VALUES = ['in_stock', 'out_of_stock', 'pre_order', 'backorder', 'unknown'] as const;
+
+/** One line of the feed, in the order the fields are written. */
+export interface FeedRecord {
+  item_id: string;
+  title: string;
+  description: string;
+  url: string;
+  brand: string;
+  seller_name: string;
+  seller_url: string;
+  image_url: string;
+  price: string;
+  availability: (typeof AVAILABILITY_VALUES)[number];
+  condition: 'new';
+  is_digital: true;
+  product_category: string;
+  target_countries: string[];
+  store_country: string;
+  return_policy?: string;
+  accepts_returns?: boolean;
+}
+
+/** Where a record's price was read and how it reads on the page, for the parity test. */
+export interface PriceProof {
+  itemId: string;
+  /** Content file of the page the record links to. */
+  page: string;
+  amountUzs: number;
+  /** Text the page must show for this price, spaces normalised. */
+  visible: string;
+}
+
+// ---------- page content ----------
+
+interface TableBlock { type: 'table'; headers: string[]; rows: string[][] }
+interface PageContent {
+  status?: string;
+  robotsIndex?: boolean;
+  url: string;
+  ogImage?: string;
+  bodyBlocks?: Array<{ type: string } & Partial<TableBlock>>;
+  [key: string]: unknown;
+}
+
+const PACKAGE_TABLE_HEADERS = ['Пакет', 'Что входит', 'Срок', 'Цена (сум)'];
+
+export function readPage(root: string, file: string): PageContent {
+  return JSON.parse(fs.readFileSync(path.join(root, file), 'utf8')) as PageContent;
+}
+
+/** Every string of a page, whitespace (regular and NBSP) collapsed to one space. */
+export function pageText(page: unknown): string {
+  const out: string[] = [];
+  const walk = (value: unknown): void => {
+    if (typeof value === 'string') out.push(value);
+    else if (Array.isArray(value)) value.forEach(walk);
+    else if (value && typeof value === 'object') Object.values(value).forEach(walk);
+  };
+  walk(page);
+  return normaliseSpaces(out.join('\n'));
+}
+
+export const normaliseSpaces = (text: string): string => text.replace(/[ \u00a0\u202f\t]+/g, ' ');
+
+/** 1990000 → "1 990 000", the way the pages print sums. */
+export const groupThousands = (n: number): string => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+export interface PackageRow {
+  name: string;
+  includes: string;
+  term: string;
+  priceCell: string;
+  amountUzs: number;
+  monthly: boolean;
+}
+
+const PRICE_CELL_RE = /^от (\d{1,3}(?: \d{3})*)( \/ мес)?$/u;
+const MONTHLY_TERMS = new Set(['в месяц', 'ежемесячно']);
+
+/** The row `name` of the page's package table; throws when the table or row is missing or unreadable. */
+export function packageRow(page: PageContent, name: string): PackageRow {
+  const tables = (page.bodyBlocks ?? []).filter((block): block is { type: 'table' } & TableBlock =>
+    block.type === 'table' && JSON.stringify(block.headers) === JSON.stringify(PACKAGE_TABLE_HEADERS));
+  if (tables.length !== 1) throw new Error(`${page.url}: expected one package table «${PACKAGE_TABLE_HEADERS.join(' | ')}», found ${tables.length}`);
+  const rows = tables[0].rows.filter((row) => normaliseSpaces(row[0]).trim() === name);
+  if (rows.length !== 1) throw new Error(`${page.url}: package «${name}» not found exactly once in the package table`);
+  const [cellName, includes, term, priceCell] = rows[0].map((cell) => normaliseSpaces(cell).trim());
+  const match = PRICE_CELL_RE.exec(priceCell);
+  if (!match) throw new Error(`${page.url}: price cell of «${name}» is not «от N» or «от N / мес»: «${priceCell}»`);
+  const amountUzs = Number(match[1].replace(/ /g, ''));
+  if (!Number.isSafeInteger(amountUzs) || amountUzs <= 0) throw new Error(`${page.url}: «${name}» has no positive price`);
+  const monthly = Boolean(match[2]) || MONTHLY_TERMS.has(term);
+  return { name: cellName, includes, term, priceCell, amountUzs, monthly };
+}
+
+/** The Срок cell in English. Unknown wording fails the build instead of guessing. */
+export function termInEnglish(term: string, afterAccess: boolean): string {
+  if (MONTHLY_TERMS.has(term)) return '';
+  const days = /^(\d+) (?:день|дня|дней)$/u.exec(term);
+  if (days) return `Timeline: ${days[1]} ${days[1] === '1' ? 'day' : 'days'}${afterAccess ? ', counted from receipt of access and materials' : ''}.`;
+  if (term === 'разово') return 'One-time service.';
+  const once = /^разово, (\d+) (?:день|дня|дней)$/u.exec(term);
+  if (once) return `One-time service, timeline: ${once[1]} days.`;
+  throw new Error(`Unknown package term «${term}»: extend termInEnglish before publishing it in the feed`);
+}
+
+// ---------- catalog ----------
+
+const STARTING_PRICE = 'Starting price; the final scope and price are fixed in a quote before work starts.';
+const AD_BUDGET = 'Advertising budget is paid separately.';
+const NOT_OPENAI = 'Independent AI chat, not ChatGPT and not an OpenAI product.';
+
+interface ServicePage {
+  file: string;
+  category: string;
+  /** Facts the page states about costs outside the price, in English. */
+  notes: string[];
+  /** The page says the timeline starts once access and materials are received. */
+  afterAccess: boolean;
+}
+
+export const SERVICE_PAGES = {
+  aiBot: {
+    file: 'content/pages/ru/ai-bot-dlya-biznesa.json',
+    category: 'Services > AI Chatbot Development',
+    notes: ['Hosting, AI/API costs and external platform licences are paid separately from development.'],
+    afterAccess: true,
+  },
+  instagram: {
+    file: 'content/pages/ru/ai-menedzher-dlya-instagram.json',
+    category: 'Services > AI Chatbot Development',
+    notes: ['A second channel, CRM, payments, external platform fees and AI model costs are separate quote items.'],
+    afterAccess: true,
+  },
+  whatsapp: {
+    file: 'content/pages/ru/whatsapp-bot-dlya-biznesa.json',
+    category: 'Services > AI Chatbot Development',
+    notes: ['A second channel, CRM, payments, external platform fees and AI model costs are separate quote items.'],
+    afterAccess: true,
+  },
+  telegram: {
+    file: 'content/pages/ru/razrabotka-telegram-bota-tashkent.json',
+    category: 'Services > Chatbot Development',
+    notes: ['CRM licences, hosting, AI/API costs and payment provider fees are listed separately in the quote.'],
+    afterAccess: true,
+  },
+  web: {
+    file: 'content/pages/ru/razrabotka-saytov-tashkent.json',
+    category: 'Services > Website Development',
+    notes: ['CRM, payments, data migration, external platform fees and AI model costs are separate quote items.'],
+    afterAccess: true,
+  },
+  seo: {
+    file: 'content/pages/ru/seo-prodvizhenie-saytov-tashkent.json',
+    category: 'Services > SEO',
+    notes: [],
+    afterAccess: false,
+  },
+  smm: {
+    file: 'content/pages/ru/smm-prodvizhenie-tashkent.json',
+    category: 'Services > Social Media Marketing',
+    notes: [AD_BUDGET],
+    afterAccess: false,
+  },
+  target: {
+    file: 'content/pages/ru/targetirovannaya-reklama-tashkent.json',
+    category: 'Services > Online Advertising > Social Media Ads',
+    notes: [AD_BUDGET],
+    afterAccess: false,
+  },
+  ppc: {
+    file: 'content/pages/ru/kontekstnaya-reklama-tashkent.json',
+    category: 'Services > Online Advertising > Search Ads',
+    notes: [AD_BUDGET],
+    afterAccess: false,
+  },
+} satisfies Record<string, ServicePage>;
+
+export interface ServiceItem {
+  itemId: string;
+  page: keyof typeof SERVICE_PAGES;
+  /** First cell of the package row. */
+  row: string;
+  title: string;
+  /** English rendering of the «Что входит» cell. */
+  includes: string;
+  /** The «Что входит» cell the English was written from. */
+  sourceRu: string;
+  /** Extra facts from the same page for this package only. */
+  extra?: string;
+}
+
+export const SERVICE_ITEMS: readonly ServiceItem[] = [
+  {
+    itemId: 'gptbot-ai-bot-business', page: 'aiBot', row: 'Старт',
+    title: 'AI bot for business — Start package (one channel)',
+    includes: 'One channel (Telegram or Instagram), AI answers from the company knowledge base, collection of name and phone number.',
+    sourceRu: 'Один канал (Telegram или Instagram), AI-ответы по базе знаний, сбор имени и телефона',
+  },
+  {
+    itemId: 'gptbot-ai-bot-business-tier', page: 'aiBot', row: 'Бизнес',
+    title: 'AI bot for business — Business package (Telegram + Instagram, CRM)',
+    includes: 'Telegram + Instagram, a knowledge base for the niche, Russian + Uzbek, handoff to CRM.',
+    sourceRu: 'Telegram + Instagram, база знаний под нишу, RU + UZ, передача в CRM',
+  },
+  {
+    itemId: 'gptbot-ai-bot-pro', page: 'aiBot', row: 'Pro',
+    title: 'AI bot for business — Pro package (three channels)',
+    includes: 'Three channels (plus WhatsApp or a website), payments, broadcasts, lead routing, analytics.',
+    sourceRu: 'Три канала (+ WhatsApp или сайт), оплата, рассылки, маршрутизация заявок, аналитика',
+  },
+  {
+    itemId: 'gptbot-ai-bot-support', page: 'aiBot', row: 'Поддержка',
+    title: 'AI bot support — monthly',
+    includes: 'Monthly support of an AI bot: answer quality control, knowledge base updates, a report on customer requests.',
+    sourceRu: 'Контроль качества ответов, дообучение базы знаний, отчёт по обращениям',
+  },
+  {
+    itemId: 'gptbot-ig-start', page: 'instagram', row: 'Старт',
+    title: 'Instagram AI manager — Start package (Direct auto-replies)',
+    includes: 'Scripted auto-replies in Instagram Direct, contact collection, handoff to a manager.',
+    sourceRu: 'Автоответы в Direct по сценарию, сбор контакта, передача менеджеру',
+  },
+  {
+    itemId: 'gptbot-ig-ai-manager', page: 'instagram', row: 'AI-менеджер',
+    title: 'Instagram AI manager — AI Manager package',
+    includes: 'AI answers to free-form questions in Instagram, lead qualification, comments and stories, Russian + Uzbek.',
+    sourceRu: 'AI-ответы на свободные вопросы, квалификация, комментарии и stories, RU + UZ',
+  },
+  {
+    itemId: 'gptbot-ig-pro', page: 'instagram', row: 'Pro',
+    title: 'Instagram AI manager — Pro package (with CRM)',
+    includes: 'Instagram AI manager plus CRM, connected with advertising and analytics by traffic source.',
+    sourceRu: 'AI-менеджер + CRM + связка с рекламой и аналитикой по источникам',
+  },
+  {
+    itemId: 'gptbot-wa-start', page: 'whatsapp', row: 'Старт',
+    title: 'WhatsApp bot for business — Start package',
+    includes: 'Scripted auto-replies and lead collection in WhatsApp.',
+    sourceRu: 'Автоответы и сбор лидов в WhatsApp по сценарию',
+  },
+  {
+    itemId: 'gptbot-wa-business', page: 'whatsapp', row: 'Бизнес',
+    title: 'WhatsApp bot for business — Business package (AI + CRM)',
+    includes: 'WhatsApp bot with AI answers from the knowledge base, Russian + Uzbek, handoff to CRM.',
+    sourceRu: 'AI-ответы по базе знаний, RU + UZ, передача в CRM',
+  },
+  {
+    itemId: 'gptbot-tg-start', page: 'telegram', row: 'Старт',
+    title: 'Telegram bot development — Start package (lead bot)',
+    includes: 'Button-based flow, lead intake, FAQ, handoff to a manager in Telegram.',
+    sourceRu: 'Кнопочный сценарий, приём заявок, FAQ, передача менеджеру в Telegram',
+    extra: 'The Start package works in one language of choice: Russian or Uzbek.',
+  },
+  {
+    itemId: 'gptbot-tg-business', page: 'telegram', row: 'Бизнес',
+    title: 'Telegram bot development — Business package (AI + CRM)',
+    includes: 'Sales funnel, AI answers from the knowledge base, Russian + Uzbek, AmoCRM/Bitrix24 integration.',
+    sourceRu: 'Воронка продаж, AI-ответы по базе знаний, RU + UZ, интеграция с AmoCRM/Bitrix24',
+  },
+  {
+    itemId: 'gptbot-tg-pro', page: 'telegram', row: 'Pro',
+    title: 'Telegram bot development — Pro package (payments, Mini App)',
+    includes: 'AI + CRM + Payme/Click payments + a catalog bot or Mini App, analytics by traffic source.',
+    sourceRu: 'AI + CRM + оплата Payme/Click + бот-витрина или Mini App, аналитика по источникам',
+  },
+  {
+    itemId: 'gptbot-tg-support', page: 'telegram', row: 'Поддержка',
+    title: 'Telegram bot support — monthly',
+    includes: 'Monthly support of a Telegram bot: monitoring, flow edits, knowledge base updates.',
+    sourceRu: 'Мониторинг, правки сценария, обновление базы знаний',
+  },
+  {
+    itemId: 'gptbot-web-landing', page: 'web', row: 'Лендинг',
+    title: 'Website development — landing page',
+    includes: 'One page for a service, a form and an AI bot, Russian + Uzbek, lead analytics.',
+    sourceRu: 'Одна страница под услугу, форма и AI-бот, RU + UZ, аналитика заявок',
+  },
+  {
+    itemId: 'gptbot-web-corporate', page: 'web', row: 'Корпоративный сайт',
+    title: 'Website development — corporate website (up to 15 pages)',
+    includes: 'Up to 15 pages, CMS, blog, basic SEO, Russian + Uzbek, Telegram/CRM integration.',
+    sourceRu: 'До 15 страниц, CMS, блог, SEO-база, RU + UZ, интеграция с Telegram/CRM',
+  },
+  {
+    itemId: 'gptbot-web-eshop', page: 'web', row: 'Интернет-магазин',
+    title: 'Website development — online store (Payme/Click)',
+    includes: 'Catalog, cart, Payme/Click payments, delivery, a catalog bot in Telegram.',
+    sourceRu: 'Каталог, корзина, оплата Payme/Click, доставка, бот-витрина в Telegram',
+  },
+  {
+    itemId: 'gptbot-web-support', page: 'web', row: 'Поддержка',
+    title: 'Website support — monthly',
+    includes: 'Monthly website support: updates, backups, monitoring, content edits.',
+    sourceRu: 'Обновления, бэкапы, мониторинг, правки контента',
+  },
+  {
+    itemId: 'gptbot-seo-audit', page: 'seo', row: 'Аудит',
+    title: 'Website SEO audit',
+    includes: 'Technical, search and commercial website audit with a priority plan.',
+    sourceRu: 'Технический, поисковый и коммерческий аудит с планом приоритетов',
+    extra: 'Implementing the fixes is agreed separately.',
+  },
+  {
+    itemId: 'gptbot-seo-start', page: 'seo', row: 'Старт',
+    title: 'SEO promotion — Start package (monthly)',
+    includes: 'Up to 15 pages: technical SEO, keyword research, 4 articles a month, local SEO, a report on leads.',
+    sourceRu: 'До 15 страниц: техника, семантика, 4 материала в месяц, локальное SEO, отчёт по заявкам',
+  },
+  {
+    itemId: 'gptbot-seo-growth', page: 'seo', row: 'Рост',
+    title: 'SEO promotion — Growth package (monthly)',
+    includes: 'Up to 100 pages: Russian + Uzbek content of up to 10 articles, internal linking, 5 external mentions, analytics.',
+    sourceRu: 'До 100 страниц: RU + UZ контент до 10 материалов, перелинковка, 5 внешних упоминаний, аналитика',
+  },
+  {
+    itemId: 'gptbot-seo-leader', page: 'seo', row: 'Лидер',
+    title: 'SEO promotion — Leader package (monthly)',
+    includes: 'Catalogs and highly competitive niches: no URL limit, a content plan, PR links, weekly monitoring.',
+    sourceRu: 'Каталоги и высококонкурентные ниши: без лимита URL, контент-план, PR-ссылки, еженедельный мониторинг',
+  },
+  {
+    itemId: 'gptbot-smm-start', page: 'smm', row: 'Старт',
+    title: 'SMM management — Start package (monthly)',
+    includes: '12 posts and 16 stories a month, design, replies in Instagram Direct via an AI bot.',
+    sourceRu: '12 публикаций и 16 stories в месяц, дизайн, ответы в Direct через AI-бота',
+  },
+  {
+    itemId: 'gptbot-smm-business', page: 'smm', row: 'Бизнес',
+    title: 'SMM management — Business package (monthly)',
+    includes: '20 posts, 8 Reels from the client’s materials, targeted ads management, a report on customer requests.',
+    sourceRu: '20 публикаций, 8 Reels из материалов клиента, ведение таргета (бюджет отдельно), отчёт по обращениям',
+  },
+  {
+    itemId: 'gptbot-smm-pro', page: 'smm', row: 'Про',
+    title: 'SMM management — Pro package (monthly)',
+    includes: 'Strategy, a shooting day, 12 Reels, targeting and retargeting, CRM connection.',
+    sourceRu: 'Стратегия, съёмочный день, 12 Reels, таргет и ретаргет, связка с CRM',
+  },
+  {
+    itemId: 'gptbot-target-launch', page: 'target', row: 'Запуск',
+    title: 'Instagram and Facebook targeted ads — campaign launch',
+    includes: 'Audiences, ad creatives, landing page, UTM tags and goals, the first 2 weeks of management; the scope is fixed in a quote.',
+    sourceRu: 'Аудитории, креативы, посадочная, UTM и цели, первые 2 недели ведения; объём фиксируется в смете',
+  },
+  {
+    itemId: 'gptbot-target-management', page: 'target', row: 'Ведение',
+    title: 'Instagram and Facebook targeted ads — monthly management',
+    includes: 'Bid and audience optimisation, creative tests, a cost-per-lead report.',
+    sourceRu: 'Оптимизация ставок и аудиторий, тесты креативов, отчёт по стоимости заявки (рекламный бюджет отдельно)',
+  },
+  {
+    itemId: 'gptbot-ppc-launch', page: 'ppc', row: 'Запуск',
+    title: 'Google and Yandex search ads — campaign launch',
+    includes: 'Keywords and negative keywords, ads, landing page, UTM tags and goals, the first 2 weeks of management; the scope is fixed in a quote.',
+    sourceRu: 'Семантика и минус-слова, объявления, посадочная, UTM и цели, первые 2 недели ведения; объём фиксируется в смете',
+  },
+  {
+    itemId: 'gptbot-ppc-management', page: 'ppc', row: 'Ведение',
+    title: 'Google and Yandex search ads — monthly management',
+    includes: 'Bid and audience optimisation, ad tests, a cost-per-lead report.',
+    sourceRu: 'Оптимизация ставок и аудиторий, тесты креативов, отчёт по стоимости заявки (рекламный бюджет отдельно)',
+  },
+];
+
+// ---------- records ----------
+
+const base = (
+  itemId: string, title: string, description: string, page: PageContent, amountUzs: number, category: string,
+): FeedRecord => ({
+  item_id: itemId,
+  title,
+  description,
+  url: absolute(page.url),
+  brand: BRAND,
+  seller_name: BRAND,
+  seller_url: `${SITE}/`,
+  image_url: absolute(requireValue(page.ogImage, `${page.url}: no ogImage`)),
+  price: `${amountUzs} UZS`,
+  availability: 'in_stock',
+  condition: 'new',
+  is_digital: true,
+  product_category: category,
+  target_countries: ['UZ'],
+  store_country: 'UZ',
+});
+
+function absolute(urlOrPath: string): string {
+  if (urlOrPath.startsWith(`${SITE}/`)) return urlOrPath;
+  if (urlOrPath.startsWith('/')) return `${SITE}${urlOrPath}`;
+  throw new Error(`Not a gptbot.uz URL or root path: ${urlOrPath}`);
+}
+
+function requireValue<T>(value: T | undefined | null, message: string): T {
+  if (value === undefined || value === null || value === '') throw new Error(message);
+  return value;
+}
+
+/** First capture group of `re` in the page text; throws when the page does not state it. */
+function stated(page: PageContent, re: RegExp, what: string): string {
+  const match = re.exec(pageText(page));
+  if (!match) throw new Error(`${page.url}: page does not state ${what} (${re})`);
+  return match[1];
+}
+
+const sentence = (...parts: string[]): string => parts.filter(Boolean).join(' ');
+
+export interface BuiltFeed { records: FeedRecord[]; proofs: PriceProof[] }
+
+export function buildFeed(root: string): BuiltFeed {
+  const records: FeedRecord[] = [];
+  const proofs: PriceProof[] = [];
+  const add = (record: FeedRecord, proof: Omit<PriceProof, 'itemId'>): void => {
+    records.push(record);
+    proofs.push({ itemId: record.item_id, ...proof });
+  };
+
+  // AI chat: trial and packs (functions/lib/gpt-chat via CHAT_FACTS).
+  const chat = CHAT_FACTS;
+  const trialFile = 'content/pages/uz/gpt-uzbek-tilida.json';
+  const trialPage = readPage(root, trialFile);
+  add({
+    ...base('gptbot-ai-chat-trial', `AI chat in Uzbek and Russian — free trial (${chat.trialReplies} replies)`, sentence(
+      'AI chat in Uzbek (Latin script) and Russian that works in the browser, without an app.',
+      `${chat.trialReplies} free trial replies in total, without registration, card or phone number; they do not renew daily.`,
+      'More replies need a paid AI pack.',
+      NOT_OPENAI,
+    ), trialPage, 0, 'Software > AI Chat'),
+    return_policy: OFFER_URL,
+  }, { page: trialFile, amountUzs: 0, visible: `${chat.trialReplies} ta bepul sinov javobi` });
+
+  const packFile = 'content/pages/ru/tarify-ai-chat.json';
+  const packPage = readPage(root, packFile);
+  const packNote = 'One-time payment in the chat, no auto-renewal. The pack can be bought while payment is open in the chat. A paid pack is not refundable, except money charged by mistake.';
+  const smallDays = chat.smallHours / 24;
+  if (!Number.isInteger(smallDays) || smallDays <= 0) throw new Error(`3-day pack term is not whole days: ${chat.smallHours} h`);
+  add({
+    ...base('gptbot-ai-pack-3d', `AI chat pack — ${chat.smallReplies} replies for ${smallDays} days`, sentence(
+      `${chat.smallReplies} replies in the GPTBot.uz AI chat (Uzbek and Russian), valid for ${chat.smallHours} hours from confirmed payment.`,
+      packNote,
+      NOT_OPENAI,
+    ), packPage, chat.smallPriceUzs, 'Software > AI Chat'),
+    return_policy: OFFER_URL,
+    accepts_returns: false,
+  }, { page: packFile, amountUzs: chat.smallPriceUzs, visible: `${groupThousands(chat.smallPriceUzs)} сум` });
+  add({
+    ...base('gptbot-ai-pack-1m', `AI chat pack — ${chat.replies} replies for one month`, sentence(
+      `${chat.replies} replies in the GPTBot.uz AI chat (Uzbek and Russian) for one calendar month from confirmed payment, up to ${chat.dailyReplies} pack replies a day.`,
+      packNote,
+      NOT_OPENAI,
+    ), packPage, chat.priceUzs, 'Software > AI Chat'),
+    return_policy: OFFER_URL,
+    accepts_returns: false,
+  }, { page: packFile, amountUzs: chat.priceUzs, visible: `${groupThousands(chat.priceUzs)} сум` });
+
+  // Studio (functions/lib/studio/plans.ts via STUDIO_FACTS); deck limits as the page states them.
+  const studioNote = 'Price includes 12% VAT. The result is a draft: check the facts. GPTBot.uz Studio is an independent service, not an OpenAI product.';
+  const dayFile = 'content/studio/pages/uz/taqdimot-ai.json';
+  const dayPage = readPage(root, dayFile);
+  const day = STUDIO_FACTS.kunlik;
+  if (!('hours' in day.duration)) throw new Error('Studio Kunlik is not an hourly plan');
+  const daySlides = stated(dayPage, /(\d+) slaydgacha, \d+ rasmgacha/u, 'the full-deck slide limit');
+  const dayImages = stated(dayPage, /\d+ slaydgacha, (\d+) rasmgacha/u, 'the full-deck image limit');
+  const dayUzs = day.amountTiyin / 100;
+  add({
+    ...base('gptbot-studio-day', `GPTBot.uz Studio AI presentation maker — 24-hour plan (${day.presentationFull} full presentation)`, sentence(
+      `${day.presentationFull} full AI-generated PowerPoint (.pptx) presentation of up to ${daySlides} slides, with up to ${dayImages} images and speaker notes, in Uzbek or Russian.`,
+      `Valid for ${day.duration.hours} hours from confirmed payment.`,
+      studioNote,
+    ), dayPage, dayUzs, 'Software > AI Presentation Maker'),
+    return_policy: OFFER_URL,
+  }, { page: dayFile, amountUzs: dayUzs, visible: `Kunlik — ${groupThousands(dayUzs)} so‘m` });
+
+  const monthFile = 'content/studio/pages/ru/prezentatsiya-ai.json';
+  const monthPage = readPage(root, monthFile);
+  const month = STUDIO_FACTS.oylik;
+  const monthSlides = stated(monthPage, /до (\d+) слайдов, до \d+ изображений/u, 'the full-deck slide limit');
+  const monthImages = stated(monthPage, /до \d+ слайдов, до (\d+) изображений/u, 'the full-deck image limit');
+  const monthUzs = month.amountTiyin / 100;
+  add({
+    ...base('gptbot-studio-month', `GPTBot.uz Studio AI presentation maker — monthly plan (${month.presentationFull} full presentations)`, sentence(
+      `${month.presentationFull} full AI-generated PowerPoint (.pptx) presentations, each of up to ${monthSlides} slides with up to ${monthImages} images and speaker notes, in Uzbek or Russian.`,
+      'Valid for one calendar month from payment.',
+      studioNote,
+    ), monthPage, monthUzs, 'Software > AI Presentation Maker'),
+    return_policy: OFFER_URL,
+  }, { page: monthFile, amountUzs: monthUzs, visible: `Oylik — ${groupThousands(monthUzs)} сум` });
+
+  // Agency services: price and term from the page's package table.
+  const pages = new Map<string, PageContent>();
+  for (const item of SERVICE_ITEMS) {
+    const spec: ServicePage = SERVICE_PAGES[item.page];
+    const page = pages.get(spec.file) ?? readPage(root, spec.file);
+    pages.set(spec.file, page);
+    const row = packageRow(page, item.row);
+    add(base(item.itemId, item.title, sentence(
+      item.includes,
+      item.extra ?? '',
+      termInEnglish(row.term, spec.afterAccess),
+      row.monthly ? 'Price per month.' : '',
+      STARTING_PRICE,
+      ...spec.notes,
+      'GPTBot.uz is a team in Tashkent, Uzbekistan.',
+    ), page, row.amountUzs, spec.category), { page: spec.file, amountUzs: row.amountUzs, visible: row.priceCell });
+  }
+  return { records, proofs };
+}
+
+/** Records as JSONL: one object per line, fixed key order, trailing newline. */
+export function serializeFeed(records: readonly FeedRecord[]): string {
+  return records.map((record) => JSON.stringify(record)).join('\n') + '\n';
+}
+
+// ---------- validation ----------
+
+const REQUIRED_FIELDS = [
+  'item_id', 'title', 'description', 'url', 'brand', 'seller_name', 'seller_url', 'image_url',
+  'availability', 'price', 'target_countries', 'store_country',
+] as const;
+const IMAGE_EXT_RE = /\.(jpe?g|png|webp)$/i;
+const FORBIDDEN_WORDS_RE = /\bofficial\b|\brasmiy\b|официальн/i;
+
+/** Every rule of the task; returns human-readable errors, empty when the feed is valid. */
+export function validateFeedText(text: string): string[] {
+  const errors: string[] = [];
+  if (text.charCodeAt(0) === 0xfeff) errors.push('file starts with a BOM');
+  if (!text.endsWith('\n')) errors.push('file does not end with a newline');
+  const lines = text.split('\n');
+  if (lines.at(-1) === '') lines.pop();
+  const ids = new Set<string>();
+  lines.forEach((line, index) => {
+    const at = `line ${index + 1}`;
+    let record: Record<string, unknown>;
+    try {
+      const parsed: unknown = JSON.parse(line);
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('not an object');
+      record = parsed as Record<string, unknown>;
+    } catch {
+      errors.push(`${at}: not a JSON object`);
+      return;
+    }
+    const id = typeof record.item_id === 'string' ? record.item_id : at;
+    for (const field of REQUIRED_FIELDS) if (!(field in record)) errors.push(`${id}: missing ${field}`);
+    for (const [field, value] of Object.entries(record)) {
+      if (value === null || value === '' || (typeof value === 'string' && /^(n\/a|null|undefined|none)$/i.test(value.trim()))) {
+        errors.push(`${id}: ${field} is empty or a placeholder`);
+      }
+      if (Array.isArray(value) && value.length === 0) errors.push(`${id}: ${field} is an empty array`);
+    }
+    if (typeof record.item_id !== 'string' || !/^[a-z0-9][a-z0-9-]{0,99}$/.test(record.item_id)) errors.push(`${id}: bad item_id`);
+    else if (ids.has(record.item_id)) errors.push(`${id}: duplicate item_id`);
+    else ids.add(record.item_id);
+    if (typeof record.title !== 'string' || record.title.length > 150) errors.push(`${id}: title missing or longer than 150`);
+    if (typeof record.description !== 'string' || record.description.length > 5000) errors.push(`${id}: description missing or longer than 5000`);
+    if (typeof record.description === 'string' && /<[a-z/][^>]*>/i.test(record.description)) errors.push(`${id}: description contains HTML`);
+    for (const field of ['title', 'description'] as const) {
+      const value = record[field];
+      if (typeof value === 'string' && /[Ѐ-ӿ]/.test(value)) errors.push(`${id}: ${field} is not English (Cyrillic found)`);
+      if (typeof value === 'string' && FORBIDDEN_WORDS_RE.test(value)) errors.push(`${id}: ${field} says "official"`);
+    }
+    if (typeof record.price !== 'string' || !/^\d+ UZS$/.test(record.price)) errors.push(`${id}: price is not "<integer> UZS"`);
+    if (!AVAILABILITY_VALUES.includes(record.availability as never)) errors.push(`${id}: availability not allowed`);
+    for (const field of ['url', 'image_url', 'seller_url', 'return_policy'] as const) {
+      if (field in record && (typeof record[field] !== 'string' || !(record[field] as string).startsWith(`${SITE}/`))) {
+        errors.push(`${id}: ${field} is not an absolute ${SITE}/ URL`);
+      }
+    }
+    if (typeof record.image_url === 'string' && !IMAGE_EXT_RE.test(record.image_url)) errors.push(`${id}: image_url is not a jpg/png/webp file`);
+    if (record.brand !== BRAND || record.seller_name !== BRAND) errors.push(`${id}: brand and seller_name must be ${BRAND}`);
+    if (record.seller_url !== `${SITE}/`) errors.push(`${id}: seller_url must be ${SITE}/`);
+    if (JSON.stringify(record.target_countries) !== '["UZ"]' || record.store_country !== 'UZ') errors.push(`${id}: country must be UZ`);
+    if ('condition' in record && record.condition !== 'new') errors.push(`${id}: condition must be new`);
+    if ('is_digital' in record && typeof record.is_digital !== 'boolean') errors.push(`${id}: is_digital must be boolean`);
+    if ('accepts_returns' in record && typeof record.accepts_returns !== 'boolean') errors.push(`${id}: accepts_returns must be boolean`);
+  });
+  for (const locked of LOCKED_ITEM_IDS) if (!ids.has(locked)) errors.push(`${locked}: locked item_id is missing (ids are never removed or renamed)`);
+  return errors;
+}

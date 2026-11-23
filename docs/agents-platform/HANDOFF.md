@@ -1,3 +1,31 @@
+# Current handoff — OpenAI product feed for ChatGPT Business Hub · 23.11.2026
+
+## 1. State
+Branch feat/openai-product-feed (draft PR). Production 0f7add1c until this PR is merged and deployed by the manual workflow.
+## 2. Delivered
+public/openai-product-feed.jsonl (33 records, JSONL, UTF-8) served at https://gptbot.uz/openai-product-feed.jsonl for Business Hub → Products → Hosted URL. Generator scripts/build-openai-feed.ts runs in prebuild, prebuild:fast and prebuild:cf, so every build rewrites the feed from current prices before vite copies public/. Validator scripts/validate-openai-feed.ts (file, URL, --live). Test tests/openai-product-feed.test.ts in npm test; workflow .github/workflows/openai-feed.yml on pull requests.
+## 3. Files
+scripts/openai-feed.ts, scripts/build-openai-feed.ts, scripts/validate-openai-feed.ts, public/openai-product-feed.jsonl, public/_headers, scripts/generate-robots.ts, package.json, tests/openai-product-feed.test.ts, .github/workflows/openai-feed.yml, docs/agents-platform/{DECISIONS.md,STATE.json,HANDOFF.md}.
+## 4. Decisions
+D-OPENAI-FEED-20261123: no price is typed in the feed code. Chat packs come from functions/lib/gpt-chat/packs.ts (CHAT_FACTS), Studio from functions/lib/studio/plans.ts (STUDIO_FACTS), agency services from the package table «Пакет | Что входит | Срок | Цена (сум)» on each service page. No data/offers file was needed: each price already has one source the page prints.
+## 5. Excluded
+GPTBot Market (/ru/sotuvchi/). return_policy on agency services (the published offer covers chat packs and Studio only). No page text or design changed.
+## 6. Validation
+build:fast ok; dist/openai-product-feed.jsonl equals public/; dist/_headers carries the feed block; openai-product-feed 12/12, studio-build 18/18, gsc-indexation-hygiene 13/13, seo-recovery-technical 9/9, canonical-url-redirects 4/4, content-downloads 4/4, lead-radar-release-gate 12/12, service-offers 6/6, seo-product-facts 6/6; bormi-admin-hardening has 1 failure that exists on the base too. Local static serve: 200, 33 lines parse. wrangler pages dev could not start here (needs a Cloudflare token), so the edge headers are verified only after deploy.
+## 7. Known limits
+OpenAI spec: price must be positive (gptbot-ai-chat-trial is 0 UZS as the owner asked; the Hub may reject that row), image_url examples are JPEG/PNG (5 records use the pages' WebP og:image), target_countries currently documents US/CA/MX (UZ as the owner asked).
+## 8. Next task
+After deploy: npm run feed:openai:live; paste https://gptbot.uz/openai-product-feed.jsonl into Business Hub → Products → Hosted URL; read the Hub's row diagnostics.
+## 9. Acceptance
+curl -sI shows 200 and application/x-ndjson; every line parses; every url and image_url answers 200 without a redirect; each page shows the record's price.
+## 10. Start commands
+npx tsx scripts/build-openai-feed.ts --check; node --import tsx --test tests/openai-product-feed.test.ts; npm run feed:openai:live.
+## 11. Risks
+Low: one new static file and one header block. A price edit on a service page now needs the regenerated feed in the same commit, otherwise the test fails and the release guard sees an uncommitted runtime file.
+## 12. Rollback
+git revert of the commit, deploy via the workflow; remove the Hosted URL in the Hub.
+
+---
 # Current handoff — ChatGPT mentions: retrieval facts, IndexNow, weekly tracking · 23.11.2026
 
 ## 1. State

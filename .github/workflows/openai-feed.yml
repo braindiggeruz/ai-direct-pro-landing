@@ -1,0 +1,54 @@
+name: OpenAI product feed
+
+# public/openai-product-feed.jsonl is the Hosted URL in ChatGPT Business Hub.
+# Its prices are read from the service pages, the chat pack catalog and the
+# Studio plans; this job fails a pull request whose feed no longer matches them
+# (stale file, a price the page does not show, a broken rule, a removed id).
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/openai-feed.yml'
+      - 'content/pages/**'
+      - 'content/studio/pages/**'
+      - 'functions/lib/gpt-chat/**'
+      - 'functions/lib/studio/plans.ts'
+      - 'scripts/openai-feed.ts'
+      - 'scripts/build-openai-feed.ts'
+      - 'scripts/validate-openai-feed.ts'
+      - 'scripts/product-facts.ts'
+      - 'scripts/generate-robots.ts'
+      - 'public/openai-product-feed.jsonl'
+      - 'public/_headers'
+      - 'public/_routes.json'
+      - 'public/_redirects'
+      - 'tests/openai-product-feed.test.ts'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openai-feed-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'yarn'
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Feed is current and valid
+        run: npx tsx scripts/build-openai-feed.ts --check
+
+      - name: Feed tests
+        run: node --import tsx --test tests/openai-product-feed.test.ts

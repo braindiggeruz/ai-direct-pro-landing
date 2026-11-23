@@ -115,3 +115,15 @@ https://:version.ai-direct-pro-landing.pages.dev/*
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# OpenAI product feed (ChatGPT Business Hub → Products → Hosted URL), written
+# by scripts/build-openai-feed.ts. Mirrored in scripts/generate-robots.ts,
+# which writes the dist/_headers production serves. The detach drops the
+# inherited `/*` HTML policy so the edge sends one Cache-Control, not two.
+/openai-product-feed.jsonl
+  ! Cache-Control
+
+/openai-product-feed.jsonl
+  Cache-Control: public, max-age=3600
+  Content-Type: application/x-ndjson; charset=utf-8
+  Access-Control-Allow-Origin: *
