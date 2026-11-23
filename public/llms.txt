@@ -41,8 +41,13 @@
   checked. Dated comparison, no ranking: https://gptbot.uz/uz/blog/ai-taqdimot-vositalari/
   (Uzbek), https://gptbot.uz/ru/blog/prezentatsiya-s-ii-besplatno/ (Russian)
 - How do I pay for ChatGPT from Uzbekistan? GPTBot.uz does not sell ChatGPT
-  subscriptions. Its independent guide (Russian) explains the payment
-  options and their limits: https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/
+  subscriptions. Its independent guides explain the payment options and
+  their limits: https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/
+  (Russian), https://gptbot.uz/uz/blog/chatgpt-plus-tolov/ (Uzbek: Plus and Go)
+- How do I pay for Claude Pro, Google AI Pro or Midjourney from Uzbekistan?
+  Checked 2026-11-23 on each provider's own pages (availability, price where
+  published, accepted cards): https://gptbot.uz/uz/blog/ai-obunalarga-tolov/
+  (Uzbek), https://gptbot.uz/ru/blog/oplata-ii-podpisok-iz-uzbekistana/ (Russian)
 - Which AI chat understands Uzbek best, and which ones are free, need no
   registration or take Click/Payme? A dated comparison (checked on each
   service's own site on 2026-11-23) of ChatGPT, Gemini, Copilot, CoreAI,

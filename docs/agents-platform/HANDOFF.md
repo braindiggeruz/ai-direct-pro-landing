@@ -1,3 +1,31 @@
+# Current handoff — AI visibility wave 2b: paying for AI services · 23.11.2026
+
+## 1. State
+Branch feat/ai-visibility-wave2b from main e896777b. Production e896777b (waves 1a–2a live; check-entity-consistency OK on 444 URLs; IndexNow sent for 2a) until this PR is merged and deployed.
+## 2. Delivered
+/uz/blog/chatgpt-plus-tolov/ (standalone) and the pair /uz/blog/ai-obunalarga-tolov/ + /ru/blog/oplata-ii-podpisok-iz-uzbekistana/ (Claude Pro, Google AI Pro, Midjourney); one related link in five guides; links from /en/pay-for-chatgpt-in-uzbekistan/; intent pairs W20261123-06/-07; llms.txt quick answers; protection revision 2026-11-23-ai-visibility-2b.
+## 3. Files
+content/blog/{uz/chatgpt-plus-tolov,uz/ai-obunalarga-tolov,ru/oplata-ii-podpisok-iz-uzbekistana}.json (new), five guides' internalLinks, content/seo/intent-manifest.json, scripts/en-pages.ts, scripts/seo-protection.ts (BASELINE), public/llms.txt, tests/payment-cluster.test.ts (new), tests/presentation-cluster.test.ts (pair filter), package.json test list, reports/ai-visibility-20261123-2b/, docs/seo/evidence/2026-11-23-ai-visibility-2b/, docs.
+## 4. Decisions
+D-AI-PAYMENTS-20261123.
+## 5. Excluded
+The protected Russian ChatGPT payment guide; a cards page (no primary source on Uzcard/Humo abroad); a Click/Payme AI chats list (would only list GPTBot.uz).
+## 6. Validation
+seo-audit OK; build:fast + build:studio; review vs a build of production e896777b: sitemap 444 → 447, 3 added, 10 existing pages change by links/lists only, issues 0, 4–5 incoming links per new URL; payment-cluster 6/6, presentation-cluster 6/6, seo-protection 21/21, homepage-lists-frozen, intent manifest, anchor intent, link graph, page integrity, content guards, cluster quality, trial truth, product facts, provider facts, hreflang guard, en-pages, feeds green; seo-push-revision R3-6/R3-9 fail on main too.
+## 7. Known limits
+Provider prices and terms change; the pages carry the check date. Google AI Pro price is not quoted (US-only view).
+## 8. Next task
+Deploy, verify, IndexNow (3 new + 5 guides + the English payment page + llms.txt); then wave 3 (contractor checklist, CRM guide, prompt library, guide updates, cases template) and OFFSITE.md.
+## 9. Acceptance
+Three URLs 200 and in the sitemap; the uz/ru pair reciprocal; check-entity-consistency OK on 447 URLs.
+## 10. Start commands
+npx tsx reports/ai-visibility-20261123-2b/review.ts --before <production dist>; node --import tsx --test tests/payment-cluster.test.ts
+## 11. Risks
+Low: three articles and link additions.
+## 12. Rollback
+git revert; the 2a BASELINE stays valid for the old homepage.
+
+---
 # Current handoff — AI visibility wave 2a: the presentation cluster · 23.11.2026
 
 ## 1. State

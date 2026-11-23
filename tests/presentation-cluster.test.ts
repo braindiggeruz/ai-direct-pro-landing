@@ -149,7 +149,7 @@ test('the intent manifest fences the cluster from the Studio pages and the slide
   const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/seo/intent-manifest.json'), 'utf8')) as {
     pairs: Array<{ id: string; commercial: { url: string }; informational: { url: string } }>;
   };
-  const fences = manifest.pairs.filter((p) => p.id.startsWith('W20261123-'));
+  const fences = manifest.pairs.filter((p) => /^W20261123-0[1-5]-/.test(p.id));
   assert.deepEqual(fences.map((p) => p.informational.url).sort(), [
     '/ru/blog/kak-sdelat-prezentatsiyu/', '/ru/blog/prezentatsiya-s-ii-besplatno/',
     '/uz/blog/ai-taqdimot-vositalari/', '/uz/blog/himoya-uchun-taqdimot/', '/uz/blog/slayd-dizayni-qoidalari/',

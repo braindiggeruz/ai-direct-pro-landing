@@ -463,6 +463,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+      "anchor": "оплата Google AI Pro из Узбекистана",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Гемини (Gemini): как пользоваться и скачать | GPTBot.uz",

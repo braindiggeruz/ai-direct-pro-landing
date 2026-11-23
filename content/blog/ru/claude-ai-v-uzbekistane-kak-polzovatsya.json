@@ -347,6 +347,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+      "anchor": "как оплатить Claude Pro из Узбекистана",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Клауд и Клод (Claude AI) в Узбекистане: как начать",

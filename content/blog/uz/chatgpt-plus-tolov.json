@@ -1,0 +1,253 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "chatgpt-plus-tolov",
+  "url": "/uz/blog/chatgpt-plus-tolov/",
+  "title": "ChatGPT Plus va Go: O‘zbekistondan qanday to‘lash mumkin | GPTBot.uz",
+  "description": "ChatGPT Plus — oyiga $20 (OpenAI). Go va Plus’ga O‘zbekistondan veb yoki App Store orqali obuna, kerakli karta va karta rad etilsa nima qilish kerak.",
+  "h1": "ChatGPT Plus va Go obunasi: O‘zbekistondan qanday to‘lash mumkin",
+  "topicCluster": "chatgpt-uzbek-tilida",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "chatgpt plus",
+    "chatgpt go",
+    "chatgpt plus to‘lov",
+    "chatgpt uchun to‘lov",
+    "chatgpt obunasi"
+  ],
+  "intro": "Qisqa javob (23.11.2026): O‘zbekiston OpenAI’ning ChatGPT qo‘llab-quvvatlanadigan mamlakatlari ro‘yxatida bor. OpenAI yordam markaziga ko‘ra, ChatGPT Plus oyiga $20 turadi; arzonroq Go tarifi barcha qo‘llab-quvvatlanadigan mamlakatlarda mavjud, xaridlar AQSh dollarida. Obunani chatgpt.com saytida yoki iOS ilovasida olish mumkin. Asosiy shart: karta xalqaro onlayn to‘lovlarga ochiq va qo‘llab-quvvatlanadigan mamlakat bankida chiqarilgan bo‘lishi kerak.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (23.11.2026): O‘zbekiston OpenAI’ning ChatGPT qo‘llab-quvvatlanadigan mamlakatlari ro‘yxatida bor. OpenAI yordam markaziga ko‘ra, ChatGPT Plus oyiga $20 turadi; arzonroq Go tarifi barcha qo‘llab-quvvatlanadigan mamlakatlarda mavjud, xaridlar AQSh dollarida. Obunani chatgpt.com saytida yoki iOS ilovasida olish mumkin. Asosiy shart: karta xalqaro onlayn to‘lovlarga ochiq va qo‘llab-quvvatlanadigan mamlakat bankida chiqarilgan bo‘lishi kerak."
+    },
+    {
+      "type": "h2",
+      "text": "ChatGPT O‘zbekistonda ishlaydimi va qaysi tariflar bor?"
+    },
+    {
+      "type": "p",
+      "text": "Ha. O‘zbekiston OpenAI yordam markazidagi ChatGPT qo‘llab-quvvatlanadigan mamlakatlar ro‘yxatida bor. chatgpt.com/pricing sahifasida bepul tarif va pullik tariflar ko‘rsatilgan: Go, Plus, Pro va Business. Narx va mavjud valyuta akkauntingiz mamlakatiga qarab ko‘rsatiladi."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tarif",
+        "Nima ma’lum (OpenAI sahifalari, 23.11.2026)"
+      ],
+      "rows": [
+        [
+          "Free",
+          "Bepul versiya hamma uchun ochiq; pullik tarif shart emas."
+        ],
+        [
+          "Go",
+          "Arzon pullik tarif, barcha qo‘llab-quvvatlanadigan mamlakatlarda mavjud. Xaridlar AQSh dollarida, mahalliy valyutada to‘lov faqat ayrim mamlakatlarda. Har oy avtomatik to‘lanadi, istalgan payt bekor qilish mumkin."
+        ],
+        [
+          "Plus",
+          "Oyiga $20: band paytlarda ustuvor kirish, Free’ga nisbatan yuqoriroq limitlar."
+        ],
+        [
+          "Pro va Business",
+          "Narx va shartlari chatgpt.com/pricing sahifasida."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "ChatGPT Plus’ga qanday obuna bo‘linadi?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Veb orqali: chatgpt.com saytiga kiring, profil menyusini oching va Upgrade plan bandini tanlang. Kerakli tarif yoki valyuta ko‘rinmasa, narx sahifasi pastida mamlakat to‘g‘ri tanlanganini tekshiring.",
+        "2. iPhone ilovasi orqali: ChatGPT ilovasida Upgrade tugmasini yoki Settings → Upgrade bandini tanlang. App Store orqali qilingan xaridni Apple boshqaradi.",
+        "3. To‘lovni bank ilovasida tasdiqlang (3-D Secure). Tasdiqlash oynasi yopilmasin va sahifani yangilamang."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Apple’ning to‘lov usullari sahifasida O‘zbekiston uchun «Most credit and debit cards» deb yozilgan, ya’ni App Store’da odatda bank kartasi bilan to‘lanadi."
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi karta bilan to‘lash mumkin?"
+    },
+    {
+      "type": "p",
+      "text": "chatgpt.com/pricing sahifasida pullik tariflarni «any major credit card» bilan sotib olish mumkinligi aytilgan; Uzcard yoki Humo tilga olinmagan. OpenAI yordam markaziga ko‘ra, karta qo‘llab-quvvatlanadigan mamlakatdagi bankda chiqarilgan bo‘lishi kerak. Visa yoki Mastercard kartangiz xalqaro onlayn to‘lovlarga ochiqligini bankdan so‘rang: ayrim banklar bunday to‘lovlarni sukut bo‘yicha bloklaydi."
+    },
+    {
+      "type": "p",
+      "text": "Bu sahifa to‘lov qoidalarini aylanib o‘tish usullarini tasvirlamaydi. Obunani faqat chatgpt.com saytida yoki ChatGPT ilovasining o‘zida oling: boshqa «obuna sotuvchilar» akkauntingiz xavfsizligini kafolatlamaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Karta rad etilsa nima qilish kerak?"
+    },
+    {
+      "type": "p",
+      "text": "OpenAI yordam markazi quyidagilarni tekshirishni tavsiya qiladi:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Karta raqami, amal qilish muddati, CVC va hisob-kitob manzili to‘g‘ri yozilganmi; kartada yetarli mablag‘ bormi.",
+        "Bank onlayn yoki xalqaro to‘lovlarni bloklamaganmi — bloklagan bo‘lsa, bankka murojaat qiling.",
+        "3-D Secure tasdiqlash oynasi chiqdimi: qalqib chiquvchi oynalarni va reklama bloklovchilarni o‘chiring, VPN bo‘lsa uni ham.",
+        "Boshqa brauzer, qurilma yoki boshqa karta bilan urinib ko‘ring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "OpenAI odatda bankdan rad etish sababini batafsil olmaydi, shuning uchun eng tez yo‘l — bankning o‘ziga qo‘ng‘iroq qilish."
+    },
+    {
+      "type": "h2",
+      "text": "Chet el kartasisiz so‘mda to‘lanadigan AI chat bormi?"
+    },
+    {
+      "type": "p",
+      "text": "Agar sizga ChatGPT’ning o‘zi emas, balki o‘zbek yoki rus tilida matn bilan ishlaydigan AI chat kerak bo‘lsa, GPTBot.uz AI paketlarini Click yoki Payme orqali so‘mda sotadi: 5 000 so‘m — 72 soatga 30 ta javob, 20 000 so‘m — bir kalendar oyga 300 ta javob (kuniga 50 tagacha). Avtomatik to‘lov yo‘q. Jami 3 ta bepul sinov javobi ro‘yxatsiz beriladi; ular har kuni yangilanmaydi. GPTBot.uz — mustaqil xizmat, ChatGPT emas va OpenAI mahsuloti emas."
+    },
+    {
+      "type": "linkp",
+      "text": "O‘zbekcha AI chat: {chat}. AI chatlar taqqoslash: {compare}. Claude Pro, Google AI Pro va Midjourney’ga to‘lov: {subs}.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbekcha AI chat"
+        },
+        {
+          "token": "compare",
+          "target": "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+          "anchor": "o‘zbek tilidagi AI chatlar taqqoslash"
+        },
+        {
+          "token": "subs",
+          "target": "/uz/blog/ai-obunalarga-tolov/",
+          "anchor": "boshqa AI obunalariga to‘lov"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "ChatGPT Plus qancha turadi?",
+      "a": "OpenAI yordam markaziga ko‘ra, oyiga $20. To‘lov oynasida yakuniy summa (soliq va valyuta konvertatsiyasi bilan) ko‘rsatiladi; bank kursi va komissiyasini bankdan so‘rang."
+    },
+    {
+      "q": "ChatGPT Go nima va O‘zbekistonda bormi?",
+      "a": "Go — arzon pullik tarif. OpenAI’ga ko‘ra u ChatGPT qo‘llab-quvvatlanadigan barcha mamlakatlarda mavjud; O‘zbekiston bu ro‘yxatda bor. Xaridlar AQSh dollarida, narxi chatgpt.com/pricing sahifasida."
+    },
+    {
+      "q": "Humo yoki Uzcard bilan ChatGPT’ga to‘lasa bo‘ladimi?",
+      "a": "OpenAI narx sahifasida «any major credit card» deyilgan va Uzcard yoki Humo tilga olinmagan. Kartangiz xalqaro onlayn to‘lovlarga ishlashini bankdan so‘rang."
+    },
+    {
+      "q": "Karta rad etilsa nima qilish kerak?",
+      "a": "Karta ma’lumotlari va mablag‘ni tekshiring, 3-D Secure tasdiqlashini yakunlang, reklama bloklovchi va VPN’ni o‘chiring, bankdan xalqaro onlayn to‘lovlar ochiqligini so‘rang yoki boshqa karta bilan urinib ko‘ring."
+    },
+    {
+      "q": "Obunani bekor qilish mumkinmi?",
+      "a": "OpenAI’ga ko‘ra Go obunasi har oy avtomatik to‘lanadi va istalgan payt bekor qilinadi. App Store orqali olingan obunani Apple akkaunti sozlamalarida boshqarasiz."
+    }
+  ],
+  "cta": {
+    "label": "O‘zbekcha AI chatni sinash",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/ai-obunalarga-tolov/",
+      "anchor": "Claude Pro, Google AI Pro va Midjourney’ga to‘lov",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+      "anchor": "o‘zbek tilidagi AI chatlar taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "o‘zbekcha AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "anchor": "как оплатить ChatGPT в Узбекистане (RU)",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "ChatGPT Plus va Go: O‘zbekistondan to‘lov",
+  "ogDescription": "Plus — oyiga $20 (OpenAI), Go — USD’da. Veb yoki App Store orqali obuna, kerakli karta va rad etilgan to‘lov.",
+  "ogImage": "https://gptbot.uz/assets/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/chatgpt-plus-tolov/",
+  "hreflangUz": "/uz/blog/chatgpt-plus-tolov/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbekistondagi ChatGPT foydalanuvchilari"
+  },
+  "breadcrumbLabel": "ChatGPT Plus to‘lovi",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI Help Center — ChatGPT supported countries",
+      "url": "https://help.openai.com/en/articles/7947663-chatgpt-supported-countries",
+      "note": "O‘zbekiston ro‘yxatda bor. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI — ChatGPT pricing",
+      "url": "https://chatgpt.com/pricing",
+      "note": "Pullik tariflar: Go, Plus, Pro, Business; «any major credit card». 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — What is ChatGPT Plus?",
+      "url": "https://help.openai.com/en/articles/6950777-what-is-chatgpt-plus",
+      "note": "«ChatGPT Plus … for $20/month». 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — What is ChatGPT Go?",
+      "url": "https://help.openai.com/en/articles/11989085-what-is-chatgpt-go",
+      "note": "Go barcha qo‘llab-quvvatlanadigan mamlakatlarda; xaridlar USD’da, mahalliy valyuta — ayrim mamlakatlarda; har oy, istalgan payt bekor qilinadi. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — Why was my credit card declined?",
+      "url": "https://help.openai.com/en/articles/7232916-why-was-my-credit-card-declined",
+      "note": "Bank bloklashi, 3-D Secure, karta qo‘llab-quvvatlanadigan mamlakatda chiqarilgan bo‘lishi kerak. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — ChatGPT iOS app: Upgrading to a paid subscription",
+      "url": "https://help.openai.com/en/articles/7905739-chatgpt-ios-app-faq",
+      "note": "Veb yoki iOS ilovasi orqali obuna; App Store xaridlarini Apple boshqaradi. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Apple Support — Payment methods you can use with your Apple Account",
+      "url": "https://support.apple.com/en-us/111741",
+      "note": "O‘zbekiston: «Most credit and debit cards». 2026-11-23 kuni tekshirildi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

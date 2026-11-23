@@ -1,0 +1,282 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "ai-obunalarga-tolov",
+  "url": "/uz/blog/ai-obunalarga-tolov/",
+  "title": "Claude Pro, Google AI Pro, Midjourney: O‘zbekistondan to‘lov | GPTBot.uz",
+  "description": "Claude Pro (AQShda oyiga $20), Google AI Pro va Midjourney ($10–120): O‘zbekistonda mavjudligi, qanday karta kerak va narx qayerda ko‘rinadi (23.11.2026).",
+  "h1": "Claude Pro, Google AI Pro va Midjourney obunasi: O‘zbekistondan qanday to‘lash mumkin",
+  "topicCluster": "chatgpt-uzbek-tilida",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "claude pro",
+    "google ai pro",
+    "gemini pro obunasi",
+    "midjourney narxi",
+    "ai obunasi uchun to‘lov"
+  ],
+  "intro": "Qisqa javob (23.11.2026): Claude va Google’ning AI tariflari O‘zbekistonda mavjud — O‘zbekiston Anthropic’ning qo‘llab-quvvatlanadigan mamlakatlari va Google AI Plus hamda AI Pro mamlakatlari ro‘yxatida bor. Claude Pro AQShda oyiga $20, boshqa mintaqalarda narx mahalliy valyutada farq qilishi mumkin. Midjourney’ning to‘rtta tarifi oyiga $10 dan $120 gacha, to‘lov faqat AQSh dollarida Stripe orqali: Visa, Mastercard, American Express. Uchala xizmatda ham xalqaro onlayn to‘lovlarga ochiq bank kartasi kerak bo‘ladi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (23.11.2026): Claude va Google’ning AI tariflari O‘zbekistonda mavjud — O‘zbekiston Anthropic’ning qo‘llab-quvvatlanadigan mamlakatlari va Google AI Plus hamda AI Pro mamlakatlari ro‘yxatida bor. Claude Pro AQShda oyiga $20, boshqa mintaqalarda narx mahalliy valyutada farq qilishi mumkin. Midjourney’ning to‘rtta tarifi oyiga $10 dan $120 gacha, to‘lov faqat AQSh dollarida Stripe orqali: Visa, Mastercard, American Express. Uchala xizmatda ham xalqaro onlayn to‘lovlarga ochiq bank kartasi kerak bo‘ladi."
+    },
+    {
+      "type": "h2",
+      "text": "Jadval: mavjudlik, narx va to‘lov (23.11.2026)"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Xizmat",
+        "O‘zbekistonda mavjudmi",
+        "Narx (xizmat sahifasi)",
+        "To‘lov"
+      ],
+      "rows": [
+        [
+          "Claude Pro",
+          "Ha: O‘zbekiston Anthropic ro‘yxatida",
+          "AQShda oyiga $20; boshqa mintaqalarda mahalliy valyutada, narx farq qilishi mumkin",
+          "claude.ai/upgrade sahifasida yoki mobil ilova do‘konida; yillik obuna arzonroq"
+        ],
+        [
+          "Google AI Pro",
+          "Ha: O‘zbekiston Google AI Plus va AI Pro ro‘yxatlarida",
+          "Mamlakatingiz uchun narx Google akkauntida, obuna oynasida ko‘rinadi",
+          "Google to‘lov usullari mamlakatga qarab farq qiladi"
+        ],
+        [
+          "Midjourney",
+          "Tekshirilgan maqolalarda mamlakatlar ro‘yxati keltirilmagan",
+          "Basic $10, Standard $30, Pro $60, Mega $120 — oyiga; yillik obuna 20% arzon",
+          "Stripe orqali: Visa, Mastercard, American Express, ayrim mintaqalarda hamyonlar; faqat USD, PayPal yo‘q"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Narxlar xizmatlarning o‘z sahifalaridan olingan va o‘zgarishi mumkin. Yakuniy summani to‘lov oynasi ko‘rsatadi: unga soliq, valyuta konvertatsiyasi va bank komissiyasi qo‘shilishi mumkin."
+    },
+    {
+      "type": "h2",
+      "text": "Claude Pro’ga qanday to‘lanadi?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Claude’ning bepul versiyasi qo‘llab-quvvatlanadigan mamlakatlardagi hamma uchun ochiq: claude.ai saytida email bilan ro‘yxatdan o‘tiladi.",
+        "Pro tarifi AQShda oyiga $20; mintaqaga qarab narx mahalliy valyutada ko‘rsatiladi, ayrim mintaqalarda soliq to‘lov paytida qo‘shiladi. Yillik obuna chegirmali.",
+        "Joriy narxni claude.ai/upgrade sahifasida yoki ilova do‘konida ko‘ring.",
+        "Pro tarifi Claude API’dan foydalanishni o‘z ichiga olmaydi: API alohida to‘lanadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Google AI Pro (Gemini) obunasi qanday olinadi?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Google O‘zbekistonni Google AI Plus va Google AI Pro tariflari mavjud mamlakatlar ro‘yxatiga kiritgan.",
+        "Google One sahifasidagi AI tariflari: Google AI Plus, Google AI Pro va Google AI Ultra. Imkoniyatlar va hajmlar mamlakatga qarab farq qilishi mumkin, shuning uchun obuna oynasidagi ma’lumotga qarang.",
+        "To‘lov Google akkauntidagi to‘lov usuli bilan amalga oshiriladi; Google Play yordam sahifasiga ko‘ra, mavjud to‘lov usullari mamlakatga qarab farq qiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Midjourney’ga qanday to‘lanadi?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tariflar: Basic — oyiga $10, Standard — $30, Pro — $60, Mega — $120. Yillik obunada 20% chegirma, to‘lov bir yilga oldindan olinadi.",
+        "Hamma tariflar obuna: bekor qilmaguningizcha har oy yoki har yil avtomatik yangilanadi. Obuna sahifasida yillik to‘lov sukut bo‘yicha tanlangan — oylik kerak bo‘lsa, Monthly Billing yorlig‘ini bosing.",
+        "To‘lov Stripe orqali: Visa, Mastercard va American Express kabi kartalar, ayrim mintaqalarda Apple Pay, Google Pay va boshqa hamyonlar. PayPal qabul qilinmaydi.",
+        "Midjourney faqat AQSh dollarida to‘lov qabul qiladi: so‘mdagi karta bilan to‘lasangiz, bank uni dollarga o‘z kursida o‘tkazadi va komissiya olishi mumkin."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Karta haqida umumiy qoidalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Tekshirilgan sahifalarning hech birida Uzcard yoki Humo tilga olinmagan; ular xalqaro kartalarni (Visa, Mastercard, American Express) nomlaydi.",
+        "Kartangiz xalqaro onlayn to‘lovlarga va takroriy (obuna) to‘lovlarga ochiqligini bankdan so‘rang.",
+        "To‘lovni bank ilovasida tasdiqlang (3-D Secure) va tasdiqlash oynasini yopmang.",
+        "Obunani faqat xizmatning o‘z saytida yoki ilovasida oling. Bu sahifa to‘lov qoidalarini aylanib o‘tish usullarini tasvirlamaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Chet el kartasi bo‘lmasa nima qilish mumkin?"
+    },
+    {
+      "type": "p",
+      "text": "Matn bilan ishlash uchun o‘zbek yoki rus tilidagi AI chat yetarli bo‘lsa, GPTBot.uz AI paketlarini Click yoki Payme orqali so‘mda sotadi: 5 000 so‘m — 72 soatga 30 ta javob, 20 000 so‘m — bir kalendar oyga 300 ta javob. Avtomatik to‘lov yo‘q. GPTBot.uz — mustaqil xizmat: u Claude, Gemini yoki Midjourney emas va rasm chizmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "ChatGPT Plus va Go’ga to‘lov: {gpt}. Claude bo‘yicha qo‘llanma: {claude}. Gemini bo‘yicha qo‘llanma: {gemini}. AI chatlar taqqoslash: {compare}.",
+      "links": [
+        {
+          "token": "gpt",
+          "target": "/uz/blog/chatgpt-plus-tolov/",
+          "anchor": "ChatGPT Plus to‘lovi"
+        },
+        {
+          "token": "claude",
+          "target": "/uz/blog/claude-ai-ozbekistonda/",
+          "anchor": "Claude AI O‘zbekistonda"
+        },
+        {
+          "token": "gemini",
+          "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+          "anchor": "Gemini AI o‘zbek tilida"
+        },
+        {
+          "token": "compare",
+          "target": "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+          "anchor": "o‘zbek tilidagi AI chatlar taqqoslash"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Claude Pro O‘zbekistonda qancha turadi?",
+      "a": "Anthropic AQSh uchun oyiga $20 narxni e’lon qilgan; boshqa mintaqalarda narx mahalliy valyutada va farq qilishi mumkin. O‘zbekiston uchun joriy narxni claude.ai/upgrade sahifasida yoki ilova do‘konida ko‘ring."
+    },
+    {
+      "q": "Google AI Pro O‘zbekistonda bormi?",
+      "a": "Ha: Google O‘zbekistonni Google AI Plus va AI Pro tariflari mavjud mamlakatlar ro‘yxatiga kiritgan (23.11.2026). Narx Google akkauntingizda, obuna oynasida ko‘rsatiladi."
+    },
+    {
+      "q": "Midjourney qancha turadi?",
+      "a": "Oylik tariflar: Basic $10, Standard $30, Pro $60, Mega $120; yillik obunada 20% chegirma. To‘lov faqat AQSh dollarida."
+    },
+    {
+      "q": "Midjourney’ga qaysi karta bilan to‘lasa bo‘ladi?",
+      "a": "Midjourney Stripe orqali to‘lov oladi: Visa, Mastercard, American Express va ayrim mintaqalarda hamyonlar. PayPal yo‘q. Karta xalqaro onlayn to‘lovlarga ochiq bo‘lishi kerak — buni bankdan so‘rang."
+    },
+    {
+      "q": "Humo yoki Uzcard bilan bu xizmatlarga to‘lasa bo‘ladimi?",
+      "a": "Tekshirilgan sahifalarda Uzcard va Humo tilga olinmagan. Kartangiz chet el saytlarida ishlashini bankdan aniqlang."
+    }
+  ],
+  "cta": {
+    "label": "O‘zbekcha AI chatni sinash",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/blog/chatgpt-plus-tolov/",
+      "anchor": "ChatGPT Plus va Go’ga to‘lov",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/claude-ai-ozbekistonda/",
+      "anchor": "Claude AI O‘zbekistonda",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+      "anchor": "Gemini AI o‘zbek tilida",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+      "anchor": "o‘zbek tilidagi AI chatlar taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "o‘zbekcha AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Claude Pro, Google AI Pro va Midjourney: O‘zbekistondan to‘lov",
+  "ogDescription": "Mavjudlik, narx va qaysi karta kerak — xizmatlarning o‘z sahifalari bo‘yicha, 23.11.2026.",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-chat-nima-va-qanday-turlari-bor-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/ai-obunalarga-tolov/",
+  "hreflangRu": "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+  "hreflangUz": "/uz/blog/ai-obunalarga-tolov/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbekistondagi AI xizmatlari foydalanuvchilari"
+  },
+  "breadcrumbLabel": "AI obunalariga to‘lov",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Anthropic — Supported countries",
+      "url": "https://www.anthropic.com/supported-countries",
+      "note": "O‘zbekiston ro‘yxatda bor. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Claude Help Center — What is the Pro plan?",
+      "url": "https://support.claude.com/en/articles/8325606-what-is-the-pro-plan",
+      "note": "Pro: AQShda oyiga $20, mahalliy valyutada narx mintaqaga qarab; claude.ai/upgrade yoki ilova do‘koni; API kirmaydi. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Google — Gemini Apps limits and plans",
+      "url": "https://support.google.com/gemini/answer/16275805?hl=en",
+      "note": "O‘zbekiston Google AI Plus va AI Pro mamlakatlari ro‘yxatida. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Google One — Google AI plans",
+      "url": "https://one.google.com/about/google-ai-plans/",
+      "note": "Tariflar: Google AI Plus, AI Pro, AI Ultra (sahifa AQSh varianti). 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Google Play Help — Accepted payment methods on Google Play",
+      "url": "https://support.google.com/googleplay/answer/2651410?hl=en",
+      "note": "«Available payment methods vary by country». 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Midjourney — Comparing Midjourney Plans",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans",
+      "note": "Basic $10, Standard $30, Pro $60, Mega $120 — oyiga; yillik 20% chegirma; obunalar avtomatik yangilanadi. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Midjourney — Accepted Payment Methods",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/27868831972365-Accepted-Payment-Methods",
+      "note": "Stripe: Visa, Mastercard, American Express, ayrim mintaqalarda hamyonlar; PayPal yo‘q. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Midjourney — Payment Currency",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/27868831424525-Payment-Currency",
+      "note": "Faqat USD; konvertatsiya va komissiya bank tomonidan. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Midjourney — How to Subscribe",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/31974654274573-How-to-Subscribe",
+      "note": "Obuna sahifasida yillik to‘lov sukut bo‘yicha tanlangan; oylik uchun Monthly Billing yorlig‘i. 2026-11-23 kuni tekshirildi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}
