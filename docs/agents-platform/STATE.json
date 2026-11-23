@@ -2469,7 +2469,7 @@
       "explicit authorization to onboard a real store"
     ]
   },
-  "updated_at": "2026-11-20T02:38:46.784663+00:00",
+  "updated_at": "2026-11-23",
   "blocked": false,
   "blocked_stage": null,
   "blockers": [
@@ -3896,5 +3896,16 @@
     "baseline": "Business Hub 239 mentions / 7 days (-17%), 54 website clicks; GA4 chatgpt.com 310 sessions 2026-10-25..11-22; OpenSEO ChatGPT 2026-11-23 run 7565fee4: branded 2/2, neutral 0/16 mentions (1 citation), chatgpt.uz 12/18 uncited.",
     "scope": "Uzbek comparison article: GPTBot.uz table + 2 FAQ; public/llms.txt Quick answers; IndexNow 427 URLs; OpenSEO weekly ChatGPT tracker (32 prompts, topic ChatGPT discovery); Claude-in-Chrome prompt for Business Hub and Bing Webmaster handed to the owner.",
     "next": "Owner: run the Claude in Chrome prompt (Hub name GPTBot.uz, description, products, agent; Bing Webmaster import + sitemap). Agents: weekly OpenSEO read; outreach texts for the listicles ChatGPT cites (neuromayak.com, neiroskop.ru, inqreon.com) on request."
+  },
+  "openai_product_feed_20261123": {
+    "status": "pr_open_deploy_pending",
+    "owner_request": "Owner in chat, 2026-11-23: OpenAI product feed for gptbot.uz (ChatGPT Business Hub → Products → Hosted URL), regenerated on every deploy, branch feat/openai-product-feed + PR.",
+    "url": "https://gptbot.uz/openai-product-feed.jsonl",
+    "records": 33,
+    "price_sources": "chat packs: functions/lib/gpt-chat/packs.ts (CHAT_FACTS); Studio: functions/lib/studio/plans.ts (STUDIO_FACTS); services: package table on each content/pages/ru service page",
+    "price_discrepancies_vs_owner_list": "none",
+    "spec_risks": "price 0 for gptbot-ai-chat-trial (spec: positive price); WebP og:image on 5 records (spec examples JPEG/PNG); target_countries UZ (spec documents US/CA/MX)",
+    "decision": "D-OPENAI-FEED-20261123",
+    "next": "merge, deploy via the workflow, npm run feed:openai:live, owner pastes the Hosted URL in Business Hub"
   }
 }

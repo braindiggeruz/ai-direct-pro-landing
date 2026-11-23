@@ -434,3 +434,11 @@ GSC, final, web, 18.10–14.11.2026 (28 дней). «Последний обхо
 - hreflang-пара русского и узбекского гайдов — нет (A15). Разрыв пары `/ru/stoimost-chat-bota/ ↔ /uz/chat-bot-narxi/` по образцу A14 — гипотеза, не проверена.
 - Площадки (OLX, birbir, dowork, goldenpages), отзывы и фото карточки «Boss Digital», скриншоты выдачи в режиме инкогнито — действия владельца. Тексты: `F:/Claude/gptbot_seo/owner-kit-commercial-bots-20261122.md`.
 - Узбекские тексты (гайд и блоки на узбекских страницах) написаны агентом, носителем языка не вычитаны.
+
+## OpenAI product feed (23.11.2026, ветка `feat/openai-product-feed`)
+
+**Что.** Новый файл `https://gptbot.uz/openai-product-feed.jsonl` — 33 позиции (AI-чат, 2 AI-пакета, 2 тарифа Studio, 28 пакетов услуг) для ChatGPT Business Hub → Products → Hosted URL. Цены читаются при каждой сборке: AI-пакеты из `functions/lib/gpt-chat/packs.ts`, Studio из `functions/lib/studio/plans.ts`, услуги из таблицы пакетов на странице услуги. Решение — D-OPENAI-FEED-20261123.
+
+**Страницы не менялись.** Ни один title, description, H1, текст или URL; меняются только `dist/_headers` (блок для фида) и сам файл фида.
+
+**Как читать эффект.** С даты, когда владелец вставит Hosted URL в Business Hub: упоминания и клики из Hub (база 23.11: 239 упоминаний за 7 дней, 54 клика на сайт), сессии `chatgpt.com` в GA4 по страницам услуг.
