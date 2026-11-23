@@ -6,8 +6,16 @@ import { recordUiEvent } from '../ui-events';
 import { EXIT_REASONS, paywallRole, trialCopy } from '../trial-copy';
 import { listed, offersOf, perAnswer } from '../pack-offers';
 import { packText } from '../pack-text';
+import { keepNames } from '../keep-names';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import './conversion.css';
+
+/**
+ * The provider names a browser's page translation must leave alone (keep-names.tsx). This part loads on its
+ * own, so the guard shares a chunk with the parts that use it instead of joining the pack window's: the pay
+ * screens, which load after the window, would otherwise import the whole window (19 kB against 12).
+ */
+const BRANDS = ['Click', 'Payme', 'Uzum Bank'];
 
 /** When this browser first saw the limit card of a spent trial (epoch ms, localStorage). */
 const WALL_KEY = 'gptchat_wall_first';
@@ -85,7 +93,7 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
                 {offer.sku === 'once' && <em className="gpt-trial-pack-job" data-testid="trial-pack-job">{o.job}</em>}
                 <span>{o.facts(offer)} · {o.per(perAnswer(offer))}</span>
                 <div className="gpt-trial-pay"><i aria-hidden="true">{o.via}</i>{providers.filter(provider => offer.sku === 'month' || provider !== 'uzum').map(provider => (
-                  <button type="button" key={provider} className={offer.sku === 'once' ? undefined : 'gpt-trial-quiet'} data-provider={provider} data-sku={offer.sku} aria-label={o.pay(offer, brand(provider))} onClick={() => {
+                  <button type="button" key={provider} className={offer.sku === 'once' ? undefined : 'gpt-trial-quiet'} data-provider={provider} data-sku={offer.sku} aria-label={o.pay(offer, brand(provider))} translate="no" onClick={() => {
                     setOpen(false);
                     track(EV.packPromptClicked, { locale, surface: 'trial_exhausted', provider });
                     onPay(provider, offer.sku === 'once' ? 'once' : undefined);
@@ -96,7 +104,7 @@ export function TrialPaywall({ locale, owner, role, pack, providers, termsUrl, a
           </div>
         ) : <>
           <div className="gpt-trial-value"><strong>{c.pack}</strong><span>{c.facts}</span></div>
-          <div className="gpt-trial-pay">{providers.map(provider => <button type="button" key={provider} data-provider={provider} onClick={() => { setOpen(false); track(EV.packPromptClicked, { locale, surface: 'trial_exhausted', provider }); onPay(provider); }}>{c.pay(provider)} <span aria-hidden="true">↗</span></button>)}</div>
+          <div className="gpt-trial-pay">{providers.map(provider => <button type="button" key={provider} data-provider={provider} onClick={() => { setOpen(false); track(EV.packPromptClicked, { locale, surface: 'trial_exhausted', provider }); onPay(provider); }}>{keepNames(`${c.pay(provider)} `, BRANDS)}<span aria-hidden="true">↗</span></button>)}</div>
         </>}
         <small>{c.fine} {termsUrl && <>{c.acceptBefore}<a href={termsUrl} target="_blank" rel="noopener noreferrer">{c.acceptLink}</a>.</>}</small>
         <div className="gpt-trial-links">
@@ -165,7 +173,7 @@ export function LimitSmallPack({ locale, pack, providers, onPay }: {
       <div className="gpt-limit-small-pay">
         <i aria-hidden="true">{o.via}</i>
         {providers.filter(provider => provider !== 'uzum').map(provider => (
-          <button type="button" className="gpt-primary" key={provider} data-testid="limit-pay-small" data-provider={provider} aria-label={o.pay(small, brand(provider))} onClick={() => {
+          <button type="button" className="gpt-primary" key={provider} data-testid="limit-pay-small" data-provider={provider} aria-label={o.pay(small, brand(provider))} translate="no" onClick={() => {
             track(EV.packPromptClicked, { locale, surface: 'limit_card', provider });
             onPay(provider);
           }}>{brand(provider)}<span aria-hidden="true">↗</span></button>
@@ -214,7 +222,7 @@ export function ChatPackPrompt({ locale, owner, pack, providers, termsUrl, nearL
     <button type="button" className="gpt-pack-prompt-close" aria-label={ru?'Скрыть предложение на сегодня':'Taklifni bugunga yashirish'} onClick={()=>{setClosed(true);try{localStorage.setItem(key,today);}catch{/* The mounted card still stays closed. */}track(EV.packPromptDismissed,{locale,surface});recordUiEvent(apiBase,'pack_prompt_dismissed',surface);}}>×</button>
     <strong>{last?last.lastTitle:nearLimit?(ru?'Бесплатных ответов осталось мало':'Bepul javoblar kamaymoqda'):(ru?'Нужно больше ответов для работы и учёбы?':'Ish va o‘qish uchun ko‘proq javob kerakmi?')}</strong>
     <p>{small?`${o.facts(small)}. ${o.job}`:last?last.lastFacts:ru?`${pack.messageLimit} ответов · ${pack.months} календ. мес. · до ${pack.dailyLimit} в день`:`${pack.messageLimit} javob · ${pack.months} kalendar oy · kuniga ${pack.dailyLimit} tagacha`}</p>
-    <div className="gpt-pack-prompt-actions"><b>{price} {ru?'сум':'so‘m'}</b>{providers.length && termsUrl ? providers.filter(provider=>!small||provider!=='uzum').map(provider=><button type="button" key={provider} data-provider={provider} data-sku={small?'once':'month'} onClick={()=>{track(EV.packPromptClicked,{locale,surface,provider});onPay(provider,small?'once':undefined);}}>{provider==='click'?'Click':provider==='payme'?'Payme':'Uzum Bank'} ↗</button>):<button type="button" onClick={onOpen}>{ru?'Выбрать пакет':'Paket tanlash'}</button>}</div>
+    <div className="gpt-pack-prompt-actions"><b>{price} {ru?'сум':'so‘m'}</b>{providers.length && termsUrl ? providers.filter(provider=>!small||provider!=='uzum').map(provider=><button type="button" key={provider} data-provider={provider} data-sku={small?'once':'month'} translate="no" onClick={()=>{track(EV.packPromptClicked,{locale,surface,provider});onPay(provider,small?'once':undefined);}}>{provider==='click'?'Click':provider==='payme'?'Payme':'Uzum Bank'} ↗</button>):<button type="button" onClick={onOpen}>{ru?'Выбрать пакет':'Paket tanlash'}</button>}</div>
     <small>{ru?'Разовая покупка, без автосписаний. ':'Bir martalik xarid, avtomatik yechim yo‘q. '}{termsUrl && <>{ru?'Оплачивая, принимаете ':'To‘lab, qabul qilasiz: '}<a href={termsUrl} target="_blank" rel="noopener noreferrer">{ru?'оферту':'oferta'}</a>.</>}{ru?' Презентации оплачиваются отдельно.':' Taqdimotlar alohida to‘lanadi.'}</small>
   </section>;
 }

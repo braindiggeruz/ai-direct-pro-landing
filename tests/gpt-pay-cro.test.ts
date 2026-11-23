@@ -19,13 +19,14 @@ import type { AccountHandle } from '../src/gpt-chat/use-account';
 import type { CheckoutOutcome, CheckoutWatch } from '../src/gpt-chat/checkout';
 import type { AccountView, PackTerms } from '../src/gpt-chat/types';
 import {
-  ASK_KEY, ORDER_LIFETIME_MS, PayExtras, PayHolderless, PayShare, PayStall, PayUnpaid, TEXT, abortReason, orderRef, clientClass, elapsedBucket, payEvent,
+  ASK_KEY, ORDER_LIFETIME_MS, PayExtras, PayHolderless, PayPacks, PayShare, PayStall, PayUnpaid, TEXT, abortReason, orderRef, clientClass, elapsedBucket, payEvent,
 } from '../src/gpt-chat/parts/pay-screens';
 import { PAYMENT_TTL_MS } from '../functions/lib/gpt-chat/billing-config';
 import { parseUiEvent } from '../functions/lib/gpt-chat/ui-event-store';
 import { ABORT_REASONS } from '../src/shared/checkout-events';
 import { offersOf } from '../src/gpt-chat/pack-offers';
 import { STUDIO_TELEGRAM_URL } from '../src/shared/studio-contact';
+import { keepNames } from '../src/gpt-chat/keep-names';
 
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
 
@@ -33,7 +34,9 @@ const LOCALES = ['ru', 'uz'] as const;
 type Locale = (typeof LOCALES)[number];
 const read = (relative: string) => readFileSync(new URL(`../${relative}`, import.meta.url), 'utf8');
 const html = (text: string) => text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
-const has = (page: string, text: string) => page.includes(html(text));
+// A brand kept from page translation sits in its own span inside one span for the sentence (keep-names.tsx); the text checks read through both.
+const unkept = (page: string) => page.replace(/<span translate="no" class="notranslate">([^<]*)<\/span>/g, '$1').replace(/<span>([^<]*)<\/span>/g, '$1');
+const has = (page: string, text: string) => unkept(page).includes(html(text));
 const PACK: PackTerms = { priceUzs: 20000, messageLimit: 300, dailyLimit: 50, months: 1, vat: { percent: 12, includedTiyin: 214286 } };
 const ORDER = `pay_${'a'.repeat(32)}`;
 const NOW = Date.now();
@@ -168,7 +171,7 @@ test('P2: while the order is made and the browser leaves, the window says «От
   const dialog = read('src/gpt-chat/account/AccountDialog.tsx').replace(/\r\n/g, '\n');
   // The state is set at the tap, before the request, and shows the provider's name.
   assert.ok(dialog.indexOf('setLeaving(provider)') < dialog.indexOf('post("/api/gpt/subscribe"'));
-  assert.match(dialog, /if \(leaving\)\s*return \(\s*<>\s*<DialogTitle>\{copy\.title\}<\/DialogTitle>\s*<DialogDescription asChild>\s*<p role="status" className="gpt-notice" data-testid="ai-pay-opening">\{copy\.payOpening\(PROVIDER_NAMES\[leaving\]\)\}<\/p>/);
+  assert.match(dialog, /if \(leaving\)\s*return \(\s*<>\s*<DialogTitle>\{copy\.title\}<\/DialogTitle>\s*<DialogDescription asChild>\s*<p role="status" className="gpt-notice" data-testid="ai-pay-opening">\{keepNames\(copy\.payOpening\(PROVIDER_NAMES\[leaving\]\), BRANDS\)\}<\/p>/);
   // It ends with the request unless the browser really leaves (the page cache brings it back).
   assert.match(dialog, /if \(!redirecting\.current\) setLeaving\(null\);/);
   assert.match(dialog, /redirecting\.current = true;/);
@@ -392,7 +395,7 @@ test('switch: «Оплата не завершена» shows the other provider 
       heading: false, orderId: ORDER, locale, apiBase: '', provider: 'click', since: Date.now(), closed: false, busy: false,
       onContinue: () => {}, onOther: () => {}, onAsk: () => {}, switchTo: { provider: 'payme', onPay: () => {} },
     }));
-    assert.match(page, new RegExp(`data-testid="ai-pay-switch"[^>]*>${s.switchVia('Payme')}<`), locale);
+    assert.match(unkept(page), new RegExp(`data-testid="ai-pay-switch"[^>]*>${s.switchVia('Payme')}<`), locale);
     assert.equal((page.match(/gpt-primary/g) ?? []).length, 1, 'still exactly one primary button');
     assert.equal([...page.matchAll(/<button/g)].length, 5, 'the primary, the switch, the dismiss ×, and two small text links');
     const plain = node(React.createElement(PayUnpaid, {
@@ -403,6 +406,53 @@ test('switch: «Оплата не завершена» shows the other provider 
   }
   assert.equal(TEXT.ru.switchVia('Payme'), 'Оплатить через Payme');
   assert.equal(TEXT.uz.switchVia('Payme'), 'Payme orqali to‘lash');
+});
+
+test('brands under a browser page translation (23.11): Click, Payme and the seller are translate="no"; the sentences around them still translate', () => {
+  const kept = (name: string) => `<span translate="no" class="notranslate">${name}</span>`;
+  const view = (value: React.ReactNode) => node(React.createElement(React.Fragment, null, value));
+  // Every occurrence; the longer name wins at the same place; text with no name is the text itself.
+  // One span per sentence (a flex button keeps its spaces), keyed by the text (a new text is a new span: React never edits pieces a translation swapped).
+  assert.equal(view(keepNames('Kartani Click yoki Payme sahifasida kiriting', ['Click', 'Payme'])), `<span>Kartani ${kept('Click')} yoki ${kept('Payme')} sahifasida kiriting</span>`);
+  assert.equal(view(keepNames('Uzum Bank orqali', ['Uzum', 'Uzum Bank'])), `<span>${kept('Uzum Bank')} orqali</span>`);
+  assert.equal(view(keepNames('no brand here', ['Click'])), '<span>no brand here</span>');
+  assert.equal((keepNames('Click orqali', ['Click']) as React.ReactElement).key, 'Click orqali');
+  for (const locale of LOCALES) {
+    const s = TEXT[locale];
+    // The pack rows: each provider button is only the name and the arrow, and a translator must leave it alone (it made Click «Нажмите»).
+    const rows = node(React.createElement(PayPacks, { locale, offers: offersOf({ ...PACK, more: [{ sku: 'once', priceUzs: 5000, messageLimit: 30, dailyLimit: 50, hours: 72, vat: null }] } as PackTerms), providers: ['click', 'payme'], busy: false, onPay: () => {} }));
+    const buttons = [...rows.matchAll(/<button[^>]*data-provider="(\w+)"[^>]*>/g)];
+    assert.ok(buttons.length >= 2, `${locale}: provider buttons`);
+    for (const button of buttons) assert.match(button[0], /translate="no"/, `${locale}: ${button[1]} is not translated`);
+    // The sentences keep only the names: the seller (it became «СВОБОДА — ЭТО НЕБЕСА») and the providers.
+    const extras = node(React.createElement(PayExtras, { locale, pack: PACK, offers: offersOf(PACK), providers: ['click', 'payme'], busy: false, termsUrl: null, onAsk: () => {} }));
+    assert.ok(extras.includes(kept(locale === 'ru' ? 'ООО «FREEDOM IS HEAVEN»' : '«FREEDOM IS HEAVEN» MChJ')), `${locale}: the seller is kept`);
+    assert.ok(extras.includes(kept('Click')) && extras.includes(kept('Payme')), `${locale}: the providers in the card line are kept`);
+    // «Оплата не завершена»: the provider on the continue button and the other provider on the switch.
+    const card = node(React.createElement(PayUnpaid, {
+      heading: false, orderId: ORDER, locale, apiBase: '', provider: 'click', since: Date.now(), closed: false, busy: false,
+      onContinue: () => {}, onOther: () => {}, onAsk: () => {}, switchTo: { provider: 'payme', onPay: () => {} },
+    }));
+    assert.ok(card.includes(`${html(s.cont)} · ${kept('Click')}`), `${locale}: continue keeps Click`);
+    assert.ok(card.includes(kept('Payme')), `${locale}: the switch keeps Payme`);
+  }
+  // The pay buttons outside the pay part carry the attribute (the limit card sits in the start bundle: no helper there).
+  assert.match(read('src/gpt-chat/components/AiLimitPay.tsx'), /data-testid="limit-pay" data-provider=\{provider\} translate="no"/);
+  const trialButtons = read('src/gpt-chat/parts/chat-conversion.tsx');
+  // The trial's one-pack buttons read «Click · 20 000 so‘m»: the name kept, the rest translated; the space sits
+  // inside the span, so an element follows it (keep-names.tsx).
+  assert.ok(trialButtons.includes('{keepNames(`${c.pay(provider)} `, BRANDS)}<span aria-hidden="true">↗</span>'), 'the trial pay button');
+  // The trial rows and the small pack on the limit card: a button that is only the name and the arrow.
+  assert.match(trialButtons, /aria-label=\{o\.pay\(offer, brand\(provider\)\)\} translate="no"/);
+  assert.match(trialButtons, /aria-label=\{o\.pay\(small, brand\(provider\)\)\} translate="no"/);
+  // The pack prompt in the thread: the same name-and-arrow buttons.
+  assert.match(trialButtons, /data-sku=\{small\?'once':'month'\} translate="no" onClick=/);
+  // «Оплата: что дальше» (the way back with no order here) names «Click или Payme» in its sentence.
+  assert.ok(read('src/gpt-chat/parts/pay-screens.tsx').includes('data-result="holderless">{keepNames(s.holder, BRANDS)}</p>'), 'the holderless verdict');
+  // The window's own sentences with a provider name go through keepNames too.
+  const dialog = read('src/gpt-chat/account/AccountDialog.tsx');
+  for (const call of ['copy.payVia(', 'copy.payOpening(', 'copy.cancelInvoiceNote(', 'copy.invoiceHeld(', 'copy.payPendingElsewhere(']) assert.ok(dialog.includes(`keepNames(${call}`), call);
+  assert.ok(dialog.includes('{keepNames(note, BRANDS)}'), 'the plan card notes');
 });
 
 test('P5: the card counts itself once (checkout_return_unpaid with the outcome), and says nothing about money that may have moved', () => {
