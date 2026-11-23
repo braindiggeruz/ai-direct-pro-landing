@@ -1,3 +1,31 @@
+# Current handoff — AI visibility wave 1b: Uzbek AI chat comparison (uz/ru) · 23.11.2026
+
+## 1. State
+Branch feat/ai-visibility-wave1b. Production 53189d7f (wave 1a + offer v7) until this PR is merged and deployed.
+## 2. Delivered
+Comparison pair /uz/blog/ozbekcha-ai-chatlar-taqqoslash/ and /ru/blog/sravnenie-ai-chatov-na-uzbekskom/ (facts checked on each service's site on 2026-11-23, sources, no ranking, honest «when another service is better» block); dated facts block on /ru/o-kompanii/; related links from five unprotected articles; llms.txt quick answer; updates feed limit 250; protection revision 2026-11-23-ai-visibility-1b.
+## 3. Files
+content/blog/{uz/ozbekcha-ai-chatlar-taqqoslash,ru/sravnenie-ai-chatov-na-uzbekskom}.json, five articles' internalLinks, content/pages/ru/o-kompanii.json, public/llms.txt, scripts/generate-updates-feed.ts, scripts/seo-protection.ts (BASELINE), docs/seo/evidence/2026-11-23-ai-visibility-1b/, reports/ai-visibility-20261123/.
+## 4. Decisions
+D-AI-VISIBILITY-20261123 (owner consent to name other services).
+## 5. Excluded
+Protected pages; Uzbek chat-tariffs page (demand policy); DeepSeek/salom-ai.uz rows (sites unreachable on the check day).
+## 6. Validation
+seo-audit OK; build:fast + build:studio; review: sitemap 427 → 429, 2 added, homepage lists only, issues 0; assertSeoProtection OK; seo-protection 21/21, homepage-lists-frozen 4/4, updates-feed 4/4, seo-link-graph 17/17, content guards, anchor intent, cluster quality, intent manifest, trial truth, product facts, commercial claims, provider facts, hreflang guard, demand gate green; seo-push-revision R3-6/R3-9 fail on main too.
+## 7. Known limits
+Facts about other services change; the articles carry the check date.
+## 8. Next task
+Deploy, IndexNow for the 2 new + 6 changed URLs, then wave 1c (/en/ generator).
+## 9. Acceptance
+Both URLs 200, in the sitemap, reciprocal hreflang; check-entity-consistency OK on 429 URLs.
+## 10. Start commands
+npx tsx reports/ai-visibility-20261123/review.ts --before <production dist>; npx tsx scripts/check-entity-consistency.ts
+## 11. Risks
+Low: two articles and link additions.
+## 12. Rollback
+git revert; the previous BASELINE stays valid for the old homepage.
+
+---
 # Current handoff — offer edition ai-paket-2026-11-v7 (studio address) · 23.11.2026
 
 ## 1. State

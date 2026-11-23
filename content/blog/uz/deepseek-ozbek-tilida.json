@@ -302,6 +302,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+      "anchor": "o‘zbekcha AI chatlar taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "DeepSeek o‘zbek tilida: rasmiy sayt, ilova va maxfiylik",

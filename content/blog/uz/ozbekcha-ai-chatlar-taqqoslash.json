@@ -1,0 +1,314 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "ozbekcha-ai-chatlar-taqqoslash",
+  "url": "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+  "title": "O‘zbekcha AI chatlar taqqoslash: bepul limit va to‘lov | GPTBot.uz",
+  "description": "23.11.2026 da tekshirilgan jadval: ChatGPT, Gemini, Copilot, CoreAI, Hayot AI, bota.chat va GPTBot.uz — o‘zbek tili, bepul limit, ro‘yxat va to‘lov.",
+  "h1": "O‘zbek tilidagi AI chatlar: qaysi biri bepul, ro‘yxatsiz va Click yoki Payme bilan to‘lanadi",
+  "topicCluster": "chatgpt-uzbek-tilida",
+  "targetMoneyPage": "/uz/gpt-uzbek-tilida/",
+  "keywords": [
+    "o‘zbekcha ai chatlar taqqoslash",
+    "o‘zbek tilida bepul ai chat",
+    "ro‘yxatsiz ai chat",
+    "click orqali ai chat",
+    "qaysi ai chat o‘zbek tilini tushunadi"
+  ],
+  "intro": "Qisqa javob: 2026-yil 23-noyabrdagi tekshiruvda sahifasida o‘zbek tilini ko‘rsatgan va ro‘yxatdan o‘tmasdan yozish mumkin bo‘lgan AI chatlar — CoreAI (ochiq test davrida bepul), Hayot AI (mehmon rejimi, kunlik limit bilan) va GPTBot.uz (jami 3 ta bepul sinov javobi). Google Gemini o‘zbek tilini yordam sahifasidagi tillar ro‘yxatida ko‘rsatadi va ayrim funksiyalarini akkauntsiz ishlatishga ruxsat beradi. Tekshirilgan chatlardan pullik paketni so‘mda, Click yoki Payme orqali sotishini faqat GPTBot.uz yozgan: 30 ta javob — 5 000 so‘m, bir oyga 300 ta javob — 20 000 so‘m.",
+  "body": [
+    {
+      "type": "h2",
+      "text": "Qisqa javob: qaysi AI chat nimaga mos"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bepul va ro‘yxatsiz sinash uchun: CoreAI, Hayot AI (mehmon rejimi) va GPTBot.uz (jami 3 ta javob, har kuni yangilanmaydi).",
+        "O‘zbek tilini tillar ro‘yxatiga kiritgan yirik xizmat: Google Gemini.",
+        "So‘mda, Click yoki Payme orqali to‘lov: tekshirilgan chatlardan faqat GPTBot.uz.",
+        "Rasm yaratish, fayl yuklash va chuqur izlanish: ChatGPT’da bu funksiyalar uchun akkauntga kirish kerak."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Taqqoslash jadvali: o‘zbek tili, bepul limit, ro‘yxat va to‘lov (23.11.2026)"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Xizmat",
+        "O‘zbek tili (sayt ma’lumoti)",
+        "Bepul foydalanish",
+        "Ro‘yxatdan o‘tish",
+        "To‘lov"
+      ],
+      "rows": [
+        [
+          "ChatGPT (chatgpt.com)",
+          "chatgpt.com sahifalarida tillar ro‘yxati ko‘rsatilmagan",
+          "Bepul versiya hamma uchun; matnli suhbatlar suiiste’molga qarshi qoidalar doirasida cheklanmagan",
+          "Rasm yaratish, fayl yuklash va saqlangan suhbatlar uchun kirish kerak",
+          "Pullik tariflar (Go, Plus va boshqalar) oylik, asosiy kredit kartalari bilan"
+        ],
+        [
+          "Google Gemini",
+          "Yordam sahifasidagi tillar ro‘yxatida bor; O‘zbekiston qo‘llab-quvvatlanadigan davlatlar ro‘yxatida",
+          "Ayrim funksiyalar bepul, standart limitlar bilan",
+          "Ayrim funksiyalar akkauntsiz; tarixni saqlash va qo‘shimcha funksiyalar uchun Google akkaunti",
+          "Google AI Plus, AI Pro va AI Ultra tariflari; narx mintaqaga qarab tariflar sahifasida"
+        ],
+        [
+          "Microsoft Copilot",
+          "Sayt menyusida o‘zbekcha bor; tillar ro‘yxati tekshirilmadi",
+          "Microsoft akkaunti bilan bepul tarif, ayrim funksiyalar limitli",
+          "Suhbatni boshlash uchun kirish so‘raladi",
+          "Sahifada ko‘rsatilmagan"
+        ],
+        [
+          "CoreAI (coreai.uz)",
+          "O‘zbek (lotin va kirill), rus va ingliz tillari ko‘rsatilgan",
+          "Ochiq test davrida bepul; umumiy bepul limit soni ko‘rsatilmagan",
+          "Akkaunt kerak emas",
+          "Pullik tarif va to‘lov usullari ko‘rsatilmagan"
+        ],
+        [
+          "Hayot AI (hayot.ai)",
+          "O‘zbek tili lotin va kirill yozuvida ko‘rsatilgan",
+          "Bepul reja: kunlik limit (soni ko‘rsatilmagan), 7 kunlik tarix",
+          "Mehmon sifatida yozish mumkin; tarixni saqlash uchun bepul ro‘yxat",
+          "Pro va Pro+ rejalari; to‘lov tizimi «tez orada ulanadi» (Apple Pay, Google Pay, bank kartalari)"
+        ],
+        [
+          "bota.chat",
+          "Sayt menyusida o‘zbekcha bor; o‘zbekcha sahifa tekshirilmadi",
+          "Bepul, oldindan hech narsa sotib olish shart emas; limit ko‘rsatilmagan",
+          "Ro‘yxat va login yo‘q",
+          "Sahifada ko‘rsatilmagan"
+        ],
+        [
+          "GPTBot.uz",
+          "O‘zbek (lotin) va rus tili",
+          "Jami 3 ta bepul sinov javobi, har kuni yangilanmaydi",
+          "Ro‘yxat, karta va telefon raqami kerak emas",
+          "AI paket: 5 000 so‘m — 72 soatga 30 ta javob; 20 000 so‘m — bir oyga 300 ta javob (kuniga 50 tagacha); Click yoki Payme, avtoto‘lov yo‘q"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Jadvaldagi har bir ma’lumot 2026-yil 23-noyabrda xizmatning o‘z sahifasidan olindi, havolalar maqola oxiridagi manbalar ro‘yxatida. «Ko‘rsatilmagan» degani — sahifada bu haqida yozilmagan; xizmatda bunday imkoniyat yo‘q degani emas. Shartlar o‘zgarib turadi, shuning uchun to‘lashdan oldin xizmat sahifasida qayta tekshiring."
+    },
+    {
+      "type": "p",
+      "text": "ChatGPT haqida qo‘shimcha: OpenAI yordam markazidagi qo‘llab-quvvatlanadigan davlatlar ro‘yxatida O‘zbekiston bor. Pullik tariflarning aniq narxi chatgpt.com/pricing sahifasida ko‘rsatiladi."
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi AI chat o‘zbek tilini yaxshiroq tushunadi?"
+    },
+    {
+      "type": "p",
+      "text": "Bu savolga mustaqil o‘lchov bilan javob beradigan ochiq test biz tekshirgan sahifalarda yo‘q, shuning uchun reyting tuzmadik. Faktlar shunday: Google Gemini o‘zbek tilini qo‘llab-quvvatlanadigan tillar ro‘yxatiga kiritgan, CoreAI va Hayot AI o‘zbek tilini lotin va kirill yozuvida ko‘rsatadi, GPTBot.uz esa savol berilgan tilda — o‘zbek (lotin) yoki rus tilida — javob beradi."
+    },
+    {
+      "type": "p",
+      "text": "Amaliy usul: bir xil vazifani — masalan, insho rejasi, 100 so‘zli ish xati yoki rus tilidan tarjimani — 2–3 ta chatda sinab ko‘ring va natijani solishtiring. Imlo, so‘z tanlash va javobning savolga mosligiga qarang. Shaxsiy ma’lumot, parol va karta raqamini hech qaysi chatga yozmang."
+    },
+    {
+      "type": "h2",
+      "text": "GPTBot.uz qachon mos va qachon boshqa xizmat yaxshiroq?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mos: ro‘yxatsiz, o‘zbekcha qisqa vazifa (matn, reja, tarjima, tushuntirish) va to‘lovni so‘mda, Click yoki Payme bilan qilish kerak bo‘lsa.",
+        "Boshqasi yaxshiroq: ko‘p bepul suhbat kerak bo‘lsa. GPTBot.uz’da bepul sinov jami 3 ta javob, ChatGPT’ning bepul versiyasi esa matnli suhbatlarni suiiste’molga qarshi qoidalar doirasida cheklamaydi.",
+        "Boshqasi yaxshiroq: rasm yaratish yoki fayl bilan ishlash kerak bo‘lsa. GPTBot.uz chati matn bilan ishlaydi; PowerPoint taqdimoti uchun alohida Studio bor.",
+        "Boshqasi yaxshiroq: telefon ilovasi kerak bo‘lsa. GPTBot.uz brauzerda ishlaydi, Hayot AI esa sahifasida mobil ilovani tilga oladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Jadvalga kiritilmagan xizmatlar va sababi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "DeepSeek: chat.deepseek.com sahifasi tekshiruv kuni bizga ochilmadi (403 javobi), shuning uchun shartlarini tekshira olmadik.",
+        "salom-ai.uz: sayt tekshiruv kuni javob bermadi (503 javobi).",
+        "Mashxura AI: ma’lumot ishlab chiquvchining portfolio sahifasida bor, xizmatning o‘z sahifasi tekshirilmadi.",
+        "ai.sqb.uz — SQB banki ichidagi sun’iy intellekt markazining sayti, ommaviy chat emas; aslmatn.uz — antiplagiat va AI matnini aniqlash xizmati; azamat.ai — bizneslar uchun AI agentlar ishlab chiqadigan kompaniya (Qozog‘iston). Ular chat emasligi uchun jadvalga kirmadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qanday tekshirdik?"
+    },
+    {
+      "type": "p",
+      "text": "Har bir xizmatning bosh sahifasi, tariflar va yordam sahifalari 2026-yil 23-noyabrda ochildi. Jadvalga faqat sahifada yozilgan narsa kiritildi: sahifa ko‘rsatmagan limit yoki narxni taxmin qilmadik. GPTBot.uz bo‘yicha ma’lumotlar sayt tariflari va chat sozlamalaridan olindi. Maqola GPTBot.uz jamoasi tomonidan tayyorlangan; GPTBot.uz — mustaqil xizmat, OpenAI mahsuloti emas."
+    },
+    {
+      "type": "linkp",
+      "text": "O‘zbekcha AI chatni ro‘yxatsiz sinab ko‘ring: {chat}. AI paket narxlari va shartlari: {tariflar}. ChatGPT, Claude va Gemini O‘zbekistonda qanday ishlashi: {ccg}. Gemini haqida batafsil: {gemini}. DeepSeek bo‘yicha qo‘llanma: {deepseek}. Shu taqqoslash rus tilida: {ru}.",
+      "links": [
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbekcha AI chat"
+        },
+        {
+          "token": "tariflar",
+          "target": "/uz/tariflar/#ai-paket",
+          "anchor": "AI paket tariflari"
+        },
+        {
+          "token": "ccg",
+          "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+          "anchor": "ChatGPT, Claude va Gemini O‘zbekistonda"
+        },
+        {
+          "token": "gemini",
+          "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+          "anchor": "Gemini o‘zbek tilida"
+        },
+        {
+          "token": "deepseek",
+          "target": "/uz/blog/deepseek-ozbek-tilida/",
+          "anchor": "DeepSeek o‘zbek tilida"
+        },
+        {
+          "token": "ru",
+          "target": "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+          "anchor": "сравнение AI-чатов на узбекском",
+          "lang": "ru"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "O‘zbek tilida bepul AI chat qaysi?",
+      "a": "23.11.2026 dagi tekshiruvda o‘zbek tilini ko‘rsatgan va bepul foydalanish mumkin bo‘lgan chatlar: Google Gemini (ayrim funksiyalar akkauntsiz), CoreAI (ochiq test davrida bepul), Hayot AI (kunlik limitli bepul reja) va GPTBot.uz (jami 3 ta bepul sinov javobi). ChatGPT’ning ham bepul versiyasi bor, lekin chatgpt.com tillar ro‘yxatini ko‘rsatmaydi."
+    },
+    {
+      "q": "Ro‘yxatdan o‘tmasdan o‘zbekcha AI chat qayerda?",
+      "a": "CoreAI (akkaunt kerak emas), Hayot AI (mehmon rejimi), bota.chat (ro‘yxat yo‘q) va GPTBot.uz (ro‘yxat, karta va telefon raqamisiz jami 3 ta javob). Google Gemini’ning ayrim funksiyalari ham kirishsiz ishlaydi."
+    },
+    {
+      "q": "Click yoki Payme orqali to‘lanadigan AI chat bormi?",
+      "a": "Tekshirilgan chatlardan to‘lovni Click yoki Payme orqali qabul qilishini sahifasida yozgani — GPTBot.uz: AI paket 5 000 so‘m (72 soatga 30 ta javob) yoki 20 000 so‘m (bir oyga 300 ta javob), avtoto‘lov yo‘q. Chatda paket sotib olish tugmasi to‘lov ochiq bo‘lgandagina ko‘rinadi."
+    },
+    {
+      "q": "Qaysi AI chat o‘zbek tilini yaxshiroq tushunadi?",
+      "a": "Ochiq mustaqil test yo‘q, shuning uchun reyting bermaymiz. Gemini o‘zbek tilini tillar ro‘yxatida ko‘rsatadi, CoreAI va Hayot AI ham o‘zbek tilini e’lon qiladi. Bir xil vazifani 2–3 ta chatda sinab, natijani o‘zingiz solishtiring."
+    },
+    {
+      "q": "Jadvaldagi ma’lumotlar qachon tekshirilgan?",
+      "a": "2026-yil 23-noyabrda, har bir xizmatning o‘z sahifasida. Shartlar o‘zgarishi mumkin, to‘lashdan oldin xizmat sahifasida qayta tekshiring."
+    }
+  ],
+  "cta": {
+    "label": "O‘zbekcha AI chatni sinash",
+    "href": "/uz/gpt-uzbek-tilida/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "o‘zbekcha AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "anchor": "ChatGPT, Claude va Gemini O‘zbekistonda",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/gemini-ai-ozbek-tilida/",
+      "anchor": "Gemini o‘zbek tilida",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/deepseek-ozbek-tilida/",
+      "anchor": "DeepSeek o‘zbek tilida",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "O‘zbekcha AI chatlar taqqoslash: bepul limit, ro‘yxat va to‘lov",
+  "ogDescription": "ChatGPT, Gemini, Copilot, CoreAI, Hayot AI, bota.chat va GPTBot.uz: o‘zbek tili, bepul limit, ro‘yxat va to‘lov — 23.11.2026 da tekshirilgan jadval.",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-chat-nima-va-qanday-turlari-bor-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+  "hreflangRu": "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+  "hreflangUz": "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "breadcrumbLabel": "AI chatlar taqqoslash",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "OpenAI — ChatGPT pricing",
+      "url": "https://chatgpt.com/pricing",
+      "note": "«The free version of ChatGPT is available to everyone»; pullik tariflar oylik; «any major credit card». 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "OpenAI Help Center — ChatGPT supported countries",
+      "url": "https://help.openai.com/en/articles/7947663-chatgpt-supported-countries",
+      "note": "Uzbekistan ro‘yxatda bor. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Google — Gemini Apps: supported languages and countries",
+      "url": "https://support.google.com/gemini/answer/13575153?hl=en",
+      "note": "Uzbek tillar ro‘yxatida, Uzbekistan davlatlar ro‘yxatida. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Google — Use Gemini without signing in",
+      "url": "https://support.google.com/gemini/answer/13278668?hl=en",
+      "note": "Ayrim funksiyalar kirishsiz; tarix uchun Google akkaunti. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Microsoft Copilot",
+      "url": "https://copilot.com/",
+      "note": "«A free tier is available with a Microsoft account»; suhbat uchun kirish. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "CoreAI — bepul AI chat",
+      "url": "https://coreai.uz/ai/",
+      "note": "O‘zbek, rus, ingliz; ochiq test davrida bepul; akkaunt kerak emas. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Hayot AI",
+      "url": "https://hayot.ai/pricing",
+      "note": "Bepul reja kunlik limit bilan; Pro va Pro+; to‘lov tizimi tez orada. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "bota.chat",
+      "url": "https://bota.chat/",
+      "note": "Bepul, ro‘yxat va login yo‘q. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "GPTBot.uz — tariflar",
+      "url": "https://gptbot.uz/uz/tariflar/#ai-paket",
+      "note": "AI paket narxlari va shartlari."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

@@ -1,0 +1,143 @@
+{
+  "checkedAt": "2026-11-23T05:20:53.406Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-22-commercial-bots/reviewed-protected-pages.json",
+  "sitemapBefore": 427,
+  "sitemapAfter": 429,
+  "added": [
+    "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+    "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/"
+  ],
+  "notBuilt": [],
+  "coverage": [
+    {
+      "url": "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+        "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+        "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+      "incoming": [
+        "/uz/blog/",
+        "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+        "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+        "/uz/blog/deepseek-ozbek-tilida/",
+        "/uz/blog/gemini-ai-ozbek-tilida/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+        "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/o-kompanii/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/analogi-chatgpt-kotorye-rabotayut-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/deepseek-ozbek-tilida/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/gemini-ai-ozbek-tilida/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+        "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 429
+}
