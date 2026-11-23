@@ -1,0 +1,381 @@
+{
+  "checkedAt": "2026-11-23T12:49:12.351Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-target-gpt-tc/reviewed-protected-pages.json",
+  "sitemapBefore": 486,
+  "sitemapAfter": 494,
+  "added": [
+    "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+    "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+    "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/",
+    "/ru/blog/yandeks-direkt-v-uzbekistane/",
+    "/uz/blog/reklama-uchun-tolov/",
+    "/uz/blog/tiktok-reklama-ozbekistonda/",
+    "/uz/blog/yandex-direct-ozbekistonda/",
+    "/uz/blog/youtube-reklama/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/"
+      ]
+    },
+    {
+      "url": "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+        "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+        "/ru/blog/reklamnyy-kabinet-meta/",
+        "/ru/blog/yandeks-direkt-v-uzbekistane/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/ru/blog/yandeks-direkt-v-uzbekistane/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+        "/ru/blog/minus-slova-google-ads/",
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+        "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-uchun-tolov/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/meta-ads-manager-qollanma/",
+        "/uz/blog/reklama-akkaunti-bloklandi/",
+        "/uz/blog/target-reklama-nima/",
+        "/uz/blog/tiktok-reklama-ozbekistonda/",
+        "/uz/blog/yandex-direct-ozbekistonda/",
+        "/uz/blog/youtube-reklama/"
+      ]
+    },
+    {
+      "url": "/uz/blog/tiktok-reklama-ozbekistonda/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/reklama-blogerlarda/",
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/youtube-reklama/"
+      ]
+    },
+    {
+      "url": "/uz/blog/yandex-direct-ozbekistonda/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/google-reklama-sozlash/",
+        "/uz/blog/reklama-ozbek-va-rus-tilida/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/reklama-uchun-tolov/",
+        "/uz/blog/tiktok-reklama-ozbekistonda/",
+        "/uz/blog/youtube-reklama/"
+      ]
+    },
+    {
+      "url": "/uz/blog/youtube-reklama/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/reklama-ozbek-va-rus-tilida/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/reklama-uchun-tolov/",
+        "/uz/blog/tiktok-reklama-ozbekistonda/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+        "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/",
+        "/ru/blog/yandeks-direkt-v-uzbekistane/",
+        "/uz/blog/reklama-uchun-tolov/",
+        "/uz/blog/tiktok-reklama-ozbekistonda/",
+        "/uz/blog/yandex-direct-ozbekistonda/",
+        "/uz/blog/youtube-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+        "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/",
+        "/ru/blog/yandeks-direkt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-uchun-tolov/",
+        "/uz/blog/tiktok-reklama-ozbekistonda/",
+        "/uz/blog/yandex-direct-ozbekistonda/",
+        "/uz/blog/youtube-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/chto-takoe-lid-v-marketinge/",
+      "fields": [
+        "bodyTextSha256"
+      ],
+      "addedLinks": [],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/yandeks-direkt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/minus-slova-google-ads/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/yandeks-direkt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "/ru/blog/reklama-v-tiktok-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "/ru/blog/yandeks-direkt-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-v-tiktok-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "/ru/blog/reklama-v-tiktok-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnyy-kabinet-meta/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/google-reklama-sozlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/yandex-direct-ozbekistonda/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/meta-ads-manager-qollanma/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-uchun-tolov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-akkaunti-bloklandi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-uchun-tolov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-blogerlarda/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/tiktok-reklama-ozbekistonda/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-kreativlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/tiktok-reklama-ozbekistonda/",
+        "/uz/blog/youtube-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/yandex-direct-ozbekistonda/",
+        "/uz/blog/youtube-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-turlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/tiktok-reklama-ozbekistonda/",
+        "/uz/blog/yandex-direct-ozbekistonda/",
+        "/uz/blog/youtube-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/target-reklama-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-uchun-tolov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+        "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/",
+        "/ru/blog/yandeks-direkt-v-uzbekistane/",
+        "/uz/blog/reklama-uchun-tolov/",
+        "/uz/blog/tiktok-reklama-ozbekistonda/",
+        "/uz/blog/yandex-direct-ozbekistonda/",
+        "/uz/blog/youtube-reklama/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 491
+}

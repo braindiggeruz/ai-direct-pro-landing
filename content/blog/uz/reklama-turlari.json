@@ -319,6 +319,27 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 10
+    },
+    {
+      "target": "/uz/blog/tiktok-reklama-ozbekistonda/",
+      "anchor": "TikTok reklamasi O‘zbekistondan",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 11
+    },
+    {
+      "target": "/uz/blog/yandex-direct-ozbekistonda/",
+      "anchor": "Yandex Direct O‘zbekistonda",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 12
+    },
+    {
+      "target": "/uz/blog/youtube-reklama/",
+      "anchor": "YouTube reklama formatlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 13
     }
   ],
   "ogTitle": "Reklama turlari: qaysi platforma biznesga mos, 2026",

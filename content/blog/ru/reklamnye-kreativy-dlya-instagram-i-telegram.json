@@ -349,6 +349,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+      "anchor": "реклама в TikTok из Узбекистана",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 10
+    },
+    {
+      "target": "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+      "anchor": "форматы видеорекламы на YouTube",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 11
     }
   ],
   "ogTitle": "Рекламные креативы: 12 форматов и размеры",

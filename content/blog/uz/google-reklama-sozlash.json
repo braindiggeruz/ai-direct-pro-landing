@@ -216,6 +216,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/yandex-direct-ozbekistonda/",
+      "anchor": "Yandex Direct’ni ishga tushirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "canonical": "https://gptbot.uz/uz/blog/google-reklama-sozlash/",

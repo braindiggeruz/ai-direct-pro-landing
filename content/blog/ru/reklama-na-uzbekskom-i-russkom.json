@@ -250,6 +250,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/yandeks-direkt-v-uzbekistane/",
+      "anchor": "объявления на узбекском в Яндекс Директе",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+      "anchor": "почему реклама на YouTube не на узбекском",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Реклама на узбекском и русском: закон и настройка",

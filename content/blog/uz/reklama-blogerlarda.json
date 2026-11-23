@@ -247,6 +247,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/tiktok-reklama-ozbekistonda/",
+      "anchor": "TikTok’da reklama o‘rniga blogerlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Blogerlarda reklama: tanlash, narx va shartnoma",

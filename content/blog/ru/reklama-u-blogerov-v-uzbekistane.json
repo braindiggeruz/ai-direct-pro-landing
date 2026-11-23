@@ -247,6 +247,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+      "anchor": "почему рекламу в TikTok заменяют блогерами",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Реклама у блогеров в Узбекистане: выбор и договор",

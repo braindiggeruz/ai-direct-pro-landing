@@ -5385,6 +5385,223 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-47-ru-internet-ads-hub-vs-tiktok-ads-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "реклама в тикток узбекистан",
+          "tiktok ads узбекистан",
+          "как запустить рекламу в тик ток из узбекистана"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-v-tiktok-iz-uzbekistana/",
+        "owns": "whether TikTok Ads is available to advertisers in Uzbekistan (help-page lists) and what to use instead",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-48-uz-internet-ads-hub-vs-tiktok-ads-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "tiktok reklama",
+          "tiktok reklama berish",
+          "tiktok ads ozbekiston"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/tiktok-reklama-ozbekistonda/",
+        "owns": "TikTok Ads availability for Uzbekistan and alternatives (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-49-ru-contextual-service-vs-yandex-direct-guide",
+      "commercial": {
+        "url": "/ru/kontekstnaya-reklama-tashkent/",
+        "owns": "the contextual advertising service: Google Ads and Yandex Direct setup and management",
+        "mustNotTarget": [
+          "как настроить яндекс директ",
+          "оплата яндекс директ из узбекистана",
+          "яндекс директ ндс 12"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/yandeks-direkt-v-uzbekistane/",
+        "owns": "launching and paying for Yandex Direct from Uzbekistan: sums, UzCard/Humo, 12% VAT, ad languages, moderation",
+        "mustNotTarget": [
+          "контекстная реклама в ташкенте",
+          "настройка контекстной рекламы ташкент",
+          "google ads узбекистан",
+          "яндекс директ узбекистан",
+          "ведение контекстной рекламы",
+          "заказать контекстную рекламу"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-50-uz-internet-ads-hub-vs-yandex-direct-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "yandex direct",
+          "yandex direct ozbekistonda",
+          "yandex direct sozlash"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/yandex-direct-ozbekistonda/",
+        "owns": "launching and paying for Yandex Direct from Uzbekistan (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-51-ru-internet-ads-hub-vs-youtube-ads-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "реклама на ютубе",
+          "реклама на youtube в узбекистане",
+          "как запустить рекламу на ютубе"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+        "owns": "YouTube ad formats via Google Ads, what each format charges for, card payment from Uzbekistan, language rules",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-52-uz-internet-ads-hub-vs-youtube-ads-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "youtube reklama",
+          "youtubeda reklama berish",
+          "youtube reklama narxi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/youtube-reklama/",
+        "owns": "YouTube ad formats, payment and language rules (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-53-ru-target-service-vs-ad-payment-guide",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "как оплатить рекламу в инстаграм из узбекистана",
+          "оплата рекламы из узбекистана",
+          "не проходит оплата рекламы"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/",
+        "owns": "which payment methods Meta, Google Ads, Yandex Direct, Telegram Ads and TikTok accept for advertisers in Uzbekistan",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "настройка таргетированной рекламы ташкент",
+          "ведение таргетированной рекламы"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-54-uz-internet-ads-hub-vs-ad-payment-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "reklama uchun tolov",
+          "instagram reklama tolov",
+          "reklama tolovi otmayapti"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-uchun-tolov/",
+        "owns": "payment methods for ads from Uzbekistan (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [
