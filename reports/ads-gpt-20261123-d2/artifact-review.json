@@ -1,0 +1,407 @@
+{
+  "checkedAt": "2026-11-23T13:17:36.569Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ads-gpt-d1/reviewed-protected-pages.json",
+  "sitemapBefore": 494,
+  "sitemapAfter": 502,
+  "added": [
+    "/ru/blog/kak-stat-targetologom/",
+    "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+    "/ru/blog/sms-rassylka-v-uzbekistane/",
+    "/ru/blog/telegram-kanal-prodvizhenie/",
+    "/uz/blog/sms-reklama/",
+    "/uz/blog/targetolog-bolish/",
+    "/uz/blog/tashqi-reklama-toshkentda/",
+    "/uz/blog/telegram-kanalni-rivojlantirish/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/kak-stat-targetologom/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "/ru/blog/reklamnyy-kabinet-meta/",
+        "/ru/blog/targeting-v-instagram/"
+      ]
+    },
+    {
+      "url": "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/"
+      ]
+    },
+    {
+      "url": "/ru/blog/sms-rassylka-v-uzbekistane/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/chto-takoe-lid-v-marketinge/",
+        "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/"
+      ]
+    },
+    {
+      "url": "/ru/blog/telegram-kanal-prodvizhenie/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+        "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+        "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/"
+      ]
+    },
+    {
+      "url": "/uz/blog/sms-reklama/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+        "/uz/blog/lid-forma-instagram/",
+        "/uz/blog/reklama-togrisidagi-qonun/"
+      ]
+    },
+    {
+      "url": "/uz/blog/targetolog-bolish/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/target-reklama-nima/",
+        "/uz/blog/targetda-auditoriya-sozlash/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/tashqi-reklama-toshkentda/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/reklama-samaradorligi-romi/",
+        "/uz/blog/reklama-togrisidagi-qonun/",
+        "/uz/blog/reklama-turlari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/telegram-kanalni-rivojlantirish/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/telegram-reklama/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/reklama-uchun-tolov/",
+        "/uz/blog/telegram-kanalga-reklama-berish/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-stat-targetologom/",
+        "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+        "/ru/blog/sms-rassylka-v-uzbekistane/",
+        "/ru/blog/telegram-kanal-prodvizhenie/",
+        "/uz/blog/sms-reklama/",
+        "/uz/blog/targetolog-bolish/",
+        "/uz/blog/tashqi-reklama-toshkentda/",
+        "/uz/blog/telegram-kanalni-rivojlantirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-stat-targetologom/",
+        "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+        "/ru/blog/sms-rassylka-v-uzbekistane/",
+        "/ru/blog/telegram-kanal-prodvizhenie/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/sms-reklama/",
+        "/uz/blog/targetolog-bolish/",
+        "/uz/blog/tashqi-reklama-toshkentda/",
+        "/uz/blog/telegram-kanalni-rivojlantirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/telegram-reklama/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/telegram-kanalni-rivojlantirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/chto-takoe-lid-v-marketinge/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sms-rassylka-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sms-rassylka-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/naruzhnaya-reklama-v-tashkente/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-stat-targetologom/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/naruzhnaya-reklama-v-tashkente/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnyy-kabinet-meta/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-stat-targetologom/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/telegram-kanal-prodvizhenie/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/targeting-v-instagram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-stat-targetologom/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/telegram-kanal-prodvizhenie/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/telegram-ads-stoimost-i-zapusk-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/telegram-kanal-prodvizhenie/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+        "/ru/blog/sms-rassylka-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/sms-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/lid-forma-instagram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/sms-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-samaradorligi-romi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/tashqi-reklama-toshkentda/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-togrisidagi-qonun/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/sms-reklama/",
+        "/uz/blog/tashqi-reklama-toshkentda/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-turlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/tashqi-reklama-toshkentda/",
+        "/uz/blog/telegram-kanalni-rivojlantirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-uchun-tolov/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/telegram-kanalni-rivojlantirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/target-reklama-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/targetolog-bolish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/targetda-auditoriya-sozlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/targetolog-bolish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/telegram-kanalga-reklama-berish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/telegram-kanalni-rivojlantirish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/targetolog-bolish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/kak-stat-targetologom/",
+        "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+        "/ru/blog/sms-rassylka-v-uzbekistane/",
+        "/ru/blog/telegram-kanal-prodvizhenie/",
+        "/uz/blog/sms-reklama/",
+        "/uz/blog/targetolog-bolish/",
+        "/uz/blog/tashqi-reklama-toshkentda/",
+        "/uz/blog/telegram-kanalni-rivojlantirish/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 499
+}

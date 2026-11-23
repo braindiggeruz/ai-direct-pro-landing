@@ -340,6 +340,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 13
+    },
+    {
+      "target": "/uz/blog/telegram-kanalni-rivojlantirish/",
+      "anchor": "Telegram kanalni rivojlantirish usullari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 14
+    },
+    {
+      "target": "/uz/blog/tashqi-reklama-toshkentda/",
+      "anchor": "Toshkentda tashqi reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 15
     }
   ],
   "ogTitle": "Reklama turlari: qaysi platforma biznesga mos, 2026",

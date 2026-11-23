@@ -267,6 +267,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/telegram-kanalni-rivojlantirish/",
+      "anchor": "o‘z kanalingizni rivojlantirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Telegram kanalga reklama berish: narx va tanlash",

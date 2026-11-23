@@ -284,6 +284,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/sms-reklama/",
+      "anchor": "CRM bazasi bo‘yicha SMS reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Instagram, Telegram va CRM: bitta ariza voronkasi",

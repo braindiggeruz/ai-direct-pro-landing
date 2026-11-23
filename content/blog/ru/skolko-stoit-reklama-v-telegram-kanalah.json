@@ -272,6 +272,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/telegram-kanal-prodvizhenie/",
+      "anchor": "как продвигать свой Telegram-канал",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Реклама в Telegram-каналах Узбекистана: цены и выбор",

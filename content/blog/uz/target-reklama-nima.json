@@ -519,6 +519,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/uz/blog/targetolog-bolish/",
+      "anchor": "targetni bepul o‘rganish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",

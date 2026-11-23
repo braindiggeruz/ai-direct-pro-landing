@@ -312,6 +312,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/tashqi-reklama-toshkentda/",
+      "anchor": "tashqi reklama samarasini hisoblash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Reklama o‘zini oqlaydimi: ROMI, ROAS, CPL va CAC",

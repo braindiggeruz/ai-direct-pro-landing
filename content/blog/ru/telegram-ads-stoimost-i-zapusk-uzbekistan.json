@@ -494,6 +494,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/telegram-kanal-prodvizhenie/",
+      "anchor": "как набрать подписчиков в Telegram-канал",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Telegram Ads в Узбекистане: стоимость и запуск 2026",

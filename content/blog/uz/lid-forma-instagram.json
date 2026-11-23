@@ -182,6 +182,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/sms-reklama/",
+      "anchor": "SMS tarqatishga rozilik",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Instagram lid-formasi: sozlash va arizalarni olish",

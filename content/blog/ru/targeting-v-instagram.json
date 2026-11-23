@@ -226,6 +226,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/kak-stat-targetologom/",
+      "anchor": "как научиться таргету бесплатно",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Таргетинг в Instagram: что это и как работает",

@@ -176,6 +176,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/telegram-kanalni-rivojlantirish/",
+      "anchor": "Telegram Ads orqali kanalni targ‘ib qilish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Reklama uchun to‘lov: O‘zbekistondan qaysi karta mos",
