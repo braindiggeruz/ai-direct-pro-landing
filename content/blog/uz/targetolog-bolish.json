@@ -223,6 +223,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/marketolog-kim/",
+      "anchor": "marketolog va targetolog farqi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Targetolog bo‘lish: noldan reja va bepul kurslar",

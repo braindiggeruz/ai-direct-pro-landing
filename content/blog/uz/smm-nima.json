@@ -506,6 +506,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/marketolog-kim/",
+      "anchor": "marketolog vazifalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "ogTitle": "SMM nima: ijtimoiy tarmoqlar orqali marketing",

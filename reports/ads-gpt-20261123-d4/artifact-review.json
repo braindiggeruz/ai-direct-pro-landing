@@ -1,0 +1,473 @@
+{
+  "checkedAt": "2026-11-23T14:32:17.574Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ads-gpt-d3/reviewed-protected-pages.json",
+  "sitemapBefore": 508,
+  "sitemapAfter": 517,
+  "added": [
+    "/ru/blog/marketolog-kto-eto/",
+    "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+    "/ru/blog/reklamnyy-banner/",
+    "/ru/blog/voronka-prodazh/",
+    "/uz/blog/marketolog-kim/",
+    "/uz/blog/olx-elon-berish/",
+    "/uz/blog/reklama-agentligi/",
+    "/uz/blog/reklama-banner/",
+    "/uz/blog/sotuv-voronkasi/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/marketolog-kto-eto/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+        "/ru/blog/kak-stat-targetologom/",
+        "/ru/blog/marketingovye-terminy-slovar/"
+      ]
+    },
+    {
+      "url": "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+        "/ru/blog/reklama-avtosalona/",
+        "/ru/blog/reklama-nedvizhimosti-i-novostroek/"
+      ]
+    },
+    {
+      "url": "/ru/blog/reklamnyy-banner/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/"
+      ]
+    },
+    {
+      "url": "/ru/blog/voronka-prodazh/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/chto-takoe-lid-v-marketinge/",
+        "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/"
+      ]
+    },
+    {
+      "url": "/uz/blog/marketolog-kim/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/marketing-nima/",
+        "/uz/blog/smm-nima/",
+        "/uz/blog/targetolog-bolish/"
+      ]
+    },
+    {
+      "url": "/uz/blog/olx-elon-berish/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/kochmas-mulk-reklamasi/",
+        "/uz/blog/mahsulotni-reklama-qilish/",
+        "/uz/blog/mashina-savdosi-reklamasi/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-agentligi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+        "/uz/blog/reklama-togrisidagi-qonun/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-banner/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/tashqi-reklama-toshkentda/"
+      ]
+    },
+    {
+      "url": "/uz/blog/sotuv-voronkasi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+        "/uz/blog/reklama-samaradorligi-romi/",
+        "/uz/blog/targetda-ariza-narxini-pasaytirish/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/marketolog-kto-eto/",
+        "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+        "/ru/blog/reklamnyy-banner/",
+        "/ru/blog/voronka-prodazh/",
+        "/uz/blog/marketolog-kim/",
+        "/uz/blog/olx-elon-berish/",
+        "/uz/blog/reklama-agentligi/",
+        "/uz/blog/reklama-banner/",
+        "/uz/blog/sotuv-voronkasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/marketolog-kto-eto/",
+        "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+        "/ru/blog/reklamnyy-banner/",
+        "/ru/blog/voronka-prodazh/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/marketolog-kim/",
+        "/uz/blog/olx-elon-berish/",
+        "/uz/blog/reklama-agentligi/",
+        "/uz/blog/reklama-banner/",
+        "/uz/blog/sotuv-voronkasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/chto-takoe-lid-v-marketinge/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/voronka-prodazh/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/chto-vhodit-v-uslugi-smm-specialista/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/marketolog-kto-eto/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/instagram-telegram-crm-odna-voronka-zayavok/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/voronka-prodazh/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/voronka-prodazh/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/prodvizhenie-obyavleniy-na-olx/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-stat-targetologom/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/marketolog-kto-eto/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/marketingovye-terminy-slovar/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/marketolog-kto-eto/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklamnyy-banner/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklamnyy-banner/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklama-avtosalona/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/prodvizhenie-obyavleniy-na-olx/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/prodvizhenie-obyavleniy-na-olx/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklamnyy-banner/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-agentligi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/sotuv-voronkasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/kochmas-mulk-reklamasi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/olx-elon-berish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/mahsulotni-reklama-qilish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/olx-elon-berish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/marketing-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/marketolog-kim/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/mashina-savdosi-reklamasi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/olx-elon-berish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-kreativlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-banner/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-samaradorligi-romi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/sotuv-voronkasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-togrisidagi-qonun/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-agentligi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-turlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-agentligi/",
+        "/uz/blog/reklama-banner/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/smm-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/marketolog-kim/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/sotuv-voronkasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/targetolog-bolish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/marketolog-kim/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/tashqi-reklama-toshkentda/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-banner/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-agentligi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/marketolog-kto-eto/",
+        "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+        "/ru/blog/reklamnyy-banner/",
+        "/ru/blog/voronka-prodazh/",
+        "/uz/blog/marketolog-kim/",
+        "/uz/blog/olx-elon-berish/",
+        "/uz/blog/reklama-agentligi/",
+        "/uz/blog/reklama-banner/",
+        "/uz/blog/sotuv-voronkasi/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 514
+}

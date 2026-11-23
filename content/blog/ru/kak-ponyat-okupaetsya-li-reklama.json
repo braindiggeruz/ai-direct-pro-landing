@@ -343,6 +343,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/voronka-prodazh/",
+      "anchor": "конверсия по этапам воронки",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Окупается ли реклама: ROMI, ROAS, CPL и CAC",

@@ -351,6 +351,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 10
+    },
+    {
+      "target": "/uz/blog/reklama-banner/",
+      "anchor": "reklama banner o‘lchamlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 11
     }
   ],
   "ogTitle": "Reklama kreativlari: 12 format va o‘lchamlar",

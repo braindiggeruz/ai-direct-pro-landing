@@ -1,3 +1,32 @@
+# Current handoff — advertising wave D4: banners, OLX, marketer career, sales funnel, ad agency · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 6ce621b3 (= production: advertising waves B, C1, C2, D1, D2, D3 and targeting waves T-B, T-C live, 508 URLs, check-entity-consistency OK, IndexNow HTTP 200 for 24 URLs of D3). Production stays 6ce621b3 until this wave is merged and deployed.
+## 2. Delivered
+Nine URLs: /ru/blog/reklamnyy-banner/ + /uz/blog/reklama-banner/, /ru/blog/prodvizhenie-obyavleniy-na-olx/ + /uz/blog/olx-elon-berish/, /ru/blog/marketolog-kto-eto/ + /uz/blog/marketolog-kim/, /ru/blog/voronka-prodazh/ + /uz/blog/sotuv-voronkasi/, /uz/blog/reklama-agentligi/ (Uzbek only). «reklama nima» section, FAQ and law source in /uz/blog/reklama-turlari/. Intent pairs W20261123-69…77, hub fence «reklama nima», links from 27 existing articles, llms.txt routes and quick answers.
+## 3. Files
+content/blog/{ru,uz}/ (9 new, 27 existing with added related links, reklama-turlari also with the new section), content/seo/intent-manifest.json, public/llms.txt, scripts/seo-protection.ts (BASELINE), tests/ads-gpt-wave-d4.test.ts + package.json, reports/ads-gpt-20261123-d4/, docs/seo/evidence/2026-11-23-ads-gpt-d4/, docs (DECISIONS, CHANGE_LOG, research ROADMAP with D5 candidates, STATE, HANDOFF).
+## 4. Decisions
+D-ADS-GPT-WAVE-D4-20261123 (under D-ADS-GPT-2-20261123).
+## 5. Excluded
+«reklama matni», «рекламное агентство ташкент», «utm метки» (owned by existing pages); salary figures; banner, classified and promotion prices.
+## 6. Validation
+seo-audit OK; build:fast; review vs a build of main 6ce621b3: sitemap 508 → 517, existing pages change by added links only (plus the «reklama nima» section in /uz/blog/reklama-turlari/), 0 removed, issues 0; wave test 12/12; 56 of 60 SEO-related test files green, the 4 red ones fail identically on main (seo-commercial-coverage 5/6, seo-push-revision R3-6/R3-9, seo-revenue-claims 7/11, translator-pages 10); baseline-dependent homepage-lists-frozen, seo-page-integrity, publisher-schema, uzbek-login-journey, seo-intent-manifest, seo-anchor-intent and both feed tests green; chat-ui-revision 2 and legal-oferta 8/21/23 fail identically on main; tsc -b 0 errors; eslint on the new test and review script clean.
+## 7. Known limits
+OLX's own help contradicts itself on TOP durations, and Meta's pages differ on the Instagram feed ratio; the articles show both sides. OpenSEO volumes for Uzbek are under-sampled (Google Ads data under the ru setting).
+## 8. Next task
+Merge, deploy, verify 517 URLs, IndexNow, GSC lists; then wave D5 (nakrutka, Visa card, messenger mailings, Google Ads in Russian, Instagram growth, SMM courses).
+## 9. Acceptance
+Nine URLs 200 and in the sitemap; check-entity-consistency OK on 517 URLs.
+## 10. Start commands
+npx tsx reports/ads-gpt-20261123-d4/review.ts --before <main dist>; node --import tsx --test tests/ads-gpt-wave-d4.test.ts
+## 11. Risks
+Low: new pages, one body section and added links only.
+## 12. Rollback
+git revert; the ads-gpt-d3 BASELINE stays valid for the old homepage.
+
+---
+
 # Current handoff — advertising wave D3: real estate, car dealers, online schools · 23.11.2026
 
 ## 1. State

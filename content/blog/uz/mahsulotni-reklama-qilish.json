@@ -253,6 +253,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/uz/blog/olx-elon-berish/",
+      "anchor": "OLX’da e’lon berish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Mahsulotni qanday reklama qilish: 6 kanal",

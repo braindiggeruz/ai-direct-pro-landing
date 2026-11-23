@@ -177,6 +177,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/reklama-banner/",
+      "anchor": "banner reklama: o‘lcham va talablar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Tashqi reklama Toshkentda: ruxsatnoma va qoidalar",

@@ -178,6 +178,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/olx-elon-berish/",
+      "anchor": "OLX’da TOP va VIP e’lonlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Ko‘chmas mulk reklamasi: qonun talablari va kanallar",

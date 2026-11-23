@@ -164,6 +164,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/olx-elon-berish/",
+      "anchor": "OLX’da e’lonni ko‘tarish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Avtosalon reklamasi: kanallar va qoidalar 2026",

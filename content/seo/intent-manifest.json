@@ -4510,7 +4510,8 @@
         "mustNotTarget": [
           "reklama turlari",
           "internet reklama turlari",
-          "qayerda reklama qilish"
+          "qayerda reklama qilish",
+          "reklama nima"
         ]
       },
       "informational": {
@@ -5980,6 +5981,249 @@
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-69-ru-internet-ads-hub-vs-ad-banner-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "рекламный баннер",
+          "баннерная реклама",
+          "размеры баннера"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklamnyy-banner/",
+        "owns": "ad banners: Google and Yandex display sizes, Meta image specs, outdoor banner rules (language, permit)",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-70-uz-internet-ads-hub-vs-ad-banner-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "reklama banner",
+          "banner reklama",
+          "banner o‘lchamlari"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-banner/",
+        "owns": "ad banners: display sizes, social image specs and outdoor banner rules (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-71-ru-internet-ads-hub-vs-olx-listing-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "как подать объявление на olx",
+          "реклама на olx",
+          "продвижение объявлений olx"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+        "owns": "posting and promoting a listing on OLX.uz: rules, free limits, bump, TOP and VIP",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-72-uz-internet-ads-hub-vs-olx-listing-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "olx e’lon berish",
+          "olxda e’lon berish",
+          "olx reklama"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/olx-elon-berish/",
+        "owns": "posting and promoting a listing on OLX.uz (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-73-ru-digital-marketing-vs-marketer-career",
+      "commercial": {
+        "url": "/ru/digital-marketing-tashkent/",
+        "owns": "the digital marketing service: strategy, channels and analytics for a business in Tashkent",
+        "mustNotTarget": [
+          "маркетолог",
+          "кто такой маркетолог",
+          "маркетолог кто это"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/marketolog-kto-eto/",
+        "owns": "the marketer profession: duties, skills, certifications and how a marketer differs from a targetologist and an SMM specialist",
+        "mustNotTarget": [
+          "digital маркетинг ташкент",
+          "digital агентство ташкент",
+          "маркетинговое агентство ташкент",
+          "комплексный интернет маркетинг",
+          "интернет маркетинг под ключ"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-74-uz-internet-ads-hub-vs-marketer-career",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "marketolog kim",
+          "marketolog",
+          "marketolog bo‘lish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/marketolog-kim/",
+        "owns": "the marketer profession (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-75-ru-internet-ads-hub-vs-sales-funnel-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "воронка продаж",
+          "воронка продаж это",
+          "этапы воронки продаж"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/voronka-prodazh/",
+        "owns": "the sales funnel: stages, an advertising example, conversion between stages and where ad objectives fit",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-76-uz-internet-ads-hub-vs-sales-funnel-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "sotuv voronkasi",
+          "sotuv voronkasi nima",
+          "voronka bosqichlari"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/sotuv-voronkasi/",
+        "owns": "the sales funnel (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-77-uz-internet-ads-hub-vs-ad-agency-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "reklama agentligi",
+          "reklama agentligi xizmatlari",
+          "reklama agentligini tanlash"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-agentligi/",
+        "owns": "what an advertising agency does, roles under ZRU-776, account access and how to choose one (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
       "gscNote": "New URL, no Search Console history."
     }
   ],

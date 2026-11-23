@@ -233,6 +233,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/sotuv-voronkasi/",
+      "anchor": "voronka bo‘yicha konversiya",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Targetda ariza narxini pasaytirish: 2026 qo‘llanma",

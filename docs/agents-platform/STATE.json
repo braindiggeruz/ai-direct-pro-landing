@@ -2405,7 +2405,7 @@
   },
   "next_stage_note": "STATE.json records chat_errors_20261114, target_cro_20261113 and marketing_gap_20261109 as pending: all three are in production (ancestors of the live commit); their status fields were left as their authors wrote them. Measurement rules and baselines: docs/seo/CHANGE_LOG_2026-11.md.",
   "governance_gap": "Human VoiceOver/TalkBack, native Uzbek sign-off, authenticated Owner Control Center captures and a live owner Telegram conversation canary remain pending. No Telegram token was exported. Railway control-plane state could not be freshly read because no CLI/token was available; no backend file or Railway setting changed. Stable p95, real seller acceptance and public launch are not claimed.",
-  "last_commit": "4d742add",
+  "last_commit": "6ce621b3",
   "sha_rule": "D-006: last_commit = code commit of completed stage; optional metadata-only follow-up = state_commit. D-024: R0.3 is an incident response, not a feature stage, so it is explicitly exempt from the two-commit limit and will need further commits after the rewrite.",
   "previous_stage": {
     "stage": "R0.2",
@@ -4007,16 +4007,18 @@
     "owner_decisions": "23.11 «давай всё по максимуму»: D-T1 yes (profession pair in ads wave D2); D-T2 already present in the FAQ of /uz/blog/target-reklama-nima/"
   },
   "ads_cluster_2_gpt_20261123": {
-    "status": "wave_d3_pr_open",
+    "status": "wave_d4_pr_open",
     "owner_request": "Owner in chat, 2026-11-23: capture as many advertising queries as possible; AnswerThePublic and OpenSEO allowed.",
     "decision": "D-ADS-GPT-2-20261123",
     "roadmap": "docs/seo/research/2026-11-23-ads-cluster-2/ROADMAP.md",
-    "data": "ai-prompts.tsv: 14 AnswerThePublic seeds, 337 AI prompts + 48 Google questions (10 searches spent, 23 left until 2026-12-23); OpenSEO demand pending",
+    "data": "ai-prompts.tsv: 14 AnswerThePublic seeds, 337 AI prompts + 48 Google questions (10 searches spent, 23 left until 2026-12-23); OpenSEO 2026-11-23: openseo-summary.md + openseo-keywords.tsv in the research folder (686 keywords, 1,560 credits)",
     "wave_d1": "8 URLs: /ru/blog/reklama-v-tiktok-iz-uzbekistana/ + /uz/blog/tiktok-reklama-ozbekistonda/, /ru/blog/yandeks-direkt-v-uzbekistane/ + /uz/blog/yandex-direct-ozbekistonda/, /ru/blog/reklama-na-youtube-v-uzbekistane/ + /uz/blog/youtube-reklama/, /ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/ + /uz/blog/reklama-uchun-tolov/; lead article refresh; intent pairs W20261123-47..54; incoming links from 17 articles; llms.txt 8 routes + 4 quick answers; revision 2026-11-23-ads-gpt-d1; sitemap 486 -> 494; decision D-ADS-GPT-WAVE-D1-20261123",
-    "next": "Merge, deploy, verify 508 URLs, IndexNow, GSC lists; then the OpenSEO demand data (pending owner tool permission) for the next advertising topics",
+    "next": "Merge, deploy, verify 517 URLs, IndexNow, GSC lists; then wave D5 from the OpenSEO candidates in the research ROADMAP (section 5)",
     "wave_d1_live": "PR #100 merged as 69c3b176 and deployed; production checked 2026-11-23: 8/8 URLs 200 with canonical and FAQPage, lead article refreshed, check-entity-consistency OK on 494 sitemap URLs, IndexNow HTTP 200 for 32 URLs",
     "wave_d2": "8 URLs: /ru/blog/telegram-kanal-prodvizhenie/ + /uz/blog/telegram-kanalni-rivojlantirish/, /ru/blog/kak-stat-targetologom/ + /uz/blog/targetolog-bolish/, /ru/blog/sms-rassylka-v-uzbekistane/ + /uz/blog/sms-reklama/, /ru/blog/naruzhnaya-reklama-v-tashkente/ + /uz/blog/tashqi-reklama-toshkentda/; intent pairs W20261123-55..62; incoming links from 21 articles; llms.txt 8 routes + 4 quick answers; revision 2026-11-23-ads-gpt-d2; sitemap 494 -> 502; decision D-ADS-GPT-WAVE-D2-20261123",
     "wave_d2_live": "PR #101 merged as 4d742add and deployed; production checked 2026-11-23: 8/8 URLs 200 with canonical and FAQPage, check-entity-consistency OK on 502 sitemap URLs, IndexNow HTTP 200 for 36 URLs",
-    "wave_d3": "6 URLs: /ru/blog/reklama-nedvizhimosti-i-novostroek/ + /uz/blog/kochmas-mulk-reklamasi/, /ru/blog/reklama-avtosalona/ + /uz/blog/mashina-savdosi-reklamasi/, /ru/blog/reklama-onlayn-shkoly/ + /uz/blog/onlayn-maktab-reklamasi/; intent pairs W20261123-63..68; incoming links from 12 articles; llms.txt 6 routes + 3 quick answers; revision 2026-11-23-ads-gpt-d3; sitemap 502 -> 508; decision D-ADS-GPT-WAVE-D3-20261123"
+    "wave_d3": "6 URLs: /ru/blog/reklama-nedvizhimosti-i-novostroek/ + /uz/blog/kochmas-mulk-reklamasi/, /ru/blog/reklama-avtosalona/ + /uz/blog/mashina-savdosi-reklamasi/, /ru/blog/reklama-onlayn-shkoly/ + /uz/blog/onlayn-maktab-reklamasi/; intent pairs W20261123-63..68; incoming links from 12 articles; llms.txt 6 routes + 3 quick answers; revision 2026-11-23-ads-gpt-d3; sitemap 502 -> 508; decision D-ADS-GPT-WAVE-D3-20261123",
+    "wave_d3_live": "PR #102 merged as 6ce621b3 and deployed; production checked 2026-11-23: 6/6 URLs 200 with canonical and FAQPage, check-entity-consistency OK on 508 sitemap URLs, IndexNow HTTP 200 for 24 URLs",
+    "wave_d4": "9 URLs: /ru/blog/reklamnyy-banner/ + /uz/blog/reklama-banner/, /ru/blog/prodvizhenie-obyavleniy-na-olx/ + /uz/blog/olx-elon-berish/, /ru/blog/marketolog-kto-eto/ + /uz/blog/marketolog-kim/, /ru/blog/voronka-prodazh/ + /uz/blog/sotuv-voronkasi/, /uz/blog/reklama-agentligi/; «reklama nima» section in /uz/blog/reklama-turlari/; intent pairs W20261123-69..77; incoming links from 27 articles; llms.txt 9 routes + 5 quick answers; revision 2026-11-23-ads-gpt-d4; sitemap 508 -> 517; decision D-ADS-GPT-WAVE-D4-20261123"
   }
 }

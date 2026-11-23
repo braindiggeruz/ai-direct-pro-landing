@@ -1,0 +1,251 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "sotuv-voronkasi",
+  "url": "/uz/blog/sotuv-voronkasi/",
+  "title": "Sotuv voronkasi: bosqichlar, misol va konversiya | GPTBot.uz",
+  "description": "Sotuv voronkasi nima: reklamadan to‘lovgacha bosqichlar, raqamli misol, konversiyani hisoblash va arizalar qayerda yo‘qoladi (2026-11-23).",
+  "h1": "Sotuv voronkasi: bu nima, qanday bosqichlardan iborat va konversiya qanday hisoblanadi",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "sotuv voronkasi",
+    "sotuv voronkasi nima",
+    "voronka bosqichlari",
+    "savdo voronkasi",
+    "sotuv voronkasini qurish"
+  ],
+  "intro": "Qisqa javob (2026-11-23 da tekshirildi): sotuv voronkasi — mijozning reklamani birinchi ko‘rishidan to‘lovgacha bo‘lgan yo‘li, bosqichlarga bo‘lingan: ko‘rish → o‘tish → ariza → menejer bilan suhbat → savdo → qayta xarid. Har bir bosqichda odamlarning bir qismi ketadi, bosqichlar orasidagi konversiya esa biznes pulni qayerda yo‘qotayotganini ko‘rsatadi. Reklama kabinetlari voronkaning yuqori qismini to‘ldiradi: Meta’da oltita maqsad bor — xabardorlik, trafik, faollik, lidlar, ilovani targ‘ib qilish va savdo, — saytdagi qadamlarni esa Google Analytics 4 dagi voronka tadqiqoti (Funnel exploration) hisoboti ko‘rsatadi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23 da tekshirildi): sotuv voronkasi — mijozning reklamani birinchi ko‘rishidan to‘lovgacha bo‘lgan yo‘li, bosqichlarga bo‘lingan: ko‘rish → o‘tish → ariza → menejer bilan suhbat → savdo → qayta xarid. Har bir bosqichda odamlarning bir qismi ketadi, bosqichlar orasidagi konversiya esa biznes pulni qayerda yo‘qotayotganini ko‘rsatadi. Reklama kabinetlari voronkaning yuqori qismini to‘ldiradi: Meta’da oltita maqsad bor — xabardorlik, trafik, faollik, lidlar, ilovani targ‘ib qilish va savdo, — saytdagi qadamlarni esa Google Analytics 4 dagi voronka tadqiqoti (Funnel exploration) hisoboti ko‘rsatadi."
+    },
+    {
+      "type": "h2",
+      "text": "Sotuv voronkasi bosqichlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Bosqich",
+        "Mijoz nima qiladi",
+        "Nimani o‘lchash kerak"
+      ],
+      "rows": [
+        [
+          "Qamrov",
+          "reklama, post yoki videoni ko‘radi",
+          "ko‘rishlar, qamrov, chastota"
+        ],
+        [
+          "Qiziqish",
+          "saytga, profilga yoki botga o‘tadi",
+          "kliklar, CTR, klik narxi"
+        ],
+        [
+          "Ariza",
+          "telefon qoldiradi, direkt yoki Telegram’ga yozadi",
+          "arizalar soni, o‘tishdan konversiya, ariza narxi"
+        ],
+        [
+          "Saralash",
+          "menejer yoki bot savollariga javob beradi",
+          "maqsadli arizalar ulushi, javob tezligi"
+        ],
+        [
+          "Savdo",
+          "to‘laydi",
+          "savdoga konversiya, o‘rtacha chek, savdo narxi"
+        ],
+        [
+          "Qayta xarid",
+          "yana sotib oladi yoki tanishlariga tavsiya qiladi",
+          "qayta xaridlar, sharhlar"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Konversiyani hisoblash misoli"
+    },
+    {
+      "type": "p",
+      "text": "Misol uchun shartli raqamlar: reklama 2 000 ta o‘tish berdi, 80 kishi ariza qoldirdi — konversiya 4 %. Menejer 60 kishiga qo‘ng‘iroq qila oldi (arizalarning 75 %), 12 kishi sotib oldi: arizadan savdoga konversiya — 15 %, o‘tishdan savdoga — 0,6 %."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bosqich konversiyasi = keyingi bosqichdagi odamlar / joriy bosqichdagi odamlar × 100 %.",
+        "Ariza narxi = reklama xarajati / arizalar soni; savdo narxi = xarajat / savdolar soni.",
+        "O‘tishlar ko‘p, arizalar kam bo‘lsa — muammo sahifa yoki taklifda; arizalar ko‘p, savdo kam bo‘lsa — arizalarga ishlov berishda."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Voronka va reklama kampaniyasi maqsadlari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Meta oltita maqsad taklif qiladi: xabardorlik, trafik, faollik, lidlar, ilovani targ‘ib qilish va savdo. Maqsad to‘ldirilishi kerak bo‘lgan bosqichga qarab tanlanadi.",
+        "Google Ads siz uchun qimmatli bo‘lgan foydalanuvchi harakatini — masalan, xarid, ro‘yxatdan o‘tish yoki qo‘ng‘iroqni — konversiya deb hisoblaydi; konversiyalar sozlanmaguncha kabinet voronkaning pastki qismini ko‘rmaydi.",
+        "Google Analytics 4 dagi voronka tadqiqoti har bir qadamdan nechta foydalanuvchi o‘tganini ko‘rsatadi; unda 10 tagacha qadam bor, voronka esa ochiq (istalgan qadamdan kirish) yoki yopiq (faqat birinchi qadamdan) bo‘ladi.",
+        "Yandex Metrika’da saytdagi qadamlar tarkibiy maqsad bilan kuzatiladi: bitta tashrif ichida, qat’iy tartibda beshtagacha qadam."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Voronka mijozlarni qayerda yo‘qotadi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizaga kech javob: mijoz raqobatchilarga yozib ulguradi. Darhol javob berib, arizani menejerga uzatadigan bot yordam beradi.",
+        "Reklama bir narsani va’da qiladi, sahifa yoki profil esa boshqasini ko‘rsatadi.",
+        "Yagona CRM yo‘q: Instagram, Telegram va saytdan kelgan arizalar chatlarda yo‘qoladi.",
+        "Faqat kliklar va arizalar hisoblanadi, savdo esa yo‘q — shuning uchun noto‘g‘ri bosqich yaxshilanadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Sotuv voronkasini besh qadamda qurish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mijoz yo‘lini yozing: qayerdan keladi va to‘lovgacha nima qiladi.",
+        "Bosqichlarni nomlang va keyingi bosqichga o‘tish nima hisoblanishini belgilang.",
+        "Hisobni sozlang: UTM-belgilar, piksel yoki teg, analitikadagi maqsadlar va CRM’dagi bitim holatlari.",
+        "2–4 hafta ma’lumot yig‘ing va har bir bosqich konversiyasini hisoblang.",
+        "Eng zaif bosqichdan boshlang — ko‘pincha bu javob tezligi yoki qo‘nish sahifasi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Reklama samaradorligi va ROMI qanday hisoblanishi — {romi} maqolasida; Instagram, Telegram va CRM’ni bitta voronkaga ulash — {crm}; targetda ariza narxini pasaytirish — {cost}. Voronkaning yuqori qismini arizalar bilan to‘ldiradigan reklamani {hub} ishga tushiradi.",
+      "links": [
+        {
+          "token": "romi",
+          "target": "/uz/blog/reklama-samaradorligi-romi/",
+          "anchor": "reklama samaradorligi va ROMI"
+        },
+        {
+          "token": "crm",
+          "target": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+          "anchor": "Instagram, Telegram va CRM"
+        },
+        {
+          "token": "cost",
+          "target": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+          "anchor": "ariza narxini pasaytirish"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "GPTBot.uz internet reklamasi"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Sotuv voronkasi nima?",
+      "a": "Mijozning reklamani birinchi ko‘rishidan to‘lovgacha bo‘lgan yo‘li, bosqichlarga bo‘lingan. Har bir bosqichda odamlarning bir qismi ketadi va shu yo‘qotishlardan nimani yaxshilash kerakligi ko‘rinadi."
+    },
+    {
+      "q": "Sotuv voronkasi qanday bosqichlardan iborat?",
+      "a": "Odatda: qamrov, qiziqish (o‘tish), ariza, saralash, savdo va qayta xarid. B2B’da uchrashuv, tijorat taklifi va shartnoma qo‘shiladi."
+    },
+    {
+      "q": "Voronka konversiyasi qanday hisoblanadi?",
+      "a": "Keyingi bosqichdagi odamlar sonini joriy bosqichdagilar soniga bo‘lib, 100 % ga ko‘paytiring. Masalan, 80 ta arizadan 12 ta savdo — konversiya 15 %."
+    },
+    {
+      "q": "Sotuv voronkasi AIDA modelidan nimasi bilan farq qiladi?",
+      "a": "AIDA xaridor xulqini tasvirlaydi: e’tibor, qiziqish, istak, harakat. Sotuv voronkasi esa ishchi vosita: bosqichlar, raqamlar va har bir qadam uchun mas’ul."
+    },
+    {
+      "q": "Sotuv voronkasini qayerda qurish mumkin?",
+      "a": "Bitim bosqichlari CRM’da yuritiladi, saytdagi qadamlarni Google Analytics 4 dagi voronka tadqiqoti yoki Yandex Metrika’dagi tarkibiy maqsad ko‘rsatadi, yuqori qismini — reklama kabinetlari."
+    },
+    {
+      "q": "Ariza olish uchun reklamaning qaysi maqsadini tanlash kerak?",
+      "a": "Meta’da — «Lidlar» maqsadi: u odamlarni yozish, qo‘ng‘iroq qilish yoki obuna bo‘lishga undaydi. Saytda xarid hodisalari sozlangan bo‘lsa, «Savdo» maqsadi mos keladi."
+    }
+  ],
+  "cta": {
+    "label": "Arizalar keltiradigan reklama",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "internet reklama arizalar uchun",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-samaradorligi-romi/",
+      "anchor": "reklama samaradorligi va ROMI",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+      "anchor": "Instagram, Telegram va CRM voronkasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    }
+  ],
+  "ogTitle": "Sotuv voronkasi: bosqichlar, misol va konversiya",
+  "ogDescription": "Reklamadan to‘lovgacha sotuv voronkasi bosqichlari, konversiya hisoblash misoli, Meta maqsadlari, GA4 dagi voronka tadqiqoti va arizalar yo‘qolishi.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/sotuv-voronkasi/",
+  "hreflangRu": "/ru/blog/voronka-prodazh/",
+  "hreflangUz": "/uz/blog/sotuv-voronkasi/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "O‘zbekistondagi biznes egalari va marketologlar"
+  },
+  "breadcrumbLabel": "Sotuv voronkasi",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Meta Business Help — reklama kampaniyasi maqsadlari",
+      "url": "https://www.facebook.com/business/help/1438417719786914?locale=ru_RU",
+      "note": "2026-11-23 da tekshirildi: oltita maqsad — xabardorlik, trafik, faollik, lidlar, ilovani targ‘ib qilish va savdo; «Lidlar» maqsadi — xabarlar, qo‘ng‘iroqlar va obunalar."
+    },
+    {
+      "title": "Google Analytics Help — voronka tadqiqoti",
+      "url": "https://support.google.com/analytics/answer/9327974?hl=ru",
+      "note": "2026-11-23 da tekshirildi: foydalanuvchilar qadamlarini va har bir bosqichdan qanchalik muvaffaqiyatli o‘tishini ko‘rsatadi; voronka ochiq yoki yopiq, 10 tagacha qadam."
+    },
+    {
+      "title": "Yandex Metrika ma’lumotnomasi — tarkibiy maqsad",
+      "url": "https://yandex.ru/support/metrica/ru/general/goal-steps",
+      "note": "2026-11-23 da tekshirildi: bitta tashrif doirasida beshtagacha qadamdan iborat ketma-ketlik, qadamlar belgilangan tartibda bajariladi."
+    },
+    {
+      "title": "Google Ads Help — konversiyalarni kuzatish",
+      "url": "https://support.google.com/google-ads/answer/1722022?hl=ru",
+      "note": "2026-11-23 da tekshirildi: konversiya — reklama beruvchi uchun qimmatli foydalanuvchi harakati, masalan xarid, ro‘yxatdan o‘tish yoki qo‘ng‘iroq; Google Ads ko‘rsatishlarni shular bo‘yicha optimallashtiradi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

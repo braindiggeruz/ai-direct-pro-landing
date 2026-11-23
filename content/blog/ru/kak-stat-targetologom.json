@@ -223,6 +223,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/marketolog-kto-eto/",
+      "anchor": "чем маркетолог отличается от таргетолога",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Как стать таргетологом с нуля: план и курсы",

@@ -164,6 +164,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+      "anchor": "продвижение объявлений на OLX",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Реклама автосалона в Узбекистане: каналы и правила",
