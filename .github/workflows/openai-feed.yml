@@ -28,6 +28,8 @@ on:
       - 'scripts/openai-feed-images.json'
       - '.gitattributes'
       - 'public/_headers'
+      - 'public/llms.txt'
+      - 'scripts/generate-llm-markdown.ts'
       - 'public/_routes.json'
       - 'public/_redirects'
       - 'tests/openai-product-feed.test.ts'

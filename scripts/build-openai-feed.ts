@@ -20,8 +20,8 @@ import { fileURLToPath } from 'node:url';
 
 import {
   buildFeed, FEED_FILE, FEED_GZ_FILE, FEED_IMAGE_DIR, FEED_IMAGE_LOCK, FEED_TSV_FILE, gunzipText, gzipFeed,
-  publicFile, readImageLock, serializeFeed, serializeTsv, sha256, validateFeedText, validateTsvText, webpSources,
-  type FeedImageLock,
+  publicFile, readImageLock, refreshServicePricesManifest, serializeFeed, serializeTsv, sha256, validateFeedText,
+  validateTsvText, webpSources, type FeedImageLock,
 } from './openai-feed';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -100,10 +100,15 @@ async function main(): Promise<void> {
     [FEED_GZ_FILE, gzCurrent, () => fs.writeFileSync(path.join(ROOT, FEED_GZ_FILE), gzipFeed(jsonl))],
     [FEED_TSV_FILE, readOr(FEED_TSV_FILE)?.toString('utf8') === tsv, () => fs.writeFileSync(path.join(ROOT, FEED_TSV_FILE), tsv, 'utf8')],
   ];
+  // public/llms.txt quotes the same package prices in its managed service-prices block.
+  const llmsFile = 'public/llms.txt';
+  const llmsText = readOr(llmsFile)?.toString('utf8') ?? '';
+  const llmsFresh = refreshServicePricesManifest(llmsText, ROOT);
+  outputs.push([llmsFile, llmsFresh === llmsText, () => fs.writeFileSync(path.join(ROOT, llmsFile), llmsFresh, 'utf8')]);
   const stale = outputs.filter(([, current]) => !current).map(([file]) => file);
   if (check) {
     if (stale.length) fail(`stale: ${stale.join(', ')}. Run: npx tsx scripts/build-openai-feed.ts and commit.`);
-    console.log(`openai-product-feed: ${records.length} items; .jsonl, .jsonl.gz, .tsv and feed images are up to date`);
+    console.log(`openai-product-feed: ${records.length} items; .jsonl, .jsonl.gz, .tsv, feed images and the llms.txt price block are up to date`);
     return;
   }
   for (const [, current, write] of outputs) if (!current) write();

@@ -432,6 +432,67 @@ export const SERVICE_ITEMS: readonly ServiceItem[] = [
   },
 ];
 
+// ---------- llms.txt: published starting prices ----------
+
+/** English names of the package rows the feed reads; an unknown row fails the build instead of guessing. */
+const PACKAGE_LABELS: Record<string, string> = {
+  'Старт': 'Start', 'Бизнес': 'Business', 'Pro': 'Pro', 'Про': 'Pro', 'Поддержка': 'Support',
+  'AI-менеджер': 'AI Manager', 'Лендинг': 'Landing page', 'Корпоративный сайт': 'Corporate website',
+  'Интернет-магазин': 'Online store', 'Аудит': 'Audit', 'Рост': 'Growth', 'Лидер': 'Leader',
+  'Запуск': 'Launch', 'Ведение': 'Management',
+};
+
+const SERVICE_NAMES: Record<keyof typeof SERVICE_PAGES, string> = {
+  aiBot: 'AI bot for business (Telegram, Instagram, WhatsApp, website)',
+  instagram: 'Instagram AI manager (Direct and comments)',
+  whatsapp: 'WhatsApp bot for business',
+  telegram: 'Telegram bot development',
+  web: 'Website development',
+  seo: 'SEO',
+  smm: 'SMM: Instagram and Telegram management',
+  target: 'Instagram and Facebook targeted ads',
+  ppc: 'Google and Yandex search ads',
+};
+
+/**
+ * The llms.txt block of business service prices, read from the same package
+ * tables as the product feed, so llms.txt can never quote a stale price.
+ * scripts/generate-llm-markdown.ts refreshes it in every build; a test keeps
+ * the committed public/llms.txt current.
+ */
+export function servicePricesManifest(root: string): string {
+  const lines = [
+    '<!-- service-prices:start -->',
+    '## Published starting prices of business services',
+    '',
+    'Read in every build from the package tables of the service pages, the same source as the product feed. All prices are starting prices ("from"): the final scope and price are fixed in a quote before work starts.',
+  ];
+  for (const key of Object.keys(SERVICE_PAGES) as Array<keyof typeof SERVICE_PAGES>) {
+    const spec: ServicePage = SERVICE_PAGES[key];
+    const page = readPage(root, spec.file);
+    const items = SERVICE_ITEMS.filter((item) => item.page === key);
+    const parts = items.map((item) => {
+      const row = packageRow(page, item.row);
+      const label = PACKAGE_LABELS[row.name];
+      if (!label) throw new Error(`${page.url}: no English label for package «${row.name}»`);
+      const days = /^(?:разово, )?(\d+) (?:день|дня|дней)$/u.exec(row.term)?.[1];
+      return `${label} from ${groupThousands(row.amountUzs)} UZS${row.monthly ? ' a month' : ''}${days ? ` (timeline ${days} ${days === '1' ? 'day' : 'days'})` : ''}`;
+    });
+    lines.push(`- ${SERVICE_NAMES[key]} — ${SITE}${page.url}: ${parts.join('; ')}.${spec.notes.length ? ` ${spec.notes.join(' ')}` : ''}`);
+  }
+  lines.push(
+    `- Machine-readable product feed (OpenAI Commerce format, every product with its price and page): ${FEED_GZ_URL} (gzip JSONL), ${FEED_TSV_URL} (TSV).`,
+    '<!-- service-prices:end -->',
+  );
+  return lines.join('\n');
+}
+
+export function refreshServicePricesManifest(source: string, root: string): string {
+  const marker = /<!-- service-prices:start -->[\s\S]*?<!-- service-prices:end -->/;
+  if (!marker.test(source)) throw new Error('llms.txt lacks the service prices block');
+  return source.replace(marker, servicePricesManifest(root));
+}
+
 // ---------- records ----------
 
 type ImageResolver = (ogImagePath: string) => string;

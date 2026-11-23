@@ -1516,3 +1516,20 @@ Business Hub rejected `https://gptbot.uz/openai-product-feed.jsonl`: "This JSON 
 - Deflate output differs between zlib builds (Windows and Linux Node), so the writer keeps the committed `.gz` whenever it decompresses to the current JSONL; the header has mtime 0 and the OS byte pinned to Unix. The feed files are `eol=lf` in `.gitattributes` so Windows checkouts compare byte for byte.
 - WebP og:images (12 records, 5 images) are linked through 1200px JPEG copies in `public/assets/feed/`, named with a content hash because `/assets/*` is cached as immutable. `scripts/openai-feed-images.json` records each WebP's sha256; a JPEG is regenerated (sharp) only when its WebP changes, and a stale copy fails `--check`. Page images are untouched.
 - The 0 UZS trial row is behind `INCLUDE_FREE_TRIAL` (a committed constant, true): an environment variable would make the build differ from the committed feed and trip the release guard.
+
+## D-AI-VISIBILITY-20261123 — AI visibility waves: honest answer-first content, one entity, no gate bypass
+
+Owner's brief of 23.11.2026 («по максимуму поднять видимость gptbot.uz в ответах ChatGPT и других ИИ») with the analysis now in `docs/seo/research/2026-11-23-ai-visibility/ANALYSIS.md` and its production check in `VERIFICATION.md`.
+
+Owner answers of 23.11.2026, in chat, to the step-0 questions:
+1. «Kichik Xalqa Yo‘li 57 адрес» — the studio address everywhere, the offer pages included. The offer footer kept «Yahyo Gulyamov ko‘chasi 35» because `OFFER_EDITION_NAP` froze the offer's visible text per edition; changing it is a new offer edition (ai-paket-2026-11-v7), shipped as its own PR with the billing and Studio edition settings.
+2. «@XGame_changerx» as the profile for `sameAs`. Not added: decision L14 took the founder's personal Telegram out of `Organization.sameAs` (it merged the company and the founder into one entity; `tests/studio-contact.test.ts` keeps the handle in `studioTelegram` only). The handle is already in the Organization's `contactPoint.url` on every page. A company Telegram channel or a map/directory card would be a valid `sameAs`.
+3. Cases: www.cakecity.uz, www.mirac.uz, www.deutschexrepte.com, www.bekcorp.uz — client names given, but no task, result or timeline. Case pages state only what the owner confirms; numbers stay out until the owner gives them (TODO-owner).
+4. «согласен» — comparisons naming other services (Uzbek AI chats; AI chats payable with Click/Payme) are allowed, with facts checked on each service's own site, a link and a check date, and no judgement of competitors.
+
+Rules for the waves:
+- New content goes through the normal gates. Articles (`content/blog`) are outside the demand policy by design; a new money/niche/tool page needs an approved keyword. The Uzbek chat-tariffs page has none (no measured volume for «ai chat narxi»-type phrases; new paid keyword slices are not bought before 21–22.12.2026), so it waits for a measurement instead of a looser page type.
+- Every new published URL changes the protected homepage lists, so each content batch ships with a reviewed protection revision (pattern: `reports/commercial-bots-20261122/review.ts`). The four protected pages Bing Copilot cites (download guide, `/uz/gpt-uzbek-tilida/`, `chatgpt-i-claude-v-uzbekistane`, `kak-oplatit-chatgpt-v-uzbekistane`) are not edited in these waves: they carry the 20.11 and R14/R15 measurement windows.
+- The `/en/` layer is a separate generator beside the ru/uz system (as Studio is), with hreflang only to unprotected counterparts; the protected chats keep A14 (no hreflang).
+- `public/llms.txt` quotes business prices only through the managed `service-prices` block, read from the same package tables as the product feed; the feed generator keeps the committed file current.
+- No text addressed to AI systems, no hidden text, no FAQPage without visible questions, no Offer/Review/Rating without visible data, no «official / rasmiy».
