@@ -1,0 +1,329 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "meta-pikseli-ornatish",
+  "url": "/uz/blog/meta-pikseli-ornatish/",
+  "title": "Meta pikselini o‘rnatish: hodisalar va tekshiruv | GPTBot.uz",
+  "description": "Meta (Facebook) pikselini saytga qanday o‘rnatish: asosiy kod, standart hodisalar, Test Events va Meta Ads Data Advisor orqali tekshirish, Conversions API.",
+  "h1": "Meta pikselini o‘rnatish 2026: saytga asosiy kod, kerakli hodisalar va tekshirish",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "meta piksel",
+    "facebook piksel",
+    "pikselni o‘rnatish",
+    "piksel hodisalari",
+    "meta conversions api"
+  ],
+  "intro": "Qisqa javob (2026-11-23 da tekshirildi): Meta pikseli — saytdagi kod parchasi bo‘lib, Instagram va Facebook reklamasiga kim mahsulotni ko‘rgani, ariza qoldirgani yoki sotib olganini xabar qiladi. Piksel Events Manager’da yaratiladi, asosiy kod har bir sahifaning head bo‘limiga qo‘yiladi yoki sayt platformasi integratsiyasi orqali ulanadi, hodisalar — ViewContent, Lead, Purchase va boshqalar — maqsadingizga qarab sozlanadi. Ishlashini Test Events vositasida yoki Meta Ads Data Advisor kengaytmasi bilan tekshiring — Meta Pixel Helper endi shunday ataladi. Piksel bilan birga Meta bir xil hodisalarni yuboradigan Conversions API’ni tavsiya qiladi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23 da tekshirildi): Meta pikseli — saytdagi kod parchasi bo‘lib, Instagram va Facebook reklamasiga kim mahsulotni ko‘rgani, ariza qoldirgani yoki sotib olganini xabar qiladi. Piksel Events Manager’da yaratiladi, asosiy kod har bir sahifaning head bo‘limiga qo‘yiladi yoki sayt platformasi integratsiyasi orqali ulanadi, hodisalar — ViewContent, Lead, Purchase va boshqalar — maqsadingizga qarab sozlanadi. Ishlashini Test Events vositasida yoki Meta Ads Data Advisor kengaytmasi bilan tekshiring — Meta Pixel Helper endi shunday ataladi. Piksel bilan birga Meta bir xil hodisalarni yuboradigan Conversions API’ni tavsiya qiladi."
+    },
+    {
+      "type": "h2",
+      "text": "Piksel nima uchun kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hisobotlarda saytdagi qaysi harakatlarni reklama olib kelganini ko‘rsatadi.",
+        "Meta’ga kerakli harakat — ariza yoki xarid uchun optimallashtirish ma’lumotlarini beradi.",
+        "Sayt tashrif buyuruvchilarini retargeting va o‘xshash auditoriyalar uchun o‘z auditoriyalariga yig‘adi.",
+        "Katalogdagi mahsulotlar bilan reklama uchun kerak: Meta ViewContent, AddToCart va Purchase hodisalarini talab qiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "O‘rnatish: uch qadam"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qadam",
+        "Nima qilish",
+        "Tafsilot"
+      ],
+      "rows": [
+        [
+          "1",
+          "Events Manager’da piksel yarating",
+          "piksel pudratchining emas, biznesingizning biznes portfoliosida bo‘lishi kerak"
+        ],
+        [
+          "2",
+          "Asosiy kodni qo‘ying",
+          "uni har bir sahifaning head bo‘limiga qo‘ying yoki sayt platformasi integratsiyasi orqali ulang; PageView hodisasi asosiy kodga kiradi"
+        ],
+        [
+          "3",
+          "Hodisalarni sozlang",
+          "maqsadingizga mos standart hodisalar; hodisa nomlari katta-kichik harfga sezgir"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi hodisalarni sozlash kerak"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Hodisa",
+        "Qachon ishga tushadi",
+        "Kimga kerak"
+      ],
+      "rows": [
+        [
+          "ViewContent",
+          "mahsulot yoki xizmat kartochkasini ko‘rish",
+          "do‘konlar, katalog reklamasi"
+        ],
+        [
+          "AddToCart",
+          "savatga qo‘shish",
+          "internet-do‘konlar"
+        ],
+        [
+          "InitiateCheckout",
+          "buyurtma berishni boshlash",
+          "internet-do‘konlar"
+        ],
+        [
+          "Purchase",
+          "xarid",
+          "do‘konlar, onlayn to‘lov"
+        ],
+        [
+          "Lead",
+          "ariza yuborish",
+          "xizmatlar, ta’lim, ko‘chmas mulk"
+        ],
+        [
+          "Contact",
+          "telefon, chat yoki messenjer orqali murojaat",
+          "mahalliy biznes"
+        ],
+        [
+          "Schedule",
+          "qabulga yozilish",
+          "salonlar, klinikalar"
+        ],
+        [
+          "CompleteRegistration",
+          "ro‘yxatdan o‘tish yakunlandi",
+          "servislar, vebinarlar"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Piksel ishlayotganini qanday tekshirish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Events Manager’dagi Test Events: Data sources → pikselingiz → Test events, keyin saytni oching — test sahifasi ochiq turganda sayt hodisalari yoziladi.",
+        "Meta Ads Data Advisor (avval Meta Pixel Helper) — Google Chrome va Microsoft Edge uchun bepul kengaytma, ochiq sahifadagi hodisalarni ko‘rsatadi.",
+        "Piksel to‘g‘ri ishlasa, sahifa ochilganda Meta’ga sahifa ko‘rish hodisasini yuboradi.",
+        "Events Manager’dagi Diagnostics yorlig‘i sozlash xatolarini ko‘rsatadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Conversions API va nima o‘zgardi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Meta Conversions API’ni piksel bilan birga ishlatishni va bir xil hodisalarni ikkala usulda yuborishni tavsiya qiladi.",
+        "Aggregated Event Measurement uchun domen bo‘yicha 8 ta hodisani tartiblash endi kerak emas — hodisalar sizning harakatingizsiz qayta ishlanadi.",
+        "Hodisalarni sozlash uchun domenni tasdiqlash endi majburiy emas, lekin tasdiqlash boshqa vazifalar, masalan havolalarni tahrirlash huquqi uchun foydali."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Piksel va shaxsga doir ma’lumotlar"
+    },
+    {
+      "type": "p",
+      "text": "Saytda ism va telefon so‘raladigan forma bo‘lsa, shaxsga doir ma’lumotlarga ishlov berishga rozilik kerak: O‘RQ-547 subyekt roziligi bilan ishlov berishga ruxsat beradi (18-modda), rozilik olinganini tasdiqlash mumkin bo‘lgan shaklda (21-modda). Ma’lumot yig‘ishni saytning maxfiylik siyosatida yozing."
+    },
+    {
+      "type": "linkp",
+      "text": "Piksel o‘z va o‘xshash auditoriyalarga qanday yordam beradi — {aud} maqolasida; katalog bilan reklama — {tovar} maqolasida; hodisalar bo‘yicha samaradorlik — {romi} maqolasida; Ads Manager — {am} qo‘llanmasida. Analitika va reklamani sozlash uchun {hub} sahifasini ko‘ring.",
+      "links": [
+        {
+          "token": "aud",
+          "target": "/uz/blog/targetda-auditoriya-sozlash/",
+          "anchor": "targetda auditoriya sozlash"
+        },
+        {
+          "token": "tovar",
+          "target": "/uz/blog/mahsulotni-reklama-qilish/",
+          "anchor": "mahsulotni qanday reklama qilish"
+        },
+        {
+          "token": "romi",
+          "target": "/uz/blog/reklama-samaradorligi-romi/",
+          "anchor": "reklama samaradorligi"
+        },
+        {
+          "token": "am",
+          "target": "/uz/blog/meta-ads-manager-qollanma/",
+          "anchor": "Meta Ads Manager"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "GPTBot.uz’da arizalar uchun internet reklama"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Meta pikseli nima?",
+      "a": "Saytdagi kod parchasi bo‘lib, tashrif buyuruvchilar harakatlarini — ko‘rishlar, arizalar, xaridlarni Meta’ga uzatadi. Bu ma’lumotlar bo‘yicha reklama optimallashtiriladi, tashrif buyuruvchilarni esa auditoriyalarga yig‘ish mumkin."
+    },
+    {
+      "q": "Piksel kodini qayerga qo‘yish kerak?",
+      "a": "Saytning har bir sahifasidagi head bo‘limiga yoki pikselni sayt platformasi integratsiyasi orqali ulang. Pikselning o‘zi Events Manager’da yaratiladi."
+    },
+    {
+      "q": "Qaysi piksel hodisalarini sozlash kerak?",
+      "a": "Maqsadingizga qarab: xizmatlar uchun — Lead va Contact, yozilish uchun — Schedule, do‘kon uchun — ViewContent, AddToCart, InitiateCheckout va Purchase. Hodisa nomlari harfga sezgir."
+    },
+    {
+      "q": "Piksel ishlayotganini qanday tekshirish mumkin?",
+      "a": "Events Manager’da Test Events’ni ochib saytga kiring yoki Chrome yoxud Edge uchun Meta Ads Data Advisor kengaytmasini (avval Meta Pixel Helper) o‘rnating."
+    },
+    {
+      "q": "Piksel bo‘lsa, Conversions API kerakmi?",
+      "a": "Meta Conversions API’ni piksel bilan birga ishlatishni va bir xil hodisalarni ikkala usulda yuborishni tavsiya qiladi."
+    },
+    {
+      "q": "8 ta hodisani sozlash va domenni tasdiqlash kerakmi?",
+      "a": "Yo‘q: Aggregated Event Measurement uchun 8 ta hodisani tartiblash endi kerak emas, hodisalarni sozlash uchun domenni tasdiqlash ham majburiy emas."
+    }
+  ],
+  "cta": {
+    "label": "Analitikani sozlash",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "arizalar uchun internet reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/targetda-auditoriya-sozlash/",
+      "anchor": "targetda auditoriya sozlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/mahsulotni-reklama-qilish/",
+      "anchor": "katalog bilan mahsulot reklamasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/reklama-samaradorligi-romi/",
+      "anchor": "reklama samaradorligi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/meta-ads-manager-qollanma/",
+      "anchor": "Meta Ads Manager qo‘llanma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Meta pikselini o‘rnatish: hodisalar va tekshiruv",
+  "ogDescription": "Asosiy kod, standart hodisalar, Test Events va Meta Ads Data Advisor, Conversions API — Meta ma’lumotnomasi bo‘yicha, 2026-11-23.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/meta-pikseli-ornatish/",
+  "hreflangRu": "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+  "hreflangUz": "/uz/blog/meta-pikseli-ornatish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Instagram va Facebook’da reklama beradigan O‘zbekistondagi sayt egalari va marketologlar"
+  },
+  "breadcrumbLabel": "Meta pikseli",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Meta Business Help — Meta pikseli nima",
+      "url": "https://www.facebook.com/business/help/742478679120153",
+      "note": "2026-11-23 da tekshirildi: Meta pikseli — saytga joylashtiriladigan kod parchasi."
+    },
+    {
+      "title": "Meta Business Help — pikselni sozlash",
+      "url": "https://www.facebook.com/business/help/952192354843755",
+      "note": "2026-11-23 da tekshirildi: piksel Events Manager’da yaratiladi va asosiy kod saytga qo‘yiladi; piksel bilan birga Meta Conversions API’ni tavsiya qiladi."
+    },
+    {
+      "title": "Meta Business Help — piksel kodini o‘rnatish",
+      "url": "https://www.facebook.com/business/help/402791146561655",
+      "note": "2026-11-23 da tekshirildi: piksel kodi sahifaning head teglari orasiga qo‘yiladi."
+    },
+    {
+      "title": "Meta Business Help — Test Events",
+      "url": "https://www.facebook.com/business/help/2040882565969969",
+      "note": "2026-11-23 da tekshirildi: vosita sayt hodisalari to‘g‘ri sozlanganini va Meta’ga yetib borayotganini tekshiradi."
+    },
+    {
+      "title": "Meta Business Help — Meta Ads Data Advisor",
+      "url": "https://www.facebook.com/business/help/198406697184603",
+      "note": "2026-11-23 da tekshirildi: Meta Ads Data Advisor (avval Meta Pixel Helper) — Chrome va Edge uchun bepul kengaytma."
+    },
+    {
+      "title": "Meta Business Help — piksel va Conversions API birga",
+      "url": "https://www.facebook.com/business/help/218844828315224",
+      "note": "2026-11-23 da tekshirildi: Conversions API’ni piksel bilan birga ishlating va bir xil hodisalarni yuboring."
+    },
+    {
+      "title": "Meta Business Help — Aggregated Event Measurement",
+      "url": "https://www.facebook.com/business/help/721422165168355",
+      "note": "2026-11-23 da tekshirildi: hech narsa sozlash shart emas, domen uchun 8 ta hodisani tartiblash endi talab qilinmaydi."
+    },
+    {
+      "title": "Meta Business Help — domenni tasdiqlash",
+      "url": "https://www.facebook.com/business/help/245311299870862",
+      "note": "2026-11-23 da tekshirildi: hodisalarni sozlash uchun domenni tasdiqlash endi majburiy emas."
+    },
+    {
+      "title": "Meta Business Help — katalog reklamasi uchun piksel hodisalari",
+      "url": "https://www.facebook.com/business/help/606577526529702",
+      "note": "2026-11-23 da tekshirildi: katalogdagi mahsulotlar bilan reklama uchun ViewContent, AddToCart va Purchase hodisalari kerak."
+    },
+    {
+      "title": "«Shaxsga doir ma’lumotlar to‘g‘risida»gi Qonun (O‘RQ-547), 18, 21-moddalar — lex.uz",
+      "url": "https://lex.uz/docs/4396419",
+      "note": "2026-11-23 da tekshirildi: shaxsga doir ma’lumotlarga subyekt roziligi bilan ishlov beriladi; rozilik olinganini tasdiqlash mumkin bo‘lgan shaklda beriladi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

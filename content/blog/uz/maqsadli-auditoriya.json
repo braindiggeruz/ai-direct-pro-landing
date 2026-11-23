@@ -203,6 +203,13 @@
       "anchor": "Xizmat tarkibi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/targetda-auditoriya-sozlash/",
+      "anchor": "auditoriyani Ads Manager’da sozlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "canonical": "https://gptbot.uz/uz/blog/maqsadli-auditoriya/",

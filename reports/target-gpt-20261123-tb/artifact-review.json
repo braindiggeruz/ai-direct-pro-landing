@@ -1,0 +1,334 @@
+{
+  "checkedAt": "2026-11-23T11:10:22.211Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ads-gpt-c2/reviewed-protected-pages.json",
+  "sitemapBefore": 472,
+  "sitemapAfter": 478,
+  "added": [
+    "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+    "/ru/blog/reklamnyy-kabinet-meta/",
+    "/ru/blog/targeting-v-instagram/",
+    "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+    "/uz/blog/meta-pikseli-ornatish/",
+    "/uz/blog/targetda-auditoriya-sozlash/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/performance-marketing-tashkent/",
+        "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+        "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+        "/ru/blog/targeting-v-instagram/",
+        "/ru/blog/tselevaya-auditoriya-dlya-targeta/"
+      ]
+    },
+    {
+      "url": "/ru/blog/reklamnyy-kabinet-meta/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "/ru/blog/targeting-v-instagram/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/ru/blog/targeting-v-instagram/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+        "/ru/blog/reklamnyy-kabinet-meta/",
+        "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "/ru/blog/reklama-salona-krasoty-tashkent/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "/ru/blog/targeting-v-instagram/"
+      ]
+    },
+    {
+      "url": "/uz/blog/meta-pikseli-ornatish/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/mahsulotni-reklama-qilish/",
+        "/uz/blog/meta-ads-manager-qollanma/",
+        "/uz/blog/reklama-samaradorligi-romi/",
+        "/uz/blog/targetda-auditoriya-sozlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/targetda-auditoriya-sozlash/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/maqsadli-auditoriya/",
+        "/uz/blog/meta-pikseli-ornatish/",
+        "/uz/blog/reklama-ozbek-va-rus-tilida/",
+        "/uz/blog/target-reklama-nima/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+        "/ru/blog/reklamnyy-kabinet-meta/",
+        "/ru/blog/targeting-v-instagram/",
+        "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+        "/uz/blog/meta-pikseli-ornatish/",
+        "/uz/blog/targetda-auditoriya-sozlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+        "/ru/blog/reklamnyy-kabinet-meta/",
+        "/ru/blog/targeting-v-instagram/",
+        "/ru/blog/tselevaya-auditoriya-dlya-targeta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/meta-pikseli-ornatish/",
+        "/uz/blog/targetda-auditoriya-sozlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/performance-marketing-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/piksel-meta-ustanovka-i-sobytiya/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/agentstvo-ili-frilanser-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklamnyy-kabinet-meta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/piksel-meta-ustanovka-i-sobytiya/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/piksel-meta-ustanovka-i-sobytiya/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/piksel-meta-ustanovka-i-sobytiya/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklamnyy-kabinet-meta/",
+        "/ru/blog/targeting-v-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/targeting-v-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/tselevaya-auditoriya-dlya-targeta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklama-salona-krasoty-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/tselevaya-auditoriya-dlya-targeta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/tselevaya-auditoriya-dlya-targeta/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklamnyy-kabinet-meta/",
+        "/ru/blog/targeting-v-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/mahsulotni-reklama-qilish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/meta-pikseli-ornatish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/maqsadli-auditoriya/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/targetda-auditoriya-sozlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/meta-ads-manager-qollanma/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/meta-pikseli-ornatish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/targetda-auditoriya-sozlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-samaradorligi-romi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/meta-pikseli-ornatish/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/target-reklama-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/targetda-auditoriya-sozlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+        "/ru/blog/reklamnyy-kabinet-meta/",
+        "/ru/blog/targeting-v-instagram/",
+        "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+        "/uz/blog/meta-pikseli-ornatish/",
+        "/uz/blog/targetda-auditoriya-sozlash/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 475
+}

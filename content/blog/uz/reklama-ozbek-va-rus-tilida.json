@@ -250,6 +250,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/targetda-auditoriya-sozlash/",
+      "anchor": "ikki til uchun o‘z va o‘xshash auditoriyalar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Reklama o‘zbek va rus tilida: qonun va sozlash",

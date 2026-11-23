@@ -1,3 +1,31 @@
+# Current handoff — targeting wave T-B: targeting in Instagram, audiences, Meta Pixel, ad account · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 1c844dee (= production: advertising waves B, C1, C2 live, 472 URLs, check-entity-consistency OK, IndexNow HTTP 200 for 27 URLs of C2). Production stays 1c844dee until this PR is merged and deployed.
+## 2. Delivered
+Six URLs: /ru/blog/targeting-v-instagram/ (unpaired), /ru/blog/tselevaya-auditoriya-dlya-targeta/ + /uz/blog/targetda-auditoriya-sozlash/, /ru/blog/piksel-meta-ustanovka-i-sobytiya/ + /uz/blog/meta-pikseli-ornatish/, /ru/blog/reklamnyy-kabinet-meta/ (unpaired). Intent pairs W20261123-33…38, links from 16 existing articles, llms.txt (6 routes, 1 quick answer).
+## 3. Files
+content/blog/{ru,uz}/ (6 new, 16 existing with added related links), content/seo/intent-manifest.json, public/llms.txt, scripts/seo-protection.ts (BASELINE), tests/target-gpt-wave-tb.test.ts + package.json, reports/target-gpt-20261123-tb/, docs/seo/evidence/2026-11-23-target-gpt-tb/, docs.
+## 4. Decisions
+D-TARGET-GPT-WAVE-TB-20261123 (under D-ADS-GPT-20261123).
+## 5. Excluded
+Wave T-C (lead forms, blocked accounts, cost per lead, retargeting), T-A edits (D-T2 unanswered), profession pages (D-T1 unanswered).
+## 6. Validation
+seo-audit OK; build:fast; review vs a build of main 1c844dee: sitemap 472 → 478, 20 existing pages change by added links only, 0 removed, issues 0; wave test 6/6; 51 of 55 SEO-related test files green, the 4 red ones fail identically on main; tsc -b and eslint clean.
+## 7. Known limits
+Meta's interface names are English; Ads Manager screens were not inspected (login). The lookalike percentage range and website-audience retention cap are left out because Meta's pages do not state them consistently.
+## 8. Next task
+Merge, deploy, verify 478 URLs, IndexNow, GSC list; then wave T-C.
+## 9. Acceptance
+Six URLs 200 and in the sitemap; check-entity-consistency OK on 478 URLs.
+## 10. Start commands
+npx tsx reports/target-gpt-20261123-tb/review.ts --before <main dist>; node --import tsx --test tests/target-gpt-wave-tb.test.ts
+## 11. Risks
+Low: new pages and added links only.
+## 12. Rollback
+git revert; the ads-gpt-c2 BASELINE stays valid for the old homepage.
+
+---
 # Current handoff — advertising cluster, wave C2: product, salon, cafe, Meta Ads Manager (uz) · 23.11.2026
 
 ## 1. State

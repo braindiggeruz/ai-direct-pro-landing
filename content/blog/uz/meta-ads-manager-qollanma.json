@@ -288,6 +288,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/meta-pikseli-ornatish/",
+      "anchor": "Meta pikseli va hodisalar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Meta Ads Manager: o‘zbek tilida qo‘llanma 2026",

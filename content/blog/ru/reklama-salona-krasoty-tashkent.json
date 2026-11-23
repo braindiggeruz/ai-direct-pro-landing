@@ -213,6 +213,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+      "anchor": "аудитория по радиусу вокруг салона",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Реклама салона красоты в Ташкенте: план на 2026",

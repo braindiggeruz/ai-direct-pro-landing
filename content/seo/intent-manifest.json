@@ -5008,6 +5008,167 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-33-ru-target-service-vs-targeting-explainer",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "таргетинг в инстаграм",
+          "что такое таргетинг",
+          "таргет что это"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/targeting-v-instagram/",
+        "owns": "what targeting in Instagram is and how Meta selects audiences in 2026",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "настройка таргетированной рекламы ташкент",
+          "ведение таргетированной рекламы"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-34-ru-target-service-vs-audience-guide",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "аудитория для таргета",
+          "как выбрать аудиторию для таргета",
+          "похожая аудитория lookalike"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+        "owns": "audience types and settings in Meta Ads Manager (Advantage+, detailed, custom, lookalike, geo, language)",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "настройка таргетированной рекламы ташкент",
+          "ведение таргетированной рекламы"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-35-uz-target-service-vs-audience-guide",
+      "commercial": {
+        "url": "/uz/instagram-target-yoqish/",
+        "owns": "the Uzbek targeting service: steps, prices, order",
+        "mustNotTarget": [
+          "targetda auditoriya sozlash",
+          "target auditoriya",
+          "o‘xshash auditoriya"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/targetda-auditoriya-sozlash/",
+        "owns": "audience types and settings in Meta Ads Manager (Uzbek)",
+        "mustNotTarget": [
+          "target yoqish",
+          "instagram target",
+          "target yoqish narxi",
+          "targetolog xizmati",
+          "target xizmati"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-36-ru-performance-service-vs-meta-pixel-guide",
+      "commercial": {
+        "url": "/ru/performance-marketing-tashkent/",
+        "owns": "the performance marketing service: paid traffic optimised to lead quality and end-to-end analytics",
+        "mustNotTarget": [
+          "пиксель фейсбук",
+          "пиксель meta",
+          "как установить пиксель фейсбук"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+        "owns": "installing the Meta Pixel, standard events, checks and Conversions API",
+        "mustNotTarget": [
+          "performance маркетинг ташкент",
+          "маркетинг по результату",
+          "сквозная аналитика ташкент",
+          "лидогенерация ташкент"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-37-uz-internet-ads-hub-vs-meta-pixel-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "meta piksel",
+          "facebook piksel",
+          "pikselni o‘rnatish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/meta-pikseli-ornatish/",
+        "owns": "installing the Meta Pixel, events and checks (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-38-ru-target-service-vs-ad-account-guide",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "рекламный кабинет фейсбук",
+          "рекламный кабинет meta",
+          "как создать рекламный кабинет"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklamnyy-kabinet-meta/",
+        "owns": "creating a Meta ad account in a business portfolio, access, payment, review and restrictions",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "настройка таргетированной рекламы ташкент",
+          "ведение таргетированной рекламы"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

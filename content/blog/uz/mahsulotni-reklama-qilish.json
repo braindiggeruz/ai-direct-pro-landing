@@ -239,6 +239,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/meta-pikseli-ornatish/",
+      "anchor": "pikselni do‘kon saytiga qanday o‘rnatish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Mahsulotni qanday reklama qilish: 6 kanal",

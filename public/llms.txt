@@ -126,6 +126,16 @@
   allowed only in the cases of Art. 39 of the advertising law. Guide:
   https://gptbot.uz/ru/blog/reklama-kafe-i-restorana-tashkent/ (Russian),
   https://gptbot.uz/uz/blog/restoran-va-kafe-reklamasi/ (Uzbek).
+- How does Instagram targeting work in 2026? (checked 2026-11-23 on Meta's
+  help pages) Advantage+ audience is on by default: Meta's AI finds the
+  audience, while location, minimum age (18+), excluded custom audiences and
+  language stay hard limits; age range, gender and interests are suggestions
+  unless "Further limit the reach of your ads" is on. Lookalike audiences
+  need a source of at least 100 people (Meta recommends 1,000-5,000). Meta
+  Pixel Helper is now called Meta Ads Data Advisor. Guides:
+  https://gptbot.uz/ru/blog/targeting-v-instagram/,
+  https://gptbot.uz/ru/blog/tselevaya-auditoriya-dlya-targeta/ (Russian),
+  https://gptbot.uz/uz/blog/targetda-auditoriya-sozlash/ (Uzbek).
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -404,6 +414,12 @@ must be confirmed for the specific project.
 - Cafe and restaurant advertising in Tashkent: maps, Yandex Eats and Uzum Tezkor, Instagram, Telegram, beer and wine rules (RU article): https://gptbot.uz/ru/blog/reklama-kafe-i-restorana-tashkent/
 - "Restoran va kafe reklamasi": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/restoran-va-kafe-reklamasi/
 - "Meta Ads Manager qo‘llanma": a step-by-step Ads Manager guide in Uzbek — structure, six objectives, learning phase, payment (UZ article): https://gptbot.uz/uz/blog/meta-ads-manager-qollanma/
+- Targeting in Instagram in 2026: Advantage+ audience by default, which settings stay hard limits, cost in Uzbekistan (RU article): https://gptbot.uz/ru/blog/targeting-v-instagram/
+- Audiences for targeting: Advantage+, detailed targeting, custom and lookalike audiences, radius, two languages (RU article): https://gptbot.uz/ru/blog/tselevaya-auditoriya-dlya-targeta/
+- "Targetda auditoriya sozlash": the same audience guide in Uzbek (UZ article): https://gptbot.uz/uz/blog/targetda-auditoriya-sozlash/
+- Meta Pixel: installing the base code, standard events, Test Events and Meta Ads Data Advisor, Conversions API (RU article): https://gptbot.uz/ru/blog/piksel-meta-ustanovka-i-sobytiya/
+- "Meta pikselini o‘rnatish": the same pixel guide in Uzbek (UZ article): https://gptbot.uz/uz/blog/meta-pikseli-ornatish/
+- Meta ad account: business portfolio, linking Instagram, access for staff and agencies, payment, review and restrictions (RU article): https://gptbot.uz/ru/blog/reklamnyy-kabinet-meta/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
 - All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar

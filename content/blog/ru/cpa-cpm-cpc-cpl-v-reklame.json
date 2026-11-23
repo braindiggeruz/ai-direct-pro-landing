@@ -411,6 +411,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+      "anchor": "пиксель и события Meta для подсчёта конверсий",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "ogTitle": "CPA, CPM, CPC и CPL: за что вы платите в рекламе",

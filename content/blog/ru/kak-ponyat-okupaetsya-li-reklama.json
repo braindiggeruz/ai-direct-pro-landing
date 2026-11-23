@@ -322,6 +322,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+      "anchor": "пиксель Meta: как отслеживать заявки и покупки",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Окупается ли реклама: ROMI, ROAS, CPL и CAC",

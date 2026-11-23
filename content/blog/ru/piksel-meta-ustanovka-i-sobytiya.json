@@ -1,0 +1,334 @@
+{
+  "status": "published",
+  "locale": "ru",
+  "slug": "piksel-meta-ustanovka-i-sobytiya",
+  "url": "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+  "title": "Пиксель Meta: установка, события и проверка 2026 | GPTBot.uz",
+  "description": "Как установить пиксель Meta на сайт: базовый код, стандартные события, проверка в Test Events и Meta Ads Data Advisor, Conversions API. Проверено 23.11.2026.",
+  "h1": "Пиксель Meta (Facebook) в 2026 году: как установить на сайт, какие события нужны и как проверить",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/ru/performance-marketing-tashkent/",
+  "keywords": [
+    "пиксель фейсбук",
+    "пиксель meta",
+    "как установить пиксель фейсбук",
+    "события пикселя",
+    "conversions api"
+  ],
+  "intro": "Коротко (проверка 23.11.2026): пиксель Meta — это фрагмент кода на сайте, который сообщает рекламе в Instagram и Facebook, кто посмотрел товар, оставил заявку или купил. Пиксель создают в Events Manager, базовый код вставляют в раздел head каждой страницы или подключают через интеграцию платформы сайта, а события — ViewContent, Lead, Purchase и другие — настраивают под свои цели. Проверяют работу в инструменте Test Events или расширением Meta Ads Data Advisor — так теперь называется Meta Pixel Helper. Вместе с пикселем Meta рекомендует Conversions API с теми же событиями.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Коротко (проверка 23.11.2026): пиксель Meta — это фрагмент кода на сайте, который сообщает рекламе в Instagram и Facebook, кто посмотрел товар, оставил заявку или купил. Пиксель создают в Events Manager, базовый код вставляют в раздел head каждой страницы или подключают через интеграцию платформы сайта, а события — ViewContent, Lead, Purchase и другие — настраивают под свои цели. Проверяют работу в инструменте Test Events или расширением Meta Ads Data Advisor — так теперь называется Meta Pixel Helper. Вместе с пикселем Meta рекомендует Conversions API с теми же событиями."
+    },
+    {
+      "type": "h2",
+      "text": "Зачем нужен пиксель"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Показывает в отчётах, какие действия на сайте принесла реклама.",
+        "Даёт Meta данные для оптимизации под нужное действие — заявку или покупку.",
+        "Собирает посетителей сайта в свои аудитории для ретаргетинга и похожих аудиторий.",
+        "Нужен для рекламы с товарами из каталога: Meta требует события ViewContent, AddToCart и Purchase."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Установка: три шага"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Шаг",
+        "Что сделать",
+        "Деталь"
+      ],
+      "rows": [
+        [
+          "1",
+          "Создайте пиксель в Events Manager",
+          "пиксель должен быть в бизнес-портфолио вашего бизнеса, а не подрядчика"
+        ],
+        [
+          "2",
+          "Поставьте базовый код",
+          "вставьте его в раздел head каждой страницы или подключите через интеграцию платформы сайта; событие PageView входит в базовый код"
+        ],
+        [
+          "3",
+          "Настройте события",
+          "стандартные события под ваши цели; названия событий чувствительны к регистру"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Какие события настроить"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Событие",
+        "Когда срабатывает",
+        "Кому нужно"
+      ],
+      "rows": [
+        [
+          "ViewContent",
+          "просмотр карточки товара или услуги",
+          "магазины, реклама с каталогом"
+        ],
+        [
+          "AddToCart",
+          "добавление в корзину",
+          "интернет-магазины"
+        ],
+        [
+          "InitiateCheckout",
+          "начало оформления заказа",
+          "интернет-магазины"
+        ],
+        [
+          "Purchase",
+          "покупка",
+          "магазины, онлайн-оплата"
+        ],
+        [
+          "Lead",
+          "отправка заявки",
+          "услуги, обучение, недвижимость"
+        ],
+        [
+          "Contact",
+          "обращение по телефону, в чат или мессенджер",
+          "локальный бизнес"
+        ],
+        [
+          "Schedule",
+          "запись на приём",
+          "салоны, клиники"
+        ],
+        [
+          "CompleteRegistration",
+          "завершённая регистрация",
+          "сервисы, вебинары"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Как проверить, что пиксель работает"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Test Events в Events Manager: Data sources → ваш пиксель → Test events, затем откройте сайт — события сайта записываются, пока открыта тестовая страница.",
+        "Meta Ads Data Advisor (раньше Meta Pixel Helper) — бесплатное расширение для Google Chrome и Microsoft Edge, показывает события на открытой странице.",
+        "Если пиксель работает правильно, при открытии страницы он отправляет в Meta событие просмотра страницы.",
+        "Вкладка Diagnostics в Events Manager показывает ошибки настройки."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Conversions API и что изменилось"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Conversions API создаёт прямую связь между вашими данными и системами оптимизации Meta. Meta рекомендует использовать его вместе с пикселем и передавать одни и те же события обоими способами.",
+        "Приоритизировать 8 событий на домен для Aggregated Event Measurement больше не нужно — события обрабатываются без ваших действий.",
+        "Подтверждать домен для настройки событий больше не обязательно, но подтверждение пригодится для других задач, например прав на редактирование ссылок."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Пиксель и персональные данные"
+    },
+    {
+      "type": "p",
+      "text": "Если на сайте есть форма с именем и телефоном, нужно согласие на обработку персональных данных: закон ЗРУ-547 разрешает обработку с согласия субъекта (ст. 18) в форме, позволяющей подтвердить его получение (ст. 21). Опишите сбор данных в политике конфиденциальности сайта."
+    },
+    {
+      "type": "linkp",
+      "text": "Как пиксель помогает строить свои и похожие аудитории — в статье {aud}; реклама с каталогом товаров — в {tovar}; как считать окупаемость по событиям — в {romi}; ссылки с UTM-метками — в {utm}. Настройку аналитики и рекламы под заявки смотрите на странице {money}.",
+      "links": [
+        {
+          "token": "aud",
+          "target": "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+          "anchor": "аудитория для таргета"
+        },
+        {
+          "token": "tovar",
+          "target": "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+          "anchor": "как рекламировать товар"
+        },
+        {
+          "token": "romi",
+          "target": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+          "anchor": "как понять, окупается ли реклама"
+        },
+        {
+          "token": "utm",
+          "target": "/ru/utm-generator/",
+          "anchor": "генераторе UTM-меток"
+        },
+        {
+          "token": "money",
+          "target": "/ru/performance-marketing-tashkent/",
+          "anchor": "performance-маркетинг со сквозной аналитикой от GPTBot.uz"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Что такое пиксель Meta?",
+      "a": "Фрагмент кода на сайте, который передаёт в Meta действия посетителей — просмотры, заявки, покупки. По этим данным реклама оптимизируется, а посетителей можно собрать в аудитории."
+    },
+    {
+      "q": "Куда вставлять код пикселя?",
+      "a": "В раздел head каждой страницы сайта, или подключите пиксель через интеграцию платформы сайта. Сам пиксель создают в Events Manager."
+    },
+    {
+      "q": "Какие события пикселя настроить?",
+      "a": "Под вашу цель: для услуг — Lead и Contact, для записи — Schedule, для магазина — ViewContent, AddToCart, InitiateCheckout и Purchase. Названия событий чувствительны к регистру."
+    },
+    {
+      "q": "Как проверить, работает ли пиксель?",
+      "a": "Откройте Test Events в Events Manager и зайдите на сайт или поставьте расширение Meta Ads Data Advisor (раньше Meta Pixel Helper) для Chrome или Edge."
+    },
+    {
+      "q": "Нужен ли Conversions API, если есть пиксель?",
+      "a": "Meta рекомендует использовать Conversions API вместе с пикселем и передавать одни и те же события обоими способами."
+    },
+    {
+      "q": "Нужно ли настраивать 8 событий и подтверждать домен?",
+      "a": "Нет: приоритизировать 8 событий для Aggregated Event Measurement больше не нужно, а подтверждение домена не обязательно для настройки событий."
+    }
+  ],
+  "cta": {
+    "label": "Настроить аналитику",
+    "href": "/ru/performance-marketing-tashkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/ru/performance-marketing-tashkent/",
+      "anchor": "performance-маркетинг со сквозной аналитикой",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+      "anchor": "аудитория для таргета",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+      "anchor": "реклама с каталогом товаров",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+      "anchor": "как понять, окупается ли реклама",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/ru/utm-generator/",
+      "anchor": "генератор UTM-меток для рекламных ссылок",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Пиксель Meta: установка, события и проверка 2026",
+  "ogDescription": "Базовый код, стандартные события, Test Events и Meta Ads Data Advisor, Conversions API — по справке Meta на 23.11.2026.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+  "hreflangRu": "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+  "hreflangUz": "/uz/blog/meta-pikseli-ornatish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Владельцы сайтов и маркетологи в Узбекистане, которые запускают рекламу в Instagram и Facebook"
+  },
+  "breadcrumbLabel": "Пиксель Meta",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Meta Business Help — что такое пиксель Meta",
+      "url": "https://www.facebook.com/business/help/742478679120153",
+      "note": "Проверено 2026-11-23: пиксель Meta — это фрагмент кода, который размещают на сайте."
+    },
+    {
+      "title": "Meta Business Help — настройка пикселя",
+      "url": "https://www.facebook.com/business/help/952192354843755",
+      "note": "Проверено 2026-11-23: пиксель создают в Events Manager и ставят базовый код на сайт; вместе с пикселем Meta рекомендует Conversions API."
+    },
+    {
+      "title": "Meta Business Help — установка кода пикселя",
+      "url": "https://www.facebook.com/business/help/402791146561655",
+      "note": "Проверено 2026-11-23: код пикселя вставляют между тегами head страницы."
+    },
+    {
+      "title": "Meta Business Help — Test Events",
+      "url": "https://www.facebook.com/business/help/2040882565969969",
+      "note": "Проверено 2026-11-23: инструмент проверяет, что события сайта настроены и доходят до Meta."
+    },
+    {
+      "title": "Meta Business Help — Meta Ads Data Advisor",
+      "url": "https://www.facebook.com/business/help/198406697184603",
+      "note": "Проверено 2026-11-23: Meta Ads Data Advisor (раньше Meta Pixel Helper) — бесплатное расширение для Chrome и Edge."
+    },
+    {
+      "title": "Meta Business Help — Conversions API",
+      "url": "https://www.facebook.com/business/help/2041148702652965",
+      "note": "Проверено 2026-11-23: Conversions API создаёт прямую связь между вашими маркетинговыми данными и системами оптимизации Meta."
+    },
+    {
+      "title": "Meta Business Help — пиксель и Conversions API вместе",
+      "url": "https://www.facebook.com/business/help/218844828315224",
+      "note": "Проверено 2026-11-23: используйте Conversions API вместе с пикселем и передавайте одни и те же события."
+    },
+    {
+      "title": "Meta Business Help — Aggregated Event Measurement",
+      "url": "https://www.facebook.com/business/help/721422165168355",
+      "note": "Проверено 2026-11-23: ничего настраивать не нужно, приоритизировать 8 событий на домен больше не требуется."
+    },
+    {
+      "title": "Meta Business Help — подтверждение домена",
+      "url": "https://www.facebook.com/business/help/245311299870862",
+      "note": "Проверено 2026-11-23: подтверждать домен для настройки событий больше не обязательно."
+    },
+    {
+      "title": "Meta Business Help — события пикселя для рекламы с каталогом",
+      "url": "https://www.facebook.com/business/help/606577526529702",
+      "note": "Проверено 2026-11-23: для рекламы с товарами из каталога нужны события ViewContent, AddToCart и Purchase."
+    },
+    {
+      "title": "Закон «О персональных данных» (ЗРУ-547), ст. 18, 21 — lex.uz",
+      "url": "https://lex.uz/ru/docs/4396428",
+      "note": "Проверено 2026-11-23: обработка персональных данных — с согласия субъекта; согласие — в форме, позволяющей подтвердить его получение."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}
