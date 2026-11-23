@@ -63,6 +63,10 @@ export interface Env extends FirecrawlEnvironment {
   // SERPER_API_KEY is reserved for the upcoming SERP Intelligence layer.
   SERPER_API_KEY?: string;
   LOGIN_ATTEMPTS?: KVNamespace;
+  /** Lead Radar own OSM snapshot (automation Worker only). */
+  LEAD_RADAR_OSM_SNAPSHOT?: KVNamespace;
+  /** "true" re-enables the free catalog contact-source step (off since 22.11.2026). */
+  LEAD_RADAR_FREE_CATALOG_ENABLED?: string;
   // D1 database that stores incoming drafts pending human review.
   // See /app/migrations/0001_ai_drafts.sql for the schema.
   GPTBOT_DRAFTS_DB?: D1Database;

@@ -10,6 +10,7 @@ import { configuredTgSender, tgSenderConfiguration } from './outreach-transport'
 import { OutreachAccountStore } from './outreach-account-store';
 import { telegramIdentifierDigest } from './telegram-business';
 import { LeadRadarTelegramCampaignStore } from './telegram-campaign-store';
+import { writeTelegramHandleVerdict } from './telegram-handle-store';
 
 export class OutreachAccountError extends Error {
   constructor(public readonly code: 'tg_sender_not_configured' | 'tg_sender_unavailable' | 'tg_sender_binding_mismatch'
@@ -96,13 +97,26 @@ export async function connectOutreachAccount(input: {env: Env; db: D1Database; o
   });
 }
 
-export async function resolveOutreachContact(env: Env, orgId: string, target: TelegramContactTarget): Promise<TelegramContactResolution> {
+/**
+ * Resolve one public username through TG Sender. TG Sender reports the account
+ * kind; a bot, channel or group can never take a DM, so it becomes a durable
+ * `unsupported/not_regular_user` result (the endpoint is hidden and not checked
+ * again for a month) instead of a 60-second `failed` the queue kept retrying.
+ * With `db`, the kind is cached so exports and later searches skip the handle
+ * without another lookup.
+ */
+export async function resolveOutreachContact(env: Env, orgId: string, target: TelegramContactTarget, db?: D1Database): Promise<TelegramContactResolution> {
   if (target.kind !== 'username') return {status: 'unsupported', username: null, reason: 'public_username_required', retryAfterSeconds: null};
   const client = configuredTgSender(env, orgId);
   if (!client) return {status: 'failed', username: null, reason: 'tg_sender_not_configured', retryAfterSeconds: null};
   const result = await client.resolveContact(target.value);
   if (result.status === 'resolved' && result.kind === 'user' && result.peerRef) {
+    if (db) await writeTelegramHandleVerdict(db, target.value, 'user', 'account_lookup');
     return {status: 'resolved', username: result.username, peerRef: result.peerRef, reason: 'telegram_user_resolved', retryAfterSeconds: null};
+  }
+  if (!result.retryAfterSeconds && (result.kind === 'bot' || result.kind === 'channel' || result.kind === 'group')) {
+    if (db) await writeTelegramHandleVerdict(db, target.value, result.kind, 'account_lookup');
+    return {status: 'unsupported', username: null, reason: 'not_regular_user', retryAfterSeconds: null};
   }
   return {status: result.retryAfterSeconds ? 'limited' : result.status === 'unresolved' ? 'unresolved' : 'failed',
     username: null, reason: result.reason ?? 'telegram_lookup_unavailable', retryAfterSeconds: result.retryAfterSeconds};

@@ -36,6 +36,10 @@ export interface UiEventDetails {
   login_result: 'done' | 'rejected' | 'expired' | 'failed';
   checkout_started: 'click' | 'uzum' | 'payme';
   checkout_result: 'paid' | 'pending' | 'cancelled';
+  /** The same ending with the client class, result.app.os (conversion audit 2026-11-22, C2): a payment on a computer or a phone. */
+  checkout_result_class: `${'paid' | 'pending' | 'cancelled'}.${CheckoutApp}.${CheckoutOs}`;
+  /** «Попросить оплатить»: the link screen shown, the Telegram share tapped, the link copied (conversion audit 2026-11-22, C1). */
+  pay_share: 'shown' | 'telegram' | 'copied';
   /** The checkout steps between the tap and the provider's page (chat CRO 2026-11-17): closed lists only, no order, no text, no user agent. */
   checkout_created: CheckoutTail;
   checkout_probe_failed: CheckoutTail;

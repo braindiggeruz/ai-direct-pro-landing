@@ -25,6 +25,7 @@ import { orderId, type CheckoutOutcome, type CheckoutWatch } from "../checkout";
 import { track, EV } from "../analytics";
 import { recordUiEvent } from "../ui-events";
 import { LazyPart } from "../lazy-part";
+import { keepNames } from "../keep-names";
 import { AccessSummary, PackPanel, SupportLine } from "./PackPanel";
 
 /**
@@ -64,6 +65,8 @@ export interface CheckoutControls {
 
 /** The providers' own names, in every language. */
 export const PROVIDER_NAMES: Record<PaymentProvider, string> = { click: "Click", uzum: "Uzum Bank", payme: "Payme" };
+/** The provider names a browser's page translation must leave alone (keep-names.tsx). */
+const BRANDS = Object.values(PROVIDER_NAMES);
 
 /** This page still here this long after the browser was sent to the provider's page: it did not leave. */
 const STAYED_MS = 12_000;
@@ -121,7 +124,7 @@ function PlanCard({ t, copy, pack, notes = [], bare = false }: {
           <p className="gpt-panel-note">{t.premium.manual}</p>
           <p className="gpt-panel-note" data-testid="ai-pack-no-refund">{copy.noRefund}</p>
           <p className="gpt-panel-note" data-testid="ai-pack-honesty">{copy.honesty}</p>
-          {notes.map((note) => <p key={note} className="gpt-panel-note">{note}</p>)}
+          {notes.map((note) => <p key={note} className="gpt-panel-note">{keepNames(note, BRANDS)}</p>)}
         </details>
       </CardContent>
     </Card>
@@ -316,8 +319,16 @@ export function AccountDialog({
       // The other pack while an invoice is open: the server closes one no
       // provider has seen, and names the one that is held (pending_elsewhere).
       const other = resumeReady && openSku !== sku;
+      // The same pack with the other provider (21.11.2026: a buyer whose card
+      // did not go through on Click could not reach Payme): the open invoice no
+      // provider has seen yet (cancellable) is closed as the account's own, the
+      // same step as «Отменить этот счёт», then this provider's order is made.
+      // One a provider holds is never closed: the cancel answers
+      // invoice_in_progress and the window says it is held.
+      const switchFrom = resumeReady && !resume && !other && data?.payment?.state === "pending"
+        && data.payment.cancellable === true && data.payment.provider !== provider ? data.payment.id : null;
       const offer = offers.find((entry) => entry.sku === sku);
-      if ((!checkoutReady && !resume && !other) || !data || !offer || !offeredProviders(data).includes(provider)
+      if ((!checkoutReady && !resume && !other && !switchFrom) || !data || !offer || !offeredProviders(data).includes(provider)
         || (sku === "once" && provider === "uzum") || globalThis.navigator?.cookieEnabled === false) throw new Error();
       const generation = memoryRef.current.generation ?? 0;
       // A guest has no account until subscribe makes one: that change is this order's own.
@@ -335,6 +346,10 @@ export function AccountDialog({
       // Pressing the button is the acceptance (the offer, section 7): the
       // server records the edition and the time on the order, as before.
       const key = sku === "once" ? `${provider}:once` : provider;
+      if (switchFrom) {
+        await post("/api/gpt/account", { action: "cancel_invoice", orderId: switchFrom });
+        memoryRef.current.requestKeys[key] = undefined;
+      }
       if (data.payment && !["pending", "prepared"].includes(data.payment.state))
         memoryRef.current.requestKeys[key] = undefined;
       memoryRef.current.requestKeys[key] ??= crypto.randomUUID();
@@ -492,7 +507,7 @@ export function AccountDialog({
       <>
         <DialogTitle>{copy.title}</DialogTitle>
         <DialogDescription asChild>
-          <p role="status" className="gpt-notice" data-testid="ai-pay-opening">{copy.payOpening(PROVIDER_NAMES[leaving])}</p>
+          <p role="status" className="gpt-notice" data-testid="ai-pay-opening">{keepNames(copy.payOpening(PROVIDER_NAMES[leaving]), BRANDS)}</p>
         </DialogDescription>
       </>
     );
@@ -597,7 +612,7 @@ export function AccountDialog({
           disabled={busy || !!queued || !startable}
           onClick={() => payWhenRead(provider)}
         >
-          {appFlow(provider) ? copy.payInApp : copy.payVia(PROVIDER_NAMES[provider])}
+          {appFlow(provider) ? copy.payInApp : keepNames(copy.payVia(PROVIDER_NAMES[provider]), BRANDS)}
           {!appFlow(provider) && <span aria-hidden="true">↗</span>}
         </button>
       ))}
@@ -611,7 +626,7 @@ export function AccountDialog({
             {!two && `${copy.price(groupDigits(pack.priceUzs), pack.months, pack.messageLimit)}. `}{t.premium.manual}
           </p>
           <p className="gpt-panel-note" data-testid="ai-pack-no-refund">{copy.noRefund}</p>
-          <p className="gpt-panel-note">{copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or))}</p>
+          <p className="gpt-panel-note">{keepNames(copy.payNote(offered.map((provider) => PROVIDER_NAMES[provider]).join(copy.or)), BRANDS)}</p>
         </>
       ) : (
         // A guest saw the price card above the pay step already.
@@ -649,13 +664,13 @@ export function AccountDialog({
           </button>
           {openPayment.cancellable ? (
             <>
-              <p>{copy.cancelInvoiceNote(PROVIDER_NAMES[openPayment.provider])}</p>
+              <p>{keepNames(copy.cancelInvoiceNote(PROVIDER_NAMES[openPayment.provider]), BRANDS)}</p>
               <button type="button" className="gpt-text-button" disabled={busy} onClick={() => void cancelInvoice(openPayment.id)}>
                 {copy.cancelInvoice}
               </button>
             </>
           ) : (
-            <p>{copy.invoiceHeld(PROVIDER_NAMES[openPayment.provider])}</p>
+            <p>{keepNames(copy.invoiceHeld(PROVIDER_NAMES[openPayment.provider]), BRANDS)}</p>
           )}
         </div>
       )}
@@ -733,7 +748,7 @@ export function AccountDialog({
       {error && <p role="alert" className="gpt-error">{copy.failed}</p>}
       {loginFailed && <p role="alert" className="gpt-error">{copy.loginFailed}</p>}
       {termsChanged && <p role="alert" className="gpt-notice">{copy.termsChanged}</p>}
-      {elsewhere && <p role="alert" className="gpt-notice">{copy.payPendingElsewhere(PROVIDER_NAMES[elsewhere])}</p>}
+      {elsewhere && <p role="alert" className="gpt-notice">{keepNames(copy.payPendingElsewhere(PROVIDER_NAMES[elsewhere]), BRANDS)}</p>}
       {held && <p role="alert" className="gpt-notice">{copy.cancelFailed}</p>}
       {cookiesBlocked && <p role="alert" className="gpt-notice" data-testid="ai-pay-cookies">{copy.cookiesBlocked}</p>}
       {stalled}

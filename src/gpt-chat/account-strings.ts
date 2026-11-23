@@ -106,7 +106,8 @@ const RU: AccountStrings = {
   benefits: (m, n, d) => `${answers(n)} на ${months(m)} с дня оплаты, до ${d} в день. Без автосписаний.`,
   price: (sum, m, n) => `${sum} сум · ${m} ${ru(m, 'месяц', 'месяца', 'месяцев')} · ${answers(n)}`,
   sum: (sum) => `${sum} сум`,
-  fine: 'Без возврата после оплаты · не ChatGPT',
+  // Positive facts first, the no-refund rule kept beside the price (offer §8, WP-25; conversion audit 2026-11-22, B1).
+  fine: 'Разовая покупка, без автосписаний · без возврата · не ChatGPT',
   packFeatures: (m, n, d) => [
     `Действует ${months(m)} с дня оплаты.`,
     `${answers(n)}, до ${d} в день.`,
@@ -209,7 +210,7 @@ const UZ: AccountStrings = {
   benefits: (m, n, d) => `To‘lov kunidan boshlab ${m} oy davomida ${n} ta javob, kuniga ${d} tagacha. Avtomatik to‘lov yo‘q.`,
   price: (sum, m, n) => `${sum} so‘m · ${m} oy · ${n} ta javob`,
   sum: (sum) => `${sum} so‘m`,
-  fine: 'To‘lovdan keyin qaytarilmaydi · ChatGPT emas',
+  fine: 'Bir martalik xarid, avtomatik yechim yo‘q · qaytarilmaydi · ChatGPT emas',
   packFeatures: (m, n, d) => [
     `To‘lov kunidan boshlab ${m} kalendar oy amal qiladi.`,
     `${n} ta javob, kuniga ${d} tagacha.`,

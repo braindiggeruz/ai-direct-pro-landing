@@ -161,12 +161,13 @@ export async function pendingOrder(db: SqliteD1, overrides: Partial<NewStudioOrd
 }
 
 /** A paid order (pending → prepared → paid at `paidAt`) of `userId`. */
-export async function paidOrder(db: SqliteD1, overrides: Partial<NewStudioOrder> & { paidAt?: number; externalId?: string } = {}): Promise<StudioOrder> {
-  const { paidAt = NOW, externalId, ...rest } = overrides;
+export async function paidOrder(db: SqliteD1, overrides: Partial<NewStudioOrder> & { paidAt?: number; externalId?: string; docId?: string } = {}): Promise<StudioOrder> {
+  const { paidAt = NOW, externalId, docId, ...rest } = overrides;
   const order = await pendingOrder(db, { now: paidAt - 2 * 60_000, ...rest });
   const store = new StudioStore(db.asD1());
   const external = externalId ?? (order.provider === "payme" ? randomHex(24) : String(9_000_000 + order.seq));
-  await store.prepare(order.id, { externalId: external, providerTime: paidAt - 60_000, method: `${order.provider}_create`, now: paidAt - 60_000 });
+  // docId: Click's click_paydoc_id, as its Prepare carries it.
+  await store.prepare(order.id, { externalId: external, docId, providerTime: paidAt - 60_000, method: `${order.provider}_create`, now: paidAt - 60_000 });
   const { order: paid } = await store.markPaid(order.id, { method: `${order.provider}_perform`, now: paidAt });
   return paid;
 }

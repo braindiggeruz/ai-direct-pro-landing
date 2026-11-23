@@ -19,6 +19,8 @@ export const PACK_TEXT = {
       : `${offer.messageLimit} ответов · до ${offer.dailyLimit} в день`),
     per: (n: number) => `≈ ${n} сум за ответ`,
     best: 'выгоднее',
+    /** The 3-day pack's job in one line (conversion audit 2026-11-22): a buyer pays to finish today's task. */
+    job: 'Чтобы закончить сегодняшнюю задачу',
     pay: (offer: PackOffer, provider: string) => `Оплатить ${sumOf(offer.priceUzs)} сум через ${provider}`,
     via: 'Оплатить:',
     or: (offer: PackOffer) => `или на ${offer.months === 1 ? 'месяц' : `${offer.months} мес.`}`,
@@ -33,6 +35,7 @@ export const PACK_TEXT = {
       : `${offer.messageLimit} ta javob · kuniga ${offer.dailyLimit} tagacha`),
     per: (n: number) => `≈ ${n} so‘m — bitta javob`,
     best: 'foydaliroq',
+    job: 'Bugungi vazifani oxiriga yetkazish uchun',
     pay: (offer: PackOffer, provider: string) => `${provider} orqali ${sumOf(offer.priceUzs)} so‘m to‘lash`,
     via: 'To‘lash:',
     or: (offer: PackOffer) => `yoki ${offer.months ?? 1} oyga`,

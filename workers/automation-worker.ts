@@ -346,7 +346,13 @@ export default {
       if (await firecrawlStore.available()) await firecrawlStore.purgeResults(retentionNow.toISOString());
     } catch { recordLeadRadarFailure('firecrawl_retention', new Error('firecrawl_retention_failed')); }
     try {
-      if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) await new ContactDiscoveryStore(env.GPTBOT_DRAFTS_DB).purgeExpired(retentionNow.toISOString());
+      if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) {
+        // SC-01: unreached pool candidates become inert company rows before
+        // the retention purge clears expired pools.
+        try { await new LeadRadarStore(env.GPTBOT_DRAFTS_DB).flushExpiredContactPools(retentionNow.toISOString()); }
+        catch { recordLeadRadarFailure('contact_pool_flush', new Error('contact_pool_flush_failed')); }
+        await new ContactDiscoveryStore(env.GPTBOT_DRAFTS_DB).purgeExpired(retentionNow.toISOString());
+      }
     } catch { recordLeadRadarFailure('contact_retention', new Error('contact_retention_failed')); }
     try {
       if (await contactDiscoverySchemaReady(env.GPTBOT_DRAFTS_DB)) {
@@ -796,7 +802,13 @@ export default {
             message.ack();
             continue;
           }
-          const contactSources=await createFreeContactAcquisitionDependencies(env,env.GPTBOT_DRAFTS_DB,knownJob.orgId);
+          // The free catalog adapter paged a public rubric once per company (up to
+          // 24 pages each, thousands of requests per search) and produced no phone
+          // and no Telegram candidate in ~330 production runs (22.11.2026), while
+          // keeping every contact search open until its deadline. Off unless enabled.
+          const contactSources = env.LEAD_RADAR_FREE_CATALOG_ENABLED === 'true'
+            ? await createFreeContactAcquisitionDependencies(env,env.GPTBOT_DRAFTS_DB,knownJob.orgId)
+            : {};
           const result = await consumeLeadRadarQueueMessage(
             env.GPTBOT_DRAFTS_DB,
             raw,

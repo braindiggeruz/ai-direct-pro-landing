@@ -1,5 +1,6 @@
 import type { LeadRadarSearchInput, LeadRadarSearchResult } from '../../../src/shared/lead-radar';
 import { fanOutDiscovery } from './discovery-sources';
+import { TWO_GIS_SOURCE_ID } from './two-gis-source';
 import { LeadRadarBusyError, mergeWebsiteFactsIntoLead, sourceCandidateToStoredLead } from './service';
 import {
   enrichCompanyWebsiteDetailed,
@@ -18,6 +19,7 @@ import type {
   LeadRadarQueueSender,
   LeadRadarSource,
 } from './types';
+import { LeadRadarSourceError } from './types';
 
 const QUEUE_SCHEMA = 'gptbot.lead-radar.job.v1' as const;
 const JOB_ID_PATTERN = /^lrjob_[a-f0-9]{32}$/;
@@ -246,7 +248,9 @@ export async function enqueueLeadRadarSearch(
       return replayed;
     }
     admittedSearchId = searchId;
-    const job = await store.createJob(orgId, searchId, null, 'discovery', `discovery:${searchId}`, now, 3);
+    // Five attempts spread over ~35 minutes (see DISCOVERY_RETRY_SECONDS): a
+    // public map server outage of a few minutes must not end the search.
+    const job = await store.createJob(orgId, searchId, null, 'discovery', `discovery:${searchId}`, now, 5);
     await dispatchSpecificJob(store, queue, job, at);
     const result = await store.getSearch(orgId, searchId);
     if (!result) throw new Error('lead_radar_search_persistence_failed');
@@ -269,6 +273,15 @@ export async function enqueueLeadRadarSearch(
 function retryDelaySeconds(attempt: number): number {
   return Math.min(15 * 60, 45 * (2 ** Math.max(0, attempt - 1)));
 }
+
+/**
+ * Discovery retries for a failed map source: 1, 4, 10, then 20 minutes. The
+ * old 45 s / 90 s ladder gave up after about 2.5 minutes, so one short public
+ * Overpass outage ended a search as "failed" (prod 22.11.2026, 11:46 UTC).
+ * 35 minutes in total, so even a 15-minute cron re-dispatch (Queues allow 3
+ * redeliveries) keeps the last attempt inside the 60-minute contact window.
+ */
+const DISCOVERY_RETRY_SECONDS = [60, 4 * 60, 10 * 60, 20 * 60] as const;
 
 // Transient target outages (site down, HTTP 5xx, timeout, transport error)
 // get a bounded long backoff inside the enrichment job — 15 min, 1 h, 4 h —
@@ -334,8 +347,11 @@ async function retryOrDeadLetter(
     const transientBackoff = !defer && job.stage === 'enrichment' && TRANSIENT_ENRICHMENT_CODES.has(code)
       ? TRANSIENT_ENRICHMENT_BACKOFF_SECONDS[Math.min(Math.max(job.attemptCount, 1), TRANSIENT_ENRICHMENT_BACKOFF_SECONDS.length) - 1]
       : null;
+    const discoveryBackoff = !defer && job.stage === 'discovery'
+      ? DISCOVERY_RETRY_SECONDS[Math.min(Math.max(job.attemptCount, 1), DISCOVERY_RETRY_SECONDS.length) - 1]
+      : null;
     const delaySeconds = defer ? Math.max(5, Math.min(900, Math.ceil((resume - at.getTime()) / 1_000)))
-      : (transientBackoff ?? retryDelaySeconds(job.attemptCount));
+      : (transientBackoff ?? discoveryBackoff ?? retryDelaySeconds(job.attemptCount));
     if (job.companyId) {
       const transitioned = await store.markLeadEnrichmentQueued(
         job.orgId, job.companyId, job.id, job.leaseOwner, now, job.leaseGeneration,
@@ -395,9 +411,11 @@ async function discoverWithSources(
   if (discovery.failures === configured.size) {
     throw discovery.errors[0] ?? new Error('discovery_failed');
   }
+  // SC-14: a catalog that silently never ran looks like a thin city. Say so.
+  const skipped = configured.has(TWO_GIS_SOURCE_ID) ? [] : [`source_skipped:${TWO_GIS_SOURCE_ID}_no_key`];
   return {
     candidates: discovery.candidates,
-    sourceWarnings: discovery.warnings,
+    sourceWarnings: [...discovery.warnings, ...skipped],
     rawDiscoveredCount: discovery.rawDiscoveredCount,
     ...(discovery.yieldBySource ? { sourceYield: discovery.yieldBySource } : {}),
   };
@@ -435,6 +453,14 @@ async function processDiscovery(
       ? await dependencies.discover(input)
       : await discoverWithSources(store, input, dependencies.sources);
   } catch (error) {
+    // The dead-letter code alone ("source_timeout") cannot say which map
+    // server did what; keep the source's own diagnostics on the search.
+    if (error instanceof LeadRadarSourceError && error.diagnostics.length) {
+      try {
+        await store.appendSearchWarnings(job.orgId, job.searchId,
+          error.diagnostics.slice(0, 6).map((code) => `discovery_${code}`));
+      } catch { /* diagnostics are best effort; the retry below must run */ }
+    }
     return retryOrDeadLetter(store, job, safeFailureCode(error), at);
   }
   const candidates = new Map<string, ReturnType<typeof sourceCandidateToStoredLead>>();
@@ -461,7 +487,9 @@ async function processDiscovery(
     const { dropped } = await store.contactDiscovery.initialize(job, ranked.slice(0, input.maxCandidates ?? 250), input.desiredCount, now);
     if (dropped > 0) discovery.sourceWarnings = [...discovery.sourceWarnings, 'contact_candidates_capped'];
   }
-  const fanout = contactMode ? await store.contactDiscovery.reserveBatch(job, now) : [...candidates.values()].slice(
+  // Batches of 25 (the reservation ceiling): with stragglers no longer
+  // blocking, a 100-candidate pool is processed in four quick rounds.
+  const fanout = contactMode ? await store.contactDiscovery.reserveBatch(job, now, 25) : [...candidates.values()].slice(
     0,
     Math.max(1, Math.min(50, Math.trunc(input.desiredCount))),
   );

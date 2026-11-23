@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-22",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "commercialClusters": [
     {
@@ -9,13 +9,15 @@
       "hubIntent": "commercial — commission custom Telegram bot development; enquiries and booking requests with human confirmation",
       "hubKeywords": [
         "разработка телеграм ботов ташкент",
-        "разработка Telegram-бота в Ташкенте"
+        "разработка Telegram-бота в Ташкенте",
+        "заказать телеграм бот ташкент",
+        "разработка телеграм ботов на заказ"
       ],
       "spokes": [
         {
           "url": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
-          "ownsIntent": "compare developers using disclosed criteria; GPTBot.uz is an interested provider, not an independent ranking",
-          "primaryKeyword": "разработчики чат-ботов Ташкент"
+          "ownsIntent": "commission a chat bot made to order in Tashkent («чат-бот на заказ ташкент», «разработка чат-ботов ташкент»; decision K5 of 2026-10-26, recorded here on 2026-11-22), with the disclosed developer-comparison criteria kept as a supporting section; the Telegram-bot wording («разработка телеграм ботов ташкент», «заказать телеграм бот») belongs to the hub",
+          "primaryKeyword": "разработка чат-ботов в Ташкенте"
         },
         {
           "url": "/ru/stoimost-chat-bota/",
@@ -467,7 +469,7 @@
       "id": "C7-beauty-salon",
       "commercial": {
         "url": "/ru/ai-bot-dlya-salona-krasoty/",
-        "owns": "order an AI bot for a beauty salon",
+        "owns": "order an AI bot for a beauty salon; since 2026-11-22 also «бот для записи на маникюр» (a section and one FAQ answer, ≈40 Uzbek impressions a month at position 7.3 in Search Console 09–21.11)",
         "mustNotTarget": [
           "какие задачи закрывает ии в салоне красоты"
         ]
@@ -4117,6 +4119,32 @@
       "decidedAt": "2026-11-17",
       "evidence": "delivery/gptbot-growth-roadmap-20261117/PAGES.csv and research/ (OpenSEO, 2860, 2026-11-17)",
       "gscNote": "New URL, no Search Console history. Volumes and SERP notes are in PAGES.csv."
+    },
+    {
+      "id": "W20261122-01-uz-telegram-bot-yaratish-guide-vs-hub",
+      "commercial": {
+        "url": "/uz/telegram-bot-biznes-uchun/",
+        "owns": "commission a Telegram bot in Uzbek: the service, the four order steps and the price («telegram bot yaratish xizmati», «telegram bot buyurtma qilish»); its BotFather/constructor/developer section stays a decision aid and links the guide",
+        "mustNotTarget": [
+          "bot yaratish",
+          "telegram bot yasash",
+          "telegram bot yaratish bepul",
+          "botfather orqali bot yaratish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/telegram-bot-yaratish/",
+        "owns": "build a Telegram bot yourself in Uzbek: BotFather, token, constructor or code, hosting, payments, testing, and when ordering is cheaper",
+        "mustNotTarget": [
+          "telegram bot buyurtma qilish",
+          "telegram bot yaratish xizmati",
+          "telegram bot yaratish narxi",
+          "telegram bot buyurtma O‘zbekiston"
+        ]
+      },
+      "gscNote": "Google Ads location 2860 on 2026-11-22: «bot yaratish» 590 a month (October 2026: 1 900), «telegram bot yasash» 70, «bot yasash» 20; the SERP is do-it-yourself (mohirdev.uz course, tvoybot.com and botoscope.com constructors, YouTube). No Uzbek guide existed: the Russian guide /ru/blog/kak-sozdat-telegram-bota/ held «telegram bot yaratish» at 16–21 (2 impressions, 09–21.11) and the Uzbek hub had 26 impressions at 24.1 over 19.08–19.11 while linking that Russian guide.",
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-22"
     }
   ],
   "architectureDecisions": [
@@ -4347,6 +4375,16 @@
       ],
       "evidence": "docs/seo/research/2026-11-18-uz-unpair/EVIDENCE.md",
       "note": "The mechanism A11 left unverified is now observed: on 2026-11-18 a live Google search for «chatgpt bepul» with gl=uz returned the Uzbek chat at place 3 under hl=uz and the Russian chat at the same place 3 under hl=ru, while Uzbek-language pages of other sites stayed in the hl=ru results. In Search Console (2026-10-20…11-16, Uzbekistan, Uzbek-worded queries) the Russian chat took 19 068 impressions (22 %) at CTR 0.51 % against 69 166 at 0.75 % for the Uzbek chat, steadily since August. Owner order of 2026-11-18: the two chats stay linked for people (plain cross-links in the text) but are no longer declared as an hreflang pair (hreflangUnpaired: no <link rel=\"alternate\" hreflang>, no sitemap alternates). Released on 2026-11-18 on the owner's order (first planned after observation R15, which is now read per query language); success and rollback thresholds in the evidence file. Rollback: remove hreflangUnpaired from both content files."
+    },
+    {
+      "id": "A15-uz-bot-guide-single-language-2026-11-22",
+      "decision": "NO_HREFLANG_PAIR_WITH_RU",
+      "decidedAt": "2026-11-22",
+      "pages": [
+        "/uz/blog/telegram-bot-yaratish/"
+      ],
+      "evidence": "F:/Claude/gptbot_seo/roadmap-commercial-top3-20261122.md (outside the repository); CHANGE_LOG_2026-11.md, section «Коммерческие бот-запросы, 22.11.2026»",
+      "note": "The mechanism of A11 and A14: Google’s interface in Uzbekistan defaults to Russian, so an hreflang pair with /ru/blog/kak-sozdat-telegram-bota/ would let the Russian member answer the Uzbek-worded «bot yaratish» and «telegram bot yaratish» queries. The two guides link each other in the text only; the Uzbek guide names itself in hreflangUz and nothing else."
     }
   ],
   "resourceClusters": [

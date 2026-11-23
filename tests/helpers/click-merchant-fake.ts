@@ -59,6 +59,13 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
      * nothing else may: fiscal-store.ts noClickReceipt).
      */
     noReceipt: "click" as "click" | "http404" | "empty",
+    /**
+     * status_by_mti as the live service 107654 answers it since 07.10.2026:
+     * HTTP 200, error_code -12 «Неверные данные поставщика», whatever the
+     * Auth (Click gives it even without one, probe of 22.11.2026), while
+     * payment/status and ofd_data accept the same Auth.
+     */
+    mtiRefuses: false,
     qrUrl: (paymentId: number) =>
       `https://ofd.soliq.uz/epi?t=EZ000000000030&r=${paymentId}&c=20261001120000&s=854971301623`,
     /** Click learns of a payment of our order at `at` (it answers status_by_mti for that day). */
@@ -66,6 +73,13 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
       const paymentId = nextPaymentId++;
       payments.set(merchantTransId, { paymentId, day: clickPaymentDate(at), serviceId });
       return paymentId;
+    },
+    /**
+     * Click's payment id of our order: the click_paydoc_id its Prepare and
+     * Complete carry (verified on the live service, 22.11.2026).
+     */
+    paymentIdOf(merchantTransId: string): number | undefined {
+      return payments.get(merchantTransId)?.paymentId;
     },
     /** Click prints the receipt of a payment itself, without our submit_items. */
     autoPrint(paymentId: number): void {
@@ -113,6 +127,8 @@ export function fakeClickMerchant(accounts: ClickAccess[]) {
     if (fake.latencyMs > 0) await roundTrip(init?.signal);
     const headers = new Headers(init?.headers);
     const parts = path.split("/").filter(Boolean);
+    if (fake.mtiRefuses && parts[0] === "status_by_mti")
+      return reply({ error_code: -12, error_note: "Неверные данные поставщика" });
     const serviceId = parts[0] === "ofd_data" && parts[1] === "submit_items" ? String(body?.service_id) : parts[1];
     if (headers.get("accept") !== "application/json" || !authorized(headers.get("auth"), serviceId))
       return reply({ error_code: -401, error_note: "Not Authorized" }, 401);

@@ -9,11 +9,13 @@ import type { LeadRadarContactEnrichment } from '../../../src/shared/lead-radar-
 import { publicContactSourceUrl } from './public-contact-discovery';
 import { isTelegramPeerRef } from '../../../src/shared/lead-radar-telegram-endpoint';
 import { osmBusinessRecord, refreshOsmBusinessPhone } from './osm-business-phone';
+import { checkTelegramHandlesPublicly } from './telegram-handle-check';
+import { readTelegramHandleVerdicts } from './telegram-handle-store';
 
 const RESOLVED_REASON = 'bridge_resolved_corporate';
 interface CompanyRow { id: string; search_id: string; name:string; city:string; address:string|null; country: string; phone: string | null; suppressed: number; lifecycle: string; website: string | null }
 interface EvidenceRow { id: string; company_id: string; field_path: string; value: string; source_url: string; source_type: LeadRadarEvidence['sourceType']; observed_at: string; confidence: number; classification: LeadRadarEvidence['classification'] }
-interface CheckRow { id: string; company_id: string; candidate_digest: string; proof_digest: string; account_digest: string; status: string; result_json: string | null; created_at: string; expires_at: string; checked_at: string | null }
+interface CheckRow { id: string; company_id: string; candidate_digest: string; proof_digest: string; account_digest: string; status: string; result_json: string | null; created_at: string; expires_at: string; checked_at: string | null; attempts_today?: number | null }
 async function hash(value: unknown): Promise<string> {
   const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(value)));
   return [...new Uint8Array(bytes)].map((b) => b.toString(16).padStart(2, '0')).join('');
@@ -53,6 +55,56 @@ async function proof(candidate: LeadRadarContactCandidate, evidence: EvidenceRow
   // with the historical corporate proof format.
   return hash(sourceProof.length ? [...base,'public-source:v1',sourceProof] : candidate.ownership==='company' ? base : [...base,'type-only:v1']);
 }
+/** Known short transport hiccups (and the local Bridge being briefly
+ *  offline) that a one-minute pause clears. Every other failure reason —
+ *  including whatever vocabulary the hosted TG Sender returns, such as
+ *  `lookup_unavailable` — climbs the backoff ladder. */
+const TRANSIENT_LOOKUP_REASONS = new Set(['lookup_unconfirmed', 'telegram_timeout', 'check_expired', 'bridge_offline', 'account_not_connected']);
+/** One-minute, five-minute, fifteen-minute pauses, then two hours. */
+const FAILURE_BACKOFF_MS = [60_000, 5 * 60_000, 15 * 60_000] as const;
+
+/** Failures this module produces itself before or around a lookup; they say
+ *  nothing about the health of the lookup service. */
+const LOCAL_CHECK_REJECTIONS = new Set(['contact_schema_unavailable', 'contact_not_found', 'do_not_contact',
+  'corporate_source_required', 'daily_check_limit', 'invalid_target', 'invalid_bridge_response', 'check_superseded',
+  'invalid_username']);
+
+/**
+ * Failures our own TG Sender client reports when the service itself cannot be
+ * reached or is not configured. Reason codes TG Sender returns for one
+ * username (prod 22.11.2026: `lookup_unavailable` for a handle that does not
+ * exist, while two other handles resolved in the same minute) describe that
+ * username only: they climb the per-candidate ladder, never pause the org.
+ */
+const LOOKUP_SERVICE_OUTAGE_REASONS = new Set(['tg_sender_unavailable', 'tg_sender_not_configured', 'telegram_lookup_unavailable']);
+
+/** The lookup service itself is unusable (not a hiccup, not one username's answer). */
+export function isLookupOutage(result: TelegramContactResolution): boolean {
+  return result.status === 'failed' && LOOKUP_SERVICE_OUTAGE_REASONS.has(result.reason)
+    && !TRANSIENT_LOOKUP_REASONS.has(result.reason) && !LOCAL_CHECK_REJECTIONS.has(result.reason);
+}
+
+/**
+ * How long one check result stands before the queue may ask again (owner audit
+ * 22.11.2026, EX-12; prod finding of the same day: one `lookup_unavailable`
+ * candidate was re-asked 28 times in 30 minutes). A `failed` result climbs
+ * 1 / 5 / 15 minutes and then two hours per candidate and day, whatever its
+ * reason, unless it is a known short hiccup.
+ */
+export function contactCheckTtlMs(result: TelegramContactResolution, attemptsToday = 1): number {
+  if (result.status === 'limited') return Math.max(3, result.retryAfterSeconds ?? 60) * 1000;
+  if (TRANSIENT_LOOKUP_REASONS.has(result.reason)) return 60_000;
+  if (result.status === 'failed') {
+    if (result.reason === 'invalid_username') return 30 * 86400_000;
+    return FAILURE_BACKOFF_MS[Math.max(0, Math.trunc(attemptsToday) - 1)] ?? 2 * 3600_000;
+  }
+  // Bot, channel, group or a username-only lookup asked about a phone: the
+  // answer does not change tomorrow.
+  if (result.status === 'unsupported') return 30 * 86400_000;
+  if (result.status === 'unresolved') return 7 * 86400_000;
+  return 86400_000;
+}
+
 function parseResult(row: CheckRow): TelegramContactResolution | null {
   try { const result: unknown = JSON.parse(row.result_json ?? 'null'); return validTelegramContactResolution(result) ? normalizeTelegramContactResolution(result) : null; } catch { return null; }
 }
@@ -150,8 +202,7 @@ export async function checkCorporateTelegramContact(input: {
   if (!validTelegramContactResolution(result)) return reject('invalid_bridge_response');
   result = normalizeTelegramContactResolution(result);
   if (result.status==='resolved' && candidate.ownership!=='company') result={...result,reason:'username_exists_ownership_unconfirmed'};
-  const ttl = result.status === 'limited' ? Math.max(3,result.retryAfterSeconds ?? 60) * 1000
-    : result.status === 'failed' || ['lookup_unconfirmed','telegram_timeout','check_expired'].includes(result.reason) ? 60_000 : 86400_000;
+  const ttl = contactCheckTtlMs(result, Number(row.attempts_today ?? 1));
   const updated = await db.prepare(`UPDATE lead_radar_contact_checks SET status=?,result_json=?,reason=?,checked_at=?,updated_at=?,expires_at=?
     WHERE org_id=? AND id=? AND status='pending' AND created_at=? RETURNING *`).bind(result.status,JSON.stringify(result),result.reason,
       result.status === 'pending' ? null : now,now,result.status === 'pending' ? row.expires_at : new Date(Date.parse(now)+ttl).toISOString(),orgId,id,row.created_at).first<CheckRow>();
@@ -218,7 +269,11 @@ export async function verifiedResolvedCorporateCompanies(input: {
 
 /** Durable progress is derived from proof-bound checks, not an in-memory slice.
  * One new check per delivery keeps even large candidate sets inside D1 limits. */
-export async function nextTelegramContactCandidate(input: {db:D1Database;orgId:string;companyId:string;accountId:string;now:string}): Promise<{candidateKey?:string;pending:boolean;retryAfterSeconds?:number}> {
+export async function nextTelegramContactCandidate(input: {db:D1Database;orgId:string;companyId:string;accountId:string;now:string;
+  /** TG Sender resolves public usernames only: never queue a phone (or its OSM refresh). */
+  usernameOnly?:boolean;
+  /** Free public t.me page check before an account lookup. Off unless the caller passes a fetch. */
+  publicCheckFetch?:typeof fetch}): Promise<{candidateKey?:string;pending:boolean;retryAfterSeconds?:number}> {
   const {db,orgId,companyId,now}=input;
   if (!await contactDiscoverySchemaReady(db)) return {pending:false};
   const company=await db.prepare('SELECT id,search_id,name,city,address,country,phone,suppressed,lifecycle,website FROM lead_radar_companies WHERE org_id=? AND id=?').bind(orgId,companyId).first<CompanyRow>();
@@ -228,17 +283,35 @@ export async function nextTelegramContactCandidate(input: {db:D1Database;orgId:s
   const checks=(await db.prepare('SELECT * FROM lead_radar_contact_checks WHERE org_id=? AND company_id=? AND account_digest=? AND expires_at>?')
     .bind(orgId,companyId,await hash(input.accountId),now).all<CheckRow>()).results ?? [];
   let retryAfterSeconds:number|undefined;
-  const current=candidates(company,evidence,now,enrichment);
+  const current=candidates(company,evidence,now,enrichment).filter(c=>!input.usernameOnly || c.kind==='telegram');
   // A legacy map edit timestamp must not prevent the checker from re-reading
   // that business record. Only the check path refreshes it; sender guards never do.
-  const refreshable=contactCandidatesForLead({...company,telegramContact:null,suppressed:false,evidence:evidence.map(evidenceFromRow)})
+  const refreshable=input.usernameOnly ? [] : contactCandidatesForLead({...company,telegramContact:null,suppressed:false,evidence:evidence.map(evidenceFromRow)})
     .filter(c=>!company.suppressed && company.lifecycle!=='do_not_contact' && c.kind==='phone' && c.ownership==='company'
       && c.lookupEligible && c.sourceUrl && osmBusinessRecord(c.sourceUrl) && !current.some(v=>v.key===c.key));
+  // Handles already known to be a bot, channel, group or dead username never
+  // reach an account lookup (owner audit 22.11.2026, EX-09).
+  const usernameOf=(c:LeadRadarContactCandidate)=>{ const locator=c.kind==='telegram' ? parseLeadRadarTelegramLocator(c.value) : null;
+    return locator?.kind==='username' ? locator.value.toLowerCase() : null; };
+  const verdicts=await readTelegramHandleVerdicts(db,current.map(usernameOf).filter((u):u is string=>Boolean(u)),new Date(now));
+  let publicChecks=0;
   for (const candidate of [...current,...refreshable]) {
     const [candidateDigest,proofDigest]=await Promise.all([hash(candidate.key),proof(candidate,evidence,enrichment)]);
     const row=checks.find((r) => r.candidate_digest===candidateDigest && r.proof_digest===proofDigest);
     const result=row ? parseResult(row) : null;
-    if (!result || result.status==='pending') return {candidateKey:candidate.key,pending:true};
+    if (!result || result.status==='pending') {
+      const username=usernameOf(candidate);
+      if (username && !verdicts.has(username) && input.publicCheckFetch && publicChecks < 3) {
+        publicChecks+=1;
+        const fresh=await checkTelegramHandlesPublicly(db,[username],{fetch:input.publicCheckFetch,limit:1,concurrency:1,budgetMs:8000,now:new Date(now)});
+        for (const [handle,kind] of fresh) verdicts.set(handle,kind);
+      }
+      // Only kinds that can never take a DM gate the lookup; a public "dead
+      // username" page is left to the account lookup to confirm.
+      const verdict=username ? verdicts.get(username) : undefined;
+      if (verdict==='bot' || verdict==='channel' || verdict==='group') continue;
+      return {candidateKey:candidate.key,pending:true};
+    }
     if (result.status==='resolved' && candidate.ownership==='company') return {pending:false};
     if (result.status==='limited') {
       const retry=Math.max(3,Math.ceil((Date.parse(row!.expires_at)-Date.parse(now))/1000));

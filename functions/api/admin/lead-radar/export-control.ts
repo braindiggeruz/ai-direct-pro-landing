@@ -4,24 +4,41 @@ import {
   LeadRadarSchemaUnavailableError,
   LeadRadarStore,
 } from '../../../platform/lead-radar';
+import { resolveLeadRadarIntent, normalizeLeadRadarIntentText } from '../../../platform/lead-radar/intent';
+import {
+  checkTelegramHandlesPublicly,
+  readTelegramHandleVerdicts,
+} from '../../../platform/lead-radar/telegram-handle-check';
 import type { LeadRadarLead } from '../../../../src/shared/lead-radar';
-import { recipientContactChoices } from '../../../../src/shared/lead-radar-recipient-contacts';
+import {
+  buildLeadExport,
+  exportHandlesNeedingCheck,
+  type ExportRowV2,
+  type ExportSummary,
+  type TelegramHandleKind,
+} from '../../../../src/shared/lead-radar-export-contacts';
+import { parseLeadRadarTelegramLocator } from '../../../../src/shared/lead-radar-contacts';
 
 /**
- * Outreach export.
+ * Outreach export (rebuilt after the owner audit of 22.11.2026).
  *
- * Lead Radar can dispatch through the Telegram bridge only, which needs a
- * connected account and a resolved corporate endpoint. Most discovered
- * businesses never reach that state, so a discovery result the owner cannot
- * act on is wasted work. This route turns a search into a contact list the
- * owner can actually use: import into a phone book, a dialer or WhatsApp.
+ * Turns one search — or every search of the same niche and city — into a
+ * contact file the owner can import into TG Sender, a phone book, a dialer or
+ * WhatsApp. Bots, channels, groups, personal accounts, dead usernames,
+ * web-studio handles, placeholder, foreign and call-centre numbers are left
+ * out with a reason (see X-Export-Summary). Usernames are written without `@`
+ * so the CSV formula guard never turns them into `'@x`, which TG Sender's
+ * importer rejected.
  *
- * It is read-only and owner-scoped. It never marks anything as contacted,
- * never sends anything, and never widens the DNC rules.
+ * Read-only and owner-scoped: it never marks anything as contacted, never
+ * sends, never widens DNC. The only side effect is the shared public-handle
+ * cache filled by the free t.me page check.
  */
 
 type ExportFormat = 'csv' | 'vcf';
+type ExportScope = 'search' | 'niche';
 
+/** Kept for callers that still read the old shape (one phone, one handle). */
 export interface ExportRow {
   company: string;
   phone: string | null;
@@ -60,7 +77,8 @@ function stripControlCharacters(value: string): string {
  * formula when the owner opens the file. E.164 phone values are not passed
  * through here: they are digits plus a leading `+` produced by our own
  * normalizer, so they are structurally safe, and prefixing them would break
- * every dialer and messaging-app importer.
+ * every dialer and messaging-app importer. Usernames are written without `@`
+ * (they start with a letter), so they never need the guard either.
  */
 function csvText(value: string | null | undefined): string {
   const text = stripControlCharacters(value ?? '');
@@ -70,7 +88,12 @@ function csvText(value: string | null | undefined): string {
 
 /** E.164 is `+` plus digits only, so it can be written as-is. */
 function csvPhone(value: string | null): string {
-  return value ?? '';
+  return value && /^\+\d{7,15}$/.test(value) ? value : '';
+}
+
+/** A username is `[a-z][a-z0-9_]{4,31}` by construction; anything else is dropped, never guarded. */
+function csvUsername(value: string | null): string {
+  return value && /^[a-z][a-z0-9_]{4,31}$/.test(value) ? value : '';
 }
 
 function vcfEscape(value: string): string {
@@ -86,51 +109,55 @@ function fileStem(value: string): string {
   return ascii.length >= 3 ? ascii : 'leads';
 }
 
-/**
- * Build the export rows from a search result.
- *
- * `recipientContactChoices` is reused rather than reimplemented: it already
- * applies the DNC/suppression rules, collects phones from the lead, its
- * evidence and its contact candidates, and deduplicates into E.164 form.
- */
-export function buildExportRows(leads: readonly LeadRadarLead[]): ExportRow[] {
-  const rows: ExportRow[] = [];
-  const seen = new Set<string>();
-  for (const lead of leads) {
-    const choices = recipientContactChoices(lead);
-    if (!choices.selectable) continue;
-    const phone = choices.mobilePhones[0] ?? null;
-    const telegram = choices.usernames[0] ? `@${choices.usernames[0]}` : null;
-    // One business per reachable channel. Two leads sharing a phone are the
-    // same recipient, and sending twice is the fastest way to get blocked.
-    const key = phone ? `phone:${phone}` : `tg:${telegram}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    rows.push({
-      company: lead.name,
-      phone,
-      telegram,
-      website: lead.website,
-      address: lead.address,
-      city: lead.city,
-      priority: lead.priority,
-      score: lead.score,
-    });
-  }
-  return rows;
+const TRANSLIT: Record<string, string> = {
+  а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm',
+  н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sch',
+  ъ: '', ы: 'y', ь: '', э: 'e', ю: 'yu', я: 'ya', қ: 'q', ғ: 'g', ҳ: 'h', ў: 'o',
+};
+function transliterate(value: string): string {
+  return [...value.toLowerCase()].map((char) => TRANSLIT[char] ?? char).join('');
 }
 
-export function renderCsv(rows: readonly ExportRow[]): string {
-  const header = ['company', 'phone', 'telegram', 'website', 'address', 'city', 'priority', 'score'];
-  const lines = [header.join(',')];
+/** Back-compatible projection: the first mobile and the best clean username. */
+export function buildExportRows(leads: readonly LeadRadarLead[]): ExportRow[] {
+  return buildLeadExport(leads, { includeLandlineOnly: false }).rows.map((row) => ({
+    company: row.company,
+    phone: row.phoneMobile1,
+    telegram: row.telegramUsername ? `@${row.telegramUsername}` : null,
+    website: row.website,
+    address: row.address,
+    city: row.city,
+    priority: row.priority,
+    score: row.score,
+  }));
+}
+
+export const EXPORT_CSV_HEADER = [
+  'company', 'niche', 'city', 'phone_mobile_1', 'phone_mobile_2', 'phone_landline',
+  'telegram_username', 'telegram_url', 'telegram_type', 'contact_status',
+  'source', 'source_url', 'source_date', 'stale', 'website', 'address', 'priority', 'score',
+] as const;
+
+export function renderCsv(rows: readonly ExportRowV2[]): string {
+  const lines = [EXPORT_CSV_HEADER.join(',')];
   for (const row of rows) {
     lines.push([
       csvText(row.company),
-      csvPhone(row.phone),
-      csvText(row.telegram),
+      csvText(row.niche),
+      csvText(row.city),
+      csvPhone(row.phoneMobile1),
+      csvPhone(row.phoneMobile2),
+      csvPhone(row.phoneLandline),
+      csvUsername(row.telegramUsername),
+      row.telegramUsername && csvUsername(row.telegramUsername) ? `https://t.me/${row.telegramUsername}` : '',
+      row.telegramType ?? '',
+      row.contactStatus,
+      row.source,
+      csvText(row.sourceUrl),
+      row.sourceDate ? row.sourceDate.slice(0, 10) : '',
+      row.stale ? 'yes' : '',
       csvText(row.website),
       csvText(row.address),
-      csvText(row.city),
       csvText(row.priority),
       String(row.score),
     ].join(','));
@@ -140,20 +167,54 @@ export function renderCsv(rows: readonly ExportRow[]): string {
   return `\uFEFF${lines.join('\r\n')}\r\n`;
 }
 
-export function renderVcf(rows: readonly ExportRow[]): string {
+export function renderVcf(rows: readonly ExportRowV2[]): string {
   return rows
     .map((row) => [
       'BEGIN:VCARD',
       'VERSION:3.0',
       `FN:${vcfEscape(row.company)}`,
       `ORG:${vcfEscape(row.company)}`,
-      ...(row.phone ? [`TEL;TYPE=CELL,WORK:${row.phone}`] : []),
+      ...(row.phoneMobile1 ? [`TEL;TYPE=CELL,WORK:${row.phoneMobile1}`] : []),
+      ...(row.phoneMobile2 ? [`TEL;TYPE=CELL,WORK:${row.phoneMobile2}`] : []),
+      ...(row.phoneLandline ? [`TEL;TYPE=WORK,VOICE:${row.phoneLandline}`] : []),
       ...(row.website ? [`URL:${vcfEscape(row.website)}`] : []),
       ...(row.address || row.city ? [`ADR;TYPE=WORK:;;${vcfEscape(row.address ?? row.city)};;;;`] : []),
-      ...(row.telegram ? [`NOTE:${vcfEscape(row.telegram)}`] : []),
+      ...(row.telegramUsername ? [`NOTE:${vcfEscape(`Telegram @${row.telegramUsername} https://t.me/${row.telegramUsername}`)}`] : []),
       'END:VCARD',
     ].join('\r\n'))
-    .join('\r\n') + '\r\n';
+    .join('\r\n') + (rows.length ? '\r\n' : '');
+}
+
+/** Niche identity that survives spelling variants («Стоматология», «Стоматологии», «Stomatologia»). */
+export function exportNicheKey(niche: string): string {
+  const intent = resolveLeadRadarIntent(niche);
+  return intent.canonicalId ?? `text:${normalizeLeadRadarIntentText(niche)}`;
+}
+
+export function exportCityKey(city: string): string {
+  const normalized = transliterate(normalizeLeadRadarIntentText(city)).replace(/[^a-z0-9]+/g, '');
+  return normalized === 'toshkent' ? 'tashkent' : normalized;
+}
+
+function handlesOf(leads: readonly LeadRadarLead[]): string[] {
+  const handles = new Set<string>();
+  const add = (value: string | null | undefined) => {
+    if (!value) return;
+    const locator = parseLeadRadarTelegramLocator(value.startsWith('@') || value.startsWith('http') || value.startsWith('tg:') ? value : `@${value}`);
+    if (locator?.kind === 'username') handles.add(locator.value.toLowerCase());
+  };
+  for (const lead of leads) {
+    add(lead.telegramContact?.username);
+    add(lead.telegramUrl);
+    for (const evidence of lead.evidence) if (evidence.fieldPath.startsWith('web.telegram.')) add(evidence.value);
+    for (const candidate of lead.contactCandidates ?? []) if (candidate.kind === 'telegram') add(candidate.value);
+  }
+  return [...handles];
+}
+
+function summaryHeader(summary: ExportSummary, checked: number): string {
+  // ASCII-only JSON: header values must stay Latin-1 safe.
+  return JSON.stringify({ ...summary, publicChecks: checked });
 }
 
 export async function handleExportRequest(
@@ -174,16 +235,47 @@ export async function handleExportRequest(
   }
 
   const format: ExportFormat = ctx.url.searchParams.get('format') === 'vcf' ? 'vcf' : 'csv';
+  const scope: ExportScope = ctx.url.searchParams.get('scope') === 'niche' ? 'niche' : 'search';
+  const runPublicCheck = ctx.url.searchParams.get('check') !== '0';
   const searchId = parts[1];
   if (!/^[A-Za-z0-9_-]{1,80}$/.test(searchId)) return ownerError('search_not_found', ctx.requestId, 404);
 
   const store = new LeadRadarStore(ctx.db);
   const result = await store.getSearch(orgId, searchId);
   if (!result) return ownerError('search_not_found', ctx.requestId, 404);
-
-  const rows = buildExportRows(result.leads);
   const input = result.search.input;
-  const stem = fileStem(`${input.niche ?? 'leads'}-${input.city ?? ''}`);
+
+  let leads: LeadRadarLead[] = result.leads;
+  let searchesUsed = 1;
+  if (scope === 'niche') {
+    const nicheKey = exportNicheKey(input.niche ?? '');
+    const cityKey = exportCityKey(input.city ?? '');
+    // The newest 12 matching searches, read in one company query and one
+    // evidence query (the D1 budget is 50 queries per invocation).
+    const peers = (await store.listSearchesForExport(orgId, 80))
+      .filter((item) => item.id !== searchId && exportNicheKey(item.input.niche ?? '') === nicheKey
+        && exportCityKey(item.input.city ?? '') === cityKey)
+      .slice(0, 12);
+    if (peers.length && leads.length < 1500) {
+      leads = leads.concat(await store.getLeadsForSearches(orgId, peers.map((peer) => peer.id), 1500 - leads.length));
+      searchesUsed += peers.length;
+    }
+  }
+
+  let verdicts = await readTelegramHandleVerdicts(ctx.db, handlesOf(leads));
+  let checked = 0;
+  if (runPublicCheck) {
+    const pending = exportHandlesNeedingCheck(leads, verdicts);
+    if (pending.length) {
+      const fresh = await checkTelegramHandlesPublicly(ctx.db, pending, { limit: 40, budgetMs: 15000 });
+      checked = fresh.size;
+      if (fresh.size) verdicts = new Map<string, TelegramHandleKind>([...verdicts, ...fresh]);
+    }
+  }
+
+  const niche = input.niche ?? '';
+  const { rows, summary } = buildLeadExport(leads, { niche, verdicts });
+  const stem = fileStem(`${transliterate(niche || 'leads')}-${transliterate(input.city ?? '')}${scope === 'niche' ? '-all' : ''}`);
   const date = new Date().toISOString().slice(0, 10);
 
   const body = format === 'vcf' ? renderVcf(rows) : renderCsv(rows);
@@ -197,7 +289,10 @@ export async function handleExportRequest(
       'Content-Disposition': `attachment; filename="${filename}"`,
       'Cache-Control': 'no-store',
       'X-Export-Rows': String(rows.length),
-      'X-Export-Leads': String(result.leads.length),
+      'X-Export-Leads': String(leads.length),
+      'X-Export-Searches': String(searchesUsed),
+      'X-Export-Summary': summaryHeader(summary, checked),
+      'Access-Control-Expose-Headers': 'X-Export-Rows, X-Export-Leads, X-Export-Searches, X-Export-Summary, Content-Disposition',
     },
   });
 }

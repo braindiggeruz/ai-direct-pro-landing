@@ -23,6 +23,7 @@ import { recordUiEvent } from '../ui-events';
 import { STUDIO_TELEGRAM_URL } from '../../shared/studio-contact';
 // A named JSON import: the bundle keeps the seller's short name, not the requisites.
 import { shortName } from '../../../content/global/legal-entity.json';
+import { keepNames } from '../keep-names';
 import { perAnswer, type PackOffer, type PackSku } from '../pack-offers';
 import { packText } from '../pack-text';
 import {
@@ -101,9 +102,24 @@ export function payEvent(
   recordUiEvent(apiBase, type as 'checkout_created', (lead ? `${lead}.${tail}` : tail) as `${CheckoutProvider}.${CheckoutBucket}.${CheckoutApp}.${CheckoutOs}`);
 }
 
+/**
+ * A watched payment's ending with the client class, result.app.os (conversion
+ * audit 2026-11-22, C2): how many payments end on a computer and how many on a
+ * phone. Asked for through chat-account (reportResultClass), beside checkout_result.
+ */
+export function resultClass(apiBase: string, result: 'paid' | 'pending' | 'cancelled'): void {
+  const { app, os } = clientClass();
+  recordUiEvent(apiBase, 'checkout_result_class', `${result}.${app}.${os}`);
+}
+
+/** The page's API base, as the limit card reads it (chat-conversion.tsx): the share screen has no prop for it. */
+const rootApi = (): string => (typeof document === 'undefined' ? '' : document.getElementById('gpt-chat-root')?.dataset.apiBase ?? '');
+
 // ---------------------------------------------------------------- copy
 
 const NAMES: Record<PaymentProvider, string> = { click: 'Click', payme: 'Payme', uzum: 'Uzum Bank' };
+/** The names a browser's page translation must leave alone (keep-names.tsx): the providers and the seller. */
+const BRANDS = [...Object.values(NAMES), shortName.ru, shortName.uz];
 /** Groups of thousands as the window writes them (account-strings.ts groupDigits): «20 000». */
 const sumOf = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -149,6 +165,7 @@ export const TEXT = {
     invoice: (ref: string) => `Счёт №${ref}`,
     helpText: (ref: string) => `Не получилось оплатить AI-пакет.${ref ? ` Счёт №${ref}` : ''}`,
     other: 'Другой способ',
+    switchVia: (name: string) => `Оплатить через ${name}`,
   },
   uz: {
     retry: 'Qayta urinish',
@@ -191,6 +208,7 @@ export const TEXT = {
     invoice: (ref: string) => `Hisob №${ref}`,
     helpText: (ref: string) => `AI paketni to‘lay olmadim.${ref ? ` Hisob №${ref}` : ''}`,
     other: 'Boshqa usul',
+    switchVia: (name: string) => `${name} orqali to‘lash`,
   },
 } as const;
 
@@ -206,7 +224,7 @@ export function PayStall({ locale, provider, kind, busy, onRetry }: {
   const s = TEXT[locale];
   return (
     <div role="alert" className="gpt-error gpt-pay-stall" data-testid="ai-pay-stall" data-kind={kind}>
-      <p>{kind === 'failed' ? s.stallFailed(NAMES[provider]) : s.stallOpen(NAMES[provider])}</p>
+      <p>{keepNames(kind === 'failed' ? s.stallFailed(NAMES[provider]) : s.stallOpen(NAMES[provider]), BRANDS)}</p>
       <button type="button" className="gpt-primary" disabled={busy} onClick={onRetry}>{s.retry}</button>
     </div>
   );
@@ -275,7 +293,7 @@ export function PayExtras({ locale, pack, offers, providers, busy, termsUrl, onA
     <div className="gpt-pay-extras" data-testid="ai-pay-extras">
       {!two && <WallQuestion locale={locale} />}
       {links.length > 0 && links.length === providers.length && (
-        <p className="gpt-pay-next">{s.next(joinNames(locale, links))} <span data-testid="ai-pay-seller">{s.seller(shortName[locale])}</span></p>
+        <p className="gpt-pay-next">{keepNames(`${s.next(joinNames(locale, links))} `, BRANDS)}<span data-testid="ai-pay-seller">{keepNames(s.seller(shortName[locale]), BRANDS)}</span></p>
       )}
       {per > 0 && !two && <p className="gpt-pay-per" data-testid="ai-pay-per">{s.per(per)}</p>}
       {links.length > 0 && (open ? (
@@ -284,7 +302,7 @@ export function PayExtras({ locale, pack, offers, providers, busy, termsUrl, onA
           <div className="gpt-pay-ask-buttons">
             {(two ? offers : offers.slice(0, 1)).flatMap((offer) => links.map((provider) => (
               <button type="button" className="gpt-text-button" key={`${offer.sku}:${provider}`} data-provider={provider} data-sku={offer.sku} disabled={busy} onClick={() => onAsk(provider, offer.sku)}>
-                {two ? packText(locale).link(offer, NAMES[provider]) : s.askFor(NAMES[provider])}
+                {keepNames(two ? packText(locale).link(offer, NAMES[provider]) : s.askFor(NAMES[provider]), BRANDS)}
               </button>
             )))}
           </div>
@@ -308,7 +326,13 @@ export function PayExtras({ locale, pack, offers, providers, busy, termsUrl, onA
 /**
  * Two packs on offer (the 3-day pack beside the monthly one): a row each, with
  * its sum, what it holds, the price of one answer and its own pay buttons, so
- * one tap still pays. Nothing is preselected. Every number is the server's.
+ * one tap still pays. Every number is the server's.
+ *
+ * One pack leads (conversion audit 2026-11-22, B2): every purchase since
+ * 17.11 was the 3-day pack, and four buttons of equal weight left the eye
+ * nowhere to land. The 3-day pack keeps the filled buttons and a line naming
+ * its job; the other pack's buttons are quiet outlines. Nothing is selected
+ * for the buyer and both packs still pay in one tap.
  */
 export function PayPacks({ locale, offers, providers, busy, onPay }: {
   locale: Locale; offers: PackOffer[]; providers: readonly PaymentProvider[]; busy: boolean;
@@ -316,15 +340,18 @@ export function PayPacks({ locale, offers, providers, busy, onPay }: {
 }) {
   const s = packText(locale);
   const best = Math.min(...offers.map(perAnswer));
+  // The first row leads: the 3-day pack for someone without a pack, the monthly one for a holder (pack-offers.ts, listed).
+  const lead = offers[0]?.sku;
   return (
     <div className="gpt-pay-packs" data-testid="ai-pay-packs">
       <WallQuestion locale={locale} />
       {offers.map((offer) => (
-        <section className="gpt-pay-pack" key={offer.sku} data-sku={offer.sku} aria-label={`${s.name(offer)}: ${s.sum(offer)}`}>
+        <section className={offer.sku === lead ? 'gpt-pay-pack gpt-pay-pack-lead' : 'gpt-pay-pack'} key={offer.sku} data-sku={offer.sku} aria-label={`${s.name(offer)}: ${s.sum(offer)}`}>
           <div className="gpt-pay-pack-head">
             <strong>{s.name(offer)}{perAnswer(offer) === best && <em>{s.best}</em>}</strong>
             <b>{s.sum(offer)}</b>
           </div>
+          {offer.sku === 'once' && <p className="gpt-pay-pack-job" data-testid="ai-pay-pack-job">{s.job}</p>}
           <p>{s.facts(offer)} · {s.per(perAnswer(offer))}</p>
           <div className="gpt-pay-pack-buttons">
             {/* The word the acceptance line names, once; then a button per provider. Uzum sells the monthly pack only. */}
@@ -332,12 +359,13 @@ export function PayPacks({ locale, offers, providers, busy, onPay }: {
             {providers.filter((provider) => offer.sku === 'month' || provider !== 'uzum').map((provider) => (
               <button
                 type="button"
-                className="gpt-primary"
+                className={offer.sku === lead ? 'gpt-primary' : 'gpt-primary gpt-pay-quiet'}
                 key={provider}
                 data-provider={provider}
                 data-sku={offer.sku}
                 disabled={busy}
                 aria-label={s.pay(offer, NAMES[provider])}
+                translate="no"
                 onClick={() => onPay(provider, offer.sku)}
               >
                 {NAMES[provider]}<span aria-hidden="true">↗</span>
@@ -373,6 +401,13 @@ export function PayShare({ locale, provider, url, at, orderState, priceUzs, busy
     return () => window.clearInterval(timer);
   }, []);
   const expired = Date.now() - at >= ORDER_LIFETIME_MS || (orderState !== null && !['pending', 'prepared'].includes(orderState));
+  // «Попросить оплатить» counted (conversion audit 2026-11-22, C1): the live link shown once per screen, then each way of sending it.
+  const shown = useRef(false);
+  useEffect(() => {
+    if (expired || shown.current) return;
+    shown.current = true;
+    recordUiEvent(rootApi(), 'pay_share', 'shown');
+  }, [expired]);
   const sum = sumOf(priceUzs);
   const name = NAMES[provider];
   if (expired)
@@ -391,6 +426,7 @@ export function PayShare({ locale, provider, url, at, orderState, priceUzs, busy
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
+      recordUiEvent(rootApi(), 'pay_share', 'copied');
     } catch {
       input.current?.focus();
       input.current?.select();
@@ -400,9 +436,9 @@ export function PayShare({ locale, provider, url, at, orderState, priceUzs, busy
     <>
       <DialogTitle>{s.shareTitle}</DialogTitle>
       <DialogDescription asChild>
-        <p className="gpt-panel-note" data-testid="ai-pay-share">{s.shareLead(name, sum)}</p>
+        <p className="gpt-panel-note" data-testid="ai-pay-share">{keepNames(s.shareLead(name, sum), BRANDS)}</p>
       </DialogDescription>
-      <a className="gpt-primary" href={share} target="_blank" rel="noopener noreferrer" data-testid="ai-pay-share-telegram">{s.tg}</a>
+      <a className="gpt-primary" href={share} target="_blank" rel="noopener noreferrer" data-testid="ai-pay-share-telegram" onClick={() => recordUiEvent(rootApi(), 'pay_share', 'telegram')}>{s.tg}</a>
       <button type="button" className="gpt-text-button gpt-pay-copy" data-testid="ai-pay-share-copy" onClick={() => void copy()}>
         {copied ? s.copied : s.copy}
       </button>
@@ -422,7 +458,7 @@ export function PayHolderless({ locale, children }: { locale: Locale; children?:
     <>
       <DialogTitle>{s.holderTitle}</DialogTitle>
       <DialogDescription asChild>
-        <p role="status" className="gpt-notice" data-testid="ai-pay-result" data-result="holderless">{s.holder}</p>
+        <p role="status" className="gpt-notice" data-testid="ai-pay-result" data-result="holderless">{keepNames(s.holder, BRANDS)}</p>
       </DialogDescription>
       {children}
     </>
@@ -437,7 +473,7 @@ export function orderRef(id: string | null | undefined): string {
   return typeof id === 'string' ? id.slice(-6).toUpperCase() : '';
 }
 
-export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, provider, since, closed, busy, onContinue, onOther, onAsk, cheaper = null }: {
+export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, provider, since, closed, busy, onContinue, onOther, onAsk, cheaper = null, switchTo = null }: {
   /** The card is the window's whole screen: its title is the window's, `top` follows it and `children` close it. */
   heading: boolean; top?: ReactNode; children?: ReactNode;
   /** The order the client holds (account view or watch), or null. */
@@ -448,6 +484,8 @@ export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, pr
   onContinue: () => void; onOther: () => void; onAsk: (() => void) | null;
   /** The smaller pack, for a monthly order left unpaid: one tap with the same provider. */
   cheaper?: { offer: PackOffer; onPay: () => void } | null;
+  /** The other link provider, one tap (CheckoutReturn): offered while the open order can be closed, or once it is closed. */
+  switchTo?: { provider: PaymentProvider; onPay: () => void } | null;
 }) {
   const s = TEXT[locale];
   const ref = orderRef(orderId);
@@ -473,10 +511,15 @@ export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, pr
       )}
       <p>{closed ? s.unpaidClosed : s.unpaidOpen}</p>
       {ref && <p className="gpt-pay-ref" data-testid="ai-pay-ref">{s.invoice(ref)}</p>}
-      {provider && <button type="button" className="gpt-primary" disabled={busy} onClick={onContinue}>{s.cont} · {NAMES[provider]}</button>}
+      {provider && <button type="button" className="gpt-primary" disabled={busy} onClick={onContinue}>{keepNames(`${s.cont} · ${NAMES[provider]}`, BRANDS)}</button>}
+      {switchTo && (
+        <button type="button" className="gpt-pay-cheaper" data-testid="ai-pay-switch" disabled={busy} onClick={switchTo.onPay}>
+          {keepNames(s.switchVia(NAMES[switchTo.provider]), BRANDS)}
+        </button>
+      )}
       {cheaper && provider && (
         <button type="button" className="gpt-pay-cheaper" data-testid="ai-pay-cheaper" disabled={busy} onClick={cheaper.onPay}>
-          {packText(locale).cheaper(cheaper.offer)} · {NAMES[provider]}
+          {keepNames(`${packText(locale).cheaper(cheaper.offer)} · ${NAMES[provider]}`, BRANDS)}
         </button>
       )}
       <div className="gpt-pay-unpaid-more">

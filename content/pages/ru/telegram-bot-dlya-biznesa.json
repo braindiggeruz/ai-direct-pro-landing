@@ -186,6 +186,17 @@
       ]
     },
     {
+      "type": "linkp",
+      "text": "Если нужен бот под ключ в Ташкенте — сценарий, смету и сроки до начала работ разбираем на странице {hub}.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/ru/razrabotka-telegram-bota-tashkent/",
+          "anchor": "разработка Telegram-ботов на заказ в Ташкенте"
+        }
+      ]
+    },
+    {
       "type": "cta",
       "text": "Обсудить сценарий и получить смету",
       "href": "#lead-form"
@@ -305,7 +316,7 @@
     "Service",
     "FAQPage"
   ],
-  "lastReviewedAt": "2026-10-23",
+  "lastReviewedAt": "2026-11-22",
   "createdAt": "2026-02-01T00:00:00Z",
-  "updatedAt": "2026-10-23"
+  "updatedAt": "2026-11-22"
 }

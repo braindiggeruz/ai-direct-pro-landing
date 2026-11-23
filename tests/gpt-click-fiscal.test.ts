@@ -24,6 +24,7 @@ import {
   clickAuthHeader,
   clickPaymentDate,
   clickReceiptItem,
+  findClickPaymentId,
 } from "../functions/lib/gpt-chat/click-merchant";
 import {
   clickFiscalPolicy,
@@ -86,10 +87,12 @@ async function liveClick(t: { after: (fn: () => void) => void }, extra: Partial<
   const pay = async (orderId: string, block = live) => {
     const tx = String(randomBytes(4).readUInt32BE(0));
     const order = (await f.store.order(orderId))!;
+    // Click's payment id is the click_paydoc_id it sends (live service, 22.11.2026).
+    const paydoc = String(fake.paymentIdOf(orderId) ?? randomBytes(4).readUInt32BE(0));
     const callRoute = async (action: "0" | "1") => {
       const p = {
         click_trans_id: tx,
-        click_paydoc_id: String(randomBytes(4).readUInt32BE(0)),
+        click_paydoc_id: paydoc,
         service_id: String(block.service_id),
         merchant_trans_id: orderId,
         amount: "20000.00",
@@ -106,16 +109,21 @@ async function liveClick(t: { after: (fn: () => void) => void }, extra: Partial<
     const complete = await callRoute("1");
     return { complete, again: () => callRoute("1") };
   };
-  /** A live order paid at `at` straight through the store, and known to Click. */
-  const paidAt = async (at: number, store: BillingStore = f.store) => {
+  /**
+   * A live order paid at `at` straight through the store, and known to Click.
+   * `withDocId`: Prepare kept Click's click_paydoc_id, as every live order
+   * does; without it the order is one from before, found by status_by_mti.
+   */
+  const paidAt = async (at: number, store: BillingStore = f.store, withDocId = false) => {
     const order = await store.createOrder(f.user, "click", "live", randomUUID(), at);
+    const paymentId = fake.pay(order.id, at);
     await store.transition(order.id, "prepared", "Prepare", {
       externalId: String(randomBytes(4).readUInt32BE(0)),
+      ...(withDocId ? { docId: String(paymentId) } : {}),
       providerTime: at,
       now: at,
     });
     await store.transition(order.id, "paid", "Complete", { now: at });
-    const paymentId = fake.pay(order.id, at);
     return { id: order.id, paymentId };
   };
   const receipt = (orderId: string, org = BILLING_ORG) =>
@@ -174,11 +182,13 @@ test("GPT_CLICK_AUTOFISCAL: true only reads Click's link, false submits at once,
     ["0", "1", "30", " 15 ", "1440", "5000", "", "-5", "1.5", "ten", "0x10", "1e3"].map(delay),
     [0, 1, 30, 15, 1440, 1440, 10, 10, 10, 10, 10, 10],
   );
-  // Committed: check first after 10 minutes. runtime-config.test.ts keeps the
-  // packed line and the nested table of wrangler.toml equal.
+  // Committed since 2026-11-22: Click prints the receipts (its own receipt was
+  // found on ofd.soliq.uz for live payments), we only read the link. The
+  // delay stays for a switch back to check first. runtime-config.test.ts
+  // keeps the packed line and the nested table of wrangler.toml equal.
   const source = readFileSync(new URL("../wrangler.toml", import.meta.url), "utf8");
   const packed = JSON.parse(/GPTBOT_RUNTIME_CONFIG_JSON\s*=\s*'''([^']+)'''/u.exec(source)![1]) as Record<string, string>;
-  assert.equal(packed.GPT_CLICK_AUTOFISCAL, "");
+  assert.equal(packed.GPT_CLICK_AUTOFISCAL, "true");
   assert.equal(packed.GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES, "10");
 });
 
@@ -200,10 +210,10 @@ test("a live Complete queues one receipt in the paid batch and asks Click for it
   assert.equal(row.attempts, 0, "a wait is no attempt");
   assert.equal(row.next_at, paidAt + 10 * MIN);
   assert.equal(row.lease_until, 0);
+  // Click's payment id is the click_paydoc_id of Prepare: no lookup.
   assert.equal(row.payment_id, String(paymentId));
-  assert.deepEqual(c.calls(), ["GET /status_by_mti/41001", "GET /ofd_data/41001"]);
-  assert.equal(c.fake.calls[0].path, `/status_by_mti/41001/${order.id}/${clickPaymentDate(Date.now())}`);
-  assert.equal(c.fake.calls[1].path, `/ofd_data/41001/${paymentId}`);
+  assert.deepEqual(c.calls(), ["GET /ofd_data/41001"]);
+  assert.equal(c.fake.calls[0].path, `/ofd_data/41001/${paymentId}`);
   assert.deepEqual(await fiscalizeDue(c.f.env, { now: paidAt + 10 * MIN - 1 }), { ...IDLE, queued: 1 });
 
   // Ten minutes after the payment: asked once more, then our receipt line, then its link.
@@ -216,8 +226,8 @@ test("a live Complete queues one receipt in the paid batch and asks Click for it
   assert.equal(row.attempts, 1);
   assert.equal(row.lease_until, 0);
   // Only https://api.click.uz, in Click's order.
-  assert.deepEqual(c.calls(2), ["GET /ofd_data/41001", "POST /ofd_data/submit_items", "GET /ofd_data/41001"]);
-  assert.deepEqual(c.fake.calls[3].body, {
+  assert.deepEqual(c.calls(1), ["GET /ofd_data/41001", "POST /ofd_data/submit_items", "GET /ofd_data/41001"]);
+  assert.deepEqual(c.fake.calls[2].body, {
     service_id: 41001,
     payment_id: paymentId,
     items: [
@@ -298,6 +308,85 @@ test("Click printed the receipt itself: its link is kept as 'auto' and our recei
     [0, "auto"],
   );
   assert.equal(c.fake.count("POST", "submit_items"), 0);
+});
+
+test("findClickPaymentId: the order's click_paydoc_id is Click's payment id, no call; only an order without one is looked up", async (t) => {
+  const c = await liveClick(t);
+  const auth = { serviceId: String(c.live.service_id), merchantUserId: String(c.live.merchant_user_id), secretKey: c.live.secret_key };
+  const order = await c.f.store.createOrder(c.f.user, "click", "live", randomUUID(), T0);
+  const paymentId = c.fake.pay(order.id, T0);
+  const facts = { id: order.id, perform_time: T0, provider_time: T0 };
+  assert.deepEqual(await findClickPaymentId(auth, { ...facts, provider_doc_id: String(paymentId) }), { ok: true, paymentId: String(paymentId) });
+  assert.equal(c.fake.calls.length, 0);
+  // No click_paydoc_id, or one that is no Click payment id: status_by_mti, as before.
+  for (const provider_doc_id of [null, undefined, "", "0123", "12ab", "1".repeat(16)])
+    assert.deepEqual(await findClickPaymentId(auth, { ...facts, provider_doc_id }), { ok: true, paymentId: String(paymentId) });
+  assert.equal(c.fake.count("GET", "status_by_mti"), 6);
+  // The lookup asks for our order on Click's (Tashkent) calendar day of the payment.
+  assert.equal(c.fake.calls[0].path, `/status_by_mti/41001/${order.id}/${clickPaymentDate(T0)}`);
+});
+
+test("live service: status_by_mti answers -12, so Click's payment id comes from the click_paydoc_id Prepare stored; Click's own receipt is kept", async (t) => {
+  const c = await liveClick(t);
+  c.fake.mtiRefuses = true;
+  // Through the route, as Click pays: Prepare and Complete carry the click_paydoc_id.
+  const order = await c.f.store.createOrder(c.f.user, "click", "live", randomUUID());
+  const paymentId = c.fake.pay(order.id, Date.now());
+  c.fake.autoPrint(paymentId);
+  assert.equal((await c.pay(order.id)).complete.error, 0);
+  await Promise.all(c.f.background);
+  const row = c.receipt(order.id);
+  assert.deepEqual(
+    [row.status_code, row.receipt_url, row.last_error, row.payment_id, row.operation_id, row.submitted_at],
+    [0, c.fake.qrUrl(paymentId), "auto", String(paymentId), null, null],
+  );
+  assert.equal(c.fake.count("GET", "status_by_mti"), 0, "the lookup that answers -12 is never asked");
+  assert.equal(c.fake.count("POST", "submit_items"), 0, "Click printed it: ours never goes out");
+});
+
+test("receipts stuck on payment_id:click_-12 since October print on their next attempt: Click's own link, or ours on Click's word that it has none", async (t) => {
+  const c = await liveClick(t);
+  c.fake.mtiRefuses = true;
+  const own = await c.paidAt(T0, c.f.store, true);
+  const none = await c.paidAt(T0, c.f.store, true);
+  c.fake.autoPrint(own.paymentId);
+  // The production state since 07.10.2026: dozens of failed lookups, the urgent alert repeating.
+  c.f.db.sqlite
+    .prepare("UPDATE gpt_fiscal_receipts SET attempts=46,last_error='payment_id:click_-12',next_at=? WHERE order_id IN (?,?)")
+    .run(T0 + 40 * DAY, own.id, none.id);
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now: T0 + 40 * DAY }), { ...IDLE, printed: 2 });
+  const printed = c.receipt(own.id);
+  assert.deepEqual(
+    [printed.status_code, printed.last_error, printed.payment_id, printed.operation_id, printed.submitted_at],
+    [0, "auto", String(own.paymentId), null, null],
+  );
+  // Click holds none (its own answer): ours goes out once, for the click_paydoc_id.
+  const ours = c.receipt(none.id);
+  assert.deepEqual([ours.status_code, ours.last_error, ours.payment_id, ours.operation_id], [0, "ours", String(none.paymentId), "click:submit_items"]);
+  const submits = c.fake.calls.filter((call) => call.method === "POST" && call.path === "/ofd_data/submit_items");
+  assert.deepEqual(submits.map((call) => call.body?.payment_id), [none.paymentId]);
+  assert.equal(c.fake.count("GET", "status_by_mti"), 0);
+  assert.deepEqual(await fiscalizeDue(c.f.env, { now: T0 + 41 * DAY }), IDLE);
+});
+
+test("live service: the owner's reversal takes Click's payment id from the click_paydoc_id, without the lookup that answers -12", async (t) => {
+  const c = await liveClick(t);
+  c.fake.mtiRefuses = true;
+  const order = await c.paidAt(Date.now(), c.f.store, true);
+  const response = await reversal(
+    c.f.ctx(
+      new Request("https://gptbot.uz/api/internal/gpt-click-reversal", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${c.f.env.GPT_BILLING_MAINTENANCE_SECRET}` },
+        body: JSON.stringify({ orderId: order.id, version: (await c.f.store.order(order.id))!.version, confirmReversal: true }),
+      }),
+    ),
+  );
+  assert.equal(response.status, 200);
+  assert.equal(((await response.json()) as { paymentId: string }).paymentId, String(order.paymentId));
+  assert.ok(c.fake.reversed.has(order.paymentId));
+  assert.equal(c.fake.count("GET", "status_by_mti"), 0);
+  assert.equal(c.receipt(order.id).payment_id, String(order.paymentId));
 });
 
 test("a refund before the receipt printed never sends ours; one read records a sale receipt that exists, and it never pages", async (t) => {

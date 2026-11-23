@@ -40,6 +40,32 @@
       "text": "В этом гиде разбираем, из чего складывается цена разработки Telegram-бота, какие функции влияют на бюджет, какие боты бывают по сложности и как понять, что именно нужно вашему бизнесу — простой бот, бот с CRM, AI-консультант или Mini App. Материал поможет описать задачу до сметы и не переплатить за лишние функции."
     },
     {
+      "type": "linkp",
+      "text": "Нужен бот под ключ, а не расчёт на будущее? {hub}: базовый бот для заявок — от 990 000 сум, состав и цену фиксируем в смете до начала работ. Цены всех пакетов — в {price}, а как выбрать исполнителя — на странице {dev}.",
+      "links": [
+        {
+          "token": "hub",
+          "target": "/ru/razrabotka-telegram-bota-tashkent/",
+          "anchor": "Разработка Telegram-бота на заказ в Ташкенте"
+        },
+        {
+          "token": "price",
+          "target": "/ru/stoimost-chat-bota/",
+          "anchor": "таблице цен на чат-боты"
+        },
+        {
+          "token": "dev",
+          "target": "/ru/luchshie-razrabotchiki-chat-botov-tashkent/",
+          "anchor": "чат-бот на заказ в Ташкенте"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "text": "Получить смету на Telegram-бота",
+      "href": "/ru/razrabotka-telegram-bota-tashkent/#lead-form"
+    },
+    {
       "type": "toc",
       "text": "Содержание",
       "links": [
@@ -953,7 +979,7 @@
   "robotsFollow": true,
   "author": "GPTBot Team",
   "datePublished": "2026-07-13",
-  "dateModified": "2026-10-03",
+  "dateModified": "2026-11-22",
   "schemaTypes": [
     "Organization",
     "WebSite",
@@ -961,7 +987,7 @@
     "Article",
     "FAQPage"
   ],
-  "updatedAt": "2026-10-03T00:00:00.000Z",
+  "updatedAt": "2026-11-22T00:00:00.000Z",
   "createdAt": "2026-07-13T00:00:00.000Z",
   "sources": [
     {

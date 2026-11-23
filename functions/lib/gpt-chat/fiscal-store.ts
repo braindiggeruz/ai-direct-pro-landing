@@ -22,8 +22,10 @@
 // OFD for the service on its side, 2026-10-05), so GPT_CLICK_AUTOFISCAL picks
 // the path (fiscal-config.ts clickFiscalPolicy): "" checks first, "true" only
 // reads Click's link, "false" sends ours at once (the path before 2026-10-05).
-//   1. Click's payment_id is looked up by our merchant_trans_id
-//      (status_by_mti) once and kept;
+//   1. Click's payment_id is the click_paydoc_id Prepare kept
+//      (provider_doc_id; status_by_mti answers -12 on the live service);
+//      only an order without one is looked up by our merchant_trans_id
+//      (status_by_mti). Either is kept;
 //   2. ofd_data is asked whether a receipt exists: on every attempt (check
 //      first, "true"), or on a retry ("false"). A link there is kept;
 //   3. check first: until GPT_CLICK_FISCAL_SUBMIT_DELAY_MINUTES after the
@@ -143,6 +145,8 @@ interface ClickOrderFacts {
   amount: number;
   provider_time: number | null;
   perform_time: number;
+  /** click_paydoc_id from Prepare: Click's payment id (click-merchant.ts findClickPaymentId). */
+  provider_doc_id: string | null;
   plan?: string;
   plan_version?: string;
 }
@@ -193,11 +197,11 @@ export class FiscalStore {
       .first<FiscalRow>();
   }
   clickOrder(id: string): Promise<ClickOrderFacts | null> {
-    if (id.startsWith("stu_")) return this.db.prepare("SELECT id,state,mode,amount,provider_time,perform_time,plan,plan_version FROM studio_orders_v2 WHERE org_id=? AND id=? AND provider='click'").bind(this.org, id).first<ClickOrderFacts>();
+    if (id.startsWith("stu_")) return this.db.prepare("SELECT id,state,mode,amount,provider_time,perform_time,provider_doc_id,plan,plan_version FROM studio_orders_v2 WHERE org_id=? AND id=? AND provider='click'").bind(this.org, id).first<ClickOrderFacts>();
     // The 3-day pack's orders have their own table (migrations/0085, packs.ts): missed here, a paid order would never be printed.
     return this.db
       .prepare(
-        `SELECT id,state,mode,amount,provider_time,perform_time FROM ${isOnceOrder(id) ? ONCE_ORDERS : "gpt_payment_orders"} WHERE org_id=? AND id=? AND provider='click'`,
+        `SELECT id,state,mode,amount,provider_time,perform_time,provider_doc_id FROM ${isOnceOrder(id) ? ONCE_ORDERS : "gpt_payment_orders"} WHERE org_id=? AND id=? AND provider='click'`,
       )
       .bind(this.org, id)
       .first<ClickOrderFacts>();

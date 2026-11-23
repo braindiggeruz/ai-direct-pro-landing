@@ -446,23 +446,24 @@ test('D1 owns retry timing and a completed job cannot regress', async () => {
     now: () => start,
     discover: async () => { throw new Error('source timeout'); },
   });
+  // Discovery retries wait 1, 5, 15 and 30 minutes (audit 22.11.2026, E2).
   assert.deepEqual(retry, {
-    outcome: 'retry_wait', delaySeconds: 45, retryDelivery: true,
+    outcome: 'retry_wait', delaySeconds: 60, retryDelivery: true,
   });
   let job = await store.getJob(firstMessage.job_id);
   assert.equal(job?.status, 'retry_wait');
   assert.equal(job?.dispatchStatus, 'pending');
   assert.equal(await enqueueDueLeadRadarJobs(
-    db, queue, new Date(start.getTime() + 44_000), 5,
+    db, queue, new Date(start.getTime() + 59_000), 5,
   ), 0);
   assert.equal(await enqueueDueLeadRadarJobs(
-    db, queue, new Date(start.getTime() + 46_000), 5,
+    db, queue, new Date(start.getTime() + 61_000), 5,
   ), 1);
 
   const retryMessage = queue.messages.shift();
   assert.ok(retryMessage);
   assert.equal((await consumeLeadRadarQueueMessage(db, retryMessage, queue, {
-    now: () => new Date(start.getTime() + 46_000),
+    now: () => new Date(start.getTime() + 61_000),
     discover: async () => ({ candidates: [], sourceWarnings: [], rawDiscoveredCount: 0 }),
   })).outcome, 'completed');
   job = await store.getJob(firstMessage.job_id);

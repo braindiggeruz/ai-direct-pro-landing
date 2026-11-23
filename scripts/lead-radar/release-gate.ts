@@ -219,9 +219,16 @@ const ALLOWLISTED_ROOT_SCRIPTS = {
     'tsx scripts/generate-sitemap.ts',
     'tsx scripts/generate-robots.ts',
     'tsx scripts/generate-llm-markdown.ts',
+    'tsx scripts/generate-feed.ts',
     'npm run build:admin',
+    'npm run build:studio',
+    'npm run release:pages:stamp',
   ].join(' && '),
   'build:admin': 'npm --prefix apps/bormi-admin ci && npm --prefix apps/bormi-admin run build',
+  // build:cf calls both since the Studio and release-stamp steps joined the
+  // Pages build; pinned so a changed sub-script cannot smuggle commands in.
+  'build:studio': 'npm --prefix apps/studio ci && npm --prefix apps/studio run build && tsx apps/studio/scripts/prerender-studio.ts',
+  'release:pages:stamp': 'tsx scripts/release/pages-production.ts stamp',
 } as const;
 
 const ALLOWLISTED_ADMIN_SCRIPTS = {

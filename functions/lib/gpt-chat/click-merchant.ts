@@ -19,12 +19,15 @@
 // The host is fixed to https://api.click.uz: no setting can point the
 // credentials anywhere else.
 //
-// Not confirmed by Click yet (plan §8, question 5; checked on the first live
-// payment, docs/paid-chat/CLICK-FISCAL-RU.md): whether payment_id is
-// click_trans_id or click_paydoc_id of the Shop API (we look it up by our
-// merchant_trans_id instead), whether Amount counts pieces (1) or thousandths,
-// received_card for wallet payments, CommissionInfo on a seller's own sale,
-// and how a reversal is fiscalized.
+// payment_id is the Shop API's click_paydoc_id, which Prepare keeps
+// (provider_doc_id): on the live service payment/status and ofd_data answer
+// that number and refuse click_trans_id (-44), read-only check of 22.11.2026
+// (docs/paid-chat/CLICK-FISCAL-RU.md). status_by_mti answers -12 «Неверные
+// данные поставщика» there to any request, with or without Auth, so it is
+// only the fallback for an order without a click_paydoc_id.
+// Not confirmed by Click yet (plan §8, question 5): whether Amount counts
+// pieces (1) or thousandths, received_card for wallet payments,
+// CommissionInfo on a seller's own sale, and how a reversal is fiscalized.
 import { includedVat, PACK_RECEIPT_NAME, type FiscalParams } from "./fiscal-config";
 
 export const CLICK_MERCHANT_API = "https://api.click.uz/v2/merchant/payment";
@@ -185,14 +188,18 @@ export async function paymentIdByMti(
 }
 
 /**
- * Click's payment id for a paid order: looked up on the Tashkent day of the
- * payment (Complete), then of Prepare when that fell on another day.
+ * Click's payment id for a paid order: the click_paydoc_id Click signed into
+ * Prepare and Complete (provider_doc_id), with no call. Only an order without
+ * one is looked up (status_by_mti) on the Tashkent day of the payment
+ * (Complete), then of Prepare when that fell on another day.
  */
 export async function findClickPaymentId(
   auth: ClickMerchantAuth,
-  order: { id: string; provider_time: number | null; perform_time: number },
+  order: { id: string; provider_time: number | null; perform_time: number; provider_doc_id?: string | null },
   options: ClickCallOptions = {},
 ): Promise<ClickResult<{ paymentId: string }>> {
+  const kept = paymentId(order.provider_doc_id);
+  if (kept) return { ok: true, paymentId: kept };
   const days = [
     ...new Set(
       [order.perform_time, order.provider_time ?? 0]

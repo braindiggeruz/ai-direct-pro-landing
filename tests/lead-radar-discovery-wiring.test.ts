@@ -97,11 +97,15 @@ test('all configured sources failing follow the existing bounded retry and dead-
   assert.equal((await fixture.consume()).outcome, 'retry_wait');
   assert.equal(fixture.db.value('SELECT last_error_code FROM lead_radar_jobs'), 'source_timeout');
   assert.equal(fixture.db.value('SELECT attempt_count FROM lead_radar_jobs'), 1);
-  const secondAt = new Date(String(fixture.db.value('SELECT available_at FROM lead_radar_jobs')));
-  assert.equal((await fixture.consume(secondAt)).outcome, 'retry_wait');
-  const thirdAt = new Date(String(fixture.db.value('SELECT available_at FROM lead_radar_jobs')));
-  assert.deepEqual(await fixture.consume(thirdAt), { outcome: 'dead_letter', errorCode: 'source_timeout' });
-  assert.equal(fixture.db.value('SELECT attempt_count FROM lead_radar_jobs'), 3);
+  // Five attempts over ~35 minutes (1, 4, 10, 20 min) before the dead letter.
+  for (const expected of [2, 3, 4]) {
+    const at = new Date(String(fixture.db.value('SELECT available_at FROM lead_radar_jobs')));
+    assert.equal((await fixture.consume(at)).outcome, 'retry_wait');
+    assert.equal(fixture.db.value('SELECT attempt_count FROM lead_radar_jobs'), expected);
+  }
+  const lastAt = new Date(String(fixture.db.value('SELECT available_at FROM lead_radar_jobs')));
+  assert.deepEqual(await fixture.consume(lastAt), { outcome: 'dead_letter', errorCode: 'source_timeout' });
+  assert.equal(fixture.db.value('SELECT attempt_count FROM lead_radar_jobs'), 5);
   assert.equal(fixture.db.value("SELECT COUNT(*) FROM lead_radar_jobs WHERE stage='enrichment'"), 0);
 });
 

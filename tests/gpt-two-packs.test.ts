@@ -30,7 +30,9 @@ const LOCALES = ['ru', 'uz'] as const;
 type Locale = (typeof LOCALES)[number];
 const read = (relative: string) => readFileSync(new URL(`../${relative}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const html = (text: string) => text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
-const has = (page: string, text: string) => page.includes(html(text));
+// A brand kept from page translation sits in its own span inside one span for the sentence (keep-names.tsx); the text checks read through both.
+const unkept = (page: string) => page.replace(/<span translate="no" class="notranslate">([^<]*)<\/span>/g, '$1').replace(/<span>([^<]*)<\/span>/g, '$1');
+const has = (page: string, text: string) => unkept(page).includes(html(text));
 const node = (element: React.ReactElement) => renderToStaticMarkup(React.createElement(Dialog, { open: true }, element));
 
 const ONCE = { sku: 'once', priceUzs: 5000, messageLimit: 30, dailyLimit: 50, hours: 72, vat: null };
@@ -61,7 +63,7 @@ async function window(locale: Locale, data: AccountView | null, options: { watch
 }
 
 /** The rows of packs in a page, as [sku, [providers]] in the order they are drawn. */
-const rowsOf = (page: string) => [...page.matchAll(/<section class="gpt-pay-pack" data-sku="(month|once)"[\s\S]*?<\/section>/g)]
+const rowsOf = (page: string) => [...page.matchAll(/<section class="gpt-pay-pack(?: gpt-pay-pack-lead)?" data-sku="(month|once)"[\s\S]*?<\/section>/g)]
   .map((row) => [row[1], [...row[0].matchAll(/<button[^>]*data-provider="(\w+)"[^>]*data-sku="(\w+)"/g)].map((button) => `${button[1]}:${button[2]}`)]);
 
 // ------------------------------------------------------------------ the offers
@@ -139,6 +141,13 @@ test('the window with two packs: a row each with its own buttons, the small one 
     // The mark goes to the cheapest answer, once.
     assert.equal([...page.matchAll(new RegExp(`<em>${s.best}</em>`, 'g'))].length, 1);
     assert.match(page, new RegExp(`data-sku="month"[\\s\\S]*?<em>${s.best}</em>`));
+    // The first row leads (conversion audit 2026-11-22, B2): the 3-day pack for a guest, with its job named once;
+    // the other row's buttons are quiet outlines and still pay in one tap.
+    assert.match(page, /<section class="gpt-pay-pack gpt-pay-pack-lead" data-sku="once"/, locale);
+    assert.equal([...page.matchAll(/data-testid="ai-pay-pack-job"/g)].length, 1, locale);
+    assert.ok(has(page, s.job), `${locale}: the job line`);
+    assert.equal([...page.matchAll(/<button[^>]*class="gpt-primary gpt-pay-quiet"[^>]*data-sku="month"/g)].length, 2, locale);
+    assert.equal([...page.matchAll(/<button[^>]*class="gpt-primary gpt-pay-quiet"[^>]*data-sku="once"/g)].length, 0, locale);
     // The rows carry the prices: no big price of one pack over them, no single «per answer» line; the notes stay.
     assert.ok(!page.includes('gpt-price'), 'no single price card');
     assert.doesNotMatch(page, /data-testid="ai-pay-per"/);
@@ -149,6 +158,7 @@ test('the window with two packs: a row each with its own buttons, the small one 
     // A holder: the month first; no row is hidden.
     const holder = await window(locale, member({ access: { order_id: ORDER, ends_at: Date.now() + 86_400_000, remaining: 100, renewSoon: false } }));
     assert.deepEqual(rowsOf(holder).map((row) => row[0]), ['month', 'once'], locale);
+    assert.match(holder, /<section class="gpt-pay-pack gpt-pay-pack-lead" data-sku="month"/, `${locale}: a holder's lead is the month`);
     // Uzum sells the monthly pack only.
     const uzum = await window(locale, member({ user: { signedIn: true, storageKey: 'a'.repeat(64) }, providers: ['click', 'uzum', 'payme'] }));
     assert.deepEqual(rowsOf(uzum), [['once', ['click:once', 'payme:once']], ['month', ['click:month', 'uzum:month', 'payme:month']]]);
@@ -219,13 +229,13 @@ test('«Попросить оплатить» with two packs: a link per pack an
     try {
       const offers = listed(offersOf(BOTH), false);
       const two = node(React.createElement(PayExtras, { locale, pack: BOTH, offers, providers: ['click', 'payme'], busy: false, termsUrl: null, onAsk: () => {} }));
-      assert.deepEqual([...two.matchAll(/<button[^>]*data-provider="(\w+)" data-sku="(\w+)"[^>]*>([^<]*)</g)].map((button) => [button[1], button[2], button[3]]), [
+      assert.deepEqual([...unkept(two).matchAll(/<button[^>]*data-provider="(\w+)" data-sku="(\w+)"[^>]*>([^<]*)</g)].map((button) => [button[1], button[2], button[3]]), [
         ['click', 'once', packText(locale).link(offers[0], 'Click')], ['payme', 'once', packText(locale).link(offers[0], 'Payme')],
         ['click', 'month', packText(locale).link(offers[1], 'Click')], ['payme', 'month', packText(locale).link(offers[1], 'Payme')],
       ].map((row) => [row[0], row[1], html(row[2])]), locale);
       assert.doesNotMatch(two, /data-testid="ai-pay-per"/);
       const one = node(React.createElement(PayExtras, { locale, pack: MONTH, offers: offersOf(MONTH), providers: ['click', 'payme'], busy: false, termsUrl: null, onAsk: () => {} }));
-      assert.deepEqual([...one.matchAll(/<button[^>]*data-provider="(\w+)" data-sku="(\w+)"[^>]*>([^<]*)</g)].map((button) => [button[1], button[2], button[3]]),
+      assert.deepEqual([...unkept(one).matchAll(/<button[^>]*data-provider="(\w+)" data-sku="(\w+)"[^>]*>([^<]*)</g)].map((button) => [button[1], button[2], button[3]]),
         [['click', 'month', html(s.askFor('Click'))], ['payme', 'month', html(s.askFor('Payme'))]]);
       assert.match(one, /data-testid="ai-pay-per"/);
     } finally { scope.sessionStorage = before; }
@@ -265,7 +275,7 @@ test('the paywall: with two packs a row each, the small one first, the tap names
   assert.match(paywall, /onPay\(provider, offer\.sku === 'once' \? 'once' : undefined\);/);
   assert.match(paywall, /providers\.filter\(provider => offer\.sku === 'month' \|\| provider !== 'uzum'\)/);
   // One pack: the value line and the buttons with the sum, untouched.
-  assert.match(paywall, /\) : <>\s*<div className="gpt-trial-value"><strong>\{c\.pack\}<\/strong><span>\{c\.facts\}<\/span><\/div>\s*<div className="gpt-trial-pay">\{providers\.map\(provider => <button type="button" key=\{provider\} data-provider=\{provider\} onClick=\{\(\) => \{ setOpen\(false\); track\(EV\.packPromptClicked, \{ locale, surface: 'trial_exhausted', provider \}\); onPay\(provider\); \}\}>\{c\.pay\(provider\)\}/);
+  assert.match(paywall, /\) : <>\s*<div className="gpt-trial-value"><strong>\{c\.pack\}<\/strong><span>\{c\.facts\}<\/span><\/div>\s*<div className="gpt-trial-pay">\{providers\.map\(provider => <button type="button" key=\{provider\} data-provider=\{provider\} onClick=\{\(\) => \{ setOpen\(false\); track\(EV\.packPromptClicked, \{ locale, surface: 'trial_exhausted', provider \}\); onPay\(provider\); \}\}>\{keepNames\(`\$\{c\.pay\(provider\)\} `, BRANDS\)\}/);
   // The copy is the same module the window's rows use.
   assert.match(paywall, /import \{ packText \} from '\.\.\/pack-text';/);
   // The start bundle carries neither the offers nor their words.

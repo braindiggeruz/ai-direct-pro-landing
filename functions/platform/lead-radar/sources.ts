@@ -27,6 +27,7 @@ import { assessLeadRadarPhone, extractLeadRadarPhones } from '../../../src/share
 import { publishedTelegramLocators } from './telegram-locators';
 import { hasDistinctBusinessName, publishedBusinessEntities, publishedPagePhones } from './business-contact-data';
 import { SourceYieldRecorder } from './source-yield';
+import { readOsmSnapshot, type OsmSnapshotStore } from './osm-snapshot';
 
 const NOMINATIM_ENDPOINT = 'https://nominatim.openstreetmap.org/search';
 const OVERPASS_ENDPOINTS = [
@@ -391,6 +392,15 @@ async function resolveDns(hostname: string, type: 'A' | 'AAAA', budget: Subreque
   );
 }
 
+/** Hosts whose DNS answered "no such name" (not a failed lookup). A website
+ *  on such a host is dead, not temporarily down (audit 22.11.2026, E6). */
+const dnsNxdomainCache = new Map<string, number>();
+
+function isKnownNxdomain(hostname: string): boolean {
+  const until = dnsNxdomainCache.get(hostname);
+  return Boolean(until && until > Date.now());
+}
+
 async function hasOnlyPublicAddresses(url: URL, budget: SubrequestBudget): Promise<boolean> {
   const cached = dnsSafetyCache.get(url.hostname);
   if (cached && cached.expiresAt > Date.now()) return cached.safe;
@@ -400,6 +410,10 @@ async function hasOnlyPublicAddresses(url: URL, budget: SubrequestBudget): Promi
     const ipv4 = await resolveDns(url.hostname, 'A', budget);
     const ipv6 = await resolveDns(url.hostname, 'AAAA', budget);
     const addresses = [...ipv4, ...ipv6];
+    if (addresses.length === 0) {
+      if (dnsNxdomainCache.size > 500) dnsNxdomainCache.clear();
+      dnsNxdomainCache.set(url.hostname, Date.now() + 10 * 60_000);
+    }
     const safe = addresses.length > 0 && addresses.every((address) => !isPrivateAddress(address));
     dnsSafetyCache.set(url.hostname, { safe, expiresAt: Date.now() + 30_000 });
     return safe;
@@ -1026,6 +1040,10 @@ export interface LeadRadarOsmQueryPlan {
  * these tags need no crawl at all, which is why they are worth their own
  * Overpass round trip.
  */
+// Mobile- and Telegram-only rows are deliberately not separate selectors: on
+// 22.11.2026 every public mirror answered 504 even to this 4-key plan, so a
+// doubled union would only add load. Such rows still arrive through the broad
+// plan, and the candidate reader takes their mobile and Telegram tags.
 export const OSM_CONTACT_KEYS = ['contact:phone', 'phone', 'contact:website', 'website'] as const;
 
 /** Expand category selectors into contact-bearing selectors. */
@@ -1126,6 +1144,15 @@ async function overpass(query: string, budget: SubrequestBudget): Promise<{ resp
         overpassCooldownUntil.set(endpoint.id, Date.now() + OVERPASS_ENDPOINT_COOLDOWN_MS);
         continue;
       }
+      // A server-side timeout or memory abort still answers HTTP 200, with a
+      // `remark` and a truncated (often empty) element list. That is a failed
+      // mirror, not "this city has no dentists" (audit SC-02).
+      const remark = (parsed as { remark?: unknown }).remark;
+      if (typeof remark === 'string' && /runtime (?:error|remark)|timed out|out of memory|Dispatcher/i.test(remark)) {
+        failures.push(`${endpoint.id}_remark_${/out of memory/i.test(remark) ? 'memory' : 'timeout'}`);
+        overpassCooldownUntil.set(endpoint.id, Date.now() + OVERPASS_ENDPOINT_COOLDOWN_MS);
+        continue;
+      }
       overpassCooldownUntil.delete(endpoint.id);
       return {
         response: parsed as OverpassResponse,
@@ -1147,6 +1174,60 @@ async function overpass(query: string, budget: SubrequestBudget): Promise<{ resp
     failures.some((code) => code.includes('timeout')) ? 'source_timeout' : 'discovery_source_unavailable',
     failures.slice(0, OVERPASS_ENDPOINTS.length * 2),
   );
+}
+
+const OVERPASS_CACHE_FRESH_MS = 24 * 60 * 60_000;
+
+async function overpassCacheKey(query: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(query));
+  return `overpass:v1:${[...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')}`;
+}
+
+/** Only the fields discovery reads, so a 240-row answer stays a small cache row. */
+function compactOverpassElements(elements: readonly unknown[]): unknown[] {
+  return elements.flatMap((element) => {
+    if (!element || typeof element !== 'object') return [];
+    const { type, id, lat, lon, center, tags, timestamp } = element as Partial<OverpassElement>;
+    return [{ type, id, lat, lon, center, tags, timestamp }];
+  });
+}
+
+/**
+ * Overpass with a 30-day answer cache (audit 22.11.2026, E4): a search reuses
+ * an answer younger than a day, and when every public server is down it falls
+ * back to an older one instead of failing — the second dentistry search of
+ * 22.11 failed 32 minutes after the first had found the same 100 candidates.
+ * Without a store (tests, the synchronous path) it is plain Overpass.
+ */
+async function cachedOverpass(
+  query: string,
+  budget: SubrequestBudget,
+  store?: LeadRadarGeocodeStore,
+): Promise<{ response: OverpassResponse; warnings: string[]; observedAt?: string }> {
+  if (!store?.getOverpassResponse || !store.putOverpassResponse) return overpass(query, budget);
+  const key = await overpassCacheKey(query);
+  const now = new Date();
+  const cached = await store.getOverpassResponse(key, now.toISOString()).catch(() => null);
+  const ageMs = cached ? now.getTime() - Date.parse(cached.observedAt) : Number.POSITIVE_INFINITY;
+  if (cached && ageMs < OVERPASS_CACHE_FRESH_MS) {
+    return { response: { elements: cached.elements as OverpassElement[] }, warnings: ['map_cache_fresh'], observedAt: cached.observedAt };
+  }
+  try {
+    const live = await overpass(query, budget);
+    const elements = live.response.elements ?? [];
+    if (elements.length) await store.putOverpassResponse(key, compactOverpassElements(elements), now.toISOString()).catch(() => undefined);
+    return live;
+  } catch (error) {
+    if (cached && error instanceof LeadRadarSourceError) {
+      const hours = Math.max(1, Math.round(ageMs / 3_600_000));
+      return {
+        response: { elements: cached.elements as OverpassElement[] },
+        warnings: [`map_cache_stale_${hours}h`, ...error.diagnostics.slice(0, 2)],
+        observedAt: cached.observedAt,
+      };
+    }
+    throw error;
+  }
 }
 
 function osmTagsFromElement(element: unknown): Record<string, string> {
@@ -1236,6 +1317,63 @@ export function rankLeadRadarOsmElements(
     .map(({ element }) => element);
 }
 
+/** Phone-bearing OSM tags after the primary `contact:phone` / `phone`. */
+const OSM_PHONE_TAGS = ['contact:phone', 'phone', 'contact:mobile', 'mobile', 'phone:mobile', 'contact:whatsapp', 'whatsapp'] as const;
+const OSM_TELEGRAM_TAGS = ['contact:telegram', 'telegram', 'social:telegram'] as const;
+
+/** All numbers of all phone tags except the primary one, as E.164, capped. */
+export function osmAdditionalPhones(tags: Record<string, string>, primary: string | null, country: string): string[] {
+  const primaryE164 = primary ? assessLeadRadarPhone(primary, country).e164 : null;
+  const out = new Set<string>();
+  for (const key of OSM_PHONE_TAGS) {
+    const value = tags[key];
+    if (!value || value.length > 400) continue;
+    for (const phone of extractLeadRadarPhones(value, country)) {
+      if (phone.e164 && phone.e164 !== primaryE164) out.add(phone.e164);
+    }
+  }
+  return [...out].slice(0, 6);
+}
+
+/**
+ * Every Telegram locator of the Telegram tags (and a `website` that is a t.me
+ * link), normalised to `https://t.me/<handle>`. Mappers write handles in many
+ * shapes — `@clinic`, `clinic`, `t.me/clinic`, `tg://resolve?domain=clinic`,
+ * several separated by `;` — and the old reader kept only a full URL in the
+ * first non-empty tag (audit EX-05).
+ */
+export function osmTelegramLocators(tags: Record<string, string>): string[] {
+  const out: string[] = [];
+  const push = (value: string | null) => { if (value && !out.some((item) => item.toLowerCase() === value.toLowerCase())) out.push(value); };
+  const values: Array<[string | undefined, boolean]> = [
+    ...OSM_TELEGRAM_TAGS.map((key): [string | undefined, boolean] => [tags[key], false]),
+    [tags['contact:website'], true], [tags.website, true],
+  ];
+  for (const [value, websiteTag] of values) {
+    if (!value || value.length > 400) continue;
+    for (const part of value.split(/[;,]+/)) {
+      const tokens = part.trim().split(/\s+/).filter(Boolean);
+      for (const token of tokens) {
+        const resolve = /^tg:\/\/resolve\?domain=([A-Za-z][A-Za-z0-9_]{4,31})/i.exec(token);
+        if (resolve) { push(cleanTelegram(`https://t.me/${resolve[1]}`)); continue; }
+        if (/^(?:www\.)?(?:t|telegram)\.me\//i.test(token)) { push(cleanTelegram(`https://${token}`)); continue; }
+        if (/^https?:\/\/(?:www\.)?(?:t|telegram)\.me\//i.test(token)) { push(cleanTelegram(token.replace('://www.', '://'))); continue; }
+        if (websiteTag) continue; // a website tag only counts when it is a t.me link
+        if (/^@[A-Za-z][A-Za-z0-9_]{4,31}$/.test(token)) { push(cleanTelegram(token)); continue; }
+        // A bare word is a handle only when it is the whole part: free text
+        // such as "Smile Dent channel" must not become t.me/Smile.
+        if (tokens.length === 1 && /^[A-Za-z][A-Za-z0-9_]{4,31}$/.test(token)) push(cleanTelegram(`https://t.me/${token}`));
+      }
+    }
+  }
+  return out.slice(0, 4);
+}
+
+/** The element names a Telegram handle in a Telegram tag or a t.me website. */
+export function hasOsmTelegramTag(element: unknown): boolean {
+  return osmTelegramLocators(osmTagsFromElement(element)).length > 0;
+}
+
 export function candidateFromOsmElement(
   element: unknown,
   input: LeadRadarSearchInput,
@@ -1259,9 +1397,12 @@ export function candidateFromOsmElement(
   const category = sourcedCategory ?? fallbackCategory;
   const address = addressFrom(tags);
   const website = cleanWebsite(tags['contact:website'] || tags.website || null);
-  const phone = cleanPhone(tags['contact:phone'] || tags.phone || null);
+  const phone = cleanPhone(tags['contact:phone'] || tags.phone || null)
+    ?? cleanPhone(OSM_PHONE_TAGS.map((key) => tags[key]).find(Boolean) ?? null);
   const email = genericEmail(tags['contact:email'] || tags.email || null);
-  const telegram = cleanTelegram(tags['contact:telegram'] || tags.telegram || tags['social:telegram'] || null);
+  const telegramLocators = osmTelegramLocators(tags);
+  const telegram = telegramLocators[0] ?? null;
+  const extraPhones = osmAdditionalPhones(tags, phone, input.country);
   const sourceObservedAt = collectedAt && Number.isFinite(Date.parse(collectedAt)) ? new Date(collectedAt).toISOString()
     : typeof raw.timestamp === 'string' && Number.isFinite(Date.parse(raw.timestamp))
     ? new Date(raw.timestamp).toISOString()
@@ -1299,6 +1440,12 @@ export function candidateFromOsmElement(
   if (phone) evidence.push(sourceEvidence(
     'company_contacts.phone', phone, sourceUrl, 'openstreetmap', 0.74, 'company_data', sourceObservedAt,
   ));
+  // Every further number of a multi-value tag ("+998 71 …; +998 90 …") and of
+  // the mobile / WhatsApp tags: the first one is often the reception landline
+  // and the mobile that can take a message sits second (audit EX-02).
+  for (const extra of extraPhones) evidence.push(sourceEvidence(
+    'company_contacts.phone', extra, sourceUrl, 'openstreetmap', 0.74, 'company_data', sourceObservedAt,
+  ));
   if (email) evidence.push(sourceEvidence(
     'company_contacts.generic_email', email, sourceUrl, 'openstreetmap', 0.74, 'company_data', sourceObservedAt,
   ));
@@ -1326,6 +1473,11 @@ export function candidateFromOsmElement(
       verifiedAt: evidenceItem.observedAt,
     };
   }
+  // Further handles of the Telegram tags stay unverified evidence; the export
+  // and the account check decide which one, if any, is the business.
+  for (const extra of telegramLocators.slice(1)) evidence.push(sourceEvidence(
+    'web.telegram.unknown', extra, sourceUrl, 'openstreetmap', 0.4, 'model_inference', sourceObservedAt,
+  ));
 
   return {
     sourceId: `osm:${raw.type}:${raw.id}`,
@@ -1574,10 +1726,41 @@ export async function readPublicWebsiteRobots(target: URL): Promise<string | nul
   });
 }
 
-async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2, maxBytes = MAX_WEBSITE_BYTES): Promise<{ url: URL; html: string } | null> {
+type WebsiteFailureReason = 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable' | 'invalid_website';
+
+/**
+ * A home page that cannot be read is not always "temporarily down". A host
+ * with no DNS name, a 404/410 home page or a non-HTML root is dead or wrong in
+ * the catalog, and 401/403/other 4xx block crawlers: none of them recovers in
+ * 15 minutes, and retrying them held whole contact batches for an hour
+ * (prod 22.11.2026). Only 429, 5xx and transport errors stay retryable.
+ */
+export function classifyHomeFailure(failure: PageFetchFailure): { reason: WebsiteFailureReason; retryable: boolean } {
+  if (failure.nxdomain) return { reason: 'invalid_website', retryable: false };
+  const status = failure.status;
+  if (status === 404 || status === 410) return { reason: 'invalid_website', retryable: false };
+  if (status === 429 || (status !== undefined && status >= 500)) return { reason: 'source_unavailable', retryable: true };
+  if (status !== undefined && status >= 400) return { reason: 'http_blocked', retryable: false };
+  if (failure.nonHtml) return { reason: 'invalid_website', retryable: false };
+  return { reason: 'source_unavailable', retryable: true };
+}
+
+/** Why a page could not be read: an HTTP status, a dead host or a non-HTML answer. */
+export interface PageFetchFailure { status?: number; nxdomain?: boolean; nonHtml?: boolean }
+
+async function fetchText(
+  url: URL,
+  budget: SubrequestBudget,
+  maxRedirects = 2,
+  maxBytes = MAX_WEBSITE_BYTES,
+  failure?: PageFetchFailure,
+): Promise<{ url: URL; html: string } | null> {
   let current = url;
   for (let attempt = 0; attempt <= maxRedirects; attempt += 1) {
-    if (!(await hasOnlyPublicAddresses(current, budget))) return null;
+    if (!(await hasOnlyPublicAddresses(current, budget))) {
+      if (failure && isKnownNxdomain(current.hostname)) failure.nxdomain = true;
+      return null;
+    }
     const outcome = await fetchWithin(
       current,
       {
@@ -1590,7 +1773,12 @@ async function fetchText(url: URL, budget: SubrequestBudget, maxRedirects = 2, m
         if (response.status >= 300 && response.status < 400) {
           return { redirect: response.headers.get('location'), html: null };
         }
-        if (!response.ok || !(response.headers.get('content-type') ?? '').toLowerCase().includes('text/html')) {
+        if (!response.ok) {
+          if (failure) failure.status = response.status;
+          return { redirect: null, html: null };
+        }
+        if (!(response.headers.get('content-type') ?? '').toLowerCase().includes('text/html')) {
+          if (failure) failure.nonHtml = true;
           return { redirect: null, html: null };
         }
         return { redirect: null, html: await readTextBounded(response, maxBytes) };
@@ -1731,7 +1919,7 @@ export function extractCompanyPageFacts(
 async function enrichCompanyWebsiteWithBudget(
   website: string,
   budget: SubrequestBudget,
-  diagnostic?: { reason: 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable'; retryable: boolean },
+  diagnostic?: { reason: WebsiteFailureReason; retryable: boolean },
   expected?: ExpectedCompanyWebsiteIdentity,
 ): Promise<WebsiteFacts | null> {
   const start = safePublicHttpUrl(website);
@@ -1779,9 +1967,10 @@ async function enrichCompanyWebsiteWithBudget(
       if (diagnostic) Object.assign(diagnostic, { reason: 'robots_blocked', retryable: false });
       return null;
     }
-    const home = await fetchText(start, budget, 1);
+    const homeFailure: PageFetchFailure = {};
+    const home = await fetchText(start, budget, 1, MAX_WEBSITE_BYTES, homeFailure);
     if (!home) {
-      if (diagnostic) Object.assign(diagnostic, { reason: 'source_unavailable', retryable: true });
+      if (diagnostic) Object.assign(diagnostic, classifyHomeFailure(homeFailure));
       return null;
     }
     const pages = [home];
@@ -1883,7 +2072,7 @@ export async function enrichCompanyWebsiteDetailed(
 }> {
   if (!safePublicHttpUrl(website)) return { facts: null, reason: 'invalid_website', retryable: false };
   const diagnostic = { reason: 'source_unavailable' as const, retryable: true } as {
-    reason: 'robots_blocked' | 'http_blocked' | 'source_timeout' | 'source_unavailable'; retryable: boolean;
+    reason: WebsiteFailureReason; retryable: boolean;
   };
   // Single-company detailed crawl: homepage + up to 4 contact pages + optional
   // sitemap lookup all fit the Free-plan 50-subrequest invocation ceiling
@@ -1959,7 +2148,11 @@ async function enrichCandidates(candidates: SourceCandidate[], budget: Subreques
 export class OpenStreetMapLeadSource implements LeadRadarSource {
   readonly id = 'openstreetmap';
 
-  constructor(private readonly geocodeStore?: LeadRadarGeocodeStore) {}
+  constructor(
+    private readonly geocodeStore?: LeadRadarGeocodeStore,
+    /** Own OSM snapshot in Workers KV (roadmap stage 2); absent means Overpass only. */
+    private readonly snapshot?: OsmSnapshotStore,
+  ) {}
 
   async discoverRaw(input: LeadRadarSearchInput): Promise<LeadRadarDiscoveryResult> {
     const budget = new SubrequestBudget(MAX_SOURCE_SUBREQUESTS);
@@ -1975,9 +2168,32 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     // fallback: a niche with sparse OSM contact tagging must still return
     // companies, otherwise we trade a low yield for no yield at all.
     let elements: unknown[] = [];
-    try {
+    const answeredAt: string[] = [];
+    // Own snapshot first (stage 2): a recognised niche is answered from the
+    // Geofabrik copy without any public map server, with the full list instead
+    // of Overpass's truncated one. Anything it cannot answer falls through.
+    let fromSnapshot = false;
+    if (this.snapshot && intent.canonicalId) {
+      try {
+        const snap = await readOsmSnapshot(this.snapshot, intent.canonicalId, bounds, new Date(), (reason) => {
+          // An expired copy is worth saying out loud: it means the monthly refresh is due.
+          if (reason === 'stale') sourceWarnings.push('map_snapshot_stale');
+        });
+        if (snap && snap.elements.length > 0) {
+          elements = snap.elements;
+          answeredAt.push(`${snap.snapshotDate}T00:00:00.000Z`);
+          sourceWarnings.push(`map_snapshot_${snap.snapshotDate.replace(/-/g, '')}`);
+          plansRun.push('snapshot');
+          fromSnapshot = true;
+        }
+      } catch {
+        sourceWarnings.push('map_snapshot_unavailable');
+      }
+    }
+    if (!fromSnapshot) try {
       const contactPlan = buildLeadRadarQueryPlan(input, bounds, { contactOnly: true });
-      const contact = await overpass(contactPlan.query, budget);
+      const contact = await cachedOverpass(contactPlan.query, budget, this.geocodeStore);
+      if (contact.observedAt) answeredAt.push(contact.observedAt);
       sourceWarnings.push(...contact.warnings);
       elements = contact.response.elements ?? [];
       plansRun.push('contact');
@@ -2002,17 +2218,34 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
     // delivered. Public mirrors are a shared free resource, so the fallback is
     // skipped whenever contact coverage is sufficient.
     const contactFloor = Math.max(10, input.desiredCount);
-    if (elements.length < contactFloor) {
+    if (!fromSnapshot && elements.length < contactFloor) {
       const broadPlan = buildLeadRadarQueryPlan(input, bounds);
-      const broad = await overpass(broadPlan.query, budget);
+      const broad = await cachedOverpass(broadPlan.query, budget, this.geocodeStore);
+      if (broad.observedAt) answeredAt.push(broad.observedAt);
       sourceWarnings.push(...broad.warnings);
       elements = mergeOsmElements(elements, broad.response.elements ?? []);
       plansRun.push('broad');
     }
 
-    const collectedAt = new Date().toISOString();
+    // A cached map answer keeps the date it was collected, so evidence dates,
+    // the export's source_date / stale columns and the 30-day evidence window
+    // never present a month-old answer as fresh.
+    const collectedAt = answeredAt.sort()[0] ?? new Date().toISOString();
     const rawDiscoveredCount = elements.length;
-    const candidates = rankLeadRadarOsmElements(elements, intent)
+    // A "Telegram contacts" search wants the objects that carry a Telegram
+    // handle first (the ranking alone prefers a phone), and the own snapshot
+    // can hand over several hundred objects: only what selection can use is
+    // turned into candidates, so a big niche costs no more CPU than an
+    // Overpass answer of 240.
+    const contactMode = input.searchGoal === 'telegram_contacts';
+    const selectionLimit = contactMode
+      ? Math.min(250, input.maxCandidates ?? input.desiredCount * 5) : Math.min(80, input.desiredCount * 3);
+    const ranked = rankLeadRadarOsmElements(elements, intent);
+    const ordered = contactMode
+      ? [...ranked.filter(hasOsmTelegramTag), ...ranked.filter((element) => !hasOsmTelegramTag(element))]
+      : ranked;
+    const candidates = ordered
+      .slice(0, Math.max(240, selectionLimit * 2))
       .map((element) => candidateFromOsmElement(element, input, category, collectedAt))
       .filter((item): item is SourceCandidate => Boolean(item));
 
@@ -2022,8 +2255,7 @@ export class OpenStreetMapLeadSource implements LeadRadarSource {
       const existing = deduped.get(key);
       if (!existing || candidate.evidence.length > existing.evidence.length) deduped.set(key, candidate);
     }
-    const selected = [...deduped.values()].slice(0, input.searchGoal === 'telegram_contacts'
-      ? Math.min(250, input.maxCandidates ?? input.desiredCount * 5) : Math.min(80, input.desiredCount * 3));
+    const selected = [...deduped.values()].slice(0, selectionLimit);
 
     for (const candidate of selected) yieldRecorder.recordCandidate(this.id, candidate);
     yieldRecorder.recordRequested(this.id, rawDiscoveredCount - selected.length);

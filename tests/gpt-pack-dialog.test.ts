@@ -83,7 +83,9 @@ async function window(
 }
 
 const html = (text: string) => text.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-const has = (page: string, text: string) => page.includes(html(text));
+// A brand kept from page translation sits in its own span inside one span for the sentence (keep-names.tsx); the text checks read through both.
+const unkept = (page: string) => page.replace(/<span translate="no" class="notranslate">([^<]*)<\/span>/g, '$1').replace(/<span>([^<]*)<\/span>/g, '$1');
+const has = (page: string, text: string) => unkept(page).includes(html(text));
 const date = (locale: Locale, at: number) => new Date(at).toLocaleDateString(locale === 'uz' ? 'uz-UZ' : 'ru-RU');
 const payButtons = (page: string) => [...page.matchAll(/data-provider="(\w+)"/g)].map((m) => m[1]);
 /** The line under the pay buttons: pressing «Оплатить» accepts the offer of this language. */
@@ -266,7 +268,8 @@ test('the window never asks a refund: the only account action closes an unseen i
   assert.equal(uz.supportLabel, 'To‘lovda muammo bormi? Bizga yozing:');
   const dialog = read('src/gpt-chat/account/AccountDialog.tsx');
   const panel = read('src/gpt-chat/account/PackPanel.tsx');
-  assert.deepEqual([...dialog.matchAll(/action: "(\w+)"/g)].map((m) => m[1]), ['cancel_invoice']);
+  // One kind of account action only: closing an unseen invoice (the link, and the switch to the other provider, 21.11.2026).
+  assert.deepEqual([...new Set([...dialog.matchAll(/action: "(\w+)"/g)].map((m) => m[1]))], ['cancel_invoice']);
   for (const source of [dialog, panel, read('src/gpt-chat/types.ts')])
     assert.doesNotMatch(source, /refund_request|requestRefund|onRefund|\.refundable\b|refundable\?:|refundDays|refund_uzs/);
 });
@@ -310,7 +313,7 @@ test('Payme in a rehearsal session: its button in the existing classes, its name
     assert.deepEqual(payButtons(page), ['payme']);
     assert.ok(has(page, copy.payVia('Payme')) && has(page, copy.payNote('Payme')) && has(page, copy.test), locale);
     assert.match(page, /<button type="button" class="gpt-primary" data-provider="payme">/);
-    assert.match(page, /data-provider="payme"[^>]*>[^<]*<span aria-hidden="true">↗<\/span>/);
+    assert.match(unkept(page), /data-provider="payme"[^>]*>[^<]*<span aria-hidden="true">↗<\/span>/);
     // No class the Click window does not already use: the CSS stays as it is.
     const known = classes(await window(locale, member({ mode: 'test', providers: ['click'] })));
     assert.deepEqual([...classes(page)].filter((name) => !known.has(name)), [], locale);
@@ -436,8 +439,10 @@ test('one report per ended payment: checkout_result always, a purchase for real 
   // The panel reports it once, from the start bundle, with the window open or not.
   const panel = read('src/gpt-chat/components/AiAccountPanel.tsx');
   assert.equal((panel.match(/track\(EV\.checkoutResult/g) ?? []).length, 1);
-  // The purchase itself is reported by the lazy part chat-pay (it runs once per payment), asked for through the window's part.
-  assert.match(panel, /if \(result === "paid"\) void accountPart\.load\(\)\.then\(\(part\) => part\.reportPurchase\(data, checkout\)\)\.catch\(\(\) => undefined\);/);
+  // The purchase itself is reported by the lazy part chat-pay (it runs once per payment), asked for through the window's part;
+  // the same call counts the ending with the client class (conversion audit 2026-11-22, C2), for every ending.
+  assert.match(panel, /void accountPart\.load\(\)\.then\(\(part\) => Promise\.all\(\[part\.reportResultClass\(apiBase, result\), result === "paid" && part\.reportPurchase\(data, checkout\)\]\)\)\.catch\(\(\) => undefined\);/);
+  assert.match(read('src/gpt-chat/parts/chat-account.ts'), /export const reportResultClass = [^;]*payPart\.load\(\)\.then\(\(part\) => part\.resultClass\(apiBase, result\)\);/);
   assert.match(read('src/gpt-chat/account/purchase-report.ts'), /const \{ purchase \} = checkoutReport\(account, watch, 'paid'\);\s*if \(purchase && firstReport\(purchase\.transactionId\)\) trackPurchase\(purchase\);/);
   // A 3-day pack is reported for what it cost, not for the pack on offer.
   assert.deepEqual(checkoutReport({ ...live, payment: { id: ORDER, state: 'paid', provider: 'payme', sku: 'once', priceUzs: 5000, messageLimit: 30 } }, watchOf(), 'paid').purchase,
@@ -523,8 +528,9 @@ test('guest checkout: the pack, the offer and Click without signing in; a guest 
 test('one tap (07.10): no offer box in the window, the acceptance line in both languages, the window\'s copy folds, and the tap from the limit card pays once', async () => {
   const ru = accountStrings('ru');
   const uz = accountStrings('uz');
-  assert.equal(ru.fine, 'Без возврата после оплаты · не ChatGPT');
-  assert.equal(uz.fine, 'To‘lovdan keyin qaytarilmaydi · ChatGPT emas');
+  // Positive facts first; the no-refund rule stays beside the price (offer §8, WP-25; conversion audit 2026-11-22, B1).
+  assert.equal(ru.fine, 'Разовая покупка, без автосписаний · без возврата · не ChatGPT');
+  assert.equal(uz.fine, 'Bir martalik xarid, avtomatik yechim yo‘q · qaytarilmaydi · ChatGPT emas');
   assert.equal(ru.sum('20 000'), '20 000 сум');
   assert.equal(uz.sum('20 000'), '20 000 so‘m');
   assert.equal(strings('ru').premium.packLine(PACK), '1 месяц · 300 ответов · до 50 в день · без автосписаний');

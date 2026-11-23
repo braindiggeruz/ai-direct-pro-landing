@@ -50,6 +50,8 @@ interface Fixture {
   /** The view offers a sign-in (loginAvailable): the paid screen then offers to keep the pack through Telegram. */
   login: boolean;
   subscribes: Array<Record<string, unknown>>;
+  /** cancel_invoice requests (POST /api/gpt/account): the order ids, in order. */
+  cancels: string[];
   events: Array<{ type: string; detail: string }>;
   /** Main-frame navigations to another origin, each cancelled as if the browser never left. */
   left: string[];
@@ -59,7 +61,7 @@ interface Fixture {
 async function open(browser: Awaited<ReturnType<typeof chromium.launch>>, origin: string): Promise<{ ctx: BrowserContext; page: Page; f: Fixture }> {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 780 } });
   const page = await ctx.newPage();
-  const f: Fixture = { ordered: false, paid: false, accountDelay: 0, reading: 0, started: 0, refuse: 0, more: false, trialLeft: null, sku: 'month', dayOver: false, ended: false, login: false, subscribes: [], events: [], left: [], errors: [] };
+  const f: Fixture = { ordered: false, paid: false, accountDelay: 0, reading: 0, started: 0, refuse: 0, more: false, trialLeft: null, sku: 'month', dayOver: false, ended: false, login: false, subscribes: [], cancels: [], events: [], left: [], errors: [] };
   page.on('pageerror', (error) => f.errors.push(error.message));
   await ctx.route('**/*', async (route) => {
     const request = route.request();
@@ -75,6 +77,11 @@ async function open(browser: Awaited<ReturnType<typeof chromium.launch>>, origin
     if (url.pathname === '/api/gpt/session') return json({ ok: true, sessionId: 'fixture-session' });
     if (url.pathname === '/api/gpt/event') { f.events.push(request.postDataJSON()); return json({ ok: true }); }
     if (url.pathname === '/api/gpt/account') {
+      // The account's own unseen invoice closed (BillingStore.cancelInvoice): no open order any more.
+      if (request.method() === 'POST') {
+        const body = request.postDataJSON() as Record<string, unknown>;
+        if (body.action === 'cancel_invoice') { f.cancels.push(String(body.orderId)); f.ordered = false; return json({ ok: true }); }
+      }
       f.reading++;
       f.started++;
       if (f.accountDelay) await sleep(f.accountDelay);
@@ -256,6 +263,13 @@ test('checkout in a browser: the tap, a browser that never leaves, a tap during 
       assert.equal(await page.evaluate(() => localStorage.getItem('gptchat_checkout')), null, 'watched while the page lives, never stored');
       await narrow(page, 'share');
       await shot(page, 'share-uz');
+      // C1 (conversion audit 2026-11-22): the live link is counted once per screen, through the 15-second refresh too;
+      // a copy is counted as such (the 60-an-hour allowance is shared with the checkout steps).
+      await sleep(16_000);
+      assert.deepEqual(f.events.filter((event) => event.type === 'pay_share').map((event) => event.detail), ['shown']);
+      await ctx.grantPermissions(['clipboard-read', 'clipboard-write'], { origin });
+      await page.locator('[data-testid="ai-pay-share-copy"]').click();
+      await until('the copy is counted', () => f.events.some((event) => event.type === 'pay_share' && event.detail === 'copied'));
       await page.reload();
       await ready(page);
       await sleep(1_200);
@@ -343,6 +357,158 @@ test('checkout in a browser: the tap, a browser that never leaves, a tap during 
       assert.notEqual(f.subscribes[1].requestId, f.subscribes[0].requestId, 'its own request key');
       assert.deepEqual(f.errors, []);
       await ctx.close();
+    }
+
+    // ---- 5b. A card that did not go through on Click (21.11.2026): the other provider is one tap away. The Click
+    //      invoice no provider has seen is closed on the way (cancel_invoice), then Payme's order is made; back
+    //      from Payme the card offers Click the same way, and the pack window's own row does the same.
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      await page.goto(`${origin}/uz/gpt-uzbek-tilida/`);
+      await ready(page);
+      await page.locator('[data-testid="ai-account-trigger"]').click();
+      const month = page.locator('.gpt-pay-pack[data-sku="month"] [data-provider="click"]');
+      await month.waitFor();
+      await until('the row is live', async () => !(await month.isDisabled()));
+      await month.click();
+      await until('the browser is sent to Click', () => f.left.length === 1);
+      await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+      const other = page.locator('[data-testid="ai-pay-switch"]');
+      await other.waitFor({ timeout: 15_000 });
+      assert.equal((await other.innerText()).trim(), 'Payme orqali to‘lash');
+      assert.equal(await page.locator('[data-testid="ai-pay-unpaid"] button.gpt-primary').count(), 1, 'one primary button');
+      await narrow(page, 'unpaid with the other provider');
+      await shot(page, 'unpaid-switch-uz');
+      await other.click();
+      await until('the browser is sent to Payme', () => f.left.length === 2);
+      assert.equal(f.left[1], LINKS.payme);
+      assert.deepEqual(f.cancels, [ORDER], 'the unseen Click invoice is closed first');
+      assert.equal(f.subscribes.length, 2);
+      assert.deepEqual({ provider: f.subscribes[1].provider, sku: f.subscribes[1].sku }, { provider: 'payme', sku: undefined });
+      assert.notEqual(f.subscribes[1].requestId, f.subscribes[0].requestId, 'a new order, its own request key');
+      // Back from Payme unpaid: the card offers Click.
+      await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+      await until('the card offers Click', async () => (await other.count()) === 1 && (await other.innerText()).trim() === 'Click orqali to‘lash', 15_000);
+      // «Boshqa usul» back to the pay step: the month's Click row closes the unseen Payme invoice on the way.
+      await page.locator('[data-testid="ai-pay-unpaid"] .gpt-pay-unpaid-more button').first().click();
+      const row = page.locator('.gpt-pay-pack[data-sku="month"] [data-provider="click"]');
+      await row.waitFor();
+      await until('the row is live', async () => !(await row.isDisabled()));
+      await row.click();
+      await until('the browser is sent to Click again', () => f.left.length === 3);
+      assert.deepEqual(f.cancels, [ORDER, ORDER], 'the unseen Payme invoice is closed first');
+      assert.equal(f.subscribes.length, 3);
+      assert.equal(f.subscribes[2].provider, 'click');
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+
+    // ---- 5c. A page translation (23.11.2026): the owner's phone showed this Uzbek window through Chrome's
+    //      translation, Click as «Нажмите», Payme as «Пейме», the seller as «СВОБОДА — ЭТО НЕБЕСА». A stand-in
+    //      translator does what Chrome does (each text node swapped for a <font> holding the translation, new text
+    //      translated as it comes, translate="no" and .notranslate left alone): the names stay, the sentences
+    //      around them are translated on every screen of the trip, and the card that changes its provider under the
+    //      translation throws nothing.
+    {
+      // Plain JavaScript in a string, not a function: tsx wraps named helpers in __name(), which the page has not got.
+      const translator = `(() => {
+        const words = [[/Click/g, 'Нажмите'], [/Payme/g, 'Пейме'], [/FREEDOM IS HEAVEN/g, 'СВОБОДА — ЭТО НЕБЕСА']];
+        const left = (text) => !text.data.trim() || !!(text.parentElement && text.parentElement.closest('[translate="no"], .notranslate, font[data-translated], script, style, textarea'));
+        const translate = (root) => {
+          const texts = [];
+          if (root.nodeType === Node.TEXT_NODE) texts.push(root);
+          else for (const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); walk.nextNode();) texts.push(walk.currentNode);
+          for (const text of texts) {
+            if (!text.parentNode || left(text)) continue;
+            const font = document.createElement('font');
+            font.setAttribute('data-translated', '');
+            font.textContent = words.reduce((value, [name, word]) => value.replace(name, word), text.data.replace(/\\S/, (first) => '≈' + first));
+            text.replaceWith(font);
+          }
+        };
+        translate(document.body);
+        new MutationObserver((records) => records.forEach((record) => (record.type === 'characterData' ? translate(record.target) : record.addedNodes.forEach(translate))))
+          .observe(document.body, { childList: true, characterData: true, subtree: true });
+      })()`;
+      const NAMES_TRANSLATED = /Нажмите|Пейме|СВОБОДА/;
+      const translated = (what: string, locator: ReturnType<Page['locator']>) => until(`${what} is translated`, async () => (await locator.innerText()).includes('≈'));
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      await page.goto(`${origin}/uz/gpt-uzbek-tilida/`);
+      await ready(page);
+      await page.locator('[data-testid="ai-account-trigger"]').click();
+      const month = page.locator('.gpt-pay-pack[data-sku="month"] [data-provider="click"]');
+      await month.waitFor();
+      await page.locator('[data-testid="ai-pay-seller"]').waitFor();
+      await until('the row is live', async () => !(await month.isDisabled()));
+      await page.evaluate(translator);
+      const dialog = page.locator('.gpt-account-dialog');
+      await translated('the window', dialog);
+      assert.doesNotMatch(await dialog.innerText(), NAMES_TRANSLATED, 'the pay step');
+      for (const [provider, name] of [['click', 'Click'], ['payme', 'Payme']] as const) {
+        assert.match((await page.locator(`.gpt-pay-pack[data-sku="month"] [data-provider="${provider}"]`).innerText()).trim(), new RegExp(`^${name}\\s*↗$`), `the ${name} button`);
+      }
+      assert.match(await page.locator('[data-testid="ai-pay-seller"]').innerText(), /«FREEDOM IS HEAVEN» MChJ/);
+      await narrow(page, 'translated pay step');
+      await shot(page, 'translated-pay-uz');
+      // A refusal first: the stall names Click; then the retry, and the opening line names it too.
+      f.refuse = 1;
+      await month.click();
+      const stall = page.locator('[data-testid="ai-pay-stall"]');
+      await stall.waitFor();
+      await translated('the stall', stall);
+      assert.match(await stall.innerText(), /Click/);
+      assert.doesNotMatch(await dialog.innerText(), NAMES_TRANSLATED, 'the stall');
+      await stall.locator('button').click();
+      const opening = page.locator('[data-testid="ai-pay-opening"]');
+      await opening.waitFor();
+      await translated('the opening line', opening);
+      assert.match(await opening.innerText(), /Click/);
+      assert.doesNotMatch(await dialog.innerText(), NAMES_TRANSLATED, 'the opening line');
+      await until('the browser is sent to Click', () => f.left.length === 1);
+      await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+      const other = page.locator('[data-testid="ai-pay-switch"]');
+      await other.waitFor({ timeout: 15_000 });
+      const card = page.locator('[data-testid="ai-pay-unpaid"]');
+      await translated('the switch', other);
+      assert.match((await other.innerText()).trim(), /^Payme ≈/);
+      assert.match((await card.locator('button.gpt-primary').innerText()).trim(), /· Click$/);
+      assert.doesNotMatch(await card.innerText(), NAMES_TRANSLATED, 'the unpaid card');
+      await narrow(page, 'translated unpaid card');
+      await shot(page, 'translated-unpaid-uz');
+      // The switch changes its provider under the translation (back from Payme it offers Click): React must not reach
+      // for the text nodes the translation took away.
+      await other.click();
+      await until('the browser is sent to Payme', () => f.left.length === 2);
+      await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+      await until('the card offers Click', async () => (await other.count()) === 1 && /^Click ≈/.test((await other.innerText()).trim()), 15_000);
+      assert.match((await card.locator('button.gpt-primary').innerText()).trim(), /· Payme$/);
+      assert.doesNotMatch(await card.innerText(), NAMES_TRANSLATED, 'the card after the switch');
+      assert.deepEqual(f.errors, [], 'nothing thrown under the translation');
+      await ctx.close();
+      // The link for someone else: the ask box and the share screen name the providers, and the translation leaves them.
+      const share = await open(browser, origin);
+      await share.page.goto(`${origin}/uz/gpt-uzbek-tilida/`);
+      await ready(share.page);
+      await share.page.locator('[data-testid="ai-account-trigger"]').click();
+      await share.page.locator('[data-testid="ai-pay-ask"]').waitFor();
+      await share.page.evaluate(translator);
+      await share.page.locator('[data-testid="ai-pay-ask"]').click();
+      const box = share.page.locator('[data-testid="ai-pay-ask-box"]');
+      await box.waitFor();
+      await translated('the ask box', box);
+      assert.match(await box.innerText(), /Click[\s\S]*Payme/);
+      assert.doesNotMatch(await box.innerText(), NAMES_TRANSLATED, 'the ask box');
+      await box.locator('[data-provider="payme"]').click();
+      const lead = share.page.locator('[data-testid="ai-pay-share"]');
+      await lead.waitFor();
+      await translated('the share screen', lead);
+      assert.match(await lead.innerText(), /Payme/);
+      assert.doesNotMatch(await share.page.locator('.gpt-account-dialog').innerText(), NAMES_TRANSLATED, 'the share screen');
+      await shot(share.page, 'translated-share-uz');
+      assert.deepEqual(share.f.errors, [], 'nothing thrown under the translation');
+      await share.ctx.close();
     }
 
     // ---- 6. The paywall after the trial: two rows, and the tap on the small pack pays it in one tap.
@@ -617,6 +783,45 @@ test('checkout in a browser: the tap, a browser that never leaves, a tap during 
       await page.reload();
       await until('a visit nine days later', () => f.events.some((event) => event.type === 'trial_wall_seen' && event.detail === 'd8_plus'), 20_000);
       assert.equal(f.events.filter((event) => event.type === 'trial_wall_seen').length, 3, 'once per page view');
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+
+    // ---- 15. The last trial answer (conversion audit 2026-11-22): the card sells the 3-day pack by name while the server
+    //          offers it, and its tap orders that pack; without the offer it is the monthly card it always was.
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.more = true;
+      f.trialLeft = 2;
+      await page.goto(`${origin}/uz/gpt-uzbek-tilida/`);
+      await ready(page);
+      await ask(page);
+      const card = page.locator('[data-testid="chat-pack-prompt"][data-surface="trial_last"]');
+      await card.waitFor({ timeout: 20_000 });
+      await card.scrollIntoViewIfNeeded();
+      assert.match((await card.innerText()).replace(/\s/g, ''), /5000so‘m/);
+      assert.doesNotMatch((await card.innerText()).replace(/\s/g, ''), /20000/);
+      assert.deepEqual(await card.locator('[data-provider]').evaluateAll((all) => all.map((button) => `${button.getAttribute('data-provider')}:${button.getAttribute('data-sku')}`)), ['click:once', 'payme:once']);
+      await shot(page, 'trial-last-uz');
+      await card.locator('[data-provider="click"]').click();
+      await until('the 3-day pack is ordered', () => f.subscribes.length === 1);
+      assert.equal(f.subscribes[0].sku, 'once');
+      assert.equal(f.subscribes[0].provider, 'click');
+      assert.deepEqual(f.errors, []);
+      await ctx.close();
+    }
+    {
+      const { ctx, page, f } = await open(browser, origin);
+      f.trialLeft = 2;
+      await page.goto(`${origin}/ru/gpt-chat/`);
+      await ready(page);
+      await ask(page);
+      const card = page.locator('[data-testid="chat-pack-prompt"][data-surface="trial_last"]');
+      await card.waitFor({ timeout: 20_000 });
+      assert.match((await card.innerText()).replace(/\s/g, ''), /20000сум/);
+      await card.locator('[data-provider="payme"]').click();
+      await until('the monthly pack is ordered', () => f.subscribes.length === 1);
+      assert.equal(f.subscribes[0].sku, undefined, 'the monthly pack is the request it always was');
       assert.deepEqual(f.errors, []);
       await ctx.close();
     }
