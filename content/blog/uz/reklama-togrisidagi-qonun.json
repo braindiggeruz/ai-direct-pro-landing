@@ -292,6 +292,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/toshkentda-gozallik-saloni-reklamasi/",
+      "anchor": "salon mijozlari suratlari va qonun",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/uz/blog/restoran-va-kafe-reklamasi/",
+      "anchor": "kafeda pivo va vino reklamasi qoidalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Reklama to‘g‘risidagi qonun: biznes uchun asosiysi",

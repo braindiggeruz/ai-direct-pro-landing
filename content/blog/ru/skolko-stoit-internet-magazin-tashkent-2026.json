@@ -243,6 +243,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+      "anchor": "как рекламировать интернет-магазин после запуска",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Сколько стоит интернет-магазин в Ташкенте: цены 2026",

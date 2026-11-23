@@ -291,6 +291,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/",
+      "anchor": "реклама товара и интернет-магазина",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/reklama-kafe-i-restorana-tashkent/",
+      "anchor": "реклама кафе и ресторана в Ташкенте",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Где рекламироваться в Узбекистане: сравнение 2026",

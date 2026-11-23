@@ -243,6 +243,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/meta-ads-manager-qollanma/",
+      "anchor": "Ads Manager’ni bosqichma-bosqich sozlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Reklama o‘zbek va rus tilida: qonun va sozlash",

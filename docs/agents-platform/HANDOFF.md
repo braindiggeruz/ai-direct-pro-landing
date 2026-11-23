@@ -1,3 +1,31 @@
+# Current handoff — advertising cluster, wave C2: product, salon, cafe, Meta Ads Manager (uz) · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 26566d6b (production 40cc7ecb: waves B and C1 live, 465 URLs). Production stays 40cc7ecb until this PR is merged and deployed.
+## 2. Delivered
+Seven URLs: /ru/blog/kak-reklamirovat-tovar-v-uzbekistane/ + /uz/blog/mahsulotni-reklama-qilish/ (Uzum promotion, Meta catalog ads, Google Shopping, Yandex product campaign, Telegram, bloggers), /ru/blog/reklama-salona-krasoty-tashkent/ + /uz/blog/toshkentda-gozallik-saloni-reklamasi/ (maps, Instagram, Telegram, consent, licences, state language), /ru/blog/reklama-kafe-i-restorana-tashkent/ + /uz/blog/restoran-va-kafe-reklamasi/ (maps, Yandex Eats, Uzum Tezkor, Art. 39 beer and wine, menu language), /uz/blog/meta-ads-manager-qollanma/ (structure, six objectives, 8 steps, learning phase, payment). Intent pairs W20261123-26…32, links from 15 existing articles, llms.txt (7 routes, 2 quick answers).
+## 3. Files
+content/blog/{ru,uz}/ (7 new, 15 existing with added related links), content/seo/intent-manifest.json, public/llms.txt, scripts/seo-protection.ts (BASELINE), tests/ads-gpt-wave-c2.test.ts + package.json, reports/ads-gpt-20261123-c2/, docs/seo/evidence/2026-11-23-ads-gpt-c2/, docs.
+## 4. Decisions
+D-ADS-GPT-WAVE-C2-20261123 (under D-ADS-GPT-20261123).
+## 5. Excluded
+C9 (moved into the targeting roadmap as T5), C10 TikTok (not available for self-serve in Uzbekistan), the targeting waves T-A..T-C (next PRs), the profession pages (D-T1).
+## 6. Validation
+seo-audit OK; build:fast; review vs a build of main 26566d6b (= production 40cc7ecb content): sitemap 465 → 472, 18 existing pages change by added links only, 0 removed, issues 0, 4–5 incoming links per new URL; wave test 6/6; 50 of 54 SEO-related test files green, the 4 red ones fail identically on main; tsc -b and eslint clean.
+## 7. Known limits
+Uzum Market and Uzum Tezkor promotion terms are not public without a seller login; Meta's Ads Manager Uzbek interface is unconfirmed; Wolt's exit is a media report (kun.uz).
+## 8. Next task
+Merge, deploy, verify 472 URLs, IndexNow, GSC list; then targeting wave T-B.
+## 9. Acceptance
+Seven URLs 200 and in the sitemap; check-entity-consistency OK on 472 URLs.
+## 10. Start commands
+npx tsx reports/ads-gpt-20261123-c2/review.ts --before <main dist>; node --import tsx --test tests/ads-gpt-wave-c2.test.ts
+## 11. Risks
+Low: new pages and added links only.
+## 12. Rollback
+git revert; the ads-gpt-c1 BASELINE stays valid for the old homepage.
+
+---
 # Current handoff — targeting cluster: GPT-answer roadmap (AnswerThePublic + OpenSEO) · 23.11.2026
 
 ## 1. State

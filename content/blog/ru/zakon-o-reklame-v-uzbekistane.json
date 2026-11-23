@@ -292,6 +292,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/reklama-salona-krasoty-tashkent/",
+      "anchor": "фото клиентов салона и закон о рекламе",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/ru/blog/reklama-kafe-i-restorana-tashkent/",
+      "anchor": "реклама пива и вина в кафе по закону",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Закон о рекламе в Узбекистане: что важно бизнесу",

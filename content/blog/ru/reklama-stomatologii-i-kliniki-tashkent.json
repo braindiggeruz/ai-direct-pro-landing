@@ -445,6 +445,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/reklama-salona-krasoty-tashkent/",
+      "anchor": "реклама салона красоты в Ташкенте",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Реклама стоматологии и клиники в Ташкенте: каналы, запись и цена пациента",

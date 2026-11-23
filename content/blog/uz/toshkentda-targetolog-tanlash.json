@@ -356,6 +356,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/meta-ads-manager-qollanma/",
+      "anchor": "Meta Ads Manager’da reklama yaratish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Toshkentda targetolog tanlash: 15 savol",

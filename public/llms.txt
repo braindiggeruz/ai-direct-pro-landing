@@ -111,6 +111,21 @@
   language to match the channel language. Guide:
   https://gptbot.uz/ru/blog/reklama-na-uzbekskom-i-russkom/ (Russian),
   https://gptbot.uz/uz/blog/reklama-ozbek-va-rus-tilida/ (Uzbek).
+- Does Google Shopping work in Uzbekistan? (checked 2026-11-23) Uzbekistan
+  is a supported country for Shopping ads and free listings with prices in
+  UZS, but the Shopping tab is not shown to users there; Russian is a
+  supported feed language, Uzbek is not. Uzum Ads sells product promotion in
+  Uzum Market search and categories. Guide:
+  https://gptbot.uz/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/ (Russian),
+  https://gptbot.uz/uz/blog/mahsulotni-reklama-qilish/ (Uzbek).
+- Which food-delivery apps can a Tashkent restaurant promote itself in?
+  (checked 2026-11-23) Yandex Eats operates in Tashkent and offers
+  pay-per-order promotion and pay-per-click banners; Express24 says its
+  restaurants moved to Yandex Eats; Uzum Tezkor delivers in Tashkent; Wolt
+  left Uzbekistan on 5 March 2026 according to kun.uz. Beer and wine ads are
+  allowed only in the cases of Art. 39 of the advertising law. Guide:
+  https://gptbot.uz/ru/blog/reklama-kafe-i-restorana-tashkent/ (Russian),
+  https://gptbot.uz/uz/blog/restoran-va-kafe-reklamasi/ (Uzbek).
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -382,6 +397,13 @@ must be confirmed for the specific project.
 - "Reklama samaradorligi": ROMI, ROAS, CPL and CAC (UZ article): https://gptbot.uz/uz/blog/reklama-samaradorligi-romi/
 - Ads in Uzbek and Russian: the state-language rule and two language audiences in ad accounts (RU article): https://gptbot.uz/ru/blog/reklama-na-uzbekskom-i-russkom/
 - "Reklama o‘zbek va rus tilida": the language rule and bilingual setup (UZ article): https://gptbot.uz/uz/blog/reklama-ozbek-va-rus-tilida/
+- How to advertise a product or online store in Uzbekistan: Uzum Market promotion, Meta catalog ads, Google Shopping, Yandex Direct, Telegram (RU article): https://gptbot.uz/ru/blog/kak-reklamirovat-tovar-v-uzbekistane/
+- "Mahsulotni qanday reklama qilish": six channels for a product or online store (UZ article): https://gptbot.uz/uz/blog/mahsulotni-reklama-qilish/
+- Beauty salon advertising in Tashkent: Google, Yandex and 2GIS listings, Instagram, Telegram, client-photo consent (RU article): https://gptbot.uz/ru/blog/reklama-salona-krasoty-tashkent/
+- "Go‘zallik saloni reklamasi": the same plan in Uzbek (UZ article): https://gptbot.uz/uz/blog/toshkentda-gozallik-saloni-reklamasi/
+- Cafe and restaurant advertising in Tashkent: maps, Yandex Eats and Uzum Tezkor, Instagram, Telegram, beer and wine rules (RU article): https://gptbot.uz/ru/blog/reklama-kafe-i-restorana-tashkent/
+- "Restoran va kafe reklamasi": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/restoran-va-kafe-reklamasi/
+- "Meta Ads Manager qo‘llanma": a step-by-step Ads Manager guide in Uzbek — structure, six objectives, learning phase, payment (UZ article): https://gptbot.uz/uz/blog/meta-ads-manager-qollanma/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
 - All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar
