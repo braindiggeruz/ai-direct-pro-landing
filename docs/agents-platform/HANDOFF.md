@@ -1,3 +1,31 @@
+# Current handoff — targeting cluster: GPT-answer roadmap (AnswerThePublic + OpenSEO) · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 40cc7ecb (= production: advertising wave C1 live, 465 URLs, check-entity-consistency OK, IndexNow HTTP 200 for 32 URLs). Research and roadmap only; no page, script or test changes.
+## 2. Delivered
+docs/seo/research/2026-11-23-target-cluster/ROADMAP.md: 8 new topics (14 URLs ru/uz) in waves T-B and T-C, quick edits T-A, owner decisions D-T1 (targetologist profession) and D-T2 (Cyrillic «Таргет нима?»). Data: ai-prompts.tsv (623 prompts with topic), google-suggestions.tsv (864), openseo-keywords.tsv (580), gsc-target-queries.tsv (56 rows).
+## 3. Files
+docs/seo/research/2026-11-23-target-cluster/*, docs/agents-platform/STATE.json, docs/seo/CHANGE_LOG_2026-11.md, this file.
+## 4. Decisions
+None taken; the roadmap runs under D-ADS-GPT-20261123 (targeting is part of the advertising cluster). D-T1 and D-T2 await the owner; safe defaults: no profession pages, no Cyrillic line.
+## 5. Excluded
+Wave C2 of the advertising roadmap (generators ready in the scratchpad, next PR), writing the targeting articles (waves T-B/T-C after C2), a weekly «Target» tracker topic (needs the owner's go-ahead: recurring credits).
+## 6. Validation
+Data pulled 23.11.2026: AnswerThePublic API (18 new searches, 33 left until 23.12), OpenSEO research_keywords (5 seeds, Uzbekistan), GSC 20.08–20.11 (queries containing «таргет» / «target»). Slugs checked by script: no planned URL displaces a related-article card on its money page.
+## 7. Known limits
+AnswerThePublic has no Uzbek language (Uzbek seeds ran as ru + region uz) and its AI prompts are generated topics, not query logs; Google volumes for Uzbekistan are tiny, so AI demand is the main signal.
+## 8. Next task
+Merge this PR; then wave C2 (product, salon, cafe, Meta Ads Manager UZ), then targeting wave T-B.
+## 9. Acceptance
+ROADMAP.md lists every new URL with its money page and evidence; TSVs reproduce the counts in §3.
+## 10. Start commands
+python3 over docs/seo/research/2026-11-23-target-cluster/ai-prompts.tsv (bucket column) to recount the shares.
+## 11. Risks
+None for production (docs only).
+## 12. Rollback
+git revert.
+
+---
 # Current handoff — advertising cluster, wave C1: the advertising law, bloggers, ad payback, ads in two languages · 23.11.2026
 
 ## 1. State

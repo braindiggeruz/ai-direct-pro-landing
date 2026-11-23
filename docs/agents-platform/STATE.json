@@ -3963,7 +3963,7 @@
     "decision": "D-OFFER-V7-20261123"
   },
   "ads_cluster_gpt_roadmap_20261123": {
-    "status": "wave_b_live_wave_c1_pr_open",
+    "status": "wave_c1_live",
     "wave_b": "9 URLs (ru/uz targetologist checklist, Telegram channel prices, platform comparison / reklama turlari, ad creatives; ru Instagram launch guide) + wave A (target nima snippet, llms.txt routes and quick answers); intent pairs W20261123-09..17; protection revision 2026-11-23-ads-gpt-b; sitemap 448 -> 457; decision D-ADS-GPT-WAVE-B-20261123",
     "owner_approval": "Owner in chat, 2026-11-23: maximum articles, do everything needed, do not spare credits; D1, D2, D6 accepted; D3-D5 unanswered (safe defaults); decision D-ADS-GPT-20261123",
     "owner_request": "Owner in chat, 2026-11-23: AnswerThePublic paid; analyse what people ask about targeting and advertising and give a roadmap of articles that wins the most traffic from GPT answers; act comprehensively.",
@@ -3981,9 +3981,23 @@
       "D5 confirm services: creatives, blogger placements, TikTok",
       "D6 keep the advertising lane with the AI-citation metric (commercial clicks about 5.7 per 28 days vs the threshold of 5)"
     ],
-    "next": "Merge, deploy, verify 465 URLs, IndexNow; wave C2 (C2 product ads, C3 beauty salon, C4 cafe, C7 Meta Ads Manager in Uzbek; fact check running), then the other clusters (task: AnswerThePublic prompts for bots, sites, SEO, CRM, AI chat; bot-services cluster stays frozen by demand-policy); tracker reading 2026-11-30",
+    "next": "Wave C2 (C2 product ads, C3 beauty salon, C4 cafe, C7 Meta Ads Manager in Uzbek; facts checked 23.11), then the targeting roadmap waves T-A..T-C (target_cluster_gpt_roadmap_20261123) and the other clusters; tracker reading 2026-11-30",
     "wave_b_live": "PR #94 merged 6ff1ba82 and deployed by the manual Pages workflow on 2026-11-23; production gptbot-release.json shows 6ff1ba82; nine new URLs 200 with self canonicals; check-entity-consistency OK on 457 sitemap URLs; IndexNow HTTP 200 for 35 URLs (9 new, 24 changed pages from the build diff, llms.txt, llms-full.txt)",
     "wave_c1": "8 URLs in four ru/uz pairs: advertising law ZRU-776 (/ru/blog/zakon-o-reklame-v-uzbekistane/, /uz/blog/reklama-togrisidagi-qonun/), ads with bloggers (/ru/blog/reklama-u-blogerov-v-uzbekistane/, /uz/blog/reklama-blogerlarda/), ad payback ROMI/ROAS/CPL/CAC (/ru/blog/kak-ponyat-okupaetsya-li-reklama/ -> performance marketing, /uz/blog/reklama-samaradorligi-romi/), ads in Uzbek and Russian (/ru/blog/reklama-na-uzbekskom-i-russkom/, /uz/blog/reklama-ozbek-va-rus-tilida/); intent pairs W20261123-18..25; incoming links from 18 existing articles; llms.txt routes and 4 quick answers; protection revision 2026-11-23-ads-gpt-c1; sitemap 457 -> 465; decision D-ADS-GPT-WAVE-C1-20261123",
-    "wave_c1_facts": "lex.uz (ZRU-776 to ZRU-1187, Administrative Code 178-1 and 42, state-language law Art. 20, ZRU-547), raqobat.gov.uz posts 12.08.2025, 03.09/21.10/09.11.2026, Tax Committee 06.05.2026, Meta/Google Ads/Google Analytics/Yandex Direct/Telegram help pages; key finding: Google Ads does not support Uzbek as a targeting language and disapproves ads in unsupported languages, Search campaigns lost the language setting in late September 2026"
+    "wave_c1_facts": "lex.uz (ZRU-776 to ZRU-1187, Administrative Code 178-1 and 42, state-language law Art. 20, ZRU-547), raqobat.gov.uz posts 12.08.2025, 03.09/21.10/09.11.2026, Tax Committee 06.05.2026, Meta/Google Ads/Google Analytics/Yandex Direct/Telegram help pages; key finding: Google Ads does not support Uzbek as a targeting language and disapproves ads in unsupported languages, Search campaigns lost the language setting in late September 2026",
+    "wave_c1_live": "PR #95 merged 40cc7ecb and deployed on 2026-11-23; production gptbot-release.json shows 40cc7ecb; eight new URLs 200 with self canonicals; check-entity-consistency OK on 465 sitemap URLs; IndexNow HTTP 200 for 32 URLs (8 new, 22 changed pages, llms.txt, llms-full.txt)"
+  },
+  "target_cluster_gpt_roadmap_20261123": {
+    "status": "roadmap_pr_open",
+    "owner_request": "Owner in chat, 2026-11-23: collect as many targeted-advertising queries as possible via AnswerThePublic and, if needed, OpenSEO; a roadmap for a whole batch of articles that wins all targeting queries.",
+    "roadmap": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md",
+    "data": "ai-prompts.tsv (623 ChatGPT/Gemini prompts from 26 AnswerThePublic searches: 18 new + 8 from the ads roadmap), google-suggestions.tsv (864), openseo-keywords.tsv (580 Uzbekistan keywords; top: таргетинг в инстаграм 720/mo, таргет 390/mo), gsc-target-queries.tsv (56 rows, 453 impressions, 0 clicks; target nima 156 and таргет нима 121 impressions)",
+    "plan": "T-A no new URLs (Cyrillic «Таргет нима?» FAQ on target-reklama-nima if D-T2, formats FAQ on creatives, llms.txt answers); T-B 6 URLs (T1 targeting in Instagram ru, T2 audience ru/uz, T3 Meta pixel ru/uz, T8 Meta ad account ru); T-C 8 URLs (T4 lead forms, T5 blocked ad account/moderation, T6 lowering cost per lead, T7 retargeting; ru/uz); T-D profession pair only on D-T1",
+    "basis": "D-ADS-GPT-20261123 (targeting is part of the advertising cluster; AI demand counts as evidence)",
+    "owner_decisions_needed": [
+      "D-T1 write about the targetologist profession (11.4% of prompts) or not; default no",
+      "D-T2 add a Cyrillic «Таргет нима?» line to the Uzbek page; default no"
+    ],
+    "atp_access": "33 searches left until 2026-12-23 after this batch"
   }
 }
