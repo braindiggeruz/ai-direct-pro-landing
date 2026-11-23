@@ -210,6 +210,42 @@
   balance is not refundable; TikTok lists no billing option for Uzbekistan.
   Guides: https://gptbot.uz/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/
   (Russian), https://gptbot.uz/uz/blog/reklama-uchun-tolov/ (Uzbek).
+- How to promote your own Telegram channel? (checked 2026-11-23 on Telegram
+  Ads pages) Telegram Ads shows sponsored messages in public channels with
+  1,000+ subscribers chosen by link; the minimum CPM is 0.1 Toncoin, ad text
+  is up to 160 characters, a promoted channel needs a profile picture, a
+  description and a post within the last two weeks, and the balance is not
+  refundable. Add posts in other channels and free methods (cross-promotion,
+  regular content, links from the site and Instagram). Guides:
+  https://gptbot.uz/ru/blog/telegram-kanal-prodvizhenie/ (Russian),
+  https://gptbot.uz/uz/blog/telegram-kanalni-rivojlantirish/ (Uzbek).
+- How to become a targeted-ads specialist in Uzbekistan? (checked
+  2026-11-23) Meta Blueprint, Google Skillshop and TikTok Academy courses are
+  free, and Yandex Direct certification is free (3 levels, 80% to pass,
+  valid one year). Meta exams are paid: in Pearson VUE's US store an
+  Associate voucher is $99 and a Professional one $150. Google Ads
+  certifications are free, valid one year, 80% in 75 minutes, offered in 22
+  languages including Russian but not Uzbek. Guides:
+  https://gptbot.uz/ru/blog/kak-stat-targetologom/ (Russian),
+  https://gptbot.uz/uz/blog/targetolog-bolish/ (Uzbek).
+- Are SMS ad campaigns legal in Uzbekistan? (checked 2026-11-23 on lex.uz)
+  Art. 30 of law ZRU-776 allows advertising through telecom services only
+  with the subscriber's prior consent; voice-call ads must first say they are
+  advertising, whether they are paid and their cost, and the restrictions;
+  emergency numbers may not be used. Phone numbers are personal data
+  (ZRU-547: consent that can be proven). No email-specific advertising rule
+  was found. Guides: https://gptbot.uz/ru/blog/sms-rassylka-v-uzbekistane/
+  (Russian), https://gptbot.uz/uz/blog/sms-reklama/ (Uzbek).
+- What permits does outdoor advertising in Tashkent need? (checked
+  2026-11-23 on lex.uz) An advertising-place passport issued by the
+  hokimiyat (ZRU-776 Art. 9); sites on state land and buildings go through
+  open electronic auctions; a passport runs 10 years on land and 5 years on
+  state buildings, and structures without one are dismantled. Resolution 428
+  requires a QR code on every structure and limits rooftop units to 1/3 of
+  the building height; a company's own sign on the building it occupies is
+  not outdoor advertising. Prices in foreign currency are banned in ads
+  (Art. 16). Guides: https://gptbot.uz/ru/blog/naruzhnaya-reklama-v-tashkente/
+  (Russian), https://gptbot.uz/uz/blog/tashqi-reklama-toshkentda/ (Uzbek).
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -510,6 +546,14 @@ must be confirmed for the specific project.
 - "YouTube reklama": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/youtube-reklama/
 - Paying for ads from Uzbekistan: what Meta, Google, Yandex Direct, Telegram Ads and TikTok accept and why payments fail (RU article): https://gptbot.uz/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/
 - "Reklama uchun to‘lov": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/reklama-uchun-tolov/
+- Promoting your own Telegram channel: Telegram Ads rules for promoted channels, posts in other channels, free methods (RU article): https://gptbot.uz/ru/blog/telegram-kanal-prodvizhenie/
+- "Telegram kanalni rivojlantirish": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/telegram-kanalni-rivojlantirish/
+- How to become a targetologist: skills, free training, certifications and exam prices, first clients (RU article): https://gptbot.uz/ru/blog/kak-stat-targetologom/
+- "Targetolog bo‘lish": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/targetolog-bolish/
+- SMS campaigns in Uzbekistan: prior consent under Art. 30, personal data, voice-call ad rules, launch (RU article): https://gptbot.uz/ru/blog/sms-rassylka-v-uzbekistane/
+- "SMS reklama": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/sms-reklama/
+- Outdoor advertising in Tashkent: advertising-place passport, auctions, QR code, placement limits, signs (RU article): https://gptbot.uz/ru/blog/naruzhnaya-reklama-v-tashkente/
+- "Tashqi reklama Toshkentda": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/tashqi-reklama-toshkentda/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
 - All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar

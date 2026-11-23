@@ -1,0 +1,227 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "sms-reklama",
+  "url": "/uz/blog/sms-reklama/",
+  "title": "SMS reklama O‘zbekistonda: rozilik va qonun talablari | GPTBot.uz",
+  "description": "Qonunga muvofiq SMS reklama: abonent roziligi, shaxsga doir ma’lumotlar, reklama qo‘ng‘iroqlari, obunani bekor qilish va ishga tushirish (2026-11-23).",
+  "h1": "O‘zbekistonda SMS reklama 2026: abonent roziligi, qonun talablari va ishga tushirish",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "sms reklama",
+    "sms tarqatish",
+    "ommaviy sms yuborish",
+    "sms reklama qonun",
+    "sms tarqatishga rozilik"
+  ],
+  "intro": "Qisqa javob (2026-11-23 da tekshirildi): «Reklama to‘g‘risida»gi Qonunga (30-modda) ko‘ra, telekommunikatsiya xizmatlarini ko‘rsatishda reklama — SMS tarqatish ham shunga kiradi — faqat abonent oldindan rozilik bergan taqdirda tarqatiladi. Telefon raqami — shaxsga doir ma’lumot: O‘RQ-547 unga odam roziligi bilan ishlov berishga ruxsat beradi, rozilik esa uni tasdiqlash mumkin bo‘lgan shaklda bo‘lishi kerak. Reklama qo‘ng‘irog‘ida qonun bu reklama ekanligini, pullik yoki bepulligini va narxini oldindan aytishni hamda cheklovlarni ma’lum qilishni talab qiladi; favqulodda xizmatlar raqamlaridan reklama uchun foydalanib bo‘lmaydi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23 da tekshirildi): «Reklama to‘g‘risida»gi Qonunga (30-modda) ko‘ra, telekommunikatsiya xizmatlarini ko‘rsatishda reklama — SMS tarqatish ham shunga kiradi — faqat abonent oldindan rozilik bergan taqdirda tarqatiladi. Telefon raqami — shaxsga doir ma’lumot: O‘RQ-547 unga odam roziligi bilan ishlov berishga ruxsat beradi, rozilik esa uni tasdiqlash mumkin bo‘lgan shaklda bo‘lishi kerak. Reklama qo‘ng‘irog‘ida qonun bu reklama ekanligini, pullik yoki bepulligini va narxini oldindan aytishni hamda cheklovlarni ma’lum qilishni talab qiladi; favqulodda xizmatlar raqamlaridan reklama uchun foydalanib bo‘lmaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Qonun nimani talab qiladi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Norma",
+        "Amalda nimani anglatadi"
+      ],
+      "rows": [
+        [
+          "«Reklama to‘g‘risida»gi Qonun, 30-modda: telekommunikatsiya xizmatlarida reklama — faqat abonentning oldindan roziligi bilan",
+          "rozilik birinchi reklama tarqatishdan oldin olinadi"
+        ],
+        [
+          "«Shaxsga doir ma’lumotlar to‘g‘risida»gi Qonun, 18 va 21-moddalar: ishlov berish — tasdiqlash mumkin bo‘lgan rozilik bilan",
+          "odam qachon, qayerda va nimaga rozilik berganini saqlang"
+        ],
+        [
+          "30-modda: ovozli reklamada abonent bu reklama ekanligi, pullik yoki bepulligi va narxi hamda tovar bo‘yicha cheklovlar haqida oldindan xabardor qilinadi",
+          "reklama qo‘ng‘irog‘i skripti shu ma’lumotlardan boshlanadi"
+        ],
+        [
+          "30-modda: ma’lumot telefon xizmatida reklama — faqat savolga javobdan keyin, uning vaqti xizmat narxiga kirmaydi",
+          "avval javob, keyin reklama"
+        ],
+        [
+          "30-modda: favqulodda xizmatlar raqamlaridan reklama uchun foydalanish taqiqlangan",
+          "—"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Elektron pochta orqali reklama haqida alohida normani «Reklama to‘g‘risida»gi Qonunda ham, elektron tijorat va telekommunikatsiyalar to‘g‘risidagi qonunlarda ham topmadik. Lekin pochta manzili ham shaxsga doir ma’lumot, shuning uchun tarqatishga rozilikni xuddi shunday olish oqilona."
+    },
+    {
+      "type": "h2",
+      "text": "Rozilikni qanday olish"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Shakl, anketa yoki shartnomada «reklama xabarlarini olishga roziman» degan alohida band — oldindan qo‘yilgan belgisiz.",
+        "Tushunarli matn: kim yuboradi, xabarlar nima haqida va qanchalik tez-tez bo‘ladi.",
+        "Rozilik yozuvi: sana, vaqt, kanal (sayt, kassa, bot) va odam rozi bo‘lgan matn.",
+        "Har bir xabarda obunani bekor qilishning oson usuli — va bekor qilganlarni bazadan tez chiqarish."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Tarqatishni qanday boshlash"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘zbek raqamlariga SMS yuboradigan provayderni tanlang va undan yuboruvchi nomini ro‘yxatdan o‘tkazish tartibini so‘rang.",
+        "Tarqatish segmentlar bo‘yicha — yangi mijozlar, takroriy xaridorlar, uzoq vaqt kelmaganlar — bo‘yicha ketishi uchun yuborishni CRM’ga ulang.",
+        "Qisqa yozing: kompaniya nomi, taklif, muddat va obunani bekor qilish usuli.",
+        "Tarqatishdan kelgan ariza va savdolarni hisoblash uchun havolaga UTM-belgi qo‘ying yoki promokod bering.",
+        "Xabar narxini emas, ariza narxini solishtiring — boshqa reklama kanallaridagi kabi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Nima qilmaslik kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Raqamlar bazasini sotib olmang: ularning egalari sizning reklamangizga rozilik bermagan.",
+        "Reklamani xizmat xabarnomasi qilib yashirmang.",
+        "Obunani bekor qilganlarga yozishda davom etmang."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Reklama qonuni yana nimani talab qiladi — {law} sharhida; ma’lumotlarga ishlov berishga rozilik bilan arizalarni qanday yig‘ish — {lead} maqolasida; turli kanallardagi arizalarni bitta CRM’ga qanday ulash — {crm} maqolasida. Natijasi o‘lchanadigan kanallarni {hub} tanlab beradi.",
+      "links": [
+        {
+          "token": "law",
+          "target": "/uz/blog/reklama-togrisidagi-qonun/",
+          "anchor": "reklama to‘g‘risidagi qonun"
+        },
+        {
+          "token": "lead",
+          "target": "/uz/blog/lid-forma-instagram/",
+          "anchor": "Instagram lid-formasi"
+        },
+        {
+          "token": "crm",
+          "target": "/uz/blog/instagram-telegram-crm-bitta-ariza-voronkasi/",
+          "anchor": "bitta ariza voronkasi"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "GPTBot.uz’da arizalar uchun internet reklama"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "O‘zbekistonda SMS tarqatish uchun rozilik kerakmi?",
+      "a": "Ha: «Reklama to‘g‘risida»gi Qonunning 30-moddasi telekommunikatsiya xizmatlarida reklamaga faqat abonentning oldindan roziligi bilan yo‘l qo‘yadi."
+    },
+    {
+      "q": "Mijozdan reklama SMS’lariga rozilikni qanday olish mumkin?",
+      "a": "Shakl, anketa yoki shartnomada tushunarli matnli alohida band bilan. Odam qachon va qayerda rozilik berganini saqlang: shaxsga doir ma’lumotlar qonuni uni tasdiqlash mumkin bo‘lishini talab qiladi."
+    },
+    {
+      "q": "Sotib olingan raqamlar bazasi bo‘yicha tarqatish mumkinmi?",
+      "a": "Yo‘q: raqam egalari sizning reklamangizga rozilik bermagan, uni esa reklama qonuni ham, shaxsga doir ma’lumotlar qonuni ham talab qiladi."
+    },
+    {
+      "q": "Reklama qo‘ng‘irog‘i boshida nima deyish kerak?",
+      "a": "Bu reklama ekanligini, pullik yoki bepulligini va narxini, shuningdek tovar bo‘yicha yosh va boshqa cheklovlarni — «Reklama to‘g‘risida»gi Qonunning 30-moddasi shuni talab qiladi."
+    },
+    {
+      "q": "E-mail tarqatish uchun qoidalar bormi?",
+      "a": "Tekshirilgan qonunlarda elektron pochta orqali reklama haqida alohida norma yo‘q. Lekin manzil shaxsga doir ma’lumot, shuning uchun tarqatishga rozilikni SMS’dagi kabi olgan ma’qul."
+    },
+    {
+      "q": "SMS tarqatish qancha turadi?",
+      "a": "Narxni tarqatish provayderi belgilaydi. O‘zbek raqamlari bilan ishlaydigan bir nechta provayder tariflarini solishtiring va bitta xabar emas, ariza narxini hisoblang."
+    }
+  ],
+  "cta": {
+    "label": "Reklama kanallarini tanlash",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "arizalar uchun internet reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-togrisidagi-qonun/",
+      "anchor": "reklama to‘g‘risidagi qonun",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/lid-forma-instagram/",
+      "anchor": "rozilik bilan arizalar yig‘ish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    }
+  ],
+  "ogTitle": "SMS reklama O‘zbekistonda: rozilik va qonun talablari",
+  "ogDescription": "Reklama qonunining 30-moddasi bo‘yicha abonent roziligi, shaxsga doir ma’lumotlar, reklama qo‘ng‘iroqlari qoidalari, rozilik olish va tarqatishni boshlash — 2026-11-23.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/sms-reklama/",
+  "hreflangRu": "/ru/blog/sms-rassylka-v-uzbekistane/",
+  "hreflangUz": "/uz/blog/sms-reklama/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Reklama SMS tarqatishni rejalashtirayotgan O‘zbekistondagi biznes"
+  },
+  "breadcrumbLabel": "SMS reklama",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "«Reklama to‘g‘risida»gi Qonun (O‘RQ-776), 30-modda — lex.uz",
+      "url": "https://lex.uz/docs/6052631",
+      "note": "2026-11-23 da tekshirildi: telekommunikatsiya xizmatlarini ko‘rsatishda reklamani tarqatishga faqat abonent oldindan rozilik bersa yo‘l qo‘yiladi; ovozli reklamada abonent bu reklama ekanligi, uning narxi va cheklovlar haqida oldindan xabardor qilinadi; favqulodda xizmatlar raqamlaridan foydalanish taqiqlangan."
+    },
+    {
+      "title": "«Shaxsga doir ma’lumotlar to‘g‘risida»gi Qonun (O‘RQ-547), 18, 21-moddalar — lex.uz",
+      "url": "https://lex.uz/docs/4396419",
+      "note": "2026-11-23 da tekshirildi: shaxsga doir ma’lumotlarga subyekt roziligi bilan ishlov beriladi; rozilik olinganini tasdiqlash mumkin bo‘lgan shaklda beriladi."
+    },
+    {
+      "title": "«Elektron tijorat to‘g‘risida»gi Qonun (O‘RQ-792) — lex.uz",
+      "url": "https://lex.uz/ru/docs/6213428",
+      "note": "2026-11-23 da tekshirildi: qonun matnida elektron pochta orqali reklama haqida alohida norma yo‘q."
+    },
+    {
+      "title": "«Telekommunikatsiyalar to‘g‘risida»gi Qonun (O‘RQ-1015) — lex.uz",
+      "url": "https://lex.uz/ru/docs/7283074",
+      "note": "2026-11-23 da tekshirildi: qonun matnida elektron pochta orqali reklama haqida alohida norma yo‘q."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

@@ -370,6 +370,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/uz/blog/targetolog-bolish/",
+      "anchor": "targetolog bo‘lish: ko‘nikmalar va ta’lim",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Toshkentda targetolog tanlash: 15 savol",

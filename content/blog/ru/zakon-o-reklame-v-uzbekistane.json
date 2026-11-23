@@ -313,6 +313,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/ru/blog/sms-rassylka-v-uzbekistane/",
+      "anchor": "согласие на SMS-рассылку по закону",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+      "anchor": "наружная реклама: паспорт рекламного места",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Закон о рекламе в Узбекистане: что важно бизнесу",

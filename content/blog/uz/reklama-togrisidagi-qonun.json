@@ -313,6 +313,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/uz/blog/sms-reklama/",
+      "anchor": "SMS reklama uchun abonent roziligi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/tashqi-reklama-toshkentda/",
+      "anchor": "tashqi reklama: reklama joyi pasporti",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Reklama to‘g‘risidagi qonun: biznes uchun asosiysi",

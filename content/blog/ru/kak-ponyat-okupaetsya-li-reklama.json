@@ -336,6 +336,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+      "anchor": "как считать отдачу от наружной рекламы",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Окупается ли реклама: ROMI, ROAS, CPL и CAC",

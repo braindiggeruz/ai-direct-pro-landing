@@ -5602,6 +5602,223 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-55-ru-telegram-ads-service-vs-channel-promotion-guide",
+      "commercial": {
+        "url": "/ru/telegram-ads-uzbekistan/",
+        "owns": "the Telegram Ads service: launch, management, prices",
+        "mustNotTarget": [
+          "продвижение телеграм канала",
+          "как продвигать телеграм канал",
+          "раскрутка телеграм канала"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/telegram-kanal-prodvizhenie/",
+        "owns": "growing your own Telegram channel: Telegram Ads rules for promoted channels, buying posts, free methods",
+        "mustNotTarget": [
+          "telegram ads в узбекистане",
+          "реклама в телеграм",
+          "реклама в telegram",
+          "реклама в телеграм каналах",
+          "купить рекламу в телеграм",
+          "биржа рекламы телеграм"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-56-uz-telegram-service-vs-channel-growth-guide",
+      "commercial": {
+        "url": "/uz/telegram-reklama/",
+        "owns": "the Uzbek Telegram advertising service",
+        "mustNotTarget": [
+          "telegram kanalni rivojlantirish",
+          "telegram kanalga obunachi yig‘ish",
+          "telegram kanalni targ‘ib qilish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/telegram-kanalni-rivojlantirish/",
+        "owns": "growing your own Telegram channel (Uzbek)",
+        "mustNotTarget": [
+          "telegram reklama",
+          "telegramda reklama berish",
+          "telegram kanal reklama",
+          "telegram ads xizmati",
+          "telegram reklama narxi"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-57-ru-internet-ads-hub-vs-targetologist-career-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "как стать таргетологом",
+          "таргетолог с нуля",
+          "обучение таргетологу"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-stat-targetologom/",
+        "owns": "becoming a targeted-ads specialist: skills, free training (Meta Blueprint, Skillshop, TikTok Academy, Yandex), certifications, first clients",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-58-uz-target-service-vs-targetologist-career-guide",
+      "commercial": {
+        "url": "/uz/instagram-target-yoqish/",
+        "owns": "the Uzbek targeting service: steps, prices, order",
+        "mustNotTarget": [
+          "targetolog bo‘lish",
+          "targetologlikni o‘rganish",
+          "targetolog kursi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/targetolog-bolish/",
+        "owns": "becoming a targeted-ads specialist (Uzbek)",
+        "mustNotTarget": [
+          "target yoqish",
+          "instagram target",
+          "target yoqish narxi",
+          "targetolog xizmati",
+          "target xizmati"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-59-ru-internet-ads-hub-vs-sms-campaign-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "смс рассылка",
+          "смс рассылка в узбекистане",
+          "согласие на смс рассылку"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/sms-rassylka-v-uzbekistane/",
+        "owns": "SMS campaigns under ZRU-776 Art. 30 (prior consent), personal data consent, voice-call ad rules, launch",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-60-uz-internet-ads-hub-vs-sms-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "sms reklama",
+          "sms tarqatish",
+          "ommaviy sms yuborish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/sms-reklama/",
+        "owns": "SMS campaigns and consent rules (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-61-ru-internet-ads-hub-vs-outdoor-ads-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "наружная реклама в ташкенте",
+          "разрешение на наружную рекламу",
+          "паспорт рекламного места"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+        "owns": "outdoor advertising rules in Tashkent: advertising-place passport, auctions, QR code, placement limits, signs",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-62-uz-internet-ads-hub-vs-outdoor-ads-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "tashqi reklama",
+          "tashqi reklama toshkent",
+          "reklama joyi pasporti"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/tashqi-reklama-toshkentda/",
+        "owns": "outdoor advertising rules in Tashkent (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

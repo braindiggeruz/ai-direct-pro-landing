@@ -227,6 +227,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/kak-stat-targetologom/",
+      "anchor": "сертификаты Meta для специалистов",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Рекламный кабинет Meta: как создать и дать доступ",

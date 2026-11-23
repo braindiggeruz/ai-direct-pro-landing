@@ -1,3 +1,32 @@
+# Current handoff — advertising wave D2: Telegram channel, targetologist career, SMS, outdoor ads · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 69c3b176 (= production: advertising waves B, C1, C2, D1 and targeting waves T-B, T-C live, 494 URLs, check-entity-consistency OK, IndexNow HTTP 200 for 32 URLs of D1). Production stays 69c3b176 until this PR is merged and deployed.
+## 2. Delivered
+Eight URLs in four RU/UZ pairs: /ru/blog/telegram-kanal-prodvizhenie/ + /uz/blog/telegram-kanalni-rivojlantirish/, /ru/blog/kak-stat-targetologom/ + /uz/blog/targetolog-bolish/, /ru/blog/sms-rassylka-v-uzbekistane/ + /uz/blog/sms-reklama/, /ru/blog/naruzhnaya-reklama-v-tashkente/ + /uz/blog/tashqi-reklama-toshkentda/. Intent pairs W20261123-55…62, links from 21 existing articles, llms.txt (8 routes, 4 quick answers).
+## 3. Files
+content/blog/{ru,uz}/ (8 new, 21 existing with added related links), content/seo/intent-manifest.json, public/llms.txt, scripts/seo-protection.ts (BASELINE), tests/ads-gpt-wave-d2.test.ts + package.json, reports/ads-gpt-20261123-d2/, docs/seo/evidence/2026-11-23-ads-gpt-d2/, docs (roadmap status, decisions, change log, state).
+## 4. Decisions
+D-ADS-GPT-WAVE-D2-20261123 (under D-ADS-GPT-2-20261123; D-T1 yes).
+## 5. Excluded
+Wave D3 (real estate, car dealers, online schools); salary figures, SMS provider prices, billboard rental prices, the 50-metre ad-free-zone distance; OpenSEO demand data (the agent is still waiting for the owner's tool permission).
+## 6. Validation
+seo-audit OK; build:fast; review vs a build of main 69c3b176: sitemap 494 → 502, existing pages change by added links only, 0 removed, issues 0; wave test 9/9; 54 of 58 SEO-related test files green, the 4 red ones fail identically on main; tsc -b and eslint clean.
+## 7. Known limits
+Telegram names its currency both Gram and Toncoin; TikTok exam length is 2 hours on one page and 110 minutes on another (the articles say «about 2 hours»); Meta exam prices are from Pearson VUE's US store only.
+## 8. Next task
+Merge, deploy, verify 502 URLs, IndexNow, GSC list; then wave D3.
+## 9. Acceptance
+Eight URLs 200 and in the sitemap; check-entity-consistency OK on 502 URLs.
+## 10. Start commands
+npx tsx reports/ads-gpt-20261123-d2/review.ts --before <main dist>; node --import tsx --test tests/ads-gpt-wave-d2.test.ts
+## 11. Risks
+Low: new pages and added links only.
+## 12. Rollback
+git revert; the ads-gpt-d1 BASELINE stays valid for the old homepage.
+
+---
+
 # Current handoff — advertising wave D1: TikTok, Yandex Direct, YouTube, paying for ads · 23.11.2026
 
 ## 1. State

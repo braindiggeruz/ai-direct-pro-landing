@@ -319,6 +319,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 12
+    },
+    {
+      "target": "/ru/blog/naruzhnaya-reklama-v-tashkente/",
+      "anchor": "наружная реклама в Ташкенте",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 13
     }
   ],
   "ogTitle": "Где рекламироваться в Узбекистане: сравнение 2026",

@@ -207,6 +207,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/targetolog-bolish/",
+      "anchor": "targetolog uchun bepul kurslar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Targetda auditoriya sozlash: 2026 qo‘llanma",
