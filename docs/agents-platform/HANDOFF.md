@@ -1,3 +1,31 @@
+# Current handoff — AI visibility wave 3: contractor checklist, offsite texts, cases template · 23.11.2026
+
+## 1. State
+Branch feat/ai-visibility-wave3 from main 97acc08c. Production 97acc08c (waves 1a–2b live; check-entity-consistency OK on 447 URLs; IndexNow sent for 2b) until this PR is merged and deployed.
+## 2. Delivered
+/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/ (neutral checklist, unpaired); related links from two UZ guides and /en/ai-chatbot-development-tashkent/; intent pair W20261123-08; llms.txt routing; docs/seo/research/2026-11-23-ai-visibility/OFFSITE.md and CASES_TEMPLATE.md; VERIFICATION.md rows 17–24; protection revision 2026-11-23-ai-visibility-3.
+## 3. Files
+content/blog/uz/toshkentda-ai-bot-pudratchisini-tanlash.json (new), two UZ guides' internalLinks, content/seo/intent-manifest.json, scripts/en-pages.ts, scripts/seo-protection.ts (BASELINE), public/llms.txt, tests/contractor-checklist.test.ts (new) + package.json, reports/ai-visibility-20261123-3/, docs/seo/evidence/2026-11-23-ai-visibility-3/, docs.
+## 4. Decisions
+D-AI-VISIBILITY-WAVE3-20261123.
+## 5. Excluded
+UZ CRM guide (exists), prompt library (protected owner page), guide fact refresh (separate pass), case pages (owner facts), Russian checklist (covered).
+## 6. Validation
+seo-audit OK; build:fast + build:studio; review vs a build of production 97acc08c: sitemap 447 → 448, 1 added, existing pages change by added links only (no removal; /uz/biznes-uchun-ai-bot/ untouched), issues 0, 4 incoming links; contractor-checklist 3/3, payment-cluster 6/6, presentation-cluster 6/6, seo-protection 21/21 and the SEO suites green; seo-push-revision R3-6/R3-9 fail on main too.
+## 7. Known limits
+OFFSITE.md is not checked against the owner's TOP50 platform list (files on the owner's PC).
+## 8. Next task
+Deploy, verify, IndexNow; final report to the owner; re-measure on 2026-11-30 (tracker) and 14/28 days after each wave.
+## 9. Acceptance
+URL 200 and in the sitemap; check-entity-consistency OK on 448 URLs.
+## 10. Start commands
+npx tsx reports/ai-visibility-20261123-3/review.ts --before <production dist>; node --import tsx --test tests/contractor-checklist.test.ts
+## 11. Risks
+Low.
+## 12. Rollback
+git revert; the 2b BASELINE stays valid for the old homepage.
+
+---
 # Current handoff — AI visibility wave 2b: paying for AI services · 23.11.2026
 
 ## 1. State

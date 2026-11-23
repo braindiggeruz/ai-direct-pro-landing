@@ -300,9 +300,10 @@ export function enPages(root: string): EnPage[] {
         'Metrics to check the result: response time, lead quality and errors.',
       ] },
       { type: 'p', text: `Contact: Telegram ${f.telegramHandle} or ${f.email}. Studio address: ${f.address}.` },
-      { type: 'linkp', text: 'More about the company: {about}. How AI chats for Uzbek users compare: {compare}.', links: [
+      { type: 'linkp', text: 'More about the company: {about}. How AI chats for Uzbek users compare: {compare}. A neutral checklist of 15 questions for any AI bot contractor, in Uzbek: {checklist}.', links: [
         { token: 'about', target: '/en/', anchor: 'about GPTBot.uz' },
         { token: 'compare', target: '/en/uzbek-ai-chats-compared/', anchor: 'Uzbek AI chats compared' },
+        { token: 'checklist', target: '/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/', anchor: 'AI bot pudratchisini tanlash: 15 savol', lang: 'uz' },
       ] },
     ],
     faq: [

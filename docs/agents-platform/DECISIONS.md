@@ -1571,3 +1571,9 @@ AI-visibility wave 2b (owner's brief of 23.11.2026, priority 6). Demand sits on 
 - No promise that a card works and no workaround: the pages name the cards the providers name (Visa, Mastercard, American Express), say that Uzcard and Humo are not mentioned and send the reader to the bank. `tests/payment-cluster.test.ts` enforces the price sources, the bank advice and the absence of guarantees.
 - Not built: a «which cards work» page (no primary source on Uzcard/Humo international acceptance was found on their own sites) and a «Click/Payme AI chats» list (only GPTBot.uz states it, per the 1b check — the page would only advertise the site).
 - Intent pairs W20261123-06/-07; protected-pages revision 2026-11-23-ai-visibility-2b adds three homepage list entries only.
+
+## D-AI-VISIBILITY-WAVE3-20261123 — wave 3: build only the gap, keep the rest as owner TODO
+
+- One new article, `/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/` (a neutral contractor checklist). The Russian side already exists (`/ru/luchshie-razrabotchiki-chat-botov-tashkent/`, `/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/`), so the page is unpaired. Its slug sorts after the three «Foydali maqolalar» that `/uz/biznes-uchun-ai-bot/` shows (`renderRelatedArticles` takes the first three articles by file order), so no existing recommendation is displaced.
+- Not built, with reasons: the Uzbek «Instagram va Telegram → CRM» guide (two existing paired articles cover it), a prompt library (the protected `/uz/blog/chatgpt-uzbek-tilida-promptlar/` owns the intent), Gemini/Claude/DeepSeek guide updates (need a separate fact pass; DeepSeek refused automated checks on 23.11), case pages (no owner facts — `CASES_TEMPLATE.md` lists what is needed).
+- `OFFSITE.md` holds ready texts for external profiles and three media topics; publishing is the owner's.

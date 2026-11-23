@@ -1,0 +1,89 @@
+{
+  "checkedAt": "2026-11-23T06:53:11.265Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ai-visibility-2b/reviewed-protected-pages.json",
+  "sitemapBefore": 447,
+  "sitemapAfter": 448,
+  "added": [
+    "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/"
+  ],
+  "notBuilt": [],
+  "coverage": [
+    {
+      "url": "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+        "/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+        "/en/ai-chatbot-development-tashkent/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/agentlik-frilanser-yoki-birja-ozbekiston/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/ai-botni-biznes-uchun-qanday-tanlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/en/ai-chatbot-development-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 448
+}
