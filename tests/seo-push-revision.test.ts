@@ -18,6 +18,7 @@ import { i18n } from '../src/i18n';
 import type { BlogArticle, BodyBlock, Page } from '../src/shared/types';
 import { HEADER_CHAT_EXCLUDED_PATHS, SITE_CHAT_NAV, headerChatLink } from '../src/shared/site-chat-nav';
 import { renderMarketHeader } from '../scripts/market-page';
+import { EN_HEADER_CHAT } from '../scripts/prerender-en';
 import { BASELINE, PROTECTED_PATHS } from '../scripts/seo-protection';
 
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
@@ -125,6 +126,14 @@ test('R3-10 on the build: every site header links its chat once, the download gu
     if ([UZ_CHAT, RU_CHAT, ...TRANSLATOR_PAGES, ...TOOL_PAGES].includes(url)) { assert.equal(header, undefined, `${url}: the chat has no site header`); continue; }
     assert.ok(header, `${url}: no header`);
     if (url === DOWNLOAD) { assert.ok(!header.includes('/uz/gpt-uzbek-tilida/"'), 'the download guide keeps its header'); continue; }
+    if (url.startsWith('/en/')) {
+      // The English layer (scripts/prerender-en.ts, 2026-11-23) has no chat of its own: one button opens the Uzbek chat.
+      const buttons = header.match(new RegExp(`<a href="${EN_HEADER_CHAT.href}"[^>]*>${EN_HEADER_CHAT.label}</a>`, 'g')) ?? [];
+      assert.equal(buttons.length, 1, `${url}: one «${EN_HEADER_CHAT.label}» button`);
+      for (const other of Object.values(SITE_CHAT_NAV)) assert.ok(!header.includes(`${other.label}</a>`), `${url}: «${other.label}»`);
+      checked += 1;
+      continue;
+    }
     const locale = /^\/uz\//.test(url) ? 'uz' : 'ru';
     const chat = SITE_CHAT_NAV[locale];
     // One menu item; an article whose header button already opens the chat keeps the button too.

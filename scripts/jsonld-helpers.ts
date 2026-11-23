@@ -320,7 +320,8 @@ export function buildWebPageLd(input: {
   url: string;
   name: string;
   description: string;
-  locale: 'ru' | 'uz';
+  /** 'en' only on the English layer (scripts/prerender-en.ts). */
+  locale: 'ru' | 'uz' | 'en';
   primaryImage?: string;
   dateModified?: string;
   datePublished?: string;
@@ -361,7 +362,7 @@ export function buildArticleLd(input: {
   url: string;
   headline: string;
   description: string;
-  locale: 'ru' | 'uz';
+  locale: 'ru' | 'uz' | 'en';
   datePublished?: string;
   dateModified?: string;
   primaryImage?: string;

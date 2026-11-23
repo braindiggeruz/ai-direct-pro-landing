@@ -36,6 +36,7 @@ function makeFixtureRoot(): string {
         'build:cf': [
           'tsx scripts/seo-audit.ts',
           'vite build',
+          'tsx scripts/prerender-en.ts',
           'tsx scripts/prerender.ts',
           'tsx scripts/prerender-blog.ts',
           'tsx scripts/prerender-home.ts',

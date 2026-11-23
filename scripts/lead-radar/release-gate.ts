@@ -213,6 +213,7 @@ const ALLOWLISTED_ROOT_SCRIPTS = {
   'build:cf': [
     'tsx scripts/seo-audit.ts',
     'vite build',
+    'tsx scripts/prerender-en.ts',
     'tsx scripts/prerender.ts',
     'tsx scripts/prerender-blog.ts',
     'tsx scripts/prerender-home.ts',
@@ -227,6 +228,8 @@ const ALLOWLISTED_ROOT_SCRIPTS = {
   'build:admin': 'npm --prefix apps/bormi-admin ci && npm --prefix apps/bormi-admin run build',
   // build:cf calls both since the Studio and release-stamp steps joined the
   // Pages build; pinned so a changed sub-script cannot smuggle commands in.
+  // scripts/prerender-en.ts (the English layer, 2026-11-23) runs in every build
+  // chain right after vite build: public/llms.txt links its pages.
   'build:studio': 'npm --prefix apps/studio ci && npm --prefix apps/studio run build && tsx apps/studio/scripts/prerender-studio.ts',
   'release:pages:stamp': 'tsx scripts/release/pages-production.ts stamp',
 } as const;

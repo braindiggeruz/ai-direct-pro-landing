@@ -9,6 +9,8 @@ import type { Page, BlogArticle } from '../src/shared/types';
 import { HOME_HREFLANG, SITE_URL } from '../src/shared/site-config';
 import { studioSitemapEntries } from '../apps/studio/shared/published-urls';
 import { dateOnly, latestDate, pageModifiedDate } from './content-dates';
+import { builtEnAlternateOf } from './en-alternates';
+import { enSitemapEntries } from './en-pages';
 
 // `--root <dir>` reads <dir>/content and writes <dir>/dist; only the studio
 // sitemap test passes it, to compare the output with and without studio pages.
@@ -73,7 +75,7 @@ function imageLinks(images: string[]): string {
 
 // --- hreflang helpers -------------------------------------------------------
 
-type Alternates = { ru?: string; uz?: string; xDefault?: string };
+type Alternates = { ru?: string; uz?: string; en?: string; xDefault?: string };
 
 type HreflangFields = { hreflangRu?: string; hreflangUz?: string; hreflangXDefault?: string; hreflangUnpaired?: boolean };
 
@@ -98,10 +100,18 @@ function alternatesOf(item: HreflangFields): Alternates | undefined {
   return { ru, uz, xDefault: override === ru || override === uz ? override : ru };
 }
 
+// A pair joined by a built English page (scripts/en-alternates.ts) lists it too,
+// exactly as the page's own <link rel="alternate" hreflang="en">.
+function withEnglish(alt: Alternates | undefined, url: string): Alternates | undefined {
+  const en = alt ? builtEnAlternateOf(url, DIST_DIR) : undefined;
+  return alt && en ? { ...alt, en } : alt;
+}
+
 function hreflangLinks(alt: Alternates): string {
   const lines: string[] = [];
   if (alt.ru) lines.push(`    <xhtml:link rel="alternate" hreflang="ru" href="${SITE_URL}${alt.ru}"/>`);
   if (alt.uz) lines.push(`    <xhtml:link rel="alternate" hreflang="uz" href="${SITE_URL}${alt.uz}"/>`);
+  if (alt.en) lines.push(`    <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}${alt.en}"/>`);
   const fallback = alt.xDefault || alt.ru || alt.uz;
   if (fallback) lines.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${fallback}"/>`);
   return lines.join('\n');
@@ -143,19 +153,27 @@ const entries: Entry[] = [
     // An editorial review date must not hide a later substantive content edit.
     // These are curated content dates, never the build or submission timestamp.
     lastmod: pageModifiedDate(p) || dateOnly(p.createdAt),
-    alternates: alternatesOf(p),
+    alternates: withEnglish(alternatesOf(p), p.url),
   })),
   // Blog articles — same, when an RU↔UZ pair exists.
   ...eligibleArticles.map((a) => ({
     url: a.url,
     lastmod: dateOnly(a.dateModified || a.updatedAt || a.datePublished || a.createdAt),
-    alternates: alternatesOf(a),
+    alternates: withEnglish(alternatesOf(a), a.url),
   })),
   // Studio tool pages (content/studio/pages, apps/studio): published ones only,
   // with their RU↔UZ pair when both members are published. A draft is never
   // listed. They are left out of latestSiteChange above, so publishing one
   // does not move the homepage lastmod.
   ...studioSitemapEntries(ROOT),
+  // The English layer (scripts/prerender-en.ts): only the pages this build
+  // contains. A page that joins a RU/UZ pair repeats the pair's set with the
+  // pair's x-default (the Russian member). Left out of latestSiteChange too.
+  ...enSitemapEntries(ROOT, DIST_DIR).map((e) => ({
+    url: e.url,
+    lastmod: e.lastmod,
+    ...(e.alternates ? { alternates: { ...e.alternates, xDefault: e.alternates.ru } } : {}),
+  })),
 ];
 
 let entriesWithImages = 0;

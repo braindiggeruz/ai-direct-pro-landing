@@ -27,6 +27,7 @@ import { LEAD_FORM_SCRIPT } from './lead-form';
 import { isViralArticle, renderViralArticle } from './viral-article';
 import { withStudioTelegramPrefill } from './telegram-cta';
 import { withEmailOff } from './email-off';
+import { builtEnAlternateOf } from './en-alternates';
 import {
   articleLinksContactCard,
   CONTACT_ANCHOR,
@@ -427,6 +428,10 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publ
     : '';
   const xDefaultValid = xDefaultOverride === altRu || xDefaultOverride === altUz;
   const xDefaultHref = hasAlternatePair ? (xDefaultValid ? xDefaultOverride : hrefRu) : '';
+  // The English page that joins this pair (scripts/en-alternates.ts), only when
+  // this build contains it; same rule as scripts/prerender.ts.
+  const enPath = hasAlternatePair ? builtEnAlternateOf(a.url, DIST_DIR) : undefined;
+  const altEn = enPath ? `${global.siteUrl}${enPath}` : '';
 
   const authorMeta = `    <div data-testid="article-meta" class="mb-10 rounded-2xl border border-white/10 bg-white/[0.025] px-4 py-3 text-sm text-white/60">
       <span>${escapeHtml(t.author)}: <a href="${escapeHtml(authorProfileHref)}" rel="author" class="text-white/85 hover:text-brand-cyan">${escapeHtml((lang === 'uz' ? global.authorNameLatin : undefined) || global.authorName || a.author || (lang === 'uz' ? 'GPTBot.uz tahririyati' : 'Редакция GPTBot.uz'))}</a></span>
@@ -445,7 +450,7 @@ function renderArticle(a: BlogArticle, global: GlobalSEO, cssLinks: string, publ
 <meta name="robots" content="${robotsContent}" />
 <link rel="canonical" href="${escapeHtml(new URL(a.canonical || a.url, global.siteUrl).href)}" />
 ${altRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(altRu)}" />` : ''}
-${altUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(altUz)}" />` : ''}
+${altUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(altUz)}" />` : ''}${altEn ? `\n<link rel="alternate" hreflang="en" href="${escapeHtml(altEn)}" />` : ''}
 ${xDefaultHref ? `<link rel="alternate" hreflang="x-default" href="${escapeHtml(xDefaultHref)}" />` : ''}
 
 <meta property="og:type" content="article" />
