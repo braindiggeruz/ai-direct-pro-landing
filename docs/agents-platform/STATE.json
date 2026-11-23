@@ -3909,7 +3909,7 @@
     "next": "merge, deploy via the workflow, npm run feed:openai:live, owner pastes the Hosted URL in Business Hub"
   },
   "openai_product_feed_gzip_20261123": {
-    "status": "pr_open_deploy_pending",
+    "status": "live_85255120",
     "owner_request": "Owner in chat, 2026-11-23: Business Hub rejected the plain .jsonl; add .jsonl.gz (main Hosted URL) and .tsv (fallback), JPEG copies for WebP images, INCLUDE_FREE_TRIAL flag; branch → PR → merge → deploy.",
     "urls": {
       "main": "https://gptbot.uz/openai-product-feed.jsonl.gz",
@@ -3920,5 +3920,18 @@
     "webp_records_replaced": "12 records, 5 images → public/assets/feed/*.jpg (1200px)",
     "include_free_trial": true,
     "decision": "D-OPENAI-FEED-GZIP-20261123"
+  },
+  "ai_visibility_20261123": {
+    "status": "wave1a_pr_open",
+    "owner_request": "Owner in chat, 2026-11-23: maximise gptbot.uz visibility in ChatGPT and other AI answers; waves 1-3 per docs/seo/research/2026-11-23-ai-visibility/ANALYSIS.md, each wave its own PR, merge, deploy, IndexNow.",
+    "owner_answers": "1 address Kichik Xalqa Yo‘li 57 (offer v7 needed); 2 sameAs @XGame_changerx (not added, decision L14, already contactPoint); 3 cases cakecity.uz, mirac.uz, deutschexrepte.com, bekcorp.uz (facts missing); 4 comparisons agreed",
+    "baseline": "Business Hub 1 281 mentions / 310 clicks (23.10-19.11); Bing AI 250 citations / 23 pages (6 months); tracker ChatGPT 2.1% mentions, 3.6% citations in neutral answers, brand in 5/32 on 23.11",
+    "tracker_prompts_added": 14,
+    "next_tracker_run": "2026-11-30",
+    "blocked": [
+      "Uzbek chat tariffs page: no measured keyword in demand-policy",
+      "case facts: owner"
+    ],
+    "decision": "D-AI-VISIBILITY-20261123"
   }
 }

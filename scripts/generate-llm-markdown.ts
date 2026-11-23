@@ -29,6 +29,7 @@ import { SITE_URL } from '../src/shared/site-config';
 import { LLM_MARKDOWN_BLOG_URLS, LLM_MARKDOWN_SLUGS_RU, LLM_MARKDOWN_SLUGS_UZ } from './llm-pages';
 import { publishedRelatedLinks } from './blog-related-links';
 import { chatProductBlocks, refreshProductFactsManifest } from './product-facts';
+import { refreshServicePricesManifest } from './openai-feed';
 import {
   STUDIO_EMAIL,
   STUDIO_PHONE,
@@ -277,7 +278,12 @@ function main(): void {
   }
   console.log(`LLM Markdown twins: ${twins.length} written, ${missing} missing → dist/<url>index.html.md`);
 
-  const llms = refreshProductFactsManifest(fs.readFileSync(path.join(PUBLIC_DIR, 'llms.txt'), 'utf-8'));
+  // Both managed blocks are rebuilt from code: the consumer terms (product-facts.ts) and the
+  // business service prices read from the package tables of the service pages (openai-feed.ts).
+  const llms = refreshServicePricesManifest(
+    refreshProductFactsManifest(fs.readFileSync(path.join(PUBLIC_DIR, 'llms.txt'), 'utf-8')),
+    path.dirname(PUBLIC_DIR),
+  );
   fs.writeFileSync(path.join(DIST_DIR, 'llms.txt'), llms, 'utf-8');
   const full = buildLlmsFull(fs.readFileSync(path.join(PUBLIC_DIR, 'llms-full.txt'), 'utf-8'), llms, twins);
   fs.writeFileSync(path.join(DIST_DIR, 'llms-full.txt'), full, 'utf-8');

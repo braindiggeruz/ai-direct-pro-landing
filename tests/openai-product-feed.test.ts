@@ -14,7 +14,8 @@ import test from 'node:test';
 import {
   buildFeed, FEED_FILE, FEED_GZ_FILE, FEED_IMAGE_DIR, FEED_TSV_FILE, FREE_TRIAL_ITEM_ID, groupThousands, gunzipText,
   INCLUDE_FREE_TRIAL, LOCKED_ITEM_IDS, normaliseSpaces, packageRow, pageText, parseTsv, publicFile, readImageLock,
-  readPage, serializeFeed, serializeTsv, SERVICE_ITEMS, SERVICE_PAGES, sha256, SITE, termInEnglish, TSV_COLUMNS,
+  readPage, refreshServicePricesManifest, serializeFeed, serializeTsv, SERVICE_ITEMS, SERVICE_PAGES, servicePricesManifest,
+  sha256, SITE, termInEnglish, TSV_COLUMNS,
   validateFeedText, validateTsvText, webpSources, type FeedRecord,
 } from '../scripts/openai-feed';
 
@@ -278,4 +279,20 @@ test('every build regenerates the feed before vite copies public/ into dist/', (
     assert.match(scripts[hook], /tsx scripts\/build-openai-feed\.ts/, `${hook} must run the feed generator`);
   }
   assert.match(scripts.test, /tests\/openai-product-feed\.test\.ts/);
+});
+
+test('llms.txt quotes the current business service prices, read from the same package tables as the feed', () => {
+  const llms = read('public/llms.txt');
+  const block = servicePricesManifest(ROOT);
+  assert.ok(llms.includes(block), 'public/llms.txt service-prices block is stale: run npx tsx scripts/build-openai-feed.ts');
+  assert.equal(refreshServicePricesManifest(llms, ROOT), llms);
+  // Every price in the block is a price a feed record carries.
+  const feedPrices = new Set(records.map((r) => Number(r.price.split(' ')[0])));
+  for (const [, digits] of block.matchAll(/from (\d{1,3}(?: \d{3})+) UZS/g)) {
+    assert.ok(feedPrices.has(Number(digits.replace(/ /g, ''))), `${digits} UZS in llms.txt is not a feed price`);
+  }
+  assert.match(block, /https:\/\/gptbot\.uz\/openai-product-feed\.jsonl\.gz/);
+  assert.doesNotMatch(llms, /scoped and priced per business/, 'bots have published starting prices now');
+  const stale = llms.replace(/Start from 1 990 000 UZS/, 'Start from 1 000 UZS');
+  assert.equal(refreshServicePricesManifest(stale, ROOT), llms, 'the generator repairs a stale price');
 });

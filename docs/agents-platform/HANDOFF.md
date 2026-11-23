@@ -1,3 +1,31 @@
+# Current handoff — AI visibility wave 1a: llms.txt prices, entity check, baseline · 23.11.2026
+
+## 1. State
+Branch feat/ai-visibility-wave1 (PR wave 1a). Production 85255120 until merged and deployed. Waves 1b (content), 1c (/en/) and 2–3 follow as separate PRs; the offer edition v7 (studio address) is its own PR.
+## 2. Delivered
+docs/seo/research/2026-11-23-ai-visibility/{ANALYSIS.md (owner's analysis, converted), VERIFICATION.md (check against production), media/}; public/llms.txt managed block «Published starting prices of business services» read from the service pages' package tables (same source as the product feed) + 4 quick answers + the stale «priced per business» wording fixed; scripts/check-entity-consistency.ts (sitemap crawl: address, brand spelling, og:site_name, reciprocal hreflang); CHANGE_LOG baseline and measurement points; 14 neutral prompts added to the OpenSEO tracker (topic «AI visibility 2026-11-23», first run 30.11.2026).
+## 3. Files
+public/llms.txt, scripts/openai-feed.ts (servicePricesManifest), scripts/build-openai-feed.ts (keeps the llms.txt block current), scripts/generate-llm-markdown.ts (refreshes it in dist), scripts/check-entity-consistency.ts, tests/openai-product-feed.test.ts, .github/workflows/openai-feed.yml, docs.
+## 4. Decisions
+D-AI-VISIBILITY-20261123 (owner answers: address Kichik Xalqa Yo‘li 57; sameAs not changed per L14; cases need facts; comparisons allowed).
+## 5. Excluded
+No page changed. The four protected Copilot-cited pages stay untouched. Uzbek chat-tariffs page blocked by the demand policy (no measured keyword).
+## 6. Validation
+See the PR: build:fast, tsc, eslint, openai-product-feed 19/19, seo-product-facts, seo-trial-product-truth, seo-link-graph, gsc-indexation-hygiene, seo-business-ai-claims, seo-commercial-claims green; studio-contact 4 failures exist on main too.
+## 7. Known limits
+Business Hub, Bing and GSC numbers come from the owner's analysis, not re-measured here.
+## 8. Next task
+Offer edition v7 PR; wave 1b content (Uzbek AI chat comparison UZ/RU, improved unprotected Copilot pages) with a protection revision; wave 1c /en/ generator.
+## 9. Acceptance
+Production llms.txt shows the service-prices block equal to the service pages; check-entity-consistency fails only on the two offer pages until v7.
+## 10. Start commands
+npx tsx scripts/check-entity-consistency.ts; npx tsx scripts/build-openai-feed.ts --check; node --import tsx --test tests/openai-product-feed.test.ts
+## 11. Risks
+Low: llms.txt text and build-time refresh only.
+## 12. Rollback
+git revert; deploy via the workflow.
+
+---
 # Current handoff — OpenAI feed v2: gzip JSONL Hosted URL, TSV fallback, JPEG images · 23.11.2026
 
 ## 1. State
