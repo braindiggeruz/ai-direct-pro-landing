@@ -322,6 +322,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/uz/blog/reklama-agentligi/",
+      "anchor": "reklama agentligi xizmatlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Agentlik, frilanser yoki birja: kimga buyurtma berish (2026)",

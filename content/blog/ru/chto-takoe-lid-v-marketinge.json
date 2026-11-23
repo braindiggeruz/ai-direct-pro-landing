@@ -469,7 +469,8 @@
     { "target": "/ru/smm-prodvizhenie-tashkent/", "anchor": "ведение соцсетей под ключ" },
     { "target": "/ru/internet-reklama-tashkent/", "anchor": "платные каналы привлечения" },
     { "target": "/ru/blog/zayavki-iz-lid-formy-instagram/", "anchor": "как собирать заявки через лид-форму Meta", "locale": "ru", "type": "contextual", "priority": 1 },
-    { "target": "/ru/blog/sms-rassylka-v-uzbekistane/", "anchor": "рассылки по лидам и согласие", "locale": "ru", "type": "contextual", "priority": 2 }
+    { "target": "/ru/blog/sms-rassylka-v-uzbekistane/", "anchor": "рассылки по лидам и согласие", "locale": "ru", "type": "contextual", "priority": 2 },
+    { "target": "/ru/blog/voronka-prodazh/", "anchor": "этапы воронки продаж и конверсия", "locale": "ru", "type": "contextual", "priority": 3 }
   ],
   "ogTitle": "Что такое лид в маркетинге и рекламе: виды и стоимость",
   "ogDescription": "Чем лид отличается от посетителя и клиента, как квалифицировать обращения и считать CPL.",

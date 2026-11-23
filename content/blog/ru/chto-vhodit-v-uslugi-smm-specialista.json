@@ -309,7 +309,8 @@
     { "target": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/", "anchor": "Договор на оказание SMM-услуг в Узбекистане" },
     { "target": "/ru/blog/kak-vybrat-digital-agentstvo-v-tashkente/", "anchor": "Как выбрать digital-агентство в Ташкенте" },
     { "target": "/ru/blog/chto-takoe-smm-prodvizhenie/", "anchor": "Что такое SMM-продвижение" },
-    { "target": "/ru/ai-menedzher-dlya-instagram/", "anchor": "AI-менеджер для Instagram" }
+    { "target": "/ru/ai-menedzher-dlya-instagram/", "anchor": "AI-менеджер для Instagram" },
+    { "target": "/ru/blog/marketolog-kto-eto/", "anchor": "маркетолог: обязанности и навыки", "locale": "ru", "type": "contextual", "priority": 1 }
   ],
   "sources": [
     {

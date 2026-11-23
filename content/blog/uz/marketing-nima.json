@@ -389,6 +389,13 @@
       "anchor": "sun’iy intellekt",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/marketolog-kim/",
+      "anchor": "marketolog nima ish qiladi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "ogTitle": "Marketing nima: ta’rifi, turlari va biznesga foydasi",

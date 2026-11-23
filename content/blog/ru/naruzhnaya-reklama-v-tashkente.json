@@ -177,6 +177,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/ru/blog/reklamnyy-banner/",
+      "anchor": "рекламный баннер: размеры и требования",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Наружная реклама в Ташкенте: разрешения и правила",

@@ -523,6 +523,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/ru/blog/marketolog-kto-eto/",
+      "anchor": "профессия маркетолога",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "ogTitle": "Словарь маркетинговых терминов простыми словами",

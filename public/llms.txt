@@ -274,6 +274,52 @@
   Direct but not in Google Ads. Guides:
   https://gptbot.uz/ru/blog/reklama-onlayn-shkoly/ (Russian),
   https://gptbot.uz/uz/blog/onlayn-maktab-reklamasi/ (Uzbek).
+- What size should an ad banner be? (checked 2026-11-23) Google Ads takes
+  uploaded GIF, JPG and PNG banners up to 150 KB; its most common desktop sizes
+  are 300×250, 336×280, 728×90, 300×600 and 160×600, mobile ones 320×50 and
+  320×100. Yandex Direct suggests starting with 240×400, 300×250 and 728×90
+  (files up to 512 KB). Meta uses 4:5 (1440×1800) for feeds and 9:16 for
+  Stories and no longer limits text on ad images. An outdoor banner in
+  Uzbekistan is in the state language; a translation goes below it, in a
+  smaller font, on at most 40% of the area (ZRU-776 Art. 6). Guides:
+  https://gptbot.uz/ru/blog/reklamnyy-banner/ (Russian),
+  https://gptbot.uz/uz/blog/reklama-banner/ (Uzbek).
+- How do you post and promote a listing on OLX.uz? (checked 2026-11-23)
+  Sign up, confirm the profile with an SMS code and press "Подать объявление": a title of up to 70 characters, one category and one item per ad, up to 8 photos (10 in Transport, 12 in Real estate, 5 MB each) and the phone only in its own field; ads are written in Uzbek or Russian. A listing lives 30 days. A bump resets the publication date but
+  does not extend the 30 days; TOP shows the listing in a block of 3 TOP
+  listings that alternates with 10 regular ones, while it keeps its place in
+  the regular list; VIP rotates on the desktop homepage only, up to 25 at a
+  time, for 7 days. Prices depend on region, category and duration and appear
+  on the order page. Guides:
+  https://gptbot.uz/ru/blog/prodvizhenie-obyavleniy-na-olx/ (Russian),
+  https://gptbot.uz/uz/blog/olx-elon-berish/ (Uzbek).
+- What does a marketer do, and how is that different from a targetologist?
+  (checked 2026-11-23) A marketer owns the whole customer-acquisition system:
+  market research, the offer, channels, budget and sales; a targetologist
+  runs social ads and answers for the leads from them. Free training: Google
+  Skillshop (Google Ads certificates last a year, 80% correct in 75 minutes,
+  exams in 22 languages including Russian, not Uzbek), Meta Blueprint courses
+  (Meta's exams through Pearson VUE are paid) and Yandex's free Direct test.
+  Guides: https://gptbot.uz/ru/blog/marketolog-kto-eto/ (Russian),
+  https://gptbot.uz/uz/blog/marketolog-kim/ (Uzbek).
+- What is a sales funnel? (checked 2026-11-23) The customer's path from the
+  first ad view to payment, split into stages (reach, interest, lead,
+  qualification, sale, repeat purchase); conversion between stages shows
+  where money is lost, e.g. 12 sales from 80 leads is 15%. Meta has six
+  campaign objectives (Awareness, Traffic, Engagement, Leads, App promotion,
+  Sales); GA4 funnel exploration takes up to 10 steps, open or closed; a
+  Yandex Metrica composite goal has up to 5 steps within one visit. Guides:
+  https://gptbot.uz/ru/blog/voronka-prodazh/ (Russian),
+  https://gptbot.uz/uz/blog/sotuv-voronkasi/ (Uzbek).
+- What does an advertising agency do under Uzbek law? (checked 2026-11-23)
+  ZRU-776 does not use the word "agency": it names the advertiser, the
+  producer and the distributor of advertising (Arts. 5, 11). Producers and
+  distributors must ask for the advertiser's licence when the activity is
+  licensed (Arts. 12, 13), answer the authority within seven days (Art. 14)
+  and keep contracts and materials for three years after the last
+  publication (Art. 15). Guide (Uzbek):
+  https://gptbot.uz/uz/blog/reklama-agentligi/; the legal definition of
+  advertising ("reklama nima") is in https://gptbot.uz/uz/blog/reklama-turlari/.
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -533,7 +579,7 @@ must be confirmed for the specific project.
 - Paid posts in Uzbek Telegram channels: price signals, CPM, checking a channel in TGStat and Telemetr (RU article): https://gptbot.uz/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/
 - "Telegram kanalga reklama berish": prices and channel checks (UZ article): https://gptbot.uz/uz/blog/telegram-kanalga-reklama-berish/
 - Where to advertise in Uzbekistan: Instagram, Telegram, Google, Yandex, YouTube and TikTok compared with dated sources (RU article): https://gptbot.uz/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/
-- "Reklama turlari": types of online advertising and which platform fits (UZ article): https://gptbot.uz/uz/blog/reklama-turlari/
+- "Reklama turlari": what advertising is under ZRU-776 ("reklama nima"), types of online advertising and which platform fits (UZ article): https://gptbot.uz/uz/blog/reklama-turlari/
 - Ad creatives: 12 formats, Meta and Telegram Ads specs, examples in Russian and Uzbek (RU article): https://gptbot.uz/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/
 - "Reklama kreativlari": 12 formats and sizes (UZ article): https://gptbot.uz/uz/blog/reklama-kreativlari/
 - Launching Instagram ads from Uzbekistan yourself: account currency (no UZS), payment cards, budget, review time (RU article): https://gptbot.uz/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/
@@ -588,6 +634,15 @@ must be confirmed for the specific project.
 - "Avtosalon reklamasi": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/mashina-savdosi-reklamasi/
 - Online school advertising: licensing under the education law, channels, funnel, ad language (RU article): https://gptbot.uz/ru/blog/reklama-onlayn-shkoly/
 - "Onlayn maktab reklamasi": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/onlayn-maktab-reklamasi/
+- Ad banners: Google and Yandex display sizes, Meta image specs, outdoor banner language and permit rules (RU article): https://gptbot.uz/ru/blog/reklamnyy-banner/
+- "Reklama banner": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/reklama-banner/
+- Posting and promoting a listing on OLX.uz: 30-day listings, free limits, bump, TOP and VIP (RU article): https://gptbot.uz/ru/blog/prodvizhenie-obyavleniy-na-olx/
+- "OLX’da e’lon berish": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/olx-elon-berish/
+- The marketer profession: duties, skills, how it differs from a targetologist and an SMM specialist, free certifications (RU article): https://gptbot.uz/ru/blog/marketolog-kto-eto/
+- "Marketolog kim": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/marketolog-kim/
+- The sales funnel: stages, a worked conversion example, Meta objectives, GA4 and Yandex Metrica funnels (RU article): https://gptbot.uz/ru/blog/voronka-prodazh/
+- "Sotuv voronkasi": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/sotuv-voronkasi/
+- "Reklama agentligi": what an advertising agency does, roles under ZRU-776, account access and how to choose one (UZ article): https://gptbot.uz/uz/blog/reklama-agentligi/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
 - All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar

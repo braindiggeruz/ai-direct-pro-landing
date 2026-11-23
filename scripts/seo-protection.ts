@@ -327,7 +327,7 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // audiences, Meta Pixel, Meta ad account) changes only the homepage, and only its lists:
 // six entries for the new articles, nothing relabelled or removed. Nine pages keep their
 // complete contract; see reports/target-gpt-20261123-tb/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-23-ads-gpt-d3/reviewed-protected-pages.json';
+export const BASELINE = 'docs/seo/evidence/2026-11-23-ads-gpt-d4/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

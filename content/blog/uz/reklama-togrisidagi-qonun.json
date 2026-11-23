@@ -341,6 +341,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 12
+    },
+    {
+      "target": "/uz/blog/reklama-agentligi/",
+      "anchor": "agentlik va reklama beruvchi majburiyatlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 13
     }
   ],
   "ogTitle": "Reklama to‘g‘risidagi qonun: biznes uchun asosiysi",

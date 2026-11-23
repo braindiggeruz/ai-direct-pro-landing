@@ -178,6 +178,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+      "anchor": "ТОП и VIP-объявления на OLX",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Реклама недвижимости и новостроек: правила и каналы",

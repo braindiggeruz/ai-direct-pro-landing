@@ -253,6 +253,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+      "anchor": "как подать объявление на OLX",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Как рекламировать товар в Узбекистане: 6 каналов",

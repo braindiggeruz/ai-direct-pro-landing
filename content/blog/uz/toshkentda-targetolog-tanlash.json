@@ -377,6 +377,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/uz/blog/reklama-agentligi/",
+      "anchor": "reklama agentligini tanlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Toshkentda targetolog tanlash: 15 savol",

@@ -178,7 +178,8 @@
       "type": "contextual"
     },
     { "target": "/ru/blog/zayavki-iz-lid-formy-instagram/", "anchor": "заявки из лид-формы Instagram в CRM", "locale": "ru", "type": "contextual", "priority": 6 },
-    { "target": "/ru/blog/sms-rassylka-v-uzbekistane/", "anchor": "SMS-рассылка по базе CRM: правила", "locale": "ru", "type": "contextual", "priority": 7 }
+    { "target": "/ru/blog/sms-rassylka-v-uzbekistane/", "anchor": "SMS-рассылка по базе CRM: правила", "locale": "ru", "type": "contextual", "priority": 7 },
+    { "target": "/ru/blog/voronka-prodazh/", "anchor": "воронка продаж: от рекламы до оплаты", "locale": "ru", "type": "contextual", "priority": 8 }
   ],
   "ogTitle": "Instagram, Telegram и CRM: одна воронка заявок",
   "ogDescription": "Как собрать обращения из Instagram и Telegram в одну воронку: быстрый ответ, квалификация, карточка лида и handoff менеджеру.",

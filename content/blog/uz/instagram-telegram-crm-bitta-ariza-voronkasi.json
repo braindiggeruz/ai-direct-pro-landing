@@ -291,6 +291,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/uz/blog/sotuv-voronkasi/",
+      "anchor": "sotuv voronkasi: reklamadan to‘lovgacha",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Instagram, Telegram va CRM: bitta ariza voronkasi",

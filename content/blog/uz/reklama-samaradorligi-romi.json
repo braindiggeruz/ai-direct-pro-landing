@@ -319,6 +319,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/uz/blog/sotuv-voronkasi/",
+      "anchor": "sotuv voronkasi bosqichlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Reklama o‘zini oqlaydimi: ROMI, ROAS, CPL va CAC",

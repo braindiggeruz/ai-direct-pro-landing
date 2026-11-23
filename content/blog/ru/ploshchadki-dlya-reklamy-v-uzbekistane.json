@@ -340,6 +340,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 15
+    },
+    {
+      "target": "/ru/blog/reklamnyy-banner/",
+      "anchor": "баннерная реклама в интернете",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 16
     }
   ],
   "ogTitle": "Где рекламироваться в Узбекистане: сравнение 2026",

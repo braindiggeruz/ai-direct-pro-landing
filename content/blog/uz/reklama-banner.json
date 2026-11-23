@@ -1,0 +1,361 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "reklama-banner",
+  "url": "/uz/blog/reklama-banner/",
+  "title": "Reklama banner: turlari, o‘lchamlari va talablar | GPTBot.uz",
+  "description": "Sayt, ijtimoiy tarmoq va ko‘cha uchun reklama banner: Google va Yandex o‘lchamlari, Meta rasm talablari, tashqi banner uchun til va ruxsatnoma.",
+  "h1": "Reklama banner: turlari, Google, Yandex va ijtimoiy tarmoqlar uchun o‘lchamlar, tashqi bannerga talablar",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "reklama banner",
+    "banner reklama",
+    "banner o‘lchamlari",
+    "reklama baner",
+    "banner tayyorlash"
+  ],
+  "intro": "Qisqa javob (2026-11-23 da tekshirildi): reklama banneri — saytlar va ilovalarda, ijtimoiy tarmoqlarda yoki ko‘chada ko‘rsatiladigan grafik e’lon. Google Ads yuklanadigan bannerlarni GIF, JPG va PNG formatida 150 KB gacha qabul qiladi, kompyuterlarda eng ko‘p uchraydigan o‘lchamlar — 300 × 250, 336 × 280, 728 × 90, 300 × 600 va 160 × 600; Yandex 240 × 400, 300 × 250 va 728 × 90 bloklaridan boshlashni maslahat beradi. Facebook va Instagram lentasi uchun Meta 4:5 (1440 × 1800), hikoyalar uchun 9:16 formatini beradi. «Reklama to‘g‘risida»gi Qonunga ko‘ra tashqi banner davlat tilida bo‘ladi: tarjima asosiy matn ostida, maydonning 40 foizidan oshmasdan va kichikroq shriftda.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23 da tekshirildi): reklama banneri — saytlar va ilovalarda, ijtimoiy tarmoqlarda yoki ko‘chada ko‘rsatiladigan grafik e’lon. Google Ads yuklanadigan bannerlarni GIF, JPG va PNG formatida 150 KB gacha qabul qiladi, kompyuterlarda eng ko‘p uchraydigan o‘lchamlar — 300 × 250, 336 × 280, 728 × 90, 300 × 600 va 160 × 600; Yandex 240 × 400, 300 × 250 va 728 × 90 bloklaridan boshlashni maslahat beradi. Facebook va Instagram lentasi uchun Meta 4:5 (1440 × 1800), hikoyalar uchun 9:16 formatini beradi. «Reklama to‘g‘risida»gi Qonunga ko‘ra tashqi banner davlat tilida bo‘ladi: tarjima asosiy matn ostida, maydonning 40 foizidan oshmasdan va kichikroq shriftda."
+    },
+    {
+      "type": "h2",
+      "text": "Reklama bannerlari turlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Qayerda ko‘rsatiladi",
+        "Format",
+        "Nimani hisobga olish kerak"
+      ],
+      "rows": [
+        [
+          "Saytlar va ilovalar — Google",
+          "yuklanadigan grafik va moslashuvchan media e’lonlar",
+          "moslashuvchan e’lonlar sukut bo‘yicha ishlatiladi: Google o‘lcham va ko‘rinishni reklama joyiga o‘zi moslaydi"
+        ],
+        [
+          "Saytlar va ilovalar — Yandex",
+          "Yandex reklama tarmog‘idagi grafik e’lonlar",
+          "bitta e’longa — bitta kreativ; uni faqat shu o‘lchamdagi kreativga almashtirish mumkin"
+        ],
+        [
+          "Facebook va Instagram",
+          "lenta va hikoyalardagi rasm",
+          "vertikal 4:5 va 9:16 formatlari"
+        ],
+        [
+          "Telegram Ads",
+          "160 belgigacha matn va havolali tugma",
+          "Telegram qoidalariga ko‘ra e’lon matn va tugmadan iborat"
+        ],
+        [
+          "Ko‘cha",
+          "tashqi reklama konstruksiyasidagi banner",
+          "reklama joyi pasporti, QR-kod, davlat tili"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Google Ads uchun banner o‘lchamlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Turi",
+        "Piksellardagi o‘lchamlar",
+        "Talablar"
+      ],
+      "rows": [
+        [
+          "Kvadrat va to‘rtburchaklar",
+          "200 × 200, 240 × 400, 250 × 250, 250 × 360, 300 × 250, 336 × 280, 580 × 400",
+          "GIF, JPG yoki PNG, 150 KB gacha"
+        ],
+        [
+          "Vertikal («osmono‘par»)",
+          "120 × 600, 160 × 600, 300 × 600, 300 × 1050",
+          "animatsiya — 30 soniyadan oshmaydi"
+        ],
+        [
+          "Gorizontal",
+          "468 × 60, 728 × 90, 930 × 180, 970 × 90, 970 × 250, 980 × 120",
+          "xira rasmlarni moderatsiya rad etadi"
+        ],
+        [
+          "Mobil",
+          "300 × 50, 320 × 50, 320 × 100",
+          "kichik bannerga bir necha so‘z sig‘adi"
+        ],
+        [
+          "Moslashuvchan e’lon",
+          "1200 × 628 (1,91:1, kamida 600 × 314) va 1200 × 1200 (kamida 300 × 300) rasmlar",
+          "fayl 5120 KB gacha; 30 belgigacha beshtagacha sarlavha va 90 belgigacha uzun sarlavha"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Banner ogohlantirish va xato xabarlariga taqlid qilmasligi yoki bir nechta e’londek ko‘rinmasligi kerak — buni Google qoidalari to‘g‘ridan-to‘g‘ri taqiqlaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Yandex Direct uchun banner o‘lchamlari"
+    },
+    {
+      "type": "p",
+      "text": "Yandex eng ommabop 240 × 400, 300 × 250 va 728 × 90 bloklaridan boshlashni maslahat beradi: shu o‘lchamdagi kreativlar katta qamrov beradi. Desktopda 300 × 500, 300 × 600, 336 × 280 va 970 × 250, mobilda — 320 × 50, 320 × 100, 320 × 480 va 480 × 320 ham ishlatiladi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Fayl — JPG, PNG yoki GIF, 512 KB gacha.",
+        "Yuqori zichlikdagi ekranlar uchun kreativ blokdan 2–3 baravar katta qilinadi: masalan, 300 × 250 bloki uchun 600 × 500.",
+        "Mobil bloklar uchun Yandex e’lon xira ko‘rinmasligi uchun kattalashtirilgan 640 × 100, 640 × 200, 640 × 960 va 960 × 640 kreativlarni yuklashni so‘raydi.",
+        "Bannerdagi matn kontrastli va o‘qiladigan bo‘lsin; majburiy ogohlantirishlar va yosh cheklovlari bannerning o‘zida va yuqori qismida emas.",
+        "GIF va HTML5 da kadrlar 2 soniyada bir martadan tez almashmaydi, miltillovchi fon va keskin effektlar taqiqlangan; rasmlarda QR-kodlarga ruxsat yo‘q."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Facebook va Instagram uchun rasmlar"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Joylashuv",
+        "Format",
+        "E’lon matni"
+      ],
+      "rows": [
+        [
+          "Facebook lentasi",
+          "4:5, 1440 × 1800, JPG yoki PNG, 30 MB gacha",
+          "asosiy matn 50–150 belgi, sarlavha 27"
+        ],
+        [
+          "Instagram lentasi",
+          "Ads Guide 4:5, 1440 × 1800 ni beradi; Meta ma’lumotnomasi bitta rasm uchun 1:1 ni tavsiya qiladi (lenta ikkalasini qo‘llab-quvvatlaydi)",
+          "asosiy matn 125 belgi, sarlavha 40"
+        ],
+        [
+          "Instagram va Facebook hikoyalari",
+          "9:16, 1440 × 2560",
+          "yuqoridan 14 %, pastdan 35 % va yonlardan 6 % — muhim elementlarsiz"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Meta reklama rasmidagi matn miqdoriga cheklovni bekor qilgan, matn overleyini tekshirish vositasi endi yo‘q. Meta maslahati: matn vizual elementlarni to‘smasin, shrift oddiy, yetarlicha katta va kontrastli bo‘lsin."
+    },
+    {
+      "type": "h2",
+      "text": "Tashqi banner: qonun nimani talab qiladi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Reklama davlat tilida tarqatiladi. Tashqi reklamada boshqa tildagi tarjima asosiy matn ostida gorizontal joylashtiriladi: maydonning 40 foizidan oshmasdan va kichikroq shriftda («Reklama to‘g‘risida»gi Qonun, 6-modda).",
+        "Ro‘yxatdan o‘tgan tovar belgilari va logotiplar asl tilda berilishi mumkin.",
+        "Konstruksiya faqat reklama joyi pasporti bo‘yicha o‘rnatiladi, uni hokimliklar beradi; pasportsiz konstruksiyalar demontaj qilinadi.",
+        "Konstruksiyada pasportni tekshirish uchun QR-kod bo‘lishi kerak (Vazirlar Mahkamasining 428-son qarori)."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ko‘zga tashlanadigan bannerni qanday tayyorlash kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta bannerga bitta fikr: taklif, foyda va harakatga chaqiruv.",
+        "Katta va kontrastli matn: 320 × 50 mobil bannerga bor-yo‘g‘i bir necha so‘z sig‘adi.",
+        "Muhim narsa — markazga yaqin: platformalar rasmni turli joylarga moslab qirqadi, hikoyalarda esa Meta chetlarni bo‘sh qoldirishni so‘raydi.",
+        "2–3 variant tayyorlang va kliklanish (CTR) hamda ariza narxini solishtiring.",
+        "Ishga tushirishdan oldin platforma qoidalarini tekshiring — banner moderatsiyada qolib ketmasin."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Instagram va Telegram’da qanday kreativlar ishlashi — {cr} maqolasida; tashqi reklama qoidalari — {out}; qayerda reklama qilish — {types}. Arizalar uchun banner va target reklamani {hub} ishga tushiradi.",
+      "links": [
+        {
+          "token": "cr",
+          "target": "/uz/blog/reklama-kreativlari/",
+          "anchor": "reklama kreativlari"
+        },
+        {
+          "token": "out",
+          "target": "/uz/blog/tashqi-reklama-toshkentda/",
+          "anchor": "Toshkentda tashqi reklama"
+        },
+        {
+          "token": "types",
+          "target": "/uz/blog/reklama-turlari/",
+          "anchor": "reklama turlari"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "GPTBot.uz internet reklamasi"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Eng ommabop banner o‘lchami qaysi?",
+      "a": "Google’da kompyuterlarda ko‘pincha 300 × 250, 336 × 280, 728 × 90, 300 × 600 va 160 × 600 uchraydi; Yandex 240 × 400, 300 × 250 va 728 × 90 dan boshlashni maslahat beradi."
+    },
+    {
+      "q": "Banner hajmi qancha bo‘lishi mumkin?",
+      "a": "Google Ads’da yuklanadigan banner — 150 KB gacha (GIF, JPG, PNG), moslashuvchan e’lon uchun rasm — 5120 KB gacha; Yandex Direct’da grafik kreativ — 512 KB gacha."
+    },
+    {
+      "q": "Instagram reklamasi uchun rasm qanday o‘lchamda bo‘ladi?",
+      "a": "Lenta uchun — 4:5, 1440 × 1800 piksel (Meta ma’lumotnomasi bitta rasm uchun 1:1 ni ham tavsiya qiladi); hikoyalar uchun — 9:16, 1440 × 2560 piksel."
+    },
+    {
+      "q": "Facebook bannerida ko‘p matn yozish mumkinmi?",
+      "a": "Meta matn miqdoriga cheklovni bekor qilgan, lekin matn rasmni to‘smasligi, katta va kontrastli bo‘lishini maslahat beradi."
+    },
+    {
+      "q": "Tashqi banner qaysi tilda bo‘lishi kerak?",
+      "a": "Davlat tilida. Tarjimani asosiy matn ostiga qo‘shish mumkin: maydonning 40 foizidan oshmasdan va kichikroq shriftda."
+    },
+    {
+      "q": "Ko‘chadagi bannerga ruxsat kerakmi?",
+      "a": "Ha: konstruksiya hokimlik beradigan reklama joyi pasporti bo‘yicha o‘rnatiladi, unda pasportni tekshirish uchun QR-kod bo‘ladi; pasportsiz konstruksiya demontaj qilinadi."
+    }
+  ],
+  "cta": {
+    "label": "Bannerlar va arizalar uchun reklama",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "internet reklama arizalar uchun",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-kreativlari/",
+      "anchor": "reklama kreativlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/tashqi-reklama-toshkentda/",
+      "anchor": "Toshkentda tashqi reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    }
+  ],
+  "ogTitle": "Reklama banner: turlari, o‘lchamlari va talablar",
+  "ogDescription": "Google Ads va Yandex Direct uchun banner o‘lchamlari, Meta lenta va hikoyalar formatlari, tashqi banner uchun til qoidasi va joy pasporti (2026-11-23).",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/reklama-banner/",
+  "hreflangRu": "/ru/blog/reklamnyy-banner/",
+  "hreflangUz": "/uz/blog/reklama-banner/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "O‘zbekistondagi biznes egalari, marketologlar va dizaynerlar"
+  },
+  "breadcrumbLabel": "Reklama banner",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Google Ads Help — grafik e’lonlarga talablar",
+      "url": "https://support.google.com/google-ads/answer/1722096?hl=ru",
+      "note": "2026-11-23 da tekshirildi: GIF, JPG, PNG 150 KB gacha; o‘lchamlar 200 × 200 dan 970 × 250 gacha, mobil 300 × 50, 320 × 50 va 320 × 100; animatsiya 30 soniyadan oshmaydi."
+    },
+    {
+      "title": "Google Ads Help — media e’lonlar",
+      "url": "https://support.google.com/google-ads/answer/7031480?hl=ru",
+      "note": "2026-11-23 da tekshirildi: moslashuvchan media e’lonlar sukut bo‘yicha ishlatiladi; kompyuterlarda eng ko‘p uchraydigan o‘lchamlar — 300×250, 336×280, 728×90, 970×90, 468×60, 300×600, 160×600, 250×250 va 200×200."
+    },
+    {
+      "title": "Google Ads Help — moslashuvchan media e’lon yaratish",
+      "url": "https://support.google.com/google-ads/answer/7005917?hl=ru",
+      "note": "2026-11-23 da tekshirildi: rasmlar 1200 × 628 (1,91:1, kamida 600 × 314) va 1200 × 1200 (kamida 300 × 300), fayl 5120 KB gacha; 30 belgigacha beshtagacha sarlavha, uzun sarlavha 90 belgigacha."
+    },
+    {
+      "title": "Google Ads qoidalari — grafik e’lonlar",
+      "url": "https://support.google.com/adspolicy/answer/176108?hl=ru",
+      "note": "2026-11-23 da tekshirildi: rasmlar xira bo‘lmasligi kerak; ogohlantirish va xato xabarlariga taqlid qilish mumkin emas; 30 soniyadan uzun animatsiya rad etiladi."
+    },
+    {
+      "title": "Yandex Direct ma’lumotnomasi — grafik kreativlar",
+      "url": "https://yandex.ru/support/direct/ru/unified-performance-campaign/create-image",
+      "note": "2026-11-23 da tekshirildi: fayl 512 KB gacha, JPG, PNG yoki GIF; 240 × 400, 300 × 250 va 728 × 90 bloklaridan boshlash tavsiya etiladi; zich ekranlar uchun kreativ blokdan 2–3 baravar katta bo‘lishi mumkin."
+    },
+    {
+      "title": "Yandex Direct ma’lumotnomasi — e’lonlarga talablar",
+      "url": "https://yandex.ru/support/direct/ru/moderation/ad-rules",
+      "note": "2026-11-23 da tekshirildi: bannerdagi matn kontrastli va o‘qiladigan; majburiy ogohlantirishlar va yosh cheklovlari bannerda, yuqori qismida emas; GIF va HTML5 da kadrlar 2 soniyada bir martadan tez almashmaydi; QR-kodlar taqiqlangan."
+    },
+    {
+      "title": "Meta Ads Guide — Facebook lentasidagi rasm",
+      "url": "https://www.facebook.com/business/ads-guide/update/image/facebook-feed?locale=ru_RU",
+      "note": "2026-11-23 da tekshirildi: JPG yoki PNG, 4:5 nisbat, 1440 × 1800 piksel, fayl 30 MB gacha; asosiy matn 50–150 belgi, sarlavha 27."
+    },
+    {
+      "title": "Meta Ads Guide — Instagram lentasidagi rasm",
+      "url": "https://www.facebook.com/business/ads-guide/update/image/instagram-feed?locale=ru_RU",
+      "note": "2026-11-23 da tekshirildi: JPG yoki PNG, 4:5 nisbat, 1440 × 1800 piksel; asosiy matn 125 belgi, sarlavha 40."
+    },
+    {
+      "title": "Meta Business Help — reklamada tomonlar nisbati",
+      "url": "https://www.facebook.com/business/help/103816146375741?locale=ru_RU",
+      "note": "2026-11-23 da tekshirildi: lentadagi joylar — 1:1 va 4:5; Instagram lentasida bitta rasm uchun 1:1 tavsiya etiladi; hikoyalar va Reels — 9:16."
+    },
+    {
+      "title": "Meta Ads Guide — Instagram hikoyalaridagi rasm",
+      "url": "https://www.facebook.com/business/ads-guide/update/image/instagram-story?locale=ru_RU",
+      "note": "2026-11-23 da tekshirildi: 9:16 nisbat, 1440 × 2560 piksel; yuqoridan 14 %, pastdan 35 % va yonlardan 6 % muhim elementlarsiz qoldiriladi."
+    },
+    {
+      "title": "Meta Business Help — rasmli reklama bo‘yicha tavsiyalar",
+      "url": "https://www.facebook.com/business/help/388369961318508?locale=ru_RU",
+      "note": "2026-11-23 da tekshirildi: reklama rasmidagi matn miqdoriga cheklov bekor qilingan, matn overleyi vositasi endi yo‘q; matn vizual elementlarni to‘smasligi kerak."
+    },
+    {
+      "title": "Telegram Ads — e’lon qoidalari",
+      "url": "https://ads.telegram.org/guidelines",
+      "note": "2026-11-23 da tekshirildi: e’lon — bo‘sh joylar bilan 160 belgigacha matn va havolali tugma."
+    },
+    {
+      "title": "«Reklama to‘g‘risida»gi Qonun (O‘RQ-776), 5, 6, 23–26-moddalar — lex.uz",
+      "url": "https://lex.uz/docs/6052631",
+      "note": "2026-11-23 da tekshirildi: reklama davlat tilida tarqatiladi; tashqi reklamada boshqa tildagi tarjima asosiy matn ostida gorizontal, maydonning 40 foizidan oshmasdan va kichikroq shriftda; reklama joyi pasportini hokimliklar beradi; pasportsiz konstruksiyalar demontaj qilinadi."
+    },
+    {
+      "title": "Vazirlar Mahkamasining 2023-yil 31-avgustdagi 428-son qarori — lex.uz",
+      "url": "https://lex.uz/ru/docs/6591660",
+      "note": "2026-11-23 da tekshirildi: tashqi reklama konstruksiyasida reklama joyi pasportini tekshirish uchun QR-kod bo‘lishi kerak."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

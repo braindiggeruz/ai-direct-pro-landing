@@ -13,13 +13,33 @@
     "internet reklama turlari",
     "qayerda reklama qilish",
     "reklama platformalari",
-    "biznes uchun reklama turlari"
+    "biznes uchun reklama turlari",
+    "reklama nima"
   ],
   "intro": "Qisqa javob (2026-11-23 da tekshirildi): internet reklamaning asosiy turlari — ijtimoiy tarmoqlarda target (Instagram, Facebook), qidiruvdagi kontekst reklama (Google, Yandex), video reklama (YouTube), Telegram kanallaridagi postlar va Telegram Ads. DataReportal ma’lumotiga ko‘ra, 2026-yil oktabrida O‘zbekistonda Instagram reklama auditoriyasi 16,2 mln kishi — hisobotdagi ijtimoiy tarmoqlar ichida eng kattasi. Qidiruvda Google ulushi 75,88 %, Yandex — 21,92 % (StatCounter). TikTok’ning e’lon qilingan ro‘yxatlarida O‘zbekistondan mustaqil reklama akkaunti ochish imkoni yo‘q.",
   "body": [
     {
       "type": "p",
       "text": "Qisqa javob (2026-11-23 da tekshirildi): internet reklamaning asosiy turlari — ijtimoiy tarmoqlarda target (Instagram, Facebook), qidiruvdagi kontekst reklama (Google, Yandex), video reklama (YouTube), Telegram kanallaridagi postlar va Telegram Ads. DataReportal ma’lumotiga ko‘ra, 2026-yil oktabrida O‘zbekistonda Instagram reklama auditoriyasi 16,2 mln kishi — hisobotdagi ijtimoiy tarmoqlar ichida eng kattasi. Qidiruvda Google ulushi 75,88 %, Yandex — 21,92 % (StatCounter). TikTok’ning e’lon qilingan ro‘yxatlarida O‘zbekistondan mustaqil reklama akkaunti ochish imkoni yo‘q."
+    },
+    {
+      "type": "h2",
+      "text": "Reklama nima: qonundagi ta’rif"
+    },
+    {
+      "type": "p",
+      "text": "«Reklama to‘g‘risida»gi Qonunning 5-moddasiga ko‘ra, reklama — har qanday reklama vositalari orqali tarqatiladigan va O‘zbekistondagi foydalanuvchilarga qaratilgan maxsus axborot. Uning vazifasi — reklama obyektiga (tovar, xizmat, tadbir yoki kompaniyaga) e’tiborni jalb qilish, unga qiziqishni shakllantirish yoki qo‘llab-quvvatlash va uni bozorda foyda olish uchun ilgari surish. Reklamada uchta ishtirokchi bor: reklama beruvchi (biznes egasi), reklama tayyorlovchi va reklama tarqatuvchi."
+    },
+    {
+      "type": "linkp",
+      "text": "Agentlik qonunda kim hisoblanishi va uni qanday tanlash kerakligi — {agency} maqolasida.",
+      "links": [
+        {
+          "token": "agency",
+          "target": "/uz/blog/reklama-agentligi/",
+          "anchor": "reklama agentligi nima qiladi"
+        }
+      ]
     },
     {
       "type": "h2",
@@ -221,6 +241,10 @@
   ],
   "faq": [
     {
+      "q": "Reklama nima?",
+      "a": "«Reklama to‘g‘risida»gi Qonunga ko‘ra, reklama — har qanday reklama vositalari orqali tarqatiladigan, O‘zbekistondagi foydalanuvchilarga qaratilgan va reklama obyektiga e’tiborni jalb qilish, qiziqishni shakllantirish yoki qo‘llab-quvvatlash hamda uni bozorda ilgari surish uchun mo‘ljallangan maxsus axborot (5-modda)."
+    },
+    {
       "q": "Internet reklamaning qanday turlari bor?",
       "a": "Asosiylari: ijtimoiy tarmoqlarda target (Instagram, Facebook), qidiruvda kontekst reklama (Google, Yandex), video reklama (YouTube), Telegram kanallaridagi postlar va Telegram Ads, saytlardagi banner reklama."
     },
@@ -368,6 +392,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 17
+    },
+    {
+      "target": "/uz/blog/reklama-banner/",
+      "anchor": "banner reklama turlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 18
+    },
+    {
+      "target": "/uz/blog/reklama-agentligi/",
+      "anchor": "reklama agentligi nima qiladi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 19
     }
   ],
   "ogTitle": "Reklama turlari: qaysi platforma biznesga mos, 2026",
@@ -438,6 +476,11 @@
       "title": "Telegram Ads — Getting started va Guidelines",
       "url": "https://ads.telegram.org/getting-started",
       "note": "2026-11-23 da tekshirildi: 1000 dan ortiq obunachili ommaviy kanallarda ko‘rsatiladi; minimal CPM — 0,1 Toncoin; e’lon matni — bo‘sh joylar bilan 160 belgigacha (ads.telegram.org/guidelines); to‘lov Fragment orqali."
+    },
+    {
+      "title": "«Reklama to‘g‘risida»gi Qonun (O‘RQ-776), 5-modda — lex.uz",
+      "url": "https://lex.uz/docs/6052631",
+      "note": "2026-11-23 da tekshirildi: reklama, reklama beruvchi, reklama tayyorlovchi va reklama tarqatuvchi tushunchalari."
     }
   ],
   "createdAt": "2026-11-23T00:00:00.000Z",
