@@ -3963,7 +3963,8 @@
     "decision": "D-OFFER-V7-20261123"
   },
   "ads_cluster_gpt_roadmap_20261123": {
-    "status": "roadmap_pr_open_awaiting_owner_decisions",
+    "status": "approved_wave_b_in_progress",
+    "owner_approval": "Owner in chat, 2026-11-23: maximum articles, do everything needed, do not spare credits; D1, D2, D6 accepted; D3-D5 unanswered (safe defaults); decision D-ADS-GPT-20261123",
     "owner_request": "Owner in chat, 2026-11-23: AnswerThePublic paid; analyse what people ask about targeting and advertising and give a roadmap of articles that wins the most traffic from GPT answers; act comprehensively.",
     "roadmap": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md",
     "data": "ai-prompts.tsv (725 ChatGPT/Gemini prompts from 29 AnswerThePublic searches), google-suggestions.tsv (1 735 unique Google suggestions)",
