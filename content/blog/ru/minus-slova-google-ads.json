@@ -223,6 +223,13 @@
       "anchor": "Услуга и состав работ",
       "locale": "ru",
       "type": "contextual"
+    },
+    {
+      "target": "/ru/blog/yandeks-direkt-v-uzbekistane/",
+      "anchor": "Яндекс Директ: оплата в сумах и модерация",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "canonical": "https://gptbot.uz/ru/blog/minus-slova-google-ads/",

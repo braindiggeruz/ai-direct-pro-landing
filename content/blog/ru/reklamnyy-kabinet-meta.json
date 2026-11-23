@@ -220,6 +220,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/",
+      "anchor": "способы оплаты рекламы из Узбекистана",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Рекламный кабинет Meta: как создать и дать доступ",

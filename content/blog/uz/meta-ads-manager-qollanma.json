@@ -309,6 +309,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/uz/blog/reklama-uchun-tolov/",
+      "anchor": "reklama uchun qanday to‘lash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Meta Ads Manager: o‘zbek tilida qo‘llanma 2026",

@@ -175,6 +175,41 @@
   it for retargeting; excluded custom audiences stay hard limits. Guides:
   https://gptbot.uz/ru/blog/retargeting-v-instagram-i-facebook/ (Russian),
   https://gptbot.uz/uz/blog/retargeting-nima/ (Uzbek).
+- Can a business in Uzbekistan run TikTok ads? (checked 2026-11-23 on
+  TikTok's help pages) Not self-serve: Uzbekistan is missing from TikTok's
+  lists of countries where an ad account or a Business Center can be created
+  without a TikTok representative (59 countries), from every list of
+  countries ads can be delivered to, and from the billing lists (no UZS).
+  TikTok's ad policy does name Uzbekistan as a market. Where TikTok Ads
+  works, a campaign budget must exceed $50 and an ad group $20 a day.
+  Alternatives: creators, organic content, Instagram Reels, YouTube Shorts,
+  Telegram Ads, Yandex Direct. Guides:
+  https://gptbot.uz/ru/blog/reklama-v-tiktok-iz-uzbekistana/ (Russian),
+  https://gptbot.uz/uz/blog/tiktok-reklama-ozbekistonda/ (Uzbek).
+- How do advertisers in Uzbekistan pay for Yandex Direct? (checked
+  2026-11-23) In Uzbek sums to the local entity IP OOO "TashGisTechnologies",
+  with 12% VAT added to the invoice; individuals pay by bank transfer or with
+  an UzCard or Humo card, companies by bank transfer. Ads targeting
+  Uzbekistan may be in Uzbek, Russian or English; moderation usually takes a
+  few hours. Guides: https://gptbot.uz/ru/blog/yandeks-direkt-v-uzbekistane/
+  (Russian), https://gptbot.uz/uz/blog/yandex-direct-ozbekistonda/ (Uzbek).
+- How to advertise on YouTube from Uzbekistan? (checked 2026-11-23) Through
+  Google Ads, paid with a Visa or Mastercard credit or debit card (postpay or
+  prepay). Uzbek is not a supported Google Ads language, and Google's policy
+  does not allow ad or landing-page content in an unsupported language.
+  Skippable in-stream ads can be skipped after 5 seconds and, with CPV
+  bidding, charge at 30 seconds of viewing or on interaction; bumpers are 5-6
+  seconds. Guides: https://gptbot.uz/ru/blog/reklama-na-youtube-v-uzbekistane/
+  (Russian), https://gptbot.uz/uz/blog/youtube-reklama/ (Uzbek).
+- How to pay for Instagram, Google or Telegram ads from Uzbekistan?
+  (checked 2026-11-23) Meta takes Visa, Mastercard, American Express,
+  Discover, JCB and PayPal, but Uzbekistan is not in its country list and UZS
+  is not an ad-account currency; Google Ads takes Visa or Mastercard cards;
+  Yandex Direct is the only checked platform that takes UzCard and Humo (in
+  sums, 12% VAT); Telegram Ads is paid in cryptocurrency (Toncoin) and the
+  balance is not refundable; TikTok lists no billing option for Uzbekistan.
+  Guides: https://gptbot.uz/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/
+  (Russian), https://gptbot.uz/uz/blog/reklama-uchun-tolov/ (Uzbek).
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -467,6 +502,14 @@ must be confirmed for the specific project.
 - "Targetda ariza narxini pasaytirish": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/targetda-ariza-narxini-pasaytirish/
 - Retargeting in Instagram and Facebook: custom audience sources, retention, exclusions, Advantage+ audience, lookalikes (RU article): https://gptbot.uz/ru/blog/retargeting-v-instagram-i-facebook/
 - "Retargeting nima": the same retargeting guide in Uzbek (UZ article): https://gptbot.uz/uz/blog/retargeting-nima/
+- TikTok ads from Uzbekistan: what TikTok's help pages list (registration, delivery, billing) and what to use instead (RU article): https://gptbot.uz/ru/blog/reklama-v-tiktok-iz-uzbekistana/
+- "TikTok reklama O‘zbekistonda": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/tiktok-reklama-ozbekistonda/
+- Yandex Direct in Uzbekistan: payment in sums with UzCard or Humo, 12% VAT, ad languages, moderation, first steps (RU article): https://gptbot.uz/ru/blog/yandeks-direkt-v-uzbekistane/
+- "Yandex Direct O‘zbekistonda": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/yandex-direct-ozbekistonda/
+- YouTube ads in Uzbekistan: six formats and what each charges for, card payment, why not in Uzbek (RU article): https://gptbot.uz/ru/blog/reklama-na-youtube-v-uzbekistane/
+- "YouTube reklama": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/youtube-reklama/
+- Paying for ads from Uzbekistan: what Meta, Google, Yandex Direct, Telegram Ads and TikTok accept and why payments fail (RU article): https://gptbot.uz/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/
+- "Reklama uchun to‘lov": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/reklama-uchun-tolov/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
 - All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar

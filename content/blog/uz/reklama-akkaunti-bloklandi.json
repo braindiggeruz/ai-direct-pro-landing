@@ -193,6 +193,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/reklama-uchun-tolov/",
+      "anchor": "reklama to‘lovi nega o‘tmaydi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Reklama akkaunti bloklandi: Meta’da nima qilish",

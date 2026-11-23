@@ -268,6 +268,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 10
+    },
+    {
+      "target": "/ru/blog/yandeks-direkt-v-uzbekistane/",
+      "anchor": "как запустить и оплатить Яндекс Директ",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 11
     }
   ],
   "ogTitle": "Google Ads или Яндекс Директ в Узбекистане: что выбрать в 2026",

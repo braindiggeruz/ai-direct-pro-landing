@@ -1,3 +1,32 @@
+# Current handoff — advertising wave D1: TikTok, Yandex Direct, YouTube, paying for ads · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 7fda3b5c (= production: advertising waves B, C1, C2 and targeting waves T-B, T-C live, 486 URLs, check-entity-consistency OK, IndexNow HTTP 200 for 35 URLs of T-C). PR #100 carries the lead-article refresh, the AnswerThePublic data and this wave. Production stays 7fda3b5c until the PR is merged and deployed.
+## 2. Delivered
+Eight URLs in four RU/UZ pairs: /ru/blog/reklama-v-tiktok-iz-uzbekistana/ + /uz/blog/tiktok-reklama-ozbekistonda/, /ru/blog/yandeks-direkt-v-uzbekistane/ + /uz/blog/yandex-direct-ozbekistonda/, /ru/blog/reklama-na-youtube-v-uzbekistane/ + /uz/blog/youtube-reklama/, /ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/ + /uz/blog/reklama-uchun-tolov/. Lead article refresh (lead-paragraph section, three FAQ answers). Intent pairs W20261123-47…54, links from 17 existing articles, llms.txt (8 routes, 4 quick answers), roadmap docs/seo/research/2026-11-23-ads-cluster-2/ROADMAP.md.
+## 3. Files
+content/blog/{ru,uz}/ (8 new, 18 existing changed), content/seo/intent-manifest.json, public/llms.txt, scripts/seo-protection.ts (BASELINE), tests/ads-gpt-wave-d1.test.ts + package.json, reports/ads-gpt-20261123-d1/, docs/seo/evidence/2026-11-23-ads-gpt-d1/, docs/seo/research/2026-11-23-ads-cluster-2/, docs.
+## 4. Decisions
+D-ADS-GPT-2-20261123 (owner request; D-T1 yes, D-T2 already present), D-ADS-GPT-WAVE-D1-20261123.
+## 5. Excluded
+Waves D2 (Telegram channel promotion, targetologist profession, SMS, outdoor ads) and D3 (real estate, car dealers, online schools); OpenSEO demand data (still being collected); any price in sums; the Yandex minimum payment in sums; a YouTube minimum budget; TikTok Promote availability in Uzbekistan.
+## 6. Validation
+seo-audit OK; build:fast; review vs a build of main 7fda3b5c: sitemap 486 → 494, 22 existing pages change by added links or body only, 0 removed, issues 0; wave test 9/9; 53 of 57 SEO-related test files green, the 4 red ones fail identically on main; tsc -b and eslint clean.
+## 7. Known limits
+TikTok's ad policy names Uzbekistan while no self-serve list includes it — the articles state the conflict. Yandex's English payment page has no Uzbekistan section (the Russian page is used). Ad interfaces were not inspected (login).
+## 8. Next task
+Merge, deploy, verify 494 URLs, IndexNow, GSC list; then wave D2.
+## 9. Acceptance
+Eight URLs 200 and in the sitemap; check-entity-consistency OK on 494 URLs.
+## 10. Start commands
+npx tsx reports/ads-gpt-20261123-d1/review.ts --before <main dist>; node --import tsx --test tests/ads-gpt-wave-d1.test.ts
+## 11. Risks
+Low: new pages and added links only.
+## 12. Rollback
+git revert; the target-gpt-tc BASELINE stays valid for the old homepage.
+
+---
+
 # Current handoff — targeting wave T-C: lead forms, blocked ad accounts, cost per lead, retargeting · 23.11.2026
 
 ## 1. State

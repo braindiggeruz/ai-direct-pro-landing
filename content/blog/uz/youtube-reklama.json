@@ -1,0 +1,261 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "youtube-reklama",
+  "url": "/uz/blog/youtube-reklama/",
+  "title": "YouTube reklama: O‘zbekistonda formatlar va to‘lov | GPTBot.uz",
+  "description": "O‘zbekistondan YouTube reklamasini qanday boshlash: formatlar, pul nima uchun yechiladi, Visa yoki Mastercard bilan to‘lov va videolar tili (2026-11-23).",
+  "h1": "O‘zbekistonda YouTube reklama 2026: formatlar, to‘lov va videolar tili",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "youtube reklama",
+    "youtubeda reklama berish",
+    "youtube reklama narxi",
+    "youtube reklama sozlash",
+    "youtube shorts reklama"
+  ],
+  "intro": "Qisqa javob (2026-11-23 da tekshirildi): YouTube reklamasi Google Ads orqali ishga tushiriladi. O‘zbekistondan u Visa yoki Mastercard kredit yoki debet kartasi bilan — keyin to‘lash yoki oldindan to‘lash orqali to‘lanadi, akkaunt valyutasi esa yaratilganda bir marta belgilanadi. Google Ads tillari orasida o‘zbek tili yo‘q, Google qoidalariga ko‘ra qo‘llab-quvvatlanmaydigan tildagi e’lonlar va o‘tish sahifalariga yo‘l qo‘yilmaydi, shuning uchun O‘zbekiston uchun videolar odatda rus tilida qilinadi. Video kampaniyalar uchun minimal byudjetni Google ma’lumotnomasi ko‘rsatmaydi: byudjet butun kampaniyaga yoki kunlik belgilanadi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23 da tekshirildi): YouTube reklamasi Google Ads orqali ishga tushiriladi. O‘zbekistondan u Visa yoki Mastercard kredit yoki debet kartasi bilan — keyin to‘lash yoki oldindan to‘lash orqali to‘lanadi, akkaunt valyutasi esa yaratilganda bir marta belgilanadi. Google Ads tillari orasida o‘zbek tili yo‘q, Google qoidalariga ko‘ra qo‘llab-quvvatlanmaydigan tildagi e’lonlar va o‘tish sahifalariga yo‘l qo‘yilmaydi, shuning uchun O‘zbekiston uchun videolar odatda rus tilida qilinadi. Video kampaniyalar uchun minimal byudjetni Google ma’lumotnomasi ko‘rsatmaydi: byudjet butun kampaniyaga yoki kunlik belgilanadi."
+    },
+    {
+      "type": "h2",
+      "text": "YouTube reklama formatlari"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Format",
+        "Qanday ishlaydi",
+        "Nima uchun to‘laysiz"
+      ],
+      "rows": [
+        [
+          "O‘tkazib yuboriladigan in-stream",
+          "videodan oldin, o‘rtasida yoki keyin; 5 soniyadan keyin o‘tkazib yuborish mumkin; uzunligi cheklanmagan, Google 3 daqiqagacha tavsiya qiladi",
+          "ko‘rish uchun to‘lovda — 30 soniya (yoki video qisqaroq bo‘lsa, butunlay) ko‘rilganda yoki reklama bosilganda"
+        ],
+        [
+          "O‘tkazib bo‘lmaydigan in-stream",
+          "60 soniyagacha: kampaniya turiga qarab 15–60 soniya",
+          "ming ko‘rsatish uchun"
+        ],
+        [
+          "In-feed",
+          "YouTube qidiruvi va tavsiyalarida",
+          "ko‘rish uchun bosilganda yoki, ko‘rishlar kampaniyasida, 10 soniyadan ortiq avtomatik ijroda"
+        ],
+        [
+          "Bumper",
+          "5–6 soniya, o‘tkazib yuborilmaydi",
+          "ming ko‘rsatish uchun"
+        ],
+        [
+          "Shorts",
+          "Shorts videolari orasida, darhol surib o‘tkazish mumkin; Google 60 soniyagacha tavsiya qiladi",
+          "ko‘rish uchun to‘lovda — 10 soniya (yoki oxirigacha) ko‘rish yoxud klik, layk, izoh yoki ulashish"
+        ],
+        [
+          "Masthead",
+          "YouTube bosh sahifasi",
+          "faqat Google menejeri orqali bron qilish bilan"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qanday ishga tushirish: qadamma-qadam"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Google Ads akkauntini yarating. Valyuta butunlay tanlanadi, variantlar esa ro‘yxatdan o‘tgan mamlakatga bog‘liq.",
+        "Videoni YouTube’ga yuklang: video e’lon kanaldagi videodan yaratiladi.",
+        "Video kampaniya yarating, formatni tanlang va ko‘rsatish joylarini — O‘zbekiston yoki kerakli shaharlarni belgilang.",
+        "Byudjetni butun kampaniyaga yoki kunlik qilib belgilang.",
+        "To‘lov usulini — Visa yoki Mastercard kartasini qo‘shing va e’lonni tekshiruvga yuboring."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "O‘tkazib yuboriladigan in-stream reklama uchun Google 1920×1080 o‘lchamni tavsiya qiladi (vertikal va kvadrat videolar ham mos), sarlavha esa 15 belgigacha."
+    },
+    {
+      "type": "h2",
+      "text": "O‘zbekistondan nima bilan to‘lash"
+    },
+    {
+      "type": "p",
+      "text": "Google Ads O‘zbekiston uchun Visa yoki Mastercard kredit va debet kartalarini qabul qiladi. Karta bilan keyin to‘lash — pul ko‘rsatishlardan keyin yechiladi — yoki balansni oldindan to‘ldiradigan oldindan to‘lash orqali ishlash mumkin; O‘zbekiston oldindan to‘lash mavjud bo‘lmagan mamlakatlar ro‘yxatida yo‘q. Oldindan to‘langan kartalarni Google keyin to‘lash uchun qabul qilmaydi. Mos kompaniyalar uchun oylik hisob bor."
+    },
+    {
+      "type": "h2",
+      "text": "Videolarni qaysi tilda qilish kerak"
+    },
+    {
+      "type": "p",
+      "text": "Google Ads tillari jadvalida o‘zbek tili yo‘q, qo‘llab-quvvatlanmaydigan tildagi e’lonlarni esa Google rad etadi. Google qoidalari til targetingi qo‘llab-quvvatlamaydigan tildagi e’lon va o‘tish sahifasi mazmunini ham taqiqlaydi. Shuning uchun o‘zbek tilidagi video va matn tekshiruvdan o‘tmasligi mumkin; o‘zbek tilidagi auditoriyani o‘zbek tiliga ruxsat berilgan joyda — masalan, Yandex Direct’da qo‘shimcha qamrab oling."
+    },
+    {
+      "type": "linkp",
+      "text": "Ikki tildagi auditoriya bilan ishlash — {lang} maqolasida; o‘zbek tiliga ruxsat berilgan kontekst reklama — {ya} maqolasida; reklama uchun qanday to‘lash — {pay} maqolasida; TikTok reklamasini nima bilan almashtirish — {tt} maqolasida. Arizalar uchun video reklamani {hub} sahifasida muhokama qiling.",
+      "links": [
+        {
+          "token": "lang",
+          "target": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+          "anchor": "reklama o‘zbek va rus tilida"
+        },
+        {
+          "token": "ya",
+          "target": "/uz/blog/yandex-direct-ozbekistonda/",
+          "anchor": "Yandex Direct O‘zbekistonda"
+        },
+        {
+          "token": "pay",
+          "target": "/uz/blog/reklama-uchun-tolov/",
+          "anchor": "reklama uchun to‘lov"
+        },
+        {
+          "token": "tt",
+          "target": "/uz/blog/tiktok-reklama-ozbekistonda/",
+          "anchor": "TikTok reklama O‘zbekistonda"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "GPTBot.uz internet reklamasi"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "O‘zbekistondan YouTube’da reklama qanday beriladi?",
+      "a": "Google Ads orqali: akkaunt yarating, videoni YouTube’ga yuklang, O‘zbekistonga ko‘rsatiladigan video kampaniya yarating, byudjet belgilang va Visa yoki Mastercard kartasini qo‘shing."
+    },
+    {
+      "q": "YouTube reklamasi qancha turadi?",
+      "a": "Minimal summani Google ma’lumotnomasi ko‘rsatmaydi: byudjet kampaniyaga yoki kunlik belgilanadi. Narx format va to‘lov modeliga — ko‘rish yoki ming ko‘rsatish uchun to‘lovga bog‘liq."
+    },
+    {
+      "q": "O‘tkazib yuboriladigan reklamada pul nima uchun yechiladi?",
+      "a": "Ko‘rish uchun to‘lovda — odam videoning 30 soniyasini (yoki video qisqaroq bo‘lsa, butunlay) ko‘rganda yoki reklamani bosganda; uni 5 soniyadan keyin o‘tkazib yuborish mumkin."
+    },
+    {
+      "q": "YouTube reklamasini o‘zbek tilida qilsa bo‘ladimi?",
+      "a": "O‘zbek tili Google Ads qo‘llab-quvvatlaydigan tillar orasida yo‘q, qo‘llab-quvvatlanmaydigan tildagi e’lon va o‘tish sahifalariga Google qoidalari yo‘l qo‘ymaydi. O‘zbek tilidagi video tekshiruvdan o‘tmasligi mumkin."
+    },
+    {
+      "q": "O‘zbekistondan YouTube reklamasini nima bilan to‘lash mumkin?",
+      "a": "Visa yoki Mastercard kredit yoki debet kartasi bilan, keyin to‘lash yoki oldindan to‘lash orqali. Oldindan to‘langan kartalar keyin to‘lash uchun qabul qilinmaydi."
+    },
+    {
+      "q": "YouTube Shorts reklamasi qanday ishlaydi?",
+      "a": "U Shorts videolari orasida ko‘rsatiladi va uni darhol surib o‘tkazish mumkin. Ko‘rish uchun to‘lovda ko‘rish 10 soniyadan keyin (yoki video oxirigacha) yoxud klik, layk, izoh yoki ulashishda hisoblanadi."
+    }
+  ],
+  "cta": {
+    "label": "Video reklamani muhokama qilish",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "arizalar uchun internet reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+      "anchor": "reklama o‘zbek va rus tilida",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/yandex-direct-ozbekistonda/",
+      "anchor": "Yandex Direct O‘zbekistonda",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/reklama-uchun-tolov/",
+      "anchor": "reklama uchun qanday to‘lash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "YouTube reklama: O‘zbekistonda formatlar va to‘lov",
+  "ogDescription": "YouTube’ning oltita formati, pul nima uchun yechiladi, Visa yoki Mastercard bilan to‘lov va nega o‘zbek tilida emas — Google ma’lumotnomasi bo‘yicha, 2026-11-23.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/youtube-reklama/",
+  "hreflangRu": "/ru/blog/reklama-na-youtube-v-uzbekistane/",
+  "hreflangUz": "/uz/blog/youtube-reklama/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "YouTube’da video reklama beradigan O‘zbekistondagi biznes"
+  },
+  "breadcrumbLabel": "YouTube reklama",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Google Ads Help — YouTube video e’lonlari formatlari",
+      "url": "https://support.google.com/google-ads/answer/2375464?hl=en",
+      "note": "2026-11-23 da tekshirildi: o‘tkazib yuboriladigan in-stream (5 soniyadan keyin), 60 soniyagacha o‘tkazib bo‘lmaydigan, in-feed, 5–6 soniyalik bumper, Shorts, masthead faqat bron orqali."
+    },
+    {
+      "title": "Google Ads Help — o‘tkazib yuboriladigan in-stream talablari",
+      "url": "https://support.google.com/google-ads/answer/6055025?hl=en",
+      "note": "2026-11-23 da tekshirildi: tavsiya etilgan o‘lcham 1920×1080, uzunlik cheklanmagan, sarlavha 15 belgigacha."
+    },
+    {
+      "title": "Google Ads Help — video kampaniya byudjeti",
+      "url": "https://support.google.com/google-ads/answer/2375497?hl=en",
+      "note": "2026-11-23 da tekshirildi: byudjet butun kampaniyaga yoki kunlik belgilanadi; minimal summa ma’lumotnomada ko‘rsatilmagan."
+    },
+    {
+      "title": "Google Ads Help — to‘lov usullari (O‘zbekiston sahifasi)",
+      "url": "https://support.google.com/google-ads/answer/2375433?hl=en&co=GENIE.CountryCode%3DUZ",
+      "note": "2026-11-23 da tekshirildi: O‘zbekiston uchun — Visa yoki Mastercard kredit va debet kartalari, keyin to‘lash va oldindan to‘lash; oldindan to‘langan kartalar keyin to‘lash uchun qabul qilinmaydi."
+    },
+    {
+      "title": "Google Ads Help — to‘lov sozlamalari",
+      "url": "https://support.google.com/google-ads/answer/1704418?hl=en",
+      "note": "2026-11-23 da tekshirildi: keyin to‘lash, oldindan to‘lash va mos kompaniyalar uchun oylik hisob; O‘zbekiston oldindan to‘lash mavjud bo‘lmagan mamlakatlar ro‘yxatida yo‘q."
+    },
+    {
+      "title": "Google Ads Help — akkaunt valyutasi",
+      "url": "https://support.google.com/google-ads/answer/9842104?hl=en",
+      "note": "2026-11-23 da tekshirildi: valyuta akkaunt yaratilganda butunlay belgilanadi, variantlar ro‘yxatdan o‘tgan mamlakatga bog‘liq."
+    },
+    {
+      "title": "Google Ads Help — mavjud tillar",
+      "url": "https://support.google.com/google-ads/answer/6333734?hl=en",
+      "note": "2026-11-23 da tekshirildi: jadvalda o‘zbek tili yo‘q; qo‘llab-quvvatlanmaydigan tildagi e’lonlar rad etiladi."
+    },
+    {
+      "title": "Google Ads qoidalari — qo‘llab-quvvatlanmaydigan til",
+      "url": "https://support.google.com/adspolicy/answer/15576420?hl=en",
+      "note": "2026-11-23 da tekshirildi: til targetingi qo‘llab-quvvatlamaydigan tildagi e’lonlar va sahifalar taqiqlangan."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

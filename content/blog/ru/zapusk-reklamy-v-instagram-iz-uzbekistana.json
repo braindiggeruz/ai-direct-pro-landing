@@ -304,6 +304,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/",
+      "anchor": "чем оплатить рекламу из Узбекистана",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Как запустить рекламу в Instagram из Узбекистана",

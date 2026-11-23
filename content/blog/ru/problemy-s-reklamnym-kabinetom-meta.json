@@ -193,6 +193,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/sposoby-oplaty-reklamy-iz-uzbekistana/",
+      "anchor": "почему не проходит оплата рекламы",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Блокировка рекламного аккаунта Meta: что делать",

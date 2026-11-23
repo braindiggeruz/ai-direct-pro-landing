@@ -257,6 +257,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/yandex-direct-ozbekistonda/",
+      "anchor": "Yandex Direct’da o‘zbek tilidagi e’lonlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
+    },
+    {
+      "target": "/uz/blog/youtube-reklama/",
+      "anchor": "YouTube reklamasi va o‘zbek tili",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Reklama o‘zbek va rus tilida: qonun va sozlash",

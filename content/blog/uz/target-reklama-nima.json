@@ -512,6 +512,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/uz/blog/reklama-uchun-tolov/",
+      "anchor": "Instagram reklamasi uchun to‘lov",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",

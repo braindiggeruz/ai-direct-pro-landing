@@ -337,6 +337,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/uz/blog/tiktok-reklama-ozbekistonda/",
+      "anchor": "TikTok reklama O‘zbekistonda",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
+    },
+    {
+      "target": "/uz/blog/youtube-reklama/",
+      "anchor": "YouTube video reklama formatlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Reklama kreativlari: 12 format va o‘lchamlar",
