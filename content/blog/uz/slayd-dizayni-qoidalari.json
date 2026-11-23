@@ -1,0 +1,253 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "slayd-dizayni-qoidalari",
+  "url": "/uz/blog/slayd-dizayni-qoidalari/",
+  "title": "Slayd dizayni qoidalari: shrift, rang va kontrast | GPTBot.uz",
+  "description": "Slayd dizayni: kontrast kamida 4.5:1 (WCAG 2.2), katta matn uchun 3:1, 2–3 rangli palitra, bitta shrift oilasi, bir slaydda bitta fikr va rasm litsenziyasi.",
+  "h1": "Slayd dizayni qoidalari: shrift o‘lchami, ranglar, kontrast va rasmlar",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/taqdimot-ai/",
+  "keywords": [
+    "slayd dizayni",
+    "slayd dizayni qoidalari",
+    "taqdimot dizayni",
+    "slayd uchun shrift",
+    "slayd ranglari"
+  ],
+  "intro": "Qisqa javob: slayd o‘qilishi uchun matn va fon orasidagi kontrast kamida 4.5:1 bo‘lsin — bu W3C’ning WCAG 2.2 standartidagi oddiy matn talabi, katta matn uchun 3:1. Bir slaydda bitta fikr, 2–3 rang va bitta shrift oilasi ishlating. Proyektorda ranglar xiraroq ko‘rinadi, shuning uchun kontrastni zahira bilan tanlang.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: slayd o‘qilishi uchun matn va fon orasidagi kontrast kamida 4.5:1 bo‘lsin — bu W3C’ning WCAG 2.2 standartidagi oddiy matn talabi, katta matn uchun 3:1. Bir slaydda bitta fikr, 2–3 rang va bitta shrift oilasi ishlating. Proyektorda ranglar xiraroq ko‘rinadi, shuning uchun kontrastni zahira bilan tanlang."
+    },
+    {
+      "type": "h2",
+      "text": "Kontrast: matn har qanday proyektorda o‘qilishi uchun"
+    },
+    {
+      "type": "p",
+      "text": "WCAG 2.2 — veb-kontent qulayligi bo‘yicha xalqaro standart. U oddiy matn uchun kontrast nisbatini kamida 4.5:1, katta matn uchun kamida 3:1 deb belgilaydi; katta matn deganda 18 punktli yoki 14 punktli qalin shrift tushuniladi. Standart veb uchun yozilgan, lekin slayd uchun ham yaxshi mo‘ljal: zal yorug‘ bo‘lsa yoki proyektor xira bo‘lsa, ekrandagi kontrast pasayadi."
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ishonchli juftliklar: oq fonda qora yoki to‘q kulrang matn, to‘q ko‘k fonda oq matn.",
+        "Rasm ustidagi matn uchun rasmni qoraytiring yoki matn ostiga yarim shaffof plashka qo‘ying.",
+        "Kontrastni taxmin qilmang, o‘lchang: WebAIM Contrast Checker kabi bepul vositalar nisbatni raqamda ko‘rsatadi.",
+        "Ma’noni faqat rang bilan bermang: qizil va yashilni farqlay olmaydiganlar uchun belgi, so‘z yoki chiziq qo‘shing. WCAG ham rangni ma’lumotning yagona vositasi qilmaslikni talab qiladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Shrift: qaysi o‘lcham va qaysi oilani tanlash kerak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta taqdimotga bitta shrift oilasi yetarli (masalan, Arial yoki Calibri). Sarlavha va matnni o‘lcham va qalinlik bilan farqlang.",
+        "Matn zalning oxirgi qatoridan o‘qilsin. Bizning mo‘ljal: sarlavha 36–44 punkt, asosiy matn kamida 24 punkt; zal katta bo‘lsa — kattaroq.",
+        "Butun jumlani bosh harflar bilan yozmang: bunday matn sekinroq o‘qiladi.",
+        "O‘zbek lotin yozuvida o‘ va g‘ harflaridagi belgini (‘) oddiy apostrof (') bilan almashtirmang, kirill va lotin yozuvini bitta slaydda aralashtirmang."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Rang: 2–3 rangli palitra"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Asosiy rang (fon yoki sarlavha), matn rangi va bitta urg‘u rangi (muhim raqam yoki xulosa) yetarli.",
+        "Urg‘u rangini kam ishlating: hamma narsa ajratilsa, hech narsa ajralib turmaydi.",
+        "Universitet yoki kompaniya ranglari bo‘lsa, ulardan foydalaning.",
+        "Fonni tanlashda tayyor 16:9 fonlarimiz yordam beradi; fon matnni bosib ketmasligi kerak."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Matn hajmi va joylashuv"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bir slaydda bitta fikr; sarlavha shu fikrni to‘liq jumla bilan aytsin.",
+        "6×6 qoidasi (6 qatordan va har qatorda 6 so‘zdan ko‘p emas) — mo‘ljal, qat’iy qonun emas; u slayd tayyorlash qo‘llanmasida batafsil tushuntirilgan.",
+        "Chekkalardan bo‘sh joy qoldiring va elementlarni bitta chiziq bo‘yicha tekislang.",
+        "Jadvalda 4–5 ustundan ko‘p bo‘lmasin; katta jadvalni grafikka aylantiring yoki ilovaga qo‘ying."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Rasm va grafiklar: sifat va litsenziya"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Rasm o‘lchami slaydga mos bo‘lsin: 16:9 slayd uchun 1920×1080 piksel yetarli.",
+        "Internetdan olingan rasmning litsenziyasini tekshiring va manbani slayd pastida yozing.",
+        "Grafikda o‘q nomlari, o‘lchov birligi va manba bo‘lsin.",
+        "AI chizgan rasmni tekshiring: odam yuzlari, yozuvlar va bayroqlar xato chiqishi mumkin."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Animatsiya va o‘tishlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Butun taqdimotda bitta oddiy o‘tish turi yetarli; har bir bandga animatsiya qo‘ymang.",
+        "Animatsiya ma’no bersa ishlating: masalan, bosqichma-bosqich ochiladigan sxema.",
+        "Taqdimotni PDF ko‘rinishida ham saqlang: bu animatsiyasiz zaxira nusxa."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "AI bilan dizayn: nimani AI qiladi, nimani o‘zingiz tekshirasiz"
+    },
+    {
+      "type": "p",
+      "text": "GPTBot.uz Studio’ning bepul namunasida bitta oddiy dizayn bor: tinch ranglar va yirik shrift. To‘liq taqdimotda (12 slaydgacha) 3 rang palitrasidan birini tanlash mumkin. Gamma va Canva kabi xizmatlarda tayyor mavzular va shablonlar bor. Lekin kontrast, matn hajmi va rasm litsenziyasini baribir o‘zingiz tekshirasiz."
+    },
+    {
+      "type": "linkp",
+      "text": "Taqdimot qoralamasi: {studio}. Tayyor fonlar: {fon}. Himoya taqdimoti: {defense}. Biznes-reja taqdimoti: {business}. AI vositalari taqqoslash: {tools}.",
+      "links": [
+        {
+          "token": "studio",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "GPTBot.uz Studio"
+        },
+        {
+          "token": "fon",
+          "target": "/uz/blog/slayd-uchun-fonlar/",
+          "anchor": "24 ta bepul slayd foni"
+        },
+        {
+          "token": "defense",
+          "target": "/uz/blog/himoya-uchun-taqdimot/",
+          "anchor": "himoya uchun taqdimot"
+        },
+        {
+          "token": "business",
+          "target": "/uz/blog/biznes-reja-taqdimoti/",
+          "anchor": "biznes-reja taqdimoti"
+        },
+        {
+          "token": "tools",
+          "target": "/uz/blog/ai-taqdimot-vositalari/",
+          "anchor": "AI taqdimot vositalari"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Slayd uchun qaysi shrift o‘lchami to‘g‘ri?",
+      "a": "Bizning mo‘ljal: sarlavha 36–44 punkt, matn kamida 24 punkt. Taqdimotni zalning oxirgi qatoridan ko‘rib tekshiring: o‘qilmasa, kattalashtiring."
+    },
+    {
+      "q": "Matn va fon kontrasti qancha bo‘lishi kerak?",
+      "a": "WCAG 2.2 bo‘yicha oddiy matn uchun kamida 4.5:1, katta matn (18 punkt yoki 14 punkt qalin) uchun kamida 3:1."
+    },
+    {
+      "q": "Taqdimotda nechta rang ishlatish kerak?",
+      "a": "2–3 ta: asosiy rang, matn rangi va bitta urg‘u rangi."
+    },
+    {
+      "q": "Rasmlarni internetdan olsam bo‘ladimi?",
+      "a": "Faqat litsenziyasi ruxsat bersa va manbasini yozsangiz. O‘z rasmlaringiz yoki bepul litsenziyali rasmlar xavfsizroq."
+    }
+  ],
+  "cta": {
+    "label": "Taqdimot qoralamasini yaratish",
+    "href": "/uz/taqdimot-ai/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/taqdimot-ai/",
+      "anchor": "GPTBot.uz Studio: mavzudan .pptx",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/slayd-uchun-fonlar/",
+      "anchor": "24 ta bepul slayd foni",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/himoya-uchun-taqdimot/",
+      "anchor": "himoya uchun taqdimot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/biznes-reja-taqdimoti/",
+      "anchor": "biznes-reja taqdimoti",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/ai-taqdimot-vositalari/",
+      "anchor": "AI taqdimot vositalari taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "slayd tayyorlash bo‘yicha qo‘llanma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "Slayd dizayni qoidalari: shrift, rang va kontrast",
+  "ogDescription": "Kontrast kamida 4.5:1 (WCAG 2.2), 2–3 rang, bitta shrift oilasi, bir slaydda bitta fikr va rasm litsenziyasi.",
+  "ogImage": "https://gptbot.uz/assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/slayd-dizayni-qoidalari/",
+  "hreflangRu": "/ru/blog/pravila-oformleniya-slaydov/",
+  "hreflangUz": "/uz/blog/slayd-dizayni-qoidalari/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Slayd dizayni qoidalari",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "W3C — Understanding WCAG 2.2: Contrast (Minimum)",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "note": "Oddiy matn uchun kontrast kamida 4.5:1, katta matn uchun kamida 3:1; katta matn — 18 punkt yoki 14 punkt qalin. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "W3C — Understanding WCAG 2.2: Use of Color",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html",
+      "note": "Rang ma’lumot berishning yagona vositasi bo‘lmasligi kerak. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "WebAIM — Contrast Checker",
+      "url": "https://webaim.org/resources/contrastchecker/",
+      "note": "Matn va fon ranglari kontrast nisbatini hisoblaydigan bepul vosita. 2026-11-23 kuni tekshirildi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

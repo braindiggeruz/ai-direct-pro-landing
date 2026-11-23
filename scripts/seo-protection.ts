@@ -296,7 +296,12 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // /uz/blog/ozbekcha-ai-chatlar-taqqoslash/ and /ru/blog/sravnenie-ai-chatov-na-uzbekskom/,
 // nothing relabelled or removed. Nine pages keep their complete contract; see
 // reports/ai-visibility-20261123/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-23-ai-visibility-1b/reviewed-protected-pages.json';
+// The 2026-11-23-ai-visibility-2a revision (wave 2a, the presentation cluster)
+// changes only the homepage, and only its lists: nine entries for the new
+// articles (four uz/ru pairs and /ru/blog/kak-sdelat-prezentatsiyu/), nothing
+// relabelled or removed. Nine pages keep their complete contract; see
+// reports/ai-visibility-20261123-2a/review.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-23-ai-visibility-2a/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

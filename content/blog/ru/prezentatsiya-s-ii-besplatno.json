@@ -1,0 +1,303 @@
+{
+  "status": "published",
+  "locale": "ru",
+  "slug": "prezentatsiya-s-ii-besplatno",
+  "url": "/ru/blog/prezentatsiya-s-ii-besplatno/",
+  "title": "Презентация с ИИ бесплатно: Studio, Gamma, Canva, Copilot | GPTBot.uz",
+  "description": "Таблица на 23.11.2026: GPTBot.uz Studio, Gamma, Canva и Copilot в PowerPoint — узбекский язык, бесплатный тариф, экспорт .pptx и платные тарифы. Без рейтинга.",
+  "h1": "Презентация с ИИ бесплатно: сравнение GPTBot.uz Studio, Gamma, Canva и Copilot в PowerPoint",
+  "topicCluster": "prezentatsii",
+  "targetMoneyPage": "/ru/prezentatsiya-ai/",
+  "keywords": [
+    "презентация с ии бесплатно",
+    "презентация онлайн бесплатно",
+    "бесплатные сервисы для презентаций",
+    "gamma или canva",
+    "copilot в powerpoint"
+  ],
+  "intro": "Коротко (проверка 23.11.2026): бесплатно сделать презентацию с ИИ и получить файл .pptx можно в GPTBot.uz Studio (бесплатный пример 1 в сутки, до 6 слайдов) и в Gamma (есть тариф Free, но к экспорту в PDF и PPTX добавляется значок «Made by Gamma»). В Canva есть бесплатный тариф с ограниченным доступом к AI. Copilot в PowerPoint требует подписку Microsoft 365 с Copilot, а узбекского языка нет в списке языков Copilot у Microsoft.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Коротко (проверка 23.11.2026): бесплатно сделать презентацию с ИИ и получить файл .pptx можно в GPTBot.uz Studio (бесплатный пример 1 в сутки, до 6 слайдов) и в Gamma (есть тариф Free, но к экспорту в PDF и PPTX добавляется значок «Made by Gamma»). В Canva есть бесплатный тариф с ограниченным доступом к AI. Copilot в PowerPoint требует подписку Microsoft 365 с Copilot, а узбекского языка нет в списке языков Copilot у Microsoft."
+    },
+    {
+      "type": "h2",
+      "text": "Таблица сравнения (23.11.2026)"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Сервис",
+        "Узбекский язык",
+        "Бесплатно",
+        "PowerPoint (.pptx)",
+        "Платные тарифы"
+      ],
+      "rows": [
+        [
+          "GPTBot.uz Studio",
+          "Пишет на узбекском и русском",
+          "1 пример в сутки: до 6 слайдов, до 2 изображений, без регистрации",
+          "Да, файл собирается в браузере",
+          "Kunlik — 5 900 сум (24 часа, 1 полная презентация), Oylik — 39 900 сум (календарный месяц, 10 презентаций); без автосписаний"
+        ],
+        [
+          "Gamma",
+          "В списке языков текста есть узбекский (uz)",
+          "Тариф Free: до 50 000 AI-токенов на первоначальную генерацию",
+          "Да (PDF, PNG, PPTX, Google Slides); на Free к PDF и PPTX добавляется значок «Made by Gamma»",
+          "Plus, Pro, Ultra; цены и способы оплаты — на gamma.app/pricing"
+        ],
+        [
+          "Canva",
+          "Не проверено",
+          "Canva Free доступна всем; ограниченный доступ к AI-инструментам (общий месячный лимит)",
+          "Не проверено: справка закрыта для автоматической проверки",
+          "Pro, Business, Enterprise; цена зависит от региона"
+        ],
+        [
+          "Copilot в PowerPoint",
+          "Нет в списке языков Copilot (русский есть)",
+          "Без подписки с Copilot — нет",
+          "Да, в самом PowerPoint",
+          "Microsoft 365 Personal или Family; отдельные бизнес-тарифы"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Не проверено» значит, что страница сервиса об этом не говорит или была закрыта для автоматической проверки, а не что возможности нет. Цены и условия меняются: перед оплатой откройте страницу самого сервиса. Источники — ниже."
+    },
+    {
+      "type": "h2",
+      "text": "Какой сервис для какой задачи?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Одна школьная или студенческая презентация на узбекском или русском без регистрации — бесплатный пример GPTBot.uz Studio (до 6 слайдов).",
+        "Нужны разные шаблоны и ручной дизайн — Canva: по странице тарифов даже на Free доступны миллионы шаблонов.",
+        "Нужно из текста быстро получить презентацию, документ или сайт и выгрузить в PPTX или Google Slides — Gamma; на бесплатном тарифе учитывайте значок на экспорте.",
+        "На работе есть Microsoft 365, а презентация на русском или английском — Copilot в PowerPoint."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Когда GPTBot.uz Studio — не лучший выбор?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Если нужно больше 12 слайдов: полная презентация в Studio — до 12 слайдов.",
+        "Если файл должны одновременно править несколько человек: Studio отдаёт результат файлом .pptx, а редактируете вы его потом в PowerPoint или Google Slides.",
+        "Если нужно автоматически применять фирменный брендбук (логотип, шрифты, цвета): Canva и Copilot в PowerPoint умеют работать с бренд-китом."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Общие правила работы с ИИ над презентацией"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Пишите тему конкретно: класс или курс, число слайдов и перед кем выступаете.",
+        "Результат — черновик: сверяйте факты, даты и цифры с учебником или надёжным источником.",
+        "ИИ может выдумать источники и названия книг: список литературы составляйте сами.",
+        "Не вводите личные данные (паспорт, телефон, оценки).",
+        "Если преподаватель требует, говорите, что использовали ИИ."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "GPTBot.uz Studio: проверенные факты"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Бесплатный пример: 1 презентация в сутки на браузер, до 6 слайдов и до 2 изображений, без заметок докладчика; лимит обновляется в 05:00 по Ташкенту.",
+        "Полная презентация: до 12 слайдов, до 8 изображений, заметки докладчика и 3 цветовые палитры.",
+        "Kunlik — 5 900 сум (с НДС), 24 часа, 1 полная презентация; Oylik — 39 900 сум, календарный месяц, 10 полных презентаций.",
+        "Для каждой единицы в течение 24 часов после результата можно 1 раз бесплатно пересоздать то же задание.",
+        "Тема, текст слайдов и файл .pptx не хранятся на сервере GPTBot.uz.",
+        "GPTBot.uz — независимый сервис, не ChatGPT и не продукт OpenAI."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Попробовать Studio: {studio}. Пошаговый гайд по Gamma: {gamma}. Как сделать презентацию: {hub}. Оформление слайдов: {design}. Презентация для защиты: {defense}. Презентация бизнес-плана: {business}.",
+      "links": [
+        {
+          "token": "studio",
+          "target": "/ru/prezentatsiya-ai/",
+          "anchor": "GPTBot.uz Studio"
+        },
+        {
+          "token": "gamma",
+          "target": "/ru/blog/gamma-app-kak-sdelat-prezentaciyu/",
+          "anchor": "как сделать презентацию в Gamma"
+        },
+        {
+          "token": "hub",
+          "target": "/ru/blog/kak-sdelat-prezentatsiyu/",
+          "anchor": "пять шагов от темы до выступления"
+        },
+        {
+          "token": "design",
+          "target": "/ru/blog/pravila-oformleniya-slaydov/",
+          "anchor": "правила оформления слайдов"
+        },
+        {
+          "token": "defense",
+          "target": "/ru/blog/prezentatsiya-dlya-zashchity/",
+          "anchor": "презентация для защиты"
+        },
+        {
+          "token": "business",
+          "target": "/ru/blog/prezentatsiya-biznes-plana/",
+          "anchor": "презентация бизнес-плана"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Как мы проверяли"
+    },
+    {
+      "type": "p",
+      "text": "Каждый факт проверен 23 ноября 2026 года на странице самого сервиса. Страницы справки Canva заблокировали автоматические запросы, поэтому по Canva записано только то, что видно на странице тарифов. Рейтинга нет: сервис выбирают под задачу."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Где сделать презентацию с ИИ бесплатно?",
+      "a": "GPTBot.uz Studio даёт бесплатный пример 1 в сутки, до 6 слайдов, без регистрации. В Gamma и Canva есть бесплатные тарифы: у Gamma на экспорт добавляется значок, у Canva доступ к AI ограничен."
+    },
+    {
+      "q": "Какой ИИ делает презентации на узбекском?",
+      "a": "По проверке 23.11.2026 узбекский язык на своих страницах указывают GPTBot.uz Studio и Gamma (uz в списке языков текста). В списке языков Copilot у Microsoft узбекского нет. По Canva проверить не удалось."
+    },
+    {
+      "q": "Что лучше: Gamma или Canva?",
+      "a": "Рейтинга не даём. Gamma ориентирована на создание готовой презентации из текста, Canva — на шаблоны и ручной дизайн. Попробуйте оба на одной теме."
+    },
+    {
+      "q": "Copilot в PowerPoint бесплатный?",
+      "a": "Нет. По странице Microsoft, Copilot в приложениях Microsoft 365 доступен с подпиской Microsoft 365 Personal или Family; для бизнеса есть отдельные тарифы."
+    },
+    {
+      "q": "Какой сервис выдаёт файл .pptx?",
+      "a": "GPTBot.uz Studio, Gamma (на бесплатном тарифе со значком) и сам PowerPoint. Экспорт .pptx в Canva проверить не удалось."
+    }
+  ],
+  "cta": {
+    "label": "Сделать бесплатный пример в Studio",
+    "href": "/ru/prezentatsiya-ai/"
+  },
+  "internalLinks": [
+    {
+      "target": "/ru/prezentatsiya-ai/",
+      "anchor": "GPTBot.uz Studio: презентация .pptx по теме",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/ru/blog/gamma-app-kak-sdelat-prezentaciyu/",
+      "anchor": "как сделать презентацию в Gamma",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/ru/blog/kak-sdelat-prezentatsiyu/",
+      "anchor": "как сделать презентацию",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/ru/blog/pravila-oformleniya-slaydov/",
+      "anchor": "правила оформления слайдов",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/ru/blog/prezentatsiya-dlya-zashchity/",
+      "anchor": "презентация для защиты",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/ru/blog/prezentatsiya-biznes-plana/",
+      "anchor": "презентация бизнес-плана",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "Презентация с ИИ бесплатно: Studio, Gamma, Canva и Copilot",
+  "ogDescription": "Узбекский язык, бесплатный тариф, экспорт .pptx и платные тарифы — таблица на 23.11.2026, без рейтинга.",
+  "ogImage": "https://gptbot.uz/assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp",
+  "canonical": "https://gptbot.uz/ru/blog/prezentatsiya-s-ii-besplatno/",
+  "hreflangRu": "/ru/blog/prezentatsiya-s-ii-besplatno/",
+  "hreflangUz": "/uz/blog/ai-taqdimot-vositalari/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Школьники, студенты, преподаватели и сотрудники в Узбекистане, которые готовят презентации"
+  },
+  "breadcrumbLabel": "Презентация с ИИ бесплатно",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Gamma Help Center — What’s the easiest way to export my Gamma?",
+      "url": "https://help.gamma.app/en/articles/8022861-how-do-i-export-my-gamma-to-pdf-powerpoint-or-google-slides",
+      "note": "Экспорт: PDF, PNG, PowerPoint (PPTX), Google Slides; на тарифе Free к экспорту PDF и PPTX добавляется значок «Made by Gamma»; платные тарифы — Plus, Pro, Ultra. Проверено 2026-11-23."
+    },
+    {
+      "title": "Gamma Help Center — What are Gamma tokens and how do they work?",
+      "url": "https://help.gamma.app/en/articles/11047156-what-are-gamma-tokens-and-how-do-they-work",
+      "note": "Тариф Free: до 50 000 AI-токенов на одну первоначальную генерацию. Проверено 2026-11-23."
+    },
+    {
+      "title": "Gamma Developers — Output language accepted values",
+      "url": "https://developers.gamma.app/reference/output-language-accepted-values",
+      "note": "В списке языков текста есть Uzbek (uz). Проверено 2026-11-23."
+    },
+    {
+      "title": "Canva — Plans and pricing",
+      "url": "https://www.canva.com/pricing/",
+      "note": "«Canva Free is available to anyone»; на Free — ограниченный доступ к AI-инструментам (общий месячный лимит зависит от тарифа); платные тарифы — Pro, Business, Enterprise. Страницы справки Canva были закрыты для автоматической проверки. Проверено 2026-11-23."
+    },
+    {
+      "title": "Microsoft Support — Supported languages for Microsoft Copilot",
+      "url": "https://support.microsoft.com/en-us/topic/supported-languages-for-microsoft-copilot-94518d61-644b-4118-9492-617eea4801d8",
+      "note": "В списке языков запросов и ответов Copilot есть русский, узбекского нет. Проверено 2026-11-23."
+    },
+    {
+      "title": "Microsoft Support — Create a new presentation with Copilot in PowerPoint",
+      "url": "https://support.microsoft.com/en-us/office/create-a-new-presentation-with-copilot-in-powerpoint-3222ee03-f5a4-4d27-8642-9c387ab4854d",
+      "note": "Если Copilot не виден в PowerPoint, он может не входить в вашу подписку Microsoft 365. Проверено 2026-11-23."
+    },
+    {
+      "title": "Microsoft — Microsoft 365 Copilot pricing",
+      "url": "https://www.microsoft.com/en-us/microsoft-365/copilot/pricing",
+      "note": "«Get Copilot in Microsoft 365 apps with a Microsoft 365 Personal or Family subscription». Проверено 2026-11-23."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

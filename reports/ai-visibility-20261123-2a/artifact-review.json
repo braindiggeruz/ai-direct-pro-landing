@@ -1,0 +1,189 @@
+{
+  "checkedAt": "2026-11-23T06:26:45.644Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ai-visibility-1b/reviewed-protected-pages.json",
+  "sitemapBefore": 435,
+  "sitemapAfter": 444,
+  "added": [
+    "/ru/blog/kak-sdelat-prezentatsiyu/",
+    "/ru/blog/pravila-oformleniya-slaydov/",
+    "/ru/blog/prezentatsiya-biznes-plana/",
+    "/ru/blog/prezentatsiya-dlya-zashchity/",
+    "/ru/blog/prezentatsiya-s-ii-besplatno/",
+    "/uz/blog/ai-taqdimot-vositalari/",
+    "/uz/blog/biznes-reja-taqdimoti/",
+    "/uz/blog/himoya-uchun-taqdimot/",
+    "/uz/blog/slayd-dizayni-qoidalari/"
+  ],
+  "notBuilt": [],
+  "coverage": [
+    {
+      "url": "/ru/blog/kak-sdelat-prezentatsiyu/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/pravila-oformleniya-slaydov/",
+        "/ru/blog/prezentatsiya-biznes-plana/",
+        "/ru/blog/prezentatsiya-dlya-zashchity/",
+        "/ru/blog/prezentatsiya-s-ii-besplatno/"
+      ]
+    },
+    {
+      "url": "/ru/blog/pravila-oformleniya-slaydov/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-sdelat-prezentatsiyu/",
+        "/ru/blog/prezentatsiya-biznes-plana/",
+        "/ru/blog/prezentatsiya-dlya-zashchity/",
+        "/ru/blog/prezentatsiya-s-ii-besplatno/"
+      ]
+    },
+    {
+      "url": "/ru/blog/prezentatsiya-biznes-plana/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-sdelat-prezentatsiyu/",
+        "/ru/blog/pravila-oformleniya-slaydov/",
+        "/ru/blog/prezentatsiya-dlya-zashchity/",
+        "/ru/blog/prezentatsiya-s-ii-besplatno/"
+      ]
+    },
+    {
+      "url": "/ru/blog/prezentatsiya-dlya-zashchity/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-sdelat-prezentatsiyu/",
+        "/ru/blog/pravila-oformleniya-slaydov/",
+        "/ru/blog/prezentatsiya-biznes-plana/",
+        "/ru/blog/prezentatsiya-s-ii-besplatno/"
+      ]
+    },
+    {
+      "url": "/ru/blog/prezentatsiya-s-ii-besplatno/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/kak-sdelat-prezentatsiyu/",
+        "/ru/blog/pravila-oformleniya-slaydov/",
+        "/ru/blog/prezentatsiya-biznes-plana/",
+        "/ru/blog/prezentatsiya-dlya-zashchity/",
+        "/en/ai-presentation-maker/"
+      ]
+    },
+    {
+      "url": "/uz/blog/ai-taqdimot-vositalari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/biznes-reja-taqdimoti/",
+        "/uz/blog/himoya-uchun-taqdimot/",
+        "/uz/blog/slayd-dizayni-qoidalari/",
+        "/en/ai-presentation-maker/"
+      ]
+    },
+    {
+      "url": "/uz/blog/biznes-reja-taqdimoti/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/ai-taqdimot-vositalari/",
+        "/uz/blog/himoya-uchun-taqdimot/",
+        "/uz/blog/slayd-dizayni-qoidalari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/himoya-uchun-taqdimot/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/ai-taqdimot-vositalari/",
+        "/uz/blog/biznes-reja-taqdimoti/",
+        "/uz/blog/slayd-dizayni-qoidalari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/slayd-dizayni-qoidalari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/ai-taqdimot-vositalari/",
+        "/uz/blog/biznes-reja-taqdimoti/",
+        "/uz/blog/himoya-uchun-taqdimot/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-sdelat-prezentatsiyu/",
+        "/ru/blog/pravila-oformleniya-slaydov/",
+        "/ru/blog/prezentatsiya-biznes-plana/",
+        "/ru/blog/prezentatsiya-dlya-zashchity/",
+        "/ru/blog/prezentatsiya-s-ii-besplatno/",
+        "/uz/blog/ai-taqdimot-vositalari/",
+        "/uz/blog/biznes-reja-taqdimoti/",
+        "/uz/blog/himoya-uchun-taqdimot/",
+        "/uz/blog/slayd-dizayni-qoidalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-sdelat-prezentatsiyu/",
+        "/ru/blog/pravila-oformleniya-slaydov/",
+        "/ru/blog/prezentatsiya-biznes-plana/",
+        "/ru/blog/prezentatsiya-dlya-zashchity/",
+        "/ru/blog/prezentatsiya-s-ii-besplatno/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/ai-taqdimot-vositalari/",
+        "/uz/blog/biznes-reja-taqdimoti/",
+        "/uz/blog/himoya-uchun-taqdimot/",
+        "/uz/blog/slayd-dizayni-qoidalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/en/ai-presentation-maker/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/prezentatsiya-s-ii-besplatno/",
+        "/uz/blog/ai-taqdimot-vositalari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/kak-sdelat-prezentatsiyu/",
+        "/ru/blog/pravila-oformleniya-slaydov/",
+        "/ru/blog/prezentatsiya-biznes-plana/",
+        "/ru/blog/prezentatsiya-dlya-zashchity/",
+        "/ru/blog/prezentatsiya-s-ii-besplatno/",
+        "/uz/blog/ai-taqdimot-vositalari/",
+        "/uz/blog/biznes-reja-taqdimoti/",
+        "/uz/blog/himoya-uchun-taqdimot/",
+        "/uz/blog/slayd-dizayni-qoidalari/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 444
+}
