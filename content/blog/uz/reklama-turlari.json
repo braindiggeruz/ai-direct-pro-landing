@@ -354,6 +354,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 15
+    },
+    {
+      "target": "/uz/blog/kochmas-mulk-reklamasi/",
+      "anchor": "ko‘chmas mulk reklamasi kanallari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 16
+    },
+    {
+      "target": "/uz/blog/mashina-savdosi-reklamasi/",
+      "anchor": "avtosalon reklamasi: Avtoelon va OLX",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 17
     }
   ],
   "ogTitle": "Reklama turlari: qaysi platforma biznesga mos, 2026",

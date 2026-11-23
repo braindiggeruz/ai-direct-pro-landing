@@ -189,6 +189,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/mashina-savdosi-reklamasi/",
+      "anchor": "avtosalon uchun test-drayv lid-formasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    },
+    {
+      "target": "/uz/blog/onlayn-maktab-reklamasi/",
+      "anchor": "sinov darsi uchun lid-forma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Instagram lid-formasi: sozlash va arizalarni olish",

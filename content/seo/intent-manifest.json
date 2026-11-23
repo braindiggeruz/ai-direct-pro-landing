@@ -5819,6 +5819,168 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-63-ru-internet-ads-hub-vs-real-estate-ads-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "реклама недвижимости",
+          "реклама новостройки",
+          "реклама жилого комплекса"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+        "owns": "advertising real estate and new builds: the developer register (PP-4732), prices in sums, OLX and Uybor rules, channels",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-64-uz-internet-ads-hub-vs-real-estate-ads-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "ko‘chmas mulk reklamasi",
+          "yangi uy reklamasi",
+          "turar-joy majmuasi reklamasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/kochmas-mulk-reklamasi/",
+        "owns": "advertising real estate and new builds (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-65-ru-internet-ads-hub-vs-car-dealer-ads-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "реклама автосалона",
+          "как продвигать автосалон",
+          "реклама автокредита"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-avtosalona/",
+        "owns": "car dealer advertising: Avtoelon and OLX rules, prices in sums, credit and installments in ads (Art. 43), channels",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-66-uz-internet-ads-hub-vs-car-dealer-ads-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "avtosalon reklamasi",
+          "mashina sotish reklamasi",
+          "avtokredit reklamasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/mashina-savdosi-reklamasi/",
+        "owns": "car dealer advertising (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-67-ru-internet-ads-hub-vs-online-school-ads-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "реклама онлайн школы",
+          "как продвигать онлайн курсы",
+          "реклама онлайн курсов"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-onlayn-shkoly/",
+        "owns": "online school advertising: licensing under the education law, channels, funnel, ad language",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-68-uz-internet-ads-hub-vs-online-school-ads-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "onlayn maktab reklamasi",
+          "onlayn kurslarni reklama qilish",
+          "onlayn kurs reklamasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/onlayn-maktab-reklamasi/",
+        "owns": "online school advertising (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; AnswerThePublic prompts and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

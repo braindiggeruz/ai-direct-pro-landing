@@ -271,6 +271,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/uz/blog/onlayn-maktab-reklamasi/",
+      "anchor": "onlayn kurslar reklamasi ikki tilda",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Reklama o‘zbek va rus tilida: qonun va sozlash",

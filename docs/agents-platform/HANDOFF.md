@@ -1,3 +1,32 @@
+# Current handoff — advertising wave D3: real estate, car dealers, online schools · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 4d742add (= production: advertising waves B, C1, C2, D1, D2 and targeting waves T-B, T-C live, 502 URLs, check-entity-consistency OK, IndexNow HTTP 200 for 36 URLs of D2). Production stays 4d742add until this PR is merged and deployed.
+## 2. Delivered
+Six URLs in three RU/UZ pairs: /ru/blog/reklama-nedvizhimosti-i-novostroek/ + /uz/blog/kochmas-mulk-reklamasi/, /ru/blog/reklama-avtosalona/ + /uz/blog/mashina-savdosi-reklamasi/, /ru/blog/reklama-onlayn-shkoly/ + /uz/blog/onlayn-maktab-reklamasi/. Intent pairs W20261123-63…68, links from 12 existing articles, llms.txt (6 routes, 3 quick answers).
+## 3. Files
+content/blog/{ru,uz}/ (6 new, 12 existing with added related links), content/seo/intent-manifest.json, public/llms.txt, scripts/seo-protection.ts (BASELINE), tests/ads-gpt-wave-d3.test.ts + package.json, reports/ads-gpt-20261123-d3/, docs/seo/evidence/2026-11-23-ads-gpt-d3/, docs.
+## 4. Decisions
+D-ADS-GPT-WAVE-D3-20261123 (under D-ADS-GPT-2-20261123).
+## 5. Excluded
+Classifieds, dealer and media-kit prices; the shared-construction escrow bill (not law); OpenSEO demand data (the agent is still waiting for the owner's tool permission).
+## 6. Validation
+seo-audit OK; build:fast; review vs a build of main 4d742add: sitemap 502 → 508, existing pages change by added links only, 0 removed, issues 0; wave test 8/8; 55 of 59 SEO-related test files green, the 4 red ones fail identically on main; tsc -b and eslint clean.
+## 7. Known limits
+The 2027 credit-ad warning exists only in the Uzbek text of the law so far (the articles say so). OLX accepts «у.е.» in its price field although Art. 16 bans foreign-currency prices; the articles state the law, not OLX's field.
+## 8. Next task
+Merge, deploy, verify 508 URLs, IndexNow, GSC lists; then the next advertising topics from the OpenSEO data once it arrives.
+## 9. Acceptance
+Six URLs 200 and in the sitemap; check-entity-consistency OK on 508 URLs.
+## 10. Start commands
+npx tsx reports/ads-gpt-20261123-d3/review.ts --before <main dist>; node --import tsx --test tests/ads-gpt-wave-d3.test.ts
+## 11. Risks
+Low: new pages and added links only.
+## 12. Rollback
+git revert; the ads-gpt-d2 BASELINE stays valid for the old homepage.
+
+---
+
 # Current handoff — advertising wave D2: Telegram channel, targetologist career, SMS, outdoor ads · 23.11.2026
 
 ## 1. State

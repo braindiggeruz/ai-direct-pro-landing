@@ -441,6 +441,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/ru/blog/reklama-onlayn-shkoly/",
+      "anchor": "реклама онлайн-школы: лицензия и каналы",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Реклама учебного центра: сезон, таргет на родителей, Telegram и пробный урок",
