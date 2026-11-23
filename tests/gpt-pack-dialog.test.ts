@@ -83,7 +83,9 @@ async function window(
 }
 
 const html = (text: string) => text.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-const has = (page: string, text: string) => page.includes(html(text));
+// A brand kept from page translation sits in its own span inside one span for the sentence (keep-names.tsx); the text checks read through both.
+const unkept = (page: string) => page.replace(/<span translate="no" class="notranslate">([^<]*)<\/span>/g, '$1').replace(/<span>([^<]*)<\/span>/g, '$1');
+const has = (page: string, text: string) => unkept(page).includes(html(text));
 const date = (locale: Locale, at: number) => new Date(at).toLocaleDateString(locale === 'uz' ? 'uz-UZ' : 'ru-RU');
 const payButtons = (page: string) => [...page.matchAll(/data-provider="(\w+)"/g)].map((m) => m[1]);
 /** The line under the pay buttons: pressing «Оплатить» accepts the offer of this language. */
@@ -311,7 +313,7 @@ test('Payme in a rehearsal session: its button in the existing classes, its name
     assert.deepEqual(payButtons(page), ['payme']);
     assert.ok(has(page, copy.payVia('Payme')) && has(page, copy.payNote('Payme')) && has(page, copy.test), locale);
     assert.match(page, /<button type="button" class="gpt-primary" data-provider="payme">/);
-    assert.match(page, /data-provider="payme"[^>]*>[^<]*<span aria-hidden="true">↗<\/span>/);
+    assert.match(unkept(page), /data-provider="payme"[^>]*>[^<]*<span aria-hidden="true">↗<\/span>/);
     // No class the Click window does not already use: the CSS stays as it is.
     const known = classes(await window(locale, member({ mode: 'test', providers: ['click'] })));
     assert.deepEqual([...classes(page)].filter((name) => !known.has(name)), [], locale);

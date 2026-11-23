@@ -43,7 +43,7 @@ export function AiLimitPay({
     <>
       <p className="gpt-limit-pay-line"><strong>{t.premium.sum(pack.priceUzs)}</strong> · {t.premium.packLine(pack)}</p>
       {providers.map((provider) => (
-        <button type="button" className="gpt-primary" key={provider} data-testid="limit-pay" data-provider={provider} onClick={() => onPay(provider)}>
+        <button type="button" className="gpt-primary" key={provider} data-testid="limit-pay" data-provider={provider} translate="no" onClick={() => onPay(provider)}>
           {t.premium.payVia(PROVIDER_NAMES[provider])}<span aria-hidden="true">↗</span>
         </button>
       ))}

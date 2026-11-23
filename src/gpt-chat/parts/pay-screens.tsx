@@ -23,6 +23,7 @@ import { recordUiEvent } from '../ui-events';
 import { STUDIO_TELEGRAM_URL } from '../../shared/studio-contact';
 // A named JSON import: the bundle keeps the seller's short name, not the requisites.
 import { shortName } from '../../../content/global/legal-entity.json';
+import { keepNames } from '../keep-names';
 import { perAnswer, type PackOffer, type PackSku } from '../pack-offers';
 import { packText } from '../pack-text';
 import {
@@ -117,6 +118,8 @@ const rootApi = (): string => (typeof document === 'undefined' ? '' : document.g
 // ---------------------------------------------------------------- copy
 
 const NAMES: Record<PaymentProvider, string> = { click: 'Click', payme: 'Payme', uzum: 'Uzum Bank' };
+/** The names a browser's page translation must leave alone (keep-names.tsx): the providers and the seller. */
+const BRANDS = [...Object.values(NAMES), shortName.ru, shortName.uz];
 /** Groups of thousands as the window writes them (account-strings.ts groupDigits): «20 000». */
 const sumOf = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -221,7 +224,7 @@ export function PayStall({ locale, provider, kind, busy, onRetry }: {
   const s = TEXT[locale];
   return (
     <div role="alert" className="gpt-error gpt-pay-stall" data-testid="ai-pay-stall" data-kind={kind}>
-      <p>{kind === 'failed' ? s.stallFailed(NAMES[provider]) : s.stallOpen(NAMES[provider])}</p>
+      <p>{keepNames(kind === 'failed' ? s.stallFailed(NAMES[provider]) : s.stallOpen(NAMES[provider]), BRANDS)}</p>
       <button type="button" className="gpt-primary" disabled={busy} onClick={onRetry}>{s.retry}</button>
     </div>
   );
@@ -290,7 +293,7 @@ export function PayExtras({ locale, pack, offers, providers, busy, termsUrl, onA
     <div className="gpt-pay-extras" data-testid="ai-pay-extras">
       {!two && <WallQuestion locale={locale} />}
       {links.length > 0 && links.length === providers.length && (
-        <p className="gpt-pay-next">{s.next(joinNames(locale, links))} <span data-testid="ai-pay-seller">{s.seller(shortName[locale])}</span></p>
+        <p className="gpt-pay-next">{keepNames(`${s.next(joinNames(locale, links))} `, BRANDS)}<span data-testid="ai-pay-seller">{keepNames(s.seller(shortName[locale]), BRANDS)}</span></p>
       )}
       {per > 0 && !two && <p className="gpt-pay-per" data-testid="ai-pay-per">{s.per(per)}</p>}
       {links.length > 0 && (open ? (
@@ -299,7 +302,7 @@ export function PayExtras({ locale, pack, offers, providers, busy, termsUrl, onA
           <div className="gpt-pay-ask-buttons">
             {(two ? offers : offers.slice(0, 1)).flatMap((offer) => links.map((provider) => (
               <button type="button" className="gpt-text-button" key={`${offer.sku}:${provider}`} data-provider={provider} data-sku={offer.sku} disabled={busy} onClick={() => onAsk(provider, offer.sku)}>
-                {two ? packText(locale).link(offer, NAMES[provider]) : s.askFor(NAMES[provider])}
+                {keepNames(two ? packText(locale).link(offer, NAMES[provider]) : s.askFor(NAMES[provider]), BRANDS)}
               </button>
             )))}
           </div>
@@ -362,6 +365,7 @@ export function PayPacks({ locale, offers, providers, busy, onPay }: {
                 data-sku={offer.sku}
                 disabled={busy}
                 aria-label={s.pay(offer, NAMES[provider])}
+                translate="no"
                 onClick={() => onPay(provider, offer.sku)}
               >
                 {NAMES[provider]}<span aria-hidden="true">↗</span>
@@ -432,7 +436,7 @@ export function PayShare({ locale, provider, url, at, orderState, priceUzs, busy
     <>
       <DialogTitle>{s.shareTitle}</DialogTitle>
       <DialogDescription asChild>
-        <p className="gpt-panel-note" data-testid="ai-pay-share">{s.shareLead(name, sum)}</p>
+        <p className="gpt-panel-note" data-testid="ai-pay-share">{keepNames(s.shareLead(name, sum), BRANDS)}</p>
       </DialogDescription>
       <a className="gpt-primary" href={share} target="_blank" rel="noopener noreferrer" data-testid="ai-pay-share-telegram" onClick={() => recordUiEvent(rootApi(), 'pay_share', 'telegram')}>{s.tg}</a>
       <button type="button" className="gpt-text-button gpt-pay-copy" data-testid="ai-pay-share-copy" onClick={() => void copy()}>
@@ -454,7 +458,7 @@ export function PayHolderless({ locale, children }: { locale: Locale; children?:
     <>
       <DialogTitle>{s.holderTitle}</DialogTitle>
       <DialogDescription asChild>
-        <p role="status" className="gpt-notice" data-testid="ai-pay-result" data-result="holderless">{s.holder}</p>
+        <p role="status" className="gpt-notice" data-testid="ai-pay-result" data-result="holderless">{keepNames(s.holder, BRANDS)}</p>
       </DialogDescription>
       {children}
     </>
@@ -507,15 +511,15 @@ export function PayUnpaid({ heading, top, children, orderId, locale, apiBase, pr
       )}
       <p>{closed ? s.unpaidClosed : s.unpaidOpen}</p>
       {ref && <p className="gpt-pay-ref" data-testid="ai-pay-ref">{s.invoice(ref)}</p>}
-      {provider && <button type="button" className="gpt-primary" disabled={busy} onClick={onContinue}>{s.cont} · {NAMES[provider]}</button>}
+      {provider && <button type="button" className="gpt-primary" disabled={busy} onClick={onContinue}>{keepNames(`${s.cont} · ${NAMES[provider]}`, BRANDS)}</button>}
       {switchTo && (
         <button type="button" className="gpt-pay-cheaper" data-testid="ai-pay-switch" disabled={busy} onClick={switchTo.onPay}>
-          {s.switchVia(NAMES[switchTo.provider])}
+          {keepNames(s.switchVia(NAMES[switchTo.provider]), BRANDS)}
         </button>
       )}
       {cheaper && provider && (
         <button type="button" className="gpt-pay-cheaper" data-testid="ai-pay-cheaper" disabled={busy} onClick={cheaper.onPay}>
-          {packText(locale).cheaper(cheaper.offer)} · {NAMES[provider]}
+          {keepNames(`${packText(locale).cheaper(cheaper.offer)} · ${NAMES[provider]}`, BRANDS)}
         </button>
       )}
       <div className="gpt-pay-unpaid-more">

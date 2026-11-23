@@ -72,7 +72,7 @@ test('the limit card pays in one tap: the price line, one big button per provide
     // The price and the pack's facts in one line, the price first and bold.
     assert.match(page, new RegExp(`<p class="gpt-limit-pay-line"><strong>${locale === 'ru' ? '20\u00a0000 сум' : '20\u00a0000 so‘m'}</strong> · ${escape(t.premium.packLine(pack))}</p>`));
     // One primary button per provider, Click first, each a tap to that provider's page; no checkbox.
-    const buttons = [...page.matchAll(/<button type="button" class="gpt-primary" data-testid="limit-pay" data-provider="(\w+)">([^<]*)<span aria-hidden="true">↗<\/span><\/button>/g)];
+    const buttons = [...page.matchAll(/<button type="button" class="gpt-primary" data-testid="limit-pay" data-provider="(\w+)" translate="no">([^<]*)<span aria-hidden="true">↗<\/span><\/button>/g)];
     assert.deepEqual(buttons.map((m) => m[1]), ['click', 'payme']);
     assert.deepEqual(buttons.map((m) => m[2]), [t.premium.payVia('Click'), t.premium.payVia('Payme')]);
     assert.doesNotMatch(page, /checkbox/);
