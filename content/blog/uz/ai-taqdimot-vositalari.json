@@ -1,0 +1,303 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "ai-taqdimot-vositalari",
+  "url": "/uz/blog/ai-taqdimot-vositalari/",
+  "title": "AI bilan taqdimot: Studio, Gamma, Canva va Copilot | GPTBot.uz",
+  "description": "23.11.2026 da tekshirilgan jadval: GPTBot.uz Studio, Gamma, Canva va PowerPoint Copilot — o‘zbek tili, bepul tarif, .pptx eksport va narxlar, reytingsiz.",
+  "h1": "AI bilan taqdimot tayyorlash: GPTBot.uz Studio, Gamma, Canva va PowerPoint’dagi Copilot taqqoslash",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/taqdimot-ai/",
+  "keywords": [
+    "ai taqdimot vositalari",
+    "ai bilan taqdimot",
+    "taqdimot uchun ai",
+    "gamma yoki canva",
+    "powerpoint copilot"
+  ],
+  "intro": "Qisqa javob (23.11.2026 dagi tekshiruv): o‘zbek tilini o‘z sahifasida ko‘rsatgan va .pptx fayl beradigan vositalar — GPTBot.uz Studio (bepul namuna kuniga 1 ta, 6 slaydgacha) va Gamma (bepul tarif bor, lekin PDF va PPTX eksportiga «Made by Gamma» belgisi qo‘shiladi). PowerPoint’dagi Copilot uchun Copilot kiradigan Microsoft 365 obunasi kerak, o‘zbek tili esa Microsoft’ning Copilot tillari ro‘yxatida yo‘q. Canva’da bepul tarif bor, AI vositalari unda cheklangan.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (23.11.2026 dagi tekshiruv): o‘zbek tilini o‘z sahifasida ko‘rsatgan va .pptx fayl beradigan vositalar — GPTBot.uz Studio (bepul namuna kuniga 1 ta, 6 slaydgacha) va Gamma (bepul tarif bor, lekin PDF va PPTX eksportiga «Made by Gamma» belgisi qo‘shiladi). PowerPoint’dagi Copilot uchun Copilot kiradigan Microsoft 365 obunasi kerak, o‘zbek tili esa Microsoft’ning Copilot tillari ro‘yxatida yo‘q. Canva’da bepul tarif bor, AI vositalari unda cheklangan."
+    },
+    {
+      "type": "h2",
+      "text": "Taqqoslash jadvali (23.11.2026)"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vosita",
+        "O‘zbek tili",
+        "Bepul foydalanish",
+        "PowerPoint (.pptx)",
+        "Pullik tariflar"
+      ],
+      "rows": [
+        [
+          "GPTBot.uz Studio",
+          "O‘zbek va rus tilida yozadi",
+          "Kuniga 1 ta namuna: 6 slaydgacha, 2 rasmgacha, ro‘yxatsiz",
+          "Ha, fayl brauzerda yaratiladi",
+          "Kunlik — 5 900 so‘m (24 soat, 1 ta to‘liq taqdimot), Oylik — 39 900 so‘m (bir kalendar oy, 10 ta); avtomatik to‘lov yo‘q"
+        ],
+        [
+          "Gamma",
+          "Matn tillari ro‘yxatida o‘zbek tili (uz) bor",
+          "Bepul tarif: bitta dastlabki yaratishga 50 000 gacha AI token",
+          "Ha (PDF, PNG, PPTX, Google Slides); bepul tarifda PDF va PPTX’ga «Made by Gamma» belgisi qo‘shiladi",
+          "Plus, Pro, Ultra; narx va to‘lov usullari gamma.app/pricing sahifasida"
+        ],
+        [
+          "Canva",
+          "Tekshirilmadi",
+          "Canva Free hamma uchun; AI vositalariga cheklangan kirish (oylik umumiy limit)",
+          "Tekshirilmadi: yordam sahifalari avtomatik tekshiruvga yopiq",
+          "Pro, Business, Enterprise; narx mintaqaga qarab"
+        ],
+        [
+          "PowerPoint’dagi Copilot",
+          "Copilot tillari ro‘yxatida yo‘q (rus tili bor)",
+          "Copilot kiradigan obunasiz yo‘q",
+          "Ha, PowerPoint’ning o‘zida",
+          "Microsoft 365 Personal yoki Family; biznes tariflari alohida"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "«Tekshirilmadi» — xizmat sahifasi bu haqda ma’lumot bermadi yoki sahifa avtomatik tekshiruvga yopiq bo‘ldi; bu imkoniyat yo‘q degani emas. Narx va shartlar o‘zgaradi: to‘lashdan oldin xizmatning o‘z sahifasini oching. Manbalar pastda."
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi vosita qachon mos keladi?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘zbek tilida bitta maktab yoki talabalik taqdimoti ro‘yxatsiz kerak bo‘lsa — GPTBot.uz Studio’ning bepul namunasi (6 slaydgacha).",
+        "Ko‘p turli shablon va qo‘lda dizayn kerak bo‘lsa — Canva: narx sahifasiga ko‘ra Free tarifda ham millionlab shablon bor.",
+        "Matndan tayyor taqdimot, hujjat yoki sayt yaratish va uni PPTX yoki Google Slides’ga eksport qilish kerak bo‘lsa — Gamma; bepul tarifda eksport belgisini hisobga oling.",
+        "Ishda Microsoft 365 bor va taqdimot rus yoki ingliz tilida bo‘lsa — PowerPoint’dagi Copilot."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qachon GPTBot.uz Studio eng yaxshi tanlov emas?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Taqdimot 12 slayddan katta bo‘lishi kerak bo‘lsa: Studio’dagi to‘liq taqdimot 12 slaydgacha.",
+        "Bir faylni jamoa bo‘lib bir vaqtda tahrirlash kerak bo‘lsa: Studio natijani .pptx fayl sifatida beradi, uni keyin PowerPoint yoki Google Slides’da tahrirlaysiz.",
+        "Kompaniya brend-kiti (logotip, shrift, ranglar) avtomatik qo‘llanishi kerak bo‘lsa: Canva va PowerPoint’dagi Copilot brend-kit bilan ishlay oladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "AI bilan taqdimot tayyorlashda umumiy qoidalar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Mavzuni aniq yozing: sinf yoki kurs, slaydlar soni va kim oldida gapirishingiz.",
+        "Natija — qoralama: faktlar, sanalar va raqamlarni darslik yoki ishonchli manba bilan tekshiring.",
+        "AI manba va kitob nomlarini o‘ylab topishi mumkin: adabiyotlar ro‘yxatini o‘zingiz tuzing.",
+        "Shaxsiy ma’lumot (pasport, telefon, baholar) kiritmang.",
+        "O‘qituvchi talab qilsa, AI ishlatilganini ayting."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "GPTBot.uz Studio: tekshirilgan faktlar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bepul namuna: bir brauzer uchun sutkasiga 1 ta taqdimot, 6 slaydgacha va 2 rasmgacha, ma’ruzachi izohlarisiz; limit Toshkent vaqti bilan soat 05:00 da yangilanadi.",
+        "To‘liq taqdimot: 12 slaydgacha, 8 rasmgacha, ma’ruzachi izohlari va 3 rang palitrasi.",
+        "Kunlik — 5 900 so‘m (QQS bilan), 24 soat, 1 ta to‘liq taqdimot; Oylik — 39 900 so‘m, bir kalendar oy, 10 ta to‘liq taqdimot.",
+        "Har bir birlik uchun natijadan keyin 24 soat ichida xuddi shu topshiriqni 1 marta bepul qayta yaratish mumkin.",
+        "Mavzu, slayd matni va .pptx fayl GPTBot.uz serverida saqlanmaydi.",
+        "GPTBot.uz — mustaqil xizmat, ChatGPT yoki OpenAI mahsuloti emas."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Studio’ni sinash: {studio}. Tariflar: {tariffs}. Gamma bo‘yicha qadamma-qadam qo‘llanma: {gamma}. Slayd dizayni: {design}. Himoya taqdimoti: {defense}. Biznes-reja taqdimoti: {business}.",
+      "links": [
+        {
+          "token": "studio",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "GPTBot.uz Studio"
+        },
+        {
+          "token": "tariffs",
+          "target": "/uz/tariflar/",
+          "anchor": "Studio tariflari"
+        },
+        {
+          "token": "gamma",
+          "target": "/uz/blog/gamma-app-slayd-tayyorlash/",
+          "anchor": "Gamma bilan o‘zbekcha taqdimot"
+        },
+        {
+          "token": "design",
+          "target": "/uz/blog/slayd-dizayni-qoidalari/",
+          "anchor": "slayd dizayni qoidalari"
+        },
+        {
+          "token": "defense",
+          "target": "/uz/blog/himoya-uchun-taqdimot/",
+          "anchor": "himoya uchun taqdimot"
+        },
+        {
+          "token": "business",
+          "target": "/uz/blog/biznes-reja-taqdimoti/",
+          "anchor": "biznes-reja taqdimoti"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Tekshiruv usuli"
+    },
+    {
+      "type": "p",
+      "text": "Har bir fakt 2026-yil 23-noyabrda xizmatning o‘z sahifasida tekshirildi. Canva’ning yordam sahifalari avtomatik so‘rovlarni to‘sdi, shuning uchun Canva bo‘yicha faqat narx sahifasida ko‘ringan ma’lumot yozildi. Reyting yo‘q: vosita vazifaga qarab tanlanadi."
+    }
+  ],
+  "faq": [
+    {
+      "q": "O‘zbek tilida taqdimot yaratadigan AI qaysi?",
+      "a": "23.11.2026 dagi tekshiruvda o‘zbek tilini o‘z sahifasida ko‘rsatgan vositalar: GPTBot.uz Studio va Gamma (matn tillari ro‘yxatida uz bor). Microsoft’ning Copilot tillari ro‘yxatida o‘zbek tili yo‘q. Canva bo‘yicha bu ma’lumotni tekshira olmadik."
+    },
+    {
+      "q": "Bepul AI bilan taqdimot qilsa bo‘ladimi?",
+      "a": "Ha: GPTBot.uz Studio kuniga 1 ta, 6 slaydgacha bepul namuna beradi; Gamma va Canva’da bepul tarif bor (Gamma eksportiga belgi qo‘shiladi, Canva’da AI cheklangan)."
+    },
+    {
+      "q": "Gamma yoki Canva — qaysi biri yaxshi?",
+      "a": "Reyting bermaymiz. Gamma matndan tayyor taqdimot yaratishga yo‘naltirilgan, Canva — shablon va qo‘lda dizaynga. Ikkalasini bitta mavzuda sinab ko‘ring."
+    },
+    {
+      "q": "PowerPoint’dagi Copilot bepulmi?",
+      "a": "Yo‘q. Microsoft sahifasiga ko‘ra, Copilot Microsoft 365 ilovalarida Microsoft 365 Personal yoki Family obunasi bilan keladi; biznes uchun alohida tariflar bor."
+    },
+    {
+      "q": "Qaysi vosita .pptx fayl beradi?",
+      "a": "GPTBot.uz Studio, Gamma (bepul tarifda belgi bilan) va PowerPoint’ning o‘zi. Canva bo‘yicha .pptx eksportini tekshira olmadik."
+    }
+  ],
+  "cta": {
+    "label": "Studio’da bepul namuna yaratish",
+    "href": "/uz/taqdimot-ai/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/taqdimot-ai/",
+      "anchor": "GPTBot.uz Studio: mavzudan .pptx",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/gamma-app-slayd-tayyorlash/",
+      "anchor": "Gamma bilan o‘zbekcha taqdimot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/slayd-dizayni-qoidalari/",
+      "anchor": "slayd dizayni qoidalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/himoya-uchun-taqdimot/",
+      "anchor": "himoya uchun taqdimot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/biznes-reja-taqdimoti/",
+      "anchor": "biznes-reja taqdimoti",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/tariflar/",
+      "anchor": "Studio tariflari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "AI bilan taqdimot: Studio, Gamma, Canva va Copilot taqqoslash",
+  "ogDescription": "O‘zbek tili, bepul tarif, .pptx eksport va pullik tariflar — 23.11.2026 da tekshirilgan jadval, reytingsiz.",
+  "ogImage": "https://gptbot.uz/assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/ai-taqdimot-vositalari/",
+  "hreflangRu": "/ru/blog/prezentatsiya-s-ii-besplatno/",
+  "hreflangUz": "/uz/blog/ai-taqdimot-vositalari/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "AI taqdimot vositalari",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Gamma Help Center — What’s the easiest way to export my Gamma?",
+      "url": "https://help.gamma.app/en/articles/8022861-how-do-i-export-my-gamma-to-pdf-powerpoint-or-google-slides",
+      "note": "Eksport: PDF, PNG, PowerPoint (PPTX), Google Slides; Free tarifda PDF va PPTX eksportiga «Made by Gamma» belgisi qo‘shiladi; pullik tariflar — Plus, Pro, Ultra. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Gamma Help Center — What are Gamma tokens and how do they work?",
+      "url": "https://help.gamma.app/en/articles/11047156-what-are-gamma-tokens-and-how-do-they-work",
+      "note": "Free tarif: bitta dastlabki yaratishga 50 000 gacha AI token. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Gamma Developers — Output language accepted values",
+      "url": "https://developers.gamma.app/reference/output-language-accepted-values",
+      "note": "Matn tillari ro‘yxatida Uzbek (uz) bor. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Canva — Plans and pricing",
+      "url": "https://www.canva.com/pricing/",
+      "note": "«Canva Free is available to anyone»; Free tarifda AI vositalariga cheklangan kirish (tarifga qarab oylik umumiy limit); pullik tariflar — Pro, Business, Enterprise. Canva yordam sahifalari avtomatik tekshiruvga yopiq edi. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Microsoft Support — Supported languages for Microsoft Copilot",
+      "url": "https://support.microsoft.com/en-us/topic/supported-languages-for-microsoft-copilot-94518d61-644b-4118-9492-617eea4801d8",
+      "note": "Copilot so‘rov va javob tillari ro‘yxatida rus tili bor, o‘zbek tili yo‘q. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Microsoft Support — Create a new presentation with Copilot in PowerPoint",
+      "url": "https://support.microsoft.com/en-us/office/create-a-new-presentation-with-copilot-in-powerpoint-3222ee03-f5a4-4d27-8642-9c387ab4854d",
+      "note": "Copilot PowerPoint’da ko‘rinmasa, u Microsoft 365 obunangizga kirmagan bo‘lishi mumkin. 2026-11-23 kuni tekshirildi."
+    },
+    {
+      "title": "Microsoft — Microsoft 365 Copilot pricing",
+      "url": "https://www.microsoft.com/en-us/microsoft-365/copilot/pricing",
+      "note": "«Get Copilot in Microsoft 365 apps with a Microsoft 365 Personal or Family subscription». 2026-11-23 kuni tekshirildi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

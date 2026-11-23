@@ -1,0 +1,336 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "himoya-uchun-taqdimot",
+  "url": "/uz/blog/himoya-uchun-taqdimot/",
+  "title": "Himoya uchun taqdimot: kurs ishi va diplom slaydlari | GPTBot.uz",
+  "description": "Himoya taqdimoti: 12 slaydlik tuzilma, har bir slaydga nima yoziladi, 7 daqiqalik nutq rejasi, komissiya savollari va tekshiruv ro‘yxati.",
+  "h1": "Kurs ishi va diplom ishi himoyasi uchun taqdimot: slaydlar tuzilmasi, nutq va savollarga tayyorgarlik",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/taqdimot-ai/",
+  "keywords": [
+    "himoya uchun taqdimot",
+    "kurs ishi himoyasi taqdimot",
+    "diplom ishi himoyasi taqdimot",
+    "bmi himoyasi taqdimot",
+    "himoya slaydlari"
+  ],
+  "intro": "Qisqa javob: himoya taqdimoti ishni qayta aytib bermaydi, balki komissiyaga uchta narsani ko‘rsatadi — nima tadqiq qilindi, qanday usul bilan va qanday natija olindi. Kafedra boshqacha talab qo‘ymasa, 12 slaydlik tuzilma taxminan 7 daqiqalik nutqqa mos keladi: titul, dolzarblik, maqsad va vazifalar, obyekt va usullar, nazariy asos, to‘rtta natija slaydi, xulosa, takliflar va minnatdorchilik. Slaydlar soni va nutq vaqti bo‘yicha kafedra yo‘riqnomasi har doim ustun turadi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: himoya taqdimoti ishni qayta aytib bermaydi, balki komissiyaga uchta narsani ko‘rsatadi — nima tadqiq qilindi, qanday usul bilan va qanday natija olindi. Kafedra boshqacha talab qo‘ymasa, 12 slaydlik tuzilma taxminan 7 daqiqalik nutqqa mos keladi: titul, dolzarblik, maqsad va vazifalar, obyekt va usullar, nazariy asos, to‘rtta natija slaydi, xulosa, takliflar va minnatdorchilik. Slaydlar soni va nutq vaqti bo‘yicha kafedra yo‘riqnomasi har doim ustun turadi."
+    },
+    {
+      "type": "h2",
+      "text": "Himoya taqdimoti nimani ko‘rsatishi kerak?"
+    },
+    {
+      "type": "p",
+      "text": "Komissiya ishingizni oldindan ko‘rgan yoki annotatsiyasini o‘qigan bo‘ladi. Taqdimotdan kutiladigan narsa — ishning mohiyatini qisqa va tekshiriladigan ko‘rinishda berish: muammo nima, siz nima qildingiz, qanday natijaga keldingiz va undan kim foydalanishi mumkin. Shuning uchun ish matnini slaydga ko‘chirmang: slayd — tayanch, asosiy gapni og‘zaki aytasiz."
+    },
+    {
+      "type": "h2",
+      "text": "Himoya uchun 12 slaydlik tuzilma: har bir slaydga nima yoziladi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "Slayd",
+        "Nima yoziladi",
+        "Taxminiy vaqt"
+      ],
+      "rows": [
+        [
+          "1",
+          "Titul",
+          "Ish mavzusi, F.I.Sh., guruh, ilmiy rahbar, oliy ta’lim muassasasi va yil",
+          "10–15 soniya"
+        ],
+        [
+          "2",
+          "Dolzarblik",
+          "Muammo nima uchun muhim: 2–3 dalil, raqam bo‘lsa — manbasi bilan",
+          "40 soniya"
+        ],
+        [
+          "3",
+          "Maqsad va vazifalar",
+          "Bitta maqsad va 3–4 vazifa — ishdagi so‘zlar bilan",
+          "30 soniya"
+        ],
+        [
+          "4",
+          "Obyekt, predmet va usullar",
+          "Nima o‘rganildi va qanday usullar bilan: so‘rovnoma, tajriba, tahlil",
+          "30 soniya"
+        ],
+        [
+          "5",
+          "Nazariy asos",
+          "Asosiy tushuncha yoki model — iloji bo‘lsa sxema ko‘rinishida",
+          "30 soniya"
+        ],
+        [
+          "6–9",
+          "Natijalar",
+          "Har bir slaydda bitta natija: jadval, grafik yoki diagramma va bir jumlali xulosa",
+          "3 daqiqa"
+        ],
+        [
+          "10",
+          "Xulosa",
+          "Vazifalar soniga mos xulosalar",
+          "40 soniya"
+        ],
+        [
+          "11",
+          "Takliflar va amaliy ahamiyat",
+          "Natijadan kim va qanday foydalanishi mumkin",
+          "30 soniya"
+        ],
+        [
+          "12",
+          "Minnatdorchilik",
+          "«E’tiboringiz uchun rahmat» va savollarga tayyor ekaningiz",
+          "5 soniya"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Jadvaldagi vaqtlar jami taxminan 6,5 daqiqani tashkil qiladi. Kurs ishida nazariy slaydni qisqartirish yoki olib tashlash mumkin. Diplom ishida amaliy qism katta bo‘lsa, natija slaydlarini ko‘paytiring, lekin umumiy vaqtdan chiqmang."
+    },
+    {
+      "type": "h2",
+      "text": "Kurs ishi va diplom ishi himoyasi nimasi bilan farq qiladi?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hajm: diplom ishida natija va takliflar ko‘proq, shuning uchun natija slaydlari soni oshadi.",
+        "Hujjatlar: ishga taqriz yoki ilmiy rahbar fikri yozilgan bo‘lsa, ulardagi e’tirozlarga javobni oldindan tayyorlang.",
+        "Amaliy natija: joriy etish dalolatnomasi yoki tajriba natijasi bo‘lsa, uni alohida slaydda ko‘rsating.",
+        "Vaqt: nutq vaqtini kafedra yoki komissiya belgilaydi; reglamentni himoyadan oldin aniqlab oling."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Himoya nutqini qanday tayyorlash kerak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "1. Har bir slayd uchun 2–4 jumla yozing: slaydda nima ko‘rinib turibdi va undan qanday xulosa chiqadi.",
+        "2. Matnni PowerPoint’dagi Notes (eslatmalar) maydoniga joylang: ma’ruzachi rejimida (Presenter view) ularni faqat siz ko‘rasiz.",
+        "3. Ovoz chiqarib, soat bilan 2–3 marta mashq qiling. Vaqtdan oshsangiz, nazariy qismni qisqartiring, natijalarni emas.",
+        "4. Natija raqamlarini yodda tuting: ular haqida savol berilishi tabiiy.",
+        "5. Birinchi jumlani tayyorlab qo‘ying: «Hurmatli komissiya a’zolari, mening ishimning mavzusi — …»."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Komissiya savollariga qanday tayyorlanish mumkin?"
+    },
+    {
+      "type": "p",
+      "text": "Savollarni oldindan taxmin qiling: mavzu tanlovi, usul va natijaning ishonchliligi bo‘yicha savollarga tayyor turing. Quyidagi savollarning har biriga 2–3 jumlali javob yozib qo‘ying:"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Nega aynan shu mavzuni tanladingiz va ishning yangiligi nimada?",
+        "Qaysi usullardan foydalandingiz va nega aynan ulardan?",
+        "Natijalaringiz qanchalik ishonchli, tanlanma qanday edi?",
+        "Natijadan amalda kim foydalanishi mumkin?",
+        "Ishni qaytadan boshlasangiz, nimani o‘zgartirgan bo‘lardingiz?"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Javobni bilmasangiz, taxmin qilmang. «Bu savolni keyingi tadqiqotda o‘rganish rejamda bor» deb halol aytish o‘ylab topilgan javobdan yaxshiroq."
+    },
+    {
+      "type": "h2",
+      "text": "Slaydlarning ko‘rinishi: nimaga e’tibor berish kerak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta slayd — bitta fikr; matn qisqa bandlar ko‘rinishida bo‘lsin.",
+        "Shrift zalning oxirgi qatoridan o‘qilsin; o‘lcham, rang va kontrast qoidalari slayd dizayni qo‘llanmasida berilgan.",
+        "Grafik va jadvallarga sarlavha va manba yozing.",
+        "Kafedrada shablon yoki logotip talab qilinsa, o‘sha shablondan foydalaning.",
+        "Faylni PDF ko‘rinishida ham saqlang: boshqa kompyuterda shrift yoki animatsiya buzilsa, PDF zaxira bo‘ladi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "AI’dan himoya taqdimotida qanday halol foydalanish mumkin?"
+    },
+    {
+      "type": "p",
+      "text": "AI ishni siz uchun yozib bermaydi, lekin tayyorgarlikni tezlashtiradi: ish xulosalaridan slayd rejasini tuzish, nutqni qisqartirish, komissiya savollarini taxmin qilish. GPTBot.uz Studio mavzudan PowerPoint (.pptx) qoralama tayyorlaydi: bepul namuna — kuniga 1 ta, 6 slaydgacha; to‘liq taqdimot — 12 slaydgacha, 8 rasmgacha va ma’ruzachi izohlari bilan, Kunlik (5 900 so‘m, 24 soat, 1 ta taqdimot) yoki Oylik (39 900 so‘m, bir kalendar oy, 10 ta taqdimot) tarifida. Qoralamadagi har bir raqam va xulosani o‘z ishingiz bilan solishtiring: komissiya sizning natijalaringizni so‘raydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Taqdimot qoralamasi: {studio}. Umumiy qadamlar va 6×6 qoidasi: {hub}. Shrift, rang va kontrast: {design}. Kurs ishining o‘zi: {kurs}.",
+      "links": [
+        {
+          "token": "studio",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "GPTBot.uz Studio"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "slayd tayyorlash bo‘yicha qo‘llanma"
+        },
+        {
+          "token": "design",
+          "target": "/uz/blog/slayd-dizayni-qoidalari/",
+          "anchor": "slayd dizayni qoidalari"
+        },
+        {
+          "token": "kurs",
+          "target": "/uz/blog/kurs-ishi-yozish/",
+          "anchor": "kurs ishi tuzilmasi"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Himoyadan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Slaydlar soni va nutq vaqti kafedra talabiga mos.",
+        "Har bir natija slaydida bitta xulosa jumlasi bor.",
+        "Raqamlar ishdagi jadvallar bilan bir xil.",
+        "Grafik va rasmlarning manbasi ko‘rsatilgan.",
+        "Fayl .pptx va .pdf ko‘rinishida fleshka va bulutli diskda saqlangan.",
+        "Nutq soat bilan kamida ikki marta mashq qilingan."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Yana o‘qing: {business} va {tools}.",
+      "links": [
+        {
+          "token": "business",
+          "target": "/uz/blog/biznes-reja-taqdimoti/",
+          "anchor": "biznes-reja taqdimoti uchun 10 slayd"
+        },
+        {
+          "token": "tools",
+          "target": "/uz/blog/ai-taqdimot-vositalari/",
+          "anchor": "AI taqdimot vositalari taqqoslash"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Himoya uchun taqdimot necha slayddan iborat bo‘lishi kerak?",
+      "a": "Sonni kafedra belgilaydi. Talab bo‘lmasa, taxminan 7 daqiqalik nutq uchun 10–12 slayd qulay: titul, dolzarblik, maqsad va vazifalar, usullar, 3–4 natija slaydi, xulosa, takliflar va minnatdorchilik."
+    },
+    {
+      "q": "Himoya nutqi qancha davom etadi?",
+      "a": "Vaqtni kafedra yoki komissiya reglamenti belgilaydi, uni oldindan so‘rang. Mashqda belgilangan vaqtdan bir daqiqa kam chiqishga harakat qiling: hayajonda nutq cho‘zilishi mumkin."
+    },
+    {
+      "q": "Kurs ishi taqdimoti diplom taqdimotidan nimasi bilan farq qiladi?",
+      "a": "Tuzilma bir xil, farq hajmda: diplom ishida natija va amaliy takliflar ko‘proq. Taqriz yoki joriy etish natijasi bo‘lsa, ular ham ko‘rsatiladi."
+    },
+    {
+      "q": "Himoya taqdimotini AI bilan tayyorlash mumkinmi?",
+      "a": "Qoralama uchun — ha: GPTBot.uz Studio kuniga 1 ta, 6 slaydgacha bepul namuna beradi. Lekin raqamlar, xulosalar va manbalar sizning ishingizdan olinishi kerak; AI matnini tekshirmasdan topshirmang."
+    },
+    {
+      "q": "Slaydga nutq matnini to‘liq yozish kerakmi?",
+      "a": "Yo‘q. Slaydda qisqa bandlar bo‘ladi, to‘liq matn esa ma’ruzachi eslatmalariga (Notes) yoziladi. Slayddan o‘qish nutqni sustlashtiradi va komissiya bilan ko‘z aloqasini yo‘qotadi."
+    }
+  ],
+  "cta": {
+    "label": "Himoya taqdimoti qoralamasini yaratish",
+    "href": "/uz/taqdimot-ai/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/taqdimot-ai/",
+      "anchor": "GPTBot.uz Studio: mavzudan .pptx",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/slayd-dizayni-qoidalari/",
+      "anchor": "slayd dizayni qoidalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/biznes-reja-taqdimoti/",
+      "anchor": "biznes-reja taqdimoti",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/ai-taqdimot-vositalari/",
+      "anchor": "AI taqdimot vositalari taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/blog/kurs-ishi-yozish/",
+      "anchor": "kurs ishi tuzilmasi va namuna reja",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/slayd-tayyorlash/",
+      "anchor": "slayd tayyorlash bo‘yicha qo‘llanma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
+    }
+  ],
+  "ogTitle": "Himoya uchun taqdimot: 12 slayd, nutq va komissiya savollari",
+  "ogDescription": "Kurs ishi va diplom ishi himoyasi: har bir slaydga nima yoziladi, 7 daqiqalik nutq rejasi, savollar va tekshiruv ro‘yxati.",
+  "ogImage": "https://gptbot.uz/assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/himoya-uchun-taqdimot/",
+  "hreflangRu": "/ru/blog/prezentatsiya-dlya-zashchity/",
+  "hreflangUz": "/uz/blog/himoya-uchun-taqdimot/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "student"
+  },
+  "breadcrumbLabel": "Himoya uchun taqdimot",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Microsoft Support — Start the presentation and see your notes in Presenter view",
+      "url": "https://support.microsoft.com/en-us/office/start-the-presentation-and-see-your-notes-in-presenter-view-4de90e28-487e-435c-9401-eb49a3801257",
+      "note": "Ma’ruzachi rejimida (Presenter view) eslatmalarni faqat ma’ruzachi ko‘radi. 2026-11-23 kuni tekshirildi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "updatedAt": "2026-11-22",
+  "updatedAt": "2026-11-23",
   "purpose": "Records which URL owns which search intent, for the pairs that have measurably competed for the same queries. SEO Autopilot and any future content work must read this before retargeting a page: two of these pairs were converging on the same head terms and were pulled apart by hand on 2026-08-01. Evidence per pair is in docs/seo/CANNIBALIZATION_AND_MIGRATION_MAP_2026-08-01.md.",
   "commercialClusters": [
     {
@@ -4145,6 +4145,140 @@
       "gscNote": "Google Ads location 2860 on 2026-11-22: «bot yaratish» 590 a month (October 2026: 1 900), «telegram bot yasash» 70, «bot yasash» 20; the SERP is do-it-yourself (mohirdev.uz course, tvoybot.com and botoscope.com constructors, YouTube). No Uzbek guide existed: the Russian guide /ru/blog/kak-sozdat-telegram-bota/ held «telegram bot yaratish» at 16–21 (2 impressions, 09–21.11) and the Uzbek hub had 26 impressions at 24.1 over 19.08–19.11 while linking that Russian guide.",
       "decision": "DIFFERENTIATE",
       "decidedAt": "2026-11-22"
+    },
+    {
+      "id": "W20261123-01-uz-ai-taqdimot-vositalari-vs-studio",
+      "commercial": {
+        "url": "/uz/taqdimot-ai/",
+        "owns": "the Studio tool: a .pptx draft from a topic",
+        "mustNotTarget": [
+          "ai taqdimot vositalari",
+          "gamma yoki canva",
+          "powerpoint copilot"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/ai-taqdimot-vositalari/",
+        "owns": "the dated comparison of AI presentation tools (Studio, Gamma, Canva, Copilot)",
+        "mustNotTarget": [
+          "slayd ai",
+          "ai slayd",
+          "slayd yaratish",
+          "slayd yasash",
+          "taqdimot yaratish",
+          "prezentatsiya ai",
+          "ai prezentatsiya"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 2a; OpenSEO 2860, 2026-11-23: «презентация с ии бесплатно» 10, «нейросеть для презентаций» 110, «презентация онлайн бесплатно» 320, «как сделать презентацию» 140, «slayd tayyorlash» 5 400)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-02-ru-prezentatsiya-s-ii-besplatno-vs-studio",
+      "commercial": {
+        "url": "/ru/prezentatsiya-ai/",
+        "owns": "the Studio tool: a .pptx draft from a topic",
+        "mustNotTarget": [
+          "презентация с ии бесплатно",
+          "бесплатные сервисы для презентаций",
+          "gamma или canva",
+          "copilot в powerpoint"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/prezentatsiya-s-ii-besplatno/",
+        "owns": "the dated comparison of free AI presentation tools",
+        "mustNotTarget": [
+          "презентация ии",
+          "нейросеть для презентаций",
+          "сделать презентацию нейросетью",
+          "ии для презентаций"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 2a; OpenSEO 2860, 2026-11-23: «презентация с ии бесплатно» 10, «нейросеть для презентаций» 110, «презентация онлайн бесплатно» 320, «как сделать презентацию» 140, «slayd tayyorlash» 5 400)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-03-ru-kak-sdelat-prezentatsiyu-vs-studio",
+      "commercial": {
+        "url": "/ru/prezentatsiya-ai/",
+        "owns": "the Studio tool: a .pptx draft from a topic",
+        "mustNotTarget": [
+          "как сделать презентацию",
+          "структура презентации",
+          "сколько слайдов в презентации"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-sdelat-prezentatsiyu/",
+        "owns": "the general Russian guide: five steps, structure, 6×6",
+        "mustNotTarget": [
+          "презентация ии",
+          "нейросеть для презентаций",
+          "сделать презентацию нейросетью",
+          "ии для презентаций"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 2a; OpenSEO 2860, 2026-11-23: «презентация с ии бесплатно» 10, «нейросеть для презентаций» 110, «презентация онлайн бесплатно» 320, «как сделать презентацию» 140, «slayd tayyorlash» 5 400)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-04-uz-slayd-tayyorlash-vs-himoya",
+      "commercial": {
+        "url": "/uz/blog/slayd-tayyorlash/",
+        "owns": "the general guide to making slides",
+        "mustNotTarget": [
+          "himoya uchun taqdimot",
+          "kurs ishi himoyasi taqdimot",
+          "diplom ishi himoyasi taqdimot"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/himoya-uchun-taqdimot/",
+        "owns": "the defence presentation: coursework and diploma slides, speech, questions",
+        "mustNotTarget": [
+          "slayd tayyorlash",
+          "prezentatsiya tayyorlash",
+          "taqdimot tayyorlash",
+          "slayd tayyorlash telefonda"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 2a; OpenSEO 2860, 2026-11-23: «презентация с ии бесплатно» 10, «нейросеть для презентаций» 110, «презентация онлайн бесплатно» 320, «как сделать презентацию» 140, «slayd tayyorlash» 5 400)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-05-uz-slayd-tayyorlash-vs-dizayn",
+      "commercial": {
+        "url": "/uz/blog/slayd-tayyorlash/",
+        "owns": "the general guide to making slides",
+        "mustNotTarget": [
+          "slayd dizayni",
+          "slayd dizayni qoidalari",
+          "slayd uchun shrift"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/slayd-dizayni-qoidalari/",
+        "owns": "slide design rules: contrast, fonts, colour, images",
+        "mustNotTarget": [
+          "slayd tayyorlash",
+          "prezentatsiya tayyorlash",
+          "taqdimot tayyorlash",
+          "slayd uchun fon"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 2a; OpenSEO 2860, 2026-11-23: «презентация с ии бесплатно» 10, «нейросеть для презентаций» 110, «презентация онлайн бесплатно» 320, «как сделать презентацию» 140, «slayd tayyorlash» 5 400)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

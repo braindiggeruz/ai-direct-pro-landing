@@ -255,6 +255,10 @@ export function enPages(root: string): EnPage[] {
         { token: 'chat', target: '/en/uzbek-ai-chat/', anchor: 'free Uzbek AI chat' },
         { token: 'about', target: '/en/', anchor: 'about GPTBot.uz' },
       ] },
+      { type: 'linkp', text: 'A dated comparison of Studio, Gamma, Canva and Copilot in PowerPoint, in Uzbek: {uz}; in Russian: {ru}.', links: [
+        { token: 'uz', target: '/uz/blog/ai-taqdimot-vositalari/', anchor: 'AI taqdimot vositalari taqqoslash', lang: 'uz' },
+        { token: 'ru', target: '/ru/blog/prezentatsiya-s-ii-besplatno/', anchor: 'Презентация с ИИ бесплатно: сравнение', lang: 'ru' },
+      ] },
     ],
     faq: [
       { q: 'How can I make a presentation with AI for free?', a: `Studio gives a free sample presentation ${perDay}, up to ${f.studio.freeSlides} slides, without registration.` },

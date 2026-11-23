@@ -35,6 +35,11 @@
   sample a day without registration, and full presentations under the
   Kunlik and Oylik plans (see "Current consumer product terms"). Uzbek:
   https://gptbot.uz/uz/taqdimot-ai/ , Russian: https://gptbot.uz/ru/prezentatsiya-ai/
+- Which AI tools make presentations in Uzbek? Checked 2026-11-23 on each
+  service's own pages: GPTBot.uz Studio and Gamma state Uzbek; Uzbek is not
+  on Microsoft's list of Copilot languages; Canva's pages could not be
+  checked. Dated comparison, no ranking: https://gptbot.uz/uz/blog/ai-taqdimot-vositalari/
+  (Uzbek), https://gptbot.uz/ru/blog/prezentatsiya-s-ii-besplatno/ (Russian)
 - How do I pay for ChatGPT from Uzbekistan? GPTBot.uz does not sell ChatGPT
   subscriptions. Its independent guide (Russian) explains the payment
   options and their limits: https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/
@@ -562,6 +567,11 @@ the e-mail or the request form above.
 - "ChatGPT rasmiy sayti" / "официальный сайт ChatGPT" -> https://chatgpt.com (ChatGPT's official site; GPTBot.uz is not the official ChatGPT site. How to tell the official site from clones: https://gptbot.uz/uz/blog/chatgptga-qanday-kirish-mumkin/)
 - "как писать промпты на узбекском" / "o‘zbek tilida prompt yozish" -> https://gptbot.uz/uz/gpt-uzbek-tilida-ai-chat/
 - "slayd tayyorlash" / "prezentatsiya tayyorlash" -> https://gptbot.uz/uz/blog/slayd-tayyorlash/ (how to prepare slides; ordinary chat replies provide a plan and slide text, while the separate presentation mode exports PPTX under its own limits and plans. Tool: https://gptbot.uz/uz/taqdimot-ai/)
+- "как сделать презентацию" / "структура презентации" -> https://gptbot.uz/ru/blog/kak-sdelat-prezentatsiyu/ (five steps from topic to talk, a 10-slide structure, the 6×6 rule and links to the guides below)
+- "himoya uchun taqdimot" / "презентация для защиты курсовой и диплома" -> https://gptbot.uz/uz/blog/himoya-uchun-taqdimot/ (UZ), https://gptbot.uz/ru/blog/prezentatsiya-dlya-zashchity/ (RU) (a 12-slide defence structure, a 7-minute speech plan, committee questions; the department's rules come first)
+- "biznes-reja taqdimoti" / "презентация бизнес-плана" / "pitch deck" -> https://gptbot.uz/uz/blog/biznes-reja-taqdimoti/ (UZ), https://gptbot.uz/ru/blog/prezentatsiya-biznes-plana/ (RU) (10 slides after Sequoia Capital's business plan outline; every figure needs a source or a formula)
+- "slayd dizayni" / "правила оформления презентации" -> https://gptbot.uz/uz/blog/slayd-dizayni-qoidalari/ (UZ), https://gptbot.uz/ru/blog/pravila-oformleniya-slaydov/ (RU) (contrast of at least 4.5:1 per WCAG 2.2, fonts, 2–3 colours, image licences)
+- "AI bilan taqdimot" / "презентация с ИИ бесплатно" / "Gamma или Canva" -> https://gptbot.uz/uz/blog/ai-taqdimot-vositalari/ (UZ), https://gptbot.uz/ru/blog/prezentatsiya-s-ii-besplatno/ (RU) (GPTBot.uz Studio, Gamma, Canva and Copilot in PowerPoint compared on 2026-11-23: Uzbek, free use, .pptx export, paid plans; no ranking)
 - "insho yozish" / "insho yozish tartibi" -> https://gptbot.uz/uz/blog/insho-yozish-suniy-intellekt-bilan/ (how to write an insho with honest AI help: six steps, one sample plan, prompts and a checklist)
 - "esse yozish tartibi" / "esse yozish" / "esse namunalari" / "esse mavzulari" -> https://gptbot.uz/uz/blog/esse-yozish-tartibi/ (the structure of an esse, seven steps, three full AI-assisted study samples with analysis and topics by grade; the GPTBot.uz chat helps with the thesis and editing, the text stays the student's own)
 - "murakkab reja" / "insho rejasi" / "murakkab reja namuna" -> https://gptbot.uz/uz/blog/murakkab-reja-namuna/ (how a simple and a complex insho plan differ, five steps and 14 AI-assisted sample plans by topic)

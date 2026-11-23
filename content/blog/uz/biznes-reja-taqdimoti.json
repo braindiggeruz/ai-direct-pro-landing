@@ -1,0 +1,316 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "biznes-reja-taqdimoti",
+  "url": "/uz/blog/biznes-reja-taqdimoti/",
+  "title": "Biznes-reja taqdimoti: investor va tanlov uchun 10 slayd | GPTBot.uz",
+  "description": "Biznes-reja taqdimoti 10 slaydda: maqsad, muammo, yechim, bozor, raqobat, daromad modeli, jamoa va moliya. Raqamlar qoidalari va AI bilan qoralama.",
+  "h1": "Biznes-reja taqdimoti: investor, bank yoki grant tanlovi uchun 10 slaydlik tuzilma",
+  "topicCluster": "maktab-va-talabalar",
+  "targetMoneyPage": "/uz/taqdimot-ai/",
+  "keywords": [
+    "biznes-reja taqdimoti",
+    "biznes reja taqdimoti",
+    "startap taqdimoti",
+    "pitch deck",
+    "investor uchun taqdimot"
+  ],
+  "intro": "Qisqa javob: biznes-reja taqdimoti 10 slaydda to‘rtta savolga javob beradi — qanday muammo bor, siz uni qanday hal qilasiz, bu bozor qanchalik katta va pul qanday topiladi. Sequoia Capital’ning qo‘llanmasidagi tartib: kompaniya maqsadi, muammo, yechim, nega aynan hozir, bozor, raqobat, biznes model, jamoa, moliya va kelajak. Har bir raqamning manbasi yoki hisob formulasi slaydda ko‘rsatilishi kerak.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob: biznes-reja taqdimoti 10 slaydda to‘rtta savolga javob beradi — qanday muammo bor, siz uni qanday hal qilasiz, bu bozor qanchalik katta va pul qanday topiladi. Sequoia Capital’ning qo‘llanmasidagi tartib: kompaniya maqsadi, muammo, yechim, nega aynan hozir, bozor, raqobat, biznes model, jamoa, moliya va kelajak. Har bir raqamning manbasi yoki hisob formulasi slaydda ko‘rsatilishi kerak."
+    },
+    {
+      "type": "h2",
+      "text": "Biznes-reja taqdimotida 10 ta slayd: tartib va mazmun"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "№",
+        "Slayd",
+        "Qaysi savolga javob",
+        "Nima ko‘rsatiladi"
+      ],
+      "rows": [
+        [
+          "1",
+          "Kompaniya maqsadi",
+          "Siz kimsiz?",
+          "Biznesni bitta aniq jumlada: kim uchun va qanday muammoni hal qiladi"
+        ],
+        [
+          "2",
+          "Muammo",
+          "Mijozni nima qiynayapti?",
+          "Mijozning muammosi, bugun u qanday hal qilinayotgani va bu usulning kamchiliklari"
+        ],
+        [
+          "3",
+          "Yechim",
+          "Siz nimani taklif qilasiz?",
+          "Mahsulot yoki xizmat, asosiy afzallik, uni nega nusxalash qiyin"
+        ],
+        [
+          "4",
+          "Nega aynan hozir",
+          "Nega bu avval qilinmagan?",
+          "Bozor, texnologiya yoki qonunchilikdagi o‘zgarish"
+        ],
+        [
+          "5",
+          "Bozor",
+          "Mijozlar qancha?",
+          "Mijoz kim, bozor hajmi va uni qanday hisoblaganingiz"
+        ],
+        [
+          "6",
+          "Raqobat",
+          "Boshqalar nima qilyapti?",
+          "To‘g‘ridan-to‘g‘ri va bilvosita raqobatchilar, sizning ustunligingiz"
+        ],
+        [
+          "7",
+          "Biznes model",
+          "Pul qanday topiladi?",
+          "Narx, kim to‘laydi, xarid takrorlanadimi yoki bir martalikmi"
+        ],
+        [
+          "8",
+          "Jamoa",
+          "Buni kim qiladi?",
+          "Asoschilar va asosiy xodimlar, ularning tajribasi"
+        ],
+        [
+          "9",
+          "Moliya",
+          "Raqamlar nima deydi?",
+          "Bor bo‘lsa — sotuv va xarajatlar, reja va kerakli mablag‘"
+        ],
+        [
+          "10",
+          "Kelajak",
+          "Besh yildan keyin nima bo‘ladi?",
+          "Hammasi reja bo‘yicha ketsa, nimaga erishasiz va so‘ralgan mablag‘ nimaga sarflanadi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bu tartib Sequoia Capital’ning «Writing a business plan» qo‘llanmasidagi bo‘limlarga asoslangan (manba pastda). Grant tanlovi yoki bank uchun taqdimotda ham shu mantiq ishlaydi: nizomda talab qilingan bo‘limlarni qo‘shing va ularning nomini nizomdagidek yozing."
+    },
+    {
+      "type": "h2",
+      "text": "Raqamlarni qanday ko‘rsatish kerak?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Har bir raqamning manbasi bo‘lsin: davlat statistikasi, soha hisoboti yoki o‘zingiz o‘tkazgan so‘rov. Manbani slayd pastida kichik shrift bilan yozing.",
+        "Bozor hajmini butun soha raqamidan emas, pastdan hisoblang: mijozlar soni × o‘rtacha xarid summasi × yiliga xaridlar soni. Formulani slaydning o‘zida ko‘rsating.",
+        "Prognozning farazlarini yozing: har bir o‘sish raqami nimaga asoslangani ko‘rinsin.",
+        "Moliya slaydida uchta asosiy ko‘rsatkich yetarli: daromad, xarajat va kerakli mablag‘. Batafsil jadvalni ilovaga qo‘ying.",
+        "Valyutani (so‘m yoki dollar) va hisob sanasini ko‘rsating."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Investor, bank va grant tanlovi uchun taqdimotning farqi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Kim uchun",
+        "Asosiy savol",
+        "Nimaga urg‘u berish kerak"
+      ],
+      "rows": [
+        [
+          "Investor",
+          "Biznes qanchalik o‘sishi mumkin?",
+          "Bozor hajmi, jamoa va mablag‘ nimaga sarflanishi"
+        ],
+        [
+          "Bank",
+          "Kredit qaytariladimi?",
+          "Barqaror daromad, xarajatlar va pul oqimi"
+        ],
+        [
+          "Grant yoki tanlov",
+          "Loyiha nizom talablariga mosmi?",
+          "Nizomdagi bo‘limlar, loyihaning foydasi va natijani o‘lchash usuli"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Dizayn va nutq: qisqa taqdimot qoidalari"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Bitta slayd — bitta xabar. Sarlavha xulosa sifatida yozilsin: «Mijozlar yetkazib berishni uzoq kutadi» kabi.",
+        "Tendensiyani grafik bilan ko‘rsating: grafik jadvaldan tezroq o‘qiladi.",
+        "Logotip, ranglar va shrift barcha slaydlarda bir xil bo‘lsin; kontrast va o‘lcham qoidalari slayd dizayni qo‘llanmasida.",
+        "Nutqning bir daqiqalik qisqa versiyasini ham tayyorlang: tanlovda yoki uchrashuvda vaqt kam bo‘lishi mumkin."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "AI bilan biznes-reja taqdimotini qanday tayyorlash mumkin?"
+    },
+    {
+      "type": "p",
+      "text": "AI tuzilma va matn qoralamasini tez beradi, lekin sizning raqamlaringizni bilmaydi va ularni o‘ylab topishi mumkin. Ish tartibi: avval yuqoridagi 10 savolga o‘zingiz qisqa javob yozing; keyin qoralama yarating; so‘ng har bir raqamni o‘z hisobingiz bilan almashtiring. GPTBot.uz Studio mavzudan PowerPoint (.pptx) qoralama tayyorlaydi: bepul namuna — kuniga 1 ta, 6 slaydgacha; to‘liq taqdimot — 12 slaydgacha, 8 rasmgacha va ma’ruzachi izohlari bilan, Kunlik (5 900 so‘m, 24 soat, 1 ta taqdimot) yoki Oylik (39 900 so‘m, bir kalendar oy, 10 ta taqdimot) tarifida."
+    },
+    {
+      "type": "linkp",
+      "text": "Taqdimot qoralamasi: {studio}. Matnni qisqartirish va tahrir: {chat}. Shrift va rang: {design}. Umumiy qadamlar: {hub}.",
+      "links": [
+        {
+          "token": "studio",
+          "target": "/uz/taqdimot-ai/",
+          "anchor": "GPTBot.uz Studio"
+        },
+        {
+          "token": "chat",
+          "target": "/uz/gpt-uzbek-tilida/",
+          "anchor": "o‘zbek tilidagi AI chat"
+        },
+        {
+          "token": "design",
+          "target": "/uz/blog/slayd-dizayni-qoidalari/",
+          "anchor": "slayd dizayni qoidalari"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/blog/slayd-tayyorlash/",
+          "anchor": "slayd tayyorlash bo‘yicha qo‘llanma"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Taqdimotdan oldin tekshiruv ro‘yxati"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Birinchi slayd biznesni bitta jumlada tushuntiradi.",
+        "Har bir raqamning manbasi yoki formulasi bor.",
+        "Moliya slaydidagi raqamlar biznes-reja hujjati bilan bir xil.",
+        "Raqobat slaydida kamida ikkita muqobil yechim nomlangan.",
+        "So‘ralgan mablag‘ va uning sarflanishi aniq yozilgan.",
+        "Fayl .pptx va .pdf ko‘rinishida saqlangan."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Yana o‘qing: {defense} va {tools}.",
+      "links": [
+        {
+          "token": "defense",
+          "target": "/uz/blog/himoya-uchun-taqdimot/",
+          "anchor": "kurs ishi va diplom himoyasi uchun taqdimot"
+        },
+        {
+          "token": "tools",
+          "target": "/uz/blog/ai-taqdimot-vositalari/",
+          "anchor": "AI taqdimot vositalari taqqoslash"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Biznes-reja taqdimoti necha slayddan iborat bo‘ladi?",
+      "a": "10 ta asosiy slayd yetarli: maqsad, muammo, yechim, nega hozir, bozor, raqobat, biznes model, jamoa, moliya va kelajak. Tanlov nizomi boshqacha talab qilsa, nizomga amal qiling."
+    },
+    {
+      "q": "Biznes-reja va pitch deck farqi nima?",
+      "a": "Biznes-reja — batafsil hujjat: moliyaviy jadvallar, marketing rejasi, xavflar. Pitch deck — uning qisqa taqdimoti: investor 10 slaydda mohiyatni ko‘radi, tafsilotlarni keyin so‘raydi."
+    },
+    {
+      "q": "Bozor hajmini qanday hisoblash mumkin?",
+      "a": "Pastdan yuqoriga: mijozlar soni × o‘rtacha xarid summasi × yiliga xaridlar soni. Har bir ko‘rsatkichning manbasini yozing."
+    },
+    {
+      "q": "Biznes-reja taqdimotini AI bilan tayyorlasa bo‘ladimi?",
+      "a": "Tuzilma va matn qoralamasi uchun — ha. Raqamlar, narxlar va prognozlarni o‘zingiz hisoblang: AI ularni bilmaydi va o‘ylab topishi mumkin."
+    }
+  ],
+  "cta": {
+    "label": "Taqdimot qoralamasini yaratish",
+    "href": "/uz/taqdimot-ai/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/taqdimot-ai/",
+      "anchor": "GPTBot.uz Studio: mavzudan .pptx",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/slayd-dizayni-qoidalari/",
+      "anchor": "slayd dizayni qoidalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/himoya-uchun-taqdimot/",
+      "anchor": "himoya uchun taqdimot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/ai-taqdimot-vositalari/",
+      "anchor": "AI taqdimot vositalari taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/uz/gpt-uzbek-tilida/",
+      "anchor": "o‘zbek tilidagi AI chat",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Biznes-reja taqdimoti: 10 slaydlik tuzilma",
+  "ogDescription": "Investor, bank yoki grant tanlovi uchun 10 slayd: maqsad, muammo, yechim, bozor, raqobat, biznes model, jamoa va moliya.",
+  "ogImage": "https://gptbot.uz/assets/blog/slayd-tayyorlash-reja-gptbot-1200.webp",
+  "canonical": "https://gptbot.uz/uz/blog/biznes-reja-taqdimoti/",
+  "hreflangRu": "/ru/blog/prezentatsiya-biznes-plana/",
+  "hreflangUz": "/uz/blog/biznes-reja-taqdimoti/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "O‘zbekistondagi tadbirkorlar, startap asoschilari va talabalar"
+  },
+  "breadcrumbLabel": "Biznes-reja taqdimoti",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Sequoia Capital — Writing a business plan",
+      "url": "https://sequoiacap.com/article/writing-a-business-plan/",
+      "note": "Bo‘limlar: Company purpose, Problem, Solution, Why now?, Market potential, Competition / alternatives, Business model, Team, Financials, Vision. 2026-11-23 kuni tekshirildi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

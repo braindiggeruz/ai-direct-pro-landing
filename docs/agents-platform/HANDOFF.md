@@ -1,3 +1,31 @@
+# Current handoff — AI visibility wave 2a: the presentation cluster · 23.11.2026
+
+## 1. State
+Branch feat/ai-visibility-wave2a from main 477e3f1f. Production 477e3f1f (waves 1a–1c and offer v7 live; check-entity-consistency OK on 435 URLs; IndexNow sent for wave 1c) until this PR is merged and deployed.
+## 2. Delivered
+Nine articles: uz/ru pairs himoya-uchun-taqdimot / prezentatsiya-dlya-zashchity, biznes-reja-taqdimoti / prezentatsiya-biznes-plana, slayd-dizayni-qoidalari / pravila-oformleniya-slaydov, ai-taqdimot-vositalari / prezentatsiya-s-ii-besplatno (dated comparison: Studio, Gamma, Canva, Copilot), and the standalone /ru/blog/kak-sdelat-prezentatsiyu/. /en/ai-presentation-maker/ links both comparisons; intent-manifest pairs W20261123-01..05; llms.txt routing + one quick answer; protection revision 2026-11-23-ai-visibility-2a.
+## 3. Files
+content/blog/{uz,ru}/*.json (9 new), content/seo/intent-manifest.json, scripts/en-pages.ts, scripts/seo-protection.ts (BASELINE), public/llms.txt, tests/presentation-cluster.test.ts (new) + package.json test list, reports/ai-visibility-20261123-2a/, docs/seo/evidence/2026-11-23-ai-visibility-2a/, docs.
+## 4. Decisions
+D-PRESENTATION-CLUSTER-20261123 (no new hub over /uz/blog/slayd-tayyorlash/, Russian guide unpaired, Canva facts only where checkable).
+## 5. Excluded
+/uz/blog/slayd-tayyorlash/ and the Studio pages (frozen by the Studio release tests, under measurement); subject pages without measured demand; protected pages.
+## 6. Validation
+seo-audit OK (0 critical); build:fast + build:studio; review vs a build of production 477e3f1f: sitemap 435 → 444, 9 added, homepage lists only, issues 0, 4–6 incoming article links per new URL; seo-protection 21/21, homepage-lists-frozen 4/4, presentation-cluster 6/6, intent manifest 5/5, anchor intent, link graph, page integrity, content guards, cluster quality, trial truth, product facts, demand gate, hreflang guard, en-pages, updates feed, studio-release/prerender green; seo-push-revision R3-6/R3-9 fail on main too; 375 px without horizontal scroll.
+## 7. Known limits
+Facts about Gamma, Canva and Copilot age; the comparisons carry the check date. Canva PPTX export and language support are «not checked» (help pages refuse automated access). Note for content work: scripts/prerender-blog.ts does not print an article's `intro`; the answer-first paragraph is visible only as body[0] (scripts/apply-blog.ts builds it that way; tests/presentation-cluster.test.ts checks it for this cluster).
+## 8. Next task
+Deploy, check the 9 URLs, reciprocal hreflang and the sitemap on production, IndexNow (9 new + /en/ai-presentation-maker/ + llms.txt); then wave 2b (payment for AI services).
+## 9. Acceptance
+Nine URLs 200 and in the sitemap; four reciprocal pairs; check-entity-consistency OK on 444 URLs.
+## 10. Start commands
+npx tsx reports/ai-visibility-20261123-2a/review.ts --before <production dist>; node --import tsx --test tests/presentation-cluster.test.ts
+## 11. Risks
+Low: new articles, link additions on one generated English page, manifest fences.
+## 12. Rollback
+git revert; the 1b BASELINE stays valid for the old homepage.
+
+---
 # Current handoff — AI visibility wave 1c: the English layer /en/ · 23.11.2026
 
 ## 1. State
