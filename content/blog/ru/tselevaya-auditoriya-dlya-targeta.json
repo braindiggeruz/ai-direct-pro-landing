@@ -200,6 +200,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/retargeting-v-instagram-i-facebook/",
+      "anchor": "ретаргетинг: как вернуть посетителей сайта",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Аудитория для таргета: как настроить в 2026",

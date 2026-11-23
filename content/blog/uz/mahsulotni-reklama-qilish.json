@@ -246,6 +246,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/retargeting-nima/",
+      "anchor": "mahsulotni ko‘rganlarga retargeting",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Mahsulotni qanday reklama qilish: 6 kanal",

@@ -297,6 +297,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+      "anchor": "что делать, если реклама отклонена",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Как запустить рекламу в Instagram из Узбекистана",

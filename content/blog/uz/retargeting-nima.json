@@ -1,0 +1,307 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "retargeting-nima",
+  "url": "/uz/blog/retargeting-nima/",
+  "title": "Retargeting nima: Instagram va Facebook’da sozlash | GPTBot.uz",
+  "description": "Saytda bo‘lgan, video ko‘rgan yoki lid-formani ochganlarni qanday qaytarish: Meta’ning o‘z auditoriyalari, muddatlar, istisnolar, Advantage+ (2026-11-23).",
+  "h1": "Retargeting nima va uni Instagram hamda Facebook’da qanday sozlash: 2026 qo‘llanma",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "retargeting nima",
+    "retargeting",
+    "instagram retargeting",
+    "facebook retargeting",
+    "retargeting sozlash"
+  ],
+  "intro": "Qisqa javob (2026-11-23 da tekshirildi): retargeting — biznesingiz bilan allaqachon tanish odamlarga reklama: saytda bo‘lganlar, video ko‘rganlar, Instagram akkaunti bilan faollik qilganlar, lid-formani ochganlar yoki mijozlar bazangizdagilar. Meta’da u «o‘z auditoriyalari» (custom audiences) orqali sozlanadi: sayt — piksel orqali, qolganlari — Meta manbalaridan, baza — ro‘yxat yuklash orqali. Odam auditoriyada necha kun qolishini siz belgilaysiz, auditoriya esa o‘zi yangilanadi. Retargeting uchun Meta Advantage+ audience’ni tavsiya qilmaydi: unda o‘z auditoriyalari faqat taklif.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23 da tekshirildi): retargeting — biznesingiz bilan allaqachon tanish odamlarga reklama: saytda bo‘lganlar, video ko‘rganlar, Instagram akkaunti bilan faollik qilganlar, lid-formani ochganlar yoki mijozlar bazangizdagilar. Meta’da u «o‘z auditoriyalari» (custom audiences) orqali sozlanadi: sayt — piksel orqali, qolganlari — Meta manbalaridan, baza — ro‘yxat yuklash orqali. Odam auditoriyada necha kun qolishini siz belgilaysiz, auditoriya esa o‘zi yangilanadi. Retargeting uchun Meta Advantage+ audience’ni tavsiya qilmaydi: unda o‘z auditoriyalari faqat taklif."
+    },
+    {
+      "type": "h2",
+      "text": "Qaysi auditoriyalarni qaytarish mumkin"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Manba",
+        "Auditoriyaga kim kiradi",
+        "Nimani bilish muhim"
+      ],
+      "rows": [
+        [
+          "Sayt",
+          "butun sayt yoki alohida sahifalar tashrifchilari, hodisa bajargan odamlar",
+          "Meta pikseli kerak; saqlash muddati Audience retention maydonida kunlarda belgilanadi"
+        ],
+        [
+          "Instagram akkaunti",
+          "professional akkauntga obuna bo‘lgan yoki u bilan faollik qilgan odamlar",
+          "shaxsiy akkaunt mos kelmaydi; Meta ma’lumotnomasiga ko‘ra — 365 kungacha"
+        ],
+        [
+          "Video",
+          "barcha tomoshabinlar (kamida 3 soniya), faol tomoshabinlar (kamida 10 soniya) yoki juda faol tomoshabinlar (videoning kamida 50 foizi)",
+          "variantlar 2026-yil oktyabrida yangilangan; bitta auditoriyada 200 tagacha video"
+        ],
+        [
+          "Lid-forma",
+          "formani ochgan, yuborgan yoki yubormasdan yopganlar",
+          "faollik turi Events ro‘yxatida tanlanadi"
+        ],
+        [
+          "Mijozlar ro‘yxati",
+          "CRM’dagi mijozlar telefon yoki e-mail bo‘yicha",
+          "Meta ma’lumotlarni ishlatishdan oldin xeshlaydi; faqat ma’lumotlariga ishlov berishga rozilik berganlarni yuklang"
+        ],
+        [
+          "Facebook sahifasi",
+          "sahifa bilan faollik qilgan odamlar",
+          "o‘chirilgan sahifalar auditoriyalaridan foydalanib bo‘lmaydi"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bitta reklama akkauntida 500 tagacha o‘z auditoriyasini yaratish mumkin. Mijozlar ro‘yxati — shaxsga doir ma’lumotlar: O‘RQ-547 ularga odam roziligi bilan ishlov berishga ruxsat beradi, shuning uchun faqat rozilik bergan mijozlarni yuklang."
+    },
+    {
+      "type": "h2",
+      "text": "Ads Manager’da retargetingni qanday sozlash"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ads Manager → Audiences → Create audience → Custom audience’ni oching.",
+        "Manbani tanlang — sayt, video, Instagram akkaunti, lid-forma yoki mijozlar ro‘yxati.",
+        "Hodisalar va kunlardagi muddatni belgilang: masalan, 30 kunlik muddatda auditoriyada oxirgi 30 kunda faollik qilganlar qoladi.",
+        "Auditoriyaga tushunarli nom bering va Create audience’ni bosing. Holat Ready’ga o‘zgarganda uni e’lonlar guruhida tanlash mumkin.",
+        "E’lonlar guruhida asl auditoriya sozlamalariga o‘ting (Switch to original audience options) yoki reklama faqat sizning auditoriyangizga borishi uchun Further limit the reach of your ads’ni yoqing."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Advantage+ audience va retargeting"
+    },
+    {
+      "type": "p",
+      "text": "Advantage+ audience’da o‘z auditoriyalari taklif sifatida ishlaydi: Meta reklamani taklifdagi odamlarga va, uning bahosiga ko‘ra natijani yaxshilasa, boshqalarga ham ko‘rsatadi. Shuning uchun retargeting kampaniyalari uchun Meta Advantage+ audience’ni tavsiya qilmaydi. Reklamani aynan o‘z auditoriyangizga ko‘rsatish muhim bo‘lsa, Further limit the reach of your ads’dan foydalaning va kerak bo‘lsa Use as a suggestion belgisini olib tashlang. O‘z auditoriyalarini chiqarib tashlash esa Advantage+ audience’da qat’iy sozlama sifatida ishlaydi."
+    },
+    {
+      "type": "h2",
+      "text": "Chiqarib tashlash: reklamani kimga ko‘rsatmaslik"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Allaqachon xarid qilgan yoki ariza yuborganlarni chiqarib tashlang: masalan, «lid-formani yuborganlar» auditoriyasi yoki mijozlar ro‘yxati.",
+        "Buning uchun alohida tur ham bor — faqat chiqarib tashlash uchun mijozlar ro‘yxati (exclusion-only custom audience).",
+        "Instagram akkaunti auditoriyasida chiqarib tashlash qoidasi qo‘shish qoidasidan ustun: odam ikkalasiga mos kelsa, u chiqarib tashlanadi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Retargetingdan o‘xshash auditoriyalar"
+    },
+    {
+      "type": "p",
+      "text": "O‘z auditoriyangizni o‘xshash auditoriya (lookalike) manbasi qilish mumkin: Meta siz bilan allaqachon faollik qilganlarga o‘xshash odamlarni topadi. Manba — kamida 100 kishi, Meta 1 000–5 000 kishini tavsiya qiladi."
+    },
+    {
+      "type": "h2",
+      "text": "Ko‘p uchraydigan xatolar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Piksel yo‘q — demak, sayt tashrifchilari auditoriyasi ham yo‘q.",
+        "Auditoriya juda kichik: Meta kichik auditoriyani Learning limited holatining sabablaridan biri deb ataydi.",
+        "Bir xil e’lonlar juda tez-tez ko‘rsatiladi: chastotani kuzating va natijalar tushganda kreativni almashtiring.",
+        "Xarid qilganlar chiqarib tashlanmagan — byudjet allaqachon olingan mijozlarga ketadi.",
+        "Advantage+ audience orqali cheklovsiz retargeting — reklama auditoriyangizdan ancha tashqariga ketadi."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Sayt tashrifchilari auditoriyasi uchun pikselni qanday o‘rnatish — {pix} maqolasida; yana qanday auditoriyalar bor — {aud} qo‘llanmasida; formada arizalarni qanday yig‘ish — {lead} maqolasida; ariza narxini qanday pasaytirish — {cost} maqolasida. Retargeting bilan internet reklama — {hub} sahifasida.",
+      "links": [
+        {
+          "token": "pix",
+          "target": "/uz/blog/meta-pikseli-ornatish/",
+          "anchor": "Meta pikselini o‘rnatish"
+        },
+        {
+          "token": "aud",
+          "target": "/uz/blog/targetda-auditoriya-sozlash/",
+          "anchor": "targetda auditoriya sozlash"
+        },
+        {
+          "token": "lead",
+          "target": "/uz/blog/lid-forma-instagram/",
+          "anchor": "Instagram lid-formasi"
+        },
+        {
+          "token": "cost",
+          "target": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+          "anchor": "targetda ariza narxini pasaytirish"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "GPTBot.uz’da arizalar uchun internet reklama"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Retargeting nima?",
+      "a": "Biznes bilan allaqachon faollik qilgan odamlarga reklama: saytda bo‘lganlar, video ko‘rganlar, Instagram’da yozganlar, lid-formani ochganlar yoki mijozlar bazasidagilar. Meta’da u o‘z auditoriyalari (custom audiences) orqali sozlanadi."
+    },
+    {
+      "q": "Sayt tashrifchilariga retargeting qanday qilinadi?",
+      "a": "Meta pikselini o‘rnating, Ads Manager’da «Sayt» manbali o‘z auditoriyangizni yarating, butun sayt yoki alohida sahifalar tashrifchilarini va kunlardagi muddatni tanlang, so‘ng bu auditoriyani e’lonlar guruhida tanlang."
+    },
+    {
+      "q": "Saytsiz retargeting qilish mumkinmi?",
+      "a": "Ha: auditoriyalarni Instagram akkaunti (faqat professional), video tomoshabinlari, lid-formani ochganlar, Facebook sahifasi va mijozlar ro‘yxatidan yig‘ish mumkin."
+    },
+    {
+      "q": "Auditoriyani necha kunlik qilib yig‘ish kerak?",
+      "a": "Muddatni o‘zingiz belgilaysiz; Meta ma’lumotnomada 30 kunlik misolni keltiradi. Instagram akkaunti auditoriyasi uchun maksimum — 365 kun. Auditoriya o‘zi yangilanadi: yangi odamlar qo‘shiladi, muddatdan chiqqanlar o‘chiriladi."
+    },
+    {
+      "q": "Xarid qilganlarga reklamani qanday ko‘rsatmaslik mumkin?",
+      "a": "Ularni e’lonlar guruhida chiqarib tashlang: formani yuborgan yoki xarid qilganlar auditoriyasi yoki mijozlar ro‘yxati. Faqat chiqarib tashlash uchun alohida mijozlar ro‘yxati ham bor."
+    },
+    {
+      "q": "Retargeting Advantage+ audience bilan ishlaydimi?",
+      "a": "Advantage+ audience’da o‘z auditoriyalari faqat taklif, reklama boshqa odamlarga ham ketishi mumkin; retargeting uchun Meta uni tavsiya qilmaydi. Asl auditoriya sozlamalaridan yoki Further limit the reach of your ads’dan foydalaning."
+    }
+  ],
+  "cta": {
+    "label": "Retargetingni sozlash",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "arizalar uchun internet reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/meta-pikseli-ornatish/",
+      "anchor": "Meta pikselini o‘rnatish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/targetda-auditoriya-sozlash/",
+      "anchor": "targetda auditoriya sozlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+      "anchor": "targetda ariza narxini pasaytirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Retargeting nima: Instagram va Facebook’da sozlash",
+  "ogDescription": "Meta’ning o‘z auditoriyalari — sayt, video, Instagram, lid-forma, mijozlar ro‘yxati —, muddatlar, istisnolar va Advantage+ audience, Meta ma’lumotnomasi bo‘yicha, 2026-11-23.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/retargeting-nima/",
+  "hreflangRu": "/ru/blog/retargeting-v-instagram-i-facebook/",
+  "hreflangUz": "/uz/blog/retargeting-nima/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Meta reklamasi bilan sayt tashrifchilari va obunachilarini qaytarmoqchi bo‘lgan O‘zbekistondagi biznes"
+  },
+  "breadcrumbLabel": "Retargeting nima",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Meta Business Help — o‘z auditoriyalari",
+      "url": "https://www.facebook.com/business/help/744354708981227",
+      "note": "2026-11-23 da tekshirildi: manbalar — piksel orqali sayt, mijozlar ro‘yxati, video, lid-formalar, Instagram, Facebook sahifasi; reklama akkauntida 500 tagacha auditoriya."
+    },
+    {
+      "title": "Meta Business Help — sayt tashrifchilari auditoriyasi",
+      "url": "https://www.facebook.com/business/help/610516375684216",
+      "note": "2026-11-23 da tekshirildi: ma’lumotnomadagi misol — oxirgi 30 kunda saytda bo‘lgan, lekin hali konversiya qilmaganlarga retargeting; Meta pikseli kerak."
+    },
+    {
+      "title": "Meta Business Help — sayt tashrifchilari auditoriyasini yaratish",
+      "url": "https://www.facebook.com/business/help/666509013483225",
+      "note": "2026-11-23 da tekshirildi: Audience retention maydonida tashrifchi auditoriyada necha kun qolishi ko‘rsatiladi."
+    },
+    {
+      "title": "Meta Business Help — faollik bo‘yicha auditoriyalar",
+      "url": "https://www.facebook.com/business/help/1090330204367211",
+      "note": "2026-11-23 da tekshirildi: manbalar — video, lid-forma, Instant Experience, Shopping, Instagram akkaunti, tadbirlar, Facebook sahifasi; auditoriya o‘zi yangilanadi."
+    },
+    {
+      "title": "Meta Business Help — video tomoshabinlari auditoriyasi",
+      "url": "https://www.facebook.com/business/help/1099865760056389",
+      "note": "2026-11-23 da tekshirildi: 2026-yil oktyabridan uch variant — barcha tomoshabinlar (3 soniyadan), faol tomoshabinlar (10 soniyadan), juda faol tomoshabinlar (videoning 50 foizidan); 200 tagacha video."
+    },
+    {
+      "title": "Meta Business Help — Instagram akkaunti auditoriyasi",
+      "url": "https://www.facebook.com/business/help/214981095688584",
+      "note": "2026-11-23 da tekshirildi: faqat professional akkaunt; muddat — 365 kungacha; chiqarib tashlash qoidasi qo‘shish qoidasidan ustun."
+    },
+    {
+      "title": "Meta for Developers — Engagement Custom Audiences",
+      "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api/audiences/guides/engagement-custom-audiences",
+      "note": "2026-11-23 da tekshirildi: lid-forma hodisalari — formani ochganlar, yuborganlar, yubormasdan yopganlar."
+    },
+    {
+      "title": "Meta Business Help — mijozlar ro‘yxatidan auditoriyalar",
+      "url": "https://www.facebook.com/business/help/341425252616329",
+      "note": "2026-11-23 da tekshirildi: Meta ro‘yxat ma’lumotlarini ishlatishdan oldin xeshlaydi va ulardan yangi identifikatsiya ma’lumotlarini bilib olmaydi."
+    },
+    {
+      "title": "Meta Business Help — Advantage+ audience va retargeting",
+      "url": "https://www.facebook.com/business/help/273363992030035",
+      "note": "2026-11-23 da tekshirildi: retargeting kampaniyalari uchun Advantage+ audience tavsiya etilmaydi."
+    },
+    {
+      "title": "Meta Business Help — auditoriya takliflari va qat’iy sozlamalar",
+      "url": "https://www.facebook.com/business/help/938372127764391",
+      "note": "2026-11-23 da tekshirildi: Advantage+ audience’da o‘z auditoriyalari — taklif, reklama boshqa odamlarga ham ko‘rsatilishi mumkin; cheklash uchun Further limit the reach of your ads; o‘z auditoriyalarini chiqarib tashlash — qat’iy sozlama."
+    },
+    {
+      "title": "Meta Business Help — o‘xshash auditoriyalar",
+      "url": "https://www.facebook.com/business/help/465262276878947",
+      "note": "2026-11-23 da tekshirildi: manba auditoriya kamida 100 kishi, Meta 1 000–5 000 kishini tavsiya qiladi."
+    },
+    {
+      "title": "«Shaxsga doir ma’lumotlar to‘g‘risida»gi Qonun (O‘RQ-547), 18-modda — lex.uz",
+      "url": "https://lex.uz/docs/4396419",
+      "note": "2026-11-23 da tekshirildi: shaxsga doir ma’lumotlarga subyekt roziligi bilan ishlov beriladi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

@@ -277,6 +277,13 @@
       "anchor": "Telegram reklama xizmati",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/lid-forma-instagram/",
+      "anchor": "lid-formadan arizalarni CRM’ga uzatish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Instagram, Telegram va CRM: bitta ariza voronkasi",

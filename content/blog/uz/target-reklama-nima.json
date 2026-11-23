@@ -498,6 +498,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/lid-forma-instagram/",
+      "anchor": "Instagram lid-formasi: arizalarni yig‘ish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
+    },
+    {
+      "target": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+      "anchor": "targetda ariza narxi qanday shakllanadi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",

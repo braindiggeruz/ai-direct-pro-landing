@@ -910,7 +910,9 @@
     { "target": "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/", "anchor": "рекламные креативы, которые приносят заявки", "locale": "ru", "type": "contextual", "priority": 14 },
     { "target": "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/", "anchor": "как запустить рекламу в Instagram из Узбекистана", "locale": "ru", "type": "contextual", "priority": 15 },
     { "target": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/", "anchor": "как проверить, окупается ли реклама", "locale": "ru", "type": "contextual", "priority": 16 },
-    { "target": "/ru/blog/targeting-v-instagram/", "anchor": "таргетинг в Instagram: что изменилось в 2026 году", "locale": "ru", "type": "contextual", "priority": 17 }
+    { "target": "/ru/blog/targeting-v-instagram/", "anchor": "таргетинг в Instagram: что изменилось в 2026 году", "locale": "ru", "type": "contextual", "priority": 17 },
+    { "target": "/ru/blog/zayavki-iz-lid-formy-instagram/", "anchor": "лид-форма в Instagram: как не терять заявки", "locale": "ru", "type": "contextual", "priority": 18 },
+    { "target": "/ru/blog/tsena-zayavki-v-targete/", "anchor": "почему заявки дорогие: метрики и обучение", "locale": "ru", "type": "contextual", "priority": 19 }
 ],
   "ogTitle": "Почему реклама в Instagram не приносит заявки",
   "ogDescription": "Почему клики из Instagram не превращаются в заявки: проверяем оффер, креатив, профиль, Direct, скорость ответа, CRM и аналитику по шагам.",

@@ -1,0 +1,244 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "lid-forma-instagram",
+  "url": "/uz/blog/lid-forma-instagram/",
+  "title": "Instagram lid-formasi: sozlash va arizalarni olish | GPTBot.uz",
+  "description": "Instagram va Facebook’da lid-formani qanday sozlash, qaysi forma turini tanlash, arizalarni 90 kun ichida yuklab olish va CRM’ga uzatish (2026-11-23).",
+  "h1": "Instagram va Facebook lid-formasi 2026: sozlash, forma turini tanlash va arizalarni yo‘qotmaslik",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "lid forma instagram",
+    "instagram lid forma",
+    "lid formani sozlash",
+    "instant form",
+    "lid formadan arizalar"
+  ],
+  "intro": "Qisqa javob (2026-11-23 da tekshirildi): lid-forma (instant form) — Instagram yoki Facebook ichidagi formali reklama: odam saytga o‘tmasdan ismi va telefonini qoldiradi. Meta formaning uch turini taklif qiladi — «ko‘proq ariza» (sukut bo‘yicha), ma’lumotlarni tekshirish ekrani bilan «yuqori niyat» va «boy kreativ»; har qanday forma uchun maxfiylik siyosati kerak. Arizalarni yuborilganidan keyin 90 kun ichida CSV yoki XLS’da yuklab olish mumkin, ishonchlisi esa — ularni integratsiya orqali darhol CRM’ga uzatish va o‘sha kuni javob berish.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23 da tekshirildi): lid-forma (instant form) — Instagram yoki Facebook ichidagi formali reklama: odam saytga o‘tmasdan ismi va telefonini qoldiradi. Meta formaning uch turini taklif qiladi — «ko‘proq ariza» (sukut bo‘yicha), ma’lumotlarni tekshirish ekrani bilan «yuqori niyat» va «boy kreativ»; har qanday forma uchun maxfiylik siyosati kerak. Arizalarni yuborilganidan keyin 90 kun ichida CSV yoki XLS’da yuklab olish mumkin, ishonchlisi esa — ularni integratsiya orqali darhol CRM’ga uzatish va o‘sha kuni javob berish."
+    },
+    {
+      "type": "h2",
+      "text": "Lid-formaning uch turi"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tur",
+        "Qanday ishlaydi",
+        "Qachon tanlash"
+      ],
+      "rows": [
+        [
+          "Ko‘proq ariza (More volume)",
+          "sukut bo‘yicha tur: formani tez to‘ldirish mumkin",
+          "arizalar hajmi va tez test kerak"
+        ],
+        [
+          "Yuqori niyat (Higher intent)",
+          "yuborishdan oldin odam ma’lumotlarni tekshirish ekranini ko‘radi; faqat mobil qurilmalardagi Facebook va Instagram lentalarida ko‘rsatiladi",
+          "arizalar sifati sonidan muhimroq"
+        ],
+        [
+          "Boy kreativ (Rich creative)",
+          "auditoriyangizga moslashtirilgan, moslashuvchanroq va shaxsiylashtirilgan forma",
+          "formani auditoriyangizga moslab bezamoqchisiz; ko‘rinishini Ads Manager’dagi oldindan ko‘rishda tekshiring"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Qanday sozlash"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Kampaniya maqsadi sifatida «Leads»ni va konversiya joyi sifatida tezkor formani (instant form) tanlang.",
+        "Formani yig‘ing: kirish, savollar, maxfiylik siyosati va minnatdorchilik ekrani. Ayrim maydonlarni Meta odam profilidan oldindan to‘ldirishi mumkin.",
+        "Faqat qo‘ng‘iroq uchun kerakli narsalarni so‘rang: ortiqcha savollar formani murakkablashtiradi, ayrim ma’lumotlarni esa Meta ruxsatsiz so‘rashni taqiqlaydi.",
+        "Maxfiylik siyosatiga havola qo‘shing — usiz lid-formani ishga tushirib bo‘lmaydi.",
+        "Reklamani boshlashdan oldin arizalarni CRM’ga uzatishni ulang."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Arizalarni qayerdan olish va ular qancha saqlanadi"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Arizalarni Ads Manager’da yoki tezkor formalar sahifasida CSV yoki XLS’da, Leads Center’da esa CSV’da, bitta faylda 10 000 tagacha yuklab olish mumkin.",
+        "Yuklab olish uchun forma yuborilgan paytdan boshlab 90 kun bor.",
+        "CRM uchun to‘g‘ridan-to‘g‘ri integratsiyalar, uchinchi tomon xizmatlari (masalan, Zapier va LeadsBridge) hamda Webhooks va Graph API orqali o‘z integratsiyangiz bor."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Arizalar savdoga aylanishi uchun"
+    },
+    {
+      "type": "list",
+      "items": [
+        "O‘sha kuni javob bering va formadagi arizalarga kim javob berishini oldindan belgilang.",
+        "Arizalarni CRM yoki Telegram-botga avtomatik uzating — shunda birortasi ham kabinetda qolib ketmaydi.",
+        "CRM’da ariza sifati va savdoni belgilang, ariza narxini mijoz narxi bilan solishtiring.",
+        "Ariza ko‘p, savdo kam bo‘lsa, «yuqori niyat» turini sinab ko‘ring yoki aniqlovchi savol qo‘shing."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Shaxsga doir ma’lumotlar va qoidalar"
+    },
+    {
+      "type": "p",
+      "text": "Ism va telefon — shaxsga doir ma’lumotlar: O‘RQ-547 ularga odam roziligi bilan ishlov berishga ruxsat beradi (18-modda), rozilik olinganini tasdiqlash mumkin bo‘lgan shaklda (21-modda). Maxfiylik siyosatida ma’lumotlardan kim va nima uchun foydalanishini yozing. Meta formalardagi savollarni alohida cheklaydi: ayrim ma’lumotlarni ruxsatsiz so‘rab bo‘lmaydi."
+    },
+    {
+      "type": "linkp",
+      "text": "Arizalarni avtomatik qabul qilish — {bot} sahifasida; forma uchun auditoriyani qanday tanlash — {aud} maqolasida; Ads Manager’da reklama yaratish — {am} qo‘llanmasida. Lid-formali reklamani ishga tushirish uchun {hub} sahifasini ko‘ring.",
+      "links": [
+        {
+          "token": "bot",
+          "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+          "anchor": "arizalarni qabul qiluvchi bot"
+        },
+        {
+          "token": "aud",
+          "target": "/uz/blog/targetda-auditoriya-sozlash/",
+          "anchor": "targetda auditoriya sozlash"
+        },
+        {
+          "token": "am",
+          "target": "/uz/blog/meta-ads-manager-qollanma/",
+          "anchor": "Meta Ads Manager"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "GPTBot.uz’da arizalar uchun internet reklama"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Instagram’da lid-forma nima?",
+      "a": "Instagram yoki Facebook ichidagi tezkor formali reklama: odam saytga o‘tmasdan kontaktlarini qoldiradi. Ayrim maydonlarni Meta profildan to‘ldirishi mumkin."
+    },
+    {
+      "q": "Qaysi lid-forma turini tanlash kerak?",
+      "a": "«Ko‘proq ariza» — sukut bo‘yicha, hajm uchun. «Yuqori niyat» ma’lumotlarni tekshirish ekranini qo‘shadi va arizalar sifati muhimroq bo‘lganda mos keladi."
+    },
+    {
+      "q": "Lid-formadagi arizalar qancha saqlanadi?",
+      "a": "Ariza ma’lumotlarini forma yuborilganidan keyin 90 kun ichida yuklab olish mumkin — Ads Manager’dan CSV yoki XLS’da, Leads Center’dan CSV’da."
+    },
+    {
+      "q": "Lid-formadagi arizalarni CRM’ga qanday uzatish mumkin?",
+      "a": "CRM’ning to‘g‘ridan-to‘g‘ri integratsiyasi, Zapier va LeadsBridge kabi uchinchi tomon xizmatlari yoki Webhooks va Graph API orqali o‘z integratsiyangiz bilan."
+    },
+    {
+      "q": "Lid-forma uchun maxfiylik siyosati kerakmi?",
+      "a": "Ha: Meta tezkor formalar uchun maxfiylik siyosatini talab qiladi, O‘RQ-547 esa shaxsga doir ma’lumotlarga ishlov berishga odam roziligini."
+    },
+    {
+      "q": "Nega lid-formadan sifatsiz arizalar keladi?",
+      "a": "Formani tasodifan to‘ldirish oson. «Yuqori niyat» turini sinab ko‘ring, aniqlovchi savol qo‘shing va o‘sha kuni javob bering."
+    }
+  ],
+  "cta": {
+    "label": "Lid-formani ishga tushirish",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "arizalar uchun internet reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/arizalarni-qabul-qiluvchi-bot/",
+      "anchor": "arizalarni qabul qiluvchi bot",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/targetda-auditoriya-sozlash/",
+      "anchor": "targetda auditoriya sozlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/meta-ads-manager-qollanma/",
+      "anchor": "Meta Ads Manager qo‘llanma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Instagram lid-formasi: sozlash va arizalarni olish",
+  "ogDescription": "Forma turlari, sozlash, arizalarni 90 kun ichida yuklab olish, CRM integratsiyalari va ma’lumotlarga rozilik — Meta ma’lumotnomasi bo‘yicha, 2026-11-23.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/lid-forma-instagram/",
+  "hreflangRu": "/ru/blog/zayavki-iz-lid-formy-instagram/",
+  "hreflangUz": "/uz/blog/lid-forma-instagram/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Instagram va Facebook reklamasi orqali ariza yig‘adigan O‘zbekistondagi biznes"
+  },
+  "breadcrumbLabel": "Instagram lid-formasi",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Meta Business Help — lid-formali reklama (instant form)",
+      "url": "https://www.facebook.com/business/help/761812391313386",
+      "note": "2026-11-23 da tekshirildi: lid-forma forma orqali arizalarni yig‘ish va saralashga yordam beradi; u uchun maxfiylik siyosati majburiy."
+    },
+    {
+      "title": "Meta Business Help — lid-forma turlari",
+      "url": "https://www.facebook.com/business/help/252352181957512",
+      "note": "2026-11-23 da tekshirildi: turlar — ko‘proq ariza (sukut bo‘yicha), yuqori niyat va boy kreativ."
+    },
+    {
+      "title": "Meta Business Help — arizalarni yuklab olish",
+      "url": "https://www.facebook.com/business/help/734933888443065",
+      "note": "2026-11-23 da tekshirildi: ariza ma’lumotlarini forma yuborilganidan keyin 90 kun ichida yuklab olish mumkin."
+    },
+    {
+      "title": "Meta Business Help — lid-formalar uchun CRM integratsiyalari",
+      "url": "https://www.facebook.com/business/help/301355140655035",
+      "note": "2026-11-23 da tekshirildi: to‘g‘ridan-to‘g‘ri integratsiyalar, uchinchi tomon xizmatlari (masalan, Zapier) va o‘z integratsiyangiz."
+    },
+    {
+      "title": "Meta Advertising Standards",
+      "url": "https://transparency.meta.com/policies/ad-standards/",
+      "note": "2026-11-23 da tekshirildi: ayrim toifalar uchun 18+ auditoriya yoki oldindan ruxsat kerak; o‘tish sahifasi e’longa mos bo‘lishi kerak."
+    },
+    {
+      "title": "«Shaxsga doir ma’lumotlar to‘g‘risida»gi Qonun (O‘RQ-547), 18, 21-moddalar — lex.uz",
+      "url": "https://lex.uz/docs/4396419",
+      "note": "2026-11-23 da tekshirildi: shaxsga doir ma’lumotlarga subyekt roziligi bilan ishlov beriladi; rozilik olinganini tasdiqlash mumkin bo‘lgan shaklda beriladi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

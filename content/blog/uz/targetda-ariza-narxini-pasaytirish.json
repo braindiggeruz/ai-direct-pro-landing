@@ -1,0 +1,305 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "targetda-ariza-narxini-pasaytirish",
+  "url": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+  "title": "Targetda ariza narxini pasaytirish: 2026 qo‘llanma | GPTBot.uz",
+  "description": "Targetda ariza narxini qanday hisoblash, Meta’ning qaysi ko‘rsatkichlarini kuzatish — CPM, CTR, chastota, o‘rganish — va nimani o‘zgartirish (2026-11-23).",
+  "h1": "Targetda ariza narxi 2026: u nimadan iborat, qaysi ko‘rsatkichlarni kuzatish va uni qanday pasaytirish",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/instagram-target-yoqish/",
+  "keywords": [
+    "targetda ariza narxi",
+    "ariza narxini pasaytirish",
+    "instagram reklama ariza narxi",
+    "cpl nima",
+    "reklama natija narxi"
+  ],
+  "intro": "Qisqa javob (2026-11-23 da tekshirildi): ariza narxi — xarajatning arizalar soniga bo‘linmasi; Ads Manager’da «Leads» maqsadida bu «Cost per result» (natija narxi) ustuni. U zanjirdan iborat: CPM (1 000 ta ko‘rsatish narxi) → CTR (havolaga klik bo‘lgan ko‘rsatishlar ulushi) → arizaga aylangan kliklar ulushi. Narxni pasaytirish uchun zaif bo‘g‘inni toping va uni bittadan o‘zgartiring: har bir muhim o‘zgarish e’lonlar guruhini o‘rganish bosqichiga qaytaradi, guruh esa undan odatda haftasiga taxminan 50 ta natijadan keyin chiqadi.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23 da tekshirildi): ariza narxi — xarajatning arizalar soniga bo‘linmasi; Ads Manager’da «Leads» maqsadida bu «Cost per result» (natija narxi) ustuni. U zanjirdan iborat: CPM (1 000 ta ko‘rsatish narxi) → CTR (havolaga klik bo‘lgan ko‘rsatishlar ulushi) → arizaga aylangan kliklar ulushi. Narxni pasaytirish uchun zaif bo‘g‘inni toping va uni bittadan o‘zgartiring: har bir muhim o‘zgarish e’lonlar guruhini o‘rganish bosqichiga qaytaradi, guruh esa undan odatda haftasiga taxminan 50 ta natijadan keyin chiqadi."
+    },
+    {
+      "type": "h2",
+      "text": "Ariza narxi formulasi"
+    },
+    {
+      "type": "p",
+      "text": "Ariza narxi (CPL) = xarajat ÷ arizalar soni. Xuddi shu narxni Ads Manager ko‘rsatkichlariga ajratish mumkin: CPC = CPM ÷ (1 000 × CTR), CPL esa = CPC ÷ klikning arizaga konversiyasi. Reklama akkaunti valyutasidagi shartli sonlar bilan misol (bu bozor mo‘ljali emas, arifmetika): CPM = 2, CTR = 1 %, konversiya = 10 % → CPC = 2 ÷ (1 000 × 0,01) = 0,2, CPL = 0,2 ÷ 0,1 = 2. Xuddi shu CPM va konversiyada CTR 2 % ga ko‘tarilsa, ariza narxi ikki baravar tushadi — 1 gacha."
+    },
+    {
+      "type": "h2",
+      "text": "Ads Manager’da qaysi ko‘rsatkichlarni kuzatish"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ko‘rsatkich",
+        "Meta qanday hisoblaydi",
+        "Nimani ko‘rsatadi"
+      ],
+      "rows": [
+        [
+          "Natija narxi (Cost per result)",
+          "xarajat ÷ natijalar soni",
+          "«Leads» maqsadida — ariza narxi; Meta omillarni sanaydi: stavka, auditoriya, optimallashtirish turi, kreativ va matn, jadval"
+        ],
+        [
+          "CPM",
+          "xarajat ÷ ko‘rsatishlar × 1 000",
+          "auditoriya e’tibori qancha turadi"
+        ],
+        [
+          "CTR (havola bo‘yicha)",
+          "havolaga klik bo‘lgan ko‘rsatishlar ulushi",
+          "kreativ va taklif e’tiborni tortadimi"
+        ],
+        [
+          "CPC (havola bo‘yicha)",
+          "xarajat ÷ havolaga kliklar",
+          "saytga yoki formaga o‘tish narxi"
+        ],
+        [
+          "Chastota",
+          "ko‘rsatishlar ÷ qamrov; bu taxmin",
+          "bitta odam reklamani o‘rtacha necha marta ko‘rgan"
+        ],
+        [
+          "Dolzarblik diagnostikasi",
+          "xuddi shu auditoriya uchun e’lonlarga nisbatan sifat, faollik va konversiya reytinglari",
+          "e’lonning zaif joyi; 500 tadan kam ko‘rsatishli e’lonlarda yo‘q"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Meta yozishicha, dolzarbroq e’lonlar arzonroq turadi va ko‘proq natija beradi, shuning uchun past sifat reytingi faqat byudjetni oshirishga emas, kreativni yangilashga ham sabab."
+    },
+    {
+      "type": "h2",
+      "text": "Pul qayerda yo‘qoladi: zanjir bo‘yicha diagnostika"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Nimani ko‘ryapsiz",
+        "Ehtimoliy sabab",
+        "Nimani o‘zgartirish"
+      ],
+      "rows": [
+        [
+          "CPM avvalgi kampaniyalardan yuqori",
+          "tor auditoriya, unga kuchli raqobat yoki past sifat reytingi",
+          "auditoriyani kengaytiring, kreativni yangilang"
+        ],
+        [
+          "CTR past",
+          "kreativ yoki taklif e’tiborni tortmaydi",
+          "yangi kreativlar: videoning birinchi soniyalari, tushunarli taklif, Reels va Stories formati"
+        ],
+        [
+          "Kliklar bor, arizalar kam",
+          "sahifa yoki forma ishontirmaydi",
+          "sahifa tezligi va uning e’longa mosligi, qisqa forma, pikselda Lead hodisasini tekshirish"
+        ],
+        [
+          "Ariza ko‘p, savdo kam",
+          "tasodifiy yoki maqsadsiz arizalar",
+          "«yuqori niyat» forma turi, aniqlovchi savol, o‘sha kuni javob"
+        ],
+        [
+          "Learning limited holati",
+          "guruhga optimallashtirish hodisalari yetmaydi",
+          "guruhlarni birlashtiring, auditoriyani kengaytiring, byudjetni oshiring yoki tez-tez uchraydigan hodisani tanlang"
+        ],
+        [
+          "Chastota oshyapti, natijalar tushyapti",
+          "auditoriya reklamadan charchagan",
+          "kreativ yoki targetingni almashtiring — Meta shunday maslahat beradi"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "O‘rganish bosqichi: nega birinchi kunlarda arizalar qimmatroq"
+    },
+    {
+      "type": "list",
+      "items": [
+        "E’lonlar guruhi o‘rganish bosqichida ekan, natijalar beqaror, harakat narxi (CPA) esa odatda yuqoriroq — Meta shunday yozadi.",
+        "Guruh odatda oxirgi muhim o‘zgarishdan keyingi haftada taxminan 50 ta natijadan so‘ng o‘rganishdan chiqadi.",
+        "Muhim tahrirlar, jumladan byudjetni tez-tez o‘zgartirish, guruhni o‘rganishga qaytaradi. E’lonlarni faqat yaxshilanishni kutishga asos bo‘lganda o‘zgartiring.",
+        "Ko‘p mayda guruh va e’lonlar sekinroq o‘rganadi: Meta o‘xshash guruhlarni birlashtirishni maslahat beradi.",
+        "Learning limited — jarima emas, balki joriy sozlamalarda byudjet samarasiz sarflanayotganining belgisi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Nima qilmaslik kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ishga tushirish yoki tahrirdan keyin bir-ikki kunda, o‘rganish davom etayotganda kampaniyaga baho bermang.",
+        "Hammasini birdan o‘zgartirmang: nima ishlaganini bilib bo‘lmaydi, o‘rganish esa qaytadan boshlanadi.",
+        "Turli maqsad va forma turlaridagi kampaniyalar orasida ariza narxini solishtirmang.",
+        "Eng arzon ariza ortidan quvmang: mijoz narxi va reklamaning o‘zini oqlashini hisoblang."
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Reklama o‘zini oqlayaptimi — {romi} maqolasida; arizalarni Instagram ichida yig‘ish — {lead} qo‘llanmasida; auditoriyani qanday kengaytirish — {aud} maqolasida. Arizalar uchun targetni sozlash va yuritish — {money} sahifasida.",
+      "links": [
+        {
+          "token": "romi",
+          "target": "/uz/blog/reklama-samaradorligi-romi/",
+          "anchor": "reklama samaradorligi va ROMI"
+        },
+        {
+          "token": "lead",
+          "target": "/uz/blog/lid-forma-instagram/",
+          "anchor": "Instagram lid-formasi"
+        },
+        {
+          "token": "aud",
+          "target": "/uz/blog/targetda-auditoriya-sozlash/",
+          "anchor": "targetda auditoriya sozlash"
+        },
+        {
+          "token": "money",
+          "target": "/uz/instagram-target-yoqish/",
+          "anchor": "GPTBot.uz’da Instagram target"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Targetda ariza narxini qanday hisoblash mumkin?",
+      "a": "Xarajatni arizalar soniga bo‘ling. Ads Manager’da «Leads» maqsadida bu «Cost per result» ustuni: Meta uni xarajatning natijalar soniga bo‘linmasi sifatida hisoblaydi."
+    },
+    {
+      "q": "Instagram’da ariza narxi qancha bo‘lishi normal?",
+      "a": "Yagona me’yor yo‘q: Meta ma’lumotnomasiga ko‘ra, natija narxi stavka, auditoriya, optimallashtirish turi, kreativ va jadvalga bog‘liq. Ariza narxini o‘z iqtisodiyotingiz — savdoga aylanadigan arizalar ulushi va mijozdan keladigan daromad bilan solishtiring."
+    },
+    {
+      "q": "Nega targetda arizalar qimmatlashdi?",
+      "a": "Ko‘p uchraydigan sabablar: e’lonlar guruhi muhim tahrirdan keyin o‘rganish bosqichiga qaytdi, chastota oshib auditoriya kreativdan charchadi, auditoriya torayib qoldi yoki sahifa yoxud forma konversiyasi tushdi."
+    },
+    {
+      "q": "Learning limited nimani anglatadi?",
+      "a": "Bu oxirgi muhim o‘zgarishdan keyingi haftada taxminan 50 ta optimallashtirish hodisasini olishi qiyin bo‘lgan e’lonlar guruhining holati. Bu jarima emas: Meta guruhlarni birlashtirish, auditoriyani kengaytirish, byudjetni oshirish yoki tez-tez uchraydigan hodisani tanlashni maslahat beradi."
+    },
+    {
+      "q": "Qanday chastota normal hisoblanadi?",
+      "a": "Meta yozishicha, chastota e’lonlar guruhida o‘rtacha 1–2 bo‘lishi yoki byudjet, auditoriya hajmi va jadvalga qarab ancha yuqori bo‘lishi mumkin. Chastota oshgani sari natijalar tushsa, kreativ yoki targetingni almashtiring."
+    },
+    {
+      "q": "Ariza narxini qanday qilib tezroq pasaytirish mumkin?",
+      "a": "CPM → CTR → arizaga konversiya zanjiridagi zaif bo‘g‘inni toping va faqat uni o‘zgartiring: ko‘pincha yangi kreativlar va qisqa forma yordam beradi. Hammasini birdan tahrirlamang — har bir muhim o‘zgarish o‘rganishni qaytadan boshlaydi."
+    }
+  ],
+  "cta": {
+    "label": "Target bo‘yicha maslahat",
+    "href": "/uz/instagram-target-yoqish/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/instagram-target-yoqish/",
+      "anchor": "Instagram target yoqish xizmati",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-samaradorligi-romi/",
+      "anchor": "reklama samaradorligi va ROMI",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/lid-forma-instagram/",
+      "anchor": "Instagram lid-formasi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/targetda-auditoriya-sozlash/",
+      "anchor": "targetda auditoriya sozlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Targetda ariza narxini pasaytirish: 2026 qo‘llanma",
+  "ogDescription": "Ariza narxi formulasi, Ads Manager ko‘rsatkichlari — CPM, CTR, CPC, chastota, o‘rganish — va har bir bo‘g‘inda nimani o‘zgartirish, Meta ma’lumotnomasi bo‘yicha, 2026-11-23.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/targetda-ariza-narxini-pasaytirish/",
+  "hreflangRu": "/ru/blog/tsena-zayavki-v-targete/",
+  "hreflangUz": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Instagram va Facebook reklamasidan kelgan arizalar uchun pul to‘laydigan O‘zbekistondagi biznes"
+  },
+  "breadcrumbLabel": "Targetda ariza narxi",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Meta Business Help — natija narxi",
+      "url": "https://www.facebook.com/business/help/762109693832964",
+      "note": "2026-11-23 da tekshirildi: natija narxi — xarajat natijalar soniga bo‘lingan."
+    },
+    {
+      "title": "Meta Business Help — CPM",
+      "url": "https://www.facebook.com/business/help/753932008002620",
+      "note": "2026-11-23 da tekshirildi: CPM — xarajat ko‘rsatishlarga bo‘linib, 1 000 ga ko‘paytirilgan."
+    },
+    {
+      "title": "Meta Business Help — CTR (havola bo‘yicha)",
+      "url": "https://www.facebook.com/business/help/877711998984611",
+      "note": "2026-11-23 da tekshirildi: havolaga klik bo‘lgan ko‘rsatishlar ulushi."
+    },
+    {
+      "title": "Meta Business Help — CPC (havolaga klik narxi)",
+      "url": "https://www.facebook.com/business/help/683065845109838",
+      "note": "2026-11-23 da tekshirildi: xarajat havolaga kliklar soniga bo‘lingan."
+    },
+    {
+      "title": "Meta Business Help — chastota",
+      "url": "https://www.facebook.com/business/help/1546570362238584",
+      "note": "2026-11-23 da tekshirildi: e’lonning bitta Meta akkauntiga o‘rtacha ko‘rsatilishi soni; bu taxmin."
+    },
+    {
+      "title": "Meta Business Help — e’lonlar guruhining o‘rganish bosqichi",
+      "url": "https://www.facebook.com/business/help/112167992830700",
+      "note": "2026-11-23 da tekshirildi: guruh odatda oxirgi muhim o‘zgarishdan keyingi haftada taxminan 50 ta natijadan so‘ng o‘rganishdan chiqadi; o‘rganish paytida CPA odatda yuqoriroq."
+    },
+    {
+      "title": "Meta Business Help — Learning limited",
+      "url": "https://www.facebook.com/business/help/269269737396981",
+      "note": "2026-11-23 da tekshirildi: holat e’lonlar guruhi oxirgi muhim o‘zgarishdan keyingi haftada taxminan 50 ta optimallashtirish hodisasini olmasligini bildiradi."
+    },
+    {
+      "title": "Meta Business Help — dolzarblik diagnostikasi",
+      "url": "https://www.facebook.com/business/help/403110480493160",
+      "note": "2026-11-23 da tekshirildi: sifat, faollik va konversiya ko‘rsatkichlari; 500 tadan kam ko‘rsatishli e’lonlar uchun mavjud emas va auksionga ta’sir qilmaydi."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

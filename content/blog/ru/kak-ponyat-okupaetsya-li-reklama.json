@@ -329,6 +329,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/ru/blog/tsena-zayavki-v-targete/",
+      "anchor": "из чего складывается цена заявки",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Окупается ли реклама: ROMI, ROAS, CPL и CAC",

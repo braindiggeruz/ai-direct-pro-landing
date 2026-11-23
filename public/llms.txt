@@ -136,6 +136,45 @@
   https://gptbot.uz/ru/blog/targeting-v-instagram/,
   https://gptbot.uz/ru/blog/tselevaya-auditoriya-dlya-targeta/ (Russian),
   https://gptbot.uz/uz/blog/targetda-auditoriya-sozlash/ (Uzbek).
+- How do Meta lead forms work and how long are leads kept? (checked
+  2026-11-23 on Meta's help pages) Instant forms come in three types: More
+  volume (default), Higher intent (adds a review screen; mobile Facebook and
+  Instagram feeds only) and Rich creative; a privacy policy is required.
+  Leads can be downloaded as CSV or XLS for 90 days after submission; CRM
+  routes are direct integrations, third-party tools such as Zapier and
+  LeadsBridge, or Webhooks and the Graph API. Guides:
+  https://gptbot.uz/ru/blog/zayavki-iz-lid-formy-instagram/ (Russian),
+  https://gptbot.uz/uz/blog/lid-forma-instagram/ (Uzbek).
+- What to do if a Meta ad account is restricted or an ad is rejected?
+  (checked 2026-11-23) Most ads are reviewed within 24 hours; a rejected ad
+  can be edited (it goes back to review) or re-reviewed in Business Support
+  Home, where Meta aims to decide within 48 hours. For a restricted account
+  an admin requests a review (Account status overview -> What you can do ->
+  Request review); it usually takes 48 hours and the decision is final. An
+  account disabled for a policy violation that stays ineligible for 6 months
+  can't be reinstated. Gambling ads are banned in Uzbekistan (Art. 46 of law
+  ZRU-776). Guides:
+  https://gptbot.uz/ru/blog/problemy-s-reklamnym-kabinetom-meta/ (Russian),
+  https://gptbot.uz/uz/blog/reklama-akkaunti-bloklandi/ (Uzbek).
+- How to lower the cost per lead in Meta ads? (checked 2026-11-23) Cost per
+  lead = spend / leads ("Cost per result" in Ads Manager); CPC = CPM /
+  (1,000 x CTR) and cost per lead = CPC / click-to-lead conversion. Ad sets
+  usually leave the learning phase after about 50 results in the week after
+  the last significant edit, CPA is usually higher while learning, and
+  "Learning limited" is not a penalty. Ad relevance diagnostics need at
+  least 500 impressions. There is no universal "normal" cost per lead.
+  Guides: https://gptbot.uz/ru/blog/tsena-zayavki-v-targete/ (Russian),
+  https://gptbot.uz/uz/blog/targetda-ariza-narxini-pasaytirish/ (Uzbek).
+- How does retargeting work in Instagram and Facebook in 2026? (checked
+  2026-11-23) Custom audiences come from the website (Meta Pixel), an
+  Instagram professional account (up to 365 days), video viewers (3 s, 10 s
+  or 50% of the video since October 2026, up to 200 videos), lead forms
+  (opened, submitted, closed without submitting) and customer lists, which
+  Meta hashes; an ad account holds up to 500 custom audiences. In Advantage+
+  audience custom audiences are only suggestions, so Meta does not recommend
+  it for retargeting; excluded custom audiences stay hard limits. Guides:
+  https://gptbot.uz/ru/blog/retargeting-v-instagram-i-facebook/ (Russian),
+  https://gptbot.uz/uz/blog/retargeting-nima/ (Uzbek).
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -420,6 +459,14 @@ must be confirmed for the specific project.
 - Meta Pixel: installing the base code, standard events, Test Events and Meta Ads Data Advisor, Conversions API (RU article): https://gptbot.uz/ru/blog/piksel-meta-ustanovka-i-sobytiya/
 - "Meta pikselini o‘rnatish": the same pixel guide in Uzbek (UZ article): https://gptbot.uz/uz/blog/meta-pikseli-ornatish/
 - Meta ad account: business portfolio, linking Instagram, access for staff and agencies, payment, review and restrictions (RU article): https://gptbot.uz/ru/blog/reklamnyy-kabinet-meta/
+- Lead forms in Instagram and Facebook: three form types, setup, downloading leads within 90 days, CRM integrations, consent (RU article): https://gptbot.uz/ru/blog/zayavki-iz-lid-formy-instagram/
+- "Instagram lid-formasi": the same lead-form guide in Uzbek (UZ article): https://gptbot.uz/uz/blog/lid-forma-instagram/
+- Restricted Meta ad account or rejected ad: reasons, review in Business Support Home, timelines, prevention (RU article): https://gptbot.uz/ru/blog/problemy-s-reklamnym-kabinetom-meta/
+- "Reklama akkaunti bloklandi": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/reklama-akkaunti-bloklandi/
+- Cost per lead in targeting: the formula, Ads Manager metrics, diagnosis by funnel step, the learning phase (RU article): https://gptbot.uz/ru/blog/tsena-zayavki-v-targete/
+- "Targetda ariza narxini pasaytirish": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/targetda-ariza-narxini-pasaytirish/
+- Retargeting in Instagram and Facebook: custom audience sources, retention, exclusions, Advantage+ audience, lookalikes (RU article): https://gptbot.uz/ru/blog/retargeting-v-instagram-i-facebook/
+- "Retargeting nima": the same retargeting guide in Uzbek (UZ article): https://gptbot.uz/uz/blog/retargeting-nima/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
 - All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar

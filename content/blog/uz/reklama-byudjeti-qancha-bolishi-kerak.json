@@ -310,6 +310,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+      "anchor": "ariza narxi va Meta ko‘rsatkichlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Reklama byudjeti qancha bo'lishi kerak: hisoblash formulasi",

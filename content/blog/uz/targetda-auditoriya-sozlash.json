@@ -200,6 +200,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/retargeting-nima/",
+      "anchor": "retargeting: sayt tashrifchilarini qaytarish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Targetda auditoriya sozlash: 2026 qo‘llanma",

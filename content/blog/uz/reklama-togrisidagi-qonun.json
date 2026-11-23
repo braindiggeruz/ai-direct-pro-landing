@@ -306,6 +306,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/uz/blog/reklama-akkaunti-bloklandi/",
+      "anchor": "Meta’da reklama rad etilsa",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Reklama to‘g‘risidagi qonun: biznes uchun asosiysi",

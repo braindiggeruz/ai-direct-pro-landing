@@ -247,6 +247,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/retargeting-v-instagram-i-facebook/",
+      "anchor": "ретаргетинг по посетителям сайта",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Пиксель Meta: установка, события и проверка 2026",

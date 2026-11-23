@@ -5169,6 +5169,222 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-39-ru-target-service-vs-lead-form-guide",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "лид форма инстаграм",
+          "лид форма фейсбук",
+          "как настроить лид форму"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/zayavki-iz-lid-formy-instagram/",
+        "owns": "Meta instant forms (lead forms): form types, setup, lead download, CRM integrations and consent",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "настройка таргетированной рекламы ташкент",
+          "ведение таргетированной рекламы"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-40-uz-internet-ads-hub-vs-lead-form-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "lid forma instagram",
+          "instagram lid forma",
+          "lid formani sozlash"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/lid-forma-instagram/",
+        "owns": "Meta instant forms (lead forms) in Uzbek: form types, setup, lead download, CRM",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-41-ru-internet-ads-hub-vs-blocked-ad-account",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "рекламный аккаунт заблокирован",
+          "реклама отклонена инстаграм",
+          "как разблокировать рекламный аккаунт"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/problemy-s-reklamnym-kabinetom-meta/",
+        "owns": "rejected Meta ads and restricted ad accounts: reasons, review in Business Support Home, prevention",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-42-uz-internet-ads-hub-vs-blocked-ad-account",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "reklama akkaunti bloklandi",
+          "reklama rad etildi",
+          "reklama akkauntini tiklash"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-akkaunti-bloklandi/",
+        "owns": "rejected Meta ads and restricted ad accounts in Uzbek: reasons, review, prevention",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-43-ru-target-service-vs-cost-per-lead-guide",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "цена заявки в таргете",
+          "как снизить цену заявки",
+          "дорогие заявки в таргете"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/tsena-zayavki-v-targete/",
+        "owns": "cost per lead in Meta ads: formula, Ads Manager metrics, diagnosis by funnel step, learning phase",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "настройка таргетированной рекламы ташкент",
+          "ведение таргетированной рекламы"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-44-uz-target-service-vs-cost-per-lead-guide",
+      "commercial": {
+        "url": "/uz/instagram-target-yoqish/",
+        "owns": "the Uzbek targeting service: steps, prices, order",
+        "mustNotTarget": [
+          "targetda ariza narxi",
+          "ariza narxini pasaytirish",
+          "instagram reklama ariza narxi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/targetda-ariza-narxini-pasaytirish/",
+        "owns": "cost per lead in Meta ads (Uzbek): formula, metrics, diagnosis, learning phase",
+        "mustNotTarget": [
+          "target yoqish",
+          "instagram target",
+          "target yoqish narxi",
+          "targetolog xizmati",
+          "target xizmati"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-45-ru-target-service-vs-retargeting-guide",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "ретаргетинг",
+          "ретаргетинг в инстаграм",
+          "что такое ретаргетинг"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/retargeting-v-instagram-i-facebook/",
+        "owns": "retargeting with Meta custom audiences: sources, retention, exclusions, Advantage+ audience, lookalikes",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "настройка таргетированной рекламы ташкент",
+          "ведение таргетированной рекламы"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-46-uz-internet-ads-hub-vs-retargeting-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "retargeting nima",
+          "retargeting",
+          "instagram retargeting"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/retargeting-nima/",
+        "owns": "retargeting with Meta custom audiences (Uzbek): sources, retention, exclusions, Advantage+ audience",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-target-cluster/ROADMAP.md (targeting roadmap under owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

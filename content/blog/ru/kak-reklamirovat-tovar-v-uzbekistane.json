@@ -246,6 +246,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/retargeting-v-instagram-i-facebook/",
+      "anchor": "ретаргетинг на тех, кто смотрел товар",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Как рекламировать товар в Узбекистане: 6 каналов",
