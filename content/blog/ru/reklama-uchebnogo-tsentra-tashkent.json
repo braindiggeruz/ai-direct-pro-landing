@@ -434,6 +434,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+      "anchor": "форматы рекламных креативов",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Реклама учебного центра: сезон, таргет на родителей, Telegram и пробный урок",

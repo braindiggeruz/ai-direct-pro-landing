@@ -209,6 +209,13 @@
       "anchor": "Xizmat tarkibi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/reklama-turlari/",
+      "anchor": "boshqa reklama turlari bilan taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "canonical": "https://gptbot.uz/uz/blog/google-reklama-sozlash/",

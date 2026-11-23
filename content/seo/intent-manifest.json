@@ -4361,6 +4361,252 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 3: the owner's brief asks for a neutral contractor checklist; the Russian side is already covered by /ru/luchshie-razrabotchiki-chat-botov-tashkent/ and /ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-09-ru-target-service-vs-targetologist-checklist",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "как выбрать таргетолога",
+          "как выбрать таргетолога в ташкенте",
+          "вопросы таргетологу",
+          "красные флаги таргетолога"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "owns": "a neutral checklist for choosing a targeting specialist or agency",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "таргет instagram ташкент",
+          "ведение таргетированной рекламы"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-10-uz-target-service-vs-targetologist-checklist",
+      "commercial": {
+        "url": "/uz/instagram-target-yoqish/",
+        "owns": "the Uzbek targeting service: steps, prices, order",
+        "mustNotTarget": [
+          "targetolog tanlash",
+          "targetologni qanday tanlash",
+          "targetologga savollar"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/toshkentda-targetolog-tanlash/",
+        "owns": "a neutral checklist for choosing a targeting specialist (Uzbek)",
+        "mustNotTarget": [
+          "target yoqish",
+          "instagram target",
+          "instagram target yoqish",
+          "target yoqish narxi",
+          "targetolog xizmati",
+          "targetolog"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-11-ru-telegram-ads-service-vs-channel-prices",
+      "commercial": {
+        "url": "/ru/telegram-ads-uzbekistan/",
+        "owns": "the Telegram Ads service: launch, setup, price",
+        "mustNotTarget": [
+          "сколько стоит реклама в телеграм канале",
+          "реклама в телеграм каналах цена",
+          "как выбрать телеграм канал для рекламы",
+          "проверка телеграм канала"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+        "owns": "prices of paid posts in Uzbek Telegram channels and how to check a channel",
+        "mustNotTarget": [
+          "telegram ads в узбекистане",
+          "реклама в телеграм",
+          "реклама в telegram",
+          "реклама в телеграм каналах",
+          "купить рекламу в телеграм",
+          "биржа рекламы телеграм"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-12-uz-telegram-service-vs-channel-guide",
+      "commercial": {
+        "url": "/uz/telegram-reklama/",
+        "owns": "the Uzbek Telegram advertising service",
+        "mustNotTarget": [
+          "telegram kanalga reklama berish",
+          "telegram kanalni tanlash",
+          "telegram kanal statistikasi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/telegram-kanalga-reklama-berish/",
+        "owns": "paid posts in Telegram channels: price signals and channel checks (Uzbek)",
+        "mustNotTarget": [
+          "telegram reklama",
+          "telegramda reklama berish",
+          "telegram kanal reklama",
+          "telegram ads xizmati",
+          "telegram reklama narxi"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-13-ru-internet-ads-hub-vs-platform-comparison",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub",
+        "mustNotTarget": [
+          "где рекламироваться бизнесу",
+          "где лучше рекламироваться",
+          "куда дать рекламу бизнесу",
+          "сравнение рекламных площадок"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "owns": "a dated comparison of ad platforms for businesses in Uzbekistan",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-14-uz-internet-ads-hub-vs-ad-types",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "reklama turlari",
+          "internet reklama turlari",
+          "qayerda reklama qilish"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-turlari/",
+        "owns": "types of online advertising and where to advertise (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "instagramda reklama berish"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-15-ru-target-service-vs-ad-creatives",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "рекламный креатив",
+          "креативы для таргета",
+          "рекламные креативы для instagram"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "owns": "ad creative formats, specs and examples for Instagram and Telegram",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "smm продвижение ташкент"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-16-uz-ad-copy-tool-vs-ad-creatives",
+      "commercial": {
+        "url": "/uz/gpt-telegram-instagram-ideya/",
+        "owns": "the AI ad-copy tool",
+        "mustNotTarget": [
+          "reklama kreativlari",
+          "reklama kreativi",
+          "kreativ nima"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-kreativlari/",
+        "owns": "ad creative formats, specs and examples (Uzbek)",
+        "mustNotTarget": [
+          "reklama matni yozish",
+          "reklama matni",
+          "reklama yozish",
+          "target yoqish",
+          "instagram target"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-17-ru-target-service-vs-instagram-launch-guide",
+      "commercial": {
+        "url": "/ru/targetirovannaya-reklama-tashkent/",
+        "owns": "the targeting service: packages, prices, order",
+        "mustNotTarget": [
+          "как запустить рекламу в инстаграм",
+          "как запустить рекламу в инстаграм из узбекистана",
+          "как оплатить рекламу в инстаграм"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/",
+        "owns": "a do-it-yourself guide to launching Instagram ads from Uzbekistan",
+        "mustNotTarget": [
+          "таргетированная реклама в ташкенте",
+          "заказать таргет",
+          "услуги таргетолога",
+          "настройка таргетированной рекламы ташкент"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (owner decision D-ADS-GPT-20261123: AI demand from AnswerThePublic prompts and the ChatGPT tracker)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

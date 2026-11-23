@@ -261,6 +261,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+      "anchor": "сравнение рекламных площадок Узбекистана",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Google Ads или Яндекс Директ в Узбекистане: что выбрать в 2026",

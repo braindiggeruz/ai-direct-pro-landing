@@ -202,7 +202,8 @@
     { "target": "/ru/telegram-ads-uzbekistan/", "anchor": "официальная платформа Telegram Ads и её пороги входа", "locale": "ru", "type": "contextual" },
     { "target": "/ru/razrabotka-telegram-bota-tashkent/", "anchor": "куда вести трафик: Telegram-бот под заявки", "locale": "ru", "type": "contextual" },
     { "target": "/ru/internet-reklama-tashkent/", "anchor": "платные каналы привлечения в Ташкенте", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для обработки обращений", "locale": "ru", "type": "contextual" }
+    { "target": "/ru/ai-bot-dlya-biznesa/", "anchor": "AI-бот для обработки обращений", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/", "anchor": "сколько стоит пост в Telegram-канале и как проверить канал", "locale": "ru", "type": "contextual", "priority": 1 }
   ],
   "ogTitle": "Купить рекламу в телеграм: биржи, посевы и официальная платформа",
   "ogDescription": "Два механизма закупки рядом, как работают биржи, что проверить в канале до оплаты и когда посев выигрывает у Telegram Ads.",

@@ -315,6 +315,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "anchor": "targetologni qanday tanlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Agentlik, frilanser yoki birja: kimga buyurtma berish (2026)",

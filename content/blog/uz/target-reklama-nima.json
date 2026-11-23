@@ -463,6 +463,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "anchor": "targetolog tanlash uchun 15 savol",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/reklama-kreativlari/",
+      "anchor": "reklama kreativlari: formatlar va o‘lchamlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",

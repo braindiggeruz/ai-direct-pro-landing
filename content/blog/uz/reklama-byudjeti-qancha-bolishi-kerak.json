@@ -289,6 +289,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-turlari/",
+      "anchor": "reklama turlari: platformalar taqqoslanishi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/telegram-kanalga-reklama-berish/",
+      "anchor": "Telegram kanalni tanlash va narxlar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
     }
   ],
   "ogTitle": "Reklama byudjeti qancha bo'lishi kerak: hisoblash formulasi",

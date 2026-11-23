@@ -403,6 +403,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/uz/blog/reklama-kreativlari/",
+      "anchor": "reklama uchun kreativ formatlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "O‘quv markazi reklamasi: mavsum, target, Telegram va sinov darsi",

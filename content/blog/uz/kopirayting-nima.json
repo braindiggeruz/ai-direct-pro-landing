@@ -190,6 +190,13 @@
       "anchor": "Xizmat tarkibi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/reklama-kreativlari/",
+      "anchor": "reklama kreativlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "canonical": "https://gptbot.uz/uz/blog/kopirayting-nima/",

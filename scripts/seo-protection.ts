@@ -310,7 +310,12 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // and only its lists: one entry for /uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/,
 // nothing relabelled or removed. Nine pages keep their complete contract; see
 // reports/ai-visibility-20261123-3/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-23-ai-visibility-3/reviewed-protected-pages.json';
+// The 2026-11-23-ads-gpt-b revision (advertising GPT wave B, D-ADS-GPT-20261123)
+// changes only the homepage, and only its lists: nine entries for the new
+// advertising articles and one relabelled entry (the new title of
+// /uz/blog/target-reklama-nima/), nothing removed. Nine pages keep their
+// complete contract; see reports/ads-gpt-20261123-b/review.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-23-ads-gpt-b/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',
