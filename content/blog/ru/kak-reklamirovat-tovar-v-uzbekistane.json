@@ -239,6 +239,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/piksel-meta-ustanovka-i-sobytiya/",
+      "anchor": "как установить пиксель Meta на сайт магазина",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Как рекламировать товар в Узбекистане: 6 каналов",

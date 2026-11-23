@@ -323,7 +323,11 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // cafe and restaurant, Meta Ads Manager in Uzbek) changes only the homepage, and only its
 // lists: seven entries for the new articles, nothing relabelled or removed. Nine pages keep
 // their complete contract; see reports/ads-gpt-20261123-c2/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-23-ads-gpt-c2/reviewed-protected-pages.json';
+// The 2026-11-23-target-gpt-tb revision (targeting wave T-B: targeting in Instagram,
+// audiences, Meta Pixel, Meta ad account) changes only the homepage, and only its lists:
+// six entries for the new articles, nothing relabelled or removed. Nine pages keep their
+// complete contract; see reports/target-gpt-20261123-tb/review.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-23-target-gpt-tb/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

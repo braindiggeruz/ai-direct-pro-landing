@@ -243,6 +243,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+      "anchor": "свои и похожие аудитории для двух языков",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Реклама на узбекском и русском: закон и настройка",

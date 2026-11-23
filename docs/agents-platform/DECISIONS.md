@@ -1609,3 +1609,10 @@ AI-visibility wave 2b (owner's brief of 23.11.2026, priority 6). Demand sits on 
 - Media-only facts are attributed in the text: Wolt's exit on 05.03.2026 (kun.uz), Uzum's card-promotion tools (Uzum's paid article on Spot) and the 2024 test pricing (Kursiv). Uzum Tezkor promotion terms were not found publicly and the text says so.
 - Corrected assumptions from the brief: no cosmetology article exists in the advertising law, Express24 is not Uzum Tezkor, Meta renamed Advantage+ catalog ads to ads with product media, the Ads Manager Uzbek interface is not confirmed.
 - Intent pairs W20261123-26…32; protected-pages revision 2026-11-23-ads-gpt-c2; no related-article card displaced.
+
+## D-TARGET-GPT-WAVE-TB-20261123 — targeting wave T-B: targeting in Instagram, audiences, Meta Pixel, ad account
+
+- Built under D-ADS-GPT-20261123 from the targeting roadmap (`docs/seo/research/2026-11-23-target-cluster/ROADMAP.md`, items T1, T2, T3, T8): six articles — targeting in Instagram (ru, unpaired; the Uzbek side is `target-reklama-nima`), audiences (ru/uz), Meta Pixel (ru/uz), Meta ad account (ru, unpaired).
+- Facts from Meta's help pages checked on 23.11.2026, with current names: Advantage+ audience is the default (location, minimum age 18+, excluded custom audiences and language are hard limits; age range, gender and interests are suggestions), Advantage+ detailed targeting, lookalike source of at least 100 people (1,000–5,000 recommended; no country choice), custom audience sources and the 500-per-account limit, Meta Ads Data Advisor (formerly Meta Pixel Helper), Conversions API alongside the pixel, no 8-event Aggregated Event Measurement setup, business portfolio ad-account limits and partner access, Business Support Home reviews. The radius range (1–80 km) is attributed to Meta's Marketing API docs.
+- Not used because no live Meta page supports them: the 1–10 % lookalike range and a 180-day website audience cap; the wave test forbids both.
+- Intent pairs W20261123-33…38; protected-pages revision 2026-11-23-target-gpt-tb; no related-article card displaced (`/ru/performance-marketing-tashkent/` gains its third card).

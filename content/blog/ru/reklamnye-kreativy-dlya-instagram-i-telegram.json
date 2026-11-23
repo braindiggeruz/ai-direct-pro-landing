@@ -342,6 +342,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/ru/blog/tselevaya-auditoriya-dlya-targeta/",
+      "anchor": "как выбрать аудиторию для креатива",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Рекламные креативы: 12 форматов и размеры",

@@ -298,6 +298,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/meta-pikseli-ornatish/",
+      "anchor": "Meta pikseli bilan ariza va xaridlarni kuzatish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Reklama o‘zini oqlaydimi: ROMI, ROAS, CPL va CAC",
