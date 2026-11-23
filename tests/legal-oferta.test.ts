@@ -23,7 +23,10 @@
 //   - edition ai-paket-2026-11-v6 (owner's approval of 2026-11-17): two packs,
 //     the month and the 3 days, each with its price, VAT, term and receipt
 //     name in sections 1, 3 and 5; the rest is v5. The 3-day pack sells
-//     (GPT_PACK_ONCE "live") only under an edition that describes it.
+//     (GPT_PACK_ONCE "live") only under an edition that describes it;
+//   - edition ai-paket-2026-11-v7 (owner's answer of 2026-11-23): the terms of
+//     v6 word for word; the offer pages' footer shows the studio address
+//     «Kichik Xalqa Yo‘li 57» like every other page.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -111,7 +114,8 @@ test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING
   // pressing the pay button (one tap); v3 added the guest account and Payme; v2
   // (WP-25) knew only the Telegram account, Click and Uzum Bank; v1, published
   // with R4, still promised refunds.
-  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-11-v6');
+  // v7 (2026-11-23) keeps the text of v6 and moves the footer's studio address to «Kichik Xalqa Yo‘li 57».
+  assert.equal(config.GPT_BILLING_TERMS_VERSION, 'ai-paket-2026-11-v7');
   assert.equal(nested.GPT_BILLING_TERMS_VERSION, config.GPT_BILLING_TERMS_VERSION);
   for (const locale of LOCALES) {
     assert.equal(offers[locale].termsVersion, config.GPT_BILLING_TERMS_VERSION, locale);
@@ -132,7 +136,8 @@ test('(b, c) the edition and the URLs of the offers are the deployed GPT_BILLING
   // v6 is the owner's approval of 2026-11-17, given in chat without a lawyer's review, as v3
   // to v5 and the policies were on 2026-10-07 (docs/paid-chat/OFFER-RU.md); v2 was the owner's
   // decision of 2026-10-03 on the refund clause, after the lawyer approved v1 on 2026-10-01.
-  assert.equal(approvedAt, '2026-11-17');
+  // v7 is the owner's answer in chat of 2026-11-23 («Kichik Xalqa Yo‘li 57 адрес»), the footer address only.
+  assert.equal(approvedAt, '2026-11-23');
   for (const doc of Object.values(policies)) assert.match(doc.legalReviewedAt ?? '', /^(\d{4}-\d{2}-\d{2})?$/, doc.url);
   for (const doc of Object.values(policies)) assert.equal(doc.legalReviewedAt, '2026-10-07', doc.url);
 });
@@ -212,8 +217,8 @@ test('(v4) acceptance by action: the offer is accepted by pressing the pay butto
   assert.match(ru.payVia('Click'), /^Оплатить через Click$/);
   assert.match(uz.payVia('Click'), /^Click orqali to‘lash$/);
   // v6 keeps this text. It is the edition both offers state and the config sells, and the studio sells
-  // under it too (TERMS_PLAN in functions/lib/studio/plans.ts maps v5 and v6 to the studio plan).
-  for (const locale of LOCALES) assert.equal(offers[locale].termsVersion, 'ai-paket-2026-11-v6', locale);
+  // under it too (TERMS_PLAN in functions/lib/studio/plans.ts maps v5, v6 and v7 to the studio plan); v7 keeps it.
+  for (const locale of LOCALES) assert.equal(offers[locale].termsVersion, 'ai-paket-2026-11-v7', locale);
 });
 
 test('(v6) two packs: the offers describe the 3-day pack the code sells, and the config sells it under that edition', () => {
@@ -433,7 +438,7 @@ test('the requisites block and the edition line render from the one source', () 
     assert.match(renderRequisites(policies[locale]), locale === 'ru' ? /Реквизиты оператора/ : /Operator rekvizitlari/);
     const edition = renderTermsEdition(offers[locale]);
     assert.ok(edition.includes(`data-terms-version="${config.GPT_BILLING_TERMS_VERSION}"`));
-    assert.ok(edition.includes('<time datetime="2026-11-17">17.11.2026</time>'));
+    assert.ok(edition.includes('<time datetime="2026-11-23">23.11.2026</time>'));
   }
   assert.equal(renderRequisites(page('ru/tarify-ai-chat')), '', 'only pages that ask for it');
   assert.equal(renderTermsEdition(policies.ru), '');

@@ -54,16 +54,17 @@ for (const locale of ['ru', 'uz']) {
   const builtFile = path.join(DIST, relative);
   const built = fs.existsSync(builtFile);
 
-  test(`${locale} offer: exactly one current global publisher, historical contacts stay visible`, {
+  test(`${locale} offer: exactly one current global publisher, the edition's contacts stay visible`, {
     skip: !built && 'no dist/ offer build present',
   }, () => {
     const html = fs.readFileSync(builtFile, 'utf8');
     const publishers = graphNodes(html).filter((node) => node['@id'] === ORG_ID);
     assert.deepEqual(publishers, [buildOrganizationLd(site as unknown as GlobalSEO)]);
     const visible = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
-    assert.ok(visible.includes('Yahyo Gulyamov ko‘chasi 35'));
+    // Offer edition v7 (2026-11-23): the footer shows the studio address of site.json, like every page.
+    assert.ok(visible.includes('Kichik Xalqa Yo‘li 57') && !visible.includes('Gulyamov'));
     assert.ok(visible.includes(`href="tel:${site.phone}"`));
-    assert.ok(visible.includes('data-terms-version="ai-paket-2026-11-v6"'));
+    assert.ok(visible.includes('data-terms-version="ai-paket-2026-11-v7"'));
     assert.ok(!visible.includes(site.studioTelegram));
   });
 

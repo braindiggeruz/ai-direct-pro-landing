@@ -133,7 +133,7 @@ try {
         await refresh();
         assert.equal(posts.length, 1);
         assert.equal(posts[0].acceptTerms, true);
-        assert.equal(posts[0].termsVersion, 'ai-paket-2026-11-v6');
+        assert.equal(posts[0].termsVersion, 'ai-paket-2026-11-v7');
         assert.equal(posts[0].locale, locale);
         assert.match(String(posts[0].requestId), /^[0-9a-f-]{36}$/);
       },

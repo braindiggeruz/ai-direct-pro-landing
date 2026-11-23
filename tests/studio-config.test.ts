@@ -48,7 +48,7 @@ test("the defaults stay off; production sells Studio through approved shared Cli
   assert.equal(committed.clickAmountsConfirmed, true);
   assert.equal(committed.clickUseChatService, true);
   assert.deepEqual(committed.paymentProviders, ["click", "payme"]);
-  assert.deepEqual(committed.terms, { version: "ai-paket-2026-11-v6", ru: "https://gptbot.uz/ru/oferta/", uz: "https://gptbot.uz/uz/oferta/", approvedAt: "2026-11-17" });
+  assert.deepEqual(committed.terms, { version: "ai-paket-2026-11-v7", ru: "https://gptbot.uz/ru/oferta/", uz: "https://gptbot.uz/uz/oferta/", approvedAt: "2026-11-23" });
   assert.equal(committed.maxSlides, 12);
   assert.equal(committed.paidProofread, true);
   assert.equal(committed.ga4Mp, false);

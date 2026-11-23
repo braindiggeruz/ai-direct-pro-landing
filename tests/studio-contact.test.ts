@@ -41,7 +41,6 @@ import {
   isStudioTelegramHref,
   linksContactCard,
   OFFER_EDITION_CONTACT,
-  OFFER_EDITION_NAP,
   pageContact,
   pageNap,
   renderContactCard,
@@ -307,7 +306,7 @@ test('the approved offer edition keeps its visible card and footer contacts: pho
   const offers = PAGES.filter(({ page }) => isOffer(page)).map(({ page }) => page);
   assert.deepEqual(offers.map((page) => page.url).sort(), ['/ru/oferta/', '/uz/oferta/']);
   for (const page of offers) {
-    assert.equal(page.termsVersion, 'ai-paket-2026-11-v6');
+    assert.equal(page.termsVersion, 'ai-paket-2026-11-v7');
     assert.deepEqual(pageContact(page), OFFER_EDITION_CONTACT);
     const card = renderContactCard(page);
     assert.ok(card.includes(`data-testid="contact-phone" href="tel:${STUDIO_PHONE}"`), page.url);
@@ -316,19 +315,18 @@ test('the approved offer edition keeps its visible card and footer contacts: pho
   }
 });
 
-test('the studio address: the offer keeps its historical visible footer while publisher metadata uses site.json', () => {
-  // Owner answer of 26.10.2026: the studio is at «Kichik Xalqa Yo‘li 57», the
-  // address of the Google Business card. The offer's visible text stays byte for byte.
+test('the studio address: since offer edition v7 the offers show the same studio address as every page', () => {
+  // Owner answers of 26.10.2026 and 23.11.2026: the studio is at «Kichik Xalqa Yo‘li 57», the
+  // address of the Google Business card. Editions up to v6 kept «Yahyo Gulyamov ko‘chasi 35» in the
+  // offer footer; v7 (2026-11-23) changed that line and nothing else.
   const global = site as unknown as GlobalSEO;
   assert.equal(global.address, 'Kichik Xalqa Yo‘li 57, Toshkent, Uzbekistan');
   assert.equal(pageNap({}, global), global);
   const offers = PAGES.filter(({ page }) => isOffer(page)).map(({ page }) => page);
   assert.equal(offers.length, 2);
   for (const page of offers) {
-    const nap = pageNap(page, global);
-    assert.equal(nap.address, OFFER_EDITION_NAP.address, page.url);
-    assert.equal(nap.streetAddress, 'Yahyo Gulyamov ko‘chasi 35', page.url);
-    assert.deepEqual(nap.geo, { latitude: 41.334, longitude: 69.286 }, page.url);
+    assert.equal(page.termsVersion, 'ai-paket-2026-11-v7', page.url);
+    assert.equal(pageNap(page, global), global, page.url);
   }
   const org = buildOrganizationLd(global);
   assert.deepEqual(org.address, { '@type': 'PostalAddress', streetAddress: 'Kichik Xalqa Yo‘li 57', addressLocality: 'Toshkent', addressCountry: 'UZ' });
@@ -502,7 +500,8 @@ test('built site: no public page outside the legal exceptions names the phone or
 test('built site: the offers are the approved edition, with the phone and without the Telegram', { skip: !built && 'no dist/ build present' }, () => {
   for (const file of OFFERS) {
     const html = markup(read(file));
-    assert.ok(html.includes('data-terms-version="ai-paket-2026-11-v6"'), file);
+    assert.ok(html.includes('data-terms-version="ai-paket-2026-11-v7"'), file);
+    assert.ok(html.includes('Kichik Xalqa Yo‘li 57') && !html.includes('Gulyamov'), file);
     assert.ok(html.includes(`href="tel:${STUDIO_PHONE}"`), file);
     assert.doesNotMatch(html, HANDLE, file);
   }

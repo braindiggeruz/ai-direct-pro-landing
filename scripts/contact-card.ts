@@ -60,28 +60,20 @@ export function pageContact(page: { termsVersion?: string }): ContactSet {
 }
 
 /**
- * The studio address the approved offer edition was published with: its
- * visible footer line. Owner
- * answer of 26.10.2026: the studio sits at «Kichik Xalqa Yo‘li 57», as on the
- * Google Business card, and content/global/site.json says so for every other
- * page. The offer keeps this visible text byte for byte like its contact set;
- * a new visible address is a new edition. The site's publisher #org uses the
- * current global address separately (2026-11-07 decision linked above).
- * The seller's registered address in the offer's requisites is
- * content/global/legal-entity.json, not this historical studio address.
+ * The visible footer address. Since offer edition ai-paket-2026-11-v7 (owner's
+ * answer in chat of 2026-11-23: «Kichik Xalqa Yo‘li 57 адрес») the offer pages
+ * show the same studio address as every other page, content/global/site.json.
+ * Editions up to v6 kept the studio's previous street there (the owner's answer
+ * of 26.10.2026 had moved the rest of the site); a new visible address
+ * on an offer is a new edition, which is why the change came with v7. The
+ * seller's registered address in the offer's requisites is
+ * content/global/legal-entity.json and does not change. Not publisher metadata.
  */
-export const OFFER_EDITION_NAP = {
-  address: 'Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan',
-  streetAddress: 'Yahyo Gulyamov ko‘chasi 35',
-  geo: { latitude: 41.334, longitude: 69.286 },
-} as const;
-
-/** The visible footer address: the offer edition's on a page with `termsVersion`, site.json elsewhere. Not publisher metadata. */
 export function pageNap<G extends { address?: string; streetAddress?: string; geo?: { latitude: number; longitude: number } }>(
-  page: { termsVersion?: string },
+  _page: { termsVersion?: string },
   global: G,
 ): G {
-  return page.termsVersion ? { ...global, ...OFFER_EDITION_NAP } : global;
+  return global;
 }
 
 type ContactPage = Pick<Page, 'url' | 'locale' | 'h1' | 'breadcrumbLabel' | 'ctaPrimaryHref' | 'ctaSecondaryHref' | 'bodyBlocks'> & { termsVersion?: string };
