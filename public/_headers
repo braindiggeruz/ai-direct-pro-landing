@@ -127,3 +127,22 @@ https://:version.ai-direct-pro-landing.pages.dev/*
   Cache-Control: public, max-age=3600
   Content-Type: application/x-ndjson; charset=utf-8
   Access-Control-Allow-Origin: *
+
+# Gzip feed: the Hosted URL. The client must get the archive bytes, so
+# no-transform keeps the edge from re-encoding or decompressing it.
+/openai-product-feed.jsonl.gz
+  ! Cache-Control
+
+/openai-product-feed.jsonl.gz
+  Cache-Control: public, max-age=3600, no-transform
+  Content-Type: application/gzip
+  Access-Control-Allow-Origin: *
+
+# TSV feed: the fallback Hosted URL.
+/openai-product-feed.tsv
+  ! Cache-Control
+
+/openai-product-feed.tsv
+  Cache-Control: public, max-age=3600
+  Content-Type: text/tab-separated-values; charset=utf-8
+  Access-Control-Allow-Origin: *

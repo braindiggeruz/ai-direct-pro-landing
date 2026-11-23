@@ -13,7 +13,7 @@
     "prebuild:cf": "npm run studio:deps && tsx scripts/build-openai-feed.ts",
     "feed:openai": "tsx scripts/build-openai-feed.ts",
     "feed:openai:check": "tsx scripts/build-openai-feed.ts --check && tsx scripts/validate-openai-feed.ts",
-    "feed:openai:live": "tsx scripts/validate-openai-feed.ts https://gptbot.uz/openai-product-feed.jsonl --live",
+    "feed:openai:live": "tsx scripts/validate-openai-feed.ts --live",
     "test:chat-presentation": "node --import tsx --test --test-concurrency=1 tests/chat-presentation.test.ts tests/chat-presentation-browser.test.ts tests/studio-checkout.test.ts tests/studio-checkout-embedded.test.ts tests/chat-bundle-budget.test.ts",
     "dev": "vite",
     "start": "vite",

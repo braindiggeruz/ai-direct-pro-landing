@@ -1,3 +1,31 @@
+# Current handoff — OpenAI feed v2: gzip JSONL Hosted URL, TSV fallback, JPEG images · 23.11.2026
+
+## 1. State
+Branch feat/openai-feed-gzip. Production db3a37b3 (feed v1, plain .jsonl) until this PR is merged and deployed.
+## 2. Delivered
+Business Hub rejected the plain .jsonl ("not in the required gzip-compressed JSONL format"). The generator now also writes public/openai-product-feed.jsonl.gz (Hosted URL https://gptbot.uz/openai-product-feed.jsonl.gz) and public/openai-product-feed.tsv (fallback https://gptbot.uz/openai-product-feed.tsv); the .jsonl stays. The 12 records whose page og:image is WebP (5 images) now link 1200px JPEG copies in public/assets/feed/ (lock scripts/openai-feed-images.json); page images unchanged. The 0 UZS trial row sits behind INCLUDE_FREE_TRIAL (true) in scripts/openai-feed.ts.
+## 3. Files
+scripts/openai-feed.ts, scripts/build-openai-feed.ts, scripts/validate-openai-feed.ts, scripts/openai-feed-images.json, public/openai-product-feed.{jsonl,jsonl.gz,tsv}, public/assets/feed/*.jpg, public/_headers, scripts/generate-robots.ts, .gitattributes, package.json, tests/openai-product-feed.test.ts, .github/workflows/openai-feed.yml, docs.
+## 4. Decisions
+D-OPENAI-FEED-GZIP-20261123.
+## 5. Excluded
+Page images and page text; UZ stays (Hub allowed Uzbekistan and UZS).
+## 6. Validation
+build:fast ok, tree unchanged after build; dist copies equal public/; dist/_headers has the .jsonl, .jsonl.gz and .tsv blocks; openai-product-feed 17/17, studio-build 18/18, gsc-indexation-hygiene 13/13, seo-recovery-technical 9/9, canonical-url-redirects 4/4, content-downloads 4/4, lead-radar-release-gate 12/12, service-offers 6/6, seo-product-facts 6/6, seo-protection 21/21, pages-config-parity 8/8, homepage-premium 8/8, site-stylesheets 5/5; tsc -b 0. A .gz from another encoder is kept (same content); a changed WebP fails --check.
+## 7. Known limits
+Cloudflare behaviour for .gz is confirmed only on production (curl -sI must show content-type application/gzip and no content-encoding).
+## 8. Next task
+After deploy: npm run feed:openai:live; owner sets the Hosted URL to the .jsonl.gz in Business Hub.
+## 9. Acceptance
+curl -s https://gptbot.uz/openai-product-feed.jsonl.gz | gunzip | head -c 300 prints JSON; curl -sI shows application/gzip without content-encoding; the .tsv answers as text/tab-separated-values.
+## 10. Start commands
+npx tsx scripts/build-openai-feed.ts --check; node --import tsx --test tests/openai-product-feed.test.ts; npm run feed:openai:live.
+## 11. Risks
+Low: static files and header blocks. A changed WebP og:image now needs the generator run (JPEG copy + lock) in the same commit.
+## 12. Rollback
+git revert of the commit, deploy via the workflow; the v1 .jsonl stays served either way.
+
+---
 # Current handoff — OpenAI product feed for ChatGPT Business Hub · 23.11.2026
 
 ## 1. State
