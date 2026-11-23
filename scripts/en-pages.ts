@@ -340,6 +340,11 @@ export function enPages(root: string): EnPage[] {
         { token: 'compare', target: '/en/uzbek-ai-chats-compared/', anchor: 'Uzbek AI chats compared' },
         { token: 'chat', target: '/en/uzbek-ai-chat/', anchor: 'free Uzbek AI chat' },
       ] },
+      { type: 'linkp', text: 'In Uzbek: paying for ChatGPT Plus and Go — {uzgpt}; Claude Pro, Google AI Pro and Midjourney — {uzsubs}. The same for Claude, Google AI Pro and Midjourney in Russian: {rusubs}.', links: [
+        { token: 'uzgpt', target: '/uz/blog/chatgpt-plus-tolov/', anchor: 'ChatGPT Plus va Go: to‘lov', lang: 'uz' },
+        { token: 'uzsubs', target: '/uz/blog/ai-obunalarga-tolov/', anchor: 'AI obunalariga to‘lov', lang: 'uz' },
+        { token: 'rusubs', target: '/ru/blog/oplata-ii-podpisok-iz-uzbekistana/', anchor: 'оплата ИИ-подписок из Узбекистана', lang: 'ru' },
+      ] },
     ],
     faq: [
       { q: 'Can I pay for ChatGPT Plus with Uzcard or Humo?', a: 'OpenAI\'s pricing page names "any major credit card" and does not list Uzcard or Humo. Ask your bank whether your card supports international online payments.' },

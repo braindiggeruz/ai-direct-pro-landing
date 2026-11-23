@@ -1,0 +1,282 @@
+{
+  "status": "published",
+  "locale": "ru",
+  "slug": "oplata-ii-podpisok-iz-uzbekistana",
+  "url": "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+  "title": "Claude Pro, Google AI Pro, Midjourney: оплата из Узбекистана | GPTBot.uz",
+  "description": "Claude Pro ($20 в месяц в США), Google AI Pro и Midjourney ($10–120): доступность в Узбекистане, какая нужна карта и где смотреть цену. Источники на 23.11.2026.",
+  "h1": "Как оплатить Claude Pro, Google AI Pro и Midjourney из Узбекистана",
+  "topicCluster": "AI-сервисы",
+  "targetMoneyPage": "/ru/gpt-chat/",
+  "keywords": [
+    "оплата claude pro",
+    "google ai pro в узбекистане",
+    "midjourney оплата",
+    "как оплатить claude",
+    "как оплатить midjourney"
+  ],
+  "intro": "Коротко (23.11.2026): тарифы Claude и Google AI доступны в Узбекистане — он есть в списке поддерживаемых стран Anthropic и в списках стран Google AI Plus и AI Pro. Claude Pro стоит $20 в месяц в США, в других регионах цена в местной валюте может отличаться. У Midjourney четыре тарифа от $10 до $120 в месяц, оплата только в долларах США через Stripe: Visa, Mastercard, American Express. Во всех трёх сервисах нужна банковская карта, открытая для международных онлайн-платежей.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Коротко (23.11.2026): тарифы Claude и Google AI доступны в Узбекистане — он есть в списке поддерживаемых стран Anthropic и в списках стран Google AI Plus и AI Pro. Claude Pro стоит $20 в месяц в США, в других регионах цена в местной валюте может отличаться. У Midjourney четыре тарифа от $10 до $120 в месяц, оплата только в долларах США через Stripe: Visa, Mastercard, American Express. Во всех трёх сервисах нужна банковская карта, открытая для международных онлайн-платежей."
+    },
+    {
+      "type": "h2",
+      "text": "Таблица: доступность, цена и оплата (23.11.2026)"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Сервис",
+        "Доступен в Узбекистане",
+        "Цена (страница сервиса)",
+        "Оплата"
+      ],
+      "rows": [
+        [
+          "Claude Pro",
+          "Да: Узбекистан в списке Anthropic",
+          "$20 в месяц в США; в других регионах в местной валюте, цена может отличаться",
+          "На claude.ai/upgrade или в магазине приложений; годовая подписка дешевле"
+        ],
+        [
+          "Google AI Pro",
+          "Да: Узбекистан в списках Google AI Plus и AI Pro",
+          "Цена для вашей страны видна в аккаунте Google при оформлении",
+          "Способы оплаты Google зависят от страны"
+        ],
+        [
+          "Midjourney",
+          "В проверенных статьях список стран не приводится",
+          "Basic $10, Standard $30, Pro $60, Mega $120 в месяц; годовая подписка на 20% дешевле",
+          "Через Stripe: Visa, Mastercard, American Express, в некоторых регионах кошельки; только USD, PayPal нет"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Цены взяты со страниц самих сервисов и могут меняться. Итоговую сумму показывает окно оплаты: к ней могут добавиться налог, конвертация валюты и комиссия банка."
+    },
+    {
+      "type": "h2",
+      "text": "Как оплатить Claude Pro?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Бесплатная версия Claude доступна всем в поддерживаемых странах: регистрация на claude.ai по email.",
+        "Pro стоит $20 в месяц в США; в зависимости от региона цена показывается в местной валюте, в некоторых регионах налог добавляется при оплате. Годовая подписка со скидкой.",
+        "Актуальную цену смотрите на claude.ai/upgrade или в магазине приложений.",
+        "Pro не включает использование Claude API: API оплачивается отдельно."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Как оформить Google AI Pro (Gemini)?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Google включил Узбекистан в список стран, где доступны тарифы Google AI Plus и Google AI Pro.",
+        "AI-тарифы на странице Google One: Google AI Plus, Google AI Pro и Google AI Ultra. Возможности и объёмы могут отличаться по странам, поэтому ориентируйтесь на данные в окне оформления.",
+        "Оплата — способом, привязанным к аккаунту Google; по справке Google Play, доступные способы оплаты зависят от страны."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Как оплатить Midjourney?"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Тарифы: Basic — $10 в месяц, Standard — $30, Pro — $60, Mega — $120. Годовая подписка на 20% дешевле, оплата за год вперёд.",
+        "Все тарифы — подписки: продлеваются автоматически каждый месяц или год, пока вы их не отмените. На странице подписки по умолчанию выбрана годовая оплата — для помесячной нажмите вкладку Monthly Billing.",
+        "Оплата через Stripe: карты Visa, Mastercard и American Express, в некоторых регионах Apple Pay, Google Pay и другие кошельки. PayPal не принимается.",
+        "Midjourney принимает оплату только в долларах США: при оплате картой в сумах банк конвертирует платёж по своему курсу и может взять комиссию."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Общие правила для карты"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Ни одна из проверенных страниц не упоминает Uzcard или Humo; сервисы называют международные карты (Visa, Mastercard, American Express).",
+        "Уточните в банке, открыта ли карта для международных онлайн-платежей и регулярных списаний по подписке.",
+        "Подтвердите платёж в приложении банка (3-D Secure) и не закрывайте окно подтверждения.",
+        "Оформляйте подписку только на сайте или в приложении самого сервиса. Эта страница не описывает способы обхода правил оплаты."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Что делать, если иностранной карты нет?"
+    },
+    {
+      "type": "p",
+      "text": "Если для работы с текстом достаточно ИИ-чата на русском или узбекском, GPTBot.uz продаёт AI-пакеты в сумах через Click или Payme: 5 000 сум — 30 ответов на 72 часа, 20 000 сум — 300 ответов на календарный месяц. Без автосписаний. GPTBot.uz — независимый сервис: это не Claude, не Gemini и не Midjourney, и он не рисует картинки."
+    },
+    {
+      "type": "linkp",
+      "text": "Оплата ChatGPT: {gpt}. Гайд по Claude: {claude}. Гайд по Gemini: {gemini}. Сравнение ИИ-чатов: {compare}.",
+      "links": [
+        {
+          "token": "gpt",
+          "target": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+          "anchor": "как оплатить ChatGPT в Узбекистане"
+        },
+        {
+          "token": "claude",
+          "target": "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+          "anchor": "Claude AI в Узбекистане"
+        },
+        {
+          "token": "gemini",
+          "target": "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+          "anchor": "Gemini: как пользоваться"
+        },
+        {
+          "token": "compare",
+          "target": "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+          "anchor": "сравнение ИИ-чатов на узбекском"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Сколько стоит Claude Pro в Узбекистане?",
+      "a": "Anthropic публикует цену $20 в месяц для США; в других регионах цена в местной валюте и может отличаться. Актуальную цену для Узбекистана смотрите на claude.ai/upgrade или в магазине приложений."
+    },
+    {
+      "q": "Доступен ли Google AI Pro в Узбекистане?",
+      "a": "Да: Google включил Узбекистан в список стран тарифов Google AI Plus и AI Pro (23.11.2026). Цена показывается в аккаунте Google при оформлении."
+    },
+    {
+      "q": "Сколько стоит Midjourney?",
+      "a": "Помесячно: Basic $10, Standard $30, Pro $60, Mega $120; при годовой подписке скидка 20%. Оплата только в долларах США."
+    },
+    {
+      "q": "Какой картой оплатить Midjourney?",
+      "a": "Midjourney принимает оплату через Stripe: Visa, Mastercard, American Express и в некоторых регионах кошельки. PayPal нет. Карта должна быть открыта для международных онлайн-платежей — уточните в банке."
+    },
+    {
+      "q": "Можно ли оплатить эти сервисы картой Humo или Uzcard?",
+      "a": "На проверенных страницах Uzcard и Humo не упоминаются. Уточните в банке, работает ли ваша карта на зарубежных сайтах."
+    }
+  ],
+  "cta": {
+    "label": "Открыть ИИ-чат на русском",
+    "href": "/ru/gpt-chat/"
+  },
+  "internalLinks": [
+    {
+      "target": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+      "anchor": "как оплатить ChatGPT в Узбекистане",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+      "anchor": "Claude AI в Узбекистане",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+      "anchor": "Gemini: как пользоваться и скачать",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+      "anchor": "сравнение ИИ-чатов на узбекском",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 4
+    },
+    {
+      "target": "/ru/gpt-chat/",
+      "anchor": "ИИ-чат на русском",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
+    }
+  ],
+  "ogTitle": "Как оплатить Claude Pro, Google AI Pro и Midjourney из Узбекистана",
+  "ogDescription": "Доступность, цена и какая нужна карта — по страницам самих сервисов, 23.11.2026.",
+  "ogImage": "https://gptbot.uz/assets/blog/ai-chat-nima-va-qanday-turlari-bor-1200.webp",
+  "canonical": "https://gptbot.uz/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+  "hreflangRu": "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+  "hreflangUz": "/uz/blog/ai-obunalarga-tolov/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Пользователи ИИ-сервисов в Узбекистане"
+  },
+  "breadcrumbLabel": "Оплата ИИ-подписок",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Anthropic — Supported countries",
+      "url": "https://www.anthropic.com/supported-countries",
+      "note": "Узбекистан в списке. Проверено 2026-11-23."
+    },
+    {
+      "title": "Claude Help Center — What is the Pro plan?",
+      "url": "https://support.claude.com/en/articles/8325606-what-is-the-pro-plan",
+      "note": "Pro: $20 в месяц в США, цена в местной валюте зависит от региона; claude.ai/upgrade или магазин приложений; API не входит. Проверено 2026-11-23."
+    },
+    {
+      "title": "Google — Gemini Apps limits and plans",
+      "url": "https://support.google.com/gemini/answer/16275805?hl=en",
+      "note": "Узбекистан в списках стран Google AI Plus и AI Pro. Проверено 2026-11-23."
+    },
+    {
+      "title": "Google One — Google AI plans",
+      "url": "https://one.google.com/about/google-ai-plans/",
+      "note": "Тарифы: Google AI Plus, AI Pro, AI Ultra (американская версия страницы). Проверено 2026-11-23."
+    },
+    {
+      "title": "Google Play Help — Accepted payment methods on Google Play",
+      "url": "https://support.google.com/googleplay/answer/2651410?hl=en",
+      "note": "«Available payment methods vary by country». Проверено 2026-11-23."
+    },
+    {
+      "title": "Midjourney — Comparing Midjourney Plans",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans",
+      "note": "Basic $10, Standard $30, Pro $60, Mega $120 в месяц; годовая скидка 20%; подписки продлеваются автоматически. Проверено 2026-11-23."
+    },
+    {
+      "title": "Midjourney — Accepted Payment Methods",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/27868831972365-Accepted-Payment-Methods",
+      "note": "Stripe: Visa, Mastercard, American Express, в некоторых регионах кошельки; PayPal нет. Проверено 2026-11-23."
+    },
+    {
+      "title": "Midjourney — Payment Currency",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/27868831424525-Payment-Currency",
+      "note": "Только USD; конвертация и комиссия — на стороне банка. Проверено 2026-11-23."
+    },
+    {
+      "title": "Midjourney — How to Subscribe",
+      "url": "https://docs.midjourney.com/hc/en-us/articles/31974654274573-How-to-Subscribe",
+      "note": "На странице подписки по умолчанию выбрана годовая оплата; для помесячной — вкладка Monthly Billing. Проверено 2026-11-23."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

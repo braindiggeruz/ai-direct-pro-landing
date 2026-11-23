@@ -3922,7 +3922,7 @@
     "decision": "D-OPENAI-FEED-GZIP-20261123"
   },
   "ai_visibility_20261123": {
-    "status": "wave2a_pr_open",
+    "status": "wave2b_pr_open",
     "owner_request": "Owner in chat, 2026-11-23: maximise gptbot.uz visibility in ChatGPT and other AI answers; waves 1-3 per docs/seo/research/2026-11-23-ai-visibility/ANALYSIS.md, each wave its own PR, merge, deploy, IndexNow.",
     "owner_answers": "1 address Kichik Xalqa Yo‘li 57 (offer v7 needed); 2 sameAs @XGame_changerx (not added, decision L14, already contactPoint); 3 cases cakecity.uz, mirac.uz, deutschexrepte.com, bekcorp.uz (facts missing); 4 comparisons agreed",
     "baseline": "Business Hub 1 281 mentions / 310 clicks (23.10-19.11); Bing AI 250 citations / 23 pages (6 months); tracker ChatGPT 2.1% mentions, 3.6% citations in neutral answers, brand in 5/32 on 23.11",
@@ -3938,7 +3938,9 @@
     "wave1b_live": "3293f8eb; check-entity-consistency OK on 429 URLs",
     "wave1c": "English layer /en/: 6 generated pages (scripts/prerender-en.ts), hreflang en on 3 unprotected RU/UZ pairs, sitemap 435, llms.txt English pages; decision D-EN-LAYER-20261123",
     "wave1c_live": "477e3f1f; check-entity-consistency OK on 435 URLs; IndexNow 200 for 13 URLs",
-    "wave2a": "presentation cluster: 4 uz/ru pairs + /ru/blog/kak-sdelat-prezentatsiyu/, intent pairs W20261123-01..05, protection revision 2026-11-23-ai-visibility-2a; decision D-PRESENTATION-CLUSTER-20261123"
+    "wave2a": "presentation cluster: 4 uz/ru pairs + /ru/blog/kak-sdelat-prezentatsiyu/, intent pairs W20261123-01..05, protection revision 2026-11-23-ai-visibility-2a; decision D-PRESENTATION-CLUSTER-20261123",
+    "wave2a_live": "e896777b; check-entity-consistency OK on 444 URLs; IndexNow 200 for 11 URLs",
+    "wave2b": "payments: /uz/blog/chatgpt-plus-tolov/ + uz/ru pair on Claude Pro, Google AI Pro, Midjourney; intent pairs W20261123-06/-07; protection revision 2026-11-23-ai-visibility-2b; decision D-AI-PAYMENTS-20261123"
   },
   "offer_edition_v7_20261123": {
     "status": "live_53189d7f",

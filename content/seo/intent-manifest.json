@@ -4279,6 +4279,61 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 2a; OpenSEO 2860, 2026-11-23: «презентация с ии бесплатно» 10, «нейросеть для презентаций» 110, «презентация онлайн бесплатно» 320, «как сделать презентацию» 140, «slayd tayyorlash» 5 400)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-06-ru-kak-oplatit-chatgpt-vs-ai-podpiski",
+      "commercial": {
+        "url": "/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/",
+        "owns": "paying for ChatGPT from Uzbekistan (protected)",
+        "mustNotTarget": [
+          "оплата claude pro",
+          "google ai pro в узбекистане",
+          "midjourney оплата",
+          "как оплатить claude",
+          "как оплатить midjourney"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+        "owns": "paying for Claude Pro, Google AI Pro and Midjourney from Uzbekistan",
+        "mustNotTarget": [
+          "как оплатить chatgpt в узбекистане",
+          "chatgpt plus узбекистан",
+          "оплата chatgpt картой",
+          "подписка chatgpt узбекистан",
+          "чат гпт оплата"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 2b; OpenSEO 2860, 2026-11-23: «midjourney» 9 900, «gemini pro» 4 400, «chatgpt plus» 720, «chatgpt go» 590, «google ai pro» 590, «claude pro» 210)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-07-uz-claude-guide-vs-ai-obunalar",
+      "commercial": {
+        "url": "/uz/blog/claude-ai-ozbekistonda/",
+        "owns": "the Claude guide: access, free plan, apps",
+        "mustNotTarget": [
+          "claude pro",
+          "ai obunasi uchun to‘lov"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/ai-obunalarga-tolov/",
+        "owns": "paying for Claude Pro, Google AI Pro and Midjourney from Uzbekistan",
+        "mustNotTarget": [
+          "claude ai",
+          "claude",
+          "claude ai free",
+          "claude download",
+          "claude ai login"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ai-visibility (wave 2b; OpenSEO 2860, 2026-11-23: «midjourney» 9 900, «gemini pro» 4 400, «chatgpt plus» 720, «chatgpt go» 590, «google ai pro» 590, «claude pro» 210)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

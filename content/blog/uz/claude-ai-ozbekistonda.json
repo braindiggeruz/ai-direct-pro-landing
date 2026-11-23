@@ -369,6 +369,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/ai-obunalarga-tolov/",
+      "anchor": "Claude Pro’ga O‘zbekistondan to‘lov",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Claude AI O‘zbekistonda: kirish va bepul reja | GPTBot.uz",

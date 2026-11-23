@@ -437,6 +437,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/uz/blog/ai-obunalarga-tolov/",
+      "anchor": "Google AI Pro obunasiga to‘lov",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Gemini AI o‘zbek tilida: kirish, ilova va rasm | GPTBot.uz",

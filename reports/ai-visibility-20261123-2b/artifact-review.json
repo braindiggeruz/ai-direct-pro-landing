@@ -1,0 +1,161 @@
+{
+  "checkedAt": "2026-11-23T06:41:36.073Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ai-visibility-2a/reviewed-protected-pages.json",
+  "sitemapBefore": 444,
+  "sitemapAfter": 447,
+  "added": [
+    "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+    "/uz/blog/ai-obunalarga-tolov/",
+    "/uz/blog/chatgpt-plus-tolov/"
+  ],
+  "notBuilt": [],
+  "coverage": [
+    {
+      "url": "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+        "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+        "/en/pay-for-chatgpt-in-uzbekistan/"
+      ]
+    },
+    {
+      "url": "/uz/blog/ai-obunalarga-tolov/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/chatgpt-plus-tolov/",
+        "/uz/blog/claude-ai-ozbekistonda/",
+        "/uz/blog/gemini-ai-ozbek-tilida/",
+        "/en/pay-for-chatgpt-in-uzbekistan/"
+      ]
+    },
+    {
+      "url": "/uz/blog/chatgpt-plus-tolov/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/ai-obunalarga-tolov/",
+        "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+        "/en/pay-for-chatgpt-in-uzbekistan/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+        "/uz/blog/ai-obunalarga-tolov/",
+        "/uz/blog/chatgpt-plus-tolov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/ai-obunalarga-tolov/",
+        "/uz/blog/chatgpt-plus-tolov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/claude-ai-v-uzbekistane-kak-polzovatsya/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/gemini-v-uzbekistane-kak-polzovatsya-i-skachat/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/chatgpt-plus-tolov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/claude-ai-ozbekistonda/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/ai-obunalarga-tolov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/gemini-ai-ozbek-tilida/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/ai-obunalarga-tolov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/en/pay-for-chatgpt-in-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+        "/uz/blog/ai-obunalarga-tolov/",
+        "/uz/blog/chatgpt-plus-tolov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/oplata-ii-podpisok-iz-uzbekistana/",
+        "/uz/blog/ai-obunalarga-tolov/",
+        "/uz/blog/chatgpt-plus-tolov/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 447
+}

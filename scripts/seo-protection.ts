@@ -301,7 +301,12 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // articles (four uz/ru pairs and /ru/blog/kak-sdelat-prezentatsiyu/), nothing
 // relabelled or removed. Nine pages keep their complete contract; see
 // reports/ai-visibility-20261123-2a/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-23-ai-visibility-2a/reviewed-protected-pages.json';
+// The 2026-11-23-ai-visibility-2b revision (wave 2b, paying for AI services)
+// changes only the homepage, and only its lists: three entries for
+// /uz/blog/chatgpt-plus-tolov/ and the uz/ru subscriptions pair, nothing
+// relabelled or removed. Nine pages keep their complete contract; see
+// reports/ai-visibility-20261123-2b/review.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-23-ai-visibility-2b/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

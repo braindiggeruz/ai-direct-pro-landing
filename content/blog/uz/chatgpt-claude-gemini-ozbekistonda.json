@@ -59,7 +59,8 @@
     {"target":"/uz/blog/chatgpt-uzbek-tilida-promptlar/","anchor":"o‘zbekcha AI promptlar","locale":"uz","type":"contextual","priority":3},
     {"target":"/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/","anchor":"ChatGPTni xavfsiz yuklash","locale":"uz","type":"contextual","priority":4},
     {"target":"/uz/blog/chat-gpt-uzbek-biznes-uchun/","anchor":"AI chat biznes uchun","locale":"uz","type":"contextual","priority":5},
-    {"target":"/uz/blog/ozbekcha-ai-chatlar-taqqoslash/","anchor":"o‘zbekcha AI chatlar taqqoslash","locale":"uz","type":"contextual","priority":6}
+    {"target":"/uz/blog/ozbekcha-ai-chatlar-taqqoslash/","anchor":"o‘zbekcha AI chatlar taqqoslash","locale":"uz","type":"contextual","priority":6},
+    {"target":"/uz/blog/chatgpt-plus-tolov/","anchor":"ChatGPT Plus’ga O‘zbekistondan to‘lov","locale":"uz","type":"contextual","priority":7}
   ],
   "ogTitle":"ChatGPT, Claude va Gemini: O‘zbekiston uchun taqqoslash",
   "ogDescription":"Rasmiy mavjudlik, o‘zbek tili, vazifalar, narx va maxfiylik bo‘yicha halol taqqoslash.",
