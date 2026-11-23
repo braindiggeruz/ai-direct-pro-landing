@@ -40,6 +40,7 @@ import { SITE_CHAT_NAV, headerChatLink } from '../src/shared/site-chat-nav';
 import { isMeasurementHoldPath } from './measurement-hold';
 import { withStudioTelegramPrefill } from './telegram-cta';
 import { withEmailOff } from './email-off';
+import { builtEnAlternateOf } from './en-alternates';
 import { LLM_MARKDOWN_URLS } from './llm-pages';
 import { buildOfferLd, offerFromTrustChips } from './service-offers';
 import { renderHeroTrustChip } from './hero-trust';
@@ -875,7 +876,7 @@ const SITE_NAV = {
 // the form for the same reason).
 const LEGACY_HEADER_PATHS: ReadonlySet<string> = new Set(['/uz/']);
 
-function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz: string): string {
+function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz: string, altEn = ''): string {
   if (isMeasurementHoldPath(page.url) || LEGACY_HEADER_PATHS.has(page.url)) {
     // The chat item hides below 640px, like the articles' «Blog»: logo, RU, UZ
     // and the CTA already fill a 320px row (revision 2026-10-06-seo-push).
@@ -912,6 +913,7 @@ function renderLandingHeader(page: Page, global: GlobalSEO, altRu: string, altUz
   const lang = [
     altRu ? `<a href="${escapeHtml(altRu)}" hreflang="ru"${locale === 'ru' ? ' aria-current="page"' : ''} class="${langLinkClass}">RU</a>` : '',
     altUz ? `<a href="${escapeHtml(altUz)}" hreflang="uz"${locale === 'uz' ? ' aria-current="page"' : ''} class="${langLinkClass}">UZ</a>` : '',
+    altEn ? `<a href="${escapeHtml(altEn)}" hreflang="en" class="${langLinkClass}">EN</a>` : '',
   ].join('');
   return `<header class="border-b border-white/5 bg-bg-base/80 backdrop-blur sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
@@ -981,6 +983,10 @@ function renderPage(page: Page, global: GlobalSEO, cssLinks: string, jsHref: str
     : '';
   const xDefaultValid = xDefaultOverride === altRu || xDefaultOverride === altUz;
   const xDefaultHref = hasAlternatePair ? (xDefaultValid ? xDefaultOverride : hrefRu) : '';
+  // The English page that joins this declared pair (scripts/en-alternates.ts),
+  // only when this build contains it. x-default stays the pair's.
+  const enPath = hasAlternatePair ? builtEnAlternateOf(page.url, DIST_DIR) : undefined;
+  const altEn = enPath ? `${global.siteUrl}${enPath}` : '';
 
   // Same authored modification date as JSON-LD and sitemap. The source review
   // date remains separate and is not advanced when a page is merely rebuilt.
@@ -1089,7 +1095,7 @@ ${page.pageType === 'gpt-chat'
 <meta name="robots" content="${robotsContent}" />
 <link rel="canonical" href="${escapeHtml(page.canonical || fullUrl)}" />
 ${altRu ? `<link rel="alternate" hreflang="ru" href="${escapeHtml(altRu)}" />` : ''}
-${altUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(altUz)}" />` : ''}
+${altUz ? `<link rel="alternate" hreflang="uz" href="${escapeHtml(altUz)}" />` : ''}${altEn ? `\n<link rel="alternate" hreflang="en" href="${escapeHtml(altEn)}" />` : ''}
 ${xDefaultHref ? `<link rel="alternate" hreflang="x-default" href="${escapeHtml(xDefaultHref)}" />` : ''}
 
 <meta property="og:type" content="website" />
@@ -1136,7 +1142,7 @@ ${METRIKA_HEAD}
 <body class="${marketVariant ? 'market-page' : 'bg-bg-base text-white'} antialiased ${isTargetLanding(page) ? 'target-cro-page ' : ''}${page.designVariant === 'digital-command-center' ? 'dc-page ' : ''}${showStickyCta && !marketVariant ? 'pb-24 lg:pb-0' : ''}">
 <a href="${isToolFirstPage(page) ? '#tool-first' : '#main'}" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3 focus:rounded-lg focus:border focus:border-black">${page.locale === 'uz' ? 'Asosiy kontentga o\u2018tish' : 'Перейти к основному контенту'}</a>
 ${METRIKA_NOSCRIPT}
-${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : renderLandingHeader(page, global, switchRu, switchUz)}
+${marketVariant ? renderMarketHeader(page, hrefRu, hrefUz) : page.pageType === 'gpt-chat' ? '' : renderLandingHeader(page, global, switchRu, switchUz, enPath)}
 
 ${marketVariant
   ? page.slug === 'sotuvchi' ? renderMarketLanding(page) : renderMarketTrust(page)

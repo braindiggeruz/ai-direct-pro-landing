@@ -1,3 +1,31 @@
+# Current handoff — AI visibility wave 1c: the English layer /en/ · 23.11.2026
+
+## 1. State
+Branch feat/ai-visibility-wave1c from main 3293f8eb. Production 3293f8eb (waves 1a, 1b and offer v7 live; check-entity-consistency OK on 429 URLs) until this PR is merged and deployed.
+## 2. Delivered
+Six English pages generated at build time: /en/ (entity facts), /en/uzbek-ai-chat/, /en/ai-presentation-maker/, /en/ai-chatbot-development-tashkent/, /en/pay-for-chatgpt-in-uzbekistan/, /en/uzbek-ai-chats-compared/. Answer-first intro with a number, question headings, tables, check date, FAQ (FAQPage from the visible questions), sources with dates. Every price read from the sources of truth. hreflang en on three unprotected RU/UZ pairs (o-kompanii, ai-bot, comparison), «EN» in their language switch, sitemap 429 → 435, llms.txt «English pages».
+## 3. Files
+scripts/{en-pages,en-alternates,prerender-en}.ts (new), scripts/{prerender,prerender-blog,generate-sitemap,jsonld-helpers,openai-feed}.ts, package.json (build, build:fast, build:cf, test), scripts/lead-radar/release-gate.ts + tests/lead-radar-release-gate.test.ts (pinned build:cf), public/llms.txt, tests/en-pages.test.ts (new), tests/seo-push-revision.test.ts (R3-10 for /en/), tests/seo-trial-product-truth.test.ts (English URLs are served), docs.
+## 4. Decisions
+D-EN-LAYER-20261123.
+## 5. Excluded
+Protected pages and homepage lists (English pages are not content JSON, no protection revision needed); the protected chats keep A14 (no hreflang); the Studio pair keeps its set.
+## 6. Validation
+tsc -b OK; build:fast OK (6 English pages, sitemap 435); en-pages 9/9; seo-push-revision R3-10 green with /en/ (R3-6/R3-9 fail on main too); full npm test 2298/2340, all 34 failures also fail on origin/main 3293f8eb (14 files re-run there with identical counts, the rest recorded earlier); build-openai-feed --check OK; eslint 0 on the new files; check-entity-consistency on the local build: 435 URLs, only the three Studio pages 404 locally (built by build:studio); screenshots 375/1280 px without horizontal scroll.
+## 7. Known limits
+English pages summarise Russian and Uzbek products; facts about other services carry the check date 2026-11-23 and age.
+## 8. Next task
+Deploy, check the six URLs and reciprocal hreflang on production, IndexNow for the 6 new + 6 changed URLs + llms.txt; then wave 2 (presentations cluster, payment cluster).
+## 9. Acceptance
+Six URLs 200, lang="en", in the sitemap; ru/uz/en/x-default reciprocal on the three pairs; check-entity-consistency OK on 435 URLs.
+## 10. Start commands
+npm run build:fast; node --import tsx --test tests/en-pages.test.ts; npx tsx scripts/check-entity-consistency.ts
+## 11. Risks
+Low: generated pages beside the content system; the six RU/UZ pair pages gain one hreflang line and one switch link.
+## 12. Rollback
+git revert; without prerender-en.ts in the build no page declares an English alternate.
+
+---
 # Current handoff — AI visibility wave 1b: Uzbek AI chat comparison (uz/ru) · 23.11.2026
 
 ## 1. State

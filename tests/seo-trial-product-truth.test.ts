@@ -5,6 +5,7 @@ import test from 'node:test';
 import { FREE_TRIAL_LIMIT } from '../functions/lib/gpt-chat/trial-store';
 import { publishedStudioUrls } from '../apps/studio/shared/published-urls';
 import { DESCRIBED_REDIRECTS, buildLlmsFull, renderTwins, siteUrlPaths, type LlmTwin } from '../scripts/generate-llm-markdown';
+import { enPages } from '../scripts/en-pages';
 import { LLM_MARKDOWN_URLS } from '../scripts/llm-pages';
 import { STATIC_ROUTES } from '../src/shared/audit';
 import type { BlogArticle, Page, Redirect } from '../src/shared/types';
@@ -131,6 +132,8 @@ test('every gptbot.uz URL in llms-full.txt is served by the build', () => {
     ...contentDocs<BlogArticle>('content/blog')
       .filter((article) => article.status === 'published' && article.robotsIndex !== false).map((article) => article.url),
     ...publishedStudioUrls(process.cwd()),
+    // The English layer: scripts/prerender-en.ts writes it in every build chain (tests/en-pages.test.ts).
+    ...enPages(process.cwd()).map((page) => page.url),
     ...STATIC_ROUTES,
     ...twins.map((twin) => `${twin.url}index.html.md`),
     // Files in public/ (Vite copies them) and the files the generators of every build chain write.

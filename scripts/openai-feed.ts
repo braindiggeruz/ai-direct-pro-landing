@@ -435,14 +435,14 @@ export const SERVICE_ITEMS: readonly ServiceItem[] = [
 // ---------- llms.txt: published starting prices ----------
 
 /** English names of the package rows the feed reads; an unknown row fails the build instead of guessing. */
-const PACKAGE_LABELS: Record<string, string> = {
+export const PACKAGE_LABELS: Record<string, string> = {
   'Старт': 'Start', 'Бизнес': 'Business', 'Pro': 'Pro', 'Про': 'Pro', 'Поддержка': 'Support',
   'AI-менеджер': 'AI Manager', 'Лендинг': 'Landing page', 'Корпоративный сайт': 'Corporate website',
   'Интернет-магазин': 'Online store', 'Аудит': 'Audit', 'Рост': 'Growth', 'Лидер': 'Leader',
   'Запуск': 'Launch', 'Ведение': 'Management',
 };
 
-const SERVICE_NAMES: Record<keyof typeof SERVICE_PAGES, string> = {
+export const SERVICE_NAMES: Record<keyof typeof SERVICE_PAGES, string> = {
   aiBot: 'AI bot for business (Telegram, Instagram, WhatsApp, website)',
   instagram: 'Instagram AI manager (Direct and comments)',
   whatsapp: 'WhatsApp bot for business',
