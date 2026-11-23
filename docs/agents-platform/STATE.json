@@ -3795,5 +3795,12 @@
     "effective_when": "The workflow is on main (PR #63 merged) and the CLOUDFLARE_API_TOKEN secret exists.",
     "credential_search_20261120": "No Cloudflare credential in this session's environment or in the owner's cloud environments (ai-direct-pro-landing: Instagram key only; BEK CORP preview: none). The owner's machine deploys through a wrangler OAuth login that stays there.",
     "first_run": "2026-11-20: run 44661601843 on ae4b1f22 — success (deployed_and_verified). The repository already held CLOUDFLARE_API_TOKEN; the account ID came from the documented default."
+  },
+  "ai_mentions_20261123": {
+    "status": "committed_deploy_pending",
+    "owner_authorized": "Owner in chat, 2026-11-23: «Приступай и реализуй всё автономно максимально ! … Сделай по настоящему гениально чтобы GPT цитировал меня как можно больше. Даю полные права»",
+    "baseline": "Business Hub 239 mentions / 7 days (-17%), 54 website clicks; GA4 chatgpt.com 310 sessions 2026-10-25..11-22; OpenSEO ChatGPT 2026-11-23 run 7565fee4: branded 2/2, neutral 0/16 mentions (1 citation), chatgpt.uz 12/18 uncited.",
+    "scope": "Uzbek comparison article: GPTBot.uz table + 2 FAQ; public/llms.txt Quick answers; IndexNow 427 URLs; OpenSEO weekly ChatGPT tracker (32 prompts, topic ChatGPT discovery); Claude-in-Chrome prompt for Business Hub and Bing Webmaster handed to the owner.",
+    "next": "Owner: run the Claude in Chrome prompt (Hub name GPTBot.uz, description, products, agent; Bing Webmaster import + sitemap). Agents: weekly OpenSEO read; outreach texts for the listicles ChatGPT cites (neuromayak.com, neiroskop.ru, inqreon.com) on request."
   }
 }

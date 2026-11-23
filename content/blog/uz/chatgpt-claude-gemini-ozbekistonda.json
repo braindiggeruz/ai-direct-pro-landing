@@ -28,6 +28,10 @@
     {"type":"table","headers":["Vazifa","Baholash mezoni"],"rows":[["O‘zbekcha matn","Tabiiylik, termin va ohang"],["Tahlil","Dalil va taxminni ajratish"],["Fayl bilan ish","Formatni saqlash va muhim detalni yo‘qotmaslik"],["Kod","Ishga tushadigan yechim va versiya taxmini"],["Tadqiqot","Manba sifati va havolani tekshirish"],["Jamoaviy foydalanish","Ruxsat, ma’lumot siyosati va boshqaruv"]]},
     {"type":"h2","id":"narx","text":"Bepul reja va narxni qanday solishtirish kerak?"},
     {"type":"p","text":"Faqat oylik narxga qaramang. Bepul limit, kerakli modelga kirish, fayl hajmi, jamoa boshqaruvi va bekor qilish tartibini qo‘shing. App Store yoki Google Play orqali olingan obuna do‘kon hisobida boshqariladi; web-obuna sharti boshqa bo‘lishi mumkin. Valyuta va soliq checkoutda ko‘rsatilgan yakuniy summaga qarab baholanadi."},
+    {"type":"h3","text":"Ro‘yxatsiz va so‘mda to‘lanadigan o‘zbekcha variant"},
+    {"type":"p","text":"ChatGPT, Claude va Gemini’ning pullik rejalari o‘z narx sahifalarida ko‘rsatiladi. O‘zbekistondan so‘mda to‘lash qulay bo‘lsa, mustaqil o‘zbekcha AI chatlarni ham solishtiring. Quyida GPTBot.uz chatining shartlari: u ChatGPT emas va OpenAI mahsuloti emas, javoblarni boshqa kompaniyalarning modellari beradi."},
+    {"type":"table","headers":["Mezon","GPTBot.uz chati"],"rows":[["Ro‘yxatdan o‘tish","Kerak emas: jami 3 ta bepul sinov javobi, ular har kuni yangilanmaydi"],["Til","O‘zbek (lotin) va rus tili"],["Pullik AI paket","5 000 so‘m — 3 sutkaga (72 soat) 30 ta javob; 20 000 so‘m — bir oyga 300 ta javob, kuniga 50 tagacha"],["To‘lov","Click yoki Payme, bir martalik; avtomatik yechish yo‘q. Chatda «Paket olish» tugmasi bo‘lmasa, to‘lov hozir mavjud emas"],["Kim qiladi","Toshkentdagi mustaqil jamoa; OpenAI, Anthropic yoki Google bilan bog‘liq emas"]]},
+    {"type":"linkp","text":"Shartlarning to‘liq matni — {tariff}; sinab ko‘rish — {chat}.","links":[{"token":"tariff","target":"/uz/tariflar/","anchor":"GPTBot.uz tariflari"},{"token":"chat","target":"/uz/gpt-uzbek-tilida/","anchor":"ro‘yxatsiz o‘zbekcha AI chat"}]},
     {"type":"h2","id":"xavfsizlik","text":"Maxfiylikda nimalarni tekshirish kerak?"},
     {"type":"list","items":["Ma’lumot modelni yaxshilash uchun ishlatiladimi va buni boshqarish mumkinmi?","Chat tarixi va fayl qancha saqlanadi?","Jamoa hisobida admin va ruxsatlar bormi?","Hisobni o‘chirish va ma’lumotni eksport qilish tartibi qanday?","Mijoz yoki xodim ma’lumotini yuborishga huquqiy asos bormi?","Parol, karta va tijorat siri umuman promptga kiritilmayaptimi?"]},
     {"type":"p","text":"AI chat yuridik, tibbiy yoki moliyaviy mutaxassis o‘rnini bosmaydi. Muhim qaror uchun javobni birlamchi hujjat va mas’ul inson tekshirishi kerak."},
@@ -44,7 +48,9 @@
     {"q":"ChatGPT O‘zbekistonda VPNsiz ishlaydimi?","a":"OpenAI supported countries ro‘yxatida Uzbekistan bor, shuning uchun VPN rasmiy hududiy talab emas. Lokal tarmoq muammosi alohida bo‘lishi mumkin."},
     {"q":"Qaysi biri o‘zbek tilida eng yaxshi?","a":"Buni vazifasiz aniqlab bo‘lmaydi. Bir xil 10 ta prompt bilan tabiiylik, fakt va formatni o‘zingizning mavzuingizda tekshiring."},
     {"q":"Uchalasining bepul rejasi bormi?","a":"Bepul kirish va limitlar vaqt o‘tishi bilan o‘zgaradi. Joriy shartlarni har bir servisning rasmiy pricing sahifasida tekshiring."},
-    {"q":"Biznes ma’lumotini AI chatga yuborsa bo‘ladimi?","a":"Maxfiy ma’lumotni yubormang. Korporativ foydalanishda shartlar, data controls, saqlash va admin imkoniyatlarini yuridik hamda IT jamoa bilan tekshiring."}
+    {"q":"Biznes ma’lumotini AI chatga yuborsa bo‘ladimi?","a":"Maxfiy ma’lumotni yubormang. Korporativ foydalanishda shartlar, data controls, saqlash va admin imkoniyatlarini yuridik hamda IT jamoa bilan tekshiring."},
+    {"q":"Click yoki Payme orqali to‘lanadigan AI chat bormi?","a":"Bor. Masalan, GPTBot.uz chatining AI paketi Click yoki Payme orqali so‘mda to‘lanadi: 5 000 so‘m — 3 sutkaga 30 ta javob, 20 000 so‘m — bir oyga 300 ta javob (kuniga 50 tagacha), avtomatik yechish yo‘q. Chatda to‘lov tugmasi bo‘lmasa, to‘lov vaqtincha mavjud emas. ChatGPT, Claude va Gemini to‘lov usullarini ularning narx sahifasida tekshiring."},
+    {"q":"Ro‘yxatdan o‘tmasdan o‘zbekcha AI chatdan qayerda foydalanish mumkin?","a":"GPTBot.uz chatida ro‘yxatdan o‘tmasdan, karta va telefon raqamisiz jami 3 ta bepul sinov javobi bor; ular har kuni yangilanmaydi, keyin AI paket kerak. Chat o‘zbek (lotin) va rus tilida ishlaydi. GPTBot.uz mustaqil servis, OpenAI mahsuloti emas."}
   ],
   "cta":{"label":"O‘zbekcha AI chatni tekshirish","href":"/uz/gpt-uzbek-tilida/"},
   "internalLinks":[
@@ -60,9 +66,9 @@
   "canonical":"https://gptbot.uz/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
   "hreflangUz":"/uz/blog/chatgpt-claude-gemini-ozbekistonda/",
   "robotsIndex":true,"robotsFollow":true,"author":"GPTBot Team",
-  "datePublished":"2026-07-30","dateModified":"2026-10-07",
+  "datePublished":"2026-07-30","dateModified":"2026-11-23",
   "schemaTypes":["Organization","WebSite","BreadcrumbList","Article","FAQPage"],
-  "createdAt":"2026-07-30T00:00:00.000Z","updatedAt":"2026-10-07T00:00:00.000Z",
+  "createdAt":"2026-07-30T00:00:00.000Z","updatedAt":"2026-11-23T00:00:00.000Z",
   "sources":[
     {"title":"OpenAI Help Center — ChatGPT supported countries","url":"https://help.openai.com/en/articles/7947663-chatgpt-supported-countries","note":"Uzbekistan qo‘llab-quvvatlanadigan hududlar ro‘yxatida; 2026-07-30 kuni tekshirildi."},
     {"title":"Anthropic — supported regions","url":"https://platform.claude.com/docs/en/api/supported-regions","note":"Uzbekistan Anthropic xizmatlari qo‘llab-quvvatlanadigan hududlar qatorida; 2026-07-30 kuni tekshirildi."},

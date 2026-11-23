@@ -1,3 +1,31 @@
+# Current handoff — ChatGPT mentions: retrieval facts, IndexNow, weekly tracking · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 (PR braindiggeruz/ai-direct-pro-landing#64). Production ae4b1f22 until this commit is merged and deployed.
+## 2. Delivered
+Uzbek comparison article gets an honest GPTBot.uz table and two FAQ answers for the questions ChatGPT gives to chatgpt.uz; llms.txt gets «Quick answers»; IndexNow for all 427 sitemap URLs; OpenSEO weekly ChatGPT tracker (32 prompts); a Claude in Chrome prompt for the Business Hub and Bing Webmaster.
+## 3. Files
+content/blog/uz/chatgpt-claude-gemini-ozbekistonda.json, public/llms.txt, docs/seo/CHANGE_LOG_2026-11.md, docs/agents-platform/{DECISIONS.md,STATE.json,HANDOFF.md}.
+## 4. Decisions
+D-AI-MENTIONS-20261123.
+## 5. Excluded
+Protected chats (20.11 measurement window); hidden AI instructions, fake reviews, spam; Business Hub and Bing need the owner's browser.
+## 6. Validation
+build:fast ok; only the article, /uz/blog/, feeds, sitemaps and llms files change; seo-trial-product-truth 7/7, seo-product-facts 6/6, seo-protection 21/21, seo-cluster-quality, seo-content-guards, seo-anchor-intent, seo-commercial-claims, homepage-lists-frozen, seo-link-graph, blog-related-links, gpt-chat-prerender-links green; seo-revenue-claims 2 failures exist on the base too; seo-audit OK.
+## 7. Known limits
+ChatGPT retrieval leans on Bing; Bing coverage depends on the owner's Bing Webmaster step. Effects show over weeks.
+## 8. Next task
+Weekly OpenSEO read (neutral prompts with GPTBot.uz, baseline 0/16); Hub mentions (baseline 239/7 days).
+## 9. Acceptance
+Live article shows the table and FAQ; llms.txt serves «Quick answers».
+## 10. Start commands
+OpenSEO get_ai_visibility_results (latest run); curl https://gptbot.uz/llms.txt | head -40.
+## 11. Risks
+Low: one unprotected article and llms.txt.
+## 12. Rollback
+git revert of the commit, deploy via the workflow.
+
+---
 # Current handoff — «здесь и сейчас» release is live (ae4b1f22) · 20.11.2026
 
 ## 1. State
