@@ -215,6 +215,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/kochmas-mulk-reklamasi/",
+      "anchor": "quruvchilar uchun retargeting",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Retargeting nima: Instagram va Facebook’da sozlash",

@@ -215,6 +215,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+      "anchor": "ретаргетинг для застройщиков",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Ретаргетинг в Instagram и Facebook: как настроить",

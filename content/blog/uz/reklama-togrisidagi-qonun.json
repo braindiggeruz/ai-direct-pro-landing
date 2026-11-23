@@ -327,6 +327,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 10
+    },
+    {
+      "target": "/uz/blog/kochmas-mulk-reklamasi/",
+      "anchor": "yangi uylar reklamasi va quruvchilar reyestri",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 11
+    },
+    {
+      "target": "/uz/blog/mashina-savdosi-reklamasi/",
+      "anchor": "avtokredit reklamasi talablari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 12
     }
   ],
   "ogTitle": "Reklama to‘g‘risidagi qonun: biznes uchun asosiysi",

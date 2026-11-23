@@ -410,6 +410,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/onlayn-maktab-reklamasi/",
+      "anchor": "onlayn maktab reklamasi: litsenziya va kanallar",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "O‘quv markazi reklamasi: mavsum, target, Telegram va sinov darsi",

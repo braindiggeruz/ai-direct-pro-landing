@@ -264,6 +264,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 7
+    },
+    {
+      "target": "/ru/blog/reklama-onlayn-shkoly/",
+      "anchor": "реклама онлайн-курсов на двух языках",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Реклама на узбекском и русском: закон и настройка",

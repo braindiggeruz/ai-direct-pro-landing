@@ -326,6 +326,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 13
+    },
+    {
+      "target": "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+      "anchor": "реклама недвижимости: где размещаться",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 14
+    },
+    {
+      "target": "/ru/blog/reklama-avtosalona/",
+      "anchor": "реклама автосалона: Avtoelon и OLX",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 15
     }
   ],
   "ogTitle": "Где рекламироваться в Узбекистане: сравнение 2026",

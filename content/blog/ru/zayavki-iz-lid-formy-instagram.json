@@ -182,6 +182,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/reklama-avtosalona/",
+      "anchor": "лид-форма на тест-драйв для автосалона",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/ru/blog/reklama-onlayn-shkoly/",
+      "anchor": "лид-форма на пробный урок онлайн-школы",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Лид-форма в Instagram и Facebook: настройка и заявки",

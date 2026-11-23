@@ -1,0 +1,273 @@
+{
+  "checkedAt": "2026-11-23T13:28:32.702Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ads-gpt-d2/reviewed-protected-pages.json",
+  "sitemapBefore": 502,
+  "sitemapAfter": 508,
+  "added": [
+    "/ru/blog/reklama-avtosalona/",
+    "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+    "/ru/blog/reklama-onlayn-shkoly/",
+    "/uz/blog/kochmas-mulk-reklamasi/",
+    "/uz/blog/mashina-savdosi-reklamasi/",
+    "/uz/blog/onlayn-maktab-reklamasi/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/reklama-avtosalona/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+        "/ru/blog/zayavki-iz-lid-formy-instagram/"
+      ]
+    },
+    {
+      "url": "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/retargeting-v-instagram-i-facebook/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/"
+      ]
+    },
+    {
+      "url": "/ru/blog/reklama-onlayn-shkoly/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+        "/ru/blog/zayavki-iz-lid-formy-instagram/"
+      ]
+    },
+    {
+      "url": "/uz/blog/kochmas-mulk-reklamasi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/reklama-togrisidagi-qonun/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/retargeting-nima/"
+      ]
+    },
+    {
+      "url": "/uz/blog/mashina-savdosi-reklamasi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/lid-forma-instagram/",
+        "/uz/blog/reklama-togrisidagi-qonun/",
+        "/uz/blog/reklama-turlari/"
+      ]
+    },
+    {
+      "url": "/uz/blog/onlayn-maktab-reklamasi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/lid-forma-instagram/",
+        "/uz/blog/oquv-markazi-reklamasi/",
+        "/uz/blog/reklama-ozbek-va-rus-tilida/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-avtosalona/",
+        "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+        "/ru/blog/reklama-onlayn-shkoly/",
+        "/uz/blog/kochmas-mulk-reklamasi/",
+        "/uz/blog/mashina-savdosi-reklamasi/",
+        "/uz/blog/onlayn-maktab-reklamasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-avtosalona/",
+        "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+        "/ru/blog/reklama-onlayn-shkoly/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/kochmas-mulk-reklamasi/",
+        "/uz/blog/mashina-savdosi-reklamasi/",
+        "/uz/blog/onlayn-maktab-reklamasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-avtosalona/",
+        "/ru/blog/reklama-nedvizhimosti-i-novostroek/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-onlayn-shkoly/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklama-uchebnogo-tsentra-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-onlayn-shkoly/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/retargeting-v-instagram-i-facebook/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-nedvizhimosti-i-novostroek/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-avtosalona/",
+        "/ru/blog/reklama-nedvizhimosti-i-novostroek/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/zayavki-iz-lid-formy-instagram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-avtosalona/",
+        "/ru/blog/reklama-onlayn-shkoly/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/lid-forma-instagram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/mashina-savdosi-reklamasi/",
+        "/uz/blog/onlayn-maktab-reklamasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/oquv-markazi-reklamasi/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/onlayn-maktab-reklamasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/onlayn-maktab-reklamasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-togrisidagi-qonun/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/kochmas-mulk-reklamasi/",
+        "/uz/blog/mashina-savdosi-reklamasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-turlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/kochmas-mulk-reklamasi/",
+        "/uz/blog/mashina-savdosi-reklamasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/retargeting-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/kochmas-mulk-reklamasi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/reklama-avtosalona/",
+        "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+        "/ru/blog/reklama-onlayn-shkoly/",
+        "/uz/blog/kochmas-mulk-reklamasi/",
+        "/uz/blog/mashina-savdosi-reklamasi/",
+        "/uz/blog/onlayn-maktab-reklamasi/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 505
+}

@@ -327,6 +327,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 10
+    },
+    {
+      "target": "/ru/blog/reklama-nedvizhimosti-i-novostroek/",
+      "anchor": "реклама новостроек и реестр застройщиков",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 11
+    },
+    {
+      "target": "/ru/blog/reklama-avtosalona/",
+      "anchor": "реклама автокредита: требования",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 12
     }
   ],
   "ogTitle": "Закон о рекламе в Узбекистане: что важно бизнесу",

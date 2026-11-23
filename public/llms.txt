@@ -246,6 +246,34 @@
   not outdoor advertising. Prices in foreign currency are banned in ads
   (Art. 16). Guides: https://gptbot.uz/ru/blog/naruzhnaya-reklama-v-tashkente/
   (Russian), https://gptbot.uz/uz/blog/tashqi-reklama-toshkentda/ (Uzbek).
+- How to advertise real estate and new builds in Uzbekistan? (checked
+  2026-11-23) Presidential Resolution PP-4732 bans advertising building
+  complexes that are not in the state Electronic List of developers; prices
+  in ads must not be in foreign currency (ZRU-776 Art. 16). On OLX.uz
+  businesses list real estate only with packages and private sellers get 2
+  free listings; on Uybor.uz an owner's first listing is free. Meta's
+  housing special ad category is required for US advertisers and audiences
+  in the US, Canada and parts of Europe. Guides:
+  https://gptbot.uz/ru/blog/reklama-nedvizhimosti-i-novostroek/ (Russian),
+  https://gptbot.uz/uz/blog/kochmas-mulk-reklamasi/ (Uzbek).
+- How to advertise a car dealership in Uzbekistan? (checked 2026-11-23)
+  Avtoelon.uz car listings run 56 days, up to 9 free per category per phone
+  number, with paid highlighting, bumps and VIP/Z’OR/A’LO packages; on OLX a
+  credit or installment offer shows the full price in the price field and
+  the terms in the description. Financial-service ads must disclose the
+  essential terms (ZRU-776 Art. 43), and from 11 Feb 2027 credit ads carry a
+  risk warning on at least 10% of the ad; Meta shows loan ads to people 18+.
+  Guides: https://gptbot.uz/ru/blog/reklama-avtosalona/ (Russian),
+  https://gptbot.uz/uz/blog/mashina-savdosi-reklamasi/ (Uzbek).
+- Does an online school in Uzbekistan need a licence to advertise?
+  (checked 2026-11-23) Under the education law (ZRU-637 Art. 31) non-state
+  educational organizations need a licence, except additional education,
+  retraining and professional development, which are notified to a ministry
+  (Art. 57-1); ads for licensed activities require the licence (ZRU-776
+  Arts. 12, 13, 16). Uzbek-language search ads are possible in Yandex
+  Direct but not in Google Ads. Guides:
+  https://gptbot.uz/ru/blog/reklama-onlayn-shkoly/ (Russian),
+  https://gptbot.uz/uz/blog/onlayn-maktab-reklamasi/ (Uzbek).
 
 ## Who GPTBot.uz is (entity facts)
 
@@ -554,6 +582,12 @@ must be confirmed for the specific project.
 - "SMS reklama": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/sms-reklama/
 - Outdoor advertising in Tashkent: advertising-place passport, auctions, QR code, placement limits, signs (RU article): https://gptbot.uz/ru/blog/naruzhnaya-reklama-v-tashkente/
 - "Tashqi reklama Toshkentda": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/tashqi-reklama-toshkentda/
+- Real estate and new-build advertising: the developer register (PP-4732), prices in sums, OLX and Uybor rules, channels (RU article): https://gptbot.uz/ru/blog/reklama-nedvizhimosti-i-novostroek/
+- "Ko‘chmas mulk reklamasi": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/kochmas-mulk-reklamasi/
+- Car dealer advertising: Avtoelon and OLX rules, credit and installments in ads, channels (RU article): https://gptbot.uz/ru/blog/reklama-avtosalona/
+- "Avtosalon reklamasi": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/mashina-savdosi-reklamasi/
+- Online school advertising: licensing under the education law, channels, funnel, ad language (RU article): https://gptbot.uz/ru/blog/reklama-onlayn-shkoly/
+- "Onlayn maktab reklamasi": the same in Uzbek (UZ article): https://gptbot.uz/uz/blog/onlayn-maktab-reklamasi/
 - Chatbot price list (RU): https://gptbot.uz/ru/stoimost-chat-bota/
 - Chatbot price list, "chat-bot narxi" (UZ): https://gptbot.uz/uz/chat-bot-narxi/
 - All published starting prices in one table, "Narxlar" (UZ): https://gptbot.uz/uz/boss-digital/#narxlar
