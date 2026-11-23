@@ -309,6 +309,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+      "anchor": "reklamani o‘zbek va rus tilida tayyorlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Reklama kreativlari: 12 format va o‘lchamlar",

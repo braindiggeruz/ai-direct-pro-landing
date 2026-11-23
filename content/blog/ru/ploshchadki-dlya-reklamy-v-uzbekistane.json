@@ -277,6 +277,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+      "anchor": "как выбрать блогера для рекламы",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
+    },
+    {
+      "target": "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+      "anchor": "реклама для узбекоязычной и русскоязычной аудитории",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 8
     }
   ],
   "ogTitle": "Где рекламироваться в Узбекистане: сравнение 2026",

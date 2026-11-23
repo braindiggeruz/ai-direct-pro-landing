@@ -258,6 +258,20 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+      "anchor": "пометка «реклама» по закону ЗРУ-776",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+      "anchor": "реклама у блогеров: выбор и договор",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Реклама в Telegram-каналах Узбекистана: цены и выбор",

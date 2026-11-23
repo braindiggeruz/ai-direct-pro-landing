@@ -280,6 +280,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 2
+    },
+    {
+      "target": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+      "anchor": "как посчитать окупаемость рекламы",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 3
     }
   ],
   "ogTitle": "Рекламный бюджет: сколько процентов от оборота тратить бизнесу",

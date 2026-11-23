@@ -197,6 +197,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+      "anchor": "reklama matni qaysi tilda bo‘lishi kerak",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "canonical": "https://gptbot.uz/uz/blog/kopirayting-nima/",

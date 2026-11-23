@@ -253,6 +253,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/uz/blog/reklama-togrisidagi-qonun/",
+      "anchor": "reklama to‘g‘risidagi qonun va «reklama» belgisi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 5
+    },
+    {
+      "target": "/uz/blog/reklama-blogerlarda/",
+      "anchor": "blogerlarda reklama: tanlash va shartnoma",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Telegram kanalga reklama berish: narx va tanlash",

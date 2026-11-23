@@ -315,7 +315,11 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // advertising articles and one relabelled entry (the new title of
 // /uz/blog/target-reklama-nima/), nothing removed. Nine pages keep their
 // complete contract; see reports/ads-gpt-20261123-b/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-23-ads-gpt-b/reviewed-protected-pages.json';
+// The 2026-11-23-ads-gpt-c1 revision (advertising GPT wave C1: the advertising
+// law, bloggers, ad payback, ads in two languages) changes only the homepage,
+// and only its lists: eight entries for the new articles, nothing relabelled or
+// removed. Nine pages keep their complete contract; see reports/ads-gpt-20261123-c1/review.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-23-ads-gpt-c1/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

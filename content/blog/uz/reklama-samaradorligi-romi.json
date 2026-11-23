@@ -1,0 +1,345 @@
+{
+  "status": "published",
+  "locale": "uz",
+  "slug": "reklama-samaradorligi-romi",
+  "url": "/uz/blog/reklama-samaradorligi-romi/",
+  "title": "Reklama o‘zini oqlaydimi: ROMI, ROAS va CAC misolda | GPTBot.uz",
+  "description": "Reklama o‘zini oqlaganini qanday bilish: ROMI, ROAS, CPL va CAC formulalari, so‘mdagi shartli misol, zararsizlik chegarasi va savdoni reklama bilan bog‘lash.",
+  "h1": "Reklama o‘zini oqlaydimi: ROMI, ROAS, CPL va CAC ni so‘mdagi misolda qanday hisoblash (2026)",
+  "topicCluster": "ads-gpt-20261123",
+  "targetMoneyPage": "/uz/internet-reklama-toshkent/",
+  "keywords": [
+    "reklama samaradorligi",
+    "romi nima",
+    "romi formulasi",
+    "reklama o‘zini oqlaydimi",
+    "roas va romi farqi"
+  ],
+  "intro": "Qisqa javob (2026-11-23): reklama keltirgan savdodan olingan yalpi foyda unga sarflangan xarajatdan ko‘p bo‘lsa, reklama o‘zini oqlaydi. Buni ROMI ko‘rsatadi: ROMI = (reklama savdosidan yalpi foyda − reklama xarajati) ÷ reklama xarajati × 100 %: noldan yuqori — o‘zini oqlagan, past — yo‘q. ROAS = tushum ÷ xarajat marjani hisobga olmaydi, shuning uchun zararsiz ishlash uchun ROAS kamida 1 ÷ marja bo‘lishi kerak: marja 40 % bo‘lsa — 2,5 (250 %) dan. Hisob uchun reklama kabinetidagi xarajatlar, CRM yoki jadvaldagi arizalar va savdolar hamda savdoni reklama bilan bog‘laydigan UTM-belgilar kerak.",
+  "body": [
+    {
+      "type": "p",
+      "text": "Qisqa javob (2026-11-23): reklama keltirgan savdodan olingan yalpi foyda unga sarflangan xarajatdan ko‘p bo‘lsa, reklama o‘zini oqlaydi. Buni ROMI ko‘rsatadi: ROMI = (reklama savdosidan yalpi foyda − reklama xarajati) ÷ reklama xarajati × 100 %: noldan yuqori — o‘zini oqlagan, past — yo‘q. ROAS = tushum ÷ xarajat marjani hisobga olmaydi, shuning uchun zararsiz ishlash uchun ROAS kamida 1 ÷ marja bo‘lishi kerak: marja 40 % bo‘lsa — 2,5 (250 %) dan. Hisob uchun reklama kabinetidagi xarajatlar, CRM yoki jadvaldagi arizalar va savdolar hamda savdoni reklama bilan bog‘laydigan UTM-belgilar kerak."
+    },
+    {
+      "type": "h2",
+      "text": "Beshta ko‘rsatkich bitta jadvalda"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ko‘rsatkich",
+        "Formula",
+        "Nimani ko‘rsatadi",
+        "Ma’lumot qayerdan"
+      ],
+      "rows": [
+        [
+          "CPL — ariza narxi",
+          "reklama xarajati ÷ arizalar soni",
+          "bitta kontakt qancha turadi",
+          "reklama kabineti va CRM"
+        ],
+        [
+          "Savdoga konversiya",
+          "savdolar ÷ arizalar × 100 %",
+          "arizalar sifati va sotuv bo‘limi ishi",
+          "CRM yoki arizalar jadvali"
+        ],
+        [
+          "CAC — mijoz narxi",
+          "(reklama + pudratchi va sotuv bo‘limi ishi) ÷ yangi mijozlar",
+          "bitta mijozni jalb qilishning to‘liq narxi",
+          "buxgalteriya va CRM"
+        ],
+        [
+          "ROAS",
+          "reklamadan tushum ÷ reklama xarajati",
+          "har bir so‘m reklama qancha tushum keltiradi",
+          "CRM; kabinetlarda — konversiyalar qiymati ÷ xarajat (Google Ads), xaridlar qiymati ÷ sarflangan summa (Meta)"
+        ],
+        [
+          "ROMI",
+          "(reklamadan yalpi foyda − marketing xarajati) ÷ marketing xarajati × 100 %",
+          "marjani hisobga olganda xarajat o‘zini oqladimi",
+          "CRM, tannarx, xarajatlar"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "ROAS bo‘yicha zararsizlik chegarasi = 1 ÷ marja. Marja 25 % bo‘lsa, reklama ROAS 4 (400 %) dan, 40 % da — 2,5 (250 %) dan, 60 % da — 1,67 (167 %) dan o‘zini oqlaydi. Shuning uchun bir xil ROAS 300 % bir biznes uchun foyda, boshqasi uchun zarar bo‘ladi."
+    },
+    {
+      "type": "h2",
+      "text": "So‘mdagi shartli misol"
+    },
+    {
+      "type": "p",
+      "text": "Shartli o‘quv misoli, mijoz statistikasi emas: internet-do‘kon bir oyda reklamaga 10 000 000 so‘m sarfladi, 250 ta ariza va 50 ta savdo oldi; o‘rtacha chek — 1 000 000 so‘m, marja — 40 %, pudratchi ishi — 3 000 000 so‘m."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ko‘rsatkich",
+        "Hisob",
+        "Natija"
+      ],
+      "rows": [
+        [
+          "CPL",
+          "10 000 000 ÷ 250",
+          "40 000 so‘m"
+        ],
+        [
+          "Savdoga konversiya",
+          "50 ÷ 250",
+          "20 %"
+        ],
+        [
+          "Reklamadan tushum",
+          "50 × 1 000 000",
+          "50 000 000 so‘m"
+        ],
+        [
+          "ROAS",
+          "50 000 000 ÷ 10 000 000",
+          "5 (500 %)"
+        ],
+        [
+          "Yalpi foyda",
+          "50 000 000 × 40 %",
+          "20 000 000 so‘m"
+        ],
+        [
+          "Reklama byudjeti bo‘yicha ROMI",
+          "(20 000 000 − 10 000 000) ÷ 10 000 000",
+          "100 %"
+        ],
+        [
+          "Pudratchi ishi bilan ROMI",
+          "(20 000 000 − 13 000 000) ÷ 13 000 000",
+          "≈ 54 %"
+        ],
+        [
+          "CAC",
+          "13 000 000 ÷ 50",
+          "260 000 so‘m"
+        ],
+        [
+          "Marja 40 % da ROAS chegarasi",
+          "1 ÷ 0,4",
+          "2,5 (250 %)"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Misol xulosasi: reklama o‘zini oqlaydi — ROAS 5 chegaradagi 2,5 dan yuqori, ROMI esa pudratchi to‘lovi bilan ham musbat. Xuddi shu xarajatda savdolar 20 ta bo‘lganida, tushum 20 000 000 so‘m, yalpi foyda — 8 000 000 so‘m bo‘lardi va ROMI minusga tushardi: (8 000 000 − 13 000 000) ÷ 13 000 000 ≈ −38 %."
+    },
+    {
+      "type": "h2",
+      "text": "Savdoni reklama bilan qanday bog‘lash"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Har bir reklama havolasida UTM-belgilar: utm_source — manba (masalan, instagram), utm_medium — reklama turi (masalan, cpc), utm_campaign — kampaniya yoki aksiya. Google Analytics uchalasini ham qo‘yishni maslahat beradi va harf registrini hisobga oladi: instagram va Instagram — turli manbalar.",
+        "CRM yoki arizalar jadvalida «Manba» maydoni — uni har bir ariza, jumladan qo‘ng‘iroqlar va Direct hamda Telegram’dagi xabarlar uchun to‘ldiring.",
+        "Har bir kanal uchun alohida promokod yoki kod so‘z — havola orqali emas, messenjerga yozadigan mijozlar uchun.",
+        "Birinchi aloqada «Biz haqimizda qayerdan bildingiz?» savoli — yagona manba sifatida emas, tekshiruv sifatida.",
+        "Haftada bir marta solishtirish: CRM’dagi arizalar va kabinetlardagi konversiyalar. Har bir platforma konversiyalarni o‘z atributsiya qoidalari bo‘yicha hisoblaydi, shuning uchun turli kabinetlardagi konversiyalar yig‘indisi haqiqiy savdolar sonidan ko‘p bo‘lishi mumkin."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Samaradorlikni qachon baholash kerak"
+    },
+    {
+      "type": "list",
+      "items": [
+        "To‘liq bitim sikli bo‘yicha hisoblang: arizadan to‘lovgacha bir oy o‘tsa, bir haftadan keyingi baho faqat xarajatlarni ko‘rsatadi.",
+        "Takroriy xaridlarni (LTV) faqat mijozlar xaridlarining tasdiqlangan tarixi bo‘lsa qo‘shing.",
+        "Bir xil uzunlikdagi va o‘xshash mavsumdagi davrlarni solishtiring.",
+        "Yangi kampaniyaning bir-ikki kuni bo‘yicha xulosa chiqarmang: platforma algoritmlari o‘rganishi uchun vaqt va konversiyalar kerak."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Pudratchi hisobotidagi xavfli belgilar"
+    },
+    {
+      "type": "list",
+      "items": [
+        "Hisobot faqat qamrov, ko‘rsatishlar va kliklar haqida — arizalar va savdolarsiz.",
+        "Nechta ariza mijozga aylangani haqida ma’lumotsiz CPL.",
+        "Marjasiz ROAS: biznes pul yo‘qotayotganda ham u yaxshi ko‘rinadi.",
+        "Formulasiz va boshlang‘ich raqamlarsiz «ROI 300 %».",
+        "Reklama tushumiga doimiy mijozlarning takroriy xaridlari yozilgan.",
+        "Reklama kabineti va xarajatlarga kirish yo‘q — raqamlarni tekshirib bo‘lmaydi."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Reklama o‘zini oqlamasa: sababni qayerdan izlash"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Raqamlarda nima ko‘rinadi",
+        "Sabab odatda qayerda",
+        "Nimani tekshirish"
+      ],
+      "rows": [
+        [
+          "CPL yuqori",
+          "kreativ, auditoriya yoki taklif",
+          "matn va vizuallar, auditoriya sozlamalari, landing sahifa"
+        ],
+        [
+          "CPL normal, savdo kam",
+          "arizalar sifati yoki ularga ishlov berish",
+          "javob tezligi, skript, arizalarni saralash"
+        ],
+        [
+          "Savdo bor, ROMI manfiy",
+          "marja yoki o‘rtacha chek",
+          "narx, qo‘shimcha sotuv, tannarx"
+        ],
+        [
+          "Kabinetda ROAS yuqori, CRM’da savdo kamroq",
+          "atributsiya va hisob",
+          "UTM-belgilar, «Manba» maydoni, konversiyalar dublikati"
+        ]
+      ]
+    },
+    {
+      "type": "linkp",
+      "text": "Reklama byudjetini maqsaddan qanday hisoblash — {budget} maqolasida; qaysi reklama turi vazifangizga mos — {turlari} maqolasida; pudratchini qanday tekshirish — {tl} chek-listida. Faqat kliklar emas, savdo bo‘yicha kuzatiladigan reklama uchun {hub} sahifasini ko‘ring.",
+      "links": [
+        {
+          "token": "budget",
+          "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+          "anchor": "reklama byudjetini hisoblash"
+        },
+        {
+          "token": "turlari",
+          "target": "/uz/blog/reklama-turlari/",
+          "anchor": "internet reklama turlari"
+        },
+        {
+          "token": "tl",
+          "target": "/uz/blog/toshkentda-targetolog-tanlash/",
+          "anchor": "targetolog tanlash"
+        },
+        {
+          "token": "hub",
+          "target": "/uz/internet-reklama-toshkent/",
+          "anchor": "GPTBot.uz’da arizalar uchun internet reklama"
+        }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": "Reklama o‘zini oqlayotganini qanday bilish mumkin?",
+      "a": "ROMI ni hisoblang: (reklama savdosidan yalpi foyda − reklama xarajati) ÷ xarajat × 100 %. Noldan yuqori — reklama o‘zini oqlagan, past — zararga ishlayapti."
+    },
+    {
+      "q": "ROMI ning ROAS dan farqi nima?",
+      "a": "ROAS tushumni xarajatga bo‘ladi va tannarxni hisobga olmaydi. ROMI marketing xarajatlari chegirilgandan keyingi foydani hisoblaydi, shuning uchun haqiqiy samaradorlikni ko‘rsatadi."
+    },
+    {
+      "q": "Reklama o‘zini oqlashi uchun qanday ROAS kerak?",
+      "a": "Kamida 1 ÷ marja: marja 40 % bo‘lsa — 2,5 (250 %) dan, 25 % bo‘lsa — 4 (400 %) dan. Chegaradan past bo‘lsa, reklamadan kelgan savdo uning narxini qoplamaydi."
+    },
+    {
+      "q": "CAC ning CPL dan farqi nima?",
+      "a": "CPL — bitta ariza narxi, CAC — jalb qilishning barcha xarajatlari: reklama, pudratchi va sotuv bo‘limi ishi hisobga olingan bitta mijoz narxi. Har bir ariza xarid qilmasa, CAC CPL dan yuqori bo‘ladi."
+    },
+    {
+      "q": "Savdo qaysi reklamadan kelganini qanday bilish mumkin?",
+      "a": "Havolalarga UTM-belgilar qo‘ying, CRM’da har bir ariza uchun «Manba» maydonini to‘ldiring va mijozlar messenjerga yozadigan kanallarga alohida promokodlar bering."
+    },
+    {
+      "q": "Reklama samaradorligini qachon baholash kerak?",
+      "a": "To‘liq bitim siklidan keyin — arizadan to‘lovgacha. Mijozlar bir oy o‘ylasa, bir haftadan keyingi baho faqat xarajatlarni ko‘rsatadi."
+    }
+  ],
+  "cta": {
+    "label": "Savdoni hisobga olgan reklama",
+    "href": "/uz/internet-reklama-toshkent/"
+  },
+  "internalLinks": [
+    {
+      "target": "/uz/internet-reklama-toshkent/",
+      "anchor": "arizalar uchun internet reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "anchor": "reklama byudjetini hisoblash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 2
+    },
+    {
+      "target": "/uz/blog/reklama-turlari/",
+      "anchor": "internet reklama turlari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "anchor": "targetolog tanlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
+    }
+  ],
+  "ogTitle": "Reklama o‘zini oqlaydimi: ROMI, ROAS, CPL va CAC",
+  "ogDescription": "ROMI, ROAS, CPL va CAC formulalari, so‘mdagi shartli misol, zararsizlik chegarasi va savdoni reklama bilan bog‘lash — 2026-11-23 holatiga.",
+  "ogImage": "https://gptbot.uz/assets/landing/og.jpg",
+  "canonical": "https://gptbot.uz/uz/blog/reklama-samaradorligi-romi/",
+  "hreflangRu": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+  "hreflangUz": "/uz/blog/reklama-samaradorligi-romi/",
+  "robotsIndex": true,
+  "robotsFollow": true,
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Reklama samaradorligini baholayotgan O‘zbekistondagi biznes egalari va marketologlar"
+  },
+  "breadcrumbLabel": "Reklama samaradorligi",
+  "author": "Борис Герасимов",
+  "datePublished": "2026-11-23",
+  "dateModified": "2026-11-23",
+  "schemaTypes": [
+    "Organization",
+    "WebSite",
+    "BreadcrumbList",
+    "Article",
+    "FAQPage"
+  ],
+  "sources": [
+    {
+      "title": "Google Ads Help — About Target ROAS bidding",
+      "url": "https://support.google.com/google-ads/answer/6268637",
+      "note": "2026-11-23 da tekshirildi: maqsadli ROAS — reklamaga sarflangan har bir pul birligi uchun olishni xohlagan konversiyalarning o‘rtacha qiymati (masalan, tushum)."
+    },
+    {
+      "title": "Meta Business Help — Purchase ROAS (return on ad spend)",
+      "url": "https://www.facebook.com/business/help/274294333328345",
+      "note": "2026-11-23 da tekshirildi: Purchase ROAS — xaridlar qiymati sarflangan summaga bo‘lingan; ayrim ko‘rsatishlar, masalan iOS 14+ qurilmalarida, ko‘rsatkich hisoblanmasligi mumkin."
+    },
+    {
+      "title": "Google Analytics Help — URL builders: collect campaign data with custom URLs",
+      "url": "https://support.google.com/analytics/answer/10917952",
+      "note": "2026-11-23 da tekshirildi: utm_source — manba, utm_medium — marketing kanali, utm_campaign — mahsulot, shior yoki promokod; uchalasini qo‘yish kerak, qiymatlar registrga sezgir."
+    }
+  ],
+  "createdAt": "2026-11-23T00:00:00.000Z",
+  "updatedAt": "2026-11-23T00:00:00.000Z"
+}

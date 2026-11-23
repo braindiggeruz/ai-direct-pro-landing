@@ -276,6 +276,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+      "anchor": "как настроить рекламу на две языковые аудитории",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Как запустить рекламу в Instagram из Узбекистана",

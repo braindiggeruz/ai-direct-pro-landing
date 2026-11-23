@@ -321,6 +321,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+      "anchor": "реклама на узбекском и русском языке",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Рекламные креативы: 12 форматов и размеры",

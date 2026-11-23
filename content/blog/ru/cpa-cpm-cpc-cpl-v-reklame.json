@@ -404,6 +404,13 @@
     {
       "target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
       "anchor": "Как купить рекламу в Telegram"
+    },
+    {
+      "target": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+      "anchor": "как понять, окупается ли реклама: ROMI на примере",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "ogTitle": "CPA, CPM, CPC и CPL: за что вы платите в рекламе",

@@ -303,6 +303,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/reklama-samaradorligi-romi/",
+      "anchor": "reklama o‘zini oqlaydimi: ROMI hisobi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Reklama byudjeti qancha bo'lishi kerak: hisoblash formulasi",

@@ -477,6 +477,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+      "anchor": "targetni ikki til auditoriyasiga sozlash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Target reklama nima — kontekstdan farqi va o‘lchash",

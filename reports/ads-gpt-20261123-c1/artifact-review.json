@@ -1,0 +1,383 @@
+{
+  "checkedAt": "2026-11-23T09:55:06.782Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ads-gpt-b/reviewed-protected-pages.json",
+  "sitemapBefore": 457,
+  "sitemapAfter": 465,
+  "added": [
+    "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+    "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+    "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+    "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+    "/uz/blog/reklama-blogerlarda/",
+    "/uz/blog/reklama-ozbek-va-rus-tilida/",
+    "/uz/blog/reklama-samaradorligi-romi/",
+    "/uz/blog/reklama-togrisidagi-qonun/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/performance-marketing-tashkent/",
+        "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+        "/ru/blog/marketingovye-terminy-slovar/",
+        "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+        "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/"
+      ]
+    },
+    {
+      "url": "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+        "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/"
+      ]
+    },
+    {
+      "url": "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/"
+      ]
+    },
+    {
+      "url": "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
+        "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+        "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-blogerlarda/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/reklama-togrisidagi-qonun/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/telegram-kanalga-reklama-berish/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-ozbek-va-rus-tilida/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/kopirayting-nima/",
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/reklama-togrisidagi-qonun/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/target-reklama-nima/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-samaradorligi-romi/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+        "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-togrisidagi-qonun/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/reklama-blogerlarda/",
+        "/uz/blog/reklama-ozbek-va-rus-tilida/",
+        "/uz/blog/reklama-turlari/",
+        "/uz/blog/telegram-kanalga-reklama-berish/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+        "/uz/blog/reklama-blogerlarda/",
+        "/uz/blog/reklama-ozbek-va-rus-tilida/",
+        "/uz/blog/reklama-samaradorligi-romi/",
+        "/uz/blog/reklama-togrisidagi-qonun/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-blogerlarda/",
+        "/uz/blog/reklama-ozbek-va-rus-tilida/",
+        "/uz/blog/reklama-samaradorligi-romi/",
+        "/uz/blog/reklama-togrisidagi-qonun/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/performance-marketing-tashkent/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/cpa-cpm-cpc-cpl-v-reklame/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/dogovor-na-okazanie-smm-uslug-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-proverit-podryadchika-reklama-sayt-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/marketingovye-terminy-slovar/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "/ru/blog/reklama-u-blogerov-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/pochemu-reklama-v-instagram-ne-prinosit-zayavki/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnyy-byudzhet-skolko-protsentov-ot-oborota/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/skolko-stoit-reklama-v-telegram-kanalah/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/zapusk-reklamy-v-instagram-iz-uzbekistana/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/internet-reklama-narxi-ozbekiston-2026/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-samaradorligi-romi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/kopirayting-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-ozbek-va-rus-tilida/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-byudjeti-qancha-bolishi-kerak/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-samaradorligi-romi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-kreativlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-ozbek-va-rus-tilida/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-turlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-blogerlarda/",
+        "/uz/blog/reklama-ozbek-va-rus-tilida/",
+        "/uz/blog/reklama-togrisidagi-qonun/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/target-reklama-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-ozbek-va-rus-tilida/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/telegram-kanalga-reklama-berish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-blogerlarda/",
+        "/uz/blog/reklama-togrisidagi-qonun/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-samaradorligi-romi/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/kak-ponyat-okupaetsya-li-reklama/",
+        "/ru/blog/reklama-na-uzbekskom-i-russkom/",
+        "/ru/blog/reklama-u-blogerov-v-uzbekistane/",
+        "/ru/blog/zakon-o-reklame-v-uzbekistane/",
+        "/uz/blog/reklama-blogerlarda/",
+        "/uz/blog/reklama-ozbek-va-rus-tilida/",
+        "/uz/blog/reklama-samaradorligi-romi/",
+        "/uz/blog/reklama-togrisidagi-qonun/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 462
+}
