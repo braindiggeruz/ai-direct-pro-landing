@@ -25,7 +25,7 @@
 | `/uz/blog/ai-obunalarga-tolov/` · `/ru/blog/oplata-ii-podpisok-iz-uzbekistana/` | UZ · RU | Как оплатить Claude Pro, Google AI Pro, Midjourney? | Гайд с источниками (пара) | [#90](https://github.com/braindiggeruz/ai-direct-pro-landing/pull/90) |
 | `/uz/blog/toshkentda-ai-bot-pudratchisini-tanlash/` | UZ | Как выбрать подрядчика на AI-бота? | Нейтральный чек-лист | [#91](https://github.com/braindiggeruz/ai-direct-pro-landing/pull/91) |
 
-Итого 21 новый URL: 6 EN, 9 UZ, 6 RU. Sitemap: 427 → 448. Hreflang `en` добавлен трём незащищённым парам RU/UZ.
+Итого 21 новый URL: 6 EN, 8 UZ, 7 RU. Sitemap: 427 → 448. Hreflang `en` добавлен трём незащищённым парам RU/UZ.
 
 ## Расхождения анализа с реальностью (главное, полностью — `VERIFICATION.md`)
 
