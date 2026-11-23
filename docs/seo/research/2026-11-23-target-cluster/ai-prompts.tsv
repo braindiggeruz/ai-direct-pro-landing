@@ -1,0 +1,624 @@
+bucket	seed_lang	seed	engine	prompt	intent
+account_problems	uz	instagram reklama	gemini	Как избежать блокировки аккаунта при запуске рекламы в инстаграм?	informational
+account_problems	uz	instagramda reklama berish	gemini	Как избежать блокировки рекламного аккаунта в Инстаграм?	informational
+account_problems	ru	рекламный кабинет фейсбук	gemini	Причины блокировки рекламного аккаунта и как ее избежать	informational
+account_problems	ru	таргетированная реклама в инстаграм	gemini	Как избежать блокировки рекламного аккаунта?	informational
+ads_manager	uz	facebook reklama	chatgpt	Как создать рекламный кабинет Facebook и связать его со страницей компании?	informational
+ads_manager	uz	instagram target	chatgpt	Где заказать аудит рекламного кабинета Instagram?	commercial
+ads_manager	uz	instagram target	chatgpt	Как запустить рекламу в Instagram через рекламный кабинет Meta?	navigational
+ads_manager	uz	instagramda reklama berish	chatgpt	Как настроить рекламу Instagram через Meta Ads Manager?	informational
+ads_manager	uz	reklama kabineti	chatgpt	Где найти рекламный кабинет для продвижения товаров в интернете?	navigational,commercial
+ads_manager	uz	reklama kabineti	chatgpt	Как выбрать рекламный кабинет для малого бизнеса?	commercial
+ads_manager	uz	reklama kabineti	chatgpt	Как выбрать рекламный кабинет с подробной статистикой и аналитикой?	commercial
+ads_manager	uz	reklama kabineti	chatgpt	Как запустить первую рекламную кампанию в рекламном кабинете?	informational,transactional
+ads_manager	uz	reklama kabineti	chatgpt	Как настроить таргетированную рекламу через рекламный кабинет?	informational
+ads_manager	uz	reklama kabineti	chatgpt	Как создать рекламный кабинет для компании?	informational,transactional
+ads_manager	uz	reklama kabineti	gemini	Как создать рекламный кабинет для своего бизнеса?	commercial,informational
+ads_manager	uz	reklama kabineti	chatgpt	Как устроен рекламный кабинет для продвижения бизнеса в Узбекистане?	informational
+ads_manager	uz	reklama kabineti	chatgpt	Какие документы нужны для регистрации рекламного кабинета в Узбекистане?	informational
+ads_manager	uz	reklama kabineti	chatgpt	Какие рекламные кабинеты позволяют настраивать рекламу на аудиторию в Узбекистане?	commercial
+ads_manager	uz	reklama kabineti	chatgpt	Какие функции должны быть в удобном рекламном кабинете?	informational
+ads_manager	uz	reklama kabineti	chatgpt	Какой рекламный кабинет лучше подходит для запуска рекламы в социальных сетях?	commercial
+ads_manager	uz	reklama kabineti	gemini	Ошибки при создании рекламных объявлений в онлайн-кабинете.	informational
+ads_manager	uz	reklama kabineti	chatgpt	Что такое рекламный кабинет и для чего он нужен?	informational
+ads_manager	uz	target qilish	chatgpt	Какие показатели отслеживать в рекламном кабинете после запуска таргета?	informational
+ads_manager	uz	target reklama	gemini	Сравнение рекламных кабинетов для таргетированной рекламы.	informational,commercial
+ads_manager	uz	target sozlash	chatgpt	Где заказать аудит рекламного кабинета и настроек таргета?	commercial,transactional
+ads_manager	ru	как запустить рекламу в инстаграм	gemini	Доступ к рекламному кабинету через мобильное приложение.	navigational,informational
+ads_manager	ru	как запустить рекламу в инстаграм	chatgpt	Как настроить рекламу в Instagram через рекламный кабинет Meta?	informational,navigational
+ads_manager	ru	как запустить рекламу в инстаграм	chatgpt	Как связать аккаунт Instagram с рекламным кабинетом?	informational
+ads_manager	ru	как запустить рекламу в инстаграм	chatgpt	Как создать рекламный кабинет для продвижения в Instagram?	informational
+ads_manager	ru	лид форма инстаграм	chatgpt	Как настроить лид-форму в Instagram через рекламный кабинет?	informational
+ads_manager	ru	лид форма инстаграм	gemini	Как настроить форму для сбора контактов в рекламном кабинете?	informational,commercial
+ads_manager	ru	настройка таргета	gemini	Как настроить географический таргетинг в рекламном кабинете?	navigational,informational
+ads_manager	ru	пиксель фейсбук	chatgpt	Где найти код пикселя Facebook в рекламном кабинете?	navigational
+ads_manager	ru	реклама в инстаграм цена	chatgpt	Сколько стоит продвижение поста в Instagram через рекламный кабинет?	informational,commercial
+ads_manager	ru	реклама в фейсбук	chatgpt	Как создать рекламный кабинет в Фейсбук и связать его со страницей компании?	informational
+ads_manager	ru	рекламный кабинет фейсбук	chatgpt	Где найти рекламный кабинет Facebook и как в него войти?	navigational
+ads_manager	ru	рекламный кабинет фейсбук	gemini	Где найти свой рекламный кабинет для управления продвижением	navigational
+ads_manager	ru	рекламный кабинет фейсбук	chatgpt	Как добавить сотрудника в рекламный кабинет Facebook и настроить ему доступ?	informational
+ads_manager	ru	рекламный кабинет фейсбук	chatgpt	Как запустить рекламу в рекламном кабинете Facebook для интернет-магазина?	informational,commercial
+ads_manager	ru	рекламный кабинет фейсбук	chatgpt	Как настроить рекламный кабинет Facebook с нуля?	informational
+ads_manager	ru	рекламный кабинет фейсбук	gemini	Как получить доступ к рекламному кабинету другого пользователя	informational,transactional
+ads_manager	ru	рекламный кабинет фейсбук	chatgpt	Как привязать страницу компании к рекламному кабинету Facebook?	informational
+ads_manager	ru	рекламный кабинет фейсбук	chatgpt	Как связать рекламный кабинет Facebook с Instagram?	informational
+ads_manager	ru	рекламный кабинет фейсбук	chatgpt	Как создать рекламный кабинет Facebook для бизнеса в Узбекистане?	informational
+ads_manager	ru	рекламный кабинет фейсбук	chatgpt	Как установить пиксель Meta через рекламный кабинет Facebook?	informational
+ads_manager	ru	рекламный кабинет фейсбук	chatgpt	Какие документы нужны, чтобы открыть рекламный кабинет Facebook в Узбекистане?	informational
+ads_manager	ru	таргет в инстаграм	chatgpt	Как самостоятельно настроить рекламу в Инстаграме через рекламный кабинет?	informational
+ads_manager	ru	таргетированная реклама	gemini	Сравнение рекламных кабинетов различных платформ по функционалу.	commercial,informational
+ads_manager	ru	таргетированная реклама в инстаграм	chatgpt	Как привязать аккаунт Инстаграм к рекламному кабинету?	informational
+ads_manager	ru	таргетированная реклама в инстаграм	chatgpt	Как самостоятельно запустить рекламу в Инстаграм через рекламный кабинет?	informational,transactional
+audience	uz	facebook reklama	chatgpt	Как настроить таргетинг рекламы в Facebook на русскоязычную аудиторию Узбекистана?	informational
+audience	uz	facebook reklama	gemini	Как увеличить охват аудитории рекламной кампании?	informational,commercial
+audience	uz	instagram reklama	chatgpt	Как выбрать аудиторию для рекламы салона красоты в Instagram?	informational
+audience	uz	instagram reklama	gemini	Как выбрать целевую аудиторию для продвижения в инстаграм?	informational
+audience	uz	instagram target	gemini	Где найти данные о демографии и интересах потенциальных клиентов?	informational,commercial
+audience	uz	instagram target	gemini	Как определить идеальную аудиторию для продвижения продукта?	informational
+audience	uz	instagram target	gemini	Как увеличить охват публикаций среди заинтересованных пользователей?	informational,commercial
+audience	uz	instagram target	gemini	Методы сегментации целевой аудитории для маркетинговых кампаний.	informational
+audience	uz	instagram target	gemini	Ошибки, которых следует избегать при работе с целевой аудиторией.	informational
+audience	uz	instagramda reklama berish	chatgpt	Как настроить таргетированную рекламу в Instagram на русскоязычную аудиторию?	informational
+audience	uz	target qilish	gemini	Как выбрать подходящую аудиторию для таргетированной рекламы?	informational,commercial
+audience	uz	target qilish	chatgpt	Как настроить таргет на аудиторию в Узбекистане?	informational
+audience	uz	target qilish	chatgpt	Как определить интересы аудитории для таргета?	informational
+audience	uz	target qilish	chatgpt	Какие сервисы помогают собирать аудитории для таргетированной рекламы?	informational,commercial
+audience	uz	target qilish	gemini	Пошаговое руководство по географическому таргетингу.	informational
+audience	uz	target reklama	gemini	Как правильно выбрать аудиторию для таргетированной кампании?	informational
+audience	uz	target reklama	chatgpt	Какие настройки аудитории использовать для рекламы языковых курсов в Ташкенте?	informational
+audience	uz	target sozlash	gemini	Анализ целевой аудитории для нового продукта: пошаговое руководство.	informational
+audience	uz	target sozlash	gemini	Как избежать ошибок при настройке геотаргетинга?	informational
+audience	uz	target sozlash	chatgpt	Как настроить рекламу на русскоязычную аудиторию в Узбекистане?	informational
+audience	uz	target sozlash	chatgpt	Как самостоятельно настроить рекламу на аудиторию в Instagram?	informational
+audience	uz	target sozlash	gemini	Стоимость услуг по настройке целевой аудитории в Ташкенте.	commercial,informational
+audience	uz	targetolog	gemini	Инструменты для анализа целевой аудитории.	informational
+audience	ru	как запустить рекламу в инстаграм	chatgpt	Как настроить аудиторию для рекламы в Instagram, если клиенты находятся в Ташкенте?	informational
+audience	ru	как запустить рекламу в инстаграм	gemini	Основы таргетинга аудитории для эффективных объявлений.	informational
+audience	ru	настройка таргета	gemini	Инструменты для анализа интересов потенциальных клиентов?	commercial,informational
+audience	ru	настройка таргета	chatgpt	Как настроить таргет на аудиторию, которая уже посещала мой сайт?	informational
+audience	ru	настройка таргета	chatgpt	Как настроить таргет на русскоязычную аудиторию в Узбекистане?	informational
+audience	ru	настройка таргета	gemini	Как определить целевую аудиторию для стартапа?	informational
+audience	ru	настройка таргета	chatgpt	Какие интересы выбрать для таргета на рекламу курсов английского языка?	informational
+audience	ru	настройка таргета	gemini	Лучшие практики сегментации пользователей для онлайн-бизнеса?	informational
+audience	ru	настройка таргета	gemini	Примеры успешных стратегий ретаргетинга?	informational
+audience	ru	реклама в инстаграм	gemini	Как выбрать целевую аудиторию для рекламы в Инстаграм?	informational
+audience	ru	реклама в фейсбук	chatgpt	Как выбрать аудиторию для рекламы в Фейсбук, если я продаю одежду?	informational
+audience	ru	реклама в фейсбук	gemini	Рекомендации по выбору целевой аудитории для нового продукта.	informational
+audience	ru	рекламный кабинет фейсбук	gemini	Лучшие практики таргетинга аудитории для бизнеса в Центральной Азии	informational,commercial
+audience	ru	ретаргетинг	gemini	Агентства по настройке ретаргетинга в Узбекистане.	commercial
+audience	ru	ретаргетинг	gemini	Инструменты для анализа эффективности ретаргетинга.	commercial
+audience	ru	ретаргетинг	chatgpt	Как вернуть посетителей сайта с помощью ретаргетинга?	informational,commercial
+audience	ru	ретаргетинг	chatgpt	Как выбрать подрядчика для настройки ретаргетинга?	commercial
+audience	ru	ретаргетинг	chatgpt	Как запустить ретаргетинговую рекламу в социальных сетях?	informational,commercial
+audience	ru	ретаргетинг	gemini	Как настроить базовую ретаргетинговую кампанию?	informational,commercial
+audience	ru	ретаргетинг	chatgpt	Как настроить ретаргетинг для интернет-магазина?	informational,commercial
+audience	ru	ретаргетинг	chatgpt	Как настроить ретаргетинг на тех, кто добавил товар в корзину?	informational,commercial
+audience	ru	ретаргетинг	gemini	Как рассчитать бюджет для ретаргетинговой кампании?	informational,commercial
+audience	ru	ретаргетинг	chatgpt	Как создать аудиторию для ретаргетинга по посетителям сайта?	informational
+audience	ru	ретаргетинг	gemini	Как создать аудиторию для ретаргетинга?	informational,commercial
+audience	ru	ретаргетинг	chatgpt	Какие агентства в Ташкенте настраивают ретаргетинг?	commercial
+audience	ru	ретаргетинг	chatgpt	Какой бюджет нужен для тестирования ретаргетинга?	commercial
+audience	ru	ретаргетинг	gemini	Сервисы для управления ретаргетинговыми кампаниями.	commercial
+audience	ru	ретаргетинг	chatgpt	Сколько стоит ретаргетинг для малого бизнеса?	commercial
+audience	ru	ретаргетинг	gemini	Стратегии ретаргетинга для интернет-магазинов.	informational,commercial
+audience	ru	ретаргетинг	gemini	Типичные ошибки в ретаргетинге.	informational
+audience	ru	ретаргетинг	gemini	Чем отличается ретаргетинг от ремаркетинга?	informational
+audience	ru	ретаргетинг	chatgpt	Чем ретаргетинг отличается от ремаркетинга?	informational
+audience	ru	ретаргетинг	gemini	Что такое динамический ретаргетинг?	informational
+audience	ru	ретаргетинг	chatgpt	Что такое ретаргетинг и как он работает?	informational
+audience	ru	ретаргетинг	gemini	Что такое ретаргетинг простыми словами?	informational
+audience	ru	таргет	gemini	Инструменты для сегментации аудитории по интересам.	commercial,informational
+audience	ru	таргет	chatgpt	Как выбрать аудиторию для таргета на продажу одежды?	informational
+audience	ru	таргет в инстаграм	chatgpt	Как выбрать аудиторию для таргетированной рекламы в Инстаграме?	informational
+audience	ru	таргет в инстаграм	gemini	Какие параметры аудитории доступны для таргета в Инстаграм?	informational
+audience	ru	таргетинг	gemini	Агентства, специализирующиеся на ретаргетинге.	commercial
+audience	ru	таргетинг	chatgpt	Как выбрать аудиторию для таргетированной рекламы косметики?	informational
+audience	ru	таргетинг	chatgpt	Как настроить геотаргетинг на клиентов в Самарканде?	informational
+audience	ru	таргетинг	chatgpt	Как настроить таргетинг на аудиторию в Instagram для небольшого бизнеса в Узбекистане?	informational,commercial
+audience	ru	таргетинг	gemini	Как определить свою целевую аудиторию?	informational
+audience	ru	таргетинг	chatgpt	Какие сервисы помогают анализировать аудиторию для таргетинга?	informational,commercial
+audience	ru	таргетинг	gemini	Лучшие инструменты для анализа целевой аудитории.	commercial,informational
+audience	ru	таргетинг	gemini	Преимущества геотаргетинга для локального бизнеса.	informational
+audience	ru	таргетированная реклама	chatgpt	Как выбрать аудиторию для таргетированной рекламы интернет-магазина?	informational
+audience	ru	таргетированная реклама	gemini	Как выбрать целевую аудиторию для онлайн-магазина?	informational
+audience	ru	таргетированная реклама	chatgpt	Как настроить таргетированную рекламу на узбекоязычную аудиторию?	informational
+audience	ru	таргетированная реклама в инстаграм	chatgpt	Как выбрать аудиторию для рекламы салона красоты в Инстаграм?	informational
+audience	ru	таргетированная реклама в инстаграм	gemini	Лучшие стратегии для таргетинга на молодую аудиторию	informational
+audience	ru	таргетолог	gemini	Инструменты для анализа целевой аудитории в рекламе.	commercial,informational
+basics	uz	instagram reklama	chatgpt	Как продвигать публикацию в Instagram и чем это отличается от таргетированной рекламы?	informational
+basics	uz	target qilish	chatgpt	Как работает таргетированная реклама в социальных сетях?	informational
+basics	ru	таргет	chatgpt	Почему таргетированная реклама не приносит заявок и как это исправить?	informational
+bloggers	ru	реклама в инстаграм	chatgpt	Как найти блогеров в Узбекистане для рекламы в Инстаграм?	informational,commercial
+bloggers	ru	реклама в инстаграм	chatgpt	Сколько стоит реклама в Инстаграм у блогеров в Ташкенте?	commercial
+bloggers	ru	реклама в инстаграм цена	gemini	Разница в цене между таргетированной и блогерской рекламой в Инстаграм.	informational
+bloggers	ru	реклама в инстаграм цена	chatgpt	Сколько стоит реклама в Instagram Stories у местных блогеров?	informational,commercial
+bloggers	ru	реклама в инстаграм цена	chatgpt	Сколько стоит реклама у блогеров в Instagram в Ташкенте?	informational,commercial
+bloggers	ru	реклама в инстаграм цена	chatgpt	Что выгоднее: реклама у блогера или таргет в Instagram?	informational
+budget_metrics	uz	facebook reklama	gemini	Как оптимизировать бюджет на продвижение в социальных сетях?	informational,commercial
+budget_metrics	uz	instagram reklama	gemini	Как измерить ROI рекламной кампании в инстаграм?	informational
+budget_metrics	uz	instagram reklama	gemini	Какие бюджеты нужны для эффективной инстаграм рекламы?	informational,commercial
+budget_metrics	uz	instagram reklama	chatgpt	Какие сервисы помогают анализировать эффективность рекламы в Instagram?	informational,commercial
+budget_metrics	uz	instagram target	gemini	Какие метрики важны для анализа эффективности таргетинга?	informational
+budget_metrics	uz	instagramda reklama berish	chatgpt	Какой бюджет выделить на рекламу в Instagram для нового бизнеса?	informational,commercial
+budget_metrics	uz	reklama kabineti	gemini	Как получить консультацию по оптимизации рекламного бюджета?	commercial
+budget_metrics	uz	target qilish	chatgpt	Как оценить эффективность таргетированной рекламы?	informational
+budget_metrics	uz	target qilish	chatgpt	Какой минимальный бюджет нужен для запуска таргета?	informational,commercial
+budget_metrics	uz	target qilish	gemini	Принципы эффективного таргетинга в цифровом маркетинге.	informational
+budget_metrics	uz	target reklama	gemini	Какие инструменты помогают анализировать результаты таргетированной рекламы?	informational,commercial
+budget_metrics	uz	target reklama	chatgpt	Какие сервисы помогают анализировать эффективность таргетированной рекламы?	informational,commercial
+budget_metrics	uz	target reklama	chatgpt	Какой минимальный бюджет нужен для тестирования таргетированной рекламы?	informational
+budget_metrics	uz	target reklama	gemini	Эффективные стратегии таргетинга для онлайн-магазина одежды.	informational
+budget_metrics	uz	target sozlash	chatgpt	Как запустить таргетированную рекламу для кафе с небольшим бюджетом?	informational
+budget_metrics	ru	как запустить рекламу в инстаграм	chatgpt	Какой бюджет нужен для запуска рекламы в Instagram для небольшого бизнеса?	informational,commercial
+budget_metrics	ru	как стать таргетологом	gemini	Как создать эффективное портфолио для начинающего таргетолога?	informational
+budget_metrics	ru	как стать таргетологом	gemini	Оценка эффективности рекламных кампаний: метрики и инструменты.	informational,commercial
+budget_metrics	ru	настройка таргета	gemini	Какие метрики важны для оценки эффективности таргета?	informational
+budget_metrics	ru	настройка таргета	chatgpt	Какой бюджет нужен для запуска таргетированной рекламы в Узбекистане?	commercial
+budget_metrics	ru	настройка таргета	gemini	Сервисы для автоматической оптимизации рекламных кампаний?	commercial,informational
+budget_metrics	ru	пиксель фейсбук	chatgpt	Как настроить передачу данных о покупках с сайта в Facebook?	informational
+budget_metrics	ru	реклама в инстаграм	gemini	Как измерить эффективность Инстаграм рекламы?	informational
+budget_metrics	ru	реклама в инстаграм	gemini	Как оптимизировать бюджет на рекламу в Инстаграм?	informational
+budget_metrics	ru	реклама в инстаграм	chatgpt	Какие сервисы помогают анализировать эффективность рекламы в Инстаграм?	informational,commercial
+budget_metrics	ru	реклама в инстаграм цена	chatgpt	Как рассчитать бюджет на рекламу в Instagram для малого бизнеса?	informational
+budget_metrics	ru	реклама в инстаграм цена	gemini	Как рассчитать оптимальный бюджет на Инстаграм рекламу?	informational
+budget_metrics	ru	реклама в инстаграм цена	chatgpt	Какой минимальный бюджет нужен для запуска рекламы в Instagram?	informational
+budget_metrics	ru	реклама в инстаграм цена	gemini	Минимальный бюджет для запуска эффективной кампании в Инстаграм.	informational
+budget_metrics	ru	реклама в инстаграм цена	gemini	Средняя цена за тысячу показов (CPM) в Инстаграм рекламе.	informational
+budget_metrics	ru	реклама в инстаграм цена	gemini	Эффективность инвестиций в Инстаграм рекламу: как оценить?	informational
+budget_metrics	ru	реклама в фейсбук	gemini	Как анализировать результаты рекламных объявлений?	informational
+budget_metrics	ru	реклама в фейсбук	gemini	Как оптимизировать бюджет рекламной кампании?	informational
+budget_metrics	ru	реклама в фейсбук	gemini	Какие типы объявлений наиболее эффективны для привлечения клиентов?	informational,commercial
+budget_metrics	ru	реклама в фейсбук	chatgpt	Какой бюджет нужен для запуска рекламы в Фейсбук?	informational
+budget_metrics	ru	таргет	chatgpt	Какие сервисы помогают анализировать эффективность таргета?	commercial
+budget_metrics	ru	таргет	chatgpt	Какой бюджет нужен для тестирования таргета в Ташкенте?	informational
+budget_metrics	ru	таргет	gemini	Советы по созданию эффективных рекламных объявлений.	informational
+budget_metrics	ru	таргет в инстаграм	gemini	Лучшие стратегии для эффективного таргета в Инстаграм.	informational
+budget_metrics	ru	таргет в инстаграм	gemini	Оптимизация бюджета для рекламных кампаний в Инстаграм.	informational
+budget_metrics	ru	таргетинг	chatgpt	Как проверить эффективность таргетированной рекламы?	informational
+budget_metrics	ru	таргетинг	gemini	Эффективные стратегии таргетинга для онлайн-магазинов.	informational,commercial
+budget_metrics	ru	таргетированная реклама	gemini	Как измерить рентабельность инвестиций в рекламу?	informational
+budget_metrics	ru	таргетированная реклама	chatgpt	Как проверить, окупается ли таргетированная реклама?	informational
+budget_metrics	ru	таргетированная реклама	gemini	Как составить бюджет для ежемесячной рекламной кампании?	informational
+budget_metrics	ru	таргетированная реклама	chatgpt	Какие сервисы помогают анализировать результаты таргетированной рекламы?	commercial
+budget_metrics	ru	таргетированная реклама	gemini	Какие существуют инструменты для анализа эффективности рекламных кампаний?	informational,commercial
+budget_metrics	ru	таргетированная реклама	gemini	Сколько стоит настроить эффективную кампанию с нуля?	commercial,informational
+budget_metrics	ru	таргетированная реклама в инстаграм	chatgpt	Какой бюджет нужен для продвижения кафе в Инстаграм?	commercial
+budget_metrics	ru	таргетированная реклама в инстаграм	gemini	Оптимизация бюджета таргетированной рекламы	informational
+budget_metrics	ru	таргетированная реклама в инстаграм	gemini	Сервисы для анализа эффективности рекламы в социальных сетях	commercial,informational
+budget_metrics	ru	таргетолог	gemini	Сравнение рекламных площадок для эффективного продвижения.	commercial,informational
+courses_profession	uz	facebook reklama	gemini	Какие курсы по настройке рекламы в соцсетях наиболее полезны?	commercial,informational
+courses_profession	uz	facebook reklama	chatgpt	Какие курсы по рекламе в Facebook доступны на русском языке?	commercial
+courses_profession	uz	facebook reklama	gemini	Сколько стоит профессиональное ведение рекламных кампаний?	commercial,informational
+courses_profession	uz	instagram reklama	gemini	Обучающие курсы по таргетированной рекламе в Узбекистане.	commercial
+courses_profession	uz	instagram target	chatgpt	Какие курсы по таргетированной рекламе в Instagram доступны на русском языке?	commercial
+courses_profession	uz	instagram target	gemini	Обучающие курсы по эффективному таргетингу в социальных сетях.	commercial
+courses_profession	uz	instagramda reklama berish	gemini	Где найти курсы по продвижению в Инстаграм?	informational,commercial
+courses_profession	uz	reklama kabineti	gemini	Где найти обучающие материалы по управлению рекламным кабинетом?	informational,navigational
+courses_profession	uz	target reklama	gemini	Обучающие курсы по таргетированной рекламе с нуля.	commercial,informational
+courses_profession	uz	target sozlash	chatgpt	Какие курсы по таргетированной рекламе доступны онлайн на русском языке?	commercial
+courses_profession	uz	target sozlash	gemini	Учебные курсы по таргетированной рекламе с нуля.	commercial,informational,navigational
+courses_profession	uz	targetolog	chatgpt	Где найти курсы по таргетированной рекламе в Узбекистане?	navigational,commercial
+courses_profession	uz	targetolog	gemini	Как стать таргетологом с нуля в Узбекистане?	informational,commercial
+courses_profession	uz	targetolog	gemini	Лучшие онлайн-курсы по таргетированной рекламе на русском языке.	commercial,informational
+courses_profession	uz	targetolog	chatgpt	Лучшие платформы для обучения таргетированной рекламе онлайн	informational,commercial
+courses_profession	uz	targetolog	gemini	Отзывы о программах обучения таргетингу.	informational,commercial
+courses_profession	uz	targetolog	gemini	Сертификация по таргетированной рекламе.	informational,commercial
+courses_profession	uz	targetolog kursi	gemini	Где пройти обучение на таргетолога в Узбекистане?	commercial,informational
+courses_profession	uz	targetolog kursi	gemini	Интенсивные программы обучения таргетингу.	commercial
+courses_profession	uz	targetolog kursi	chatgpt	Как выбрать курс таргетированной рекламы для начинающих в Узбекистане?	informational
+courses_profession	uz	targetolog kursi	chatgpt	Как записаться на курс таргетолога с практическими заданиями?	transactional,commercial
+courses_profession	uz	targetolog kursi	gemini	Как записаться на курсы таргетолога?	transactional,commercial
+courses_profession	uz	targetolog kursi	chatgpt	Как проверить, насколько актуальна программа курса по таргетированной рекламе?	informational
+courses_profession	uz	targetolog kursi	chatgpt	Какие курсы таргетированной рекламы помогают собрать портфолио?	commercial
+courses_profession	uz	targetolog kursi	chatgpt	Какие курсы таргетолога предлагают обучение с наставником?	commercial
+courses_profession	uz	targetolog kursi	chatgpt	Какие темы должны входить в хорошую программу курса по таргету?	informational
+courses_profession	uz	targetolog kursi	chatgpt	Какой курс по таргету выбрать для продвижения малого бизнеса?	commercial
+courses_profession	uz	targetolog kursi	gemini	Курсы таргетолога для начинающих.	commercial
+courses_profession	uz	targetolog kursi	gemini	Курсы таргетолога с помощью в трудоустройстве.	commercial,informational
+courses_profession	uz	targetolog kursi	gemini	Курсы таргетолога с практикой.	commercial,informational
+courses_profession	uz	targetolog kursi	gemini	Лучшие онлайн-курсы по таргетированной рекламе.	commercial,informational
+courses_profession	uz	targetolog kursi	gemini	Отзывы о курсах таргетологов.	commercial,informational
+courses_profession	uz	targetolog kursi	gemini	Сертифицированные курсы по таргетированной рекламе.	commercial,informational
+courses_profession	uz	targetolog kursi	gemini	Сколько стоит обучение на таргетолога?	commercial
+courses_profession	uz	targetolog kursi	chatgpt	Сколько стоит обучение таргетированной рекламе в Ташкенте?	commercial
+courses_profession	uz	targetolog kursi	gemini	Сравнение платформ для обучения таргетологов.	commercial,informational
+courses_profession	uz	targetolog kursi	chatgpt	Чему учат на курсах по настройке рекламы в социальных сетях?	informational
+courses_profession	uz	targetolog kursi	gemini	Что такое курсы таргетолога?	informational
+courses_profession	ru	как стать таргетологом	gemini	Где получить сертификацию по рекламным кабинетам?	informational,commercial
+courses_profession	ru	как стать таргетологом	chatgpt	Как выбрать курс по таргетированной рекламе для новичка?	commercial
+courses_profession	ru	как стать таргетологом	chatgpt	Как научиться запускать рекламу в социальных сетях самостоятельно?	informational
+courses_profession	ru	как стать таргетологом	chatgpt	Как с нуля стать таргетологом и найти первых клиентов в Узбекистане?	informational
+courses_profession	ru	как стать таргетологом	gemini	Как стать таргетологом с нуля: пошаговый план.	informational
+courses_profession	ru	как стать таргетологом	chatgpt	Какие курсы по таргетированной рекламе доступны на русском языке в Узбекистане?	commercial
+courses_profession	ru	как стать таргетологом	chatgpt	Какие сертификаты помогут начинающему специалисту по рекламе?	informational,commercial
+courses_profession	ru	как стать таргетологом	gemini	Лучшие платные курсы по таргетированной рекламе.	commercial,informational
+courses_profession	ru	как стать таргетологом	gemini	Сколько стоит обучение на профессионального таргетолога?	commercial,informational
+courses_profession	ru	лид форма инстаграм	gemini	Обучение по созданию рекламных кампаний с лид-формами?	commercial,informational
+courses_profession	ru	настройка таргета	gemini	Где найти обучающие курсы по таргетингу для новичков?	commercial,informational
+courses_profession	ru	настройка таргета	chatgpt	Где пройти обучение настройке таргета с нуля на русском языке?	navigational,commercial
+courses_profession	ru	пиксель фейсбук	gemini	Обучающие курсы по работе с рекламным пикселем?	commercial
+courses_profession	ru	реклама в инстаграм	chatgpt	Какие курсы по рекламе в Инстаграм доступны на русском языке в Узбекистане?	navigational,commercial
+courses_profession	ru	реклама в инстаграм	gemini	Обучение таргетированной рекламе в Инстаграм для новичков.	commercial,informational
+courses_profession	ru	реклама в фейсбук	gemini	Обучающие курсы по продвижению в социальных сетях.	informational,commercial
+courses_profession	ru	рекламный кабинет фейсбук	gemini	Обучение по продвижению товаров и услуг в одной из крупнейших соцсетей	commercial,informational
+courses_profession	ru	таргет	gemini	Поиск обучающих материалов по таргетингу в социальных сетях.	informational,commercial
+courses_profession	ru	таргет в инстаграм	gemini	Где найти курсы по таргетированной рекламе в Инстаграм?	commercial,informational,transactional
+courses_profession	ru	таргет в инстаграм	chatgpt	Какие курсы по таргету в Инстаграме доступны на русском языке в Узбекистане?	commercial
+courses_profession	ru	таргет в инстаграм	gemini	Сколько стоит профессиональная настройка таргета в Инстаграм?	commercial,informational
+courses_profession	ru	таргетинг	chatgpt	Где пройти курсы по таргетированной рекламе на русском языке?	commercial
+courses_profession	ru	таргетинг	gemini	Обучение таргетингу с нуля.	informational,commercial
+courses_profession	ru	таргетированная реклама	gemini	Где обучиться основам настройки рекламы?	informational,commercial
+courses_profession	ru	таргетированная реклама	chatgpt	Где пройти онлайн-курс по таргетированной рекламе на русском языке?	commercial
+courses_profession	ru	таргетированная реклама в инстаграм	chatgpt	Где пройти онлайн-курс по настройке таргетированной рекламы в Инстаграм на русском языке?	commercial
+courses_profession	ru	таргетированная реклама в инстаграм	gemini	Курсы по таргетированной рекламе для начинающих	commercial,informational
+courses_profession	ru	таргетолог	chatgpt	Где найти онлайн-обучение для таргетологов с практическими заданиями?	commercial
+courses_profession	ru	таргетолог	gemini	Диапазон зарплат начинающего таргетолога в Ташкенте.	informational
+courses_profession	ru	таргетолог	chatgpt	Как стать таргетологом с нуля и найти первых клиентов?	informational
+courses_profession	ru	таргетолог	chatgpt	Какие курсы по таргетированной рекламе доступны на русском языке?	commercial
+courses_profession	ru	таргетолог	gemini	Какие существуют сертификаты по таргетированной рекламе?	commercial,informational
+courses_profession	ru	таргетолог	gemini	Лучшие русскоязычные курсы по таргетированной рекламе.	commercial,informational
+creatives	uz	facebook reklama	gemini	Как сделать видеорекламу, которая привлекает внимание?	informational,commercial
+creatives	uz	facebook reklama	gemini	Какие инструменты существуют для создания рекламных креативов?	commercial,informational
+creatives	uz	instagram reklama	chatgpt	Как запустить рекламу Instagram Stories для привлечения клиентов?	informational
+creatives	uz	instagram reklama	gemini	Лучшие практики по созданию рекламного текста для инстаграм.	informational
+creatives	uz	instagram reklama	gemini	Сервисы для создания рекламных креативов для инстаграм.	commercial
+creatives	uz	instagram target	chatgpt	Какие сервисы помогают создавать креативы для рекламы в Instagram?	commercial
+creatives	uz	instagramda reklama berish	gemini	Лучшие практики создания рекламных креативов для Инстаграм.	informational
+creatives	uz	reklama kabineti	gemini	Требования к креативам для различных рекламных площадок.	informational
+creatives	uz	target qilish	chatgpt	Чем таргетированная реклама отличается от контекстной?	informational
+creatives	ru	как запустить рекламу в инстаграм	gemini	Требования к рекламным креативам для продвижения.	informational
+creatives	ru	лид форма инстаграм	gemini	Примеры успешных форм для потенциальных клиентов в Stories?	informational
+creatives	ru	настройка таргета	gemini	Компании, предлагающие услуги по настройке контекстной рекламы?	commercial
+creatives	ru	реклама в инстаграм	chatgpt	Где заказать создание рекламных креативов для Инстаграм?	commercial,transactional
+creatives	ru	реклама в инстаграм	gemini	Как создать эффективный рекламный текст для Инстаграм?	informational
+creatives	ru	реклама в инстаграм	gemini	Лучшие приложения для создания креативов Инстаграм рекламы?	commercial,informational
+creatives	ru	реклама в фейсбук	gemini	Где найти шаблоны рекламных текстов для разных ниш?	informational,commercial
+creatives	ru	реклама в фейсбук	chatgpt	Какие изображения и тексты лучше использовать в рекламе в Фейсбук?	informational
+creatives	ru	реклама в фейсбук	gemini	Сравнение инструментов для создания видео креативов.	informational,commercial
+creatives	ru	таргетированная реклама	chatgpt	Как составить рекламный креатив для таргетированной рекламы в соцсетях?	informational
+formats	uz	facebook reklama	chatgpt	Какие форматы рекламы в Facebook лучше подходят для интернет-магазина?	informational
+formats	uz	instagram reklama	gemini	Какие существуют форматы рекламных объявлений в инстаграм?	informational
+formats	uz	instagram reklama	chatgpt	Какие форматы рекламы в Instagram лучше подходят для продвижения интернет-магазина?	informational,commercial
+formats	ru	реклама в инстаграм	chatgpt	Какие форматы рекламы в Инстаграм лучше подходят для продвижения услуг?	informational
+formats	ru	реклама в инстаграм	gemini	Каковы основные форматы рекламы в Инстаграм?	informational
+formats	ru	реклама в инстаграм цена	gemini	Какие форматы Инстаграм рекламы требуют наибольших затрат?	informational
+formats	ru	реклама в инстаграм цена	chatgpt	Какие форматы рекламы в Instagram самые выгодные по цене?	informational,commercial
+formats	ru	реклама в фейсбук	chatgpt	Какие форматы рекламы в Фейсбук лучше подходят для интернет-магазина?	informational
+formats	ru	таргет в инстаграм	gemini	Какие форматы объявлений лучше использовать для таргета в Инстаграм?	informational
+formats	ru	таргетированная реклама	gemini	Какие форматы объявлений наиболее эффективны для привлечения клиентов?	informational
+formats	ru	таргетированная реклама в инстаграм	chatgpt	Какие форматы рекламы в Инстаграм лучше подходят для продвижения интернет-магазина?	informational,commercial
+formats	ru	таргетированная реклама в инстаграм	gemini	Какие форматы рекламы доступны в Инстаграм?	informational
+leads_forms	ru	лид форма инстаграм	gemini	Альтернативы встроенным инструментам для генерации лидов в приложении?	commercial,informational
+leads_forms	ru	лид форма инстаграм	chatgpt	Где в Instagram найти лид-формы для рекламных объявлений?	navigational
+leads_forms	ru	лид форма инстаграм	chatgpt	Где заказать настройку рекламы с лид-формой Instagram в Ташкенте?	commercial,transactional
+leads_forms	ru	лид форма инстаграм	chatgpt	Как подключить лид-форму Instagram к таблице с заявками?	informational
+leads_forms	ru	лид форма инстаграм	chatgpt	Как проверить, куда поступают данные из лид-формы Instagram?	informational
+leads_forms	ru	лид форма инстаграм	chatgpt	Как сделать лид-форму Instagram на русском языке?	informational
+leads_forms	ru	лид форма инстаграм	chatgpt	Как снизить стоимость заявки через лид-форму Instagram?	informational
+leads_forms	ru	лид форма инстаграм	chatgpt	Как создать лид-форму в Instagram для сбора заявок?	informational
+leads_forms	ru	лид форма инстаграм	gemini	Как создать эффективный заголовок для формы сбора данных?	informational
+leads_forms	ru	лид форма инстаграм	chatgpt	Какие вопросы лучше добавить в лид-форму Instagram для онлайн-магазина?	informational
+leads_forms	ru	лид форма инстаграм	gemini	Какие данные можно собирать через встроенные формы для заявок?	informational
+leads_forms	ru	лид форма инстаграм	chatgpt	Какие поля добавить в лид-форму Instagram для записи на консультацию?	informational
+leads_forms	ru	лид форма инстаграм	chatgpt	Какие сервисы помогают автоматически передавать заявки из Instagram в CRM?	commercial
+leads_forms	ru	лид форма инстаграм	chatgpt	Почему лид-форма Instagram не отправляет заявки?	informational
+leads_forms	ru	лид форма инстаграм	gemini	Проблемы с отображением лид-формы на мобильных устройствах, решения?	informational
+leads_forms	ru	лид форма инстаграм	gemini	Сервисы для автоматической выгрузки лидов из рекламных кампаний?	commercial,informational
+leads_forms	ru	лид форма инстаграм	chatgpt	Сколько стоит настройка лид-формы Instagram для бизнеса в Узбекистане?	commercial
+leads_forms	ru	лид форма инстаграм	gemini	Стоимость запуска рекламной кампании с лид-формой в Узбекистане?	commercial
+moderation	uz	facebook reklama	gemini	Правила модерации рекламы, чтобы избежать отклонений.	informational
+moderation	ru	реклама в фейсбук	gemini	Как пройти модерацию рекламных материалов?	informational
+moderation	ru	реклама в фейсбук	chatgpt	Почему реклама в Фейсбук не проходит модерацию?	informational
+niche	uz	instagram target	chatgpt	Как продвигать интернет-магазин в Instagram с помощью таргета?	informational
+niche	uz	instagramda reklama berish	chatgpt	Как рекламировать услуги салона красоты в Instagram?	informational,commercial
+niche	uz	target sozlash	gemini	Лучшие стратегии таргетинга для онлайн-магазина в Узбекистане.	informational,commercial
+niche	ru	как стать таргетологом	gemini	Сравнение онлайн-школ по таргетингу: какую выбрать?	commercial,informational
+niche	ru	реклама в инстаграм	chatgpt	Как продвигать интернет-магазин через рекламу в Инстаграм?	informational
+niche	ru	таргет в инстаграм	chatgpt	Как продвигать страницу салона красоты с помощью таргета в Инстаграме?	informational
+niche	ru	таргетинг	chatgpt	Какие виды таргетинга подходят для продвижения онлайн-магазина?	informational,commercial
+niche	ru	таргетолог	gemini	Примеры успешных рекламных стратегий для онлайн-магазинов.	informational
+other	uz	facebook reklama	chatgpt	Как написать объявление для Facebook, которое привлечёт клиентов?	informational
+other	uz	instagram reklama	chatgpt	Какие требования нужно выполнить, чтобы рекламировать товары в Instagram?	informational
+other	uz	instagram target	gemini	Как создать рекламное объявление, которое точно попадает в целевую группу?	informational,commercial
+other	uz	instagram target	gemini	Примеры успешных таргетированных кампаний для малого бизнеса.	informational
+other	uz	instagram target	gemini	Сервисы для автоматизации таргетинга в социальных медиа.	commercial
+other	uz	reklama kabineti	gemini	Где находится раздел с платежными данными в рекламной системе?	navigational,informational
+other	uz	reklama kabineti	gemini	Какие бывают виды таргетинга в цифровых рекламных аккаунтах?	informational
+other	uz	reklama kabineti	gemini	Сравнение популярных инструментов для управления рекламой.	informational,commercial
+other	uz	target qilish	chatgpt	Какие данные нужны, чтобы настроить таргет на клиентов в Ташкенте?	informational
+other	uz	target qilish	gemini	Отзывы о сервисах для автоматизации таргетированной рекламы.	commercial,informational
+other	uz	target qilish	gemini	Сравнение провайдеров услуг по таргетингу в Центральной Азии.	commercial,informational
+other	uz	target qilish	chatgpt	Что значит «таргет қилиш» в интернет-рекламе?	informational
+other	uz	target reklama	gemini	Как начать таргетированную рекламу для нового бизнеса?	informational
+other	uz	target reklama	gemini	Как создать привлекательные рекламные объявления для таргета?	informational
+other	uz	target reklama	gemini	Сколько в среднем стоит таргетированная реклама в Узбекистане?	informational,commercial
+other	uz	target sozlash	gemini	Инструменты для автоматизации таргетинга рекламы.	informational,commercial,navigational
+other	uz	target sozlash	gemini	Примеры успешных таргетированных кампаний в Центральной Азии.	informational
+other	uz	target sozlash	gemini	Сервисы для сбора данных о потенциальных клиентах.	informational,commercial,navigational
+other	uz	targetolog	gemini	Примеры успешных рекламных кампаний в Узбекистане.	informational
+other	uz	targetolog kursi	chatgpt	Можно ли освоить таргетированную рекламу с нуля дистанционно?	informational
+other	ru	как запустить рекламу в инстаграм	gemini	Где найти официальный инструмент для управления рекламой в социальной сети?	navigational,informational
+other	ru	как запустить рекламу в инстаграм	chatgpt	Как выбрать цель рекламной кампании в Instagram для продвижения услуг?	informational
+other	ru	как запустить рекламу в инстаграм	gemini	Как использовать единый центр для управления бизнесом в социальных сетях?	informational,navigational
+other	ru	как запустить рекламу в инстаграм	gemini	Как начать рекламную кампанию в популярной социальной сети?	informational
+other	ru	как запустить рекламу в инстаграм	chatgpt	Какие документы нужны, чтобы запустить рекламу в Instagram в Узбекистане?	informational
+other	ru	как стать таргетологом	gemini	Бесплатные ресурсы для старта в таргетинге.	informational
+other	ru	как стать таргетологом	chatgpt	Как выбрать сервисы для анализа рекламных кампаний и конкурентов?	commercial
+other	ru	как стать таргетологом	gemini	Какие книги по интернет-маркетингу рекомендуют эксперты?	informational
+other	ru	лид форма инстаграм	gemini	Интеграция форм захвата с CRM-системами?	informational,commercial
+other	ru	лид форма инстаграм	gemini	Какие поля обязательны для заполнения в форме для получения заявок?	informational
+other	ru	настройка таргета	gemini	В чем особенности таргетинга для сферы услуг?	informational
+other	ru	реклама в инстаграм	gemini	Какие бывают стратегии продвижения через Инстаграм?	informational
+other	ru	реклама в инстаграм цена	gemini	Сравнение предложений от компаний по управлению Инстаграм рекламой.	commercial
+other	ru	реклама в фейсбук	gemini	Где заказать разработку уникального рекламного дизайна?	commercial,transactional
+other	ru	реклама в фейсбук	gemini	Как создать первую рекламную кампанию?	informational
+other	ru	рекламный кабинет фейсбук	gemini	Сервисы для автоматизации управления рекламой в социальных сетях	commercial,informational
+other	ru	таргет	chatgpt	Где заказать аудит рекламных кампаний в социальных сетях?	commercial,transactional
+other	ru	таргет	gemini	Как выбрать целевую группу для нового продукта?	informational,commercial
+other	ru	таргет	gemini	Как привлечь клиентов из соседних городов?	informational,commercial
+other	ru	таргет	gemini	Программы для автоматизации управления рекламой.	commercial
+other	ru	таргет	gemini	Услуги по анализу данных рекламных кампаний.	commercial
+other	ru	таргет в инстаграм	chatgpt	Почему таргетированная реклама в Инстаграме не приносит заявок?	informational
+other	ru	таргет в инстаграм	gemini	Список программ для автоматизации рекламы в Инстаграм.	commercial,informational
+other	ru	таргет в инстаграм	gemini	Услуги по ведению таргетированной рекламы в Инстаграм.	commercial,transactional
+other	ru	таргетинг	gemini	Какие виды таргетинга существуют?	informational
+other	ru	таргетированная реклама	gemini	Примеры успешных рекламных объявлений для услуг.	informational
+other	ru	таргетированная реклама в инстаграм	gemini	Примеры успешных рекламных кампаний в Инстаграм	informational
+payment	uz	facebook reklama	chatgpt	Как оплатить рекламу в Facebook узбекской банковской картой?	informational
+payment	uz	instagram reklama	chatgpt	Как оплатить рекламу в Instagram из Узбекистана?	informational,transactional
+payment	uz	instagramda reklama berish	gemini	Как оплатить рекламный бюджет в Инстаграм из Узбекистана?	informational,transactional
+payment	uz	reklama kabineti	gemini	Как пополнить баланс рекламного аккаунта?	transactional,informational
+payment	uz	reklama kabineti	chatgpt	Как пополнить баланс рекламного кабинета банковской картой?	informational,transactional
+payment	uz	target sozlash	chatgpt	Какие документы нужны, чтобы оплатить таргетированную рекламу из Узбекистана?	informational
+payment	uz	targetolog kursi	chatgpt	Где изучить таргетированную рекламу с оплатой в рассрочку?	commercial,transactional
+payment	ru	как запустить рекламу в инстаграм	chatgpt	Какие способы оплаты доступны для рекламы в Instagram в Узбекистане?	informational
+payment	ru	как запустить рекламу в инстаграм	gemini	Методы оплаты рекламных услуг в Узбекистане.	informational,commercial
+payment	ru	реклама в инстаграм	chatgpt	Какие документы нужны, чтобы оплачивать рекламу в Инстаграм из Узбекистана?	informational
+payment	ru	реклама в инстаграм цена	gemini	Где заказать рекламу у инфлюенсеров в Инстаграм с гарантированной оплатой?	commercial
+payment	ru	рекламный кабинет фейсбук	chatgpt	Как изменить валюту и часовой пояс рекламного кабинета Facebook?	informational
+payment	ru	рекламный кабинет фейсбук	chatgpt	Как пополнить баланс рекламного кабинета Facebook банковской картой?	transactional
+payment	ru	рекламный кабинет фейсбук	gemini	Как привязать банковскую карту для оплаты рекламы в крупной соцсети	transactional,informational
+payment	ru	рекламный кабинет фейсбук	chatgpt	Какие способы оплаты доступны в рекламном кабинете Facebook в Узбекистане?	informational
+payment	ru	рекламный кабинет фейсбук	chatgpt	Почему рекламный кабинет Facebook не принимает карту узбекского банка?	informational
+payment	ru	таргетированная реклама в инстаграм	chatgpt	Как запустить рекламу в Инстаграм с оплатой в сумах?	informational,transactional
+pixel_analytics	uz	facebook reklama	gemini	Лучшие сервисы для аналитики эффективности рекламных объявлений.	commercial,informational
+pixel_analytics	uz	instagramda reklama berish	gemini	Как отслеживать эффективность рекламы в Инстаграм?	informational
+pixel_analytics	uz	reklama kabineti	gemini	Как подключить аналитику к своему рекламному пространству?	informational,transactional
+pixel_analytics	uz	target qilish	gemini	Как улучшить конверсию с помощью ретаргетинга?	informational,commercial
+pixel_analytics	uz	target sozlash	gemini	Оптимизация таргетинга для повышения конверсии.	informational
+pixel_analytics	ru	как запустить рекламу в инстаграм	chatgpt	Где посмотреть статистику и результаты рекламы в Instagram?	informational
+pixel_analytics	ru	лид форма инстаграм	gemini	Лучшие практики для повышения конверсии лид-форм в социальной сети?	informational
+pixel_analytics	ru	пиксель фейсбук	gemini	Где найти руководство по внедрению пикселя на платформе электронной коммерции?	informational,navigational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Как добавить пиксель Facebook на сайт WordPress?	informational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Как использовать пиксель Facebook для ретаргетинга посетителей сайта?	informational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Как настроить пиксель Facebook через Google Tag Manager?	informational
+pixel_analytics	ru	пиксель фейсбук	gemini	Как настроить пользовательские события для рекламного пикселя?	informational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Как отслеживать покупки через пиксель Facebook?	informational
+pixel_analytics	ru	пиксель фейсбук	gemini	Как пиксель влияет на эффективность рекламных объявлений?	informational,commercial
+pixel_analytics	ru	пиксель фейсбук	gemini	Как подключить пиксель к системе управления взаимоотношениями с клиентами?	informational
+pixel_analytics	ru	пиксель фейсбук	gemini	Как проверить корректность работы установленного пикселя?	informational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Как проверить события пикселя Facebook с телефона?	informational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Как проверить, правильно ли работает пиксель Facebook на сайте?	informational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Как связать пиксель Facebook с интернет-магазином?	informational
+pixel_analytics	ru	пиксель фейсбук	gemini	Как установить инструмент отслеживания на свой веб-сайт?	informational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Как установить пиксель Facebook на сайт интернет-магазина?	informational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Как установить пиксель Facebook на сайт, созданный на Tilda?	informational
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Какие события пикселя Facebook нужно настроить для сайта услуг?	informational
+pixel_analytics	ru	пиксель фейсбук	gemini	Лучшие практики использования пикселя для ремаркетинга?	informational,commercial
+pixel_analytics	ru	пиксель фейсбук	chatgpt	Почему пиксель Facebook не фиксирует конверсии?	informational
+pixel_analytics	ru	пиксель фейсбук	gemini	Преимущества использования пикселя для онлайн-бизнеса?	informational,commercial
+pixel_analytics	ru	пиксель фейсбук	gemini	Сравнение различных инструментов для отслеживания конверсий?	informational,commercial
+pixel_analytics	ru	пиксель фейсбук	gemini	Услуги по настройке и оптимизации рекламного пикселя?	commercial
+pixel_analytics	ru	пиксель фейсбук	gemini	Что такое пиксель для рекламных кампаний?	informational
+pixel_analytics	ru	реклама в инстаграм	chatgpt	Как проверить статистику рекламной кампании в Инстаграм?	informational
+pixel_analytics	ru	реклама в инстаграм	gemini	Сервисы для аналитики Инстаграм рекламы.	commercial,informational
+pixel_analytics	ru	реклама в фейсбук	chatgpt	Как отслеживать заявки и продажи с рекламы в Фейсбук?	informational
+pixel_analytics	ru	рекламный кабинет фейсбук	gemini	Как анализировать статистику рекламных кампаний для повышения эффективности	informational
+pixel_analytics	ru	рекламный кабинет фейсбук	gemini	Как настроить пиксель для отслеживания конверсий на сайте	informational
+pixel_analytics	ru	ретаргетинг	chatgpt	Как установить пиксель для ретаргетинга на сайт?	informational
+pixel_analytics	ru	таргет в инстаграм	gemini	Как повысить конверсию таргетированной рекламы в Инстаграм?	informational
+pixel_analytics	ru	таргет в инстаграм	gemini	Сервисы аналитики для рекламных кампаний в Инстаграм.	commercial,informational
+pixel_analytics	ru	таргетированная реклама в инстаграм	gemini	Как настроить пиксель для отслеживания конверсий в Инстаграм?	informational
+platforms	uz	facebook reklama	gemini	Сравнение платформ для автоматизации рекламных кампаний.	commercial,informational
+platforms	uz	instagram reklama	gemini	Платформы для автоматизации рекламных кампаний в социальных сетях.	commercial
+platforms	uz	instagram target	gemini	Лучшие стратегии для привлечения новой аудитории на визуальной платформе.	informational,commercial
+platforms	uz	instagramda reklama berish	gemini	Платформы для автоматизации рекламы в Инстаграм.	commercial,informational
+platforms	uz	reklama kabineti	gemini	Лучшие платформы для размещения онлайн-рекламы в Узбекистане.	commercial,informational
+platforms	uz	target qilish	gemini	Какие платформы предлагают детализированный таргетинг по интересам?	informational,commercial
+platforms	uz	target reklama	chatgpt	Какие платформы подходят для запуска таргетированной рекламы на русскоязычную аудиторию в Узбекистане?	informational,commercial
+platforms	uz	target reklama	gemini	Лучшие платформы для запуска таргетированной рекламы в регионе?	informational,commercial
+platforms	uz	target sozlash	gemini	Как выбрать платформу для эффективного таргетирования рекламы?	informational,commercial
+platforms	uz	target sozlash	chatgpt	Какие платформы лучше подходят для таргетированной рекламы в Узбекистане?	informational,commercial
+platforms	uz	targetolog	gemini	Какие платформы используют для запуска таргетированной рекламы?	informational
+platforms	uz	targetolog	chatgpt	Какие платформы лучше всего подходят для таргетирования аудитории в Узбекистане?	informational,commercial
+platforms	ru	как запустить рекламу в инстаграм	gemini	Обзор функций платформы для создания рекламных кампаний.	informational,commercial
+platforms	ru	как запустить рекламу в инстаграм	gemini	Сравнение возможностей различных платформ для продвижения.	commercial,informational
+platforms	ru	как стать таргетологом	chatgpt	Какие платформы и инструменты нужны таргетологу для работы?	informational
+platforms	ru	как стать таргетологом	gemini	Популярные рекламные платформы для запуска кампаний.	informational,commercial
+platforms	ru	настройка таргета	gemini	Как создать пользовательскую аудиторию на рекламной площадке?	navigational,informational
+platforms	ru	настройка таргета	gemini	Платформы для запуска таргетированной рекламы в социальных сетях?	commercial
+platforms	ru	реклама в фейсбук	gemini	Какие платформы предлагают автоматизацию рекламных кампаний?	informational,commercial
+platforms	ru	рекламный кабинет фейсбук	gemini	Как создать рекламный аккаунт на популярной социальной платформе	informational
+platforms	ru	рекламный кабинет фейсбук	gemini	Какие бывают форматы рекламных объявлений на ведущей социальной платформе	informational
+platforms	ru	ретаргетинг	gemini	Какие платформы подходят для медийного ретаргетинга?	commercial
+platforms	ru	ретаргетинг	chatgpt	Какие платформы подходят для ретаргетинга в Узбекистане?	commercial
+platforms	ru	таргет	chatgpt	Какие платформы лучше выбрать для таргета на аудиторию в Ташкенте?	informational,commercial
+platforms	ru	таргет	gemini	Какие платформы предлагают рекламу по географическому признаку?	commercial,informational
+platforms	ru	таргетированная реклама	chatgpt	Какие платформы для таргетированной рекламы лучше подходят для привлечения клиентов в Ташкенте?	commercial
+platforms	ru	таргетированная реклама	gemini	Лучшие платформы для рекламы в социальных сетях для Узбекистана.	commercial,informational
+price	uz	facebook reklama	chatgpt	Сколько стоит реклама в Facebook для бизнеса в Узбекистане?	informational,commercial
+price	uz	instagram reklama	gemini	Сколько стоит продвижение продукта через инстаграм рекламу?	informational,commercial
+price	uz	instagram reklama	chatgpt	Сколько стоит реклама в Instagram для бизнеса в Узбекистане?	informational,commercial
+price	uz	instagram target	chatgpt	Сколько стоит настройка таргета в Instagram у специалистов в Ташкенте?	commercial
+price	uz	instagram target	gemini	Стоимость настройки таргетированной рекламы у специалистов.	commercial
+price	uz	instagramda reklama berish	gemini	Сколько стоит реклама в Инстаграм для малого бизнеса?	informational,commercial
+price	uz	target qilish	gemini	Сколько стоит таргетированная реклама в Узбекистане?	commercial,informational
+price	uz	target reklama	gemini	Методы снижения стоимости клика в таргете.	informational
+price	uz	target reklama	chatgpt	Сколько стоит таргетированная реклама для малого бизнеса в Ташкенте?	commercial
+price	uz	target sozlash	chatgpt	Сколько стоит настройка таргетированной рекламы для малого бизнеса?	informational,commercial
+price	uz	targetolog	chatgpt	Сколько стоит работа таргетолога для малого бизнеса в Узбекистане?	commercial,transactional
+price	ru	как запустить рекламу в инстаграм	gemini	Сколько стоит запустить рекламу для местного бизнеса?	commercial,informational
+price	ru	настройка таргета	chatgpt	Сколько стоит настройка таргета для малого бизнеса в Узбекистане?	commercial
+price	ru	реклама в инстаграм	gemini	Сколько стоит реклама в Инстаграм в Узбекистане?	informational,commercial
+price	ru	реклама в инстаграм цена	chatgpt	Какая цена за тысячу показов рекламы в Instagram в Узбекистане?	informational
+price	ru	реклама в инстаграм цена	chatgpt	От чего зависит цена рекламы в Instagram?	informational
+price	ru	реклама в инстаграм цена	chatgpt	Сколько стоит реклама в Instagram в Узбекистане?	informational
+price	ru	реклама в инстаграм цена	gemini	Сколько стоит реклама в Инстаграм для малого бизнеса в Узбекистане?	informational,commercial
+price	ru	реклама в инстаграм цена	gemini	Факторы, влияющие на стоимость продвижения в Инстаграм.	informational
+price	ru	реклама в фейсбук	chatgpt	Сколько стоит настройка рекламы в Фейсбук у маркетингового агентства?	commercial
+price	ru	реклама в фейсбук	gemini	Стоимость услуг по настройке таргетированной рекламы в Узбекистане.	commercial
+price	ru	таргет	chatgpt	Сколько стоит настройка таргета для небольшого бизнеса в Узбекистане?	commercial
+price	ru	таргет	gemini	Сколько стоит продвижение услуги в интернете?	commercial,informational
+price	ru	таргет	gemini	Сравнение рекламных площадок по стоимости клика.	informational,commercial
+price	ru	таргет в инстаграм	chatgpt	Сколько стоит настроить таргет в Инстаграме для интернет-магазина?	commercial
+price	ru	таргетинг	gemini	Сколько стоит заказать таргетинг кампании?	commercial,transactional
+price	ru	таргетинг	chatgpt	Сколько стоит настройка таргетинга для малого бизнеса?	commercial
+price	ru	таргетированная реклама	chatgpt	Сколько стоит настройка таргетированной рекламы для бизнеса в Узбекистане?	commercial
+price	ru	таргетированная реклама в инстаграм	chatgpt	Сколько стоит запуск таргетированной рекламы в Инстаграм в Ташкенте?	commercial
+price	ru	таргетированная реклама в инстаграм	gemini	Сколько стоит таргетированная реклама в Инстаграм?	informational,commercial
+price	ru	таргетолог	gemini	Средняя стоимость услуг специалиста по рекламе в Узбекистане.	commercial,informational
+setup_howto	uz	facebook reklama	chatgpt	Где заказать настройку рекламной кампании в Facebook под ключ?	commercial,transactional
+setup_howto	uz	facebook reklama	chatgpt	Как запустить рекламу в Facebook для небольшого бизнеса в Узбекистане?	informational
+setup_howto	uz	facebook reklama	chatgpt	Как запустить рекламу в Facebook с переходом в WhatsApp?	informational
+setup_howto	uz	facebook reklama	gemini	Как настроить первую рекламную кампанию в соцсети?	informational,commercial
+setup_howto	uz	instagram reklama	chatgpt	Где заказать настройку рекламы в Instagram для кафе в Ташкенте?	commercial,transactional
+setup_howto	uz	instagram reklama	chatgpt	Как запустить рекламу в Instagram для малого бизнеса в Узбекистане?	informational
+setup_howto	uz	instagram reklama	gemini	Как запустить рекламу в инстаграм с нуля?	informational
+setup_howto	uz	instagram reklama	chatgpt	Как настроить таргетированную рекламу в Instagram на жителей Самарканда?	informational
+setup_howto	uz	instagram target	chatgpt	Как настроить таргетированную рекламу в Instagram самостоятельно?	informational
+setup_howto	uz	instagramda reklama berish	chatgpt	Как настроить рекламу в Instagram на жителей Самарканда?	informational
+setup_howto	uz	instagramda reklama berish	gemini	Услуги по настройке таргетированной рекламы в социальных сетях.	commercial
+setup_howto	uz	reklama kabineti	gemini	Услуги по настройке и ведению рекламных кампаний.	commercial
+setup_howto	uz	target qilish	gemini	Заказать консультацию по настройке таргетинга для онлайн-магазина.	transactional,commercial
+setup_howto	uz	target qilish	gemini	Как настроить таргетинг для малого бизнеса в социальных сетях?	informational,commercial
+setup_howto	uz	target reklama	chatgpt	Как запустить рекламу в соцсетях на жителей Самарканда?	informational
+setup_howto	uz	target reklama	chatgpt	Как настроить таргетированную рекламу для небольшого бизнеса в Узбекистане?	informational
+setup_howto	uz	target reklama	chatgpt	Как настроить таргетированную рекламу на узбекском и русском языках?	informational
+setup_howto	uz	target sozlash	chatgpt	Как настроить таргет на пользователей, которые уже посещали сайт?	informational
+setup_howto	uz	target sozlash	chatgpt	Как настроить таргетированную рекламу для интернет-магазина в Узбекистане?	informational
+setup_howto	uz	target sozlash	gemini	Как настроить таргетированную рекламу для малого бизнеса?	informational,commercial
+setup_howto	ru	как запустить рекламу в инстаграм	chatgpt	Как запустить рекламу в Instagram самостоятельно из Узбекистана?	informational
+setup_howto	ru	как запустить рекламу в инстаграм	chatgpt	Как запустить рекламу поста в Instagram через приложение?	informational
+setup_howto	ru	как запустить рекламу в инстаграм	chatgpt	Как настроить таргетированную рекламу в Instagram для местного бизнеса?	informational
+setup_howto	ru	как запустить рекламу в инстаграм	gemini	Пошаговая инструкция по настройке рекламы для бизнеса.	informational
+setup_howto	ru	как запустить рекламу в инстаграм	gemini	Создание бизнес-аккаунта для запуска платного продвижения.	informational,navigational
+setup_howto	ru	как стать таргетологом	chatgpt	Где искать первых заказчиков на настройку рекламы?	informational
+setup_howto	ru	настройка таргета	chatgpt	Как настроить рекламу на подписчиков конкурентов в социальных сетях?	informational
+setup_howto	ru	настройка таргета	chatgpt	Как настроить таргетированную рекламу для доставки еды в Бухаре?	informational
+setup_howto	ru	настройка таргета	chatgpt	Как настроить таргетированную рекламу на жителей Ташкента?	informational
+setup_howto	ru	настройка таргета	chatgpt	Какие настройки таргета выбрать для рекламы интернет-магазина одежды в Узбекистане?	informational
+setup_howto	ru	реклама в инстаграм	gemini	Как запустить первую рекламную кампанию в Инстаграм?	informational
+setup_howto	ru	реклама в инстаграм	chatgpt	Как запустить рекламу в Инстаграм для небольшого бизнеса в Узбекистане?	informational
+setup_howto	ru	реклама в инстаграм	chatgpt	Как настроить таргетированную рекламу в Инстаграм самостоятельно?	informational
+setup_howto	ru	реклама в инстаграм цена	chatgpt	Где заказать настройку рекламы в Instagram в Узбекистане?	commercial
+setup_howto	ru	реклама в инстаграм цена	gemini	Ищу надежный сервис по настройке Инстаграм рекламы с прозрачной ценовой политикой.	commercial
+setup_howto	ru	реклама в фейсбук	chatgpt	Как запустить рекламу в Фейсбук для небольшого бизнеса в Узбекистане?	informational
+setup_howto	ru	реклама в фейсбук	chatgpt	Как настроить рекламу в Фейсбук на русском и узбекском языках?	informational
+setup_howto	ru	реклама в фейсбук	chatgpt	Как настроить таргетинг рекламы в Фейсбук на жителей Ташкента?	informational
+setup_howto	ru	рекламный кабинет фейсбук	gemini	Пошаговая инструкция по настройке первой рекламной кампании в соцсети	informational
+setup_howto	ru	таргет	gemini	Как настроить рекламу для местного бизнеса?	informational,commercial
+setup_howto	ru	таргет	chatgpt	Как настроить рекламу на узбекском и русском языках?	informational
+setup_howto	ru	таргет	chatgpt	Как настроить таргетированную рекламу в Instagram для бизнеса в Узбекистане?	informational
+setup_howto	ru	таргет в инстаграм	chatgpt	Как заказать настройку таргета в Инстаграме для своего бизнеса?	transactional
+setup_howto	ru	таргет в инстаграм	chatgpt	Как запустить таргет в Инстаграме для малого бизнеса в Узбекистане?	informational
+setup_howto	ru	таргет в инстаграм	gemini	Как настроить таргетированную рекламу в Инстаграм с нуля?	informational
+setup_howto	ru	таргет в инстаграм	chatgpt	Какие настройки таргета в Инстаграме подходят для рекламы кафе в Ташкенте?	informational
+setup_howto	ru	таргетинг	chatgpt	Как заказать настройку таргетированной рекламы для интернет-магазина?	transactional
+setup_howto	ru	таргетинг	chatgpt	Как запустить таргетированную рекламу для кафе в Ташкенте?	informational,transactional
+setup_howto	ru	таргетинг	gemini	Как настроить таргетинг для малого бизнеса?	informational,commercial
+setup_howto	ru	таргетинг	chatgpt	Как самостоятельно настроить таргетинг на Facebook и Instagram?	informational
+setup_howto	ru	таргетинг	gemini	Пошаговое руководство по созданию таргетированной рекламы.	informational
+setup_howto	ru	таргетинг	gemini	Услуги по настройке целевой рекламы в Ташкенте.	commercial,transactional
+setup_howto	ru	таргетированная реклама	chatgpt	Как заказать настройку таргетированной рекламы для салона красоты?	transactional
+setup_howto	ru	таргетированная реклама	gemini	Как запустить первую рекламную кампанию для малого бизнеса?	informational,commercial
+setup_howto	ru	таргетированная реклама	chatgpt	Как запустить таргетированную рекламу в Instagram с нуля?	informational
+setup_howto	ru	таргетированная реклама	chatgpt	Как настроить таргетированную рекламу в Instagram для малого бизнеса в Узбекистане?	informational
+setup_howto	ru	таргетированная реклама в инстаграм	gemini	Как запустить таргетированную рекламу в Инстаграм?	informational
+setup_howto	ru	таргетированная реклама в инстаграм	chatgpt	Как настроить таргетированную рекламу в Инстаграм для бизнеса в Узбекистане?	informational
+setup_howto	ru	таргетолог	gemini	Пошаговое руководство по запуску рекламной кампании в социальных сетях.	informational
+specialist_choice	uz	facebook reklama	chatgpt	Где найти специалиста по настройке рекламы в Facebook в Ташкенте?	commercial
+specialist_choice	uz	facebook reklama	gemini	Где найти специалистов по таргетированной рекламе в моем регионе?	commercial,informational
+specialist_choice	uz	facebook reklama	gemini	Ищу агентство для комплексного продвижения бизнеса онлайн.	commercial,transactional
+specialist_choice	uz	facebook reklama	chatgpt	Как выбрать подрядчика для продвижения бизнеса через рекламу в Facebook?	informational,commercial
+specialist_choice	uz	facebook reklama	chatgpt	Какие агентства настраивают рекламу в Facebook для компаний в Самарканде?	commercial
+specialist_choice	uz	instagram reklama	chatgpt	Где найти специалиста по настройке рекламы в Instagram в Ташкенте?	commercial
+specialist_choice	uz	instagram reklama	gemini	Где найти специалистов по настройке таргета в социальных сетях?	commercial
+specialist_choice	uz	instagram reklama	chatgpt	Как выбрать агентство для продвижения в Instagram?	commercial
+specialist_choice	uz	instagram target	chatgpt	Где найти агентство для настройки рекламы в Instagram в Узбекистане?	navigational,commercial
+specialist_choice	uz	instagram target	chatgpt	Как выбрать специалиста по таргету в Instagram для малого бизнеса?	commercial
+specialist_choice	uz	instagram target	chatgpt	Как найти фрилансера для запуска таргета в Instagram?	commercial
+specialist_choice	uz	instagramda reklama berish	gemini	Агентства по диджитал-маркетингу, специализирующиеся на Инстаграм.	commercial
+specialist_choice	uz	target qilish	gemini	Где найти агентства по настройке рекламного таргетинга в Ташкенте?	commercial,informational
+specialist_choice	uz	target qilish	chatgpt	Как выбрать агентство для настройки таргетированной рекламы в Узбекистане?	commercial
+specialist_choice	uz	target reklama	chatgpt	Где найти агентство, которое настраивает таргетированную рекламу для интернет-магазинов?	commercial
+specialist_choice	uz	target reklama	gemini	Где найти фрилансера для настройки таргетированной рекламы?	transactional,commercial
+specialist_choice	uz	target reklama	chatgpt	Как выбрать специалиста по таргетированной рекламе в Узбекистане?	commercial
+specialist_choice	uz	target reklama	chatgpt	Как найти подрядчика по таргетированной рекламе с опытом в сфере недвижимости?	commercial
+specialist_choice	uz	target reklama	gemini	Найти агентство по настройке таргетированной рекламы в Ташкенте.	transactional,commercial
+specialist_choice	uz	target sozlash	gemini	Агентства, специализирующиеся на настройке рекламных кампаний.	commercial,navigational,informational
+specialist_choice	uz	target sozlash	chatgpt	Где найти специалиста по настройке таргетированной рекламы в Ташкенте?	commercial,navigational
+specialist_choice	uz	target sozlash	chatgpt	Как выбрать подрядчика для настройки таргета?	informational,commercial
+specialist_choice	uz	target sozlash	chatgpt	Какие агентства в Узбекистане помогают с настройкой таргетированной рекламы?	commercial
+specialist_choice	uz	targetolog	gemini	Вакансии таргетолога удаленно для начинающих.	commercial,informational
+specialist_choice	uz	targetolog	gemini	Где найти надежного подрядчика для настройки рекламных кампаний?	commercial,navigational
+specialist_choice	uz	targetolog	chatgpt	Где найти фрилансера-таргетолога для разового проекта?	navigational,commercial,transactional
+specialist_choice	uz	targetolog	gemini	Как выбрать агентство по продвижению в социальных сетях?	commercial,informational
+specialist_choice	uz	targetolog	chatgpt	Как выбрать подходящего таргетолога для бизнеса в Ташкенте?	navigational,commercial
+specialist_choice	uz	targetolog	chatgpt	Как заказать услуги таргетолога для продвижения интернет-магазина?	transactional
+specialist_choice	uz	targetolog	chatgpt	Как таргетолог помогает увеличить продажи через социальные сети?	informational
+specialist_choice	uz	targetolog	chatgpt	Какие агентства предоставляют услуги таргетированной рекламы в Узбекистане?	navigational,commercial
+specialist_choice	uz	targetolog	chatgpt	Какие инструменты используют таргетологи для настройки рекламы в соцсетях?	informational
+specialist_choice	uz	targetolog	chatgpt	Какие ошибки чаще всего допускают таргетологи при работе с узбекским рынком?	informational
+specialist_choice	uz	targetolog	chatgpt	Кто такой таргетолог и какие услуги он предоставляет?	informational
+specialist_choice	uz	targetolog	chatgpt	Отзывы клиентов о популярных услугах таргетологов в Узбекистане	navigational,commercial
+specialist_choice	uz	targetolog	gemini	Сколько зарабатывает специалист по настройке рекламы?	informational
+specialist_choice	uz	targetolog	gemini	Сколько стоят услуги специалиста по рекламе в социальных сетях в Ташкенте?	commercial,informational
+specialist_choice	uz	targetolog kursi	chatgpt	Где найти отзывы выпускников курсов таргетолога в Узбекистане?	navigational,commercial
+specialist_choice	ru	как стать таргетологом	gemini	Вакансии таргетолога с возможностью удаленной работы.	transactional,informational
+specialist_choice	ru	как стать таргетологом	chatgpt	Где найти вакансии для начинающего таргетолога в Узбекистане?	navigational,commercial
+specialist_choice	ru	как стать таргетологом	chatgpt	Как оформить профиль таргетолога, чтобы привлекать клиентов?	informational
+specialist_choice	ru	как стать таргетологом	chatgpt	Как собрать портфолио таргетолога без опыта и реальных клиентов?	informational
+specialist_choice	ru	как стать таргетологом	gemini	Какие ключевые навыки необходимы для успешной работы таргетологом?	informational
+specialist_choice	ru	как стать таргетологом	chatgpt	Какие навыки нужны начинающему таргетологу и где их освоить?	informational,commercial
+specialist_choice	ru	как стать таргетологом	chatgpt	Сколько зарабатывает таргетолог в Ташкенте и от чего зависит доход?	informational
+specialist_choice	ru	настройка таргета	chatgpt	Где найти специалиста по настройке таргетированной рекламы в Самарканде?	navigational,commercial
+specialist_choice	ru	настройка таргета	chatgpt	Какие агентства в Ташкенте занимаются настройкой таргета?	navigational,commercial
+specialist_choice	ru	реклама в инстаграм	chatgpt	Где найти специалистов по настройке рекламы в Инстаграм в Узбекистане?	navigational,commercial
+specialist_choice	ru	реклама в инстаграм	gemini	Где найти специалистов по настройке рекламы в Инстаграм?	commercial
+specialist_choice	ru	реклама в инстаграм	chatgpt	Как выбрать агентство для продвижения бизнеса в Инстаграм?	informational,commercial
+specialist_choice	ru	реклама в инстаграм цена	chatgpt	Как найти агентство для запуска рекламы в Instagram в Ташкенте?	commercial
+specialist_choice	ru	реклама в инстаграм цена	gemini	На что обратить внимание при выборе подрядчика для Инстаграм продвижения?	informational,commercial
+specialist_choice	ru	реклама в инстаграм цена	chatgpt	Сколько берут специалисты за настройку таргетированной рекламы в Instagram?	informational,commercial
+specialist_choice	ru	реклама в фейсбук	chatgpt	Где найти специалиста по рекламе в Фейсбук в Узбекистане?	commercial
+specialist_choice	ru	реклама в фейсбук	chatgpt	Как выбрать агентство для ведения рекламы в Фейсбук?	commercial
+specialist_choice	ru	таргет	gemini	Где найти подрядчика для запуска рекламных кампаний?	commercial
+specialist_choice	ru	таргет	chatgpt	Как найти специалиста по таргету для продвижения интернет-магазина?	commercial
+specialist_choice	ru	таргет	chatgpt	Какие агентства в Ташкенте занимаются настройкой таргетированной рекламы?	commercial
+specialist_choice	ru	таргет в инстаграм	chatgpt	Где найти специалиста по таргету в Инстаграме в Ташкенте?	commercial
+specialist_choice	ru	таргет в инстаграм	chatgpt	Как выбрать подрядчика для запуска рекламы в Инстаграме?	commercial
+specialist_choice	ru	таргет в инстаграм	chatgpt	Какие агентства в Узбекистане настраивают таргетированную рекламу в Инстаграме?	commercial
+specialist_choice	ru	таргет в инстаграм	chatgpt	Сколько обычно берет таргетолог за ведение рекламы в Инстаграме?	commercial
+specialist_choice	ru	таргетинг	gemini	Где найти фрилансера для настройки таргетинга?	commercial,transactional
+specialist_choice	ru	таргетинг	chatgpt	Какие агентства в Ташкенте настраивают таргетированную рекламу?	commercial
+specialist_choice	ru	таргетированная реклама	gemini	Где найти проверенных специалистов по настройке рекламы в Ташкенте?	commercial
+specialist_choice	ru	таргетированная реклама	chatgpt	Где найти специалиста по таргетированной рекламе в Узбекистане?	commercial
+specialist_choice	ru	таргетированная реклама	chatgpt	Какие агентства в Ташкенте настраивают таргетированную рекламу для локального бизнеса?	commercial
+specialist_choice	ru	таргетированная реклама в инстаграм	chatgpt	Где найти специалиста по таргетированной рекламе в Инстаграм в Узбекистане?	commercial
+specialist_choice	ru	таргетированная реклама в инстаграм	chatgpt	Как проверить, что таргетолог действительно умеет настраивать рекламу в Инстаграм?	informational,commercial
+specialist_choice	ru	таргетированная реклама в инстаграм	gemini	Какие агентства занимаются настройкой рекламы в соцсетях?	commercial
+specialist_choice	ru	таргетированная реклама в инстаграм	chatgpt	Какие документы нужны, чтобы заказать таргетированную рекламу у агентства в Узбекистане?	informational,commercial
+specialist_choice	ru	таргетированная реклама в инстаграм	chatgpt	Какие рекламные агентства в Ташкенте настраивают таргет в Инстаграм?	commercial
+specialist_choice	ru	таргетолог	gemini	Где найти вакансии удаленного таргетолога?	commercial,informational
+specialist_choice	ru	таргетолог	chatgpt	Где найти таргетолога в Узбекистане для рекламы в соцсетях?	commercial
+specialist_choice	ru	таргетолог	chatgpt	Как выбрать таргетолога для продвижения малого бизнеса?	commercial
+specialist_choice	ru	таргетолог	chatgpt	Как заказать настройку рекламы у таргетолога для интернет-магазина?	transactional
+specialist_choice	ru	таргетолог	gemini	Как начать карьеру таргетолога без опыта?	informational
+specialist_choice	ru	таргетолог	chatgpt	Как проверить портфолио таргетолога перед сотрудничеством?	informational
+specialist_choice	ru	таргетолог	chatgpt	Как сравнить предложения агентств по настройке таргетированной рекламы?	commercial
+specialist_choice	ru	таргетолог	chatgpt	Какие вопросы задать таргетологу перед заключением договора?	informational
+specialist_choice	ru	таргетолог	chatgpt	Какие навыки нужны таргетологу для работы в Узбекистане?	informational
+specialist_choice	ru	таргетолог	gemini	Критерии выбора таргетолога для продвижения бизнеса.	commercial,informational
+specialist_choice	ru	таргетолог	chatgpt	Кто такой таргетолог и чем он занимается?	informational
+specialist_choice	ru	таргетолог	chatgpt	Сколько зарабатывает таргетолог в Ташкенте?	informational
+specialist_choice	ru	таргетолог	chatgpt	Сколько стоят услуги таргетолога в Ташкенте?	commercial
+specialist_choice	ru	таргетолог	gemini	Что входит в обязанности таргетолога?	informational
