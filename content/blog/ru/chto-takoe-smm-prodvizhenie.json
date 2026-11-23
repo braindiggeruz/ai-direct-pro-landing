@@ -492,6 +492,20 @@
     {
       "target": "/ru/blog/telegram-ads-ili-posevy-v-kanalah/",
       "anchor": "Реклама в Telegram: биржи и посевы"
+    },
+    {
+      "target": "/ru/blog/nakrutka-podpischikov/",
+      "anchor": "почему не стоит накручивать подписчиков",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 1
+    },
+    {
+      "target": "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+      "anchor": "как набрать подписчиков в Instagram",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "ogTitle": "Что такое SMM-продвижение: состав работ и стоимость",

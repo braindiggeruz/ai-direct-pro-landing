@@ -179,6 +179,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 5
+    },
+    {
+      "target": "/ru/blog/telegram-whatsapp-viber-rassylka/",
+      "anchor": "рассылка в WhatsApp: шаблоны и согласие",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 6
     }
   ],
   "ogTitle": "Как подключить WhatsApp Business API в Узбекистане",

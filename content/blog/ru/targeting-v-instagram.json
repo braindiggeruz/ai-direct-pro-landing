@@ -233,6 +233,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+      "anchor": "органический рост в Instagram",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Таргетинг в Instagram: что это и как работает",

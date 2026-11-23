@@ -406,6 +406,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 19
+    },
+    {
+      "target": "/uz/blog/reklama-bepul-usullari/",
+      "anchor": "bepul reklama usullari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 20
     }
   ],
   "ogTitle": "Reklama turlari: qaysi platforma biznesga mos, 2026",

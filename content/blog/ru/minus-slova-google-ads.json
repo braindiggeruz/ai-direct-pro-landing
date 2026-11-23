@@ -230,6 +230,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 1
+    },
+    {
+      "target": "/ru/blog/reklama-v-google-kak-nastroit/",
+      "anchor": "настройка Google Ads с нуля",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 2
     }
   ],
   "canonical": "https://gptbot.uz/ru/blog/minus-slova-google-ads/",

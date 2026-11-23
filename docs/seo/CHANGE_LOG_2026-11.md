@@ -688,3 +688,17 @@ Business Hub не принял несжатый `.jsonl`. Добавлены `ht
 - **Факты** — первоисточники на 23.11: справки Google Ads, Яндекс Директа и Метрики, Meta, Telegram Ads, Google Analytics, OLX.uz; ЗРУ-776 и постановление КМ № 428. Цен и зарплат не приводим.
 - **Связки:** пары W20261123-69…77, забор «reklama nima» в W20261123-14; входящие ссылки из 27 существующих статей.
 - **Защита:** ревизия `2026-11-23-ads-gpt-d4`: главная +9 пунктов, ничего не удалено; sitemap 508 → 517.
+
+## Рекламный кластер, часть 2, волна D5 (23.11, ветка `claude/festive-hypatia-c43eg6`)
+
+**Основание.** D-ADS-GPT-2-20261123 и спрос OpenSEO на 23.11. Волна D4 в проде с `0eda1e71`: 517 URL OK, IndexNow 200 (42 URL).
+
+- **Новые URL (8):**
+  - накрутка подписчиков — `/ru/blog/nakrutka-podpischikov/` + `/uz/blog/nakrutka-instagram-telegram/`;
+  - подписчики в Instagram без рекламы — `/ru/blog/kak-nabrat-podpischikov-v-instagram/` + `/uz/blog/obunachi-kopaytirish-instagram/`;
+  - рассылка в Telegram, WhatsApp и Viber (только русский) — `/ru/blog/telegram-whatsapp-viber-rassylka/`;
+  - настройка Google Ads (только русский; узбекский гайд уже есть) — `/ru/blog/reklama-v-google-kak-nastroit/`;
+  - бесплатная реклама — `/ru/blog/sposoby-besplatnoy-reklamy/` + `/uz/blog/reklama-bepul-usullari/`.
+- **Факты** — справки Instagram, Meta, Telegram, WhatsApp, Viber, Google Ads, Google Бизнес-профиля, Яндекс Бизнеса (Узбекистан) и 2ГИС, ЗРУ-776 ст. 30 на 23.11. Цен не приводим.
+- **Связки:** пары W20261123-78…85; входящие ссылки из 22 существующих статей.
+- **Защита:** ревизия `2026-11-23-ads-gpt-d5`: главная +8 пунктов, ничего не удалено; sitemap 517 → 525.

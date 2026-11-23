@@ -358,6 +358,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 11
+    },
+    {
+      "target": "/uz/blog/obunachi-kopaytirish-instagram/",
+      "anchor": "tavsiyalar uchun Reels talablari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 12
     }
   ],
   "ogTitle": "Reklama kreativlari: 12 format va o‘lchamlar",

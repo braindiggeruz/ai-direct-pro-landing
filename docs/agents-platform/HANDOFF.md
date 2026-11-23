@@ -1,3 +1,32 @@
+# Current handoff — advertising wave D5: nakrutka, Instagram growth, messenger mailings, Google Ads setup, free advertising · 23.11.2026
+
+## 1. State
+Branch claude/festive-hypatia-c43eg6 from main 0eda1e71 (= production: advertising waves B, C1, C2, D1–D4 and targeting waves T-B, T-C live, 517 URLs, check-entity-consistency OK, IndexNow HTTP 200 for 42 URLs of D4). Production stays 0eda1e71 until this wave is merged and deployed.
+## 2. Delivered
+Eight URLs: /ru/blog/nakrutka-podpischikov/ + /uz/blog/nakrutka-instagram-telegram/, /ru/blog/kak-nabrat-podpischikov-v-instagram/ + /uz/blog/obunachi-kopaytirish-instagram/, /ru/blog/telegram-whatsapp-viber-rassylka/ (RU only), /ru/blog/reklama-v-google-kak-nastroit/ (RU only), /ru/blog/sposoby-besplatnoy-reklamy/ + /uz/blog/reklama-bepul-usullari/. Intent pairs W20261123-78…85, links from 22 existing articles, llms.txt routes and quick answers.
+## 3. Files
+content/blog/{ru,uz}/ (8 new, 22 existing with added related links), content/seo/intent-manifest.json, public/llms.txt, scripts/seo-protection.ts (BASELINE), tests/ads-gpt-wave-d5.test.ts + package.json, reports/ads-gpt-20261123-d5/, docs/seo/evidence/2026-11-23-ads-gpt-d5/, docs (DECISIONS, CHANGE_LOG, research ROADMAP, STATE, HANDOFF).
+## 4. Decisions
+D-ADS-GPT-WAVE-D5-20261123 (under D-ADS-GPT-2-20261123).
+## 5. Excluded
+Prices; the yandex.ru tariff (Russia); WhatsApp app broadcast limits (help centre not readable); Uzbek versions of the mailing and Google Ads guides (no measurable demand; the Uzbek Google Ads guide already exists).
+## 6. Validation
+seo-audit OK; build:fast; review vs a build of main 0eda1e71: sitemap 517 → 525, existing pages change by added links only, 0 removed, issues 0, no money page changed; wave test 11/11; 57 of 61 SEO-related test files green, the 4 red ones fail identically on main (seo-commercial-coverage 5/6, seo-push-revision R3-6/R3-9, seo-revenue-claims 7/11, translator-pages 10); homepage-lists-frozen, seo-page-integrity, publisher-schema, uzbek-login-journey, seo-intent-manifest, seo-anchor-intent and both feed tests green; chat-ui-revision 2 and legal-oferta 8/21/23 fail identically on main; tsc -b 0 errors; eslint on the new test and review script clean.
+## 7. Known limits
+Telegram's own pages disagree on paid-broadcast eligibility, and WhatsApp's on service-message charging; the articles show both sides. Several Instagram creator pages exist only in English.
+## 8. Next task
+Merge, deploy, verify 525 URLs, IndexNow, GSC lists; then wave D6 (Visa card, SMM courses, pharmacy, transit ads).
+## 9. Acceptance
+Eight URLs 200 and in the sitemap; check-entity-consistency OK on 525 URLs.
+## 10. Start commands
+npx tsx reports/ads-gpt-20261123-d5/review.ts --before <main dist>; node --import tsx --test tests/ads-gpt-wave-d5.test.ts
+## 11. Risks
+Low: new pages and added links only.
+## 12. Rollback
+git revert; the ads-gpt-d4 BASELINE stays valid for the old homepage.
+
+---
+
 # Current handoff — advertising wave D4: banners, OLX, marketer career, sales funnel, ad agency · 23.11.2026
 
 ## 1. State

@@ -257,6 +257,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/reklama-bepul-usullari/",
+      "anchor": "bepul reklama: xaritalar, OLX, Telegram",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "OLX’da e’lon berish va uni ko‘tarish: TOP, VIP",

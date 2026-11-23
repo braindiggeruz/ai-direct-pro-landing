@@ -173,6 +173,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/uz/blog/nakrutka-instagram-telegram/",
+      "anchor": "Telegram nakrutka xavfi",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Telegram kanalni rivojlantirish: obunachi yig‘ish",
