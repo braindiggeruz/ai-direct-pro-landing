@@ -19,6 +19,14 @@ on:
       - 'scripts/product-facts.ts'
       - 'scripts/generate-robots.ts'
       - 'public/openai-product-feed.jsonl'
+      - 'public/openai-product-feed.jsonl.gz'
+      - 'public/openai-product-feed.tsv'
+      - 'public/assets/feed/**'
+      - 'public/assets/blog/gpt-uzbek-tilida-online-1200.webp'
+      - 'public/assets/digital/**'
+      - 'public/assets/seo/**'
+      - 'scripts/openai-feed-images.json'
+      - '.gitattributes'
       - 'public/_headers'
       - 'public/_routes.json'
       - 'public/_redirects'
@@ -52,3 +60,6 @@ jobs:
 
       - name: Feed tests
         run: node --import tsx --test tests/openai-product-feed.test.ts
+
+      - name: Validate the committed .jsonl, .jsonl.gz and .tsv
+        run: npx tsx scripts/validate-openai-feed.ts

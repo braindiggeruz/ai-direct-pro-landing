@@ -16,14 +16,37 @@
 // changes, the test fails until the translation is reviewed.
 //
 // Unknown values are left out of a record entirely: no null, "n/a" or "".
+//
+// Three files carry the same records (scripts/build-openai-feed.ts writes them):
+//   openai-product-feed.jsonl.gz  the Hosted URL (Business Hub takes gzip JSONL)
+//   openai-product-feed.tsv       fallback Hosted URL, header row, one item a line
+//   openai-product-feed.jsonl     plain copy for people and tools
+// WebP og:images are replaced by JPEG copies in /assets/feed/ (the spec names
+// JPEG and PNG); scripts/openai-feed-images.json maps each WebP to its copy.
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import zlib from 'node:zlib';
 
 import { CHAT_FACTS, STUDIO_FACTS } from './product-facts';
 
 export const SITE = 'https://gptbot.uz';
 export const FEED_FILE = 'public/openai-product-feed.jsonl';
+export const FEED_GZ_FILE = 'public/openai-product-feed.jsonl.gz';
+export const FEED_TSV_FILE = 'public/openai-product-feed.tsv';
 export const FEED_URL = `${SITE}/openai-product-feed.jsonl`;
+export const FEED_GZ_URL = `${SITE}/openai-product-feed.jsonl.gz`;
+export const FEED_TSV_URL = `${SITE}/openai-product-feed.tsv`;
+export const FEED_IMAGE_LOCK = 'scripts/openai-feed-images.json';
+export const FEED_IMAGE_DIR = '/assets/feed/';
+
+// The free trial is the one record priced 0 UZS, and the spec asks for a
+// positive price. Set this to false (then run `npm run feed:openai` and commit
+// the three files) if Business Hub rejects the row. It is a committed constant,
+// not an environment variable, because the release guard requires the build to
+// reproduce the committed feed byte for byte.
+export const INCLUDE_FREE_TRIAL = true;
+export const FREE_TRIAL_ITEM_ID = 'gptbot-ai-chat-trial';
 const BRAND = 'GPTBot.uz';
 const OFFER_URL = `${SITE}/ru/oferta/`;
 
@@ -411,8 +434,10 @@ export const SERVICE_ITEMS: readonly ServiceItem[] = [
 
 // ---------- records ----------
 
+type ImageResolver = (ogImagePath: string) => string;
+
 const base = (
-  itemId: string, title: string, description: string, page: PageContent, amountUzs: number, category: string,
+  image: ImageResolver, itemId: string, title: string, description: string, page: PageContent, amountUzs: number, category: string,
 ): FeedRecord => ({
   item_id: itemId,
   title,
@@ -421,7 +446,7 @@ const base = (
   brand: BRAND,
   seller_name: BRAND,
   seller_url: `${SITE}/`,
-  image_url: absolute(requireValue(page.ogImage, `${page.url}: no ogImage`)),
+  image_url: absolute(image(new URL(absolute(requireValue(page.ogImage, `${page.url}: no ogImage`))).pathname)),
   price: `${amountUzs} UZS`,
   availability: 'in_stock',
   condition: 'new',
@@ -430,6 +455,59 @@ const base = (
   target_countries: ['UZ'],
   store_country: 'UZ',
 });
+
+// ---------- feed images ----------
+
+export interface FeedImageEntry {
+  /** sha256 of the WebP the copy was made from. */
+  sourceSha256: string;
+  /** Site path of the JPEG copy, content hash in the name (/assets/* is cached as immutable). */
+  jpg: string;
+  jpgSha256: string;
+  width: number;
+  height: number;
+}
+export type FeedImageLock = Record<string, FeedImageEntry>;
+
+export const sha256 = (data: Buffer | string): string => createHash('sha256').update(data).digest('hex');
+
+/** Local file behind a site path: /assets/studio/* is the Studio build (apps/studio/public), the rest is public/. */
+export function publicFile(root: string, sitePath: string): string {
+  return sitePath.startsWith('/assets/studio/')
+    ? path.join(root, 'apps/studio/public', sitePath.slice('/assets/studio/'.length))
+    : path.join(root, 'public', sitePath);
+}
+
+export function readImageLock(root: string): FeedImageLock {
+  const file = path.join(root, FEED_IMAGE_LOCK);
+  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) as FeedImageLock : {};
+}
+
+/** JPEG and PNG pass through; a WebP resolves to its locked JPEG copy, which must match the current WebP. */
+export function lockedImageResolver(root: string, lock: FeedImageLock = readImageLock(root)): ImageResolver {
+  return (sitePath) => {
+    if (/\.(jpe?g|png)$/i.test(sitePath)) return sitePath;
+    if (!/\.webp$/i.test(sitePath)) throw new Error(`og:image ${sitePath} is not JPEG, PNG or WebP`);
+    const entry = lock[sitePath];
+    if (!entry) throw new Error(`No JPEG copy of ${sitePath} in ${FEED_IMAGE_LOCK}: run npx tsx scripts/build-openai-feed.ts`);
+    const source = publicFile(root, sitePath);
+    if (!fs.existsSync(source) || sha256(fs.readFileSync(source)) !== entry.sourceSha256) {
+      throw new Error(`${sitePath} changed since its JPEG copy was made: run npx tsx scripts/build-openai-feed.ts`);
+    }
+    if (!fs.existsSync(publicFile(root, entry.jpg))) throw new Error(`JPEG copy ${entry.jpg} is missing: run npx tsx scripts/build-openai-feed.ts`);
+    return entry.jpg;
+  };
+}
+
+/** The WebP og:images the feed needs, by site path. */
+export function webpSources(root: string, options: Omit<BuildOptions, 'image'> = {}): string[] {
+  const found = new Set<string>();
+  buildFeed(root, { ...options, image: (sitePath) => {
+    if (/\.webp$/i.test(sitePath)) found.add(sitePath);
+    return sitePath.replace(/\.webp$/i, '.jpg');
+  } });
+  return [...found].sort();
+}
 
 function absolute(urlOrPath: string): string {
   if (urlOrPath.startsWith(`${SITE}/`)) return urlOrPath;
@@ -452,8 +530,15 @@ function stated(page: PageContent, re: RegExp, what: string): string {
 const sentence = (...parts: string[]): string => parts.filter(Boolean).join(' ');
 
 export interface BuiltFeed { records: FeedRecord[]; proofs: PriceProof[] }
+export interface BuildOptions {
+  includeFreeTrial?: boolean;
+  /** Maps an og:image site path to the image the feed links; defaults to the locked JPEG copies. */
+  image?: ImageResolver;
+}
 
-export function buildFeed(root: string): BuiltFeed {
+export function buildFeed(root: string, options: BuildOptions = {}): BuiltFeed {
+  const image = options.image ?? lockedImageResolver(root);
+  const includeFreeTrial = options.includeFreeTrial ?? INCLUDE_FREE_TRIAL;
   const records: FeedRecord[] = [];
   const proofs: PriceProof[] = [];
   const add = (record: FeedRecord, proof: Omit<PriceProof, 'itemId'>): void => {
@@ -465,8 +550,8 @@ export function buildFeed(root: string): BuiltFeed {
   const chat = CHAT_FACTS;
   const trialFile = 'content/pages/uz/gpt-uzbek-tilida.json';
   const trialPage = readPage(root, trialFile);
-  add({
-    ...base('gptbot-ai-chat-trial', `AI chat in Uzbek and Russian — free trial (${chat.trialReplies} replies)`, sentence(
+  if (includeFreeTrial) add({
+    ...base(image, FREE_TRIAL_ITEM_ID, `AI chat in Uzbek and Russian — free trial (${chat.trialReplies} replies)`, sentence(
       'AI chat in Uzbek (Latin script) and Russian that works in the browser, without an app.',
       `${chat.trialReplies} free trial replies in total, without registration, card or phone number; they do not renew daily.`,
       'More replies need a paid AI pack.',
@@ -481,7 +566,7 @@ export function buildFeed(root: string): BuiltFeed {
   const smallDays = chat.smallHours / 24;
   if (!Number.isInteger(smallDays) || smallDays <= 0) throw new Error(`3-day pack term is not whole days: ${chat.smallHours} h`);
   add({
-    ...base('gptbot-ai-pack-3d', `AI chat pack — ${chat.smallReplies} replies for ${smallDays} days`, sentence(
+    ...base(image, 'gptbot-ai-pack-3d', `AI chat pack — ${chat.smallReplies} replies for ${smallDays} days`, sentence(
       `${chat.smallReplies} replies in the GPTBot.uz AI chat (Uzbek and Russian), valid for ${chat.smallHours} hours from confirmed payment.`,
       packNote,
       NOT_OPENAI,
@@ -490,7 +575,7 @@ export function buildFeed(root: string): BuiltFeed {
     accepts_returns: false,
   }, { page: packFile, amountUzs: chat.smallPriceUzs, visible: `${groupThousands(chat.smallPriceUzs)} сум` });
   add({
-    ...base('gptbot-ai-pack-1m', `AI chat pack — ${chat.replies} replies for one month`, sentence(
+    ...base(image, 'gptbot-ai-pack-1m', `AI chat pack — ${chat.replies} replies for one month`, sentence(
       `${chat.replies} replies in the GPTBot.uz AI chat (Uzbek and Russian) for one calendar month from confirmed payment, up to ${chat.dailyReplies} pack replies a day.`,
       packNote,
       NOT_OPENAI,
@@ -509,7 +594,7 @@ export function buildFeed(root: string): BuiltFeed {
   const dayImages = stated(dayPage, /\d+ slaydgacha, (\d+) rasmgacha/u, 'the full-deck image limit');
   const dayUzs = day.amountTiyin / 100;
   add({
-    ...base('gptbot-studio-day', `GPTBot.uz Studio AI presentation maker — 24-hour plan (${day.presentationFull} full presentation)`, sentence(
+    ...base(image, 'gptbot-studio-day', `GPTBot.uz Studio AI presentation maker — 24-hour plan (${day.presentationFull} full presentation)`, sentence(
       `${day.presentationFull} full AI-generated PowerPoint (.pptx) presentation of up to ${daySlides} slides, with up to ${dayImages} images and speaker notes, in Uzbek or Russian.`,
       `Valid for ${day.duration.hours} hours from confirmed payment.`,
       studioNote,
@@ -524,7 +609,7 @@ export function buildFeed(root: string): BuiltFeed {
   const monthImages = stated(monthPage, /до \d+ слайдов, до (\d+) изображений/u, 'the full-deck image limit');
   const monthUzs = month.amountTiyin / 100;
   add({
-    ...base('gptbot-studio-month', `GPTBot.uz Studio AI presentation maker — monthly plan (${month.presentationFull} full presentations)`, sentence(
+    ...base(image, 'gptbot-studio-month', `GPTBot.uz Studio AI presentation maker — monthly plan (${month.presentationFull} full presentations)`, sentence(
       `${month.presentationFull} full AI-generated PowerPoint (.pptx) presentations, each of up to ${monthSlides} slides with up to ${monthImages} images and speaker notes, in Uzbek or Russian.`,
       'Valid for one calendar month from payment.',
       studioNote,
@@ -539,7 +624,7 @@ export function buildFeed(root: string): BuiltFeed {
     const page = pages.get(spec.file) ?? readPage(root, spec.file);
     pages.set(spec.file, page);
     const row = packageRow(page, item.row);
-    add(base(item.itemId, item.title, sentence(
+    add(base(image, item.itemId, item.title, sentence(
       item.includes,
       item.extra ?? '',
       termInEnglish(row.term, spec.afterAccess),
@@ -557,17 +642,102 @@ export function serializeFeed(records: readonly FeedRecord[]): string {
   return records.map((record) => JSON.stringify(record)).join('\n') + '\n';
 }
 
+/**
+ * The JSONL gzip-compressed. The header carries no file name and mtime 0, and
+ * the OS byte is pinned to Unix so Windows and Linux builds agree on the header.
+ * Deflate output can still differ between zlib builds, so the writer keeps the
+ * committed .gz whenever it decompresses to the current JSONL.
+ */
+export function gzipFeed(jsonl: string): Buffer {
+  const out = zlib.gzipSync(Buffer.from(jsonl, 'utf8'), { level: 9 });
+  out[9] = 3;
+  return out;
+}
+
+export const gunzipText = (data: Buffer): string => zlib.gunzipSync(data).toString('utf8');
+
+/** TSV columns, the FeedRecord fields in feed order. A field missing here fails the build. */
+export const TSV_COLUMNS = [
+  'item_id', 'title', 'description', 'url', 'brand', 'seller_name', 'seller_url', 'image_url', 'price',
+  'availability', 'condition', 'is_digital', 'product_category', 'target_countries', 'store_country',
+  'return_policy', 'accepts_returns',
+] as const;
+
+/**
+ * Records as TSV: UTF-8, header row, one item a line, LF. Arrays are JSON
+ * (["UZ"]), booleans true/false, an absent optional field an empty cell (the
+ * spec reads an empty delimited cell as no value). A tab or line break inside a
+ * value fails the build: TSV has no quoting.
+ */
+export function serializeTsv(records: readonly FeedRecord[]): string {
+  const columns = new Set<string>(TSV_COLUMNS);
+  const cell = (id: string, column: string, value: unknown): string => {
+    if (value === undefined) return '';
+    const text = typeof value === 'string' ? value : typeof value === 'boolean' || typeof value === 'number' ? String(value) : JSON.stringify(value);
+    if (/[\t\r\n]/.test(text)) throw new Error(`${id}: ${column} contains a tab or line break`);
+    return text;
+  };
+  const lines = records.map((record) => {
+    for (const key of Object.keys(record)) if (!columns.has(key)) throw new Error(`${record.item_id}: field ${key} has no TSV column`);
+    const row = record as unknown as Record<string, unknown>;
+    return TSV_COLUMNS.map((column) => cell(record.item_id, column, row[column])).join('\t');
+  });
+  return [TSV_COLUMNS.join('\t'), ...lines].join('\n') + '\n';
+}
+
+/** TSV rows back to records (types restored), for the tests and the validator. */
+export function parseTsv(text: string): { header: string[]; records: Array<Record<string, unknown>>; errors: string[] } {
+  const errors: string[] = [];
+  if (text.charCodeAt(0) === 0xfeff) errors.push('TSV starts with a BOM');
+  if (text.includes('\r')) errors.push('TSV has CR line endings');
+  const lines = text.split('\n');
+  if (lines.at(-1) === '') lines.pop();
+  const header = (lines.shift() ?? '').split('\t');
+  const records = lines.map((line, index) => {
+    const cells = line.split('\t');
+    if (cells.length !== header.length) errors.push(`TSV row ${index + 2}: ${cells.length} cells, header has ${header.length}`);
+    const record: Record<string, unknown> = {};
+    header.forEach((column, i) => {
+      const value = cells[i] ?? '';
+      if (value === '') return;
+      if (column === 'target_countries') {
+        try { record[column] = JSON.parse(value); } catch { errors.push(`TSV row ${index + 2}: ${column} is not JSON`); }
+      } else if (column === 'is_digital' || column === 'accepts_returns') {
+        if (value !== 'true' && value !== 'false') errors.push(`TSV row ${index + 2}: ${column} is not true/false`);
+        record[column] = value === 'true';
+      } else {
+        record[column] = value;
+      }
+    });
+    return record;
+  });
+  return { header, records, errors };
+}
+
+/** The TSV must hold exactly the JSONL records: same ids, order, prices and every other field. */
+export function validateTsvText(tsv: string, jsonl: string): string[] {
+  const { header, records, errors } = parseTsv(tsv);
+  if (JSON.stringify(header) !== JSON.stringify(TSV_COLUMNS)) errors.push('TSV header differs from the column list');
+  const expected = jsonl.trim().split('\n').map((line) => JSON.parse(line) as Record<string, unknown>);
+  if (records.length !== expected.length) errors.push(`TSV has ${records.length} rows, JSONL ${expected.length}`);
+  expected.forEach((record, i) => {
+    if (JSON.stringify(records[i]) !== JSON.stringify(record)) errors.push(`TSV row ${i + 2} (${String(record.item_id)}) differs from the JSONL record`);
+  });
+  return errors;
+}
+
 // ---------- validation ----------
 
 const REQUIRED_FIELDS = [
   'item_id', 'title', 'description', 'url', 'brand', 'seller_name', 'seller_url', 'image_url',
   'availability', 'price', 'target_countries', 'store_country',
 ] as const;
-const IMAGE_EXT_RE = /\.(jpe?g|png|webp)$/i;
+const IMAGE_EXT_RE = /\.(jpe?g|png)$/i;
 const FORBIDDEN_WORDS_RE = /\bofficial\b|\brasmiy\b|официальн/i;
 
 /** Every rule of the task; returns human-readable errors, empty when the feed is valid. */
-export function validateFeedText(text: string): string[] {
+export function validateFeedText(text: string, options: { includeFreeTrial?: boolean } = {}): string[] {
+  const includeFreeTrial = options.includeFreeTrial ?? INCLUDE_FREE_TRIAL;
   const errors: string[] = [];
   if (text.charCodeAt(0) === 0xfeff) errors.push('file starts with a BOM');
   if (!text.endsWith('\n')) errors.push('file does not end with a newline');
@@ -611,7 +781,7 @@ export function validateFeedText(text: string): string[] {
         errors.push(`${id}: ${field} is not an absolute ${SITE}/ URL`);
       }
     }
-    if (typeof record.image_url === 'string' && !IMAGE_EXT_RE.test(record.image_url)) errors.push(`${id}: image_url is not a jpg/png/webp file`);
+    if (typeof record.image_url === 'string' && !IMAGE_EXT_RE.test(record.image_url)) errors.push(`${id}: image_url is not a JPEG or PNG file`);
     if (record.brand !== BRAND || record.seller_name !== BRAND) errors.push(`${id}: brand and seller_name must be ${BRAND}`);
     if (record.seller_url !== `${SITE}/`) errors.push(`${id}: seller_url must be ${SITE}/`);
     if (JSON.stringify(record.target_countries) !== '["UZ"]' || record.store_country !== 'UZ') errors.push(`${id}: country must be UZ`);
@@ -619,6 +789,6 @@ export function validateFeedText(text: string): string[] {
     if ('is_digital' in record && typeof record.is_digital !== 'boolean') errors.push(`${id}: is_digital must be boolean`);
     if ('accepts_returns' in record && typeof record.accepts_returns !== 'boolean') errors.push(`${id}: accepts_returns must be boolean`);
   });
-  for (const locked of LOCKED_ITEM_IDS) if (!ids.has(locked)) errors.push(`${locked}: locked item_id is missing (ids are never removed or renamed)`);
+  for (const locked of LOCKED_ITEM_IDS) if (!ids.has(locked) && (includeFreeTrial || locked !== FREE_TRIAL_ITEM_ID)) errors.push(`${locked}: locked item_id is missing (ids are never removed or renamed)`);
   return errors;
 }

@@ -3898,7 +3898,7 @@
     "next": "Owner: run the Claude in Chrome prompt (Hub name GPTBot.uz, description, products, agent; Bing Webmaster import + sitemap). Agents: weekly OpenSEO read; outreach texts for the listicles ChatGPT cites (neuromayak.com, neiroskop.ru, inqreon.com) on request."
   },
   "openai_product_feed_20261123": {
-    "status": "pr_open_deploy_pending",
+    "status": "live_db3a37b3",
     "owner_request": "Owner in chat, 2026-11-23: OpenAI product feed for gptbot.uz (ChatGPT Business Hub → Products → Hosted URL), regenerated on every deploy, branch feat/openai-product-feed + PR.",
     "url": "https://gptbot.uz/openai-product-feed.jsonl",
     "records": 33,
@@ -3907,5 +3907,18 @@
     "spec_risks": "price 0 for gptbot-ai-chat-trial (spec: positive price); WebP og:image on 5 records (spec examples JPEG/PNG); target_countries UZ (spec documents US/CA/MX)",
     "decision": "D-OPENAI-FEED-20261123",
     "next": "merge, deploy via the workflow, npm run feed:openai:live, owner pastes the Hosted URL in Business Hub"
+  },
+  "openai_product_feed_gzip_20261123": {
+    "status": "pr_open_deploy_pending",
+    "owner_request": "Owner in chat, 2026-11-23: Business Hub rejected the plain .jsonl; add .jsonl.gz (main Hosted URL) and .tsv (fallback), JPEG copies for WebP images, INCLUDE_FREE_TRIAL flag; branch → PR → merge → deploy.",
+    "urls": {
+      "main": "https://gptbot.uz/openai-product-feed.jsonl.gz",
+      "fallback": "https://gptbot.uz/openai-product-feed.tsv",
+      "plain": "https://gptbot.uz/openai-product-feed.jsonl"
+    },
+    "records": 33,
+    "webp_records_replaced": "12 records, 5 images → public/assets/feed/*.jpg (1200px)",
+    "include_free_trial": true,
+    "decision": "D-OPENAI-FEED-GZIP-20261123"
   }
 }

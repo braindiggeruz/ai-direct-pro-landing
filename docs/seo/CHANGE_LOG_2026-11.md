@@ -442,3 +442,7 @@ GSC, final, web, 18.10–14.11.2026 (28 дней). «Последний обхо
 **Страницы не менялись.** Ни один title, description, H1, текст или URL; меняются только `dist/_headers` (блок для фида) и сам файл фида.
 
 **Как читать эффект.** С даты, когда владелец вставит Hosted URL в Business Hub: упоминания и клики из Hub (база 23.11: 239 упоминаний за 7 дней, 54 клика на сайт), сессии `chatgpt.com` в GA4 по страницам услуг.
+
+## OpenAI feed v2 (23.11.2026, ветка `feat/openai-feed-gzip`)
+
+Business Hub не принял несжатый `.jsonl`. Добавлены `https://gptbot.uz/openai-product-feed.jsonl.gz` (основной Hosted URL) и `https://gptbot.uz/openai-product-feed.tsv` (резерв); у 12 позиций с WebP-картинкой (5 изображений) в фиде теперь JPEG-копии из `/assets/feed/`. Страницы, их тексты и картинки не менялись. Решение — D-OPENAI-FEED-GZIP-20261123.

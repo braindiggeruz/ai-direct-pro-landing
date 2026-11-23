@@ -16,3 +16,10 @@ src/gpt-chat/premium.css text eol=lf
 
 # Ready config patches (docs/paid-chat/MODEL-CLIFF-1712-RU.md): git apply needs them byte-exact with LF.
 docs/paid-chat/patches/*.patch text eol=lf
+
+# OpenAI product feed (scripts/build-openai-feed.ts): the build compares these
+# byte for byte, so they keep LF on Windows; the .gz is binary.
+public/openai-product-feed.jsonl text eol=lf
+public/openai-product-feed.tsv text eol=lf
+public/openai-product-feed.jsonl.gz binary
+scripts/openai-feed-images.json text eol=lf

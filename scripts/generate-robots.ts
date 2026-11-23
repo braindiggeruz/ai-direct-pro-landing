@@ -320,6 +320,19 @@ headers.push('  ! Cache-Control');
 headers.push('  Cache-Control: public, max-age=3600');
 headers.push('  Content-Type: application/x-ndjson; charset=utf-8');
 headers.push('  Access-Control-Allow-Origin: *');
+// The gzip feed is the Hosted URL: the client must receive the archive bytes.
+// application/gzip is not a type Cloudflare compresses, and no-transform tells
+// the edge not to re-encode or decompress it, so no Content-Encoding is added.
+headers.push('/openai-product-feed.jsonl.gz');
+headers.push('  ! Cache-Control');
+headers.push('  Cache-Control: public, max-age=3600, no-transform');
+headers.push('  Content-Type: application/gzip');
+headers.push('  Access-Control-Allow-Origin: *');
+headers.push('/openai-product-feed.tsv');
+headers.push('  ! Cache-Control');
+headers.push('  Cache-Control: public, max-age=3600');
+headers.push('  Content-Type: text/tab-separated-values; charset=utf-8');
+headers.push('  Access-Control-Allow-Origin: *');
 // Markdown twins for LLM agents: correct content-type + noindex so search
 // engines never treat them as duplicate HTML pages (anti-cannibalisation).
 headers.push('/*.md');

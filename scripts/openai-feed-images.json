@@ -1,0 +1,37 @@
+{
+  "/assets/blog/gpt-uzbek-tilida-online-1200.webp": {
+    "sourceSha256": "d13f501902ef91d769320ece94e7f2e01c842d7f4ac8966ffa6d6178b93c249e",
+    "jpg": "/assets/feed/gpt-uzbek-tilida-online-1200-6b9dc40c.jpg",
+    "jpgSha256": "6b9dc40cf835df066a87ce9907fe2eeaa5d2bf4d860155d64b88daa28dff54e9",
+    "width": 1200,
+    "height": 630
+  },
+  "/assets/digital/kontekstnaya-reklama-tashkent-1200.webp": {
+    "sourceSha256": "50d32ffedca8c4f245de7c705e7eb3379c8b40ef84158bbfef71ade717ddd280",
+    "jpg": "/assets/feed/kontekstnaya-reklama-tashkent-1200-388f5fb4.jpg",
+    "jpgSha256": "388f5fb4df005be2b922bddf4ac16da09816c0d34fc859708ca83e88a218ca8d",
+    "width": 1200,
+    "height": 800
+  },
+  "/assets/digital/smm-prodvizhenie-tashkent-1200.webp": {
+    "sourceSha256": "1ebe80d2084d30189651c7c870a4c7da427d4566899d2c28722c41c5d9baa5cb",
+    "jpg": "/assets/feed/smm-prodvizhenie-tashkent-1200-327594c3.jpg",
+    "jpgSha256": "327594c39cdd1769603a90cd5cf680ef981ac92f772297580e05127f98a8722a",
+    "width": 1200,
+    "height": 800
+  },
+  "/assets/digital/targetirovannaya-reklama-tashkent-1200.webp": {
+    "sourceSha256": "8e7e9e0d6fa3e999ed0465f842c2a734aeeb43ac189f87905d82f496a608406b",
+    "jpg": "/assets/feed/targetirovannaya-reklama-tashkent-1200-3492eb53.jpg",
+    "jpgSha256": "3492eb53e5554c2a7986b7089dcf36233a6de5ba89e9b0157d5dc715879741e4",
+    "width": 1200,
+    "height": 800
+  },
+  "/assets/seo/seo-prodvizhenie-saytov-tashkent-1200.webp": {
+    "sourceSha256": "2ca2eca8fc3f774877ef2d46d299fd9cc07a9010320ac32e16852bfa347dbd6b",
+    "jpg": "/assets/feed/seo-prodvizhenie-saytov-tashkent-1200-7c29e8c4.jpg",
+    "jpgSha256": "7c29e8c41f10cd5507704ff4c844501b534f81c8f1c89c3fbe7fba1410298fe0",
+    "width": 1200,
+    "height": 800
+  }
+}

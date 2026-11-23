@@ -1506,3 +1506,13 @@ Owner's request in chat, 23.11.2026: a hosted product feed for ChatGPT Business 
 - `item_id` values are append-only (`LOCKED_ITEM_IDS`). English descriptions state only page facts; each package keeps the Russian cell it was translated from, and the test fails when the page cell changes.
 - `return_policy` (`/ru/oferta/`) only on chat packs, the trial and Studio: the published offer does not cover agency services. `accepts_returns: false` on the two chat packs (the offer: a paid pack is not refundable). GPTBot Market is not in the feed.
 - Known deviations from the OpenAI spec, kept because the owner asked for them: the trial is `0 UZS` (the spec asks for a positive price), five records use the pages' WebP og:image (the spec's examples are JPEG/PNG), and `target_countries` is `["UZ"]` (the shared format currently documents US, CA, MX).
+
+## D-OPENAI-FEED-GZIP-20261123 — the Hosted URL is gzip JSONL, TSV is the fallback, feed images are JPEG
+
+Business Hub rejected `https://gptbot.uz/openai-product-feed.jsonl`: "This JSON file is not in the required gzip-compressed JSONL format" (accepted: .parquet, .jsonl.gz, .csv.gz, .tsv.gz, plain .csv/.tsv/.txt).
+
+- The generator writes three files from the same records: `openai-product-feed.jsonl.gz` (Hosted URL), `openai-product-feed.tsv` (fallback: header row, one item a line, arrays as JSON such as `["UZ"]`, booleans `true`/`false`, an absent optional field an empty cell, a tab or line break inside a value fails the build) and the plain `.jsonl`.
+- The `.gz` is served as `application/gzip` with `Cache-Control: public, max-age=3600, no-transform`: Cloudflare does not compress that type, and `no-transform` keeps the edge from re-encoding or decompressing it, so the client receives the archive bytes with no `Content-Encoding`.
+- Deflate output differs between zlib builds (Windows and Linux Node), so the writer keeps the committed `.gz` whenever it decompresses to the current JSONL; the header has mtime 0 and the OS byte pinned to Unix. The feed files are `eol=lf` in `.gitattributes` so Windows checkouts compare byte for byte.
+- WebP og:images (12 records, 5 images) are linked through 1200px JPEG copies in `public/assets/feed/`, named with a content hash because `/assets/*` is cached as immutable. `scripts/openai-feed-images.json` records each WebP's sha256; a JPEG is regenerated (sharp) only when its WebP changes, and a stale copy fails `--check`. Page images are untouched.
+- The 0 UZS trial row is behind `INCLUDE_FREE_TRIAL` (a committed constant, true): an environment variable would make the build differ from the committed feed and trip the release guard.

@@ -1,16 +1,21 @@
-// OpenAI product feed (public/openai-product-feed.jsonl → https://gptbot.uz/openai-product-feed.jsonl).
+// OpenAI product feed: public/openai-product-feed.jsonl.gz (the Hosted URL),
+// .tsv (fallback) and .jsonl (plain copy), served from https://gptbot.uz/.
 // The main rule: the price of every record is the price its page shows.
-// Also: the committed file is the one the generator writes now, every line
-// passes the feed rules, item ids are append-only, the edge serves the file
-// as NDJSON, and no route, redirect or Function catches the path.
+// Also: the committed files are what the generator writes now, the .gz
+// decompresses to the .jsonl byte for byte, the .tsv holds the same records,
+// every image is a shipped JPEG or PNG, item ids are append-only, the edge
+// serves the right types (the .gz without Content-Encoding), and no route,
+// redirect or Function catches the paths.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 
 import {
-  buildFeed, FEED_FILE, groupThousands, LOCKED_ITEM_IDS, normaliseSpaces, packageRow, pageText, readPage,
-  serializeFeed, SERVICE_ITEMS, SERVICE_PAGES, SITE, termInEnglish, validateFeedText, type FeedRecord,
+  buildFeed, FEED_FILE, FEED_GZ_FILE, FEED_IMAGE_DIR, FEED_TSV_FILE, FREE_TRIAL_ITEM_ID, groupThousands, gunzipText,
+  INCLUDE_FREE_TRIAL, LOCKED_ITEM_IDS, normaliseSpaces, packageRow, pageText, parseTsv, publicFile, readImageLock,
+  readPage, serializeFeed, serializeTsv, SERVICE_ITEMS, SERVICE_PAGES, sha256, SITE, termInEnglish, TSV_COLUMNS,
+  validateFeedText, validateTsvText, webpSources, type FeedRecord,
 } from '../scripts/openai-feed';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -18,10 +23,36 @@ const read = (file: string): string => fs.readFileSync(path.join(ROOT, file), 'u
 const built = buildFeed(ROOT);
 const committed = read(FEED_FILE);
 const records = committed.trim().split('\n').map((line) => JSON.parse(line) as FeedRecord);
+const gz = fs.readFileSync(path.join(ROOT, FEED_GZ_FILE));
+const tsv = read(FEED_TSV_FILE);
 
 test('the committed feed is exactly what the generator writes from the current prices', () => {
   assert.equal(committed, serializeFeed(built.records),
     `${FEED_FILE} is stale: run npx tsx scripts/build-openai-feed.ts and commit it`);
+  assert.equal(tsv, serializeTsv(built.records), `${FEED_TSV_FILE} is stale: run npx tsx scripts/build-openai-feed.ts and commit it`);
+});
+
+test('the .jsonl.gz is a gzip archive that decompresses to the .jsonl byte for byte', () => {
+  assert.deepEqual([...gz.subarray(0, 2)], [0x1f, 0x8b], 'gzip magic bytes');
+  assert.equal(gz[2], 8, 'deflate');
+  assert.ok(Buffer.from(gunzipText(gz), 'utf8').equals(fs.readFileSync(path.join(ROOT, FEED_FILE))), '.jsonl.gz ≠ .jsonl after gunzip');
+});
+
+test('the .tsv parses into the same records: same item ids, order and prices', () => {
+  assert.deepEqual(validateTsvText(tsv, committed), []);
+  const parsed = parseTsv(tsv);
+  assert.deepEqual(parsed.errors, []);
+  assert.deepEqual(parsed.header, [...TSV_COLUMNS]);
+  assert.deepEqual(parsed.records.map((r) => r.item_id), records.map((r) => r.item_id));
+  assert.deepEqual(parsed.records.map((r) => r.price), records.map((r) => r.price));
+  assert.equal(parsed.records.length, records.length);
+  assert.ok(!tsv.includes('\r') && tsv.charCodeAt(0) !== 0xfeff, 'UTF-8 without BOM, LF only');
+  for (const row of tsv.slice(0, -1).split('\n')) assert.equal(row.split('\t').length, TSV_COLUMNS.length, 'one cell per column, no tab inside a value');
+  assert.match(tsv.split('\n')[1], /\t\["UZ"\]\tUZ\t/, 'target_countries is a JSON string');
+  assert.throws(() => serializeTsv([{ ...records[0], title: 'a\tb' }]), /tab or line break/);
+  assert.throws(() => serializeTsv([{ ...records[0], description: 'a\nb' }]), /tab or line break/);
+  assert.throws(() => serializeTsv([{ ...records[0], extra: 'x' } as FeedRecord]), /has no TSV column/);
+  assert.ok(validateTsvText(tsv.replace('\t5000 UZS\t', '\t5900 UZS\t'), committed).some((e) => /differs/.test(e)));
 });
 
 test('every line passes the feed rules', () => {
@@ -55,20 +86,66 @@ test('after a build, the prerendered page HTML shows the same price', (t) => {
   if (!checked) t.skip('no dist/ build present; run npm run build:fast');
 });
 
-test('the pages behind the feed are published and indexable, and every image ships in public/', () => {
+test('the pages behind the feed are published and indexable', () => {
   for (const proof of built.proofs) {
     const page = readPage(ROOT, proof.page);
     assert.equal(page.status, 'published', `${page.url} is not published`);
     assert.notEqual(page.robotsIndex, false, `${page.url} is noindex (it would answer 404)`);
   }
-  // /assets/studio/* is the Studio build (apps/studio, base /assets/studio/), whose public/ ships verbatim.
-  for (const record of records) {
-    const pathname = new URL(record.image_url).pathname;
-    const file = pathname.startsWith('/assets/studio/')
-      ? path.join(ROOT, 'apps/studio/public', pathname.slice('/assets/studio/'.length))
-      : path.join(ROOT, 'public', pathname);
-    assert.ok(fs.existsSync(file), `${record.item_id}: ${record.image_url} is not a shipped file (${path.relative(ROOT, file)})`);
+});
+
+/** Width of a JPEG (SOF marker) or PNG (IHDR). */
+function imageWidth(data: Buffer): number {
+  if (data.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return data.readUInt32BE(16);
+  for (let i = 2; i < data.length - 9;) {
+    if (data[i] !== 0xff) { i += 1; continue; }
+    const marker = data[i + 1];
+    if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) return data.readUInt16BE(i + 7);
+    i += 2 + data.readUInt16BE(i + 2);
   }
+  throw new Error('no SOF marker');
+}
+
+test('every image_url is a shipped JPEG or PNG; WebP og:images are linked through 1200px JPEG copies', () => {
+  for (const record of records) {
+    const sitePath = new URL(record.image_url).pathname;
+    assert.match(sitePath, /\.(jpe?g|png)$/i, `${record.item_id}: image_url is not .jpg or .png`);
+    const file = publicFile(ROOT, sitePath);
+    assert.ok(fs.existsSync(file), `${record.item_id}: ${record.image_url} is not a shipped file (${path.relative(ROOT, file)})`);
+    const data = fs.readFileSync(file);
+    const jpeg = data[0] === 0xff && data[1] === 0xd8 && data[2] === 0xff;
+    const png = data.subarray(0, 4).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
+    assert.ok(jpeg || png, `${record.item_id}: ${sitePath} is not JPEG or PNG data`);
+    assert.ok(imageWidth(data) <= 1200 && imageWidth(data) >= 600, `${record.item_id}: ${sitePath} is ${imageWidth(data)}px wide`);
+  }
+  const lock = readImageLock(ROOT);
+  const sources = webpSources(ROOT);
+  assert.deepEqual(Object.keys(lock).sort(), sources, 'the image lock lists exactly the WebP og:images the feed needs');
+  for (const [source, entry] of Object.entries(lock)) {
+    assert.equal(sha256(fs.readFileSync(publicFile(ROOT, source))), entry.sourceSha256, `${source} changed: run npx tsx scripts/build-openai-feed.ts`);
+    const copy = fs.readFileSync(publicFile(ROOT, entry.jpg));
+    assert.equal(sha256(copy), entry.jpgSha256, `${entry.jpg} differs from its lock entry`);
+    assert.ok(entry.jpg.startsWith(FEED_IMAGE_DIR) && entry.jpg.includes(entry.jpgSha256.slice(0, 8)), 'the copy name carries its content hash');
+    assert.equal(imageWidth(copy), 1200);
+    assert.equal(entry.width, 1200);
+  }
+  const shipped = fs.readdirSync(publicFile(ROOT, FEED_IMAGE_DIR)).sort();
+  assert.deepEqual(shipped, Object.values(lock).map((e) => path.basename(e.jpg)).sort(), 'no orphan files in public/assets/feed/');
+  // The page images themselves stay as they are.
+  for (const source of sources) assert.match(source, /\.webp$/);
+});
+
+test('INCLUDE_FREE_TRIAL switches the 0 UZS trial row without breaking the locked-id rule', () => {
+  assert.equal(INCLUDE_FREE_TRIAL, true, 'the owner keeps the trial row for now (23.11.2026)');
+  assert.equal(records[0].item_id, FREE_TRIAL_ITEM_ID);
+  assert.equal(records[0].price, '0 UZS');
+  const without = buildFeed(ROOT, { includeFreeTrial: false });
+  assert.ok(!without.records.some((r) => r.item_id === FREE_TRIAL_ITEM_ID));
+  assert.equal(without.records.length, built.records.length - 1);
+  const text = serializeFeed(without.records);
+  assert.deepEqual(validateFeedText(text, { includeFreeTrial: false }), []);
+  assert.ok(validateFeedText(text, { includeFreeTrial: true }).some((e) => e.includes(`${FREE_TRIAL_ITEM_ID}: locked item_id is missing`)));
+  assert.deepEqual(validateTsvText(serializeTsv(without.records), text), []);
 });
 
 test('item ids are the locked list in order, plus appended ones only', () => {
@@ -87,7 +164,7 @@ test('each English package description was written from the cell the page shows 
 
 test('wording rules: monthly, starting price, ad budget, AI costs, not OpenAI, never "official"', () => {
   const byId = new Map(records.map((r) => [r.item_id, r]));
-  for (const id of ['gptbot-ai-chat-trial', 'gptbot-ai-pack-3d', 'gptbot-ai-pack-1m']) {
+  for (const id of [...(INCLUDE_FREE_TRIAL ? [FREE_TRIAL_ITEM_ID] : []), 'gptbot-ai-pack-3d', 'gptbot-ai-pack-1m']) {
     assert.match(byId.get(id)!.description, /Independent AI chat, not ChatGPT and not an OpenAI product\./);
   }
   for (const id of ['gptbot-ai-pack-3d', 'gptbot-ai-pack-1m']) assert.equal(byId.get(id)!.accepts_returns, false);
@@ -141,7 +218,8 @@ test('the validator rejects every rule violation', () => {
     ['official', { ...good, description: `${String(good.description)} Official partner.` }, /official/],
     ['http url', { ...good, url: 'http://gptbot.uz/ru/ai-bot-dlya-biznesa/' }, /url is not an absolute/],
     ['foreign image', { ...good, image_url: 'https://example.com/a.jpg' }, /image_url is not an absolute/],
-    ['not an image', { ...good, image_url: 'https://gptbot.uz/ru/ai-bot-dlya-biznesa/' }, /not a jpg\/png\/webp/],
+    ['not an image', { ...good, image_url: 'https://gptbot.uz/ru/ai-bot-dlya-biznesa/' }, /not a JPEG or PNG/],
+    ['webp image', { ...good, image_url: 'https://gptbot.uz/assets/digital/smm-prodvizhenie-tashkent-1200.webp' }, /not a JPEG or PNG/],
     ['bad availability', { ...good, availability: 'available' }, /availability not allowed/],
     ['other country', { ...good, target_countries: ['US'] }, /country must be UZ/],
     ['renamed id', { ...good, item_id: 'gptbot-ai-bot-start' }, /locked item_id is missing/],
@@ -155,23 +233,43 @@ test('the validator rejects every rule violation', () => {
   assert.ok(validateFeedText(`\ufeff${committed}`).some((e) => /BOM/.test(e)));
 });
 
-test('the edge serves the feed as NDJSON with one Cache-Control, and nothing intercepts the path', () => {
+test('the edge serves each feed file with its type and one Cache-Control; the .gz without Content-Encoding', () => {
   const generator = read('scripts/generate-robots.ts');
-  const start = generator.indexOf("headers.push('/openai-product-feed.jsonl');");
-  assert.ok(start > -1, 'feed block missing from scripts/generate-robots.ts (it writes the production dist/_headers)');
-  const block = generator.slice(start, generator.indexOf('// Markdown twins', start));
-  for (const line of ['  ! Cache-Control', '  Cache-Control: public, max-age=3600', '  Content-Type: application/x-ndjson; charset=utf-8', '  Access-Control-Allow-Origin: *']) {
-    assert.ok(block.includes(`headers.push('${line}');`), `generate-robots.ts feed block lacks «${line}»`);
-  }
   const fallback = read('public/_headers');
-  assert.match(fallback, /\/openai-product-feed\.jsonl\n {2}Cache-Control: public, max-age=3600\n {2}Content-Type: application\/x-ndjson; charset=utf-8\n {2}Access-Control-Allow-Origin: \*/);
+  const blocks: Array<[string, string[]]> = [
+    ['/openai-product-feed.jsonl', ['  Cache-Control: public, max-age=3600', '  Content-Type: application/x-ndjson; charset=utf-8']],
+    ['/openai-product-feed.jsonl.gz', ['  Cache-Control: public, max-age=3600, no-transform', '  Content-Type: application/gzip']],
+    ['/openai-product-feed.tsv', ['  Cache-Control: public, max-age=3600', '  Content-Type: text/tab-separated-values; charset=utf-8']],
+  ];
+  for (const [file, lines] of blocks) {
+    const start = generator.indexOf(`headers.push('${file}');`);
+    assert.ok(start > -1, `${file} block missing from scripts/generate-robots.ts (it writes the production dist/_headers)`);
+    const next = generator.indexOf("headers.push('/", start + 1);
+    const block = generator.slice(start, next);
+    for (const line of ['  ! Cache-Control', ...lines, '  Access-Control-Allow-Origin: *']) {
+      assert.ok(block.includes(`headers.push('${line}');`), `generate-robots.ts ${file} block lacks «${line}»`);
+    }
+    assert.ok(!block.split('\n').some((l) => l.startsWith('headers.push') && /Content-Encoding/i.test(l)), `${file}: no Content-Encoding header`);
+    const escaped = file.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    assert.match(fallback, new RegExp(`${escaped}\n {2}! Cache-Control\n`), `public/_headers ${file}: detach block`);
+    assert.match(fallback, new RegExp(`${escaped}\n${lines.map((l) => l.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('\n')}\n {2}Access-Control-Allow-Origin: \\*`), `public/_headers ${file}: header block`);
+  }
 
   const routes = JSON.parse(read('public/_routes.json')) as { include: string[] };
-  const caught = routes.include.filter((pattern) => new RegExp(`^${pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')}$`).test('/openai-product-feed.jsonl'));
-  assert.deepEqual(caught, [], 'a Pages Function route would answer the feed path');
-  assert.doesNotMatch(read('public/_redirects'), /^\/(\*|openai-product-feed\.jsonl)\s/m, 'a redirect rule would catch the feed path');
-  assert.doesNotMatch(read('scripts/generate-robots.ts'), /lines\.push\('\/(\*|openai-product-feed\.jsonl)\s/, 'a generated redirect rule would catch the feed path');
-  assert.ok(!fs.existsSync(path.join(ROOT, 'functions', 'openai-product-feed.jsonl.ts')));
+  for (const file of blocks.map(([f]) => f)) {
+    const caught = routes.include.filter((pattern) => new RegExp(`^${pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')}$`).test(file));
+    assert.deepEqual(caught, [], `a Pages Function route would answer ${file}`);
+  }
+  assert.doesNotMatch(read('public/_redirects'), /^\/(\*|openai-product-feed[^\s]*)\s/m, 'a redirect rule would catch a feed path');
+  assert.doesNotMatch(generator, /lines\.push\('\/(\*|openai-product-feed[^\s']*)\s/, 'a generated redirect rule would catch a feed path');
+  assert.ok(!fs.readdirSync(path.join(ROOT, 'functions')).some((f) => f.startsWith('openai-product-feed')));
+});
+
+test('the feed files keep LF on Windows checkouts', () => {
+  const attributes = read('.gitattributes');
+  for (const line of ['public/openai-product-feed.jsonl text eol=lf', 'public/openai-product-feed.tsv text eol=lf', 'public/openai-product-feed.jsonl.gz binary']) {
+    assert.ok(attributes.includes(line), `.gitattributes lacks «${line}»`);
+  }
 });
 
 test('every build regenerates the feed before vite copies public/ into dist/', () => {
