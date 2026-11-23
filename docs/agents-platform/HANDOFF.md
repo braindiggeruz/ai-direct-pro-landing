@@ -1,3 +1,31 @@
+# Current handoff — offer edition ai-paket-2026-11-v7 (studio address) · 23.11.2026
+
+## 1. State
+Branch feat/offer-edition-v7. Main 663ac019 (wave 1a merged, not yet deployed); this PR and wave 1a deploy together.
+## 2. Delivered
+Offer edition v7: the offer pages' footer shows «Kichik Xalqa Yo‘li 57»; terms of v6 unchanged; billing and Studio edition settings, TERMS_PLAN and tests moved together.
+## 3. Files
+content/pages/{ru,uz}/oferta.json, wrangler.toml, functions/lib/studio/plans.ts, scripts/contact-card.ts, scripts/{one-tap-check,pack-window-preview}.ts, tests (legal-oferta, studio-contact, publisher-schema, studio-config, pages-config-parity, studio-plans, gpt-once-pack, gpt-guest-checkout, seo-protection), docs.
+## 4. Decisions
+D-OFFER-V7-20261123.
+## 5. Excluded
+Offer text, prices, refunds, requisites, contact set.
+## 6. Validation
+build:fast: both offers show v7 and Kichik Xalqa Yo‘li 57, no old street; studio-plans 19/19, gpt-once-pack 20/20, gpt-guest-checkout 14/14, pages-config-parity 8/8, publisher-schema 3/3, studio-live-gate 11/11, seo-protection 21/21; legal-oferta 3, studio-contact 4, studio-config 1 failures are the same as on main.
+## 7. Known limits
+Live gate with production names runs only at deploy.
+## 8. Next task
+Deploy; check-entity-consistency must pass on all 427 URLs; then wave 1b content.
+## 9. Acceptance
+Production offers state ai-paket-2026-11-v7 and the studio address; checkout keeps working (Click, Payme, both packs, Studio).
+## 10. Start commands
+npx tsx scripts/check-entity-consistency.ts
+## 11. Risks
+Medium-low: edition settings near checkout; the live gate refuses a mismatched deploy.
+## 12. Rollback
+git revert of the commit (back to v6 everywhere), deploy via the workflow.
+
+---
 # Current handoff — AI visibility wave 1a: llms.txt prices, entity check, baseline · 23.11.2026
 
 ## 1. State

@@ -604,7 +604,9 @@ test('the address revision changes body text only, by the footer address: the st
   assert.equal(site.streetAddress, NEW);
   assert.equal(site.address, `${NEW}, Toshkent, Uzbekistan`);
   assert.deepEqual(site.geo, { latitude: 41.3364, longitude: 69.2723 });
-  assert.match(fs.readFileSync(path.join(REPO, 'scripts/contact-card.ts'), 'utf8'), /OFFER_EDITION_NAP = \{\s*address: 'Yahyo Gulyamov ko‘chasi 35, Toshkent, Uzbekistan'/);
+  // The offers kept the old street until offer edition v7 (2026-11-23), which moved their footer to the
+  // same studio address; scripts/contact-card.ts pageNap now returns site.json for every page.
+  assert.doesNotMatch(fs.readFileSync(path.join(REPO, 'scripts/contact-card.ts'), 'utf8'), /OFFER_EDITION_NAP|Yahyo/);
   // Outside the protected set: the offers stay byte for byte, dates move only where a
   // section was added, no page is listed twice and none of them is protected.
   const { mainContent, addressOrFooterOnly, markupOnly, byteIdentical, datesMoved, internalLinks } = current.changedUnprotectedPages;

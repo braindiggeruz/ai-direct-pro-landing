@@ -1533,3 +1533,12 @@ Rules for the waves:
 - The `/en/` layer is a separate generator beside the ru/uz system (as Studio is), with hreflang only to unprotected counterparts; the protected chats keep A14 (no hreflang).
 - `public/llms.txt` quotes business prices only through the managed `service-prices` block, read from the same package tables as the product feed; the feed generator keeps the committed file current.
 - No text addressed to AI systems, no hidden text, no FAQPage without visible questions, no Offer/Review/Rating without visible data, no «official / rasmiy».
+
+## D-OFFER-V7-20261123 — offer edition ai-paket-2026-11-v7: the studio address in the offer footer
+
+Owner's answer in chat of 2026-11-23 to step-0 question 1 of the AI-visibility brief («Kichik Xalqa Yo‘li 57 адрес»): the studio address is the same everywhere, the offer pages included. The offer's visible text is frozen per edition, so the footer line moves with a new edition, ai-paket-2026-11-v7.
+
+- Terms: v6 word for word (both packs, prices, VAT, refunds, Studio sections). Only the studio address in the footer of `/ru/oferta/` and `/uz/oferta/` changes, from the historical street to «Kichik Xalqa Yo‘li 57» (content/global/site.json). The seller's registered address in the requisites (content/global/legal-entity.json) is unchanged.
+- Edition settings move together in one deploy: `termsVersion`, `lastReviewedAt` (2026-11-23, the day it takes effect) and `legalReviewedAt` on both offers; `GPT_BILLING_TERMS_VERSION` / `GPT_BILLING_TERMS_APPROVED_AT` (top level and in `GPTBOT_RUNTIME_CONFIG_JSON`); `STUDIO_TERMS_VERSION` / `STUDIO_TERMS_APPROVED_AT` in `STUDIO_RUNTIME_CONFIG_JSON`; `TERMS_PLAN` maps v7 to the same Studio plan (v5 and v6 stay, so orders of earlier editions keep their plan). An invoice opened under v6 gets 409 terms_changed, as designed.
+- `scripts/contact-card.ts` `pageNap` returns site.json for every page; `OFFER_EDITION_NAP` is gone. The offer's contact set (phone and e-mail, no Telegram) is unchanged.
+- Approval: the owner's chat answer, without a lawyer's review, as v3–v6 were.

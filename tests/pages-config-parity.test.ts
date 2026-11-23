@@ -236,9 +236,10 @@ test('STUDIO_RUNTIME_CONFIG_JSON is a top-level [vars] text variable, valid JSON
     STUDIO_FREE_TEXT_FALLBACK: '',
     STUDIO_PAID_SERVICE: 'on', STUDIO_FULL_DECK: 'true', STUDIO_PAYMENTS: 'live',
     STUDIO_PAYMENT_PROVIDERS: 'click,payme', STUDIO_CLICK_AMOUNTS_CONFIRMED: 'true', STUDIO_CLICK_USE_CHAT_SERVICE: 'true',
-    // The one offer of the chat and the studio: edition v6 of 2026-11-17 (the chat's two packs; the studio's sections are v5's).
-    STUDIO_TERMS_VERSION: 'ai-paket-2026-11-v6', STUDIO_TERMS_RU: 'https://gptbot.uz/ru/oferta/',
-    STUDIO_TERMS_UZ: 'https://gptbot.uz/uz/oferta/', STUDIO_TERMS_APPROVED_AT: '2026-11-17',
+    // The one offer of the chat and the studio: edition v7 of 2026-11-23 (the text of v6 of 2026-11-17, the chat's two
+    // packs and the studio's sections of v5; the offer pages' footer shows the studio address «Kichik Xalqa Yo‘li 57»).
+    STUDIO_TERMS_VERSION: 'ai-paket-2026-11-v7', STUDIO_TERMS_RU: 'https://gptbot.uz/ru/oferta/',
+    STUDIO_TERMS_UZ: 'https://gptbot.uz/uz/oferta/', STUDIO_TERMS_APPROVED_AT: '2026-11-23',
   };
   const on = { ...launch, ...FREE_DECK_SWITCHES.on };
   const off = { ...launch, ...FREE_DECK_SWITCHES.off };

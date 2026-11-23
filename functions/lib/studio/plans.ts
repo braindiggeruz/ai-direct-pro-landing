@@ -104,6 +104,8 @@ export const TERMS_PLAN: Readonly<Record<string, StudioPlanVersion>> = {
   "ai-paket-2026-10-v5": "studio-2026-10-decks-v1",
   // ai-paket-2026-11-v6 added the chat's 3-day pack; the studio's sections are word for word those of v5.
   "ai-paket-2026-11-v6": "studio-2026-10-decks-v1",
+  // ai-paket-2026-11-v7 keeps the terms of v6 word for word; only the studio address in the offer pages' footer changed (owner, 2026-11-23).
+  "ai-paket-2026-11-v7": "studio-2026-10-decks-v1",
 };
 
 /** Free units per UTC day (= from 05:00 Tashkent, like the offer's «Сутки»). */

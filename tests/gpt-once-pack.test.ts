@@ -139,7 +139,8 @@ test("the committed configuration: the 3-day pack sells to everyone (live) or is
   assert.deepEqual(offeredPacks({ GPT_PACK_ONCE: flag }, "live"), flag === "live" ? [PACKS.month, PACKS.once] : [PACKS.month]);
   // Both offers of that edition name the pack as its receipt does; the release gate refuses "live" otherwise
   // (scripts/release/live-gate.ts, tests/legal-oferta.test.ts).
-  assert.equal(packed.GPT_BILLING_TERMS_VERSION, "ai-paket-2026-11-v6");
+  // v7 (2026-11-23) keeps the text of v6, which describes the pack.
+  assert.equal(packed.GPT_BILLING_TERMS_VERSION, "ai-paket-2026-11-v7");
   for (const locale of ["ru", "uz"]) assert.ok(read(`content/pages/${locale}/oferta.json`).includes(PACKS.once.receiptName), locale);
 });
 
