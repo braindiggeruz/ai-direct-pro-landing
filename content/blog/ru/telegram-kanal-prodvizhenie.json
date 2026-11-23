@@ -190,6 +190,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/nakrutka-podpischikov/",
+      "anchor": "накрутка подписчиков: чем опасна",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Продвижение Telegram-канала: как набрать подписчиков",

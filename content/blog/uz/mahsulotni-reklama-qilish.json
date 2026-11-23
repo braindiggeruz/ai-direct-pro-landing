@@ -260,6 +260,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 8
+    },
+    {
+      "target": "/uz/blog/reklama-bepul-usullari/",
+      "anchor": "biznesni bepul reklama qilish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 9
     }
   ],
   "ogTitle": "Mahsulotni qanday reklama qilish: 6 kanal",

@@ -370,6 +370,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 12
+    },
+    {
+      "target": "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+      "anchor": "Reels для рекомендаций Instagram",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 13
     }
   ],
   "ogTitle": "Рекламные креативы: 12 форматов и размеры",

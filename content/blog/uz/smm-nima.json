@@ -513,6 +513,20 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 2
+    },
+    {
+      "target": "/uz/blog/nakrutka-instagram-telegram/",
+      "anchor": "Instagram nakrutka nima uchun xavfli",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 3
+    },
+    {
+      "target": "/uz/blog/obunachi-kopaytirish-instagram/",
+      "anchor": "Instagram’da obunachi ko‘paytirish",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "SMM nima: ijtimoiy tarmoqlar orqali marketing",

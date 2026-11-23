@@ -83,7 +83,8 @@
   "internalLinks": [
     { "target": "/ru/lokalnoe-seo-tashkent/", "anchor": "системное продвижение на картах", "locale": "ru", "type": "contextual" },
     { "target": "/ru/blog/audit-kartochki-kompanii-na-kartah/", "anchor": "аудит локальной карточки", "locale": "ru", "type": "contextual" },
-    { "target": "/ru/blog/stoimost-lokalnogo-seo-v-tashkente/", "anchor": "оценка работ по локальному SEO", "locale": "ru", "type": "contextual" }
+    { "target": "/ru/blog/stoimost-lokalnogo-seo-v-tashkente/", "anchor": "оценка работ по локальному SEO", "locale": "ru", "type": "contextual" },
+    { "target": "/ru/blog/sposoby-besplatnoy-reklamy/", "anchor": "бесплатная реклама для бизнеса", "locale": "ru", "type": "contextual", "priority": 1 }
   ],
   "ogTitle": "Карты для бизнеса: Google, Яндекс и 2ГИС",
   "ogDescription": "Единые данные, категории, филиалы, отзывы, сайт и аналитика — практическое руководство для бизнеса.",

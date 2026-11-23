@@ -268,6 +268,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 9
+    },
+    {
+      "target": "/ru/blog/reklama-v-google-kak-nastroit/",
+      "anchor": "бюджет и ставки в Google Ads",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 10
     }
   ],
   "ogTitle": "Сколько стоит контекстная реклама в Ташкенте: цены 2026",

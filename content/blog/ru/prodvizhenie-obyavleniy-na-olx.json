@@ -257,6 +257,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 3
+    },
+    {
+      "target": "/ru/blog/sposoby-besplatnoy-reklamy/",
+      "anchor": "бесплатная реклама: карты, OLX, Telegram",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 4
     }
   ],
   "ogTitle": "Как подать объявление на OLX.uz и продвинуть его",

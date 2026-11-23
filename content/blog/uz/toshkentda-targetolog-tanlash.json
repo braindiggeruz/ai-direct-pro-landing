@@ -384,6 +384,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 10
+    },
+    {
+      "target": "/uz/blog/nakrutka-instagram-telegram/",
+      "anchor": "nakrutka o‘rniga haqiqiy reklama",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 11
     }
   ],
   "ogTitle": "Toshkentda targetolog tanlash: 15 savol",

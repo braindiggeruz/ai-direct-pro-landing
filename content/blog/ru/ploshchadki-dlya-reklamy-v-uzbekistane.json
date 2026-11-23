@@ -347,6 +347,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 16
+    },
+    {
+      "target": "/ru/blog/sposoby-besplatnoy-reklamy/",
+      "anchor": "бесплатные способы рекламы",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 17
     }
   ],
   "ogTitle": "Где рекламироваться в Узбекистане: сравнение 2026",

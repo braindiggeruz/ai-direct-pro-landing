@@ -273,6 +273,13 @@
       "anchor": "Xizmat tarkibi",
       "locale": "uz",
       "type": "contextual"
+    },
+    {
+      "target": "/uz/blog/obunachi-kopaytirish-instagram/",
+      "anchor": "Reels va Instagram tavsiyalari",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 1
     }
   ],
   "canonical": "https://gptbot.uz/uz/blog/kontent-nima/",

@@ -6225,6 +6225,225 @@
       "decidedAt": "2026-11-23",
       "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
       "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-78-ru-smm-service-vs-nakrutka-guide",
+      "commercial": {
+        "url": "/ru/smm-prodvizhenie-tashkent/",
+        "owns": "order SMM services in Tashkent — content, account management and Instagram promotion",
+        "mustNotTarget": [
+          "накрутка подписчиков",
+          "накрутка инстаграм",
+          "накрутка телеграм"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/nakrutka-podpischikov/",
+        "owns": "buying followers, likes and views: Instagram, Meta and Telegram rules, what happens to the account, and the honest alternative",
+        "mustNotTarget": [
+          "smm продвижение ташкент",
+          "smm услуги",
+          "smm услуги в ташкенте",
+          "заказать smm услуги",
+          "smm агентство ташкент",
+          "продвижение instagram ташкент"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-79-uz-internet-ads-hub-vs-nakrutka-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "instagram nakrutka",
+          "nakrutka",
+          "telegram nakrutka"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/nakrutka-instagram-telegram/",
+        "owns": "buying followers, likes and views (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-80-ru-smm-service-vs-instagram-growth-guide",
+      "commercial": {
+        "url": "/ru/smm-prodvizhenie-tashkent/",
+        "owns": "order SMM services in Tashkent — content, account management and Instagram promotion",
+        "mustNotTarget": [
+          "как набрать подписчиков в инстаграм",
+          "как раскрутить инстаграм",
+          "продвижение инстаграм бесплатно"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+        "owns": "organic Instagram growth: ranking signals, recommendation eligibility, original content, Reels specs and professional tools",
+        "mustNotTarget": [
+          "smm продвижение ташкент",
+          "smm услуги",
+          "smm услуги в ташкенте",
+          "заказать smm услуги",
+          "smm агентство ташкент",
+          "продвижение instagram ташкент"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-81-uz-internet-ads-hub-vs-instagram-growth-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "instagramda obunachi ko‘paytirish",
+          "obunachi ko‘paytirish",
+          "instagram obunachi"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/obunachi-kopaytirish-instagram/",
+        "owns": "organic Instagram growth (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-82-ru-telegram-bot-service-vs-messenger-mailing-guide",
+      "commercial": {
+        "url": "/ru/telegram-bot-dlya-biznesa/",
+        "owns": "build a Telegram bot for a business: orders, payments, broadcasts and an AI manager",
+        "mustNotTarget": [
+          "вайбер рассылка",
+          "рассылка в телеграм",
+          "рассылка whatsapp"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/telegram-whatsapp-viber-rassylka/",
+        "owns": "messenger mailings: consent, Telegram bot limits, WhatsApp templates and the 24-hour window, Viber Business Messages and the law",
+        "mustNotTarget": [
+          "telegram-бот для бизнеса в узбекистане",
+          "разработка telegram-ботов в узбекистане",
+          "telegram-рассылки",
+          "бот для приёма заказов telegram",
+          "бот-магазин telegram"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-83-ru-contextual-service-vs-google-ads-setup-guide",
+      "commercial": {
+        "url": "/ru/kontekstnaya-reklama-tashkent/",
+        "owns": "the contextual advertising service: Google Ads and Yandex Direct setup and management",
+        "mustNotTarget": [
+          "гугл адс",
+          "гугл реклама",
+          "как настроить гугл рекламу"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/reklama-v-google-kak-nastroit/",
+        "owns": "step-by-step Google Ads setup: account, goals and campaign types, budget, match types, negatives, conversions, geo and review",
+        "mustNotTarget": [
+          "контекстная реклама в ташкенте",
+          "настройка контекстной рекламы ташкент",
+          "google ads узбекистан",
+          "яндекс директ узбекистан",
+          "ведение контекстной рекламы",
+          "заказать контекстную рекламу"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-84-ru-internet-ads-hub-vs-free-advertising-guide",
+      "commercial": {
+        "url": "/ru/internet-reklama-tashkent/",
+        "owns": "the internet advertising service hub: channels, packages, order",
+        "mustNotTarget": [
+          "бесплатная реклама",
+          "реклама бесплатно",
+          "бесплатные способы рекламы"
+        ]
+      },
+      "informational": {
+        "url": "/ru/blog/sposoby-besplatnoy-reklamy/",
+        "owns": "free advertising for a business: Google Business Profile, Yandex Business, 2GIS, OLX limits, a Telegram channel and Instagram",
+        "mustNotTarget": [
+          "интернет реклама ташкент",
+          "реклама в интернете",
+          "настройка рекламы",
+          "интернет реклама для бизнеса",
+          "лидогенерация"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
+    },
+    {
+      "id": "W20261123-85-uz-internet-ads-hub-vs-free-advertising-guide",
+      "commercial": {
+        "url": "/uz/internet-reklama-toshkent/",
+        "owns": "the Uzbek internet advertising service hub",
+        "mustNotTarget": [
+          "bepul reklama",
+          "tekin reklama",
+          "reklama bepul"
+        ]
+      },
+      "informational": {
+        "url": "/uz/blog/reklama-bepul-usullari/",
+        "owns": "free advertising for a business (Uzbek)",
+        "mustNotTarget": [
+          "internet reklama toshkent",
+          "internetda reklama",
+          "reklama berish",
+          "toshkentda reklama berish",
+          "reklama xizmati toshkent"
+        ]
+      },
+      "decision": "DIFFERENTIATE",
+      "decidedAt": "2026-11-23",
+      "evidence": "docs/seo/research/2026-11-23-ads-cluster-2/ (owner request 23.11: capture as many advertising queries as possible; OpenSEO Google Ads volumes for location 2860 and platform help pages checked on 2026-11-23)",
+      "gscNote": "New URL, no Search Console history."
     }
   ],
   "architectureDecisions": [

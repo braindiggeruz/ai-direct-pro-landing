@@ -1,0 +1,409 @@
+{
+  "checkedAt": "2026-11-23T15:23:48.742Z",
+  "predecessorRevision": "docs/seo/evidence/2026-11-23-ads-gpt-d4/reviewed-protected-pages.json",
+  "sitemapBefore": 517,
+  "sitemapAfter": 525,
+  "added": [
+    "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+    "/ru/blog/nakrutka-podpischikov/",
+    "/ru/blog/reklama-v-google-kak-nastroit/",
+    "/ru/blog/sposoby-besplatnoy-reklamy/",
+    "/ru/blog/telegram-whatsapp-viber-rassylka/",
+    "/uz/blog/nakrutka-instagram-telegram/",
+    "/uz/blog/obunachi-kopaytirish-instagram/",
+    "/uz/blog/reklama-bepul-usullari/"
+  ],
+  "notBuilt": [
+    "/ru/prezentatsiya-ai/",
+    "/uz/taqdimot-ai/",
+    "/uz/tariflar/"
+  ],
+  "coverage": [
+    {
+      "url": "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/chto-takoe-smm-prodvizhenie/",
+        "/ru/blog/nakrutka-podpischikov/",
+        "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+        "/ru/blog/targeting-v-instagram/"
+      ]
+    },
+    {
+      "url": "/ru/blog/nakrutka-podpischikov/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/chto-takoe-smm-prodvizhenie/",
+        "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+        "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+        "/ru/blog/telegram-kanal-prodvizhenie/"
+      ]
+    },
+    {
+      "url": "/ru/blog/reklama-v-google-kak-nastroit/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+        "/ru/blog/minus-slova-google-ads/",
+        "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/"
+      ]
+    },
+    {
+      "url": "/ru/blog/sposoby-besplatnoy-reklamy/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+        "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+        "/ru/blog/prodvizhenie-obyavleniy-na-olx/"
+      ]
+    },
+    {
+      "url": "/ru/blog/telegram-whatsapp-viber-rassylka/",
+      "incoming": [
+        "/ru/blog/",
+        "/ru/blog/sms-rassylka-v-uzbekistane/",
+        "/ru/blog/telegram-bot-dlya-biznesa/",
+        "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/"
+      ]
+    },
+    {
+      "url": "/uz/blog/nakrutka-instagram-telegram/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/obunachi-kopaytirish-instagram/",
+        "/uz/blog/smm-nima/",
+        "/uz/blog/telegram-kanalni-rivojlantirish/",
+        "/uz/blog/toshkentda-targetolog-tanlash/"
+      ]
+    },
+    {
+      "url": "/uz/blog/obunachi-kopaytirish-instagram/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/kontent-nima/",
+        "/uz/blog/nakrutka-instagram-telegram/",
+        "/uz/blog/reklama-kreativlari/",
+        "/uz/blog/smm-nima/"
+      ]
+    },
+    {
+      "url": "/uz/blog/reklama-bepul-usullari/",
+      "incoming": [
+        "/uz/blog/",
+        "/uz/blog/mahsulotni-reklama-qilish/",
+        "/uz/blog/olx-elon-berish/",
+        "/uz/blog/reklama-turlari/"
+      ]
+    }
+  ],
+  "intendedMetadataChanges": {},
+  "changes": [
+    {
+      "url": "/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+        "/ru/blog/nakrutka-podpischikov/",
+        "/ru/blog/reklama-v-google-kak-nastroit/",
+        "/ru/blog/sposoby-besplatnoy-reklamy/",
+        "/ru/blog/telegram-whatsapp-viber-rassylka/",
+        "/uz/blog/nakrutka-instagram-telegram/",
+        "/uz/blog/obunachi-kopaytirish-instagram/",
+        "/uz/blog/reklama-bepul-usullari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+        "/ru/blog/nakrutka-podpischikov/",
+        "/ru/blog/reklama-v-google-kak-nastroit/",
+        "/ru/blog/sposoby-besplatnoy-reklamy/",
+        "/ru/blog/telegram-whatsapp-viber-rassylka/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/nakrutka-instagram-telegram/",
+        "/uz/blog/obunachi-kopaytirish-instagram/",
+        "/uz/blog/reklama-bepul-usullari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/chto-takoe-smm-prodvizhenie/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+        "/ru/blog/nakrutka-podpischikov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/google-ads-ili-yandeks-direkt-uzbekistan/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-v-google-kak-nastroit/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/google-maps-yandex-2gis-dlya-biznesa/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sposoby-besplatnoy-reklamy/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/kak-vybrat-targetologa-v-tashkente/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/nakrutka-podpischikov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/minus-slova-google-ads/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-v-google-kak-nastroit/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/ploshchadki-dlya-reklamy-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sposoby-besplatnoy-reklamy/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/prodvizhenie-obyavleniy-na-olx/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/sposoby-besplatnoy-reklamy/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/reklamnye-kreativy-dlya-instagram-i-telegram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-nabrat-podpischikov-v-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/skolko-stoit-kontekstnaya-reklama-tashkent-2026/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/reklama-v-google-kak-nastroit/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/sms-rassylka-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/telegram-whatsapp-viber-rassylka/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/targeting-v-instagram/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/kak-nabrat-podpischikov-v-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/telegram-bot-dlya-biznesa/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/telegram-whatsapp-viber-rassylka/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/telegram-kanal-prodvizhenie/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/nakrutka-podpischikov/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/ru/blog/whatsapp-bot-dlya-biznesa-v-uzbekistane/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/ru/blog/telegram-whatsapp-viber-rassylka/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/kontent-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/obunachi-kopaytirish-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/mahsulotni-reklama-qilish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-bepul-usullari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/olx-elon-berish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-bepul-usullari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-kreativlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/obunachi-kopaytirish-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/reklama-turlari/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/reklama-bepul-usullari/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/smm-nima/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/nakrutka-instagram-telegram/",
+        "/uz/blog/obunachi-kopaytirish-instagram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/telegram-kanalni-rivojlantirish/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/nakrutka-instagram-telegram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/uz/blog/toshkentda-targetolog-tanlash/",
+      "fields": [
+        "internalLinks",
+        "bodyTextSha256"
+      ],
+      "addedLinks": [
+        "/uz/blog/nakrutka-instagram-telegram/"
+      ],
+      "removedLinks": []
+    },
+    {
+      "url": "/",
+      "protectedHomepage": true,
+      "addedHome": [
+        "/ru/blog/kak-nabrat-podpischikov-v-instagram/",
+        "/ru/blog/nakrutka-podpischikov/",
+        "/ru/blog/reklama-v-google-kak-nastroit/",
+        "/ru/blog/sposoby-besplatnoy-reklamy/",
+        "/ru/blog/telegram-whatsapp-viber-rassylka/",
+        "/uz/blog/nakrutka-instagram-telegram/",
+        "/uz/blog/obunachi-kopaytirish-instagram/",
+        "/uz/blog/reklama-bepul-usullari/"
+      ],
+      "relabelled": []
+    }
+  ],
+  "issues": [],
+  "jsonLdDocuments": 522
+}
