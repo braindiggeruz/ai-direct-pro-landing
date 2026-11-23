@@ -3961,5 +3961,25 @@
     "change": "studio address in the offer footer → Kichik Xalqa Yo‘li 57; terms of v6 unchanged",
     "owner_answer": "2026-11-23 «Kichik Xalqa Yo‘li 57 адрес»",
     "decision": "D-OFFER-V7-20261123"
+  },
+  "ads_cluster_gpt_roadmap_20261123": {
+    "status": "approved_wave_b_in_progress",
+    "owner_approval": "Owner in chat, 2026-11-23: maximum articles, do everything needed, do not spare credits; D1, D2, D6 accepted; D3-D5 unanswered (safe defaults); decision D-ADS-GPT-20261123",
+    "owner_request": "Owner in chat, 2026-11-23: AnswerThePublic paid; analyse what people ask about targeting and advertising and give a roadmap of articles that wins the most traffic from GPT answers; act comprehensively.",
+    "roadmap": "docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md",
+    "data": "ai-prompts.tsv (725 ChatGPT/Gemini prompts from 29 AnswerThePublic searches), google-suggestions.tsv (1 735 unique Google suggestions)",
+    "baseline": "ChatGPT, 14 neutral ad prompts (OpenSEO run 90abfd55, 23.11): GPTBot.uz mentioned 1/14 and cited 1/14 (the RU target page with the price in its title); GSC 20.08-20.11: about 46 clicks on reklam/smm/target/telegram-ads URLs, money pages 19 clicks in 93 days; Business Hub advertising topic 12.6%",
+    "tracker_topic": "Ads 2026-11-23: 14 prompts added to tracker ec982400, weekly from 2026-11-30",
+    "atp_access": "API key saved as a network secret on the Default environment for api.answerthepublic.com (proxy-injected; never in the repo or logs); language uz unsupported (422), Uzbek seeds run as ru + region uz; 71 searches left until 2026-12-23",
+    "plan": "wave A: no new URLs (target nima snippet, Telegram price in title, dated price blocks, llms.txt quick answers); wave B: 9 URLs (targetologist checklist, Telegram channel prices and selection, where to advertise / reklama turlari, ad creatives, Instagram launch from Uzbekistan); wave C: 6-10 URLs after the first measurement",
+    "owner_decisions_needed": [
+      "D1 AI demand (AnswerThePublic + tracker + Business Hub) counts as evidence for informational ads articles",
+      "D2 lift the telegram-uz and paid-media gates for wave B",
+      "D3 publish the Telegram Ads agency price",
+      "D4 ad case facts (CASES_TEMPLATE.md)",
+      "D5 confirm services: creatives, blogger placements, TikTok",
+      "D6 keep the advertising lane with the AI-citation metric (commercial clicks about 5.7 per 28 days vs the threshold of 5)"
+    ],
+    "next": "On owner approval: wave A, then wave B in separate PRs; re-measure with the tracker on 2026-11-30 and 14/28 days after each wave"
   }
 }

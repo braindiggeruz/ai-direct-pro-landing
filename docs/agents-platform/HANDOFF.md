@@ -1,3 +1,31 @@
+# Current handoff — advertising cluster: GPT-answer roadmap (AnswerThePublic) · 23.11.2026
+
+## 1. State
+Branch docs/ads-cluster-gpt-roadmap-20261123 from main 521f7afa. Research and roadmap only; no page, script or test changes. Production stays b72ac03c.
+## 2. Delivered
+docs/seo/research/2026-11-23-ads-cluster/ROADMAP.md (waves A/B/C, owner decisions D1–D6, stop rule), ai-prompts.tsv (725 ChatGPT/Gemini prompts), google-suggestions.tsv (1 735). OpenSEO tracker topic «Ads 2026-11-23» (14 prompts) and a one-off ChatGPT baseline (run 90abfd55: 1/14 mention, 1/14 citation).
+## 3. Files
+docs/seo/research/2026-11-23-ads-cluster/*, docs/seo/CHANGE_LOG_2026-11.md, docs/agents-platform/STATE.json, this file.
+## 4. Decisions
+None taken; D1–D6 await the owner (ROADMAP.md §7).
+## 5. Excluded
+Writing articles (needs the owner's go-ahead and D1/D2), courses/targetologist profession, outdoor ads, new SMM articles, a separate target price article.
+## 6. Validation
+Data pulled 23.11.2026: AnswerThePublic API (29 searches, 1 credit each), OpenSEO keyword metrics (Uzbekistan), GSC 20.08–20.11, ChatGPT check of 14 prompts (84 credits). Every number in ROADMAP.md comes from these pulls or from the cited repo docs.
+## 7. Known limits
+AnswerThePublic has no Uzbek language; its AI prompts are generated topic questions, not query logs; its Google volumes for region uz are sparse, so demand is taken from OpenSEO.
+## 8. Next task
+Owner decisions D1–D6; then wave A and wave B in separate PRs; tracker readings on 30.11 and 14/28 days after each wave.
+## 9. Acceptance
+Owner approves the roadmap (or edits it).
+## 10. Start commands
+ATP: curl https://api.answerthepublic.com/api/public/v1/me (the proxy injects the key); scripts used are in the session scratchpad, not the repo.
+## 11. Risks
+Low (docs only).
+## 12. Rollback
+git revert.
+
+---
 # Current handoff — AI visibility wave 3: contractor checklist, offsite texts, cases template · 23.11.2026
 
 ## 1. State
