@@ -3,7 +3,9 @@
 import type { BlogArticle, GlobalSEO, Page } from '../src/shared/types';
 import { articleUpdated, authoredDate, byUpdatedThenUrl, canonicalContent, escapeXml, pageUpdated, WEBSUB_HUB } from './feed-data';
 
-export const UPDATES_ITEM_LIMIT = 200;
+// 250 since 2026-11-23: the AI-visibility waves add new dated articles, and the bounded feed keeps
+// listing the core service pages (tests/updates-feed.test.ts) instead of pushing them out.
+export const UPDATES_ITEM_LIMIT = 250;
 export interface UpdateEntry {
   url: string;
   title: string;

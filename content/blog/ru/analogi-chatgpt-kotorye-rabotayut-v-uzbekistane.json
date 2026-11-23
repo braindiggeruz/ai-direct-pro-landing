@@ -225,6 +225,13 @@
       "locale": "ru",
       "type": "contextual",
       "priority": 4
+    },
+    {
+      "target": "/ru/blog/sravnenie-ai-chatov-na-uzbekskom/",
+      "anchor": "сравнение ИИ-чатов на узбекском",
+      "locale": "ru",
+      "type": "contextual",
+      "priority": 5
     }
   ],
   "ogTitle": "Аналоги ChatGPT, которые работают в Узбекистане",

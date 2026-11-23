@@ -469,3 +469,10 @@ Business Hub не принял несжатый `.jsonl`. Добавлены `ht
 - `public/llms.txt`: управляемый блок «Published starting prices of business services». Он собирается из таблиц пакетов страниц услуг (тот же источник, что у товарного фида) и содержит ссылку на фид. Добавлены 4 быстрых ответа: стоимость Telegram-бота, презентация с ИИ, оплата ChatGPT, CRM. Устаревшая фраза «bots… scoped and priced per business» заменена: цены «от» давно опубликованы.
 - `scripts/check-entity-consistency.ts`: обход sitemap — адрес, написание бренда, `og:site_name`, взаимность hreflang. 23.11 на проде из 427 URL падают только `/ru/oferta/` и `/uz/oferta/` (старый адрес в футере).
 - Страницы сайта не менялись.
+
+### Волна 1b (23.11)
+- **Новые URL (пара uz/ru):** `/uz/blog/ozbekcha-ai-chatlar-taqqoslash/` и `/ru/blog/sravnenie-ai-chatov-na-uzbekskom/`. Это сравнение AI-чатов для узбекских пользователей: ChatGPT, Gemini, Copilot, CoreAI, Hayot AI, bota.chat, GPTBot.uz. Каждый факт проверен на странице самого сервиса 23.11.2026, источники указаны, рейтинга нет. Отдельный блок объясняет, почему в таблицу не попали DeepSeek (403), salom-ai.uz (503), Mashxura AI, ai.sqb.uz, aslmatn.uz и azamat.ai. Согласие владельца называть конкурентов — 23.11.
+- **Главный вопрос:** «O‘zbek tilida bepul AI chat qaysi?» / «Какой ИИ-чат лучше всего понимает узбекский?». Плюс FAQ про чат без регистрации и оплату Click/Payme.
+- **Улучшено:** блок «Коротко: GPTBot.uz в фактах» с датой проверки в начале `/ru/o-kompanii/`; по одной связанной ссылке на сравнение в пяти незащищённых статьях; быстрый ответ в `llms.txt`.
+- **Защита:** ревизия `2026-11-23-ai-visibility-1b`. Главная получила только 2 пункта в списках, девять защищённых страниц не тронуты (`reports/ai-visibility-20261123/review.ts`). Лимит ленты обновлений поднят с 200 до 250, чтобы основные страницы услуг оставались в ленте.
+- **Замер:** через 14 и 28 дней — трекер (вопросы «O‘zbek tilida bepul AI chat qaysi?», «Какой ИИ-чат лучше всего понимает узбекский?», «Click yoki Payme orqali…», «Which AI chatbot understands Uzbek best?»), Bing AI Performance по двум новым URL.

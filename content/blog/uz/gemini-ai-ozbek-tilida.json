@@ -430,6 +430,13 @@
       "locale": "uz",
       "type": "contextual",
       "priority": 6
+    },
+    {
+      "target": "/uz/blog/ozbekcha-ai-chatlar-taqqoslash/",
+      "anchor": "o‘zbekcha AI chatlar taqqoslash",
+      "locale": "uz",
+      "type": "contextual",
+      "priority": 7
     }
   ],
   "ogTitle": "Gemini AI o‘zbek tilida: kirish, ilova va rasm | GPTBot.uz",

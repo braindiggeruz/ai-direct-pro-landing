@@ -290,7 +290,13 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 // on purpose (the slimmed RU Telegram-bot hub and /uz/chat-bot-narxi/, which
 // now names «telegram bot yaratish narxi»). Nine pages keep their complete
 // contract; see reports/commercial-bots-20261122/review.ts.
-export const BASELINE = 'docs/seo/evidence/2026-11-22-commercial-bots/reviewed-protected-pages.json';
+// The 2026-11-23-ai-visibility-1b revision (owner's AI-visibility brief of
+// 23.11.2026, wave 1b; docs/seo/research/2026-11-23-ai-visibility) changes only
+// the homepage, and only its lists: two entries for the new comparison articles
+// /uz/blog/ozbekcha-ai-chatlar-taqqoslash/ and /ru/blog/sravnenie-ai-chatov-na-uzbekskom/,
+// nothing relabelled or removed. Nine pages keep their complete contract; see
+// reports/ai-visibility-20261123/review.ts.
+export const BASELINE = 'docs/seo/evidence/2026-11-23-ai-visibility-1b/reviewed-protected-pages.json';
 export const PROTECTED_PATHS = [
   '/uz/blog/chatgpt-telefon-va-kompyuterga-yuklab-olish/',
   '/uz/gpt-uzbek-tilida/', '/ru/gpt-chat/',

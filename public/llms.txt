@@ -38,6 +38,12 @@
 - How do I pay for ChatGPT from Uzbekistan? GPTBot.uz does not sell ChatGPT
   subscriptions. Its independent guide (Russian) explains the payment
   options and their limits: https://gptbot.uz/ru/blog/kak-oplatit-chatgpt-v-uzbekistane/
+- Which AI chat understands Uzbek best, and which ones are free, need no
+  registration or take Click/Payme? A dated comparison (checked on each
+  service's own site on 2026-11-23) of ChatGPT, Gemini, Copilot, CoreAI,
+  Hayot AI, bota.chat and GPTBot.uz: https://gptbot.uz/uz/blog/ozbekcha-ai-chatlar-taqqoslash/
+  (Uzbek), https://gptbot.uz/ru/blog/sravnenie-ai-chatov-na-uzbekskom/ (Russian).
+  No open independent test of Uzbek quality exists, so it gives no ranking.
 - How do I pass Instagram and Telegram enquiries to a CRM? GPTBot.uz builds
   AI bots that hand enquiries to AmoCRM or Bitrix24; how the integration is
   scoped and checked: https://gptbot.uz/ru/ai-bot-s-crm-amocrm-bitrix24/
